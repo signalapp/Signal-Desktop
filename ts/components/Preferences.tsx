@@ -10,9 +10,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { noop } from 'lodash';
+import { noop, partition } from 'lodash';
 import classNames from 'classnames';
 import uuid from 'uuid';
+import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
@@ -59,6 +60,9 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useUniqueId } from '../hooks/useUniqueId';
 import { useTheme } from '../hooks/useTheme';
 import { focusableSelectors } from '../util/focusableSelectors';
+import { Modal } from './Modal';
+import { SearchInput } from './SearchInput';
+import { removeDiacritics } from '../util/removeDiacritics';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -102,6 +106,12 @@ export type PropsDataType = {
   whoCanFindMe: PhoneNumberDiscoverability;
   whoCanSeeMe: PhoneNumberSharingMode;
   zoomFactor: ZoomFactorType;
+
+  // Localization
+  availableLocales: ReadonlyArray<string>;
+  localeOverride: string | null;
+  preferredSystemLocales: ReadonlyArray<string>;
+  resolvedLocale: string;
 
   // Other props
   hasCustomTitleBar: boolean;
@@ -161,6 +171,7 @@ type PropsFunctionType = {
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
+  onLocaleChange: (locale: string | null) => void;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
   onMediaPermissionsChange: CheckboxChangeHandlerType;
   onMessageAudioChange: CheckboxChangeHandlerType;
@@ -204,6 +215,46 @@ enum Page {
   PNP = 'PNP',
 }
 
+enum LanguageDialog {
+  Selection,
+  Confirmation,
+}
+
+function getLocaleLanguagesWithMultipleRegions(
+  locales: ReadonlyArray<string>
+): Set<string> {
+  const result = new Set<string>();
+  const seen = new Set<string>();
+  for (const locale of locales) {
+    const { language } = new Intl.Locale(locale);
+    if (seen.has(language)) {
+      result.add(language);
+    } else {
+      seen.add(language);
+    }
+  }
+  return result;
+}
+
+const cache = new Map<string, string>();
+
+function getLanguageLabel(ofLocale: string, inLocale: string) {
+  const key = `${ofLocale}:${inLocale}`;
+  const cached = cache.get(key);
+  if (cached != null) {
+    return cached;
+  }
+  const value =
+    new Intl.DisplayNames(inLocale, {
+      type: 'language',
+      fallback: 'code',
+      style: 'long',
+      languageDisplay: 'standard',
+    }).of(ofLocale) ?? '';
+  cache.set(key, value);
+  return value;
+}
+
 const DEFAULT_ZOOM_FACTORS = [
   {
     text: '75%',
@@ -230,6 +281,7 @@ const DEFAULT_ZOOM_FACTORS = [
 export function Preferences({
   addCustomColor,
   availableCameras,
+  availableLocales,
   availableMicrophones,
   availableSpeakers,
   blockedCount,
@@ -289,6 +341,7 @@ export function Preferences({
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
   onLastSyncTimeChange,
+  onLocaleChange,
   onMediaCameraPermissionsChange,
   onMediaPermissionsChange,
   onMessageAudioChange,
@@ -309,16 +362,19 @@ export function Preferences({
   onWhoCanSeeMeChange,
   onWhoCanFindMeChange,
   onZoomFactorChange,
+  preferredSystemLocales,
   removeCustomColor,
   removeCustomColorOnConversations,
   resetAllChatColors,
   resetDefaultChatColor,
+  resolvedLocale,
   selectedCamera,
   selectedMicrophone,
   selectedSpeaker,
   sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
   shouldShowStoriesSettings,
+  localeOverride,
   themeSetting,
   universalExpireTimer = DurationInSeconds.ZERO,
   whoCanFindMe,
@@ -328,6 +384,7 @@ export function Preferences({
   const storiesId = useUniqueId();
   const themeSelectId = useUniqueId();
   const zoomSelectId = useUniqueId();
+  const languageId = useUniqueId();
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
@@ -336,13 +393,31 @@ export function Preferences({
   const [nowSyncing, setNowSyncing] = useState(false);
   const [showDisappearingTimerDialog, setShowDisappearingTimerDialog] =
     useState(false);
+  const [languageDialog, setLanguageDialog] = useState<LanguageDialog | null>(
+    null
+  );
+  const [selectedLanguageLocale, setSelectedLanguageLocale] = useState<
+    string | null
+  >(localeOverride);
+  const [languageSearchInput, setLanguageSearchInput] = useState('');
   const theme = useTheme();
+
+  function closeLanguageDialog() {
+    setLanguageDialog(null);
+    setSelectedLanguageLocale(localeOverride);
+  }
 
   useEffect(() => {
     doneRendering();
   }, [doneRendering]);
 
-  useEscapeHandling(closeSettings);
+  useEscapeHandling(() => {
+    if (languageDialog != null) {
+      closeLanguageDialog();
+    } else {
+      closeSettings();
+    }
+  });
 
   const onZoomSelectChange = useCallback(
     (value: string) => {
@@ -394,6 +469,82 @@ export function Preferences({
     },
     [onSelectedSpeakerChange, availableSpeakers]
   );
+
+  const localeSearchOptions = useMemo(() => {
+    const collator = new Intl.Collator(resolvedLocale, { usage: 'sort' });
+
+    const languagesWithMultipleRegions =
+      getLocaleLanguagesWithMultipleRegions(availableLocales);
+
+    const availableLocalesOptions = availableLocales
+      .map(locale => {
+        const { language } = new Intl.Locale(locale);
+        const displayLocale = languagesWithMultipleRegions.has(language)
+          ? locale
+          : language;
+        const currentLocaleLabel = getLanguageLabel(
+          displayLocale,
+          resolvedLocale
+        );
+        const matchingLocaleLabel = getLanguageLabel(displayLocale, locale);
+        return { locale, currentLocaleLabel, matchingLocaleLabel };
+      })
+      .sort((a, b) => {
+        return collator.compare(a.currentLocaleLabel, b.currentLocaleLabel);
+      });
+
+    const [localeOverrideMatches, localeOverrideNonMatches] = partition(
+      availableLocalesOptions,
+      option => {
+        return option.locale === localeOverride;
+      }
+    );
+
+    const preferredSystemLocaleMatch = LocaleMatcher.match(
+      preferredSystemLocales as Array<string>, // bad types
+      availableLocales as Array<string>, // bad types
+      'en',
+      { algorithm: 'best fit' }
+    );
+
+    return [
+      ...localeOverrideMatches,
+      {
+        locale: null,
+        currentLocaleLabel: i18n('icu:Preferences__Language__SystemLanguage'),
+        matchingLocaleLabel: getLanguageLabel(
+          preferredSystemLocaleMatch,
+          preferredSystemLocaleMatch
+        ),
+      },
+      ...localeOverrideNonMatches,
+    ];
+  }, [
+    i18n,
+    availableLocales,
+    resolvedLocale,
+    localeOverride,
+    preferredSystemLocales,
+  ]);
+
+  const localeSearchResults = useMemo(() => {
+    return localeSearchOptions.filter(option => {
+      const input = removeDiacritics(languageSearchInput.trim().toLowerCase());
+
+      if (input === '') {
+        return true;
+      }
+
+      function isMatch(value: string) {
+        return removeDiacritics(value.toLowerCase()).includes(input);
+      }
+
+      return (
+        isMatch(option.currentLocaleLabel) ||
+        (option.matchingLocaleLabel && isMatch(option.matchingLocaleLabel))
+      );
+    });
+  }, [localeSearchOptions, languageSearchInput]);
 
   let settings: JSX.Element | undefined;
   if (page === Page.General) {
@@ -504,6 +655,129 @@ export function Preferences({
         </div>
         <SettingsRow>
           <Control
+            icon="Preferences__LanguageIcon"
+            left={i18n('icu:Preferences__Language__Label')}
+            right={
+              <span
+                className="Preferences__LanguageButton"
+                lang={localeOverride ?? resolvedLocale}
+              >
+                {localeOverride != null
+                  ? getLanguageLabel(localeOverride, resolvedLocale)
+                  : i18n('icu:Preferences__Language__SystemLanguage')}
+              </span>
+            }
+            onClick={() => {
+              setLanguageDialog(LanguageDialog.Selection);
+            }}
+          />
+          {languageDialog === LanguageDialog.Selection && (
+            <Modal
+              i18n={i18n}
+              modalName="Preferences__LanguageModal"
+              moduleClassName="Preferences__LanguageModal"
+              padded={false}
+              onClose={closeLanguageDialog}
+              title={i18n('icu:Preferences__Language__ModalTitle')}
+              modalHeaderChildren={
+                <SearchInput
+                  i18n={i18n}
+                  value={languageSearchInput}
+                  placeholder={i18n(
+                    'icu:Preferences__Language__SearchLanguages'
+                  )}
+                  moduleClassName="Preferences__LanguageModal__SearchInput"
+                  onChange={event => {
+                    setLanguageSearchInput(event.currentTarget.value);
+                  }}
+                />
+              }
+              modalFooter={
+                <>
+                  <Button
+                    variant={ButtonVariant.Secondary}
+                    onClick={closeLanguageDialog}
+                  >
+                    {i18n('icu:cancel')}
+                  </Button>
+                  <Button
+                    variant={ButtonVariant.Primary}
+                    disabled={selectedLanguageLocale === localeOverride}
+                    onClick={() => {
+                      setLanguageDialog(LanguageDialog.Confirmation);
+                    }}
+                  >
+                    {i18n('icu:Preferences__LanguageModal__Set')}
+                  </Button>
+                </>
+              }
+            >
+              {localeSearchResults.length === 0 && (
+                <div className="Preferences__LanguageModal__NoResults">
+                  {i18n('icu:Preferences__Language__NoResults', {
+                    searchTerm: languageSearchInput.trim(),
+                  })}
+                </div>
+              )}
+              {localeSearchResults.map(option => {
+                const id = `${languageId}:${option.locale ?? 'system'}`;
+                const isSelected = option.locale === selectedLanguageLocale;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className="Preferences__LanguageModal__Item"
+                    onClick={() => {
+                      setSelectedLanguageLocale(option.locale);
+                    }}
+                    aria-pressed={isSelected}
+                  >
+                    <span className="Preferences__LanguageModal__Item__Inner">
+                      <span className="Preferences__LanguageModal__Item__Label">
+                        <span className="Preferences__LanguageModal__Item__Current">
+                          {option.currentLocaleLabel}
+                        </span>
+                        {option.matchingLocaleLabel != null && (
+                          <span
+                            lang={option.locale ?? resolvedLocale}
+                            className="Preferences__LanguageModal__Item__Matching"
+                          >
+                            {option.matchingLocaleLabel}
+                          </span>
+                        )}
+                      </span>
+                      {isSelected && (
+                        <span className="Preferences__LanguageModal__Item__Check" />
+                      )}
+                    </span>
+                  </button>
+                );
+              })}
+            </Modal>
+          )}
+          {languageDialog === LanguageDialog.Confirmation && (
+            <ConfirmationDialog
+              dialogName="Preferences__Language"
+              i18n={i18n}
+              title={i18n('icu:Preferences__LanguageModal__Restart__Title')}
+              onCancel={closeLanguageDialog}
+              onClose={closeLanguageDialog}
+              cancelText={i18n('icu:cancel')}
+              actions={[
+                {
+                  text: i18n('icu:Preferences__LanguageModal__Restart__Button'),
+                  style: 'affirmative',
+                  action: () => {
+                    onLocaleChange(selectedLanguageLocale);
+                  },
+                },
+              ]}
+            >
+              {i18n('icu:Preferences__LanguageModal__Restart__Description')}
+            </ConfirmationDialog>
+          )}
+          <Control
+            icon
             left={
               <label htmlFor={themeSelectId}>
                 {i18n('icu:Preferences--theme')}
@@ -532,6 +806,7 @@ export function Preferences({
             }
           />
           <Control
+            icon
             left={i18n('icu:showChatColorEditor')}
             onClick={() => {
               setPage(Page.ChatColor);
@@ -548,6 +823,7 @@ export function Preferences({
             }
           />
           <Control
+            icon
             left={
               <label htmlFor={zoomSelectId}>
                 {i18n('icu:Preferences--zoom')}
@@ -1307,6 +1583,7 @@ export function Preferences({
           >
             {i18n('icu:Preferences__button--notifications')}
           </button>
+
           <button
             type="button"
             className={classNames({
@@ -1346,16 +1623,27 @@ function SettingsRow({
 }
 
 function Control({
+  icon,
   left,
   onClick,
   right,
 }: {
+  /** A className or `true` to leave room for icon */
+  icon?: string | true;
   left: ReactNode;
   onClick?: () => unknown;
   right: ReactNode;
 }): JSX.Element {
   const content = (
     <>
+      {icon && (
+        <div
+          className={classNames(
+            'Preferences__control--icon',
+            icon === true ? null : icon
+          )}
+        />
+      )}
       <div className="Preferences__control--key">{left}</div>
       <div className="Preferences__control--value">{right}</div>
     </>

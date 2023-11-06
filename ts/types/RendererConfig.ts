@@ -46,6 +46,7 @@ export const rendererConfigSchema = z.object({
   installPath: configRequiredStringSchema,
   osRelease: configRequiredStringSchema,
   osVersion: configRequiredStringSchema,
+  availableLocales: z.array(configRequiredStringSchema),
   resolvedTranslationsLocale: configRequiredStringSchema,
   resolvedTranslationsLocaleDirection: z.enum(['ltr', 'rtl']),
   hourCyclePreference: HourCyclePreferenceSchema,

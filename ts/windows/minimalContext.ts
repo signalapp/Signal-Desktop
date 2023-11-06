@@ -40,6 +40,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   async getMenuOptions(): Promise<MenuOptionsType> {
     return ipcRenderer.invoke('getMenuOptions');
   },
+  getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
 
@@ -48,8 +49,8 @@ export const MinimalSignalContext: MinimalSignalContextType = {
     config.resolvedTranslationsLocaleDirection,
   getHourCyclePreference: () => config.hourCyclePreference,
   getPreferredSystemLocales: () => config.preferredSystemLocales,
-
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
+  restartApp: () => ipcRenderer.send('restart'),
   OS: {
     getClassName: () => ipcRenderer.sendSync('OS.getClassName'),
     hasCustomTitleBar: () => hasCustomTitleBar,

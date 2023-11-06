@@ -74,7 +74,6 @@ export type IPCType = {
   logAppLoadedEvent?: (options: { processedCount?: number }) => void;
   readyForUpdates: () => void;
   removeSetupMenuItems: () => unknown;
-  restart: () => void;
   setAutoHideMenuBar: (value: boolean) => void;
   setAutoLaunch: (value: boolean) => Promise<void>;
   setBadge: (badge: number | 'marked-unread') => void;

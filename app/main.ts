@@ -359,6 +359,26 @@ async function getBackgroundColor(
   throw missingCaseError(theme);
 }
 
+async function getLocaleOverrideSetting(): Promise<string | null> {
+  const fastValue = ephemeralConfig.get('localeOverride');
+  // eslint-disable-next-line eqeqeq -- Checking for null explicitly
+  if (typeof fastValue === 'string' || fastValue === null) {
+    getLogger().info('got fast localeOverride setting', fastValue);
+    return fastValue;
+  }
+
+  const json = await sql.sqlCall('getItemById', 'localeOverride');
+
+  // Default to `null` if setting doesn't exist yet
+  const slowValue = typeof json?.value === 'string' ? json.value : null;
+
+  ephemeralConfig.set('localeOverride', slowValue);
+
+  getLogger().info('got slow localeOverride setting', slowValue);
+
+  return slowValue;
+}
+
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
   sql,
@@ -1782,10 +1802,14 @@ app.on('ready', async () => {
   // Write buffered information into newly created logger.
   consoleLogger.writeBufferInto(logger);
 
+  sqlInitPromise = initializeSQL(userDataPath);
+
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(
       loadPreferredSystemLocales()
     );
+
+    const localeOverride = await getLocaleOverrideSetting();
 
     const hourCyclePreference = getHourCyclePreference();
     logger.info(`app.ready: hour cycle preference: ${hourCyclePreference}`);
@@ -1797,12 +1821,11 @@ app.on('ready', async () => {
     );
     resolvedTranslationsLocale = loadLocale({
       preferredSystemLocales,
+      localeOverride,
       hourCyclePreference,
       logger: getLogger(),
     });
   }
-
-  sqlInitPromise = initializeSQL(userDataPath);
 
   // First run: configure Signal to minimize to tray. Additionally, on Windows
   // enable auto-start with start-in-tray so that starting from a Desktop icon
@@ -2372,6 +2395,7 @@ ipc.on('get-config', async event => {
 
   const parsed = rendererConfigSchema.safeParse({
     name: packageJson.productName,
+    availableLocales: getResolvedMessagesLocale().availableLocales,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
     hourCyclePreference: getResolvedMessagesLocale().hourCyclePreference,

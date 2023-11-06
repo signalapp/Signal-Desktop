@@ -61,6 +61,7 @@ export type IPCEventsValuesType = {
   hideMenuBar: boolean | undefined;
   incomingCallNotification: boolean;
   lastSyncTime: number | undefined;
+  localeOverride: string | null;
   notificationDrawAttention: boolean;
   notificationSetting: NotificationSettingType;
   preferredAudioInputDevice: AudioDevice | undefined;
@@ -372,6 +373,12 @@ export function createIPCEvents(
       return promise;
     },
 
+    getLocaleOverride: () => {
+      return window.storage.get('localeOverride') ?? null;
+    },
+    setLocaleOverride: async (locale: string | null) => {
+      await window.storage.put('localeOverride', locale);
+    },
     getNotificationSetting: () =>
       window.storage.get('notification-setting', 'message'),
     setNotificationSetting: (value: 'message' | 'name' | 'count' | 'off') =>

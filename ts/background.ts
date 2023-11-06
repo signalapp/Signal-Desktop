@@ -972,7 +972,7 @@ export async function startApp(): Promise<void> {
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v5.30.0-alpha')) {
         await deleteAllLogs();
-        window.IPC.restart();
+        window.SignalContext.restartApp();
         return;
       }
     }
