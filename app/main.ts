@@ -143,6 +143,7 @@ const consoleLogger = createBufferedConsoleLogger();
 // These will be set after app fires the 'ready' event
 let logger: LoggerType | undefined;
 let preferredSystemLocales: Array<string> | undefined;
+let localeOverride: string | null | undefined;
 let resolvedTranslationsLocale: LocaleType | undefined;
 let settingsChannel: SettingsChannel | undefined;
 
@@ -429,6 +430,13 @@ function getPreferredSystemLocales(): Array<string> {
     throw new Error('getPreferredSystemLocales: Locales not yet initialized!');
   }
   return preferredSystemLocales;
+}
+
+function getLocaleOverride(): string | null {
+  if (typeof localeOverride === 'undefined') {
+    throw new Error('getLocaleOverride: Locale not yet initialized!');
+  }
+  return localeOverride;
 }
 
 function getResolvedMessagesLocale(): LocaleType {
@@ -824,6 +832,7 @@ async function createWindow() {
   setupSpellChecker(
     mainWindow,
     getPreferredSystemLocales(),
+    getLocaleOverride(),
     getResolvedMessagesLocale().i18n,
     getLogger()
   );
@@ -1809,7 +1818,7 @@ app.on('ready', async () => {
       loadPreferredSystemLocales()
     );
 
-    const localeOverride = await getLocaleOverrideSetting();
+    localeOverride = await getLocaleOverrideSetting();
 
     const hourCyclePreference = getHourCyclePreference();
     logger.info(`app.ready: hour cycle preference: ${hourCyclePreference}`);
@@ -2400,6 +2409,7 @@ ipc.on('get-config', async event => {
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
     hourCyclePreference: getResolvedMessagesLocale().hourCyclePreference,
     preferredSystemLocales: getPreferredSystemLocales(),
+    localeOverride: getLocaleOverride(),
     version: app.getVersion(),
     buildCreation: config.get<number>('buildCreation'),
     buildExpiration: config.get<number>('buildExpiration'),

@@ -48,6 +48,7 @@ export type MinimalSignalContextType = {
   getHourCyclePreference: () => HourCyclePreference;
   getResolvedMessagesLocale: () => string;
   getPreferredSystemLocales: () => Array<string>;
+  getLocaleOverride: () => string | null;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;

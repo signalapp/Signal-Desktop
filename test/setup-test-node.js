@@ -33,6 +33,7 @@ global.window = {
     getResolvedMessagesLocaleDirection: () => 'ltr',
     getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
     getPreferredSystemLocales: () => ['en'],
+    getLocaleOverride: () => null,
   },
   i18n: key => `i18n(${key})`,
   storage: {

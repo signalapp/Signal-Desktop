@@ -49,6 +49,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
     config.resolvedTranslationsLocaleDirection,
   getHourCyclePreference: () => config.hourCyclePreference,
   getPreferredSystemLocales: () => config.preferredSystemLocales,
+  getLocaleOverride: () => config.localeOverride,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
   restartApp: () => ipcRenderer.send('restart'),
   OS: {

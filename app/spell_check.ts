@@ -56,6 +56,7 @@ export function getLanguages(
 export const setup = (
   browserWindow: BrowserWindow,
   preferredSystemLocales: ReadonlyArray<string>,
+  localeOverride: string | null,
   i18n: LocalizerType,
   logger: LoggerType
 ): void => {
@@ -74,13 +75,16 @@ export const setup = (
     logger.info('spellcheck: dictionary initialized:', lang);
   });
 
+  // Locale override should be combined with other preferences rather than
+  // replace them entirely.
+  const combinedLocales =
+    localeOverride != null
+      ? [localeOverride, ...preferredSystemLocales]
+      : preferredSystemLocales;
+
   const availableLocales = session.availableSpellCheckerLanguages;
-  const languages = getLanguages(
-    preferredSystemLocales,
-    availableLocales,
-    'en'
-  );
-  console.log('spellcheck: user locales:', preferredSystemLocales);
+  const languages = getLanguages(combinedLocales, availableLocales, 'en');
+  console.log('spellcheck: user locales:', combinedLocales);
   console.log(
     'spellcheck: available spellchecker languages:',
     availableLocales

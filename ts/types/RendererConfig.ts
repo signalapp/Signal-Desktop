@@ -51,6 +51,7 @@ export const rendererConfigSchema = z.object({
   resolvedTranslationsLocaleDirection: z.enum(['ltr', 'rtl']),
   hourCyclePreference: HourCyclePreferenceSchema,
   preferredSystemLocales: z.array(configRequiredStringSchema),
+  localeOverride: z.string().nullable(),
   name: configRequiredStringSchema,
   nodeVersion: configRequiredStringSchema,
   proxyUrl: configOptionalStringSchema,
