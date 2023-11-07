@@ -197,24 +197,8 @@ function prepareContact(
       ? DurationInSeconds.fromSeconds(proto.expireTimer)
       : undefined;
 
-  const verified =
-    proto.verified && proto.verified.destinationAci
-      ? {
-          ...proto.verified,
-
-          destinationAci: normalizeAci(
-            proto.verified.destinationAci,
-            'ContactBuffer.verified.destinationAci'
-          ),
-        }
-      : proto.verified;
-
   // We reject incoming contacts with invalid aci information
-  if (
-    (proto.aci && !isAciString(proto.aci)) ||
-    (proto.verified?.destinationAci &&
-      !isAciString(proto.verified.destinationAci))
-  ) {
+  if (proto.aci && !isAciString(proto.aci)) {
     log.warn('ParseContactsTransform: Dropping contact with invalid aci');
 
     return undefined;
@@ -224,7 +208,6 @@ function prepareContact(
     ...proto,
     expireTimer,
     aci,
-    verified,
     avatar,
     number: dropNull(proto.number),
   };
