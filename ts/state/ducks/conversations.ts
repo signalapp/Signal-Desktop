@@ -5,6 +5,7 @@ import type { ThunkAction } from 'redux-thunk';
 import {
   difference,
   fromPairs,
+  isEqual,
   omit,
   orderBy,
   pick,
@@ -2955,12 +2956,19 @@ function pushPanelForConversation(
   panel: PanelRequestType
 ): ThunkAction<void, RootStateType, unknown, PushPanelActionType> {
   return async (dispatch, getState) => {
+    const { conversations } = getState();
+    const { targetedConversationPanels } = conversations;
+    const activePanel =
+      targetedConversationPanels.stack[targetedConversationPanels.watermark];
+    if (panel.type === activePanel?.type && isEqual(panel, activePanel)) {
+      return;
+    }
+
     if (panel.type === PanelType.MessageDetails) {
       const { messageId } = panel.args;
-      const state = getState();
 
       const message =
-        state.conversations.messagesLookup[messageId] ||
+        conversations.messagesLookup[messageId] ||
         (await __DEPRECATED$getMessageById(messageId))?.attributes;
       if (!message) {
         throw new Error(
