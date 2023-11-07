@@ -269,23 +269,7 @@ $rtl-icon-map: (
 }
 
 @mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
-  $rtl-svg: get-rtl-svg($svg);
-  @if $rtl-svg {
-    :dir(ltr) & {
-      -webkit-mask: url($svg) no-repeat center;
-      @if $stretch {
-        -webkit-mask-size: 100%;
-      }
-    }
-    :dir(rtl) & {
-      -webkit-mask: url($rtl-svg) no-repeat center;
-      @if $stretch {
-        -webkit-mask-size: 100%;
-      }
-    }
-  } @else {
-    -webkit-mask: url($svg) no-repeat center;
-  }
+  -webkit-mask: url($svg) no-repeat center;
   @if $stretch {
     -webkit-mask-size: 100%;
   }
@@ -295,6 +279,12 @@ $rtl-icon-map: (
   background-color: $color;
   @media (forced-colors: active) {
     background-color: WindowText;
+  }
+  $rtl-svg: get-rtl-svg($svg);
+  @if $rtl-svg {
+    :dir(rtl) & {
+      -webkit-mask: url($rtl-svg) no-repeat center;
+    }
   }
 }
 
