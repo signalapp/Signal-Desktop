@@ -3301,8 +3301,10 @@ export default class MessageReceiver
 
     const ev = new KeysEvent(
       {
-        storageServiceKey: dropNull(sync.storageService),
-        masterKey: dropNull(sync.master),
+        storageServiceKey: Bytes.isNotEmpty(sync.storageService)
+          ? sync.storageService
+          : undefined,
+        masterKey: Bytes.isNotEmpty(sync.master) ? sync.master : undefined,
       },
       this.removeFromCache.bind(this, envelope)
     );
