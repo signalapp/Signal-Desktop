@@ -85,10 +85,10 @@ class ProvisioningCipherInner {
       userAgent: provisionMessage.userAgent,
       readReceipts: provisionMessage.readReceipts,
     };
-    if (provisionMessage.profileKey) {
+    if (Bytes.isNotEmpty(provisionMessage.profileKey)) {
       ret.profileKey = provisionMessage.profileKey;
     }
-    if (provisionMessage.masterKey) {
+    if (Bytes.isNotEmpty(provisionMessage.masterKey)) {
       ret.masterKey = provisionMessage.masterKey;
     }
     return ret;
