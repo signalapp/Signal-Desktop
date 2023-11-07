@@ -398,7 +398,7 @@ export default class MessageReceiver
 
       try {
         const decoded = Proto.Envelope.decode(plaintext);
-        const serverTimestamp = decoded.serverTimestamp?.toNumber();
+        const serverTimestamp = decoded.serverTimestamp?.toNumber() ?? 0;
 
         const ourAci = this.storage.user.getCheckedAci();
 
@@ -412,14 +412,14 @@ export default class MessageReceiver
           messageAgeSec: this.calculateMessageAge(headers, serverTimestamp),
 
           // Proto.Envelope fields
-          type: decoded.type,
+          type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
           sourceServiceId: decoded.sourceServiceId
             ? normalizeServiceId(
                 decoded.sourceServiceId,
                 'MessageReceiver.handleRequest.sourceServiceId'
               )
             : undefined,
-          sourceDevice: decoded.sourceDevice,
+          sourceDevice: decoded.sourceDevice ?? 1,
           destinationServiceId: decoded.destinationServiceId
             ? normalizeServiceId(
                 decoded.destinationServiceId,
@@ -433,12 +433,12 @@ export default class MessageReceiver
                   'MessageReceiver.handleRequest.updatedPni'
                 )
               : undefined,
-          timestamp: decoded.timestamp?.toNumber(),
+          timestamp: decoded.timestamp?.toNumber() ?? 0,
           content: dropNull(decoded.content),
-          serverGuid: decoded.serverGuid,
+          serverGuid: decoded.serverGuid ?? getGuid(),
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
-          story: decoded.story,
+          story: decoded.story ?? false,
           reportingToken: decoded.reportingToken?.length
             ? decoded.reportingToken
             : undefined,
@@ -873,7 +873,7 @@ export default class MessageReceiver
         messageAgeSec: item.messageAgeSec || 0,
 
         // Proto.Envelope fields
-        type: decoded.type,
+        type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
         source: item.source,
         sourceServiceId: normalizeServiceId(
           item.sourceServiceId || decoded.sourceServiceId,
@@ -890,11 +890,11 @@ export default class MessageReceiver
               'CachedEnvelope.updatedPni'
             )
           : undefined,
-        timestamp: decoded.timestamp?.toNumber(),
+        timestamp: decoded.timestamp?.toNumber() ?? 0,
         content: dropNull(decoded.content),
-        serverGuid: decoded.serverGuid,
+        serverGuid: decoded.serverGuid ?? getGuid(),
         serverTimestamp:
-          item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
+          item.serverTimestamp || decoded.serverTimestamp?.toNumber() || 0,
         urgent: isBoolean(item.urgent) ? item.urgent : true,
         story: Boolean(item.story),
         reportingToken: item.reportingToken

@@ -518,8 +518,10 @@ async function getGroupPreview(
   }
 
   const title =
-    window.Signal.Groups.decryptGroupTitle(result.title, secretParams) ||
-    window.i18n('icu:unknownGroup');
+    window.Signal.Groups.decryptGroupTitle(
+      dropNull(result.title),
+      secretParams
+    ) || window.i18n('icu:unknownGroup');
   const description = window.i18n('icu:GroupV2--join--group-metadata--full', {
     memberCount: result?.memberCount ?? 0,
   });

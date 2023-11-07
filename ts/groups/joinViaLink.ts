@@ -29,6 +29,7 @@ import { isAccessControlEnabled } from './util';
 import { isGroupV1 } from '../util/whatTypeOfConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { sleep } from '../util/sleep';
+import { dropNull } from '../util/dropNull';
 
 export async function joinViaLink(value: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -116,7 +117,7 @@ export async function joinViaLink(value: string): Promise<void> {
     return;
   }
 
-  if (!isAccessControlEnabled(result.addFromInviteLink)) {
+  if (!isAccessControlEnabled(dropNull(result.addFromInviteLink))) {
     log.error(
       `joinViaLink/${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );
@@ -138,10 +139,10 @@ export async function joinViaLink(value: string): Promise<void> {
     result.addFromInviteLink ===
     Proto.AccessControl.AccessRequired.ADMINISTRATOR;
   const title =
-    decryptGroupTitle(result.title, secretParams) ||
+    decryptGroupTitle(dropNull(result.title), secretParams) ||
     window.i18n('icu:unknownGroup');
   const groupDescription = decryptGroupDescription(
-    result.descriptionBytes,
+    dropNull(result.descriptionBytes),
     secretParams
   );
 
@@ -316,7 +317,7 @@ export async function joinViaLink(value: string): Promise<void> {
                 groupInviteLinkPassword: inviteLinkPassword,
                 left: true,
                 name: title,
-                revision: result.version,
+                revision: dropNull(result.version),
                 temporaryMemberCount: memberCount,
                 timestamp,
               });

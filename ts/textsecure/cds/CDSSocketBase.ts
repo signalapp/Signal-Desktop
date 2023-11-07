@@ -203,6 +203,9 @@ function decodeSingleResponse(
   resultMap: Map<string, CDSResponseEntryType>,
   response: Proto.CDSClientResponse
 ): void {
+  if (!response.e164PniAciTriples) {
+    return;
+  }
   for (
     let i = 0;
     i < response.e164PniAciTriples.length;

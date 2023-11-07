@@ -3390,7 +3390,7 @@ export function initialize({
         return getGroupLog(
           {
             ...options,
-            startVersion: joinedAtVersion,
+            startVersion: joinedAtVersion ?? 0,
           },
           credentials
         );

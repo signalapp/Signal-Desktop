@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, pick, reject, groupBy, values } from 'lodash';
+import { isNumber, reject, groupBy, values } from 'lodash';
 import pMap from 'p-map';
 import Queue from 'p-queue';
 
@@ -472,7 +472,8 @@ export async function downloadEphemeralPack(
       coverStickerId,
       stickerCount,
       status: 'ephemeral' as const,
-      ...pick(proto, ['title', 'author']),
+      title: proto.title ?? '',
+      author: proto.author ?? '',
     };
     stickerPackAdded(pack);
 
@@ -691,7 +692,8 @@ async function doDownloadStickerPack(
       createdAt: Date.now(),
       stickers: {},
       storageNeedsSync: !fromStorageService,
-      ...pick(proto, ['title', 'author']),
+      title: proto.title ?? '',
+      author: proto.author ?? '',
     };
     await Data.createOrUpdateStickerPack(pack);
     stickerPackAdded(pack);

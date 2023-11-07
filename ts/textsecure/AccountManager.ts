@@ -50,7 +50,7 @@ import {
 import { normalizeAci } from '../util/normalizeAci';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
-import { assertDev, strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { isNotNil } from '../util/isNotNil';
 import { missingCaseError } from '../util/missingCaseError';
@@ -258,12 +258,21 @@ export default class AccountManager extends EventTarget {
 
     const bytes = Bytes.fromBase64(base64);
     const proto = Proto.DeviceName.decode(bytes);
-    assertDev(
-      proto.ephemeralPublic && proto.syntheticIv && proto.ciphertext,
-      'Missing required fields in DeviceName'
+    strictAssert(
+      proto.ephemeralPublic,
+      'Missing ephemeralPublic field in DeviceName'
     );
+    strictAssert(proto.syntheticIv, 'Missing syntheticIv field in DeviceName');
+    strictAssert(proto.ciphertext, 'Missing ciphertext field in DeviceName');
 
-    const name = decryptDeviceName(proto, identityKey.privKey);
+    const name = decryptDeviceName(
+      {
+        ephemeralPublic: proto.ephemeralPublic,
+        syntheticIv: proto.syntheticIv,
+        ciphertext: proto.ciphertext,
+      },
+      identityKey.privKey
+    );
 
     return name;
   }

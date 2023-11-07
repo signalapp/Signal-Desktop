@@ -1751,7 +1751,7 @@ export async function fetchMembershipProof({
     secretParams,
     request: (sender, options) => sender.getGroupMembershipToken(options),
   });
-  return response.token;
+  return dropNull(response.token);
 }
 
 // Creating a group
@@ -3454,8 +3454,12 @@ async function getGroupUpdates({
     if (isChangeSupported) {
       if (!wrappedGroupChange.isTrusted) {
         strictAssert(
-          groupChange.serverSignature && groupChange.actions,
+          groupChange.serverSignature,
           'Server signature must be present in untrusted group change'
+        );
+        strictAssert(
+          groupChange.actions,
+          'Actions must be present in untrusted group change'
         );
         try {
           verifyNotarySignature(
@@ -3613,10 +3617,10 @@ async function updateGroupViaPreJoinInfo({
   const newAttributes: ConversationAttributesType = {
     ...group,
     description: decryptGroupDescription(
-      preJoinInfo.descriptionBytes,
+      dropNull(preJoinInfo.descriptionBytes),
       secretParams
     ),
-    name: decryptGroupTitle(preJoinInfo.title, secretParams),
+    name: decryptGroupTitle(dropNull(preJoinInfo.title), secretParams),
     left: true,
     members: group.members || [],
     pendingMembersV2: group.pendingMembersV2 || [],
@@ -3626,7 +3630,7 @@ async function updateGroupViaPreJoinInfo({
         timestamp: Date.now(),
       },
     ],
-    revision: preJoinInfo.version,
+    revision: dropNull(preJoinInfo.version),
 
     temporaryMemberCount: preJoinInfo.memberCount || 1,
   };
@@ -3863,7 +3867,7 @@ async function generateLeftGroupChanges(
         masterKey
       );
 
-      revision = preJoinInfo.version;
+      revision = dropNull(preJoinInfo.version);
     }
   } catch (error) {
     log.warn(

@@ -13,6 +13,7 @@ import {
 import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
 import { strictAssert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
 
 type ProvisionDecryptResult = {
   aciKeyPair: KeyPairType;
@@ -34,9 +35,10 @@ class ProvisioningCipherInner {
     provisionEnvelope: Proto.ProvisionEnvelope
   ): Promise<ProvisionDecryptResult> {
     strictAssert(
-      provisionEnvelope.publicKey && provisionEnvelope.body,
-      'Missing required fields in ProvisionEnvelope'
+      provisionEnvelope.publicKey,
+      'Missing publicKey in ProvisionEnvelope'
     );
+    strictAssert(provisionEnvelope.body, 'Missing body in ProvisionEnvelope');
     const masterEphemeral = provisionEnvelope.publicKey;
     const message = provisionEnvelope.body;
     if (new Uint8Array(message)[0] !== 1) {
@@ -78,12 +80,12 @@ class ProvisioningCipherInner {
     const ret: ProvisionDecryptResult = {
       aciKeyPair,
       pniKeyPair,
-      number: provisionMessage.number,
+      number: dropNull(provisionMessage.number),
       aci,
       untaggedPni: pni,
-      provisioningCode: provisionMessage.provisioningCode,
-      userAgent: provisionMessage.userAgent,
-      readReceipts: provisionMessage.readReceipts,
+      provisioningCode: dropNull(provisionMessage.provisioningCode),
+      userAgent: dropNull(provisionMessage.userAgent),
+      readReceipts: provisionMessage.readReceipts ?? false,
     };
     if (Bytes.isNotEmpty(provisionMessage.profileKey)) {
       ret.profileKey = provisionMessage.profileKey;
