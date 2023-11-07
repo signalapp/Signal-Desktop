@@ -58,6 +58,7 @@ import {
   getFilteredComposeGroups,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
+  getMe,
   getRecommendedGroupSizeModalState,
   getSelectedConversationId,
   getTargetedMessage,
@@ -179,6 +180,7 @@ const getModeSpecificProps = (
           OneTimeModalState.Showing,
         isShowingMaximumGroupSizeModal:
           getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
+        ourUsername: getMe(state).username,
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
