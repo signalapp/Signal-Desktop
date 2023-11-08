@@ -11,7 +11,7 @@ import { config } from '../context/config';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { createSetting } from '../util/preload';
 import { environment } from '../context/environment';
-import { localeMessages } from '../context/localeMessages';
+import { localeDisplayNames, localeMessages } from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
 
 const hasCustomTitleBar = ipcRenderer.sendSync('OS.getHasCustomTitleBar');
@@ -43,6 +43,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
+  getLocaleDisplayNames: () => localeDisplayNames,
 
   getResolvedMessagesLocale: () => config.resolvedTranslationsLocale,
   getResolvedMessagesLocaleDirection: () =>

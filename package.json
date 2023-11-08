@@ -23,7 +23,7 @@
     "build-release": "yarn run build",
     "sign-release": "node ts/updater/generateSignature.js",
     "notarize": "echo 'No longer necessary'",
-    "get-strings": "node ts/scripts/get-strings.js && node ts/scripts/gen-nsis-script.js && node ts/scripts/gen-locales-config.js",
+    "get-strings": "ts-node ts/scripts/get-strings.ts && ts-node ts/scripts/gen-nsis-script.ts && ts-node ts/scripts/gen-locales-config.ts && ts-node ./ts/scripts/build-locale-display-names.ts",
     "push-strings": "node ts/scripts/remove-strings.js && node ts/scripts/push-strings.js",
     "get-expire-time": "node ts/scripts/get-expire-time.js",
     "copy-components": "node ts/scripts/copy.js",
@@ -272,6 +272,7 @@
     "core-js": "2.6.9",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
+    "csv-parse": "5.5.2",
     "danger": "11.1.2",
     "debug": "4.3.3",
     "electron": "25.9.3",
@@ -400,7 +401,9 @@
         }
       },
       "signDlls": true,
-      "signExts": [".node"],
+      "signExts": [
+        ".node"
+      ],
       "target": [
         "nsis"
       ]

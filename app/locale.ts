@@ -23,6 +23,18 @@ function getLocaleMessages(locale: string): LocaleMessagesType {
   return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
 
+export type LocaleDisplayNames = Record<string, Record<string, string>>;
+
+function getLocaleDisplayNames(): LocaleDisplayNames {
+  const targetFile = join(
+    __dirname,
+    '..',
+    'build',
+    'locale-display-names.json'
+  );
+  return JSON.parse(readFileSync(targetFile, 'utf-8'));
+}
+
 export type LocaleDirection = 'ltr' | 'rtl';
 
 export type LocaleType = {
@@ -32,6 +44,7 @@ export type LocaleType = {
   direction: LocaleDirection;
   messages: LocaleMessagesType;
   hourCyclePreference: HourCyclePreference;
+  localeDisplayNames: LocaleDisplayNames;
 };
 
 function getLocaleDirection(
@@ -71,6 +84,7 @@ function finalize(
   backupMessages: LocaleMessagesType,
   localeName: string,
   hourCyclePreference: HourCyclePreference,
+  localeDisplayNames: LocaleDisplayNames,
   logger: LoggerType
 ): LocaleType {
   // We start with english, then overwrite that with anything present in locale
@@ -88,6 +102,7 @@ function finalize(
     direction,
     messages: finalMessages,
     hourCyclePreference,
+    localeDisplayNames,
   };
 }
 
@@ -136,6 +151,7 @@ export function load({
 
   const matchedLocaleMessages = getLocaleMessages(matchedLocale);
   const englishMessages = getLocaleMessages('en');
+  const languageDisplayNames = getLocaleDisplayNames();
 
   return finalize(
     availableLocales,
@@ -143,6 +159,7 @@ export function load({
     englishMessages,
     matchedLocale,
     hourCyclePreference,
+    languageDisplayNames,
     logger
   );
 }

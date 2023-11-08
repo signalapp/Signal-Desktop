@@ -8260,6 +8260,11 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
+csv-parse@5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-5.5.2.tgz#ab525e642093dccff7c5cca5c7b71fd3e99fe8f2"
+  integrity sha512-YRVtvdtUNXZCMyK5zd5Wty1W6dNTpGKdqQd4EQ8tl/c6KW1aMBB1Kg1ppky5FONKmEqGJ/8WjLlTNLPne4ioVA==
+
 cwd@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/cwd/-/cwd-0.10.0.tgz#172400694057c22a13b0cf16162c7e4b7a7fe567"
@@ -18851,11 +18856,6 @@ thread-stream@^2.0.0:
   integrity sha512-rUkv4/fnb4rqy/gGy7VuqK6wE1+1DOCOWy4RMeaV69ZHMP11tQKZvZSip1yTgrKCMZzEMcCL/bKfHvSfDHx+iQ==
   dependencies:
     real-require "^0.2.0"
-
-throttle-debounce@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-3.0.1.tgz#32f94d84dfa894f786c9a1f290e7a645b6a19abb"
-  integrity sha512-dTEWWNu6JmeVXY0ZYoPuH5cRIwc0MeGbJwah9KUNYSJwommQpCzTySTpEe8Gs1J23aeWEuAobe4Ag7EHVt/LOg==
 
 through2-filter@^3.0.0:
   version "3.0.0"

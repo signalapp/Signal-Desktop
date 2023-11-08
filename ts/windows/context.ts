@@ -44,6 +44,7 @@ export type MinimalSignalContextType = {
   getI18nAvailableLocales: () => ReadonlyArray<string>;
   getI18nLocale: LocalizerType['getLocale'];
   getI18nLocaleMessages: LocalizerType['getLocaleMessages'];
+  getLocaleDisplayNames: () => Record<string, Record<string, string>>;
   getResolvedMessagesLocaleDirection: () => LocaleDirection;
   getHourCyclePreference: () => HourCyclePreference;
   getResolvedMessagesLocale: () => string;

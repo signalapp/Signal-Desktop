@@ -63,6 +63,7 @@ import { focusableSelectors } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
 import { removeDiacritics } from '../util/removeDiacritics';
+import { assertDev } from '../util/assert';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -218,41 +219,6 @@ enum Page {
 enum LanguageDialog {
   Selection,
   Confirmation,
-}
-
-function getLocaleLanguagesWithMultipleRegions(
-  locales: ReadonlyArray<string>
-): Set<string> {
-  const result = new Set<string>();
-  const seen = new Set<string>();
-  for (const locale of locales) {
-    const { language } = new Intl.Locale(locale);
-    if (seen.has(language)) {
-      result.add(language);
-    } else {
-      seen.add(language);
-    }
-  }
-  return result;
-}
-
-const cache = new Map<string, string>();
-
-function getLanguageLabel(ofLocale: string, inLocale: string) {
-  const key = `${ofLocale}:${inLocale}`;
-  const cached = cache.get(key);
-  if (cached != null) {
-    return cached;
-  }
-  const value =
-    new Intl.DisplayNames(inLocale, {
-      type: 'language',
-      fallback: 'code',
-      style: 'long',
-      languageDisplay: 'standard',
-    }).of(ofLocale) ?? '';
-  cache.set(key, value);
-  return value;
 }
 
 const DEFAULT_ZOOM_FACTORS = [
@@ -470,23 +436,35 @@ export function Preferences({
     [onSelectedSpeakerChange, availableSpeakers]
   );
 
+  const localeDisplayNames = window.SignalContext.getLocaleDisplayNames();
+
+  const getLocaleDisplayName = useCallback(
+    (inLocale: string, ofLocale: string): string => {
+      const displayName = localeDisplayNames[inLocale]?.[ofLocale];
+      assertDev(
+        displayName != null,
+        `Locale display name in ${inLocale} of ${ofLocale} does not exist`
+      );
+      return (
+        displayName ??
+        new Intl.DisplayNames(inLocale, {
+          type: 'language',
+          languageDisplay: 'standard',
+          style: 'long',
+          fallback: 'code',
+        }).of(ofLocale)
+      );
+    },
+    [localeDisplayNames]
+  );
+
   const localeSearchOptions = useMemo(() => {
     const collator = new Intl.Collator(resolvedLocale, { usage: 'sort' });
 
-    const languagesWithMultipleRegions =
-      getLocaleLanguagesWithMultipleRegions(availableLocales);
-
     const availableLocalesOptions = availableLocales
       .map(locale => {
-        const { language } = new Intl.Locale(locale);
-        const displayLocale = languagesWithMultipleRegions.has(language)
-          ? locale
-          : language;
-        const currentLocaleLabel = getLanguageLabel(
-          displayLocale,
-          resolvedLocale
-        );
-        const matchingLocaleLabel = getLanguageLabel(displayLocale, locale);
+        const currentLocaleLabel = getLocaleDisplayName(resolvedLocale, locale);
+        const matchingLocaleLabel = getLocaleDisplayName(locale, locale);
         return { locale, currentLocaleLabel, matchingLocaleLabel };
       })
       .sort((a, b) => {
@@ -512,7 +490,7 @@ export function Preferences({
       {
         locale: null,
         currentLocaleLabel: i18n('icu:Preferences__Language__SystemLanguage'),
-        matchingLocaleLabel: getLanguageLabel(
+        matchingLocaleLabel: getLocaleDisplayName(
           preferredSystemLocaleMatch,
           preferredSystemLocaleMatch
         ),
@@ -525,6 +503,7 @@ export function Preferences({
     resolvedLocale,
     localeOverride,
     preferredSystemLocales,
+    getLocaleDisplayName,
   ]);
 
   const localeSearchResults = useMemo(() => {
@@ -663,7 +642,7 @@ export function Preferences({
                 lang={localeOverride ?? resolvedLocale}
               >
                 {localeOverride != null
-                  ? getLanguageLabel(localeOverride, resolvedLocale)
+                  ? getLocaleDisplayName(resolvedLocale, localeOverride)
                   : i18n('icu:Preferences__Language__SystemLanguage')}
               </span>
             }
