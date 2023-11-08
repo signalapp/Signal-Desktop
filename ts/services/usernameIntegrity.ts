@@ -6,6 +6,7 @@ import { DAY } from '../util/durations';
 import { drop } from '../util/drop';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { checkForUsername } from '../util/lookupConversationWithoutServiceId';
+import { storageJobQueue } from '../util/JobQueue';
 import * as log from '../logging/log';
 import { resolveUsernameByLink } from './username';
 
@@ -42,7 +43,7 @@ class UsernameIntegrityService {
 
   private async safeCheck(): Promise<void> {
     try {
-      await this.check();
+      await storageJobQueue(() => this.check());
       this.backOff.reset();
       await window.storage.put('usernameLastIntegrityCheck', Date.now());
 
