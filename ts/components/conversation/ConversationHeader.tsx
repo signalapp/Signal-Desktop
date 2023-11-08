@@ -242,7 +242,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
                     storyViewMode: StoryViewModeType.User,
                   });
                 }
-              : undefined
+              : this.getActionForType()
           }
           phoneNumber={phoneNumber}
           profileName={profileName}
@@ -679,7 +679,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     );
   }
 
-  private renderHeader(): ReactNode {
+  private getActionForType() {
     const { groupVersion, pushPanelForConversation, type } = this.props;
 
     let onClick: undefined | (() => void);
@@ -703,7 +703,10 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       default:
         throw missingCaseError(type);
     }
-
+    return onClick;
+  }
+  private renderHeader(): ReactNode {
+    const onClick = this.getActionForType();
     const avatar = this.renderAvatar();
     const contents = (
       <div className="module-ConversationHeader__header__info">
@@ -714,16 +717,18 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     if (onClick) {
       return (
-        <button
-          type="button"
-          className="module-ConversationHeader__header--clickable"
-          onClick={onClick}
-        >
-          <div className="module-ConversationHeader__header">
-            {avatar}
-            {contents}
+        <div className="module-ConversationHeader__header">
+          {avatar}
+          <div>
+            <button
+              type="button"
+              className="module-ConversationHeader__header--clickable"
+              onClick={onClick}
+            >
+              {contents}
+            </button>
           </div>
-        </button>
+        </div>
       );
     }
 
