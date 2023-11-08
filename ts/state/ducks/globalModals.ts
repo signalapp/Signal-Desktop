@@ -135,7 +135,7 @@ const CLOSE_GV2_MIGRATION_DIALOG = 'globalModals/CLOSE_GV2_MIGRATION_DIALOG';
 const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
 const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
-const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+export const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
 const SHOW_FORMATTING_WARNING_MODAL =
   'globalModals/SHOW_FORMATTING_WARNING_MODAL';
 const SHOW_SEND_EDIT_WARNING_MODAL =
@@ -286,7 +286,7 @@ type CloseErrorModalActionType = ReadonlyDeep<{
   type: typeof CLOSE_ERROR_MODAL;
 }>;
 
-type ShowErrorModalActionType = ReadonlyDeep<{
+export type ShowErrorModalActionType = ReadonlyDeep<{
   type: typeof SHOW_ERROR_MODAL;
   payload: {
     description?: string;

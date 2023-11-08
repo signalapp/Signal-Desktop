@@ -29,10 +29,12 @@ import * as Attachment from '../../types/Attachment';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import type {
   ShowSendAnywayDialogActionType,
+  ShowErrorModalActionType,
   ToggleProfileEditorErrorActionType,
 } from './globalModals';
 import {
   SHOW_SEND_ANYWAY_DIALOG,
+  SHOW_ERROR_MODAL,
   TOGGLE_PROFILE_EDITOR_ERROR,
 } from './globalModals';
 import {
@@ -90,6 +92,7 @@ import {
   getMe,
   getMessagesByConversation,
 } from '../selectors/conversations';
+import { getIntl } from '../selectors/user';
 import type { AvatarDataType, AvatarUpdateType } from '../../types/Avatar';
 import { getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
@@ -164,7 +167,11 @@ import {
 } from './composer';
 import { ReceiptType } from '../../types/Receipt';
 import { Sound, SoundType } from '../../util/Sound';
-import { canEditMessage } from '../../util/canEditMessage';
+import {
+  canEditMessage,
+  isWithinMaxEdits,
+  MESSAGE_MAX_EDIT_COUNT,
+} from '../../util/canEditMessage';
 import type { ChangeNavTabActionType } from './nav';
 import { CHANGE_NAV_TAB, NavTab, actions as navActions } from './nav';
 import { sortByMessageOrder } from '../../types/ForwardDraft';
@@ -1770,7 +1777,12 @@ function discardEditMessage(
 function setMessageToEdit(
   conversationId: string,
   messageId: string
-): ThunkAction<void, RootStateType, unknown, SetFocusActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetFocusActionType | ShowErrorModalActionType
+> {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
 
@@ -1784,6 +1796,20 @@ function setMessageToEdit(
     }
 
     if (!canEditMessage(message) || !message.body) {
+      return;
+    }
+
+    if (!isWithinMaxEdits(message)) {
+      const i18n = getIntl(getState());
+      dispatch({
+        type: SHOW_ERROR_MODAL,
+        payload: {
+          title: i18n('icu:MessageMaxEditsModal__Title'),
+          description: i18n('icu:MessageMaxEditsModal__Description', {
+            max: MESSAGE_MAX_EDIT_COUNT,
+          }),
+        },
+      });
       return;
     }
 
