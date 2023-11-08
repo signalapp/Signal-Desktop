@@ -316,6 +316,22 @@
     "messageformat": "Conversații",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Arată file",
     "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
@@ -732,11 +748,11 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "Pentru a verifica criptarea integrală cu {name}, compară numerele de mai sus cu cele de pe dispozitivul lor. Ei pot, de asemenea, să scaneze codul tău cu dispozitivul lor.",
     "description": "Safety number viewer, text of the hint"
   },
   "icu:SafetyNumberViewer__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "Află mai multe",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
   },
   "icu:SafetyNumberViewer__hint--migration": {
@@ -1411,7 +1427,7 @@
     "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
   },
   "icu:deleteMessagesInConversation": {
-    "messageformat": "Delete messages",
+    "messageformat": "Șterge mesajele",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
@@ -1419,7 +1435,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Delete messages?",
+    "messageformat": "Ștergi mesajele?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
@@ -1427,7 +1443,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Mesajele din această conversație vor fi șterse de pe acest dispozitiv. Poți căuta în continuare acest chat, după ce ștergi mesajele.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1702,7 +1718,7 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:CallingLobbyJoinButton--join": {
-    "messageformat": "Join",
+    "messageformat": "Alătură-te",
     "description": "Button label in the call lobby for joining a call"
   },
   "icu:CallingLobbyJoinButton--start": {
@@ -1710,7 +1726,7 @@
     "description": "Button label in the call lobby for starting a call"
   },
   "icu:CallingLobbyJoinButton--call-full": {
-    "messageformat": "Call full",
+    "messageformat": "Numărul maxim de participanți a fost atins",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video__label": {
@@ -1778,11 +1794,11 @@
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:CallingButton__ring-off": {
-    "messageformat": "Turn off ringing",
+    "messageformat": "Dezactivează soneria",
     "description": "Button tooltip label for turning ringing off"
   },
   "icu:CallingButton--ring-on": {
-    "messageformat": "Turn on ringing",
+    "messageformat": "Activează soneria",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2603,6 +2619,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "Acest mesaj a fost șters.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Attachment too large to display.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Some attachments are too large to display.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "Nu am putut să obținem detaliile donației",
@@ -3569,35 +3593,35 @@
     "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "messageformat": "{count, plural, one {{count,number} persoană} few {{count,number} persoane} other {{count,number} persoane}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Apel audio",
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
-    "messageformat": "End",
+    "messageformat": "Sfârşit",
     "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
-    "messageformat": "Leave",
+    "messageformat": "Părăsește",
     "description": "Title for the hangup button for a group call."
   },
   "icu:CallControls__MutedToast--muted": {
-    "messageformat": "Mic off",
+    "messageformat": "Microfon dezactivat",
     "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__MutedToast--unmuted": {
-    "messageformat": "Mic on",
+    "messageformat": "Microfon activat",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__RingingToast--ringing-on": {
-    "messageformat": "Ringing on",
+    "messageformat": "Sunet de apel activat",
     "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RingingToast--ringing-off": {
-    "messageformat": "Ringing off",
+    "messageformat": "Sunet de apel dezactivat",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
@@ -3747,6 +3771,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "Okay",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "Can't edit message",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "Only {max,number} edits can be applied to this message.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "Ne pare rău, linkul sgnl:// nu a fost înțeles!",
@@ -5424,9 +5456,29 @@
     "messageformat": "Nume de utilizator",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--delete-button": {
+    "messageformat": "Delete username",
+    "description": "Button text for deletion of the username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--create-button": {
+    "messageformat": "Create username",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "Cod QR sau link",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "Username needs reset",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "Username link needs reset",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Împărtășește-ți numele de utilizator",
@@ -5779,6 +5831,42 @@
   "icu:Preferences__turn-stories-off--body": {
     "messageformat": "Nu vei mai putea să distribui sau să vezi povești. Actualizările poveștilor pe care le-ai distribuit recent vor fi și ele șterse.",
     "description": "Confirmation modal body for disabling stories"
+  },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "Language",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "Language",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "System Language",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "Search languages",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "No results for “{searchTerm}”",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "Set",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "Restart Signal to apply",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "To change the language, the app needs to restart.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "Restart",
+    "description": "Button to restart Signal to apply language changes"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Este disponibilă actualizarea la versiunea {version}",
@@ -6716,6 +6804,14 @@
     "messageformat": "Dacă resetezi codul QR, codul QR existent și linkul nu vor mai funcționa.",
     "description": "Text of confirmation modal when resetting the username link"
   },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "Resetting link...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "description": "Text of the confirmation dialog shown on username link error"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Stabilește-ți numele de utilizator Signal",
     "description": "Title of username onboarding modal"
@@ -6908,10 +7004,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.37--0": {
-    "messageformat": "Am adăugat o nouă modalitate de a-ți păstra contactele Signal, frumos și ordonat. De acest Halloween, elimină fantoma unui contact vechi. Dă clic pe cele trei puncte de lângă numele său din lista de contacte din ecranul Chat nou și selectează „Eliminare”."
-  },
   "icu:WhatsNew__v6.38--0": {
-    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
+    "messageformat": "Această versiune include un design actualizat pentru apelurile Signal vocale și video. Acum, interfața cu utilizatorul care apelează va arăta în continuare fantastic, chiar dacă camera nu este pornită și nu te poți uita la propria ta reflexie frumoasă."
+  },
+  "icu:WhatsNew__v6.39--0": {
+    "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
+  },
+  "icu:WhatsNew__v6.39--1": {
+    "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
   }
 }
