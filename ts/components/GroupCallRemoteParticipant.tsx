@@ -258,7 +258,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       if ('top' in props) {
         containerStyles.position = 'absolute';
-        containerStyles.transform = `translate(${props.left}px, ${props.top}px)`;
+        containerStyles.insetInlineStart = `${props.left}px`;
+        containerStyles.top = `${props.top}px`;
       }
     }
 
