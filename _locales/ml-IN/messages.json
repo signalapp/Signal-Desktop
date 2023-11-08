@@ -732,11 +732,11 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "{name} എന്നയാളുമായി ആദ്യവസാനം എൻക്രിപ്റ്റ് ചെയ്യൽ പരിശോധിച്ചുറപ്പിക്കാൻ അവരുടെ ഉപകരണവുമായി മുകളിലുള്ള അക്കങ്ങൾ താരതമ്യം ചെയ്യുക. അവരുടെ ഉപകരണം ഉപയോഗിച്ച് നിങ്ങളുടെ കോഡ് സ്‌കാൻ ചെയ്യുകയും ചെയ്യാം.",
     "description": "Safety number viewer, text of the hint"
   },
   "icu:SafetyNumberViewer__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "കൂടുതൽ അറിയുക",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
   },
   "icu:SafetyNumberViewer__hint--migration": {
@@ -1411,7 +1411,7 @@
     "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
   },
   "icu:deleteMessagesInConversation": {
-    "messageformat": "Delete messages",
+    "messageformat": "സന്ദേശങ്ങൾ ഇല്ലാതാക്കൂ",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
@@ -1419,7 +1419,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Delete messages?",
+    "messageformat": "സന്ദേശങ്ങൾ ഇല്ലാതാക്കണോ?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
@@ -1427,7 +1427,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "ഈ ഉപകരണത്തിൽ നിന്ന് ഈ ചാറ്റിലെ സന്ദേശങ്ങൾ ഇല്ലാതാക്കപ്പെടും. സന്ദേശങ്ങൾ ഇല്ലാതാക്കിയതിന് ശേഷവും നിങ്ങൾക്ക് ഈ ചാറ്റ് തിരയാനാകും.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1702,15 +1702,15 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:CallingLobbyJoinButton--join": {
-    "messageformat": "Join",
+    "messageformat": "ചേരുക",
     "description": "Button label in the call lobby for joining a call"
   },
   "icu:CallingLobbyJoinButton--start": {
-    "messageformat": "Start",
+    "messageformat": "ആരംഭം",
     "description": "Button label in the call lobby for starting a call"
   },
   "icu:CallingLobbyJoinButton--call-full": {
-    "messageformat": "Call full",
+    "messageformat": "കോൾ നിറഞ്ഞു",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video__label": {
@@ -1778,11 +1778,11 @@
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:CallingButton__ring-off": {
-    "messageformat": "Turn off ringing",
+    "messageformat": "റിംഗിംഗ് ഓഫാക്കുക",
     "description": "Button tooltip label for turning ringing off"
   },
   "icu:CallingButton--ring-on": {
-    "messageformat": "Turn on ringing",
+    "messageformat": "റിംഗിംഗ് ഓണാക്കുക",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2603,6 +2603,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "ഈ സന്ദേശം ഇല്ലാതാക്കി.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Attachment too large to display.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Some attachments are too large to display.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "സംഭാവനാ വിശദാംശങ്ങൾ ലഭ്യമാക്കാനായില്ല",
@@ -3569,35 +3577,35 @@
     "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "messageformat": "{count, plural, one {{count,number} ആൾ} other {{count,number} പേര്‍}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "ഓഡിയോ കോൾ",
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
-    "messageformat": "End",
+    "messageformat": "അവസാനം",
     "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
-    "messageformat": "Leave",
+    "messageformat": "വിട്ട് പോകുക",
     "description": "Title for the hangup button for a group call."
   },
   "icu:CallControls__MutedToast--muted": {
-    "messageformat": "Mic off",
+    "messageformat": "മൈക്ക് ഓഫാണ്",
     "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__MutedToast--unmuted": {
-    "messageformat": "Mic on",
+    "messageformat": "മൈക്ക് ഓണാണ്",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__RingingToast--ringing-on": {
-    "messageformat": "Ringing on",
+    "messageformat": "റിംഗിംഗ് ഓണാണ്",
     "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RingingToast--ringing-off": {
-    "messageformat": "Ringing off",
+    "messageformat": "റിംഗിംഗ് ഓഫാണ്",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
@@ -6912,6 +6920,6 @@
     "messageformat": "നിങ്ങളുടെ Signal കോൺടാക്റ്റുകൾ അടുക്കും ചിട്ടയുമുള്ളതായി നിലനിർത്താൻ ഞങ്ങൾ പുതിയൊരു മാർഗം ചേർത്തിട്ടുണ്ട്. ഈ ഹാലോവീൻ സീസണിൽ, ഒരു പഴയ കോൺടാക്റ്റിന്റെ ഗോസ്റ്റിനെ നീക്കം ചെയ്യൂ. പുതിയ ചാറ്റ് സ്ക്രീനിലെ കോൺടാക്റ്റ് ലിസ്റ്റിൽ അവരുടെ പേരിന് അടുത്തുള്ള മൂന്ന് ഡോട്ടുകളിൽ ക്ലിക്ക് ചെയ്ത് \"നീക്കം ചെയ്യുക\" തിരഞ്ഞെടുത്താൽ മാത്രം മതി."
   },
   "icu:WhatsNew__v6.38--0": {
-    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
+    "messageformat": "ഈ റിലീസിൽ Signal-ലെ വോയ്‌സ്, വീഡിയോ കോളുകൾക്കുള്ള അപ്‌ഡേറ്റ് ചെയ്ത ഡിസൈൻ ഉൾപ്പെടുന്നു. ഇപ്പോൾ നിങ്ങളുടെ ക്യാമറ ഓണല്ലെങ്കിൽപ്പോലും കോളിംഗ് ഉപയോക്തൃ ഇന്റർഫേസ് മനോഹരമായിരിക്കും, നിങ്ങളുടെ സ്വന്തം പ്രതിബിംബത്തിലേക്ക് തുറിച്ചുനോക്കാനാകില്ല."
   }
 }

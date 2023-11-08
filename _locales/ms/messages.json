@@ -732,11 +732,11 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "Untuk mengesahkan keselamatan penyulitan hujung ke hujung dengan {name}, bandingkan nombor di atas dengan peranti mereka. Mereka juga boleh mengimbas kod anda dengan peranti mereka.",
     "description": "Safety number viewer, text of the hint"
   },
   "icu:SafetyNumberViewer__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "Ketahui lebih lanjut",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
   },
   "icu:SafetyNumberViewer__hint--migration": {
@@ -1411,7 +1411,7 @@
     "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
   },
   "icu:deleteMessagesInConversation": {
-    "messageformat": "Delete messages",
+    "messageformat": "Padam mesej",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
@@ -1419,7 +1419,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Delete messages?",
+    "messageformat": "Padam mesej?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
@@ -1427,7 +1427,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Mesej dalam sembang ini akan dipadamkan daripada peranti ini. Anda masih boleh mencari sembang ini selepas anda memadamkan mesej.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1702,15 +1702,15 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:CallingLobbyJoinButton--join": {
-    "messageformat": "Join",
+    "messageformat": "Sertai",
     "description": "Button label in the call lobby for joining a call"
   },
   "icu:CallingLobbyJoinButton--start": {
-    "messageformat": "Start",
+    "messageformat": "Mulakan",
     "description": "Button label in the call lobby for starting a call"
   },
   "icu:CallingLobbyJoinButton--call-full": {
-    "messageformat": "Call full",
+    "messageformat": "Panggilan penuh",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video__label": {
@@ -1778,11 +1778,11 @@
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:CallingButton__ring-off": {
-    "messageformat": "Turn off ringing",
+    "messageformat": "Matikan deringan",
     "description": "Button tooltip label for turning ringing off"
   },
   "icu:CallingButton--ring-on": {
-    "messageformat": "Turn on ringing",
+    "messageformat": "Hidupkan deringan",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2603,6 +2603,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "Mesej ini telah dipadam.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Attachment too large to display.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Some attachments are too large to display.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "Tidak dapat mengambil butiran derma",
@@ -3569,35 +3577,35 @@
     "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "messageformat": "{count, plural, other {{count,number} orang}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Panggilan audio",
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
-    "messageformat": "End",
+    "messageformat": "Tamat",
     "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
-    "messageformat": "Leave",
+    "messageformat": "Tinggalkan",
     "description": "Title for the hangup button for a group call."
   },
   "icu:CallControls__MutedToast--muted": {
-    "messageformat": "Mic off",
+    "messageformat": "Mikrofon dimatikan",
     "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__MutedToast--unmuted": {
-    "messageformat": "Mic on",
+    "messageformat": "Mikrofon dihidupkan",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__RingingToast--ringing-on": {
-    "messageformat": "Ringing on",
+    "messageformat": "Deringan dihidupkan",
     "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RingingToast--ringing-off": {
-    "messageformat": "Ringing off",
+    "messageformat": "Deringan dimatikan",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
@@ -6912,6 +6920,6 @@
     "messageformat": "Kini anda boleh mengalih keluar kenalan lama dengan mudah. Hanya klik pada tiga titik di sebelah nama mereka dalam senarai kenalan pada skrin Sembang baru dan pilih \"Alih Keluar.\""
   },
   "icu:WhatsNew__v6.38--0": {
-    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
+    "messageformat": "Keluaran ini termasuk reka bentuk yang dikemas kini untuk panggilan suara dan video Signal."
   }
 }

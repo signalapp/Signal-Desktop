@@ -732,11 +732,11 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "Pentru a verifica criptarea integrală cu {name}, compară numerele de mai sus cu cele de pe dispozitivul lor. Ei pot, de asemenea, să scaneze codul tău cu dispozitivul lor.",
     "description": "Safety number viewer, text of the hint"
   },
   "icu:SafetyNumberViewer__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "Află mai multe",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
   },
   "icu:SafetyNumberViewer__hint--migration": {
@@ -1411,7 +1411,7 @@
     "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
   },
   "icu:deleteMessagesInConversation": {
-    "messageformat": "Delete messages",
+    "messageformat": "Șterge mesajele",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
@@ -1419,7 +1419,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
-    "messageformat": "Delete messages?",
+    "messageformat": "Ștergi mesajele?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
@@ -1427,7 +1427,7 @@
     "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Mesajele din această conversație vor fi șterse de pe acest dispozitiv. Poți căuta în continuare acest chat, după ce ștergi mesajele.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1702,7 +1702,7 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:CallingLobbyJoinButton--join": {
-    "messageformat": "Join",
+    "messageformat": "Alătură-te",
     "description": "Button label in the call lobby for joining a call"
   },
   "icu:CallingLobbyJoinButton--start": {
@@ -1710,7 +1710,7 @@
     "description": "Button label in the call lobby for starting a call"
   },
   "icu:CallingLobbyJoinButton--call-full": {
-    "messageformat": "Call full",
+    "messageformat": "Numărul maxim de participanți a fost atins",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video__label": {
@@ -1778,11 +1778,11 @@
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:CallingButton__ring-off": {
-    "messageformat": "Turn off ringing",
+    "messageformat": "Dezactivează soneria",
     "description": "Button tooltip label for turning ringing off"
   },
   "icu:CallingButton--ring-on": {
-    "messageformat": "Turn on ringing",
+    "messageformat": "Activează soneria",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2603,6 +2603,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "Acest mesaj a fost șters.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Attachment too large to display.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Some attachments are too large to display.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "Nu am putut să obținem detaliile donației",
@@ -3569,35 +3577,35 @@
     "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "messageformat": "{count, plural, one {{count,number} persoană} few {{count,number} persoane} other {{count,number} persoane}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Apel audio",
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
-    "messageformat": "End",
+    "messageformat": "Sfârşit",
     "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
-    "messageformat": "Leave",
+    "messageformat": "Părăsește",
     "description": "Title for the hangup button for a group call."
   },
   "icu:CallControls__MutedToast--muted": {
-    "messageformat": "Mic off",
+    "messageformat": "Microfon dezactivat",
     "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__MutedToast--unmuted": {
-    "messageformat": "Mic on",
+    "messageformat": "Microfon activat",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
   "icu:CallControls__RingingToast--ringing-on": {
-    "messageformat": "Ringing on",
+    "messageformat": "Sunet de apel activat",
     "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RingingToast--ringing-off": {
-    "messageformat": "Ringing off",
+    "messageformat": "Sunet de apel dezactivat",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
@@ -6912,6 +6920,6 @@
     "messageformat": "Am adăugat o nouă modalitate de a-ți păstra contactele Signal, frumos și ordonat. De acest Halloween, elimină fantoma unui contact vechi. Dă clic pe cele trei puncte de lângă numele său din lista de contacte din ecranul Chat nou și selectează „Eliminare”."
   },
   "icu:WhatsNew__v6.38--0": {
-    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
+    "messageformat": "Această versiune include un design actualizat pentru apelurile Signal vocale și video. Acum, interfața cu utilizatorul care apelează va arăta în continuare fantastic, chiar dacă camera nu este pornită și nu te poți uita la propria ta reflexie frumoasă."
   }
 }
