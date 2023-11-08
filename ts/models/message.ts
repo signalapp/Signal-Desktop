@@ -137,7 +137,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public getMessageModelProps(): MessageModelPropsWithoutConvoProps {
-    perfStart(`getPropsMessage-${this.id}`);
     const propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
     const propsForGroupUpdateMessage = this.getPropsForGroupUpdateMessage();
@@ -180,7 +179,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         ...this.getPropsForExpiringMessage(),
       };
     }
-    perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
+
     return messageProps;
   }
 

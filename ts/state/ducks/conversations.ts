@@ -538,7 +538,7 @@ function handleMessageChangedOrAdded(
   }
 
   // sorting happens in the selector
-
+  state.messages.push(changedOrAddedMessageProps);
   state.mostRecentMessageId = updateMostRecentMessageId(state);
   return state;
 }
