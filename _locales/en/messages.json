@@ -3771,6 +3771,14 @@
     "messageformat": "Okay",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "Can't edit message",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "Only {max, number} edits can be applied to this message.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
+  },
   "icu:unknown-sgnl-link": {
     "messageformat": "Sorry, that sgnl:// link didn't make sense!",
     "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"

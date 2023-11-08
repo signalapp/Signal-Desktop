@@ -1215,6 +1215,7 @@ export const getConversationTitle = createSelector(
     getConversationTitleForPanelType(i18n, panel?.type)
 );
 
+// Note that this doesn't take into account max edit count. See canEditMessage.
 export const getLastEditableMessageId = createSelector(
   getConversationMessages,
   getMessages,
