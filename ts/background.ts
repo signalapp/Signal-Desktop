@@ -254,10 +254,6 @@ export async function startApp(): Promise<void> {
     window.textsecure.server = server;
     window.textsecure.messaging = new window.textsecure.MessageSender(server);
 
-    initializeAllJobQueues({
-      server,
-    });
-
     challengeHandler = new ChallengeHandler({
       storage: window.storage,
 
@@ -1356,6 +1352,11 @@ export async function startApp(): Promise<void> {
 
   async function start() {
     // Storage is ready because `start()` is called from `storage.onready()`
+
+    strictAssert(server !== undefined, 'start: server not initialized');
+    initializeAllJobQueues({
+      server,
+    });
 
     strictAssert(challengeHandler, 'start: challengeHandler');
     await challengeHandler.load();
