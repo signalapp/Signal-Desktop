@@ -12,6 +12,7 @@ const max = new Date(2023, 0, 1, 23).getTime();
 describe('formatTimestamp', () => {
   let sandbox: sinon.SinonSandbox;
   let localesStub: sinon.SinonStub;
+  let localeOverrideStub: sinon.SinonStub;
   let hourCycleStub: sinon.SinonStub;
 
   beforeEach(() => {
@@ -19,6 +20,10 @@ describe('formatTimestamp', () => {
     localesStub = sandbox.stub(
       window.SignalContext,
       'getPreferredSystemLocales'
+    );
+    localeOverrideStub = sandbox.stub(
+      window.SignalContext,
+      'getLocaleOverride'
     );
     hourCycleStub = sandbox.stub(
       window.SignalContext,
@@ -41,6 +46,7 @@ describe('formatTimestamp', () => {
     }).format(time);
     it(`should format with locale: ${locale} (${HourCyclePreference[preference]}) @ ${timeFmt})`, () => {
       localesStub.returns([locale]);
+      localeOverrideStub.returns(null);
       hourCycleStub.returns(preference);
       assert.equal(formatTimestamp(time, { timeStyle: 'medium' }), expected);
     });

@@ -110,6 +110,8 @@ window.SignalContext = {
   getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
   getPreferredSystemLocales: () => ['en'],
   getResolvedMessagesLocaleDirection: () => 'ltr',
+  getLocaleOverride: () => null,
+  getLocaleDisplayNames: () => ({ en: { en: 'English' } }),
 };
 
 window.i18n = i18n;

@@ -68,6 +68,7 @@ export default {
         label: 'Logitech Webcam (4e72:9058)',
       },
     ],
+    availableLocales: ['en'],
     availableMicrophones,
     availableSpeakers,
     blockedCount: 0,
@@ -108,7 +109,10 @@ export default {
     isSystemTraySupported: true,
     isMinimizeToAndStartInSystemTraySupported: true,
     lastSyncTime: Date.now(),
+    localeOverride: null,
     notificationContent: 'name',
+    preferredSystemLocales: ['en'],
+    resolvedLocale: 'en',
     selectedCamera:
       'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
     selectedMicrophone: availableMicrophones[0],
@@ -143,6 +147,7 @@ export default {
     onIncomingCallNotificationsChange: action(
       'onIncomingCallNotificationsChange'
     ),
+    onLocaleChange: action('onLocaleChange'),
     onLastSyncTimeChange: action('onLastSyncTimeChange'),
     onMediaCameraPermissionsChange: action('onMediaCameraPermissionsChange'),
     onMediaPermissionsChange: action('onMediaPermissionsChange'),

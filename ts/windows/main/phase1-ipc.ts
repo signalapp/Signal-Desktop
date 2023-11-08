@@ -99,10 +99,6 @@ const IPC: IPCType = {
     }),
   readyForUpdates: () => ipc.send('ready-for-updates'),
   removeSetupMenuItems: () => ipc.send('remove-setup-menu-items'),
-  restart: () => {
-    log.info('restart');
-    ipc.send('restart');
-  },
   setAutoHideMenuBar: autoHide => ipc.send('set-auto-hide-menu-bar', autoHide),
   setAutoLaunch: value => ipc.invoke('set-auto-launch', value),
   setBadge: badge => ipc.send('set-badge', badge),

@@ -19,6 +19,7 @@ const EPHEMERAL_NAME_MAP = new Map([
   ['spellCheck', 'spell-check'],
   ['systemTraySetting', 'system-tray-setting'],
   ['themeSetting', 'theme-setting'],
+  ['localeOverride', 'localeOverride'],
 ]);
 
 type ResponseQueueEntry = Readonly<{
@@ -79,6 +80,9 @@ export class SettingsChannel extends EventEmitter {
       isEphemeral: true,
     });
 
+    this.installSetting('localeOverride', {
+      isEphemeral: true,
+    });
     this.installSetting('notificationSetting');
     this.installSetting('notificationDrawAttention');
     this.installSetting('audioMessage');

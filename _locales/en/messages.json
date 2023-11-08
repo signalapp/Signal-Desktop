@@ -5831,6 +5831,42 @@
     "messageformat": "You will no longer be able to share or view stories. Story updates you have recently shared will also be deleted.",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "Language",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "Language",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "System Language",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "Search languages",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "No results for “{searchTerm}”",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "Set",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "Restart Signal to apply",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "To change the language, the app needs to restart.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "Restart",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Update to version {version} available",
     "description": "Tooltip for new update available"

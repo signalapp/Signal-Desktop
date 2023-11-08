@@ -41,18 +41,22 @@ export type MinimalSignalContextType = {
   executeMenuRole: (role: MenuItemConstructorOptions['role']) => Promise<void>;
   getAppInstance: () => string | undefined;
   getEnvironment: () => string;
+  getI18nAvailableLocales: () => ReadonlyArray<string>;
   getI18nLocale: LocalizerType['getLocale'];
   getI18nLocaleMessages: LocalizerType['getLocaleMessages'];
+  getLocaleDisplayNames: () => Record<string, Record<string, string>>;
   getResolvedMessagesLocaleDirection: () => LocaleDirection;
   getHourCyclePreference: () => HourCyclePreference;
   getResolvedMessagesLocale: () => string;
   getPreferredSystemLocales: () => Array<string>;
+  getLocaleOverride: () => string | null;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;
   getPath: (name: 'userData' | 'home' | 'install') => string;
   getVersion: () => string;
   nativeThemeListener: NativeThemeType;
+  restartApp: () => void;
   Settings: {
     themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
     waitForChange: () => Promise<void>;
