@@ -7,14 +7,19 @@ import { useSelector } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { StateType } from '../../../../state/reducer';
-import { useMessageIsDeleted } from '../../../../state/selectors';
+import { useHideAvatarInMsgList, useMessageIsDeleted } from '../../../../state/selectors';
 import {
   getMessageContentSelectorProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
+import {
+  useSelectedIsGroup,
+  useSelectedIsPrivate,
+} from '../../../../state/selectors/selectedConversation';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
+import { MessageAvatar } from './MessageAvatar';
 import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
@@ -46,7 +51,9 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
-const StyledMessageContent = styled.div``;
+const StyledMessageContent = styled.div`
+  display: flex;
+`;
 
 const opacityAnimation = keyframes`
     0% {
@@ -92,6 +99,12 @@ const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
 
 export const IsMessageVisibleContext = createContext(false);
 
+// NOTE aligns group member avatars with the ExpireTimer
+const StyledAvatarContainer = styled.div<{ hideAvatar: boolean; isGroup: boolean }>`
+  /* margin-inline-start: ${props => (!props.hideAvatar && props.isGroup ? '-11px' : '')}; */
+  align-self: flex-end;
+`;
+
 export const MessageContent = (props: Props) => {
   const [highlight, setHighlight] = useState(false);
   const [didScroll, setDidScroll] = useState(false);
@@ -102,6 +115,9 @@ export const MessageContent = (props: Props) => {
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+  const selectedIsPrivate = useSelectedIsPrivate();
+  const isGroup = useSelectedIsGroup();
+  const hideAvatar = useHideAvatarInMsgList(props.messageId);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -169,6 +185,14 @@ export const MessageContent = (props: Props) => {
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
     >
+      <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
+        <MessageAvatar
+          messageId={props.messageId}
+          hideAvatar={hideAvatar}
+          isPrivate={selectedIsPrivate}
+        />
+      </StyledAvatarContainer>
+
       <InView
         id={`inview-content-${props.messageId}`}
         onChange={onVisible}

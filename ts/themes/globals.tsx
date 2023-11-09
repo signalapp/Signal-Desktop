@@ -27,6 +27,7 @@ export type ThemeGlobals = {
   /* Padding */
   '--padding-message-content': string;
   '--padding-link-preview': string;
+  '--width-avatar-group-msg-list': string;
 
   /* Border Radius */
   '--border-radius': string;
@@ -108,6 +109,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below
+  '--width-avatar-group-msg-list': '46px', // the width used by the avatar (and its margins when rendered as part of a group.)
 
   '--border-radius': '5px',
   '--border-radius-message-box': '16px',

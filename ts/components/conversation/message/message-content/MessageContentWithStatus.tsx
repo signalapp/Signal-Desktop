@@ -7,6 +7,7 @@ import { MessageRenderingProps } from '../../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';
 import { updateReactListModal } from '../../../../state/ducks/modalDialog';
 import { StateType } from '../../../../state/reducer';
+import { useHideAvatarInMsgList } from '../../../../state/selectors';
 import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
@@ -15,7 +16,6 @@ import { Reactions } from '../../../../util/reactions';
 import { Flex } from '../../../basic/Flex';
 import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
 import { MessageAuthorText } from './MessageAuthorText';
-import { MessageAvatar } from './MessageAvatar';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
 import { MessageReactions, StyledMessageReactions } from './MessageReactions';
@@ -46,16 +46,11 @@ const StyledMessageContentContainer = styled.div<{ isIncoming: boolean }>`
   }
 `;
 
-const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
+const StyledMessageWithAuthor = styled.div`
   max-width: '100%';
   display: flex;
   flex-direction: column;
   min-width: 0;
-`;
-
-// NOTE aligns group member avatars with the ExpireTimer
-const StyledAvatarContainer = styled.div<{ hideAvatar: boolean; isGroup: boolean }>`
-  margin-inline-start: ${props => (!props.hideAvatar && props.isGroup ? '-11px' : '')};
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
@@ -63,6 +58,7 @@ export const MessageContentWithStatuses = (props: Props) => {
     getMessageContentWithStatusesSelectorProps(state, props.messageId)
   );
   const dispatch = useDispatch();
+  const hideAvatar = useHideAvatarInMsgList(props.messageId);
 
   const multiSelectMode = useSelector(isMessageSelectionMode);
 
@@ -103,11 +99,8 @@ export const MessageContentWithStatuses = (props: Props) => {
     return null;
   }
 
-  const { conversationType, direction, isDeleted, isGroup } = contentProps;
+  const { direction, isDeleted } = contentProps;
   const isIncoming = direction === 'incoming';
-
-  const isPrivate = conversationType === 'private';
-  const hideAvatar = isPrivate || direction === 'outgoing';
 
   const handleMessageReaction = async (emoji: string) => {
     await Reactions.sendMessageReaction(messageId, emoji);
@@ -132,12 +125,8 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         dataTestId={dataTestId}
       >
-        <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
-          <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} isPrivate={isPrivate} />
-        </StyledAvatarContainer>
-
         <Flex container={true} flexDirection="column" flexShrink={0}>
-          <StyledMessageWithAuthor isIncoming={isIncoming}>
+          <StyledMessageWithAuthor>
             <MessageAuthorText messageId={messageId} />
             <MessageContent messageId={messageId} isDetailView={isDetailView} />
           </StyledMessageWithAuthor>
