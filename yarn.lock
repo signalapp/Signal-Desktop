@@ -640,9 +640,9 @@
     reselect "^4.1.5"
 
 "@signalapp/better-sqlite3@^8.4.3":
-  version "8.4.3"
-  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.4.3.tgz#7ffa8d03d2a12543247936bfb7b9f74cdbc6fe9b"
-  integrity sha512-6HaN8a90fWHBPIIZRRmSG7wc3BPczLx3Mb9MJ8wsatYqf8C1+2NdFae5AzII8Oe9YE9SSHzCjdPd8ST1m9+Qag==
+  version "8.5.2"
+  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.5.2.tgz#910669f44e76a46d06df45fabefcd3ac2e7c4cce"
+  integrity sha512-t7XalDxuRP115EratM6i1kbvIXJvzETcl8wqnt3NlWZdzil7kelS/RYz+PE1G+z8ZwtFyn/ViAFMt76AsArifw==
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
