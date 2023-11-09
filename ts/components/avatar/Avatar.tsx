@@ -1,8 +1,8 @@
 import classNames from 'classnames';
+import { isEqual } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { isEqual } from 'lodash';
 
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
@@ -52,7 +52,7 @@ const CrownWrapper = styled.div`
   right: 12%;
   height: 20px;
   width: 20px;
-  transform: translate(25%, 25%);
+  transform: translate(20%, 20%); // getting over 23% creates a glitch
   color: #f7c347;
   background: var(--background-primary-color);
   border-radius: 50%;
