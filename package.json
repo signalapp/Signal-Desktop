@@ -494,6 +494,7 @@
       "sounds/*",
       "build/icons",
       "build/available-locales.json",
+      "build/locale-display-names.json",
       "node_modules/**",
       "!node_modules/underscore/**",
       "!node_modules/emoji-datasource/emoji_pretty.json",
