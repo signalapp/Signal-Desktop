@@ -70,6 +70,7 @@ export function search(query: string): SearchResultsKickoffActionType {
 async function doSearch(query: string): Promise<SearchResultsPayloadType> {
   const options: SearchOptions = {
     noteToSelf: window.i18n('noteToSelf').toLowerCase(),
+    savedMessages: window.i18n('savedMessages').toLowerCase(),
     ourNumber: UserUtils.getOurPubKeyStrFromCache(),
   };
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
@@ -200,7 +201,7 @@ async function queryMessages(query: string): Promise<Array<MessageResultProps>> 
 }
 
 async function queryConversationsAndContacts(providedQuery: string, options: SearchOptions) {
-  const { ourNumber, noteToSelf } = options;
+  const { ourNumber, noteToSelf, savedMessages } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
   const searchResults: Array<ReduxConversationType> = await Data.searchConversations(query);
@@ -224,9 +225,11 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
       conversations.push(conversation.id);
     }
   }
+
+  const queryLowered = providedQuery.toLowerCase();
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
-  if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
-    // ensure that we don't have duplicates in our results
+  if (noteToSelf.includes(queryLowered) || savedMessages.includes(queryLowered)) {
+    // Ensure that we don't have duplicates in our results
     contacts = contacts.filter(id => id !== ourNumber);
     conversations = conversations.filter(id => id !== ourNumber);
 

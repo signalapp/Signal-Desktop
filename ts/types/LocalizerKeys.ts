@@ -385,6 +385,7 @@ export type LocalizerKeys =
   | 'save'
   | 'saveLogToDesktop'
   | 'saved'
+  | 'savedMessages'
   | 'savedTheFile'
   | 'searchFor...'
   | 'searchForContactsOnly'

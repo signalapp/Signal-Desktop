@@ -220,6 +220,7 @@
   "youDisabledDisappearingMessages": "You disabled disappearing messages.",
   "timerSetTo": "Disappearing message time set to $time$",
   "noteToSelf": "Note to Self",
+  "savedMessages": "Saved Messages",
   "hideMenuBarTitle": "Hide Menu Bar",
   "hideMenuBarDescription": "Toggle system menu bar visibility.",
   "startConversation": "Start New Conversation",
