@@ -1,4 +1,5 @@
 // TODO legacy messages support will be removed in a future release
+import { isEmpty } from 'lodash';
 import { ConversationModel } from '../../models/conversation';
 import { ProtobufUtils, SignalService } from '../../protobuf';
 import { ReleasedFeatures } from '../../util/releaseFeature';
@@ -55,6 +56,7 @@ export function checkShouldDisappearButIsntMessage(
     expirationMode === 'off' &&
     expirationTimer === 0 &&
     convo.getExpirationMode() !== 'off' &&
-    convo.getExpireTimer() !== 0
+    convo.getExpireTimer() !== 0 &&
+    isEmpty(content.dataMessage?.closedGroupControlMessage?.encryptionKeyPair) // group invites do not expire, and have this field set
   );
 }

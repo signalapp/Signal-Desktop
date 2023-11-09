@@ -23,10 +23,6 @@
 
 .module-contact-name.compact {
   display: block;
-
-  span::after {
-    content: '\00a0';
-  }
 }
 
 // Module: Message
