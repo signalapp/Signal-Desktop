@@ -380,13 +380,6 @@ function markStoryRead(
       return;
     }
 
-    if (matchingStory.readStatus !== ReadStatus.Unread) {
-      log.warn(
-        `markStoryRead: not unread, ${messageId} read status: ${matchingStory.readStatus}`
-      );
-      return;
-    }
-
     const message = await __DEPRECATED$getMessageById(messageId);
 
     if (!message) {
@@ -414,6 +407,13 @@ function markStoryRead(
       log.warn(
         'markStoryRead: Failed to mark onboarding story read normally; failing over'
       );
+    }
+
+    if (matchingStory.readStatus !== ReadStatus.Unread) {
+      log.warn(
+        `markStoryRead: not unread, ${messageId} read status: ${matchingStory.readStatus}`
+      );
+      return;
     }
 
     const storyReadDate = Date.now();
