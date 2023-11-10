@@ -48,7 +48,7 @@ type AllHostnamePatterns =
   | 'start-call-lobby'
   | 'show-window'
   | 'set-is-presenting'
-  | ':captchaId'
+  | ':captchaId(.+)'
   | '';
 
 /**
@@ -325,7 +325,8 @@ export const linkDeviceRoute = _route('linkDevice', {
  * ```
  */
 export const captchaRoute = _route('captcha', {
-  patterns: [_pattern('signalcaptcha:', ':captchaId', '', {})],
+  // needs `(.+)` to capture `.` in hostname
+  patterns: [_pattern('signalcaptcha:', ':captchaId(.+)', '', {})],
   schema: z.object({
     captchaId: paramSchema, // opaque
   }),
