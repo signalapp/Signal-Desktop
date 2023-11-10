@@ -36,6 +36,9 @@ describe('signalRoutes', () => {
     };
   }
 
+  const foo = 'FoO.bAr-BaZ_123/456';
+  const fooNoSlash = 'FoO.bAr-BaZ_123';
+
   it('nonsense', () => {
     const check = createCheck({
       isRoute: false,
@@ -72,42 +75,42 @@ describe('signalRoutes', () => {
   it('contactByEncryptedUsername', () => {
     const result: ParsedSignalRoute = {
       key: 'contactByEncryptedUsername',
-      args: { encryptedUsername: 'foobar' },
+      args: { encryptedUsername: foo },
     };
     const check = createCheck();
-    check('https://signal.me/#eu/foobar', result);
-    check('https://signal.me#eu/foobar', result);
-    check('sgnl://signal.me/#eu/foobar', result);
-    check('sgnl://signal.me#eu/foobar', result);
+    check(`https://signal.me/#eu/${foo}`, result);
+    check(`https://signal.me#eu/${foo}`, result);
+    check(`sgnl://signal.me/#eu/${foo}`, result);
+    check(`sgnl://signal.me#eu/${foo}`, result);
   });
 
   it('groupInvites', () => {
     const result: ParsedSignalRoute = {
       key: 'groupInvites',
-      args: { inviteCode: 'foobar' },
+      args: { inviteCode: fooNoSlash },
     };
     const check = createCheck();
-    check('https://signal.group/#foobar', result);
-    check('https://signal.group#foobar', result);
-    check('sgnl://signal.group/#foobar', result);
-    check('sgnl://signal.group#foobar', result);
-    check('sgnl://joingroup/#foobar', result);
-    check('sgnl://joingroup#foobar', result);
+    check(`https://signal.group/#${fooNoSlash}`, result);
+    check(`https://signal.group#${fooNoSlash}`, result);
+    check(`sgnl://signal.group/#${fooNoSlash}`, result);
+    check(`sgnl://signal.group#${fooNoSlash}`, result);
+    check(`sgnl://joingroup/#${fooNoSlash}`, result);
+    check(`sgnl://joingroup#${fooNoSlash}`, result);
   });
 
   it('linkDevice', () => {
     const result: ParsedSignalRoute = {
       key: 'linkDevice',
-      args: { uuid: 'foo', pubKey: 'bar' },
+      args: { uuid: foo, pubKey: foo },
     };
     const check = createCheck({ hasWebUrl: false });
-    check('sgnl://linkdevice/?uuid=foo&pub_key=bar', result);
-    check('sgnl://linkdevice?uuid=foo&pub_key=bar', result);
+    check(`sgnl://linkdevice/?uuid=${foo}&pub_key=${foo}`, result);
+    check(`sgnl://linkdevice?uuid=${foo}&pub_key=${foo}`, result);
   });
 
   it('captcha', () => {
     const captchaId =
-      'signal-hcaptcha.foo-bar_baz.challenge.foo-bar_baz.foo-bar_baz';
+      'signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz';
     const result: ParsedSignalRoute = {
       key: 'captcha',
       args: { captchaId },
@@ -119,53 +122,59 @@ describe('signalRoutes', () => {
   it('linkCall', () => {
     const result: ParsedSignalRoute = {
       key: 'linkCall',
-      args: { key: 'foobar' },
+      args: { key: foo },
     };
     const check = createCheck();
-    check('https://signal.link/call/#key=foobar', result);
-    check('https://signal.link/call#key=foobar', result);
-    check('sgnl://signal.link/call/#key=foobar', result);
-    check('sgnl://signal.link/call#key=foobar', result);
+    check(`https://signal.link/call/#key=${foo}`, result);
+    check(`https://signal.link/call#key=${foo}`, result);
+    check(`sgnl://signal.link/call/#key=${foo}`, result);
+    check(`sgnl://signal.link/call#key=${foo}`, result);
   });
 
   it('artAuth', () => {
     const result: ParsedSignalRoute = {
       key: 'artAuth',
-      args: { token: 'foo', pubKey: 'bar' },
+      args: { token: foo, pubKey: foo },
     };
     const check = createCheck({ hasWebUrl: false });
-    check('sgnl://art-auth/?token=foo&pub_key=bar', result);
-    check('sgnl://art-auth?token=foo&pub_key=bar', result);
+    check(`sgnl://art-auth/?token=${foo}&pub_key=${foo}`, result);
+    check(`sgnl://art-auth?token=${foo}&pub_key=${foo}`, result);
   });
 
   it('artAddStickers', () => {
     const result: ParsedSignalRoute = {
       key: 'artAddStickers',
-      args: { packId: 'foo', packKey: 'bar' },
+      args: { packId: foo, packKey: foo },
     };
     const check = createCheck();
-    check('https://signal.art/addstickers/#pack_id=foo&pack_key=bar', result);
-    check('https://signal.art/addstickers#pack_id=foo&pack_key=bar', result);
-    check('sgnl://addstickers/?pack_id=foo&pack_key=bar', result);
-    check('sgnl://addstickers?pack_id=foo&pack_key=bar', result);
+    check(
+      `https://signal.art/addstickers/#pack_id=${foo}&pack_key=${foo}`,
+      result
+    );
+    check(
+      `https://signal.art/addstickers#pack_id=${foo}&pack_key=${foo}`,
+      result
+    );
+    check(`sgnl://addstickers/?pack_id=${foo}&pack_key=${foo}`, result);
+    check(`sgnl://addstickers?pack_id=${foo}&pack_key=${foo}`, result);
   });
 
   it('showConversation', () => {
     const check = createCheck({ isRoute: true, hasWebUrl: false });
-    const args1 = 'conversationId=abc';
-    const args2 = 'conversationId=abc&messageId=def';
-    const args3 = 'conversationId=abc&messageId=def&storyId=ghi';
+    const args1 = `conversationId=${foo}`;
+    const args2 = `conversationId=${foo}&messageId=${foo}`;
+    const args3 = `conversationId=${foo}&messageId=${foo}&storyId=${foo}`;
     const result1: ParsedSignalRoute = {
       key: 'showConversation',
-      args: { conversationId: 'abc', messageId: null, storyId: null },
+      args: { conversationId: foo, messageId: null, storyId: null },
     };
     const result2: ParsedSignalRoute = {
       key: 'showConversation',
-      args: { conversationId: 'abc', messageId: 'def', storyId: null },
+      args: { conversationId: foo, messageId: foo, storyId: null },
     };
     const result3: ParsedSignalRoute = {
       key: 'showConversation',
-      args: { conversationId: 'abc', messageId: 'def', storyId: 'ghi' },
+      args: { conversationId: foo, messageId: foo, storyId: foo },
     };
     check(`sgnl://show-conversation/?${args1}`, result1);
     check(`sgnl://show-conversation?${args1}`, result1);
@@ -178,11 +187,11 @@ describe('signalRoutes', () => {
   it('startCallLobby', () => {
     const result: ParsedSignalRoute = {
       key: 'startCallLobby',
-      args: { conversationId: 'abc' },
+      args: { conversationId: foo },
     };
     const check = createCheck({ isRoute: true, hasWebUrl: false });
-    check('sgnl://start-call-lobby/?conversationId=abc', result);
-    check('sgnl://start-call-lobby?conversationId=abc', result);
+    check(`sgnl://start-call-lobby/?conversationId=${foo}`, result);
+    check(`sgnl://start-call-lobby?conversationId=${foo}`, result);
   });
 
   it('showWindow', () => {
