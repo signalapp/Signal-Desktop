@@ -203,7 +203,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     return null;
   }
 
-  private renderAvatar(): ReactNode {
+  private renderAvatar(onClickFallback: undefined | (() => void)): ReactNode {
     const {
       acceptedMessageRequest,
       avatarPath,
@@ -242,7 +242,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
                     storyViewMode: StoryViewModeType.User,
                   });
                 }
-              : undefined
+              : onClickFallback
           }
           phoneNumber={phoneNumber}
           profileName={profileName}
@@ -704,7 +704,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         throw missingCaseError(type);
     }
 
-    const avatar = this.renderAvatar();
+    const avatar = this.renderAvatar(onClick);
     const contents = (
       <div className="module-ConversationHeader__header__info">
         {this.renderHeaderInfoTitle()}
