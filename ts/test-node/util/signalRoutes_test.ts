@@ -106,12 +106,14 @@ describe('signalRoutes', () => {
   });
 
   it('captcha', () => {
+    const captchaId =
+      'signal-hcaptcha.foo-bar_baz.challenge.foo-bar_baz.foo-bar_baz';
     const result: ParsedSignalRoute = {
       key: 'captcha',
-      args: { captchaId: 'foobar' },
+      args: { captchaId },
     };
     const check = createCheck({ hasWebUrl: false });
-    check('signalcaptcha://foobar', result);
+    check(`signalcaptcha://${captchaId}`, result);
   });
 
   it('linkCall', () => {
