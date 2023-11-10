@@ -63,13 +63,6 @@ export const VALIDATION = {
   CLOSED_GROUP_SIZE_LIMIT: 100,
 };
 
-export const UI = {
-  COLORS: {
-    // COMMON
-    GREEN: '#00F782',
-  },
-};
-
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
 export const REACT_LIMIT = 6;
 
