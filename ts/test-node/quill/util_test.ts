@@ -224,6 +224,42 @@ describe('getTextAndRangesFromOps', () => {
       ]);
     });
 
+    it('does not trim at beginning of the message if monospace', () => {
+      const ops = [
+        {
+          insert: '  ',
+        },
+        {
+          insert: '  Text with leading ',
+          attributes: { monospace: true },
+        },
+        {
+          insert: 'whitespace!!',
+          attributes: { bold: true, italic: true },
+        },
+      ];
+      const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+      assert.equal(text, '  Text with leading whitespace!!');
+      assert.equal(bodyRanges.length, 3);
+      assert.deepEqual(bodyRanges, [
+        {
+          start: 0,
+          length: 20,
+          style: BodyRange.Style.MONOSPACE,
+        },
+        {
+          start: 20,
+          length: 12,
+          style: BodyRange.Style.BOLD,
+        },
+        {
+          start: 20,
+          length: 12,
+          style: BodyRange.Style.ITALIC,
+        },
+      ]);
+    });
+
     it('handles formatting of whitespace at beginning/ending of message', () => {
       const ops = [
         {
