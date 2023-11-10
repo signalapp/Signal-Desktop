@@ -110,7 +110,7 @@ type PartialNullable<T> = {
 type RouteConfig<Args extends object> = {
   patterns: Array<URLMatcher>;
   schema: z.ZodType<Args>;
-  parse(result: URLPatternResult): PartialNullable<Args>;
+  parse(result: URLPatternResult, url: URL): PartialNullable<Args>;
   toWebUrl?(args: Args): URL;
   toAppUrl?(args: Args): URL;
 };
@@ -154,7 +154,7 @@ function _route<Key extends string, Args extends object>(
         if (result) {
           return {
             key,
-            args: config.schema.parse(config.parse(result)),
+            args: config.schema.parse(config.parse(result, url)),
           };
         }
       }
@@ -330,9 +330,9 @@ export const captchaRoute = _route('captcha', {
   schema: z.object({
     captchaId: paramSchema, // opaque
   }),
-  parse(result) {
+  parse(_result, url) {
     return {
-      captchaId: result.hostname.groups.captchaId,
+      captchaId: url.hostname,
     };
   },
   toAppUrl(args) {
