@@ -157,6 +157,7 @@ export const getTextAndRangesFromOps = (
   ops: Array<Op>
 ): { text: string; bodyRanges: DraftBodyRanges } => {
   const startingBodyRanges: Array<DraftBodyRange> = [];
+  let earliestMonospaceIndex = Number.MAX_SAFE_INTEGER;
   let formats: Record<BodyRange.Style, { start: number } | undefined> = {
     [BOLD]: undefined,
     [ITALIC]: undefined,
@@ -174,6 +175,12 @@ export const getTextAndRangesFromOps = (
 
     // Start or finish format sections as needed
     formats = extractAllFormats(startingBodyRanges, formats, acc.length, op);
+
+    const newMonospaceStart =
+      formats[MONOSPACE]?.start ?? earliestMonospaceIndex;
+    if (newMonospaceStart < earliestMonospaceIndex) {
+      earliestMonospaceIndex = newMonospaceStart;
+    }
 
     if (typeof op.insert === 'string') {
       return acc + op.insert;
@@ -201,8 +208,15 @@ export const getTextAndRangesFromOps = (
   extractAllFormats(startingBodyRanges, formats, preTrimText.length);
 
   // Now repair bodyRanges after trimming
-  const trimStart = preTrimText.trimStart();
-  const trimmedFromStart = preTrimText.length - trimStart.length;
+  let trimStart = preTrimText.trimStart();
+  let trimmedFromStart = preTrimText.length - trimStart.length;
+
+  // We don't want to trim leading monospace text
+  if (earliestMonospaceIndex < trimmedFromStart) {
+    trimStart = preTrimText.slice(earliestMonospaceIndex);
+    trimmedFromStart = earliestMonospaceIndex;
+  }
+
   const text = trimStart.trimEnd();
   const textLength = text.length;
 
