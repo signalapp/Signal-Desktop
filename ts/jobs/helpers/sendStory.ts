@@ -444,6 +444,7 @@ export async function sendStory(
                 reason:
                   'conversationJobQueue.run(' +
                   `${conversation.idForLogging()}, story, ${timestamp}/${distributionId})`,
+                silent: false,
               },
               error.data
             );

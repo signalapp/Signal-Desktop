@@ -35,7 +35,12 @@ describe('scaleImageToLevel', () => {
       testCases.map(
         async ({ path, contentType, expectedWidth, expectedHeight }) => {
           const blob = await getBlob(path);
-          const scaled = await scaleImageToLevel(blob, contentType, true);
+          const scaled = await scaleImageToLevel(
+            blob,
+            contentType,
+            blob.size,
+            true
+          );
 
           const data = await loadImage(scaled.blob, { orientation: true });
           const { originalWidth: width, originalHeight: height } = data;
@@ -56,7 +61,7 @@ describe('scaleImageToLevel', () => {
       'Test setup failure: expected fixture to have EXIF data'
     );
 
-    const scaled = await scaleImageToLevel(original, IMAGE_JPEG, true);
+    const scaled = await scaleImageToLevel(original, IMAGE_JPEG, original.size);
     assert.isUndefined(
       (await loadImage(scaled.blob, { meta: true, orientation: true })).exif
     );

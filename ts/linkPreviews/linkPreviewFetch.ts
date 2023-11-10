@@ -612,6 +612,7 @@ export async function fetchLinkPreviewImage(
     const { blob: xcodedDataBlob } = await scaleImageToLevel(
       dataBlob,
       contentType,
+      dataBlob.size,
       false
     );
     const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);

@@ -51,11 +51,8 @@ import type {
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
-import type {
-  HydratedBodyRangeMention,
-  HydratedBodyRangesType,
-} from '../../types/BodyRange';
-import { BodyRange, hydrateRanges } from '../../types/BodyRange';
+import type { HydratedBodyRangesType } from '../../types/BodyRange';
+import { hydrateRanges } from '../../types/BodyRange';
 import type { AssertProps } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
@@ -334,29 +331,6 @@ export const processBodyRanges = (
   return hydrateRanges(bodyRanges, options.conversationSelector)?.sort(
     (a, b) => b.start - a.start
   );
-};
-
-export const extractHydratedMentions = (
-  { bodyRanges }: Pick<MessageWithUIFieldsType, 'bodyRanges'>,
-  options: { conversationSelector: GetConversationByIdType }
-): ReadonlyArray<HydratedBodyRangeMention> | undefined => {
-  if (!bodyRanges) {
-    return undefined;
-  }
-
-  return bodyRanges
-    .filter(BodyRange.isMention)
-    .map(range => {
-      const { conversationSelector } = options;
-      const conversation = conversationSelector(range.mentionAci);
-
-      return {
-        ...range,
-        conversationID: conversation.id,
-        replacementText: conversation.title,
-      };
-    })
-    .sort((a, b) => b.start - a.start);
 };
 
 const getAuthorForMessage = (
@@ -676,6 +650,9 @@ export const getPropsForMessage = (
   message: MessageWithUIFieldsType,
   options: GetPropsForMessageOptions
 ): Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'> => {
+  const attachmentDroppedDueToSize = message.attachments?.some(
+    item => item.wasTooBig
+  );
   const attachments = getAttachmentsForMessage(message);
   const bodyRanges = processBodyRanges(message, options);
   const author = getAuthorForMessage(message, options);
@@ -734,6 +711,7 @@ export const getPropsForMessage = (
 
   return {
     attachments,
+    attachmentDroppedDueToSize,
     author,
     bodyRanges,
     previews,
@@ -786,6 +764,7 @@ export const getPropsForMessage = (
     text: message.body,
     textDirection: getTextDirection(message.body),
     timestamp: getMessageSentTimestamp(message, { includeEdits: true, log }),
+    receivedAtMS: message.received_at_ms,
   };
 };
 

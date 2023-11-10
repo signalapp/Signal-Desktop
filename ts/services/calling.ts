@@ -40,6 +40,7 @@ import {
 import { uniqBy, noop } from 'lodash';
 
 import Long from 'long';
+import * as RemoteConfig from '../RemoteConfig';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
@@ -383,6 +384,10 @@ export class CallingClass {
     });
 
     void this.cleanExpiredGroupCallRingsAndLoop();
+
+    if (process.platform === 'darwin') {
+      drop(this.enumerateMediaDevices());
+    }
   }
 
   private attemptToGiveOurServiceIdToRingRtc(): void {
@@ -1395,13 +1400,20 @@ export class CallingClass {
     this.videoCapturer.disable();
     if (source) {
       this.hadLocalVideoBeforePresenting = hasLocalVideo;
-      this.videoCapturer.enableCaptureAndSend(call, {
+      const options = {
         // 15fps is much nicer but takes up a lot more CPU.
         maxFramerate: 5,
         maxHeight: 1080,
         maxWidth: 1920,
         screenShareSourceId: source.id,
-      });
+      };
+
+      if (RemoteConfig.isEnabled('desktop.calling.sendScreenShare1800')) {
+        options.maxWidth = 2880;
+        options.maxHeight = 1800;
+      }
+
+      this.videoCapturer.enableCaptureAndSend(call, options);
       this.setOutgoingVideo(conversationId, true);
     } else {
       this.setOutgoingVideo(
@@ -2432,6 +2444,23 @@ export class CallingClass {
     setTimeout(() => {
       void this.cleanExpiredGroupCallRingsAndLoop();
     }, CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL);
+  }
+
+  // MacOS: Preload devices to work around delay when first entering call lobby
+  // https://bugs.chromium.org/p/chromium/issues/detail?id=1287628
+  private async enumerateMediaDevices(): Promise<void> {
+    try {
+      const microphoneStatus = await window.IPC.getMediaAccessStatus(
+        'microphone'
+      );
+      if (microphoneStatus !== 'granted') {
+        return;
+      }
+
+      drop(window.navigator.mediaDevices.enumerateDevices());
+    } catch (error) {
+      log.error('enumerateMediaDevices failed:', Errors.toLogFormat(error));
+    }
   }
 }
 

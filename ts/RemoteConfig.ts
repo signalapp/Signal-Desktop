@@ -10,13 +10,14 @@ import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { SECOND, HOUR } from './util/durations';
 import * as Bytes from './Bytes';
 import { uuidToBytes } from './util/uuidToBytes';
+import { dropNull } from './util/dropNull';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
   | 'cds.disableCompatibilityMode'
   | 'desktop.announcementGroup'
-  | 'desktop.calling.audioLevelForSpeaking'
+  | 'desktop.calling.sendScreenShare1800'
   | 'desktop.cdsi.returnAcisWithoutUaks'
   | 'desktop.clientExpiration'
   | 'desktop.editMessageSend'
@@ -31,8 +32,6 @@ export type ConfigKeyType =
   | 'desktop.pnp'
   | 'desktop.pnp.accountE164Deprecation'
   | 'desktop.retryRespondMaxAge'
-  | 'desktop.safetyNumberAci'
-  | 'desktop.safetyNumberAci.beta'
   | 'desktop.senderKey.retry'
   | 'desktop.senderKey.send'
   | 'desktop.senderKeyMaxAge'
@@ -45,18 +44,18 @@ export type ConfigKeyType =
   | 'desktop.textFormatting'
   | 'desktop.usernames'
   | 'global.attachments.maxBytes'
+  | 'global.attachments.maxReceiveBytes'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
   | 'global.nicknames.max'
-  | 'global.nicknames.min'
-  | 'global.safetyNumberAci';
+  | 'global.nicknames.min';
 
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
   enabledAt?: number;
-  value?: unknown;
+  value?: string;
 };
 export type ConfigMapType = {
   [key in ConfigKeyType]?: ConfigValueType;
@@ -107,7 +106,11 @@ export const refreshRemoteConfig = async (
   const oldConfig = config;
   config = newConfig.reduce((acc, { name, enabled, value }) => {
     const previouslyEnabled: boolean = get(oldConfig, [name, 'enabled'], false);
-    const previousValue: unknown = get(oldConfig, [name, 'value'], undefined);
+    const previousValue: string | undefined = get(
+      oldConfig,
+      [name, 'value'],
+      undefined
+    );
     // If a flag was previously not enabled and is now enabled,
     // record the time it was enabled
     const enabledAt: number | undefined =
@@ -117,7 +120,7 @@ export const refreshRemoteConfig = async (
       name: name as ConfigKeyType,
       enabled,
       enabledAt,
-      value,
+      value: dropNull(value),
     };
 
     const hasChanged =

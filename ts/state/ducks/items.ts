@@ -85,7 +85,6 @@ export type ItemsActionType = ReadonlyDeep<
 export const actions = {
   addCustomColor,
   editCustomColor,
-  markHasCompletedSafetyNumberOnboarding,
   removeCustomColor,
   resetDefaultChatColor,
   savePreferredLeftPaneWidth,
@@ -280,17 +279,6 @@ function savePreferredLeftPaneWidth(
 ): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
   return dispatch => {
     dispatch(putItem('preferredLeftPaneWidth', preferredWidth));
-  };
-}
-
-function markHasCompletedSafetyNumberOnboarding(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ItemPutAction
-> {
-  return dispatch => {
-    dispatch(putItem('hasCompletedSafetyNumberOnboarding', true));
   };
 }
 

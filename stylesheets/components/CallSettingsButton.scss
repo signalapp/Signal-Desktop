@@ -7,14 +7,14 @@
 
 .CallSettingsButton__Button {
   align-items: center;
-  background-color: rgba($color-gray-80, 0.7);
+  background-color: $color-gray-78;
   border: none;
   border-radius: 40px;
   display: flex;
-  height: 32px;
+  height: 36px;
   justify-content: center;
   outline: none;
-  width: 32px;
+  width: 36px;
 
   @include keyboard-mode {
     &:focus {
@@ -25,8 +25,8 @@
 }
 
 .CallSettingsButton__Icon {
-  height: 18px;
-  width: 18px;
+  height: 20px;
+  width: 20px;
   border: none;
 }
 

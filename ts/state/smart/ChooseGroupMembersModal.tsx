@@ -16,6 +16,7 @@ import { getUsernamesEnabled } from '../selectors/items';
 import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
+  getMe,
 } from '../selectors/conversations';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 
@@ -54,6 +55,7 @@ const mapStateToProps = (
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     theme: getTheme(state),
+    ourUsername: getMe(state).username,
     selectedContacts,
     lookupConversationWithoutServiceId,
     isUsernamesEnabled: getUsernamesEnabled(state),

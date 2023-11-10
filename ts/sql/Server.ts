@@ -577,7 +577,6 @@ SQL.setLogHandler((code, value) => {
 });
 
 async function initialize({
-  appVersion,
   configDir,
   key,
   logger: suppliedLogger,
@@ -619,7 +618,7 @@ async function initialize({
     // For profiling use:
     // db.pragma('cipher_profile=\'sqlcipher.log\'');
 
-    updateSchema(writable, logger, appVersion);
+    updateSchema(writable, logger);
 
     readonly = openAndSetUpSQLCipher(databaseFilePath, { key, readonly: true });
 

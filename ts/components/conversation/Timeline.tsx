@@ -243,6 +243,13 @@ export class Timeline extends React.Component<
     if (event.isTrusted) {
       this.scrollerLock.onUserInterrupt('onScroll');
     }
+    // hasRecentlyScrolled is used to show the floating date header, which we only
+    // want to show when scrolling through history or on conversation first open.
+    // Checking bottom prevents new messages and typing from showing the header.
+    if (!this.state.hasRecentlyScrolled && this.isAtBottom()) {
+      return;
+    }
+
     this.setState(oldState =>
       // `onScroll` is called frequently, so it's performance-sensitive. We try our best
       //   to return `null` from this updater because [that won't cause a re-render][0].

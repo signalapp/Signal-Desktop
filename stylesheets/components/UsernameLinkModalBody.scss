@@ -64,6 +64,18 @@
         height: var(--size);
         @include color-svg('../images/signal-qr-logo.svg', var(--fg-color));
       }
+
+      &__error-icon {
+        -webkit-mask-size: 100%;
+        display: block;
+        height: 28px;
+        width: 28px;
+
+        @include color-svg(
+          '../images/icons/v3/error/error-circle.svg',
+          $color-gray-25
+        );
+      }
     }
 
     &__username {
@@ -209,11 +221,31 @@
           );
         }
       }
+
+      &:disabled:after {
+        @include light-theme() {
+          background-color: $color-gray-45;
+        }
+
+        @include dark-theme() {
+          background-color: $color-gray-25;
+        }
+      }
     }
 
     &__text {
       word-break: break-all;
       user-select: text;
+
+      &--resetting {
+        @include light-theme() {
+          color: $color-gray-45;
+        }
+
+        @include dark-theme() {
+          color: $color-gray-25;
+        }
+      }
     }
   }
 

@@ -28,9 +28,16 @@ export default {
     username: {
       control: { type: 'text' },
     },
+    usernameLinkCorrupted: {
+      control: 'boolean',
+    },
     usernameLinkState: {
       control: { type: 'select' },
-      options: [UsernameLinkState.Ready, UsernameLinkState.Updating],
+      options: [
+        UsernameLinkState.Ready,
+        UsernameLinkState.Updating,
+        UsernameLinkState.Error,
+      ],
     },
     colorId: {
       control: { type: 'select' },

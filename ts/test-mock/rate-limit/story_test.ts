@@ -17,7 +17,6 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 describe('story/no-sender-key', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

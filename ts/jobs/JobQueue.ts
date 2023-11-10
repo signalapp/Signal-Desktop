@@ -13,6 +13,7 @@ import * as log from '../logging/log';
 import { JobLogger } from './JobLogger';
 import * as Errors from '../types/errors';
 import type { LoggerType } from '../types/Logging';
+import { drop } from '../util/drop';
 
 const noopOnCompleteCallbacks = {
   resolve: noop,
@@ -42,6 +43,12 @@ type JobQueueOptions = {
    */
   logger?: LoggerType;
 };
+
+export enum JOB_STATUS {
+  SUCCESS = 'SUCCESS',
+  NEEDS_RETRY = 'NEEDS_RETRY',
+  ERROR = 'ERROR',
+}
 
 export abstract class JobQueue<T> {
   private readonly maxAttempts: number;
@@ -119,7 +126,7 @@ export abstract class JobQueue<T> {
   protected abstract run(
     job: Readonly<ParsedJob<T>>,
     extra?: Readonly<{ attempt?: number; log?: LoggerType }>
-  ): Promise<void>;
+  ): Promise<JOB_STATUS.NEEDS_RETRY | undefined>;
 
   protected getQueues(): ReadonlySet<PQueue> {
     return new Set([this.defaultInMemoryQueue]);
@@ -144,7 +151,7 @@ export abstract class JobQueue<T> {
         log.info(`${this.logPrefix} is shutting down. Can't accept more work.`);
         break;
       }
-      void this.enqueueStoredJob(storedJob);
+      drop(this.enqueueStoredJob(storedJob));
     }
   }
 
@@ -201,7 +208,9 @@ export abstract class JobQueue<T> {
     return this.defaultInMemoryQueue;
   }
 
-  private async enqueueStoredJob(storedJob: Readonly<StoredJob>) {
+  protected async enqueueStoredJob(
+    storedJob: Readonly<StoredJob>
+  ): Promise<void> {
     assertDev(
       storedJob.queueType === this.queueType,
       'Received a mis-matched queue type'
@@ -242,50 +251,78 @@ export abstract class JobQueue<T> {
 
     const result:
       | undefined
-      | { success: true }
-      | { success: false; err: unknown } = await queue.add(async () => {
-      for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
-        const isFinalAttempt = attempt === this.maxAttempts;
+      | { status: JOB_STATUS.SUCCESS }
+      | { status: JOB_STATUS.NEEDS_RETRY }
+      | { status: JOB_STATUS.ERROR; err: unknown } = await queue.add(
+      async () => {
+        for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
+          const isFinalAttempt = attempt === this.maxAttempts;
 
-        logger.attempt = attempt;
+          logger.attempt = attempt;
 
-        log.info(
-          `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
-        );
-
-        if (this.isShuttingDown) {
-          log.warn(
-            `${this.logPrefix} returning early for job ${storedJob.id}; shutting down`
-          );
-          return { success: false, err: new Error('Shutting down') };
-        }
-
-        try {
-          // We want an `await` in the loop, as we don't want a single job running more
-          //   than once at a time. Ideally, the job will succeed on the first attempt.
-          // eslint-disable-next-line no-await-in-loop
-          await this.run(parsedJob, { attempt, log: logger });
           log.info(
-            `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
+            `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
           );
-          return { success: true };
-        } catch (err: unknown) {
-          log.error(
-            `${this.logPrefix} job ${
-              storedJob.id
-            } failed on attempt ${attempt}. ${Errors.toLogFormat(err)}`
-          );
-          if (isFinalAttempt) {
-            return { success: false, err };
+
+          if (this.isShuttingDown) {
+            log.warn(
+              `${this.logPrefix} returning early for job ${storedJob.id}; shutting down`
+            );
+            return {
+              status: JOB_STATUS.ERROR,
+              err: new Error('Shutting down'),
+            };
+          }
+
+          try {
+            // We want an `await` in the loop, as we don't want a single job running more
+            //   than once at a time. Ideally, the job will succeed on the first attempt.
+            // eslint-disable-next-line no-await-in-loop
+            const jobStatus = await this.run(parsedJob, {
+              attempt,
+              log: logger,
+            });
+            if (!jobStatus) {
+              log.info(
+                `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
+              );
+              return { status: JOB_STATUS.SUCCESS };
+            }
+            log.info(
+              `${this.logPrefix} job ${storedJob.id} returned status ${jobStatus} on attempt ${attempt}`
+            );
+            return { status: jobStatus };
+          } catch (err: unknown) {
+            log.error(
+              `${this.logPrefix} job ${
+                storedJob.id
+              } failed on attempt ${attempt}. ${Errors.toLogFormat(err)}`
+            );
+            if (isFinalAttempt) {
+              return { status: JOB_STATUS.ERROR, err };
+            }
           }
         }
+
+        // This should never happen. See the assertion below.
+        return undefined;
       }
+    );
 
-      // This should never happen. See the assertion below.
-      return undefined;
-    });
-
-    if (result?.success || !this.isShuttingDown) {
+    if (result?.status === JOB_STATUS.NEEDS_RETRY) {
+      const addJobSuccess = await this.retryJobOnQueueIdle({
+        storedJob,
+        job: parsedJob,
+        logger,
+      });
+      if (!addJobSuccess) {
+        await this.store.delete(storedJob.id);
+      }
+    }
+    if (
+      result?.status === JOB_STATUS.SUCCESS ||
+      (result?.status === JOB_STATUS.ERROR && !this.isShuttingDown)
+    ) {
       await this.store.delete(storedJob.id);
     }
 
@@ -293,11 +330,24 @@ export abstract class JobQueue<T> {
       result,
       'The job never ran. This indicates a developer error in the job queue'
     );
-    if (result.success) {
-      resolve();
-    } else {
+    if (result.status === JOB_STATUS.ERROR) {
       reject(result.err);
+    } else {
+      resolve();
     }
+  }
+
+  async retryJobOnQueueIdle({
+    logger,
+  }: {
+    job: Readonly<ParsedJob<T>>;
+    storedJob: Readonly<StoredJob>;
+    logger: LoggerType;
+  }): Promise<boolean> {
+    logger.error(
+      `retryJobOnQueueIdle: not implemented for queue ${this.queueType}; dropping job`
+    );
+    return false;
   }
 
   async shutdown(): Promise<void> {

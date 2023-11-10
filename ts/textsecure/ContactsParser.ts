@@ -1,159 +1,216 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
-import protobuf from '../protobuf/wrap';
+import { createReadStream } from 'fs';
+import { Transform } from 'stream';
+import { pipeline } from 'stream/promises';
 
 import { SignalService as Proto } from '../protobuf';
+import protobuf from '../protobuf/wrap';
 import { normalizeAci } from '../util/normalizeAci';
 import { isAciString } from '../util/isAciString';
 import { DurationInSeconds } from '../util/durations';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
+import type { ContactAvatarType } from '../types/Avatar';
+import { computeHash } from '../Crypto';
+import { dropNull } from '../util/dropNull';
 
 import Avatar = Proto.ContactDetails.IAvatar;
 
 const { Reader } = protobuf;
 
-type OptionalFields = { avatar?: Avatar | null; expireTimer?: number | null };
-
-type DecoderBase<Message extends OptionalFields> = {
-  decodeDelimited(reader: protobuf.Reader): Message | undefined;
+type OptionalFields = {
+  avatar?: Avatar | null;
+  expireTimer?: number | null;
+  number?: string | null;
 };
-
-type HydratedAvatar = Avatar & { data: Uint8Array };
 
 type MessageWithAvatar<Message extends OptionalFields> = Omit<
   Message,
-  'avatar'
+  'avatar' | 'toJSON'
 > & {
-  avatar?: HydratedAvatar;
+  avatar?: ContactAvatarType;
   expireTimer?: DurationInSeconds;
+  number?: string | undefined;
 };
 
-export type ModifiedContactDetails = MessageWithAvatar<Proto.ContactDetails>;
+export type ContactDetailsWithAvatar = MessageWithAvatar<Proto.IContactDetails>;
 
-/* eslint-disable @typescript-eslint/brace-style -- Prettier conflicts with ESLint */
-abstract class ParserBase<
-  Message extends OptionalFields,
-  Decoder extends DecoderBase<Message>,
-  Result
-> implements Iterable<Result>
-{
-  /* eslint-enable @typescript-eslint/brace-style */
+export async function parseContactsV2({
+  absolutePath,
+}: {
+  absolutePath: string;
+}): Promise<ReadonlyArray<ContactDetailsWithAvatar>> {
+  const logId = 'parseContactsV2';
 
-  protected readonly reader: protobuf.Reader;
+  const readStream = createReadStream(absolutePath);
+  const parseContactsTransform = new ParseContactsTransform();
 
-  constructor(bytes: Uint8Array, private readonly decoder: Decoder) {
-    this.reader = new Reader(bytes);
+  try {
+    await pipeline(readStream, parseContactsTransform);
+  } catch (error) {
+    try {
+      readStream.close();
+    } catch (cleanupError) {
+      log.error(
+        `${logId}: Failed to clean up after error`,
+        Errors.toLogFormat(cleanupError)
+      );
+    }
+
+    throw error;
   }
 
-  protected decodeDelimited(): MessageWithAvatar<Message> | undefined {
-    if (this.reader.pos === this.reader.len) {
-      return undefined; // eof
+  readStream.close();
+
+  return parseContactsTransform.contacts;
+}
+
+// This transform pulls contacts and their avatars from a stream of bytes. This is tricky,
+//   because the chunk boundaries might fall in the middle of a contact or their avatar.
+//   So we are ready for decodeDelimited() to throw, and to keep activeContact around
+//   while we wait for more chunks to get to the expected avatar size.
+// Note: exported only for testing
+export class ParseContactsTransform extends Transform {
+  public contacts: Array<ContactDetailsWithAvatar> = [];
+
+  public activeContact: Proto.ContactDetails | undefined;
+  private unused: Uint8Array | undefined;
+
+  override async _transform(
+    chunk: Buffer | undefined,
+    _encoding: string,
+    done: (error?: Error) => void
+  ): Promise<void> {
+    if (!chunk || chunk.byteLength === 0) {
+      done();
+      return;
     }
 
     try {
-      const proto = this.decoder.decodeDelimited(this.reader);
-
-      if (!proto) {
-        return undefined;
+      let data = chunk;
+      if (this.unused) {
+        data = Buffer.concat([this.unused, data]);
+        this.unused = undefined;
       }
 
-      let avatar: HydratedAvatar | undefined;
-      if (proto.avatar) {
-        const attachmentLen = proto.avatar.length ?? 0;
-        const avatarData = this.reader.buf.slice(
-          this.reader.pos,
-          this.reader.pos + attachmentLen
-        );
-        this.reader.skip(attachmentLen);
+      const reader = Reader.create(data);
+      while (reader.pos < reader.len) {
+        const startPos = reader.pos;
 
-        avatar = {
-          ...proto.avatar,
+        if (!this.activeContact) {
+          try {
+            this.activeContact = Proto.ContactDetails.decodeDelimited(reader);
+          } catch (err) {
+            // We get a RangeError if there wasn't enough data to read the next record.
+            if (err instanceof RangeError) {
+              // Note: A failed decodeDelimited() does in fact update reader.pos, so we
+              //   must reset to startPos
+              this.unused = data.subarray(startPos);
+              done();
+              return;
+            }
 
-          data: avatarData,
-        };
+            // Something deeper has gone wrong; the proto is malformed or something
+            done(err);
+            return;
+          }
+        }
+
+        // Something has really gone wrong if the above parsing didn't throw but gave
+        //   us nothing back. Let's end the parse.
+        if (!this.activeContact) {
+          done(new Error('ParseContactsTransform: No active contact!'));
+          return;
+        }
+
+        const attachmentSize = this.activeContact?.avatar?.length ?? 0;
+        if (attachmentSize === 0) {
+          // No avatar attachment for this contact
+          const prepared = prepareContact(this.activeContact);
+          if (prepared) {
+            this.contacts.push(prepared);
+          }
+          this.activeContact = undefined;
+
+          continue;
+        }
+
+        const spaceLeftAfterRead = reader.len - (reader.pos + attachmentSize);
+        if (spaceLeftAfterRead >= 0) {
+          // We've read enough data to read the entire attachment
+          const avatarData = reader.buf.slice(
+            reader.pos,
+            reader.pos + attachmentSize
+          );
+          const hash = computeHash(data);
+
+          // eslint-disable-next-line no-await-in-loop
+          const path = await window.Signal.Migrations.writeNewAttachmentData(
+            avatarData
+          );
+
+          const prepared = prepareContact(this.activeContact, {
+            ...this.activeContact.avatar,
+            hash,
+            path,
+          });
+          if (prepared) {
+            this.contacts.push(prepared);
+          } else {
+            // eslint-disable-next-line no-await-in-loop
+            await window.Signal.Migrations.deleteAttachmentData(path);
+          }
+          this.activeContact = undefined;
+
+          reader.skip(attachmentSize);
+        } else {
+          // We have an attachment, but we haven't read enough data yet. We need to
+          //   wait for another chunk.
+          this.unused = data.subarray(reader.pos);
+          done();
+          return;
+        }
       }
 
-      let expireTimer: DurationInSeconds | undefined;
-
-      if (proto.expireTimer != null) {
-        expireTimer = DurationInSeconds.fromSeconds(proto.expireTimer);
-      }
-
-      return {
-        ...proto,
-
-        avatar,
-        expireTimer,
-      };
+      // No need to push; no downstream consumers!
     } catch (error) {
-      log.error('ProtoParser.next error:', Errors.toLogFormat(error));
-      return undefined;
+      done(error);
+      return;
     }
-  }
 
-  public abstract next(): Result | undefined;
-
-  *[Symbol.iterator](): Iterator<Result> {
-    let result = this.next();
-    while (result !== undefined) {
-      yield result;
-      result = this.next();
-    }
+    done();
   }
 }
 
-export class ContactBuffer extends ParserBase<
-  Proto.ContactDetails,
-  typeof Proto.ContactDetails,
-  ModifiedContactDetails
-> {
-  constructor(arrayBuffer: Uint8Array) {
-    super(arrayBuffer, Proto.ContactDetails);
-  }
+function prepareContact(
+  proto: Proto.ContactDetails,
+  avatar?: ContactAvatarType
+): ContactDetailsWithAvatar | undefined {
+  const aci = proto.aci
+    ? normalizeAci(proto.aci, 'ContactBuffer.aci')
+    : proto.aci;
 
-  public override next(): ModifiedContactDetails | undefined {
-    while (this.reader.pos < this.reader.len) {
-      const proto = this.decodeDelimited();
-      if (!proto) {
-        return undefined;
-      }
+  const expireTimer =
+    proto.expireTimer != null
+      ? DurationInSeconds.fromSeconds(proto.expireTimer)
+      : undefined;
 
-      if (!proto.aci) {
-        return proto;
-      }
-
-      const { verified } = proto;
-
-      if (
-        !isAciString(proto.aci) ||
-        (verified?.destinationAci && !isAciString(verified.destinationAci))
-      ) {
-        continue;
-      }
-
-      return {
-        ...proto,
-
-        verified:
-          verified && verified.destinationAci
-            ? {
-                ...verified,
-
-                destinationAci: normalizeAci(
-                  verified.destinationAci,
-                  'ContactBuffer.verified.destinationAci'
-                ),
-              }
-            : verified,
-
-        aci: normalizeAci(proto.aci, 'ContactBuffer.aci'),
-      };
-    }
+  // We reject incoming contacts with invalid aci information
+  if (proto.aci && !isAciString(proto.aci)) {
+    log.warn('ParseContactsTransform: Dropping contact with invalid aci');
 
     return undefined;
   }
+
+  const result = {
+    ...proto,
+    expireTimer,
+    aci,
+    avatar,
+    number: dropNull(proto.number),
+  };
+
+  return result;
 }

@@ -5,6 +5,7 @@ import type { ThunkAction } from 'redux-thunk';
 import {
   difference,
   fromPairs,
+  isEqual,
   omit,
   orderBy,
   pick,
@@ -28,10 +29,12 @@ import * as Attachment from '../../types/Attachment';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import type {
   ShowSendAnywayDialogActionType,
+  ShowErrorModalActionType,
   ToggleProfileEditorErrorActionType,
 } from './globalModals';
 import {
   SHOW_SEND_ANYWAY_DIALOG,
+  SHOW_ERROR_MODAL,
   TOGGLE_PROFILE_EDITOR_ERROR,
 } from './globalModals';
 import {
@@ -89,6 +92,7 @@ import {
   getMe,
   getMessagesByConversation,
 } from '../selectors/conversations';
+import { getIntl } from '../selectors/user';
 import type { AvatarDataType, AvatarUpdateType } from '../../types/Avatar';
 import { getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
@@ -163,7 +167,11 @@ import {
 } from './composer';
 import { ReceiptType } from '../../types/Receipt';
 import { Sound, SoundType } from '../../util/Sound';
-import { canEditMessage } from '../../util/canEditMessage';
+import {
+  canEditMessage,
+  isWithinMaxEdits,
+  MESSAGE_MAX_EDIT_COUNT,
+} from '../../util/canEditMessage';
 import type { ChangeNavTabActionType } from './nav';
 import { CHANGE_NAV_TAB, NavTab, actions as navActions } from './nav';
 import { sortByMessageOrder } from '../../types/ForwardDraft';
@@ -250,7 +258,6 @@ export type ConversationType = ReadonlyDeep<
     customColorId?: string;
     discoveredUnregisteredAt?: number;
     hideStory?: boolean;
-    hiddenFromConversationSearch?: boolean;
     isArchived?: boolean;
     isBlocked?: boolean;
     removalStage?: 'justNotification' | 'messageRequest';
@@ -1770,7 +1777,12 @@ function discardEditMessage(
 function setMessageToEdit(
   conversationId: string,
   messageId: string
-): ThunkAction<void, RootStateType, unknown, SetFocusActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetFocusActionType | ShowErrorModalActionType
+> {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
 
@@ -1784,6 +1796,20 @@ function setMessageToEdit(
     }
 
     if (!canEditMessage(message) || !message.body) {
+      return;
+    }
+
+    if (!isWithinMaxEdits(message)) {
+      const i18n = getIntl(getState());
+      dispatch({
+        type: SHOW_ERROR_MODAL,
+        payload: {
+          title: i18n('icu:MessageMaxEditsModal__Title'),
+          description: i18n('icu:MessageMaxEditsModal__Description', {
+            max: MESSAGE_MAX_EDIT_COUNT,
+          }),
+        },
+      });
       return;
     }
 
@@ -2956,12 +2982,19 @@ function pushPanelForConversation(
   panel: PanelRequestType
 ): ThunkAction<void, RootStateType, unknown, PushPanelActionType> {
   return async (dispatch, getState) => {
+    const { conversations } = getState();
+    const { targetedConversationPanels } = conversations;
+    const activePanel =
+      targetedConversationPanels.stack[targetedConversationPanels.watermark];
+    if (panel.type === activePanel?.type && isEqual(panel, activePanel)) {
+      return;
+    }
+
     if (panel.type === PanelType.MessageDetails) {
       const { messageId } = panel.args;
-      const state = getState();
 
       const message =
-        state.conversations.messagesLookup[messageId] ||
+        conversations.messagesLookup[messageId] ||
         (await __DEPRECATED$getMessageById(messageId))?.attributes;
       if (!message) {
         throw new Error(

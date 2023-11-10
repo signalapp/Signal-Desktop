@@ -2,19 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .CallControls {
-  position: static;
+  position: relative;
   bottom: 0;
   display: flex;
-  flex-grow: 0;
+  flex-grow: 1;
   flex-shrink: 0;
+  flex-basis: 440px;
   align-items: center;
   justify-content: space-between;
-  width: 480px;
-  min-width: 480px;
+  max-width: 600px;
   height: 80px;
   background-color: $color-gray-78;
+  box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
   border-radius: 18px;
   margin-block-end: 16px;
+  margin-inline: 16px;
   padding-block: 22px;
   padding-inline: 24px;
   text-align: center;
@@ -30,6 +32,7 @@
 .CallControls__CallTitle {
   display: flex;
   max-height: 40px;
+  margin-block-end: 2px;
   color: $color-gray-15;
   font-size: 14px;
   font-weight: bold;
@@ -105,4 +108,10 @@
 
 .CallControls__JoinLeaveButton .module-spinner__container {
   margin-block: -5px;
+}
+
+.CallControls__OuterSpacer {
+  // Defined in _modules but duplicated here for ease of refactor
+  $local-preview-width: 108px;
+  flex-basis: calc($local-preview-width + 16px);
 }

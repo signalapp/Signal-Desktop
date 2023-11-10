@@ -60,3 +60,4 @@ window.textsecure.storage.protocol = window.getSignalProtocolStore();
 })();
 
 window.getPreferredSystemLocales = () => ['en'];
+window.getLocaleOverride = () => null;

@@ -5,6 +5,7 @@ import { Proto } from '@signalapp/mock-server';
 import { assert } from 'chai';
 import createDebug from 'debug';
 import Long from 'long';
+import type { Page } from 'playwright';
 
 import type { App } from '../playwright';
 import * as durations from '../../util/durations';
@@ -12,7 +13,6 @@ import { Bootstrap } from '../bootstrap';
 import { ReceiptType } from '../../types/Receipt';
 import { SendStatus } from '../../messages/MessageSendState';
 import { drop } from '../../util/drop';
-import { sleep } from '../../util/sleep';
 import { strictAssert } from '../../util/assert';
 import { generateAci } from '../../types/ServiceId';
 import { IMAGE_GIF } from '../../types/MIME';
@@ -88,7 +88,6 @@ function createEditedMessage(
 
 describe('editing', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
@@ -147,7 +146,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator(`.module-message__text >> "${initialMessageBody}"`)
         .waitFor();
 
-      debug('waiting for receipts for original message');
+      debug('waiting for outgoing receipts for original message');
       const receipts = await app.waitForReceipts();
       assert.strictEqual(receipts.type, ReceiptType.Read);
       assert.strictEqual(receipts.timestamps.length, 1);
@@ -495,6 +494,20 @@ describe('editing', function (this: Mocha.Suite) {
     });
 
     it('tracks message send state for edits', async () => {
+      async function editMessage(
+        page: Page,
+        timestamp: number,
+        additionalText: string
+      ) {
+        await page
+          .getByTestId(`${timestamp}`)
+          .locator('.module-message__buttons__menu')
+          .click();
+        await page.getByRole('menuitem', { name: 'Edit' }).click();
+        const input = await app.waitForEnabledComposer();
+        await input.type(additionalText);
+        await input.press('Enter');
+      }
       const { contacts, desktop } = bootstrap;
 
       const [friend] = contacts;
@@ -518,7 +531,7 @@ describe('editing', function (this: Mocha.Suite) {
       // Sending the original message
       // getting a read receipt
       // testing the message's send state
-      const originalText = 'v1';
+      const originalText = '1';
       debug('finding composition input and clicking it');
       {
         const input = await app.waitForEnabledComposer();
@@ -540,27 +553,6 @@ describe('editing', function (this: Mocha.Suite) {
       const originalMessageTimestamp = Number(originalMessage.timestamp);
       debug('original message', { timestamp: originalMessageTimestamp });
 
-      {
-        const readReceiptTimestamp = bootstrap.getTimestamp();
-        debug('sending read receipt friend -> desktop', {
-          target: originalMessageTimestamp,
-          timestamp: readReceiptTimestamp,
-        });
-        const readReceiptSendOptions = {
-          timestamp: readReceiptTimestamp,
-        };
-        await friend.sendRaw(
-          desktop,
-          {
-            receiptMessage: {
-              type: 1,
-              timestamp: [originalMessage.timestamp],
-            },
-          },
-          readReceiptSendOptions
-        );
-      }
-
       debug("getting friend's conversationId");
       const conversationId = await page.evaluate(
         serviceId => window.SignalCI?.getConversationId(serviceId),
@@ -568,6 +560,30 @@ describe('editing', function (this: Mocha.Suite) {
       );
       debug(`got friend's conversationId: ${conversationId}`);
       strictAssert(conversationId, 'conversationId exists');
+
+      {
+        const deliveryReceiptTimestamp = bootstrap.getTimestamp();
+        debug(
+          'sending delivery receipt for original message friend -> desktop',
+          {
+            target: originalMessageTimestamp,
+            timestamp: deliveryReceiptTimestamp,
+          }
+        );
+        const deliveryReceiptSendOptions = {
+          timestamp: deliveryReceiptTimestamp,
+        };
+        await friend.sendRaw(
+          desktop,
+          {
+            receiptMessage: {
+              type: Proto.ReceiptMessage.Type.DELIVERY,
+              timestamp: [originalMessage.timestamp],
+            },
+          },
+          deliveryReceiptSendOptions
+        );
+      }
 
       debug("testing message's send state (original)");
       {
@@ -586,27 +602,64 @@ describe('editing', function (this: Mocha.Suite) {
         );
         assert.strictEqual(
           message.sendStateByConversationId[conversationId].status,
-          SendStatus.Read,
-          'send state is read for main message'
+          SendStatus.Delivered,
+          'send state is delivered for main message'
         );
         assert.isUndefined(message.editHistory, 'no edit history, yet');
       }
 
       // Sending a v2 edited message targetting the original
-      // this one goes unread
-      // but we'll still test the send state
-      const editMessageV2Text = 'v2';
+      const editMessageV2Text = '12';
       debug('finding composition input and clicking it v2');
-      {
-        const input = await app.waitForEnabledComposer();
 
-        debug('sending edit message v2 desktop -> friend');
-        await sleep(50);
-        await input.press('ArrowUp');
-        await input.press('Backspace');
-        await input.press('Backspace');
-        await input.type(editMessageV2Text);
-        await input.press('Enter');
+      debug('sending edit message v2 desktop -> friend');
+      await editMessage(page, originalMessageTimestamp, '2');
+
+      {
+        const readReceiptTimestamp = bootstrap.getTimestamp();
+        debug('sending read receipt for original message friend -> desktop', {
+          target: originalMessageTimestamp,
+          timestamp: readReceiptTimestamp,
+        });
+        const readReceiptSendOptions = {
+          timestamp: readReceiptTimestamp,
+        };
+        await friend.sendRaw(
+          desktop,
+          {
+            receiptMessage: {
+              type: Proto.ReceiptMessage.Type.READ,
+              timestamp: [originalMessage.timestamp],
+            },
+          },
+          readReceiptSendOptions
+        );
+      }
+
+      debug("testing message's send state (current(v2) and original (v1))");
+      {
+        debug('getting message from app');
+        const messages = await page.evaluate(
+          timestamp => window.SignalCI?.getMessagesBySentAt(timestamp),
+          originalMessageTimestamp
+        );
+        strictAssert(messages, 'messages does not exist');
+
+        debug('verifying message send state & edit');
+        const [message] = messages;
+        strictAssert(message.editHistory, 'edit history exists');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [_v2, v1] = message.editHistory;
+        assert.strictEqual(
+          message.sendStateByConversationId?.[conversationId].status,
+          SendStatus.Sent,
+          'send state is reverted back to sent for main message'
+        );
+        assert.strictEqual(
+          v1.sendStateByConversationId?.[conversationId].status,
+          SendStatus.Read,
+          'original message is marked read'
+        );
       }
 
       debug("waiting for message on friend's device (original)");
@@ -618,19 +671,13 @@ describe('editing', function (this: Mocha.Suite) {
 
       // Sending a v3 edited message targetting v2
       // v3 will be read after we receive v4
-      const editMessageV3Text = 'v3';
-      debug('finding composition input and clicking it v3');
-      {
-        const input = await app.waitForEnabledComposer();
-
-        debug('sending edit message v3 desktop -> friend');
-        await sleep(50);
-        await input.press('ArrowUp');
-        await input.press('Backspace');
-        await input.press('Backspace');
-        await input.type(editMessageV3Text);
-        await input.press('Enter');
-      }
+      const editMessageV3Text = '123';
+      debug('sending edit message v3 desktop -> friend');
+      await editMessage(
+        page,
+        editMessageV2.dataMessage?.timestamp?.toNumber() ?? 0,
+        '3'
+      );
 
       debug("waiting for message on friend's device (v3)");
       const { editMessage: editMessageV3 } = await friend.waitForEditMessage();
@@ -645,19 +692,13 @@ describe('editing', function (this: Mocha.Suite) {
       // Sending a v4 edited message targetting v3
       // getting a read receipt for v3
       // testing send state of the full message
-      const editMessageV4Text = 'v4';
-      debug('finding composition input and clicking it v4');
-      {
-        const input = await app.waitForEnabledComposer();
-
-        debug('sending edit message v4 desktop -> friend');
-        await sleep(50);
-        await input.press('ArrowUp');
-        await input.press('Backspace');
-        await input.press('Backspace');
-        await input.type(editMessageV4Text);
-        await input.press('Enter');
-      }
+      const editMessageV4Text = '1234';
+      debug('sending edit message v4 desktop -> friend');
+      await editMessage(
+        page,
+        editMessageV3.dataMessage?.timestamp?.toNumber() ?? 0,
+        '4'
+      );
 
       debug("waiting for message on friend's device (v4)");
       const { editMessage: editMessageV4 } = await friend.waitForEditMessage();
@@ -725,7 +766,7 @@ describe('editing', function (this: Mocha.Suite) {
         strictAssert(v2.sendStateByConversationId, 'v2 has send state');
         assert.strictEqual(
           v2.sendStateByConversationId[conversationId].status,
-          SendStatus.Pending,
+          SendStatus.Pending, // TODO (DESKTOP-6176) - this should be Sent!
           'send state for v2 message is pending'
         );
 
@@ -739,7 +780,7 @@ describe('editing', function (this: Mocha.Suite) {
         strictAssert(v4.sendStateByConversationId, 'v4 has send state');
         assert.strictEqual(
           v4.sendStateByConversationId[conversationId].status,
-          SendStatus.Pending,
+          SendStatus.Pending, // TODO (DESKTOP-6176) - this should be Sent!
           'send state for v4 message is pending'
         );
 

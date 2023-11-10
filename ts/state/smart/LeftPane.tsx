@@ -40,6 +40,8 @@ import { hasNetworkDialog } from '../selectors/network';
 import {
   getPreferredLeftPaneWidth,
   getUsernamesEnabled,
+  getUsernameCorrupted,
+  getUsernameLinkCorrupted,
   getNavTabsCollapsed,
 } from '../selectors/items';
 import {
@@ -56,6 +58,7 @@ import {
   getFilteredComposeGroups,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
+  getMe,
   getRecommendedGroupSizeModalState,
   getSelectedConversationId,
   getTargetedMessage,
@@ -177,6 +180,7 @@ const getModeSpecificProps = (
           OneTimeModalState.Showing,
         isShowingMaximumGroupSizeModal:
           getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
+        ourUsername: getMe(state).username,
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
@@ -203,6 +207,8 @@ const getModeSpecificProps = (
 const mapStateToProps = (state: StateType) => {
   const hasUpdateDialog = isUpdateDialogVisible(state);
   const hasUnsupportedOS = isOSUnsupported(state);
+  const usernameCorrupted = getUsernameCorrupted(state);
+  const usernameLinkCorrupted = getUsernameLinkCorrupted(state);
 
   let hasExpiredDialog = false;
   let unsupportedOSDialogType: 'error' | 'warning' | undefined;
@@ -223,6 +229,8 @@ const mapStateToProps = (state: StateType) => {
     hasUpdateDialog,
     isUpdateDownloaded: isUpdateDownloaded(state),
     unsupportedOSDialogType,
+    usernameCorrupted,
+    usernameLinkCorrupted,
 
     modeSpecificProps: getModeSpecificProps(state),
     navTabsCollapsed: getNavTabsCollapsed(state),

@@ -13,7 +13,6 @@ export const debug = createDebug('mock:test:readSync');
 
 describe('readSync', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

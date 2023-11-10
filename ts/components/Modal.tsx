@@ -30,6 +30,7 @@ type PropsType = {
   hasFooterDivider?: boolean;
   i18n: LocalizerType;
   modalFooter?: JSX.Element;
+  modalHeaderChildren?: ReactNode;
   moduleClassName?: string;
   onBackButtonClick?: () => unknown;
   onClose?: () => void;
@@ -52,6 +53,7 @@ export function Modal({
   hasXButton,
   i18n,
   modalFooter,
+  modalHeaderChildren,
   moduleClassName,
   noMouseClose,
   onBackButtonClick,
@@ -122,6 +124,7 @@ export function Modal({
           hasXButton={hasXButton}
           i18n={i18n}
           modalFooter={modalFooter}
+          modalHeaderChildren={modalHeaderChildren}
           moduleClassName={moduleClassName}
           onBackButtonClick={onBackButtonClick}
           onClose={close}
@@ -162,6 +165,7 @@ export function ModalPage({
   hasXButton,
   i18n,
   modalFooter,
+  modalHeaderChildren,
   moduleClassName,
   onBackButtonClick,
   onClose,
@@ -179,7 +183,9 @@ export function ModalPage({
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
 
-  const hasHeader = Boolean(hasXButton || title || onBackButtonClick);
+  const hasHeader = Boolean(
+    hasXButton || title || modalHeaderChildren || onBackButtonClick
+  );
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   useScrollObserver(bodyRef, bodyInnerRef, scroll => {
@@ -216,37 +222,40 @@ export function ModalPage({
                 : null
             )}
           >
-            {onBackButtonClick && (
-              <button
-                aria-label={i18n('icu:back')}
-                className={getClassName('__back-button')}
-                onClick={onBackButtonClick}
-                tabIndex={0}
-                type="button"
-              />
-            )}
-            {title && (
-              <h1
-                className={classNames(
-                  getClassName('__title'),
-                  hasXButton ? getClassName('__title--with-x-button') : null
-                )}
-              >
-                {title}
-              </h1>
-            )}
-            {hasXButton && !title && (
-              <div className={getClassName('__title')} />
-            )}
-            {hasXButton && (
-              <button
-                aria-label={i18n('icu:close')}
-                className={getClassName('__close-button')}
-                onClick={onClose}
-                tabIndex={0}
-                type="button"
-              />
-            )}
+            <div className={getClassName('__headerTitle')}>
+              {onBackButtonClick && (
+                <button
+                  aria-label={i18n('icu:back')}
+                  className={getClassName('__back-button')}
+                  onClick={onBackButtonClick}
+                  tabIndex={0}
+                  type="button"
+                />
+              )}
+              {title && (
+                <h1
+                  className={classNames(
+                    getClassName('__title'),
+                    hasXButton ? getClassName('__title--with-x-button') : null
+                  )}
+                >
+                  {title}
+                </h1>
+              )}
+              {hasXButton && !title && (
+                <div className={getClassName('__title')} />
+              )}
+              {hasXButton && (
+                <button
+                  aria-label={i18n('icu:close')}
+                  className={getClassName('__close-button')}
+                  onClick={onClose}
+                  tabIndex={0}
+                  type="button"
+                />
+              )}
+            </div>
+            {modalHeaderChildren}
           </div>
         )}
         <div

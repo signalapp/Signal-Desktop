@@ -63,6 +63,7 @@ export type IPCEventsValuesType = {
   hideMenuBar: boolean | undefined;
   incomingCallNotification: boolean;
   lastSyncTime: number | undefined;
+  localeOverride: string | null;
   notificationDrawAttention: boolean;
   notificationSetting: NotificationSettingType;
   preferredAudioInputDevice: AudioDevice | undefined;
@@ -108,6 +109,9 @@ export type IPCEventsCallbacksType = {
   deleteAllMyStories: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
+  getMediaAccessStatus: (
+    mediaType: 'screen' | 'microphone' | 'camera'
+  ) => Promise<string | unknown>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
   isFormattingFlagEnabled: () => boolean;
   isPhoneNumberSharingEnabled: () => boolean;
@@ -368,6 +372,12 @@ export function createIPCEvents(
       return promise;
     },
 
+    getLocaleOverride: () => {
+      return window.storage.get('localeOverride') ?? null;
+    },
+    setLocaleOverride: async (locale: string | null) => {
+      await window.storage.put('localeOverride', locale);
+    },
     getNotificationSetting: () =>
       window.storage.get('notification-setting', 'message'),
     setNotificationSetting: (value: 'message' | 'name' | 'count' | 'off') =>
@@ -609,6 +619,11 @@ export function createIPCEvents(
       showWhatsNewModal();
     },
 
+    getMediaAccessStatus: async (
+      mediaType: 'screen' | 'microphone' | 'camera'
+    ) => {
+      return window.IPC.getMediaAccessStatus(mediaType);
+    },
     getMediaPermissions: window.IPC.getMediaPermissions,
     getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
 

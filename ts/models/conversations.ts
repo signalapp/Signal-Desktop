@@ -87,7 +87,6 @@ import {
   notificationService,
 } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
-import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import { getSendOptions } from '../util/getSendOptions';
 import { isConversationAccepted } from '../util/isConversationAccepted';
 import {
@@ -372,8 +371,6 @@ export class ConversationModel extends window.Backbone
     this.unset('tokens');
 
     this.on('change:members change:membersV2', this.fetchContacts);
-    this.on('change:isArchived', this.onArchiveChange);
-
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
 
@@ -4142,17 +4139,6 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  private onArchiveChange() {
-    const isArchived = this.get('isArchived');
-    if (isArchived) {
-      return;
-    }
-    if (!this.get('hiddenFromConversationSearch')) {
-      return;
-    }
-    this.set('hiddenFromConversationSearch', false);
-  }
-
   setMarkedUnread(markedUnread: boolean): void {
     const previousMarkedUnread = this.get('markedUnread');
 
@@ -4660,8 +4646,8 @@ export class ConversationModel extends window.Backbone
     if (decrypted) {
       const newAttributes = await Conversation.maybeUpdateProfileAvatar(
         this.attributes,
-        decrypted,
         {
+          data: decrypted,
           writeNewAttachmentData,
           deleteAttachmentData,
           doesAttachmentExist,
@@ -4856,16 +4842,11 @@ export class ConversationModel extends window.Backbone
       active_at: null,
       pendingUniversalTimer: undefined,
     });
-    if (isGroup(this.attributes)) {
-      this.set('hiddenFromConversationSearch', true);
-    }
     window.Signal.Data.updateConversation(this.attributes);
 
     await window.Signal.Data.removeAllMessagesInConversation(this.id, {
       logId: this.idForLogging(),
     });
-
-    scheduleOptimizeFTS();
   }
 
   getTitle(options?: { isShort?: boolean }): string {

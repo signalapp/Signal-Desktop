@@ -165,6 +165,7 @@ describe('Contact', () => {
           avatar: fakeAttachment({
             pending: true,
             contentType: IMAGE_GIF,
+            path: undefined,
           }),
         },
       };

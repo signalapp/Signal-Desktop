@@ -79,7 +79,7 @@ export function ToastManager({
   if (toastType === ToastType.CannotEditMessage) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:ToastManager__CannotEditMessage')}
+        {i18n('icu:ToastManager__CannotEditMessage_24')}
       </Toast>
     );
   }

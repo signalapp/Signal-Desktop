@@ -14,6 +14,7 @@ import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { strictAssert } from '../util/assert';
+import { generateCacheKey } from './generateCacheKey';
 
 export type ReadSyncAttributesType = {
   envelopeId: string;
@@ -25,10 +26,15 @@ export type ReadSyncAttributesType = {
   timestamp: number;
 };
 
-const readSyncs = new Map<number, ReadSyncAttributesType>();
+const readSyncs = new Map<string, ReadSyncAttributesType>();
 
 function remove(sync: ReadSyncAttributesType): void {
-  readSyncs.delete(sync.timestamp);
+  readSyncs.delete(
+    generateCacheKey({
+      sender: sync.senderId,
+      timestamp: sync.timestamp,
+    })
+  );
   sync.removeFromMessageReceiverCache();
 }
 
@@ -99,7 +105,13 @@ export function forMessage(
 }
 
 export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
-  readSyncs.set(sync.timestamp, sync);
+  readSyncs.set(
+    generateCacheKey({
+      sender: sync.senderId,
+      timestamp: sync.timestamp,
+    }),
+    sync
+  );
 
   const logId = `ReadSyncs.onSync(timestamp=${sync.timestamp})`;
 

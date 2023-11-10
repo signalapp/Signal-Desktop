@@ -8,6 +8,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { Avatar, AvatarSize } from './Avatar';
+import { CallBackgroundBlur } from './CallBackgroundBlur';
 
 type PropsType = {
   conversation: ConversationType;
@@ -72,21 +73,23 @@ function renderAvatar(
 ): JSX.Element {
   return (
     <div className="module-ongoing-call__remote-video-disabled">
-      <Avatar
-        acceptedMessageRequest={acceptedMessageRequest}
-        avatarPath={avatarPath}
-        badge={undefined}
-        color={color || AvatarColors[0]}
-        noteToSelf={false}
-        conversationType="direct"
-        i18n={i18n}
-        isMe={isMe}
-        phoneNumber={phoneNumber}
-        profileName={profileName}
-        title={title}
-        sharedGroupNames={sharedGroupNames}
-        size={AvatarSize.EIGHTY}
-      />
+      <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+        <Avatar
+          acceptedMessageRequest={acceptedMessageRequest}
+          avatarPath={avatarPath}
+          badge={undefined}
+          color={color || AvatarColors[0]}
+          noteToSelf={false}
+          conversationType="direct"
+          i18n={i18n}
+          isMe={isMe}
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          title={title}
+          sharedGroupNames={sharedGroupNames}
+          size={AvatarSize.EIGHTY}
+        />
+      </CallBackgroundBlur>
     </div>
   );
 }

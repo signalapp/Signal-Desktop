@@ -10,6 +10,7 @@ import { calculateAgreement, generateKeyPair } from './Curve';
 import { HashType, CipherType } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
 import { getBytesSubarray } from './util/uuidToBytes';
+import { Environment } from './environment';
 
 export { HashType, CipherType };
 
@@ -173,8 +174,8 @@ export function verifyAccessKey(
 }
 
 const IV_LENGTH = 16;
-const MAC_LENGTH = 16;
 const NONCE_LENGTH = 16;
+const SYMMETRIC_MAC_LENGTH = 16;
 
 export function encryptSymmetric(
   key: Uint8Array,
@@ -187,7 +188,10 @@ export function encryptSymmetric(
   const macKey = hmacSha256(key, cipherKey);
 
   const ciphertext = encryptAes256CbcPkcsPadding(cipherKey, plaintext, iv);
-  const mac = getFirstBytes(hmacSha256(macKey, ciphertext), MAC_LENGTH);
+  const mac = getFirstBytes(
+    hmacSha256(macKey, ciphertext),
+    SYMMETRIC_MAC_LENGTH
+  );
 
   return Bytes.concatenate([nonce, ciphertext, mac]);
 }
@@ -202,18 +206,21 @@ export function decryptSymmetric(
   const ciphertext = getBytesSubarray(
     data,
     NONCE_LENGTH,
-    data.byteLength - NONCE_LENGTH - MAC_LENGTH
+    data.byteLength - NONCE_LENGTH - SYMMETRIC_MAC_LENGTH
   );
   const theirMac = getBytesSubarray(
     data,
-    data.byteLength - MAC_LENGTH,
-    MAC_LENGTH
+    data.byteLength - SYMMETRIC_MAC_LENGTH,
+    SYMMETRIC_MAC_LENGTH
   );
 
   const cipherKey = hmacSha256(key, nonce);
   const macKey = hmacSha256(key, cipherKey);
 
-  const ourMac = getFirstBytes(hmacSha256(macKey, ciphertext), MAC_LENGTH);
+  const ourMac = getFirstBytes(
+    hmacSha256(macKey, ciphertext),
+    SYMMETRIC_MAC_LENGTH
+  );
   if (!constantTimeEqual(theirMac, ourMac)) {
     throw new Error(
       'decryptSymmetric: Failed to decrypt; MAC verification failed'
@@ -379,7 +386,7 @@ function verifyDigest(data: Uint8Array, theirDigest: Uint8Array): void {
   }
 }
 
-export function decryptAttachment(
+export function decryptAttachmentV1(
   encryptedBin: Uint8Array,
   keys: Uint8Array,
   theirDigest?: Uint8Array
@@ -411,20 +418,31 @@ export function decryptAttachment(
   return decryptAes256CbcPkcsPadding(aesKey, ciphertext, iv);
 }
 
-export function encryptAttachment(
-  plaintext: Readonly<Uint8Array>,
-  keys: Readonly<Uint8Array>
-): EncryptedAttachment {
+export function encryptAttachment({
+  plaintext,
+  keys,
+  dangerousTestOnlyIv,
+}: {
+  plaintext: Readonly<Uint8Array>;
+  keys: Readonly<Uint8Array>;
+  dangerousTestOnlyIv?: Readonly<Uint8Array>;
+}): EncryptedAttachment {
+  const logId = 'encryptAttachment';
   if (!(plaintext instanceof Uint8Array)) {
     throw new TypeError(
-      `\`plaintext\` must be an \`Uint8Array\`; got: ${typeof plaintext}`
+      `${logId}: \`plaintext\` must be an \`Uint8Array\`; got: ${typeof plaintext}`
     );
   }
 
   if (keys.byteLength !== 64) {
-    throw new Error('Got invalid length attachment keys');
+    throw new Error(`${logId}: invalid length attachment keys`);
   }
-  const iv = getRandomBytes(16);
+
+  if (dangerousTestOnlyIv && window.getEnvironment() !== Environment.Test) {
+    throw new Error(`${logId}: Used dangerousTestOnlyIv outside tests!`);
+  }
+
+  const iv = dangerousTestOnlyIv || getRandomBytes(16);
   const aesKey = keys.slice(0, 32);
   const macKey = keys.slice(32, 64);
 
@@ -450,15 +468,24 @@ export function getAttachmentSizeBucket(size: number): number {
   );
 }
 
-export function padAndEncryptAttachment(
-  data: Readonly<Uint8Array>,
-  keys: Readonly<Uint8Array>
-): EncryptedAttachment {
-  const size = data.byteLength;
+export function padAndEncryptAttachment({
+  plaintext,
+  keys,
+  dangerousTestOnlyIv,
+}: {
+  plaintext: Readonly<Uint8Array>;
+  keys: Readonly<Uint8Array>;
+  dangerousTestOnlyIv?: Readonly<Uint8Array>;
+}): EncryptedAttachment {
+  const size = plaintext.byteLength;
   const paddedSize = getAttachmentSizeBucket(size);
   const padding = getZeroes(paddedSize - size);
 
-  return encryptAttachment(Bytes.concatenate([data, padding]), keys);
+  return encryptAttachment({
+    plaintext: Bytes.concatenate([plaintext, padding]),
+    keys,
+    dangerousTestOnlyIv,
+  });
 }
 
 export function encryptProfile(data: Uint8Array, key: Uint8Array): Uint8Array {

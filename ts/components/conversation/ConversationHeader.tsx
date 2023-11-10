@@ -424,7 +424,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               this.setState({ hasDeleteMessagesConfirmation: true })
             }
           >
-            {i18n('icu:deleteMessages')}
+            {i18n('icu:deleteMessagesInConversation')}
           </MenuItem>
         </ContextMenu>
       );
@@ -553,7 +553,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         <MenuItem
           onClick={() => this.setState({ hasDeleteMessagesConfirmation: true })}
         >
-          {i18n('icu:deleteMessages')}
+          {i18n('icu:deleteMessagesInConversation')}
         </MenuItem>
         {isGroup && (
           <MenuItem
@@ -589,7 +589,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       <ConfirmationDialog
         dialogName="ConversationHeader.destroyMessages"
         title={i18n(
-          'icu:ConversationHeader__DeleteMessagesConfirmation__title'
+          'icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title'
         )}
         actions={[
           {
@@ -607,7 +607,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         }}
       >
         {i18n(
-          'icu:ConversationHeader__DeleteMessagesConfirmation__description'
+          'icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description'
         )}
       </ConfirmationDialog>
     );

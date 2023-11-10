@@ -150,6 +150,7 @@ const consoleLogger = createBufferedConsoleLogger();
 // These will be set after app fires the 'ready' event
 let logger: LoggerType | undefined;
 let preferredSystemLocales: Array<string> | undefined;
+let localeOverride: string | null | undefined;
 let resolvedTranslationsLocale: LocaleType | undefined;
 let settingsChannel: SettingsChannel | undefined;
 
@@ -374,6 +375,26 @@ async function getBackgroundColor(
   throw missingCaseError(theme);
 }
 
+async function getLocaleOverrideSetting(): Promise<string | null> {
+  const fastValue = ephemeralConfig.get('localeOverride');
+  // eslint-disable-next-line eqeqeq -- Checking for null explicitly
+  if (typeof fastValue === 'string' || fastValue === null) {
+    getLogger().info('got fast localeOverride setting', fastValue);
+    return fastValue;
+  }
+
+  const json = await sql.sqlCall('getItemById', 'localeOverride');
+
+  // Default to `null` if setting doesn't exist yet
+  const slowValue = typeof json?.value === 'string' ? json.value : null;
+
+  ephemeralConfig.set('localeOverride', slowValue);
+
+  getLogger().info('got slow localeOverride setting', slowValue);
+
+  return slowValue;
+}
+
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
   sql,
@@ -424,6 +445,13 @@ function getPreferredSystemLocales(): Array<string> {
     throw new Error('getPreferredSystemLocales: Locales not yet initialized!');
   }
   return preferredSystemLocales;
+}
+
+function getLocaleOverride(): string | null {
+  if (typeof localeOverride === 'undefined') {
+    throw new Error('getLocaleOverride: Locale not yet initialized!');
+  }
+  return localeOverride;
 }
 
 function getResolvedMessagesLocale(): LocaleType {
@@ -821,6 +849,7 @@ async function createWindow() {
   setupSpellChecker(
     mainWindow,
     getPreferredSystemLocales(),
+    getLocaleOverride(),
     getResolvedMessagesLocale().i18n,
     getLogger()
   );
@@ -1007,6 +1036,8 @@ async function createWindow() {
     if (!mainWindow) {
       return;
     }
+
+    mainWindow.webContents.send('ci:event', 'db-initialized', {});
 
     const shouldShowWindow =
       !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
@@ -1797,10 +1828,14 @@ app.on('ready', async () => {
   // Write buffered information into newly created logger.
   consoleLogger.writeBufferInto(logger);
 
+  sqlInitPromise = initializeSQL(userDataPath);
+
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(
       loadPreferredSystemLocales()
     );
+
+    localeOverride = await getLocaleOverrideSetting();
 
     const hourCyclePreference = getHourCyclePreference();
     logger.info(`app.ready: hour cycle preference: ${hourCyclePreference}`);
@@ -1812,12 +1847,11 @@ app.on('ready', async () => {
     );
     resolvedTranslationsLocale = loadLocale({
       preferredSystemLocales,
+      localeOverride,
       hourCyclePreference,
       logger: getLogger(),
     });
   }
-
-  sqlInitPromise = initializeSQL(userDataPath);
 
   // First run: configure Signal to minimize to tray. Additionally, on Windows
   // enable auto-start with start-in-tray so that starting from a Desktop icon
@@ -2395,10 +2429,12 @@ ipc.on('get-config', async event => {
 
   const parsed = rendererConfigSchema.safeParse({
     name: packageJson.productName,
+    availableLocales: getResolvedMessagesLocale().availableLocales,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
     hourCyclePreference: getResolvedMessagesLocale().hourCyclePreference,
     preferredSystemLocales: getPreferredSystemLocales(),
+    localeOverride: getLocaleOverride(),
     version: app.getVersion(),
     buildCreation: config.get<number>('buildCreation'),
     buildExpiration: config.get<number>('buildExpiration'),
@@ -2464,6 +2500,12 @@ ipc.on('get-config', async event => {
 ipc.on('locale-data', event => {
   // eslint-disable-next-line no-param-reassign
   event.returnValue = getResolvedMessagesLocale().messages;
+});
+
+// Ingested in preload.js via a sendSync call
+ipc.on('locale-display-names', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = getResolvedMessagesLocale().localeDisplayNames;
 });
 
 // TODO DESKTOP-5241
@@ -2650,6 +2692,15 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
 
   getLogger().info(`Finish ensuring permissions in ${Date.now() - start}ms`);
 }
+
+ipc.handle('get-media-access-status', async (_event, value) => {
+  // This function is not supported on Linux
+  if (!systemPreferences.getMediaAccessStatus) {
+    return undefined;
+  }
+
+  return systemPreferences.getMediaAccessStatus(value);
+});
 
 ipc.handle('get-auto-launch', async () => {
   return app.getLoginItemSettings(await getDefaultLoginItemSettings())

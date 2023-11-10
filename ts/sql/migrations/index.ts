@@ -6,7 +6,6 @@ import { keyBy } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import type { LoggerType } from '../../types/Logging';
-import { isProduction } from '../../util/version';
 import {
   getSchemaVersion,
   getUserVersion,
@@ -2020,11 +2019,7 @@ export class DBVersionFromFutureError extends Error {
   override name = 'DBVersionFromFutureError';
 }
 
-export function lazyFTS5SecureDelete(
-  db: Database,
-  logger: LoggerType,
-  enabled: boolean
-): void {
+export function enableFTS5SecureDelete(db: Database, logger: LoggerType): void {
   const isEnabled =
     db
       .prepare(
@@ -2035,23 +2030,8 @@ export function lazyFTS5SecureDelete(
       .pluck()
       .get() === 1;
 
-  if (isEnabled && !enabled) {
-    logger.info('lazyFTS5SecureDelete: disabling, rebuilding fts5 index');
-    db.exec(`
-      -- Disable secure-delete
-      INSERT INTO messages_fts
-      (messages_fts, rank)
-      VALUES
-      ('secure-delete', 0);
-
-      --- Rebuild the index to fix the corruption
-      INSERT INTO messages_fts
-      (messages_fts)
-      VALUES
-      ('rebuild');
-    `);
-  } else if (!isEnabled && enabled) {
-    logger.info('lazyFTS5SecureDelete: enabling');
+  if (!isEnabled) {
+    logger.info('enableFTS5SecureDelete: enabling');
     db.exec(`
       -- Enable secure-delete
       INSERT INTO messages_fts
@@ -2062,11 +2042,7 @@ export function lazyFTS5SecureDelete(
   }
 }
 
-export function updateSchema(
-  db: Database,
-  logger: LoggerType,
-  appVersion: string
-): void {
+export function updateSchema(db: Database, logger: LoggerType): void {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const startingVersion = getUserVersion(db);
@@ -2094,7 +2070,7 @@ export function updateSchema(
     runSchemaUpdate(startingVersion, db, logger);
   }
 
-  lazyFTS5SecureDelete(db, logger, !isProduction(appVersion));
+  enableFTS5SecureDelete(db, logger);
 
   if (startingVersion !== MAX_VERSION) {
     const start = Date.now();

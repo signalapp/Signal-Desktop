@@ -20,6 +20,7 @@ SettingsWindowProps.onRender(
   ({
     addCustomColor,
     availableCameras,
+    availableLocales,
     availableMicrophones,
     availableSpeakers,
     blockedCount,
@@ -78,6 +79,7 @@ SettingsWindowProps.onRender(
     onHideMenuBarChange,
     onIncomingCallNotificationsChange,
     onLastSyncTimeChange,
+    onLocaleChange,
     onMediaCameraPermissionsChange,
     onMediaPermissionsChange,
     onMessageAudioChange,
@@ -98,16 +100,19 @@ SettingsWindowProps.onRender(
     onWhoCanFindMeChange,
     onWhoCanSeeMeChange,
     onZoomFactorChange,
+    preferredSystemLocales,
     removeCustomColor,
     removeCustomColorOnConversations,
     resetAllChatColors,
     resetDefaultChatColor,
+    resolvedLocale,
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
     sentMediaQualitySetting,
     setGlobalDefaultConversationColor,
     shouldShowStoriesSettings,
+    localeOverride,
     themeSetting,
     universalExpireTimer,
     whoCanFindMe,
@@ -118,6 +123,7 @@ SettingsWindowProps.onRender(
       <Preferences
         addCustomColor={addCustomColor}
         availableCameras={availableCameras}
+        availableLocales={availableLocales}
         availableMicrophones={availableMicrophones}
         availableSpeakers={availableSpeakers}
         blockedCount={blockedCount}
@@ -167,6 +173,7 @@ SettingsWindowProps.onRender(
         isSyncSupported={isSyncSupported}
         isSystemTraySupported={isSystemTraySupported}
         lastSyncTime={lastSyncTime}
+        localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
@@ -179,6 +186,7 @@ SettingsWindowProps.onRender(
         onHideMenuBarChange={onHideMenuBarChange}
         onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
         onLastSyncTimeChange={onLastSyncTimeChange}
+        onLocaleChange={onLocaleChange}
         onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
         onMediaPermissionsChange={onMediaPermissionsChange}
         onMessageAudioChange={onMessageAudioChange}
@@ -201,10 +209,12 @@ SettingsWindowProps.onRender(
         onWhoCanFindMeChange={onWhoCanFindMeChange}
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}
+        preferredSystemLocales={preferredSystemLocales}
         removeCustomColorOnConversations={removeCustomColorOnConversations}
         removeCustomColor={removeCustomColor}
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
+        resolvedLocale={resolvedLocale}
         selectedCamera={selectedCamera}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}

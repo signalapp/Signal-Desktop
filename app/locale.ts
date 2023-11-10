@@ -23,14 +23,28 @@ function getLocaleMessages(locale: string): LocaleMessagesType {
   return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
 
+export type LocaleDisplayNames = Record<string, Record<string, string>>;
+
+function getLocaleDisplayNames(): LocaleDisplayNames {
+  const targetFile = join(
+    __dirname,
+    '..',
+    'build',
+    'locale-display-names.json'
+  );
+  return JSON.parse(readFileSync(targetFile, 'utf-8'));
+}
+
 export type LocaleDirection = 'ltr' | 'rtl';
 
 export type LocaleType = {
+  availableLocales: Array<string>;
   i18n: LocalizerType;
   name: string;
   direction: LocaleDirection;
   messages: LocaleMessagesType;
   hourCyclePreference: HourCyclePreference;
+  localeDisplayNames: LocaleDisplayNames;
 };
 
 function getLocaleDirection(
@@ -65,10 +79,12 @@ function getLocaleDirection(
 }
 
 function finalize(
+  availableLocales: Array<string>,
   messages: LocaleMessagesType,
   backupMessages: LocaleMessagesType,
   localeName: string,
   hourCyclePreference: HourCyclePreference,
+  localeDisplayNames: LocaleDisplayNames,
   logger: LoggerType
 ): LocaleType {
   // We start with english, then overwrite that with anything present in locale
@@ -80,11 +96,13 @@ function finalize(
   logger.info(`locale: Text info direction for ${localeName}: ${direction}`);
 
   return {
+    availableLocales,
     i18n,
     name: localeName,
     direction,
     messages: finalMessages,
     hourCyclePreference,
+    localeDisplayNames,
   };
 }
 
@@ -99,10 +117,12 @@ export function _getAvailableLocales(): Array<string> {
 
 export function load({
   preferredSystemLocales,
+  localeOverride,
   hourCyclePreference,
   logger,
 }: {
   preferredSystemLocales: Array<string>;
+  localeOverride: string | null;
   hourCyclePreference: HourCyclePreference;
   logger: LoggerType;
 }): LocaleType {
@@ -117,10 +137,11 @@ export function load({
   const availableLocales = _getAvailableLocales();
 
   logger.info('locale: Supported locales:', availableLocales.join(', '));
-  logger.info('locale: Preferred locales: ', preferredSystemLocales.join(', '));
+  logger.info('locale: Preferred locales:', preferredSystemLocales.join(', '));
+  logger.info('locale: Locale Override:', localeOverride);
 
   const matchedLocale = LocaleMatcher.match(
-    preferredSystemLocales,
+    localeOverride != null ? [localeOverride] : preferredSystemLocales,
     availableLocales,
     'en',
     { algorithm: 'best fit' }
@@ -130,12 +151,15 @@ export function load({
 
   const matchedLocaleMessages = getLocaleMessages(matchedLocale);
   const englishMessages = getLocaleMessages('en');
+  const languageDisplayNames = getLocaleDisplayNames();
 
   return finalize(
+    availableLocales,
     matchedLocaleMessages,
     englishMessages,
     matchedLocale,
     hourCyclePreference,
+    languageDisplayNames,
     logger
   );
 }

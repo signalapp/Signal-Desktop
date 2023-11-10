@@ -86,6 +86,8 @@ const IPC: IPCType = {
     ipc.send('draw-attention');
   },
   getAutoLaunch: () => ipc.invoke('get-auto-launch'),
+  getMediaAccessStatus: mediaType =>
+    ipc.invoke('get-media-access-status', mediaType),
   getMediaPermissions: () => ipc.invoke('settings:get:mediaPermissions'),
   getMediaCameraPermissions: () =>
     ipc.invoke('settings:get:mediaCameraPermissions'),
@@ -97,10 +99,6 @@ const IPC: IPCType = {
     }),
   readyForUpdates: () => ipc.send('ready-for-updates'),
   removeSetupMenuItems: () => ipc.send('remove-setup-menu-items'),
-  restart: () => {
-    log.info('restart');
-    ipc.send('restart');
-  },
   setAutoHideMenuBar: autoHide => ipc.send('set-auto-hide-menu-bar', autoHide),
   setAutoLaunch: value => ipc.invoke('set-auto-launch', value),
   setBadge: badge => ipc.send('set-badge', badge),

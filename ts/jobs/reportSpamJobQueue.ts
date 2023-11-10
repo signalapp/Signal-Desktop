@@ -10,6 +10,7 @@ import type { LoggerType } from '../types/Logging';
 import { aciSchema } from '../types/ServiceId';
 import { map } from '../util/iterables';
 
+import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
@@ -49,7 +50,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
   protected async run(
     { data }: Readonly<{ data: ReportSpamJobData }>,
     { log }: Readonly<{ log: LoggerType }>
-  ): Promise<void> {
+  ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
     const { aci: senderAci, token, serverGuids } = data;
 
     await new Promise<void>(resolve => {
@@ -58,7 +59,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
     if (!isDeviceLinked()) {
       log.info("reportSpamJobQueue: skipping this job because we're unlinked");
-      return;
+      return undefined;
     }
 
     await waitForOnline(window.navigator, window);
@@ -72,6 +73,8 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
           server.reportMessage({ senderAci, serverGuid, token })
         )
       );
+
+      return undefined;
     } catch (err: unknown) {
       if (!(err instanceof HTTPError)) {
         throw err;
@@ -88,7 +91,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
         log.info(
           'reportSpamJobQueue: server responded with 508. Giving up on this job'
         );
-        return;
+        return undefined;
       }
 
       if (isRetriable4xxStatus(code) || is5xxStatus(code)) {
@@ -106,7 +109,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
         log.error(
           `reportSpamJobQueue: server responded with ${code} status code. Giving up on this job`
         );
-        return;
+        return undefined;
       }
 
       throw err;

@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "6.37.0-alpha.1",
+  "version": "6.39.0-beta.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -23,7 +23,7 @@
     "build-release": "yarn run build",
     "sign-release": "node ts/updater/generateSignature.js",
     "notarize": "echo 'No longer necessary'",
-    "get-strings": "node ts/scripts/get-strings.js && node ts/scripts/gen-nsis-script.js && node ts/scripts/gen-locales-config.js",
+    "get-strings": "ts-node ts/scripts/get-strings.ts && ts-node ts/scripts/gen-nsis-script.ts && ts-node ts/scripts/gen-locales-config.ts && ts-node ./ts/scripts/build-locale-display-names.ts",
     "push-strings": "node ts/scripts/remove-strings.js && node ts/scripts/push-strings.js",
     "get-expire-time": "node ts/scripts/get-expire-time.js",
     "copy-components": "node ts/scripts/copy.js",
@@ -97,7 +97,7 @@
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.5.2",
     "@signalapp/libsignal-client": "0.32.1",
-    "@signalapp/ringrtc": "2.34.0",
+    "@signalapp/ringrtc": "2.34.1",
     "@signalapp/windows-dummy-keystroke": "1.0.0",
     "@types/fabric": "4.5.3",
     "backbone": "1.4.0",
@@ -196,9 +196,10 @@
     "@babel/preset-react": "7.22.15",
     "@babel/preset-typescript": "7.23.0",
     "@electron/fuses": "1.5.0",
+    "@electron/notarize": "2.1.0",
     "@formatjs/intl": "2.6.7",
     "@mixer/parallel-prettier": "2.0.3",
-    "@signalapp/mock-server": "4.2.0",
+    "@signalapp/mock-server": "4.3.0",
     "@storybook/addon-a11y": "7.4.5",
     "@storybook/addon-actions": "7.4.5",
     "@storybook/addon-controls": "7.4.5",
@@ -270,12 +271,12 @@
     "core-js": "2.6.9",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
+    "csv-parse": "5.5.2",
     "danger": "11.1.2",
     "debug": "4.3.3",
-    "electron": "25.8.4",
+    "electron": "25.9.3",
     "electron-builder": "24.6.3",
     "electron-mocha": "11.0.2",
-    "electron-notarize": "1.2.1",
     "endanger": "7.0.4",
     "esbuild": "0.17.11",
     "eslint": "8.30.0",
@@ -398,6 +399,9 @@
         }
       },
       "signDlls": true,
+      "signExts": [
+        ".node"
+      ],
       "target": [
         "nsis"
       ]

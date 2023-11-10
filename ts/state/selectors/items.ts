@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
-import { SafetyNumberMode } from '../../types/safetyNumber';
 import { innerIsBucketValueEnabled } from '../../RemoteConfig';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig';
 import type { StateType } from '../reducer';
@@ -94,10 +93,14 @@ export const getHasCompletedUsernameLinkOnboarding = createSelector(
     Boolean(state.hasCompletedUsernameLinkOnboarding)
 );
 
-export const getHasCompletedSafetyNumberOnboarding = createSelector(
+export const getUsernameCorrupted = createSelector(
   getItems,
-  (state: ItemsStateType): boolean =>
-    Boolean(state.hasCompletedSafetyNumberOnboarding)
+  (state: ItemsStateType): boolean => Boolean(state.usernameCorrupted)
+);
+
+export const getUsernameLinkCorrupted = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.usernameLinkCorrupted)
 );
 
 export const getUsernameLinkColor = createSelector(
@@ -164,40 +167,6 @@ export const getStoriesEnabled = createSelector(
     }
 
     return false;
-  }
-);
-
-export const getSafetyNumberMode = createSelector(
-  getRemoteConfig,
-  getServerTimeSkew,
-  (_state: StateType, { now }: { now: number }) => now,
-  (
-    remoteConfig: ConfigMapType,
-    serverTimeSkew: number,
-    now: number
-  ): SafetyNumberMode => {
-    if (
-      !isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberAci') &&
-      !(
-        isRemoteConfigFlagEnabled(
-          remoteConfig,
-          'desktop.safetyNumberAci.beta'
-        ) && isBeta(window.getVersion())
-      )
-    ) {
-      return SafetyNumberMode.JustE164;
-    }
-
-    const timestamp = remoteConfig['global.safetyNumberAci']?.value;
-    if (typeof timestamp !== 'number') {
-      return SafetyNumberMode.DefaultE164AndThenACI;
-    }
-
-    // Note: serverTimeSkew is a difference between server time and local time,
-    // so we have to add local time to it to correct it for a skew.
-    return now + serverTimeSkew >= timestamp
-      ? SafetyNumberMode.DefaultACIAndMaybeE164
-      : SafetyNumberMode.DefaultE164AndThenACI;
   }
 );
 

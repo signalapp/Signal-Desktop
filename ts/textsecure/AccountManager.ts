@@ -67,6 +67,7 @@ const DAY = 24 * 60 * 60 * 1000;
 
 const STARTING_KEY_ID = 1;
 const PROFILE_KEY_LENGTH = 32;
+const MASTER_KEY_LENGTH = 32;
 const KEY_TOO_OLD_THRESHOLD = 14 * DAY;
 
 export const KYBER_KEY_ID_KEY: StorageKeyByServiceIdKind = {
@@ -120,6 +121,7 @@ type CreateAccountSharedOptionsType = Readonly<{
   aciKeyPair: KeyPairType;
   pniKeyPair: KeyPairType;
   profileKey: Uint8Array;
+  masterKey: Uint8Array | undefined;
 }>;
 
 type CreatePrimaryDeviceOptionsType = Readonly<{
@@ -302,6 +304,7 @@ export default class AccountManager extends EventTarget {
       const pniKeyPair = generateKeyPair();
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
       const accessKey = deriveAccessKey(profileKey);
+      const masterKey = getRandomBytes(MASTER_KEY_LENGTH);
 
       const registrationBaton = this.server.startRegistration();
       try {
@@ -314,6 +317,7 @@ export default class AccountManager extends EventTarget {
           pniKeyPair,
           profileKey,
           accessKey,
+          masterKey,
           readReceipts: true,
         });
       } finally {
@@ -428,6 +432,7 @@ export default class AccountManager extends EventTarget {
           ourAci,
           ourPni,
           readReceipts: Boolean(provisionMessage.readReceipts),
+          masterKey: provisionMessage.masterKey,
         });
       } finally {
         this.server.finishRegistration(registrationBaton);
@@ -968,6 +973,7 @@ export default class AccountManager extends EventTarget {
       aciKeyPair,
       pniKeyPair,
       profileKey,
+      masterKey,
       readReceipts,
       userAgent,
     } = options;
@@ -1202,6 +1208,9 @@ export default class AccountManager extends EventTarget {
     if (userAgent) {
       await storage.put('userAgent', userAgent);
     }
+    if (masterKey) {
+      await storage.put('masterKey', Bytes.toBase64(masterKey));
+    }
 
     await storage.put('read-receipt-setting', Boolean(readReceipts));
 
@@ -1360,6 +1369,7 @@ export default class AccountManager extends EventTarget {
 
     if (oldPni) {
       await storage.protocol.removeOurOldPni(oldPni);
+      await window.ConversationController.clearShareMyPhoneNumber();
     }
 
     await storage.user.setPni(pni);

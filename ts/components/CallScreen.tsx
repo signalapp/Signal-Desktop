@@ -35,7 +35,7 @@ import {
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import {
-  useMutedToast,
+  CallingButtonToastsContainer,
   useReconnectingToast,
   useScreenSharingStoppedToast,
 } from './CallingToastManager';
@@ -251,7 +251,6 @@ export function CallScreen({
     };
   }, [toggleAudio, toggleVideo]);
 
-  useMutedToast(hasLocalAudio, i18n);
   useReconnectingToast({ activeCall, i18n });
   useScreenSharingStoppedToast({ activeCall, i18n });
 
@@ -348,23 +347,7 @@ export function CallScreen({
           <video ref={localVideoRef} autoPlay />
         ) : (
           <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-            <Avatar
-              acceptedMessageRequest
-              avatarPath={me.avatarPath}
-              badge={undefined}
-              color={me.color || AvatarColors[0]}
-              noteToSelf={false}
-              conversationType="direct"
-              i18n={i18n}
-              isMe
-              phoneNumber={me.phoneNumber}
-              profileName={me.profileName}
-              title={me.title}
-              // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
-              //   to determine blurring.
-              sharedGroupNames={[]}
-              size={AvatarSize.EIGHTY}
-            />
+            <div className="module-calling__spacer module-calling__camera-is-off-spacer" />
             <div className="module-calling__camera-is-off">
               {i18n('icu:calling__your-video-is-off')}
             </div>
@@ -399,7 +382,7 @@ export function CallScreen({
           title={me.title}
           // See comment above about `sharedGroupNames`.
           sharedGroupNames={[]}
-          size={AvatarSize.EIGHTY}
+          size={AvatarSize.FORTY}
         />
       </CallBackgroundBlur>
     );
@@ -521,20 +504,21 @@ export function CallScreen({
         />
       </div>
       {isRinging && (
-        <CallingPreCallInfo
-          conversation={conversation}
-          groupMembers={groupMembers}
-          i18n={i18n}
-          me={me}
-          ringMode={RingMode.IsRinging}
-        />
+        <>
+          <div className="module-CallingPreCallInfo-spacer " />
+          <CallingPreCallInfo
+            conversation={conversation}
+            groupMembers={groupMembers}
+            i18n={i18n}
+            me={me}
+            ringMode={RingMode.IsRinging}
+          />
+        </>
       )}
       {remoteParticipantsElement}
       {lonelyInCallNode}
       <div className="module-ongoing-call__footer">
-        {/* This layout-only element is not ideal.
-            See the comment in _modules.css for more. */}
-        <div className="module-ongoing-call__footer__local-preview-offset" />
+        <div className="module-calling__spacer CallControls__OuterSpacer" />
         <div
           className={classNames(
             'CallControls',
@@ -546,6 +530,13 @@ export function CallScreen({
             <div className="CallControls__CallTitle">{conversation.title}</div>
             <div className="CallControls__Status">{callStatus}</div>
           </div>
+
+          <CallingButtonToastsContainer
+            hasLocalAudio={hasLocalAudio}
+            outgoingRing={undefined}
+            i18n={i18n}
+          />
+
           <div className="CallControls__ButtonContainer">
             <CallingButton
               buttonType={presentingButtonType}
@@ -588,14 +579,21 @@ export function CallScreen({
             </Button>
           </div>
         </div>
-        <div className="module-ongoing-call__footer__local-preview">
-          {localPreviewNode}
-          <CallingAudioIndicator
-            hasAudio={hasLocalAudio}
-            audioLevel={localAudioLevel}
-            shouldShowSpeaking={isSpeaking}
-          />
-        </div>
+        {localPreviewNode ? (
+          <div className="module-ongoing-call__footer__local-preview module-ongoing-call__footer__local-preview--active">
+            {localPreviewNode}
+            {!isSendingVideo && (
+              <div className="CallingStatusIndicator CallingStatusIndicator--Video" />
+            )}
+            <CallingAudioIndicator
+              hasAudio={hasLocalAudio}
+              audioLevel={localAudioLevel}
+              shouldShowSpeaking={isSpeaking}
+            />
+          </div>
+        ) : (
+          <div className="module-ongoing-call__footer__local-preview" />
+        )}
       </div>
     </div>
   );

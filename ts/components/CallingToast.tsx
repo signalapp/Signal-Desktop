@@ -56,10 +56,12 @@ const CallingToastContext = createContext<CallingToastContextType | null>(null);
 export function CallingToastProvider({
   i18n,
   children,
+  region,
   maxToasts = 5,
 }: {
   i18n: LocalizerType;
   children: React.ReactNode;
+  region?: React.RefObject<HTMLElement>;
   maxToasts?: number;
 }): JSX.Element {
   const [toasts, setToasts] = React.useState<Array<CallingToastStateType>>([]);
@@ -198,16 +200,20 @@ export function CallingToastProvider({
   const transitions = useTransition(toasts, {
     from: item => ({
       opacity: 0,
+      scale: 0.85,
       marginTop:
         // If this is the first toast shown, or if this is replacing the
         // first toast, we just fade-in (and don't slide down)
-        previousToasts.length === 0 || item.key === previousToasts[0].key
+        previousToasts.length === 0 ||
+        item.key === previousToasts[0].key ||
+        maxToasts === toasts.length
           ? '0px'
           : `${-1 * TOAST_HEIGHT_PX}px`,
     }),
     enter: {
       opacity: 1,
       zIndex: 1,
+      scale: 1,
       marginTop: '0px',
       config: (key: string) => {
         if (key === 'marginTop') {
@@ -231,19 +237,22 @@ export function CallingToastProvider({
             : `${-1 * (TOAST_HEIGHT_PX + TOAST_GAP_PX)}px`,
         // If this toast is being replaced by another one with the same key, immediately
         // hide it
-        display: toasts.some(toast => toast.key === item.key)
-          ? 'none'
-          : 'block',
+        display:
+          toasts.some(toast => toast.key === item.key) ||
+          maxToasts === toasts.length
+            ? 'none'
+            : 'block',
         config: (key: string) => {
           if (key === 'zIndex') {
+            return { duration: 0 };
+          }
+          if (key === 'display') {
             return { duration: 0 };
           }
           if (key === 'opacity') {
             return { duration: 100 };
           }
-          return {
-            duration: 300,
-          };
+          return { duration: 200 };
         },
       };
     },
@@ -278,7 +287,7 @@ export function CallingToastProvider({
             ))}
           </div>
         </div>,
-        document.body
+        region?.current ?? document.body
       )}
       {children}
     </CallingToastContext.Provider>

@@ -42,24 +42,6 @@ export function CallingHeader({
         <div className="module-ongoing-call__header-message">{message}</div>
       ) : null}
       <div className="module-calling-tools">
-        {togglePip && (
-          <div className="module-calling-tools__button">
-            <Tooltip
-              content={i18n('icu:calling__pip--on')}
-              className="CallingButton__tooltip"
-              theme={Theme.Dark}
-            >
-              <button
-                aria-label={i18n('icu:calling__pip--on')}
-                className="CallSettingsButton__Button"
-                onClick={togglePip}
-                type="button"
-              >
-                <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Pip" />
-              </button>
-            </Tooltip>
-          </div>
-        )}
         {isGroupCall && participantCount > 2 && toggleSpeakerView && (
           <div className="module-calling-tools__button">
             <Tooltip
@@ -109,6 +91,24 @@ export function CallingHeader({
             </button>
           </Tooltip>
         </div>
+        {togglePip && (
+          <div className="module-calling-tools__button">
+            <Tooltip
+              content={i18n('icu:calling__pip--on')}
+              className="CallingButton__tooltip"
+              theme={Theme.Dark}
+            >
+              <button
+                aria-label={i18n('icu:calling__pip--on')}
+                className="CallSettingsButton__Button"
+                onClick={togglePip}
+                type="button"
+              >
+                <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Pip" />
+              </button>
+            </Tooltip>
+          </div>
+        )}
         {onCancel && (
           <div className="module-calling-tools__button">
             <Tooltip

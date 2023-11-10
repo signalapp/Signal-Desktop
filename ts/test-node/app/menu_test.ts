@@ -199,6 +199,7 @@ const PLATFORMS = [
 describe('createTemplate', () => {
   const { i18n } = loadLocale({
     preferredSystemLocales: ['en'],
+    localeOverride: null,
     hourCyclePreference: HourCyclePreference.UnknownPreference,
     logger: {
       fatal: stub().throwsArg(0),

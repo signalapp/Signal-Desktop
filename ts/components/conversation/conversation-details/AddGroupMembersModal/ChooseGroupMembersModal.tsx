@@ -55,6 +55,7 @@ export type StatePropsType = {
   i18n: LocalizerType;
   theme: ThemeType;
   maxGroupSize: number;
+  ourUsername: string | undefined;
   searchTerm: string;
   selectedContacts: ReadonlyArray<ConversationType>;
 
@@ -85,6 +86,7 @@ export function ChooseGroupMembersModal({
   i18n,
   maxGroupSize,
   onClose,
+  ourUsername,
   removeSelectedContact,
   searchTerm,
   selectedContacts,
@@ -110,6 +112,7 @@ export function ChooseGroupMembersModal({
 
     isUsernameVisible =
       Boolean(username) &&
+      username !== ourUsername &&
       candidateContacts.every(contact => contact.username !== username);
   }
 

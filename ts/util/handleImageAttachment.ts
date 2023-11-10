@@ -82,6 +82,7 @@ export async function autoScale({
   const { blob, contentType: newContentType } = await scaleImageToLevel(
     file,
     contentType,
+    file.size,
     true
   );
 

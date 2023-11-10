@@ -51,7 +51,7 @@ import {
   suspendLinkPreviews,
 } from '../../services/LinkPreview';
 import {
-  getMaximumAttachmentSizeInKb,
+  getMaximumOutgoingAttachmentSizeInKb,
   getRenderDetailsForLimit,
   KIBIBYTE,
 } from '../../types/AttachmentSize';
@@ -1167,7 +1167,7 @@ function preProcessAttachment(
 
   // Putting this after everything else because the other checks are more
   // important to show to the user.
-  const limitKb = getMaximumAttachmentSizeInKb(getRemoteConfigValue);
+  const limitKb = getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue);
   if (file.size / KIBIBYTE > limitKb) {
     return {
       toastType: ToastType.FileSize,

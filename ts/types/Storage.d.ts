@@ -56,6 +56,7 @@ export type StorageAccessType = {
   'call-system-notification': boolean;
   'hide-menu-bar': boolean;
   'incoming-call-notification': boolean;
+  localeOverride: string | null;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
@@ -163,6 +164,9 @@ export type StorageAccessType = {
   subscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
+  usernameLastIntegrityCheck: number;
+  usernameCorrupted: boolean;
+  usernameLinkCorrupted: boolean;
   usernameLinkColor: number;
   usernameLink: {
     entropy: Uint8Array;
