@@ -16,7 +16,6 @@ import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
 import type { BadgeType } from '../badges/types';
-import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
 import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { RawBodyRange } from '../types/BodyRange';
@@ -794,7 +793,7 @@ export type DataInterface = {
   countStoryReadsByConversation(conversationId: string): Promise<number>;
 
   removeAll: () => Promise<void>;
-  removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;
+  removeAllConfiguration: () => Promise<void>;
   eraseStorageServiceState: () => Promise<void>;
 
   getMessagesNeedingUpgrade: (
