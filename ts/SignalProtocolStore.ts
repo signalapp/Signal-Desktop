@@ -50,7 +50,6 @@ import type {
   UnprocessedUpdateType,
   CompatPreKeyType,
 } from './textsecure/Types.d';
-import type { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 import type { ServiceIdString, PniString, AciString } from './types/ServiceId';
 import { isServiceIdString, ServiceIdKind } from './types/ServiceId';
 import type { Address } from './types/Address';
@@ -2699,8 +2698,8 @@ export class SignalProtocolStore extends EventEmitter {
     this.emit('removeAllData');
   }
 
-  async removeAllConfiguration(mode: RemoveAllConfiguration): Promise<void> {
-    await window.Signal.Data.removeAllConfiguration(mode);
+  async removeAllConfiguration(): Promise<void> {
+    await window.Signal.Data.removeAllConfiguration();
     await this.hydrateCaches();
 
     window.storage.reset();

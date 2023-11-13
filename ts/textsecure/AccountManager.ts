@@ -24,7 +24,6 @@ import ProvisioningCipher from './ProvisioningCipher';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
-import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import * as Errors from '../types/errors';
 import { senderCertificateService } from '../services/senderCertificate';
 import {
@@ -1043,10 +1042,8 @@ export default class AccountManager extends EventTarget {
         );
       }
     } else {
-      log.info('createAccount: Erasing configuration (soft)');
-      await storage.protocol.removeAllConfiguration(
-        RemoveAllConfiguration.Soft
-      );
+      log.info('createAccount: Erasing configuration');
+      await storage.protocol.removeAllConfiguration();
     }
 
     await senderCertificateService.clear();
