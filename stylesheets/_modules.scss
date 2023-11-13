@@ -5447,6 +5447,12 @@ button.module-image__border-overlay:focus {
   overflow-y: overlay;
   display: flex;
   flex-direction: column;
+
+  // Unset this for buttons in the timeline so that it doesn't prevent the higher z-index
+  // ConversationHeader from being draggable
+  button {
+    -webkit-app-region: initial;
+  }
 }
 
 .module-timeline__messages {
