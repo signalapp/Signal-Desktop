@@ -137,7 +137,6 @@ import {
 } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
-import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 import type { ServiceIdString } from './types/ServiceId';
 import { ServiceIdKind, isServiceIdString } from './types/ServiceId';
 import { isAciString } from './util/isAciString';
@@ -853,7 +852,7 @@ export async function startApp(): Promise<void> {
       log.warn(
         `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
       );
-      await unlinkAndDisconnect(RemoveAllConfiguration.Soft);
+      await unlinkAndDisconnect();
     }
 
     // Start heartbeat timer
@@ -1347,7 +1346,7 @@ export async function startApp(): Promise<void> {
   });
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
-    void unlinkAndDisconnect(RemoveAllConfiguration.Full);
+    void unlinkAndDisconnect();
   });
 
   async function runStorageService() {
@@ -1783,7 +1782,7 @@ export async function startApp(): Promise<void> {
 
       if (!window.textsecure.storage.user.getAci()) {
         log.error('UUID not captured during registration, unlinking');
-        return unlinkAndDisconnect(RemoveAllConfiguration.Full);
+        return unlinkAndDisconnect();
       }
 
       if (connectCount === 1) {
@@ -1803,7 +1802,7 @@ export async function startApp(): Promise<void> {
 
       if (!window.textsecure.storage.user.getPni()) {
         log.error('PNI not captured during registration, unlinking softly');
-        return unlinkAndDisconnect(RemoveAllConfiguration.Soft);
+        return unlinkAndDisconnect();
       }
 
       if (firstRun === true && deviceId !== 1) {
@@ -2891,9 +2890,7 @@ export async function startApp(): Promise<void> {
     return false;
   }
 
-  async function unlinkAndDisconnect(
-    mode: RemoveAllConfiguration
-  ): Promise<void> {
+  async function unlinkAndDisconnect(): Promise<void> {
     window.Whisper.events.trigger('unauthorized');
 
     log.warn(
@@ -2933,7 +2930,7 @@ export async function startApp(): Promise<void> {
     );
 
     try {
-      log.info(`unlinkAndDisconnect: removing configuration, mode ${mode}`);
+      log.info('unlinkAndDisconnect: removing configuration');
 
       // First, make changes to conversations in memory
       window.getConversations().forEach(conversation => {
@@ -2947,7 +2944,7 @@ export async function startApp(): Promise<void> {
       await window.Signal.Data.getItemById('manifestVersion');
 
       // Finally, conversations in the database, and delete all config tables
-      await window.textsecure.storage.protocol.removeAllConfiguration(mode);
+      await window.textsecure.storage.protocol.removeAllConfiguration();
 
       // These three bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
@@ -3000,7 +2997,7 @@ export async function startApp(): Promise<void> {
       error instanceof HTTPError &&
       (error.code === 401 || error.code === 403)
     ) {
-      void unlinkAndDisconnect(RemoveAllConfiguration.Full);
+      void unlinkAndDisconnect();
       return;
     }
 

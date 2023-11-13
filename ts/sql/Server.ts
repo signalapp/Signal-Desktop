@@ -44,12 +44,10 @@ import { consoleLogger } from '../util/consoleLogger';
 import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
-import { missingCaseError } from '../util/missingCaseError';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
-import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { BadgeType, BadgeImageType } from '../badges/types';
 import { parseBadgeCategory } from '../badges/BadgeCategory';
 import { parseBadgeImageTheme } from '../badges/BadgeImageTheme';
@@ -5682,9 +5680,7 @@ async function removeAll(): Promise<void> {
 }
 
 // Anything that isn't user-visible data
-async function removeAllConfiguration(
-  mode = RemoveAllConfiguration.Full
-): Promise<void> {
+async function removeAllConfiguration(): Promise<void> {
   const db = await getWritableInstance();
 
   db.transaction(() => {
@@ -5704,26 +5700,16 @@ async function removeAllConfiguration(
       `
     );
 
-    if (mode === RemoveAllConfiguration.Full) {
-      db.exec(
-        `
-        DELETE FROM items;
-        `
-      );
-    } else if (mode === RemoveAllConfiguration.Soft) {
-      const itemIds: ReadonlyArray<string> = db
-        .prepare<EmptyQuery>('SELECT id FROM items')
-        .pluck(true)
-        .all();
+    const itemIds: ReadonlyArray<string> = db
+      .prepare<EmptyQuery>('SELECT id FROM items')
+      .pluck(true)
+      .all();
 
-      const allowedSet = new Set<string>(STORAGE_UI_KEYS);
-      for (const id of itemIds) {
-        if (!allowedSet.has(id)) {
-          removeById(db, 'items', id);
-        }
+    const allowedSet = new Set<string>(STORAGE_UI_KEYS);
+    for (const id of itemIds) {
+      if (!allowedSet.has(id)) {
+        removeById(db, 'items', id);
       }
-    } else {
-      throw missingCaseError(mode);
     }
 
     db.exec(
