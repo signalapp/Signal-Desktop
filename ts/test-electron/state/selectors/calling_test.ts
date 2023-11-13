@@ -66,7 +66,7 @@ describe('state/selectors/calling', () => {
       hasLocalAudio: true,
       hasLocalVideo: false,
       localAudioLevel: 0,
-      viewMode: CallViewMode.Grid,
+      viewMode: CallViewMode.Paginated,
       showParticipantsList: false,
       safetyNumberChangedAcis: [],
       outgoingRing: true,

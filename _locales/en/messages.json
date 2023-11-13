@@ -3663,13 +3663,26 @@
     "messageformat": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "Switch to grid view",
-    "description": "Title for grid/speaker view toggle when on a call"
+
+  "icu:calling__change-view": {
+    "messageformat": "Change view",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "Switch to speaker view",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Grid view",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Sidebar view",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Speaker view",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "View updated",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "Leave call",

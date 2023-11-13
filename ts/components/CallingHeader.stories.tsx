@@ -8,6 +8,7 @@ import type { PropsType } from './CallingHeader';
 import { CallingHeader } from './CallingHeader';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { CallViewMode } from '../types/Calling';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -26,7 +27,8 @@ export default {
     participantCount: 0,
     title: 'With Someone',
     togglePip: action('toggle-pip'),
-    toggleSettings: action('toggle-settings'),
+    callViewMode: CallViewMode.Paginated,
+    changeCallView: action('change-call-view'),
   },
 } satisfies Meta<PropsType>;
 

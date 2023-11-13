@@ -14,7 +14,7 @@ import type {
   SetRendererCanvasType,
 } from '../state/ducks/calling';
 import { Avatar, AvatarSize } from './Avatar';
-import { CallingHeader } from './CallingHeader';
+import { CallingHeader, getCallViewIconClassname } from './CallingHeader';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { Button, ButtonVariant } from './Button';
@@ -46,7 +46,10 @@ import type { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { missingCaseError } from '../util/missingCaseError';
 import * as KeyboardLayout from '../services/keyboardLayout';
-import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
+import {
+  usePresenter,
+  useActivateSpeakerViewOnPresenting,
+} from '../hooks/useActivateSpeakerViewOnPresenting';
 import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
@@ -57,6 +60,8 @@ import {
 } from '../hooks/useKeyboardShortcuts';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
 import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting';
+import { usePrevious } from '../hooks/usePrevious';
+import { useCallingToasts } from './CallingToast';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -83,7 +88,7 @@ export type PropsType = {
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
-  toggleSpeakerView: () => void;
+  changeCallView: (mode: CallViewMode) => void;
 };
 
 export const isInSpeakerView = (
@@ -123,6 +128,7 @@ function CallDuration({
 
 export function CallScreen({
   activeCall,
+  changeCallView,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   groupMembers,
@@ -143,7 +149,6 @@ export function CallScreen({
   togglePip,
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
-  toggleSpeakerView,
 }: PropsType): JSX.Element {
   const {
     conversation,
@@ -253,6 +258,7 @@ export function CallScreen({
 
   useReconnectingToast({ activeCall, i18n });
   useScreenSharingStoppedToast({ activeCall, i18n });
+  useViewModeChangedToast({ activeCall, i18n });
 
   const currentPresenter = remoteParticipants.find(
     participant => participant.presenting
@@ -315,9 +321,9 @@ export function CallScreen({
         activeCall.connectionState === GroupCallConnectionState.Connected;
       remoteParticipantsElement = (
         <GroupCallRemoteParticipants
+          callViewMode={activeCall.viewMode}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           i18n={i18n}
-          isInSpeakerView={isInSpeakerView(activeCall)}
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           remoteAudioLevels={activeCall.remoteAudioLevels}
@@ -470,7 +476,8 @@ export function CallScreen({
         )}`,
         `module-ongoing-call__container--${
           hasCallStarted ? 'call-started' : 'call-not-started'
-        }`
+        }`,
+        { 'module-ongoing-call__container--hide-controls': !showControls }
       )}
       onFocus={() => {
         setShowControls(true);
@@ -493,14 +500,14 @@ export function CallScreen({
         className={classNames('module-ongoing-call__header', controlsFadeClass)}
       >
         <CallingHeader
+          callViewMode={activeCall.viewMode}
+          changeCallView={changeCallView}
           i18n={i18n}
-          isInSpeakerView={isInSpeakerView(activeCall)}
           isGroupCall={isGroupCall}
           participantCount={participantCount}
           title={headerTitle}
           togglePip={togglePip}
           toggleSettings={toggleSettings}
-          toggleSpeakerView={toggleSpeakerView}
         />
       </div>
       {isRinging && (
@@ -624,4 +631,57 @@ function renderDuration(ms: number): string {
     return `${hours}:${mins}:${secs}`;
   }
   return `${mins}:${secs}`;
+}
+
+function useViewModeChangedToast({
+  activeCall,
+  i18n,
+}: {
+  activeCall: ActiveCallType;
+  i18n: LocalizerType;
+}): void {
+  const { viewMode } = activeCall;
+  const previousViewMode = usePrevious(viewMode, viewMode);
+  const presenterAci = usePresenter(activeCall.remoteParticipants);
+
+  const VIEW_MODE_CHANGED_TOAST_KEY = 'view-mode-changed';
+  const { showToast, hideToast } = useCallingToasts();
+
+  useEffect(() => {
+    if (viewMode !== previousViewMode) {
+      if (
+        // If this is an automated change to presentation mode, don't show toast
+        viewMode === CallViewMode.Presentation ||
+        // if this is an automated change away from presentation mode, don't show toast
+        (previousViewMode === CallViewMode.Presentation && !presenterAci)
+      ) {
+        return;
+      }
+
+      hideToast(VIEW_MODE_CHANGED_TOAST_KEY);
+      showToast({
+        key: VIEW_MODE_CHANGED_TOAST_KEY,
+        content: (
+          <div className="CallingToast__viewChanged">
+            <span
+              className={classNames(
+                'CallingToast__viewChanged__icon',
+                getCallViewIconClassname(viewMode)
+              )}
+            />
+            {i18n('icu:calling__view_mode--updated')}
+          </div>
+        ),
+        autoClose: true,
+      });
+    }
+  }, [
+    showToast,
+    hideToast,
+    i18n,
+    activeCall,
+    viewMode,
+    previousViewMode,
+    presenterAci,
+  ]);
 }

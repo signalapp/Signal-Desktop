@@ -47,7 +47,7 @@ const getCommonActiveCallData = () => ({
   hasLocalAudio: true,
   hasLocalVideo: false,
   localAudioLevel: 0,
-  viewMode: CallViewMode.Grid,
+  viewMode: CallViewMode.Paginated,
   outgoingRing: true,
   pip: false,
   settingsDialogOpen: false,
@@ -61,6 +61,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   bounceAppIconStart: action('bounce-app-icon-start'),
   bounceAppIconStop: action('bounce-app-icon-stop'),
   cancelCall: action('cancel-call'),
+  changeCallView: action('change-call-view'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
   getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
@@ -102,7 +103,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
     'toggle-screen-recording-permissions-dialog'
   ),
   toggleSettings: action('toggle-settings'),
-  toggleSpeakerView: action('toggle-speaker-view'),
   isConversationTooBigToRing: false,
   pauseVoiceNotePlayer: action('pause-audio-player'),
 });

@@ -6,7 +6,10 @@ import { times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { GroupCallRemoteParticipantType } from '../types/Calling';
+import type {
+  ActiveGroupCallType,
+  GroupCallRemoteParticipantType,
+} from '../types/Calling';
 import {
   CallMode,
   CallViewMode,
@@ -29,7 +32,7 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGr
 import enMessages from '../../_locales/en/messages.json';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
 
-const MAX_PARTICIPANTS = 64;
+const MAX_PARTICIPANTS = 75;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -118,7 +121,7 @@ const createActiveCallProp = (
     hasLocalAudio: overrideProps.hasLocalAudio ?? false,
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     localAudioLevel: overrideProps.localAudioLevel ?? 0,
-    viewMode: overrideProps.viewMode ?? CallViewMode.Grid,
+    viewMode: overrideProps.viewMode ?? CallViewMode.Overflow,
     outgoingRing: true,
     pip: false,
     settingsDialogOpen: false,
@@ -141,6 +144,7 @@ const createProps = (
   }
 ): PropsType => ({
   activeCall: createActiveCallProp(overrideProps),
+  changeCallView: action('change-call-view'),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up'),
@@ -169,7 +173,6 @@ const createProps = (
     'toggle-screen-recording-permissions-dialog'
   ),
   toggleSettings: action('toggle-settings'),
-  toggleSpeakerView: action('toggle-speaker-view'),
 });
 
 function CallScreen(props: ReturnType<typeof createProps>): JSX.Element {
@@ -301,22 +304,64 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   hasRemoteVideo: index % 4 !== 0,
   presenting: false,
   sharingScreen: false,
-  videoAspectRatio: 1.3,
+  videoAspectRatio: Math.random() < 0.7 ? 1.3 : Math.random() * 0.4 + 0.6,
   ...getDefaultConversationWithServiceId({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
     title: `Participant ${index + 1}`,
   }),
 }));
 
-export function GroupCallMany(): JSX.Element {
+export function GroupCallManyPaginated(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Group,
+    remoteParticipants: allRemoteParticipants,
+    viewMode: CallViewMode.Paginated,
+  });
+
+  return <CallScreen {...props} />;
+}
+export function GroupCallManyPaginatedEveryoneTalking(): JSX.Element {
+  const [props] = React.useState(
+    createProps({
+      callMode: CallMode.Group,
+      remoteParticipants: allRemoteParticipants,
+      viewMode: CallViewMode.Paginated,
+    })
+  );
+
+  const activeCall = useMakeEveryoneTalk(
+    props.activeCall as ActiveGroupCallType
+  );
+
+  return <CallScreen {...props} activeCall={activeCall} />;
+}
+
+export function GroupCallManyOverflow(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
         callMode: CallMode.Group,
-        remoteParticipants: allRemoteParticipants.slice(0, 40),
+        remoteParticipants: allRemoteParticipants,
+        viewMode: CallViewMode.Overflow,
       })}
     />
   );
+}
+
+export function GroupCallManyOverflowEveryoneTalking(): JSX.Element {
+  const [props] = React.useState(
+    createProps({
+      callMode: CallMode.Group,
+      remoteParticipants: allRemoteParticipants,
+      viewMode: CallViewMode.Overflow,
+    })
+  );
+
+  const activeCall = useMakeEveryoneTalk(
+    props.activeCall as ActiveGroupCallType
+  );
+
+  return <CallScreen {...props} activeCall={activeCall} />;
 }
 
 export function GroupCallSpeakerView(): JSX.Element {
@@ -458,4 +503,51 @@ export function CallScreenToastAPalooza(): JSX.Element {
       <ToastEmitter />
     </CallingToastProvider>
   );
+}
+
+function useMakeEveryoneTalk(
+  activeCall: ActiveGroupCallType,
+  frequency = 2000
+) {
+  const [call, setCall] = React.useState(activeCall);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      const idxToStartSpeaking = Math.floor(
+        Math.random() * call.remoteParticipants.length
+      );
+
+      const demuxIdToStartSpeaking = (
+        call.remoteParticipants[
+          idxToStartSpeaking
+        ] as GroupCallRemoteParticipantType
+      ).demuxId;
+
+      const remoteAudioLevels = new Map();
+
+      for (const [demuxId] of call.remoteAudioLevels.entries()) {
+        if (demuxId === demuxIdToStartSpeaking) {
+          remoteAudioLevels.set(demuxId, 1);
+        } else {
+          remoteAudioLevels.set(demuxId, 0);
+        }
+      }
+      setCall(state => ({
+        ...state,
+        remoteParticipants: state.remoteParticipants.map((part, idx) => {
+          return {
+            ...part,
+            hasRemoteAudio:
+              idx === idxToStartSpeaking ? true : part.hasRemoteAudio,
+            speakerTime:
+              idx === idxToStartSpeaking
+                ? Date.now()
+                : (part as GroupCallRemoteParticipantType).speakerTime,
+          };
+        }),
+        remoteAudioLevels,
+      }));
+    }, frequency);
+    return () => clearInterval(interval);
+  }, [frequency, call]);
+  return call;
 }

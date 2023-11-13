@@ -203,6 +203,7 @@ export function ContextMenu<T>({
   const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
 
   const optionElements = new Array<JSX.Element>();
+  const isAnyOptionSelected = typeof value !== 'undefined';
 
   for (const [index, option] of menuOptions.entries()) {
     const previous = menuOptions[index - 1];
@@ -229,6 +230,7 @@ export function ContextMenu<T>({
       closeCurrentOpenContextMenu = undefined;
     };
 
+    const isOptionSelected = isAnyOptionSelected && value === option.value;
     optionElements.push(
       <button
         aria-label={option.label}
@@ -240,7 +242,17 @@ export function ContextMenu<T>({
         type="button"
         onClick={onElementClick}
       >
-        <div className={getClassName('__option--container')}>
+        <div
+          className={classNames(
+            getClassName('__option--container'),
+            isAnyOptionSelected
+              ? getClassName('__option--container--with-selection')
+              : undefined,
+            isOptionSelected
+              ? getClassName('__option--container--selected')
+              : undefined
+          )}
+        >
           {option.icon && (
             <div
               className={classNames(
@@ -260,11 +272,6 @@ export function ContextMenu<T>({
             )}
           </div>
         </div>
-        {typeof value !== 'undefined' &&
-        typeof option.value !== 'undefined' &&
-        value === option.value ? (
-          <div className={getClassName('__option--selected')} />
-        ) : null}
       </button>
     );
   }
@@ -308,6 +315,7 @@ export function ContextMenu<T>({
       <div
         className={classNames(
           getClassName('__container'),
+
           theme ? themeClassName(theme) : undefined
         )}
       >

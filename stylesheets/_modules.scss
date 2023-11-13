@@ -3598,6 +3598,9 @@ button.module-image__border-overlay:focus {
     height: var(--window-height);
     justify-content: center;
     position: fixed;
+    /* stylelint-disable-next-line liberty/use-logical-spec */
+    left: 0;
+    top: 0;
     width: 100%;
     z-index: $z-index-calling;
   }
@@ -3706,7 +3709,31 @@ button.module-image__border-overlay:focus {
     opacity: 0;
   }
 }
+@mixin module-ongoing-call__controls--fade-in {
+  animation: {
+    name: module-ongoing-call__controls--fade-out;
+    duration: 1200ms;
+    timing-function: $ease-out-expo;
+    fill-mode: forwards;
+  }
+}
 
+@mixin module-ongoing-call__controls--fade-out {
+  animation: {
+    name: module-ongoing-call__controls--fade-out;
+    duration: 1200ms;
+    timing-function: $ease-out-expo;
+    fill-mode: forwards;
+  }
+  pointer-events: none;
+}
+
+.module-ongoing-call__container--hide-controls {
+  .module-ongoing-call__prev-page,
+  .module-ongoing-call__next-page {
+    @include module-ongoing-call__controls--fade-out;
+  }
+}
 .module-ongoing-call {
   $local-preview-width: 108px;
   $local-preview-height: 80px;
@@ -3740,12 +3767,52 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__next-page,
+  &__prev-page {
+    @include button-reset;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: $color-gray-78;
+    z-index: $z-index-above-above-base;
+
+    &--arrow {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__next-page {
+    inset-inline-end: 4px;
+    &--arrow {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right.svg',
+        $color-white
+      );
+    }
+  }
+
+  &__prev-page {
+    inset-inline-start: 4px;
+    &--arrow {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-left.svg',
+        $color-white
+      );
+    }
+  }
+
   &__header {
     background: linear-gradient($color-black-alpha-40, transparent);
     top: 0;
     width: 100%;
     z-index: $z-index-above-above-base;
-    -webkit-app-region: drag;
   }
 
   &__header-message {
@@ -3767,6 +3834,14 @@ button.module-image__border-overlay:focus {
     margin-block-start: 24px;
     z-index: $z-index-above-base;
 
+    &__grid--wrapper {
+      margin-block-start: 26px;
+      margin-block-end: 16px;
+      margin-inline: 16px;
+      display: flex;
+      width: 100%;
+    }
+
     &__grid {
       flex-grow: 1;
       position: relative;
@@ -3775,7 +3850,7 @@ button.module-image__border-overlay:focus {
     &__overflow {
       flex: 0 0 auto;
       position: relative;
-      margin-inline: 16px;
+      margin-inline-end: 16px;
 
       &__inner {
         position: absolute;
@@ -3875,6 +3950,34 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__group-call--pagination-tile {
+    @include button-reset;
+    position: absolute;
+    border-radius: 10px;
+    background-color: $color-gray-78;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include font-body-1;
+    color: $color-gray-20;
+    &--next-arrow {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right.svg',
+        $color-gray-20
+      );
+      height: 16px;
+      width: 16px;
+    }
+    &--prev-arrow {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-left.svg',
+        $color-gray-20
+      );
+      height: 16px;
+      width: 16px;
+    }
+  }
+
   &__group-call-remote-participant {
     display: flex;
     justify-content: center;
@@ -3883,9 +3986,8 @@ button.module-image__border-overlay:focus {
     line-height: 0;
     overflow: hidden;
     border-radius: 10px;
-    // stylelint-disable-next-line declaration-property-value-disallowed-list
-    transform: translate(0, 0);
-    transition: transform 200ms linear, width 200ms linear, height 200ms linear;
+    transition: top 200ms linear, inset-inline-start 200ms linear,
+      transform 200ms linear, width 200ms linear, height 200ms linear;
 
     &:after {
       content: '';
@@ -4047,21 +4149,11 @@ button.module-image__border-overlay:focus {
   }
 
   &__controls--fadeIn {
-    animation: {
-      name: module-ongoing-call__controls--fade-in;
-      duration: 400ms;
-      timing-function: $ease-out-expo;
-      fill-mode: forwards;
-    }
+    @include module-ongoing-call__controls--fade-in;
   }
 
   &__controls--fadeOut {
-    animation: {
-      name: module-ongoing-call__controls--fade-out;
-      duration: 1200ms;
-      timing-function: $ease-out-expo;
-      fill-mode: forwards;
-    }
+    @include module-ongoing-call__controls--fade-out;
   }
 }
 
@@ -4078,6 +4170,9 @@ button.module-image__border-overlay:focus {
 
   &__button:last-child {
     margin-inline-end: 24px;
+  }
+  .ContextMenu__container {
+    background: none;
   }
 }
 
