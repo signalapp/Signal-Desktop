@@ -50,7 +50,7 @@ const settingsSlice = createSlice({
       const hasBlindedMsgRequestsEnabled = Storage.get(
         SettingsKey.hasBlindedMsgRequestsEnabled,
         false
-      );    
+      );
       const hasFollowSystemThemeEnabled = Storage.get(
         SettingsKey.hasFollowSystemThemeEnabled,
         false
@@ -66,11 +66,12 @@ const settingsSlice = createSlice({
 
       state.settingsBools.hasFollowSystemThemeEnabled = isBoolean(hasFollowSystemThemeEnabled)
         ? hasFollowSystemThemeEnabled
+        : false;
 
       state.settingsBools.hasShiftSendEnabled = isBoolean(hasShiftSendEnabled)
         ? hasShiftSendEnabled
-
         : false;
+
       return state;
     },
     updateSettingsBoolValue(state, action: PayloadAction<{ id: string; value: boolean }>) {
