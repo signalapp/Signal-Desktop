@@ -459,7 +459,7 @@ export function Preferences({
   );
 
   const localeSearchOptions = useMemo(() => {
-    const collator = new Intl.Collator(resolvedLocale, { usage: 'sort' });
+    const collator = new Intl.Collator('en', { usage: 'sort' });
 
     const availableLocalesOptions = availableLocales
       .map(locale => {
@@ -468,7 +468,7 @@ export function Preferences({
         return { locale, currentLocaleLabel, matchingLocaleLabel };
       })
       .sort((a, b) => {
-        return collator.compare(a.currentLocaleLabel, b.currentLocaleLabel);
+        return collator.compare(a.locale, b.locale);
       });
 
     const [localeOverrideMatches, localeOverrideNonMatches] = partition(
