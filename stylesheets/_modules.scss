@@ -3605,28 +3605,6 @@ button.module-image__border-overlay:focus {
     z-index: $z-index-calling;
   }
 
-  &__header {
-    position: fixed;
-    top: 0;
-    color: #ffffff;
-    font-style: normal;
-    padding-bottom: 19px;
-    padding-top: calc(24px + var(--title-bar-drag-area-height));
-    text-align: center;
-    @include calling-text-shadow;
-    width: 100%;
-
-    &--header-name {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.009em;
-      line-height: 21px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-
   &__background {
     align-items: center;
     display: flex;
@@ -3808,21 +3786,6 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__header {
-    background: linear-gradient($color-black-alpha-40, transparent);
-    top: 0;
-    width: 100%;
-    z-index: $z-index-above-above-base;
-  }
-
-  &__header-message {
-    font-weight: normal;
-    font-size: 13px;
-    font-variant: tabular-nums;
-    line-height: 18px;
-    letter-spacing: -0.0025em;
-  }
-
   &__direct-call-ringing-spacer {
     flex: 1;
   }
@@ -3833,6 +3796,7 @@ button.module-image__border-overlay:focus {
     width: 100%;
     margin-block-start: 24px;
     z-index: $z-index-above-base;
+    -webkit-app-region: no-drag;
 
     &__grid--wrapper {
       margin-block-start: 26px;
@@ -4158,11 +4122,11 @@ button.module-image__border-overlay:focus {
 }
 
 .module-calling-tools {
-  display: flex;
-  justify-content: flex-end;
   position: absolute;
   top: calc(32px + var(--title-bar-drag-area-height));
-  width: 100%;
+  inset-inline-end: 0;
+  z-index: $z-index-above-above-base;
+  display: flex;
 
   &__button {
     margin-inline-end: 12px;
@@ -4173,6 +4137,7 @@ button.module-image__border-overlay:focus {
   }
   .ContextMenu__container {
     background: none;
+    text-wrap: nowrap;
   }
 }
 

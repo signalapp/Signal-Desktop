@@ -6,6 +6,7 @@
     position: absolute;
     z-index: $z-index-negative;
     top: 28px;
+    -webkit-app-region: no-drag;
 
     &--camera-is-on {
       @include lonely-local-video-preview;

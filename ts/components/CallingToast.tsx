@@ -17,6 +17,7 @@ import { v4 as uuid } from 'uuid';
 import { useIsMounted } from '../hooks/useIsMounted';
 import type { LocalizerType } from '../types/I18N';
 import { usePrevious } from '../hooks/usePrevious';
+import { difference } from '../util/setUtil';
 
 const DEFAULT_LIFETIME = 5000;
 
@@ -57,12 +58,12 @@ export function CallingToastProvider({
   i18n,
   children,
   region,
-  maxToasts = 5,
+  maxNonPersistentToasts = 5,
 }: {
   i18n: LocalizerType;
   children: React.ReactNode;
   region?: React.RefObject<HTMLElement>;
-  maxToasts?: number;
+  maxNonPersistentToasts?: number;
 }): JSX.Element {
   const [toasts, setToasts] = React.useState<Array<CallingToastStateType>>([]);
   const previousToasts = usePrevious([], toasts);
@@ -137,8 +138,15 @@ export function CallingToastProvider({
           return state;
         }
 
-        if (state.length === maxToasts) {
-          const toastToBePushedOut = state.at(-1);
+        const persistentToasts = state.filter(({ autoClose }) => !autoClose);
+        const nonPersistentToasts = state.filter(({ autoClose }) => autoClose);
+
+        if (
+          nonPersistentToasts.length === maxNonPersistentToasts &&
+          maxNonPersistentToasts > 0
+        ) {
+          const toastToBePushedOut = nonPersistentToasts.pop();
+
           if (toastToBePushedOut) {
             clearToastTimeout(toastToBePushedOut.key);
           }
@@ -146,15 +154,19 @@ export function CallingToastProvider({
 
         if (toast.autoClose) {
           startTimer(key, DEFAULT_LIFETIME);
+          nonPersistentToasts.unshift({ ...toast, key });
+        } else {
+          persistentToasts.unshift({ ...toast, key });
         }
         shownToasts.current.add(key);
 
-        return [{ ...toast, key }, ...state.slice(0, maxToasts - 1)];
+        // Show persistent toasts at top of list always
+        return [...persistentToasts, ...nonPersistentToasts];
       });
 
       return key;
     },
-    [startTimer, clearToastTimeout, maxToasts]
+    [startTimer, clearToastTimeout, maxNonPersistentToasts]
   );
 
   const pauseAll = useCallback(() => {
@@ -197,22 +209,43 @@ export function CallingToastProvider({
 
   const TOAST_HEIGHT_PX = 42;
   const TOAST_GAP_PX = 8;
+
+  const curToasts = new Set(toasts);
+  const prevToasts = new Set(previousToasts);
+
+  const toastsRemoved = difference(prevToasts, curToasts);
+  const toastsAdded = difference(curToasts, prevToasts);
+
   const transitions = useTransition(toasts, {
-    from: item => ({
-      opacity: 0,
-      scale: 0.85,
-      marginTop:
-        // If this is the first toast shown, or if this is replacing the
-        // first toast, we just fade-in (and don't slide down)
-        previousToasts.length === 0 ||
-        item.key === previousToasts[0].key ||
-        maxToasts === toasts.length
-          ? '0px'
-          : `${-1 * TOAST_HEIGHT_PX}px`,
-    }),
+    from: item => {
+      const enteringItemIndex = toasts.findIndex(
+        toast => toast.key === item.key
+      );
+      const isToastReplacingAnExistingOneAtThisPosition = toastsRemoved.has(
+        previousToasts[enteringItemIndex]
+      );
+      return {
+        opacity: 0,
+        zIndex: item.autoClose ? 1 : 2,
+        scale: 0.85,
+        marginTop:
+          // If this toast is replacing an existing one, don't slide-down, just fade-in
+          // Note: this just refers to toasts added / removed within one render cycle;
+          // this will almost always be when replacing toasts that are related
+          // Note: this
+          // Example:
+          //    previous                       current
+          //     "Muted"                      "Unmuted"
+          //
+          // The previous toast should disappear and the new one should fade-in in its
+          // place, so it looks like a replacement.
+          isToastReplacingAnExistingOneAtThisPosition
+            ? '0px'
+            : `${-1 * TOAST_HEIGHT_PX}px`,
+      };
+    },
     enter: {
       opacity: 1,
-      zIndex: 1,
       scale: 1,
       marginTop: '0px',
       config: (key: string) => {
@@ -226,22 +259,23 @@ export function CallingToastProvider({
       },
     },
     leave: item => {
+      const leavingItemIndex = previousToasts.findIndex(
+        toast => toast.key === item.key
+      );
+      const isToastBeingReplacedByANewOneAtThisPosition = toastsAdded.has(
+        toasts[leavingItemIndex]
+      );
       return {
         zIndex: 0,
         opacity: 0,
         // If the last toast in the list is leaving, we don't need to move it up.
         marginTop:
-          previousToasts.findIndex(toast => toast.key === item.key) ===
-          previousToasts.length - 1
+          leavingItemIndex === previousToasts.length - 1
             ? '0px'
             : `${-1 * (TOAST_HEIGHT_PX + TOAST_GAP_PX)}px`,
-        // If this toast is being replaced by another one with the same key, immediately
-        // hide it
-        display:
-          toasts.some(toast => toast.key === item.key) ||
-          maxToasts === toasts.length
-            ? 'none'
-            : 'block',
+        // If this toast is being replaced by a new toast at this position, disappear
+        // immediately (don't interfere with new one coming in)
+        display: isToastBeingReplacedByANewOneAtThisPosition ? 'none' : 'block',
         config: (key: string) => {
           if (key === 'zIndex') {
             return { duration: 0 };
@@ -252,7 +286,7 @@ export function CallingToastProvider({
           if (key === 'opacity') {
             return { duration: 100 };
           }
-          return { duration: 200 };
+          return { clamp: true, duration: 200 };
         },
       };
     },
@@ -301,6 +335,7 @@ function CallingToast(
 ): JSX.Element {
   const className = classNames(
     'CallingToast',
+    !props.autoClose && 'CallingToast--persistent',
     props.dismissable && 'CallingToast--dismissable'
   );
 
@@ -359,4 +394,22 @@ export function useCallingToasts(): CallingToastContextType {
     }),
     [wrappedShowToast, callingToastContext]
   );
+}
+
+export function PersistentCallingToast({
+  children,
+}: {
+  children: string | JSX.Element;
+}): null {
+  const { showToast } = useCallingToasts();
+  const toastId = useRef<string>(uuid());
+  useEffect(() => {
+    showToast({
+      key: toastId.current,
+      content: children,
+      autoClose: false,
+    });
+  }, [children, showToast]);
+
+  return null;
 }
