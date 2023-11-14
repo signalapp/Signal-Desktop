@@ -6,9 +6,9 @@
 @mixin localized-fonts {
   /* Japanese */
   &:lang(ja) {
-    font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
-      メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
-      sans-serif;
+    font-family: Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic',
+      'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo,
+      'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   /* Farsi (Persian) */
   &:lang(fa) {
