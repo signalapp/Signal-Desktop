@@ -310,7 +310,6 @@
 }
 
 .Preferences__LanguageButton {
-  text-transform: capitalize;
   @include button-reset;
 }
 
@@ -377,7 +376,6 @@
 
 .Preferences__LanguageModal__Item__Current {
   display: block;
-  text-transform: capitalize;
   @include font-body-1;
 }
 
@@ -399,7 +397,6 @@
 
 .Preferences__LanguageModal__Item__Matching {
   display: block;
-  text-transform: capitalize;
   @include font-body-2;
   @include light-theme {
     color: $color-gray-60;
