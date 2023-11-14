@@ -245,6 +245,8 @@ export type LocalizerKeys =
   | 'mainMenuWindow'
   | 'markAllAsRead'
   | 'markUnread'
+  | 'matchThemeSystemSettingDescription'
+  | 'matchThemeSystemSettingTitle'
   | 'maxPasswordAttempts'
   | 'maximumAttachments'
   | 'media'
