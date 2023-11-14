@@ -6,10 +6,13 @@ import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
-
+import { SessionRadioGroup } from '../../basic/SessionRadioGroup';
 import { BlockedContactsList } from '../BlockedList';
-
-import { SessionToggleWithDescription } from '../SessionSettingListItem';
+import {
+  SessionSettingsItemWrapper,
+  SessionToggleWithDescription,
+} from '../SessionSettingListItem';
+import { useHasEnterSendEnabled } from '../../../state/selectors/settings';
 
 async function toggleCommunitiesPruning() {
   try {
@@ -81,13 +84,49 @@ const AudioMessageAutoPlaySetting = () => {
   );
 };
 
+const EnterKeyFunctionSetting = () => {
+  const initialSetting = useHasEnterSendEnabled();
+  const selectedWithSettingTrue = 'enterForNewLine';
+
+  const items = [
+    {
+      label: window.i18n('enterSendNewMessageDescription'),
+      value: 'enterForSend',
+    },
+    {
+      label: window.i18n('enterNewLineDescription'),
+      value: selectedWithSettingTrue,
+    },
+  ];
+
+  return (
+    <SessionSettingsItemWrapper
+      title={window.i18n('enterKeySettingTitle')}
+      description={window.i18n('enterKeySettingDescription')}
+      inline={false}
+    >
+      <SessionRadioGroup
+        initialItem={initialSetting ? 'enterForNewLine' : 'enterForSend'}
+        group={SettingsKey.hasShiftSendEnabled} // make sure to define this key in your SettingsKey enum
+        items={items}
+        onClick={(selectedRadioValue: string) => {
+          void window.setSettingValue(
+            SettingsKey.hasShiftSendEnabled,
+            selectedRadioValue === selectedWithSettingTrue
+          );
+        }}
+      />
+    </SessionSettingsItemWrapper>
+  );
+};
+
 export const CategoryConversations = () => {
   return (
     <>
       <CommunitiesPruningSetting />
       <SpellCheckSetting />
       <AudioMessageAutoPlaySetting />
-
+      <EnterKeyFunctionSetting />
       <BlockedContactsList />
     </>
   );
