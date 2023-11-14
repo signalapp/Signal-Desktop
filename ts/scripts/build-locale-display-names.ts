@@ -17,10 +17,7 @@ const LocaleString = z.string().refine(arg => {
 });
 
 const LocaleDisplayNames = z
-  .tuple([
-    z.tuple([z.literal('Raw Code')]).rest(LocaleString),
-    z.tuple([z.literal('Display Code')]).rest(LocaleString),
-  ])
+  .tuple([z.tuple([z.literal('locale')]).rest(LocaleString)])
   .rest(z.tuple([LocaleString]).rest(z.string()));
 
 type Row = ReadonlyArray<string>;
@@ -39,7 +36,7 @@ const localeDisplayNamesBuildPath = path.join(
 
 function parseCsv(input: string) {
   return new Promise<Records>((resolve, reject) => {
-    parse(input, (error, records: Records) => {
+    parse(input, { trim: true }, (error, records: Records) => {
       if (error) {
         reject(error);
       } else {
@@ -54,7 +51,7 @@ type LocaleDisplayNamesResult = Record<string, Record<string, string>>;
 function convertData(
   input: z.infer<typeof LocaleDisplayNames>
 ): LocaleDisplayNamesResult {
-  const [[, ...keys], , ...rows] = input;
+  const [[, ...keys], ...rows] = input;
   const result = Object.fromEntries(
     rows.map(row => {
       const [key, ...messages] = row;
@@ -89,7 +86,7 @@ async function main() {
   const data = LocaleDisplayNames.parse(records);
   const result = convertData(data);
   assertValuesForAllLocales(result);
-  const json = JSON.stringify(result);
+  const json = JSON.stringify(result, null, 2);
   await fs.writeFile(localeDisplayNamesBuildPath, json, 'utf-8');
 }
 
