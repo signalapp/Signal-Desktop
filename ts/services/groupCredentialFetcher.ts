@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { last, sortBy } from 'lodash';
+import { first, last, sortBy } from 'lodash';
 import { AuthCredentialWithPniResponse } from '@signalapp/libsignal-client/zkgroup';
 
 import { getClientZkAuthOperations } from '../util/zkgroup';
@@ -109,7 +109,9 @@ export function getCheckedCredentialsForToday(
   );
   if (todayIndex < 0) {
     throw new Error(
-      'getCredentialsForToday: Cannot find credentials for today'
+      'getCredentialsForToday: Cannot find credentials for today. ' +
+        `First: ${first(data)?.redemptionTime}, ` +
+        `last: ${last(data)?.redemptionTime}`
     );
   }
 
@@ -128,8 +130,8 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     return;
   }
 
-  const previous: CredentialsDataType | undefined =
-    window.storage.get('groupCredentials');
+  const previous: CredentialsDataType =
+    window.storage.get('groupCredentials') ?? [];
   const requestDates = getDatesForRequest(previous);
   if (!requestDates) {
     log.info(`${logId}: no new credentials needed`);
@@ -195,23 +197,36 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     : [];
   const finalCredentials = [...previousCleaned, ...newCredentials];
 
-  log.info(`${logId}: Saving new credentials...`);
+  log.info(
+    `${logId}: saving ${newCredentials.length} new credentials, ` +
+      `cleaning up ${previous.length - previousCleaned.length} old ` +
+      `credentials, haveToday=${haveToday(finalCredentials)}`
+  );
+
   // Note: we don't wait for this to finish
   await window.storage.put('groupCredentials', finalCredentials);
   log.info(`${logId}: Save complete.`);
 }
 
+function haveToday(
+  data: CredentialsDataType,
+  today = toDayMillis(Date.now())
+): boolean {
+  return data?.some(({ redemptionTime }) => redemptionTime === today);
+}
+
 export function getDatesForRequest(
-  data?: CredentialsDataType
+  data: CredentialsDataType
 ): RequestDatesType | undefined {
   const today = toDayMillis(Date.now());
   const sixDaysOut = today + 6 * durations.DAY;
 
-  const haveToday = data?.some(
-    ({ redemptionTime }) => redemptionTime === today
-  );
   const lastCredential = last(data);
-  if (!haveToday || !lastCredential || lastCredential.redemptionTime < today) {
+  if (
+    !haveToday(data, today) ||
+    !lastCredential ||
+    lastCredential.redemptionTime < today
+  ) {
     return {
       startDayInMs: today,
       endDayInMs: sixDaysOut,
