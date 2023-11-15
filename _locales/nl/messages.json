@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "Er is een databasefout opgetreden. Je kunt de foutmelding kopiëren en contact opnemen met Signal-support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kun je je gegevens wissen en opnieuw opstarten.\n\nVoor contact met support ga naar: https://support.signal.org/hc/requests/new?desktop",
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -317,19 +317,19 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "Er is iets misgegaan met je gebruikersnaam, deze is niet meer aan je account toegewezen. Je kunt je gebruikersnaam opnieuw proberen in te stellen of een nieuwe kiezen.",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "Nu oplossen",
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "messageformat": "Er is iets misgegaan met je QR-code en gebruikersnaamlink, deze zijn niet langer geldig. Maak een nieuwe link om met anderen te delen.",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "Nu oplossen",
     "description": "Text of the button in the corrupted username link banner in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
@@ -1083,7 +1083,7 @@
     "description": "Used in the alt tag for the image avatar of a contact"
   },
   "icu:sendMessageToContact": {
-    "messageformat": "Bericht zenden",
+    "messageformat": "Bericht sturen",
     "description": "Shown when you are sent a contact and that contact has a signal account"
   },
   "icu:home": {
@@ -1693,10 +1693,6 @@
     "messageformat": "Opnieuw bellen",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "Oproep beginnen",
-    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "Aan oproep deelnemen",
     "description": "Button label in the call lobby for joining a call"
@@ -1729,10 +1725,6 @@
     "messageformat": "Oproep vol",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "Camera",
-    "description": "(deleted 2023/10/13) Label under the video button"
-  },
   "icu:calling__button--video-disabled": {
     "messageformat": "Camera uitgeschakeld",
     "description": "Button tooltip label when the camera is disabled"
@@ -1744,10 +1736,6 @@
   "icu:calling__button--video-on": {
     "messageformat": "Camera inschakelen",
     "description": "Button tooltip label for turning on the camera"
-  },
-  "icu:calling__button--audio__label": {
-    "messageformat": "Dempen",
-    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "Microfoon uitgeschakeld",
@@ -1761,10 +1749,6 @@
     "messageformat": "Microfoon niet langer dempen",
     "description": "Button tooltip label for turning on the microphone"
   },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "Scherm laten zien",
-    "description": "(deleted 2023/10/13) Label under the share screen button"
-  },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "Scherm laten zien is uitgeschakeld",
     "description": "Button tooltip label for when screen sharing is disabled"
@@ -1776,10 +1760,6 @@
   "icu:calling__button--presenting-off": {
     "messageformat": "Stoppen met scherm laten zien",
     "description": "Button tooltip label for stopping screen sharing"
-  },
-  "icu:calling__button--ring__label": {
-    "messageformat": "Bellen",
-    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "De groep is te groot om de leden te bellen.",
@@ -2621,11 +2601,11 @@
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "icu:message--attachmentTooBig--one": {
-    "messageformat": "Attachment too large to display.",
+    "messageformat": "Bijlage te groot om weer te geven.",
     "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--attachmentTooBig--multiple": {
-    "messageformat": "Some attachments are too large to display.",
+    "messageformat": "Sommige bijlagen zijn te groot om weer te geven.",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
@@ -3501,7 +3481,7 @@
     "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "icu:missedIncomingVideoCall": {
-    "messageformat": "Video-oproep gemist",
+    "messageformat": "Gemiste video-oproep",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "icu:acceptedOutgoingAudioCall": {
@@ -3588,10 +3568,6 @@
     "messageformat": "Opnieuw verbinden…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal-oproep {duration}",
-    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
-  },
   "icu:CallControls__InfoDisplay--participants": {
     "messageformat": "{count, plural, one {{count,number} persoon} other {{count,number} personen}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
@@ -3664,13 +3640,25 @@
     "messageformat": "Oproep volledig scherm laten innemen",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "Overschakelen naar rasterweergave",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Change view",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "Overschakelen naar huidige-spreker-weergave",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Grid view",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Sidebar view",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Speaker view",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "View updated",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "Oproep verlaten",
@@ -3773,11 +3761,11 @@
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
   "icu:MessageMaxEditsModal__Title": {
-    "messageformat": "Can't edit message",
+    "messageformat": "Kan bericht niet bewerken",
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max,number} edits can be applied to this message.",
+    "messageformat": "Dit bericht kan maximaal {max,number} keer bewerkt worden.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4861,7 +4849,7 @@
     "description": "This is the label for the number of members someone has invited"
   },
   "icu:PendingInvites--revoke-for-label": {
-    "messageformat": "Groepslidmaatschap-uitnodiging intrekken",
+    "messageformat": "Groepsuitnodiging intrekken",
     "description": "This is aria label for revoking a group invite icon"
   },
   "icu:PendingInvites--revoke-for": {
@@ -5457,15 +5445,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "messageformat": "Er is iets misgegaan met je gebruikersnaam, deze is niet meer aan je account toegewezen.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Delete username",
+    "messageformat": "Gebruikersnaam verwijderen",
     "description": "Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Create username",
+    "messageformat": "Gebruikersnaam aanmaken",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5473,11 +5461,11 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "Username needs reset",
+    "messageformat": "Gebruikersnaam moet worden vernieuwd",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "Username link needs reset",
+    "messageformat": "Gebruikersnaamlink moet worden vernieuwd",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
@@ -5833,39 +5821,39 @@
     "description": "Confirmation modal body for disabling stories"
   },
   "icu:Preferences__Language__Label": {
-    "messageformat": "Language",
+    "messageformat": "Taal",
     "description": "Language setting label"
   },
   "icu:Preferences__Language__ModalTitle": {
-    "messageformat": "Language",
+    "messageformat": "Taal",
     "description": "Language setting modal title"
   },
   "icu:Preferences__Language__SystemLanguage": {
-    "messageformat": "System Language",
+    "messageformat": "Systeemtaal",
     "description": "Option for system language"
   },
   "icu:Preferences__Language__SearchLanguages": {
-    "messageformat": "Search languages",
+    "messageformat": "Zoek talen",
     "description": "Placholder for language preference search box"
   },
   "icu:Preferences__Language__NoResults": {
-    "messageformat": "No results for “{searchTerm}”",
+    "messageformat": "Geen resultaten voor “{searchTerm}”",
     "description": "When no results are found for language preference search"
   },
   "icu:Preferences__LanguageModal__Set": {
-    "messageformat": "Set",
+    "messageformat": "Instellen",
     "description": "Button to set language preference"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
-    "messageformat": "Restart Signal to apply",
+    "messageformat": "Start Signal opnieuw op om toe te passen",
     "description": "Title for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Description": {
-    "messageformat": "To change the language, the app needs to restart.",
+    "messageformat": "Om de taal te wijzigen, moet de app opnieuw opgestart worden.",
     "description": "Description for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
-    "messageformat": "Restart",
+    "messageformat": "Opnieuw opstarten",
     "description": "Button to restart Signal to apply language changes"
   },
   "icu:DialogUpdate--version-available": {
@@ -6805,11 +6793,11 @@
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
-    "messageformat": "Resetting link...",
+    "messageformat": "Link aan het resetten…",
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "messageformat": "QR-code en link niet ingesteld. Check je netwerkverbinding en probeer het opnieuw.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6957,7 +6945,7 @@
     "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Gemiste spraakoproep} Video {Video-oproep gemist} Group {Gemiste groepsoproep} other {Gemiste oproep}}",
+    "messageformat": "{type, select, Audio {Gemiste spraakoproep} Video {Gemiste video-oproep} Group {Gemiste groepsoproep} other {Gemiste oproep}}",
     "description": "Call History > Short description of call > When incoming call was missed"
   },
   "icu:CallHistory__Description--Unanswered": {
@@ -7008,9 +6996,9 @@
     "messageformat": "Deze release bevat een bijgewerkt ontwerp voor video- en spraakoproepen in Signal. De gebruikersinterface waarmee je belt, ziet er nog steeds geweldig uit. Zelfs als je camera uitstaat en je niet naar je eigen, mooie spiegelbeeld kunt kijken."
   },
   "icu:WhatsNew__v6.39--0": {
-    "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
+    "messageformat": "Je kunt nu je geselecteerde taal in Signal wijzigen zonder je systeeminstellingen te wijzigen (Signal-instellingen > Uiterlijk > Taal)."
   },
   "icu:WhatsNew__v6.39--1": {
-    "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
+    "messageformat": "We hebben een korte vertraging opgelost die soms optrad tijdens het wachten in het wachtscherm op macOS-apparaten. Nu is er in ieder geval één excuus minder om een halve seconde te laat te zijn voor de vergadering."
   }
 }

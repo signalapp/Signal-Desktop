@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "데이터베이스 오류가 발생했습니다. 오류를 복사하여 Signal 지원 팀에 문제 해결을 요청할 수 있습니다. Signal을 바로 사용해야 하는 경우 데이터를 삭제하고 다시 시작할 수 있습니다.\n\nhttps://support.signal.org/hc/requests/new?desktop을 방문하여 지원 팀에 연락하세요.",
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -317,19 +317,19 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "사용자 이름에 문제가 생겨 더는 이 사용자 이름이 이 계정에 사용되지 않습니다. 다시 설정하려고 시도하거나 새로운 사용자 이름을 선택할 수 있습니다.",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "지금 해결",
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "messageformat": "QR 코드와 사용자 이름 링크에 문제가 발생하여 더 이상 사용할 수 없습니다. 다른 사용자와 공유하려면 새로운 링크를 만드세요.",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "지금 해결",
     "description": "Text of the button in the corrupted username link banner in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
@@ -1693,10 +1693,6 @@
     "messageformat": "다시 걸기",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "전화 시작하기",
-    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "전화 참여하기",
     "description": "Button label in the call lobby for joining a call"
@@ -1729,10 +1725,6 @@
     "messageformat": "통화 최대 참가자 수 도달",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "카메라",
-    "description": "(deleted 2023/10/13) Label under the video button"
-  },
   "icu:calling__button--video-disabled": {
     "messageformat": "카메라 비활성화",
     "description": "Button tooltip label when the camera is disabled"
@@ -1744,10 +1736,6 @@
   "icu:calling__button--video-on": {
     "messageformat": "카메라 켜기",
     "description": "Button tooltip label for turning on the camera"
-  },
-  "icu:calling__button--audio__label": {
-    "messageformat": "음소거",
-    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "마이크 비활성화",
@@ -1761,10 +1749,6 @@
     "messageformat": "마이크 음소거 해제",
     "description": "Button tooltip label for turning on the microphone"
   },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "공유",
-    "description": "(deleted 2023/10/13) Label under the share screen button"
-  },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "표시 비활성화됨",
     "description": "Button tooltip label for when screen sharing is disabled"
@@ -1776,10 +1760,6 @@
   "icu:calling__button--presenting-off": {
     "messageformat": "표시 중단",
     "description": "Button tooltip label for stopping screen sharing"
-  },
-  "icu:calling__button--ring__label": {
-    "messageformat": "전화벨",
-    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "단체 참여자가 너무 많아 통화를 진행할 수 없습니다.",
@@ -2621,11 +2601,11 @@
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "icu:message--attachmentTooBig--one": {
-    "messageformat": "Attachment too large to display.",
+    "messageformat": "첨부 파일이 너무 커서 표시할 수 없습니다.",
     "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--attachmentTooBig--multiple": {
-    "messageformat": "Some attachments are too large to display.",
+    "messageformat": "일부 첨부 파일이 너무 커서 표시할 수 없습니다.",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
@@ -3588,10 +3568,6 @@
     "messageformat": "다시 연결 중…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
-  },
   "icu:CallControls__InfoDisplay--participants": {
     "messageformat": "{count, plural, other {{count,number}명}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
@@ -3664,13 +3640,25 @@
     "messageformat": "전체화면 통화",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "그리드 뷰로 전환",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Change view",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "스피커 뷰로 전환",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Grid view",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Sidebar view",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Speaker view",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "View updated",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "전화 종료",
@@ -3773,11 +3761,11 @@
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
   "icu:MessageMaxEditsModal__Title": {
-    "messageformat": "Can't edit message",
+    "messageformat": "메시지를 수정할 수 없습니다",
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max,number} edits can be applied to this message.",
+    "messageformat": "이 메시지는 {max,number}번만 수정할 수 있습니다.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -5457,15 +5445,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "messageformat": "사용자 이름에 문제가 생겨 더는 이 사용자 이름이 이 계정에 사용되지 않습니다.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Delete username",
+    "messageformat": "사용자 이름 삭제",
     "description": "Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Create username",
+    "messageformat": "사용자 이름 생성",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5473,11 +5461,11 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "Username needs reset",
+    "messageformat": "사용자 이름 초기화 필요",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "Username link needs reset",
+    "messageformat": "사용자 이름 링크 초기화 필요",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
@@ -5833,39 +5821,39 @@
     "description": "Confirmation modal body for disabling stories"
   },
   "icu:Preferences__Language__Label": {
-    "messageformat": "Language",
+    "messageformat": "언어",
     "description": "Language setting label"
   },
   "icu:Preferences__Language__ModalTitle": {
-    "messageformat": "Language",
+    "messageformat": "언어",
     "description": "Language setting modal title"
   },
   "icu:Preferences__Language__SystemLanguage": {
-    "messageformat": "System Language",
+    "messageformat": "시스템 언어",
     "description": "Option for system language"
   },
   "icu:Preferences__Language__SearchLanguages": {
-    "messageformat": "Search languages",
+    "messageformat": "언어 검색",
     "description": "Placholder for language preference search box"
   },
   "icu:Preferences__Language__NoResults": {
-    "messageformat": "No results for “{searchTerm}”",
+    "messageformat": "“{searchTerm}” 검색 결과 없음",
     "description": "When no results are found for language preference search"
   },
   "icu:Preferences__LanguageModal__Set": {
-    "messageformat": "Set",
+    "messageformat": "설정",
     "description": "Button to set language preference"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
-    "messageformat": "Restart Signal to apply",
+    "messageformat": "적용하려면 Signal 다시 시작",
     "description": "Title for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Description": {
-    "messageformat": "To change the language, the app needs to restart.",
+    "messageformat": "언어를 적용하려면 앱을 다시 시작해야 합니다.",
     "description": "Description for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
-    "messageformat": "Restart",
+    "messageformat": "다시 시작",
     "description": "Button to restart Signal to apply language changes"
   },
   "icu:DialogUpdate--version-available": {
@@ -6805,11 +6793,11 @@
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
-    "messageformat": "Resetting link...",
+    "messageformat": "링크를 초기화하는 중...",
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "messageformat": "QR 코드와 링크를 설정하지 않았습니다. 네트워크 연결을 확인하고 다시 시도하세요.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7008,9 +6996,9 @@
     "messageformat": "본 릴리스에는 Signal 음성 및 영상 통화에 대한 업데이트된 디자인이 포함됩니다."
   },
   "icu:WhatsNew__v6.39--0": {
-    "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
+    "messageformat": "이제 시스템 설정을 변경하지 않고 Signal 선택 언어를 변경할 수 있습니다(Signal 설정 > 디자인 > 언어)."
   },
   "icu:WhatsNew__v6.39--1": {
-    "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
+    "messageformat": "macOS에서 통화 로비에 참가한 후 간혹 발생하던 짧은 지연을 해결했습니다."
   }
 }

@@ -1692,10 +1692,6 @@
     "messageformat": "Call Again",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "Start Call",
-    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "Join Call",
     "description": "Button label in the call lobby for joining a call"
@@ -1728,10 +1724,6 @@
     "messageformat": "Call full",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "Camera",
-    "description": "(deleted 2023/10/13) Label under the video button"
-  },
   "icu:calling__button--video-disabled": {
     "messageformat": "Camera disabled",
     "description": "Button tooltip label when the camera is disabled"
@@ -1743,10 +1735,6 @@
   "icu:calling__button--video-on": {
     "messageformat": "Turn on camera",
     "description": "Button tooltip label for turning on the camera"
-  },
-  "icu:calling__button--audio__label": {
-    "messageformat": "Mute",
-    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "Microphone disabled",
@@ -1760,10 +1748,6 @@
     "messageformat": "Unmute mic",
     "description": "Button tooltip label for turning on the microphone"
   },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "Share",
-    "description": "(deleted 2023/10/13) Label under the share screen button"
-  },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "Presenting disabled",
     "description": "Button tooltip label for when screen sharing is disabled"
@@ -1775,10 +1759,6 @@
   "icu:calling__button--presenting-off": {
     "messageformat": "Stop presenting",
     "description": "Button tooltip label for stopping screen sharing"
-  },
-  "icu:calling__button--ring__label": {
-    "messageformat": "Ring",
-    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Group is too large to ring the participants.",
@@ -3587,10 +3567,6 @@
     "messageformat": "Reconnecting...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
-  },
   "icu:CallControls__InfoDisplay--participants": {
     "messageformat": "{count, plural, one {# person} other {# people}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
@@ -3663,7 +3639,6 @@
     "messageformat": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
   },
-
   "icu:calling__change-view": {
     "messageformat": "Change view",
     "description": "Tooltip for changing the in-call layout of remote participants in a group call"

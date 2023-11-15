@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "தரவுத்தளப் பிழை ஏற்பட்டது. நீங்கள் பிழையை நகலெடுத்து, சிக்கலைச் சரிசெய்ய Signal ஆதரவைத் தொடர்புகொள்ளலாம். நீங்கள் உடனடியாக Signalஐப் பயன்படுத்த வேண்டுமென்றால், உங்கள் தரவை நீக்கிவிட்டு மீண்டும் தொடங்கவும்.\n\nஆதரவை இங்கே தொடர்புகொள்ளவும்: https://support.signal.org/hc/requests/new?desktop",
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -317,19 +317,19 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "உங்கள் பயனர்பெயரில் ஏதோ தவறு நடந்து விட்டது, இனி ஒருபோதும் உங்கள் கணக்கில் நியமிக்கப்படவில்லை. நீங்கள் முயன்று மீண்டும் அமைக்கலாம் அல்லது புதியதைத் தேர்ந்தெடுக்கலாம்.",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "இப்பொழுதே சரிபார்",
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "messageformat": "உங்கள் QR குறியீடு மற்றும் பயனர்பெயர் இணைப்பில் ஏதோ தவறு நடந்துவிட்டது, அது இனி செல்லுபடியாகாது. மற்றவர்களுடன் பகிர புதிய இணைப்பை உருவாக்கவும்.",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "இப்பொழுதே சரிபார்",
     "description": "Text of the button in the corrupted username link banner in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
@@ -1693,10 +1693,6 @@
     "messageformat": "மீண்டும் அழை",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "அழைப்பைத் தொடங்கு",
-    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "அழைப்பில் சேர்",
     "description": "Button label in the call lobby for joining a call"
@@ -1729,10 +1725,6 @@
     "messageformat": "கால் ஃபுல்",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "புகைப்பட கருவி",
-    "description": "(deleted 2023/10/13) Label under the video button"
-  },
   "icu:calling__button--video-disabled": {
     "messageformat": "புகைப்பட கருவி முடக்கப்பட்டது",
     "description": "Button tooltip label when the camera is disabled"
@@ -1744,10 +1736,6 @@
   "icu:calling__button--video-on": {
     "messageformat": "புகைப்பட கருவியை தயார் செய்க",
     "description": "Button tooltip label for turning on the camera"
-  },
-  "icu:calling__button--audio__label": {
-    "messageformat": "ஒலியடக்கு",
-    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "மைக்ரோஃபோன் முடக்கப்பட்டது",
@@ -1761,10 +1749,6 @@
     "messageformat": "மைக் ஒலி இயக்கு",
     "description": "Button tooltip label for turning on the microphone"
   },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "பகிர்",
-    "description": "(deleted 2023/10/13) Label under the share screen button"
-  },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "வழங்குதல் முடக்கப்பட்டது",
     "description": "Button tooltip label for when screen sharing is disabled"
@@ -1776,10 +1760,6 @@
   "icu:calling__button--presenting-off": {
     "messageformat": "வழங்குவதை நிறுத்துங்கள்",
     "description": "Button tooltip label for stopping screen sharing"
-  },
-  "icu:calling__button--ring__label": {
-    "messageformat": "அழை",
-    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "எண்ணிக்கை கூடியதால் குழுவில் உள்ள அனைவரையும் அழைக்க இயலாது",
@@ -2621,11 +2601,11 @@
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "icu:message--attachmentTooBig--one": {
-    "messageformat": "Attachment too large to display.",
+    "messageformat": "காட்ட முடியாத அளவுக்கு இணைப்பு பெரிதாக உள்ளது.",
     "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--attachmentTooBig--multiple": {
-    "messageformat": "Some attachments are too large to display.",
+    "messageformat": "சில இணைப்புகள் காட்ட முடியாத அளவுக்கு பெரிதாக உள்ளன.",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
@@ -3588,10 +3568,6 @@
     "messageformat": "மீண்டும் இணைக்கிறது…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal சிக்னல் அழைப்பு காலம் {duration}",
-    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
-  },
   "icu:CallControls__InfoDisplay--participants": {
     "messageformat": "{count, plural, one {{count,number} நபர்} other {{count,number} நபர்கள்}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
@@ -3664,13 +3640,25 @@
     "messageformat": "முழுத்திரை அழைப்பு",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "கட்டத்திற்கு மாறவும் பார்வை",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Change view",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "ஸ்பீக்கருக்கு மாறவும்பார்வை",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Grid view",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Sidebar view",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Speaker view",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "View updated",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "அழைப்பை விடுங்கள்",
@@ -3773,11 +3761,11 @@
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
   "icu:MessageMaxEditsModal__Title": {
-    "messageformat": "Can't edit message",
+    "messageformat": "மெசேஜை திருத்தம் செய்ய முடியாது",
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max,number} edits can be applied to this message.",
+    "messageformat": "இந்த மெசேஜில் {max,number} முறை மட்டுமே திருத்தம் செய்ய முடியும்.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -5457,15 +5445,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "messageformat": "உங்கள் பயனர்பெயரில் ஏதோ தவறு நடந்து விட்டது, இனி ஒருபோதும் உங்கள் கணக்கில் நியமிக்கப்படவில்லை.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Delete username",
+    "messageformat": "பயனர் பெயரை நீக்கவும்",
     "description": "Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Create username",
+    "messageformat": "பயனர்பெயரை உருவாக்கவும்",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5473,11 +5461,11 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "Username needs reset",
+    "messageformat": "பயனர்பெயரை மீட்டமைக்க வேண்டும்",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "Username link needs reset",
+    "messageformat": "பயனர்பெயர் இணைப்பை மீட்டமைக்க வேண்டும்",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
@@ -5833,39 +5821,39 @@
     "description": "Confirmation modal body for disabling stories"
   },
   "icu:Preferences__Language__Label": {
-    "messageformat": "Language",
+    "messageformat": "மொழி",
     "description": "Language setting label"
   },
   "icu:Preferences__Language__ModalTitle": {
-    "messageformat": "Language",
+    "messageformat": "மொழி",
     "description": "Language setting modal title"
   },
   "icu:Preferences__Language__SystemLanguage": {
-    "messageformat": "System Language",
+    "messageformat": "சிஸ்டம் மொழி",
     "description": "Option for system language"
   },
   "icu:Preferences__Language__SearchLanguages": {
-    "messageformat": "Search languages",
+    "messageformat": "மொழிகளைத் தேடு",
     "description": "Placholder for language preference search box"
   },
   "icu:Preferences__Language__NoResults": {
-    "messageformat": "No results for “{searchTerm}”",
+    "messageformat": "''{searchTerm}\"-க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை",
     "description": "When no results are found for language preference search"
   },
   "icu:Preferences__LanguageModal__Set": {
-    "messageformat": "Set",
+    "messageformat": "அமைக்கவும்",
     "description": "Button to set language preference"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
-    "messageformat": "Restart Signal to apply",
+    "messageformat": "பயன்படுத்த Signalஐ ரீஸ்டார்ட் செய்யவும்",
     "description": "Title for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Description": {
-    "messageformat": "To change the language, the app needs to restart.",
+    "messageformat": "மொழியை மாற்ற, செயலியை ரீஸ்டார்ட் செய்ய வேண்டும்.",
     "description": "Description for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
-    "messageformat": "Restart",
+    "messageformat": "ரீஸ்டார்ட்",
     "description": "Button to restart Signal to apply language changes"
   },
   "icu:DialogUpdate--version-available": {
@@ -6805,11 +6793,11 @@
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
-    "messageformat": "Resetting link...",
+    "messageformat": "இணைப்பை மீட்டமைக்கிறது...",
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "messageformat": "QR குறியீடு மற்றும் இணைப்பு அமைக்கப்படவில்லை. உங்கள் நெட்வொர்க் இணைப்பைச் சரிபார்த்து, மீண்டும் முயலவும்.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7008,9 +6996,9 @@
     "messageformat": "இந்த வெளியீட்டில் Signal குரல் மற்றும் வீடியோ அழைப்புகளுக்கான மேம்படுத்தப்பட்ட வடிவமைப்பு உள்ளது. உங்கள் கேமரா இயங்காமல் இருந்தாலும், உங்களுடைய அழகிய பிரதிபலிப்பை உங்களால் பார்க்க முடியாவிட்டாலும், இப்போது காலிங் யூசர் இண்டர்ஃபேஸ் இன்னும் அழகாக இருக்கும்."
   },
   "icu:WhatsNew__v6.39--0": {
-    "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
+    "messageformat": "இப்போது உங்கள் சிஸ்டம் அமைப்புகளை மாற்றாமலேயே நீங்கள் தேர்ந்தெடுத்த மொழியை Signal இல் மாற்றலாம் (Signal அமைப்புகள் > தோற்றம் > மொழி)."
   },
   "icu:WhatsNew__v6.39--1": {
-    "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
+    "messageformat": "சில சமயங்களில் macOS சாதனங்களில் அழைப்பு லாபியில் சேரும்போது ஏற்படும் ஒரு சிறிய தாமதத்தை நாங்கள் சரி செய்து விட்டோம்."
   }
 }

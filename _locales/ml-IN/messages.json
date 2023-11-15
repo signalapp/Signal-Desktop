@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "ഡാറ്റാബേസ് പിശകുണ്ടായി. പിശക് പകർത്തി Signal പിന്തുണയുമായി ബന്ധപ്പെട്ട് നിങ്ങൾക്ക് പ്രശ്‌നം പരിഹരിക്കാം. നിങ്ങൾക്ക് Signal ഇപ്പോൾ തന്നെ ഉപയോഗിക്കണമെങ്കിൽ, നിങ്ങൾക്ക് ഡാറ്റ ഇല്ലാതാക്കി പുനരാരംഭിക്കാം.\n\nഈ ലിങ്ക് സന്ദർശിച്ച് പിന്തുണയെ ബന്ധപ്പെടുക: https://support.signal.org/hc/requests/new?desktop",
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -317,19 +317,19 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "നിങ്ങളുടെ ഉപയോക്തൃനാമവുമായി ബന്ധപ്പെട്ട് എന്തോ പിശകുണ്ടായി, ഇത് നിലവിൽ നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് അസൈൻ ചെയ്തിട്ടില്ല. നിങ്ങൾക്കത് വീണ്ടും സജ്ജമാക്കാൻ ശ്രമിക്കാം അല്ലെങ്കിൽ പുതിയൊരെണ്ണം തിരഞ്ഞെടുക്കാം.",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "ഇപ്പോൾ പരിഹരിക്കുക",
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "messageformat": "നിങ്ങളുടെ QR കോഡും ഉപയോക്തൃനാമ ലിങ്കുമായും ബന്ധപ്പെട്ട് എന്തോ കുഴപ്പം സംഭവിച്ചു, ഇതിന് ഇനി സാധുതയില്ല. മറ്റുള്ളവരുമായി പങ്കിടാൻ പുതിയൊരു ലിങ്ക് സൃഷ്‌ടിക്കുക.",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "ഇപ്പോൾ പരിഹരിക്കുക",
     "description": "Text of the button in the corrupted username link banner in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
@@ -1693,10 +1693,6 @@
     "messageformat": "വീണ്ടും വിളിക്കുക",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "കോൾ ആരംഭിക്കുക",
-    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "കോളിൽ ചേരുക",
     "description": "Button label in the call lobby for joining a call"
@@ -1729,10 +1725,6 @@
     "messageformat": "കോൾ നിറഞ്ഞു",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "ക്യാമറ",
-    "description": "(deleted 2023/10/13) Label under the video button"
-  },
   "icu:calling__button--video-disabled": {
     "messageformat": "കാമറ  പ്രവർത്തനരഹിതമാണ്",
     "description": "Button tooltip label when the camera is disabled"
@@ -1744,10 +1736,6 @@
   "icu:calling__button--video-on": {
     "messageformat": "ക്യാമറ ഓൺ ചെയ്യുക",
     "description": "Button tooltip label for turning on the camera"
-  },
-  "icu:calling__button--audio__label": {
-    "messageformat": "മ്യൂട്ട് ചെയ്യുക",
-    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "മൈക്രോഫോൺ പ്രവർത്തനരഹിതമാണ്",
@@ -1761,10 +1749,6 @@
     "messageformat": "മൈക്ക് അൺമ്യൂട്ട് ചെയ്യുക",
     "description": "Button tooltip label for turning on the microphone"
   },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "പങ്കിടുക",
-    "description": "(deleted 2023/10/13) Label under the share screen button"
-  },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "അപ്രാപ്തമാക്കി അവതരിപ്പിക്കുന്നു",
     "description": "Button tooltip label for when screen sharing is disabled"
@@ -1776,10 +1760,6 @@
   "icu:calling__button--presenting-off": {
     "messageformat": "അവതരിപ്പിക്കുന്നത് നിർത്തുക",
     "description": "Button tooltip label for stopping screen sharing"
-  },
-  "icu:calling__button--ring__label": {
-    "messageformat": "റിംഗ്",
-    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "പങ്കെടുക്കുന്നവരെ വിളിക്കാൻ കഴിയാത്തത്ര വലുതാണ് ഗ്രൂപ്പ്.",
@@ -2621,11 +2601,11 @@
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "icu:message--attachmentTooBig--one": {
-    "messageformat": "Attachment too large to display.",
+    "messageformat": "പ്രദർശിപ്പിക്കാൻ കഴിയാത്ത അത്രയും വലുതാണ് അറ്റാച്ച്മെന്റ്.",
     "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--attachmentTooBig--multiple": {
-    "messageformat": "Some attachments are too large to display.",
+    "messageformat": "പ്രദർശിപ്പിക്കാൻ കഴിയാത്ത അത്രയും വലുതാണ് ചില അറ്റാച്ച്മെന്റുകൾ.",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
@@ -3588,10 +3568,6 @@
     "messageformat": "വീണ്ടും കണക്റ്റ് ചെയ്യുന്നു...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
-  },
   "icu:CallControls__InfoDisplay--participants": {
     "messageformat": "{count, plural, one {{count,number} ആൾ} other {{count,number} പേര്‍}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
@@ -3664,13 +3640,25 @@
     "messageformat": "ഫുൾസ്ക്രീൻ കോൾ",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "ഗ്രിഡ് കാഴ്ചയിലേക്ക് മാറുക",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Change view",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "സ്പീക്കർ കാഴ്ചയിലേക്ക് മാറുക",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Grid view",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Sidebar view",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Speaker view",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "View updated",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "കോൾ ഉപേക്ഷിക്കുക",
@@ -3773,11 +3761,11 @@
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
   "icu:MessageMaxEditsModal__Title": {
-    "messageformat": "Can't edit message",
+    "messageformat": "സന്ദേശം എഡിറ്റ് ചെയ്യാനാകില്ല",
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max,number} edits can be applied to this message.",
+    "messageformat": "ഈ സന്ദേശത്തിന് {max,number} എഡിറ്റുകൾ മാത്രമെ വരുത്താനാകൂ.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -5457,15 +5445,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "messageformat": "നിങ്ങളുടെ ഉപയോക്തൃനാമവുമായി ബന്ധപ്പെട്ട് എന്തോ പിശകുണ്ടായി, ഇത് നിലവിൽ നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് അസൈൻ ചെയ്തിട്ടില്ല.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Delete username",
+    "messageformat": "ഉപയോക്തൃനാമം ഇല്ലാതാക്കുക",
     "description": "Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Create username",
+    "messageformat": "യൂസർ പേര് സൃഷ്ടിക്കുക",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5473,11 +5461,11 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "Username needs reset",
+    "messageformat": "ഉപയോക്തൃനാമം പുനഃക്രമീകരിക്കേണ്ടതുണ്ട്",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "Username link needs reset",
+    "messageformat": "ഉപയോക്തൃനാമ ലിങ്ക് പുനഃക്രമീകരിക്കേണ്ടതുണ്ട്",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
@@ -5833,39 +5821,39 @@
     "description": "Confirmation modal body for disabling stories"
   },
   "icu:Preferences__Language__Label": {
-    "messageformat": "Language",
+    "messageformat": "ഭാഷ",
     "description": "Language setting label"
   },
   "icu:Preferences__Language__ModalTitle": {
-    "messageformat": "Language",
+    "messageformat": "ഭാഷ",
     "description": "Language setting modal title"
   },
   "icu:Preferences__Language__SystemLanguage": {
-    "messageformat": "System Language",
+    "messageformat": "സിസ്റ്റം ഭാഷ",
     "description": "Option for system language"
   },
   "icu:Preferences__Language__SearchLanguages": {
-    "messageformat": "Search languages",
+    "messageformat": "ഭാഷകൾ തിരയുക",
     "description": "Placholder for language preference search box"
   },
   "icu:Preferences__Language__NoResults": {
-    "messageformat": "No results for “{searchTerm}”",
+    "messageformat": "\"{searchTerm}\" എന്നതിന് ഫലങ്ങളൊന്നുമില്ല",
     "description": "When no results are found for language preference search"
   },
   "icu:Preferences__LanguageModal__Set": {
-    "messageformat": "Set",
+    "messageformat": "സജ്ജമാക്കുക",
     "description": "Button to set language preference"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
-    "messageformat": "Restart Signal to apply",
+    "messageformat": "ബാധകമാക്കാൻ Signal റീസ്റ്റാർട്ട് ചെയ്യുക",
     "description": "Title for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Description": {
-    "messageformat": "To change the language, the app needs to restart.",
+    "messageformat": "ഭാഷ മാറ്റാൻ, ആപ്പ് റീസ്റ്റാർട്ട് ചെയ്യേണ്ടതുണ്ട്.",
     "description": "Description for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
-    "messageformat": "Restart",
+    "messageformat": "റീസ്റ്റാർട്ട് ചെയ്യുക",
     "description": "Button to restart Signal to apply language changes"
   },
   "icu:DialogUpdate--version-available": {
@@ -6805,11 +6793,11 @@
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
-    "messageformat": "Resetting link...",
+    "messageformat": "ലിങ്ക് റീസെറ്റ് ചെയ്യുന്നു...",
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "messageformat": "QR കോഡും ലിങ്കും സജ്ജീകരിച്ചിട്ടില്ല. നിങ്ങളുടെ നെറ്റ്‌വർക്ക് കണക്ഷൻ പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7008,9 +6996,9 @@
     "messageformat": "ഈ റിലീസിൽ Signal-ലെ വോയ്‌സ്, വീഡിയോ കോളുകൾക്കുള്ള അപ്‌ഡേറ്റ് ചെയ്ത ഡിസൈൻ ഉൾപ്പെടുന്നു. ഇപ്പോൾ നിങ്ങളുടെ ക്യാമറ ഓണല്ലെങ്കിൽപ്പോലും കോളിംഗ് ഉപയോക്തൃ ഇന്റർഫേസ് മനോഹരമായിരിക്കും, നിങ്ങളുടെ സ്വന്തം പ്രതിബിംബത്തിലേക്ക് തുറിച്ചുനോക്കാനാകില്ല."
   },
   "icu:WhatsNew__v6.39--0": {
-    "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
+    "messageformat": "ഇപ്പോൾ നിങ്ങളുടെ സിസ്റ്റം ക്രമീകരണം മാറ്റാതെ തന്നെ നിങ്ങൾ തിരഞ്ഞെടുത്ത ഭാഷ Signal-ൽ മാറ്റാം (Signal ക്രമീകരണം >ദൃശ്യമാകുന്നത് > ഭാഷ)."
   },
   "icu:WhatsNew__v6.39--1": {
-    "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
+    "messageformat": "MacOS ഉപകരണങ്ങളിൽ നിന്ന് കോൾ ലോബിയിൽ ചേരുമ്പോൾ ചിലപ്പോൾ നേരിടുന്ന ചെറിയ കാലതാമസം ഞങ്ങൾ പരിഹരിച്ചു, മീറ്റിംഗിൽ ചേരാൻ അര സെക്കൻഡ് വൈകിയതിനുള്ള ഒരു ഒഴികഴിവെങ്കിലും ഇതോടെ ഇല്ലാതാകും."
   }
 }

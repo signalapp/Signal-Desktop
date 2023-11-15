@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်တစ်ခု ဖြစ်နေပါသည်။ ချို့ယွင်းချက်ကို ကူးယူပြီးနောက် ဤပြဿနာကို ဖြေရှင်းရန်အတွက် အကူအညီပေးရန် Signal ပံ့ပိုးရေးသို့ ဆက်သွယ်နိုင်ပါသည်။ Signal ကို သင် ချက်ချင်းအသုံးပြုရန် လိုအပ်ပါက သင့်ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်နိုင်ပါသည်။\n\nhttps://support.signal.org/hc/requests/new?desktop သို့ ဝင်ရောက်ပြီး ပံ့ပိုးရေးသို့ ဆက်သွယ်ပါ",
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -317,19 +317,19 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "သင်၏ သုံးစွဲသူအမည်နှင့်ပတ်သက်၍ တစ်စုံတစ်ခု မှားယွင်းနေပါသည်၊ ၎င်းကို သင့်အကောင့်အတွက် သတ်မှတ်ထားခြင်း မရှိတော့ပါ။ ထပ်မံကြိုးစား၍ သတ်မှတ်နိုင်ပါသည် သို့မဟုတ် အမည်အသစ်တစ်ခု ရွေးချယ်နိုင်ပါသည်။",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "ယခု ဖြေရှင်းရန်",
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "messageformat": "သင်၏ QR ကုဒ်နှင့် သုံးစွဲသူအမည် လင့်ခ်တွင် တစ်စုံတစ်ခု မှားယွင်းနေပါသည်၊ ၎င်းသည် မှန်ကန်ခြင်းမရှိတော့ပါ။ အခြားသူများနှင့် မျှဝေပေးရန် လင့်ခ်အသစ်တစ်ခု ဖန်တီးပါ။",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "ယခု ဖြေရှင်းရန်",
     "description": "Text of the button in the corrupted username link banner in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
@@ -1693,10 +1693,6 @@
     "messageformat": "ပြန်ခေါ်ဆိုပါ",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "ခေါ်ဆိုမှု စတင်မယ်",
-    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "ခေါ်ဆိုမှုထဲဝင်မယ်",
     "description": "Button label in the call lobby for joining a call"
@@ -1729,10 +1725,6 @@
     "messageformat": "ကောလ်တွင် လူပြည့်နေပြီ",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "ကင်မရာ",
-    "description": "(deleted 2023/10/13) Label under the video button"
-  },
   "icu:calling__button--video-disabled": {
     "messageformat": "ကင်မရာ ပိတ်ထားသည်",
     "description": "Button tooltip label when the camera is disabled"
@@ -1744,10 +1736,6 @@
   "icu:calling__button--video-on": {
     "messageformat": "ကင်မရာ ဖွင့်ရန်",
     "description": "Button tooltip label for turning on the camera"
-  },
-  "icu:calling__button--audio__label": {
-    "messageformat": "အသံပိတ်ရန်",
-    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "မိုက်ခရိုဖုန်း ပိတ်ထားသည်",
@@ -1761,10 +1749,6 @@
     "messageformat": "မိုက် အသံပြန်ဖွင့်ရန်",
     "description": "Button tooltip label for turning on the microphone"
   },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "ဝေမျှမယ်",
-    "description": "(deleted 2023/10/13) Label under the share screen button"
-  },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "ပြသမှု ပိတ်ထားသည်",
     "description": "Button tooltip label for when screen sharing is disabled"
@@ -1776,10 +1760,6 @@
   "icu:calling__button--presenting-off": {
     "messageformat": "ပြသမှု ရပ်ရန်",
     "description": "Button tooltip label for stopping screen sharing"
-  },
-  "icu:calling__button--ring__label": {
-    "messageformat": "ဖုန်းခေါ်ရန်",
-    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "ပါဝင်သူများကို ဖုန်းခေါ်ရန် အဖွဲ့သည် ကြီးလွန်းနေပါသည်။",
@@ -2621,11 +2601,11 @@
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "icu:message--attachmentTooBig--one": {
-    "messageformat": "Attachment too large to display.",
+    "messageformat": "ပူးတွဲဖိုင်မှာ ပြသရန် ကြီးလွန်းနေသည်။",
     "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--attachmentTooBig--multiple": {
-    "messageformat": "Some attachments are too large to display.",
+    "messageformat": "ပူးတွဲဖိုင်အချို့မှာ ပြသရန် ကြီးလွန်းနေသည်။",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
@@ -3588,10 +3568,6 @@
     "messageformat": "ပြန်ချိတ်ဆက်နေဆဲ...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
-  },
   "icu:CallControls__InfoDisplay--participants": {
     "messageformat": "{count, plural, other {{count,number} ဦး}}",
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
@@ -3664,13 +3640,25 @@
     "messageformat": "ကောလ်ကို စခရင်အပြည့် လုပ်ရန်",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "အကွက်ပုံစံသို့ ပြောင်းရန်",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Change view",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "ပြောသူအား ကြည့်ရှုသည့်ပုံစံသို့ ပြောင်းရန်",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Grid view",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Sidebar view",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Speaker view",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "View updated",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "ဖုန်းခေါ်ပါ",
@@ -3773,11 +3761,11 @@
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
   "icu:MessageMaxEditsModal__Title": {
-    "messageformat": "Can't edit message",
+    "messageformat": "မက်ဆေ့ချ် တည်းဖြတ်၍မရပါ",
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max,number} edits can be applied to this message.",
+    "messageformat": "ဤမက်ဆေ့ချ်ကို {max,number} ကြိမ်အထိသာ တည်းဖြတ်၍ရပါသည်။",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -5457,15 +5445,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "messageformat": "သင်၏ သုံးစွဲသူအမည်နှင့်ပတ်သက်၍ တစ်စုံတစ်ခု မှားယွင်းနေပါသည်၊ ၎င်းကို သင့်အကောင့်အတွက် သတ်မှတ်ထားခြင်း မရှိတော့ပါ။",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Delete username",
+    "messageformat": "သုံးစွဲသူအမည်ကို ဖျက်ရန်",
     "description": "Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Create username",
+    "messageformat": "သုံးစွဲသူအမည် ဖန်တီးရန်",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5473,11 +5461,11 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "Username needs reset",
+    "messageformat": "သုံးစွဲသူအမည်ကို ပြန်လည်သတ်မှတ်ရန် လိုအပ်သည်",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "Username link needs reset",
+    "messageformat": "သုံးစွဲသူအမည် လင့်ခ်ကို ပြန်လည်သတ်မှတ်ရန် လိုအပ်သည်",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
@@ -5833,39 +5821,39 @@
     "description": "Confirmation modal body for disabling stories"
   },
   "icu:Preferences__Language__Label": {
-    "messageformat": "Language",
+    "messageformat": "ဘာသာစကား",
     "description": "Language setting label"
   },
   "icu:Preferences__Language__ModalTitle": {
-    "messageformat": "Language",
+    "messageformat": "ဘာသာစကား",
     "description": "Language setting modal title"
   },
   "icu:Preferences__Language__SystemLanguage": {
-    "messageformat": "System Language",
+    "messageformat": "စနစ်သုံး ဘာသာစကား",
     "description": "Option for system language"
   },
   "icu:Preferences__Language__SearchLanguages": {
-    "messageformat": "Search languages",
+    "messageformat": "ဘာသာစကားများကို ရှာဖွေရန်",
     "description": "Placholder for language preference search box"
   },
   "icu:Preferences__Language__NoResults": {
-    "messageformat": "No results for “{searchTerm}”",
+    "messageformat": "“{searchTerm}” အတွက် ရလဒ်မရှိပါ",
     "description": "When no results are found for language preference search"
   },
   "icu:Preferences__LanguageModal__Set": {
-    "messageformat": "Set",
+    "messageformat": "သတ်မှတ်မည်",
     "description": "Button to set language preference"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
-    "messageformat": "Restart Signal to apply",
+    "messageformat": "အသုံးပြုရန် Signal ကို ပြန်လည်စတင်ပါ",
     "description": "Title for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Description": {
-    "messageformat": "To change the language, the app needs to restart.",
+    "messageformat": "ဘာသာစကားပြောင်းရန်အတွက် အက်ပ်ကို ပြန်လည်စတင်ရန် လိုအပ်ပါသည်။",
     "description": "Description for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
-    "messageformat": "Restart",
+    "messageformat": "ပြန်စတင်မည်",
     "description": "Button to restart Signal to apply language changes"
   },
   "icu:DialogUpdate--version-available": {
@@ -6805,11 +6793,11 @@
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
-    "messageformat": "Resetting link...",
+    "messageformat": "လင့်ခ်ကို ပြန်လည်သတ်မှတ်နေဆဲ…",
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "messageformat": "QR ကုဒ်နှင့် လင့်ခ်ကို မသတ်မှတ်ထားပါ။ သင့်ကွန်ရက် ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7008,9 +6996,9 @@
     "messageformat": "ဤထုတ်ဝေမှုတွင် Signal အသံနှင့် ဗီဒီယိုကောလ်များအတွက် အပ်ဒိတ်လုပ်ထားသည့် ဒီဇိုင်းတစ်ခု ပါဝင်ပါသည်။"
   },
   "icu:WhatsNew__v6.39--0": {
-    "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
+    "messageformat": "ယခုအခါ သင့်စနစ်ဆက်တင်ကို မပြောင်းဘဲ Signal တွင် သင် ရွေးထားသော ဘာသာစကားကို ပြောင်းနိုင်ပါပြီ (Signal ဆက်တင် > ပုံပန်းသွင်ပြင် > ဘာသာစကား)။"
   },
   "icu:WhatsNew__v6.39--1": {
-    "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
+    "messageformat": "macOS စက်များတွင် ကောလ် စောင့်ဆိုင်းခန်းသို့ ဝင်လိုက်သောအခါ တစ်ခါတစ်ရံ ဖြစ်ပေါ်တတ်သည့် ခဏတာနှောင့်နှေးမှုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   }
 }
