@@ -1645,6 +1645,7 @@ const onDatabaseError = async (error: string) => {
 
   const buttons = [i18n('icu:copyErrorAndQuit')];
   const copyErrorAndQuitButtonIndex = 0;
+  const SIGNAL_SUPPORT_LINK = 'https://support.signal.org/error';
 
   if (error.includes(DBVersionFromFutureError.name)) {
     // If the DB version is too new, the user likely opened an older version of Signal,
@@ -1654,7 +1655,9 @@ const onDatabaseError = async (error: string) => {
   } else {
     // Otherwise, this is some other kind of DB error, let's give them the option to
     // delete.
-    messageDetail = i18n('icu:databaseError__detail');
+    messageDetail = i18n('icu:databaseError__detail', {
+      link: SIGNAL_SUPPORT_LINK,
+    });
 
     buttons.push(i18n('icu:deleteAndRestart'));
     deleteAllDataButtonIndex = 1;
