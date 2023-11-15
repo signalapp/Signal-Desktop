@@ -36,7 +36,6 @@ import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import {
   CallingButtonToastsContainer,
-  useReconnectingToast,
   useScreenSharingStoppedToast,
 } from './CallingToastManager';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
@@ -61,7 +60,8 @@ import {
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
 import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting';
 import { usePrevious } from '../hooks/usePrevious';
-import { useCallingToasts } from './CallingToast';
+import { PersistentCallingToast, useCallingToasts } from './CallingToast';
+import { Spinner } from './Spinner';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -256,7 +256,6 @@ export function CallScreen({
     };
   }, [toggleAudio, toggleVideo]);
 
-  useReconnectingToast({ activeCall, i18n });
   useScreenSharingStoppedToast({ activeCall, i18n });
   useViewModeChangedToast({ activeCall, i18n });
 
@@ -273,7 +272,6 @@ export function CallScreen({
 
   let isRinging: boolean;
   let hasCallStarted: boolean;
-  let headerTitle: string | undefined;
   let isConnected: boolean;
   let participantCount: number;
   let remoteParticipantsElement: ReactNode;
@@ -306,16 +304,6 @@ export function CallScreen({
         !(groupMembers?.length === 1 && groupMembers[0].id === me.id);
       hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
-
-      if (isRinging) {
-        headerTitle = undefined;
-      } else if (currentPresenter) {
-        headerTitle = i18n('icu:calling__presenting--person-ongoing', {
-          name: currentPresenter.title,
-        });
-      } else if (!activeCall.remoteParticipants.length) {
-        headerTitle = i18n('icu:calling__in-this-call--zero');
-      }
 
       isConnected =
         activeCall.connectionState === GroupCallConnectionState.Connected;
@@ -487,6 +475,29 @@ export function CallScreen({
       }}
       role="group"
     >
+      {isReconnecting ? (
+        <PersistentCallingToast>
+          <span className="CallingToast__reconnecting">
+            <Spinner svgSize="small" size="16px" />
+            {i18n('icu:callReconnecting')}
+          </span>
+        </PersistentCallingToast>
+      ) : null}
+
+      {isLonelyInCall && !isRinging ? (
+        <PersistentCallingToast>
+          {i18n('icu:calling__in-this-call--zero')}
+        </PersistentCallingToast>
+      ) : null}
+
+      {currentPresenter ? (
+        <PersistentCallingToast>
+          {i18n('icu:calling__presenting--person-ongoing', {
+            name: currentPresenter.title,
+          })}
+        </PersistentCallingToast>
+      ) : null}
+
       {showNeedsScreenRecordingPermissionsWarning ? (
         <NeedsScreenRecordingPermissionsModal
           toggleScreenRecordingPermissionsDialog={
@@ -505,7 +516,6 @@ export function CallScreen({
           i18n={i18n}
           isGroupCall={isGroupCall}
           participantCount={participantCount}
-          title={headerTitle}
           togglePip={togglePip}
           toggleSettings={toggleSettings}
         />

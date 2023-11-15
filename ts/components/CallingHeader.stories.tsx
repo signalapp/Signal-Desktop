@@ -18,14 +18,11 @@ export default {
   argTypes: {
     isGroupCall: { control: { type: 'boolean' } },
     participantCount: { control: { type: 'number' } },
-    title: { control: { type: 'text' } },
   },
   args: {
     i18n,
     isGroupCall: false,
-    message: '',
     participantCount: 0,
-    title: 'With Someone',
     togglePip: action('toggle-pip'),
     callViewMode: CallViewMode.Paginated,
     changeCallView: action('change-call-view'),
@@ -40,32 +37,8 @@ export function LobbyStyle(args: PropsType): JSX.Element {
   return (
     <CallingHeader
       {...args}
-      title={undefined}
       togglePip={undefined}
       onCancel={action('onClose')}
     />
-  );
-}
-
-export function WithParticipants(args: PropsType): JSX.Element {
-  return <CallingHeader {...args} isGroupCall participantCount={10} />;
-}
-
-export function WithParticipantsShown(args: PropsType): JSX.Element {
-  return <CallingHeader {...args} isGroupCall participantCount={10} />;
-}
-
-export function LongTitle(args: PropsType): JSX.Element {
-  return (
-    <CallingHeader
-      {...args}
-      title="What do I got to, what do I got to do to wake you up? To shake you up, to break the structure up?"
-    />
-  );
-}
-
-export function TitleWithMessage(args: PropsType): JSX.Element {
-  return (
-    <CallingHeader {...args} title="Hello world" message="Goodbye earth" />
   );
 }

@@ -3028,6 +3028,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallingToast.tsx",
+    "line": "  const toastId = useRef<string>(uuid());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-11-14T16:52:45.342Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
     "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
     "reasonCategory": "usageTrusted",

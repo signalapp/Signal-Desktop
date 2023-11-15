@@ -1,14 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import type { ActiveCallType } from '../types/Calling';
 import { CallMode } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
-import { isReconnecting } from '../util/callingIsReconnecting';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
-import { Spinner } from './Spinner';
 import { usePrevious } from '../hooks/usePrevious';
 
 type PropsType = {
@@ -16,35 +14,13 @@ type PropsType = {
   i18n: LocalizerType;
 };
 
-export function useReconnectingToast({ activeCall, i18n }: PropsType): void {
-  const { showToast, hideToast } = useCallingToasts();
-  const RECONNECTING_TOAST_KEY = 'reconnecting';
-
-  useEffect(() => {
-    if (isReconnecting(activeCall)) {
-      showToast({
-        key: RECONNECTING_TOAST_KEY,
-        content: (
-          <span className="CallingToast__reconnecting">
-            <Spinner svgSize="small" size="16px" />
-            {i18n('icu:callReconnecting')}
-          </span>
-        ),
-        autoClose: false,
-      });
-    } else {
-      hideToast(RECONNECTING_TOAST_KEY);
-    }
-  }, [activeCall, i18n, showToast, hideToast]);
-}
-
 const ME = Symbol('me');
 
 function getCurrentPresenter(
   activeCall: Readonly<ActiveCallType>
-): ConversationType | typeof ME | undefined {
+): ConversationType | { id: typeof ME } | undefined {
   if (activeCall.presentingSource) {
-    return ME;
+    return { id: ME };
   }
   if (activeCall.callMode === CallMode.Direct) {
     const isOtherPersonPresenting = activeCall.remoteParticipants.some(
@@ -64,30 +40,21 @@ export function useScreenSharingStoppedToast({
   activeCall,
   i18n,
 }: PropsType): void {
-  const [previousPresenter, setPreviousPresenter] = useState<
-    undefined | { id: string | typeof ME; title?: string }
-  >(undefined);
-  const { showToast } = useCallingToasts();
+  const { showToast, hideToast } = useCallingToasts();
+
+  const SOMEONE_STOPPED_PRESENTING_TOAST_KEY = 'someone_stopped_presenting';
+
+  const currentPresenter = useMemo(
+    () => getCurrentPresenter(activeCall),
+    [activeCall]
+  );
+  const previousPresenter = usePrevious(currentPresenter, currentPresenter);
 
   useEffect(() => {
-    const currentPresenter = getCurrentPresenter(activeCall);
-    if (currentPresenter === ME) {
-      setPreviousPresenter({
-        id: ME,
-      });
-    } else if (!currentPresenter) {
-      setPreviousPresenter(undefined);
-    } else {
-      const { id, title } = currentPresenter;
-      setPreviousPresenter({ id, title });
-    }
-  }, [activeCall]);
-
-  useEffect(() => {
-    const currentPresenter = getCurrentPresenter(activeCall);
-
-    if (!currentPresenter && previousPresenter && previousPresenter.title) {
+    if (previousPresenter && !currentPresenter) {
+      hideToast(SOMEONE_STOPPED_PRESENTING_TOAST_KEY);
       showToast({
+        key: SOMEONE_STOPPED_PRESENTING_TOAST_KEY,
         content:
           previousPresenter.id === ME
             ? i18n('icu:calling__presenting--you-stopped')
@@ -97,7 +64,14 @@ export function useScreenSharingStoppedToast({
         autoClose: true,
       });
     }
-  }, [activeCall, previousPresenter, showToast, i18n]);
+  }, [
+    activeCall,
+    hideToast,
+    currentPresenter,
+    previousPresenter,
+    showToast,
+    i18n,
+  ]);
 }
 
 function useMutedToast({
@@ -175,7 +149,7 @@ export function CallingButtonToastsContainer(
   return (
     <CallingToastProvider
       i18n={props.i18n}
-      maxToasts={1}
+      maxNonPersistentToasts={1}
       region={toastRegionRef}
     >
       <div className="CallingButtonToasts" ref={toastRegionRef} />
