@@ -15,6 +15,7 @@ import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import type {
   ActiveCallType,
+  CallViewMode,
   GroupCallVideoRequest,
   PresentedSource,
 } from '../types/Calling';
@@ -49,6 +50,7 @@ export type PropsType = {
   activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
   cancelCall: (_: CancelCallType) => void;
+  changeCallView: (mode: CallViewMode) => void;
   closeNeedPermissionScreen: () => void;
   getGroupCallVideoFrameSource: (
     conversationId: string,
@@ -103,7 +105,6 @@ export type PropsType = {
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
-  toggleSpeakerView: () => void;
   isConversationTooBigToRing: boolean;
   pauseVoiceNotePlayer: () => void;
 };
@@ -116,6 +117,7 @@ function ActiveCallManager({
   activeCall,
   availableCameras,
   cancelCall,
+  changeCallView,
   closeNeedPermissionScreen,
   hangUpActiveCall,
   i18n,
@@ -143,7 +145,6 @@ function ActiveCallManager({
   togglePip,
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
-  toggleSpeakerView,
   pauseVoiceNotePlayer,
 }: ActiveCallManagerPropsType): JSX.Element {
   const {
@@ -322,6 +323,7 @@ function ActiveCallManager({
     <>
       <CallScreen
         activeCall={activeCall}
+        changeCallView={changeCallView}
         getPresentingSources={getPresentingSources}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         groupMembers={groupMembers}
@@ -344,7 +346,6 @@ function ActiveCallManager({
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSettings={toggleSettings}
-        toggleSpeakerView={toggleSpeakerView}
       />
       {presentingSourcesAvailable && presentingSourcesAvailable.length ? (
         <CallingSelectPresentingSourcesModal

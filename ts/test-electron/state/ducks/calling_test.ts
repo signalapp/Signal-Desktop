@@ -64,7 +64,7 @@ describe('calling duck', () => {
       hasLocalAudio: true,
       hasLocalVideo: false,
       localAudioLevel: 0,
-      viewMode: CallViewMode.Grid,
+      viewMode: CallViewMode.Paginated,
       showParticipantsList: false,
       safetyNumberChangedAcis: [],
       outgoingRing: true,
@@ -144,30 +144,13 @@ describe('calling duck', () => {
       hasLocalAudio: true,
       hasLocalVideo: false,
       localAudioLevel: 0,
-      viewMode: CallViewMode.Grid,
+      viewMode: CallViewMode.Paginated,
       showParticipantsList: false,
       safetyNumberChangedAcis: [],
       outgoingRing: false,
       pip: false,
       settingsDialogOpen: false,
       joinedAt: null,
-    },
-  };
-
-  const stateWithActivePresentationViewGroupCall: CallingStateTypeWithActiveCall =
-    {
-      ...stateWithGroupCall,
-      activeCallState: {
-        ...stateWithActiveGroupCall.activeCallState,
-        viewMode: CallViewMode.Presentation,
-      },
-    };
-
-  const stateWithActiveSpeakerViewGroupCall: CallingStateTypeWithActiveCall = {
-    ...stateWithGroupCall,
-    activeCallState: {
-      ...stateWithActiveGroupCall.activeCallState,
-      viewMode: CallViewMode.Speaker,
     },
   };
 
@@ -476,7 +459,7 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: true,
             localAudioLevel: 0,
-            viewMode: CallViewMode.Grid,
+            viewMode: CallViewMode.Paginated,
             showParticipantsList: false,
             safetyNumberChangedAcis: [],
             outgoingRing: false,
@@ -570,7 +553,7 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: true,
             localAudioLevel: 0,
-            viewMode: CallViewMode.Grid,
+            viewMode: CallViewMode.Paginated,
             showParticipantsList: false,
             safetyNumberChangedAcis: [],
             outgoingRing: false,
@@ -1163,7 +1146,7 @@ describe('calling duck', () => {
           hasLocalAudio: true,
           hasLocalVideo: false,
           localAudioLevel: 0,
-          viewMode: CallViewMode.Grid,
+          viewMode: CallViewMode.Paginated,
           showParticipantsList: false,
           safetyNumberChangedAcis: [],
           outgoingRing: false,
@@ -1695,7 +1678,7 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: true,
             localAudioLevel: 0,
-            viewMode: CallViewMode.Grid,
+            viewMode: CallViewMode.Paginated,
             showParticipantsList: false,
             safetyNumberChangedAcis: [],
             pip: false,
@@ -1982,7 +1965,7 @@ describe('calling duck', () => {
           hasLocalAudio: true,
           hasLocalVideo: false,
           localAudioLevel: 0,
-          viewMode: CallViewMode.Grid,
+          viewMode: CallViewMode.Paginated,
           showParticipantsList: false,
           safetyNumberChangedAcis: [],
           pip: false,
@@ -2056,58 +2039,14 @@ describe('calling duck', () => {
       });
     });
 
-    describe('toggleSpeakerView', () => {
-      const { toggleSpeakerView } = actions;
-
-      it('toggles speaker view from grid view', () => {
-        const afterOneToggle = reducer(
-          stateWithActiveGroupCall,
-          toggleSpeakerView()
-        );
-        const afterTwoToggles = reducer(afterOneToggle, toggleSpeakerView());
-        const afterThreeToggles = reducer(afterTwoToggles, toggleSpeakerView());
-
-        assert.strictEqual(
-          afterOneToggle.activeCallState?.viewMode,
-          CallViewMode.Speaker
-        );
-        assert.strictEqual(
-          afterTwoToggles.activeCallState?.viewMode,
-          CallViewMode.Grid
-        );
-        assert.strictEqual(
-          afterThreeToggles.activeCallState?.viewMode,
-          CallViewMode.Speaker
-        );
-      });
-
-      it('toggles speaker view from presentation view', () => {
-        const afterOneToggle = reducer(
-          stateWithActivePresentationViewGroupCall,
-          toggleSpeakerView()
-        );
-        const afterTwoToggles = reducer(afterOneToggle, toggleSpeakerView());
-        const afterThreeToggles = reducer(afterTwoToggles, toggleSpeakerView());
-
-        assert.strictEqual(
-          afterOneToggle.activeCallState?.viewMode,
-          CallViewMode.Grid
-        );
-        assert.strictEqual(
-          afterTwoToggles.activeCallState?.viewMode,
-          CallViewMode.Speaker
-        );
-        assert.strictEqual(
-          afterThreeToggles.activeCallState?.viewMode,
-          CallViewMode.Grid
-        );
-      });
-    });
-
     describe('switchToPresentationView', () => {
-      const { switchToPresentationView, switchFromPresentationView } = actions;
+      const {
+        switchToPresentationView,
+        switchFromPresentationView,
+        changeCallView,
+      } = actions;
 
-      it('toggles presentation view from grid view', () => {
+      it('toggles presentation view from paginated view', () => {
         const afterOneToggle = reducer(
           stateWithActiveGroupCall,
           switchToPresentationView()
@@ -2116,7 +2055,7 @@ describe('calling duck', () => {
           afterOneToggle,
           switchToPresentationView()
         );
-        const finalState = reducer(
+        const afterThreeToggles = reducer(
           afterOneToggle,
           switchFromPresentationView()
         );
@@ -2130,28 +2069,28 @@ describe('calling duck', () => {
           CallViewMode.Presentation
         );
         assert.strictEqual(
-          finalState.activeCallState?.viewMode,
-          CallViewMode.Grid
+          afterThreeToggles.activeCallState?.viewMode,
+          CallViewMode.Paginated
         );
       });
 
-      it('does not toggle presentation view from speaker view', () => {
-        const afterOneToggle = reducer(
-          stateWithActiveSpeakerViewGroupCall,
+      it('switches to previously selected view after presentation', () => {
+        const stateOverflow = reducer(
+          stateWithActiveGroupCall,
+          changeCallView(CallViewMode.Overflow)
+        );
+        const statePresentation = reducer(
+          stateOverflow,
           switchToPresentationView()
         );
-        const finalState = reducer(
-          afterOneToggle,
+        const stateAfterPresentation = reducer(
+          statePresentation,
           switchFromPresentationView()
         );
 
         assert.strictEqual(
-          afterOneToggle.activeCallState?.viewMode,
-          CallViewMode.Speaker
-        );
-        assert.strictEqual(
-          finalState.activeCallState?.viewMode,
-          CallViewMode.Speaker
+          stateAfterPresentation.activeCallState?.viewMode,
+          CallViewMode.Overflow
         );
       });
     });

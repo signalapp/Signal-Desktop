@@ -46,7 +46,7 @@ const getCommonActiveCallData = (overrides: Overrides) => ({
   hasLocalAudio: overrides.hasLocalAudio ?? true,
   hasLocalVideo: overrides.hasLocalVideo ?? false,
   localAudioLevel: overrides.localAudioLevel ?? 0,
-  viewMode: overrides.viewMode ?? CallViewMode.Grid,
+  viewMode: overrides.viewMode ?? CallViewMode.Paginated,
   joinedAt: Date.now(),
   outgoingRing: true,
   pip: true,

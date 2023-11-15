@@ -34,7 +34,11 @@
   @include CallSettingsButton-icon('../images/icons/v3/x/x.svg');
 }
 
-.CallSettingsButton__Icon--GridView {
+.CallSettingsButton__Icon--OverflowView {
+  @include CallSettingsButton-icon('../images/icons/v3/grid/overflow_view.svg');
+}
+
+.CallSettingsButton__Icon--PaginatedView {
   @include CallSettingsButton-icon('../images/icons/v3/grid/grid.svg');
 }
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { takeWhile, clamp, chunk, maxBy, flatten, noop } from 'lodash';
+import { clamp, chunk, maxBy, flatten, noop } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
@@ -13,6 +13,7 @@ import type {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
 } from '../types/Calling';
+import { CallViewMode } from '../types/Calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import type { LocalizerType } from '../types/Util';
 import { usePageVisibility } from '../hooks/usePageVisibility';
@@ -25,11 +26,14 @@ import * as setUtil from '../util/setUtil';
 import * as log from '../logging/log';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 import { SizeObserver } from '../hooks/useSizeObserver';
+import { strictAssert } from '../util/assert';
 
-const MIN_RENDERED_HEIGHT = 180;
-const PARTICIPANT_MARGIN = 10;
+const SMALL_TILES_MIN_HEIGHT = 80;
+const LARGE_TILES_MIN_HEIGHT = 200;
+const PARTICIPANT_MARGIN = 12;
 const TIME_TO_STOP_REQUESTING_VIDEO_WHEN_PAGE_INVISIBLE = 20 * SECOND;
-
+const PAGINATION_BUTTON_ASPECT_RATIO = 1;
+const MAX_PARTICIPANTS_PER_PAGE = 49; // 49 remote + 1 self-video = 50 total
 // We scale our video requests down for performance. This number is somewhat arbitrary.
 const VIDEO_REQUEST_SCALAR = 0.75;
 
@@ -39,15 +43,24 @@ type Dimensions = {
 };
 
 type GridArrangement = {
-  rows: Array<Array<GroupCallRemoteParticipantType>>;
+  rows: Array<Array<ParticipantTileType>>;
   scalar: number;
 };
+type PaginationButtonType = {
+  isPaginationButton: true;
+  videoAspectRatio: number;
+  paginationButtonType: 'prev' | 'next';
+  numParticipants: number;
+};
+type ParticipantTileType =
+  | GroupCallRemoteParticipantType
+  | PaginationButtonType;
 
 type PropsType = {
+  callViewMode: CallViewMode;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   isCallReconnecting: boolean;
-  isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
@@ -72,36 +85,42 @@ enum VideoRequestMode {
 // * Participants are arranged in 0 or more rows.
 // * Each row is the same height, but each participant may have a different width.
 // * It's possible, on small screens with lots of participants, to have participants
-//   removed from the grid. This is because participants have a minimum rendered height.
+//   removed from the grid, or on subsequent pages. This is because participants
+//   have a minimum rendered height.
+// * Participant videos may have different aspect ratios
+// * We want to ensure that presenters and recent speakers are shown on the first page,
+//   but we also want to minimize tiles jumping around as much as possible.
 //
 // There should be more specific comments throughout, but the high-level steps are:
 //
-// 1. Figure out the maximum number of possible rows that could fit on the screen; this is
-//    `maxRowCount`.
-// 2. Split the participants into two groups: ones in the main grid and ones in the
-//    overflow area. The grid should prioritize participants who have recently spoken.
-// 3. For each possible number of rows (starting at 0 and ending at `maxRowCount`),
-//    distribute participants across the rows at the minimum height. Then find the
-//    "scalar": how much can we scale these boxes up while still fitting them on the
-//    screen? The biggest scalar wins as the "best arrangement".
-// 4. Lay out this arrangement on the screen.
+// 1. Figure out the maximum number of possible rows that could fit on a page; this is
+//    `maxRowsPerPage`.
+// 2. Sort the participants in priority order: we want to fit presenters and recent
+//    speakers in the grid first
+// 3. Figure out which participants should go on each page -- for non-paginated views,
+//    this is just one page, but for paginated views, we could have many pages. The
+//    general idea here is to fill up each page row-by-row, with each video as small
+//    as we allow.
+// 4. Try to distribute the videos throughout the grid to find the largest "scalar":
+//    how much can we scale these boxes up while still fitting them on the screen?
+//    The biggest scalar wins as the "best arrangement".
+// 5. Lay out this arrangement on the screen.
+
 export function GroupCallRemoteParticipants({
+  callViewMode,
   getGroupCallVideoFrameSource,
   i18n,
   isCallReconnecting,
-  isInSpeakerView,
   remoteParticipants,
   setGroupCallVideoRequest,
   remoteAudioLevels,
 }: PropsType): JSX.Element {
-  const [containerDimensions, setContainerDimensions] = useState<Dimensions>({
-    width: 0,
-    height: 0,
-  });
   const [gridDimensions, setGridDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
   });
+
+  const [pageIndex, setPageIndex] = useState(0);
 
   const devicePixelRatio = useDevicePixelRatio();
 
@@ -110,191 +129,224 @@ export function GroupCallRemoteParticipants({
   const { invisibleDemuxIds, onParticipantVisibilityChanged } =
     useInvisibleParticipants(remoteParticipants);
 
-  // 1. Figure out the maximum number of possible rows that could fit on the screen.
-  //
-  // We choose the smaller of these two options:
-  //
-  // - The number of participants, which means there'd be one participant per row.
-  // - The number of possible rows in the container, assuming all participants were
-  //   rendered at minimum height. Doesn't rely on the number of participants—it's some
-  //   simple division.
-  //
-  // Could be 0 if (a) there are no participants (b) the container's height is small.
-  const maxRowCount = Math.min(
-    remoteParticipants.length,
-    Math.floor(
-      containerDimensions.height / (MIN_RENDERED_HEIGHT + PARTICIPANT_MARGIN)
-    )
+  const minRenderedHeight =
+    callViewMode === CallViewMode.Paginated
+      ? SMALL_TILES_MIN_HEIGHT
+      : LARGE_TILES_MIN_HEIGHT;
+
+  const isInSpeakerView =
+    callViewMode === CallViewMode.Speaker ||
+    callViewMode === CallViewMode.Presentation;
+
+  const isInPaginationView = callViewMode === CallViewMode.Paginated;
+  const shouldShowOverflow = !isInPaginationView;
+
+  const maxRowWidth = gridDimensions.width;
+  const maxGridHeight = gridDimensions.height;
+
+  // 1. Figure out the maximum number of possible rows that could fit on the page.
+  //    Could be 0 if (a) there are no participants (b) the container's height is small.
+  const maxRowsPerPage = Math.floor(
+    maxGridHeight / (minRenderedHeight + PARTICIPANT_MARGIN)
   );
 
-  // 2. Split participants into two groups: ones in the main grid and ones in the overflow
-  //   sidebar.
-  //
-  // We start by sorting by `presenting` first since presenters should be on the main grid
-  //   then we sort by `speakerTime` so that the most recent speakers are next in
-  //   line for the main grid. Then we split the list in two: one for the grid and one for
-  //   the overflow area.
-  //
-  // Once we've sorted participants into their respective groups, we sort them on
-  //   something stable (the `demuxId`, but we could choose something else) so that people
-  //   don't jump around within the group.
-  //
-  // These are primarily memoized for clarity, not performance.
-  const sortedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
-    () =>
-      remoteParticipants
-        .concat()
-        .sort(
-          (a, b) =>
-            Number(b.presenting || 0) - Number(a.presenting || 0) ||
-            (b.speakerTime || -Infinity) - (a.speakerTime || -Infinity)
-        ),
-    [remoteParticipants]
-  );
-  const gridParticipants: Array<GroupCallRemoteParticipantType> =
-    useMemo(() => {
-      if (!sortedParticipants.length) {
-        return [];
-      }
+  // 2. Sort the participants in priority order:  by `presenting` first, since presenters
+  //   should be on the main grid, then by `speakerTime` so that the most recent speakers
+  //   are next in line for the first pages of the grid
+  const prioritySortedParticipants: Array<GroupCallRemoteParticipantType> =
+    useMemo(
+      () =>
+        remoteParticipants
+          .concat()
+          .sort(
+            (a, b) =>
+              Number(b.presenting || 0) - Number(a.presenting || 0) ||
+              (b.speakerTime || -Infinity) - (a.speakerTime || -Infinity)
+          ),
+      [remoteParticipants]
+    );
 
-      const candidateParticipants = isInSpeakerView
-        ? [sortedParticipants[0]]
-        : sortedParticipants;
-
-      // Imagine that we laid out all of the rows end-to-end. That's the maximum total
-      //   width. So if there were 5 rows and the container was 100px wide, then we can't
-      //   possibly fit more than 500px of participants.
-      const maxTotalWidth = maxRowCount * containerDimensions.width;
-
-      // We do the same thing for participants, "laying them out end-to-end" until they
-      //   exceed the maximum total width.
-      let totalWidth = 0;
-      return takeWhile(candidateParticipants, remoteParticipant => {
-        totalWidth += remoteParticipant.videoAspectRatio * MIN_RENDERED_HEIGHT;
-        return totalWidth < maxTotalWidth;
-      }).sort(stableParticipantComparator);
-    }, [
-      containerDimensions.width,
-      isInSpeakerView,
-      maxRowCount,
-      sortedParticipants,
-    ]);
-  const overflowedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
-    () =>
-      sortedParticipants
-        .slice(gridParticipants.length)
-        .sort(stableParticipantComparator),
-    [sortedParticipants, gridParticipants.length]
-  );
-
-  // 3. For each possible number of rows (starting at 0 and ending at `maxRowCount`),
-  //   distribute participants across the rows at the minimum height. Then find the
-  //   "scalar": how much can we scale these boxes up while still fitting them on the
-  //   screen? The biggest scalar wins as the "best arrangement".
-  const gridArrangement: GridArrangement = useMemo(() => {
-    let bestArrangement: GridArrangement = {
-      scalar: -1,
-      rows: [],
-    };
-
-    if (!gridParticipants.length) {
-      return bestArrangement;
+  // 3. Layout the participants on each page. The general algorithm is: first, try to fill
+  //   up each page with as many participants as possible at the smallest acceptable video
+  //   height. Second, sort the participants that fit on each page by a stable sort order,
+  //   and make sure they still fit on the page! Third, add tiles at the beginning and end
+  //   of each page (if paginated) to act as back and next buttons.
+  const gridParticipantsByPage: Array<ParticipantsInPageType> = useMemo(() => {
+    if (!prioritySortedParticipants.length) {
+      return [];
     }
 
-    for (let rowCount = 1; rowCount <= maxRowCount; rowCount += 1) {
-      // We do something pretty naïve here and chunk the grid's participants into rows.
-      //   For example, if there were 12 grid participants and `rowCount === 3`, there
-      //   would be 4 participants per row.
-      //
-      // This naïve chunking is suboptimal in terms of absolute best fit, but it is much
-      //   faster and simpler than trying to do this perfectly. In practice, this works
-      //   fine in the UI from our testing.
-      const numberOfParticipantsInRow = Math.ceil(
-        gridParticipants.length / rowCount
-      );
-      const rows = chunk(gridParticipants, numberOfParticipantsInRow);
-
-      // We need to find the scalar for this arrangement. Imagine that we have these
-      //   participants at the minimum heights, and we want to scale everything up until
-      //   it's about to overflow.
-      //
-      // We don't want it to overflow horizontally or vertically, so we calculate a
-      //   "width scalar" and "height scalar" and choose the smaller of the two. (Choosing
-      //   the LARGER of the two could cause overflow.)
-      const widestRow = maxBy(rows, totalRemoteParticipantWidthAtMinHeight);
-      if (!widestRow) {
-        log.error('Unable to find the widest row, which should be impossible');
-        continue;
-      }
-      const widthScalar =
-        (gridDimensions.width - (widestRow.length + 1) * PARTICIPANT_MARGIN) /
-        totalRemoteParticipantWidthAtMinHeight(widestRow);
-      const heightScalar =
-        (gridDimensions.height - (rowCount + 1) * PARTICIPANT_MARGIN) /
-        (rowCount * MIN_RENDERED_HEIGHT);
-      const scalar = Math.min(widthScalar, heightScalar);
-
-      // If this scalar is the best one so far, we use that.
-      if (scalar > bestArrangement.scalar) {
-        bestArrangement = { scalar, rows };
-      }
+    if (!maxRowsPerPage) {
+      return [];
     }
 
-    return bestArrangement;
+    if (isInSpeakerView) {
+      return [
+        {
+          rows: [[prioritySortedParticipants[0]]],
+          hasSpaceRemaining: false,
+          numParticipants: 1,
+        },
+      ];
+    }
+
+    return getGridParticipantsByPage({
+      participants: prioritySortedParticipants,
+      maxRowWidth,
+      maxPages: isInPaginationView ? Infinity : 1,
+      maxRowsPerPage,
+      minRenderedHeight,
+      maxParticipantsPerPage: MAX_PARTICIPANTS_PER_PAGE,
+      currentPage: pageIndex,
+    });
   }, [
-    gridParticipants,
-    maxRowCount,
-    gridDimensions.width,
-    gridDimensions.height,
+    maxRowWidth,
+    isInPaginationView,
+    isInSpeakerView,
+    maxRowsPerPage,
+    minRenderedHeight,
+    pageIndex,
+    prioritySortedParticipants,
   ]);
 
-  // 4. Lay out this arrangement on the screen.
-  const gridParticipantHeight = Math.floor(
-    gridArrangement.scalar * MIN_RENDERED_HEIGHT
+  // Make sure we're not on a page that no longer exists (e.g. if people left the call)
+  if (
+    pageIndex >= gridParticipantsByPage.length &&
+    gridParticipantsByPage.length > 0
+  ) {
+    setPageIndex(gridParticipantsByPage.length - 1);
+  }
+
+  const totalParticipantsInGrid = gridParticipantsByPage.reduce(
+    (pageCount, { numParticipants }) => pageCount + numParticipants,
+    0
+  );
+
+  // In speaker or overflow views, not all participants will be on the grid; they'll
+  //   get put in the overflow zone.
+  const overflowedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
+    () =>
+      isInPaginationView
+        ? []
+        : prioritySortedParticipants
+            .slice(totalParticipantsInGrid)
+            .sort(stableParticipantComparator),
+    [isInPaginationView, prioritySortedParticipants, totalParticipantsInGrid]
+  );
+
+  const participantsOnOtherPages = useMemo(
+    () =>
+      gridParticipantsByPage
+        .map((page, index) => {
+          if (index === pageIndex) {
+            return [];
+          }
+          return page.rows.flat();
+        })
+        .flat()
+        .filter(isGroupCallRemoteParticipant),
+    [gridParticipantsByPage, pageIndex]
+  );
+
+  const currentPage = gridParticipantsByPage.at(pageIndex) ?? {
+    rows: [],
+  };
+
+  // 4. Try to arrange the current page such that we can scale the videos up
+  //   as much as possible.
+  const gridArrangement = arrangeParticipantsInGrid({
+    participantsInRows: currentPage.rows,
+    maxRowsPerPage,
+    maxRowWidth,
+    maxGridHeight,
+    minRenderedHeight,
+  });
+
+  const nextPage = () => {
+    setPageIndex(index => index + 1);
+  };
+
+  const prevPage = () => {
+    setPageIndex(index => Math.max(0, index - 1));
+  };
+
+  // 5. Lay out the current page on the screen.
+  const gridParticipantHeight = Math.round(
+    gridArrangement.scalar * minRenderedHeight
   );
   const gridParticipantHeightWithMargin =
     gridParticipantHeight + PARTICIPANT_MARGIN;
   const gridTotalRowHeightWithMargin =
-    gridParticipantHeightWithMargin * gridArrangement.rows.length;
-  const gridTopOffset = Math.floor(
-    (gridDimensions.height - gridTotalRowHeightWithMargin) / 2
+    gridParticipantHeightWithMargin * gridArrangement.rows.length -
+    PARTICIPANT_MARGIN;
+  const gridTopOffset = Math.max(
+    0,
+    Math.round((gridDimensions.height - gridTotalRowHeightWithMargin) / 2)
   );
 
   const rowElements: Array<Array<JSX.Element>> = gridArrangement.rows.map(
-    (remoteParticipantsInRow, index) => {
+    (tiles, index) => {
       const top = gridTopOffset + index * gridParticipantHeightWithMargin;
 
       const totalRowWidthWithoutMargins =
-        totalRemoteParticipantWidthAtMinHeight(remoteParticipantsInRow) *
+        totalRowWidthAtHeight(tiles, minRenderedHeight) *
         gridArrangement.scalar;
       const totalRowWidth =
-        totalRowWidthWithoutMargins +
-        PARTICIPANT_MARGIN * (remoteParticipantsInRow.length - 1);
-      const leftOffset = Math.floor((gridDimensions.width - totalRowWidth) / 2);
+        totalRowWidthWithoutMargins + PARTICIPANT_MARGIN * (tiles.length - 1);
+      const leftOffset = Math.max(
+        0,
+        Math.round((gridDimensions.width - totalRowWidth) / 2)
+      );
 
       let rowWidthSoFar = 0;
-      return remoteParticipantsInRow.map(remoteParticipant => {
-        const { demuxId, videoAspectRatio } = remoteParticipant;
-
-        const audioLevel = remoteAudioLevels.get(demuxId) ?? 0;
-
-        const renderedWidth = Math.floor(
-          videoAspectRatio * gridParticipantHeight
-        );
+      return tiles.map(tile => {
         const left = rowWidthSoFar + leftOffset;
+
+        const renderedWidth = Math.round(
+          tile.videoAspectRatio * gridParticipantHeight
+        );
 
         rowWidthSoFar += renderedWidth + PARTICIPANT_MARGIN;
 
+        if (isPaginationButton(tile)) {
+          const isNextButton = tile.paginationButtonType === 'next';
+          const isPrevButton = tile.paginationButtonType === 'prev';
+          return (
+            <button
+              key={
+                isNextButton ? 'next-pagination-tile' : 'prev-pagination-tile'
+              }
+              onClick={isNextButton ? nextPage : prevPage}
+              style={{
+                insetInlineStart: left,
+                insetBlockStart: top,
+                width: renderedWidth,
+                height: gridParticipantHeight,
+              }}
+              type="button"
+              className="module-ongoing-call__group-call--pagination-tile"
+            >
+              {isPrevButton ? (
+                <div className="module-ongoing-call__group-call--pagination-tile--prev-arrow" />
+              ) : null}
+              +{tile.numParticipants}
+              {isNextButton ? (
+                <div className="module-ongoing-call__group-call--pagination-tile--next-arrow" />
+              ) : null}
+            </button>
+          );
+        }
+
         return (
           <GroupCallRemoteParticipant
-            key={demuxId}
+            key={tile.demuxId}
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             height={gridParticipantHeight}
             i18n={i18n}
-            audioLevel={audioLevel}
+            audioLevel={remoteAudioLevels.get(tile.demuxId) ?? 0}
             left={left}
-            remoteParticipant={remoteParticipant}
+            remoteParticipant={tile}
             top={top}
             width={renderedWidth}
             remoteParticipantsCount={remoteParticipants.length}
@@ -317,30 +369,37 @@ export function GroupCallRemoteParticipants({
     switch (videoRequestMode) {
       case VideoRequestMode.Normal:
         videoRequest = [
-          ...gridParticipants.map(participant => {
-            let scalar: number;
-            if (participant.sharingScreen) {
-              // We want best-resolution video if someone is sharing their screen.
-              scalar = Math.max(devicePixelRatio, 1);
-            } else {
-              scalar = VIDEO_REQUEST_SCALAR;
-            }
-            return {
-              demuxId: participant.demuxId,
-              width: clamp(
-                Math.floor(
-                  gridParticipantHeight * participant.videoAspectRatio * scalar
+          ...currentPage.rows
+            .flat()
+            // Filter out any next/previous page buttons
+            .filter(isGroupCallRemoteParticipant)
+            .map(participant => {
+              let scalar: number;
+              if (participant.sharingScreen) {
+                // We want best-resolution video if someone is sharing their screen.
+                scalar = Math.max(devicePixelRatio, 1);
+              } else {
+                scalar = VIDEO_REQUEST_SCALAR;
+              }
+              return {
+                demuxId: participant.demuxId,
+                width: clamp(
+                  Math.round(
+                    gridParticipantHeight *
+                      participant.videoAspectRatio *
+                      scalar
+                  ),
+                  1,
+                  MAX_FRAME_WIDTH
                 ),
-                1,
-                MAX_FRAME_WIDTH
-              ),
-              height: clamp(
-                Math.floor(gridParticipantHeight * scalar),
-                1,
-                MAX_FRAME_HEIGHT
-              ),
-            };
-          }),
+                height: clamp(
+                  Math.round(gridParticipantHeight * scalar),
+                  1,
+                  MAX_FRAME_HEIGHT
+                ),
+              };
+            }),
+          ...participantsOnOtherPages.map(nonRenderedRemoteParticipant),
           ...overflowedParticipants.map(participant => {
             if (invisibleDemuxIds.has(participant.demuxId)) {
               return nonRenderedRemoteParticipant(participant);
@@ -349,12 +408,12 @@ export function GroupCallRemoteParticipants({
             return {
               demuxId: participant.demuxId,
               width: clamp(
-                Math.floor(OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR),
+                Math.round(OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR),
                 1,
                 MAX_FRAME_WIDTH
               ),
               height: clamp(
-                Math.floor(
+                Math.round(
                   (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
                     VIDEO_REQUEST_SCALAR
                 ),
@@ -384,58 +443,79 @@ export function GroupCallRemoteParticipants({
         videoRequest = remoteParticipants.map(nonRenderedRemoteParticipant);
         break;
     }
-
     setGroupCallVideoRequest(
       videoRequest,
       clamp(gridParticipantHeight, 0, MAX_FRAME_HEIGHT)
     );
   }, [
     devicePixelRatio,
+    currentPage.rows,
     gridParticipantHeight,
-    gridParticipants,
     invisibleDemuxIds,
     overflowedParticipants,
     remoteParticipants,
     setGroupCallVideoRequest,
     videoRequestMode,
+    participantsOnOtherPages,
   ]);
 
   return (
-    <SizeObserver
-      onSizeChange={size => {
-        setContainerDimensions(size);
-      }}
-    >
-      {containerRef => (
-        <div className="module-ongoing-call__participants" ref={containerRef}>
-          <SizeObserver
-            onSizeChange={size => {
-              setGridDimensions(size);
-            }}
-          >
-            {gridRef => (
-              <div
-                className="module-ongoing-call__participants__grid"
-                ref={gridRef}
-              >
-                {flatten(rowElements)}
-              </div>
-            )}
-          </SizeObserver>
+    <div className="module-ongoing-call__participants">
+      <div className="module-ongoing-call__participants__grid--wrapper">
+        <SizeObserver
+          onSizeChange={size => {
+            setGridDimensions(size);
+          }}
+        >
+          {gridRef => (
+            <div
+              className="module-ongoing-call__participants__grid"
+              ref={gridRef}
+            >
+              {flatten(rowElements)}
 
-          <GroupCallOverflowArea
-            getFrameBuffer={getFrameBuffer}
-            getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
-            i18n={i18n}
-            isCallReconnecting={isCallReconnecting}
-            onParticipantVisibilityChanged={onParticipantVisibilityChanged}
-            overflowedParticipants={overflowedParticipants}
-            remoteAudioLevels={remoteAudioLevels}
-            remoteParticipantsCount={remoteParticipants.length}
-          />
-        </div>
-      )}
-    </SizeObserver>
+              {isInPaginationView && (
+                <>
+                  {pageIndex > 0 ? (
+                    <button
+                      aria-label="Prev"
+                      className="module-ongoing-call__prev-page"
+                      onClick={prevPage}
+                      type="button"
+                    >
+                      <div className="module-ongoing-call__prev-page--arrow" />
+                    </button>
+                  ) : null}
+                  {pageIndex < gridParticipantsByPage.length - 1 ? (
+                    <button
+                      aria-label="Next"
+                      className="module-ongoing-call__next-page"
+                      onClick={nextPage}
+                      type="button"
+                    >
+                      <div className="module-ongoing-call__next-page--arrow" />
+                    </button>
+                  ) : null}
+                </>
+              )}
+            </div>
+          )}
+        </SizeObserver>
+      </div>
+
+      {shouldShowOverflow && overflowedParticipants.length > 0 ? (
+        <GroupCallOverflowArea
+          getFrameBuffer={getFrameBuffer}
+          getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          i18n={i18n}
+          isCallReconnecting={isCallReconnecting}
+          onParticipantVisibilityChanged={onParticipantVisibilityChanged}
+          overflowedParticipants={overflowedParticipants}
+          remoteAudioLevels={remoteAudioLevels}
+          remoteParticipantsCount={remoteParticipants.length}
+        />
+      ) : null}
+    </div>
   );
 }
 
@@ -520,14 +600,24 @@ function useVideoRequestMode(): VideoRequestMode {
   return result;
 }
 
-function totalRemoteParticipantWidthAtMinHeight(
-  remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>
+function totalRowWidthAtHeight(
+  participantsInRow: ReadonlyArray<
+    Pick<ParticipantTileType, 'videoAspectRatio'>
+  >,
+  height: number
 ): number {
-  return remoteParticipants.reduce(
-    (result, { videoAspectRatio }) =>
-      result + videoAspectRatio * MIN_RENDERED_HEIGHT,
+  return participantsInRow.reduce(
+    (result, participant) =>
+      result + participantWidthAtHeight(participant, height),
     0
   );
+}
+
+function participantWidthAtHeight(
+  participant: Pick<ParticipantTileType, 'videoAspectRatio'>,
+  height: number
+) {
+  return participant.videoAspectRatio * height;
 }
 
 function stableParticipantComparator(
@@ -535,4 +625,400 @@ function stableParticipantComparator(
   b: Readonly<{ demuxId: number }>
 ): number {
   return a.demuxId - b.demuxId;
+}
+
+type ParticipantsInPageType<
+  T extends { videoAspectRatio: number } = ParticipantTileType
+> = {
+  rows: Array<Array<T>>;
+  numParticipants: number;
+};
+
+type PageLayoutPropsType = {
+  maxRowWidth: number;
+  minRenderedHeight: number;
+  maxRowsPerPage: number;
+  maxParticipantsPerPage: number;
+};
+function getGridParticipantsByPage({
+  participants,
+  maxPages,
+  currentPage,
+  ...pageLayoutProps
+}: PageLayoutPropsType & {
+  participants: Array<GroupCallRemoteParticipantType>;
+  maxPages: number;
+  currentPage?: number;
+}): Array<ParticipantsInPageType> {
+  if (!participants.length) {
+    return [];
+  }
+
+  const pages: Array<ParticipantsInPageType> = [];
+
+  function getTotalParticipantsOnGrid() {
+    return pages.reduce((count, page) => count + page.numParticipants, 0);
+  }
+
+  let remainingParticipants = [...participants];
+  while (remainingParticipants.length) {
+    if (currentPage === pages.length - 1) {
+      // Optimization: we can stop early, we don't have to lay out the remainder of the
+      //   pages
+      pages.push({
+        rows: [remainingParticipants],
+        numParticipants: remainingParticipants.length,
+      });
+      return pages;
+    }
+
+    const nextPageInPriorityOrder = getNextPage({
+      participants: remainingParticipants,
+      leaveRoomForPrevPageButton: pages.length > 0,
+      leaveRoomForNextPageButton: pages.length + 1 < maxPages,
+      ...pageLayoutProps,
+    });
+
+    // We got the next page, but it's in priority order; let's see if these participants
+    //   also fit in sorted order
+    const priorityParticipantsOnNextPage = nextPageInPriorityOrder.rows.flat();
+    let sortedParticipantsHopingToFitOnPage = [
+      ...priorityParticipantsOnNextPage,
+    ].sort(stableParticipantComparator);
+    let nextPageInSortedOrder = getNextPage({
+      participants: sortedParticipantsHopingToFitOnPage,
+      leaveRoomForPrevPageButton: pages.length > 0,
+      leaveRoomForNextPageButton: pages.length + 1 < maxPages,
+      isSubsetOfAllParticipants:
+        sortedParticipantsHopingToFitOnPage.length <
+        remainingParticipants.length,
+      ...pageLayoutProps,
+    });
+
+    let nextPage: ParticipantsInPageType<ParticipantTileType> | undefined;
+
+    if (
+      nextPageInSortedOrder.numParticipants ===
+      nextPageInPriorityOrder.numParticipants
+    ) {
+      // Great, we're able to show everyone. It's possible that there is now extra space
+      //   and we could show more people, but let's leave it here for simplicity
+      nextPage = nextPageInSortedOrder;
+    } else {
+      // We weren't able to fit everyone. Let's remove the least-prioritized person and
+      //   try again. It's pretty unlikely this will take more than 1 attempt, but
+      //   let's take more and more participants off the screen if it takes a lot of
+      //   attempts so we don't have to iterate dozens of times.
+      const PARTICIPANTS_TO_REMOVE_PER_ATTEMPT = [1, 1, 1, 2, 5];
+      const MAX_ATTEMPTS = 5;
+      let attemptNumber = 0;
+
+      while (
+        sortedParticipantsHopingToFitOnPage.length &&
+        attemptNumber < MAX_ATTEMPTS
+      ) {
+        const numLeastPrioritizedParticipantsToRemove =
+          PARTICIPANTS_TO_REMOVE_PER_ATTEMPT[
+            Math.min(
+              attemptNumber,
+              PARTICIPANTS_TO_REMOVE_PER_ATTEMPT.length - 1
+            )
+          ];
+
+        const leastPrioritizedParticipantIds = new Set(
+          priorityParticipantsOnNextPage
+            .splice(
+              -1 * numLeastPrioritizedParticipantsToRemove,
+              numLeastPrioritizedParticipantsToRemove
+            )
+            .map(participant => participant.demuxId)
+        );
+
+        sortedParticipantsHopingToFitOnPage =
+          sortedParticipantsHopingToFitOnPage.filter(
+            participant =>
+              !leastPrioritizedParticipantIds.has(participant.demuxId)
+          );
+
+        nextPageInSortedOrder = getNextPage({
+          participants: sortedParticipantsHopingToFitOnPage,
+          leaveRoomForPrevPageButton: pages.length > 0,
+          leaveRoomForNextPageButton: pages.length + 1 < maxPages,
+          ...pageLayoutProps,
+        });
+
+        // Are we able to fill all of them now? Great, let's ship it.
+        if (
+          nextPageInSortedOrder.numParticipants ===
+          sortedParticipantsHopingToFitOnPage.length
+        ) {
+          nextPage = nextPageInSortedOrder;
+          break;
+        }
+        attemptNumber += 1;
+      }
+
+      if (!nextPage) {
+        log.warn(
+          `GroupCallRemoteParticipants: failed after ${attemptNumber} attempts to layout
+          the page; pageIndex: ${pages.length}, \
+          # fit in priority order: ${nextPageInPriorityOrder.numParticipants}, \
+          # fit in sorted order:  ${nextPageInSortedOrder.numParticipants}`
+        );
+        nextPage = nextPageInSortedOrder;
+      }
+    }
+
+    if (!nextPage) {
+      break;
+    }
+
+    const nextPageTiles =
+      nextPage as ParticipantsInPageType<ParticipantTileType>;
+
+    // Add a previous page tile if needed
+    if (pages.length > 0) {
+      nextPageTiles.rows[0].unshift({
+        isPaginationButton: true,
+        paginationButtonType: 'prev',
+        videoAspectRatio: PAGINATION_BUTTON_ASPECT_RATIO,
+        numParticipants: getTotalParticipantsOnGrid(),
+      });
+    }
+
+    if (!nextPage.numParticipants) {
+      break;
+    }
+
+    remainingParticipants = remainingParticipants.slice(
+      nextPage.numParticipants
+    );
+
+    pages.push(nextPage);
+
+    if (pages.length === maxPages) {
+      break;
+    }
+
+    // Add a next page tile if needed
+    if (remainingParticipants.length) {
+      nextPageTiles.rows.at(-1)?.push({
+        isPaginationButton: true,
+        paginationButtonType: 'next',
+        videoAspectRatio: PAGINATION_BUTTON_ASPECT_RATIO,
+        numParticipants: remainingParticipants.length,
+      });
+    }
+  }
+  return pages;
+}
+
+/**
+ *  Attempt to fill a new page with as many participants as will fit, leaving room for
+ *  next/prev page buttons as needed. Participants will be added in the order provided.
+ *
+ *  @returns ParticipantsInPageType, representing the participants that fit on this page
+ *      assuming they are rendered at minimum height. Does not include prev/next buttons,
+ *      but will leave space for them if needed. Participants are not necessarily
+ *      returned in the row-distribution that will maximize video scaling; that should
+ *      be done subsequently.
+ */
+function getNextPage({
+  participants,
+  maxRowWidth,
+  minRenderedHeight,
+  maxRowsPerPage,
+  maxParticipantsPerPage,
+  leaveRoomForPrevPageButton,
+  leaveRoomForNextPageButton,
+  isSubsetOfAllParticipants,
+}: PageLayoutPropsType & {
+  participants: Array<GroupCallRemoteParticipantType>;
+  leaveRoomForPrevPageButton: boolean;
+  leaveRoomForNextPageButton: boolean;
+  isSubsetOfAllParticipants?: boolean;
+}): ParticipantsInPageType<GroupCallRemoteParticipantType> {
+  const paginationButtonWidth = participantWidthAtHeight(
+    {
+      videoAspectRatio: PAGINATION_BUTTON_ASPECT_RATIO,
+    },
+    minRenderedHeight
+  );
+  let rowWidth = leaveRoomForPrevPageButton
+    ? paginationButtonWidth + PARTICIPANT_MARGIN
+    : 0;
+
+  // Initialize fresh page with empty first row
+  const rows: Array<Array<GroupCallRemoteParticipantType>> = [[]];
+  let row = rows[0];
+  let numParticipants = 0;
+
+  // Start looping through participants and adding them to the rows one-by-one
+  for (let i = 0; i < participants.length; i += 1) {
+    const participant = participants[i];
+    const isLastParticipant =
+      !isSubsetOfAllParticipants && i === participants.length - 1;
+
+    const participantWidth = participantWidthAtHeight(
+      participant,
+      minRenderedHeight
+    );
+    const isLastRow = rows.length === maxRowsPerPage;
+    const shouldShowNextButtonInThisRow =
+      isLastRow && !isLastParticipant && leaveRoomForNextPageButton;
+
+    const currentRowMaxWidth = shouldShowNextButtonInThisRow
+      ? maxRowWidth - (paginationButtonWidth + PARTICIPANT_MARGIN)
+      : maxRowWidth;
+
+    const participantFitsOnRow =
+      rowWidth + participantWidth + (row.length ? PARTICIPANT_MARGIN : 0) <=
+      currentRowMaxWidth;
+
+    if (participantFitsOnRow) {
+      rowWidth += participantWidth + (row.length ? PARTICIPANT_MARGIN : 0);
+      row.push(participant);
+      numParticipants += 1;
+
+      if (numParticipants === maxParticipantsPerPage) {
+        return { rows, numParticipants };
+      }
+    } else {
+      if (isLastRow) {
+        return { rows, numParticipants };
+      }
+
+      // Start a new row!
+      row = [participant];
+      rows.push(row);
+      numParticipants += 1;
+      rowWidth = participantWidth;
+    }
+  }
+  return {
+    rows,
+    numParticipants,
+  };
+}
+
+/**
+ *  Given an arrangement of participants in rows that we know fits on a page at minimum
+ *  rendered height, try to find an arrangement that maximizes video size, or return the
+ *  provided arrangement with maximal video size. The result of this is ready to be
+ *  laid out on the screen.
+ *
+ *  @returns GridArrangement: {
+ *        rows: participants in rows,
+ *        scalar: the scalar by which can scale every video on the page and still fit
+ *  }
+ */
+function arrangeParticipantsInGrid({
+  participantsInRows,
+  maxRowWidth,
+  minRenderedHeight,
+  maxRowsPerPage,
+  maxGridHeight,
+}: {
+  participantsInRows: Array<Array<ParticipantTileType>>;
+  maxRowWidth: number;
+  minRenderedHeight: number;
+  maxRowsPerPage: number;
+  maxGridHeight: number;
+}): GridArrangement {
+  // Start out with the arrangement that was prepared by getGridParticipantsByPage.
+  //   We know this arrangement (added one-by-one) fits, so its scalar is
+  //   guaranteed to be >= 1. Our chunking strategy below might not arrive at such
+  //   an arrangement.
+  let bestArrangement: GridArrangement = {
+    scalar: getMaximumScaleForRows({
+      maxRowWidth,
+      minRenderedHeight,
+      rows: participantsInRows,
+      maxGridHeight,
+    }),
+    rows: participantsInRows,
+  };
+
+  const participants = participantsInRows.flat();
+
+  // For each possible number of rows (starting at 0 and ending at `maxRowCount`),
+  //   distribute participants across the rows at the minimum height. Then find the
+  //   "scalar": how much can we scale these boxes up while still fitting them on the
+  //   screen? The biggest scalar wins as the "best arrangement".
+  for (let rowCount = 1; rowCount <= maxRowsPerPage; rowCount += 1) {
+    // We do something pretty naïve here and chunk the grid's participants into rows.
+    //   For example, if there were 12 grid participants and `rowCount === 3`, there
+    //   would be 4 participants per row.
+    //
+    // This naïve chunking is suboptimal in terms of absolute best fit, but it is much
+    //   faster and simpler than trying to do this perfectly. In practice, this works
+    //   fine in the UI from our testing.
+    const numberOfParticipantsInRow = Math.ceil(participants.length / rowCount);
+    const rows = chunk(participants, numberOfParticipantsInRow);
+
+    const scalar = getMaximumScaleForRows({
+      maxRowWidth,
+      minRenderedHeight,
+      rows,
+      maxGridHeight,
+    });
+
+    if (scalar > bestArrangement.scalar) {
+      bestArrangement = {
+        scalar,
+        rows,
+      };
+    }
+  }
+
+  return bestArrangement;
+}
+
+// We need to find the scalar for this arrangement. Imagine that we have these
+//   participants at the minimum heights, and we want to scale everything up until
+//   it's about to overflow.
+function getMaximumScaleForRows({
+  maxRowWidth,
+  minRenderedHeight,
+  maxGridHeight,
+  rows,
+}: {
+  maxRowWidth: number;
+  minRenderedHeight: number;
+  maxGridHeight: number;
+  rows: Array<Array<ParticipantTileType>>;
+}): number {
+  if (!rows.length) {
+    return 0;
+  }
+  const widestRow = maxBy(rows, x =>
+    totalRowWidthAtHeight(x, minRenderedHeight)
+  );
+
+  strictAssert(widestRow, 'Could not find widestRow');
+
+  // We don't want it to overflow horizontally or vertically, so we calculate a
+  //   "width scalar" and "height scalar" and choose the smaller of the two. (Choosing
+  //   the LARGER of the two could cause overflow.)
+  const widthScalar =
+    (maxRowWidth - (widestRow.length - 1) * PARTICIPANT_MARGIN) /
+    totalRowWidthAtHeight(widestRow, minRenderedHeight);
+
+  const heightScalar =
+    (maxGridHeight - (rows.length - 1) * PARTICIPANT_MARGIN) /
+    (rows.length * minRenderedHeight);
+
+  return Math.min(widthScalar, heightScalar);
+}
+
+function isGroupCallRemoteParticipant(
+  tile: ParticipantTileType
+): tile is GroupCallRemoteParticipantType {
+  return 'demuxId' in tile;
+}
+
+function isPaginationButton(
+  tile: ParticipantTileType
+): tile is PaginationButtonType {
+  return 'isPaginationButton' in tile;
 }

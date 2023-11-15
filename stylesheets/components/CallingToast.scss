@@ -47,3 +47,13 @@
   /* stylelint-disable-next-line liberty/use-logical-spec */
   left: 0;
 }
+
+.CallingToast__viewChanged {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  &__icon {
+    width: 18px;
+    height: 18px;
+  }
+}
