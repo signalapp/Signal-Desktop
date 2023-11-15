@@ -112,7 +112,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: https://support.signal.org/hc/requests/new?desktop",
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
