@@ -3883,9 +3883,8 @@ button.module-image__border-overlay:focus {
     line-height: 0;
     overflow: hidden;
     border-radius: 10px;
-    // stylelint-disable-next-line declaration-property-value-disallowed-list
-    transform: translate(0, 0);
-    transition: transform 200ms linear, width 200ms linear, height 200ms linear;
+    transition: top 200ms linear, inset-inline-start 200ms linear,
+      transform 200ms linear, width 200ms linear, height 200ms linear;
 
     &:after {
       content: '';
