@@ -3689,7 +3689,7 @@ button.module-image__border-overlay:focus {
 }
 @mixin module-ongoing-call__controls--fade-in {
   animation: {
-    name: module-ongoing-call__controls--fade-out;
+    name: module-ongoing-call__controls--fade-in;
     duration: 1200ms;
     timing-function: $ease-out-expo;
     fill-mode: forwards;
