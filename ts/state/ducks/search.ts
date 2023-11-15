@@ -333,9 +333,15 @@ async function queryConversationsAndContacts(
 
   const normalizedQuery = removeDiacritics(query);
 
+  const visibleConversations = allConversations.filter(
+    ({ activeAt, removalStage }) => {
+      return activeAt != null || removalStage == null;
+    }
+  );
+
   const searchResults: Array<ConversationType> =
     filterAndSortConversationsByRecent(
-      allConversations,
+      visibleConversations,
       normalizedQuery,
       regionCode
     );
