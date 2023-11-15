@@ -30,6 +30,10 @@ const config: StorybookConfig = {
     { from: '../fonts', to: 'fonts' },
     { from: '../images', to: 'images' },
     { from: '../fixtures', to: 'fixtures' },
+    {
+      from: '../node_modules/emoji-datasource-apple/img',
+      to: 'node_modules/emoji-datasource-apple/img',
+    },
   ],
   webpackFinal(config) {
     config.cache = {
