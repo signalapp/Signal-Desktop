@@ -3736,9 +3736,6 @@ button.module-image__border-overlay:focus {
 
   &__container {
     &--direct:not(&--call-not-started) {
-      .module-ongoing-call__header {
-        position: absolute;
-      }
       .module-ongoing-call__footer {
         position: absolute;
       }

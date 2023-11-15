@@ -507,9 +507,7 @@ export function CallScreen({
           openSystemPreferencesAction={openSystemPreferencesAction}
         />
       ) : null}
-      <div
-        className={classNames('module-ongoing-call__header', controlsFadeClass)}
-      >
+      <div className={controlsFadeClass}>
         <CallingHeader
           callViewMode={activeCall.viewMode}
           changeCallView={changeCallView}
