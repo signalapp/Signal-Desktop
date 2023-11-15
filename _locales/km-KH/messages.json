@@ -317,19 +317,19 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "មានអ្វីមួយមិនប្រក្រតីជាមួយឈ្មោះអ្នកប្រើរបស់អ្នក ព្រោះវាលែងកំណត់ជាឈ្មោះរបស់គណនីអ្នកទៀតហើយ។ អ្នកអាចសាកល្បង និងកំណត់វាម្តងទៀត ឬជ្រើសរើសឈ្មោះថ្មីមួយ។",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "ដោះស្រាយឥឡូវនេះ",
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "messageformat": "មានអ្វីមួយមិនប្រក្រតីជាមួយកូដ QR និងតំណឈ្មោះអ្នកប្រើរបស់អ្នក វាលែងមានសុពលភាពទៀតហើយ។ បង្កើតតំណថ្មីមួយដើម្បីចែករំលែកជាមួយអ្នកដទៃ។",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Fix now",
+    "messageformat": "ដោះស្រាយឥឡូវនេះ",
     "description": "Text of the button in the corrupted username link banner in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
@@ -2621,11 +2621,11 @@
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "icu:message--attachmentTooBig--one": {
-    "messageformat": "Attachment too large to display.",
+    "messageformat": "ឯកសារភ្ជាប់ធំពេកមិនអាចបង្ហាញបាន។",
     "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--attachmentTooBig--multiple": {
-    "messageformat": "Some attachments are too large to display.",
+    "messageformat": "ឯកសារភ្ជាប់មួយចំនួនមានទំហំធំពេកមិនអាចបង្ហាញបាន។",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
@@ -3773,11 +3773,11 @@
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
   "icu:MessageMaxEditsModal__Title": {
-    "messageformat": "Can't edit message",
+    "messageformat": "មិនអាចកែសារបានទេ",
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max,number} edits can be applied to this message.",
+    "messageformat": "សារនេះអាចកែបានតែ {max,number} ដងប៉ុណ្ណោះ។",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -5457,15 +5457,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "messageformat": "មានអ្វីមួយមិនប្រក្រតីជាមួយឈ្មោះអ្នកប្រើរបស់អ្នក ព្រោះវាលែងកំណត់ជាឈ្មោះរបស់គណនីអ្នកទៀតហើយ។",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Delete username",
+    "messageformat": "លុបឈ្មោះអ្នកប្រើ",
     "description": "Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Create username",
+    "messageformat": "បង្កើតឈ្មោះអ្នកប្រើប្រាស់",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5473,11 +5473,11 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "Username needs reset",
+    "messageformat": "ឈ្មោះអ្នកប្រើត្រូវកំណត់ឡើងវិញ",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "Username link needs reset",
+    "messageformat": "តំណឈ្មោះអ្នកប្រើត្រូវកំណត់ឡើងវិញ",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
@@ -5833,39 +5833,39 @@
     "description": "Confirmation modal body for disabling stories"
   },
   "icu:Preferences__Language__Label": {
-    "messageformat": "Language",
+    "messageformat": "ភាសា",
     "description": "Language setting label"
   },
   "icu:Preferences__Language__ModalTitle": {
-    "messageformat": "Language",
+    "messageformat": "ភាសា",
     "description": "Language setting modal title"
   },
   "icu:Preferences__Language__SystemLanguage": {
-    "messageformat": "System Language",
+    "messageformat": "ភាសាប្រព័ន្ធ",
     "description": "Option for system language"
   },
   "icu:Preferences__Language__SearchLanguages": {
-    "messageformat": "Search languages",
+    "messageformat": "ស្វែងរកភាសា",
     "description": "Placholder for language preference search box"
   },
   "icu:Preferences__Language__NoResults": {
-    "messageformat": "No results for “{searchTerm}”",
+    "messageformat": "គ្មានលទ្ធផលសម្រាប់ “{searchTerm}”",
     "description": "When no results are found for language preference search"
   },
   "icu:Preferences__LanguageModal__Set": {
-    "messageformat": "Set",
+    "messageformat": "កំណត់",
     "description": "Button to set language preference"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
-    "messageformat": "Restart Signal to apply",
+    "messageformat": "ចាប់ផ្តើម Signal ឡើងវិញដើម្បីអនុវត្ត",
     "description": "Title for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Description": {
-    "messageformat": "To change the language, the app needs to restart.",
+    "messageformat": "ដើម្បីផ្លាស់ប្តូរភាសា កម្មវិធីនេះត្រូវចាប់ផ្តើមឡើងវិញ។",
     "description": "Description for restart Signal modal to apply language changes"
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
-    "messageformat": "Restart",
+    "messageformat": "ចាប់ផ្ដើមឡើងវិញ",
     "description": "Button to restart Signal to apply language changes"
   },
   "icu:DialogUpdate--version-available": {
@@ -6805,11 +6805,11 @@
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
-    "messageformat": "Resetting link...",
+    "messageformat": "កំណត់តំណឡើងវិញ…",
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "messageformat": "កូដ QR និងតំណមិនត្រូវបានកំណត់ទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7008,9 +7008,9 @@
     "messageformat": "ការចេញផ្សាយនេះរួមបញ្ចូលនូវការរចនាអាប់ដេតថ្មីសម្រាប់ការហៅជាសំឡេង និងជាវីដេអូរបស់ Signal។ ឥឡូវនេះ អ៊ីនធើហ្វេសអ្នកប្រើសម្រាប់ការហៅនឹងមើលទៅនៅតែស្អាតអស្ចារ្យដដែល ទោះបីជាកាមេរ៉ារបស់អ្នកបិទ ហើយអ្នកមិនអាចសម្លឹងមើលខ្លួនឯងបានក៏ដោយ។"
   },
   "icu:WhatsNew__v6.39--0": {
-    "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
+    "messageformat": "ឥឡូវនេះ អ្នកអាចផ្លាស់ប្តូរភាសាដែលអ្នកបានជ្រើសរើសនៅក្នុង Signal ដោយមិនចាំបាច់ផ្លាស់ប្តូរការកំណត់ប្រព័ន្ធរបស់អ្នកទេ (ការកំណត់ Signal > រូបរាង > ភាសា)។"
   },
   "icu:WhatsNew__v6.39--1": {
-    "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហានៃការពន្យារពេលខ្លីមួយ ដែលជួនកាលកើតឡើងនៅលើឧបករណ៍ macOS ដោយត្រូវរង់ចាំបន្តិចនៅពេលចូលរួមការហៅទូរសព្ទ។ ការកែលម្អនេះយ៉ាងហោចណាស់ធ្វើឲ្យអ្នកចូលរួមលែងមានលេសទៀតហើយ នៅពេលដែលចូលរួមការប្រជុំយឺតបន្តិច។"
   }
 }
