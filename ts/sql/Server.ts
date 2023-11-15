@@ -5216,7 +5216,16 @@ async function getAllBadgeImageFileLocalPaths(): Promise<Set<string>> {
 }
 
 function runCorruptionChecks(): void {
-  const db = getUnsafeWritableInstance('integrity check');
+  let db: Database;
+  try {
+    db = getUnsafeWritableInstance('integrity check');
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: not running the check, no writable instance',
+      Errors.toLogFormat(error)
+    );
+    return;
+  }
   try {
     const result = db.pragma('integrity_check');
     if (result.length === 1 && result.at(0)?.integrity_check === 'ok') {
