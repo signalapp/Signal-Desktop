@@ -115,6 +115,10 @@
         @include calling-button-icon-disabled($icon);
       }
     }
+
+    &--more-options {
+      @include calling-button-icon-regular('../images/icons/v3/more/more.svg');
+    }
   }
 
   &__button-container {

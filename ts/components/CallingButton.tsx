@@ -22,6 +22,7 @@ export enum CallingButtonType {
   VIDEO_DISABLED = 'VIDEO_DISABLED',
   VIDEO_OFF = 'VIDEO_OFF',
   VIDEO_ON = 'VIDEO_ON',
+  MORE_OPTIONS = 'MORE_OPTIONS',
 }
 
 export type PropsType = {
@@ -90,6 +91,9 @@ export function CallingButton({
   } else if (buttonType === CallingButtonType.PRESENTING_OFF) {
     classNameSuffix = 'presenting--off';
     tooltipContent = i18n('icu:calling__button--presenting-on');
+  } else if (buttonType === CallingButtonType.MORE_OPTIONS) {
+    classNameSuffix = 'more-options';
+    tooltipContent = i18n('icu:CallingButton--more-options');
   }
 
   return (

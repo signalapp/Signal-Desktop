@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: space-between;
   max-width: 600px;
-  height: 80px;
+  height: $CallControls__height;
   background-color: $color-gray-78;
   box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
   border-radius: 18px;
@@ -114,4 +114,24 @@
   // Defined in _modules but duplicated here for ease of refactor
   $local-preview-width: 108px;
   flex-basis: calc($local-preview-width + 16px);
+}
+
+.CallControls__MoreOptionsContainer {
+  position: absolute;
+  inset-inline-start: min(48%, 40vw);
+  inset-block-end: 70px;
+  z-index: $z-index-calling;
+}
+
+.CallControls__MoreOptionsMenu {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(var(--window-height) - 155px);
+  filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
+  pointer-events: auto;
+}
+
+.CallControls__MoreOptionsMenu .module-emoji-picker {
+  margin-bottom: auto;
+  max-width: calc(var(--window-width) / 2 + 20px);
 }

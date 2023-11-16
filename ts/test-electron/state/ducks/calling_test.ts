@@ -12,8 +12,10 @@ import type {
   ActiveCallStateType,
   CallingStateType,
   DirectCallStateType,
+  GroupCallReactionsReceivedActionType,
   GroupCallStateChangeActionType,
   GroupCallStateType,
+  SendGroupCallReactionActionType,
 } from '../../../state/ducks/calling';
 import {
   actions,
@@ -36,6 +38,7 @@ import { getDefaultConversation } from '../../../test-both/helpers/getDefaultCon
 import type { UnwrapPromise } from '../../../types/Util';
 
 const ACI_1 = generateAci();
+const NOW = new Date('2020-01-23T04:56:00.000');
 
 type CallingStateTypeWithActiveCall = CallingStateType & {
   activeCallState: ActiveCallStateType;
@@ -101,6 +104,7 @@ describe('calling duck', () => {
         conversationId: 'fake-group-call-conversation-id',
         connectionState: GroupCallConnectionState.Connected,
         joinState: GroupCallJoinState.NotJoined,
+        localDemuxId: 1,
         peekInfo: {
           acis: [creatorAci],
           creatorAci,
@@ -166,6 +170,19 @@ describe('calling duck', () => {
       },
     };
   };
+
+  function useFakeTimers() {
+    beforeEach(function (this: Mocha.Context) {
+      this.sandbox = sinon.createSandbox();
+      this.clock = this.sandbox.useFakeTimers({
+        now: NOW,
+      });
+    });
+
+    afterEach(function (this: Mocha.Context) {
+      this.sandbox.restore();
+    });
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let oldEvents: any;
@@ -873,6 +890,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joining,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
@@ -903,6 +921,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joining,
+            localDemuxId: 1,
             peekInfo: {
               acis: [creatorAci],
               creatorAci,
@@ -932,6 +951,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
@@ -960,6 +980,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
             peekInfo: {
               acis: [ACI_1],
               maxDevices: 16,
@@ -1000,6 +1021,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
@@ -1050,6 +1072,7 @@ describe('calling duck', () => {
           getAction({
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
+            localDemuxId: 1,
             joinState: GroupCallJoinState.Joined,
             hasLocalAudio: true,
             hasLocalVideo: false,
@@ -1089,6 +1112,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
@@ -1120,6 +1144,7 @@ describe('calling duck', () => {
             conversationId: 'another-fake-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
@@ -1163,6 +1188,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
@@ -1206,6 +1232,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
@@ -1234,6 +1261,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
+            localDemuxId: 1,
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
@@ -1389,6 +1417,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.NotConnected,
             joinState: GroupCallJoinState.NotJoined,
+            localDemuxId: undefined,
             peekInfo: {
               acis: [],
               maxDevices: Infinity,
@@ -1416,6 +1445,149 @@ describe('calling duck', () => {
             ringerAci,
           }
         );
+      });
+    });
+
+    describe('receiveGroupCallReactions', () => {
+      useFakeTimers();
+
+      const { receiveGroupCallReactions } = actions;
+
+      const getState = (): RootStateType => ({
+        ...getEmptyRootState(),
+        calling: {
+          ...stateWithActiveGroupCall,
+        },
+      });
+
+      function getAction(
+        ...args: Parameters<typeof receiveGroupCallReactions>
+      ): GroupCallReactionsReceivedActionType {
+        const dispatch = sinon.spy();
+
+        receiveGroupCallReactions(...args)(dispatch, getState, null);
+
+        return dispatch.getCall(0).args[0];
+      }
+
+      it('adds reactions by timestamp', function (this: Mocha.Context) {
+        const firstAction = getAction({
+          conversationId: 'fake-group-call-conversation-id',
+          reactions: [
+            {
+              demuxId: 123,
+              value: '❤️',
+            },
+          ],
+        });
+        const firstResult = reducer(getState().calling, firstAction);
+        assert.deepEqual(firstResult.activeCallState?.reactions, [
+          {
+            timestamp: NOW.getTime(),
+            demuxId: 123,
+            value: '❤️',
+          },
+        ]);
+
+        const secondDate = new Date(NOW.getTime() + 1234);
+        this.sandbox.useFakeTimers({ now: secondDate });
+        const secondAction = getAction({
+          conversationId: 'fake-group-call-conversation-id',
+          reactions: [
+            {
+              demuxId: 456,
+              value: '🎉',
+            },
+          ],
+        });
+        const secondResult = reducer(firstResult, secondAction);
+        assert.deepEqual(secondResult.activeCallState?.reactions, [
+          {
+            timestamp: NOW.getTime(),
+            demuxId: 123,
+            value: '❤️',
+          },
+          {
+            timestamp: secondDate.getTime(),
+            demuxId: 456,
+            value: '🎉',
+          },
+        ]);
+      });
+
+      it('sets multiple reactions with the same timestamp', () => {
+        const action = getAction({
+          conversationId: 'fake-group-call-conversation-id',
+          reactions: [
+            {
+              demuxId: 123,
+              value: '❤️',
+            },
+            {
+              demuxId: 456,
+              value: '🎉',
+            },
+          ],
+        });
+        const result = reducer(getState().calling, action);
+        assert.deepEqual(result.activeCallState?.reactions, [
+          {
+            timestamp: NOW.getTime(),
+            demuxId: 123,
+            value: '❤️',
+          },
+          {
+            timestamp: NOW.getTime(),
+            demuxId: 456,
+            value: '🎉',
+          },
+        ]);
+      });
+    });
+
+    describe('sendGroupCallReactions', () => {
+      useFakeTimers();
+
+      beforeEach(function (this: Mocha.Context) {
+        this.callingServiceSendGroupCallReaction = this.sandbox.stub(
+          callingService,
+          'sendGroupCallReaction'
+        );
+      });
+
+      const { sendGroupCallReaction } = actions;
+
+      const getState = (): RootStateType => ({
+        ...getEmptyRootState(),
+        calling: {
+          ...stateWithActiveGroupCall,
+        },
+      });
+
+      function getAction(
+        ...args: Parameters<typeof sendGroupCallReaction>
+      ): SendGroupCallReactionActionType {
+        const dispatch = sinon.spy();
+
+        sendGroupCallReaction(...args)(dispatch, getState, null);
+
+        return dispatch.getCall(0).args[0];
+      }
+
+      it('adds a local copy', () => {
+        const action = getAction({
+          conversationId: 'fake-group-call-conversation-id',
+          value: '❤️',
+        });
+        const result = reducer(getState().calling, action);
+
+        assert.deepEqual(result.activeCallState?.reactions, [
+          {
+            timestamp: NOW.getTime(),
+            demuxId: 1,
+            value: '❤️',
+          },
+        ]);
       });
     });
 
@@ -1720,6 +1892,7 @@ describe('calling duck', () => {
             conversationId: 'fake-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
+            localDemuxId: undefined,
             peekInfo: {
               acis: [creatorAci],
               creatorAci,

@@ -97,6 +97,7 @@ describe('state/selectors/calling', () => {
     conversationId: 'fake-group-call-conversation-id',
     connectionState: GroupCallConnectionState.NotConnected,
     joinState: GroupCallJoinState.NotJoined,
+    localDemuxId: undefined,
     peekInfo: {
       acis: [ACI_1],
       creatorAci: ACI_1,

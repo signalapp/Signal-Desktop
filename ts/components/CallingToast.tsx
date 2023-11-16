@@ -20,6 +20,10 @@ import { usePrevious } from '../hooks/usePrevious';
 import { difference } from '../util/setUtil';
 
 const DEFAULT_LIFETIME = 5000;
+const DEFAULT_TRANSITION_FROM = {
+  opacity: 0,
+  scale: 0.85,
+};
 
 export type CallingToastType = {
   // If key is provided, calls to showToast will be idempotent; otherwise an
@@ -59,11 +63,15 @@ export function CallingToastProvider({
   children,
   region,
   maxNonPersistentToasts = 5,
+  lifetime = DEFAULT_LIFETIME,
+  transitionFrom = DEFAULT_TRANSITION_FROM,
 }: {
   i18n: LocalizerType;
   children: React.ReactNode;
   region?: React.RefObject<HTMLElement>;
   maxNonPersistentToasts?: number;
+  lifetime?: number;
+  transitionFrom?: object;
 }): JSX.Element {
   const [toasts, setToasts] = React.useState<Array<CallingToastStateType>>([]);
   const previousToasts = usePrevious([], toasts);
@@ -153,7 +161,7 @@ export function CallingToastProvider({
         }
 
         if (toast.autoClose) {
-          startTimer(key, DEFAULT_LIFETIME);
+          startTimer(key, lifetime);
           nonPersistentToasts.unshift({ ...toast, key });
         } else {
           persistentToasts.unshift({ ...toast, key });
@@ -166,7 +174,7 @@ export function CallingToastProvider({
 
       return key;
     },
-    [startTimer, clearToastTimeout, maxNonPersistentToasts]
+    [startTimer, clearToastTimeout, maxNonPersistentToasts, lifetime]
   );
 
   const pauseAll = useCallback(() => {
@@ -225,9 +233,8 @@ export function CallingToastProvider({
         previousToasts[enteringItemIndex]
       );
       return {
-        opacity: 0,
+        ...transitionFrom,
         zIndex: item.autoClose ? 1 : 2,
-        scale: 0.85,
         marginTop:
           // If this toast is replacing an existing one, don't slide-down, just fade-in
           // Note: this just refers to toasts added / removed within one render cycle;

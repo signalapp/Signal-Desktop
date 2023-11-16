@@ -1780,6 +1780,14 @@
     "messageformat": "Turn on ringing",
     "description": "Button tooltip label for turning ringing on"
   },
+  "icu:CallingButton--more-options": {
+    "messageformat": "More options",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "You",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
+  },
   "icu:calling__your-video-is-off": {
     "messageformat": "Your camera is off",
     "description": "Label in the calling lobby indicating that your camera is off"
