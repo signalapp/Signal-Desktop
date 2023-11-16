@@ -263,14 +263,14 @@ export function CallScreen({
   }, [setLocalPreview, setRendererCanvas]);
 
   useEffect(() => {
-    if (!showControls || stickyControls || controlsHover) {
+    if (!showControls || showMoreOptions || stickyControls || controlsHover) {
       return noop;
     }
     const timer = setTimeout(() => {
       setShowControls(false);
     }, 5000);
     return clearTimeout.bind(null, timer);
-  }, [showControls, stickyControls, controlsHover]);
+  }, [showControls, showMoreOptions, stickyControls, controlsHover]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
