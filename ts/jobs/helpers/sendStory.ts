@@ -365,13 +365,14 @@ export async function sendStory(
         // eslint-disable-next-line no-param-reassign
         message.doNotSendSyncMessage = true;
 
-        const messageSendPromise = message.send(
-          handleMessageSend(innerPromise, {
+        const messageSendPromise = message.send({
+          promise: handleMessageSend(innerPromise, {
             messageIds: [message.id],
             sendType: 'story',
           }),
-          saveErrors
-        );
+          saveErrors,
+          targetTimestamp: message.get('timestamp'),
+        });
 
         // Because message.send swallows and processes errors, we'll await the
         // inner promise to get the SendMessageProtoError, which gives us
