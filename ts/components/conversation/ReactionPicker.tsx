@@ -27,7 +27,6 @@ export type OwnProps = {
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
   onSetSkinTone: (tone: number) => unknown;
-  isCustomizePreferredReactionsHidden?: boolean;
   openCustomizePreferredReactionsModal?: () => unknown;
   preferredReactionEmoji: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
@@ -42,7 +41,6 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       onClose,
       onPick,
       onSetSkinTone,
-      isCustomizePreferredReactionsHidden,
       openCustomizePreferredReactionsModal,
       preferredReactionEmoji,
       renderEmojiPicker,
@@ -80,11 +78,8 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
     const [focusRef] = useDelayedRestoreFocus();
 
     if (pickingOther) {
-      const onClickSettings = isCustomizePreferredReactionsHidden
-        ? undefined
-        : openCustomizePreferredReactionsModal;
       return renderEmojiPicker({
-        onClickSettings,
+        onClickSettings: openCustomizePreferredReactionsModal,
         onClose,
         onPickEmoji,
         onSetSkinTone,

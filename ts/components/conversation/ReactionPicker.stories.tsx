@@ -9,10 +9,9 @@ import enMessages from '../../../_locales/en/messages.json';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { ReactionPicker } from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants';
 
 const i18n = setupI18n('en', enMessages);
-
-const preferredReactionEmoji = ['❤️', '👍', '👎', '😂', '😮', '😢'];
 
 const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
   onClose,
@@ -43,7 +42,7 @@ export function Base(): JSX.Element {
       openCustomizePreferredReactionsModal={action(
         'openCustomizePreferredReactionsModal'
       )}
-      preferredReactionEmoji={preferredReactionEmoji}
+      preferredReactionEmoji={DEFAULT_PREFERRED_REACTION_EMOJI}
       renderEmojiPicker={renderEmojiPicker}
     />
   );
@@ -62,7 +61,7 @@ export function SelectedReaction(): JSX.Element {
             openCustomizePreferredReactionsModal={action(
               'openCustomizePreferredReactionsModal'
             )}
-            preferredReactionEmoji={preferredReactionEmoji}
+            preferredReactionEmoji={DEFAULT_PREFERRED_REACTION_EMOJI}
             renderEmojiPicker={renderEmojiPicker}
           />
         </div>

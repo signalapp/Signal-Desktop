@@ -232,7 +232,7 @@ export function CallingLobby({
 
   return (
     <FocusTrap>
-      <div className="module-calling__container">
+      <div className="module-calling__container dark-theme">
         {shouldShowLocalVideo ? (
           <video
             className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-on"

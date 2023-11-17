@@ -22,10 +22,8 @@ import { generateAci } from '../types/ServiceId';
 import type { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './CallScreen';
-import {
-  CALL_REACTION_EMOJI,
-  CallScreen as UnwrappedCallScreen,
-} from './CallScreen';
+import { CallScreen as UnwrappedCallScreen } from './CallScreen';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import {
@@ -612,7 +610,10 @@ export function GroupCallReactionsBurstInOrder(): JSX.Element {
   const remoteParticipants = allRemoteParticipants.slice(0, 5);
   const reactions = remoteParticipants.map((participant, i) => {
     const { demuxId } = participant;
-    const value = CALL_REACTION_EMOJI[i % CALL_REACTION_EMOJI.length];
+    const value =
+      DEFAULT_PREFERRED_REACTION_EMOJI[
+        i % DEFAULT_PREFERRED_REACTION_EMOJI.length
+      ];
     return { timestamp, demuxId, value };
   });
   const [props] = React.useState(
@@ -651,7 +652,7 @@ function useReactionsEmitter(
           {
             timestamp: timeNow,
             demuxId,
-            value: sample(CALL_REACTION_EMOJI) as string,
+            value: sample(DEFAULT_PREFERRED_REACTION_EMOJI) as string,
           },
         ];
 

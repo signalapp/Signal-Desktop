@@ -22,15 +22,12 @@ type ExternalProps = Omit<
   | 'preferredReactionEmoji'
   | 'selectionStyle'
   | 'skinTone'
-> & {
-  preferredReactionEmoji?: ReadonlyArray<string>;
-};
+>;
 
 export const SmartReactionPicker = React.forwardRef<
   HTMLDivElement,
   ExternalProps
 >(function SmartReactionPickerInner(props, ref) {
-  const { preferredReactionEmoji } = props;
   const { openCustomizePreferredReactionsModal } =
     usePreferredReactionsActions();
 
@@ -38,10 +35,9 @@ export const SmartReactionPicker = React.forwardRef<
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
-  const statePreferredReactionEmoji = useSelector<
-    StateType,
-    ReadonlyArray<string>
-  >(getPreferredReactionEmoji);
+  const preferredReactionEmoji = useSelector<StateType, ReadonlyArray<string>>(
+    getPreferredReactionEmoji
+  );
 
   return (
     <ReactionPicker
@@ -50,11 +46,9 @@ export const SmartReactionPicker = React.forwardRef<
       openCustomizePreferredReactionsModal={
         openCustomizePreferredReactionsModal
       }
+      preferredReactionEmoji={preferredReactionEmoji}
       ref={ref}
       {...props}
-      preferredReactionEmoji={
-        preferredReactionEmoji ?? statePreferredReactionEmoji
-      }
     />
   );
 });
