@@ -36,7 +36,7 @@ const mapStateToProps = (state: StateType): PropsDataType => {
     });
   }
 
-  const hasStories = getHasStoriesSelector(state)(conversationId);
+  const hasStories = getHasStoriesSelector(state)(contactId);
 
   return {
     areWeASubscriber: getAreWeASubscriber(state),
