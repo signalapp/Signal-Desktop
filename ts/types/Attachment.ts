@@ -46,6 +46,7 @@ export type AttachmentType = {
   contentType: MIME.MIMEType;
   digest?: string;
   fileName?: string;
+  plaintextHash?: string;
   uploadTimestamp?: number;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
@@ -94,6 +95,7 @@ export type UploadedAttachmentType = Proto.IAttachmentPointer &
     size: number;
     digest: Uint8Array;
     contentType: string;
+    plaintextHash: string;
   }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {

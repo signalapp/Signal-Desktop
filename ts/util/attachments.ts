@@ -93,7 +93,7 @@ export async function autoOrientJPEG(
 
 export type CdnFieldsType = Pick<
   AttachmentType,
-  'cdnId' | 'cdnKey' | 'cdnNumber' | 'key' | 'digest'
+  'cdnId' | 'cdnKey' | 'cdnNumber' | 'key' | 'digest' | 'plaintextHash'
 >;
 
 export function copyCdnFields(
@@ -108,5 +108,6 @@ export function copyCdnFields(
     cdnNumber: dropNull(uploaded.cdnNumber),
     key: Bytes.toBase64(uploaded.key),
     digest: Bytes.toBase64(uploaded.digest),
+    plaintextHash: uploaded.plaintextHash,
   };
 }

@@ -30,6 +30,7 @@ export async function uploadAttachment(
     key: keys,
     size,
     digest: encrypted.digest,
+    plaintextHash: encrypted.plaintextHash,
 
     contentType: MIMETypeToString(attachment.contentType),
     fileName: attachment.fileName,
