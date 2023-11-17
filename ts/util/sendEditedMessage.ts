@@ -218,7 +218,7 @@ export async function sendEditedMessage(
           conversationId,
           messageId: targetMessageId,
           revision: conversation.get('revision'),
-          editedMessageTimestamp: targetSentTimestamp,
+          editedMessageTimestamp: timestamp,
         },
         async jobToInsert => {
           log.info(
@@ -246,7 +246,7 @@ export async function sendEditedMessage(
         now: timestamp,
       });
     },
-    duration => `${idLog}: batchDisptach took ${duration}ms`
+    duration => `${idLog}: batchDispatch took ${duration}ms`
   );
 
   window.Signal.Data.updateConversation(conversation.attributes);

@@ -819,6 +819,11 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
   //   SendMessageChallengeError
   //   MessageError
   if (isRecord(error) && typeof error.code === 'number') {
+    if (error.code === -1) {
+      logError("We don't have connectivity. Failing.");
+      return true;
+    }
+
     if (error.code === 400) {
       logError('Invalid request, failing.');
       return true;

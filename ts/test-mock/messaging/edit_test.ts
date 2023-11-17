@@ -766,8 +766,8 @@ describe('editing', function (this: Mocha.Suite) {
         strictAssert(v2.sendStateByConversationId, 'v2 has send state');
         assert.strictEqual(
           v2.sendStateByConversationId[conversationId].status,
-          SendStatus.Pending, // TODO (DESKTOP-6176) - this should be Sent!
-          'send state for v2 message is pending'
+          SendStatus.Sent,
+          'send state for v2 message is sent'
         );
 
         strictAssert(v3.sendStateByConversationId, 'v3 has send state');
@@ -780,8 +780,8 @@ describe('editing', function (this: Mocha.Suite) {
         strictAssert(v4.sendStateByConversationId, 'v4 has send state');
         assert.strictEqual(
           v4.sendStateByConversationId[conversationId].status,
-          SendStatus.Pending, // TODO (DESKTOP-6176) - this should be Sent!
-          'send state for v4 message is pending'
+          SendStatus.Sent,
+          'send state for v4 message is sent'
         );
 
         assert.strictEqual(
