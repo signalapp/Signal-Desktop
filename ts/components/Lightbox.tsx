@@ -26,6 +26,7 @@ import { isGIF } from '../types/Attachment';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { usePrevious } from '../hooks/usePrevious';
 import { arrow } from '../util/keyboard';
+import { ipcRenderer } from 'electron';
 
 export type PropsType = {
   children?: ReactNode;
@@ -223,6 +224,21 @@ export function Lightbox({
 
     closeLightbox();
   };
+
+  useEffect(() => {
+    const prepareClose = () => {
+      if (videoElement && !videoElement.paused) {
+        videoElement.pause();
+      }
+      ipcRenderer.send('stop-playback-confirmed');
+    };
+
+    ipcRenderer.on('prepare-close', prepareClose);
+
+    return () => {
+      ipcRenderer.removeListener('prepare-close', prepareClose);
+    };
+  }, [videoElement]);
 
   const playVideo = useCallback(() => {
     if (!videoElement) {

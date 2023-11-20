@@ -932,19 +932,32 @@ async function createWindow() {
     // Prevent the shutdown
     e.preventDefault();
 
-    /**
-     * if the user is in fullscreen mode and closes the window, not the
-     * application, we need them leave fullscreen first before closing it to
-     * prevent a black screen.
-     *
-     * issue: https://github.com/signalapp/Signal-Desktop/issues/4348
-     */
+    mainWindow.webContents
 
-    if (mainWindow.isFullScreen()) {
-      mainWindow.once('leave-full-screen', () => mainWindow?.hide());
-      mainWindow.setFullScreen(false);
-    } else {
-      mainWindow.hide();
+    let stopPlaybackConfirmed = false;
+
+    const playbackTimeout = setTimeout(() => {
+      if (!stopPlaybackConfirmed) {
+        console.log("No response from renderer, hiding mainWindow by timeout");
+        hideMainWindow();
+      }
+    }, 100); // This timeout is based on my testing and subject to change, tried to balance responsiveness and appropriate wait time
+
+    // Inform video renderer of coming close to enable it to stop playback
+    mainWindow.webContents.send('prepare-close');
+    ipc.once('stop-playback-confirmed', () => {
+      stopPlaybackConfirmed = true;
+      clearTimeout(playbackTimeout);
+      hideMainWindow();
+    });
+
+    function hideMainWindow() {
+      if (mainWindow?.isFullScreen()) {
+        mainWindow.once('leave-full-screen', () => mainWindow?.hide());
+        mainWindow.setFullScreen(false);
+      } else {
+        mainWindow?.hide();
+      }
     }
 
     // On Mac, or on other platforms when the tray icon is in use, the window
