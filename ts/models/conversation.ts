@@ -847,11 +847,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (
       this.getLastDisappearingMessageChangeTimestamp() &&
       lastDisappearingMessageChangeTimestamp &&
-      this.getLastDisappearingMessageChangeTimestamp() >= lastDisappearingMessageChangeTimestamp
+      this.getLastDisappearingMessageChangeTimestamp() > lastDisappearingMessageChangeTimestamp
     ) {
       window.log.debug(
         '[updateExpireTimer] This is an outdated disappearing message setting',
-        `fromSync: ${fromSync}${existingMessage ? ` messageId: ${existingMessage.get('id')}` : ''}`
+        `fromSync:${fromSync} ${existingMessage ? ` messageId: ${existingMessage.get('id')}` : ''}`
       );
       return false;
     }

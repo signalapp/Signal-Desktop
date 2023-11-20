@@ -260,6 +260,7 @@ export async function handleSwarmDataMessage(
     msgModel = DisappearingMessages.getMessageReadyToDisappear(
       convoToAddMessageTo,
       msgModel,
+      cleanDataMessage.flags,
       expireUpdate
     );
   }

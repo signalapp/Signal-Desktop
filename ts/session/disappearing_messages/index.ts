@@ -321,7 +321,7 @@ async function checkForExpireUpdateInContentMessage(
       convoToUpdate.getLastDisappearingMessageChangeTimestamp() >
         lastDisappearingMessageChangeTimestamp) ||
       (!isOutgoing &&
-        convoToUpdate.getLastDisappearingMessageChangeTimestamp() >=
+        convoToUpdate.getLastDisappearingMessageChangeTimestamp() >
           lastDisappearingMessageChangeTimestamp))
   ) {
     window.log.debug(
@@ -448,19 +448,19 @@ function checkForExpiringOutgoingMessage(message: MessageModel, location?: strin
 function getMessageReadyToDisappear(
   conversationModel: ConversationModel,
   messageModel: MessageModel,
+  messageFlags: number,
   expireUpdate?: DisappearingMessageUpdate
 ) {
-  if (!expireUpdate) {
-    // window.log.debug(
-    //   `[getMessageReadyToDisappear] called getMessageReadyToDisappear() without an expireUpdate`
-    // );
-    return messageModel;
-  }
-
   if (conversationModel.isPublic()) {
     throw Error(
       `getMessageReadyToDisappear() Disappearing messages aren't supported in communities`
     );
+  }
+  if (!expireUpdate) {
+    window.log.debug(
+      `[getMessageReadyToDisappear] called getMessageReadyToDisappear() without an expireUpdate`
+    );
+    return messageModel;
   }
 
   const {
@@ -477,13 +477,17 @@ function getMessageReadyToDisappear(
   });
 
   // This message is an ExpirationTimerUpdate
-  if (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) {
+  if (
+    (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) &&
+    messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+  ) {
     const previousExpirationMode = conversationModel.getExpirationMode();
     const previousExpirationTimer = conversationModel.getExpireTimer();
     const shouldUsePreviousExpiration =
       expirationType === 'unknown' &&
       previousExpirationMode !== 'off' &&
-      previousExpirationMode !== 'legacy';
+      previousExpirationMode !== 'legacy' &&
+      messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
     if (shouldUsePreviousExpiration) {
       messageModel.set({
