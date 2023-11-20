@@ -70,6 +70,9 @@ const BUCKET_SIZES = [
   80095580, 84100359, 88305377, 92720646, 97356678, 102224512, 107335738,
 ];
 
+const GHOST_KITTY_HASH =
+  '7bc77f27d92d00b4a1d57c480ca86dacc43d57bc318339c92119d1fbf6b557a5';
+
 describe('Crypto', () => {
   describe('encrypting and decrypting profile data', () => {
     const NAME_PADDED_LENGTH = 53;
@@ -638,9 +641,11 @@ describe('Crypto', () => {
           plaintext: FILE_CONTENTS,
           keys,
         });
+        assert.strictEqual(encryptedAttachment.plaintextHash, GHOST_KITTY_HASH);
+
         writeFileSync(ciphertextPath, encryptedAttachment.ciphertext);
 
-        const plaintextRelativePath = await decryptAttachmentV2({
+        const decryptedAttachment = await decryptAttachmentV2({
           ciphertextPath,
           id: 'test',
           keys,
@@ -648,11 +653,15 @@ describe('Crypto', () => {
           theirDigest: encryptedAttachment.digest,
         });
         plaintextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-          plaintextRelativePath
+          decryptedAttachment.path
         );
         const plaintext = readFileSync(plaintextPath);
 
         assert.isTrue(constantTimeEqual(FILE_CONTENTS, plaintext));
+        assert.strictEqual(
+          encryptedAttachment.plaintextHash,
+          decryptedAttachment.plaintextHash
+        );
       } finally {
         if (plaintextPath) {
           unlinkSync(plaintextPath);
@@ -675,7 +684,7 @@ describe('Crypto', () => {
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
           encryptedAttachment.path
         );
-        const plaintextRelativePath = await decryptAttachmentV2({
+        const decryptedAttachment = await decryptAttachmentV2({
           ciphertextPath,
           id: 'test',
           keys,
@@ -683,11 +692,17 @@ describe('Crypto', () => {
           theirDigest: encryptedAttachment.digest,
         });
         plaintextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-          plaintextRelativePath
+          decryptedAttachment.path
         );
         const plaintext = readFileSync(plaintextPath);
 
         assert.isTrue(constantTimeEqual(FILE_CONTENTS, plaintext));
+
+        assert.strictEqual(encryptedAttachment.plaintextHash, GHOST_KITTY_HASH);
+        assert.strictEqual(
+          decryptedAttachment.plaintextHash,
+          encryptedAttachment.plaintextHash
+        );
       } finally {
         if (plaintextPath) {
           unlinkSync(plaintextPath);

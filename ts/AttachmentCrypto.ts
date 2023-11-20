@@ -43,6 +43,12 @@ export const ATTACHMENT_MAC_LENGTH = 32;
 export type EncryptedAttachmentV2 = {
   path: string;
   digest: Uint8Array;
+  plaintextHash: string;
+};
+
+export type DecryptedAttachmentV2 = {
+  path: string;
+  plaintextHash: string;
 };
 
 export async function encryptAttachmentV2({
@@ -82,6 +88,7 @@ export async function encryptAttachmentV2({
   }
   const iv = dangerousTestOnlyIv || getRandomBytes(16);
 
+  const plaintextHashTransform = new DigestTransform();
   const addPaddingTransform = new AddPaddingTransform(size);
   const cipherTransform = new CipherTransform(iv, aesKey);
   const addIvTransform = new AddIvTransform(iv);
@@ -91,6 +98,7 @@ export async function encryptAttachmentV2({
   try {
     await pipeline(
       readStream,
+      plaintextHashTransform,
       addPaddingTransform,
       cipherTransform,
       addIvTransform,
@@ -116,7 +124,12 @@ export async function encryptAttachmentV2({
     throw error;
   }
 
-  const { ourDigest } = digestTransform;
+  const { digest: plaintextHash } = plaintextHashTransform;
+  if (!plaintextHash || !plaintextHash.byteLength) {
+    throw new Error(`${logId}: Failed to generate plaintext hash!`);
+  }
+
+  const { digest: ourDigest } = digestTransform;
   if (!ourDigest || !ourDigest.byteLength) {
     throw new Error(`${logId}: Failed to generate ourDigest!`);
   }
@@ -127,6 +140,7 @@ export async function encryptAttachmentV2({
   return {
     path: relativeTargetPath,
     digest: ourDigest,
+    plaintextHash: Buffer.from(plaintextHash).toString('hex'),
   };
 }
 
@@ -142,7 +156,7 @@ export async function decryptAttachmentV2({
   keys: Readonly<Uint8Array>;
   size: number;
   theirDigest: Readonly<Uint8Array>;
-}): Promise<string> {
+}): Promise<DecryptedAttachmentV2> {
   const logId = `decryptAttachmentV2(${id})`;
   if (keys.byteLength !== KEY_LENGTH * 2) {
     throw new Error(`${logId}: Got invalid length attachment keys`);
@@ -171,6 +185,7 @@ export async function decryptAttachmentV2({
     decipherTransform
   );
   const limitLengthTransform = new LimitLengthTransform(size);
+  const plaintextHashTransform = new DigestTransform();
 
   try {
     await pipeline(
@@ -180,6 +195,7 @@ export async function decryptAttachmentV2({
       coreDecryptionTransform,
       decipherTransform,
       limitLengthTransform,
+      plaintextHashTransform,
       writeStream
     );
   } catch (error) {
@@ -212,7 +228,7 @@ export async function decryptAttachmentV2({
     throw new Error(`${logId}: Bad MAC`);
   }
 
-  const { ourDigest } = digestTransform;
+  const { digest: ourDigest } = digestTransform;
   if (!ourDigest || !ourDigest.byteLength) {
     throw new Error(`${logId}: Failed to generate ourDigest!`);
   }
@@ -220,17 +236,25 @@ export async function decryptAttachmentV2({
     throw new Error(`${logId}: Bad digest`);
   }
 
+  const { digest: plaintextHash } = plaintextHashTransform;
+  if (!plaintextHash || !plaintextHash.byteLength) {
+    throw new Error(`${logId}: Failed to generate file hash!`);
+  }
+
   writeStream.close();
   readStream.close();
 
-  return relativeTargetPath;
+  return {
+    path: relativeTargetPath,
+    plaintextHash: Buffer.from(plaintextHash).toString('hex'),
+  };
 }
 
 // A very simple transform that doesn't modify the stream, but does calculate a digest
 //   across all data it gets.
 class DigestTransform extends Transform {
   private digestBuilder: Hash;
-  public ourDigest: Uint8Array | undefined;
+  public digest: Uint8Array | undefined;
 
   constructor() {
     super();
@@ -239,7 +263,7 @@ class DigestTransform extends Transform {
 
   override _flush(done: (error?: Error) => void) {
     try {
-      this.ourDigest = this.digestBuilder.digest();
+      this.digest = this.digestBuilder.digest();
     } catch (error) {
       done(error);
       return;

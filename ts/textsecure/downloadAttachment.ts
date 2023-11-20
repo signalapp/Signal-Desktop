@@ -116,7 +116,7 @@ export async function downloadAttachmentV2(
   const cipherTextAbsolutePath =
     window.Signal.Migrations.getAbsoluteAttachmentPath(cipherTextRelativePath);
 
-  const relativePath = await decryptAttachmentV2({
+  const { path, plaintextHash } = await decryptAttachmentV2({
     ciphertextPath: cipherTextAbsolutePath,
     id: cdn,
     keys: Bytes.fromBase64(key),
@@ -130,11 +130,12 @@ export async function downloadAttachmentV2(
 
   return {
     ...omit(attachment, 'key'),
-    path: relativePath,
+    path,
     size,
     contentType: contentType
       ? MIME.stringToMIMEType(contentType)
       : MIME.APPLICATION_OCTET_STREAM,
+    plaintextHash,
   };
 }
 

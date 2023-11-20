@@ -28,6 +28,7 @@ export const PaddedLengths = {
 export type EncryptedAttachment = {
   ciphertext: Uint8Array;
   digest: Uint8Array;
+  plaintextHash: string;
 };
 
 export function generateRegistrationId(): number {
@@ -426,7 +427,7 @@ export function encryptAttachment({
   plaintext: Readonly<Uint8Array>;
   keys: Readonly<Uint8Array>;
   dangerousTestOnlyIv?: Readonly<Uint8Array>;
-}): EncryptedAttachment {
+}): Omit<EncryptedAttachment, 'plaintextHash'> {
   const logId = 'encryptAttachment';
   if (!(plaintext instanceof Uint8Array)) {
     throw new TypeError(
@@ -481,11 +482,17 @@ export function padAndEncryptAttachment({
   const paddedSize = getAttachmentSizeBucket(size);
   const padding = getZeroes(paddedSize - size);
 
-  return encryptAttachment({
-    plaintext: Bytes.concatenate([plaintext, padding]),
-    keys,
-    dangerousTestOnlyIv,
-  });
+  return {
+    ...encryptAttachment({
+      plaintext: Bytes.concatenate([plaintext, padding]),
+      keys,
+      dangerousTestOnlyIv,
+    }),
+    // We generate the plaintext hash here for forwards-compatibility with streaming
+    // attachment encryption, which may be the only place that the whole attachment flows
+    // through memory
+    plaintextHash: Buffer.from(sha256(plaintext)).toString('hex'),
+  };
 }
 
 export function encryptProfile(data: Uint8Array, key: Uint8Array): Uint8Array {
