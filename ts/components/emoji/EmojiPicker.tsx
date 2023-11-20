@@ -82,6 +82,8 @@ export const EmojiPicker = React.memo(
       }: Props,
       ref
     ) => {
+      const isRTL = i18n.getLocaleDirection() === 'rtl';
+
       const [firstRecent] = React.useState(recentEmojis);
       const [selectedCategory, setSelectedCategory] = React.useState<Category>(
         categories[0]
@@ -445,6 +447,8 @@ export const EmojiPicker = React.memo(
                       height={height}
                       columnCount={COL_COUNT}
                       columnWidth={38}
+                      // react-virtualized Grid default style has direction: 'ltr'
+                      style={{ direction: isRTL ? 'rtl' : 'ltr' }}
                       rowHeight={getRowHeight}
                       rowCount={rowCount}
                       cellRenderer={cellRenderer}

@@ -55,6 +55,8 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   recentEmojis,
   variant = EmojiButtonVariant.Normal,
 }: Props) {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
+
   const [open, setOpen] = React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const popperRef = React.useRef<HTMLDivElement | null>(null);
@@ -164,7 +166,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
       </Reference>
       {open ? (
         <div ref={popperRef}>
-          <Popper placement="top-start" strategy="fixed">
+          <Popper placement={isRTL ? 'top-end' : 'top-start'} strategy="fixed">
             {({ ref, style }) => (
               <EmojiPicker
                 ref={ref}
