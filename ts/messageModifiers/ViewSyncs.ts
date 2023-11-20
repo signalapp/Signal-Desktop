@@ -34,6 +34,7 @@ function remove(sync: ViewSyncAttributesType): void {
     generateCacheKey({
       sender: sync.senderId,
       timestamp: sync.timestamp,
+      type: 'viewsync',
     })
   );
   sync.removeFromMessageReceiverCache();
@@ -78,6 +79,7 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
     generateCacheKey({
       sender: sync.senderId,
       timestamp: sync.timestamp,
+      type: 'viewsync',
     }),
     sync
   );
