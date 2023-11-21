@@ -33,7 +33,7 @@ export type OwnProps = Readonly<{
 export type Props = OwnProps &
   Pick<
     EmojiPickerProps,
-    'doSend' | 'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
+    'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
   >;
 
 export type EmojiButtonAPI = Readonly<{
@@ -46,7 +46,6 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   emoji,
   emojiButtonApi,
   i18n,
-  doSend,
   onClose,
   onOpen,
   onPickEmoji,
@@ -178,7 +177,6 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
                     handleClose();
                   }
                 }}
-                doSend={doSend}
                 onClose={handleClose}
                 skinTone={skinTone}
                 onSetSkinTone={onSetSkinTone}
