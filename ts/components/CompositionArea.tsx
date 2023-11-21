@@ -543,7 +543,6 @@ export function CompositionArea({
         <EmojiButton
           emojiButtonApi={emojiButtonRef}
           i18n={i18n}
-          doSend={handleForceSend}
           onPickEmoji={insertEmoji}
           onClose={() => setComposerFocus(conversationId)}
           recentEmojis={recentEmojis}
