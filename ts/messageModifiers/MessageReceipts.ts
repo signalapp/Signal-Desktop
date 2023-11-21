@@ -83,6 +83,7 @@ function remove(receipt: MessageReceiptAttributesType): void {
     generateCacheKey({
       sender: receipt.sourceServiceId,
       timestamp: receipt.messageSentAt,
+      type: receipt.type,
     })
   );
   receipt.removeFromMessageReceiverCache();
@@ -351,6 +352,7 @@ export async function onReceipt(
     generateCacheKey({
       sender: receipt.sourceServiceId,
       timestamp: receipt.messageSentAt,
+      type: receipt.type,
     }),
     receipt
   );

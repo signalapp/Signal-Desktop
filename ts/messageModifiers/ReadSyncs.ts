@@ -33,6 +33,7 @@ function remove(sync: ReadSyncAttributesType): void {
     generateCacheKey({
       sender: sync.senderId,
       timestamp: sync.timestamp,
+      type: 'readsync',
     })
   );
   sync.removeFromMessageReceiverCache();
@@ -109,6 +110,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
     generateCacheKey({
       sender: sync.senderId,
       timestamp: sync.timestamp,
+      type: 'readsync',
     }),
     sync
   );
