@@ -79,6 +79,7 @@ export function NavSidebar({
   title,
   otherTabsUnreadStats,
 }: NavSidebarProps): JSX.Element {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
   const [dragState, setDragState] = useState(DragState.INITIAL);
 
   const [preferredWidth, setPreferredWidth] = useState(() => {
@@ -102,7 +103,8 @@ export function NavSidebar({
       setDragState(DragState.DRAGEND);
     },
     onMove(event) {
-      const { deltaX, shiftKey, pointerType } = event;
+      const { shiftKey, pointerType } = event;
+      const deltaX = isRTL ? -event.deltaX : event.deltaX;
       const isKeyboard = pointerType === 'keyboard';
       const increment = isKeyboard && shiftKey ? 10 : 1;
       setPreferredWidth(prevWidth => {
