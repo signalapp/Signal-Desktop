@@ -3447,7 +3447,7 @@ describe('SQL migrations test', () => {
         ON
           messages.id = mentions.messageId
           AND mentions.mentionUuid IN (
-            ${sqlJoin(['a', 'b', 'c'], ', ')}
+            ${sqlJoin(['a', 'b', 'c'])}
           )
           AND messages.isViewOnce IS NOT 1
           AND messages.storyId IS NULL

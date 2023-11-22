@@ -1861,7 +1861,7 @@ async function searchMessages({
         ON
           messages.id = mentions.messageId
           AND mentions.mentionAci IN (
-            ${sqlJoin(contactServiceIdsMatchingQuery, ', ')}
+            ${sqlJoin(contactServiceIdsMatchingQuery)}
           )
           AND ${
             conversationId
@@ -2944,7 +2944,7 @@ async function getNearbyMessageFromDeletedSet({
         conversationId = ${conversationId} AND
         (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
         isStory IS 0 AND
-        id NOT IN (${sqlJoin(deletedMessageIds, ', ')}) AND
+        id NOT IN (${sqlJoin(deletedMessageIds)}) AND
         type IN ('incoming', 'outgoing')
         AND (
           (received_at = ${received_at} AND sent_at ${compare} ${sent_at}) OR
@@ -3495,10 +3495,7 @@ function getCallHistoryGroupDataSync(
       db.exec(createTempTable);
 
       batchMultiVarQuery(db, conversationIds, ids => {
-        const idList = sqlJoin(
-          ids.map(id => sqlFragment`${id}`),
-          ','
-        );
+        const idList = sqlJoin(ids.map(id => sqlFragment`${id}`));
 
         const [insertQuery, insertParams] = sql`
           INSERT INTO temp_callHistory_filtered_conversations
@@ -5499,7 +5496,7 @@ function modifyStoryDistributionMembersSync(
     db,
     toRemove,
     (serviceIds: ReadonlyArray<ServiceIdString>) => {
-      const serviceIdSet = sqlJoin(serviceIds, ',');
+      const serviceIdSet = sqlJoin(serviceIds);
       const [sqlQuery, sqlParams] = sql`
         DELETE FROM storyDistributionMembers
         WHERE listId = ${listId} AND serviceId IN (${serviceIdSet});

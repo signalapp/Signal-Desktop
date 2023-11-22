@@ -38,7 +38,7 @@ describe('sql/utils/sql', () => {
 
     const [selectQuery, selectParams] = sql`
       SELECT * FROM examples WHERE
-        id IN (${sqlJoin([1, 2], ', ')}) OR
+        id IN (${sqlJoin([1, 2])}) OR
         ${predicate};
     `;
 
