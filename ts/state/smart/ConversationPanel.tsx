@@ -49,7 +49,6 @@ type AnimationProps<T> = {
 };
 
 function doAnimate({
-  isRTL,
   onAnimationStarted,
   onAnimationDone,
   overlay,
@@ -74,7 +73,6 @@ function doAnimate({
   const animation = animateNode.animate(panel.keyframes, {
     ...ANIMATION_CONFIG,
     id: 'panel-animation',
-    direction: isRTL ? 'reverse' : 'normal',
   });
 
   onAnimationStarted();
@@ -155,7 +153,7 @@ export function ConversationPanel({
           ref: animateRef,
           keyframes: [
             { transform: 'translateX(0%)' },
-            { transform: 'translateX(100%)' },
+            { transform: isRTL ? 'translateX(-100%)' : 'translateX(100%)' },
           ],
         },
       });
@@ -178,7 +176,7 @@ export function ConversationPanel({
         panel: {
           ref: animateRef,
           keyframes: [
-            { transform: 'translateX(100%)' },
+            { transform: isRTL ? 'translateX(-100%)' : 'translateX(100%)' },
             { transform: 'translateX(0%)' },
           ],
         },
