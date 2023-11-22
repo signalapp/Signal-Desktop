@@ -3,11 +3,12 @@
 
 import type { ReactNode } from 'react';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { noop } from 'lodash';
+import { isEqual, noop } from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   ActiveCallStateType,
+  SendGroupCallReactionType,
   SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
@@ -22,10 +23,13 @@ import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import type {
   ActiveCallType,
+  ActiveCallReactionsType,
+  ConversationsByDemuxIdType,
   GroupCallVideoRequest,
   PresentedSource,
 } from '../types/Calling';
 import {
+  CALLING_REACTIONS_LIFETIME,
   CallMode,
   CallViewMode,
   CallState,
@@ -60,8 +64,16 @@ import {
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
 import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting';
 import { usePrevious } from '../hooks/usePrevious';
-import { PersistentCallingToast, useCallingToasts } from './CallingToast';
+import {
+  CallingToastProvider,
+  PersistentCallingToast,
+  useCallingToasts,
+} from './CallingToast';
 import { Spinner } from './Spinner';
+import { handleOutsideClick } from '../util/handleOutsideClick';
+import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
+import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
+import { Emoji } from './emoji/Emoji';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -70,8 +82,13 @@ export type PropsType = {
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
+  isGroupCallReactionsEnabled: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
+  renderReactionPicker: (
+    props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
+  sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
@@ -89,7 +106,7 @@ export type PropsType = {
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
   changeCallView: (mode: CallViewMode) => void;
-};
+} & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
 export const isInSpeakerView = (
   call: Pick<ActiveCallStateType, 'viewMode'> | undefined
@@ -98,6 +115,19 @@ export const isInSpeakerView = (
     call?.viewMode === CallViewMode.Presentation ||
       call?.viewMode === CallViewMode.Speaker
   );
+};
+
+export const CALL_REACTION_EMOJI = [
+  '❤️',
+  '👍',
+  '👋',
+  '👏',
+  '🎉',
+  '😂',
+] as const;
+
+const REACTIONS_TOASTS_TRANSITION_FROM = {
+  opacity: 0,
 };
 
 function CallDuration({
@@ -134,9 +164,13 @@ export function CallScreen({
   groupMembers,
   hangUpActiveCall,
   i18n,
+  isGroupCallReactionsEnabled,
   me,
   openSystemPreferencesAction,
+  renderEmojiPicker,
+  renderReactionPicker,
   setGroupCallVideoRequest,
+  sendGroupCallReaction,
   setLocalAudio,
   setLocalVideo,
   setLocalPreview,
@@ -158,6 +192,7 @@ export function CallScreen({
     presentingSource,
     remoteParticipants,
     showNeedsScreenRecordingPermissionsWarning,
+    reactions,
   } = activeCall;
 
   const isSpeaking = useValueAtFixedRate(
@@ -197,6 +232,14 @@ export function CallScreen({
   const hangUp = useCallback(() => {
     hangUpActiveCall('button click');
   }, [hangUpActiveCall]);
+
+  const moreOptionsMenuRef = React.useRef<null | HTMLDivElement>(null);
+  const moreOptionsButtonRef = React.useRef<null | HTMLDivElement>(null);
+  const reactionPickerRef = React.useRef<null | HTMLDivElement>(null);
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const toggleMoreOptions = useCallback(() => {
+    setShowMoreOptions(prevValue => !prevValue);
+  }, []);
 
   const [controlsHover, setControlsHover] = useState(false);
 
@@ -256,6 +299,22 @@ export function CallScreen({
     };
   }, [toggleAudio, toggleVideo]);
 
+  useEffect(() => {
+    if (!showMoreOptions) {
+      return noop;
+    }
+    return handleOutsideClick(
+      () => {
+        setShowMoreOptions(false);
+        return true;
+      },
+      {
+        containerElements: [moreOptionsButtonRef, moreOptionsMenuRef],
+        name: 'CallScreen.moreOptions',
+      }
+    );
+  }, [showMoreOptions]);
+
   useScreenSharingStoppedToast({ activeCall, i18n });
   useViewModeChangedToast({ activeCall, i18n });
 
@@ -275,6 +334,8 @@ export function CallScreen({
   let isConnected: boolean;
   let participantCount: number;
   let remoteParticipantsElement: ReactNode;
+  let conversationsByDemuxId: ConversationsByDemuxIdType;
+  let localDemuxId: number | undefined;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -284,6 +345,7 @@ export function CallScreen({
       hasCallStarted = !isRinging;
       isConnected = activeCall.callState === CallState.Accepted;
       participantCount = isConnected ? 2 : 0;
+      conversationsByDemuxId = new Map();
       remoteParticipantsElement = hasCallStarted ? (
         <DirectCallRemoteParticipant
           conversation={conversation}
@@ -304,6 +366,8 @@ export function CallScreen({
         !(groupMembers?.length === 1 && groupMembers[0].id === me.id);
       hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
+      conversationsByDemuxId = activeCall.conversationsByDemuxId;
+      localDemuxId = activeCall.localDemuxId;
 
       isConnected =
         activeCall.connectionState === GroupCallConnectionState.Connected;
@@ -397,14 +461,15 @@ export function CallScreen({
 
   const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
 
+  const controlsFadedOut = !showControls && !isAudioOnly && isConnected;
   const controlsFadeClass = classNames({
     'module-ongoing-call__controls--fadeIn':
       (showControls || isAudioOnly) && !isConnected,
-    'module-ongoing-call__controls--fadeOut':
-      !showControls && !isAudioOnly && isConnected,
+    'module-ongoing-call__controls--fadeOut': controlsFadedOut,
   });
 
   const isGroupCall = activeCall.callMode === CallMode.Group;
+  const isMoreOptionsButtonEnabled = isGroupCall && isGroupCallReactionsEnabled;
 
   let presentingButtonType: CallingButtonType;
   if (presentingSource) {
@@ -465,7 +530,11 @@ export function CallScreen({
         `module-ongoing-call__container--${
           hasCallStarted ? 'call-started' : 'call-not-started'
         }`,
-        { 'module-ongoing-call__container--hide-controls': !showControls }
+        { 'module-ongoing-call__container--hide-controls': !showControls },
+        {
+          'module-ongoing-call__container--controls-faded-out':
+            controlsFadedOut,
+        }
       )}
       onFocus={() => {
         setShowControls(true);
@@ -532,6 +601,12 @@ export function CallScreen({
       )}
       {remoteParticipantsElement}
       {lonelyInCallNode}
+      <CallingReactionsToastsContainer
+        reactions={reactions}
+        conversationsByDemuxId={conversationsByDemuxId}
+        localDemuxId={localDemuxId}
+        i18n={i18n}
+      />
       <div className="module-ongoing-call__footer">
         <div className="module-calling__spacer CallControls__OuterSpacer" />
         <div
@@ -551,6 +626,30 @@ export function CallScreen({
             outgoingRing={undefined}
             i18n={i18n}
           />
+
+          {showMoreOptions && (
+            <div className="CallControls__MoreOptionsContainer">
+              <div
+                className="CallControls__MoreOptionsMenu"
+                ref={moreOptionsMenuRef}
+              >
+                {renderReactionPicker({
+                  ref: reactionPickerRef,
+                  onClose: () => setShowMoreOptions(false),
+                  onPick: emoji => {
+                    setShowMoreOptions(false);
+                    sendGroupCallReaction({
+                      conversationId: conversation.id,
+                      value: emoji,
+                    });
+                  },
+                  isCustomizePreferredReactionsHidden: true,
+                  preferredReactionEmoji: CALL_REACTION_EMOJI,
+                  renderEmojiPicker,
+                })}
+              </div>
+            </div>
+          )}
 
           <div className="CallControls__ButtonContainer">
             <CallingButton
@@ -577,6 +676,21 @@ export function CallScreen({
               onClick={toggleAudio}
               tooltipDirection={TooltipPlacement.Top}
             />
+            {isMoreOptionsButtonEnabled && (
+              <div
+                className="CallControls__MoreOptionsButtonContainer"
+                ref={moreOptionsButtonRef}
+              >
+                <CallingButton
+                  buttonType={CallingButtonType.MORE_OPTIONS}
+                  i18n={i18n}
+                  onMouseEnter={onControlsMouseEnter}
+                  onMouseLeave={onControlsMouseLeave}
+                  onClick={toggleMoreOptions}
+                  tooltipDirection={TooltipPlacement.Top}
+                />
+              </div>
+            )}
           </div>
           <div
             className="CallControls__JoinLeaveButtonContainer"
@@ -692,4 +806,76 @@ function useViewModeChangedToast({
     previousViewMode,
     presenterAci,
   ]);
+}
+
+type CallingReactionsToastsType = {
+  reactions: ActiveCallReactionsType | undefined;
+  conversationsByDemuxId: Map<number, ConversationType>;
+  localDemuxId: number | undefined;
+  i18n: LocalizerType;
+};
+
+function useReactionsToast(props: CallingReactionsToastsType): void {
+  const { reactions, conversationsByDemuxId, localDemuxId, i18n } = props;
+  const [previousReactions, setPreviousReactions] = React.useState<
+    ActiveCallReactionsType | undefined
+  >(undefined);
+  const { showToast } = useCallingToasts();
+
+  useEffect(() => {
+    setPreviousReactions(reactions);
+  }, [reactions]);
+
+  useEffect(() => {
+    if (!reactions || isEqual(reactions, previousReactions)) {
+      return;
+    }
+
+    reactions.forEach(({ timestamp, demuxId, value }) => {
+      showToast({
+        key: `reactions-${timestamp}-${demuxId}`,
+        onlyShowOnce: true,
+        autoClose: true,
+        content: (
+          <span className="CallingReactionsToasts__reaction">
+            <Emoji size={28} emoji={value} />
+            {demuxId === localDemuxId
+              ? i18n('icu:CallingReactions--me')
+              : conversationsByDemuxId.get(demuxId)?.title}
+          </span>
+        ),
+      });
+    });
+  }, [
+    reactions,
+    previousReactions,
+    showToast,
+    conversationsByDemuxId,
+    localDemuxId,
+    i18n,
+  ]);
+}
+
+function CallingReactionsToastsContainer(
+  props: CallingReactionsToastsType
+): JSX.Element {
+  const { i18n } = props;
+  const toastRegionRef = useRef<HTMLDivElement>(null);
+  return (
+    <CallingToastProvider
+      i18n={i18n}
+      maxNonPersistentToasts={5}
+      region={toastRegionRef}
+      lifetime={CALLING_REACTIONS_LIFETIME}
+      transitionFrom={REACTIONS_TOASTS_TRANSITION_FROM}
+    >
+      <div className="CallingReactionsToasts" ref={toastRegionRef} />
+      <CallingReactionsToasts {...props} />
+    </CallingToastProvider>
+  );
+}
+
+function CallingReactionsToasts(props: CallingReactionsToastsType) {
+  useReactionsToast(props);
+  return null;
 }

@@ -13,11 +13,13 @@ import { getActiveCall } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
 import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
+import { isGroupCallReactionsEnabled } from '../../util/isGroupCallReactionsEnabled';
 import type {
   ActiveCallBaseType,
   ActiveCallType,
   ActiveDirectCallType,
   ActiveGroupCallType,
+  ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
 import { isAciString } from '../../util/isAciString';
@@ -43,6 +45,8 @@ import * as log from '../../logging/log';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 import { strictAssert } from '../../util/assert';
+import { renderEmojiPicker } from './renderEmojiPicker';
+import { renderReactionPicker } from './renderReactionPicker';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -158,6 +162,7 @@ const mapStateToActiveCallProp = (
       activeCallState.showNeedsScreenRecordingPermissionsWarning
     ),
     showParticipantsList: activeCallState.showParticipantsList,
+    reactions: activeCallState.reactions,
   };
 
   switch (call.callMode) {
@@ -195,6 +200,7 @@ const mapStateToActiveCallProp = (
       const groupMembers: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
       const peekedParticipants: Array<ConversationType> = [];
+      const conversationsByDemuxId: ConversationsByDemuxIdType = new Map();
 
       const { memberships = [] } = conversation;
 
@@ -242,6 +248,10 @@ const mapStateToActiveCallProp = (
           speakerTime: remoteParticipant.speakerTime,
           videoAspectRatio: remoteParticipant.videoAspectRatio,
         });
+        conversationsByDemuxId.set(
+          remoteParticipant.demuxId,
+          remoteConversation
+        );
       }
 
       for (
@@ -278,10 +288,12 @@ const mapStateToActiveCallProp = (
         callMode: CallMode.Group,
         connectionState: call.connectionState,
         conversationsWithSafetyNumberChanges,
+        conversationsByDemuxId,
         deviceCount: peekInfo.deviceCount,
         groupMembers,
         isConversationTooBigToRing: isConversationTooBigToRing(conversation),
         joinState: call.joinState,
+        localDemuxId: call.localDemuxId,
         maxDevices: peekInfo.maxDevices,
         peekedParticipants,
         remoteParticipants,
@@ -348,11 +360,14 @@ const mapStateToProps = (state: StateType) => {
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
+    isGroupCallReactionsEnabled: isGroupCallReactionsEnabled(),
     incomingCall,
     me: getMe(state),
     notifyForCall,
     playRingtone,
     stopRingtone,
+    renderEmojiPicker,
+    renderReactionPicker,
     renderDeviceSelection,
     renderSafetyNumberViewer,
     theme: getTheme(state),
