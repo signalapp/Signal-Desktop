@@ -135,3 +135,7 @@
   margin-bottom: auto;
   max-width: calc(var(--window-width) / 2 + 20px);
 }
+
+.CallControls__MoreOptionsButtonContainer--menu-shown .module-tooltip {
+  opacity: 0;
+}

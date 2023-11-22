@@ -15,6 +15,7 @@ import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { StoryViewTargetType } from '../types/Stories';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -43,7 +44,7 @@ export default {
     onReply: action('onReply'),
     onTextTooLong: action('onTextTooLong'),
     onUseEmoji: action('onUseEmoji'),
-    preferredReactionEmoji: ['❤️', '👍', '👎', '😂', '😮', '😢'],
+    preferredReactionEmoji: DEFAULT_PREFERRED_REACTION_EMOJI,
     renderEmojiPicker: () => <>EmojiPicker</>,
     replies: [],
     views: [],

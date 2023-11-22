@@ -117,15 +117,6 @@ export const isInSpeakerView = (
   );
 };
 
-export const CALL_REACTION_EMOJI = [
-  '❤️',
-  '👍',
-  '👋',
-  '👏',
-  '🎉',
-  '😂',
-] as const;
-
 const REACTIONS_TOASTS_TRANSITION_FROM = {
   opacity: 0,
 };
@@ -534,7 +525,8 @@ export function CallScreen({
         {
           'module-ongoing-call__container--controls-faded-out':
             controlsFadedOut,
-        }
+        },
+        'dark-theme'
       )}
       onFocus={() => {
         setShowControls(true);
@@ -643,8 +635,6 @@ export function CallScreen({
                       value: emoji,
                     });
                   },
-                  isCustomizePreferredReactionsHidden: true,
-                  preferredReactionEmoji: CALL_REACTION_EMOJI,
                   renderEmojiPicker,
                 })}
               </div>
@@ -678,7 +668,13 @@ export function CallScreen({
             />
             {isMoreOptionsButtonEnabled && (
               <div
-                className="CallControls__MoreOptionsButtonContainer"
+                className={classNames(
+                  'CallControls__MoreOptionsButtonContainer',
+                  {
+                    'CallControls__MoreOptionsButtonContainer--menu-shown':
+                      showMoreOptions,
+                  }
+                )}
                 ref={moreOptionsButtonRef}
               >
                 <CallingButton

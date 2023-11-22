@@ -9,3 +9,15 @@ export const DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES = [
   'open_mouth',
   'cry',
 ];
+
+// This is used in storybook for simplicity. Normally we prefer to convert emoji short
+// names to actual emoji using convertShortNameToData from components/emoji/lib
+// because it takes skin tone into consideration.
+export const DEFAULT_PREFERRED_REACTION_EMOJI = [
+  '❤️',
+  '👍',
+  '👎',
+  '😂',
+  '😮',
+  '😢',
+];

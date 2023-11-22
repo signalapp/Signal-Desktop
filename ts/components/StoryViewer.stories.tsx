@@ -15,6 +15,7 @@ import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
 import { setupI18n } from '../util/setupI18n';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -48,7 +49,7 @@ export default {
     onTextTooLong: action('onTextTooLong'),
     onUseEmoji: action('onUseEmoji'),
     onMediaPlaybackStart: action('onMediaPlaybackStart'),
-    preferredReactionEmoji: ['❤️', '👍', '👎', '😂', '😮', '😢'],
+    preferredReactionEmoji: DEFAULT_PREFERRED_REACTION_EMOJI,
     queueStoryDownload: action('queueStoryDownload'),
     renderEmojiPicker: () => <>EmojiPicker</>,
     retryMessageSend: action('retryMessageSend'),
