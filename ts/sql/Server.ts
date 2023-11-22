@@ -5499,7 +5499,7 @@ function modifyStoryDistributionMembersSync(
     db,
     toRemove,
     (serviceIds: ReadonlyArray<ServiceIdString>) => {
-      const serviceIdSet = sqlJoin(serviceIds, '?');
+      const serviceIdSet = sqlJoin(serviceIds, ',');
       const [sqlQuery, sqlParams] = sql`
         DELETE FROM storyDistributionMembers
         WHERE listId = ${listId} AND serviceId IN (${serviceIdSet});
