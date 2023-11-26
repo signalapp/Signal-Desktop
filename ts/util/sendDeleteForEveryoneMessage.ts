@@ -45,7 +45,9 @@ export async function sendDeleteForEveryoneMessage(
     const timestamp = Date.now();
     const maxDuration = deleteForEveryoneDuration || DAY;
     if (timestamp - targetTimestamp > maxDuration) {
-      throw new Error(`Cannot send DOE for a message older than ${maxDuration}`);
+      throw new Error(
+        `Cannot send DOE for a message older than ${maxDuration}`
+      );
     }
   }
 
