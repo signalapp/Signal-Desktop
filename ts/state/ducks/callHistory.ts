@@ -187,6 +187,7 @@ export function reducer(
     case CALL_HISTORY_ADD:
       return {
         ...state,
+        edition: state.edition + 1,
         callHistoryByCallId: {
           ...state.callHistoryByCallId,
           [action.payload.callId]: action.payload,
@@ -195,6 +196,7 @@ export function reducer(
     case CALL_HISTORY_REMOVE:
       return {
         ...state,
+        edition: state.edition + 1,
         callHistoryByCallId: omit(state.callHistoryByCallId, action.payload),
       };
     case CALL_HISTORY_UPDATE_UNREAD:

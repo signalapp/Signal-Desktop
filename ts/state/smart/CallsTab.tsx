@@ -110,8 +110,6 @@ export function SmartCallsTab(): JSX.Element {
 
   const getCallHistoryGroupsCount = useCallback(
     async (options: CallHistoryFilterOptions) => {
-      // Used to fire effects when all calls are erased
-      void callHistoryEdition;
       const callHistoryFilter = getCallHistoryFilter(
         allConversations,
         regionCode,
@@ -125,7 +123,7 @@ export function SmartCallsTab(): JSX.Element {
       );
       return count;
     },
-    [allConversations, regionCode, callHistoryEdition]
+    [allConversations, regionCode]
   );
 
   const getCallHistoryGroups = useCallback(
@@ -133,8 +131,6 @@ export function SmartCallsTab(): JSX.Element {
       options: CallHistoryFilterOptions,
       pagination: CallHistoryPagination
     ) => {
-      // Used to fire effects when all calls are erased
-      void callHistoryEdition;
       const callHistoryFilter = getCallHistoryFilter(
         allConversations,
         regionCode,
@@ -149,7 +145,7 @@ export function SmartCallsTab(): JSX.Element {
       );
       return results;
     },
-    [allConversations, regionCode, callHistoryEdition]
+    [allConversations, regionCode]
   );
 
   useEffect(() => {
@@ -164,6 +160,7 @@ export function SmartCallsTab(): JSX.Element {
       getConversation={getConversation}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}
       getCallHistoryGroups={getCallHistoryGroups}
+      callHistoryEdition={callHistoryEdition}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
