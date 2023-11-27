@@ -7,7 +7,7 @@
   justify-content: space-between;
   padding-block: 4px;
   padding-inline: 16px;
-  -webkit-app-region: drag;
+  @include draggable-region;
 
   &__text {
     @include font-body-2;

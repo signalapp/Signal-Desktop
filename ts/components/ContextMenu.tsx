@@ -97,6 +97,21 @@ export function ContextMenu<T>({
     }
   );
 
+  // In Electron v23+, new elements added to the DOM may not trigger a recalculation of
+  // draggable regions, so if a ContextMenu is shown on top of a draggable region, its
+  // buttons may be unclickable. We add a class so that we can disable those draggable
+  // regions while the context menu is shown. It has the added benefit of ensuring that
+  // click events outside of the context menu onto an otherwise draggable region are
+  // propagated and trigger the menu to close.
+  useEffect(() => {
+    document.body.classList.toggle('context-menu-open', isMenuShowing);
+  }, [isMenuShowing]);
+
+  useEffect(() => {
+    // Remove it on unmount in case the component is unmounted when the menu is open
+    return () => document.body.classList.remove('context-menu-open');
+  }, []);
+
   useEffect(() => {
     if (onMenuShowingChanged) {
       onMenuShowingChanged(isMenuShowing);

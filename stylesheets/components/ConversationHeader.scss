@@ -32,8 +32,7 @@
     --button-spacing: 4px;
   }
 
-  -webkit-app-region: var(--draggable-app-region);
-
+  @include draggable-region;
   // In Electron v23+, clicking on a `drag` region in an unfocused window may not
   // propagate clicks to no-drag elements that have a higher CSS order; this avoids that
   // scenario for interactive elements (e.g. IncomingCallBar) which overlap the
@@ -55,56 +54,6 @@
   @include dark-theme {
     color: $color-gray-02;
     background-color: $color-gray-95;
-  }
-
-  &__back-icon {
-    $transition: 250ms ease-out;
-
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    margin-inline-start: -20px;
-    vertical-align: text-bottom;
-    border: none;
-    opacity: 0;
-    // while it is invisible, allow it to be draggable
-    -webkit-app-region: drag;
-    transition: margin-inline-start $transition, opacity $transition;
-
-    &:disabled {
-      cursor: default;
-    }
-
-    &--show {
-      opacity: 1;
-      margin-inline: 24px 6px;
-      -webkit-app-region: no-drag;
-    }
-
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-90
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-02
-      );
-    }
-
-    @include keyboard-mode {
-      &:focus {
-        background-color: $color-ultramarine;
-      }
-    }
-    @include dark-keyboard-mode {
-      &:focus {
-        background-color: $color-ultramarine-light;
-      }
-    }
   }
 
   &__header {
