@@ -34,6 +34,7 @@ type CallsTabProps = Readonly<{
     options: CallHistoryFilterOptions,
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
+  callHistoryEdition: number;
   getConversation: (id: string) => ConversationType | void;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
@@ -59,6 +60,7 @@ export function CallsTab({
   otherTabsUnreadStats,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
+  callHistoryEdition,
   getConversation,
   hasFailedStorySends,
   hasPendingUpdate,
@@ -221,6 +223,7 @@ export function CallsTab({
               hasActiveCall={activeCall != null}
               getCallHistoryGroupsCount={getCallHistoryGroupsCount}
               getCallHistoryGroups={getCallHistoryGroups}
+              callHistoryEdition={callHistoryEdition}
               getConversation={getConversation}
               i18n={i18n}
               selectedCallHistoryGroup={selected?.callHistoryGroup ?? null}

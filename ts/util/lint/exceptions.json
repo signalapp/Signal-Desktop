@@ -3088,6 +3088,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const getCallHistoryGroupsCountRef = useRef(getCallHistoryGroupsCount);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-11-27T20:25:10.634Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const getCallHistoryGroupsRef = useRef(getCallHistoryGroups);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-11-27T20:25:10.634Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CaptchaDialog.tsx",
     "line": "  const buttonRef = useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",

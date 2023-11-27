@@ -111,6 +111,7 @@ type CallsListProps = Readonly<{
     options: CallHistoryFilterOptions,
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
+  callHistoryEdition: number;
   getConversation: (id: string) => ConversationType | void;
   i18n: LocalizerType;
   selectedCallHistoryGroup: CallHistoryGroup | null;
@@ -139,6 +140,7 @@ export function CallsList({
   hasActiveCall,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
+  callHistoryEdition,
   getConversation,
   i18n,
   selectedCallHistoryGroup,
@@ -153,6 +155,14 @@ export function CallsList({
   const [searchState, setSearchState] = useState(defaultInitState);
 
   const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);
+
+  const getCallHistoryGroupsCountRef = useRef(getCallHistoryGroupsCount);
+  const getCallHistoryGroupsRef = useRef(getCallHistoryGroups);
+
+  useEffect(() => {
+    getCallHistoryGroupsCountRef.current = getCallHistoryGroupsCount;
+    getCallHistoryGroupsRef.current = getCallHistoryGroups;
+  }, [getCallHistoryGroupsCount, getCallHistoryGroups]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -180,8 +190,8 @@ export function CallsList({
 
       try {
         const [count, items] = await Promise.all([
-          getCallHistoryGroupsCount(options),
-          getCallHistoryGroups(options, {
+          getCallHistoryGroupsCountRef.current(options),
+          getCallHistoryGroupsRef.current(options, {
             offset: 0,
             limit: 100, // preloaded rows
           }),
@@ -226,7 +236,7 @@ export function CallsList({
     return () => {
       controller.abort();
     };
-  }, [getCallHistoryGroupsCount, getCallHistoryGroups, queryInput, status]);
+  }, [queryInput, status, callHistoryEdition]);
 
   const loadMoreRows = useCallback(
     async (props: IndexRange) => {
@@ -250,7 +260,10 @@ export function CallsList({
       const limit = stopIndex - startIndex + 1;
 
       try {
-        const groups = await getCallHistoryGroups(options, { offset, limit });
+        const groups = await getCallHistoryGroupsRef.current(options, {
+          offset,
+          limit,
+        });
 
         if (searchState.options !== options) {
           return;
@@ -275,7 +288,7 @@ export function CallsList({
         log.error('CallsList#loadMoreRows error fetching', error);
       }
     },
-    [getCallHistoryGroups, searchState]
+    [searchState]
   );
 
   const isRowLoaded = useCallback(
