@@ -94,12 +94,13 @@ describe('story/no-sender-key', function (this: Mocha.Suite) {
         .click();
 
       debug('Focusing textarea');
-      await storiesCreator.locator('.TextAttachment__story').click();
+      // Note: For some reason `.click()` doesn't work here anymore.
+      await storiesCreator.locator('.TextAttachment').dispatchEvent('click');
 
       debug('Entering text');
       await storiesCreator
         .locator('.TextAttachment__text__textarea')
-        .type('123');
+        .fill('123');
 
       debug('Clicking "Next"');
       await storiesCreator

@@ -219,8 +219,9 @@ describe('story/messaging', function (this: Mocha.Suite) {
     debug('Create and send a story to the group');
     await window.getByRole('button', { name: 'Add a story' }).first().click();
     await window.getByRole('button', { name: 'Text story' }).click();
-    await window.locator('.TextAttachment').click();
-    await window.getByRole('textbox', { name: 'Add text' }).type('hello');
+    // Note: For some reason `.click()` doesn't work here anymore.
+    await window.locator('.TextAttachment').dispatchEvent('click');
+    await window.getByRole('textbox', { name: 'Add text' }).fill('hello');
     await window.getByRole('button', { name: 'Next' }).click();
     await window
       .locator('.Checkbox__container')
