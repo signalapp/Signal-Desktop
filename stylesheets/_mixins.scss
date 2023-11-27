@@ -876,3 +876,10 @@ $rtl-icon-map: (
     }
   }
 }
+
+@mixin draggable-region {
+  -webkit-app-region: drag;
+  body.context-menu-open & {
+    -webkit-app-region: no-drag;
+  }
+}
