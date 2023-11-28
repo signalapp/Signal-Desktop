@@ -894,17 +894,33 @@ async function saveCallHistory(
     'callDisposition'
   );
 
-  if (callHistory.direction === CallDirection.Outgoing) {
-    conversation.incrementSentMessageCount();
-  } else {
-    conversation.incrementMessageCount();
+  if (prevMessage == null) {
+    if (callHistory.direction === CallDirection.Outgoing) {
+      conversation.incrementSentMessageCount();
+    } else {
+      conversation.incrementMessageCount();
+    }
+    conversation.trigger('newmessage', model);
   }
 
-  conversation.trigger('newmessage', model);
+  await conversation.updateLastMessage().catch(error => {
+    log.error(
+      'saveCallHistory: Failed to update last message:',
+      Errors.toLogFormat(error)
+    );
+  });
 
-  void conversation.updateLastMessage();
-  void conversation.updateUnread();
-  conversation.set('active_at', callHistory.timestamp);
+  await conversation.updateUnread().catch(error => {
+    log.error(
+      'saveCallHistory: Failed to update unread',
+      Errors.toLogFormat(error)
+    );
+  });
+
+  conversation.set(
+    'active_at',
+    Math.max(conversation.get('active_at') ?? 0, callHistory.timestamp)
+  );
 
   if (canConversationBeUnarchived(conversation.attributes)) {
     conversation.setArchived(false);
