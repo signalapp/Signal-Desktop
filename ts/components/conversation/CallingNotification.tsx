@@ -104,6 +104,9 @@ function renderCallingNotificationButton(
   switch (props.callHistory.mode) {
     case CallMode.Direct: {
       const { direction, type } = props.callHistory;
+      if (props.callHistory.status === DirectCallStatus.Pending) {
+        return null;
+      }
       buttonText =
         direction === CallDirection.Incoming
           ? i18n('icu:calling__call-back')
