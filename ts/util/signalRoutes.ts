@@ -6,6 +6,8 @@ import 'urlpattern-polyfill';
 import { URL } from 'url';
 import { z } from 'zod';
 import { strictAssert } from './assert';
+import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 function toUrl(input: URL | string): URL | null {
   if (input instanceof URL) {
@@ -152,10 +154,29 @@ function _route<Key extends string, Args extends object>(
       for (const matcher of config.patterns) {
         const result = matcher(url);
         if (result) {
-          return {
-            key,
-            args: config.schema.parse(config.parse(result, url)),
-          };
+          let rawArgs;
+          try {
+            rawArgs = config.parse(result, url);
+          } catch (error) {
+            log.error(
+              `Failed to parse route ${key} from URL ${url.toString()}`,
+              Errors.toLogFormat(error)
+            );
+            return null;
+          }
+          const parseResult = config.schema.safeParse(rawArgs);
+          if (parseResult.success) {
+            const args = parseResult.data;
+            return {
+              key,
+              args,
+            };
+          }
+          log.error(
+            `Failed to parse route ${key} from URL ${url.toString()}`,
+            parseResult.error.format()
+          );
+          return null;
         }
       }
       return null;
