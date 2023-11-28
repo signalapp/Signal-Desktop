@@ -105,9 +105,9 @@ export function sqlConstant(value: QueryTemplateParam): QueryFragment {
 /**
  * Like `Array.prototype.join`, but for SQL fragments.
  */
+const SQL_JOIN_SEPARATOR = ',';
 export function sqlJoin(
-  items: ReadonlyArray<QueryFragmentValue>,
-  separator: string
+  items: ReadonlyArray<QueryFragmentValue>
 ): QueryFragment {
   let query = '';
   const params: Array<QueryTemplateParam> = [];
@@ -118,7 +118,7 @@ export function sqlJoin(
     params.push(...fragmentParams);
 
     if (index < items.length - 1) {
-      query += separator;
+      query += SQL_JOIN_SEPARATOR;
     }
   });
 
@@ -344,7 +344,7 @@ export function removeById<Key extends string | number>(
   const removeByIdsSync = (ids: ReadonlyArray<string | number>): void => {
     const [query, params] = sql`
       DELETE FROM ${table}
-      WHERE id IN (${sqlJoin(ids, ', ')});
+      WHERE id IN (${sqlJoin(ids)});
     `;
     totalChanges += db.prepare(query).run(params).changes;
   };
