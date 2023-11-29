@@ -15,6 +15,7 @@ export abstract class ClosedGroupMessage extends ExpirableMessage {
       identifier: params.identifier,
       expirationType: params.expirationType,
       expireTimer: params.expireTimer,
+      lastDisappearingMessageChangeTimestamp: params.lastDisappearingMessageChangeTimestamp,
     });
 
     this.groupId = PubKey.cast(params.groupId);

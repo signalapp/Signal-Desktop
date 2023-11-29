@@ -29,6 +29,12 @@ chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
 
+const sharedNoExpire = {
+  expireTimer: null,
+  expirationType: null,
+  lastDisappearingMessageChangeTimestamp: null,
+};
+
 describe('Message Utils', () => {
   afterEach(() => {
     Sinon.restore();
@@ -111,6 +117,7 @@ describe('Message Utils', () => {
         groupId,
         timestamp: Date.now(),
         chatMessage,
+        ...sharedNoExpire,
       });
 
       const rawMessage = await MessageUtils.toRawMessage(
@@ -144,6 +151,7 @@ describe('Message Utils', () => {
         admins: [member],
         groupId: TestUtils.generateFakePubKey().key,
         keypair: TestUtils.generateFakeECKeyPair(),
+        ...sharedNoExpire,
         expireTimer: 0,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
@@ -157,6 +165,7 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         name: 'df',
         groupId: TestUtils.generateFakePubKey().key,
+        ...sharedNoExpire,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
@@ -169,6 +178,7 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         addedMembers: [TestUtils.generateFakePubKey().key],
         groupId: TestUtils.generateFakePubKey().key,
+        ...sharedNoExpire,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
@@ -181,6 +191,7 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         removedMembers: [TestUtils.generateFakePubKey().key],
         groupId: TestUtils.generateFakePubKey().key,
+        ...sharedNoExpire,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
@@ -202,6 +213,7 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
+        ...sharedNoExpire,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
@@ -223,6 +235,7 @@ describe('Message Utils', () => {
         timestamp: Date.now(),
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
+        ...sharedNoExpire,
       });
       const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);

@@ -444,6 +444,9 @@ async function generateAndSendNewEncryptionKeyPair(
     groupId: toHex(groupId),
     timestamp: GetNetworkTime.getNowWithNetworkOffset(),
     encryptedKeyPairs: wrappers,
+    expirationType: null,
+    expireTimer: null,
+    lastDisappearingMessageChangeTimestamp: null,
   });
 
   distributingClosedGroupEncryptionKeyPairs.set(toHex(groupId), newKeyPair);

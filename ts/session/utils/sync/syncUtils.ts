@@ -332,7 +332,8 @@ const buildSyncVisibleMessage = (
     preview,
     syncTarget,
     expireTimer: expireUpdate?.expirationTimer || dataMessageExpireTimer,
-    expirationType: expireUpdate?.expirationType,
+    expirationType: expireUpdate?.expirationType || null,
+    lastDisappearingMessageChangeTimestamp: null,
   });
 };
 
@@ -353,7 +354,7 @@ const buildSyncExpireTimerMessage = (
     timestamp,
     expirationType,
     expireTimer,
-    lastDisappearingMessageChangeTimestamp,
+    lastDisappearingMessageChangeTimestamp: lastDisappearingMessageChangeTimestamp ?? null,
     syncTarget,
   });
 };

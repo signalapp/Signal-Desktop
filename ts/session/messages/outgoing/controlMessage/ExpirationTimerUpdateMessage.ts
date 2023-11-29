@@ -7,7 +7,6 @@ import { ExpirableMessageParams } from '../ExpirableMessage';
 interface ExpirationTimerUpdateMessageParams extends ExpirableMessageParams {
   groupId?: string | PubKey;
   syncTarget?: string | PubKey;
-  lastDisappearingMessageChangeTimestamp?: number;
 }
 
 // NOTE legacy messages used a data message for the expireTimer.
@@ -16,7 +15,6 @@ interface ExpirationTimerUpdateMessageParams extends ExpirableMessageParams {
 export class ExpirationTimerUpdateMessage extends DataMessage {
   public readonly groupId?: PubKey;
   public readonly syncTarget?: string;
-  public readonly lastDisappearingMessageChangeTimestamp?: number;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
     super({
@@ -24,9 +22,8 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
       identifier: params.identifier,
       expirationType: params.expirationType,
       expireTimer: params.expireTimer,
+      lastDisappearingMessageChangeTimestamp: params.lastDisappearingMessageChangeTimestamp,
     });
-
-    this.lastDisappearingMessageChangeTimestamp = params.lastDisappearingMessageChangeTimestamp;
 
     const { groupId } = params;
     this.groupId = groupId ? PubKey.cast(groupId) : undefined;

@@ -18,11 +18,17 @@ describe('ClosedGroupVisibleMessage', () => {
     const chatMessage = new VisibleMessage({
       timestamp,
       body: 'body',
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
       timestamp,
       chatMessage,
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -48,11 +54,17 @@ describe('ClosedGroupVisibleMessage', () => {
     const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
       timestamp,
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
       timestamp,
       chatMessage,
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.CONTENT_MESSAGE);
   });
@@ -61,11 +73,17 @@ describe('ClosedGroupVisibleMessage', () => {
     const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
       timestamp,
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
       timestamp,
       chatMessage,
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
     expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
@@ -77,12 +95,18 @@ describe('ClosedGroupVisibleMessage', () => {
       timestamp,
       body: 'body',
       identifier: 'chatMessage',
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
       timestamp,
       chatMessage,
       identifier: 'closedGroupMessage',
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     expect(message.identifier).to.be.equal('closedGroupMessage');
   });
@@ -93,11 +117,17 @@ describe('ClosedGroupVisibleMessage', () => {
       timestamp,
       body: 'body',
       identifier: 'chatMessage',
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
       timestamp,
       chatMessage,
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
     expect(message.identifier).to.be.equal('chatMessage');
   });

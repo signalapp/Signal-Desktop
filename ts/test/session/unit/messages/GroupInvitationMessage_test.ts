@@ -16,6 +16,9 @@ describe('GroupInvitationMessage', () => {
       timestamp,
       url,
       name,
+      expirationType: null,
+      expireTimer: null,
+      lastDisappearingMessageChangeTimestamp: null,
     });
   });
 

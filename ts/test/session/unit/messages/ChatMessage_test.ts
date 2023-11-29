@@ -11,10 +11,17 @@ import {
   VisibleMessage,
 } from '../../../../session/messages/outgoing/visibleMessage/VisibleMessage';
 
+const sharedNoExpire = {
+  expirationType: null,
+  expireTimer: null,
+  lastDisappearingMessageChangeTimestamp: null,
+};
+
 describe('VisibleMessage', () => {
   it('can create empty message with just a timestamp', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
+      ...sharedNoExpire,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -26,6 +33,7 @@ describe('VisibleMessage', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
       body: 'body',
+      ...sharedNoExpire,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -35,6 +43,7 @@ describe('VisibleMessage', () => {
   it('can create a disappear after read message', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
+      ...sharedNoExpire,
       expirationType: 'deleteAfterRead',
       expireTimer: 300,
     });
@@ -53,6 +62,7 @@ describe('VisibleMessage', () => {
   it('can create a disappear after send message', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
+      ...sharedNoExpire,
       expirationType: 'deleteAfterSend',
       expireTimer: 60,
     });
@@ -79,6 +89,7 @@ describe('VisibleMessage', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
       lokiProfile,
+      ...sharedNoExpire,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -98,6 +109,7 @@ describe('VisibleMessage', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
       quote,
+      ...sharedNoExpire,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -115,6 +127,7 @@ describe('VisibleMessage', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
       preview: previews,
+      ...sharedNoExpire,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -139,6 +152,7 @@ describe('VisibleMessage', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
       attachments,
+      ...sharedNoExpire,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -153,6 +167,7 @@ describe('VisibleMessage', () => {
   it('correct ttl', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
+      ...sharedNoExpire,
     });
     expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.CONTENT_MESSAGE);
   });
@@ -160,7 +175,9 @@ describe('VisibleMessage', () => {
   it('has an identifier', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
+      ...sharedNoExpire,
     });
+
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
     expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });

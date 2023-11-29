@@ -5,14 +5,16 @@ import { ContentMessage } from './ContentMessage';
 import { MessageParams } from './Message';
 
 export interface ExpirableMessageParams extends MessageParams {
-  expirationType?: DisappearingMessageType;
-  expireTimer?: number;
+  expirationType: DisappearingMessageType | null;
+  expireTimer: number | null;
+  lastDisappearingMessageChangeTimestamp: number | null;
 }
 
 export class ExpirableMessage extends ContentMessage {
-  public readonly expirationType?: DisappearingMessageType;
+  public readonly expirationType: DisappearingMessageType | null;
   /** in seconds, 0 means no expiration */
-  public readonly expireTimer?: number;
+  public readonly expireTimer: number | null;
+  public readonly lastDisappearingMessageChangeTimestamp: number | null;
 
   constructor(params: ExpirableMessageParams) {
     super({
@@ -21,6 +23,7 @@ export class ExpirableMessage extends ContentMessage {
     });
     this.expirationType = params.expirationType;
     this.expireTimer = params.expireTimer;
+    this.lastDisappearingMessageChangeTimestamp = params.lastDisappearingMessageChangeTimestamp;
   }
 
   public contentProto(): SignalService.Content {
@@ -35,6 +38,7 @@ export class ExpirableMessage extends ContentMessage {
           ? SignalService.Content.ExpirationType.UNKNOWN
           : undefined,
       expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
+      lastDisappearingMessageChangeTimestamp: this.lastDisappearingMessageChangeTimestamp,
     });
   }
 
@@ -51,7 +55,7 @@ export class ExpirableMessage extends ContentMessage {
   }
 
   public getDisappearingMessageType(): DisappearingMessageType | undefined {
-    return this.expirationType;
+    return this.expirationType || undefined;
   }
 
   public ttl(): number {

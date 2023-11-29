@@ -291,12 +291,14 @@ async function checkForExpireUpdateInContentMessage(
     couldBeLegacyContentMessage,
     dataMessage as SignalService.DataMessage
   );
+  const hasExpirationUpdateFlags =
+    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+
   const isLegacyConversationSettingMessage = isDisappearingMessagesV2Released
     ? (isLegacyDataMessage ||
         (couldBeLegacyContentMessage && !content.lastDisappearingMessageChangeTimestamp)) &&
-      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
-    : couldBeLegacyContentMessage &&
-      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+      hasExpirationUpdateFlags
+    : couldBeLegacyContentMessage && hasExpirationUpdateFlags;
 
   const expirationTimer = isLegacyDataMessage
     ? Number(dataMessage.expireTimer)
@@ -315,15 +317,17 @@ async function checkForExpireUpdateInContentMessage(
 
   // NOTE if we are checking an outgoing content message then the conversation's lastDisappearingMessageChangeTimestamp has just been set to match the content message so it can't be outdated if equal
   if (
-    convoToUpdate.getLastDisappearingMessageChangeTimestamp() &&
-    lastDisappearingMessageChangeTimestamp &&
-    ((isOutgoing &&
+    (lastDisappearingMessageChangeTimestamp &&
+      convoToUpdate.getLastDisappearingMessageChangeTimestamp() &&
       convoToUpdate.getLastDisappearingMessageChangeTimestamp() >
         lastDisappearingMessageChangeTimestamp) ||
-      (!isOutgoing &&
-        convoToUpdate.getLastDisappearingMessageChangeTimestamp() >
-          lastDisappearingMessageChangeTimestamp))
+    (hasExpirationUpdateFlags &&
+      convoToUpdate.getLastDisappearingMessageChangeTimestamp() ===
+        lastDisappearingMessageChangeTimestamp)
   ) {
+    // Note: when we receive incoming messages, they will all have the same lastDisappearingMessageChangeTimestamp corresponding to when the latest change was made.
+    // Those incoming messages are *not* outdated, but a change asking for the same change would be outdated.
+
     window.log.debug(
       `[checkForExpireUpdateInContentMessage] This is an outdated ${
         isOutgoing ? 'outgoing' : 'incoming'

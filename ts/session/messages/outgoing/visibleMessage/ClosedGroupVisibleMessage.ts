@@ -7,7 +7,11 @@ import {
 } from '../controlMessage/group/ClosedGroupMessage';
 import { VisibleMessage } from './VisibleMessage';
 
-interface ClosedGroupVisibleMessageParams extends ClosedGroupMessageParams {
+interface ClosedGroupVisibleMessageParams
+  extends Omit<
+    ClosedGroupMessageParams,
+    'expireTimer' | 'expirationType' | 'lastDisappearingMessageChangeTimestamp'
+  > {
   groupId: PubKey;
   chatMessage: VisibleMessage;
 }
@@ -20,8 +24,10 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,
       groupId: params.groupId,
-      expirationType: params.expirationType,
-      expireTimer: params.expireTimer,
+      expirationType: params.chatMessage.expirationType,
+      expireTimer: params.chatMessage.expireTimer,
+      lastDisappearingMessageChangeTimestamp:
+        params.chatMessage.lastDisappearingMessageChangeTimestamp ?? null,
     });
 
     this.chatMessage = params.chatMessage;

@@ -33,8 +33,9 @@ export function generateVisibleMessage({
     timestamp: timestamp || Date.now(),
     attachments: undefined,
     quote: undefined,
-    expirationType: undefined,
-    expireTimer: undefined,
+    expirationType: null,
+    expireTimer: null,
+    lastDisappearingMessageChangeTimestamp: null,
     lokiProfile: undefined,
     preview: undefined,
   });
@@ -95,6 +96,9 @@ export function generateClosedGroupMessage(
     groupId: groupId ? PubKey.cast(groupId) : generateFakePubKey(),
     timestamp: timestamp || Date.now(),
     chatMessage: generateVisibleMessage(),
+    expirationType: null,
+    expireTimer: null,
+    lastDisappearingMessageChangeTimestamp: null,
   });
 }
 
@@ -153,10 +157,10 @@ export function generateDisappearingVisibleMessage({
     return new ExpirationTimerUpdateMessage({
       identifier: identifier ?? uuid(),
       timestamp: timestamp || Date.now(),
-      expirationType: expirationTimerUpdate.expirationType,
+      expirationType: expirationTimerUpdate.expirationType || null,
       expireTimer: expirationTimerUpdate.expireTimer,
       lastDisappearingMessageChangeTimestamp:
-        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp,
+        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp || null,
     });
   }
 
@@ -166,10 +170,11 @@ export function generateDisappearingVisibleMessage({
     timestamp: timestamp || Date.now(),
     attachments: undefined,
     quote: undefined,
-    expirationType,
-    expireTimer,
+    expirationType: expirationType ?? null,
+    expireTimer: expireTimer ?? null,
     lokiProfile: undefined,
     preview: undefined,
+    lastDisappearingMessageChangeTimestamp: null,
   });
 }
 

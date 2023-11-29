@@ -91,6 +91,7 @@ export class VisibleMessage extends ExpirableMessage {
       identifier: params.identifier,
       expirationType: params.expirationType,
       expireTimer: params.expireTimer,
+      lastDisappearingMessageChangeTimestamp: params.lastDisappearingMessageChangeTimestamp,
     });
     this.attachments = params.attachments;
     this.body = params.body;
