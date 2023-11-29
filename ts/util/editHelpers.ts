@@ -4,27 +4,10 @@
 import { isNumber, sortBy } from 'lodash';
 
 import { strictAssert } from './assert';
-import { isSent } from '../messages/MessageSendState';
 
 import type { EditHistoryType } from '../model-types';
 import type { MessageModel } from '../models/messages';
 import type { LoggerType } from '../types/Logging';
-
-export function hasEditBeenSent(message: MessageModel): boolean {
-  const originalTimestamp = message.get('timestamp');
-  const editHistory = message.get('editHistory') || [];
-
-  return Boolean(
-    editHistory.find(item => {
-      if (item.timestamp === originalTimestamp) {
-        return false;
-      }
-      return Object.values(item.sendStateByConversationId || {}).some(
-        sendState => isSent(sendState.status)
-      );
-    })
-  );
-}
 
 // The tricky bit for this function is if we are on our second+ attempt to send a given
 //   edit, we're still sending that edit.
