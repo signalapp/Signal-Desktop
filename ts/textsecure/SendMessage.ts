@@ -164,7 +164,6 @@ export type MessageOptionsType = {
   body?: string;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
-  editedMessageTimestamp?: number;
   expireTimer?: DurationInSeconds;
   flags?: number;
   group?: {
@@ -180,6 +179,7 @@ export type MessageOptionsType = {
   sticker?: OutgoingStickerType;
   reaction?: ReactionType;
   deletedForEveryoneTimestamp?: number;
+  targetTimestampForEdit?: number;
   timestamp: number;
   groupCallUpdate?: GroupCallUpdateType;
   storyContext?: StoryContextType;
@@ -189,7 +189,7 @@ export type GroupSendOptionsType = {
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
   deletedForEveryoneTimestamp?: number;
-  editedMessageTimestamp?: number;
+  targetTimestampForEdit?: number;
   expireTimer?: DurationInSeconds;
   flags?: number;
   groupCallUpdate?: GroupCallUpdateType;
@@ -692,11 +692,11 @@ export default class MessageSender {
     const message = await this.getHydratedMessage(options);
     const dataMessage = message.toProto();
 
-    if (options.editedMessageTimestamp) {
+    if (options.targetTimestampForEdit) {
       const editMessage = new Proto.EditMessage();
       editMessage.dataMessage = dataMessage;
       editMessage.targetSentTimestamp = Long.fromNumber(
-        options.editedMessageTimestamp
+        options.targetTimestampForEdit
       );
       return Proto.EditMessage.encode(editMessage).finish();
     }
@@ -768,11 +768,11 @@ export default class MessageSender {
     const dataMessage = message.toProto();
 
     const contentMessage = new Proto.Content();
-    if (options.editedMessageTimestamp) {
+    if (options.targetTimestampForEdit) {
       const editMessage = new Proto.EditMessage();
       editMessage.dataMessage = dataMessage;
       editMessage.targetSentTimestamp = Long.fromNumber(
-        options.editedMessageTimestamp
+        options.targetTimestampForEdit
       );
       contentMessage.editMessage = editMessage;
     } else {
@@ -858,7 +858,6 @@ export default class MessageSender {
       bodyRanges,
       contact,
       deletedForEveryoneTimestamp,
-      editedMessageTimestamp,
       expireTimer,
       flags,
       groupCallUpdate,
@@ -870,6 +869,7 @@ export default class MessageSender {
       reaction,
       sticker,
       storyContext,
+      targetTimestampForEdit,
       timestamp,
     } = options;
 
@@ -900,7 +900,6 @@ export default class MessageSender {
       body: messageText,
       contact,
       deletedForEveryoneTimestamp,
-      editedMessageTimestamp,
       expireTimer,
       flags,
       groupCallUpdate,
@@ -912,6 +911,7 @@ export default class MessageSender {
       recipients,
       sticker,
       storyContext,
+      targetTimestampForEdit,
       timestamp,
     };
   }
@@ -1133,7 +1133,6 @@ export default class MessageSender {
     contact,
     contentHint,
     deletedForEveryoneTimestamp,
-    editedMessageTimestamp,
     expireTimer,
     groupId,
     serviceId,
@@ -1146,6 +1145,7 @@ export default class MessageSender {
     sticker,
     storyContext,
     story,
+    targetTimestampForEdit,
     timestamp,
     urgent,
     includePniSignatureMessage,
@@ -1155,7 +1155,6 @@ export default class MessageSender {
     contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
     contentHint: number;
     deletedForEveryoneTimestamp: number | undefined;
-    editedMessageTimestamp?: number;
     expireTimer: DurationInSeconds | undefined;
     groupId: string | undefined;
     serviceId: ServiceIdString;
@@ -1168,6 +1167,7 @@ export default class MessageSender {
     sticker?: OutgoingStickerType;
     storyContext?: StoryContextType;
     story?: boolean;
+    targetTimestampForEdit?: number;
     timestamp: number;
     urgent: boolean;
     includePniSignatureMessage?: boolean;
@@ -1179,7 +1179,6 @@ export default class MessageSender {
         body: messageText,
         contact,
         deletedForEveryoneTimestamp,
-        editedMessageTimestamp,
         expireTimer,
         preview,
         profileKey,
@@ -1188,6 +1187,7 @@ export default class MessageSender {
         recipients: [serviceId],
         sticker,
         storyContext,
+        targetTimestampForEdit,
         timestamp,
       },
       contentHint,

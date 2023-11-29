@@ -6,7 +6,6 @@ import { DAY } from './durations';
 import { canEditMessages } from './canEditMessages';
 import { isMoreRecentThan } from './timestamp';
 import { isOutgoing } from '../messages/helpers';
-import { isSent, someSendStatus } from '../messages/MessageSendState';
 
 export const MESSAGE_MAX_EDIT_COUNT = 10;
 
@@ -16,7 +15,6 @@ export function canEditMessage(message: MessageAttributesType): boolean {
     !message.deletedForEveryone &&
     isOutgoing(message) &&
     isMoreRecentThan(message.sent_at, DAY) &&
-    someSendStatus(message.sendStateByConversationId, isSent) &&
     Boolean(message.body);
 
   if (result) {

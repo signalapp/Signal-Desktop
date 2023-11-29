@@ -183,7 +183,10 @@ describe('Message', () => {
         editMessage: undefined,
       });
 
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const result = message.get('sendStateByConversationId') || {};
       assert.hasAllKeys(result, [
@@ -203,7 +206,10 @@ describe('Message', () => {
       const message = createMessage({ type: 'outgoing', source });
 
       const promise = Promise.reject(new Error('foo bar'));
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
@@ -217,7 +223,10 @@ describe('Message', () => {
         errors: [new Error('baz qux')],
       };
       const promise = Promise.reject(result);
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
