@@ -155,11 +155,8 @@ import { getSenderIdentifier } from '../util/getSenderIdentifier';
 import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
-import {
-  getPropForTimestamp,
-  setPropForTimestamp,
-  hasEditBeenSent,
-} from '../util/editHelpers';
+import { getPropForTimestamp, setPropForTimestamp } from '../util/editHelpers';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 /* eslint-disable more/no-then */
 
@@ -1228,8 +1225,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       if (!dataMessage) {
         return;
       }
-      const wasEditSent = hasEditBeenSent(this);
-      const isUpdate = Boolean(this.get('synced')) && !wasEditSent;
+
+      const originalTimestamp = getMessageSentTimestamp(this.attributes, {
+        includeEdits: false,
+        log,
+      });
+      const isSendingEdit = targetTimestamp !== originalTimestamp;
+
+      const isUpdate = Boolean(this.get('synced')) && !isSendingEdit;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conv = this.getConversation()!;
 
@@ -1261,7 +1264,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         map(conversationsWithSealedSender, c => c.id)
       );
 
-      const encodedContent = wasEditSent
+      const encodedContent = isSendingEdit
         ? {
             encodedEditMessage: dataMessage,
           }
