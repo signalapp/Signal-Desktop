@@ -30,8 +30,22 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.39--0" />,
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.39--1" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.41--0" />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.41--1"
+        components={{
+          linkToGithub: (
+            <a
+              href="https://github.com/bhaskarraksahb"
+              target="_blank"
+              rel="noreferrer"
+            >
+              @bhaskarraksahb
+            </a>
+          ),
+        }}
+      />,
     ],
   };
 

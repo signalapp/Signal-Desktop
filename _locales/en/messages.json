@@ -6999,13 +6999,16 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Now you can change your selected language in Signal without changing your system settings (Signal Settings > Appearance > Language)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "We fixed a brief delay that sometimes occurred while joining a call lobby on macOS devices, which should get rid of at least one excuse for being a half-second late to the meeting."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "We fixed the transition animation for video tiles when someone joins or leaves a group call. When you see a friend's face slide into view, that's a social movement."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Now you can click on a profile photo or group avatar in the chat header to quickly access chat settings or view any unseen stories from that chat. Thanks, {linkToGithub}!"
   }
 }
