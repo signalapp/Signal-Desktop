@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "6.42.0-alpha.1",
+  "version": "6.43.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
