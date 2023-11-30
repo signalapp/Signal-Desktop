@@ -25,7 +25,7 @@
   align-items: start;
   flex-shrink: 0;
   padding-bottom: 6px;
-  -webkit-app-region: drag;
+  @include draggable-region;
 
   .NavTabs__Toggle {
     width: $NavTabs__width;
