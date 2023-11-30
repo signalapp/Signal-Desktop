@@ -14,7 +14,6 @@ import {
 const sharedNoExpire = {
   expirationType: null,
   expireTimer: null,
-  lastDisappearingMessageChangeTimestamp: null,
 };
 
 describe('VisibleMessage', () => {

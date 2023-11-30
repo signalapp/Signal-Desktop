@@ -285,6 +285,8 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
     groupId,
     identifier: messageId,
     name,
+    expirationType: null,
+    expireTimer: null,
   });
   await getMessageQueue().sendToGroup({
     message: nameChangeMessage,
@@ -321,6 +323,8 @@ async function sendAddedMembers(
     groupId,
     addedMembers,
     identifier: messageId,
+    expirationType: null,
+    expireTimer: null,
   });
   await getMessageQueue().sendToGroup({
     message: closedGroupControlMessage,
@@ -384,6 +388,8 @@ export async function sendRemovedMembers(
     groupId,
     removedMembers,
     identifier: messageId,
+    expirationType: null,
+    expireTimer: null,
   });
   // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
   await getMessageQueue().sendToGroup({
@@ -446,7 +452,6 @@ async function generateAndSendNewEncryptionKeyPair(
     encryptedKeyPairs: wrappers,
     expirationType: null,
     expireTimer: null,
-    lastDisappearingMessageChangeTimestamp: null,
   });
 
   distributingClosedGroupEncryptionKeyPairs.set(toHex(groupId), newKeyPair);

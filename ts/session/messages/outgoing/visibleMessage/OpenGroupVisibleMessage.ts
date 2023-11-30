@@ -6,7 +6,7 @@ import { VisibleMessage, VisibleMessageParams } from './VisibleMessage';
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type OpenGroupVisibleMessageParams = Omit<
   VisibleMessageParams,
-  'expirationType' | 'expireTimer' | 'lastDisappearingMessageChangeTimestamp'
+  'expirationType' | 'expireTimer'
 >;
 
 export class OpenGroupVisibleMessage extends VisibleMessage {
@@ -15,7 +15,6 @@ export class OpenGroupVisibleMessage extends VisibleMessage {
   constructor(params: OpenGroupVisibleMessageParams) {
     super({
       ...params,
-      lastDisappearingMessageChangeTimestamp: null,
       expirationType: null,
       expireTimer: null,
     });

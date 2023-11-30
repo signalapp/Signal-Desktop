@@ -22,7 +22,6 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
       identifier: params.identifier,
       expirationType: params.expirationType,
       expireTimer: params.expireTimer,
-      lastDisappearingMessageChangeTimestamp: params.lastDisappearingMessageChangeTimestamp,
     });
 
     const { groupId } = params;
@@ -34,7 +33,6 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     return new SignalService.Content({
       ...super.contentProto(),
       dataMessage: this.dataProto(),
-      lastDisappearingMessageChangeTimestamp: this.lastDisappearingMessageChangeTimestamp,
     });
   }
 

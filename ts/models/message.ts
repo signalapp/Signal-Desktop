@@ -47,7 +47,10 @@ import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { DURATION } from '../session/constants';
 import { DisappearingMessages } from '../session/disappearing_messages';
 import { TimerOptions } from '../session/disappearing_messages/timerOptions';
-import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import {
+  OpenGroupVisibleMessage,
+  OpenGroupVisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import {
   VisibleMessage,
   VisibleMessageParams,
@@ -845,7 +848,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const { body, attachments, preview, quote, fileIdsToLink } = await this.uploadData();
 
       if (conversation.isPublic()) {
-        const openGroupParams: VisibleMessageParams = {
+        const openGroupParams: OpenGroupVisibleMessageParams = {
           identifier: this.id,
           timestamp: GetNetworkTime.getNowWithNetworkOffset(),
           lokiProfile: UserUtils.getOurProfile(),
@@ -871,17 +874,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       const timestamp = Date.now(); // force a new timestamp to handle user fixed his clock;
+      const expireTimer = conversation.getExpireTimer();
+      const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+        conversation,
+        expireTimer,
+        conversation.getExpirationMode()
+      );
 
-      const chatParams = {
+      const chatParams: VisibleMessageParams = {
         identifier: this.id,
         body,
         timestamp,
-        expireTimer: this.getExpireTimer(),
         attachments,
         preview: preview ? [preview] : [],
-        reacts: this.get('reacts'),
         quote,
         lokiProfile: UserUtils.getOurProfile(),
+        expirationType,
+        expireTimer,
       };
       if (!chatParams.lokiProfile) {
         delete chatParams.lokiProfile;

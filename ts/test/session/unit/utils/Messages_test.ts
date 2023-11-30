@@ -32,7 +32,6 @@ const { expect } = chai;
 const sharedNoExpire = {
   expireTimer: null,
   expirationType: null,
-  lastDisappearingMessageChangeTimestamp: null,
 };
 
 describe('Message Utils', () => {

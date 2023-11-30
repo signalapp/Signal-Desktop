@@ -325,7 +325,6 @@ export async function handleNewClosedGroup(
             ? 'deleteAfterSend'
             : 'legacy',
         providedExpireTimer: expireTimer,
-        providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
         providedSource: sender,
         receivedAt: GetNetworkTime.getNowWithNetworkOffset(),
         fromSync: fromLegacyConfig,
@@ -933,6 +932,8 @@ async function sendLatestKeyPairToUsers(
         groupId: groupPubKey,
         timestamp: Date.now(),
         encryptedKeyPairs: wrappers,
+        expirationType: null,
+        expireTimer: null,
       });
 
       // the encryption keypair is sent using established channels

@@ -280,7 +280,7 @@ function changeToDisappearingConversationMode(
 async function checkForExpireUpdateInContentMessage(
   content: SignalService.Content,
   convoToUpdate: ConversationModel,
-  isOutgoing?: boolean
+  _isOutgoing?: boolean
 ): Promise<DisappearingMessageUpdate | undefined> {
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
@@ -295,9 +295,7 @@ async function checkForExpireUpdateInContentMessage(
     dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
   const isLegacyConversationSettingMessage = isDisappearingMessagesV2Released
-    ? (isLegacyDataMessage ||
-        (couldBeLegacyContentMessage && !content.lastDisappearingMessageChangeTimestamp)) &&
-      hasExpirationUpdateFlags
+    ? (isLegacyDataMessage || couldBeLegacyContentMessage) && hasExpirationUpdateFlags
     : couldBeLegacyContentMessage && hasExpirationUpdateFlags;
 
   const expirationTimer = isLegacyDataMessage
@@ -311,46 +309,6 @@ async function checkForExpireUpdateInContentMessage(
     expirationTimer
   );
 
-  const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
-    ? Number(content.lastDisappearingMessageChangeTimestamp)
-    : undefined;
-
-  // NOTE if we are checking an outgoing content message then the conversation's lastDisappearingMessageChangeTimestamp has just been set to match the content message so it can't be outdated if equal
-  if (
-    (lastDisappearingMessageChangeTimestamp &&
-      convoToUpdate.getLastDisappearingMessageChangeTimestamp() &&
-      convoToUpdate.getLastDisappearingMessageChangeTimestamp() >
-        lastDisappearingMessageChangeTimestamp) ||
-    (hasExpirationUpdateFlags &&
-      convoToUpdate.getLastDisappearingMessageChangeTimestamp() ===
-        lastDisappearingMessageChangeTimestamp)
-  ) {
-    // Note: when we receive incoming messages, they will all have the same lastDisappearingMessageChangeTimestamp corresponding to when the latest change was made.
-    // Those incoming messages are *not* outdated, but a change asking for the same change would be outdated.
-
-    window.log.debug(
-      `[checkForExpireUpdateInContentMessage] This is an outdated ${
-        isOutgoing ? 'outgoing' : 'incoming'
-      } disappearing message setting for ${convoToUpdate.get(
-        'id'
-      )}. So we will ignore it. Current lastDisappearingMessageChangeTimestamp: ${convoToUpdate.get(
-        'lastDisappearingMessageChangeTimestamp'
-      )} New lastDisappearingMessageChangeTimestamp: ${lastDisappearingMessageChangeTimestamp}\n\ncontent: ${JSON.stringify(
-        content
-      )}`
-    );
-
-    return {
-      expirationType: changeToDisappearingMessageType(
-        convoToUpdate,
-        expirationTimer,
-        expirationMode
-      ),
-      expirationTimer,
-      isOutdated: true,
-    };
-  }
-
   const shouldDisappearButIsntMessage = checkShouldDisappearButIsntMessage(
     content,
     convoToUpdate,
@@ -361,7 +319,6 @@ async function checkForExpireUpdateInContentMessage(
   const expireUpdate: DisappearingMessageUpdate = {
     expirationType: changeToDisappearingMessageType(convoToUpdate, expirationTimer, expirationMode),
     expirationTimer,
-    lastDisappearingMessageChangeTimestamp,
     isLegacyConversationSettingMessage,
     isLegacyDataMessage,
     isDisappearingMessagesV2Released,
@@ -470,9 +427,7 @@ function getMessageReadyToDisappear(
   const {
     expirationType,
     expirationTimer: expireTimer,
-    lastDisappearingMessageChangeTimestamp,
     isLegacyConversationSettingMessage,
-    isDisappearingMessagesV2Released,
   } = expireUpdate;
 
   messageModel.set({
@@ -482,7 +437,7 @@ function getMessageReadyToDisappear(
 
   // This message is an ExpirationTimerUpdate
   if (
-    (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) &&
+    isLegacyConversationSettingMessage &&
     messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
   ) {
     const previousExpirationMode = conversationModel.getExpirationMode();
@@ -503,11 +458,6 @@ function getMessageReadyToDisappear(
     const expirationTimerUpdate = {
       expirationType,
       expireTimer,
-      lastDisappearingMessageChangeTimestamp: isLegacyConversationSettingMessage
-        ? isDisappearingMessagesV2Released
-          ? 0
-          : GetNetworkTime.getNowWithNetworkOffset()
-        : Number(lastDisappearingMessageChangeTimestamp),
       source: messageModel.get('source'),
     };
 

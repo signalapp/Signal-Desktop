@@ -11,7 +11,6 @@ import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
@@ -379,19 +378,15 @@ export async function setDisappearingMessagesByConvoId(
     return;
   }
 
-  const providedChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
-
   if (!expirationMode || expirationMode === 'off' || !seconds || seconds <= 0) {
     await conversation.updateExpireTimer({
       providedDisappearingMode: 'off',
       providedExpireTimer: 0,
-      providedChangeTimestamp,
     });
   } else {
     await conversation.updateExpireTimer({
       providedDisappearingMode: expirationMode,
       providedExpireTimer: seconds,
-      providedChangeTimestamp,
     });
   }
 }

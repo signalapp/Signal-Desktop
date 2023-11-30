@@ -242,7 +242,6 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
               : 'legacy'
             : 'off',
         providedExpireTimer: wrapperNoteToSelfExpirySeconds,
-        providedChangeTimestamp: result.latestEnvelopeTimestamp,
         providedSource: ourConvo.id,
         receivedAt: result.latestEnvelopeTimestamp,
         fromSync: true,
@@ -388,7 +387,6 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         const success = await contactConvo.updateExpireTimer({
           providedDisappearingMode: wrapperConvo.expirationMode,
           providedExpireTimer: wrapperConvo.expirationTimerSeconds,
-          providedChangeTimestamp: result.latestEnvelopeTimestamp,
           providedSource: wrapperConvo.id,
           receivedAt: result.latestEnvelopeTimestamp,
           fromSync: true,
@@ -621,7 +619,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
               : 'legacy'
             : 'off',
         providedExpireTimer: fromWrapper.disappearingTimerSeconds,
-        providedChangeTimestamp: latestEnvelopeTimestamp,
         providedSource: legacyGroupConvo.id,
         receivedAt: latestEnvelopeTimestamp,
         fromSync: true,

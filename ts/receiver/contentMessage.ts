@@ -475,11 +475,6 @@ export async function innerHandleSwarmContentMessage(
         conversationModelForUIUpdate
       );
 
-      if (expireUpdate?.isOutdated) {
-        await removeFromCache(envelope);
-        return;
-      }
-
       // TODO legacy messages support will be removed in a future release
       if (expireUpdate?.isDisappearingMessagesV2Released) {
         await DisappearingMessages.checkHasOutdatedDisappearingMessageClient(

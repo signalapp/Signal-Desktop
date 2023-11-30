@@ -329,10 +329,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.expirationMode = this.getExpirationMode();
     }
 
-    if (this.getLastDisappearingMessageChangeTimestamp()) {
-      toRet.lastDisappearingMessageChangeTimestamp = this.getLastDisappearingMessageChangeTimestamp();
-    }
-
     if (this.getHasOutdatedClient()) {
       toRet.hasOutdatedClient = this.getHasOutdatedClient();
     }
@@ -538,14 +534,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (!sentAt) {
         throw new Error('sendReactMessageJob() sent_at must be set.');
       }
-
-      // an OpenGroupV2 message is just a visible message
+      const expireTimer = this.getExpireTimer();
+      const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+        this,
+        expireTimer,
+        this.getExpirationMode()
+      );
       const chatMessageParams: VisibleMessageParams = {
         body: '',
         // we need to use a new timestamp here, otherwise android&iOS will consider this message as a duplicate and drop the synced reaction
         timestamp: GetNetworkTime.getNowWithNetworkOffset(),
         reaction,
         lokiProfile: UserUtils.getOurProfile(),
+        expirationType,
+        expireTimer,
       };
 
       const shouldApprove = !this.isApproved() && this.isPrivate();
@@ -576,6 +578,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isOpenGroupV2()) {
+        // communities have no expiration timer support, so enforce it here.
+        chatMessageParams.expirationType = null;
+        chatMessageParams.expireTimer = null;
+
         const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
         const roomInfos = this.toOpenGroupV2();
         if (!roomInfos) {
@@ -812,7 +818,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async updateExpireTimer({
     providedDisappearingMode,
     providedExpireTimer,
-    providedChangeTimestamp,
     providedSource,
     receivedAt, // is set if it comes from outside
     fromSync = false, // if the update comes from a config or sync message
@@ -822,7 +827,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }: {
     providedDisappearingMode?: DisappearingMessageConversationModeType;
     providedExpireTimer?: number;
-    providedChangeTimestamp: number;
     providedSource?: string;
     receivedAt?: number; // is set if it comes from outside
     fromSync?: boolean;
@@ -836,24 +840,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     let expirationMode = providedDisappearingMode;
     let expireTimer = providedExpireTimer;
-    const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
     const source = providedSource || UserUtils.getOurPubKeyStrFromCache();
 
     if (expirationMode === undefined || expireTimer === undefined) {
       expirationMode = 'off';
       expireTimer = 0;
-    }
-
-    if (
-      this.getLastDisappearingMessageChangeTimestamp() &&
-      lastDisappearingMessageChangeTimestamp &&
-      this.getLastDisappearingMessageChangeTimestamp() > lastDisappearingMessageChangeTimestamp
-    ) {
-      window.log.debug(
-        '[updateExpireTimer] This is an outdated disappearing message setting',
-        `fromSync:${fromSync} ${existingMessage ? ` messageId: ${existingMessage.get('id')}` : ''}`
-      );
-      return false;
     }
 
     const previousExpirationMode = this.getExpirationMode();
@@ -891,7 +882,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.set({
       expirationMode,
       expireTimer,
-      lastDisappearingMessageChangeTimestamp,
     });
 
     let message: MessageModel | undefined = existingMessage || undefined;
@@ -906,7 +896,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expirationTimerUpdate: {
         expirationType,
         expireTimer,
-        lastDisappearingMessageChangeTimestamp,
         source,
         fromSync,
       },
@@ -979,7 +968,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       timestamp,
       expirationType,
       expireTimer,
-      lastDisappearingMessageChangeTimestamp,
     };
 
     if (this.isMe()) {
@@ -1832,7 +1820,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         attachments,
         expirationType: message.getExpirationType() ?? 'unknown',
         expireTimer: message.getExpireTimer(),
-        lastDisappearingMessageChangeTimestamp: this.getLastDisappearingMessageChangeTimestamp(),
         preview: preview ? [preview] : [],
         quote,
         lokiProfile: UserUtils.getOurProfile(),
@@ -1935,8 +1922,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           chatMessage: chatMessageMediumGroup,
           groupId: destinationPubkey,
           timestamp: sentAt,
-          expirationType: chatMessageParams.expirationType,
-          expireTimer: chatMessageParams.expireTimer,
+          // expirationType & expireTimer are part of the chatMessageMediumGroup object
         });
 
         // we need the return await so that errors are caught in the catch {}
@@ -2380,10 +2366,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public getHasOutdatedClient() {
     return this.get('hasOutdatedClient');
-  }
-
-  public getLastDisappearingMessageChangeTimestamp() {
-    return this.get('lastDisappearingMessageChangeTimestamp');
   }
 
   // #endregion

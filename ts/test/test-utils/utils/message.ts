@@ -35,7 +35,6 @@ export function generateVisibleMessage({
     quote: undefined,
     expirationType: null,
     expireTimer: null,
-    lastDisappearingMessageChangeTimestamp: null,
     lokiProfile: undefined,
     preview: undefined,
   });
@@ -96,9 +95,6 @@ export function generateClosedGroupMessage(
     groupId: groupId ? PubKey.cast(groupId) : generateFakePubKey(),
     timestamp: timestamp || Date.now(),
     chatMessage: generateVisibleMessage(),
-    expirationType: null,
-    expireTimer: null,
-    lastDisappearingMessageChangeTimestamp: null,
   });
 }
 
@@ -159,8 +155,6 @@ export function generateDisappearingVisibleMessage({
       timestamp: timestamp || Date.now(),
       expirationType: expirationTimerUpdate.expirationType || null,
       expireTimer: expirationTimerUpdate.expireTimer,
-      lastDisappearingMessageChangeTimestamp:
-        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp || null,
     });
   }
 
@@ -174,19 +168,16 @@ export function generateDisappearingVisibleMessage({
     expireTimer: expireTimer ?? null,
     lokiProfile: undefined,
     preview: undefined,
-    lastDisappearingMessageChangeTimestamp: null,
   });
 }
 
 export function generateFakeExpirationTimerUpdate({
   expirationType,
   expireTimer,
-  lastDisappearingMessageChangeTimestamp,
   source = '',
 }: {
   expirationType: DisappearingMessageType;
   expireTimer: number;
-  lastDisappearingMessageChangeTimestamp: number;
   source?: string;
 }): MessageModel {
   const convoId = TestUtils.generateFakePubKeyStr();
@@ -199,7 +190,6 @@ export function generateFakeExpirationTimerUpdate({
     expirationTimerUpdate: {
       expirationType,
       expireTimer,
-      lastDisappearingMessageChangeTimestamp,
       source,
     },
     flags: 2,

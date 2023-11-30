@@ -439,23 +439,10 @@ export async function handleMessageJob(
         expirationTimerUpdate?.expirationType,
         expireTimerUpdate
       );
-      const lastDisappearingMessageChangeTimestamp =
-        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp;
-
-      if (!lastDisappearingMessageChangeTimestamp) {
-        window.log.debug(
-          `The ExpirationTimerUpdate's lastDisappearingMessageChangeTimestamp is missing. message model: ${messageModel.get(
-            'id'
-          )}\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
-        );
-        confirm?.();
-        return;
-      }
 
       await conversation.updateExpireTimer({
         providedDisappearingMode: expirationModeUpdate,
         providedExpireTimer: expireTimerUpdate,
-        providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
         providedSource: source,
         fromSync: source === UserUtils.getOurPubKeyStrFromCache(),
         receivedAt: messageModel.get('received_at'),

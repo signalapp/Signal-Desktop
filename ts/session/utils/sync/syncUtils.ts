@@ -333,7 +333,6 @@ const buildSyncVisibleMessage = (
     syncTarget,
     expireTimer: expireUpdate?.expirationTimer || dataMessageExpireTimer,
     expirationType: expireUpdate?.expirationType || null,
-    lastDisappearingMessageChangeTimestamp: null,
   });
 };
 
@@ -343,18 +342,13 @@ const buildSyncExpireTimerMessage = (
   timestamp: number,
   syncTarget: string
 ) => {
-  const {
-    expirationType,
-    expirationTimer: expireTimer,
-    lastDisappearingMessageChangeTimestamp,
-  } = expireUpdate;
+  const { expirationType, expirationTimer: expireTimer } = expireUpdate;
 
   return new ExpirationTimerUpdateMessage({
     identifier,
     timestamp,
     expirationType,
     expireTimer,
-    lastDisappearingMessageChangeTimestamp: lastDisappearingMessageChangeTimestamp ?? null,
     syncTarget,
   });
 };
@@ -391,13 +385,8 @@ export const buildSyncMessage = (
 
   if (
     dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
-    !isEmpty(expireUpdate) &&
-    expireUpdate.lastDisappearingMessageChangeTimestamp
+    !isEmpty(expireUpdate)
   ) {
-    if (expireUpdate.isOutdated) {
-      return null;
-    }
-
     const expireTimerSyncMessage = buildSyncExpireTimerMessage(
       identifier,
       expireUpdate,

@@ -75,7 +75,6 @@ message Content {
   optional SharedConfigMessage        sharedConfigMessage        = 11;
   optional ExpirationType             expirationType             = 12;
   optional uint32                     expirationTimer            = 13;
-  optional uint64                     lastDisappearingMessageChangeTimestamp = 14;
 }
 
 message KeyPair {

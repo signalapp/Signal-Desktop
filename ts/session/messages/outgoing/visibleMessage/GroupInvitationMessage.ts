@@ -16,7 +16,6 @@ export class GroupInvitationMessage extends VisibleMessage {
       identifier: params.identifier,
       expirationType: params.expirationType,
       expireTimer: params.expireTimer,
-      lastDisappearingMessageChangeTimestamp: params.lastDisappearingMessageChangeTimestamp,
     });
     this.url = params.url;
     this.name = params.name;

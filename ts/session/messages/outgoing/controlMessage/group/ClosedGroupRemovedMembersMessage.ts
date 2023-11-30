@@ -14,7 +14,6 @@ export class ClosedGroupRemovedMembersMessage extends ClosedGroupMessage {
       timestamp: params.timestamp,
       identifier: params.identifier,
       groupId: params.groupId,
-      lastDisappearingMessageChangeTimestamp: params.lastDisappearingMessageChangeTimestamp,
       expirationType: params.expirationType,
       expireTimer: params.expireTimer,
     });
