@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
+    "messageformat": "Er is een databasefout opgetreden. Je kunt de foutmelding kopiëren en contact opnemen met Signal-support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kun je je gegevens wissen en opnieuw opstarten.\n\nGa naar {link} voor contact met support",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -1786,27 +1786,27 @@
     "description": "Label in the calling lobby indicating that your camera is off"
   },
   "icu:calling__pre-call-info--empty-group": {
-    "messageformat": "Er is niemand in de groepsoproep. Klik op ‘Oproep beginnen’ om een oproep te beginnen.",
+    "messageformat": "Er is niemand hier",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--1-person-in-call": {
-    "messageformat": "{first} is aanwezig in de oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
+    "messageformat": "{first} is aanwezig in de oproep.",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--another-device-in-call": {
-    "messageformat": "Een van je andere apparaten neemt deel aan deze oproep. Klik op ‘Aan oproep deelnemen’ om ook vanaf dit apparaat deel te nemen.",
+    "messageformat": "Een van je andere apparaten neemt deel aan deze oproep.",
     "description": "Shown in the calling lobby to describe when it is just you"
   },
   "icu:calling__pre-call-info--2-people-in-call": {
-    "messageformat": "{first} en {second} zijn aanwezig in deze oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
+    "messageformat": "{first} en {second} zijn aanwezig in deze oproep.",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--3-people-in-call": {
-    "messageformat": "{first}, {second} en {third} zijn aanwezig in deze oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
+    "messageformat": "{first}, {second} en {third} zijn aanwezig in deze oproep.",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second} en {others} anderen zijn aanwezig in deze oproep. Klik op ‘Aan oproep deelnemen’ om zelf deel te nemen.",
+    "messageformat": "{first}, {second} en {others} anderen zijn aanwezig in deze oproep.",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1842,7 +1842,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
-    "messageformat": "Er is niemand in de groepsoproep. Klik op ‘Oproep beginnen’ om een oproep te beginnen.",
+    "messageformat": "Er is niemand hier",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call--one": {
@@ -3641,23 +3641,23 @@
     "description": "Title for picture-in-picture toggle"
   },
   "icu:calling__change-view": {
-    "messageformat": "Change view",
+    "messageformat": "Weergave wijzigen",
     "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
   "icu:calling__view_mode--paginated": {
-    "messageformat": "Grid view",
+    "messageformat": "Rasterweergave",
     "description": "Label for option to view participants in a group call in a paginated grid view"
   },
   "icu:calling__view_mode--overflow": {
-    "messageformat": "Sidebar view",
+    "messageformat": "Zijbalkweergave",
     "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
   },
   "icu:calling__view_mode--speaker": {
-    "messageformat": "Speaker view",
+    "messageformat": "Sprekerweergave",
     "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
   },
   "icu:calling__view_mode--updated": {
-    "messageformat": "View updated",
+    "messageformat": "Weergave bijgewerkt",
     "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
@@ -3829,7 +3829,7 @@
     "description": "Shown when you click on a group link to confirm, if it requires admin approval"
   },
   "icu:GroupV2--join--join-button": {
-    "messageformat": "Aan oproep deelnemen",
+    "messageformat": "Deelnemen",
     "description": "The button to join the group"
   },
   "icu:GroupV2--join--request-to-join-button": {
@@ -3993,27 +3993,27 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
-    "messageformat": "Je hebt de beheerderstoestemming-vereiste om via de groepslink lid te mogen worden uitgeschakeld.",
+    "messageformat": "Je hebt beheerdersgoedkeuring van nieuwe leden uitgeschakeld voor de groepslink.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--disabled--other": {
-    "messageformat": "{adminName} heeft de beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep uitgeschakeld.",
+    "messageformat": "{adminName} heeft beheerdersgoedkeuring van nieuwe leden uitgeschakeld voor de groepslink.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--disabled--unknown": {
-    "messageformat": "De beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep is uitgeschakeld.",
+    "messageformat": "Beheerdersgoedkeuring van nieuwe leden is uitgeschakeld voor de groepslink.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--enabled--you": {
-    "messageformat": "Je hebt de beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep ingeschakeld.",
+    "messageformat": "Je hebt beheerdersgoedkeuring van nieuwe leden ingeschakeld voor de groepslink.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--enabled--other": {
-    "messageformat": "{adminName} heeft de beheerderstoestemming-vereiste voor personen die lid willen worden via de groepslink ingeschakeld.",
+    "messageformat": "{adminName} heeft beheerdersgoedkeuring van nieuwe leden ingeschakeld voor de groepslink.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--enabled--unknown": {
-    "messageformat": "De beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep is ingeschakeld.",
+    "messageformat": "Beheerdersgoedkeuring van nieuwe leden is ingeschakeld voor de groepslink.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--invited--you": {
@@ -4333,27 +4333,27 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
-    "messageformat": "Je hebt de groepslink ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
+    "messageformat": "Je hebt de groepslink ingeschakeld zonder vereiste beheerdersgoedkeuring van nieuwe leden.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--other": {
-    "messageformat": "{adminName} heeft de groepslink ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
+    "messageformat": "{adminName} heeft de groepslink ingeschakeld zonder vereiste beheerdersgoedkeuring van nieuwe leden.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--unknown": {
-    "messageformat": "De groepslink is ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
+    "messageformat": "De groepslink is ingeschakeld zonder vereiste beheerdersgoedkeuring van nieuwe leden.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--you": {
-    "messageformat": "Je hebt de groepslink ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
+    "messageformat": "Je hebt de groepslink ingeschakeld met vereiste beheerdersgoedkeuring van nieuwe leden.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--other": {
-    "messageformat": "{adminName} heeft de groepslink ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
+    "messageformat": "{adminName} heeft de groepslink ingeschakeld met vereiste beheerdersgoedkeuring van nieuwe leden.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--unknown": {
-    "messageformat": "De groepslink is ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
+    "messageformat": "De groepslink is ingeschakeld met vereiste beheerdersgoedkeuring van nieuwe leden.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-remove--you": {
@@ -4805,11 +4805,11 @@
     "description": "This lets users generate a new group link"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Beheerderstoestemming vereisen",
+    "messageformat": "Nieuwe leden goedkeuren",
     "description": "Title for the approve new members select area"
   },
   "icu:GroupLinkManagement--approve-info": {
-    "messageformat": "Vereis voor iedere persoon die via de groepslink lid wil worden eerst toestemming van een beheerder",
+    "messageformat": "Vereis voor iedere persoon die via de groepslink lid wil worden eerst goedkeuring van een beheerder",
     "description": "Description for the approve new members select area"
   },
   "icu:PendingInvites--tab-requests": {
