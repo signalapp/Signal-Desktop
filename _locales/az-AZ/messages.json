@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
+    "messageformat": "Məlumat bazası ilə əlaqəli xəta baş verdi. Xətanın surətini köçürüb, problemin həlli üçün Signal dəstək xidməti ilə əlaqə saxlaya bilərsiniz. Signal-dan elə indi istifadə etmək üçün verilənlərinizi silib yenidən başladın.\n\n{link} keçidinə daxil olaraq dəstək xidməti ilə əlaqə saxlayın.",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -3641,23 +3641,23 @@
     "description": "Title for picture-in-picture toggle"
   },
   "icu:calling__change-view": {
-    "messageformat": "Change view",
+    "messageformat": "Görünüşü dəyiş",
     "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
   "icu:calling__view_mode--paginated": {
-    "messageformat": "Grid view",
+    "messageformat": "Tor görünüşü",
     "description": "Label for option to view participants in a group call in a paginated grid view"
   },
   "icu:calling__view_mode--overflow": {
-    "messageformat": "Sidebar view",
+    "messageformat": "Yan panel görünüşü",
     "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
   },
   "icu:calling__view_mode--speaker": {
-    "messageformat": "Speaker view",
+    "messageformat": "Reproduktor görünüşü",
     "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
   },
   "icu:calling__view_mode--updated": {
-    "messageformat": "View updated",
+    "messageformat": "Görünüş yeniləndi",
     "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
