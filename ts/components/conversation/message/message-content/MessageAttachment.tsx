@@ -186,6 +186,7 @@ export const MessageAttachment = (props: Props) => {
       highlight={highlight}
       selected={selected}
       className={'module-message__generic-attachment'}
+      onClick={onClickOnGenericAttachment}
     >
       {pending ? (
         <div className="module-message__generic-attachment__spinner-container">
@@ -196,7 +197,6 @@ export const MessageAttachment = (props: Props) => {
           <div
             role="button"
             className="module-message__generic-attachment__icon"
-            onClick={onClickOnGenericAttachment}
           >
             {extension ? (
               <div className="module-message__generic-attachment__icon__extension">{extension}</div>
