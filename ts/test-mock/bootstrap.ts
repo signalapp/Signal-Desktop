@@ -63,8 +63,6 @@ for (const firstName of CONTACT_FIRST_NAMES) {
 
 const MAX_CONTACTS = CONTACT_NAMES.length;
 
-const DEFAULT_START_APP_TIMEOUT = 10 * durations.SECOND;
-
 export type BootstrapOptions = Readonly<{
   extraConfig?: Record<string, unknown>;
   benchmark?: boolean;
@@ -268,12 +266,7 @@ export class Bootstrap {
     await app.close();
   }
 
-  private async waitForAppToStart(app: App): Promise<void> {
-    await app.start();
-    await app.waitForDbInitialized();
-  }
-
-  public async startApp(timeout = DEFAULT_START_APP_TIMEOUT): Promise<App> {
+  public async startApp(): Promise<App> {
     assert(
       this.storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
@@ -301,11 +294,11 @@ export class Bootstrap {
       });
       try {
         // eslint-disable-next-line no-await-in-loop
-        await pTimeout(this.waitForAppToStart(startedApp), timeout);
+        await startedApp.start();
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(
-          `Failed to start the app on time, attempt ${startAttempts}, retrying`,
+          `Failed to start the app, attempt ${startAttempts}, retrying`,
           error
         );
         continue;
@@ -440,6 +433,9 @@ export class Bootstrap {
 
     try {
       await pTimeout(fn(bootstrap), timeout);
+      if (process.env.FORCE_ARTIFACT_SAVE) {
+        await bootstrap.saveLogs();
+      }
     } catch (error) {
       await bootstrap.saveLogs();
       throw error;

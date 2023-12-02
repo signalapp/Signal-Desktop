@@ -4,6 +4,7 @@
 import type { ElectronApplication, Locator, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
 import { EventEmitter } from 'events';
+import pTimeout from 'p-timeout';
 
 import type {
   IPCRequest as ChallengeRequestType,
@@ -51,15 +52,31 @@ export class App extends EventEmitter {
   }
 
   public async start(): Promise<void> {
-    this.privApp = await electron.launch({
-      executablePath: this.options.main,
-      args: this.options.args.slice(),
-      env: {
-        ...process.env,
-        SIGNAL_CI_CONFIG: this.options.config,
-      },
-      locale: 'en',
-    });
+    try {
+      // launch the electron processs
+      this.privApp = await electron.launch({
+        executablePath: this.options.main,
+        args: this.options.args.slice(),
+        env: {
+          ...process.env,
+          SIGNAL_CI_CONFIG: this.options.config,
+        },
+        locale: 'en',
+        timeout: 20 * SECOND,
+      });
+
+      // wait for the first window to load
+      await pTimeout(
+        (async () => {
+          const page = await this.privApp?.firstWindow();
+          await page?.waitForLoadState('load');
+        })(),
+        20 * SECOND
+      );
+    } catch (e) {
+      this.privApp?.process().kill('SIGKILL');
+      throw e;
+    }
 
     this.privApp.on('close', () => this.emit('close'));
   }
