@@ -31,7 +31,7 @@ import type {
   AttachmentWithHydratedData,
 } from '../../types/Attachment';
 import { copyCdnFields } from '../../util/attachments';
-import { LONG_MESSAGE, MIMETypeToString } from '../../types/MIME';
+import { LONG_MESSAGE } from '../../types/MIME';
 import type { RawBodyRange } from '../../types/BodyRange';
 import type {
   EmbeddedContactWithHydratedAvatar,
@@ -796,7 +796,7 @@ async function uploadMessageQuote({
         const uploaded = await uploadAttachment(thumbnail);
 
         return {
-          contentType: MIMETypeToString(thumbnail.contentType),
+          contentType: attachment.contentType,
           fileName: attachment.fileName,
           thumbnail: uploaded,
         };
