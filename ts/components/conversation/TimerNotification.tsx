@@ -1,15 +1,146 @@
 import React from 'react';
 
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 import { isLegacyDisappearingModeEnabled } from '../../session/disappearing_messages/legacy';
+import { UserUtils } from '../../session/utils';
+import {
+  useSelectedConversationDisappearingMode,
+  useSelectedConversationKey,
+  useSelectedExpireTimer,
+  useSelectedIsNoteToSelf,
+  useSelectedIsPrivate,
+  useSelectedIsPrivateFriend,
+} from '../../state/selectors/selectedConversation';
+import { ReleasedFeatures } from '../../util/releaseFeature';
 import { Flex } from '../basic/Flex';
 import { Text } from '../basic/Text';
 import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
+// eslint-disable-next-line import/order
+import { pick } from 'lodash';
+import { ConversationInteraction } from '../../interactions';
+import { getConversationController } from '../../session/conversations';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { SessionButtonColor } from '../basic/SessionButton';
 
-export const TimerNotification = (props: PropsForExpirationTimer) => {
-  const { messageId, pubkey, profileName, expirationMode, timespan, type, disabled } = props;
+const FollowSettingButton = styled.button`
+  color: var(--primary-color);
+`;
+
+function useFollowSettingsButtonClick(
+  props: Pick<
+    PropsForExpirationTimer,
+    'disabled' | 'expirationMode' | 'timespanText' | 'timespanSeconds'
+  >
+) {
+  const selectedConvoKey = useSelectedConversationKey();
+  const dispatch = useDispatch();
+  const onExit = () => dispatch(updateConfirmModal(null));
+
+  const doIt = () => {
+    const mode =
+      props.expirationMode === 'deleteAfterRead'
+        ? window.i18n('timerModeRead')
+        : window.i18n('timerModeSent');
+    const message = props.disabled
+      ? window.i18n('followSettingDisabled')
+      : window.i18n('followSettingTimeAndType', [props.timespanText, mode]);
+    const okText = props.disabled ? window.i18n('confirm') : window.i18n('set');
+    dispatch(
+      updateConfirmModal({
+        title: window.i18n('followSetting'),
+        message,
+        okText,
+        okTheme: SessionButtonColor.Danger,
+        onClickOk: async () => {
+          if (!selectedConvoKey) {
+            throw new Error('no selected convokey');
+          }
+          const convo = getConversationController().get(selectedConvoKey);
+          if (!convo) {
+            throw new Error('no selected convo');
+          }
+          if (!convo.isPrivate()) {
+            throw new Error('follow settings only work for private chats');
+          }
+          if (props.expirationMode === 'legacy') {
+            throw new Error('follow setting does not apply with legacy');
+          }
+          if (props.expirationMode !== 'off' && !props.timespanSeconds) {
+            throw new Error('non-off mode requires seconds arg to be given');
+          }
+          await ConversationInteraction.setDisappearingMessagesByConvoId(
+            selectedConvoKey,
+            props.expirationMode,
+            props.timespanSeconds ?? undefined
+          );
+        },
+        showExitIcon: true,
+        onClickClose: onExit,
+      })
+    );
+  };
+  return { doIt };
+}
+
+function useAreSameThanOurSide(
+  props: Pick<PropsForExpirationTimer, 'disabled' | 'expirationMode' | 'timespanSeconds'>
+) {
+  const selectedMode = useSelectedConversationDisappearingMode();
+  const selectedTimestan = useSelectedExpireTimer();
+  if (props.disabled && (selectedMode === 'off' || selectedMode === undefined)) {
+    return true;
+  }
+
+  if (props.expirationMode === selectedMode && props.timespanSeconds === selectedTimestan) {
+    return true;
+  }
+  return false;
+}
+
+const FollowSettingsButton = (props: PropsForExpirationTimer) => {
+  const v2Released = ReleasedFeatures.isUserConfigFeatureReleasedCached();
+  const isPrivateAndFriend = useSelectedIsPrivateFriend();
+  const click = useFollowSettingsButtonClick(
+    pick(props, ['disabled', 'expirationMode', 'timespanText', 'timespanSeconds'])
+  );
+  const areSameThanOurs = useAreSameThanOurSide(
+    pick(props, ['disabled', 'expirationMode', 'timespanSeconds'])
+  );
+
+  if (!v2Released || !isPrivateAndFriend) {
+    return null;
+  }
+  if (
+    props.type === 'fromMe' ||
+    props.type === 'fromSync' ||
+    props.pubkey === UserUtils.getOurPubKeyStrFromCache() ||
+    areSameThanOurs
+  ) {
+    return null;
+  }
+
+  return (
+    <FollowSettingButton
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onClick={() => click.doIt()}
+    >
+      {window.i18n('followSetting')}
+    </FollowSettingButton>
+  );
+};
+
+function useTextToRender(props: PropsForExpirationTimer) {
+  const { pubkey, profileName, expirationMode, timespanText, type, disabled } = props;
+
+  const isV2Released = ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached();
+  const isPrivate = useSelectedIsPrivate();
+  const isMe = useSelectedIsNoteToSelf();
+  const ownSideOnly = isV2Released && isPrivate && !isMe;
+  // when v2 is released, and this is a private chat, the settings are for the outgoing messages of whoever made the change only
 
   const contact = profileName || pubkey;
   // TODO legacy messages support will be removed in a future release
@@ -18,27 +149,42 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
     : expirationMode === 'deleteAfterRead'
     ? window.i18n('timerModeRead')
     : window.i18n('timerModeSent');
-
-  let textToRender: string | undefined;
   switch (type) {
     case 'fromOther':
-      textToRender = disabled
-        ? window.i18n('disabledDisappearingMessages', [contact, timespan])
+      return disabled
+        ? window.i18n(
+            ownSideOnly ? 'theyDisabledTheirDisappearingMessages' : 'disabledDisappearingMessages',
+            [contact, timespanText]
+          )
         : mode
-        ? window.i18n('theyChangedTheTimer', [contact, timespan, mode])
-        : window.i18n('theyChangedTheTimerLegacy', [contact, timespan]);
-      break;
+        ? window.i18n(ownSideOnly ? 'theySetTheirDisappearingMessages' : 'theyChangedTheTimer', [
+            contact,
+            timespanText,
+            mode,
+          ])
+        : window.i18n('theyChangedTheTimerLegacy', [contact, timespanText]);
     case 'fromMe':
     case 'fromSync':
-      textToRender = disabled
-        ? window.i18n('youDisabledDisappearingMessages')
+      return disabled
+        ? window.i18n(
+            ownSideOnly ? 'youDisabledYourDisappearingMessages' : 'youDisabledDisappearingMessages'
+          )
         : mode
-        ? window.i18n('youChangedTheTimer', [timespan, mode])
-        : window.i18n('youChangedTheTimerLegacy', [timespan]);
-      break;
+        ? window.i18n(ownSideOnly ? 'youSetYourDisappearingMessages' : 'youChangedTheTimer', [
+            timespanText,
+            mode,
+          ])
+        : window.i18n('youChangedTheTimerLegacy', [timespanText]);
     default:
       assertUnreachable(type, `TimerNotification: Missing case error "${type}"`);
   }
+  throw new Error('unhandled case');
+}
+
+export const TimerNotification = (props: PropsForExpirationTimer) => {
+  const { messageId } = props;
+
+  const textToRender = useTextToRender(props);
 
   if (!textToRender || textToRender.length === 0) {
     throw new Error('textToRender invalid key used TimerNotification');
@@ -63,6 +209,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         style={{ textAlign: 'center' }}
       >
         <Text text={textToRender} subtle={true} />
+        <FollowSettingsButton {...props} />
       </Flex>
     </ExpirableReadableMessage>
   );

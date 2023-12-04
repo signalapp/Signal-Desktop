@@ -119,6 +119,7 @@ import {
 
 import { DisappearingMessages } from '../session/disappearing_messages';
 import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
+import { ReleasedFeatures } from '../util/releaseFeature';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 
 type InMemoryConvoInfos = {
@@ -806,7 +807,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * Updates the disappearing message settings for this conversation and sends an ExpirationTimerUpdate message if required
    * @param providedDisappearingMode
    * @param providedExpireTimer
-   * @param providedChangeTimestamp the timestamp of when the change was made
    * @param providedSource the pubkey of the user who made the change
    * @param receivedAt the timestamp of when the change was received
    * @param fromSync if the change was made from a sync message
@@ -820,7 +820,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedExpireTimer,
     providedSource,
     receivedAt, // is set if it comes from outside
-    fromSync = false, // if the update comes from a config or sync message
+    fromSync, // if the update comes from a config or sync message
+    fromCurrentDevice,
     shouldCommitConvo = true,
     shouldCommitMessage = true,
     existingMessage,
@@ -829,14 +830,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedExpireTimer?: number;
     providedSource?: string;
     receivedAt?: number; // is set if it comes from outside
-    fromSync?: boolean;
+    fromSync: boolean;
+    fromCurrentDevice: boolean;
     shouldCommitConvo?: boolean;
     shouldCommitMessage?: boolean;
     existingMessage?: MessageModel;
   }): Promise<boolean> {
+    const isRemoteChange = Boolean((receivedAt || fromSync) && !fromCurrentDevice);
+
     if (this.isPublic()) {
-      window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
-      return false;
+      throw new Error("updateExpireTimer() Disappearing messages aren't supported in communities");
     }
     let expirationMode = providedDisappearingMode;
     let expireTimer = providedExpireTimer;
@@ -846,25 +849,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expirationMode = 'off';
       expireTimer = 0;
     }
-
-    const previousExpirationMode = this.getExpirationMode();
-    const previousExpirationTimer = this.getExpireTimer();
-
-    if (
-      isEqual(expirationMode, previousExpirationMode) &&
-      isEqual(expireTimer, previousExpirationTimer)
-    ) {
-      window.log.debug(
-        `[updateExpireTimer]  Ignoring ExpireTimerUpdate ${
-          fromSync ? 'config/sync ' : ''
-        }message as we already have the same one set.${
-          existingMessage ? ` messageId: ${existingMessage.get('id')}` : ''
-        }`
-      );
-      return false;
-    }
-
-    const isOutgoing = Boolean(!receivedAt);
 
     // When we add a disappearing messages notification to the conversation, we want it
     // to be above the message that initiated that change, hence the subtraction.
@@ -879,12 +863,31 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       oldExpirationMode
     );
 
-    this.set({
-      expirationMode,
-      expireTimer,
-    });
+    const isV2DisappearReleased = ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached();
 
-    let message: MessageModel | undefined = existingMessage || undefined;
+    // when the v2 disappear is released, the changes we make are only for our outgoing messages, not shared with a contact anymore
+    if (isV2DisappearReleased) {
+      if (!this.isPrivate()) {
+        this.set({
+          expirationMode,
+          expireTimer,
+        });
+      } else if (fromSync || fromCurrentDevice) {
+        // v2 is live, this is a private chat and a change we made, set the setting to what was given, otherwise discard it
+        this.set({
+          expirationMode,
+          expireTimer,
+        });
+      }
+    } else {
+      // v2 is not live, we apply the setting we get blindly
+      this.set({
+        expirationMode,
+        expireTimer,
+      });
+    }
+
+    let message = existingMessage || undefined;
     const expirationType = DisappearingMessages.changeToDisappearingMessageType(
       this,
       expireTimer,
@@ -899,12 +902,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         source,
         fromSync,
       },
-      expirationType: expireTimer === 0 ? oldExpirationType : expirationType,
-      expireTimer: expireTimer === 0 ? oldExpireTimer : expireTimer,
     };
 
     if (!message) {
-      if (isOutgoing) {
+      if (!receivedAt) {
+        // outgoing message
         message = await this.addSingleOutgoingMessage({
           ...commonAttributes,
           sent_at: timestamp,
@@ -919,12 +921,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           received_at: timestamp,
         });
       }
-    } else {
-      message.set({
-        expirationType: expireTimer === 0 ? oldExpirationType : expirationType,
-        expireTimer: expireTimer === 0 ? oldExpireTimer : expireTimer,
-      });
     }
+    // force that message to expire with the old disappear setting when the setting was turned off.
+    // this is to make the update to 'off' disappear with the previous disappearing message setting
+    message.set({
+      expirationType: expireTimer === 0 ? oldExpirationType : expirationType,
+      expireTimer: expireTimer === 0 ? oldExpireTimer : expireTimer,
+    });
 
     if (this.isActive()) {
       this.set('active_at', timestamp);
@@ -936,9 +939,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // if change was made remotely, don't send it to the contact/group
-    if (receivedAt || fromSync) {
+    if (isRemoteChange) {
       window.log.debug(
-        `[updateExpireTimer] We dont send an ExpireTimerUpdate because this was a remote change receivedAt: ${receivedAt} fromSync: ${fromSync} for ${this.id}`
+        `[updateExpireTimer] remote change, not sending message again. receivedAt: ${receivedAt} fromSync: ${fromSync} fromCurrentDevice: ${fromCurrentDevice} for ${ed25519Str(
+          this.id
+        )}`
       );
 
       if (!message.getExpirationStartTimestamp()) {
@@ -962,9 +967,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
       return true;
     }
-
+    if (shouldCommitMessage) {
+      await message.commit();
+    }
+    //
+    // Below is the "sending the update to the conversation" part.
+    // We would have returned if that message sending part was not needed
+    //
     const expireUpdate = {
-      identifier: message?.id,
+      identifier: message.id,
       timestamp,
       expirationType,
       expireTimer,
@@ -994,18 +1005,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return true;
     }
     if (this.isClosedGroup()) {
-      const expireUpdateForGroup = {
-        ...expireUpdate,
-        groupId: this.get('id'),
-      };
+      if (this.isAdmin(UserUtils.getOurPubKeyStrFromCache())) {
+        const expireUpdateForGroup = {
+          ...expireUpdate,
+          groupId: this.get('id'),
+        };
 
-      const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
+        const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 
-      await getMessageQueue().sendToGroup({
-        message: expirationTimerMessage,
-        namespace: SnodeNamespaces.ClosedGroupMessage,
-      });
-      return true;
+        await getMessageQueue().sendToGroup({
+          message: expirationTimerMessage,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
+        return true;
+      }
+      window.log.warn(
+        'tried to send a disappear update but we are not the creator of that legacy group... Cancelling'
+      );
+      return false;
     }
     throw new Error('Communities should not use disappearing messages');
   }
@@ -2112,7 +2129,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const voiceMessageFlags = messageAttributes.attachments?.[0]?.isVoiceMessage
       ? SignalService.AttachmentPointer.Flags.VOICE_MESSAGE
       : undefined;
-    const model = new MessageModel({ ...messageAttributes, flags: voiceMessageFlags });
+    // eslint-disable-next-line no-bitwise
+    const flags = (messageAttributes?.flags || 0) | (voiceMessageFlags || 0);
+    const model = new MessageModel({
+      ...messageAttributes,
+      flags,
+    });
 
     // no need to trigger a UI update now, we trigger a messagesAdded just below
     const messageId = await model.commit(false);

@@ -188,6 +188,10 @@
   "timer": "Timer",
   "timerModeRead": "read",
   "timerModeSent": "sent",
+  "confirm": "Confirm",
+  "followSetting": "Follow Setting",
+  "followSettingDisabled": "Messages you send will no longer disappear. Are you sure you want to turn off disappearing messages?",
+  "followSettingTimeAndType": "Set your messages to disappear $time$ after they have been $type$?",
   "youChangedTheTimer": "You have set messages to disappear $time$ after they have been $mode$",
   "youChangedTheTimerLegacy": "You set the disappearing message timer to $time$",
   "theyChangedTheTimer": "$name$ has set messages to disappear $time$ after they have been $mode$",
@@ -231,6 +235,10 @@
   "disappearingMessagesDisabled": "Disappearing messages disabled",
   "disabledDisappearingMessages": "$name$ has turned off disappearing messages.",
   "youDisabledDisappearingMessages": "You have turned off disappearing messages.",
+  "youDisabledYourDisappearingMessages": "You turned off disappearing messages. Messages you send will no longer disappear.",
+  "youSetYourDisappearingMessages": "You set your messages to disappear $time$ after they have been $type$.",
+  "theyDisabledTheirDisappearingMessages": "$name$ has turned off disappearing messages. Messages they send will no longer disappear.",
+  "theySetTheirDisappearingMessages": "$name$ has set their messages to disappear $time$ after they have been $type$.",
   "timerSetTo": "Disappearing message time set to $time$",
   "set": "Set",
   "changeNickname": "Change Nickname",
@@ -530,5 +538,6 @@
   "reactionListCountPlural": "And $otherPlural$ have reacted <span>$emoji$</span> to this message",
   "setDisplayPicture": "Set Display Picture",
   "settingAppliesToEveryone": "This setting applies to everyone in this conversation.",
+  "settingAppliesToYourMessages": "This setting applies to messages you send in this conversation.",
   "onlyGroupAdminsCanChange": "Only group admins can change this setting."
 }

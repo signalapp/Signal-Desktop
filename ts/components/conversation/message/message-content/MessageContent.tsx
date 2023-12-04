@@ -5,7 +5,7 @@ import React, { createContext, useCallback, useContext, useLayoutEffect, useStat
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
-import { MessageRenderingProps } from '../../../../models/messageType';
+import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import { StateType } from '../../../../state/reducer';
 import { useHideAvatarInMsgList, useMessageIsDeleted } from '../../../../state/selectors';
 import {
@@ -51,8 +51,10 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
-const StyledMessageContent = styled.div`
+const StyledMessageContent = styled.div<{ msgDirection: MessageModelType }>`
   display: flex;
+
+  align-self: ${props => (props.msgDirection === 'incoming' ? 'flex-start' : 'flex-end')};
 `;
 
 const opacityAnimation = keyframes`
@@ -184,6 +186,7 @@ export const MessageContent = (props: Props) => {
       role="button"
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
+      msgDirection={direction}
     >
       <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
         <MessageAvatar

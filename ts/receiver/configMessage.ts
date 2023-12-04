@@ -51,7 +51,7 @@ import {
   UserGroupsWrapperActions,
 } from '../webworker/workers/browser/libsession_worker_interface';
 import { removeFromCache } from './cache';
-import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGroups';
+import { addKeyPairToCacheAndDBIfNeeded } from './closedGroups';
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
@@ -246,6 +246,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
         receivedAt: result.latestEnvelopeTimestamp,
         fromSync: true,
         shouldCommitConvo: false,
+        fromCurrentDevice: false,
       });
       changes = success;
     }
@@ -390,9 +391,10 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
           providedSource: wrapperConvo.id,
           receivedAt: result.latestEnvelopeTimestamp,
           fromSync: true,
+          fromCurrentDevice: false,
           shouldCommitConvo: false,
         });
-        changes = success;
+        changes = changes || success;
       }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
@@ -623,6 +625,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         receivedAt: latestEnvelopeTimestamp,
         fromSync: true,
         shouldCommitConvo: false,
+        fromCurrentDevice: false,
       });
       changes = success;
     }
@@ -1025,12 +1028,6 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
 
   await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, envelopeTimestamp);
 
-  // we only want to apply changes to closed groups if we never got them
-  // new opengroups get added when we get a new closed group message from someone, or a sync'ed message from outself creating the group
-  if (!lastConfigTimestamp) {
-    await handleClosedGroupsFromConfigLegacy(configMessage.closedGroups, envelope);
-  }
-
   void handleOpenGroupsFromConfigLegacy(configMessage.openGroups);
 
   if (configMessage.contacts?.length) {
@@ -1065,43 +1062,6 @@ const handleOpenGroupsFromConfigLegacy = async (openGroups: Array<string>) => {
       void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
-};
-
-/**
- * Trigger a join for all closed groups which doesn't exist yet
- * @param openGroups string array of open group urls
- */
-const handleClosedGroupsFromConfigLegacy = async (
-  closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
-  envelope: EnvelopePlus
-) => {
-  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
-
-  if (userConfigLibsession && Registration.isDone()) {
-    return;
-  }
-  const numberClosedGroup = closedGroups?.length || 0;
-
-  window?.log?.info(
-    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
-  );
-  await Promise.all(
-    closedGroups.map(async c => {
-      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
-        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
-        encryptionKeyPair: c.encryptionKeyPair,
-        name: c.name,
-        admins: c.admins,
-        members: c.members,
-        publicKey: c.publicKey,
-      });
-      try {
-        await handleNewClosedGroup(envelope, groupUpdate, true);
-      } catch (e) {
-        window?.log?.warn('failed to handle a new closed group from configuration message');
-      }
-    })
-  );
 };
 
 /**

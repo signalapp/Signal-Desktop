@@ -2,7 +2,7 @@
 
 import { AbortController } from 'abort-controller';
 import ByteBuffer from 'bytebuffer';
-import _, { isEmpty, isNil, isString, sample, toNumber } from 'lodash';
+import _, { isEmpty, isNil, isNumber, isString, sample, toNumber } from 'lodash';
 import pRetry from 'p-retry';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
@@ -145,6 +145,9 @@ async function send(
       const isDestinationClosedGroup = getConversationController()
         .get(recipient.key)
         ?.isClosedGroup();
+      const storedAt = batchResult?.[0]?.body?.t;
+      const storedHash = batchResult?.[0]?.body?.hash;
+
       // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
       if (
         encryptedAndWrapped.identifier &&
@@ -152,12 +155,14 @@ async function send(
         batchResult &&
         !isEmpty(batchResult) &&
         batchResult[0].code === 200 &&
-        !isEmpty(batchResult[0].body.hash)
+        !isEmpty(storedHash) &&
+        isString(storedHash) &&
+        isNumber(storedAt)
       ) {
-        const messageSendHash = batchResult[0].body.hash;
+        await Data.saveSeenMessageHashes([{ expiresAt: storedAt + ttl, hash: storedHash }]);
         const foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
         if (foundMessage) {
-          await foundMessage.updateMessageHash(messageSendHash);
+          await foundMessage.updateMessageHash(storedHash);
           const convo = foundMessage.getConversation();
           const expireTimer = foundMessage.getExpireTimer();
           const expirationType = foundMessage.getExpirationType();

@@ -87,7 +87,8 @@ export type PropsForExpiringMessage = {
 
 export type PropsForExpirationTimer = {
   expirationMode: DisappearingMessageConversationModeType;
-  timespan: string;
+  timespanText: string;
+  timespanSeconds: number | null;
   disabled: boolean;
   pubkey: string;
   avatarPath: string | null;

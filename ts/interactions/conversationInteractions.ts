@@ -382,11 +382,15 @@ export async function setDisappearingMessagesByConvoId(
     await conversation.updateExpireTimer({
       providedDisappearingMode: 'off',
       providedExpireTimer: 0,
+      fromSync: false,
+      fromCurrentDevice: true,
     });
   } else {
     await conversation.updateExpireTimer({
       providedDisappearingMode: expirationMode,
       providedExpireTimer: seconds,
+      fromSync: false,
+      fromCurrentDevice: true,
     });
   }
 }

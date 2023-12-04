@@ -32,5 +32,4 @@ export type DisappearingMessageUpdate = {
   isLegacyConversationSettingMessage?: boolean;
   isLegacyDataMessage?: boolean;
   isDisappearingMessagesV2Released?: boolean;
-  shouldDisappearButIsntMessage?: boolean;
 };

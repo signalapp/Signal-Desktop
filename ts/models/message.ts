@@ -193,10 +193,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public isExpirationTimerUpdate() {
     const expirationTimerFlag = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
     const flags = this.get('flags') || 0;
-    const expirationTimerUpdate = this.getExpirationTimerUpdate();
 
     // eslint-disable-next-line no-bitwise
-    return Boolean(flags & expirationTimerFlag) || !isEmpty(expirationTimerUpdate);
+    return Boolean(flags & expirationTimerFlag) && !isEmpty(this.getExpirationTimerUpdate());
   }
 
   public isIncoming() {
@@ -337,12 +336,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expireTimer || 0
     );
 
-    const timespan = TimerOptions.getName(expireTimer || 0);
+    const timespanText = TimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {
       ...findAndFormatContact(source),
-      timespan,
+      timespanText,
+      timespanSeconds: expireTimer || 0,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
       receivedAt: this.get('received_at'),

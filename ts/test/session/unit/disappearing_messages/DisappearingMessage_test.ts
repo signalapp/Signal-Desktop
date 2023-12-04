@@ -560,6 +560,7 @@ describe('DisappearingMessage', () => {
           fromSync: false, // if the update comes from a config or sync message
           shouldCommitConvo: false,
           existingMessage: undefined,
+          fromCurrentDevice: false,
         });
         expect(updateSuccess, 'should be false').to.be.false;
       });
@@ -579,6 +580,7 @@ describe('DisappearingMessage', () => {
           fromSync: false,
           shouldCommitConvo: false,
           existingMessage: undefined,
+          fromCurrentDevice: false,
         });
         expect(updateSuccess, 'should be false').to.be.false;
       });
@@ -600,6 +602,7 @@ describe('DisappearingMessage', () => {
           shouldCommitConvo: false,
           shouldCommitMessage: false,
           existingMessage: undefined,
+          fromCurrentDevice: false,
         });
         expect(updateSuccess, 'should be true').to.be.true;
         expect(

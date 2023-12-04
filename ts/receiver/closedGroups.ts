@@ -121,7 +121,7 @@ export async function handleClosedGroupControlMessage(
       );
       return;
     }
-    await handleNewClosedGroup(envelope, groupUpdate, false);
+    await handleNewClosedGroup(envelope, groupUpdate);
     return;
   }
 
@@ -247,8 +247,7 @@ export async function sentAtMoreRecentThanWrapper(
 
 export async function handleNewClosedGroup(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
-  fromLegacyConfig: boolean
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
 ) {
   if (groupUpdate.type !== SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW) {
     return;
@@ -282,9 +281,8 @@ export async function handleNewClosedGroup(
   const sender = envelope.source;
 
   if (
-    !fromLegacyConfig &&
     (await sentAtMoreRecentThanWrapper(envelopeTimestamp, 'UserGroupsConfig')) ===
-      'wrapper_more_recent'
+    'wrapper_more_recent'
   ) {
     // not from legacy config, so this is a new closed group deposited on our swarm by a user.
     // we do not want to process it if our wrapper is more recent that that invite to group envelope.
@@ -310,10 +308,7 @@ export async function handleNewClosedGroup(
         encryptionKeyPair!.publicKey,
         encryptionKeyPair!.privateKey
       );
-      const isKeyPairAlreadyHere = await addKeyPairToCacheAndDBIfNeeded(
-        groupId,
-        ecKeyPairAlreadyExistingConvo.toHexKeyPair()
-      );
+      await addKeyPairToCacheAndDBIfNeeded(groupId, ecKeyPairAlreadyExistingConvo.toHexKeyPair());
 
       // TODO This is only applicable for old closed groups - will be removed in future
       // TODO legacy messages support will be removed in a future release
@@ -327,20 +322,11 @@ export async function handleNewClosedGroup(
         providedExpireTimer: expireTimer,
         providedSource: sender,
         receivedAt: GetNetworkTime.getNowWithNetworkOffset(),
-        fromSync: fromLegacyConfig,
+        fromSync: false,
+        fromCurrentDevice: false,
       });
 
-      if (isKeyPairAlreadyHere) {
-        window.log.info('Dropping already saved keypair for group', groupId);
-        await removeFromCache(envelope);
-        return;
-      }
-
-      window.log.info(`Received the encryptionKeyPair for new group ${groupId}`);
       await removeFromCache(envelope);
-      window.log.warn(
-        'Closed group message of type NEW: the conversation already exists, but we saved the new encryption keypair'
-      );
       return;
     }
     // convo exists and we left or got kicked, enable typing and continue processing

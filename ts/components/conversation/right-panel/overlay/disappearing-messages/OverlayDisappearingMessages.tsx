@@ -174,7 +174,7 @@ export const OverlayDisappearingMessages = () => {
               ? window.i18n('disappearingMessagesModeAfterReadSubtitle')
               : singleMode === 'deleteAfterSend'
               ? window.i18n('disappearingMessagesModeAfterSendSubtitle')
-              : window.i18n('settingAppliesToEveryone')
+              : window.i18n('settingAppliesToYourMessages')
           }
         />
         <DisappearingModes

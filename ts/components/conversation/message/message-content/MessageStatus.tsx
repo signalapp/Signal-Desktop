@@ -210,7 +210,7 @@ const MessageStatusError = ({ dataTestId }: Props) => {
   const showDebugLog = useCallback(() => {
     ipcRenderer.send('show-debug-log');
   }, []);
-  // when on errro, we do not display the expire timer at all.
+  // when on error, we do not display the expire timer at all.
 
   return (
     <MessageStatusContainer

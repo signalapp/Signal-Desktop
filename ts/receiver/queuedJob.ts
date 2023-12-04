@@ -448,6 +448,7 @@ export async function handleMessageJob(
         receivedAt: messageModel.get('received_at'),
         existingMessage: messageModel,
         shouldCommitConvo: false,
+        fromCurrentDevice: false,
         // NOTE we don't commit yet because we want to get the message id, see below
       });
     } else {

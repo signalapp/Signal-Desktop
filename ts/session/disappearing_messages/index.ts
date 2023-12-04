@@ -13,7 +13,6 @@ import { getConversationController } from '../conversations';
 import { isValidUnixTimestamp } from '../utils/Timestamps';
 import {
   checkIsLegacyDisappearingDataMessage,
-  checkShouldDisappearButIsntMessage,
   couldBeLegacyDisappearingMessageContent,
 } from './legacy';
 import {
@@ -309,20 +308,12 @@ async function checkForExpireUpdateInContentMessage(
     expirationTimer
   );
 
-  const shouldDisappearButIsntMessage = checkShouldDisappearButIsntMessage(
-    content,
-    convoToUpdate,
-    expirationMode,
-    expirationTimer
-  );
-
   const expireUpdate: DisappearingMessageUpdate = {
     expirationType: changeToDisappearingMessageType(convoToUpdate, expirationTimer, expirationMode),
     expirationTimer,
     isLegacyConversationSettingMessage,
     isLegacyDataMessage,
     isDisappearingMessagesV2Released,
-    shouldDisappearButIsntMessage,
   };
 
   // NOTE some platforms do not include the diappearing message values in the Data Message for sent messages so we have to trust the conversation settings until v2 is released
@@ -357,7 +348,7 @@ async function checkForExpireUpdateInContentMessage(
   // NOTE If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings and show the outdated client banner
   if (
     isDisappearingMessagesV2Released &&
-    (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
+    (isLegacyDataMessage || isLegacyConversationSettingMessage)
   ) {
     window.log.debug(
       `[checkForExpireUpdateInContentMessage] Received a legacy disappearing message after v2 was released for ${convoToUpdate.get(
@@ -424,11 +415,7 @@ function getMessageReadyToDisappear(
     return messageModel;
   }
 
-  const {
-    expirationType,
-    expirationTimer: expireTimer,
-    isLegacyConversationSettingMessage,
-  } = expireUpdate;
+  const { expirationType, expirationTimer: expireTimer } = expireUpdate;
 
   messageModel.set({
     expirationType,
@@ -436,10 +423,7 @@ function getMessageReadyToDisappear(
   });
 
   // This message is an ExpirationTimerUpdate
-  if (
-    isLegacyConversationSettingMessage &&
-    messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
-  ) {
+  if (messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
     const previousExpirationMode = conversationModel.getExpirationMode();
     const previousExpirationTimer = conversationModel.getExpireTimer();
     const shouldUsePreviousExpiration =
@@ -475,9 +459,7 @@ async function checkHasOutdatedDisappearingMessageClient(
   expireUpdate: DisappearingMessageUpdate
 ) {
   const isOutdated =
-    expireUpdate.isLegacyDataMessage ||
-    expireUpdate.isLegacyConversationSettingMessage ||
-    expireUpdate.shouldDisappearButIsntMessage;
+    expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage;
 
   const outdatedSender =
     sender.get('nickname') || sender.get('displayNameInProfile') || sender.get('id');
