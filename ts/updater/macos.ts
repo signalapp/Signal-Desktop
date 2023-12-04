@@ -3,8 +3,10 @@
 
 import { pathToFileURL } from 'url';
 import { autoUpdater } from 'electron';
+import { writeFile } from 'fs/promises';
+import { join } from 'path';
 
-import { Updater } from './common';
+import { Updater, getTempDir } from './common';
 import { explodePromise } from '../util/explodePromise';
 import * as Errors from '../types/errors';
 import { markShouldQuit } from '../../app/window_state';
@@ -59,8 +61,20 @@ export class MacOSUpdater extends Updater {
       resolve();
     });
 
+    // See: https://github.com/electron/electron/issues/5020#issuecomment-477636990
+    const updateUrl = pathToFileURL(filePath).href;
+
+    const tempDir = await getTempDir();
+    const feedPath = join(tempDir, 'feed.json');
+    await writeFile(
+      feedPath,
+      JSON.stringify({
+        url: updateUrl,
+      })
+    );
+
     autoUpdater.setFeedURL({
-      url: pathToFileURL(filePath).href,
+      url: pathToFileURL(feedPath).href,
       serverType: 'json',
     });
     autoUpdater.checkForUpdates();
