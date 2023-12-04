@@ -177,7 +177,7 @@ export function StoryListItem({
           <div className="StoryListItem__info--title">
             {group ? group.title : title}
             {isSignalOfficial && (
-              <span className="StoryListItem__signal-official" />
+              <span className="ContactModal__official-badge" />
             )}
           </div>
           {!isSignalOfficial && (
