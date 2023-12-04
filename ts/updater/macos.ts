@@ -6,7 +6,7 @@ import { autoUpdater } from 'electron';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 
-import { Updater, getTempDir } from './common';
+import { Updater, createTempDir, deleteTempDir } from './common';
 import { explodePromise } from '../util/explodePromise';
 import * as Errors from '../types/errors';
 import { markShouldQuit } from '../../app/window_state';
@@ -64,21 +64,25 @@ export class MacOSUpdater extends Updater {
     // See: https://github.com/electron/electron/issues/5020#issuecomment-477636990
     const updateUrl = pathToFileURL(filePath).href;
 
-    const tempDir = await getTempDir();
-    const feedPath = join(tempDir, 'feed.json');
-    await writeFile(
-      feedPath,
-      JSON.stringify({
-        url: updateUrl,
-      })
-    );
+    const tempDir = await createTempDir();
+    try {
+      const feedPath = join(tempDir, 'feed.json');
+      await writeFile(
+        feedPath,
+        JSON.stringify({
+          url: updateUrl,
+        })
+      );
 
-    autoUpdater.setFeedURL({
-      url: pathToFileURL(feedPath).href,
-      serverType: 'json',
-    });
-    autoUpdater.checkForUpdates();
+      autoUpdater.setFeedURL({
+        url: pathToFileURL(feedPath).href,
+        serverType: 'json',
+      });
+      autoUpdater.checkForUpdates();
 
-    return promise;
+      await promise;
+    } finally {
+      await deleteTempDir(this.logger, tempDir);
+    }
   }
 }
