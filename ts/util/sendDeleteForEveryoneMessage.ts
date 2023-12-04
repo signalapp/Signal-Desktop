@@ -19,6 +19,7 @@ import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { getRecipientConversationIds } from './getRecipientConversationIds';
 import { getRecipients } from './getRecipients';
 import { repeat, zipObject } from './iterables';
+import { isMe } from './whatTypeOfConversation';
 
 export async function sendDeleteForEveryoneMessage(
   conversationAttributes: ConversationAttributesType,
@@ -39,10 +40,15 @@ export async function sendDeleteForEveryoneMessage(
   }
   const idForLogging = getMessageIdForLogging(message.attributes);
 
-  const timestamp = Date.now();
-  const maxDuration = deleteForEveryoneDuration || DAY;
-  if (timestamp - targetTimestamp > maxDuration) {
-    throw new Error(`Cannot send DOE for a message older than ${maxDuration}`);
+  // If conversation is a Note To Self, no deletion time limits apply.
+  if (!isMe(conversationAttributes)) {
+    const timestamp = Date.now();
+    const maxDuration = deleteForEveryoneDuration || DAY;
+    if (timestamp - targetTimestamp > maxDuration) {
+      throw new Error(
+        `Cannot send DOE for a message older than ${maxDuration}`
+      );
+    }
   }
 
   message.set({
