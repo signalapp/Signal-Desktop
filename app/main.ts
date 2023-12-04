@@ -990,6 +990,7 @@ async function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+    getLogger().info('main window closed event');
     mainWindow = undefined;
     if (settingsChannel) {
       settingsChannel.setMainWindow(mainWindow);
@@ -1000,11 +1001,13 @@ async function createWindow() {
   });
 
   mainWindow.on('enter-full-screen', () => {
+    getLogger().info('mainWindow enter-full-screen event');
     if (mainWindow) {
       mainWindow.webContents.send('full-screen-change', true);
     }
   });
   mainWindow.on('leave-full-screen', () => {
+    getLogger().info('mainWindow leave-full-screen event');
     if (mainWindow) {
       mainWindow.webContents.send('full-screen-change', false);
     }
@@ -2159,14 +2162,40 @@ async function requestShutdown() {
   }
 }
 
-app.on('before-quit', () => {
+function getWindowDebugInfo() {
+  const windows = BrowserWindow.getAllWindows();
+
+  return {
+    windowCount: windows.length,
+    mainWindowExists: windows.some(win => win === mainWindow),
+    mainWindowIsFullScreen: mainWindow?.isFullScreen(),
+  };
+}
+
+app.on('before-quit', e => {
   getLogger().info('before-quit event', {
     readyForShutdown: windowState.readyForShutdown(),
     shouldQuit: windowState.shouldQuit(),
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
   });
 
   systemTrayService?.markShouldQuit();
   windowState.markShouldQuit();
+});
+
+app.on('will-quit', e => {
+  getLogger().info('will-quit event', {
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
+  });
+});
+
+app.on('quit', e => {
+  getLogger().info('quit event', {
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
+  });
 });
 
 // Quit when all windows are closed.
