@@ -1749,6 +1749,11 @@ async function searchMessages({
 
   const db = getUnsafeWritableInstance('only temp table use');
 
+  const normalizedQuery = db
+    .signalTokenize(query)
+    .map(token => `"${token.replace(/"/g, '""')}"*`)
+    .join(' ');
+
   // sqlite queries with a join on a virtual table (like FTS5) are de-optimized
   // and can't use indices for ordering results. Instead an in-memory index of
   // the join rows is sorted on the fly, and this becomes substantially
@@ -1778,7 +1783,7 @@ async function searchMessages({
         WHERE
           messages_fts.body MATCH $query;
       `
-    ).run({ query });
+    ).run({ query: normalizedQuery });
 
     if (conversationId === undefined) {
       db.prepare<Query>(
@@ -1829,7 +1834,7 @@ async function searchMessages({
       INNER JOIN messages
         ON messages.rowid = tmp_filtered_results.rowid
       WHERE
-        messages_fts.body MATCH ${query}
+        messages_fts.body MATCH ${normalizedQuery}
       ORDER BY messages.received_at DESC, messages.sent_at DESC
       LIMIT ${limit}
     `;
