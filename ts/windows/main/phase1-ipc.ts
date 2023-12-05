@@ -312,6 +312,7 @@ ipc.on('authorize-art-creator', (_event, info) => {
 });
 
 ipc.on('start-call-lobby', (_event, { conversationId }) => {
+  window.IPC.showWindow();
   window.reduxActions?.calling?.startCallingLobby({
     conversationId,
     isVideoCall: true,
