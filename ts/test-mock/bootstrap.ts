@@ -359,6 +359,12 @@ export class Bootstrap {
     const { logsDir } = this;
     await fs.rename(logsDir, outDir);
 
+    const page = await app?.getWindow();
+    if (process.env.TRACING) {
+      await page
+        ?.context()
+        .tracing.stop({ path: path.join(outDir, 'trace.zip') });
+    }
     if (app) {
       const window = await app.getWindow();
       const screenshot = await window.screenshot();
