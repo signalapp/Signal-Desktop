@@ -3600,7 +3600,7 @@ button.module-image__border-overlay:focus {
     position: fixed;
     /* stylelint-disable-next-line liberty/use-logical-spec */
     left: 0;
-    top: 0;
+    top: var(--titlebar-height);
     width: 100%;
     z-index: $z-index-calling;
   }
