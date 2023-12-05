@@ -6,15 +6,15 @@ body:
     attributes:
       value: |
         Our bug tracker is ONLY for bugs. It is not for feature requests, questions, or comments.
-        
-        Please fill out this template with all the information you have. We can't do much without
-        both the logs and a detailed description of what you've encountered. Please do your best!
-        
-        Please note that this tracker is only for bugs. Please try these locations if you have a question or comment:
+
+        Please try these locations if you have a question or comment:
         
           https://community.signalusers.org/
           http://support.signal.org/
           support@signal.org
+        
+        Please fill out this template with all the information you have. We can't do much without
+        both the logs and a detailed description of what you've encountered. Please do your best!
   - type: checkboxes
     id: supported-version-and-no-duplicates
     attributes:
@@ -38,7 +38,7 @@ body:
     attributes:
       label: Overall summary
       description: A clear and concise description of what the problem is that made you submit this report.
-      placeholder: When trying to do this, then...
+      placeholder:
     validations:
       required: true
   - type: textarea
@@ -50,7 +50,7 @@ body:
         1. Go to any chat.
         2. Do thing A.
         3. Do thing B.
-        4. Things look off.
+        4. Things look off because...
     validations:
       required: true
   - type: textarea
@@ -58,15 +58,15 @@ body:
     attributes:
       label: Expected result
       description: Describe in detail what the correct behavior should be.
-      placeholder: It would display things correctly.
+      placeholder:
     validations:
       required: true
   - type: textarea
     id: actual-result
     attributes:
       label: Actual result
-      description: Describe the details of the buggy behavior.
-      placeholder: "It fails and displays the following error:"
+      description: Describe the details of the buggy behavior. Please include all error messages!
+      placeholder:
     validations:
       required: true
   - type: textarea
@@ -81,8 +81,8 @@ body:
     id: signal-version
     attributes:
       label: Signal version
-      description: You can see Signal's version number at Help -> About or File -> About Signal Desktop
-      placeholder: 6.30.2
+      description: You can see Signal's version number on the About screen (available from the File, Help, or Signal menu depending on your OS)
+      placeholder:
     validations:
       required: true
   - type: input
@@ -94,22 +94,22 @@ body:
     validations:
       required: true
   - type: input
-    id: linked-device
+    id: primary-device
     attributes:
-      label: Linked device version
-      description: "Android: Settings -> Help,  iOS: Settings -> General -> About"
-      placeholder: Windows 11
+      label: Version of Signal on your phone
+      description: "Android: Settings->Help,  iOS: Settings->General->About"
+      placeholder:
     validations:
-      required: true
+      required: false
   - type: textarea
     id: debug-log
     attributes:
       label: Link to debug log
       description: |
-        Immediately after the bug has happened, submit a debug log via View -> Debug Log, then copy that URL here.
+        Immediately after the bug has happened, submit a debug log via View->Debug Log, then copy that URL here.
         In most cases, a log from your other devices is also useful:
           Android: https://support.signal.org/hc/en-us/articles/360007318591#android_debug
           iOS: https://support.signal.org/hc/en-us/articles/360007318591#ios_debug
-      placeholder: Paste your link or debug log file here.
+      placeholder:
     validations:
       required: false
