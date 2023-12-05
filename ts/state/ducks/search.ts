@@ -6,7 +6,6 @@ import { debounce, omit, reject } from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
-import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
 import type {
   ClientSearchResultMessageType,
@@ -294,21 +293,20 @@ async function queryMessages({
   contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
 }): Promise<Array<ClientSearchResultMessageType>> {
   try {
-    const normalized = cleanSearchTerm(query);
-    if (normalized.length === 0) {
+    if (query.length === 0) {
       return [];
     }
 
     if (searchConversationId) {
       return dataSearchMessages({
-        query: normalized,
+        query,
         conversationId: searchConversationId,
         contactServiceIdsMatchingQuery,
       });
     }
 
     return dataSearchMessages({
-      query: normalized,
+      query,
       contactServiceIdsMatchingQuery,
     });
   } catch (e) {
