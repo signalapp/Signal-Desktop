@@ -888,13 +888,6 @@
     "updated": "2023-08-29T19:25:52.732Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/agentkeepalive/node_modules/depd/index.js",
-    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-12-13T00:55:48.389Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/axe-core/axe.js",
     "line": "      style.innerHTML = usePointer ? '* { pointer-events: all }' : '* { visibility: visible }';",
