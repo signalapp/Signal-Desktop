@@ -138,6 +138,7 @@ import type { CallHistorySelectorType } from './callHistory';
 import { CallMode } from '../../types/Calling';
 import { CallDirection } from '../../types/CallDisposition';
 import { getCallIdFromEra } from '../../util/callDisposition';
+import { LONG_MESSAGE } from '../../types/MIME';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -313,11 +314,15 @@ export const getAttachmentsForMessage = ({
       },
     ];
   }
-
-  return attachments
-    .filter(attachment => !attachment.error || canBeDownloaded(attachment))
-    .map(attachment => getPropsForAttachment(attachment))
-    .filter(isNotNil);
+  return (
+    attachments
+      .filter(attachment => !attachment.error || canBeDownloaded(attachment))
+      // Long message attachments are removed from message.attachments quickly,
+      // but in case they are still around, let's make sure not to show them
+      .filter(attachment => attachment.contentType !== LONG_MESSAGE)
+      .map(attachment => getPropsForAttachment(attachment))
+      .filter(isNotNil)
+  );
 };
 
 export const processBodyRanges = (
