@@ -73,6 +73,11 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '18.17.1'
+    
+    # The version of node-gyp bundled with our node/npm version does not support python 3.12, which the runner uses
+    # When we update node again, we can probably remove this
+    - run: npm install -g npm@latest
+
     - run: npm install -g yarn@1.22.10
 
     - name: Cache Desktop node_modules
