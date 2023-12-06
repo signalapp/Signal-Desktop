@@ -347,7 +347,7 @@ export const linkDeviceRoute = _route('linkDevice', {
  */
 export const captchaRoute = _route('captcha', {
   // needs `(.+)` to capture `.` in hostname
-  patterns: [_pattern('signalcaptcha:', ':captchaId(.+)', '', {})],
+  patterns: [_pattern('signalcaptcha:', ':captchaId(.+)', '{/}?', {})],
   schema: z.object({
     captchaId: paramSchema, // opaque
   }),
