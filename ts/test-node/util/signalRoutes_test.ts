@@ -119,6 +119,17 @@ describe('signalRoutes', () => {
     check(`signalcaptcha://${captchaId}`, result);
   });
 
+  it('captcha with a trailing slash', () => {
+    const captchaId =
+      'signal-hcaptcha.Foo-bAr_baz.challenge.fOo-bAR_baZ.fOO-BaR_baz';
+    const result: ParsedSignalRoute = {
+      key: 'captcha',
+      args: { captchaId },
+    };
+    const check = createCheck({ hasWebUrl: false });
+    check(`signalcaptcha://${captchaId}/`, result);
+  });
+
   it('linkCall', () => {
     const result: ParsedSignalRoute = {
       key: 'linkCall',
