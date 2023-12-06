@@ -62,13 +62,20 @@ export class App extends EventEmitter {
           SIGNAL_CI_CONFIG: this.options.config,
         },
         locale: 'en',
-        timeout: 20 * SECOND,
+        timeout: 30 * SECOND,
       });
 
       // wait for the first window to load
       await pTimeout(
         (async () => {
-          const page = await this.privApp?.firstWindow();
+          const page = await this.getWindow();
+          if (process.env.TRACING) {
+            await page.context().tracing.start({
+              name: 'tracing',
+              screenshots: true,
+              snapshots: true,
+            });
+          }
           await page?.waitForLoadState('load');
         })(),
         20 * SECOND
