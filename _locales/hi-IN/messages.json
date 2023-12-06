@@ -1690,7 +1690,7 @@
     "description": "Button to call someone back"
   },
   "icu:calling__call-again": {
-    "messageformat": "दोबारा कोल करें",
+    "messageformat": "दोबारा कॉल करें",
     "description": "Button to call someone again"
   },
   "icu:calling__join": {
