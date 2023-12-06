@@ -940,6 +940,7 @@ describe('calling duck', () => {
                 videoAspectRatio: 4 / 3,
               },
             ],
+            raisedHands: [],
           }
         );
       });
@@ -997,6 +998,7 @@ describe('calling duck', () => {
                 videoAspectRatio: 16 / 9,
               },
             ],
+            raisedHands: [],
           }
         );
       });

@@ -13,6 +13,7 @@ import { getActiveCall } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
 import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
+import { isGroupCallRaiseHandEnabled } from '../../util/isGroupCallRaiseHandEnabled';
 import { isGroupCallReactionsEnabled } from '../../util/isGroupCallReactionsEnabled';
 import type {
   ActiveCallBaseType,
@@ -201,6 +202,8 @@ const mapStateToActiveCallProp = (
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
       const peekedParticipants: Array<ConversationType> = [];
       const conversationsByDemuxId: ConversationsByDemuxIdType = new Map();
+      const { localDemuxId } = call;
+      const raisedHands: Set<number> = new Set(call.raisedHands ?? []);
 
       const { memberships = [] } = conversation;
 
@@ -243,6 +246,7 @@ const mapStateToActiveCallProp = (
           demuxId: remoteParticipant.demuxId,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
+          isHandRaised: raisedHands.has(remoteParticipant.demuxId),
           presenting: remoteParticipant.presenting,
           sharingScreen: remoteParticipant.sharingScreen,
           speakerTime: remoteParticipant.speakerTime,
@@ -253,6 +257,17 @@ const mapStateToActiveCallProp = (
           remoteConversation
         );
       }
+
+      if (localDemuxId !== undefined) {
+        conversationsByDemuxId.set(localDemuxId, getMe(state));
+      }
+
+      // Filter raisedHands to ensure valid demuxIds.
+      raisedHands.forEach(demuxId => {
+        if (!conversationsByDemuxId.has(demuxId)) {
+          raisedHands.delete(demuxId);
+        }
+      });
 
       for (
         let i = 0;
@@ -293,9 +308,10 @@ const mapStateToActiveCallProp = (
         groupMembers,
         isConversationTooBigToRing: isConversationTooBigToRing(conversation),
         joinState: call.joinState,
-        localDemuxId: call.localDemuxId,
+        localDemuxId,
         maxDevices: peekInfo.maxDevices,
         peekedParticipants,
+        raisedHands,
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
       } satisfies ActiveGroupCallType;
@@ -360,6 +376,7 @@ const mapStateToProps = (state: StateType) => {
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
+    isGroupCallRaiseHandEnabled: isGroupCallRaiseHandEnabled(),
     isGroupCallReactionsEnabled: isGroupCallReactionsEnabled(),
     incomingCall,
     me: getMe(state),

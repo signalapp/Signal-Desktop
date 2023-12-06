@@ -25,6 +25,7 @@ function createParticipant(
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
+    isHandRaised: Boolean(participantProps.isHandRaised),
     presenting: Boolean(participantProps.presenting),
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,

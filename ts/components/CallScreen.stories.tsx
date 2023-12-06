@@ -35,6 +35,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
 
 const MAX_PARTICIPANTS = 75;
+const LOCAL_DEMUX_ID = 1;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -66,6 +67,7 @@ type GroupCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Group;
   connectionState?: GroupCallConnectionState;
   peekedParticipants?: Array<ConversationType>;
+  raisedHands?: Set<number>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevel?: number;
 };
@@ -92,12 +94,8 @@ const createActiveDirectCallProp = (
   ],
 });
 
-const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
-  callMode: CallMode.Group as CallMode.Group,
-  connectionState:
-    overrideProps.connectionState || GroupCallConnectionState.Connected,
-  conversationsWithSafetyNumberChanges: [],
-  conversationsByDemuxId: new Map<number, ConversationType>(
+const getConversationsByDemuxId = (overrideProps: GroupCallOverrideProps) => {
+  const conversationsByDemuxId = new Map<number, ConversationType>(
     overrideProps.remoteParticipants?.map((participant, index) => [
       participant.demuxId,
       getDefaultConversationWithServiceId({
@@ -105,9 +103,19 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
         title: `Participant ${index + 1}`,
       }),
     ])
-  ),
+  );
+  conversationsByDemuxId.set(LOCAL_DEMUX_ID, conversation);
+  return conversationsByDemuxId;
+};
+
+const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
+  callMode: CallMode.Group as CallMode.Group,
+  connectionState:
+    overrideProps.connectionState || GroupCallConnectionState.Connected,
+  conversationsWithSafetyNumberChanges: [],
+  conversationsByDemuxId: getConversationsByDemuxId(overrideProps),
   joinState: GroupCallJoinState.Joined,
-  localDemuxId: 1,
+  localDemuxId: LOCAL_DEMUX_ID,
   maxDevices: 5,
   deviceCount: (overrideProps.remoteParticipants || []).length,
   groupMembers: overrideProps.remoteParticipants || [],
@@ -116,6 +124,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   isConversationTooBigToRing: false,
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
+  raisedHands: overrideProps.raisedHands || new Set<number>(),
   remoteParticipants: overrideProps.remoteParticipants || [],
   remoteAudioLevels: new Map<number, number>(
     overrideProps.remoteParticipants?.map((_participant, index) => [
@@ -163,6 +172,7 @@ const createProps = (
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up'),
   i18n,
+  isGroupCallRaiseHandEnabled: true,
   isGroupCallReactionsEnabled: true,
   me: getDefaultConversation({
     color: AvatarColors[1],
@@ -175,6 +185,7 @@ const createProps = (
   openSystemPreferencesAction: action('open-system-preferences-action'),
   renderEmojiPicker: () => <>EmojiPicker</>,
   renderReactionPicker: () => <div />,
+  sendGroupCallRaiseHand: action('send-group-call-raise-hand'),
   sendGroupCallReaction: action('send-group-call-reaction'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setLocalAudio: action('set-local-audio'),
@@ -299,6 +310,7 @@ export function GroupCall1(): JSX.Element {
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
+            isHandRaised: false,
             presenting: false,
             sharingScreen: false,
             videoAspectRatio: 1.3,
@@ -314,12 +326,41 @@ export function GroupCall1(): JSX.Element {
   );
 }
 
+export function GroupCallYourHandRaised(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants: [
+          {
+            aci: generateAci(),
+            demuxId: 0,
+            hasRemoteAudio: true,
+            hasRemoteVideo: true,
+            isHandRaised: false,
+            presenting: false,
+            sharingScreen: false,
+            videoAspectRatio: 1.3,
+            ...getDefaultConversation({
+              isBlocked: false,
+              serviceId: generateAci(),
+              title: 'Tyler',
+            }),
+          },
+        ],
+        raisedHands: new Set([LOCAL_DEMUX_ID]),
+      })}
+    />
+  );
+}
+
 // We generate these upfront so that the list is stable when you move the slider.
 const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   aci: generateAci(),
   demuxId: index,
   hasRemoteAudio: index % 3 !== 0,
   hasRemoteVideo: index % 4 !== 0,
+  isHandRaised: (index - 3) % 10 === 0,
   presenting: false,
   sharingScreen: false,
   videoAspectRatio: Math.random() < 0.7 ? 1.3 : Math.random() * 0.4 + 0.6,
@@ -406,6 +447,7 @@ export function GroupCallReconnecting(): JSX.Element {
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
+            isHandRaised: false,
             presenting: false,
             sharingScreen: false,
             videoAspectRatio: 1.3,

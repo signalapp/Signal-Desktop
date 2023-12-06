@@ -1772,6 +1772,10 @@
     "messageformat": "More options",
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "Raised hands · {count, plural, one {# person} other {# people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
   "icu:CallingReactions--me": {
     "messageformat": "You",
     "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
@@ -3590,6 +3594,38 @@
   "icu:CallControls__RingingToast--ringing-off": {
     "messageformat": "Ringing off",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount, number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Settings",

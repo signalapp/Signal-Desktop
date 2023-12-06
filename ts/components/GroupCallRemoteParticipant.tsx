@@ -80,6 +80,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       demuxId,
       hasRemoteAudio,
       hasRemoteVideo,
+      isHandRaised,
       isBlocked,
       isMe,
       profileName,
@@ -295,7 +296,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             isSpeaking &&
               !isActiveSpeakerInSpeakerView &&
               remoteParticipantsCount > 1 &&
-              'module-ongoing-call__group-call-remote-participant--speaking'
+              'module-ongoing-call__group-call-remote-participant--speaking',
+            isHandRaised &&
+              'module-ongoing-call__group-call-remote-participant--hand-raised'
           )}
           ref={intersectionRef}
           style={containerStyles}
@@ -307,15 +310,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 audioLevel={props.audioLevel}
                 shouldShowSpeaking={isSpeaking}
               />
-              <div
-                className={classNames(
-                  'module-ongoing-call__group-call-remote-participant__info'
-                )}
-              >
-                <ContactName
-                  module="module-ongoing-call__group-call-remote-participant__info__contact-name"
-                  title={title}
-                />
+              <div className="module-ongoing-call__group-call-remote-participant__footer">
+                <div className="module-ongoing-call__group-call-remote-participant__info">
+                  {isHandRaised && (
+                    <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+                  )}
+                  <ContactName
+                    module="module-ongoing-call__group-call-remote-participant__info__contact-name"
+                    title={title}
+                  />
+                </div>
               </div>
             </>
           )}

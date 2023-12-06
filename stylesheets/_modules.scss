@@ -3806,6 +3806,12 @@ button.module-image__border-overlay:focus {
     &__grid {
       flex-grow: 1;
       position: relative;
+
+      .module-ongoing-call__group-call-remote-participant--hand-raised
+        .module-ongoing-call__group-call-remote-participant__info__contact-name {
+        display: block;
+        visibility: visible;
+      }
     }
 
     &__overflow {
@@ -4005,24 +4011,30 @@ button.module-image__border-overlay:focus {
       }
     }
 
-    &__info {
-      align-items: flex-end;
-      bottom: 0;
+    &__footer {
       display: flex;
       position: absolute;
+      bottom: 0;
       height: 60px;
-      justify-content: space-between;
       padding-block: 0 16px;
       padding-inline: 16px;
       user-select: none;
       width: 100%;
       z-index: $z-index-above-base;
+    }
+
+    &__info {
+      display: flex;
+      align-items: center;
+      align-self: flex-end;
+      justify-content: space-between;
+      max-width: 100%;
 
       &__contact-name {
+        flex-grow: 1;
         font-size: 13px;
         line-height: 18px;
         color: $color-white;
-        margin-inline-end: 20px;
         overflow: hidden;
         text-overflow: ellipsis;
         visibility: hidden;
@@ -4030,17 +4042,39 @@ button.module-image__border-overlay:focus {
       }
     }
 
+    &--hand-raised &__footer {
+      background: transparent;
+      padding-block: 0 8px;
+      padding-inline: 8px;
+    }
+
+    &--hand-raised &__info {
+      background: $color-white;
+      border-radius: 40px;
+
+      &__contact-name {
+        display: none;
+        color: $color-black;
+        margin-inline-end: 12px;
+      }
+    }
+
     &:hover {
-      .module-ongoing-call__group-call-remote-participant__info {
+      .module-ongoing-call__group-call-remote-participant__info__contact-name {
+        display: block;
+        visibility: visible;
+      }
+    }
+
+    &:hover:not(
+        .module-ongoing-call__group-call-remote-participant--hand-raised
+      ) {
+      .module-ongoing-call__group-call-remote-participant__footer {
         background: linear-gradient(
           180deg,
           transparent,
           $color-black-alpha-60 100%
         );
-
-        &__contact-name {
-          visibility: visible;
-        }
       }
     }
   }
@@ -4332,6 +4366,7 @@ button.module-image__border-overlay:focus {
 
     height: 18px;
     width: 18px;
+    margin-inline-end: 4px;
     z-index: $z-index-above-base;
 
     @include keyboard-mode {
@@ -4344,6 +4379,9 @@ button.module-image__border-overlay:focus {
   &__status {
     display: flex;
     flex-basis: 64px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: end;
   }
 
   &__muted {

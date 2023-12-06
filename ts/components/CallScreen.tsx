@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   ActiveCallStateType,
+  SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -74,6 +75,7 @@ import { handleOutsideClick } from '../util/handleOutsideClick';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
 import { Emoji } from './emoji/Emoji';
+import { CallingRaisedHandsList } from './CallingRaisedHandsList';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -82,12 +84,14 @@ export type PropsType = {
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
+  isGroupCallRaiseHandEnabled: boolean;
   isGroupCallReactionsEnabled: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
   ) => JSX.Element;
+  sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
@@ -155,12 +159,14 @@ export function CallScreen({
   groupMembers,
   hangUpActiveCall,
   i18n,
+  isGroupCallRaiseHandEnabled,
   isGroupCallReactionsEnabled,
   me,
   openSystemPreferencesAction,
   renderEmojiPicker,
   renderReactionPicker,
   setGroupCallVideoRequest,
+  sendGroupCallRaiseHand,
   sendGroupCallReaction,
   setLocalAudio,
   setLocalVideo,
@@ -230,6 +236,11 @@ export function CallScreen({
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const toggleMoreOptions = useCallback(() => {
     setShowMoreOptions(prevValue => !prevValue);
+  }, []);
+
+  const [showRaisedHandsList, setShowRaisedHandsList] = useState(false);
+  const toggleRaisedHandsList = useCallback(() => {
+    setShowRaisedHandsList(prevValue => !prevValue);
   }, []);
 
   const [controlsHover, setControlsHover] = useState(false);
@@ -460,7 +471,8 @@ export function CallScreen({
   });
 
   const isGroupCall = activeCall.callMode === CallMode.Group;
-  const isMoreOptionsButtonEnabled = isGroupCall && isGroupCallReactionsEnabled;
+  const isMoreOptionsButtonEnabled =
+    isGroupCall && (isGroupCallRaiseHandEnabled || isGroupCallReactionsEnabled);
 
   let presentingButtonType: CallingButtonType;
   if (presentingSource) {
@@ -470,6 +482,110 @@ export function CallScreen({
   } else {
     presentingButtonType = CallingButtonType.PRESENTING_OFF;
   }
+
+  const raisedHands =
+    activeCall.callMode === CallMode.Group ? activeCall.raisedHands : undefined;
+
+  // This is the value of our hand raised as seen by remote clients. We should prefer
+  // to use it in UI so the user understands what remote clients see.
+  const syncedLocalHandRaised = isHandRaised(raisedHands, localDemuxId);
+
+  // Don't call setLocalHandRaised because it only sets local state. Instead call
+  // toggleRaiseHand() which will set ringrtc state and call setLocalHandRaised.
+  const [localHandRaised, setLocalHandRaised] = useState<boolean>(
+    syncedLocalHandRaised
+  );
+  const previousLocalHandRaised = usePrevious(localHandRaised, localHandRaised);
+  const toggleRaiseHand = useCallback(
+    (raise?: boolean) => {
+      const nextValue = raise ?? !localHandRaised;
+      if (nextValue === previousLocalHandRaised) {
+        return;
+      }
+
+      setLocalHandRaised(nextValue);
+      // It's possible that the ringrtc call can fail due to flaky network connection.
+      // In that case, local and remote state (localHandRaised and raisedHands) can
+      // get out of sync. The user might need to manually toggle raise hand to get to
+      // a coherent state. It would be nice if this returned a Promise (but it doesn't)
+      sendGroupCallRaiseHand({
+        conversationId: conversation.id,
+        raise: nextValue,
+      });
+    },
+    [
+      localHandRaised,
+      previousLocalHandRaised,
+      conversation.id,
+      sendGroupCallRaiseHand,
+    ]
+  );
+
+  const renderRaisedHandsToast = React.useCallback(
+    (hands: Array<number>) => {
+      const names = hands.map(demuxId =>
+        demuxId === localDemuxId
+          ? i18n('icu:you')
+          : conversationsByDemuxId.get(demuxId)?.title
+      );
+
+      let message: string;
+      let buttonOverride: JSX.Element | undefined;
+      const count = names.length;
+      switch (count) {
+        case 0:
+          return undefined;
+        case 1:
+          if (names[0] === i18n('icu:you')) {
+            message = i18n('icu:CallControls__RaiseHandsToast--you');
+            buttonOverride = (
+              <button
+                className="CallingRaisedHandsToasts__Link"
+                onClick={() => toggleRaiseHand(false)}
+                type="button"
+              >
+                {i18n('icu:CallControls__RaiseHands--lower')}
+              </button>
+            );
+          } else {
+            message = i18n('icu:CallControls__RaiseHandsToast--one', {
+              name: names[0],
+            });
+          }
+          break;
+        case 2:
+          message = i18n('icu:CallControls__RaiseHandsToast--two', {
+            name: names[0],
+            otherName: names[1],
+          });
+          break;
+        default:
+          message = i18n('icu:CallControls__RaiseHandsToast--more', {
+            name: names[0],
+            otherName: names[1],
+            overflowCount: names.length - 2,
+          });
+      }
+      return (
+        <div className="CallingReactionsToast__Content">
+          <span className="CallingReactionsToast__HandIcon" />
+          {message}
+          {buttonOverride || (
+            <button
+              className="link CallingRaisedHandsToasts__Link"
+              onClick={() => setShowRaisedHandsList(true)}
+              type="button"
+            >
+              {i18n('icu:CallControls__RaiseHands--open-queue')}
+            </button>
+          )}
+        </div>
+      );
+    },
+    [i18n, localDemuxId, conversationsByDemuxId, toggleRaiseHand]
+  );
+
+  const raisedHandsCount: number = raisedHands?.size ?? 0;
 
   const callStatus: ReactNode | string = React.useMemo(() => {
     if (isRinging) {
@@ -599,6 +715,39 @@ export function CallScreen({
         localDemuxId={localDemuxId}
         i18n={i18n}
       />
+      {raisedHands && raisedHandsCount > 0 && (
+        <>
+          <button
+            className="CallingRaisedHandsList__Button"
+            onClick={toggleRaisedHandsList}
+            type="button"
+          >
+            <span className="CallingRaisedHandsList__ButtonIcon" />
+            {syncedLocalHandRaised ? (
+              <>
+                {i18n('icu:you')}
+                {raisedHandsCount > 1 && ` + ${String(raisedHandsCount - 1)}`}
+              </>
+            ) : (
+              raisedHandsCount
+            )}
+          </button>
+          {showRaisedHandsList && (
+            <CallingRaisedHandsList
+              i18n={i18n}
+              onClose={() => setShowRaisedHandsList(false)}
+              onLowerMyHand={() => {
+                toggleRaiseHand(false);
+                setShowRaisedHandsList(false);
+              }}
+              localDemuxId={localDemuxId}
+              conversationsByDemuxId={conversationsByDemuxId}
+              raisedHands={raisedHands}
+              localHandRaised={syncedLocalHandRaised}
+            />
+          )}
+        </>
+      )}
       <div className="module-ongoing-call__footer">
         <div className="module-calling__spacer CallControls__OuterSpacer" />
         <div
@@ -616,6 +765,8 @@ export function CallScreen({
           <CallingButtonToastsContainer
             hasLocalAudio={hasLocalAudio}
             outgoingRing={undefined}
+            raisedHands={raisedHands}
+            renderRaisedHandsToast={renderRaisedHandsToast}
             i18n={i18n}
           />
 
@@ -625,18 +776,34 @@ export function CallScreen({
                 className="CallControls__MoreOptionsMenu"
                 ref={moreOptionsMenuRef}
               >
-                {renderReactionPicker({
-                  ref: reactionPickerRef,
-                  onClose: () => setShowMoreOptions(false),
-                  onPick: emoji => {
-                    setShowMoreOptions(false);
-                    sendGroupCallReaction({
-                      conversationId: conversation.id,
-                      value: emoji,
-                    });
-                  },
-                  renderEmojiPicker,
-                })}
+                {isGroupCallReactionsEnabled &&
+                  renderReactionPicker({
+                    ref: reactionPickerRef,
+                    onClose: () => setShowMoreOptions(false),
+                    onPick: emoji => {
+                      setShowMoreOptions(false);
+                      sendGroupCallReaction({
+                        conversationId: conversation.id,
+                        value: emoji,
+                      });
+                    },
+                    renderEmojiPicker,
+                  })}
+                {isGroupCallRaiseHandEnabled && (
+                  <button
+                    className="CallControls__MenuItemRaiseHand"
+                    onClick={() => {
+                      setShowMoreOptions(false);
+                      toggleRaiseHand();
+                    }}
+                    type="button"
+                  >
+                    <span className="CallControls__MenuItemRaiseHandIcon" />
+                    {localHandRaised
+                      ? i18n('icu:CallControls__MenuItemRaiseHand--lower')
+                      : i18n('icu:CallControls__MenuItemRaiseHand')}
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -715,6 +882,9 @@ export function CallScreen({
               audioLevel={localAudioLevel}
               shouldShowSpeaking={isSpeaking}
             />
+            {syncedLocalHandRaised && (
+              <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+            )}
           </div>
         ) : (
           <div className="module-ongoing-call__footer__local-preview" />
@@ -874,4 +1044,15 @@ function CallingReactionsToastsContainer(
 function CallingReactionsToasts(props: CallingReactionsToastsType) {
   useReactionsToast(props);
   return null;
+}
+
+function isHandRaised(
+  raisedHands: Set<number> | undefined,
+  demuxId: number | undefined
+): boolean {
+  if (raisedHands === undefined || demuxId === undefined) {
+    return false;
+  }
+
+  return raisedHands.has(demuxId);
 }

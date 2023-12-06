@@ -23,6 +23,7 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   demuxId: index,
   hasRemoteAudio: index % 3 !== 0,
   hasRemoteVideo: index % 4 !== 0,
+  isHandRaised: (index - 2) % 8 === 0,
   presenting: false,
   sharingScreen: false,
   videoAspectRatio: 1.3,

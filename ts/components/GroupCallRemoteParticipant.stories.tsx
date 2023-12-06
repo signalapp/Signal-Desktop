@@ -38,10 +38,12 @@ const createProps = (
     isBlocked = false,
     hasRemoteAudio = false,
     presenting = false,
+    isHandRaised = false,
   }: {
     isBlocked?: boolean;
     hasRemoteAudio?: boolean;
     presenting?: boolean;
+    isHandRaised?: boolean;
   } = {}
 ): PropsType => ({
   getFrameBuffer,
@@ -55,6 +57,7 @@ const createProps = (
     demuxId: 123,
     hasRemoteAudio,
     hasRemoteVideo: true,
+    isHandRaised,
     presenting,
     sharingScreen: false,
     videoAspectRatio: 1.3,
@@ -116,6 +119,23 @@ export function Speaking(): JSX.Element {
       <GroupCallRemoteParticipant {...createSpeakingProps(1, 2, false)} />
       <GroupCallRemoteParticipant {...createSpeakingProps(2, 2, true)} />
     </>
+  );
+}
+
+export function HandRaised(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+        },
+        { isHandRaised: true }
+      )}
+    />
   );
 }
 
