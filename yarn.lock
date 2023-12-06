@@ -3902,10 +3902,10 @@
   resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
-"@signalapp/better-sqlite3@8.5.2":
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.5.2.tgz#910669f44e76a46d06df45fabefcd3ac2e7c4cce"
-  integrity sha512-t7XalDxuRP115EratM6i1kbvIXJvzETcl8wqnt3NlWZdzil7kelS/RYz+PE1G+z8ZwtFyn/ViAFMt76AsArifw==
+"@signalapp/better-sqlite3@8.6.0":
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.6.0.tgz#0413f4d0626b99838cd64ad09c88720aa2bec6ed"
+  integrity sha512-dSLWG4m6XtPq/jbUjckLaiR/nFFkY95pWZI8VSm0dEVJC8S2YTXHm6VZ7vZiErt4h6EjBaa827WyK1oheElE2A==
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
