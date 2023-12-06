@@ -41,6 +41,7 @@ const channelsToMake = new Set([
   'saveMessages',
   'removeMessage',
   'removeMessagesByIds',
+  'cleanUpExpirationTimerUpdateHistory',
   'getUnreadByConversation',
   'getUnreadDisappearingByConversation',
   'markAllAsReadByConversationNoExpiration',

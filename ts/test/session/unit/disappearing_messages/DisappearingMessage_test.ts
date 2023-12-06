@@ -600,7 +600,6 @@ describe('DisappearingMessage', () => {
           receivedAt: GetNetworkTime.getNowWithNetworkOffset(),
           fromSync: true,
           shouldCommitConvo: false,
-          shouldCommitMessage: false,
           existingMessage: undefined,
           fromCurrentDevice: false,
         });

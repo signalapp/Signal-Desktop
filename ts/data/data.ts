@@ -252,6 +252,19 @@ async function saveMessages(arrayOfMessages: Array<MessageAttributes>): Promise<
   await channels.saveMessages(cleanData(arrayOfMessages));
 }
 
+/**
+ *
+ * @param conversationId the conversation from which to remove all but the most recent disappear timer update
+ * @param isPrivate if that conversation is private, we keep a expiration timer update for each sender
+ * @returns the array of messageIds removed, or [] if none were removed
+ */
+async function cleanUpExpirationTimerUpdateHistory(
+  conversationId: string,
+  isPrivate: boolean
+): Promise<Array<string>> {
+  return channels.cleanUpExpirationTimerUpdateHistory(conversationId, isPrivate);
+}
+
 async function removeMessage(id: string): Promise<void> {
   const message = await getMessageById(id, true);
 
@@ -800,6 +813,7 @@ export const Data = {
   saveMessages,
   removeMessage,
   removeMessagesByIds,
+  cleanUpExpirationTimerUpdateHistory,
   getMessageIdsFromServerIds,
   getMessageById,
   getMessagesBySenderAndSentAt,

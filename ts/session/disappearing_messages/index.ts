@@ -1,4 +1,4 @@
-import { throttle, uniq } from 'lodash';
+import { isNumber, throttle, uniq } from 'lodash';
 import { messagesExpired } from '../../state/ducks/conversations';
 import { initWallClockListener } from '../../util/wallClockListener';
 
@@ -102,7 +102,7 @@ async function checkExpiringMessages() {
   }
 
   const expiresAt = next.getExpiresAt();
-  if (!expiresAt) {
+  if (!expiresAt || !isNumber(expiresAt)) {
     return;
   }
   window.log.info('next message expires', new Date(expiresAt).toISOString());

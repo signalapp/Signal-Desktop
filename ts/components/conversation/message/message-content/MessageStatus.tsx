@@ -6,6 +6,7 @@ import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelecto
 import { useMessageStatus } from '../../../../state/selectors';
 
 import { getMostRecentMessageId } from '../../../../state/selectors/conversations';
+import { useSelectedIsGroup } from '../../../../state/selectors/selectedConversation';
 import { SpacerXS } from '../../../basic/Text';
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ExpireTimer } from '../../ExpireTimer';
@@ -60,7 +61,7 @@ export const MessageStatus = (props: Props) => {
   }
 };
 
-const MessageStatusContainer = styled.div<{ isIncoming: boolean }>`
+const MessageStatusContainer = styled.div<{ isIncoming: boolean; isGroup: boolean }>`
   display: inline-block;
   align-self: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   flex-direction: ${props =>
@@ -73,6 +74,8 @@ const MessageStatusContainer = styled.div<{ isIncoming: boolean }>`
   cursor: pointer;
   display: flex;
   align-items: center;
+  margin-inline-start: ${props =>
+    props.isGroup || !props.isIncoming ? 'var(--width-avatar-group-msg-list)' : 0};
 `;
 
 const StyledStatusText = styled.div`
@@ -144,7 +147,12 @@ function MessageStatusExpireTimer(props: Props) {
 const MessageStatusSending = ({ dataTestId }: Props) => {
   // while sending, we do not display the expire timer at all.
   return (
-    <MessageStatusContainer data-testid={dataTestId} data-testtype="sending" isIncoming={false}>
+    <MessageStatusContainer
+      data-testid={dataTestId}
+      data-testtype="sending"
+      isIncoming={false}
+      isGroup={false}
+    >
       <TextDetails text={window.i18n('sending')} />
       <IconNormal rotateDuration={2} iconType="sending" />
     </MessageStatusContainer>
@@ -171,13 +179,19 @@ function IconForExpiringMessageId({
 const MessageStatusSent = ({ dataTestId, messageId }: Props) => {
   const isExpiring = useIsExpiring(messageId);
   const isMostRecentMessage = useIsMostRecentMessage(messageId);
+  const isGroup = useSelectedIsGroup();
 
   // we hide a "sent" message status which is not expiring except for the most recent message
   if (!isExpiring && !isMostRecentMessage) {
     return null;
   }
   return (
-    <MessageStatusContainer data-testid={dataTestId} data-testtype="sent" isIncoming={false}>
+    <MessageStatusContainer
+      data-testid={dataTestId}
+      data-testtype="sent"
+      isIncoming={false}
+      isGroup={isGroup}
+    >
       <TextDetails text={window.i18n('sent')} />
       <IconForExpiringMessageId messageId={messageId} iconType="circleCheck" />
     </MessageStatusContainer>
@@ -190,6 +204,7 @@ const MessageStatusRead = ({
   isIncoming,
 }: Props & { isIncoming: boolean }) => {
   const isExpiring = useIsExpiring(messageId);
+  const isGroup = useSelectedIsGroup();
 
   const isMostRecentMessage = useIsMostRecentMessage(messageId);
 
@@ -199,7 +214,12 @@ const MessageStatusRead = ({
   }
 
   return (
-    <MessageStatusContainer data-testid={dataTestId} data-testtype="read" isIncoming={isIncoming}>
+    <MessageStatusContainer
+      data-testid={dataTestId}
+      data-testtype="read"
+      isIncoming={isIncoming}
+      isGroup={isGroup}
+    >
       <TextDetails text={window.i18n('read')} />
       <IconForExpiringMessageId messageId={messageId} iconType="doubleCheckCircleFilled" />
     </MessageStatusContainer>
@@ -211,6 +231,7 @@ const MessageStatusError = ({ dataTestId }: Props) => {
     ipcRenderer.send('show-debug-log');
   }, []);
   // when on error, we do not display the expire timer at all.
+  const isGroup = useSelectedIsGroup();
 
   return (
     <MessageStatusContainer
@@ -219,6 +240,7 @@ const MessageStatusError = ({ dataTestId }: Props) => {
       onClick={showDebugLog}
       title={window.i18n('sendFailed')}
       isIncoming={false}
+      isGroup={isGroup}
     >
       <TextDetails text={window.i18n('failed')} />
       <IconDanger iconType="error" />

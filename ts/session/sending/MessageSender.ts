@@ -148,10 +148,7 @@ async function send(
       const storedAt = batchResult?.[0]?.body?.t;
       const storedHash = batchResult?.[0]?.body?.hash;
 
-      // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
       if (
-        encryptedAndWrapped.identifier &&
-        (encryptedAndWrapped.isSyncMessage || isDestinationClosedGroup) &&
         batchResult &&
         !isEmpty(batchResult) &&
         batchResult[0].code === 200 &&
@@ -159,39 +156,48 @@ async function send(
         isString(storedHash) &&
         isNumber(storedAt)
       ) {
+        // TODO: the expiration is due to be returned by the storage server on "store" soon, we will then be able to use it instead of doing the storedAt + ttl logic below
+        // if we have a hash and a storedAt, mark it as seen so we don't reprocess it on the next retrieve
         await Data.saveSeenMessageHashes([{ expiresAt: storedAt + ttl, hash: storedHash }]);
-        const foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
-        if (foundMessage) {
-          await foundMessage.updateMessageHash(storedHash);
-          const convo = foundMessage.getConversation();
-          const expireTimer = foundMessage.getExpireTimer();
-          const expirationType = foundMessage.getExpirationType();
+        // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
 
-          if (
-            convo &&
-            expirationType &&
-            expireTimer > 0 &&
-            // a message has started to disappear
-            foundMessage.getExpirationStartTimestamp()
-          ) {
-            const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
-              convo,
-              expirationType,
-              expireTimer
-            );
+        if (
+          encryptedAndWrapped.identifier &&
+          (encryptedAndWrapped.isSyncMessage || isDestinationClosedGroup)
+        ) {
+          const foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
+          if (foundMessage) {
+            await foundMessage.updateMessageHash(storedHash);
+            const convo = foundMessage.getConversation();
+            const expireTimer = foundMessage.getExpireTimer();
+            const expirationType = foundMessage.getExpirationType();
 
-            const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
-
-            // TODO legacy messages support will be removed in a future release
             if (
-              canBeDeleteAfterRead &&
-              (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead')
+              convo &&
+              expirationType &&
+              expireTimer > 0 &&
+              // a message has started to disappear
+              foundMessage.getExpirationStartTimestamp()
             ) {
-              await DisappearingMessages.updateMessageExpiryOnSwarm(foundMessage, 'send()');
-            }
-          }
+              const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
+                convo,
+                expirationType,
+                expireTimer
+              );
 
-          await foundMessage.commit();
+              const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
+
+              // TODO legacy messages support will be removed in a future release
+              if (
+                canBeDeleteAfterRead &&
+                (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead')
+              ) {
+                await DisappearingMessages.updateMessageExpiryOnSwarm(foundMessage, 'send()');
+              }
+            }
+
+            await foundMessage.commit();
+          }
         }
       }
 

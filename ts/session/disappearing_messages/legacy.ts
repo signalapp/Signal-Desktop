@@ -1,5 +1,4 @@
 // TODO legacy messages support will be removed in a future release
-import { isNumber } from 'lodash';
 import { ProtobufUtils, SignalService } from '../../protobuf';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { DisappearingMessageConversationModeType } from './types';
@@ -26,16 +25,10 @@ export function checkIsLegacyDisappearingDataMessage(
 }
 
 function contentHasTimerProp(contentMessage: SignalService.Content) {
-  return (
-    ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationTimer') ||
-    isNumber(contentMessage.expirationTimer)
-  );
+  return ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationTimer');
 }
 function contentHasTypeProp(contentMessage: SignalService.Content) {
-  return (
-    ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationType') ||
-    isNumber(contentMessage.expirationType)
-  );
+  return ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationType');
 }
 
 /** Use this to check for legacy disappearing messages where the expirationType and expireTimer should be undefined on the ContentMessage */
@@ -44,8 +37,8 @@ export function couldBeLegacyDisappearingMessageContent(
 ): boolean {
   const couldBe =
     (contentMessage.expirationType === SignalService.Content.ExpirationType.UNKNOWN ||
-      (ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached() &&
-        !contentHasTypeProp(contentMessage))) &&
+      ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()) &&
+    !contentHasTypeProp(contentMessage) &&
     !contentHasTimerProp(contentMessage);
 
   return couldBe;

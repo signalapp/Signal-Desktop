@@ -279,7 +279,6 @@ export async function handleNewClosedGroup(
   const envelopeTimestamp = toNumber(envelope.timestamp);
   // a type new is sent and received on one to one so do not use envelope.senderIdentity here
   const sender = envelope.source;
-
   if (
     (await sentAtMoreRecentThanWrapper(envelopeTimestamp, 'UserGroupsConfig')) ===
     'wrapper_more_recent'

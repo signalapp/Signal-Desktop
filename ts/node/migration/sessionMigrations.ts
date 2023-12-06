@@ -1677,6 +1677,8 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
 
       // Message changes
       db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
+      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN flags INTEGER;`).run();
+      db.prepare(`UPDATE ${MESSAGES_TABLE} SET flags = json_extract(json, '$.flags');`);
 
       // #endregion
 

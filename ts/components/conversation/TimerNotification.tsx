@@ -17,7 +17,7 @@ import {
 } from '../../state/selectors/selectedConversation';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { Flex } from '../basic/Flex';
-import { Text } from '../basic/Text';
+import { TextWithChildren } from '../basic/Text';
 import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
 // eslint-disable-next-line import/order
 import { pick } from 'lodash';
@@ -25,6 +25,7 @@ import { ConversationInteraction } from '../../interactions';
 import { getConversationController } from '../../session/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../basic/SessionButton';
+import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 
 const FollowSettingButton = styled.button`
   color: var(--primary-color);
@@ -208,7 +209,9 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         padding="5px 10px"
         style={{ textAlign: 'center' }}
       >
-        <Text text={textToRender} subtle={true} />
+        <TextWithChildren subtle={true}>
+          <SessionHtmlRenderer html={textToRender} />
+        </TextWithChildren>
         <FollowSettingsButton {...props} />
       </Flex>
     </ExpirableReadableMessage>

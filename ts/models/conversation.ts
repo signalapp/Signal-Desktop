@@ -48,6 +48,7 @@ import {
   conversationsChanged,
   markConversationFullyRead,
   MessageModelPropsWithoutConvoProps,
+  messagesDeleted,
   ReduxConversationType,
 } from '../state/ducks/conversations';
 
@@ -823,7 +824,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     fromSync, // if the update comes from a config or sync message
     fromCurrentDevice,
     shouldCommitConvo = true,
-    shouldCommitMessage = true,
     existingMessage,
   }: {
     providedDisappearingMode?: DisappearingMessageConversationModeType;
@@ -833,7 +833,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     fromSync: boolean;
     fromCurrentDevice: boolean;
     shouldCommitConvo?: boolean;
-    shouldCommitMessage?: boolean;
     existingMessage?: MessageModel;
   }): Promise<boolean> {
     const isRemoteChange = Boolean((receivedAt || fromSync) && !fromCurrentDevice);
@@ -864,7 +863,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     );
 
     const isV2DisappearReleased = ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached();
-
     // when the v2 disappear is released, the changes we make are only for our outgoing messages, not shared with a contact anymore
     if (isV2DisappearReleased) {
       if (!this.isPrivate()) {
@@ -873,6 +871,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           expireTimer,
         });
       } else if (fromSync || fromCurrentDevice) {
+        if (expirationMode === 'legacy') {
+          // TODO legacy messages support will be removed in a future release
+          return false;
+        }
         // v2 is live, this is a private chat and a change we made, set the setting to what was given, otherwise discard it
         this.set({
           expirationMode,
@@ -960,16 +962,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               message.get('id')
             ),
           });
-          if (shouldCommitMessage) {
-            await message.commit();
-          }
         }
       }
+      await message.commit();
+
+      await cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
       return true;
     }
-    if (shouldCommitMessage) {
-      await message.commit();
-    }
+    await message.commit();
+
+    await cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
     //
     // Below is the "sending the update to the conversation" part.
     // We would have returned if that message sending part was not needed
@@ -1158,18 +1160,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const sendReceipt =
       settingsReadReceiptEnabled && !this.isBlocked() && !this.isIncomingRequest();
 
-    if (sendReceipt) {
-      window?.log?.info(`Sending ${timestamps.length} read receipts.`);
-      // we should probably stack read receipts and send them every 5 seconds for instance per conversation
-
-      const receiptMessage = new ReadReceiptMessage({
-        timestamp: Date.now(),
-        timestamps,
-      });
-
-      const device = new PubKey(this.id);
-      await getMessageQueue().sendToPubKey(device, receiptMessage, SnodeNamespaces.UserMessages);
+    if (!sendReceipt) {
+      return;
     }
+    window?.log?.info(`Sending ${timestamps.length} read receipts.`);
+
+    const receiptMessage = new ReadReceiptMessage({
+      timestamp: Date.now(),
+      timestamps,
+    });
+
+    const device = new PubKey(this.id);
+    await getMessageQueue().sendToPubKey(device, receiptMessage, SnodeNamespaces.UserMessages);
   }
 
   public async setNickname(nickname: string | null, shouldCommit = false) {
@@ -2518,4 +2520,15 @@ export function hasValidIncomingRequestValues({
   // if a convo is not active, it means we didn't get any messages nor sent any.
   const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
   return Boolean(isPrivate && !isMe && !isApproved && !isBlocked && isActive && didApproveMe);
+}
+
+async function cleanUpExpireHistoryFromConvo(conversationId: string, isPrivate: boolean) {
+  const updateIdsRemoved = await Data.cleanUpExpirationTimerUpdateHistory(
+    conversationId,
+    isPrivate
+  );
+
+  window.inboxStore.dispatch(
+    messagesDeleted(updateIdsRemoved.map(m => ({ conversationKey: conversationId, messageId: m })))
+  );
 }

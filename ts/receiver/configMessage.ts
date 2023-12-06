@@ -230,6 +230,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
     let changes = false;
 
     const expireTimer = ourConvo.getExpireTimer();
+
     const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
 
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
