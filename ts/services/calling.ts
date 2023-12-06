@@ -163,6 +163,7 @@ type CallingReduxInterface = Pick<
   | 'callStateChange'
   | 'cancelIncomingGroupCallRing'
   | 'groupCallAudioLevelsChange'
+  | 'groupCallRaisedHandsChange'
   | 'groupCallStateChange'
   | 'outgoingCall'
   | 'receiveGroupCallReactions'
@@ -847,8 +848,11 @@ export class CallingClass {
             reactions,
           });
         },
-        onRaisedHands: (_groupCall, _raisedHands) => {
-          // TODO: Implement handling of raised hands.
+        onRaisedHands: (_groupCall, raisedHands) => {
+          this.reduxInterface?.groupCallRaisedHandsChange({
+            conversationId,
+            raisedHands,
+          });
         },
         onPeekChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
@@ -1151,6 +1155,14 @@ export class CallingClass {
       throw new Error('Could not find matching call');
     }
     groupCall.resendMediaKeys();
+  }
+
+  public sendGroupCallRaiseHand(conversationId: string, raise: boolean): void {
+    const groupCall = this.getGroupCall(conversationId);
+    if (!groupCall) {
+      throw new Error('Could not find matching call');
+    }
+    groupCall.raiseHand(raise);
   }
 
   public sendGroupCallReaction(conversationId: string, value: string): void {

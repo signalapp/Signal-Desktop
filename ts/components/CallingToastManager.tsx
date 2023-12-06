@@ -8,6 +8,11 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
 import { usePrevious } from '../hooks/usePrevious';
+import {
+  difference as setDifference,
+  isEqual as setIsEqual,
+} from '../util/setUtil';
+import * as log from '../logging/log';
 
 type PropsType = {
   activeCall: ActiveCallType;
@@ -136,9 +141,101 @@ function useOutgoingRingToast({
   }, [outgoingRing, previousOutgoingRing, hideToast, showToast, i18n]);
 }
 
+function useRaisedHandsToast({
+  raisedHands,
+  renderRaisedHandsToast,
+}: {
+  raisedHands?: Set<number>;
+  renderRaisedHandsToast?: (
+    hands: Array<number>
+  ) => JSX.Element | string | undefined;
+}): void {
+  const RAISED_HANDS_TOAST_KEY = 'raised-hands';
+  const LOAD_DELAY = 2000;
+  const { showToast, hideToast } = useCallingToasts();
+
+  // Hand state is updated after a delay upon joining a call, so it can appear that
+  // hands were raised immediately when you join a call. To avoid spurious toasts, add
+  // an initial delay before showing toasts.
+  const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoaded(true);
+    }, LOAD_DELAY);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const previousRaisedHands = usePrevious(raisedHands, raisedHands);
+  const [newHands, loweredHands]: [Set<number>, Set<number>] = isLoaded
+    ? [
+        setDifference(
+          raisedHands ?? new Set(),
+          previousRaisedHands ?? new Set()
+        ),
+        setDifference(
+          previousRaisedHands ?? new Set(),
+          raisedHands ?? new Set()
+        ),
+      ]
+    : [new Set(), new Set()];
+
+  const raisedHandsInLastShownToastRef = useRef<Set<number>>(new Set());
+  const raisedHandsInLastShownToast = raisedHandsInLastShownToastRef.current;
+
+  React.useEffect(() => {
+    // 1. If no hands are raised, then hide any raise hand toast.
+    // 2. Check if someone lowered their hand which they had recently raised. The
+    // previous toast saying they raised their hand would now be out of date, so we
+    // should hide it.
+    if (
+      raisedHands?.size === 0 ||
+      (raisedHandsInLastShownToast.size > 0 &&
+        loweredHands.size > 0 &&
+        setIsEqual(raisedHandsInLastShownToast, loweredHands))
+    ) {
+      hideToast(RAISED_HANDS_TOAST_KEY);
+    }
+
+    if (newHands.size === 0 || !renderRaisedHandsToast) {
+      return;
+    }
+
+    const content = renderRaisedHandsToast([...newHands].reverse());
+    if (!content) {
+      log.warn(
+        'CallingToastManager useRaisedHandsToast: Failed to call renderRaisedHandsToast()'
+      );
+      return;
+    }
+
+    hideToast(RAISED_HANDS_TOAST_KEY);
+    // Note: Don't set { dismissable: true } or else the links (Lower or View Queue)
+    // will cause nested buttons (dismissable toasts are <button>s)
+    showToast({
+      key: RAISED_HANDS_TOAST_KEY,
+      content,
+      autoClose: true,
+    });
+    raisedHandsInLastShownToastRef.current = newHands;
+  }, [
+    raisedHands,
+    previousRaisedHands,
+    newHands,
+    raisedHandsInLastShownToast,
+    loweredHands,
+    renderRaisedHandsToast,
+    hideToast,
+    showToast,
+  ]);
+}
+
 type CallingButtonToastsType = {
   hasLocalAudio: boolean;
   outgoingRing: boolean | undefined;
+  raisedHands?: Set<number>;
+  renderRaisedHandsToast?: (
+    hands: Array<number>
+  ) => JSX.Element | string | undefined;
   i18n: LocalizerType;
 };
 
@@ -161,10 +258,13 @@ export function CallingButtonToastsContainer(
 function CallingButtonToasts({
   hasLocalAudio,
   outgoingRing,
+  raisedHands,
+  renderRaisedHandsToast,
   i18n,
 }: CallingButtonToastsType) {
   useMutedToast({ hasLocalAudio, i18n });
   useOutgoingRingToast({ outgoingRing, i18n });
+  useRaisedHandsToast({ raisedHands, renderRaisedHandsToast });
 
   return null;
 }

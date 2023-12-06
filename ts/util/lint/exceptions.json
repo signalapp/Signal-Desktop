@@ -3060,6 +3060,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallingToastManager.tsx",
+    "line": "  const raisedHandsInLastShownToastRef = useRef<Set<number>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-12-05T22:11:41.559Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
     "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
     "reasonCategory": "usageTrusted",

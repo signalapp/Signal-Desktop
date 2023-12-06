@@ -22,6 +22,17 @@
   }
 }
 
+.CallingStatusIndicator--HandRaised {
+  background: $color-white;
+}
+
+.CallingStatusIndicator--HandRaised::after {
+  @include color-svg(
+    '../images/icons/v3/raise_hand/raise_hand-light.svg',
+    $color-black
+  );
+}
+
 .CallingStatusIndicator--Video::after {
   @include color-svg(
     '../images/icons/v3/video/video-slash-fill-light.svg',
@@ -29,9 +40,25 @@
   );
 }
 
-.module-ongoing-call__footer__local-preview .CallingStatusIndicator--Video {
+.module-ongoing-call__footer__local-preview .CallingStatusIndicator {
   position: absolute;
+  z-index: $z-index-base;
+}
+
+.module-ongoing-call__footer__local-preview .CallingStatusIndicator--Video {
   top: 6px;
   inset-inline-start: 6px;
-  z-index: $z-index-base;
+}
+
+.module-ongoing-call__footer__local-preview
+  .CallingStatusIndicator--HandRaised {
+  bottom: 6px;
+  inset-inline-start: 6px;
+}
+
+.module-ongoing-call__participants__grid
+  .module-ongoing-call__group-call-remote-participant--hand-raised
+  .CallingStatusIndicator--HandRaised {
+  margin-block: 1px;
+  margin-inline-start: 5px;
 }

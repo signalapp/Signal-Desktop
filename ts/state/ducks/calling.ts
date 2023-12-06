@@ -116,6 +116,7 @@ export type GroupCallStateType = {
   localDemuxId: number | undefined;
   joinState: GroupCallJoinState;
   peekInfo?: GroupCallPeekInfoType;
+  raisedHands?: Array<number>;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
   remoteAudioLevels?: Map<number, number>;
 } & GroupCallRingStateType;
@@ -222,11 +223,15 @@ type IncomingGroupCallType = ReadonlyDeep<{
   ringerAci: AciString;
 }>;
 
+export type SendGroupCallRaiseHandType = ReadonlyDeep<{
+  conversationId: string;
+  raise: boolean;
+}>;
+
 export type SendGroupCallReactionType = ReadonlyDeep<{
   conversationId: string;
   value: string;
 }>;
-
 type SendGroupCallReactionLocalCopyType = ReadonlyDeep<{
   conversationId: string;
   value: string;
@@ -445,6 +450,7 @@ const CHANGE_IO_DEVICE_FULFILLED = 'calling/CHANGE_IO_DEVICE_FULFILLED';
 const CLOSE_NEED_PERMISSION_SCREEN = 'calling/CLOSE_NEED_PERMISSION_SCREEN';
 const DECLINE_DIRECT_CALL = 'calling/DECLINE_DIRECT_CALL';
 const GROUP_CALL_AUDIO_LEVELS_CHANGE = 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE';
+const GROUP_CALL_RAISED_HANDS_CHANGE = 'calling/GROUP_CALL_RAISED_HANDS_CHANGE';
 const GROUP_CALL_STATE_CHANGE = 'calling/GROUP_CALL_STATE_CHANGE';
 const GROUP_CALL_REACTIONS_RECEIVED = 'calling/GROUP_CALL_REACTIONS_RECEIVED';
 const GROUP_CALL_REACTIONS_EXPIRED = 'calling/GROUP_CALL_REACTIONS_EXPIRED';
@@ -455,6 +461,7 @@ const MARK_CALL_TRUSTED = 'calling/MARK_CALL_TRUSTED';
 const MARK_CALL_UNTRUSTED = 'calling/MARK_CALL_UNTRUSTED';
 const OUTGOING_CALL = 'calling/OUTGOING_CALL';
 const PEEK_GROUP_CALL_FULFILLED = 'calling/PEEK_GROUP_CALL_FULFILLED';
+const RAISE_HAND_GROUP_CALL = 'calling/RAISE_HAND_GROUP_CALL';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
 const REMOTE_SHARING_SCREEN_CHANGE = 'calling/REMOTE_SHARING_SCREEN_CHANGE';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
@@ -525,6 +532,16 @@ type GroupCallAudioLevelsChangeActionType = ReadonlyDeep<{
   payload: GroupCallAudioLevelsChangeActionPayloadType;
 }>;
 
+type GroupCallRaisedHandsChangeActionPayloadType = ReadonlyDeep<{
+  conversationId: string;
+  raisedHands: ReadonlyArray<number>;
+}>;
+
+type GroupCallRaisedHandsChangeActionType = ReadonlyDeep<{
+  type: 'calling/GROUP_CALL_RAISED_HANDS_CHANGE';
+  payload: GroupCallRaisedHandsChangeActionPayloadType;
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type GroupCallStateChangeActionType = {
   type: 'calling/GROUP_CALL_STATE_CHANGE';
@@ -578,6 +595,11 @@ type KeyChangedActionType = {
 type KeyChangeOkActionType = ReadonlyDeep<{
   type: 'calling/MARK_CALL_TRUSTED';
   payload: null;
+}>;
+
+type SendGroupCallRaiseHandActionType = ReadonlyDeep<{
+  type: 'calling/RAISE_HAND_GROUP_CALL';
+  payload: SendGroupCallRaiseHandType;
 }>;
 
 export type SendGroupCallReactionActionType = ReadonlyDeep<{
@@ -692,6 +714,7 @@ export type CallingActionType =
   | ConversationRemovedActionType
   | DeclineCallActionType
   | GroupCallAudioLevelsChangeActionType
+  | GroupCallRaisedHandsChangeActionType
   | GroupCallStateChangeActionType
   | GroupCallReactionsReceivedActionType
   | GroupCallReactionsExpiredActionType
@@ -950,6 +973,12 @@ function receiveGroupCallReactions(
   };
 }
 
+function groupCallRaisedHandsChange(
+  payload: GroupCallRaisedHandsChangeActionPayloadType
+): GroupCallRaisedHandsChangeActionType {
+  return { type: GROUP_CALL_RAISED_HANDS_CHANGE, payload };
+}
+
 function groupCallStateChange(
   payload: GroupCallStateChangeArgumentType
 ): ThunkAction<void, RootStateType, unknown, GroupCallStateChangeActionType> {
@@ -1071,6 +1100,19 @@ function keyChangeOk(
     dispatch({
       type: MARK_CALL_TRUSTED,
       payload: null,
+    });
+  };
+}
+
+function sendGroupCallRaiseHand(
+  payload: SendGroupCallRaiseHandType
+): ThunkAction<void, RootStateType, unknown, SendGroupCallRaiseHandActionType> {
+  return dispatch => {
+    calling.sendGroupCallRaiseHand(payload.conversationId, payload.raise);
+
+    dispatch({
+      type: RAISE_HAND_GROUP_CALL,
+      payload,
     });
   };
 }
@@ -1612,6 +1654,7 @@ export const actions = {
   declineCall,
   getPresentingSources,
   groupCallAudioLevelsChange,
+  groupCallRaisedHandsChange,
   groupCallStateChange,
   hangUpActiveCall,
   keyChangeOk,
@@ -1630,6 +1673,7 @@ export const actions = {
   remoteSharingScreenChange,
   remoteVideoChange,
   returnToActiveCall,
+  sendGroupCallRaiseHand,
   sendGroupCallReaction,
   setGroupCallVideoRequest,
   setIsCallActive,
@@ -2137,6 +2181,7 @@ export function reducer(
           localDemuxId,
           peekInfo: newPeekInfo,
           remoteParticipants,
+          raisedHands: existingCall?.raisedHands ?? [],
           ...newRingState,
         },
       },
@@ -2263,6 +2308,29 @@ export function reducer(
         reactions: state.activeCallState.reactions.filter(({ timestamp }) => {
           return timestamp > expireAt;
         }),
+      },
+    };
+  }
+
+  if (action.type === GROUP_CALL_RAISED_HANDS_CHANGE) {
+    const { conversationId, raisedHands } = action.payload;
+
+    const { activeCallState } = state;
+    const existingCall = getGroupCall(conversationId, state);
+
+    if (
+      state.activeCallState?.conversationId !== conversationId ||
+      !activeCallState ||
+      !existingCall
+    ) {
+      return state;
+    }
+
+    return {
+      ...state,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: { ...existingCall, raisedHands: [...raisedHands] },
       },
     };
   }

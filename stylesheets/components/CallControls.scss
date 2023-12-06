@@ -110,6 +110,10 @@
   margin-block: -5px;
 }
 
+.CallControls__MoreOptionsButtonContainer--menu-shown .module-tooltip {
+  opacity: 0;
+}
+
 .CallControls__OuterSpacer {
   // Defined in _modules but duplicated here for ease of refactor
   $local-preview-width: 108px;
@@ -120,13 +124,14 @@
   position: absolute;
   inset-inline-start: min(48%, 40vw);
   inset-block-end: 70px;
-  z-index: $z-index-calling;
+  z-index: $z-index-toast;
 }
 
 .CallControls__MoreOptionsMenu {
   display: flex;
   flex-direction: column;
   max-height: calc(var(--window-height) - 155px);
+  font-size: 13px;
   filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
   pointer-events: auto;
 }
@@ -136,6 +141,43 @@
   max-width: calc(var(--window-width) / 2 + 20px);
 }
 
-.CallControls__MoreOptionsButtonContainer--menu-shown .module-tooltip {
-  opacity: 0;
+.CallControls__MoreOptionsMenu
+  .module-emoji-picker
+  + .CallControls__MenuItemRaiseHand {
+  display: none;
+}
+
+.CallControls__MoreOptionsMenu .module-ReactionPickerPicker {
+  @media (prefers-reduced-motion: no-preference) {
+    animation-duration: 200ms;
+  }
+}
+
+.CallControls__MenuItemRaiseHand {
+  @include button-reset;
+  display: flex;
+  min-width: 290px;
+  padding-block: 12px;
+  padding-inline: 12px;
+  margin-block-start: 8px;
+  border-radius: 10px;
+  align-items: center;
+  text-align: start;
+  background-color: $color-gray-75;
+  color: $color-white;
+  filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
+}
+
+.CallControls__MenuItemRaiseHand:hover {
+  background-color: $color-gray-65;
+}
+
+.CallControls__MenuItemRaiseHandIcon {
+  @include color-svg(
+    '../images/icons/v3/raise_hand/raise_hand-light.svg',
+    $color-gray-15
+  );
+  height: 16px;
+  width: 16px;
+  margin-inline: 2px 12px;
 }

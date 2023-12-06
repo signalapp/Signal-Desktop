@@ -96,6 +96,7 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   isConversationTooBigToRing: boolean;
   peekedParticipants: Array<ConversationType>;
+  raisedHands: Set<number>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
 };
@@ -158,6 +159,7 @@ export type GroupCallRemoteParticipantType = ConversationType & {
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
+  isHandRaised: boolean;
   presenting: boolean;
   sharingScreen: boolean;
   speakerTime?: number;
