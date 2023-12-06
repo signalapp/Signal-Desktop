@@ -3910,12 +3910,13 @@
     bindings "^1.5.0"
     tar "^6.1.0"
 
-"@signalapp/libsignal-client@0.32.1":
-  version "0.32.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.32.1.tgz#e1ac48debb399ceff8f2868f0b5ecb75c2fc2ed0"
-  integrity sha512-3J8IV0xlAwDuC/VWmjkZix+ce7bag4B4+0e25pb8izdN5Nto6EQGHsQv2EM/Gx87jHU296tcXu3AbxE91FG7Ow==
+"@signalapp/libsignal-client@0.36.0":
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.36.0.tgz#9deb971b9ae3894e24f4413ada66f09f2b325ac4"
+  integrity sha512-EXwPDks7DSwtt4aGtiAwcU8UYGEeZfMWpCzayVbSkQ8h/QLn3oxYeiWV5maVNJh40kdv05rdIGgamZEBC7yBTA==
   dependencies:
     node-gyp-build "^4.2.3"
+    type-fest "^3.5.0"
     uuid "^8.3.0"
 
 "@signalapp/libsignal-client@^0.30.2":
@@ -19159,7 +19160,7 @@ type-fest@^2.19.0, type-fest@~2.19:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.19.0.tgz#88068015bb33036a598b952e55e9311a60fd3a9b"
   integrity sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==
 
-type-fest@^3.0.0:
+type-fest@^3.0.0, type-fest@^3.5.0:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.13.1.tgz#bb744c1f0678bea7543a2d1ec24e83e68e8c8706"
   integrity sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==
