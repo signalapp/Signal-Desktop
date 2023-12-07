@@ -36,11 +36,7 @@ export function WhatsNewModal({
         id="icu:WhatsNew__v6.42--1"
         components={{
           linkToGithub1: (
-            <a
-              href="https://github.com/qauff"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="https://github.com/qauff" target="_blank" rel="noreferrer">
               @qauff
             </a>
           ),
