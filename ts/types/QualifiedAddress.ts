@@ -8,7 +8,8 @@ import { isServiceIdString } from './ServiceId';
 import type { AddressStringType } from './Address';
 import { Address } from './Address';
 
-const QUALIFIED_ADDRESS_REGEXP = /^([:0-9a-f-]+):([:0-9a-f-]+).(\d+)$/i;
+const QUALIFIED_ADDRESS_REGEXP =
+  /^((?:PNI:)?[:0-9a-f-]+):((?:PNI:)?[:0-9a-f-]+).(\d+)$/i;
 
 export type QualifiedAddressCreateOptionsType = Readonly<{
   ourServiceId: ServiceIdString;
