@@ -48,6 +48,7 @@ const {
 
 describe('SignalProtocolStore', () => {
   const ourAci = generateAci();
+  const ourPni = generatePni();
   const theirAci = generateAci();
   let store: SignalProtocolStore;
   let identityKey: KeyPairType;
@@ -1383,6 +1384,21 @@ describe('SignalProtocolStore', () => {
       await store.storeSession(sibling, getSessionRecord(true));
 
       await store.archiveSiblingSessions(id.address, { zone });
+    });
+
+    it('should not throw in archiveSession on PNI', async () => {
+      const id = new QualifiedAddress(ourPni, new Address(theirAci, 1));
+
+      await store.storeSession(id, getSessionRecord(true));
+
+      await store.archiveSession(id);
+
+      const { devices, emptyServiceIds } = await store.getOpenDevices(ourPni, [
+        theirAci,
+      ]);
+
+      assert.deepEqual(devices, []);
+      assert.deepEqual(emptyServiceIds, [theirAci]);
     });
 
     it('can be concurrently re-entered after waiting', async () => {
