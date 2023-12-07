@@ -3,7 +3,7 @@
 
 .NavSidebar {
   position: relative;
-  z-index: $z-index-base;
+  // Note: Intentionally no z-index here so drag handle is above other content
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -139,6 +139,7 @@
 
 .NavSidebar__DragHandle {
   position: absolute;
+  z-index: $z-index-above-above-base;
   top: 0;
   bottom: 0;
   inset-inline-start: 100%;
