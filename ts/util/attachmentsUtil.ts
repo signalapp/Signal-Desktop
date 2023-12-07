@@ -387,11 +387,13 @@ export const saveAttachmentToDisk = async ({
   messageTimestamp,
   messageSender,
   conversationId,
+  index,
 }: {
   attachment: AttachmentType;
   messageTimestamp: number;
   messageSender: string;
   conversationId: string;
+  index: number;
 }) => {
   const decryptedUrl = await getDecryptedMediaUrl(attachment.url, attachment.contentType, false);
   save({
@@ -399,6 +401,7 @@ export const saveAttachmentToDisk = async ({
     document,
     getAbsolutePath: getAbsoluteAttachmentPath,
     timestamp: messageTimestamp,
+    index,
   });
   await sendDataExtractionNotification(conversationId, messageSender, messageTimestamp);
 };

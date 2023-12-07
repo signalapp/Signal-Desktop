@@ -5,34 +5,34 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { MessageUtils, ToastUtils, UserUtils } from '..';
 import { SignalService } from '../../../protobuf';
-import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import {
+  CallStatusEnum,
   answerCall,
   callConnected,
   callReconnecting,
-  CallStatusEnum,
   endCall,
   incomingCall,
   setFullScreenCall,
   startingCallWith,
 } from '../../../state/ducks/call';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { getConversationController } from '../../conversations';
 import { CallMessage } from '../../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../../onions/onionPath';
 import { PubKey } from '../../types';
 
-import { getIsRinging } from '../RingingManager';
-import { getBlackSilenceMediaStream } from './Silence';
 import { getMessageQueue } from '../..';
-import { MessageSender } from '../../sending';
-import { DURATION } from '../../constants';
-import { Data } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
-import { PnServer } from '../../apis/push_notification_api';
+import { Data } from '../../../data/data';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
+import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
+import { PnServer } from '../../apis/push_notification_api';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
-import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
+import { DURATION } from '../../constants';
+import { MessageSender } from '../../sending';
+import { getIsRinging } from '../RingingManager';
+import { getBlackSilenceMediaStream } from './Silence';
 
 export type InputItem = { deviceId: string; label: string };
 
@@ -137,16 +137,17 @@ const iceServersFullArray = [
     username: 'session202111',
     credential: '053c268164bc7bd7',
   },
-  {
-    urls: 'turn:fenrir.getsession.org',
-    username: 'session202111',
-    credential: '053c268164bc7bd7',
-  },
-  {
-    urls: 'turn:frigg.getsession.org',
-    username: 'session202111',
-    credential: '053c268164bc7bd7',
-  },
+  // excluding those two (fenrir & frigg) as they are TCP only for now
+  // {
+  //   urls: 'turn:fenrir.getsession.org',
+  //   username: 'session202111',
+  //   credential: '053c268164bc7bd7',
+  // },
+  // {
+  //   urls: 'turn:frigg.getsession.org',
+  //   username: 'session202111',
+  //   credential: '053c268164bc7bd7',
+  // },
   {
     urls: 'turn:angus.getsession.org',
     username: 'session202111',

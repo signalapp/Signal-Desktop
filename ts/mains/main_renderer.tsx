@@ -1,7 +1,7 @@
+import { ipcRenderer } from 'electron';
 import _ from 'lodash';
 import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
-
 import React from 'react';
 import nativeEmojiData from '@emoji-mart/data';
 
@@ -27,6 +27,8 @@ import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { runners } from '../session/utils/job_runners/JobRunner';
 import { SettingsKey } from '../data/settings-key';
+import { getOppositeTheme, isThemeMismatched } from '../util/theme';
+import { switchThemeTo } from '../themes/switchTheme';
 
 // Globally disable drag and drop
 document.body.addEventListener(
@@ -109,6 +111,23 @@ function mapOldThemeToNew(theme: string) {
       return theme;
   }
 }
+// using __unused as lodash is imported using _
+ipcRenderer.on('native-theme-update', (__unused, shouldUseDarkColors) => {
+  const shouldFollowSystemTheme = window.getSettingValue(SettingsKey.hasFollowSystemThemeEnabled);
+
+  if (shouldFollowSystemTheme) {
+    const theme = window.Events.getThemeSetting();
+    if (isThemeMismatched(theme, shouldUseDarkColors)) {
+      const newTheme = getOppositeTheme(theme);
+      void switchThemeTo({
+        theme: newTheme,
+        mainWindow: true,
+        usePrimaryColor: true,
+        dispatch: window?.inboxStore?.dispatch,
+      });
+    }
+  }
+});
 
 async function startJobRunners() {
   // start the job runners

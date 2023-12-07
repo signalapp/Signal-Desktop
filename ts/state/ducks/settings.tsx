@@ -8,6 +8,8 @@ const SettingsBoolsKeyTrackedInRedux = [
   SettingsKey.someDeviceOutdatedSyncing,
   SettingsKey.settingsLinkPreview,
   SettingsKey.hasBlindedMsgRequestsEnabled,
+  SettingsKey.hasFollowSystemThemeEnabled,
+  SettingsKey.hasShiftSendEnabled,
 ] as const;
 
 export type SettingsState = {
@@ -20,6 +22,8 @@ export function getSettingsInitialState() {
       someDeviceOutdatedSyncing: false,
       'link-preview-setting': false, // this is the value of SettingsKey.settingsLinkPreview
       hasBlindedMsgRequestsEnabled: false,
+      hasFollowSystemThemeEnabled: false,
+      hasShiftSendEnabled: false,
     },
   };
 }
@@ -47,6 +51,11 @@ const settingsSlice = createSlice({
         SettingsKey.hasBlindedMsgRequestsEnabled,
         false
       );
+      const hasFollowSystemThemeEnabled = Storage.get(
+        SettingsKey.hasFollowSystemThemeEnabled,
+        false
+      );
+      const hasShiftSendEnabled = Storage.get(SettingsKey.hasShiftSendEnabled, false);
       state.settingsBools.someDeviceOutdatedSyncing = isBoolean(outdatedSync)
         ? outdatedSync
         : false;
@@ -54,6 +63,15 @@ const settingsSlice = createSlice({
       state.settingsBools.hasBlindedMsgRequestsEnabled = isBoolean(hasBlindedMsgRequestsEnabled)
         ? hasBlindedMsgRequestsEnabled
         : false;
+
+      state.settingsBools.hasFollowSystemThemeEnabled = isBoolean(hasFollowSystemThemeEnabled)
+        ? hasFollowSystemThemeEnabled
+        : false;
+
+      state.settingsBools.hasShiftSendEnabled = isBoolean(hasShiftSendEnabled)
+        ? hasShiftSendEnabled
+        : false;
+
       return state;
     },
     updateSettingsBoolValue(state, action: PayloadAction<{ id: string; value: boolean }>) {
