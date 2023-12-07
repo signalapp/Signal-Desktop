@@ -1422,25 +1422,13 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Fshije",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Fshi mesazhet",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Të fshihet biseda?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Të fshihen mesazhet?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Kjo bisedë do të fshihet nga kjo pajisjeje.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Mesazhet në këtë bisedë do të fshihen nga kjo pajisje. Mund ta kërkosh ende këtë bisedë pasi të fshish mesazhet.",
@@ -1780,6 +1768,18 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Aktivizo zilen",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Opsione të tjera",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Ti",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Kamera juaj është e fikur",
@@ -2350,10 +2350,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "S’u arrit të sillej numër telefoni. Kontrolloni lidhjen tuaj dhe riprovoni.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Ndryshimet mund të zbatohen vetëm brenda 3 orëve nga momenti që dërgove këtë mesazh.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh.",
@@ -3599,6 +3595,38 @@
   "icu:CallControls__RingingToast--ringing-off": {
     "messageformat": "Zilja nuk po bie",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Rregullime",
@@ -6992,13 +7020,22 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Ky version përfshin një dizajn të përditësuar për thirrjet zanore dhe me video në Signal. Tani ndërfaqja e përdoruesit që telefonon do të duket fantastike, edhe nëse kamera jote nuk është e ndezur dhe nuk shikon pasqyrimin tënd të bukur."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Tani mund ta ndryshosh gjuhën e zgjedhur në Signal pa ndryshuar cilësimet e sistemit (Cilësimet e Signal > Pamja > Gjuha)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Vonesa e shkurtër që shkaktohej ndonjëherë në pajisjet macOS teksa i bashkoheshit thirrjeve në zonën virtuale pritëse është rregulluar, gjë e cila duhet të mos justifikojë më të paktën një arsye lidhur me vonesën prej gjysmë sekonde në takim."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Kemi rregulluar efektin e animimit të kalimit nga një ndarje në një ndarje tjetër të ekranit të videos kur dikush bashkohet ose largohet nga një telefonatë në grup. Të shohësh fytyrën e një miku që të shfaqet në ekran quhet lëvizje shoqërore."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Tani mund të klikosh në një foto profili ose në një avatar grupi në krye të bisedës për të hyrë shpejt te cilësimet e bisedës ose për të parë postime që ende nuk i keni parë nga ajo bisedë. Faleminderit, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

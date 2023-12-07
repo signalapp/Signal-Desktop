@@ -1422,25 +1422,13 @@
     "messageformat": "Informacje",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Usuń",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Usuń wiadomości",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Usunąć czat?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Usunąć wiadomości?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Ten czat zostanie usunięty z tego urządzenia.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Wiadomości z tego czatu zostaną skasowane z tego urządzenia. Po skasowaniu wiadomości wciąż będziesz mieć możliwość wyszukania tego czatu.",
@@ -1780,6 +1768,18 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Włącz dzwonek",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Więcej opcji",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Ty",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Twoja kamera jest wyłączona",
@@ -2350,10 +2350,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Nie udało się wyszukać numeru telefonu. Sprawdź połączenie z internetem i spróbuj ponownie.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Edycji można dokonać tylko w przeciągu 3 godzin od wysłania wiadomości.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edycji można dokonać tylko w przeciągu 24 godzin od wysłania wiadomości.",
@@ -3599,6 +3595,38 @@
   "icu:CallControls__RingingToast--ringing-off": {
     "messageformat": "Dzwonek wył.",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Ustawienia",
@@ -6992,13 +7020,22 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Ta wersja zawiera zaktualizowany wygląd połączeń głosowych i wideo Signal. Od teraz interfejs osoby dzwoniącej nadal będzie świetnie wyglądać, nawet jeśli Twoja kamerka jest wyłączona i nie możesz przyglądać się swojemu pięknemu odbiciu."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Teraz można zmienić wybrany język w aplikacji Signal bez zmiany ustawień systemowych (Ustawienia Signal > Wygląd > Język)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Naprawiliśmy krótkie opóźnienie, które czasem występowało w trakcie dołączania do połączenia na urządzeniach z macOS, co powinno wyeliminować przynajmniej jedną z wymówek dla półsekundowego spóźnienia na spotkanie."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Poprawiliśmy efekt przejścia w kafelkach wideo — ten, który uruchamia się, gdy ktoś dołącza do połączenia grupowego lub je opuszcza. Angielskie wyjście jeszcze nigdy nie było tak proste."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Od teraz możesz kliknąć w zdjęcie profilowe lub awatar grupy w nagłówku czatu, aby szybko uzyskać dostęp do ustawień czatu lub wyświetlić wszystkie niewyświetlone relacje z tego czatu. Dzięki, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

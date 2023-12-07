@@ -1422,25 +1422,13 @@
     "messageformat": "సమాచారం",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "తొలగించండి",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "సందేశాలను తొలగించండి",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "చాట్ తొలగించేదా?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "సందేశాలను తొలగించేదా?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "ఈ పరికరం నుండి ఈ చాట్ తొలగించబడుతుంది.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "ఈ పరికరం నుండి ఈ చాట్‌లోని సందేశాలు తొలగించబడతాయి. మీరు సందేశాలను తొలగించిన తర్వాత కూడా మీరు ఇంకా ఈ చాట్ కోసం శోధించవచ్చు.",
@@ -1780,6 +1768,18 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "రింగింగ్ ఆన్ చేయండి",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "మరిన్ని ఎంపికలు",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "మీరు",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "మీ కెమెరా ఆఫ్‌లో ఉంది",
@@ -2350,10 +2350,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "ఫోన్ నెంబర్ పొందడం విఫలమైంది. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 3 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 24 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి.",
@@ -3599,6 +3595,38 @@
   "icu:CallControls__RingingToast--ringing-off": {
     "messageformat": "రింగ్ ఆఫ్‌లో ఉంది",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "అమరికలు",
@@ -6992,13 +7020,22 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "ఈ విడుదల Signal స్వర మరియు వీడియో కాల్‌ల కోసం అప్‌డేట్ చేయబడిన డిజైన్‌ను కలిగి ఉంది. ఒకవేళ మీ కెమెరా ఆన్‌లో లేనప్పటికీ మరియు మీ స్వంత అందమైన ప్రతిబింబాన్ని మీరు తదేకంగా చూడలేకపోయినా కాలింగ్ యూజర్ ఇంటర్‌ఫేస్ ఇప్పుడు ఇంకా అద్భుతంగా కనిపిస్తుంది."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "మీ సిస్టమ్ సెట్టింగ్‌లను మార్చకుండానే Signal లో మీరు ఎంచుకున్న భాషను ఇప్పుడు మీరు మార్చవచ్చు (Signal సెట్టింగ్‌లు > రూపం > భాష)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "కాల్ లాబీలో చేరిన తర్వాత macOS లో కొన్నిసార్లు జరిగిన కొద్దిపాటి ఆలస్యాన్ని మేము పరిష్కరించాము."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "ఎవరైనా గ్రూప్ కాల్‌లో చేరినప్పుడు లేదా వదిలి వెళ్ళినప్పుడు వీడియో టైల్స్ కోసం స్థిత్యంతర యానిమేషన్‌ను మేము పరిష్కరించాము. స్నేహితుడి ముఖాన్ని చూసినప్పుడు వీక్షణలోకి జారుకోండి, ఇది ఒక సామాజిక చేష్ట."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "చాట్ సెట్టింగ్‌లను వేగంగా యాక్సెస్ చేయడానికి లేదా ఆ చాట్ నుండి కనిపించని కథలను వీక్షించడానికి చాట్ హెడర్‌లోని ప్రొఫైల్ ఫోటో లేదా గ్రూప్ అవతార్‌పై ఇప్పుడు మీరు క్లిక్ చేయవచ్చు. ధన్యవాదాలు, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

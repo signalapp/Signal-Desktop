@@ -1422,25 +1422,13 @@
     "messageformat": "ਜਾਣਕਾਰੀ",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "ਮਿਟਾਓ",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "ਸੁਨੇਹੇ ਮਿਟਾਓ",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "ਕੀ ਚੈਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "ਕੀ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "ਇਸ ਚੈਟ ਨੂੰ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "ਇਸ ਚੈਟ ਵਿਚਲੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਸੁਨੇਹੇ ਮਿਟਾਉਣ ਤੋਂ ਬਾਅਦ ਵੀ ਤੁਸੀਂ ਇਸ ਚੈਟ ਦੀ ਖੋਜ ਕਰ ਸਕਦੇ ਹੋ।",
@@ -1780,6 +1768,18 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "ਰਿੰਗ ਚਾਲੂ ਕਰੋ",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "ਹੋਰ ਵਿਕਲਪ",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "ਤੁਸੀਂ",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "ਤੁਹਾਡਾ ਕੈਮਰਾ ਬੰਦ ਹੈ",
@@ -2350,10 +2350,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "ਫ਼ੋਨ ਨੰਬਰ ਹਾਸਲ ਕਰਨ ਵਿੱਚ ਅਸਫਲ ਰਹੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 3 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 24 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਇਸਨੂੰ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।",
@@ -3599,6 +3595,38 @@
   "icu:CallControls__RingingToast--ringing-off": {
     "messageformat": "ਰਿੰਗ ਬੰਦ ਹੈ",
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "ਸੈਟਿੰਗਾਂ",
@@ -6992,13 +7020,22 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "ਇਸ ਰੀਲੀਜ਼ ਵਿੱਚ Signal ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ ਇੱਕ ਅੱਪਡੇਟ ਕੀਤਾ ਡਿਜ਼ਾਈਨ ਸ਼ਾਮਲ ਹੈ।"
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "ਹੁਣ ਤੁਸੀਂ ਆਪਣੀਆਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਨੂੰ ਬਦਲੇ ਬਿਨਾਂ Signal ਵਿੱਚ ਆਪਣੀ ਚੁਣੀ ਹੋਈ ਭਾਸ਼ਾ ਨੂੰ ਬਦਲ ਸਕਦੇ ਹੋ (Signal ਸੈਟਿੰਗਾਂ > ਦਿੱਖ > ਭਾਸ਼ਾ)।"
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "ਅਸੀਂ macOS 'ਤੇ ਕਾਲ ਲਾਬੀ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੌਰਾਨ ਹੋਣ ਵਾਲੀ ਥੋੜ੍ਹੀ ਜਿਹੀ ਦੇਰੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "ਅਸੀਂ ਵੀਡੀਓ ਟਾਈਲਾਂ ਲਈ ਟ੍ਰਾਂਜੀਸ਼ਨ ਐਨੀਮੇਸ਼ਨ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ, ਜਦੋਂ ਕੋਈ ਗਰੁੱਪ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੁੰਦਾ ਹੈ ਜਾਂ ਕਾਲ ਨੂੰ ਛੱਡ ਕੇ ਜਾਂਦਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਚੈਟ ਸੈਟਿੰਗਾਂ ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਐਕਸੈਸ ਕਰਨ ਲਈ ਜਾਂ ਉਸ ਚੈਟ ਤੋਂ ਕਿਸੇ ਵੀ ਅਣਦੇਖੀ ਕਹਾਣੀਆਂ ਨੂੰ ਦੇਖਣ ਲਈ ਚੈਟ ਹੈਡਰ ਵਿੱਚ ਪ੍ਰੋਫ਼ਾਈਲ ਫ਼ੋਟੋ ਜਾਂ ਗਰੁੱਪ ਅਵਤਾਰ 'ਤੇ ਕਲਿੱਕ ਕਰ ਸਕਦੇ ਹੋ। ਧੰਨਵਾਦ, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }
