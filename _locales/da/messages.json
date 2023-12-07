@@ -1422,25 +1422,13 @@
     "messageformat": "Information",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Slet",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Slet beskeder",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Slet chat?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Slet beskeder?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Chatten vil blive slettet fra denne enhed.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Beskeder i denne chat slettes fra denne enhed. Du kan stadig søge efter denne chat, når du har slettet beskeder.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Slå opringning til",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Flere muligheder",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Dig",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Dit kamera er slået fra",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Det lykkedes ikke at hente telefonnummer. Kontroller din forbindelse, og prøv igen.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Ændringer kan kun foretages inden for 3 timer efter at du har sendt denne besked.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ændringer kan kun foretages indenfor 24 timer efter at du har sendt denne besked.",
@@ -6992,13 +6984,16 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Denne version indeholder et opdateret design til tale- og videoopkald i Signal. Nu vil brugergrænsefladen til opkald stadig se fantastisk ud, selvom dit kamera ikke er tændt og du ikke kan stirrer på dit eget smukke spejlbillede."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Nu kan du ændre dit valgte sprog i Signal uden at ændre dine systemindstillinger (Signal-indstillinger > Udseende > Sprog)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Vi har rettet en kort forsinkelse, der nogle gange opstod, når man tilsluttede sig en opkaldslobby på macOS-enheder, hvilket burde fjerne mindst én undskyldning for at komme et halvt sekund for sent til mødet."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Vi har rettet overgangsanimationen for videofliser, når nogen slutter sig til eller forlader et gruppeopkald. Når du ser en vens ansigt glide ind i billedet, er det en social bevægelse."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Nu kan du klikke på et profilbillede eller gruppens avatar i chatoverskriften for hurtigt at åbne indstillingerne eller se historier, som du ikke har set endnu. Tak, {linkToGithub}!"
   }
 }

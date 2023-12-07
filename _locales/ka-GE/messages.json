@@ -1422,25 +1422,13 @@
     "messageformat": "ინფორმაცია",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "წაშლა",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "შეტყობინებების წაშლა",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "წავშალოთ ჩატი?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "წავშალოთ შეტყობინებები?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "ეს ჩატი ამ მოწყობილობიდან წაიშლება.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "ამ ჩატში არსებული შეტყობინებები ამ მოწყობილობიდან წაიშლება. შეტყობინებების წაშლის შემდეგ ამ ჩატის მოძებნას მაინც შეძლებ.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "ჩართე ზარის ხმა",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "მეტი ოფცია",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "შენ",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "შენი კამერა გამორთულია",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "მობილურის ნომრის მიღება ვერ მოხერხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 3 საათის განმავლობაშია შეგიძლია.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 24 საათის განმავლობაშია შესაძლებელი.",
@@ -6992,13 +6984,16 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "ეს გამოშვება Signal-ის ხმოვანი და ვიდეო ზარების განახლებულ დიზაინს შეიცავს. ახლა ზარის ინტერფეისი მაშინაც კი მშვენივრად გამოიყურება, როცა კამერა გამორთული გაქვს და შენი ლამაზი ანარეკლი არ ჩანს."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "ახლა უკვე შეგიძლია, შენი არჩეული ენა Signal-ში შენი სისტემის პარამეტრების შეცვლის გარეშე შეცვალო (სიგნალის პარამეტრები > ვიზუალი > ენა)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "ჩვენ შევასწორეთ მცირე შეფერხება, რომელსაც ხანდახან macOS-ზე ზარის ლობიში შესვლის შემდეგ აწყდებოდი."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "ჩვენ გამოვასწორეთ გარდამავალი ანიმაცია ვიდეოს ფანჯრებისთვის, როდესაც ვინმე უერთდება ან ტოვებს ჯგუფის ზარს."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "ახლა შეგიძლია, პროფილის ფოტოზე ან ჩატის სათაურში ჯგუფის ავატარზე დააწკაპუნო, რათა ჩატის პარამეტრებში სწრაფად გადახვიდე ან ამ ჩატის ნებისმიერი Srory-ი ნახო, რომელიც ჯერ არ გინახავს. მადლობა, {linkToGithub}!"
   }
 }

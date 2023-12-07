@@ -1422,25 +1422,13 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Izbriši",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Izbriši sporočila",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Želite izbrisati klepet?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Izbrišem sporočila?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Ta klepet bo izbrisan s te naprave.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Sporočila v tem klepetu bodo izbrisana iz te naprave. Ko izbrišete sporočila, lahko še vedno iščete ta klepet.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Vključi zvonjenje",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Več možnosti",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Vi",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Vaša kamera je izključena",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Ne najdemo številke. Preverite internetno povezavo in poskusite znova.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Urejanje je mogoče uporabiti samo v 3 urah od trenutka, ko ste poslali to sporočilo.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Urejanje je mogoče uporabiti samo v 24 urah od trenutka, ko ste poslali to sporočilo.",
@@ -6992,13 +6984,16 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Ta izdaja vključuje posodobljeno zasnovo za glasovne in video klice Signal. Zdaj bo uporabniški vmesnik za klicanje še vedno videti fantastično, tudi če vaša kamera ni vklopljena in ne morete strmeti v svoj čudovit odsev."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Zdaj lahko spremenite izbrani jezik v Signalu, ne da bi spremenili sistemske nastavitve (Nastavitve signala > Videz > Jezik)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Popravili smo kratko zamudo, do katere je včasih prišlo med pridružitvijo preddverju klicev v napravah macOS, kar bi moralo odpraviti vsaj en izgovor za polsekundno zamudo na sestanek."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Popravili smo animacijo prehoda za video ploščice, ko se nekdo pridruži ali zapusti skupinski klic. Ko se pred vami prikaže prijateljev obraz, je to družbeno gibanje."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Zdaj lahko kliknete profilno fotografijo ali avatar skupine v glavi klepeta, da hitro dostopate do nastavitev klepeta ali si ogledate zgodbe iz tega klepeta, ki jih še niste videli. Hvala, {linkToGithub}!"
   }
 }

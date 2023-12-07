@@ -1422,25 +1422,13 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Eliminar",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Eliminar mensagens",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Eliminar chat?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Eliminar mensagens?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Este chat será eliminado deste dispositivo.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "As mensagens neste chat serão eliminadas deste dispositivo. Ainda pode procurar este chat após eliminar as mensagens.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Ativar toque",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Mais opções",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Você",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "A sua câmara encontra-se desligada",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Falha ao procurar o número de telefone. Verifique a sua ligação e tente novamente.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "As edições só podem ser aplicadas dentro de 3 horas a partir do momento em que enviou esta mensagem.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "As edições só podem ser aplicadas dentro de 24 horas a partir do momento em que enviou esta mensagem.",
@@ -6992,13 +6984,16 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Esta versão inclui um design atualizado para chamadas de voz e vídeo do Signal."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Agora pode alterar o idioma selecionado no Signal sem alterar as definições do sistema (Definições do Signal > Aparência > Idioma)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Corrigimos um breve atraso que às vezes ocorria ao entrar num lobby de chamadas em dispositivos macOS."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Corrigimos a animação de transição para os mosaicos de vídeo quando alguém entra ou sai de uma chamada em grupo."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Agora pode clicar numa foto de perfil ou avatar de grupo no cabeçalho do chat para aceder rapidamente às definições de chat ou ver quaisquer histórias não vistas desse chat. Obrigado, {linkToGithub}!"
   }
 }

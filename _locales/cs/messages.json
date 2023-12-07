@@ -1422,25 +1422,13 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Odstranit",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Odstranit zprávy",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Odstranit chat?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Odstranit zprávy?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Tento chat bude z tohoto zařízení odstraněn.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Zprávy v tomto chatu budou z tohoto zařízení odstraněny. Po odstranění zpráv můžete tento chat nadále používat.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Zapnout vyzvánění",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Více možností",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Vy",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Vaše kamera je vypnutá",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Nepodařilo se načíst telefonní číslo. Zkontrolujte připojení a zkuste to znovu.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Úpravy lze provádět pouze do 3 hodin od odeslání zprávy.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Úpravy lze provádět pouze do 24 hodin od odeslání této zprávy.",
@@ -6992,13 +6984,16 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Toto vydání obsahuje aktualizovaný design pro hlasové a video hovory Signal."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Vybraný jazyk můžete nyní změnit v aplikaci Signal, aniž byste museli měnit nastavení systému (Nastavení Signal > Vzhled > Jazyk)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Opravili jsme krátké zpoždění, ke kterému občas docházelo na zařízeních macOS po připojení do rozhraní skupinového hovoru."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Opravili jsme přechodovou animaci u video dlaždic, když se někdo připojí ke skupinovému hovoru někdo jej opustí."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Teď můžete kliknutím na profilovou fotku nebo avatar skupiny v záhlaví chatu rychle přistupovat k nastavení chatu nebo zobrazit všechny dosud neprohlédnuté příběhy z tohoto chatu. Děkujeme, uživateli {linkToGithub}!"
   }
 }

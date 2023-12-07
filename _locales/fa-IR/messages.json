@@ -1422,25 +1422,13 @@
     "messageformat": "اطلاعات",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "پاک کردن",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "پاک کردن پیام‌ها",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "گفتگو پاک شود؟",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "پیام‌ها پاک شود؟",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "این گفتگو از این دستگاه پاک خواهد شد.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "پیام‌های این گفتگو از این دستگاه پاک خواهد شد. بعد از پاک کردن پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "روشن کردن زنگ",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "گزینه‌های بیشتر",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "شما",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "دوربین شما خاموش است",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "شماره تلفن به دست نیامد. . اتصال خود را بررسی کنید و دوباره امتحان کنید.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "ویرایش‌ها فقط تا ۳ ساعت بعد از ارسال این پیام قابل اعمال هستند.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ویرایش‌ها فقط تا ۲۴ ساعت بعد از ارسال این پیام قابل اعمال هستند.",
@@ -6992,13 +6984,16 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "در این نسخۀ جدید طراحی تماس‌های صوتی و تصویری سیگنال به‌روز شده است."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "حالا می‌توانید بدون تغییر تنظیمات سیستم خود، زبان انتخابی‌تان در سیگنال را تغییر دهید (تنظیمات سیگنال > نمای ظاهری > زبان)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "تأخیر کوتاهی را که گاهی بعد از پیوستن به جلسۀ تماس در macOS رخ می‌داد برطرف کردیم."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "انیمیشن گذار را برای عنوان ویدئوها، در زمانی که کسی به تماس گروهی می‌پیوندد یا از آن خارج می‌شود، رفع اشکال کرده‌ایم."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "حالا می‌توانید روی یک عکس نمایه یا آواتار گروهی در سربرگ گفتگو کلیک کنید تا به سرعت به تنظیمات گفتگو دسترسی پیدا کنید یا استوری‌های دیده نشده از آن گفتگو را مشاهده کنید. سپاس، {linkToGithub}!"
   }
 }

@@ -1422,25 +1422,13 @@
     "messageformat": "Информация",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Изтриване",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Изтриване на съобщенията",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Изтриване на чата?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Изтриване на съобщенията?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Чатът ще бъде изтрит от това устройство.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Съобщенията в този чат ще бъдат изтрити от това устройство. Пак ще можете да търсите този чат, след като изтриете съобщенията.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Включване на звъненето",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Още опции",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Вие",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Камерата е изключена",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Неуспешно извличане на телефонен номер. Проверете връзката си и опитайте отново.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Редакциите могат да се прилагат само в рамките на 3 часа от момента на изпращане на това съобщение.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редакциите могат да се прилагат само в рамките на 24 часа от момента на изпращане на това съобщение.",
@@ -6992,13 +6984,16 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Тази версия включва актуализиран дизайн за гласовите и видео разговори в Signal."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Вече можете да промените избрания от вас език в Signal, без да променяте системните си настройки (Настройки на Signal > Външен вид > Език)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Коригирахме кратко забавяне, което понякога се случваше в macOS след присъединяване към лоби за разговор."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Коригирахме анимацията за преход за видеоплочки, когато някой се присъедини или напусне групово повикване."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Вече можете да кликвате върху профилна снимка или групов аватар в заглавката на чата за бърз достъп до настройките на чата или за преглед на неразгледаните истории от този чат. Благодарим, {linkToGithub}!"
   }
 }

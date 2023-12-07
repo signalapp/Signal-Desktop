@@ -1422,25 +1422,13 @@
     "messageformat": "Informazioni",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Elimina",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Elimina messaggi",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Vuoi eliminare la chat?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Vuoi davvero eliminare i messaggi?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Questa chat verrà eliminata da questo dispositivo.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "I messaggi in questa chat verranno rimossi dal dispositivo. Dopo che avrai eliminato i messaggi, questa chat apparirà comunque nei risultati delle tue ricerche.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Attiva squillo chiamata",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Più opzioni",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Tu",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "La tua videocamera è disattivata",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Impossibile recuperare il numero di telefono. Controlla la tua connessione e riprova.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Puoi modificare questo messaggio entro 3 ore dall'invio.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Puoi modificare questo messaggio solo entro 24 ore dall'invio.",
@@ -6992,13 +6984,16 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Questo aggiornamento include un nuovo design per le chiamate vocali e le videochiamate su Signal. L'interfaccia sarà molto più bella… ma mai quanto il tuo riflesso durante una videochiamata."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Da ora puoi modificare la lingua su Signal senza cambiare le impostazioni di sistema del tuo dispositivo (Impostazioni di Signal > Aspetto > Lingua)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Abbiamo risolto un problema di lag che poteva capitare quando si entrava in una chiamata di gruppo su dispositivi macOS."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Abbiamo aggiornato la transizione animata per le schermate video quando una persona si unisce a una chiamata di gruppo o la abbandona. Adesso sarà più semplice rimanere al passo con il continuo viavai di persone!"
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Da ora puoi cliccare sulla foto di un profilo o sull'avatar di un gruppo nella parte superiore della chat per accedere subito alle impostazioni della chat o per recuperare le Storie non ancora visualizzate. Grazie, {linkToGithub}!"
   }
 }

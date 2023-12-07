@@ -1422,25 +1422,13 @@
     "messageformat": "ព័ត៌មាន",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "លុប",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "លុបសារ",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "លុបការជជែកឬ?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "លុបសារឬ?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "ការជជែកនេះនឹងត្រូវលុបចេញពីឧបករណ៍នេះ។",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "សារនៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។ អ្នកនៅតែអាចស្វែងរកការជជែកនេះបាន បន្ទាប់ពីអ្នកលុបសារហើយ។",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "បើកសំឡេងរោទ៍",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "ជម្រើសច្រើនទៀត",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "អ្នក",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "កាមេរ៉ារបស់អ្នកបានបិទ",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "មិនអាចស្រង់រកលេខទូរសព្ទបាន។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "ការកែសារអាចធ្វើបានតែក្នុងរយៈពេល 3 ម៉ោងគិតចាប់ពីពេលដែលអ្នកបានផ្ញើសារនេះប៉ុណ្ណោះ។",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ការកែសារអាចធ្វើបានតែក្នុងរយៈពេល 24 ម៉ោងគិតចាប់ពីពេលដែលអ្នកបានផ្ញើសារនេះប៉ុណ្ណោះ។",
@@ -6992,13 +6984,16 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "ការចេញផ្សាយនេះរួមបញ្ចូលនូវការរចនាអាប់ដេតថ្មីសម្រាប់ការហៅជាសំឡេង និងជាវីដេអូរបស់ Signal។ ឥឡូវនេះ អ៊ីនធើហ្វេសអ្នកប្រើសម្រាប់ការហៅនឹងមើលទៅនៅតែស្អាតអស្ចារ្យដដែល ទោះបីជាកាមេរ៉ារបស់អ្នកបិទ ហើយអ្នកមិនអាចសម្លឹងមើលខ្លួនឯងបានក៏ដោយ។"
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "ឥឡូវនេះ អ្នកអាចផ្លាស់ប្តូរភាសាដែលអ្នកបានជ្រើសរើសនៅក្នុង Signal ដោយមិនចាំបាច់ផ្លាស់ប្តូរការកំណត់ប្រព័ន្ធរបស់អ្នកទេ (ការកំណត់ Signal > រូបរាង > ភាសា)។"
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "យើងបានដោះស្រាយបញ្ហានៃការពន្យារពេលខ្លីមួយ ដែលជួនកាលកើតឡើងនៅលើឧបករណ៍ macOS ដោយត្រូវរង់ចាំបន្តិចនៅពេលចូលរួមការហៅទូរសព្ទ។ ការកែលម្អនេះយ៉ាងហោចណាស់ធ្វើឲ្យអ្នកចូលរួមលែងមានលេសទៀតហើយ នៅពេលដែលចូលរួមការប្រជុំយឺតបន្តិច។"
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "យើងបានកែសម្រួលនូវការដាក់ចលនាសម្រាប់ក្រឡាវីដេអូ នៅពេលមាននរណាម្នាក់ចូលរួម ឬចាកចេញពីការហៅជាក្រុម។ នៅពេលអ្នកឃើញមុខមិត្តភក្តិរបស់អ្នកលេចឡើងនៅលើអេក្រង់ នោះហើយជាការប្រសើរសម្រាប់ទំនាក់ទំនងក្នុងបណ្តាញសង្គម។"
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "ឥឡូវនេះ អ្នកអាចចុចលើរូបថតប្រូហ្វាល់ ឬរូបតំណាងក្រុមនៅក្នុងរូបក្បាលឆាត ដើម្បីចូលទៅការកំណត់នៃការជជែកបានឆាប់រហ័ស ឬមើលរឿងរ៉ាវដែលមិនទាន់បានឃើញពីការជជែកនោះ។ អរគុណ {linkToGithub}!"
   }
 }

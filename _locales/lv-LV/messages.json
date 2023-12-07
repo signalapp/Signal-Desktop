@@ -1422,25 +1422,13 @@
     "messageformat": "Informācija",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Dzēst",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Ziņu dzēšana",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Vai dzēst sarunu?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Vai dzēst ziņas?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Šī tērzēšana tiks dzēsta no šīs ierīces.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Šīs sarunas ziņas tiks dzēstas no šīs ierīces. Pēc ziņu dzēšanas joprojām varēsiet atrast šo sarunu meklēšanā.",
@@ -1780,6 +1768,14 @@
   "icu:CallingButton--ring-on": {
     "messageformat": "Ieslēgt zvana signālu",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Papildu iespējas",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Jūs",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Jūsu kamera ir izslēgta",
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Neizdevās ielādēt tālruņa numuru. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Labojumi var tikt piemēroti tikai 3 stundu laikā pēc šīs ziņas nosūtīšanas.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Labojumus var veikt tikai 24 stundu laikā pēc šīs ziņas nosūtīšanas.",
@@ -6992,13 +6984,16 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Šajā versijā ir iekļauts atjaunināts Signal balss un videozvanu dizains. Tagad arī turpmāk lietotāja zvanīšanas saskarne izskatīsies fantastiski, pat ja kamera nebūs ieslēgta un ekrānā neredzēsiet savu skaisto atspulgu."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Tagad varat mainīt atlasīto valodu Signal platformā, nemainot sistēmas iestatījumus (Signal iestatījumi > Izskats > Valoda)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "Mēs novērsām īslaicīgu aizkavi, kas radās, pievienojoties zvana uzgaidīšanas telpai macOS ierīcēs, tāpēc tagad jums būs par vienu attaisnojumu mazāk, ja ieradīsieties uz sapulci ar pussekundes nokavēšanos."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Mēs uzlabojām video elementu pāreju animācijas brīžos, kad lietotāji pievienojas grupas zvaniem vai pamet tos. Kolīdz redzat drauga portretu ieslīdam skatā, ir laiks ieslīgt sarunās."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Tagad sarunas galvenē varat noklikšķināt uz profila attēla vai grupas avatāra, lai ātri piekļūtu sarunas iestatījumiem vai apskatītu vēl neredzētos stāstus šajā sarunā. Paldies, {linkToGithub}!"
   }
 }

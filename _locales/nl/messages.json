@@ -952,7 +952,7 @@
     "description": "View menu item to force the app to update download and install"
   },
   "icu:helpMenuShowKeyboardShortcuts": {
-    "messageformat": "Toetsenbord-snelkoppelingen weergeven",
+    "messageformat": "Sneltoetsen weergeven",
     "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
   },
   "icu:contactUs": {
@@ -1422,25 +1422,13 @@
     "messageformat": "Bericht­details",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Wissen",
-    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
-  },
   "icu:deleteMessagesInConversation": {
     "messageformat": "Berichten wissen",
     "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Chat verwijderen?",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
-  },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
     "messageformat": "Berichten wissen?",
     "description": "Title for confirmation modal to delete all messages in a conversation"
-  },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Deze chat wordt alleen op dit apparaat verwijderd.",
-    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Berichten in deze chat worden van dit apparaat verwijderd. Je kunt nog steeds naar deze chat zoeken nadat je berichten hebt verwijderd.",
@@ -1781,6 +1769,14 @@
     "messageformat": "Bellen inschakelen",
     "description": "Button tooltip label for turning ringing on"
   },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Meer opties",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Jij",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
+  },
   "icu:calling__your-video-is-off": {
     "messageformat": "Je camera staat uit",
     "description": "Label in the calling lobby indicating that your camera is off"
@@ -1938,11 +1934,11 @@
     "description": "Header for permissions section of settings"
   },
   "icu:mediaPermissionsDescription": {
-    "messageformat": "Ik geef de Signal-app toestemming om mijn microfoon te gebruiken",
+    "messageformat": "Toegang tot de microfoon toestaan",
     "description": "Description of the media permission description"
   },
   "icu:mediaCameraPermissionsDescription": {
-    "messageformat": "Ik geef de Signal-app toestemming om mijn camera te gebruiken",
+    "messageformat": "Toegang tot de camera toestaan",
     "description": "Description of the media permission description"
   },
   "icu:general": {
@@ -2248,7 +2244,7 @@
     "description": "A notification shown in the conversation when a contact reinstalls"
   },
   "icu:safetyNumberChanges": {
-    "messageformat": "Veiligheidsnummer veranderingen",
+    "messageformat": "Veranderingen in veiligheidsnummer",
     "description": "Title for safety number changed modal"
   },
   "icu:safetyNumberChangedGroup": {
@@ -2284,7 +2280,7 @@
     "description": "Label text for dark theme"
   },
   "icu:themeSystem": {
-    "messageformat": "Systeemstandaard volgen",
+    "messageformat": "Systeemstandaard",
     "description": "Label text for system theme"
   },
   "icu:noteToSelf": {
@@ -2350,10 +2346,6 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Het ophalen van het telefoonnummer is mislukt. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
     "description": "Shown if request to Signal servers to find phone number fails"
-  },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Bewerkingen kunnen alleen worden toegepast binnen 3 uur vanaf het moment dat je dit bericht hebt verstuurd.",
-    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Berichten kunnen alleen binnen 24 uur na verzenden bewerkt worden.",
@@ -3109,7 +3101,7 @@
     "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
   },
   "icu:Keyboard--header": {
-    "messageformat": "Toetsenbord-snelkoppelingen",
+    "messageformat": "Sneltoetsen",
     "description": "Title header of the keyboard shortcuts guide"
   },
   "icu:Keyboard--navigation-header": {
@@ -4333,27 +4325,27 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
-    "messageformat": "Je hebt de groepslink ingeschakeld zonder vereiste beheerdersgoedkeuring van nieuwe leden.",
+    "messageformat": "Je hebt de groepslink zonder beheerdersgoedkeuring van nieuwe leden ingeschakeld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--other": {
-    "messageformat": "{adminName} heeft de groepslink ingeschakeld zonder vereiste beheerdersgoedkeuring van nieuwe leden.",
+    "messageformat": "{adminName} heeft de groepslink zonder beheerdersgoedkeuring van nieuwe leden ingeschakeld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--unknown": {
-    "messageformat": "De groepslink is ingeschakeld zonder vereiste beheerdersgoedkeuring van nieuwe leden.",
+    "messageformat": "De groepslink zonder beheerdersgoedkeuring van nieuwe leden is ingeschakeld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--you": {
-    "messageformat": "Je hebt de groepslink ingeschakeld met vereiste beheerdersgoedkeuring van nieuwe leden.",
+    "messageformat": "Je hebt de groepslink met beheerdersgoedkeuring van nieuwe leden ingeschakeld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--other": {
-    "messageformat": "{adminName} heeft de groepslink ingeschakeld met vereiste beheerdersgoedkeuring van nieuwe leden.",
+    "messageformat": "{adminName} heeft de groepslink met beheerdersgoedkeuring van nieuwe leden ingeschakeld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--unknown": {
-    "messageformat": "De groepslink is ingeschakeld met vereiste beheerdersgoedkeuring van nieuwe leden.",
+    "messageformat": "De groepslink met beheerdersgoedkeuring van nieuwe leden is ingeschakeld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-remove--you": {
@@ -4797,7 +4789,7 @@
     "description": "This lets users share their group link"
   },
   "icu:GroupLinkManagement--confirm-reset": {
-    "messageformat": "Weet je zeker dat je de groepslink wilt vernieuwen? Als je de link vernieuwt zullen mensen niet langer lid kunnen worden via de huidige link.",
+    "messageformat": "Weet je zeker dat je de groepslink wilt vernieuwen? Als je de link vernieuwt kunnen mensen niet langer lid worden via de huidige link.",
     "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
   },
   "icu:GroupLinkManagement--reset": {
@@ -6777,7 +6769,7 @@
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
-    "messageformat": "Standaardinstelling herstellen",
+    "messageformat": "QR-code vernieuwen",
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__done": {
@@ -6789,11 +6781,11 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "Als je je QR-code reset, werken je bestaande QR-code en link niet meer.",
+    "messageformat": "Als je je QR-code vernieuwd, werken je bestaande QR-code en link niet meer.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
-    "messageformat": "Link aan het resetten…",
+    "messageformat": "Link aan het vernieuwen…",
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
@@ -6961,7 +6953,7 @@
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
   "icu:WhatsNew__modal-title": {
-    "messageformat": "wat er nieuw is",
+    "messageformat": "Wat er nieuw is",
     "description": "Title for the whats new modal"
   },
   "icu:WhatsNew__bugfixes": {
@@ -6992,13 +6984,16 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.38--0": {
-    "messageformat": "Deze release bevat een bijgewerkt ontwerp voor video- en spraakoproepen in Signal. De gebruikersinterface waarmee je belt, ziet er nog steeds geweldig uit. Zelfs als je camera uitstaat en je niet naar je eigen, mooie spiegelbeeld kunt kijken."
-  },
   "icu:WhatsNew__v6.39--0": {
     "messageformat": "Je kunt nu je geselecteerde taal in Signal wijzigen zonder je systeeminstellingen te wijzigen (Signal-instellingen > Uiterlijk > Taal)."
   },
   "icu:WhatsNew__v6.39--1": {
     "messageformat": "We hebben een korte vertraging opgelost die soms optrad tijdens het wachten in het wachtscherm op macOS-apparaten. Nu is er in ieder geval één excuus minder om een halve seconde te laat te zijn voor de vergadering."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "We hebben de overgangsanimaties gerepareerd voor videotegels die verschijnen wanneer iemand deelneemt aan een groepsoproep of deze verlaat. Wanneer je het gezicht van een contact in beeld ziet komen, dan is dat een sociale beweging."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Je kunt nu op een profielfoto of groepsafbeelding in de chatkop klikken om snel toegang te krijgen tot de chatinstellingen of om nog niet bekeken verhalen uit die chat te bekijken. Bedankt {linkToGithub}!"
   }
 }
