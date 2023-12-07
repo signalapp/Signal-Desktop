@@ -121,7 +121,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
       // this is to smooth a bit the loading of older message (to avoid a jump once new messages are rendered)
       const previousMessageTimestamp =
         index + 1 >= sortedMessages.length
-          ? Number.MAX_SAFE_INTEGER
+          ? 0
           : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
             sortedMessages[index + 1].propsForMessage.timestamp;
 
