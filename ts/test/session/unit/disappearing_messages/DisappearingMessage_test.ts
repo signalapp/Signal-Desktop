@@ -349,7 +349,7 @@ describe('DisappearingMessage', () => {
       const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         visibleMessage.contentProto(),
         convoToUpdate,
-        true
+        null
       );
 
       expect(expireUpdate?.expirationType, 'expirationType should be unknown').to.equal('unknown');
@@ -376,7 +376,7 @@ describe('DisappearingMessage', () => {
       const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         disappearingMessage.contentProto(),
         convoToUpdate,
-        true
+        null
       );
 
       expect(expireUpdate?.expirationType, 'expirationType should be deleteAfterRead').to.equal(
@@ -410,7 +410,7 @@ describe('DisappearingMessage', () => {
       const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         expirationTimerUpdateMessage.contentProto(),
         convoToUpdate,
-        true
+        null
       );
 
       expect(expireUpdate?.expirationType, 'expirationType should be deleteAfterSend').to.equal(
@@ -444,7 +444,7 @@ describe('DisappearingMessage', () => {
       const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         expirationTimerUpdateMessage.contentProto(),
         convoToUpdate,
-        true
+        null
       );
 
       expect(expireUpdate?.expirationType, 'expirationType should be deleteAfterSend').to.equal(

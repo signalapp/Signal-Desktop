@@ -185,7 +185,7 @@ async function send(
                 expireTimer
               );
 
-              const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
+              const canBeDeleteAfterRead = !convo.isMe() && convo.isPrivate();
 
               // TODO legacy messages support will be removed in a future release
               if (

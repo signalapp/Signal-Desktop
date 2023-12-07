@@ -1429,9 +1429,11 @@ async function addIceCandidateToExistingPeerConnection(callMessage: SignalServic
   if (peerConnection) {
     for (let index = 0; index < callMessage.sdps.length; index++) {
       const sdp = callMessage.sdps[index];
+
       const sdpMLineIndex = callMessage.sdpMLineIndexes[index];
       const sdpMid = callMessage.sdpMids[index];
       const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
+
       try {
         // eslint-disable-next-line no-await-in-loop
         await peerConnection.addIceCandidate(candicate);

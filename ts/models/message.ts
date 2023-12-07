@@ -1028,7 +1028,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         content,
         conversation,
-        true
+        null
       );
 
       const syncMessage = buildSyncMessage(
@@ -1130,15 +1130,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
             true
           );
         }
-
-        this.set({
-          expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
-            expirationMode,
-            readAt,
-            'markMessageReadNoCommit',
-            this.get('id')
-          ),
-        });
+        if (!this.getExpirationStartTimestamp()) {
+          this.set({
+            expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
+              expirationMode,
+              readAt,
+              'markMessageReadNoCommit',
+              this.get('id')
+            ),
+          });
+        }
       }
     }
 

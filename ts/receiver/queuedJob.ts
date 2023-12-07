@@ -392,7 +392,7 @@ export async function handleMessageJob(
     if (
       conversation &&
       messageModel.getExpireTimer() > 0 &&
-      Boolean(messageModel.getExpirationStartTimestamp()) === false
+      !messageModel.getExpirationStartTimestamp()
     ) {
       const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,

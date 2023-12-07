@@ -38,7 +38,11 @@ import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGrou
 import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
 
-export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
+export async function handleSwarmContentMessage(
+  envelope: EnvelopePlus,
+  messageHash: string,
+  messageExpirationFromRetrieve: number | null
+) {
   try {
     const plaintext = await decrypt(envelope);
 
@@ -51,7 +55,13 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
     const sentAtTimestamp = toNumber(envelope.timestamp);
     // swarm messages already comes with a timestamp in milliseconds, so this sentAtTimestamp is correct.
     // the sogs messages do not come as milliseconds but just seconds, so we override it
-    await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
+    await innerHandleSwarmContentMessage({
+      envelope,
+      sentAtTimestamp,
+      plaintext,
+      messageHash,
+      messageExpirationFromRetrieve,
+    });
   } catch (e) {
     window?.log?.warn(e.message);
   }
@@ -386,12 +396,19 @@ function shouldDropBlockedUserMessage(
   return !isControlDataMessageOnly;
 }
 
-export async function innerHandleSwarmContentMessage(
-  envelope: EnvelopePlus,
-  sentAtTimestamp: number,
-  plaintext: ArrayBuffer,
-  messageHash: string
-): Promise<void> {
+export async function innerHandleSwarmContentMessage({
+  envelope,
+  messageHash,
+  plaintext,
+  sentAtTimestamp,
+  messageExpirationFromRetrieve,
+}: {
+  envelope: EnvelopePlus;
+  sentAtTimestamp: number;
+  plaintext: ArrayBuffer;
+  messageHash: string;
+  messageExpirationFromRetrieve: number | null;
+}): Promise<void> {
   try {
     perfStart(`SignalService.Content.decode-${envelope.id}`);
     window.log.info('innerHandleSwarmContentMessage');
@@ -472,7 +489,8 @@ export async function innerHandleSwarmContentMessage(
 
       const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         content,
-        conversationModelForUIUpdate
+        conversationModelForUIUpdate,
+        messageExpirationFromRetrieve
       );
       // TODO legacy messages support will be removed in a future release
       if (expireUpdate?.isDisappearingMessagesV2Released) {
@@ -488,14 +506,14 @@ export async function innerHandleSwarmContentMessage(
       }
 
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
-      await handleSwarmDataMessage(
+      await handleSwarmDataMessage({
         envelope,
         sentAtTimestamp,
-        content.dataMessage as SignalService.DataMessage,
+        rawDataMessage: content.dataMessage as SignalService.DataMessage,
         messageHash,
         senderConversationModel,
-        expireUpdate
-      );
+        expireUpdate,
+      });
       perfEnd(`handleSwarmDataMessage-${envelope.id}`, 'handleSwarmDataMessage');
       return;
     }

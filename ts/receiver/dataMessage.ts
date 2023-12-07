@@ -153,14 +153,21 @@ export function cleanIncomingDataMessage(
  *        * dataMessage.syncTarget is either the group public key OR the private conversation this message is about.
  */
 
-export async function handleSwarmDataMessage(
-  envelope: EnvelopePlus,
-  sentAtTimestamp: number,
-  rawDataMessage: SignalService.DataMessage,
-  messageHash: string,
-  senderConversationModel: ConversationModel,
-  expireUpdate?: DisappearingMessageUpdate
-): Promise<void> {
+export async function handleSwarmDataMessage({
+  envelope,
+  messageHash,
+  rawDataMessage,
+  senderConversationModel,
+  sentAtTimestamp,
+  expireUpdate,
+}: {
+  envelope: EnvelopePlus;
+  sentAtTimestamp: number;
+  rawDataMessage: SignalService.DataMessage;
+  messageHash: string;
+  senderConversationModel: ConversationModel;
+  expireUpdate?: DisappearingMessageUpdate;
+}): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
   const cleanDataMessage = cleanIncomingDataMessage(rawDataMessage, envelope);

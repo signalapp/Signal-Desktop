@@ -338,7 +338,12 @@ export class SwarmPolling {
           return;
         }
 
-        Receiver.handleRequest(content.body, isGroup ? polledPubkey : null, content.messageHash);
+        Receiver.handleRequest(
+          content.body,
+          isGroup ? polledPubkey : null,
+          content.messageHash,
+          m.expiration
+        );
       });
     }
   }

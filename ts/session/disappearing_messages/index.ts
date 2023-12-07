@@ -4,6 +4,7 @@ import { initWallClockListener } from '../../util/wallClockListener';
 
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
+import { READ_MESSAGE_STATE } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
 import { SignalService } from '../../protobuf';
 import { ReleasedFeatures } from '../../util/releaseFeature';
@@ -105,8 +106,9 @@ async function checkExpiringMessages() {
   if (!expiresAt || !isNumber(expiresAt)) {
     return;
   }
-  window.log.info('next message expires', new Date(expiresAt).toISOString());
-  window.log.info('next message expires in ', (expiresAt - Date.now()) / 1000);
+
+  const ms = expiresAt - Date.now();
+  window.log.info(`message expires in ${ms}ms, or ${ms / 1000}s, or ${ms / (3600 * 1000)}h`);
 
   let wait = expiresAt - Date.now();
 
@@ -279,7 +281,7 @@ function changeToDisappearingConversationMode(
 async function checkForExpireUpdateInContentMessage(
   content: SignalService.Content,
   convoToUpdate: ConversationModel,
-  _isOutgoing?: boolean
+  messageExpirationFromRetrieve: number | null
 ): Promise<DisappearingMessageUpdate | undefined> {
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
@@ -314,6 +316,7 @@ async function checkForExpireUpdateInContentMessage(
     isLegacyConversationSettingMessage,
     isLegacyDataMessage,
     isDisappearingMessagesV2Released,
+    messageExpirationFromRetrieve,
   };
 
   // NOTE some platforms do not include the diappearing message values in the Data Message for sent messages so we have to trust the conversation settings until v2 is released
@@ -415,30 +418,54 @@ function getMessageReadyToDisappear(
     return messageModel;
   }
 
-  const { expirationType, expirationTimer: expireTimer } = expireUpdate;
+  const {
+    expirationType,
+    expirationTimer: expireTimer,
+    messageExpirationFromRetrieve,
+  } = expireUpdate;
 
+  /**
+   * This is quite tricky, but when we receive a message from the network, it might be a disappearing after read one, which was already read by another device.
+   * If that's the case, we need to not only mark the message as read, but also mark it as read at the right time.
+   * So that a message read 20h ago, and expiring 24h after read, has only 4h to live on this device too.
+   *
+   * A message is marked as read when created, if the convo volatile update reports that it should have been read (check `markAttributesAsReadIfNeeded()` if needed).
+   * That means that here, if we have a message
+   *   - read,
+   *   - incoming,
+   *   - and disappearing after read,
+   * we have to force its expirationStartTimestamp and expire_at fields so they are in sync with our other devices.
+   */
   messageModel.set({
     expirationType,
     expireTimer,
   });
 
+  if (
+    conversationModel.isPrivate() &&
+    messageModel.isIncoming() &&
+    expirationType === 'deleteAfterRead' &&
+    expireTimer > 0 &&
+    messageModel.get('unread') === READ_MESSAGE_STATE.read &&
+    messageExpirationFromRetrieve &&
+    messageExpirationFromRetrieve > 0
+  ) {
+    const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
+    const expires_at = messageExpirationFromRetrieve;
+    // TODO a message might be added even when it expired, but the period cleaning of expired message will pick it up and remove it soon enough
+    window.log.debug(
+      `incoming DaR message already read by another device, forcing readAt ${(Date.now() -
+        expirationStartTimestamp) /
+        1000}s ago, so with ${(expires_at - Date.now()) / 1000}s left`
+    );
+    messageModel.set({
+      expirationStartTimestamp,
+      expires_at,
+    });
+  }
+
   // This message is an ExpirationTimerUpdate
   if (messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
-    const previousExpirationMode = conversationModel.getExpirationMode();
-    const previousExpirationTimer = conversationModel.getExpireTimer();
-    const shouldUsePreviousExpiration =
-      expirationType === 'unknown' &&
-      previousExpirationMode !== 'off' &&
-      previousExpirationMode !== 'legacy' &&
-      messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-
-    if (shouldUsePreviousExpiration) {
-      messageModel.set({
-        expirationType: previousExpirationMode,
-        expireTimer: previousExpirationTimer,
-      });
-    }
-
     const expirationTimerUpdate = {
       expirationType,
       expireTimer,

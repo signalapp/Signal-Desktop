@@ -130,7 +130,6 @@ async function retrieveNextMessages(
     4000,
     associatedWith
   );
-
   if (!results || !results.length) {
     window?.log?.warn(
       `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
