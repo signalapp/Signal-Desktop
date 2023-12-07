@@ -16,6 +16,7 @@ import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import { generateAci } from '../../types/ServiceId';
 import { IMAGE_GIF } from '../../types/MIME';
+import { type } from '../helpers';
 
 export const debug = createDebug('mock:test:edit');
 
@@ -505,7 +506,7 @@ describe('editing', function (this: Mocha.Suite) {
           .click();
         await page.getByRole('menuitem', { name: 'Edit' }).click();
         const input = await app.waitForEnabledComposer();
-        await input.type(additionalText);
+        await type(input, additionalText);
         await input.press('Enter');
       }
       const { contacts, desktop } = bootstrap;
