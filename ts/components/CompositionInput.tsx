@@ -100,8 +100,6 @@ export type Props = Readonly<{
   large?: boolean;
   inputApi?: React.MutableRefObject<InputApi | undefined>;
   isFormattingEnabled: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   sendCounter: number;
   skinTone?: EmojiPickDataType['skinTone'];
   draftText?: string;
@@ -155,8 +153,6 @@ export function CompositionInput(props: Props): React.ReactElement {
     i18n,
     inputApi,
     isFormattingEnabled,
-    isFormattingFlagEnabled,
-    isFormattingSpoilersFlagEnabled,
     large,
     linkPreviewLoading,
     linkPreviewResult,
@@ -250,15 +246,6 @@ export function CompositionInput(props: Props): React.ReactElement {
           return true;
         }
         if (BodyRange.isFormatting(range)) {
-          if (!isFormattingFlagEnabled) {
-            return false;
-          }
-          if (
-            range.style === BodyRange.Style.SPOILER &&
-            !isFormattingSpoilersFlagEnabled
-          ) {
-            return false;
-          }
           return true;
         }
         throw missingCaseError(range);
@@ -395,54 +382,27 @@ export function CompositionInput(props: Props): React.ReactElement {
     isFormattingEnabled,
     isFormattingEnabled
   );
-  const previousFormattingFlagEnabled = usePrevious(
-    isFormattingFlagEnabled,
-    isFormattingFlagEnabled
-  );
-  const previousFormattingSpoilersFlagEnabled = usePrevious(
-    isFormattingSpoilersFlagEnabled,
-    isFormattingSpoilersFlagEnabled
-  );
   const previousIsMouseDown = usePrevious(isMouseDown, isMouseDown);
 
   React.useEffect(() => {
     const formattingChanged =
       typeof previousFormattingEnabled === 'boolean' &&
       previousFormattingEnabled !== isFormattingEnabled;
-    const flagChanged =
-      typeof previousFormattingFlagEnabled === 'boolean' &&
-      previousFormattingFlagEnabled !== isFormattingFlagEnabled;
-    const spoilersFlagChanged =
-      typeof previousFormattingSpoilersFlagEnabled === 'boolean' &&
-      previousFormattingSpoilersFlagEnabled !== isFormattingSpoilersFlagEnabled;
     const mouseDownChanged = previousIsMouseDown !== isMouseDown;
 
     const quill = quillRef.current;
-    const changed =
-      formattingChanged ||
-      flagChanged ||
-      spoilersFlagChanged ||
-      mouseDownChanged;
+    const changed = formattingChanged || mouseDownChanged;
     if (quill && changed) {
       quill.getModule('formattingMenu').updateOptions({
         isMenuEnabled: isFormattingEnabled,
         isMouseDown,
-        isEnabled: isFormattingFlagEnabled,
-        isSpoilersEnabled: isFormattingSpoilersFlagEnabled,
       });
-      quill.options.formats = getQuillFormats({
-        isFormattingFlagEnabled,
-        isFormattingSpoilersFlagEnabled,
-      });
+      quill.options.formats = getQuillFormats();
     }
   }, [
     isFormattingEnabled,
-    isFormattingFlagEnabled,
-    isFormattingSpoilersFlagEnabled,
     isMouseDown,
     previousFormattingEnabled,
-    previousFormattingFlagEnabled,
-    previousFormattingSpoilersFlagEnabled,
     previousIsMouseDown,
     quillRef,
   ]);
@@ -772,8 +732,6 @@ export function CompositionInput(props: Props): React.ReactElement {
             formattingMenu: {
               i18n,
               isMenuEnabled: isFormattingEnabled,
-              isEnabled: isFormattingFlagEnabled,
-              isSpoilersEnabled: isFormattingSpoilersFlagEnabled,
               platform,
               setFormattingChooserElement,
             },
@@ -788,10 +746,7 @@ export function CompositionInput(props: Props): React.ReactElement {
               theme,
             },
           }}
-          formats={getQuillFormats({
-            isFormattingFlagEnabled,
-            isFormattingSpoilersFlagEnabled,
-          })}
+          formats={getQuillFormats()}
           placeholder={placeholder || i18n('icu:sendMessage')}
           readOnly={disabled}
           ref={element => {
@@ -951,30 +906,17 @@ export function CompositionInput(props: Props): React.ReactElement {
   );
 }
 
-function getQuillFormats({
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
-}: {
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
-}): Array<string> {
+function getQuillFormats(): Array<string> {
   return [
     // For image replacement (local-only)
     'emoji',
     // @mentions
     'mention',
-    ...(isFormattingFlagEnabled
-      ? [
-          // Custom
-          ...(isFormattingSpoilersFlagEnabled
-            ? [QuillFormattingStyle.spoiler]
-            : []),
-          QuillFormattingStyle.monospace,
-          // Built-in
-          QuillFormattingStyle.bold,
-          QuillFormattingStyle.italic,
-          QuillFormattingStyle.strike,
-        ]
-      : []),
+    QuillFormattingStyle.spoiler,
+    QuillFormattingStyle.monospace,
+    // Built-in
+    QuillFormattingStyle.bold,
+    QuillFormattingStyle.italic,
+    QuillFormattingStyle.strike,
   ];
 }

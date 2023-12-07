@@ -10,10 +10,6 @@ import { useActions as useEmojiActions } from '../ducks/emojis';
 import { useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useComposerActions } from '../ducks/composer';
-import {
-  getIsFormattingFlagEnabled,
-  getIsFormattingSpoilersFlagEnabled,
-} from '../selectors/composer';
 import { getTextFormattingEnabled } from '../selectors/items';
 
 export type SmartCompositionTextAreaProps = Pick<
@@ -42,10 +38,6 @@ export function SmartCompositionTextArea(
 
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
-  const isFormattingFlagEnabled = useSelector(getIsFormattingFlagEnabled);
-  const isFormattingSpoilersFlagEnabled = useSelector(
-    getIsFormattingSpoilersFlagEnabled
-  );
 
   return (
     <CompositionTextArea
@@ -53,8 +45,6 @@ export function SmartCompositionTextArea(
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       isFormattingEnabled={isFormattingEnabled}
-      isFormattingFlagEnabled={isFormattingFlagEnabled}
-      isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
       onPickEmoji={onPickEmoji}
       onSetSkinTone={onSetSkinTone}
       onTextTooLong={onTextTooLong}

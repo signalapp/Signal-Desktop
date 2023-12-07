@@ -76,6 +76,12 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     '.timeline-wrapper, .Inbox__conversation .ConversationView'
   );
 
+  debug('accepting conversation');
+  await window.getByRole('button', { name: 'Continue' }).click();
+
+  const { dataMessage: profileKeyMsg } = await first.waitForMessage();
+  assert(profileKeyMsg.profileKey != null, 'Profile key message');
+
   const deltaList = new Array<number>();
   for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {
     debug('finding composition input and clicking it');

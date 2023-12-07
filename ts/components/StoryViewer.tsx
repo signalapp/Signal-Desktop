@@ -87,8 +87,6 @@ export type PropsType = {
   hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
   isFormattingEnabled: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   isInternalUser?: boolean;
   isSignalConversation?: boolean;
   isWindowActive: boolean;
@@ -150,8 +148,6 @@ export function StoryViewer({
   hasViewReceiptSetting,
   i18n,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   isInternalUser,
   isSignalConversation,
   isWindowActive,
@@ -946,8 +942,6 @@ export function StoryViewer({
             i18n={i18n}
             platform={platform}
             isFormattingEnabled={isFormattingEnabled}
-            isFormattingFlagEnabled={isFormattingFlagEnabled}
-            isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
             isInternalUser={isInternalUser}
             group={group}
             onClose={() => setCurrentViewTarget(null)}

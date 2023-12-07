@@ -22,8 +22,6 @@ export type CompositionTextAreaProps = {
   bodyRanges?: HydratedBodyRangesType;
   i18n: LocalizerType;
   isFormattingEnabled: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   maxLength?: number;
   placeholder?: string;
   whenToShowRemainingCount?: number;
@@ -61,8 +59,6 @@ export function CompositionTextArea({
   getPreferredBadge,
   i18n,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   maxLength,
   onChange,
   onPickEmoji,
@@ -144,8 +140,6 @@ export function CompositionTextArea({
         getQuotedMessage={noop}
         i18n={i18n}
         isFormattingEnabled={isFormattingEnabled}
-        isFormattingFlagEnabled={isFormattingFlagEnabled}
-        isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
         inputApi={inputApiRef}
         large
         moduleClassName="CompositionTextArea__input"

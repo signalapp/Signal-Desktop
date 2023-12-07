@@ -79,13 +79,9 @@ const settingUniversalExpireTimer = createSetting('universalExpireTimer');
 // Callbacks
 const ipcGetAvailableIODevices = createCallback('getAvailableIODevices');
 const ipcGetCustomColors = createCallback('getCustomColors');
-const ipcIsFormattingFlagEnabled = createCallback('isFormattingFlagEnabled');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
 const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
-const ipcShouldShowStoriesSettings = createCallback(
-  'shouldShowStoriesSettings'
-);
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 
 // ChatColorPicker redux hookups
@@ -162,7 +158,6 @@ async function renderPreferences() {
     hasStoriesDisabled,
     hasTextFormatting,
     hasTypingIndicators,
-    isFormattingFlagEnabled,
     isPhoneNumberSharingSupported,
     lastSyncTime,
     notificationContent,
@@ -182,7 +177,6 @@ async function renderPreferences() {
     customColors,
     defaultConversationColor,
     isSyncNotSupported,
-    shouldShowStoriesSettings,
   } = await awaitObject({
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
@@ -224,9 +218,7 @@ async function renderPreferences() {
     availableIODevices: ipcGetAvailableIODevices(),
     customColors: ipcGetCustomColors(),
     defaultConversationColor: ipcGetDefaultConversationColor(),
-    isFormattingFlagEnabled: ipcIsFormattingFlagEnabled(),
     isSyncNotSupported: ipcIsSyncNotSupported(),
-    shouldShowStoriesSettings: ipcShouldShowStoriesSettings(),
   });
 
   const { availableCameras, availableMicrophones, availableSpeakers } =
@@ -306,7 +298,6 @@ async function renderPreferences() {
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
-    shouldShowStoriesSettings,
 
     // Limited support features
     isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(OS),
@@ -324,9 +315,6 @@ async function renderPreferences() {
         OS,
         MinimalSignalContext.getVersion()
       ),
-
-    // Feature flags
-    isFormattingFlagEnabled,
 
     // Change handlers
     onAudioNotificationsChange: attachRenderCallback(

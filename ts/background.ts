@@ -1511,27 +1511,6 @@ export async function startApp(): Promise<void> {
       }
     );
 
-    // Listen for changes to the `desktop.messageRequests` remote configuration flag
-    const removeMessageRequestListener = window.Signal.RemoteConfig.onChange(
-      'desktop.messageRequests',
-      ({ enabled }) => {
-        if (!enabled) {
-          return;
-        }
-
-        const conversations = window.getConversations();
-        conversations.forEach(conversation => {
-          conversation.set({
-            messageCountBeforeMessageRequests:
-              conversation.get('messageCount') || 0,
-          });
-          window.Signal.Data.updateConversation(conversation.attributes);
-        });
-
-        removeMessageRequestListener();
-      }
-    );
-
     if (resolveOnAppView) {
       resolveOnAppView();
       resolveOnAppView = undefined;

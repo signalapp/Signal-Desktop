@@ -40,7 +40,6 @@ import {
 } from '../../types/Calling';
 import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';
-import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
 import { sleep } from '../../util/sleep';
 import { LatestQueue } from '../../util/LatestQueue';
 import type { AciString } from '../../types/ServiceId';
@@ -1573,7 +1572,7 @@ function startCall(
 
         const state = getState();
         const { activeCallState } = state.calling;
-        if (isGroupCallOutboundRingEnabled() && activeCallState?.outgoingRing) {
+        if (activeCallState?.outgoingRing) {
           const conversation = getOwn(
             state.conversations.conversationLookup,
             activeCallState.conversationId
@@ -1777,7 +1776,6 @@ export function reducer(
           ...ringState,
         };
         outgoingRing =
-          isGroupCallOutboundRingEnabled() &&
           !ringState.ringId &&
           !call.peekInfo?.acis.length &&
           !call.remoteParticipants.length &&

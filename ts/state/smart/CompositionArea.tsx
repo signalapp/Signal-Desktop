@@ -48,11 +48,7 @@ import {
   getRecentStickers,
 } from '../selectors/stickers';
 import { isSignalConversation } from '../../util/isSignalConversation';
-import {
-  getComposerStateForConversationIdSelector,
-  getIsFormattingFlagEnabled,
-  getIsFormattingSpoilersFlagEnabled,
-} from '../selectors/composer';
+import { getComposerStateForConversationIdSelector } from '../selectors/composer';
 import type { SmartCompositionRecordingProps } from './CompositionRecording';
 import { SmartCompositionRecording } from './CompositionRecording';
 import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft';
@@ -131,9 +127,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const selectedMessageIds = getSelectedMessageIds(state);
 
   const isFormattingEnabled = getTextFormattingEnabled(state);
-  const isFormattingFlagEnabled = getIsFormattingFlagEnabled(state);
-  const isFormattingSpoilersFlagEnabled =
-    getIsFormattingSpoilersFlagEnabled(state);
 
   const lastEditableMessageId = getLastEditableMessageId(state);
 
@@ -152,8 +145,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     isDisabled,
     isFormattingEnabled,
-    isFormattingFlagEnabled,
-    isFormattingSpoilersFlagEnabled,
     lastEditableMessageId,
     messageCompositionId,
     platform,

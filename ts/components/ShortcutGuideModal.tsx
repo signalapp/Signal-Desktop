@@ -8,8 +8,6 @@ import { ShortcutGuide } from './ShortcutGuide';
 
 export type PropsType = {
   hasInstalledStickers: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   platform: string;
   readonly closeShortcutGuideModal: () => unknown;
   readonly i18n: LocalizerType;
@@ -18,14 +16,8 @@ export type PropsType = {
 export const ShortcutGuideModal = React.memo(function ShortcutGuideModalInner(
   props: PropsType
 ) {
-  const {
-    i18n,
-    closeShortcutGuideModal,
-    hasInstalledStickers,
-    isFormattingFlagEnabled,
-    isFormattingSpoilersFlagEnabled,
-    platform,
-  } = props;
+  const { i18n, closeShortcutGuideModal, hasInstalledStickers, platform } =
+    props;
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
   React.useEffect(() => {
@@ -45,8 +37,6 @@ export const ShortcutGuideModal = React.memo(function ShortcutGuideModalInner(
             <ShortcutGuide
               close={closeShortcutGuideModal}
               hasInstalledStickers={hasInstalledStickers}
-              isFormattingFlagEnabled={isFormattingFlagEnabled}
-              isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
               i18n={i18n}
               platform={platform}
             />

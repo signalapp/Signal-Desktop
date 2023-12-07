@@ -16,10 +16,8 @@ import type {
 import type { AciString } from '../../types/ServiceId';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
-import { isBeta } from '../../util/version';
 import { DurationInSeconds } from '../../util/durations';
 import * as Bytes from '../../Bytes';
-import { getUserNumber, getUserACI } from './user';
 import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
@@ -55,7 +53,7 @@ export const isRemoteConfigFlagEnabled = (
 ): boolean => Boolean(config[key]?.enabled);
 
 // See isBucketValueEnabled in RemoteConfig.ts
-const isRemoteConfigBucketEnabled = (
+export const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
   e164: string | undefined,
@@ -138,38 +136,7 @@ export const isInternalUser = createSelector(
 // Note: ts/util/stories is the other place this check is done
 export const getStoriesEnabled = createSelector(
   getItems,
-  getRemoteConfig,
-  getUserNumber,
-  getUserACI,
-  (
-    state: ItemsStateType,
-    remoteConfig: ConfigMapType,
-    e164: string | undefined,
-    aci: AciString | undefined
-  ): boolean => {
-    if (state.hasStoriesDisabled) {
-      return false;
-    }
-
-    if (
-      isRemoteConfigBucketEnabled(remoteConfig, 'desktop.stories2', e164, aci)
-    ) {
-      return true;
-    }
-
-    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser')) {
-      return true;
-    }
-
-    if (
-      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories2.beta') &&
-      isBeta(window.getVersion())
-    ) {
-      return true;
-    }
-
-    return false;
-  }
+  (state: ItemsStateType): boolean => !state.hasStoriesDisabled
 );
 
 export const getDefaultConversationColor = createSelector(

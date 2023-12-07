@@ -49,7 +49,6 @@ export type PropsType = {
   i18n: LocalizerType;
   isConversationTooBigToRing: boolean;
   isGroupCall: boolean;
-  isGroupCallOutboundRingEnabled: boolean;
   isCallFull?: boolean;
   me: Readonly<
     Pick<ConversationType, 'avatarPath' | 'color' | 'id' | 'serviceId'>
@@ -75,7 +74,6 @@ export function CallingLobby({
   hasLocalVideo,
   i18n,
   isGroupCall = false,
-  isGroupCallOutboundRingEnabled,
   isCallFull = false,
   isConversationTooBigToRing,
   me,
@@ -157,7 +155,6 @@ export function CallingLobby({
 
   const isRingButtonVisible: boolean =
     isGroupCall &&
-    isGroupCallOutboundRingEnabled &&
     peekedParticipants.length === 0 &&
     (groupMembers || []).length > 1;
 

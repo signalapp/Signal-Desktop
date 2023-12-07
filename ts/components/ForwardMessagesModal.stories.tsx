@@ -59,8 +59,6 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       getPreferredBadge={() => undefined}
       i18n={i18n}
       isFormattingEnabled
-      isFormattingFlagEnabled
-      isFormattingSpoilersFlagEnabled
       onPickEmoji={action('onPickEmoji')}
       onSetSkinTone={action('onSetSkinTone')}
       onTextTooLong={action('onTextTooLong')}

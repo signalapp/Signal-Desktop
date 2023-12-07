@@ -63,8 +63,6 @@ export class SettingsChannel extends EventEmitter {
     this.installCallback('isPrimary');
     this.installCallback('syncRequest');
     this.installCallback('isPhoneNumberSharingEnabled');
-    this.installCallback('isFormattingFlagEnabled');
-    this.installCallback('shouldShowStoriesSettings');
 
     // Getters only. These are set by the primary device
     this.installSetting('blockedCount', { setter: false });

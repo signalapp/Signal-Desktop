@@ -96,12 +96,7 @@ export type PropsType = {
   > &
   Pick<
     MediaEditorPropsType,
-    | 'isFormattingEnabled'
-    | 'isFormattingFlagEnabled'
-    | 'isFormattingSpoilersFlagEnabled'
-    | 'onPickEmoji'
-    | 'onTextTooLong'
-    | 'platform'
+    'isFormattingEnabled' | 'onPickEmoji' | 'onTextTooLong' | 'platform'
   >;
 
 export function StoryCreator({
@@ -117,8 +112,6 @@ export function StoryCreator({
   imageToBlurHash,
   installedPacks,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   isSending,
   linkPreview,
   me,
@@ -254,8 +247,6 @@ export function StoryCreator({
               imageToBlurHash={imageToBlurHash}
               installedPacks={installedPacks}
               isFormattingEnabled={isFormattingEnabled}
-              isFormattingFlagEnabled={isFormattingFlagEnabled}
-              isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
               isSending={isSending}
               onClose={onClose}
               onDone={({

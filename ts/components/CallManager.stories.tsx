@@ -73,7 +73,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up-active-call'),
   i18n,
-  isGroupCallOutboundRingEnabled: true,
   isGroupCallRaiseHandEnabled: true,
   isGroupCallReactionsEnabled: true,
   keyChangeOk: action('key-change-ok'),
