@@ -832,8 +832,19 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   private async onKeyDown(event: any) {
-    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
-      // If shift, newline. If in IME composing mode, leave it to IME. Else send message.
+    const isEnter = event.key === 'Enter';
+    const isShiftEnter = event.shiftKey && isEnter;
+    const isShiftSendEnabled = window.getSettingValue(SettingsKey.hasShiftSendEnabled) as boolean;
+    const isNotComposing = !event.nativeEvent.isComposing;
+
+    if (isShiftSendEnabled && isEnter && isNotComposing) {
+      event.preventDefault();
+      if (isShiftEnter) {
+        await this.onSendMessage();
+      } else {
+        this.insertNewLine();
+      }
+    } else if (isEnter && !event.shiftKey && isNotComposing) {
       event.preventDefault();
       await this.onSendMessage();
     } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
@@ -843,6 +854,34 @@ class CompositionBoxInner extends React.Component<Props, State> {
       event.preventDefault();
       event.stopPropagation();
     }
+  }
+
+  private insertNewLine() {
+    const messageBox = this.textarea.current;
+    if (!messageBox) {
+      return;
+    }
+
+    const { draft } = this.state;
+    const { selectedConversationKey } = this.props;
+
+    if (!selectedConversationKey) {
+      return; // add this check to prevent undefined from being used
+    }
+
+    const currentSelectionStart = Number(messageBox.selectionStart);
+    const realSelectionStart = getSelectionBasedOnMentions(draft, currentSelectionStart);
+
+    const before = draft.slice(0, realSelectionStart);
+    const after = draft.slice(realSelectionStart);
+
+    const updatedDraft = `${before}\n${after}`;
+
+    this.setState({ draft: updatedDraft });
+    updateDraftForConversation({
+      conversationKey: selectedConversationKey,
+      draft: updatedDraft,
+    });
   }
 
   private async onKeyUp() {

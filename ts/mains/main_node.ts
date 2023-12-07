@@ -10,6 +10,7 @@ import {
   dialog,
   ipcMain as ipc,
   Menu,
+  nativeTheme,
   protocol as electronProtocol,
   screen,
   shell,
@@ -1115,6 +1116,15 @@ ipc.on('set-auto-update-setting', async (_event, enabled) => {
     updater.stop();
     isReadyForUpdates = false;
   }
+});
+
+ipc.on('get-native-theme', event => {
+  event.sender.send('send-native-theme', nativeTheme.shouldUseDarkColors);
+});
+
+nativeTheme.on('updated', () => {
+  // Inform all renderer processes of the theme change
+  mainWindow?.webContents.send('native-theme-update', nativeTheme.shouldUseDarkColors);
 });
 
 async function getThemeFromMainWindow() {

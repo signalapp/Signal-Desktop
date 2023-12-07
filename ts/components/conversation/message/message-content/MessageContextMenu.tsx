@@ -299,6 +299,7 @@ export const MessageContextMenu = (props: Props) => {
       messageTimestamp,
       messageSender: sender,
       conversationId: convoId,
+      index: targetAttachmentIndex,
     });
   };
 
