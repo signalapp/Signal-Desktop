@@ -5,13 +5,20 @@
   width: 100%;
   height: auto;
   margin-block-end: auto;
+  overflow: auto;
 }
 
 .CallingRaisedHandsList__width-container {
+  display: flex;
+  flex-direction: column;
   width: 320px;
   height: auto;
-  margin-block-end: 72px;
+  padding-block: 1px;
+  padding-inline: 1px;
+  // This should be above .CallingRaisedHandsList__Button
+  margin-block-end: 168px;
   margin-inline-start: 8px;
+  overflow: hidden;
 }
 
 .CallingRaisedHandsList__overlay {
@@ -33,7 +40,7 @@
   @include button-reset;
   position: absolute;
   inset-inline-start: 16px;
-  inset-block-end: 16px;
+  inset-block-end: calc($CallControls__height + 32px);
   display: flex;
   padding-block: 14px;
   padding-inline: 12px;

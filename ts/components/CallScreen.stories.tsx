@@ -108,6 +108,18 @@ const getConversationsByDemuxId = (overrideProps: GroupCallOverrideProps) => {
   return conversationsByDemuxId;
 };
 
+const getRaisedHands = (overrideProps: GroupCallOverrideProps) => {
+  if (!overrideProps.remoteParticipants) {
+    return;
+  }
+
+  return new Set<number>(
+    overrideProps.remoteParticipants
+      .filter(participant => participant.isHandRaised)
+      .map(participant => participant.demuxId)
+  );
+};
+
 const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   callMode: CallMode.Group as CallMode.Group,
   connectionState:
@@ -124,7 +136,10 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   isConversationTooBigToRing: false,
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
-  raisedHands: overrideProps.raisedHands || new Set<number>(),
+  raisedHands:
+    overrideProps.raisedHands ||
+    getRaisedHands(overrideProps) ||
+    new Set<number>(),
   remoteParticipants: overrideProps.remoteParticipants || [],
   remoteAudioLevels: new Map<number, number>(
     overrideProps.remoteParticipants?.map((_participant, index) => [

@@ -567,8 +567,8 @@ export function CallScreen({
           });
       }
       return (
-        <div className="CallingReactionsToast__Content">
-          <span className="CallingReactionsToast__HandIcon" />
+        <div className="CallingRaisedHandsToast__Content">
+          <span className="CallingRaisedHandsToast__HandIcon" />
           {message}
           {buttonOverride || (
             <button
@@ -709,12 +709,6 @@ export function CallScreen({
       )}
       {remoteParticipantsElement}
       {lonelyInCallNode}
-      <CallingReactionsToastsContainer
-        reactions={reactions}
-        conversationsByDemuxId={conversationsByDemuxId}
-        localDemuxId={localDemuxId}
-        i18n={i18n}
-      />
       {raisedHands && raisedHandsCount > 0 && (
         <>
           <button
@@ -748,6 +742,19 @@ export function CallScreen({
           )}
         </>
       )}
+      <CallingReactionsToastsContainer
+        reactions={reactions}
+        conversationsByDemuxId={conversationsByDemuxId}
+        localDemuxId={localDemuxId}
+        i18n={i18n}
+      />
+      <CallingButtonToastsContainer
+        hasLocalAudio={hasLocalAudio}
+        outgoingRing={undefined}
+        raisedHands={raisedHands}
+        renderRaisedHandsToast={renderRaisedHandsToast}
+        i18n={i18n}
+      />
       <div className="module-ongoing-call__footer">
         <div className="module-calling__spacer CallControls__OuterSpacer" />
         <div
@@ -761,14 +768,6 @@ export function CallScreen({
             <div className="CallControls__CallTitle">{conversation.title}</div>
             <div className="CallControls__Status">{callStatus}</div>
           </div>
-
-          <CallingButtonToastsContainer
-            hasLocalAudio={hasLocalAudio}
-            outgoingRing={undefined}
-            raisedHands={raisedHands}
-            renderRaisedHandsToast={renderRaisedHandsToast}
-            i18n={i18n}
-          />
 
           {showMoreOptions && (
             <div className="CallControls__MoreOptionsContainer">

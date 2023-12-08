@@ -274,6 +274,11 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
+        <CallingButtonToastsContainer
+          hasLocalAudio={hasLocalAudio}
+          outgoingRing={outgoingRing}
+          i18n={i18n}
+        />
         <div className="CallingLobby__Footer">
           <div className="module-calling__spacer CallControls__OuterSpacer" />
           <div className="CallControls">
@@ -283,11 +288,6 @@ export function CallingLobby({
               </div>
               <div className="CallControls__Status">{callStatus}</div>
             </div>
-            <CallingButtonToastsContainer
-              hasLocalAudio={hasLocalAudio}
-              outgoingRing={outgoingRing}
-              i18n={i18n}
-            />
             <div className="CallControls__ButtonContainer">
               <CallingButton
                 buttonType={videoButtonType}

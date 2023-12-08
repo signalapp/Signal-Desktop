@@ -249,8 +249,10 @@ export function CallingButtonToastsContainer(
       maxNonPersistentToasts={1}
       region={toastRegionRef}
     >
-      <div className="CallingButtonToasts" ref={toastRegionRef} />
-      <CallingButtonToasts {...props} />
+      <div className="CallingButtonToasts__outer">
+        <div className="CallingButtonToasts" ref={toastRegionRef} />
+        <CallingButtonToasts {...props} />
+      </div>
     </CallingToastProvider>
   );
 }

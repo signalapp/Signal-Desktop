@@ -8,6 +8,12 @@
   width: 100%;
 }
 
+// Reactions appear in the same space as the Raised Hands button. When they are both
+// present then move Reactions up.
+.CallingRaisedHandsList__Button + .CallingReactionsToasts {
+  inset-block-end: calc($CallControls__height + 100px);
+}
+
 // Normally the newest toasts are appended on top, like this:
 //              | Second |
 // | First | -> |  First |
