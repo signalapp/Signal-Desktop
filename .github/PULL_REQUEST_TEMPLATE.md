@@ -9,7 +9,7 @@ Remember, you can preview this before saving it.
 
 ### First time contributor checklist:
 
-- [ ] I have read the [README](https://github.com/signalapp/Signal-Desktop/blob/master/README.md) and [Contributor Guidelines](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md)
+- [ ] I have read the [README](https://github.com/signalapp/Signal-Desktop/blob/main/README.md) and [Contributor Guidelines](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md)
 - [ ] I have signed the [Contributor Licence Agreement](https://signal.org/cla/)
 
 ### Contributor checklist:
@@ -17,7 +17,7 @@ Remember, you can preview this before saving it.
 - [ ] My contribution is **not** related to translations.
 - [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
 - [ ] My changes are [rebased](https://medium.com/free-code-camp/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`main`](https://github.com/signalapp/Signal-Desktop/tree/main) branch
-- [ ] A `yarn ready` run passes successfully ([more about tests here](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md#tests))
+- [ ] A `yarn ready` run passes successfully ([more about tests here](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md#tests))
 - [ ] My changes are ready to be shipped to users
 
 ### Description
