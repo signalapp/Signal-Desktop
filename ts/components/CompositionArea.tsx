@@ -781,7 +781,7 @@ export function CompositionArea({
   // If no message request, but we haven't shared profile yet, we show profile-sharing UI
   if (
     !left &&
-    ((conversationType === 'direct' && removalStage !== 'justNotification') ||
+    (conversationType === 'direct' ||
       (conversationType === 'group' && groupVersion === 1)) &&
     isMissingMandatoryProfileSharing
   ) {

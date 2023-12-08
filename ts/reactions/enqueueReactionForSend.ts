@@ -55,6 +55,21 @@ export async function enqueueReactionForSend({
   );
 
   const isMessageAStory = isStory(message.attributes);
+
+  if (
+    !isMessageAStory ||
+    isDirectConversation(messageConversation.attributes)
+  ) {
+    log.info('Enabling profile sharing for reaction send');
+    if (!messageConversation.get('profileSharing')) {
+      messageConversation.set('profileSharing', true);
+      await window.Signal.Data.updateConversation(
+        messageConversation.attributes
+      );
+    }
+    await messageConversation.restoreContact();
+  }
+
   const targetConversation =
     isMessageAStory && isDirectConversation(messageConversation.attributes)
       ? window.ConversationController.get(targetAuthorAci)
