@@ -244,7 +244,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       'typingContactIdTimestamps',
     ]),
     isConversationSelected: state.conversations.selectedConversationId === id,
-    isIncomingMessageRequest: Boolean(!conversation.acceptedMessageRequest),
+    isIncomingMessageRequest: Boolean(
+      !conversation.acceptedMessageRequest &&
+        conversation.removalStage !== 'justNotification'
+    ),
     isSomeoneTyping: Boolean(
       Object.keys(conversation.typingContactIdTimestamps ?? {}).length > 0
     ),
