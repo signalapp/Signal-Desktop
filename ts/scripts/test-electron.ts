@@ -13,23 +13,50 @@ const ELECTRON = join(
   process.platform === 'win32' ? 'electron.cmd' : 'electron'
 );
 
-let stdout: string;
-try {
-  stdout = execFileSync(ELECTRON, [ROOT_DIR], {
-    cwd: ROOT_DIR,
-    env: {
-      ...process.env,
-      NODE_ENV: 'test',
-      TEST_QUIT_ON_COMPLETE: 'on',
-    },
-    encoding: 'utf8',
-  });
-} catch (error) {
-  console.error('Status', error.status);
-  console.error(error.output[0] ?? '');
-  console.error(error.output[1] ?? '');
-  process.exit(1);
+const MAX_RETRIES = 3;
+const RETRIABLE_SIGNALS = ['SIGBUS'];
+
+function launchElectron(attempt: number): string {
+  if (attempt > MAX_RETRIES) {
+    console.error(`Failed after ${MAX_RETRIES} retries, exiting.`);
+    process.exit(1);
+  }
+
+  console.log(`Launching electron for tests, attempt #${attempt}...`);
+
+  try {
+    const stdout = execFileSync(ELECTRON, [ROOT_DIR], {
+      cwd: ROOT_DIR,
+      env: {
+        ...process.env,
+        // Setting node_env to test triggers main.ts to load 'test/index.html' instead of
+        // 'background.html', which loads the tests via `test.js`
+        NODE_ENV: 'test',
+        TEST_QUIT_ON_COMPLETE: 'on',
+      },
+      encoding: 'utf8',
+    });
+    return stdout;
+  } catch (error) {
+    console.error('Status', error.status);
+
+    // In testing, error.signal is null, so we need to read it from stderr
+    const signalMatch = error.stderr.match(/exited with signal (\w+)/);
+    const signal = error.signal || signalMatch?.[1];
+
+    console.error('Signal', signal);
+    console.error(error.output[0] ?? '');
+    console.error(error.output[1] ?? '');
+
+    if (RETRIABLE_SIGNALS.includes(signal)) {
+      return launchElectron(attempt + 1);
+    }
+
+    process.exit(1);
+  }
 }
+
+const stdout = launchElectron(1);
 
 const debugMatch = stdout.matchAll(/ci:test-electron:debug=(.*)?\n/g);
 Array.from(debugMatch).forEach(info => {
