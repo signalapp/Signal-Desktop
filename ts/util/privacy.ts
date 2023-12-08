@@ -11,8 +11,9 @@ import { escapeRegExp, isString, isRegExp } from 'lodash';
 export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
-const UUID_PATTERN =
-  /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{9}([0-9A-F]{3})/gi;
+// The additional 0 in [04] and [089AB] are to include MY_STORY_ID
+const UUID_OR_STORY_ID_PATTERN =
+  /[0-9A-F]{8}-[0-9A-F]{4}-[04][0-9A-F]{3}-[089AB][0-9A-F]{3}-[0-9A-F]{9}([0-9A-F]{3})/gi;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const GROUP_V2_ID_PATTERN = /(groupv2\()([^=)]+)(=?=?\))/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
@@ -99,7 +100,7 @@ export const redactUuids = (text: string): string => {
     throw new TypeError("'text' must be a string");
   }
 
-  return text.replace(UUID_PATTERN, `${REDACTION_PLACEHOLDER}$1`);
+  return text.replace(UUID_OR_STORY_ID_PATTERN, `${REDACTION_PLACEHOLDER}$1`);
 };
 
 export const redactGroupIds = (text: string): string => {
