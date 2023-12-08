@@ -16,7 +16,7 @@
   }
 
   &__gradient-knob {
-    @include color-bubble(30px);
+    @include color-bubble(42px);
     cursor: move;
     position: absolute;
   }
