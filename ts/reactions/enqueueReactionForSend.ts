@@ -109,6 +109,7 @@ export async function enqueueReactionForSend({
     storyReactionMessage,
     targetAuthorAci,
     targetTimestamp,
+    receivedAtDate: timestamp,
     timestamp,
   };
 

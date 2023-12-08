@@ -2397,6 +2397,7 @@ export async function startApp(): Promise<void> {
         storyReactionMessage: message,
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
         timestamp,
       };
 
@@ -2731,6 +2732,7 @@ export async function startApp(): Promise<void> {
         storyReactionMessage: message,
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
         timestamp,
       };
       drop(Reactions.onReaction(attributes));

@@ -26,6 +26,7 @@ describe('reaction utilities', () => {
     fromId: OUR_CONVO_ID,
     targetTimestamp: Date.now(),
     timestamp: Date.now(),
+    receivedAtDate: Date.now(),
     ...(isPending ? { isSentByConversationId: { [uuid()]: false } } : {}),
   });
 
