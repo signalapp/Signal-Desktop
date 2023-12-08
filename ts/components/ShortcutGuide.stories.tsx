@@ -18,14 +18,6 @@ export default {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   close: action('close'),
-  isFormattingFlagEnabled:
-    overrideProps.isFormattingFlagEnabled === false
-      ? overrideProps.isFormattingFlagEnabled
-      : true,
-  isFormattingSpoilersFlagEnabled:
-    overrideProps.isFormattingSpoilersFlagEnabled === false
-      ? overrideProps.isFormattingSpoilersFlagEnabled
-      : true,
   hasInstalledStickers: overrideProps.hasInstalledStickers === true || false,
   platform: overrideProps.platform || 'other',
 });
@@ -42,15 +34,5 @@ export function Mac(): JSX.Element {
 
 export function HasStickers(): JSX.Element {
   const props = createProps({ hasInstalledStickers: true });
-  return <ShortcutGuide {...props} />;
-}
-
-export function NoFormatting(): JSX.Element {
-  const props = createProps({ isFormattingFlagEnabled: false });
-  return <ShortcutGuide {...props} />;
-}
-
-export function NoSpoilerFormatting(): JSX.Element {
-  const props = createProps({ isFormattingSpoilersFlagEnabled: false });
   return <ShortcutGuide {...props} />;
 }

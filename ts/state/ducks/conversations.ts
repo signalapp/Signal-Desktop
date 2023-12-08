@@ -322,7 +322,6 @@ export type ConversationType = ReadonlyDeep<
     groupVersion?: 1 | 2;
     groupId?: string;
     groupLink?: string;
-    messageRequestsEnabled?: boolean;
     acceptedMessageRequest: boolean;
     secretParams?: string;
     publicParams?: string;

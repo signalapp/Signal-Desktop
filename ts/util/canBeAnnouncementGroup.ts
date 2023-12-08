@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d';
-import { isAnnouncementGroupReady } from './isAnnouncementGroupReady';
 import { isGroupV2 } from './whatTypeOfConversation';
 
 export function canBeAnnouncementGroup(
@@ -12,10 +11,6 @@ export function canBeAnnouncementGroup(
   >
 ): boolean {
   if (!isGroupV2(conversationAttrs)) {
-    return false;
-  }
-
-  if (!isAnnouncementGroupReady()) {
     return false;
   }
 

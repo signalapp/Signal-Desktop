@@ -91,8 +91,6 @@ export type PropsType = {
   i18n: LocalizerType;
   platform: string;
   isFormattingEnabled: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   isInternalUser?: boolean;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   onClose: () => unknown;
@@ -128,8 +126,6 @@ export function StoryViewsNRepliesModal({
   i18n,
   platform,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   isInternalUser,
   onChangeViewTarget,
   onClose,
@@ -241,8 +237,6 @@ export function StoryViewsNRepliesModal({
               i18n={i18n}
               inputApi={inputApiRef}
               isFormattingEnabled={isFormattingEnabled}
-              isFormattingFlagEnabled={isFormattingFlagEnabled}
-              isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
               moduleClassName="StoryViewsNRepliesModal__input"
               onCloseLinkPreview={noop}
               onEditorStateChange={({ messageText }) => {

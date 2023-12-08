@@ -97,9 +97,6 @@ export function getConversation(model: ConversationModel): ConversationType {
     hasDraft(attributes) && draftTimestamp && draftTimestamp >= (timestamp || 0)
   );
   const inboxPosition = attributes.inbox_position;
-  const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
-    'desktop.messageRequests'
-  );
   const ourConversationId =
     window.ConversationController.getOurConversationId();
 
@@ -198,7 +195,6 @@ export function getConversation(model: ConversationModel): ConversationType {
     pendingApprovalMemberships: getPendingApprovalMemberships(attributes),
     bannedMemberships: getBannedMemberships(attributes),
     profileKey: attributes.profileKey,
-    messageRequestsEnabled,
     accessControlAddFromInviteLink: attributes.accessControl?.addFromInviteLink,
     accessControlAttributes: attributes.accessControl?.attributes,
     accessControlMembers: attributes.accessControl?.members,

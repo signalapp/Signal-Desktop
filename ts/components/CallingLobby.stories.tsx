@@ -51,7 +51,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     i18n,
     isGroupCall,
-    isGroupCallOutboundRingEnabled: true,
     isConversationTooBigToRing: false,
     isCallFull: overrideProps.isCallFull ?? false,
     me:

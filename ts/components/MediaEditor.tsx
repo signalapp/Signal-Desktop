@@ -86,8 +86,6 @@ export type PropsType = {
     | 'draftBodyRanges'
     | 'getPreferredBadge'
     | 'isFormattingEnabled'
-    | 'isFormattingFlagEnabled'
-    | 'isFormattingSpoilersFlagEnabled'
     | 'onPickEmoji'
     | 'onTextTooLong'
     | 'platform'
@@ -156,8 +154,6 @@ export function MediaEditor({
   draftBodyRanges,
   getPreferredBadge,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   onPickEmoji,
   onTextTooLong,
   platform,
@@ -1306,10 +1302,6 @@ export function MediaEditor({
                   i18n={i18n}
                   inputApi={inputApiRef}
                   isFormattingEnabled={isFormattingEnabled}
-                  isFormattingFlagEnabled={isFormattingFlagEnabled}
-                  isFormattingSpoilersFlagEnabled={
-                    isFormattingSpoilersFlagEnabled
-                  }
                   moduleClassName="StoryViewsNRepliesModal__input"
                   onCloseLinkPreview={noop}
                   onEditorStateChange={({ bodyRanges, messageText }) => {

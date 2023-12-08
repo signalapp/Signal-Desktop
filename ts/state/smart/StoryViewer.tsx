@@ -40,10 +40,6 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
-import {
-  getIsFormattingFlagEnabled,
-  getIsFormattingSpoilersFlagEnabled,
-} from '../selectors/composer';
 
 export function SmartStoryViewer(): JSX.Element | null {
   const storiesActions = useStoriesActions();
@@ -95,10 +91,6 @@ export function SmartStoryViewer(): JSX.Element | null {
   );
 
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
-  const isFormattingFlagEnabled = useSelector(getIsFormattingFlagEnabled);
-  const isFormattingSpoilersFlagEnabled = useSelector(
-    getIsFormattingSpoilersFlagEnabled
-  );
 
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
@@ -126,8 +118,6 @@ export function SmartStoryViewer(): JSX.Element | null {
       platform={platform}
       isInternalUser={internalUser}
       isFormattingEnabled={isFormattingEnabled}
-      isFormattingFlagEnabled={isFormattingFlagEnabled}
-      isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
       isSignalConversation={isSignalConversation({
         id: conversationStory.conversationId,
       })}

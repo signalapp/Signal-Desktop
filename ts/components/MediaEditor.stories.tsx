@@ -27,8 +27,6 @@ export default {
     imageSrc: IMAGE_2,
     installedPacks,
     isFormattingEnabled: true,
-    isFormattingFlagEnabled: true,
-    isFormattingSpoilersFlagEnabled: true,
     isSending: false,
     onClose: action('onClose'),
     onDone: action('onDone'),

@@ -105,8 +105,6 @@ export type OwnProps = Readonly<{
   isDisabled: boolean;
   isFetchingUUID?: boolean;
   isFormattingEnabled: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
   isSignalConversation?: boolean;
@@ -118,7 +116,6 @@ export type OwnProps = Readonly<{
   left?: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
-  messageRequestsEnabled?: boolean;
   onClearAttachments(conversationId: string): unknown;
   onCloseLinkPreview(conversationId: string): unknown;
   platform: string;
@@ -276,8 +273,6 @@ export function CompositionArea({
   getPreferredBadge,
   getQuotedMessage,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   onEditorStateChange,
   onTextTooLong,
   sendCounter,
@@ -308,7 +303,6 @@ export function CompositionArea({
   isBlocked,
   isMissingMandatoryProfileSharing,
   left,
-  messageRequestsEnabled,
   removalStage,
   acceptConversation,
   blockConversation,
@@ -736,9 +730,7 @@ export function CompositionArea({
   if (
     isBlocked ||
     areWePending ||
-    (messageRequestsEnabled &&
-      !acceptedMessageRequest &&
-      removalStage !== 'justNotification')
+    (!acceptedMessageRequest && removalStage !== 'justNotification')
   ) {
     return (
       <MessageRequestActions
@@ -867,8 +859,6 @@ export function CompositionArea({
             imageToBlurHash={imageToBlurHash}
             installedPacks={installedPacks}
             isFormattingEnabled={isFormattingEnabled}
-            isFormattingFlagEnabled={isFormattingFlagEnabled}
-            isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
             isSending={false}
             onClose={() => setAttachmentToEdit(undefined)}
             onDone={({
@@ -992,8 +982,6 @@ export function CompositionArea({
             i18n={i18n}
             inputApi={inputApiRef}
             isFormattingEnabled={isFormattingEnabled}
-            isFormattingFlagEnabled={isFormattingFlagEnabled}
-            isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
             large={large}
             linkPreviewLoading={linkPreviewLoading}
             linkPreviewResult={linkPreviewResult}

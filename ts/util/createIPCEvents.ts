@@ -4,7 +4,6 @@
 import { webFrame } from 'electron';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
-import { getStoriesAvailable } from './stories';
 
 import type { ZoomFactorType } from '../types/Storage.d';
 import type {
@@ -38,7 +37,6 @@ import * as Registration from './registration';
 import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId';
 import * as log from '../logging/log';
 import { deleteAllMyStories } from './deleteAllMyStories';
-import { isEnabled } from '../RemoteConfig';
 import type { NotificationClickData } from '../services/notifications';
 import { StoryViewModeType, StoryViewTargetType } from '../types/Stories';
 import { isValidE164 } from './isValidE164';
@@ -111,7 +109,6 @@ export type IPCEventsCallbacksType = {
     mediaType: 'screen' | 'microphone' | 'camera'
   ) => Promise<string | unknown>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
-  isFormattingFlagEnabled: () => boolean;
   isPhoneNumberSharingEnabled: () => boolean;
   isPrimary: () => boolean;
   removeCustomColor: (x: string) => void;
@@ -136,7 +133,6 @@ export type IPCEventsCallbacksType = {
     color: ConversationColorType,
     customColor?: { id: string; value: CustomColorType }
   ) => void;
-  shouldShowStoriesSettings: () => boolean;
   getDefaultConversationColor: () => DefaultConversationColorType;
   persistZoomFactor: (factor: number) => Promise<void>;
 };
@@ -429,10 +425,8 @@ export function createIPCEvents(
       return window.IPC.setAutoLaunch(value);
     },
 
-    isFormattingFlagEnabled: () => isEnabled('desktop.textFormatting'),
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-    shouldShowStoriesSettings: () => getStoriesAvailable(),
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {
         const FIVE_MINUTES = 5 * durations.MINUTE;

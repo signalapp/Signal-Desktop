@@ -3,7 +3,6 @@
 
 import type { MessageAttributesType } from '../model-types.d';
 import { DAY } from './durations';
-import { canEditMessages } from './canEditMessages';
 import { isMoreRecentThan } from './timestamp';
 import { isOutgoing } from '../messages/helpers';
 
@@ -11,7 +10,6 @@ export const MESSAGE_MAX_EDIT_COUNT = 10;
 
 export function canEditMessage(message: MessageAttributesType): boolean {
   const result =
-    canEditMessages() &&
     !message.deletedForEveryone &&
     isOutgoing(message) &&
     isMoreRecentThan(message.sent_at, DAY) &&
@@ -25,9 +23,7 @@ export function canEditMessage(message: MessageAttributesType): boolean {
     message.conversationId ===
     window.ConversationController.getOurConversationId()
   ) {
-    return (
-      canEditMessages() && !message.deletedForEveryone && Boolean(message.body)
-    );
+    return !message.deletedForEveryone && Boolean(message.body);
   }
 
   return false;

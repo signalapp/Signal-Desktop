@@ -29,14 +29,6 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   clearQuotedMessage: action('clearQuotedMessage'),
   getPreferredBadge: () => undefined,
   getQuotedMessage: action('getQuotedMessage'),
-  isFormattingFlagEnabled:
-    overrideProps.isFormattingFlagEnabled === false
-      ? overrideProps.isFormattingFlagEnabled
-      : true,
-  isFormattingSpoilersFlagEnabled:
-    overrideProps.isFormattingSpoilersFlagEnabled === false
-      ? overrideProps.isFormattingSpoilersFlagEnabled
-      : true,
   isFormattingEnabled:
     overrideProps.isFormattingEnabled === false
       ? overrideProps.isFormattingEnabled
@@ -139,16 +131,4 @@ export function Mentions(): JSX.Element {
 
 export function NoFormattingMenu(): JSX.Element {
   return <CompositionInput {...useProps({ isFormattingEnabled: false })} />;
-}
-
-export function NoFormattingFlag(): JSX.Element {
-  return <CompositionInput {...useProps({ isFormattingFlagEnabled: false })} />;
-}
-
-export function NoSpoilerFormattingFlag(): JSX.Element {
-  return (
-    <CompositionInput
-      {...useProps({ isFormattingSpoilersFlagEnabled: false })}
-    />
-  );
 }

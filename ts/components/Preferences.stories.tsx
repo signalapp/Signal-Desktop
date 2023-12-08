@@ -101,7 +101,6 @@ export default {
     initialSpellCheckSetting: true,
     isAutoDownloadUpdatesSupported: true,
     isAutoLaunchSupported: true,
-    isFormattingFlagEnabled: true,
     isHideMenuBarSupported: true,
     isNotificationAttentionSupported: true,
     isPhoneNumberSharingSupported: true,
@@ -117,7 +116,6 @@ export default {
       'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
     selectedMicrophone: availableMicrophones[0],
     selectedSpeaker: availableSpeakers[1],
-    shouldShowStoriesSettings: true,
     sentMediaQualitySetting: 'standard',
     themeSetting: 'system',
     universalExpireTimer: DurationInSeconds.HOUR,
@@ -215,9 +213,4 @@ PNPDiscoverabilityDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.NotDiscoverable,
   isPhoneNumberSharingSupported: true,
-};
-
-export const FormattingDisabled = Template.bind({});
-FormattingDisabled.args = {
-  isFormattingFlagEnabled: false,
 };

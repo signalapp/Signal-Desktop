@@ -87,7 +87,6 @@ export type PropsType = {
   bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
-  isGroupCallOutboundRingEnabled: boolean;
   isGroupCallRaiseHandEnabled: boolean;
   isGroupCallReactionsEnabled: boolean;
   me: ConversationType;
@@ -132,7 +131,6 @@ function ActiveCallManager({
   closeNeedPermissionScreen,
   hangUpActiveCall,
   i18n,
-  isGroupCallOutboundRingEnabled,
   isGroupCallRaiseHandEnabled,
   isGroupCallReactionsEnabled,
   keyChangeOk,
@@ -271,7 +269,6 @@ function ActiveCallManager({
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
           isGroupCall={activeCall.callMode === CallMode.Group}
-          isGroupCallOutboundRingEnabled={isGroupCallOutboundRingEnabled}
           isCallFull={isCallFull}
           isConversationTooBigToRing={isConvoTooBigToRing}
           me={me}

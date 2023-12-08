@@ -12,7 +12,6 @@ import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
-import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
 import { isGroupCallRaiseHandEnabled } from '../../util/isGroupCallRaiseHandEnabled';
 import { isGroupCallReactionsEnabled } from '../../util/isGroupCallReactionsEnabled';
 import type {
@@ -375,7 +374,6 @@ const mapStateToProps = (state: StateType) => {
     getGroupCallVideoFrameSource,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
-    isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
     isGroupCallRaiseHandEnabled: isGroupCallRaiseHandEnabled(),
     isGroupCallReactionsEnabled: isGroupCallReactionsEnabled(),
     incomingCall,

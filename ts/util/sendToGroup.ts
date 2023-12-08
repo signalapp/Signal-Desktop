@@ -23,7 +23,7 @@ import {
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import * as Errors from '../types/errors';
-import { getValue, isEnabled } from '../RemoteConfig';
+import { getValue } from '../RemoteConfig';
 import type { ServiceIdString } from '../types/ServiceId';
 import { ServiceIdKind } from '../types/ServiceId';
 import { isRecord } from './isRecord';
@@ -199,11 +199,7 @@ export async function sendContentMessageToGroup({
     'sendContentMessageToGroup: textsecure.messaging not available!'
   );
 
-  if (
-    isEnabled('desktop.sendSenderKey3') &&
-    isEnabled('desktop.senderKey.send') &&
-    sendTarget.isValid()
-  ) {
+  if (sendTarget.isValid()) {
     try {
       return await sendToGroupViaSenderKey({
         contentHint,

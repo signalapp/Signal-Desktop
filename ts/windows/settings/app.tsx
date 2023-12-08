@@ -59,7 +59,6 @@ SettingsWindowProps.onRender(
     initialSpellCheckSetting,
     isAutoDownloadUpdatesSupported,
     isAutoLaunchSupported,
-    isFormattingFlagEnabled,
     isHideMenuBarSupported,
     isMinimizeToAndStartInSystemTraySupported,
     isNotificationAttentionSupported,
@@ -111,7 +110,6 @@ SettingsWindowProps.onRender(
     selectedSpeaker,
     sentMediaQualitySetting,
     setGlobalDefaultConversationColor,
-    shouldShowStoriesSettings,
     localeOverride,
     themeSetting,
     universalExpireTimer,
@@ -163,7 +161,6 @@ SettingsWindowProps.onRender(
         initialSpellCheckSetting={initialSpellCheckSetting}
         isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
         isAutoLaunchSupported={isAutoLaunchSupported}
-        isFormattingFlagEnabled={isFormattingFlagEnabled}
         isHideMenuBarSupported={isHideMenuBarSupported}
         isMinimizeToAndStartInSystemTraySupported={
           isMinimizeToAndStartInSystemTraySupported
@@ -220,7 +217,6 @@ SettingsWindowProps.onRender(
         selectedSpeaker={selectedSpeaker}
         sentMediaQualitySetting={sentMediaQualitySetting}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
-        shouldShowStoriesSettings={shouldShowStoriesSettings}
         themeSetting={themeSetting}
         universalExpireTimer={universalExpireTimer}
         whoCanFindMe={whoCanFindMe}

@@ -14,14 +14,6 @@ export function isConversationAccepted(
   conversationAttrs: ConversationAttributesType,
   { ignoreEmptyConvo = false } = {}
 ): boolean {
-  const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
-    'desktop.messageRequests'
-  );
-
-  if (!messageRequestsEnabled) {
-    return true;
-  }
-
   if (isMe(conversationAttrs)) {
     return true;
   }

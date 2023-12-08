@@ -14,20 +14,12 @@ import {
   getKnownStickerPacks,
   getReceivedStickerPacks,
 } from '../selectors/stickers';
-import {
-  getIsFormattingFlagEnabled,
-  getIsFormattingSpoilersFlagEnabled,
-} from '../selectors/composer';
 
 const mapStateToProps = (state: StateType) => {
   const blessedPacks = getBlessedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
   const knownPacks = getKnownStickerPacks(state);
   const receivedPacks = getReceivedStickerPacks(state);
-
-  const isFormattingFlagEnabled = getIsFormattingFlagEnabled(state);
-  const isFormattingSpoilersFlagEnabled =
-    getIsFormattingSpoilersFlagEnabled(state);
 
   const hasInstalledStickers =
     countStickers({
@@ -41,8 +33,6 @@ const mapStateToProps = (state: StateType) => {
 
   return {
     hasInstalledStickers,
-    isFormattingFlagEnabled,
-    isFormattingSpoilersFlagEnabled,
     platform,
     i18n: getIntl(state),
   };

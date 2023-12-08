@@ -32,7 +32,6 @@ export default {
       options: Object.keys(RecordingState),
       mappings: RecordingState,
     },
-    messageRequestsEnabled: { control: { type: 'boolean' } },
     announcementsOnly: { control: { type: 'boolean' } },
     areWePendingApproval: { control: { type: 'boolean' } },
   },
@@ -45,8 +44,6 @@ export default {
     sendCounter: 0,
     i18n,
     isDisabled: false,
-    isFormattingFlagEnabled: true,
-    isFormattingSpoilersFlagEnabled: true,
     isFormattingEnabled: true,
     messageCompositionId: '456',
     sendEditedMessage: action('sendEditedMessage'),
@@ -111,7 +108,6 @@ export default {
     blockConversation: action('blockConversation'),
     blockAndReportSpam: action('blockAndReportSpam'),
     deleteConversation: action('deleteConversation'),
-    messageRequestsEnabled: false,
     title: '',
     // GroupV1 Disabled Actions
     showGV2MigrationDialog: action('showGV2MigrationDialog'),
@@ -164,7 +160,7 @@ export function StickerButton(args: Props): JSX.Element {
 
 export function MessageRequest(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
-  return <CompositionArea {...args} theme={theme} messageRequestsEnabled />;
+  return <CompositionArea {...args} theme={theme} />;
 }
 
 export function SmsOnlyFetchingUuid(args: Props): JSX.Element {
@@ -258,23 +254,5 @@ export function NoFormattingMenu(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} isFormattingEnabled={false} />
-  );
-}
-
-export function NoFormattingFlag(args: Props): JSX.Element {
-  const theme = useContext(StorybookThemeContext);
-  return (
-    <CompositionArea {...args} theme={theme} isFormattingFlagEnabled={false} />
-  );
-}
-
-export function NoSpoilerFormattingFlag(args: Props): JSX.Element {
-  const theme = useContext(StorybookThemeContext);
-  return (
-    <CompositionArea
-      {...args}
-      theme={theme}
-      isFormattingSpoilersFlagEnabled={false}
-    />
   );
 }

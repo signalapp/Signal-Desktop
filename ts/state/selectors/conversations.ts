@@ -1054,7 +1054,6 @@ export function isMissingRequiredProfileSharing(
   return Boolean(
     doesConversationRequireIt &&
       !conversation.profileSharing &&
-      window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
       conversation.hasMessages
   );
 }

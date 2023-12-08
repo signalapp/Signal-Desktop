@@ -117,10 +117,6 @@ export type PropsDataType = {
   // Other props
   hasCustomTitleBar: boolean;
   initialSpellCheckSetting: boolean;
-  shouldShowStoriesSettings: boolean;
-
-  // Feature flags
-  isFormattingFlagEnabled: boolean;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -286,7 +282,6 @@ export function Preferences({
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
-  isFormattingFlagEnabled,
   isHideMenuBarSupported,
   isPhoneNumberSharingSupported,
   isNotificationAttentionSupported,
@@ -339,7 +334,6 @@ export function Preferences({
   selectedSpeaker,
   sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
-  shouldShowStoriesSettings,
   localeOverride,
   themeSetting,
   universalExpireTimer = DurationInSeconds.ZERO,
@@ -846,15 +840,13 @@ export function Preferences({
             name="spellcheck"
             onChange={onSpellCheckChange}
           />
-          {isFormattingFlagEnabled && (
-            <Checkbox
-              checked={hasTextFormatting}
-              label={i18n('icu:textFormattingDescription')}
-              moduleClassName="Preferences__checkbox"
-              name="textFormatting"
-              onChange={onTextFormattingChange}
-            />
-          )}
+          <Checkbox
+            checked={hasTextFormatting}
+            label={i18n('icu:textFormattingDescription')}
+            moduleClassName="Preferences__checkbox"
+            name="textFormatting"
+            onChange={onTextFormattingChange}
+          />
           <Checkbox
             checked={hasLinkPreviews}
             description={i18n('icu:Preferences__link-previews--description')}
@@ -1287,38 +1279,36 @@ export function Preferences({
             }
           />
         </SettingsRow>
-        {shouldShowStoriesSettings && (
-          <SettingsRow title={i18n('icu:Stories__title')}>
-            <Control
-              left={
-                <label htmlFor={storiesId}>
-                  <div>{i18n('icu:Stories__settings-toggle--title')}</div>
-                  <div className="Preferences__description">
-                    {i18n('icu:Stories__settings-toggle--description')}
-                  </div>
-                </label>
-              }
-              right={
-                hasStoriesDisabled ? (
-                  <Button
-                    onClick={() => onHasStoriesDisabledChanged(false)}
-                    variant={ButtonVariant.Secondary}
-                  >
-                    {i18n('icu:Preferences__turn-stories-on')}
-                  </Button>
-                ) : (
-                  <Button
-                    className="Preferences__stories-off"
-                    onClick={() => setConfirmStoriesOff(true)}
-                    variant={ButtonVariant.SecondaryDestructive}
-                  >
-                    {i18n('icu:Preferences__turn-stories-off')}
-                  </Button>
-                )
-              }
-            />
-          </SettingsRow>
-        )}
+        <SettingsRow title={i18n('icu:Stories__title')}>
+          <Control
+            left={
+              <label htmlFor={storiesId}>
+                <div>{i18n('icu:Stories__settings-toggle--title')}</div>
+                <div className="Preferences__description">
+                  {i18n('icu:Stories__settings-toggle--description')}
+                </div>
+              </label>
+            }
+            right={
+              hasStoriesDisabled ? (
+                <Button
+                  onClick={() => onHasStoriesDisabledChanged(false)}
+                  variant={ButtonVariant.Secondary}
+                >
+                  {i18n('icu:Preferences__turn-stories-on')}
+                </Button>
+              ) : (
+                <Button
+                  className="Preferences__stories-off"
+                  onClick={() => setConfirmStoriesOff(true)}
+                  variant={ButtonVariant.SecondaryDestructive}
+                >
+                  {i18n('icu:Preferences__turn-stories-off')}
+                </Button>
+              )
+            }
+          />
+        </SettingsRow>
         <SettingsRow>
           <Control
             left={

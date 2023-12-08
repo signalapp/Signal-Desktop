@@ -23,10 +23,6 @@ import {
   getRecentStickers,
 } from '../selectors/stickers';
 import { getAddStoryData } from '../selectors/stories';
-import {
-  getIsFormattingFlagEnabled,
-  getIsFormattingSpoilersFlagEnabled,
-} from '../selectors/composer';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
@@ -108,10 +104,6 @@ export function SmartStoryCreator(): JSX.Element | null {
   const { onUseEmoji: onPickEmoji } = useEmojisActions();
 
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
-  const isFormattingFlagEnabled = useSelector(getIsFormattingFlagEnabled);
-  const isFormattingSpoilersFlagEnabled = useSelector(
-    getIsFormattingSpoilersFlagEnabled
-  );
   const platform = useSelector(getPlatform);
 
   return (
@@ -128,8 +120,6 @@ export function SmartStoryCreator(): JSX.Element | null {
       imageToBlurHash={imageToBlurHash}
       installedPacks={installedPacks}
       isFormattingEnabled={isFormattingEnabled}
-      isFormattingFlagEnabled={isFormattingFlagEnabled}
-      isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
       isSending={isSending}
       linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
       me={me}
