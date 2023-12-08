@@ -7,10 +7,10 @@
   display: flex;
   flex-grow: 1;
   flex-shrink: 0;
-  flex-basis: 440px;
+  flex-basis: $CallControls__initial-width;
   align-items: center;
   justify-content: space-between;
-  max-width: 600px;
+  max-width: $CallControls__max-width;
   height: $CallControls__height;
   background-color: $color-gray-78;
   box-shadow: 0px 4px 14px 0px $color-black-alpha-40;

@@ -1,14 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-.CallingReactionsToast__Content {
+.CallingRaisedHandsToast__Content {
   display: flex;
   margin-block: 4px;
   margin-inline: 8px;
   font-weight: 500;
 }
 
-.CallingReactionsToast__HandIcon {
+.CallingRaisedHandsToast__HandIcon {
   display: inline-block;
   $icon-size: 16px;
   width: $icon-size;
