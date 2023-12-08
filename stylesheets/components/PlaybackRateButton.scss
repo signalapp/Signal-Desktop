@@ -46,25 +46,6 @@
   }
 
   &::after {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin-inline-start: 2px;
-
-    @mixin x-icon($color) {
-      @include color-svg('../images/icons/v3/x/x-compact.svg', $color, false);
-    }
-
-    @include light-theme {
-      @include x-icon($color-gray-60);
-    }
-    @include dark-theme {
-      @include x-icon($color-gray-25);
-    }
-
-    .module-message__audio-attachment--outgoing & {
-      @include x-icon($color-white-alpha-80);
-    }
+    content: '×';
   }
 }
