@@ -110,6 +110,7 @@ export type MessageReactionType = {
   fromId: string;
   targetTimestamp: number;
   timestamp: number;
+  receivedAtDate: undefined | number;
   isSentByConversationId?: Record<string, boolean>;
 };
 

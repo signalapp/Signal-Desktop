@@ -28,6 +28,7 @@ export type ReactionAttributesType = {
   targetAuthorAci: AciString;
   targetTimestamp: number;
   timestamp: number;
+  receivedAtDate: number;
 };
 
 const reactions = new Map<string, ReactionAttributesType>();
