@@ -1766,7 +1766,10 @@ function canReplyOrReact(
     return false;
   }
 
-  if (!conversation.acceptedMessageRequest) {
+  if (
+    !conversation.acceptedMessageRequest &&
+    conversation.removalStage !== 'justNotification'
+  ) {
     return false;
   }
 
