@@ -5,9 +5,10 @@ import { isNumber, sortBy } from 'lodash';
 
 import { strictAssert } from './assert';
 
-import type { EditHistoryType } from '../model-types';
-import type { MessageModel } from '../models/messages';
+import type { EditHistoryType, MessageAttributesType } from '../model-types';
 import type { LoggerType } from '../types/Logging';
+import { getMessageIdForLogging } from './idForLogging';
+import type { MessageModel } from '../models/messages';
 
 // The tricky bit for this function is if we are on our second+ attempt to send a given
 //   edit, we're still sending that edit.
@@ -51,13 +52,18 @@ export function getPropForTimestamp<T extends keyof EditHistoryType>({
   targetTimestamp,
 }: {
   log: LoggerType;
-  message: MessageModel;
+  message: MessageModel | MessageAttributesType;
   prop: T;
   targetTimestamp: number;
 }): EditHistoryType[T] {
-  const logId = `getPropForTimestamp(${message.idForLogging()}, target=${targetTimestamp}})`;
+  const attributes =
+    message instanceof window.Whisper.Message ? message.attributes : message;
 
-  const editHistory = message.get('editHistory');
+  const logId = `getPropForTimestamp(${getMessageIdForLogging(
+    attributes
+  )}, target=${targetTimestamp}})`;
+
+  const { editHistory } = attributes;
   const targetEdit = editHistory?.find(
     item => item.timestamp === targetTimestamp
   );
@@ -65,7 +71,7 @@ export function getPropForTimestamp<T extends keyof EditHistoryType>({
     if (editHistory) {
       log.warn(`${logId}: No edit found, using top-level data`);
     }
-    return message.get(prop);
+    return attributes[prop];
   }
 
   return targetEdit[prop];
