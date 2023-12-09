@@ -18,6 +18,18 @@ jobs:
         with:
           node-version: '18.17.1'
           cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+      - name: Cache Desktop node_modules
+        id: cache-desktop-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+      - name: Install Desktop node_modules
+        if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          CHILD_CONCURRENCY: 1
+          NPM_CONFIG_LOGLEVEL: verbose
       - run: yarn build:storybook
+      - run: npx playwright install chromium
       - run: yarn run-p --race test:storybook:serve test:storybook:test
