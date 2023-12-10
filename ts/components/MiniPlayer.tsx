@@ -107,6 +107,8 @@ export function MiniPlayer({
             )}
           </span>
         )}
+        <span className="MiniPlayer__middot">&middot;</span>
+        <span >&middot;</span>
       </div>
 
       <PlaybackRateButton
