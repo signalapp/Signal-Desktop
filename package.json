@@ -185,7 +185,7 @@
     "uuid": "3.3.2",
     "uuid-browser": "3.1.0",
     "websocket": "1.0.34",
-    "zod": "3.21.4"
+    "zod": "3.22.3"
   },
   "devDependencies": {
     "@babel/core": "7.23.0",
