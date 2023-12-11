@@ -67,6 +67,7 @@ type PropsType = {
     speakerHeight: number
   ) => void;
   remoteAudioLevels: Map<number, number>;
+  onClickRaisedHand?: () => void;
 };
 
 enum VideoRequestMode {
@@ -114,6 +115,7 @@ export function GroupCallRemoteParticipants({
   remoteParticipants,
   setGroupCallVideoRequest,
   remoteAudioLevels,
+  onClickRaisedHand,
 }: PropsType): JSX.Element {
   const [gridDimensions, setGridDimensions] = useState<Dimensions>({
     width: 0,
@@ -342,6 +344,7 @@ export function GroupCallRemoteParticipants({
             key={tile.demuxId}
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+            onClickRaisedHand={onClickRaisedHand}
             height={gridParticipantHeight}
             i18n={i18n}
             audioLevel={remoteAudioLevels.get(tile.demuxId) ?? 0}
@@ -509,6 +512,7 @@ export function GroupCallRemoteParticipants({
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           i18n={i18n}
           isCallReconnecting={isCallReconnecting}
+          onClickRaisedHand={onClickRaisedHand}
           onParticipantVisibilityChanged={onParticipantVisibilityChanged}
           overflowedParticipants={overflowedParticipants}
           remoteAudioLevels={remoteAudioLevels}

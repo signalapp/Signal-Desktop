@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import React, {
   useState,
   useRef,
@@ -37,6 +37,7 @@ type BasePropsType = {
   i18n: LocalizerType;
   isActiveSpeakerInSpeakerView: boolean;
   isCallReconnecting: boolean;
+  onClickRaisedHand?: () => void;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
   remoteParticipantsCount: number;
@@ -67,6 +68,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       getFrameBuffer,
       getGroupCallVideoFrameSource,
       i18n,
+      onClickRaisedHand,
       onVisibilityChanged,
       remoteParticipantsCount,
       isActiveSpeakerInSpeakerView,
@@ -238,6 +240,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     }
 
     let avatarSize: number;
+    let footerInfoElement: ReactNode;
 
     if (props.isInPip) {
       containerStyles = canvasStyles;
@@ -261,6 +264,32 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         containerStyles.position = 'absolute';
         containerStyles.insetInlineStart = `${props.left}px`;
         containerStyles.top = `${props.top}px`;
+      }
+
+      const nameElement = (
+        <ContactName
+          module="module-ongoing-call__group-call-remote-participant__info__contact-name"
+          title={title}
+        />
+      );
+
+      if (isHandRaised) {
+        footerInfoElement = (
+          <button
+            className="module-ongoing-call__group-call-remote-participant__info module-ongoing-call__group-call-remote-participant__info--clickable"
+            onClick={onClickRaisedHand}
+            type="button"
+          >
+            <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+            {nameElement}
+          </button>
+        );
+      } else {
+        footerInfoElement = (
+          <div className="module-ongoing-call__group-call-remote-participant__info">
+            {nameElement}
+          </div>
+        );
       }
     }
 
@@ -311,15 +340,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 shouldShowSpeaking={isSpeaking}
               />
               <div className="module-ongoing-call__group-call-remote-participant__footer">
-                <div className="module-ongoing-call__group-call-remote-participant__info">
-                  {isHandRaised && (
-                    <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
-                  )}
-                  <ContactName
-                    module="module-ongoing-call__group-call-remote-participant__info__contact-name"
-                    title={title}
-                  />
-                </div>
+                {footerInfoElement}
               </div>
             </>
           )}

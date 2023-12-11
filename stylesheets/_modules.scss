@@ -3969,6 +3969,7 @@ button.module-image__border-overlay:focus {
       transition-duration: 300ms;
       transition-delay: 1000ms;
       transition-timing-function: ease-in-out;
+      pointer-events: none;
     }
     &--speaking:after {
       border-width: 3px;
@@ -4038,7 +4039,12 @@ button.module-image__border-overlay:focus {
         overflow: hidden;
         text-overflow: ellipsis;
         visibility: hidden;
+        direction: inherit;
         white-space: nowrap;
+      }
+
+      &--clickable {
+        @include button-reset;
       }
     }
 
