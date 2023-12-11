@@ -270,6 +270,14 @@ if (!process.mas) {
       }
       return true;
     });
+
+    app.on('open-url', (event, incomingHref) => {
+      event.preventDefault();
+      const route = parseSignalRoute(incomingHref);
+      if (route != null) {
+        handleSignalRoute(route);
+      }
+    });
   }
 }
 /* eslint-enable no-console */
@@ -2243,18 +2251,6 @@ app.on(
 
 app.setAsDefaultProtocolClient('sgnl');
 app.setAsDefaultProtocolClient('signalcaptcha');
-
-app.on('will-finish-launching', () => {
-  // open-url must be set from within will-finish-launching for macOS
-  // https://stackoverflow.com/a/43949291
-  app.on('open-url', (event, incomingHref) => {
-    event.preventDefault();
-    const route = parseSignalRoute(incomingHref);
-    if (route != null) {
-      handleSignalRoute(route);
-    }
-  });
-});
 
 ipc.on(
   'set-badge',
