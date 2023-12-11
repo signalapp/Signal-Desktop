@@ -20,6 +20,7 @@ export type PropsType = {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   isCallReconnecting: boolean;
+  onClickRaisedHand?: () => void;
   onParticipantVisibilityChanged: (
     demuxId: number,
     isVisible: boolean
@@ -34,6 +35,7 @@ export function GroupCallOverflowArea({
   getGroupCallVideoFrameSource,
   i18n,
   isCallReconnecting,
+  onClickRaisedHand,
   onParticipantVisibilityChanged,
   overflowedParticipants,
   remoteAudioLevels,
@@ -121,6 +123,7 @@ export function GroupCallOverflowArea({
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             i18n={i18n}
             audioLevel={remoteAudioLevels.get(remoteParticipant.demuxId) ?? 0}
+            onClickRaisedHand={onClickRaisedHand}
             onVisibilityChanged={onParticipantVisibilityChanged}
             width={OVERFLOW_PARTICIPANT_WIDTH}
             height={Math.floor(
