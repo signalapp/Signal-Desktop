@@ -49,7 +49,7 @@
     "redux": "4.2.1",
     "reselect": "4.1.8",
     "sortablejs": "1.15.0",
-    "zod": "3.21.4"
+    "zod": "3.22.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
