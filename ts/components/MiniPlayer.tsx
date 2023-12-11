@@ -18,6 +18,7 @@ export enum PlayerState {
 export type Props = Readonly<{
   i18n: LocalizerType;
   title: string;
+  fileName: string | undefined
   currentTime: number;
   // not available until audio has loaded
   duration: number | undefined;
@@ -34,6 +35,7 @@ export type Props = Readonly<{
 export function MiniPlayer({
   i18n,
   title,
+  fileName,
   state,
   currentTime,
   duration,
@@ -100,15 +102,14 @@ export function MiniPlayer({
       <div className="MiniPlayer__state">
         <UserText text={title} />
         <span className="MiniPlayer__middot">&middot;</span>
+        <span>{fileName}</span>
         {duration !== undefined && (
-          <span>
+          <span style={{marginLeft: fileName && '6px' || '0px'}}>
             {durationToPlaybackText(
               state === PlayerState.loading ? duration : currentTime
             )}
           </span>
         )}
-        <span className="MiniPlayer__middot">&middot;</span>
-        <span >&middot;</span>
       </div>
 
       <PlaybackRateButton

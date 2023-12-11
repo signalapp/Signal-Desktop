@@ -41,6 +41,9 @@ export function SmartMiniPlayer({ shouldFlow }: Props): JSX.Element | null {
   const url = AudioPlayerContent.isVoiceNote(content)
     ? content.current.url
     : content.url;
+    const fileName = AudioPlayerContent.isVoiceNote(content)
+    ? content.current.fileName
+    : undefined
 
   let state = PlayerState.loading;
   if (url) {
@@ -55,6 +58,7 @@ export function SmartMiniPlayer({ shouldFlow }: Props): JSX.Element | null {
           ? i18n('icu:you')
           : getVoiceNoteTitle(content.current)
       }
+      fileName={fileName}
       onPlay={handlePlay}
       onPause={handlePause}
       onPlaybackRate={setPlaybackRate}

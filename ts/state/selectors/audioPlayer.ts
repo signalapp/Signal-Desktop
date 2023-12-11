@@ -34,6 +34,7 @@ export type VoiceNoteForPlayback = {
   id: string;
   // undefined if download is pending
   url: string | undefined;
+  fileName: string | undefined;
   type: 'incoming' | 'outgoing';
   source: string | undefined;
   sourceServiceId: ServiceIdString | undefined;
@@ -96,11 +97,13 @@ export function extractVoiceNoteForPlayback(
   const voiceNoteUrl = attachment.path
     ? getAttachmentUrlForPath(attachment.path)
     : undefined;
+  const fileName = attachment.fileName;
   const status = getMessagePropStatus(message, ourConversationId);
 
   return {
     id: message.id,
     url: voiceNoteUrl,
+    fileName,
     type,
     isPlayed: isPlayed(type, status, message.readStatus),
     messageIdForLogging: getMessageIdForLogging(message),
