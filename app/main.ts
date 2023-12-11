@@ -1738,10 +1738,10 @@ async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> 
 
 // Signal doesn't really use media keys so we set this switch here to unblock
 // them so that other apps can use them if they need to.
-const featuresToDisable =
-		`HardwareMediaKeyHandling,${app.commandLine.getSwitchValue('disable-features')}`;
+const featuresToDisable = `HardwareMediaKeyHandling,${app.commandLine.getSwitchValue(
+  'disable-features'
+)}`;
 app.commandLine.appendSwitch('disable-features', featuresToDisable);
-
 
 // If we don't set this, Desktop will ask for access to keychain/keyring on startup
 app.commandLine.appendSwitch('password-store', 'basic');
