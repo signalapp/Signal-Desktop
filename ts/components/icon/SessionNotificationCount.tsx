@@ -4,18 +4,15 @@ import styled from 'styled-components';
 type Props = {
   count?: number;
 };
-
-const StyledCountContainer = styled.div<{ shouldRender: boolean, unreadCount?: number }>`
+const StyledCountContainer = styled.div<{ shouldRender: boolean; unreadCount?: number }>`
   position: absolute;
   font-size: 18px;
   line-height: 1.2;
-  top: ${props => (props.unreadCount ? '29' : '27')}px;
-  left: ${props => (props.unreadCount
-    ? (15 - props.unreadCount.toString().length * 2).toString()
-    : '28'
-  )}px;
-  padding: 3px 3px;
-  opacity: 1;
+  top: ${props => (props.unreadCount ? '-10px' : '27px')};
+  left: ${props => (props.unreadCount ? '50%' : '28px')};
+  transform: ${props => (props.unreadCount ? 'translateX(-50%)' : 'none')};
+  padding: ${props => (props.unreadCount ? '3px 3px' : '1px 4px')};
+  opacity: ${props => (props.shouldRender ? 1 : 0)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,14 +21,14 @@ const StyledCountContainer = styled.div<{ shouldRender: boolean, unreadCount?: n
   font-weight: 700;
   background: var(--unread-messages-alert-background-color);
   transition: var(--default-duration);
-  opacity: ${props => (props.shouldRender ? 1 : 0)};
   text-align: center;
   color: var(--unread-messages-alert-text-color);
+  white-space: ${props => (props.unreadCount ? 'nowrap' : 'normal')};
 `;
 
-const StyledCount = styled.div`
+const StyledCount = styled.div<{ unreadCount?: number }>`
   position: relative;
-  font-size: 0.6rem;
+  font-size: ${props => (props.unreadCount ? 'var(--font-size-xs)' : '0.6rem')};
 `;
 
 export const SessionNotificationCount = (props: Props) => {
@@ -62,7 +59,7 @@ export const SessionUnreadCount = (props: Props) => {
 
   return (
     <StyledCountContainer shouldRender={shouldRender} unreadCount={count}>
-      <StyledCount>{count}</StyledCount>
+      <StyledCount unreadCount={count}>{count}</StyledCount>
     </StyledCountContainer>
   );
 };
