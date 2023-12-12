@@ -49,8 +49,8 @@ import {
 const INTERVAL = 30 * durations.MINUTE;
 
 type JSONVendorSchema = {
-  requireManualUpdate?: boolean;
   minOSVersion?: string;
+  requireManualUpdate?: boolean;
   requireUserConfirmation?: boolean;
 };
 

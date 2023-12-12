@@ -356,7 +356,9 @@
       "mergeASARs": true,
       "releaseInfo": {
         "vendor": {
-          "minOSVersion": "19.0.0"
+          "minOSVersion": "19.0.0",
+          "requireManualUpdate": false,
+          "requireUserConfirmation": false
         }
       },
       "singleArchFiles": "node_modules/@signalapp/{libsignal-client/prebuilds/**,ringrtc/build/**}",
@@ -397,7 +399,9 @@
       ],
       "releaseInfo": {
         "vendor": {
-          "minOSVersion": "10.0.10240"
+          "minOSVersion": "10.0.10240",
+          "requireManualUpdate": false,
+          "requireUserConfirmation": false
         }
       },
       "signDlls": true,
