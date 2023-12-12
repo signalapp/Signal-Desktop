@@ -116,7 +116,7 @@ export function copyCdnFields(
  * @param fileName - The original file name.
  * @param isPlaying - If true, truncate the file name to maxLength characters and add '...' at the end.
  *                  - If false, show the first 15 characters, add '...', and the last 15 characters.
- * @param maxLength - The maximum length of the file name when isPlaying is true (default: 30).
+ * @param maxLength - The maximum length of the file name (default: 30).
  * @returns The shortened file name.
  */
 export function shortenFileName(
@@ -139,7 +139,7 @@ export function shortenFileName(
 
     return `${shortenedFileName}.${extension}`;
   } else {
-    const truncatedFileName = fileName.slice(0, maxLength - 3) + '...';
+    const truncatedFileName = `${fileName.slice(0, maxLength - 3)}...`;
     return truncatedFileName;
   }
 }
