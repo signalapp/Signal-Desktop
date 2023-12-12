@@ -1,4 +1,4 @@
-import { isNumber, throttle, uniq } from 'lodash';
+import { isEmpty, isNumber, throttle, uniq } from 'lodash';
 import { messagesExpired } from '../../state/ducks/conversations';
 import { initWallClockListener } from '../../util/wallClockListener';
 
@@ -8,7 +8,7 @@ import { READ_MESSAGE_STATE } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
 import { SignalService } from '../../protobuf';
 import { ReleasedFeatures } from '../../util/releaseFeature';
-import { expireMessageOnSnode } from '../apis/snode_api/expireRequest';
+import { ExpiringDetails, expireMessagesOnSnode } from '../apis/snode_api/expireRequest';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { getConversationController } from '../conversations';
 import { isValidUnixTimestamp } from '../utils/Timestamps';
@@ -40,6 +40,8 @@ async function destroyMessagesAndUpdateRedux(
     // Delete any attachments
     for (let i = 0; i < messageIds.length; i++) {
       /* eslint-disable no-await-in-loop */
+      // TODO make this use getMessagesById and not getMessageById
+
       const message = await Data.getMessageById(messageIds[i]);
       await message?.cleanup();
       /* eslint-enable no-await-in-loop */
@@ -108,7 +110,11 @@ async function checkExpiringMessages() {
   }
 
   const ms = expiresAt - Date.now();
-  window.log.info(`message expires in ${ms}ms, or ${ms / 1000}s, or ${ms / (3600 * 1000)}h`);
+  window.log.info(
+    `message with hash:${next.getMessageHash()} expires in ${ms}ms, or ${Math.floor(
+      ms / 1000
+    )}s, or ${Math.floor(ms / (3600 * 1000))}h`
+  );
 
   let wait = expiresAt - Date.now();
 
@@ -516,60 +522,59 @@ async function checkHasOutdatedDisappearingMessageClient(
   }
 }
 
-async function updateMessageExpiryOnSwarm(
-  message: MessageModel,
-  callLocation?: string, // this is for debugging purposes
-  shouldCommit?: boolean
-) {
-  if (callLocation) {
-    // window.log.debug(`[updateMessageExpiryOnSwarm] called from: ${callLocation} `);
-  }
+async function updateMessageExpiriesOnSwarm(messages: Array<MessageModel>) {
+  const expiringDetails: ExpiringDetails = [];
 
-  if (!message.getExpirationType() || !message.getExpireTimer()) {
-    window.log.debug(
-      `[updateMessageExpiryOnSwarm] Message ${message.get(
-        'messageHash'
-      )} has no expirationType or expireTimer set. Ignoring`
-    );
-    return message;
-  }
-
-  const messageHash = message.get('messageHash');
-  if (!messageHash) {
-    window.log.debug(
-      `[updateMessageExpiryOnSwarm] Missing messageHash messageId: ${message.get('id')}`
-    );
-    return message;
-  }
-
-  const newTTL = await expireMessageOnSnode({
-    messageHash,
-    expireTimer: message.getExpireTimer() * 1000,
-    shorten: true,
-  });
-  const expiresAt = message.getExpiresAt();
-
-  if (newTTL && newTTL !== expiresAt) {
-    message.set({
-      expires_at: newTTL,
-    });
-
-    if (shouldCommit) {
-      await message.commit();
+  messages.forEach(msg => {
+    const hash = msg.getMessageHash();
+    const timestampStarted = msg.getExpirationStartTimestamp();
+    const timerSeconds = msg.getExpireTimer();
+    const disappearingType = msg.getExpirationType();
+    if (
+      !hash ||
+      !timestampStarted ||
+      timestampStarted <= 0 ||
+      !timerSeconds ||
+      timerSeconds <= 0 ||
+      disappearingType !== 'deleteAfterRead' || // this is very important as a message not stored on the swarm will be assumed expired, and so deleted locally!
+      !msg.isIncoming() // this is very important as a message not stored on the swarm will be assumed expired, and so deleted locally!
+    ) {
+      return;
     }
-  } else {
-    window.log.debug(
-      `[updateMessageExpiryOnSwarm]\nmessageHash ${messageHash} has no new TTL.${
-        expiresAt
-          ? `\nKeeping the old one ${expiresAt}which expires at ${new Date(
-              expiresAt
-            ).toUTCString()}`
-          : ''
-      }`
-    );
-  }
+    expiringDetails.push({
+      messageHash: hash,
+      expireTimerMs: timerSeconds * 1000,
+      readAt: timestampStarted,
+    });
+  });
 
-  return message;
+  if (isEmpty(expiringDetails)) {
+    window.log.debug(`[updateMessageExpiriesOnSwarm] no expiringDetails to update`);
+    return;
+  }
+  console.warn('expiringDetails', expiringDetails);
+
+  const newTTLs = await expireMessagesOnSnode(expiringDetails, { shortenOrExtend: 'shorten' });
+  const updatedMsgModels: Array<MessageModel> = [];
+  newTTLs.forEach(m => {
+    const message = messages.find(model => model.getMessageHash() === m.messageHash);
+    if (!message) {
+      return;
+    }
+
+    const newTTL = m.updatedExpiry;
+    if (newTTL && newTTL !== message.getExpiresAt()) {
+      message.set({
+        expires_at: newTTL,
+      });
+
+      updatedMsgModels.push(message);
+    }
+  });
+
+  if (!isEmpty(updatedMsgModels)) {
+    await Promise.all(updatedMsgModels.map(m => m.commit()));
+  }
 }
 
 export const DisappearingMessages = {
@@ -583,5 +588,6 @@ export const DisappearingMessages = {
   checkForExpiringOutgoingMessage,
   getMessageReadyToDisappear,
   checkHasOutdatedDisappearingMessageClient,
-  updateMessageExpiryOnSwarm,
+  updateMessageExpiriesOnSwarm,
+  destroyExpiredMessages,
 };

@@ -1,8 +1,10 @@
-import { cloneDeep, isEmpty } from 'lodash';
+import { cloneDeep, flatten, isEmpty, isNil, uniq } from 'lodash';
 
 export type PersistedJobType =
   | 'ConfigurationSyncJobType'
   | 'AvatarDownloadJobType'
+  | 'FetchMsgExpirySwarmJobType'
+  | 'UpdateMsgExpirySwarmJobType'
   | 'FakeSleepForJobType'
   | 'FakeSleepForJobMultiType';
 
@@ -31,22 +33,39 @@ export interface AvatarDownloadPersistedData extends PersistedJobData {
   conversationId: string;
 }
 
+interface PersitedDataWithMsgIds extends PersistedJobData {
+  msgIds: Array<string>;
+}
+
 export interface ConfigurationSyncPersistedData extends PersistedJobData {
   jobType: 'ConfigurationSyncJobType';
+}
+
+export interface FetchMsgExpirySwarmPersistedData extends PersitedDataWithMsgIds {
+  jobType: 'FetchMsgExpirySwarmJobType';
+}
+
+export interface UpdateMsgExpirySwarmPersistedData extends PersitedDataWithMsgIds {
+  jobType: 'UpdateMsgExpirySwarmJobType';
 }
 
 export type TypeOfPersistedData =
   | ConfigurationSyncPersistedData
   | AvatarDownloadPersistedData
+  | FetchMsgExpirySwarmPersistedData
+  | UpdateMsgExpirySwarmPersistedData
   | FakeSleepJobData
   | FakeSleepForMultiJobData;
 
-export type AddJobCheckReturn = 'skipAddSameJobPresent' | 'sameJobDataAlreadyInQueue' | null;
+export type AddJobCheckReturn = 'skipAddSameJobPresent' | null;
 
 export enum RunJobResult {
   Success = 1,
   RetryJobIfPossible = 2,
   PermanentFailure = 3,
+}
+function isDataWithMsgIds(data: PersistedJobData): data is PersitedDataWithMsgIds {
+  return !isNil((data as PersitedDataWithMsgIds)?.msgIds);
 }
 
 /**
@@ -120,6 +139,34 @@ export abstract class PersistedJob<T extends PersistedJobData> {
     return jobs.some(j => j.jobType === this.persistedData.jobType)
       ? 'skipAddSameJobPresent'
       : null;
+  }
+
+  public addJobCheckEveryMsgIdsAlreadyPresent(jobs: Array<T>): 'skipAddSameJobPresent' | null {
+    if (!jobs.length) {
+      return null;
+    }
+
+    if (!isDataWithMsgIds(this.persistedData)) {
+      throw new Error(`${this.persistedData.jobType} does not have a msgIds field`);
+    }
+
+    const allIdsAlreadyScheduled = uniq(
+      flatten(
+        jobs.map(m => {
+          if (!isDataWithMsgIds(m)) {
+            throw new Error(`${this.persistedData.jobType} does not have a msgIds field`);
+          }
+          return m.msgIds;
+        })
+      )
+    );
+
+    // if all ids we are trying to add are already tracked as other jobs in the job runner,
+    // there is no need to add this job at all.
+    if (this.persistedData.msgIds.every(m => allIdsAlreadyScheduled.includes(m))) {
+      return 'skipAddSameJobPresent';
+    }
+    return null;
   }
 
   public abstract getJobTimeoutMs(): number;

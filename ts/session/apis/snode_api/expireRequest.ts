@@ -1,5 +1,15 @@
 /* eslint-disable no-restricted-syntax */
-import { isEmpty, sample } from 'lodash';
+import {
+  chunk,
+  compact,
+  difference,
+  flatten,
+  isArray,
+  isEmpty,
+  isNumber,
+  sample,
+  uniqBy,
+} from 'lodash';
 import pRetry from 'p-retry';
 import { Snode } from '../../../data/data';
 import { getSodiumRenderer } from '../../crypto';
@@ -7,16 +17,19 @@ import { StringUtils, UserUtils } from '../../utils';
 import { fromBase64ToArray, fromHexToArray } from '../../utils/String';
 import { EmptySwarmError } from '../../utils/errors';
 import { SeedNodeAPI } from '../seed_node_api';
-import { UpdateExpiryOnNodeSubRequest } from './SnodeRequestTypes';
+import {
+  MAX_SUBREQUESTS_COUNT,
+  UpdateExpiryOnNodeSubRequest,
+  WithShortenOrExtend,
+} from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
-import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
 import { ExpireMessageResultItem, ExpireMessagesResultsContent } from './types';
 
 export type verifyExpireMsgsResponseSignatureProps = ExpireMessageResultItem & {
   pubkey: string;
-  snodePubkey: any;
+  snodePubkey: string;
   messageHashes: Array<string>;
 };
 
@@ -99,13 +112,14 @@ export async function processExpireRequestResponse(
     const signature = swarm[nodeKey].signature;
 
     if (!updatedHashes || !expiry || !signature) {
-      window.log.warn(
-        `[processExpireRequestResponse] Missing arguments on ${
-          targetNode.pubkey_ed25519
-        } so we will ignore this result on (${nodeKey}) and move onto the next node.\n${JSON.stringify(
-          swarm[nodeKey]
-        )}`
-      );
+      // most likely just a timeout from one of the swarm members
+      // window.log.debug(
+      //   `[processExpireRequestResponse] Missing arguments on ${
+      //     targetNode.pubkey_ed25519
+      //   } so we will ignore this result on (${nodeKey}) and move onto the next node.\n${JSON.stringify(
+      //     swarm[nodeKey]
+      //   )}`
+      // );
       continue;
     }
 
@@ -134,24 +148,23 @@ export async function processExpireRequestResponse(
   return results;
 }
 
-async function expireOnNodes(
-  targetNode: Snode,
-  expireRequest: UpdateExpiryOnNodeSubRequest
-): Promise<number> {
-  try {
-    const result = await doSnodeBatchRequest(
-      [expireRequest],
-      targetNode,
-      4000,
-      expireRequest.params.pubkey,
-      'batch'
-    );
+type UpdatedExpiryWithHashes = { messageHashes: Array<string>; updatedExpiry: number };
+type UpdatedExpiryWithHash = { messageHash: string; updatedExpiry: number };
 
-    if (!result || result.length !== 1) {
+async function updateExpiryOnNodes(
+  targetNode: Snode,
+  ourPubKey: string,
+  expireRequests: Array<UpdateExpiryOnNodeSubRequest>
+): Promise<Array<UpdatedExpiryWithHash>> {
+  try {
+    const result = await doSnodeBatchRequest(expireRequests, targetNode, 4000, ourPubKey, 'batch');
+
+    if (!result || result.length !== expireRequests.length) {
+      window.log.error(
+        `There was an issue with the results. updateExpiryOnNodes ${targetNode.ip}:${targetNode.port}. expected length or results ${expireRequests.length} but got ${result.length}`
+      );
       throw Error(
-        `There was an issue with the results. sessionRpc ${targetNode.ip}:${
-          targetNode.port
-        } expireRequest ${JSON.stringify(expireRequest)}`
+        `There was an issue with the results. updateExpiryOnNodes ${targetNode.ip}:${targetNode.port}`
       );
     }
 
@@ -163,30 +176,64 @@ async function expireOnNodes(
       throw Error(`result is not 200 but ${firstResult.code}`);
     }
 
-    const bodyFirstResult = firstResult.body;
-    const expirationResults = await processExpireRequestResponse(
-      expireRequest.params.pubkey,
-      targetNode,
-      bodyFirstResult.swarm as ExpireMessagesResultsContent,
-      expireRequest.params.messages
+    // Note: expirationResults is an array of `Map<snode pubkeys, {msgHashes,expiry}>` changed/unchanged which have a valid signature
+    const expirationResults: Array<ExpireRequestResponseResults> = await Promise.all(
+      expireRequests.map((request, index) => {
+        const bodyIndex = result[index]?.body?.swarm;
+        if (!bodyIndex || isEmpty(bodyIndex)) {
+          return {};
+        }
+
+        return processExpireRequestResponse(
+          ourPubKey,
+          targetNode,
+          bodyIndex as ExpireMessagesResultsContent,
+          request.params.messages
+        );
+      })
     );
-    const firstExpirationResult = Object.entries(expirationResults).at(0);
-    if (!firstExpirationResult) {
-      throw new Error('firstExpirationResult is null');
+
+    const changesValid: Array<UpdatedExpiryWithHashes> = [];
+    // then we need to iterate over each subrequests result to find the snodes which reporting a valid update of the expiry
+
+    for (let index = 0; index < expirationResults.length; index++) {
+      // the 0 gets the first snode of the swarm (they all report the same *sig verified* changes).
+      // the 1 discard the snode_pk entry and access the request result (i.e. a record with hashes: [string] and the expiry)
+      const expirationResult = Object.entries(expirationResults?.[index])?.[0]?.[1];
+      if (
+        !expirationResult ||
+        isEmpty(expirationResult) ||
+        !isArray(expirationResult.hashes) ||
+        !isNumber(expirationResult.expiry)
+      ) {
+        continue;
+      }
+      changesValid.push({
+        messageHashes: expirationResult.hashes,
+        updatedExpiry: expirationResult.expiry,
+      });
     }
 
-    const messageHash = firstExpirationResult[0];
-    const expiry = firstExpirationResult[1].expiry;
-
-    if (!expiry || !messageHash) {
-      throw new Error(
-        `Something is wrong with the firstExpirationResult: ${JSON.stringify(
-          JSON.stringify(firstExpirationResult)
-        )}`
-      );
+    const hashesRequestedButNotInResults = difference(
+      flatten(expireRequests.map(m => m.params.messages)),
+      flatten(changesValid.map(c => c.messageHashes))
+    );
+    if (!isEmpty(hashesRequestedButNotInResults)) {
+      // we requested hashes which are not part of the result. They most likely expired already so let's mark those messages as expiring now.
+      changesValid.push({
+        messageHashes: hashesRequestedButNotInResults,
+        updatedExpiry: Date.now(),
+      });
     }
 
-    return expiry;
+    const expiryWithIndividualHash: Array<UpdatedExpiryWithHash> = flatten(
+      changesValid.map(change =>
+        change.messageHashes.map(h => ({ messageHash: h, updatedExpiry: change.updatedExpiry }))
+      )
+    );
+    debugger;
+    console.warn('update expiry expiryWithIndividualHash: ', expiryWithIndividualHash);
+    return expiryWithIndividualHash;
   } catch (err) {
     // NOTE batch requests have their own retry logic which includes abort errors that will break our retry logic so we need to catch them and throw regular errors
     if (err instanceof pRetry.AbortError) {
@@ -197,122 +244,198 @@ async function expireOnNodes(
   }
 }
 
-export type ExpireMessageOnSnodeProps = {
-  messageHash: string;
-  expireTimer: number;
-  extend?: boolean;
-  shorten?: boolean;
-};
+export type ExpireMessageWithTimerOnSnodeProps = {
+  messageHashes: Array<string>;
+  expireTimerMs: number;
+  readAt: number;
+} & WithShortenOrExtend;
 
-export async function buildExpireRequest(
-  props: ExpireMessageOnSnodeProps
-): Promise<UpdateExpiryOnNodeSubRequest | null> {
-  const { messageHash, expireTimer, extend, shorten } = props;
+export type ExpireMessageWithExpiryOnSnodeProps = Pick<
+  ExpireMessageWithTimerOnSnodeProps,
+  'messageHashes'
+> &
+  WithShortenOrExtend & {
+    expiryMs: number;
+  };
 
-  if (extend && shorten) {
-    window.log.error(
-      '[buildExpireRequest] We cannot extend and shorten a message at the same time',
-      messageHash
-    );
-    return null;
+/**
+ * Exported for testing for testing only. Used to shorten/extend expiries of an array of array of messagehashes.
+ * @param expireDetails the subrequest to do
+ * @returns
+ */
+export async function buildExpireRequestBatchExpiry(
+  expireDetails: Array<ExpireMessageWithExpiryOnSnodeProps>
+) {
+  if (expireDetails.length > MAX_SUBREQUESTS_COUNT) {
+    throw new Error(`batch request can only have ${MAX_SUBREQUESTS_COUNT} subrequests at most`);
   }
+  const results = await Promise.all(expireDetails.map(m => buildExpireRequestSingleExpiry(m)));
+  return compact(results);
+}
 
-  // NOTE empty string means we want to hardcode the expiry to a TTL value, otherwise it's a shorten or extension of the TTL
-  const shortenOrExtend = shorten ? 'shorten' : extend ? 'extend' : ('' as const);
-
+export async function buildExpireRequestSingleExpiry(
+  expireDetails: ExpireMessageWithExpiryOnSnodeProps
+): Promise<UpdateExpiryOnNodeSubRequest | null> {
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
-    window.log.error('[buildExpireRequest] No pubkey found', messageHash);
+    window.log.error('[buildExpireRequestSingleExpiry] No user pubkey');
     return null;
   }
+  const { messageHashes, expiryMs, shortenOrExtend } = expireDetails;
 
-  const expiry = GetNetworkTime.getNowWithNetworkOffset() + expireTimer;
+  // NOTE for shortenOrExtend, '' means we want to hardcode the expiry to a TTL value, otherwise it's a shorten or extension of the TTL
+
   const signResult = await SnodeSignature.generateUpdateExpirySignature({
     shortenOrExtend,
-    timestamp: expiry,
-    messageHashes: [messageHash],
+    timestamp: expiryMs,
+    messageHashes,
   });
 
   if (!signResult) {
     window.log.error(
-      `[buildExpireRequest] SnodeSignature.generateUpdateExpirySignature returned an empty result ${messageHash}`
+      `[buildExpireRequestSingleExpiry] SnodeSignature.generateUpdateExpirySignature returned an empty result`
     );
     return null;
   }
-
-  const expireParams: UpdateExpiryOnNodeSubRequest = {
-    method: 'expire',
+  return {
+    method: 'expire' as const,
     params: {
       pubkey: ourPubKey,
       pubkey_ed25519: signResult.pubkey_ed25519.toUpperCase(),
-      messages: [messageHash],
-      expiry,
-      extend: extend || undefined,
-      shorten: shorten || undefined,
+      messages: messageHashes,
+      expiry: expiryMs,
+      extend: shortenOrExtend === 'extend' || undefined,
+      shorten: shortenOrExtend === 'shorten' || undefined,
       signature: signResult?.signature,
     },
   };
-
-  return expireParams;
 }
+
+type GroupedBySameExpiry = Record<string, Array<string>>;
+
+function getBatchExpiryChunk({
+  expiryChunk,
+  groupedBySameExpiry,
+  shortenOrExtend,
+}: {
+  expiryChunk: Array<string>;
+} & WithShortenOrExtend & { groupedBySameExpiry: GroupedBySameExpiry }) {
+  const expiryDetails: Array<ExpireMessageWithExpiryOnSnodeProps> = expiryChunk.map(expiryStr => {
+    const expiryMs = parseInt(expiryStr, 10);
+    const msgHashesForThisExpiry = groupedBySameExpiry[expiryStr];
+
+    return {
+      expiryMs,
+      messageHashes: msgHashesForThisExpiry,
+      shortenOrExtend,
+    };
+  });
+
+  return buildExpireRequestBatchExpiry(expiryDetails);
+}
+
+function groupMsgByExpiry(expiringDetails: ExpiringDetails) {
+  const hashesWithExpiry = uniqBy(
+    expiringDetails.map(m => ({
+      messageHash: m.messageHash,
+      expiry: m.expireTimerMs + m.readAt,
+    })),
+    n => n.messageHash
+  );
+
+  const groupedBySameExpiry: GroupedBySameExpiry = {};
+  for (let index = 0; index < hashesWithExpiry.length; index++) {
+    const { expiry, messageHash } = hashesWithExpiry[index];
+    const expiryStr = `${expiry}`;
+    if (!groupedBySameExpiry[expiryStr]) {
+      groupedBySameExpiry[expiryStr] = [];
+    }
+    groupedBySameExpiry[expiryStr].push(messageHash);
+  }
+  return groupedBySameExpiry;
+}
+
+export type ExpiringDetails = Array<
+  { messageHash: string } & Pick<ExpireMessageWithTimerOnSnodeProps, 'readAt' | 'expireTimerMs'>
+>;
 
 /**
  * Sends an 'expire' request to the user's swarm for a specific message.
  * This supports both extending and shortening a message's TTL.
  * The returned TTL should be assigned to the message to expire.
  * @param messageHash the hash of the message to expire
+ * @param readAt when that message was read on this device (network timestamp offset is removed later)
  * @param expireTimer amount of time until we expire the message from now in milliseconds
  * @param extend whether to extend the message's TTL
  * @param shorten whether to shorten the message's TTL
  * @returns the TTL of the message as set by the server
  */
-export async function expireMessageOnSnode(
-  props: ExpireMessageOnSnodeProps
-): Promise<number | null> {
-  const { messageHash } = props;
-
+export async function expireMessagesOnSnode(
+  expiringDetails: ExpiringDetails,
+  options: WithShortenOrExtend
+): Promise<Array<{ messageHash: string; updatedExpiry: number }>> {
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
-    window.log.error('[expireMessageOnSnode] No pubkey found', messageHash);
-    return null;
+    throw new Error('[expireMessageOnSnode] No pubkey found');
   }
 
   let snode: Snode | undefined;
 
   try {
-    const expireRequestParams = await buildExpireRequest(props);
-    if (!expireRequestParams) {
-      throw new Error(`Failed to build expire request ${JSON.stringify(props)}`);
-    }
-    let newTTL = null;
+    // key is a string even if it is really a number because Object.keys only knows strings...
+    const groupedBySameExpiry = groupMsgByExpiry(expiringDetails);
+    const chunkedExpiries = chunk(Object.keys(groupedBySameExpiry), MAX_SUBREQUESTS_COUNT); // chunking because the batch endpoint only allow MAX_SUBREQUESTS_COUNT subrequests per requests
 
-    await pRetry(
-      async () => {
-        const swarm = await getSwarmFor(ourPubKey);
-        snode = sample(swarm);
-        if (!snode) {
-          throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
-        }
-        newTTL = await expireOnNodes(snode, expireRequestParams);
-      },
-      {
-        retries: 3,
-        factor: 2,
-        minTimeout: SeedNodeAPI.getMinTimeout(),
-        onFailedAttempt: e => {
-          window?.log?.warn(
-            `[expireMessageOnSnode] expire message on snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
-          );
-        },
-      }
+    // TODO after the next storage server fork we will get a new endpoint allowing to batch
+    // update expiries even when they are * not * the same for all the message hashes.
+    // But currently we can't access it that endpoint, so we need to keep this hacky way for now.
+    // groupby expiries ( expireTimer+ readAt), then batch them with a limit of MAX_SUBREQUESTS_COUNT batch calls per batch requests, then do those in parralel, for now.
+    const expireRequestsParams = await Promise.all(
+      chunkedExpiries.map(chk =>
+        getBatchExpiryChunk({
+          expiryChunk: chk,
+          groupedBySameExpiry,
+          shortenOrExtend: options.shortenOrExtend,
+        })
+      )
+    );
+    if (!expireRequestsParams || isEmpty(expireRequestsParams)) {
+      throw new Error(`Failed to build expire request`);
+    }
+
+    // we most likely will only have a single chunk, so this is a bit of over engineered.
+    // if any of those requests fails, make sure to not consider
+    const allSettled = await Promise.allSettled(
+      expireRequestsParams.map(chunkRequest =>
+        pRetry(
+          async () => {
+            const swarm = await getSwarmFor(ourPubKey);
+            snode = sample(swarm);
+            if (!snode) {
+              throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
+            }
+            return updateExpiryOnNodes(snode, ourPubKey, chunkRequest);
+          },
+          {
+            retries: 3,
+            factor: 2,
+            minTimeout: SeedNodeAPI.getMinTimeout(),
+            onFailedAttempt: e => {
+              window?.log?.warn(
+                `[expireMessageOnSnode] expire message on snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
+              );
+            },
+          }
+        )
+      )
     );
 
-    return newTTL;
+    return flatten(compact(allSettled.map(m => (m.status === 'fulfilled' ? m.value : null))));
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `[expireMessageOnSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
-        e} by ${ourPubKey} for ${messageHash} via snode:${snodeStr}`
+      `[expireMessageOnSnode] ${e.code || ''}${e.message ||
+        e} by ${ourPubKey} via snode:${snodeStr}`
     );
     throw e;
   }

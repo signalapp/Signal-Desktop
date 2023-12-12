@@ -44,7 +44,6 @@ describe('GetExpiriesRequest', () => {
   describe('buildGetExpiriesRequest', () => {
     const props: GetExpiriesFromSnodeProps = {
       messageHashes: ['messageHash'],
-      timestamp: GetNetworkTime.getNowWithNetworkOffset(),
     };
 
     it('builds a valid request given the messageHashes and valid timestamp for now', async () => {

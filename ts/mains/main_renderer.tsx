@@ -116,6 +116,10 @@ async function startJobRunners() {
   runners.avatarDownloadRunner.startProcessing();
   await runners.configurationSyncRunner.loadJobsFromDb();
   runners.configurationSyncRunner.startProcessing();
+  await runners.updateMsgExpiryRunner.loadJobsFromDb();
+  runners.updateMsgExpiryRunner.startProcessing();
+  await runners.fetchSwarmMsgExpiryRunner.loadJobsFromDb();
+  runners.fetchSwarmMsgExpiryRunner.startProcessing();
 }
 
 // We need this 'first' check because we don't want to start the app up any other time

@@ -1,6 +1,6 @@
 // eslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression function-name
 
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { MessageResultProps } from '../components/search/MessageSearchResults';
 import { ConversationModel } from '../models/conversation';
 import { ConversationAttributes } from '../models/conversationAttributes';
@@ -307,6 +307,14 @@ async function getMessageById(
   return new MessageModel(message);
 }
 
+async function getMessagesById(ids: Array<string>): Promise<Array<MessageModel>> {
+  const messages = await channels.getMessagesById(ids);
+  if (!messages || isEmpty(messages)) {
+    return [];
+  }
+  return messages.map((msg: any) => new MessageModel(msg));
+}
+
 async function getMessageByServerId(
   conversationId: string,
   serverId: number,
@@ -361,12 +369,12 @@ async function getUnreadByConversation(
 async function getUnreadDisappearingByConversation(
   conversationId: string,
   sentBeforeTimestamp: number
-): Promise<MessageCollection> {
+): Promise<Array<MessageModel>> {
   const messages = await channels.getUnreadDisappearingByConversation(
     conversationId,
     sentBeforeTimestamp
   );
-  return new MessageCollection(messages);
+  return new MessageCollection(messages).models;
 }
 
 async function markAllAsReadByConversationNoExpiration(
@@ -816,6 +824,7 @@ export const Data = {
   cleanUpExpirationTimerUpdateHistory,
   getMessageIdsFromServerIds,
   getMessageById,
+  getMessagesById,
   getMessagesBySenderAndSentAt,
   getMessageByServerId,
   filterAlreadyFetchedOpengroupMessage,

@@ -179,3 +179,7 @@ export type NotEmptyArrayOfBatchResults = NonEmptyArray<{
   code: number;
   body: Record<string, any>;
 }>;
+
+export type WithShortenOrExtend = { shortenOrExtend: 'shorten' | 'extend' | '' };
+
+export const MAX_SUBREQUESTS_COUNT = 20;

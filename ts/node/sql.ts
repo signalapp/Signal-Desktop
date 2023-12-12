@@ -1091,6 +1091,19 @@ function getMessageById(id: string) {
   return jsonToObject(row.json);
 }
 
+function getMessagesById(ids: Array<string>) {
+  if (!isArray(ids)) {
+    throw new Error('getMessagesById expect an array of strings');
+  }
+  const rows = assertGlobalInstance()
+    .prepare(`SELECT json FROM ${MESSAGES_TABLE} WHERE id IN ( ${ids.map(() => '?').join(', ')} );`)
+    .all(ids);
+  if (!rows || isEmpty(rows)) {
+    return null;
+  }
+  return map(rows, row => jsonToObject(row.json));
+}
+
 // serverIds are not unique so we need the conversationId
 function getMessageByServerId(conversationId: string, serverId: number) {
   const row = assertGlobalInstance()
@@ -2469,6 +2482,7 @@ export const sqlNode = {
   getMessagesBySenderAndSentAt,
   getMessageIdsFromServerIds,
   getMessageById,
+  getMessagesById,
   getMessagesBySentAt,
   getMessageByServerId,
   getSeenMessagesByHashList,

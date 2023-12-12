@@ -47,7 +47,6 @@ import {
   actions as conversationActions,
   conversationsChanged,
   markConversationFullyRead,
-  MessageModelPropsWithoutConvoProps,
   messagesDeleted,
   ReduxConversationType,
 } from '../state/ducks/conversations';
@@ -120,6 +119,8 @@ import {
 
 import { DisappearingMessages } from '../session/disappearing_messages';
 import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
+import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob';
+import { UpdateMsgExpirySwarm } from '../session/utils/job_runners/jobs/UpdateMsgExpirySwarmJob';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 
@@ -138,7 +139,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: () => void;
   public throttledNotify: (message: MessageModel) => void;
-  public markConversationRead: (newestUnreadDate: number, readAt?: number) => void;
+  public markConversationRead: (opts: {
+    newestUnreadDate: number;
+    fromConfigMessage?: boolean;
+  }) => void;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
@@ -1143,7 +1147,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // otherwise, do it the slow and expensive way
-    await this.markConversationReadBouncy(Date.now());
+    await this.markConversationReadBouncy({ newestUnreadDate: Date.now() });
   }
 
   public getUsInThatConversation() {
@@ -1814,7 +1818,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * This call is not debounced and can be quite heavy, so only call it when handling config messages updates
    */
   public async markReadFromConfigMessage(newestUnreadDate: number) {
-    return this.markConversationReadBouncy(newestUnreadDate);
+    return this.markConversationReadBouncy({ newestUnreadDate, fromConfigMessage: true });
   }
 
   private async sendMessageJob(message: MessageModel) {
@@ -2066,7 +2070,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  private async markConversationReadBouncy(newestUnreadDate: number, readAt: number = Date.now()) {
+  private async markConversationReadBouncy({
+    newestUnreadDate,
+    fromConfigMessage = false,
+  }: {
+    newestUnreadDate: number;
+    fromConfigMessage?: boolean;
+  }) {
+    const readAt = Date.now();
     const conversationId = this.id;
     Notifications.clearByConversationID(conversationId);
 
@@ -2079,32 +2090,39 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // Build the list of updated message models so we can mark them all as read on a single sqlite call
     const readDetails = [];
+    const msgsIdsToUpdateExpireOnSwarm: Array<string> = [];
     // eslint-disable-next-line no-restricted-syntax
     for (const nowRead of oldUnreadNowRead) {
-      nowRead.markMessageReadNoCommit(readAt);
+      const shouldUpdateSwarmExpiry = nowRead.markMessageReadNoCommit(readAt);
+      if (shouldUpdateSwarmExpiry) {
+        msgsIdsToUpdateExpireOnSwarm.push(nowRead.get('id') as string);
+      }
 
-      const validTimestamp = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
-      if (nowRead.get('source') && validTimestamp && isFinite(validTimestamp)) {
+      const sentAt = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
+      if (nowRead.get('source') && sentAt && isFinite(sentAt)) {
         readDetails.push({
           sender: nowRead.get('source'),
-          timestamp: validTimestamp,
+          timestamp: sentAt,
         });
       }
     }
-    const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-    if (oldUnreadNowReadAttrs?.length) {
-      await Data.saveMessages(oldUnreadNowReadAttrs);
-    }
-    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const nowRead of oldUnreadNowRead) {
-      allProps.push(nowRead.getMessageModelProps());
+    if (!isEmpty(msgsIdsToUpdateExpireOnSwarm)) {
+      if (fromConfigMessage) {
+        // when we mark a message as read through a convo volatile update,
+        // it means those messages have already an up to date expiry on the server side
+        // so we can just fetch those expiries for all the hashes we are marking as read, and trust it.
+        await FetchMsgExpirySwarm.queueNewJobIfNeeded(msgsIdsToUpdateExpireOnSwarm);
+      } else {
+        await UpdateMsgExpirySwarm.queueNewJobIfNeeded(msgsIdsToUpdateExpireOnSwarm);
+      }
     }
-
-    if (allProps.length) {
-      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
-    }
+    // save all the attributes in a single call
+    await Data.saveMessages(oldUnreadNowRead.map(m => m.attributes));
+    // trigger all the ui updates in a single call
+    window.inboxStore?.dispatch(
+      conversationActions.messagesChanged(oldUnreadNowRead.map(m => m.getMessageModelProps()))
+    );
 
     await this.commit();
 
@@ -2527,6 +2545,7 @@ async function cleanUpExpireHistoryFromConvo(conversationId: string, isPrivate: 
     conversationId,
     isPrivate
   );
+  console.warn('cleanUpExpirationTimerUpdateHistory', conversationId, isPrivate, updateIdsRemoved);
 
   window.inboxStore.dispatch(
     messagesDeleted(updateIdsRemoved.map(m => ({ conversationKey: conversationId, messageId: m })))

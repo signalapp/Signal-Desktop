@@ -539,8 +539,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       props.isDeleted = this.get('isDeleted');
     }
 
-    if (this.get('messageHash')) {
-      props.messageHash = this.get('messageHash');
+    if (this.getMessageHash()) {
+      props.messageHash = this.getMessageHash();
     }
     if (this.get('received_at')) {
       props.receivedAt = this.get('received_at');
@@ -824,8 +824,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       reacts: undefined,
       reactsIndex: undefined,
     });
-    await this.markMessageAsRead(Date.now());
+    // we can ignore the result of that markMessageReadNoCommit as it would only be used
+    // to refresh the expiry of it(but it is already marked as "deleted", so we don't care)
+    this.markMessageReadNoCommit(Date.now());
     await this.commit();
+    // the line below makes sure that getNextExpiringMessage will find this message as expiring.
+    // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
+    await this.setToExpire();
+    await this.getConversation()?.refreshInMemoryDetails();
   }
 
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
@@ -1096,17 +1102,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return id;
   }
 
-  public async markMessageAsRead(readAt: number) {
-    this.markMessageReadNoCommit(readAt);
-    await this.commit();
-    // the line below makes sure that getNextExpiringMessage will find this message as expiring.
-    // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
-    await this.setToExpire();
+  /**
+   * Mark a message as read if it was not already read.
+   * @param readAt the timestamp at which this message was read
+   * @returns true if the message was marked as read, and if its expiry should be updated on the swarm, false otherwise
+   */
+  public markMessageReadNoCommit(readAt: number): boolean {
+    if (!this.isUnread()) {
+      return false;
+    }
 
-    await this.getConversation()?.refreshInMemoryDetails();
-  }
-
-  public markMessageReadNoCommit(readAt: number) {
     this.set({ unread: READ_MESSAGE_STATE.read });
 
     const convo = this.getConversation();
@@ -1123,27 +1128,28 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
         if (this.isIncoming() && !this.isExpiring()) {
-          // NOTE We want to trigger disappearing now and then the TTL can update itself while it is running. Otherwise the UI is blocked until the request is completed.
-          void DisappearingMessages.updateMessageExpiryOnSwarm(
-            this,
-            'markMessageReadNoCommit()',
-            true
-          );
-        }
-        if (!this.getExpirationStartTimestamp()) {
-          this.set({
-            expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
-              expirationMode,
-              readAt,
-              'markMessageReadNoCommit',
-              this.get('id')
-            ),
-          });
+          // only if that message has not started to expire already, set its "start expiry".
+          // this is because a message can have a expire start timestamp set when receiving it, if the convo volatile said that the message was read by another device.
+          if (!this.getExpirationStartTimestamp()) {
+            this.set({
+              expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
+                expirationMode,
+                readAt,
+                'markMessageReadNoCommit',
+                this.get('id')
+              ),
+            });
+            // return true, we want to update/refresh the real expiry of this message from the swarm
+            return true;
+          }
+          // return true, we want to update/refresh the real expiry of this message from the swarm
+          return true;
         }
       }
     }
 
     Notifications.clearByMessageId(this.id);
+    return false;
   }
 
   public isExpiring() {
@@ -1185,8 +1191,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.set({
         expires_at: expiresAt,
       });
-      const id = this.get('id');
-      if (id) {
+
+      if (this.get('id')) {
         await this.commit();
       }
 
@@ -1376,6 +1382,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getExpiresAt() {
     return this.get('expires_at');
+  }
+
+  public getMessageHash() {
+    return this.get('messageHash');
   }
 
   public getExpirationTimerUpdate() {

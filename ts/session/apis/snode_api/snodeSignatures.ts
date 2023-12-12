@@ -1,6 +1,7 @@
 import { getSodiumRenderer } from '../../crypto';
 import { StringUtils, UserUtils } from '../../utils';
 import { fromHexToArray, fromUInt8ArrayToBase64 } from '../../utils/String';
+import { WithShortenOrExtend } from './SnodeRequestTypes';
 import { GetNetworkTime } from './getNetworkTime';
 
 export type SnodeSignatureResult = {
@@ -104,10 +105,9 @@ async function generateUpdateExpirySignature({
   timestamp,
   messageHashes,
 }: {
-  shortenOrExtend: 'extend' | 'shorten' | '';
   timestamp: number;
   messageHashes: Array<string>;
-}): Promise<{ signature: string; pubkey_ed25519: string } | null> {
+} & WithShortenOrExtend): Promise<{ signature: string; pubkey_ed25519: string } | null> {
   const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
 
   if (!ourEd25519Key) {

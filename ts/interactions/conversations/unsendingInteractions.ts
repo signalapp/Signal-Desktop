@@ -1,19 +1,19 @@
 import { compact } from 'lodash';
+import { SessionButtonColor } from '../../components/basic/SessionButton';
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { getMessageQueue } from '../../session';
+import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
+import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
+import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
 import { getConversationController } from '../../session/conversations';
 import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/UnsendMessage';
 import { ed25519Str } from '../../session/onions/onionPath';
-import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { SessionButtonColor } from '../../components/basic/SessionButton';
-import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
-import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
 
 /**
  * Deletes messages for everyone in a 1-1 or everyone in a closed group conversation.
@@ -204,7 +204,6 @@ export async function deleteMessageLocallyOnly({
   } else {
     // just mark the message as deleted but still show in conversation
     await message.markAsDeleted();
-    await message.markMessageAsRead(Date.now());
   }
   conversation.updateLastMessage();
 }

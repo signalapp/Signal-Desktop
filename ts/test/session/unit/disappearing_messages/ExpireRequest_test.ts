@@ -3,9 +3,9 @@ import chaiAsPromised from 'chai-as-promised';
 import Sinon from 'sinon';
 import { UpdateExpiryOnNodeSubRequest } from '../../../../session/apis/snode_api/SnodeRequestTypes';
 import {
-  ExpireMessageOnSnodeProps,
+  ExpireMessageWithExpiryOnSnodeProps,
   ExpireRequestResponseResults,
-  buildExpireRequest,
+  buildExpireRequestSingleExpiry,
   processExpireRequestResponse,
   verifyExpireMsgsResponseSignature,
   verifyExpireMsgsResponseSignatureProps,
@@ -37,13 +37,16 @@ describe('ExpireRequest', () => {
   });
 
   describe('buildExpireRequest', () => {
-    const props: ExpireMessageOnSnodeProps = {
-      messageHash: 'messageHash',
-      expireTimer: 60,
+    const props: ExpireMessageWithExpiryOnSnodeProps = {
+      messageHashes: ['messageHash'],
+      expiryMs: 12340000 + 60 * 1000,
+      shortenOrExtend: '',
     };
 
     it('builds a request with just the messageHash and expireTimer of 1 minute', async () => {
-      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequest(props);
+      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequestSingleExpiry(
+        props
+      );
 
       expect(request, 'should not return null').to.not.be.null;
       expect(request, 'should not return undefined').to.not.be.undefined;
@@ -53,8 +56,8 @@ describe('ExpireRequest', () => {
 
       expect(request, "method should be 'expire'").to.have.property('method', 'expire');
       expect(request.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
-      expect(request.params.messages[0], 'messageHash should be in messages array').to.equal(
-        props.messageHash
+      expect(request.params.messages, 'messageHash should be in messages array').to.deep.equal(
+        props.messageHashes
       );
       expect(
         request.params.expiry && isValidUnixTimestamp(request?.params.expiry),
@@ -65,9 +68,9 @@ describe('ExpireRequest', () => {
       expect(request.params.signature, 'signature should not be empty').to.not.be.empty;
     });
     it('builds a request with extend enabled', async () => {
-      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequest({
+      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequestSingleExpiry({
         ...props,
-        extend: true,
+        shortenOrExtend: 'extend',
       });
 
       expect(request, 'should not return null').to.not.be.null;
@@ -78,8 +81,8 @@ describe('ExpireRequest', () => {
 
       expect(request, "method should be 'expire'").to.have.property('method', 'expire');
       expect(request.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
-      expect(request.params.messages[0], 'messageHash should be in messages array').to.equal(
-        props.messageHash
+      expect(request.params.messages, 'messageHash should be in messages array').to.equal(
+        props.messageHashes
       );
       expect(
         request.params.expiry && isValidUnixTimestamp(request?.params.expiry),
@@ -90,9 +93,9 @@ describe('ExpireRequest', () => {
       expect(request.params.signature, 'signature should not be empty').to.not.be.empty;
     });
     it('builds a request with shorten enabled', async () => {
-      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequest({
+      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequestSingleExpiry({
         ...props,
-        shorten: true,
+        shortenOrExtend: 'shorten',
       });
 
       expect(request, 'should not return null').to.not.be.null;
@@ -103,8 +106,8 @@ describe('ExpireRequest', () => {
 
       expect(request, "method should be 'expire'").to.have.property('method', 'expire');
       expect(request.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
-      expect(request.params.messages[0], 'messageHash should be in messages array').to.equal(
-        props.messageHash
+      expect(request.params.messages, 'messageHash should be in messages array').to.equal(
+        props.messageHashes
       );
       expect(
         request.params.expiry && isValidUnixTimestamp(request?.params.expiry),
@@ -113,15 +116,6 @@ describe('ExpireRequest', () => {
       expect(request.params.extend, 'extend should be undefined').to.be.undefined;
       expect(request.params.shorten, 'shorten should be true').to.be.true;
       expect(request.params.signature, 'signature should not be empty').to.not.be.empty;
-    });
-    it('fails to build a request if extend and shorten are both enabled', async () => {
-      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequest({
-        ...props,
-        extend: true,
-        shorten: true,
-      });
-
-      expect(request, 'should return null').to.be.null;
     });
   });
 

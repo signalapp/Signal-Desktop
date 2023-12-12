@@ -17,7 +17,6 @@ import { getOpenGroupManager } from '../session/apis/open_group_api/opengroupV2/
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
-import { getExpiriesFromSnode } from '../session/apis/snode_api/getExpiriesRequest';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { Profile, ProfileManager } from '../session/profile_manager/ProfileManager';
@@ -42,6 +41,7 @@ import {
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
 // eslint-disable-next-line import/no-unresolved, import/extensions
+import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
@@ -700,55 +700,25 @@ async function applyConvoVolatileUpdateFromWrapper(
   }
 
   try {
-    const canBeDeleteAfterRead = foundConvo && !foundConvo.isMe() && foundConvo.isPrivate();
     // TODO legacy messages support will be removed in a future release
-    if (
-      canBeDeleteAfterRead &&
-      (foundConvo.getExpirationMode() === 'deleteAfterRead' ||
-        foundConvo.getExpirationMode() === 'legacy') &&
-      foundConvo.getExpireTimer() > 0
-    ) {
-      const messages2Expire = await Data.getUnreadDisappearingByConversation(
+    if (foundConvo.isPrivate() && !foundConvo.isMe() && foundConvo.getExpireTimer() > 0) {
+      const messagesExpiring = await Data.getUnreadDisappearingByConversation(
         convoId,
         lastReadMessageTimestamp
       );
 
-      if (messages2Expire.length) {
-        const messageHashes = compact(
-          messages2Expire
-            .filter(
-              m =>
-                m.getExpirationType() !== undefined &&
-                m.getExpirationType() !== 'deleteAfterSend' &&
-                m.getExpireTimer() > 0
-            )
-            .map(m => m.get('messageHash'))
-        );
-        const currentExpiryTimestamps = await getExpiriesFromSnode({
-          messageHashes,
-          timestamp: lastReadMessageTimestamp,
-        });
+      const messagesExpiringAfterRead = messagesExpiring.filter(
+        m => m.getExpirationType() === 'deleteAfterRead' && m.getExpireTimer() > 0
+      );
 
-        if (currentExpiryTimestamps.length) {
-          for (let index = 0; index < messages2Expire.length; index++) {
-            if (currentExpiryTimestamps[index] === -1) {
-              window.log.debug(
-                `[applyConvoVolatileUpdateFromWrapper] invalid expiry value returned from snode. We will keep the local value of ${messages2Expire
-                  .get(index)
-                  .get('id')}.\nmessageHash: ${messageHashes[index]},`
-              );
-              continue;
-            }
-            messages2Expire.at(index).set('expires_at', currentExpiryTimestamps[index]);
-          }
-        }
+      const messageIdsToFetchExpiriesFor = compact(messagesExpiringAfterRead.map(m => m.id));
+
+      if (messageIdsToFetchExpiriesFor.length) {
+        await FetchMsgExpirySwarm.queueNewJobIfNeeded(messageIdsToFetchExpiriesFor);
       }
     }
 
-    // window.log.debug(
-    //   `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
-    // );
-    // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
+    // this mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
     await foundConvo.markReadFromConfigMessage(lastReadMessageTimestamp);
     // this commits to the DB, if needed
     await foundConvo.markAsUnread(forcedUnread, true);
