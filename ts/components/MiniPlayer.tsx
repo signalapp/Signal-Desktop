@@ -8,6 +8,7 @@ import { durationToPlaybackText } from '../util/durationToPlaybackText';
 import { PlaybackButton } from './PlaybackButton';
 import { PlaybackRateButton } from './PlaybackRateButton';
 import { UserText } from './UserText';
+import { shortenFileName } from '../util/attachments';
 
 export enum PlayerState {
   loading = 'loading',
@@ -102,7 +103,7 @@ export function MiniPlayer({
       <div className="MiniPlayer__state">
         <UserText text={title} />
         <span className="MiniPlayer__middot">&middot;</span>
-        <span>{fileName}</span>
+        <span>{shortenFileName(fileName, true)}</span>
         {duration !== undefined && (
           <span style={{marginLeft: fileName && '6px' || '0px'}}>
             {durationToPlaybackText(
