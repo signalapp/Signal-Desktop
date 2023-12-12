@@ -58,6 +58,7 @@ const getCommonProps = (options: {
     mode === CallMode.Group ? getDefaultGroup() : getDefaultConversation();
 
   return {
+    id: 'message-id',
     conversationId: conversation.id,
     i18n,
     isNextItemCallingNotification: false,
@@ -67,6 +68,7 @@ const getCommonProps = (options: {
     onOutgoingVideoCallInConversation: action(
       'onOutgoingVideoCallInConversation'
     ),
+    toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
     returnToActiveCall: action('returnToActiveCall'),
     callHistory: {
       callId: '123',
@@ -83,6 +85,8 @@ const getCommonProps = (options: {
     groupCallEnded,
     maxDevices,
     deviceCount,
+    isSelectMode: false,
+    isTargeted: false,
   };
 };
 

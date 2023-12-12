@@ -43,6 +43,8 @@ describe('calling notification helpers', () => {
             groupCallEnded: true,
             deviceCount: 1,
             maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
           },
           i18n
         ),
@@ -72,6 +74,8 @@ describe('calling notification helpers', () => {
             groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
           },
           i18n
         ),
@@ -102,6 +106,8 @@ describe('calling notification helpers', () => {
             groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
           },
           i18n
         ),
@@ -131,6 +137,8 @@ describe('calling notification helpers', () => {
             groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
           },
           i18n
         ),
@@ -157,6 +165,8 @@ describe('calling notification helpers', () => {
             groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
           },
           i18n
         ),

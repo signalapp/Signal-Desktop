@@ -253,11 +253,13 @@ export const TimelineItem = memo(function TimelineItem({
     } else if (item.type === 'callHistory') {
       notification = (
         <CallingNotification
+          id={id}
           conversationId={conversationId}
           i18n={i18n}
           isNextItemCallingNotification={isNextItemCallingNotification}
           onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
           onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+          toggleDeleteMessagesModal={reducedProps.toggleDeleteMessagesModal}
           returnToActiveCall={returnToActiveCall}
           {...item.data}
         />
