@@ -48,6 +48,12 @@ import {
 
 const INTERVAL = 30 * durations.MINUTE;
 
+type JSONVendorSchema = {
+  requireManualUpdate?: boolean;
+  minOSVersion?: string;
+  requireUserConfirmation?: boolean;
+};
+
 type JSONUpdateSchema = {
   version: string;
   files: Array<{
@@ -59,10 +65,7 @@ type JSONUpdateSchema = {
   path: string;
   sha512: string;
   releaseDate: string;
-  vendor?: {
-    requireManualUpdate?: boolean;
-    minOSVersion?: string;
-  };
+  vendor?: JSONVendorSchema;
 };
 
 export type UpdateInformationType = {
@@ -71,6 +74,7 @@ export type UpdateInformationType = {
   version: string;
   sha512: string;
   differentialData: DifferentialDownloadDataType | undefined;
+  vendor?: JSONVendorSchema;
 };
 
 enum DownloadMode {
@@ -279,7 +283,10 @@ export abstract class Updater {
         );
       }
 
-      await this.installUpdate(updateFilePath, this.canRunSilently());
+      await this.installUpdate(
+        updateFilePath,
+        !updateInfo.vendor?.requireUserConfirmation && this.canRunSilently()
+      );
 
       const mainWindow = this.getMainWindow();
       if (mainWindow) {
@@ -499,6 +506,7 @@ export abstract class Updater {
       version,
       sha512,
       differentialData,
+      vendor,
     };
   }
 
