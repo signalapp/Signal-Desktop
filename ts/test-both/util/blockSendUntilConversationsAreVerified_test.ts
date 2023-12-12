@@ -4,106 +4,120 @@
 import { assert } from 'chai';
 
 import type { RecipientsByConversation } from '../../state/ducks/stories';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import {
-  getAllUuids,
-  filterUuids,
+  getAllServiceIds,
+  filterServiceIds,
 } from '../../util/blockSendUntilConversationsAreVerified';
 
 describe('both/util/blockSendUntilConversationsAreVerified', () => {
-  const UUID_1 = UUID.generate().toString();
-  const UUID_2 = UUID.generate().toString();
-  const UUID_3 = UUID.generate().toString();
-  const UUID_4 = UUID.generate().toString();
+  const SERVICE_ID_1 = generateAci();
+  const SERVICE_ID_2 = generateAci();
+  const SERVICE_ID_3 = generateAci();
+  const SERVICE_ID_4 = generateAci();
 
-  describe('#getAllUuids', () => {
+  const LIST_ID_1 = generateStoryDistributionId();
+  const LIST_ID_2 = generateStoryDistributionId();
+  const LIST_ID_3 = generateStoryDistributionId();
+
+  describe('#getAllServiceIds', () => {
     it('should return empty set for empty object', () => {
       const starting: RecipientsByConversation = {};
-      const expected: Array<UUIDStringType> = [];
-      const actual = getAllUuids(starting);
+      const expected: Array<ServiceIdString> = [];
+      const actual = getAllServiceIds(starting);
 
       assert.sameMembers(Array.from(actual), expected);
     });
-    it('should return uuids multiple conversations', () => {
+    it('should return serviceIds multiple conversations', () => {
       const starting: RecipientsByConversation = {
-        abc: {
-          uuids: [UUID_1, UUID_2],
+        [LIST_ID_1]: {
+          serviceIds: [SERVICE_ID_1, SERVICE_ID_2],
         },
-        def: {
-          uuids: [],
+        [LIST_ID_2]: {
+          serviceIds: [],
         },
-        ghi: {
-          uuids: [UUID_2, UUID_3],
+        [LIST_ID_3]: {
+          serviceIds: [SERVICE_ID_2, SERVICE_ID_3],
         },
       };
-      const expected: Array<UUIDStringType> = [UUID_1, UUID_2, UUID_3];
-      const actual = getAllUuids(starting);
+      const expected: Array<ServiceIdString> = [
+        SERVICE_ID_1,
+        SERVICE_ID_2,
+        SERVICE_ID_3,
+      ];
+      const actual = getAllServiceIds(starting);
 
       assert.sameMembers(Array.from(actual), expected);
     });
-    it('should return uuids from byDistributionId and its parent', () => {
+    it('should return serviceIds from byDistributionId and its parent', () => {
       const starting: RecipientsByConversation = {
-        abc: {
-          uuids: [UUID_1, UUID_2],
+        [LIST_ID_1]: {
+          serviceIds: [SERVICE_ID_1, SERVICE_ID_2],
           byDistributionId: {
-            abc: {
-              uuids: [UUID_3],
+            [LIST_ID_1]: {
+              serviceIds: [SERVICE_ID_3],
             },
-            def: {
-              uuids: [],
+            [LIST_ID_2]: {
+              serviceIds: [],
             },
-            ghi: {
-              uuids: [UUID_4],
+            [LIST_ID_3]: {
+              serviceIds: [SERVICE_ID_4],
             },
           },
         },
       };
-      const expected: Array<UUIDStringType> = [UUID_1, UUID_2, UUID_3, UUID_4];
-      const actual = getAllUuids(starting);
+      const expected: Array<ServiceIdString> = [
+        SERVICE_ID_1,
+        SERVICE_ID_2,
+        SERVICE_ID_3,
+        SERVICE_ID_4,
+      ];
+      const actual = getAllServiceIds(starting);
 
       assert.sameMembers(Array.from(actual), expected);
     });
-    it('should return uuids from byDistributionId with empty parent', () => {
+    it('should return serviceIds from byDistributionId with empty parent', () => {
       const starting: RecipientsByConversation = {
-        abc: {
-          uuids: [],
+        [LIST_ID_1]: {
+          serviceIds: [],
           byDistributionId: {
-            abc: {
-              uuids: [UUID_3],
+            [LIST_ID_1]: {
+              serviceIds: [SERVICE_ID_3],
             },
           },
         },
       };
-      const expected: Array<UUIDStringType> = [UUID_3];
-      const actual = getAllUuids(starting);
+      const expected: Array<ServiceIdString> = [SERVICE_ID_3];
+      const actual = getAllServiceIds(starting);
 
       assert.sameMembers(Array.from(actual), expected);
     });
   });
 
-  describe('#filterUuids', () => {
+  describe('#filterServiceIds', () => {
     const starting: RecipientsByConversation = {
-      abc: {
-        uuids: [UUID_1],
+      [LIST_ID_1]: {
+        serviceIds: [SERVICE_ID_1],
         byDistributionId: {
-          abc: {
-            uuids: [UUID_2, UUID_3],
+          [LIST_ID_1]: {
+            serviceIds: [SERVICE_ID_2, SERVICE_ID_3],
           },
-          def: {
-            uuids: [UUID_1],
+          [LIST_ID_2]: {
+            serviceIds: [SERVICE_ID_1],
           },
         },
       },
-      def: {
-        uuids: [UUID_1, UUID_4],
+      [LIST_ID_2]: {
+        serviceIds: [SERVICE_ID_1, SERVICE_ID_4],
       },
-      ghi: {
-        uuids: [UUID_3],
+      [LIST_ID_3]: {
+        serviceIds: [SERVICE_ID_3],
         byDistributionId: {
-          abc: {
-            uuids: [UUID_4],
+          [LIST_ID_1]: {
+            serviceIds: [SERVICE_ID_4],
           },
         },
       },
@@ -111,34 +125,35 @@ describe('both/util/blockSendUntilConversationsAreVerified', () => {
 
     it('should return empty object if predicate always returns false', () => {
       const expected: RecipientsByConversation = {};
-      const actual = filterUuids(starting, () => false);
+      const actual = filterServiceIds(starting, () => false);
 
       assert.deepEqual(actual, expected);
     });
     it('should return exact copy of object if predicate always returns true', () => {
       const expected = starting;
-      const actual = filterUuids(starting, () => true);
+      const actual = filterServiceIds(starting, () => true);
 
       assert.notStrictEqual(actual, expected);
       assert.deepEqual(actual, expected);
     });
-    it('should return just a few uuids for selective predicate', () => {
+    it('should return just a few serviceIds for selective predicate', () => {
       const expected: RecipientsByConversation = {
-        abc: {
-          uuids: [],
+        [LIST_ID_1]: {
+          serviceIds: [],
           byDistributionId: {
-            abc: {
-              uuids: [UUID_2, UUID_3],
+            [LIST_ID_1]: {
+              serviceIds: [SERVICE_ID_2, SERVICE_ID_3],
             },
           },
         },
-        ghi: {
-          uuids: [UUID_3],
+        [LIST_ID_3]: {
+          serviceIds: [SERVICE_ID_3],
         },
       };
-      const actual = filterUuids(
+      const actual = filterServiceIds(
         starting,
-        (uuid: UUIDStringType) => uuid === UUID_2 || uuid === UUID_3
+        (uuid: ServiceIdString) =>
+          uuid === SERVICE_ID_2 || uuid === SERVICE_ID_3
       );
 
       assert.deepEqual(actual, expected);

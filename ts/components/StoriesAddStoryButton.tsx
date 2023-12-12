@@ -7,7 +7,6 @@ import React, { useState, useCallback } from 'react';
 import type { LocalizerType } from '../types/Util';
 import type { ShowToastAction } from '../state/ducks/toast';
 import { ContextMenu } from './ContextMenu';
-import { Theme } from '../util/theme';
 import { ToastType } from '../types/Toast';
 import {
   isVideoGoodForStories,
@@ -109,7 +108,6 @@ export function StoriesAddStoryButton({
           placement: 'bottom',
           strategy: 'absolute',
         }}
-        theme={Theme.Dark}
       >
         {children}
       </ContextMenu>

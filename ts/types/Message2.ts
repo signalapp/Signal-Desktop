@@ -593,10 +593,18 @@ export const processNewAttachment = async (
       isIncoming: true,
     }
   );
-  const onDiskAttachment = await migrateDataToFileSystem(rotatedAttachment, {
-    writeNewAttachmentData,
-    logger,
-  });
+
+  let onDiskAttachment = rotatedAttachment;
+
+  // If we rotated the attachment, then `data` will be the actual bytes of the attachment,
+  //   in memory. We want that updated attachment to go back to disk.
+  if (rotatedAttachment.data) {
+    onDiskAttachment = await migrateDataToFileSystem(rotatedAttachment, {
+      writeNewAttachmentData,
+      logger,
+    });
+  }
+
   const finalAttachment = await captureDimensionsAndScreenshot(
     onDiskAttachment,
     {

@@ -60,7 +60,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
         timestamp: bootstrap.getTimestamp(),
         messages: [
           {
-            senderUUID: contact.device.uuid,
+            senderAci: contact.device.aci,
             timestamp: messageTimestamp,
           },
         ],
@@ -91,7 +91,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
         timestamp: bootstrap.getTimestamp(),
         messages: [
           {
-            senderUUID: contact.device.uuid,
+            senderAci: contact.device.aci,
             timestamp: messageTimestamp,
           },
         ],

@@ -3,8 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './ToastFileSize';
 import { ToastFileSize } from './ToastFileSize';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -17,12 +18,8 @@ const defaultProps = {
 
 export default {
   title: 'Components/ToastFileSize',
-};
+} satisfies Meta<PropsType>;
 
 export const _ToastFileSize = (): JSX.Element => (
   <ToastFileSize {...defaultProps} limit={100} units="MB" />
 );
-
-_ToastFileSize.story = {
-  name: 'ToastFileSize',
-};

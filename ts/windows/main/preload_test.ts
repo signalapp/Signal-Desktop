@@ -10,30 +10,55 @@ import { sync } from 'fast-glob';
 import { assert } from 'chai';
 
 import { getSignalProtocolStore } from '../../SignalProtocolStore';
-import { MessageController } from '../../util/MessageController';
+import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { initializeMessageCounter } from '../../util/incrementMessageCounter';
+import { initializeRedux } from '../../state/initializeRedux';
+import * as Stickers from '../../types/Stickers';
 
 window.assert = assert;
 
 // This is a hack to let us run TypeScript tests in the renderer process. See the
-//   code in `test/index.html`.
+//   code in `test/test.js`.
 
 window.testUtilities = {
+  debug(info) {
+    return ipc.invoke('ci:test-electron:debug', info);
+  },
+
   onComplete(info) {
     return ipc.invoke('ci:test-electron:done', info);
   },
+
+  async initialize() {
+    initMessageCleanup();
+    await initializeMessageCounter();
+    await Stickers.load();
+
+    initializeRedux({
+      callsHistory: [],
+      initialBadgesState: { byId: {} },
+      mainWindowStats: {
+        isFullScreen: false,
+        isMaximized: false,
+      },
+      menuOptions: {
+        development: false,
+        devTools: false,
+        includeSetup: false,
+        isProduction: false,
+        platform: 'test',
+      },
+      stories: [],
+      storyDistributionLists: [],
+    });
+  },
+
   prepareTests() {
     console.log('Preparing tests...');
     sync('../../test-{both,electron}/**/*_test.js', {
       absolute: true,
       cwd: __dirname,
     }).forEach(require);
-  },
-  installMessageController() {
-    MessageController.install();
-  },
-  initializeMessageCounter() {
-    return initializeMessageCounter();
   },
 };
 

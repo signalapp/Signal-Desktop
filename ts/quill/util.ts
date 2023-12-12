@@ -15,9 +15,11 @@ import { BodyRange } from '../types/BodyRange';
 import type { MentionBlot } from './mentions/blot';
 import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu';
 import { isNotNil } from '../util/isNotNil';
+import type { AciString } from '../types/ServiceId';
+import { emojiToData } from '../components/emoji/lib';
 
 export type MentionBlotValue = {
-  uuid: string;
+  aci: AciString;
   title: string;
 };
 
@@ -155,6 +157,7 @@ export const getTextAndRangesFromOps = (
   ops: Array<Op>
 ): { text: string; bodyRanges: DraftBodyRanges } => {
   const startingBodyRanges: Array<DraftBodyRange> = [];
+  let earliestMonospaceIndex = Number.MAX_SAFE_INTEGER;
   let formats: Record<BodyRange.Style, { start: number } | undefined> = {
     [BOLD]: undefined,
     [ITALIC]: undefined,
@@ -173,6 +176,12 @@ export const getTextAndRangesFromOps = (
     // Start or finish format sections as needed
     formats = extractAllFormats(startingBodyRanges, formats, acc.length, op);
 
+    const newMonospaceStart =
+      formats[MONOSPACE]?.start ?? earliestMonospaceIndex;
+    if (newMonospaceStart < earliestMonospaceIndex) {
+      earliestMonospaceIndex = newMonospaceStart;
+    }
+
     if (typeof op.insert === 'string') {
       return acc + op.insert;
     }
@@ -184,7 +193,7 @@ export const getTextAndRangesFromOps = (
     if (isInsertMentionOp(op)) {
       startingBodyRanges.push({
         length: 1, // The length of `\uFFFC`
-        mentionUuid: op.insert.mention.uuid,
+        mentionAci: op.insert.mention.aci,
         replacementText: op.insert.mention.title,
         start: acc.length,
       });
@@ -199,8 +208,15 @@ export const getTextAndRangesFromOps = (
   extractAllFormats(startingBodyRanges, formats, preTrimText.length);
 
   // Now repair bodyRanges after trimming
-  const trimStart = preTrimText.trimStart();
-  const trimmedFromStart = preTrimText.length - trimStart.length;
+  let trimStart = preTrimText.trimStart();
+  let trimmedFromStart = preTrimText.length - trimStart.length;
+
+  // We don't want to trim leading monospace text
+  if (earliestMonospaceIndex < trimmedFromStart) {
+    trimStart = preTrimText.slice(earliestMonospaceIndex);
+    trimmedFromStart = earliestMonospaceIndex;
+  }
+
   const text = trimStart.trimEnd();
   const textLength = text.length;
 
@@ -290,13 +306,13 @@ export const getDeltaToRestartMention = (ops: Array<Op>): Delta => {
 
 export const getDeltaToRemoveStaleMentions = (
   ops: Array<Op>,
-  memberUuids: Array<string>
+  memberAcis: Array<AciString>
 ): Delta => {
   const newOps = ops.reduce((memo, op) => {
     if (op.insert) {
       if (
         isInsertMentionOp(op) &&
-        !memberUuids.includes(op.insert.mention.uuid)
+        !memberAcis.includes(op.insert.mention.aci)
       ) {
         const deleteOp = { delete: 1 };
         const textOp = { insert: `@${op.insert.mention.title}` };
@@ -359,7 +375,7 @@ export const insertMentionOps = (
         return;
       }
 
-      const { start, length, mentionUuid, replacementText } = bodyRange;
+      const { start, length, mentionAci, replacementText } = bodyRange;
 
       const op = ops.shift();
 
@@ -371,7 +387,7 @@ export const insertMentionOps = (
           const right = insert.slice(start + length);
 
           const mention = {
-            uuid: mentionUuid,
+            aci: mentionAci,
             title: replacementText,
           };
 
@@ -402,12 +418,15 @@ export const insertEmojiOps = (
       // eslint-disable-next-line no-cond-assign
       while ((match = re.exec(text))) {
         const [emoji] = match;
-        ops.push({ insert: text.slice(index, match.index), attributes });
-        ops.push({
-          insert: { emoji },
-          attributes: { ...existingAttributes, ...attributes },
-        });
-        index = match.index + emoji.length;
+        const emojiData = emojiToData(emoji);
+        if (emojiData) {
+          ops.push({ insert: text.slice(index, match.index), attributes });
+          ops.push({
+            insert: { emoji },
+            attributes: { ...existingAttributes, ...attributes },
+          });
+          index = match.index + emoji.length;
+        }
       }
 
       ops.push({ insert: text.slice(index, text.length), attributes });

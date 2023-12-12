@@ -5,6 +5,7 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import { AvatarColors } from '../types/Colors';
 import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar';
@@ -28,7 +29,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/BetterAvatar',
-};
+} satisfies Meta<PropsType>;
 
 export function Text(): JSX.Element {
   return (

@@ -1,18 +1,21 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import { strictAssert } from './assert';
 
-export function startConversation(e164: string, uuid: UUIDStringType): void {
+export function startConversation(
+  e164: string,
+  serviceId: ServiceIdString
+): void {
   const conversation = window.ConversationController.lookupOrCreate({
     e164,
-    uuid,
+    serviceId,
     reason: 'util/startConversation',
   });
   strictAssert(
     conversation,
-    `startConversation failed given ${e164}/${uuid} combination`
+    `startConversation failed given ${e164}/${serviceId} combination`
   );
 
   window.reduxActions.conversations.showConversation({

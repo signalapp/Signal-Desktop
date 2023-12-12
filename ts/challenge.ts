@@ -22,6 +22,7 @@ import * as Errors from './types/errors';
 import { HTTPError } from './textsecure/Errors';
 import type { SendMessageChallengeData } from './textsecure/Errors';
 import * as log from './logging/log';
+import { drop } from './util/drop';
 
 export type ChallengeResponse = Readonly<{
   captcha: string;
@@ -75,6 +76,7 @@ export type RegisteredChallengeType = Readonly<{
   reason: string;
   retryAt?: number;
   token?: string;
+  silent: boolean;
 }>;
 
 type SolveOptionsType = Readonly<{
@@ -210,7 +212,7 @@ export class ChallengeHandler {
     }
 
     if (challenge.token) {
-      void this.solve({ reason, token: challenge.token });
+      drop(this.solve({ reason, token: challenge.token }));
     }
   }
 
@@ -247,7 +249,7 @@ export class ChallengeHandler {
         setTimeout(() => {
           this.startTimers.delete(conversationId);
 
-          void this.startQueue(conversationId);
+          drop(this.startQueue(conversationId));
         }, waitTime)
       );
       log.info(
@@ -269,7 +271,9 @@ export class ChallengeHandler {
       return;
     }
 
-    void this.solve({ token: challenge.token, reason });
+    if (!challenge.silent) {
+      drop(this.solve({ token: challenge.token, reason }));
+    }
   }
 
   public onResponse(response: IPCResponse): void {
@@ -282,8 +286,13 @@ export class ChallengeHandler {
     handler.resolve(response.data);
   }
 
-  public async unregister(conversationId: string): Promise<void> {
-    log.info(`challenge: unregistered conversation ${conversationId}`);
+  public async unregister(
+    conversationId: string,
+    source: string
+  ): Promise<void> {
+    log.info(
+      `challenge: unregistered conversation ${conversationId} via ${source}`
+    );
     this.registeredConversations.delete(conversationId);
     this.pendingStarts.delete(conversationId);
 
@@ -343,7 +352,7 @@ export class ChallengeHandler {
       return;
     }
 
-    await this.unregister(conversationId);
+    await this.unregister(conversationId, 'startQueue');
 
     if (this.registeredConversations.size === 0) {
       this.options.setChallengeStatus('idle');

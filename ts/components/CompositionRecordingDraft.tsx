@@ -11,7 +11,7 @@ import * as log from '../logging/log';
 import type { Size } from '../hooks/useSizeObserver';
 import { SizeObserver } from '../hooks/useSizeObserver';
 
-type Props = {
+export type Props = {
   i18n: LocalizerType;
   audioUrl: string | undefined;
   active:

@@ -6,7 +6,8 @@ import { assert } from 'chai';
 import type { StateType } from '../../../state/reducer';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { StoryDistributionListDataType } from '../../../state/ducks/storyDistributionLists';
-import type { UUIDStringType } from '../../../types/UUID';
+import type { StoryDistributionIdString } from '../../../types/StoryDistributionId';
+import type { ServiceIdString } from '../../../types/ServiceId';
 import type { ContactsByStory } from '../../../components/SafetyNumberChangeDialog';
 
 import * as Bytes from '../../../Bytes';
@@ -14,16 +15,17 @@ import { reducer as rootReducer } from '../../../state/reducer';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import { getEmptyState } from '../../../state/ducks/conversations';
 import { getByDistributionListConversationsStoppingSend } from '../../../state/selectors/conversations-extra';
-import { UUID } from '../../../types/UUID';
+import { generateAci } from '../../../types/ServiceId';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
 import { noopAction } from '../../../state/ducks/noop';
 import { ID_LENGTH } from '../../../groups';
 import { ConversationVerificationState } from '../../../state/ducks/conversationsEnums';
 
 describe('both/state/selectors/conversations-extra', () => {
-  const UUID_1 = UUID.generate().toString();
-  const UUID_2 = UUID.generate().toString();
-  const LIST_1 = UUID.generate().toString();
-  const LIST_2 = UUID.generate().toString();
+  const SERVICE_ID_1 = generateAci();
+  const SERVICE_ID_2 = generateAci();
+  const LIST_1 = generateStoryDistributionId();
+  const LIST_2 = generateStoryDistributionId();
   const GROUP_ID = Bytes.toBase64(new Uint8Array(ID_LENGTH));
 
   const getEmptyRootState = (): StateType => {
@@ -32,12 +34,12 @@ describe('both/state/selectors/conversations-extra', () => {
 
   function makeConversation(
     id: string,
-    uuid?: UUIDStringType
+    serviceId?: ServiceIdString
   ): ConversationType {
     const title = `${id} title`;
     return getDefaultConversation({
       id,
-      uuid,
+      serviceId,
       searchableTitle: title,
       title,
       titleNoDefault: title,
@@ -46,20 +48,20 @@ describe('both/state/selectors/conversations-extra', () => {
 
   function makeDistributionList(
     name: string,
-    id: UUIDStringType
+    id: StoryDistributionIdString
   ): StoryDistributionListDataType {
     return {
       id,
       name: `distribution ${name}`,
       allowsReplies: true,
       isBlockList: false,
-      memberUuids: [],
+      memberServiceIds: [],
     };
   }
 
   describe('#getByDistributionListConversationsStoppingSend', () => {
-    const direct1 = makeConversation('direct1', UUID_1);
-    const direct2 = makeConversation('direct2', UUID_2);
+    const direct1 = makeConversation('direct1', SERVICE_ID_1);
+    const direct2 = makeConversation('direct2', SERVICE_ID_2);
     const group1 = {
       ...makeConversation('group1'),
       groupVersion: 2 as const,
@@ -74,9 +76,9 @@ describe('both/state/selectors/conversations-extra', () => {
           direct2,
           group1,
         },
-        conversationsByUuid: {
-          [UUID_1]: direct1,
-          [UUID_2]: direct2,
+        conversationsByServiceId: {
+          [SERVICE_ID_1]: direct1,
+          [SERVICE_ID_2]: direct2,
         },
         verificationDataByConversation: {},
       },
@@ -101,7 +103,7 @@ describe('both/state/selectors/conversations-extra', () => {
           verificationDataByConversation: {
             direct1: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1, UUID_2],
+              serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
             },
           },
         },
@@ -125,7 +127,7 @@ describe('both/state/selectors/conversations-extra', () => {
           verificationDataByConversation: {
             group1: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1, UUID_2],
+              serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
             },
           },
         },
@@ -152,10 +154,10 @@ describe('both/state/selectors/conversations-extra', () => {
           verificationDataByConversation: {
             direct1: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1],
+              serviceIdsNeedingVerification: [SERVICE_ID_1],
               byDistributionId: {
                 [LIST_1]: {
-                  uuidsNeedingVerification: [UUID_2],
+                  serviceIdsNeedingVerification: [SERVICE_ID_2],
                 },
               },
             },
@@ -189,13 +191,13 @@ describe('both/state/selectors/conversations-extra', () => {
           verificationDataByConversation: {
             direct1: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [],
+              serviceIdsNeedingVerification: [],
               byDistributionId: {
                 [LIST_1]: {
-                  uuidsNeedingVerification: [UUID_1],
+                  serviceIdsNeedingVerification: [SERVICE_ID_1],
                 },
                 [LIST_2]: {
-                  uuidsNeedingVerification: [UUID_2],
+                  serviceIdsNeedingVerification: [SERVICE_ID_2],
                 },
               },
             },
@@ -256,11 +258,11 @@ describe('both/state/selectors/conversations-extra', () => {
           verificationDataByConversation: {
             direct1: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1],
+              serviceIdsNeedingVerification: [SERVICE_ID_1],
               byDistributionId: {
                 // Not a list id!
-                [UUID_1]: {
-                  uuidsNeedingVerification: [UUID_2],
+                [SERVICE_ID_1]: {
+                  serviceIdsNeedingVerification: [SERVICE_ID_2],
                 },
               },
             },

@@ -30,6 +30,7 @@
       justify-content: center;
       padding-bottom: 8px;
       padding-top: 12px;
+      user-select: text;
     }
 
     &__subtitle {
@@ -40,6 +41,11 @@
 
       @include dark-theme {
         color: $color-gray-25;
+      }
+
+      &__about,
+      &__phone-number {
+        user-select: text;
       }
     }
 
@@ -511,4 +517,51 @@
       padding-inline: 0;
     }
   }
+}
+
+.ConversationDetails__CallHistoryGroup__List {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ConversationDetails__CallHistoryGroup__Item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding-block: 10px;
+  padding-inline: 24px;
+}
+
+.ConversationDetails__CallHistoryGroup__ItemIcon {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.ConversationDetails__CallHistoryGroup__ItemIcon--Audio {
+  @include light-theme {
+    @include color-svg('../images/icons/v3/phone/phone.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-15);
+  }
+}
+
+.ConversationDetails__CallHistoryGroup__ItemIcon--Video {
+  @include light-theme {
+    @include color-svg('../images/icons/v3/video/video.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/video/video.svg', $color-gray-15);
+  }
+}
+
+.ConversationDetails__CallHistoryGroup__ItemLabel {
+  flex: 1;
+}
+
+.ConversationDetails__CallHistoryGroup__ItemTimestamp {
+  flex-shrink: 0;
 }

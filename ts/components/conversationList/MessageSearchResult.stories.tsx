@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
@@ -13,12 +13,17 @@ import type { PropsType } from './MessageSearchResult';
 import { MessageSearchResult } from './MessageSearchResult';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { BodyRange } from '../../types/BodyRange';
+import { generateAci } from '../../types/ServiceId';
+
+const SERVICE_ID_1 = generateAci();
+const SERVICE_ID_2 = generateAci();
+const SERVICE_ID_3 = generateAci();
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/MessageSearchResult',
-};
+} satisfies Meta<PropsType>;
 
 const someone = getDefaultConversation({
   title: 'Some Person',
@@ -80,10 +85,6 @@ export function SenderHasABadge(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-SenderHasABadge.story = {
-  name: 'Sender has a badge',
-};
-
 export function Selected(): JSX.Element {
   const props = useProps({
     from: someone,
@@ -113,10 +114,6 @@ export function SearchingInConversation(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-SearchingInConversation.story = {
-  name: 'Searching in Conversation',
-};
-
 export function FromYouToYourself(): JSX.Element {
   const props = useProps({
     from: me,
@@ -125,10 +122,6 @@ export function FromYouToYourself(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-FromYouToYourself.story = {
-  name: 'From You to Yourself',
-};
 
 export function FromYouToGroup(): JSX.Element {
   const props = useProps({
@@ -139,10 +132,6 @@ export function FromYouToGroup(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-FromYouToGroup.story = {
-  name: 'From You to Group',
-};
-
 export function FromSomeoneToGroup(): JSX.Element {
   const props = useProps({
     from: someone,
@@ -151,10 +140,6 @@ export function FromSomeoneToGroup(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-FromSomeoneToGroup.story = {
-  name: 'From Someone to Group',
-};
 
 export function LongSearchResult(): JSX.Element {
   const snippets = [
@@ -188,24 +173,20 @@ export function EmptyShouldBeInvalid(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-EmptyShouldBeInvalid.story = {
-  name: 'Empty (should be invalid)',
-};
-
 export function Mention(): JSX.Element {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -220,17 +201,13 @@ export function Mention(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-Mention.story = {
-  name: '@mention',
-};
-
 export function MentionRegexp(): JSX.Element {
   const props = useProps({
     body: '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'RegExp',
         conversationID: 'x',
         start: 0,
@@ -245,17 +222,13 @@ export function MentionRegexp(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-MentionRegexp.story = {
-  name: '@mention regexp',
-};
-
 export function MentionNoMatches(): JSX.Element {
   const props = useProps({
     body: '\uFFFC hello',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Neo',
         conversationID: 'x',
         start: 0,
@@ -269,24 +242,20 @@ export function MentionNoMatches(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-MentionNoMatches.story = {
-  name: '@mention no-matches',
-};
-
 export const _MentionNoMatches = (): JSX.Element => {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -301,24 +270,20 @@ export const _MentionNoMatches = (): JSX.Element => {
   return <MessageSearchResult {...props} />;
 };
 
-_MentionNoMatches.story = {
-  name: '@mention no-matches',
-};
-
 export function DoubleMention(): JSX.Element {
   const props = useProps({
     body: 'Hey \uFFFC \uFFFC --- test! Two mentions!',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '9eb2eb65-992a-4909-a2a5-18c56bd7648f',
+        mentionAci: SERVICE_ID_2,
         replacementText: 'Alice',
         conversationID: 'x',
         start: 4,
       },
       {
         length: 1,
-        mentionUuid: '755ec61b-1590-48da-b003-3e57b2b54448',
+        mentionAci: SERVICE_ID_1,
         replacementText: 'Bob',
         conversationID: 'x',
         start: 6,
@@ -331,10 +296,6 @@ export function DoubleMention(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-DoubleMention.story = {
-  name: 'Double @mention',
-};
 
 export function WithFormatting(): JSX.Element {
   const props = useProps({

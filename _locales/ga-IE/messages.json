@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Earráid leis an mBunachar Sonraí",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Tharla earráid leis an mbunachar sonraí. Is féidir leat an earráid a chóipeáil agus teagmháil a dhéanamh le foireann tacaíochta Signal leis an bhfadhb a réiteach. Más gá duit Signal a úsáid díreach anois, is féidir leat do shonraí a scriosadh agus atosú air.\n\nNasc leis an bhfoireann tacaíochta: {link}",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Scrios na sonraí go léir agus atosaigh",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Scrios sonraí agus atosaigh",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Scrios na sonraí ar fad go buan?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Scriosfar stair do theachtaireachtaí agus do mheán uile go buan ón ngléas seo. Beidh tú in ann Signal a úsáid ar an ngléas seo tar éis é a athnascadh. Ní scriosfar aon sonraí ó do ghuthán leis sin.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Ní hionann an leagan bunachair shonraí atá agat agus an leagan seo de Signal. Cinntigh go bhfuil an leagan is nuaí de Signal á oscailt agat ar do ríomhaire.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Comhad",
@@ -299,6 +315,70 @@
   "icu:LeftPane--chats": {
     "messageformat": "Comhráite",
     "description": "Shown as a header for non-pinned conversations in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "Bhí fadhb le d'ainm úsáideora, níl sé sannta do do chuntas a thuilleadh. Is féidir leat athshocrú a thriail nó ceann nua a roghnú.",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "Deisigh anois",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "Bhí fadhb le do chód QR agus nasc d'ainm úsáideora, níl sé bailí a thuilleadh. Cruthaigh nasc nua lena chomhroinnt le daoine eile.",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "Deisigh anois",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "Taispeáin Táib",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "Folaigh Táib",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "Tharla earráid",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count,number} neamhléite",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "Sainithe mar neamhléite",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "Comhráite",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "Glaonna",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "Scéalta",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "Socruithe",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Nuashonraigh Signal",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "Próifíl",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "Ar Ais",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
     "messageformat": "Tá na comhráite seo sa chartlann agus ní thaispeánfar sa Bhosca Isteach iad ach amháin má fhaightear teachtaireachtaí nua.",
@@ -576,6 +656,10 @@
     "messageformat": "Cuir glao air/uirthi mar sin féin",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Téigh isteach ar aon nós",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continue Call",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -637,23 +721,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "Tá uimhreacha sábháilteachta á nuashonrú.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "Foghlaim tuilleadh",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "Uimhir sábháilteachta roimhe seo",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "An chéad uimhir sábháilteachta eile",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "Leagan na huimhreach sábháilteachta, {index,number} as {total,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Marcáil 'Deimhnithe'",
@@ -663,33 +747,41 @@
     "messageformat": "Glan an deimhniú",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "Chun criptiú ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile do chód a scanadh leis an ngléas aige/aici freisin.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Tuilleadh faisnéise",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "Chun criptiú ó cheann ceann le {name} a fhíorú, meaitseáil an cárta datha thuas le gléas an duine sin agus cuir na huimhreacha i gcomparáid lena chéile. Mura meaitseálann siad, triail an péire eile uimhreacha sábháilteachta. Ní gá ach péire amháin a mheaitseáil.",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "Chun criptiú ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile do chód a scanadh leis an ngléas aige/aici freisin.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "Athruithe ar Uimhreacha Sábháilteachta",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Tá uimhreacha sábháilteachta á nuashonrú thar thréimhse aistrithe le gnéithe príobháideachais atá ar na bacáin a chumasú in Signal.",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "Chun uimhreacha sábháilteachta a fhíorú, meaitseáil an cárta datha le gléas do theagmhálaí. Mura meaitseálann siad, triail an péire eile uimhreacha sábháilteachta. Ní gá ach péire amháin a mheaitseáil.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "An bhfuil cúnamh uait?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "Tuigim",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Cruthófar uimhir sábháilteachta leis an duine sin tar éis duit teachtaireachtaí a sheoladh idir a chéile.",
@@ -1267,10 +1359,6 @@
     "messageformat": "Féach ar na meáin le déanaí",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Chun slándáil do chriptithe ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile an cód QR thuas a scanadh freisin.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Níor sheol tú teachtaireachtaí chuig an duine seo ná ní bhfuair tú cinn uaidh/uaithi. Beidh d'uimhir sábháilteachta leis an duine sin ar fáil tar éis an chéad teachtaireacht."
   },
@@ -1334,17 +1422,17 @@
     "messageformat": "Eolas",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Scrios",
-    "description": "Menu item for deleting messages, title case."
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Scrios teachtaireachtaí",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Scrios comhrá?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Scrios teachtaireachtaí?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Scriosfar an comhrá seo ón ngléas seo.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "Scriosfar teachtaireachtaí sa chomhrá seo ón ngléas seo. Beidh tú in ann cuardach le haghaidh an chomhrá seo tar éis duit teachtaireachtaí a scriosadh.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Imigh as an ngrúpa",
@@ -1437,6 +1525,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Tá do stair teachtaireachtaí don dá chomhrá cumasctha anseo.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "Is le {conversationTitle} {phoneNumber}. Tá sibh beirt in bhur mball de {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "Is le {conversationTitle} {phoneNumber}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "Mionsamhail íomhá ón teachtaireacht luaite",
@@ -1585,10 +1681,6 @@
     "messageformat": "Glaoigh Arís",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "Tosaigh an glao",
-    "description": "Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "Téigh isteach sa ghlao",
     "description": "Button label in the call lobby for joining a call"
@@ -1601,13 +1693,25 @@
     "messageformat": "Balbhaíodh an micreafón mar gheall ar mhéid an ghlao",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "Fógraí maidir le glaonna",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "Call is Full",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "Ceamara",
-    "description": "Label under the video button"
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Téigh isteach ann",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Tosaigh",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Glao lán",
+    "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Ceamara díchumasaithe",
@@ -1621,10 +1725,6 @@
     "messageformat": "Cas air an ceamara",
     "description": "Button tooltip label for turning on the camera"
   },
-  "icu:calling__button--audio__label": {
-    "messageformat": "Balbhaigh",
-    "description": "Label under the audio button"
-  },
   "icu:calling__button--audio-disabled": {
     "messageformat": "Micreafón díchumasaithe",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1636,10 +1736,6 @@
   "icu:calling__button--audio-on": {
     "messageformat": "Díbhalbhaigh an micreafón",
     "description": "Button tooltip label for turning on the microphone"
-  },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "Comhroinn",
-    "description": "Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "Comhroinnt scáileáin díchumasaithe",
@@ -1653,10 +1749,6 @@
     "messageformat": "Stop comhroinnt scáileáin",
     "description": "Button tooltip label for stopping screen sharing"
   },
-  "icu:calling__button--ring__label": {
-    "messageformat": "Glaoigh",
-    "description": "Label under the ring button"
-  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Tá an grúpa ró-mhór le glao a chur ar na rannpháirtithe.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1668,6 +1760,26 @@
   "icu:calling__button--ring__on": {
     "messageformat": "Cumasaigh bualadh",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Cas as glaoch",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Cas air glaoch",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Tuilleadh roghanna",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Tusa",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Your camera is off",
@@ -2147,6 +2259,10 @@
     "messageformat": "Féach ar an Uimhir Shábháilteachta",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "Seol teachtaireacht",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Féach ar an Uimhir Shábháilteachta",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -2235,8 +2351,8 @@
     "messageformat": "Theip ar an uimhir ghutháin a fháil. Seiceáil do nasc agus triail arís.",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 3 uair an chloig ón uair a sheol tú an teachtaireacht seo.",
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 24 uair an chloig ón uair a sheol tú an teachtaireacht seo.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -2479,6 +2595,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "Scriosadh an teachtaireacht seo.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Tá an ceangaltán rómhór lena thaispeáint.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Tá roinnt ceangaltán rómhór lena dtaispeáint.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "Ní féidir sonraí an tabhartais a fháil",
@@ -3122,10 +3246,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Leagan béite Signal amháin",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Níl cur teachtaireachtaí in eagar ar fáil ach ag béite-úsáideoirí Signal. Má chuirfidh tú teachtaireacht in eagar, ní fheicfidh ach na daoine a bhfuil an leagan is déanaí de Signal acu é.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Cuir Teachtaireacht in Eagar",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "Má chuirfidh tú teachtaireacht in eagar, ní fheicfidh ach na daoine a bhfuil na leaganacha is déanaí de Signal acu í. Feicfidh siad gur chuir tú teachtaireacht in eagar.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3380,6 +3512,14 @@
     "messageformat": "Físghlao isteach…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
+  "icu:outgoingAudioCall": {
+    "messageformat": "Guthghlao amach",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "Físghlao amach",
+    "description": "Shown in the timeline for an outgoing video call"
+  },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "Tá {ringer}ag glaoch ort",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
@@ -3424,9 +3564,69 @@
     "messageformat": "Athnascadh…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} duine} two {{count,number} dhuine} few {{count,number} dhuine} many {{count,number} nduine} other {{count,number} duine}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Guthghlao",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "Cuir deireadh leis",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Imigh as",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Micreafón as",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Micreafón air",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Glaoch air",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Glaoch as",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Socruithe",
@@ -3468,13 +3668,25 @@
     "messageformat": "Cuir an glao i mód lánscáileáin",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "Aistrigh chuig amharc greille",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Athraigh amharc",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "Aistrigh chuig amharc cainteoirí",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Amharc greille",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Amharc taobh-bharra",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Amharc cainteora",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "Amharc nuashonruithe",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "Leave Call",
@@ -3575,6 +3787,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "Tá go maith",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "Ní féidir an teachtaireacht a chur in eagar",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "Ní féidir ach {max,number} n-eagarthóireacht a dhéanamh ar an teachtaireacht seo.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "Ár leithscéal, ní raibh ciall leis an nasc sgnl:// sin!",
@@ -5252,9 +5472,29 @@
     "messageformat": "Ainm úsáideora",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "Bhí fadhb le d'ainm úsáideora, níl sé sannta do do chuntas a thuilleadh.",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--delete-button": {
+    "messageformat": "Scrios ainm úsáideora",
+    "description": "Button text for deletion of the username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--create-button": {
+    "messageformat": "Cruthaigh Ainm Úsáideora",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "Cód QR nó Nasc",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "Ní mór an t-ainm úsáideora a athshocrú",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "Ní mór nasc an ainm úsáideora a athshocrú",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Comhroinn d'Ainm Úsáideora",
@@ -5319,10 +5559,6 @@
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "Scrios ainm úsáideora",
     "description": "Shown as aria label for trash icon next to username"
-  },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "Bainfear d'ainm úsáideora leis sin, rud a ligfidh d'úsáideoirí eile é a éileamh. Cinnte?",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Bainfear d'ainm úsáideora agus díchumasófar do chód QR agus nasc leis sin. Beidh “{username}” ar fáil ag daoine eile le héileamh. An bhfuil tú cinnte?",
@@ -5612,6 +5848,42 @@
     "messageformat": "Ní bheidh tú in ann féachaint ar scéalta ná iad a chomhroinnt a thuilleadh. Chomh maith leis sin, scriosfar na nuashonruithe scéil a chomhroinn tú le déanaí.",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "Teanga",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "Teanga",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "Teanga an Chórais",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "Cuardaigh teangacha",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "Ní bhfuarthas aon torthaí ar \"{searchTerm}\"",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "Socraigh",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "Atosaigh Signal lena cur i bhfeidhm",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "Chun an teanga a athrú, ní mór an aip a atosú.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "Atosaigh",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Nuashonrú chuig an leagan {version} ar fáil",
     "description": "Tooltip for new update available"
@@ -5695,6 +5967,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "Tharla earráid agus do shocruithe á sábháil. Triail arís.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Teachtaireacht",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Tuilleadh stíleanna",
@@ -6532,6 +6808,10 @@
     "messageformat": "Athshocraigh",
     "description": "Text of button at the bottom of the username link modal"
   },
+  "icu:UsernameLinkModalBody__done": {
+    "messageformat": "Déanta",
+    "description": "Text of button at the bottom of the username link modal"
+  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Dath naisc ainm úsáideora, {index,number} as {total,number}",
     "description": "ARIA label of button for selecting username link color"
@@ -6539,6 +6819,14 @@
   "icu:UsernameLinkModalBody__reset__confirm": {
     "messageformat": "Má athshocraíonn tú do chód QR, ní oibreoidh an cód QR ná an nasc atá agat cheana féin a thuilleadh.",
     "description": "Text of confirmation modal when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "Nasc á athshocrú...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "Níor socraíodh an cód QR ná nasc. Seiceáil do nasc líonra agus triail arís.",
+    "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Socraigh d'ainm úsáideora Signal",
@@ -6577,7 +6865,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "arna cur in eagar",
+    "messageformat": "Curtha in eagar",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6591,6 +6879,114 @@
   "icu:ResendMessageEdit__button": {
     "messageformat": "Seol Arís",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "Tuilleadh gníomhartha",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "Glaonna",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "Glao nua",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "Glao nua",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "Tuilleadh gníomhartha",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "Glan stair na nglaonna",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "Glan stair na nglaonna?",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "Scriosfar stair na nglaonna uile leis sin",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "Glan",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "Stair na nglaonna glanta",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "Cliceáil le féachaint ar ghlao nó le tosú air",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "Cuardaigh",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "Scag de réir caillte",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "Scoránaigh",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "Níl glaonna le déanaí ann. Glaoigh ar chara le tosú air.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "Níl aon torthaí ar “{query}”",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "Isteach",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "Amach",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "Caillte",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "Glao grúpa",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "Ní comhráite le déanaí ann.",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "Níl aon torthaí ar “{query}”",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Guthghlao amach} other {Guthghlao isteach}}} Video {{direction, select, Outgoing {Físghlao amach} other {Físghlao isteach}}} Group {{direction, select, Outgoing {Grúpghlao amach} other {Grúpghlao isteach}}} other {{direction, select, Outgoing {Glao amach} other {Glao isteach}}}}",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "{type, select, Audio {Guthghlao caillte} Video {Físghlao caillte} Group {Grúpghlao caillte} other {Glao caillte}}",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "{type, select, Audio {Guthghlao nár freagraíodh} Video {Físghlao nár freagraíodh} Group {Grúpghlao nár freagraíodh} other {Glao nár freagraíodh}}",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "{type, select, Audio {Guthghlao a diúltaíodh dó} Video {Físghlao a diúltaíodh dó} Group {Grúpghlao a diúltaíodh dó} other {Glao a diúltaíodh dó}}",
+    "description": "Call History > Short description of call > When call was declined"
+  },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua",
@@ -6624,10 +7020,22 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Áirítear sa nuashonrú seo roinnt feabhsuithe do ghuthghlaonna agus físghlaonna, agus roinnt mion-nuashonruithe ar dhoiciméadúchán (buíochas leat, {linkToGithub}!)."
+  "icu:WhatsNew__v6.39--0": {
+    "messageformat": "Anois is féidir leat do theanga roghnaithe a athrú in Signal gan socruithe do chórais a athrú (Socruithe Signal > Cuma > Teanga)."
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "Rinneamar roinnt deilbhíní fógraí grúpa a nuashonrú."
+  "icu:WhatsNew__v6.39--1": {
+    "messageformat": "Réitíomar moill bheag a tharla corruair ar macOS tar éis dul isteach i nglao."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Réitíomar an bheochan trasdula do theidil físeán nuair a théann duine isteach i ngrúpghlao nó nuair a imíonn duine as."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Anois is féidir leat cliceáil ar ghrianghraf próifíle nó ar abhatár an ghrúpa i gceanntásc an chomhrá le socruithe comhrá a rochtain go tapa nó le féachaint ar aon scéal nach bhfaca tú ón gcomhrá sin. Le buíochas, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

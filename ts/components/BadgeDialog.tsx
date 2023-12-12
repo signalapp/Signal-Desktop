@@ -15,7 +15,7 @@ import { BadgeImage } from './BadgeImage';
 import { BadgeCarouselIndex } from './BadgeCarouselIndex';
 import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog';
 
-type PropsType = Readonly<{
+export type PropsType = Readonly<{
   areWeASubscriber: boolean;
   badges: ReadonlyArray<BadgeType>;
   firstName?: string;

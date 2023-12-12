@@ -19,10 +19,12 @@
   max-width: 280px;
   background-color: $color-gray-75;
   color: $color-gray-05;
-  outline: none;
 
-  &:focus:focus-visible {
-    box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+  &:focus {
+    outline: none;
+    @include keyboard-mode {
+      box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+    }
   }
 
   &--align-center {
@@ -50,11 +52,13 @@
     padding-block: 13px;
     padding-inline: 16px;
     white-space: nowrap;
-    color: $color-ultramarine-light;
-    outline: none;
+    color: $color-ios-blue-tint;
 
-    &:focus:focus-visible {
-      box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+    &:focus {
+      outline: none;
+      @include keyboard-mode {
+        box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+      }
     }
   }
 }

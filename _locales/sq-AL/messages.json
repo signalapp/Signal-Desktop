@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Gabim Baze të Dhënash",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Gabim në bazën e të dhënave. Mund ta kopjosh gabimin dhe të kontaktosh ekipin e mbështetjes së Signal që të të ndihmojë ta rregullosh problemin. Nëse duhet që ta përdorësh Signal direkt, mund t'i fshish të dhënat dhe ta shkarkosh sërish.\n\nKontakto ekipin e mbështetjes në: {link}",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Fshiji të gjitha të dhënat dhe rifillo",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Fshiji të dhënat dhe rinise",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Të fshihen përgjithmonë të gjitha të dhënat?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "I gjithë historiku dhe media jote e mesazheve do të fshihen përgjithmonë nga kjo pajisje. Do të mund të përdorësh Signal në këtë pajisje pasi ta rilidhësh atë. Kjo nuk do të fshijë ndonjë të dhënë nga telefoni yt.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versioni i bazës së të dhënave nuk përputhet me këtë version të Signal. Sigurohu që po hap versionin më të ri të Signal në kompjuterin tënd.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Kartelë",
@@ -299,6 +315,70 @@
   "icu:LeftPane--chats": {
     "messageformat": "Bisedat",
     "description": "Shown as a header for non-pinned conversations in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "Ndodhi një gabim me emrin tënd të përdoruesit; nuk lidhet më me llogarinë tënde. Mund të provosh dhe ta vendosësh sërish ose zgjidh një të ri.",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "Rregulloje tani",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "Ndodhi një gabim me kodin QR dhe lidhjen e emrit të përdoruesit; nuk janë më të vlefshëm. Krijo lidhje të re për ta shpërndarë me të tjerët.",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "Rregulloje tani",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "Shfaq skedat",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "Fshih skedat",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "Ka ndodhur një gabim",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count,number} të palexuara",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "Të shënuara si të palexuara",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "Bisedat",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "Thirrje",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "Postimet e përkohshme",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "Rregullime",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Përditësoni Signal-in",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "Profil",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "Mbrapsht",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
     "messageformat": "Këto biseda janë të arkivuara dhe do të shfaqen te kutia hyrëse vetëm nëse vijnë mesazhe të rinj.",
@@ -576,6 +656,10 @@
     "messageformat": "Thirre, sido qoftë",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Bashkohu, sidoqoftë",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Vazhdoje Thirrjen",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -637,23 +721,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "Numrat e sigurisë po përditësohen.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "Mësoni më tepër",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "Numri i mëparshëm i sigurisë",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "Numri tjetër i sigurisë",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "Versioni i numrit të sigurisë, {index,number} nga {total,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Vëri shenjë si i verifikuar",
@@ -663,33 +747,41 @@
     "messageformat": "Spastroje verifikimin",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "Për të verifikuar kodimin nga skaji në skaj me {name}, krahaso numrat e mësipërm me pajisjen e tyre. Ata gjithashtu mund të skanojnë kodin tënd me pajisjen e tyre.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Mëso më shumë",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "Për të verifikuar kodimin nga skaji në skaj me {name}, përputh kartën e mësipërme të ngjyrave me pajisjen e tyre dhe krahaso numrat. Nëse këto nuk përputhen, provo çiftin tjetër të numrave të sigurisë. Vetëm një palë duhet të përputhet.",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "Për të verifikuar kodimin nga skaji në skaj me {name}, krahaso numrat e mësipërm me pajisjen e tyre. Ata gjithashtu mund të skanojnë kodin tënd me pajisjen e tyre.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "Ndryshimet në numrat e sigurisë",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Numrat e sigurisë po përditësohen gjatë një periudhe tranzicioni për të aktivizuar veçoritë e ardhshme të privatësisë në Signal.",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "Për të verifikuar numrat e sigurisë, përputh kartën e ngjyrave me pajisjen e kontaktit tënd. Nëse këto nuk përputhen, provo çiftin tjetër të numrave të sigurisë. Vetëm një palë duhet të përputhet.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "Ju duhet ndihmë?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "E kuptova",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Një numër sigurie do të krijohet me këtë person pasi të shkëmbeni mesazhe me të.",
@@ -1267,10 +1359,6 @@
     "messageformat": "Shihni media së fundi",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Për të verifikuar sigurinë e kodimit tënd nga skaji në skaj me {name}, krahaso numrat e mësipërm me pajisjen e tyre. Ata gjithashtu mund të skanojnë kodin e mësipërm QR.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "S’keni shkëmbyer ende ndonjë mesazh me këtë grup. Numri juaj i sigurisë me të do të jetë i passhëm pas mesazhit të parë."
   },
@@ -1334,17 +1422,17 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Fshije",
-    "description": "Menu item for deleting messages, title case."
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Fshi mesazhet",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Të fshihet biseda?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Të fshihen mesazhet?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "Kjo bisedë do të fshihet nga kjo pajisjeje.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "Mesazhet në këtë bisedë do të fshihen nga kjo pajisje. Mund ta kërkosh ende këtë bisedë pasi të fshish mesazhet.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Largohu nga grupi",
@@ -1437,6 +1525,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "Historiku yt i mesazheve për të dyja bisedat është bashkuar këtu.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} i përket {conversationTitle}. Të dy ju jeni anëtarë të {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} i përket {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "Miniaturë e figurës nga mesazhi i cituar",
@@ -1585,10 +1681,6 @@
     "messageformat": "Rithirre",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "Nise Thirrjen",
-    "description": "Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "Hyni në Thirrje",
     "description": "Button label in the call lobby for joining a call"
@@ -1601,13 +1693,25 @@
     "messageformat": "Mikrofoni është pa zë për shkak të numrit të madh të pjesëmarrësve në thirrje",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "Njoftimet e thirrjes",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "Thirrja është plot",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "Kamerë",
-    "description": "Label under the video button"
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Bashkohu",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Fillo",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Thirrja plot",
+    "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Kamera e çaktivizuar",
@@ -1621,10 +1725,6 @@
     "messageformat": "Ndize kamerën",
     "description": "Button tooltip label for turning on the camera"
   },
-  "icu:calling__button--audio__label": {
-    "messageformat": "Hiqi zërin",
-    "description": "Label under the audio button"
-  },
   "icu:calling__button--audio-disabled": {
     "messageformat": "Mikrofon i çaktivizuar",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1636,10 +1736,6 @@
   "icu:calling__button--audio-on": {
     "messageformat": "Ktheji zërin mikrofonit",
     "description": "Button tooltip label for turning on the microphone"
-  },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "Ndajeni Me të Tjerë",
-    "description": "Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "Paraqitje e çaktivizuar",
@@ -1653,10 +1749,6 @@
     "messageformat": "Ndal paraqitje",
     "description": "Button tooltip label for stopping screen sharing"
   },
-  "icu:calling__button--ring__label": {
-    "messageformat": "Bjeri ziles",
-    "description": "Label under the ring button"
-  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Grupi është shumë i madh për t’u rënë ziles së pjesëmarrësve.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1668,6 +1760,26 @@
   "icu:calling__button--ring__on": {
     "messageformat": "Aktivizo rënien e ziles",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Çaktivizo zilen",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Aktivizo zilen",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "Opsione të tjera",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "Ti",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Kamera juaj është e fikur",
@@ -2147,6 +2259,10 @@
     "messageformat": "Shih Numrin e Sigurisë",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "Mesazh",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Shih Numrin e Sigurisë",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -2235,8 +2351,8 @@
     "messageformat": "S’u arrit të sillej numër telefoni. Kontrolloni lidhjen tuaj dhe riprovoni.",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Ndryshimet mund të zbatohen vetëm brenda 3 orëve nga momenti që dërgove këtë mesazh.",
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -2479,6 +2595,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "Ky mesazh u fshi.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Bashkëngjitja është shumë e madhe për t'u shfaqur.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Disa bashkëngjitje janë shumë të mëdha për t'u shfaqur.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "Detajet e dhurimit nuk mund të shfaqen",
@@ -3122,10 +3246,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Vetëm Signal beta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Përpunimi i mesazheve është i disponueshëm vetëm për përdoruesit e Signal beta. Nëse përpunon një mesazh, ai do të jetë i dukshëm vetëm për personat që kanë versionin më të fundit të Signal beta.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Përpuno mesazhin",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "Nëse përpunon një mesazh, ai do të jetë i dukshëm vetëm për personat që kanë versionin më të fundit të Signal. Ata do shohin se ti ke redaktuar një mesazh.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3380,6 +3512,14 @@
     "messageformat": "Thirrje video ardhëse…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
+  "icu:outgoingAudioCall": {
+    "messageformat": "Thirrje zanore dalëse",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "Thirrje video nga ju",
+    "description": "Shown in the timeline for an outgoing video call"
+  },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} po ju thërret",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
@@ -3424,9 +3564,69 @@
     "messageformat": "Po rilidhet…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} persona}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Thirrje me audio",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "Përfundo",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Largohu",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Mikrofoni i fikur",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Mikrofoni i ndezur",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Po bie zilja",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Zilja nuk po bie",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Rregullime",
@@ -3468,13 +3668,25 @@
     "messageformat": "Thirrje sa krejt ekrani",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "Kalo nën pamjen rrjetë",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Ndrysho pamjen",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "Kalo nën pamjen folës",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Pamje rrjetë",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Pamje me kolona",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Pamje me në qendër folësin",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "Pamja e përditësuar",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "Dilni nga thirrja",
@@ -3575,6 +3787,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "OK",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "Mesazhi nuk mund të modifikohet",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "Mesazhi mund të modifikohet vetëm {max,number} herë.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "Na ndjeni, kjo lidhje sgnl:// s’ka kuptim!",
@@ -5252,9 +5472,29 @@
     "messageformat": "Emër përdoruesi",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "Ndodhi një gabim me emrin tënd të përdoruesit; nuk lidhet më me llogarinë tënde.",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--delete-button": {
+    "messageformat": "Fshije emrin e përdoruesit",
+    "description": "Button text for deletion of the username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--create-button": {
+    "messageformat": "Krijoni Emër Përdoruesi",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "Kodi QR ose lidhja",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "Emri i përdoruesit duhet të rivendoset",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "Lidhja e emrit të përdoruesit duhet të rivendoset",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Shpërndaj emrin tënd të përdoruesit",
@@ -5319,10 +5559,6 @@
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "Fshije emrin e përdoruesit",
     "description": "Shown as aria label for trash icon next to username"
-  },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "Kjo do të heqë emrin e përdoruesit, duke u lejuar përdoruesve të tjerë ta përdorin. Je i sigurt?",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Kjo do të heqë emrin tënd të përdoruesit dhe do të çaktivizojë kodin QR dhe lidhjen tënde. \"{username}\" do të jetë i disponueshëm për tu përdorur nga të tjerët. Je i sigurt?",
@@ -5612,6 +5848,42 @@
     "messageformat": "Nuk do të mund të ndash apo shikosh më postime të përkohshme. Përditësimet e postimeve të përkohshme që ke ndarë së fundi do të fshihen gjithashtu.",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "Gjuha",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "Gjuha",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "Gjuha e sistemit",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "Kërko gjuhët",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "Nuk ka rezultate për \"{searchTerm}\"",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "Cakto",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "Rihap Signal që të reflektohen ndryshimet",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "Për të ndryshuar gjuhën, aplikacioni duhet të rihapet.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "Rihap",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Ka të gatshëm përditësim me versionin {version}",
     "description": "Tooltip for new update available"
@@ -5695,6 +5967,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "Pati një gabim teksa ruheshin rregullimet tuaja. Ju lutemi, riprovoni.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Mesazh",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Më shumë lloje",
@@ -6532,6 +6808,10 @@
     "messageformat": "Riktheje",
     "description": "Text of button at the bottom of the username link modal"
   },
+  "icu:UsernameLinkModalBody__done": {
+    "messageformat": "U bë",
+    "description": "Text of button at the bottom of the username link modal"
+  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Ngjyra e lidhjes së emrit të përdoruesit, {index,number} nga {total,number}",
     "description": "ARIA label of button for selecting username link color"
@@ -6539,6 +6819,14 @@
   "icu:UsernameLinkModalBody__reset__confirm": {
     "messageformat": "Nëse rivendos kodin QR, kodi QR dhe lidhja ekzistuese nuk do të funksionojnë më.",
     "description": "Text of confirmation modal when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "Po rivendoset lidhja...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "Kodi QR dhe lidhja nuk janë vendosur. Kontrollo lidhjen e rrjetit dhe provo sërish.",
+    "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Vendos emrin tënd të përdoruesit në Signal",
@@ -6577,7 +6865,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "i redaktuar",
+    "messageformat": "I redaktuar",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6591,6 +6879,114 @@
   "icu:ResendMessageEdit__button": {
     "messageformat": "Ridërgoje",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "Më tepër veprime",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "Thirrje",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "Thirrje e re",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "Thirrje e re",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "Më tepër veprime",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "Pastro historikun e thirrjeve",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "Të pastrohet historiku i thirrjeve?",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "Kjo do të fshijë përgjithmonë të gjithë historikun e thirrjeve",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "Spastroje",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "Historia e thirrjeve u fshi",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "Kliko për të parë ose nisur një telefonatë",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "Kërko",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "Filtro sipas \"të humburat\"",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "Shfaqe/Fshihe",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "Nuk ka thirrje së voni. Fillo duke telefonuar një mik.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "Nuk ka rezultate për \"{query}\"",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "Hyrëse",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "Dalëse",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "E humbur",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "Thirrje grupi",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "Nuk ka biseda të fundit.",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "Nuk ka rezultate për \"{query}\"",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Thirrje zanore dalëse} other {Thirrje zanore hyrëse}}} Video {{direction, select, Outgoing {Thirrje video nga ju} other {Thirrje video ardhëse}}} Group {{direction, select, Outgoing {Thirrje dalëse në grup} other {Thirrje hyrëse në grup}}} other {{direction, select, Outgoing {Thirrje nga ju} other {Thirrje ardhëse}}}}",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "{type, select, Audio {Thirrje zanore e humbur} Video {Humbët thirrje video} Group {Thirrje e humbur në grup} other {Thirrje e humbur}}",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "{type, select, Audio {Thirrje zanore pa përgjigje} Video {Thirrje video pa përgjigje} Group {Thirrje në grup pa përgjigje} other {Thirrje  pa përgjigje}}",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "{type, select, Audio {Thirrje zanore e refuzuar} Video {Thirrje me video e refuzuar} Group {Thirrje në grup e refuzuar} other {Thirrje  e refuzuar}}",
+    "description": "Call History > Short description of call > When call was declined"
+  },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} tjetër po shkruan.} other {{count,number} tjerë po shkruajnë.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ç’ka të Re",
@@ -6624,10 +7020,22 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Ky përditësim përfshin disa përmirësime për thirrjet zanore e video dhe disa përditësime të vogla dokumentacioni (faleminderit, {linkToGithub}!)."
+  "icu:WhatsNew__v6.39--0": {
+    "messageformat": "Tani mund ta ndryshosh gjuhën e zgjedhur në Signal pa ndryshuar cilësimet e sistemit (Cilësimet e Signal > Pamja > Gjuha)."
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "Ne përditësuam disa ikona të njoftimeve të grupit. Modifikuam ikonat e njoftimeve që shfaqen për përditësimet e grupit, si për shembull, kur një person i ri i bashkohet një grupi. Këto ikona ndihmojnë në përmirësimin e lexueshmërisë, veçanërisht nëse përdorni errësirën e Temës së Errët. Ikonat e mëparshme thjesht u përshtatën me errësirën. Ikonat e reja lindën në të, të krijuara prej saj."
+  "icu:WhatsNew__v6.39--1": {
+    "messageformat": "Vonesa e shkurtër që shkaktohej ndonjëherë në pajisjet macOS teksa i bashkoheshit thirrjeve në zonën virtuale pritëse është rregulluar, gjë e cila duhet të mos justifikojë më të paktën një arsye lidhur me vonesën prej gjysmë sekonde në takim."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "Kemi rregulluar efektin e animimit të kalimit nga një ndarje në një ndarje tjetër të ekranit të videos kur dikush bashkohet ose largohet nga një telefonatë në grup. Të shohësh fytyrën e një miku që të shfaqet në ekran quhet lëvizje shoqërore."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "Tani mund të klikosh në një foto profili ose në një avatar grupi në krye të bisedës për të hyrë shpejt te cilësimet e bisedës ose për të parë postime që ende nuk i keni parë nga ajo bisedë. Faleminderit, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

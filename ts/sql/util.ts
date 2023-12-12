@@ -36,7 +36,7 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam = string | number | undefined;
+export type QueryTemplateParam = string | number | null | undefined;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export type QueryFragment = [
@@ -66,7 +66,7 @@ export function sqlFragment(
   ...values: ReadonlyArray<QueryFragmentValue>
 ): QueryFragment {
   let query = '';
-  const params: Array<string | number | undefined> = [];
+  const params: Array<QueryTemplateParam> = [];
 
   strings.forEach((string, index) => {
     const value = values[index];
@@ -88,15 +88,29 @@ export function sqlFragment(
   return [{ fragment: query }, params];
 }
 
+export function sqlConstant(value: QueryTemplateParam): QueryFragment {
+  let fragment;
+  if (value == null) {
+    fragment = 'NULL';
+  } else if (typeof value === 'number') {
+    fragment = `${value}`;
+  } else if (typeof value === 'boolean') {
+    fragment = `${value}`;
+  } else {
+    fragment = `'${value}'`;
+  }
+  return [{ fragment }, []];
+}
+
 /**
  * Like `Array.prototype.join`, but for SQL fragments.
  */
+const SQL_JOIN_SEPARATOR = ',';
 export function sqlJoin(
-  items: ReadonlyArray<QueryFragmentValue>,
-  separator: string
+  items: ReadonlyArray<QueryFragmentValue>
 ): QueryFragment {
   let query = '';
-  const params: Array<string | number | undefined> = [];
+  const params: Array<QueryTemplateParam> = [];
 
   items.forEach((item, index) => {
     const [{ fragment }, fragmentParams] = sqlFragment`${item}`;
@@ -104,17 +118,14 @@ export function sqlJoin(
     params.push(...fragmentParams);
 
     if (index < items.length - 1) {
-      query += separator;
+      query += SQL_JOIN_SEPARATOR;
     }
   });
 
   return [{ fragment: query }, params];
 }
 
-export type QueryTemplate = [
-  string,
-  ReadonlyArray<string | number | undefined>
-];
+export type QueryTemplate = [string, ReadonlyArray<QueryTemplateParam>];
 
 /**
  * You can use tagged template literals to build SQL queries
@@ -137,7 +148,7 @@ export type QueryTemplate = [
  */
 export function sql(
   strings: TemplateStringsArray,
-  ...values: ReadonlyArray<QueryFragment | string | number | undefined>
+  ...values: ReadonlyArray<QueryFragment | QueryTemplateParam>
 ): QueryTemplate {
   const [{ fragment }, params] = sqlFragment(strings, ...values);
   return [fragment, params];
@@ -312,37 +323,39 @@ export function getById<Key extends string | number, Result = unknown>(
 
 export function removeById<Key extends string | number>(
   db: Database,
-  table: TableType,
+  tableName: TableType,
   id: Key | Array<Key>
-): void {
+): number {
+  const table = sqlConstant(tableName);
   if (!Array.isArray(id)) {
-    db.prepare<Query>(
-      `
+    const [query, params] = sql`
       DELETE FROM ${table}
-      WHERE id = $id;
-      `
-    ).run({ id });
-    return;
+      WHERE id = ${id};
+    `;
+    return db.prepare(query).run(params).changes;
   }
 
   if (!id.length) {
     throw new Error('removeById: No ids to delete!');
   }
 
+  let totalChanges = 0;
+
   const removeByIdsSync = (ids: ReadonlyArray<string | number>): void => {
-    db.prepare<ArrayQuery>(
-      `
+    const [query, params] = sql`
       DELETE FROM ${table}
-      WHERE id IN ( ${id.map(() => '?').join(', ')} );
-      `
-    ).run(ids);
+      WHERE id IN (${sqlJoin(ids)});
+    `;
+    totalChanges += db.prepare(query).run(params).changes;
   };
 
   batchMultiVarQuery(db, id, removeByIdsSync);
+
+  return totalChanges;
 }
 
-export function removeAllFromTable(db: Database, table: TableType): void {
-  db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run();
+export function removeAllFromTable(db: Database, table: TableType): number {
+  return db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run().changes;
 }
 
 export function getAllFromTable<T>(db: Database, table: TableType): Array<T> {

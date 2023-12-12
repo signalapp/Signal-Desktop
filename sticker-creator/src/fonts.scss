@@ -8,9 +8,9 @@ $inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
 @mixin font-family {
   font-family: $inter;
   &:lang(ja) {
-    font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
-      メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
-      sans-serif;
+    font-family: Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic',
+      'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo,
+      'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 }
 

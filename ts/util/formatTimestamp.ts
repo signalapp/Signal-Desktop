@@ -67,7 +67,11 @@ const formatterCache = new Map<string, Intl.DateTimeFormat>();
 export function getDateTimeFormatter(
   options: Intl.DateTimeFormatOptions
 ): Intl.DateTimeFormat {
-  const locales = window.SignalContext.getPreferredSystemLocales();
+  const preferredSystemLocales =
+    window.SignalContext.getPreferredSystemLocales();
+  const localeOverride = window.SignalContext.getLocaleOverride();
+  const locales =
+    localeOverride != null ? [localeOverride] : preferredSystemLocales;
   const optionsWithPreferences = getOptionsWithPreferences(options);
   const cacheKey = getCacheKey(locales, optionsWithPreferences);
   const cachedFormatter = formatterCache.get(cacheKey);

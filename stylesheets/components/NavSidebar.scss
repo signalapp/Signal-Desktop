@@ -1,0 +1,214 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.NavSidebar {
+  position: relative;
+  z-index: $z-index-base;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding-top: var(--title-bar-drag-area-height);
+  user-select: none;
+  @include light-theme {
+    background-color: $color-gray-04;
+    border-inline-end: 1px solid $color-black-alpha-16;
+  }
+  @include dark-theme {
+    background-color: $color-gray-80;
+    border-inline-end: 1px solid $color-white-alpha-16;
+  }
+}
+
+.NavSidebar__Header {
+  display: flex;
+  align-items: start;
+  flex-shrink: 0;
+  padding-bottom: 6px;
+  @include draggable-region;
+
+  .NavTabs__Toggle {
+    width: $NavTabs__width;
+  }
+
+  .NavSidebar--narrow & {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.NavSidebar__HeaderContent {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding-block: calc(
+    $NavTabs__Item__blockPadding + $NavTabs__ItemButton__blockPadding
+  );
+  padding-inline: 24px;
+
+  .NavSidebar--narrow & {
+    padding-inline: 0;
+  }
+}
+
+.NavSidebar__HeaderContent--navTabsCollapsed:not(
+    .NavSidebar__HeaderContent--withBackButton
+  ) {
+  padding-inline-start: 0;
+}
+
+.NavSidebar__HeaderContent--withBackButton {
+  padding-inline-start: 16px;
+}
+
+.NavSidebar__HeaderTitle {
+  flex: 1 1 0%;
+  margin: 0;
+  @include font-title-medium;
+  line-height: 20px;
+
+  .NavSidebar--narrow & {
+    @include sr-only;
+  }
+}
+
+.NavSidebar__HeaderTitle--withBackButton {
+  text-align: center;
+  @include font-body-1-bold;
+}
+
+.NavSidebar__BackButton {
+  @include button-reset();
+  margin-block: -4px;
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    @include light-theme {
+      background: $color-gray-20;
+    }
+    @include dark-theme {
+      background: $color-gray-62;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-left.svg',
+        $color-black
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-left.svg',
+        $color-gray-15
+      );
+    }
+  }
+}
+
+.NavSidebar__BackButtonLabel {
+  @include sr-only;
+}
+
+.NavSidebar .module-SearchInput__container {
+  // override .module-SearchInput__container
+  margin: 0;
+}
+
+.NavSidebar__Content {
+  flex: 1 1 0%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.NavSidebar__DragHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 100%;
+  width: 8px;
+  background: transparent;
+  cursor: col-resize;
+
+  &:focus {
+    outline: none;
+    @include keyboard-mode {
+      box-shadow: inset 0 0 0 2px $color-ultramarine;
+    }
+  }
+}
+
+.NavSidebar__DragHandle--dragging {
+  @include light-theme {
+    background-color: $color-black-alpha-12;
+  }
+  @include dark-theme {
+    background-color: $color-white-alpha-12;
+  }
+}
+
+.NavSidebar__document--draggingHandle {
+  cursor: col-resize;
+}
+
+.NavSidebar__HeaderActions {
+  display: flex;
+  gap: 20px;
+  margin-block: -4px;
+  align-items: center;
+  justify-content: center;
+
+  .NavSidebar--narrow & {
+    flex-direction: column;
+  }
+}
+
+.NavSidebar__ActionButton {
+  @include button-reset();
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover,
+  &:focus {
+    @include light-theme {
+      background-color: $color-black-alpha-06;
+    }
+    @include dark-theme {
+      background-color: $color-white-alpha-06;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
+  }
+}
+
+.NavSidebar__ActionButtonLabel {
+  @include sr-only;
+}
+
+.NavSidebarSearchHeader {
+  display: flex;
+  margin-inline: 16px;
+  margin-bottom: 8px;
+  gap: 12px;
+}

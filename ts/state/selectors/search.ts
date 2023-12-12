@@ -227,12 +227,12 @@ export const getMessageSearchResultSelector = createSelector(
         return undefined;
       }
 
-      const { conversationId, source, sourceUuid, type } = message;
+      const { conversationId, source, sourceServiceId, type } = message;
       let from: ConversationType;
       let to: ConversationType;
 
       if (type === 'incoming') {
-        from = conversationSelector(sourceUuid || source);
+        from = conversationSelector(sourceServiceId || source);
         to = conversationSelector(conversationId);
         if (from === to) {
           to = conversationSelector(ourConversationId);

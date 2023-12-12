@@ -3,8 +3,9 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
+import { v4 as generateUuid } from 'uuid';
 import { times } from 'lodash';
+
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
 import {
@@ -34,11 +35,13 @@ import {
 } from '../../../state/ducks/conversations';
 import { ReadStatus } from '../../../messages/MessageReadStatus';
 import { ContactSpoofingType } from '../../../util/contactSpoofing';
+import type { SingleServePromiseIdString } from '../../../services/singleServePromise';
 import { CallMode } from '../../../types/Calling';
-import { UUID } from '../../../types/UUID';
+import { generateAci, getAciFromPrefix } from '../../../types/ServiceId';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
 import {
   getDefaultConversation,
-  getDefaultConversationWithUuid,
+  getDefaultConversationWithServiceId,
   getDefaultGroup,
 } from '../../../test-both/helpers/getDefaultConversation';
 import { getDefaultAvatars } from '../../../types/Avatar';
@@ -62,7 +65,7 @@ import type { MessageAttributesType } from '../../../model-types.d';
 
 const {
   clearGroupCreationError,
-  clearInvitedUuidsForNewlyCreatedGroup,
+  clearInvitedServiceIdsForNewlyCreatedGroup,
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
@@ -104,10 +107,12 @@ function messageChanged(
 }
 
 describe('both/state/ducks/conversations', () => {
-  const UUID_1 = UUID.generate().toString();
-  const UUID_2 = UUID.generate().toString();
-  const UUID_3 = UUID.generate().toString();
-  const UUID_4 = UUID.generate().toString();
+  const LIST_ID_1 = generateStoryDistributionId();
+  const LIST_ID_2 = generateStoryDistributionId();
+  const SERVICE_ID_1 = generateAci();
+  const SERVICE_ID_2 = generateAci();
+  const SERVICE_ID_3 = generateAci();
+  const SERVICE_ID_4 = generateAci();
 
   const getEmptyRootState = () => rootReducer(undefined, noopAction());
 
@@ -131,53 +136,53 @@ describe('both/state/ducks/conversations', () => {
       const fakeConversation: ConversationType = getDefaultConversation();
       const fakeGroup: ConversationType = getDefaultGroup();
 
-      it("returns CallMode.None if you've left the conversation", () => {
+      it("returns null if you've left the conversation", () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             left: true,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it("returns CallMode.None if you've blocked the other person", () => {
+      it("returns null if you've blocked the other person", () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             isBlocked: true,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it("returns CallMode.None if you haven't accepted message requests", () => {
+      it("returns null if you haven't accepted message requests", () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             acceptedMessageRequest: false,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it('returns CallMode.None if the conversation is Note to Self', () => {
+      it('returns null if the conversation is Note to Self', () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             isMe: true,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it('returns CallMode.None for v1 groups', () => {
+      it('returns null for v1 groups', () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeGroup,
             groupVersion: 1,
           }),
-          CallMode.None
+          null
         );
 
         assert.strictEqual(
@@ -185,7 +190,7 @@ describe('both/state/ducks/conversations', () => {
             ...fakeGroup,
             groupVersion: undefined,
           }),
-          CallMode.None
+          null
         );
       });
 
@@ -217,8 +222,8 @@ describe('both/state/ducks/conversations', () => {
           result.conversationsByE164
         );
         assert.strictEqual(
-          state.conversationsByUuid,
-          result.conversationsByUuid
+          state.conversationsByServiceId,
+          result.conversationsByServiceId
         );
         assert.strictEqual(
           state.conversationsByGroupId,
@@ -230,7 +235,7 @@ describe('both/state/ducks/conversations', () => {
         const removed = getDefaultConversation({
           id: 'id-removed',
           e164: 'e164-removed',
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const state = {
@@ -242,7 +247,7 @@ describe('both/state/ducks/conversations', () => {
         const added = getDefaultConversation({
           id: 'id-added',
           e164: 'e164-added',
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const expected = {
@@ -253,8 +258,8 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(actual.conversationsByE164, expected);
         assert.strictEqual(
-          state.conversationsByUuid,
-          actual.conversationsByUuid
+          state.conversationsByServiceId,
+          actual.conversationsByServiceId
         );
         assert.strictEqual(
           state.conversationsByGroupId,
@@ -263,24 +268,24 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes uuid-only contact', () => {
-        const removed = getDefaultConversationWithUuid({
+        const removed = getDefaultConversationWithServiceId({
           id: 'id-removed',
           e164: undefined,
         });
 
         const state = {
           ...getEmptyState(),
-          conversationsByuuid: {
-            [removed.uuid]: removed,
+          conversationsByServiceId: {
+            [removed.serviceId]: removed,
           },
         };
-        const added = getDefaultConversationWithUuid({
+        const added = getDefaultConversationWithServiceId({
           id: 'id-added',
           e164: undefined,
         });
 
         const expected = {
-          [added.uuid]: added,
+          [added.serviceId]: added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -289,7 +294,7 @@ describe('both/state/ducks/conversations', () => {
           state.conversationsByE164,
           actual.conversationsByE164
         );
-        assert.deepEqual(actual.conversationsByUuid, expected);
+        assert.deepEqual(actual.conversationsByServiceId, expected);
         assert.strictEqual(
           state.conversationsByGroupId,
           actual.conversationsByGroupId
@@ -301,7 +306,7 @@ describe('both/state/ducks/conversations', () => {
           id: 'id-removed',
           groupId: 'groupId-removed',
           e164: undefined,
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const state = {
@@ -314,7 +319,7 @@ describe('both/state/ducks/conversations', () => {
           id: 'id-added',
           groupId: 'groupId-added',
           e164: undefined,
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const expected = {
@@ -328,8 +333,8 @@ describe('both/state/ducks/conversations', () => {
           actual.conversationsByE164
         );
         assert.strictEqual(
-          state.conversationsByUuid,
-          actual.conversationsByUuid
+          state.conversationsByServiceId,
+          actual.conversationsByServiceId
         );
         assert.deepEqual(actual.conversationsByGroupId, expected);
       });
@@ -343,7 +348,7 @@ describe('both/state/ducks/conversations', () => {
     const messageId = 'message-guid-1';
     const messageIdTwo = 'message-guid-2';
     const messageIdThree = 'message-guid-3';
-    const sourceUuid = UUID.generate().toString();
+    const sourceServiceId = generateAci();
 
     function getDefaultMessage(id: string): MessageType {
       return {
@@ -353,7 +358,7 @@ describe('both/state/ducks/conversations', () => {
         received_at: previousTime,
         sent_at: previousTime,
         source: 'source',
-        sourceUuid,
+        sourceServiceId,
         timestamp: previousTime,
         type: 'incoming' as const,
         readStatus: ReadStatus.Read,
@@ -505,15 +510,12 @@ describe('both/state/ducks/conversations', () => {
       it('clears the list of invited conversation UUIDs', () => {
         const state = {
           ...getEmptyState(),
-          invitedUuidsForNewlyCreatedGroup: [
-            UUID.generate().toString(),
-            UUID.generate().toString(),
-          ],
+          invitedServiceIdsForNewlyCreatedGroup: [generateAci(), generateAci()],
         };
-        const action = clearInvitedUuidsForNewlyCreatedGroup();
+        const action = clearInvitedServiceIdsForNewlyCreatedGroup();
         const result = reducer(state, action);
 
-        assert.isUndefined(result.invitedUuidsForNewlyCreatedGroup);
+        assert.isUndefined(result.invitedServiceIdsForNewlyCreatedGroup);
       });
     });
 
@@ -768,14 +770,14 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('dispatches a CREATE_GROUP_FULFILLED event (which updates the newly-created conversation IDs), triggers a showConversation event and switches to the associated conversation on success', async () => {
-        const abc = UUID.fromPrefix('abc').toString();
+        const abc = getAciFromPrefix('abc');
         createGroupStub.resolves({
           id: '9876',
           get: (key: string) => {
             if (key !== 'pendingMembersV2') {
               throw new Error('This getter is not set up for this test');
             }
-            return [{ uuid: abc }];
+            return [{ serviceId: abc }];
           },
         });
 
@@ -792,7 +794,7 @@ describe('both/state/ducks/conversations', () => {
 
         sinon.assert.calledWith(dispatch, {
           type: 'CREATE_GROUP_FULFILLED',
-          payload: { invitedUuids: [abc] },
+          payload: { invitedServiceIds: [abc] },
         });
 
         sinon.assert.calledWith(dispatch, {
@@ -806,7 +808,7 @@ describe('both/state/ducks/conversations', () => {
 
         const fulfilledAction = dispatch.getCall(1).args[0];
         const result = reducer(conversationsState, fulfilledAction);
-        assert.deepEqual(result.invitedUuidsForNewlyCreatedGroup, [abc]);
+        assert.deepEqual(result.invitedServiceIdsForNewlyCreatedGroup, [abc]);
       });
     });
 
@@ -816,28 +818,32 @@ describe('both/state/ducks/conversations', () => {
           getEmptyState(),
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: [UUID_1],
+            untrustedServiceIds: [SERVICE_ID_1],
           })
         );
         const second = reducer(
           first,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: [UUID_2],
+            untrustedServiceIds: [SERVICE_ID_2],
           })
         );
         const third = reducer(
           second,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: [UUID_1, UUID_3],
+            untrustedServiceIds: [SERVICE_ID_1, SERVICE_ID_3],
           })
         );
 
         assert.deepStrictEqual(third.verificationDataByConversation, {
           'convo A': {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+            serviceIdsNeedingVerification: [
+              SERVICE_ID_1,
+              SERVICE_ID_2,
+              SERVICE_ID_3,
+            ],
           },
         });
       });
@@ -856,14 +862,14 @@ describe('both/state/ducks/conversations', () => {
           state,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: [UUID_1, UUID_2],
+            untrustedServiceIds: [SERVICE_ID_1, SERVICE_ID_2],
           })
         );
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
           'convo A': {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [UUID_1, UUID_2],
+            serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
           },
         });
       });
@@ -875,7 +881,7 @@ describe('both/state/ducks/conversations', () => {
           type: SHOW_SEND_ANYWAY_DIALOG,
           payload: {
             untrustedByConversation: {},
-            promiseUuid: UUID.generate().toString(),
+            promiseUuid: generateUuid() as SingleServePromiseIdString,
             source: undefined,
           },
         };
@@ -890,34 +896,34 @@ describe('both/state/ducks/conversations', () => {
           type: SHOW_SEND_ANYWAY_DIALOG,
           payload: {
             untrustedByConversation: {
-              abc: {
-                uuids: [UUID_1, UUID_2],
+              [LIST_ID_1]: {
+                serviceIds: [SERVICE_ID_1, SERVICE_ID_2],
                 byDistributionId: {
-                  abc: {
-                    uuids: [UUID_1, UUID_3],
+                  [LIST_ID_1]: {
+                    serviceIds: [SERVICE_ID_1, SERVICE_ID_3],
                   },
-                  def: {
-                    uuids: [UUID_2, UUID_4],
+                  [LIST_ID_2]: {
+                    serviceIds: [SERVICE_ID_2, SERVICE_ID_4],
                   },
                 },
               },
             },
-            promiseUuid: UUID.generate().toString(),
+            promiseUuid: generateUuid() as SingleServePromiseIdString,
             source: undefined,
           },
         };
         const actual = reducer(state, action);
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
-          abc: {
+          [LIST_ID_1]: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [UUID_1, UUID_2],
+            serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
             byDistributionId: {
-              abc: {
-                uuidsNeedingVerification: [UUID_1, UUID_3],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_3],
               },
-              def: {
-                uuidsNeedingVerification: [UUID_2, UUID_4],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_2, SERVICE_ID_4],
               },
             },
           },
@@ -928,12 +934,12 @@ describe('both/state/ducks/conversations', () => {
         const state: ConversationsStateType = {
           ...getEmptyState(),
           verificationDataByConversation: {
-            abc: {
+            [LIST_ID_1]: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1],
+              serviceIdsNeedingVerification: [SERVICE_ID_1],
               byDistributionId: {
-                abc: {
-                  uuidsNeedingVerification: [UUID_1],
+                [LIST_ID_1]: {
+                  serviceIdsNeedingVerification: [SERVICE_ID_1],
                 },
               },
             },
@@ -943,34 +949,34 @@ describe('both/state/ducks/conversations', () => {
           type: SHOW_SEND_ANYWAY_DIALOG,
           payload: {
             untrustedByConversation: {
-              abc: {
-                uuids: [UUID_1, UUID_2],
+              [LIST_ID_1]: {
+                serviceIds: [SERVICE_ID_1, SERVICE_ID_2],
                 byDistributionId: {
-                  abc: {
-                    uuids: [UUID_1, UUID_3],
+                  [LIST_ID_1]: {
+                    serviceIds: [SERVICE_ID_1, SERVICE_ID_3],
                   },
-                  def: {
-                    uuids: [UUID_2, UUID_4],
+                  [LIST_ID_2]: {
+                    serviceIds: [SERVICE_ID_2, SERVICE_ID_4],
                   },
                 },
               },
             },
-            promiseUuid: UUID.generate().toString(),
+            promiseUuid: generateUuid() as SingleServePromiseIdString,
             source: undefined,
           },
         };
         const actual = reducer(state, action);
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
-          abc: {
+          [LIST_ID_1]: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [UUID_1, UUID_2],
+            serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
             byDistributionId: {
-              abc: {
-                uuidsNeedingVerification: [UUID_1, UUID_3],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_3],
               },
-              def: {
-                uuidsNeedingVerification: [UUID_2, UUID_4],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_2, SERVICE_ID_4],
               },
             },
           },
@@ -1004,7 +1010,7 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             'convo A': {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1, UUID_2],
+              serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
             },
           },
         };
@@ -1098,7 +1104,7 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             'convo A': {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1, UUID_2],
+              serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
             },
           },
         };
@@ -1601,7 +1607,6 @@ describe('both/state/ducks/conversations', () => {
               fromId: 'some-other-id',
               timestamp: 2222,
               targetTimestamp: 1111,
-              targetAuthorUuid: 'author-uuid',
             },
           ],
         };
@@ -1632,7 +1637,6 @@ describe('both/state/ducks/conversations', () => {
                   fromId: 'some-other-id',
                   timestamp: 2222,
                   targetTimestamp: 1111,
-                  targetAuthorUuid: 'author-uuid',
                 },
               ],
             },
@@ -1990,8 +1994,8 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('shows the recommended group size modal when first crossing the maximum recommended group size', () => {
-        const oldSelectedConversationIds = times(21, () => uuid());
-        const newUuid = uuid();
+        const oldSelectedConversationIds = times(21, () => generateUuid());
+        const newUuid = generateUuid();
 
         const state = {
           ...getEmptyState(),
@@ -2011,8 +2015,8 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it("doesn't show the recommended group size modal twice", () => {
-        const oldSelectedConversationIds = times(21, () => uuid());
-        const newUuid = uuid();
+        const oldSelectedConversationIds = times(21, () => generateUuid());
+        const newUuid = generateUuid();
 
         const state = {
           ...getEmptyState(),
@@ -2052,15 +2056,15 @@ describe('both/state/ducks/conversations', () => {
             ...getEmptyState(),
             composer: defaultChooseGroupMembersComposerState,
           };
-          const action = getAction(uuid(), state);
+          const action = getAction(generateUuid(), state);
 
           assert.strictEqual(action.payload.maxRecommendedGroupSize, 151);
         }
       });
 
       it('shows the maximum group size modal when first reaching the maximum group size', () => {
-        const oldSelectedConversationIds = times(31, () => uuid());
-        const newUuid = uuid();
+        const oldSelectedConversationIds = times(31, () => generateUuid());
+        const newUuid = generateUuid();
 
         const state = {
           ...getEmptyState(),
@@ -2083,8 +2087,8 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it("doesn't show the maximum group size modal twice", () => {
-        const oldSelectedConversationIds = times(31, () => uuid());
-        const newUuid = uuid();
+        const oldSelectedConversationIds = times(31, () => generateUuid());
+        const newUuid = generateUuid();
 
         const state = {
           ...getEmptyState(),
@@ -2111,10 +2115,10 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             ...defaultChooseGroupMembersComposerState,
-            selectedConversationIds: times(1000, () => uuid()),
+            selectedConversationIds: times(1000, () => generateUuid()),
           },
         };
-        const action = getAction(uuid(), state);
+        const action = getAction(generateUuid(), state);
         const result = reducer(state, action);
 
         assert.deepEqual(result, state);
@@ -2136,7 +2140,7 @@ describe('both/state/ducks/conversations', () => {
             ...getEmptyState(),
             composer: defaultChooseGroupMembersComposerState,
           };
-          const action = getAction(uuid(), state);
+          const action = getAction(generateUuid(), state);
 
           assert.strictEqual(action.payload.maxGroupSize, 1001);
         }
@@ -2160,18 +2164,18 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: defaultChooseGroupMembersComposerState,
         };
-        const action = getAction(uuid(), state);
+        const action = getAction(generateUuid(), state);
 
         assert.strictEqual(action.payload.maxGroupSize, 1235);
       });
     });
 
     describe('COLORS_CHANGED', () => {
-      const abc = getDefaultConversationWithUuid({
+      const abc = getDefaultConversationWithServiceId({
         id: 'abc',
         conversationColor: 'wintergreen',
       });
-      const def = getDefaultConversationWithUuid({
+      const def = getDefaultConversationWithServiceId({
         id: 'def',
         conversationColor: 'infrared',
       });
@@ -2195,7 +2199,7 @@ describe('both/state/ducks/conversations', () => {
             ghi,
             jkl,
           },
-          conversationsByUuid: {
+          conversationsByServiceId: {
             abc,
             def,
           },
@@ -2221,10 +2225,10 @@ describe('both/state/ducks/conversations', () => {
         assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
         assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
         assert.isUndefined(
-          nextState.conversationsByUuid[abc.uuid].conversationColor
+          nextState.conversationsByServiceId[abc.serviceId].conversationColor
         );
         assert.isUndefined(
-          nextState.conversationsByUuid[def.uuid].conversationColor
+          nextState.conversationsByServiceId[def.serviceId].conversationColor
         );
         assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
         assert.isUndefined(
@@ -2242,13 +2246,17 @@ describe('both/state/ducks/conversations', () => {
         verificationDataByConversation: {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              abc: {
-                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [
+                  SERVICE_ID_1,
+                  SERVICE_ID_2,
+                  SERVICE_ID_3,
+                ],
               },
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2259,8 +2267,8 @@ describe('both/state/ducks/conversations', () => {
         const action: StoryDistributionListsActionType = {
           type: VIEWERS_CHANGED,
           payload: {
-            listId: 'abc',
-            memberUuids: [UUID_1, UUID_2],
+            listId: LIST_ID_1,
+            memberServiceIds: [SERVICE_ID_1, SERVICE_ID_2],
           },
         };
 
@@ -2268,13 +2276,13 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              abc: {
-                uuidsNeedingVerification: [UUID_1, UUID_2],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
               },
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2284,8 +2292,8 @@ describe('both/state/ducks/conversations', () => {
         const action: StoryDistributionListsActionType = {
           type: VIEWERS_CHANGED,
           payload: {
-            listId: 'abc',
-            memberUuids: [],
+            listId: LIST_ID_1,
+            memberServiceIds: [],
           },
         };
 
@@ -2293,10 +2301,10 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2309,13 +2317,17 @@ describe('both/state/ducks/conversations', () => {
         verificationDataByConversation: {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
               [MY_STORY_ID]: {
-                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+                serviceIdsNeedingVerification: [
+                  SERVICE_ID_1,
+                  SERVICE_ID_2,
+                  SERVICE_ID_3,
+                ],
               },
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2325,20 +2337,20 @@ describe('both/state/ducks/conversations', () => {
       it('removes now hidden uuids', async () => {
         const action: StoryDistributionListsActionType = {
           type: HIDE_MY_STORIES_FROM,
-          payload: [UUID_1, UUID_2],
+          payload: [SERVICE_ID_1, SERVICE_ID_2],
         };
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
               [MY_STORY_ID]: {
-                uuidsNeedingVerification: [UUID_3],
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2347,17 +2359,17 @@ describe('both/state/ducks/conversations', () => {
       it('eliminates list if all items removed', async () => {
         const action: StoryDistributionListsActionType = {
           type: HIDE_MY_STORIES_FROM,
-          payload: [UUID_1, UUID_2, UUID_3],
+          payload: [SERVICE_ID_1, SERVICE_ID_2, SERVICE_ID_3],
         };
 
         const actual = reducer(state, action);
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2370,13 +2382,17 @@ describe('both/state/ducks/conversations', () => {
         verificationDataByConversation: {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              abc: {
-                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [
+                  SERVICE_ID_1,
+                  SERVICE_ID_2,
+                  SERVICE_ID_3,
+                ],
               },
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2388,7 +2404,7 @@ describe('both/state/ducks/conversations', () => {
           type: DELETE_LIST,
           payload: {
             deletedAtTimestamp: Date.now(),
-            listId: 'abc',
+            listId: LIST_ID_1,
           },
         };
 
@@ -2396,10 +2412,10 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              def: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2412,10 +2428,14 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             convo1: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [],
+              serviceIdsNeedingVerification: [],
               byDistributionId: {
-                abc: {
-                  uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+                [LIST_ID_1]: {
+                  serviceIdsNeedingVerification: [
+                    SERVICE_ID_1,
+                    SERVICE_ID_2,
+                    SERVICE_ID_3,
+                  ],
                 },
               },
             },
@@ -2426,7 +2446,7 @@ describe('both/state/ducks/conversations', () => {
           type: DELETE_LIST,
           payload: {
             deletedAtTimestamp: Date.now(),
-            listId: 'abc',
+            listId: LIST_ID_1,
           },
         };
 
@@ -2440,10 +2460,14 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             convo1: {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: [UUID_1],
+              serviceIdsNeedingVerification: [SERVICE_ID_1],
               byDistributionId: {
-                abc: {
-                  uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+                [LIST_ID_1]: {
+                  serviceIdsNeedingVerification: [
+                    SERVICE_ID_1,
+                    SERVICE_ID_2,
+                    SERVICE_ID_3,
+                  ],
                 },
               },
             },
@@ -2454,7 +2478,7 @@ describe('both/state/ducks/conversations', () => {
           type: DELETE_LIST,
           payload: {
             deletedAtTimestamp: Date.now(),
-            listId: 'abc',
+            listId: LIST_ID_1,
           },
         };
 
@@ -2462,7 +2486,7 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [UUID_1],
+            serviceIdsNeedingVerification: [SERVICE_ID_1],
           },
         });
       });
@@ -2473,13 +2497,17 @@ describe('both/state/ducks/conversations', () => {
         verificationDataByConversation: {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              [UUID_1]: {
-                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [
+                  SERVICE_ID_1,
+                  SERVICE_ID_2,
+                  SERVICE_ID_3,
+                ],
               },
-              [UUID_2]: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2490,12 +2518,12 @@ describe('both/state/ducks/conversations', () => {
         const action: StoryDistributionListsActionType = {
           type: MODIFY_LIST,
           payload: {
-            id: UUID_1,
+            id: LIST_ID_1,
             name: 'list1',
             allowsReplies: true,
             isBlockList: false,
-            membersToAdd: [UUID_2, UUID_4],
-            membersToRemove: [UUID_3],
+            membersToAdd: [SERVICE_ID_2, SERVICE_ID_4],
+            membersToRemove: [SERVICE_ID_3],
           },
         };
 
@@ -2503,13 +2531,13 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              [UUID_1]: {
-                uuidsNeedingVerification: [UUID_1, UUID_2],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_1, SERVICE_ID_2],
               },
-              [UUID_2]: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },
@@ -2520,12 +2548,12 @@ describe('both/state/ducks/conversations', () => {
         const action: StoryDistributionListsActionType = {
           type: MODIFY_LIST,
           payload: {
-            id: UUID_1,
+            id: LIST_ID_1,
             name: 'list1',
             allowsReplies: true,
             isBlockList: true,
-            membersToAdd: [UUID_2, UUID_1],
-            membersToRemove: [UUID_3],
+            membersToAdd: [SERVICE_ID_2, SERVICE_ID_1],
+            membersToRemove: [SERVICE_ID_3],
           },
         };
 
@@ -2533,13 +2561,13 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(actual.verificationDataByConversation, {
           convo1: {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: [],
+            serviceIdsNeedingVerification: [],
             byDistributionId: {
-              [UUID_1]: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_1]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
-              [UUID_2]: {
-                uuidsNeedingVerification: [UUID_3],
+              [LIST_ID_2]: {
+                serviceIdsNeedingVerification: [SERVICE_ID_3],
               },
             },
           },

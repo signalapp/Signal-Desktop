@@ -7,7 +7,7 @@ import _ from 'lodash';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
-import type { UUIDStringType } from '../../../types/UUID';
+import type { AciString } from '../../../types/ServiceId';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';
@@ -21,7 +21,7 @@ export type PropsDataType = {
   readonly conversation?: ConversationType;
   readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly i18n: LocalizerType;
-  readonly ourUuid: UUIDStringType;
+  readonly ourAci: AciString;
   readonly pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   readonly pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   readonly theme: ThemeType;
@@ -42,7 +42,7 @@ export type PropsType = PropsDataType & PropsActionType;
 
 export type GroupV2PendingMembership = {
   metadata: {
-    addedByUserId?: UUIDStringType;
+    addedByUserId?: AciString;
   };
   member: ConversationType;
 };
@@ -72,16 +72,14 @@ export function PendingInvites({
   conversation,
   getPreferredBadge,
   i18n,
-  ourUuid,
+  ourAci,
   pendingMemberships,
   pendingApprovalMemberships,
   revokePendingMembershipsFromGroupV2,
   theme,
 }: PropsType): JSX.Element {
-  if (!conversation || !ourUuid) {
-    throw new Error(
-      'PendingInvites rendered without a conversation or ourUuid'
-    );
+  if (!conversation || !ourAci) {
+    throw new Error('PendingInvites rendered without a conversation or ourAci');
   }
 
   const [stagedMemberships, setStagedMemberships] =
@@ -126,7 +124,7 @@ export function PendingInvites({
                 i18n={i18n}
                 members={conversation.sortedGroupMembers || []}
                 memberships={pendingMemberships}
-                ourUuid={ourUuid}
+                ourAci={ourAci}
                 setStagedMemberships={setStagedMemberships}
                 theme={theme}
               />
@@ -144,7 +142,7 @@ export function PendingInvites({
           i18n={i18n}
           members={conversation.sortedGroupMembers || []}
           onClose={() => setStagedMemberships(null)}
-          ourUuid={ourUuid}
+          ourAci={ourAci}
           revokePendingMembershipsFromGroupV2={
             revokePendingMembershipsFromGroupV2
           }
@@ -161,7 +159,7 @@ function MembershipActionConfirmation({
   i18n,
   members,
   onClose,
-  ourUuid,
+  ourAci,
   revokePendingMembershipsFromGroupV2,
   stagedMemberships,
 }: {
@@ -173,7 +171,7 @@ function MembershipActionConfirmation({
   i18n: LocalizerType;
   members: ReadonlyArray<ConversationType>;
   onClose: () => void;
-  ourUuid: string;
+  ourAci: AciString;
   revokePendingMembershipsFromGroupV2: (
     conversationId: string,
     memberIds: ReadonlyArray<string>
@@ -234,7 +232,7 @@ function MembershipActionConfirmation({
         conversation,
         i18n,
         members,
-        ourUuid,
+        ourAci,
         stagedMemberships,
       })}
     </ConfirmationDialog>
@@ -245,13 +243,13 @@ function getConfirmationMessage({
   conversation,
   i18n,
   members,
-  ourUuid,
+  ourAci,
   stagedMemberships,
 }: Readonly<{
   conversation: ConversationType;
   i18n: LocalizerType;
   members: ReadonlyArray<ConversationType>;
-  ourUuid: string;
+  ourAci: AciString;
   stagedMemberships: ReadonlyArray<StagedMembershipType>;
 }>): string {
   if (!stagedMemberships || !stagedMemberships.length) {
@@ -285,7 +283,7 @@ function getConfirmationMessage({
   const firstPendingMembership = firstMembership as GroupV2PendingMembership;
 
   // Pending invite
-  const invitedByUs = firstPendingMembership.metadata.addedByUserId === ourUuid;
+  const invitedByUs = firstPendingMembership.metadata.addedByUserId === ourAci;
 
   if (invitedByUs) {
     return i18n('icu:PendingInvites--revoke-for', {
@@ -294,7 +292,8 @@ function getConfirmationMessage({
   }
 
   const inviter = members.find(
-    ({ uuid }) => uuid === firstPendingMembership.metadata.addedByUserId
+    ({ serviceId }) =>
+      serviceId === firstPendingMembership.metadata.addedByUserId
   );
 
   if (inviter === undefined) {
@@ -391,7 +390,7 @@ function MembersPendingProfileKey({
   i18n,
   members,
   memberships,
-  ourUuid,
+  ourAci,
   setStagedMemberships,
   getPreferredBadge,
   theme,
@@ -401,7 +400,7 @@ function MembersPendingProfileKey({
   i18n: LocalizerType;
   members: ReadonlyArray<ConversationType>;
   memberships: ReadonlyArray<GroupV2PendingMembership>;
-  ourUuid: string;
+  ourAci: AciString;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;
   theme: ThemeType;
 }>) {
@@ -410,17 +409,20 @@ function MembersPendingProfileKey({
     membership => membership.metadata.addedByUserId
   );
 
-  const { [ourUuid]: ourPendingMemberships, ...otherPendingMembershipGroups } =
+  const { [ourAci]: ourPendingMemberships, ...otherPendingMembershipGroups } =
     groupedPendingMemberships;
 
   const otherPendingMemberships = Object.keys(otherPendingMembershipGroups)
-    .map(id => members.find(member => member.uuid === id))
+    .map(id => members.find(member => member.serviceId === id))
     .filter((member): member is ConversationType => member !== undefined)
     .map(member => {
-      assertDev(member.uuid, 'We just verified that member has uuid above');
+      assertDev(
+        member.serviceId,
+        'We just verified that member has serviceId above'
+      );
       return {
         member,
-        pendingMemberships: otherPendingMembershipGroups[member.uuid],
+        pendingMemberships: otherPendingMembershipGroups[member.serviceId],
       };
     });
 

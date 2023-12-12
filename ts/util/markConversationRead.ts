@@ -22,6 +22,8 @@ import {
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
 import { ReceiptType } from '../types/Receipt';
+import type { AciString } from '../types/ServiceId';
+import { isAciString } from './isAciString';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -78,20 +80,20 @@ export async function markConversationRead(
     string,
     {
       messageId?: string;
-      senderUuid?: string;
+      senderAci?: AciString;
       senderE164?: string;
       timestamp: number;
     }
   >();
   unreadReactions.forEach(reaction => {
-    const targetKey = `${reaction.targetAuthorUuid}/${reaction.targetTimestamp}`;
+    const targetKey = `${reaction.targetAuthorAci}/${reaction.targetTimestamp}`;
     if (unreadReactionSyncData.has(targetKey)) {
       return;
     }
     unreadReactionSyncData.set(targetKey, {
       messageId: reaction.messageId,
       senderE164: undefined,
-      senderUuid: reaction.targetAuthorUuid,
+      senderAci: reaction.targetAuthorAci,
       timestamp: reaction.targetTimestamp,
     });
   });
@@ -100,7 +102,9 @@ export async function markConversationRead(
 
   const allReadMessagesSync = allUnreadMessages
     .map(messageSyncData => {
-      const message = window.MessageController.getById(messageSyncData.id);
+      const message = window.MessageCache.__DEPRECATED$getById(
+        messageSyncData.id
+      );
       // we update the in-memory MessageModel with the fresh database call data
       if (message) {
         message.set(omit(messageSyncData, 'originalReadStatus'));
@@ -109,7 +113,7 @@ export async function markConversationRead(
       const {
         sent_at: timestamp,
         source: senderE164,
-        sourceUuid: senderUuid,
+        sourceServiceId: senderAci,
       } = messageSyncData;
 
       if (!isNumber(timestamp)) {
@@ -121,15 +125,23 @@ export async function markConversationRead(
         return undefined;
       }
 
+      if (!isAciString(senderAci)) {
+        log.warn(
+          `${logId}: message sourceServiceId timestamp is not aci` +
+            `type=${messageSyncData.type}`
+        );
+        return undefined;
+      }
+
       return {
         messageId: messageSyncData.id,
         conversationId: conversationAttrs.id,
         originalReadStatus: messageSyncData.originalReadStatus,
         senderE164,
-        senderUuid,
+        senderAci,
         senderId: window.ConversationController.lookupOrCreate({
           e164: senderE164,
-          uuid: senderUuid,
+          serviceId: senderAci,
           reason: 'markConversationRead',
         })?.id,
         timestamp,
@@ -156,7 +168,7 @@ export async function markConversationRead(
   const readSyncs: Array<{
     messageId?: string;
     senderE164?: string;
-    senderUuid?: string;
+    senderAci?: AciString;
     senderId?: string;
     timestamp: number;
     hasErrors?: string;

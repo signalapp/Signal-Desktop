@@ -136,7 +136,7 @@ export async function routineProfileRefresh({
 
     totalCount += 1;
     try {
-      await getProfileFn(conversation.get('uuid'), conversation.get('e164'));
+      await getProfileFn(conversation.getServiceId(), conversation.get('e164'));
       log.info(
         `${logId}: refreshed profile for ${conversation.idForLogging()}`
       );
@@ -203,7 +203,7 @@ function* getFilteredConversations(
     c =>
       isDirectConversation(c.attributes) &&
       !c.isUnregisteredAndStale() &&
-      c.get('uuid')
+      c.getServiceId()
   );
   const sorted = sortBy(filtered, c => c.get('profileLastFetchedAt') || 0);
 

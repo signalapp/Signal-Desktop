@@ -7,7 +7,6 @@ import type { LocalizerType } from '../types/Util';
 import { Button, ButtonVariant } from './Button';
 import { Intl } from './Intl';
 import { Modal } from './Modal';
-import { STORIES_COLOR_THEME } from './Stories';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -24,7 +23,6 @@ export function SignalConnectionsModal({
       hasXButton
       i18n={i18n}
       onClose={onClose}
-      theme={STORIES_COLOR_THEME}
     >
       <div className="SignalConnectionsModal">
         <i className="SignalConnectionsModal__icon" />

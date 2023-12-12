@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-import { text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import type { AttachmentType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessagesModal';
@@ -15,25 +13,25 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 import { setupI18n } from '../util/setupI18n';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { CompositionTextArea } from './CompositionTextArea';
-import type { MessageForwardDraft } from '../util/maybeForwardMessages';
+import type { MessageForwardDraft } from '../types/ForwardDraft';
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}
 ): AttachmentType => ({
   pending: false,
   path: 'fileName.jpg',
-  contentType: stringToMIMEType(
-    text('attachment contentType', props.contentType || '')
-  ),
-  fileName: text('attachment fileName', props.fileName || ''),
+  contentType: stringToMIMEType(props.contentType ?? ''),
+  fileName: props.fileName ?? '',
   screenshotPath: props.pending === false ? props.screenshotPath : undefined,
-  url: text('attachment url', props.pending === false ? props.url || '' : ''),
+  url: props.pending === false ? props.url ?? '' : '',
   size: 3433,
 });
 
 export default {
   title: 'Components/ForwardMessageModal',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -82,7 +80,7 @@ function getMessageForwardDraft(
     attachments: overrideProps.attachments,
     hasContact: Boolean(overrideProps.hasContact),
     isSticker: Boolean(overrideProps.isSticker),
-    messageBody: text('messageBody', overrideProps.messageBody || ''),
+    messageBody: overrideProps.messageBody ?? '',
     originalMessageId: '123',
     previews: overrideProps.previews ?? [],
   };
@@ -102,10 +100,6 @@ export function WithText(): JSX.Element {
   );
 }
 
-WithText.story = {
-  name: 'with text',
-};
-
 export function ASticker(): JSX.Element {
   return (
     <ForwardMessagesModal
@@ -116,10 +110,6 @@ export function ASticker(): JSX.Element {
   );
 }
 
-ASticker.story = {
-  name: 'a sticker',
-};
-
 export function WithAContact(): JSX.Element {
   return (
     <ForwardMessagesModal
@@ -129,10 +119,6 @@ export function WithAContact(): JSX.Element {
     />
   );
 }
-
-WithAContact.story = {
-  name: 'with a contact',
-};
 
 export function LinkPreview(): JSX.Element {
   return (
@@ -161,10 +147,6 @@ export function LinkPreview(): JSX.Element {
     />
   );
 }
-
-LinkPreview.story = {
-  name: 'link preview',
-};
 
 export function MediaAttachments(): JSX.Element {
   return (
@@ -196,10 +178,6 @@ export function MediaAttachments(): JSX.Element {
   );
 }
 
-MediaAttachments.story = {
-  name: 'media attachments',
-};
-
 export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
   return (
     <ForwardMessagesModal
@@ -213,7 +191,3 @@ export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
     />
   );
 }
-
-AnnouncementOnlyGroupsNonAdmin.story = {
-  name: 'announcement only groups non-admin',
-};

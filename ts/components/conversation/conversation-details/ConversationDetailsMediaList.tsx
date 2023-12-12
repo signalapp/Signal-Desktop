@@ -19,7 +19,7 @@ export type Props = {
   loadRecentMediaItems: (id: string, limit: number) => void;
   showAllMedia: () => void;
   showLightboxWithMedia: (
-    selectedAttachmentPath: string | undefined,
+    selectedIndex: number,
     media: ReadonlyArray<ReadonlyDeep<MediaItemType>>
   ) => void;
 };
@@ -66,9 +66,7 @@ export function ConversationDetailsMediaList({
             key={`${mediaItem.message.id}-${mediaItem.index}`}
             mediaItem={mediaItem}
             i18n={i18n}
-            onClick={() =>
-              showLightboxWithMedia(mediaItem.attachment.path, mediaItems)
-            }
+            onClick={() => showLightboxWithMedia(mediaItem.index, mediaItems)}
           />
         ))}
       </div>

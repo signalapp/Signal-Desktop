@@ -2,49 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { SignalService as Proto } from '../protobuf';
-import { normalizeUuid } from '../util/normalizeUuid';
+import type { ServiceIdString } from '../types/ServiceId';
+import { normalizeServiceId } from '../types/ServiceId';
 import type { ProcessedSent, ProcessedSyncMessage } from './Types.d';
-import type { TaggedUUIDStringType } from '../types/UUID';
 
-type ProtoUUIDTriple = Readonly<{
-  destinationAci?: string | null;
-  destinationPni?: string | null;
+type ProtoServiceId = Readonly<{
+  destinationServiceId?: string | null;
 }>;
 
-function toTaggedUuid({
-  destinationAci,
-  destinationPni,
-}: ProtoUUIDTriple): TaggedUUIDStringType | undefined {
-  if (destinationAci) {
-    return {
-      aci: normalizeUuid(destinationAci, 'syncMessage.sent.destinationAci'),
-      pni: undefined,
-    };
-  }
-  if (destinationPni) {
-    return {
-      aci: undefined,
-      pni: normalizeUuid(destinationPni, 'syncMessage.sent.destinationPni'),
-    };
-  }
-
-  return undefined;
-}
-
-function processProtoWithDestinationUuid<Input extends ProtoUUIDTriple>(
+function processProtoWithDestinationServiceId<Input extends ProtoServiceId>(
   input: Input
-): Omit<Input, keyof ProtoUUIDTriple> & {
-  destinationUuid?: TaggedUUIDStringType;
+): Omit<Input, keyof ProtoServiceId> & {
+  destinationServiceId?: ServiceIdString;
 } {
-  const { destinationAci, destinationPni, ...remaining } = input;
+  const { destinationServiceId, ...remaining } = input;
 
   return {
     ...remaining,
 
-    destinationUuid: toTaggedUuid({
-      destinationAci,
-      destinationPni,
-    }),
+    destinationServiceId: destinationServiceId
+      ? normalizeServiceId(destinationServiceId, 'processSyncMessage')
+      : undefined,
   };
 }
 
@@ -56,8 +34,7 @@ function processSent(
   }
 
   const {
-    destinationAci,
-    destinationPni,
+    destinationServiceId,
     unidentifiedStatus,
     storyMessageRecipients,
     ...remaining
@@ -66,15 +43,14 @@ function processSent(
   return {
     ...remaining,
 
-    destinationUuid: toTaggedUuid({
-      destinationAci,
-      destinationPni,
-    }),
+    destinationServiceId: destinationServiceId
+      ? normalizeServiceId(destinationServiceId, 'processSent')
+      : undefined,
     unidentifiedStatus: unidentifiedStatus
-      ? unidentifiedStatus.map(processProtoWithDestinationUuid)
+      ? unidentifiedStatus.map(processProtoWithDestinationServiceId)
       : undefined,
     storyMessageRecipients: storyMessageRecipients
-      ? storyMessageRecipients.map(processProtoWithDestinationUuid)
+      ? storyMessageRecipients.map(processProtoWithDestinationServiceId)
       : undefined,
   };
 }

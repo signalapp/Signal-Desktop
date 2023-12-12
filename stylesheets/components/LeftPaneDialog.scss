@@ -34,7 +34,7 @@
   letter-spacing: -0.0025em;
   font-weight: 400;
 
-  .module-left-pane--width-narrow & {
+  &--width-narrow {
     padding-inline-start: 36px;
   }
 
@@ -56,10 +56,6 @@
   &__container-close {
     display: flex;
     justify-content: flex-end;
-
-    .module-left-pane--width-narrow & {
-      display: none;
-    }
   }
 
   &__spinner-container {
@@ -169,10 +165,6 @@
 
   &__message {
     width: 100%;
-
-    .module-left-pane--width-narrow & {
-      display: none;
-    }
   }
 
   &__message,
@@ -194,45 +186,65 @@
     }
   }
 
-  &--error {
-    background-color: $error-background-color;
-    color: $error-text-color;
-
-    a {
-      color: $error-text-color;
-    }
-
-    .LeftPaneDialog__action-text {
-      color: $error-text-color;
-    }
+  &__tooltip {
+    --tooltip-background-color: #{$default-background-color};
+    --tooltip-text-color: #{$default-text-color};
+    min-width: 280px;
+    text-align: inherit;
   }
 
-  &--warning {
-    background-color: $warning-background-color;
-    color: $warning-text-color;
+  &,
+  &__tooltip {
+    &--error {
+      background-color: $error-background-color;
+      color: $error-text-color;
 
-    a {
-      color: $color-black;
-    }
+      @include any-theme {
+        --tooltip-background-color: #{$error-background-color};
+        --tooltip-text-color: #{$error-text-color};
+      }
 
-    .LeftPaneDialog__icon {
-      background-color: $color-black;
+      a {
+        color: $error-text-color;
+      }
 
-      @media (forced-colors: active) {
-        background-color: WindowText;
+      .LeftPaneDialog__action-text {
+        color: $error-text-color;
       }
     }
 
-    .LeftPaneDialog__close-button::before {
-      background-color: $color-black;
-
-      @media (forced-colors: active) {
-        background-color: WindowText;
-      }
-    }
-
-    .LeftPaneDialog__action-text {
+    &--warning {
+      background-color: $warning-background-color;
       color: $warning-text-color;
+
+      @include any-theme {
+        --tooltip-background-color: #{$warning-background-color};
+        --tooltip-text-color: #{$warning-text-color};
+      }
+
+      a {
+        color: $warning-text-color;
+      }
+
+      .LeftPaneDialog__icon {
+        background-color: $warning-text-color;
+
+        @media (forced-colors: active) {
+          background-color: WindowText;
+        }
+      }
+
+      .LeftPaneDialog__close-button::before {
+        background-color: $warning-text-color;
+
+        @media (forced-colors: active) {
+          background-color: WindowText;
+        }
+      }
+
+      .LeftPaneDialog__action-text {
+        color: $warning-text-color;
+      }
     }
   }
 
@@ -272,27 +284,6 @@
         transform: translateX(100%);
       }
       transition: transform 500ms ease-out;
-    }
-  }
-
-  &__tooltip {
-    --tooltip-background-color: #{$default-background-color};
-    --tooltip-text-color: #{$default-text-color};
-    min-width: 280px;
-    text-align: inherit;
-
-    &--error {
-      --tooltip-text-color: #{$error-text-color};
-      --tooltip-background-color: #{$error-background-color};
-
-      a {
-        color: #{$error-text-color};
-      }
-    }
-
-    &--warning {
-      --tooltip-text-color: #{$warning-text-color};
-      --tooltip-background-color: #{$warning-background-color};
     }
   }
 }

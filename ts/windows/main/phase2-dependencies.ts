@@ -45,15 +45,19 @@ window.libphonenumberFormat = PhoneNumberFormat;
 window.React = React;
 window.ReactDOM = ReactDOM;
 
-const { resolvedTranslationsLocale, preferredSystemLocales } = config;
-moment.updateLocale(resolvedTranslationsLocale, {
+const { resolvedTranslationsLocale, preferredSystemLocales, localeOverride } =
+  config;
+
+moment.updateLocale(localeOverride ?? resolvedTranslationsLocale, {
   relativeTime: {
     s: window.i18n('icu:timestamp_s'),
     m: window.i18n('icu:timestamp_m'),
     h: window.i18n('icu:timestamp_h'),
   },
 });
-moment.locale(preferredSystemLocales);
+moment.locale(
+  localeOverride != null ? [localeOverride] : preferredSystemLocales
+);
 
 const userDataPath = SignalContext.getPath('userData');
 window.BasePaths = {

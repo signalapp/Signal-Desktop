@@ -3,7 +3,7 @@
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type { SignalService as Proto } from '../protobuf';
-import type { UUID } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import * as log from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
 import { isMemberPending } from './groupMembershipUtils';
@@ -11,11 +11,11 @@ import { isNotNil } from './isNotNil';
 
 export async function removePendingMember(
   conversationAttributes: ConversationAttributesType,
-  uuids: ReadonlyArray<UUID>
+  serviceIds: ReadonlyArray<ServiceIdString>
 ): Promise<Proto.GroupChange.Actions | undefined> {
   const idLog = getConversationIdForLogging(conversationAttributes);
 
-  const pendingUuids = uuids
+  const pendingServiceIds = serviceIds
     .map(uuid => {
       // This user's pending state may have changed in the time between the user's
       //   button press and when we get here. It's especially important to check here
@@ -31,12 +31,12 @@ export async function removePendingMember(
     })
     .filter(isNotNil);
 
-  if (!uuids.length) {
+  if (!pendingServiceIds.length) {
     return undefined;
   }
 
   return window.Signal.Groups.buildDeletePendingMemberChange({
     group: conversationAttributes,
-    uuids: pendingUuids,
+    serviceIds: pendingServiceIds,
   });
 }

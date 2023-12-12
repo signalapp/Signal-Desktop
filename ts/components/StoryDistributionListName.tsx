@@ -5,11 +5,12 @@ import React from 'react';
 
 import type { LocalizerType } from '../types/Util';
 import { getStoryDistributionListName } from '../types/Stories';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import { UserText } from './UserText';
 
 type PropsType = {
   i18n: LocalizerType;
-  id: string;
+  id: StoryDistributionIdString | string;
   name: string;
 };
 

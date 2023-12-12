@@ -11,10 +11,10 @@ let activeJobCount = 0;
 let resolveShutdown: (() => void) | undefined;
 let shutdownPromise: Promise<void> | null = null;
 
-export async function ipcInvoke(
+export async function ipcInvoke<T>(
   name: string,
   args: ReadonlyArray<unknown>
-): Promise<void> {
+): Promise<T> {
   const fnName = String(name);
 
   if (shutdownPromise && name !== 'close') {

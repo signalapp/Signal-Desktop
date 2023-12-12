@@ -81,6 +81,6 @@
   }
   &:dir(rtl) {
     // stylelint-disable-next-line declaration-property-value-disallowed-list
-    transform: translate(50%, 0px)
+    transform: translate(50%, 0px);
   }
 }

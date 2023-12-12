@@ -3,9 +3,8 @@
 
 import * as React from 'react';
 import { isBoolean } from 'lodash';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { Props } from './ConversationDetailsActions';
@@ -16,7 +15,7 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title:
     'Components/Conversation/ConversationDetails/ConversationDetailsActions',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptConversation: action('acceptConversation'),
@@ -47,10 +46,6 @@ export function LeftTheGroup(): JSX.Element {
   return <ConversationDetailsActions {...props} />;
 }
 
-LeftTheGroup.story = {
-  name: 'Left the group',
-};
-
 export function BlockedAndLeftTheGroup(): JSX.Element {
   const props = createProps({
     left: true,
@@ -61,32 +56,16 @@ export function BlockedAndLeftTheGroup(): JSX.Element {
   return <ConversationDetailsActions {...props} />;
 }
 
-BlockedAndLeftTheGroup.story = {
-  name: 'Blocked and left the group',
-};
-
 export function CannotLeaveBecauseYouAreTheLastAdmin(): JSX.Element {
   const props = createProps({ cannotLeaveBecauseYouAreLastAdmin: true });
 
   return <ConversationDetailsActions {...props} />;
 }
 
-CannotLeaveBecauseYouAreTheLastAdmin.story = {
-  name: 'Cannot leave because you are the last admin',
-};
-
 export const _11 = (): JSX.Element => (
   <ConversationDetailsActions {...createProps()} isGroup={false} />
 );
 
-_11.story = {
-  name: '1:1',
-};
-
 export const _11Blocked = (): JSX.Element => (
   <ConversationDetailsActions {...createProps()} isGroup={false} isBlocked />
 );
-
-_11Blocked.story = {
-  name: '1:1 Blocked',
-};

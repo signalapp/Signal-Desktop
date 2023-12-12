@@ -100,15 +100,6 @@ import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import OS from '../ts/util/os/osMain';
 import { isProduction } from '../ts/util/version';
-import {
-  isSgnlHref,
-  isCaptchaHref,
-  isSignalHttpsLink,
-  parseSgnlHref,
-  parseCaptchaHref,
-  parseSignalHttpsLink,
-  rewriteSignalHrefsIfNecessary,
-} from '../ts/util/sgnlHref';
 import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary';
 import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
 import { ChallengeMainHandler } from '../ts/main/challengeMain';
@@ -123,6 +114,9 @@ import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
 import { HourCyclePreference } from '../ts/types/I18N';
+import { DBVersionFromFutureError } from '../ts/sql/migrations';
+import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
+import { parseSignalRoute } from '../ts/util/signalRoutes';
 
 const STICKER_CREATOR_PARTITION = 'sticker-creator';
 
@@ -149,6 +143,7 @@ const consoleLogger = createBufferedConsoleLogger();
 // These will be set after app fires the 'ready' event
 let logger: LoggerType | undefined;
 let preferredSystemLocales: Array<string> | undefined;
+let localeOverride: string | null | undefined;
 let resolvedTranslationsLocale: LocaleType | undefined;
 let settingsChannel: SettingsChannel | undefined;
 
@@ -194,7 +189,11 @@ const defaultWebPrefs = {
     getEnvironment() !== Environment.Production ||
     !isProduction(app.getVersion()),
   spellcheck: false,
-  enableBlinkFeatures: 'CSSPseudoDir,CSSLogical',
+  // https://chromium.googlesource.com/chromium/src/+/main/third_party/blink/renderer/platform/runtime_enabled_features.json5
+  enableBlinkFeatures: [
+    'CSSPseudoDir', // status=experimental, needed for RTL (ex: :dir(rtl))
+    'CSSLogical', // status=experimental, needed for RTL (ex: margin-inline-start)
+  ].join(','),
 };
 
 const DISABLE_GPU =
@@ -265,18 +264,10 @@ if (!process.mas) {
         return;
       }
 
-      const incomingCaptchaHref = getIncomingCaptchaHref(argv);
-      if (incomingCaptchaHref) {
-        const { captcha } = parseCaptchaHref(incomingCaptchaHref, getLogger());
-        challengeHandler.handleCaptcha(captcha);
-        return true;
+      const route = maybeGetIncomingSignalRoute(argv);
+      if (route != null) {
+        handleSignalRoute(route);
       }
-      // Are they trying to open a sgnl:// href?
-      const incomingHref = getIncomingHref(argv);
-      if (incomingHref) {
-        handleSgnlHref(incomingHref);
-      }
-      // Handled
       return true;
     });
   }
@@ -315,30 +306,32 @@ type GetThemeSettingOptionsType = Readonly<{
 async function getThemeSetting({
   ephemeralOnly = false,
 }: GetThemeSettingOptionsType = {}): Promise<ThemeSettingType> {
+  let result: unknown;
+
   const fastValue = ephemeralConfig.get('theme-setting');
   if (fastValue !== undefined) {
     getLogger().info('got fast theme-setting value', fastValue);
-    return fastValue as ThemeSettingType;
-  }
-
-  if (ephemeralOnly) {
+    result = fastValue;
+  } else if (ephemeralOnly) {
     return 'system';
-  }
+  } else {
+    const json = await sql.sqlCall('getItemById', 'theme-setting');
 
-  const json = await sql.sqlCall('getItemById', 'theme-setting');
+    result = json?.value;
+  }
 
   // Default to `system` if setting doesn't exist or is invalid
-  const setting: unknown = json?.value;
-  const slowValue =
-    setting === 'light' || setting === 'dark' || setting === 'system'
-      ? setting
+  const validatedResult =
+    result === 'light' || result === 'dark' || result === 'system'
+      ? result
       : 'system';
 
-  ephemeralConfig.set('theme-setting', slowValue);
+  if (fastValue !== validatedResult) {
+    ephemeralConfig.set('theme-setting', validatedResult);
+    getLogger().info('got slow theme-setting value', result);
+  }
 
-  getLogger().info('got slow theme-setting value', slowValue);
-
-  return slowValue;
+  return validatedResult;
 }
 
 async function getResolvedThemeSetting(
@@ -365,6 +358,26 @@ async function getBackgroundColor(
   }
 
   throw missingCaseError(theme);
+}
+
+async function getLocaleOverrideSetting(): Promise<string | null> {
+  const fastValue = ephemeralConfig.get('localeOverride');
+  // eslint-disable-next-line eqeqeq -- Checking for null explicitly
+  if (typeof fastValue === 'string' || fastValue === null) {
+    getLogger().info('got fast localeOverride setting', fastValue);
+    return fastValue;
+  }
+
+  const json = await sql.sqlCall('getItemById', 'localeOverride');
+
+  // Default to `null` if setting doesn't exist yet
+  const slowValue = typeof json?.value === 'string' ? json.value : null;
+
+  ephemeralConfig.set('localeOverride', slowValue);
+
+  getLogger().info('got slow localeOverride setting', slowValue);
+
+  return slowValue;
 }
 
 let systemTrayService: SystemTrayService | undefined;
@@ -419,6 +432,13 @@ function getPreferredSystemLocales(): Array<string> {
   return preferredSystemLocales;
 }
 
+function getLocaleOverride(): string | null {
+  if (typeof localeOverride === 'undefined') {
+    throw new Error('getLocaleOverride: Locale not yet initialized!');
+  }
+  return localeOverride;
+}
+
 function getResolvedMessagesLocale(): LocaleType {
   if (!resolvedTranslationsLocale) {
     throw new Error('getResolvedMessagesLocale: Locale not yet initialized!');
@@ -468,23 +488,21 @@ async function handleUrl(rawTarget: string) {
     return;
   }
 
-  const target = rewriteSignalHrefsIfNecessary(rawTarget);
+  const signalRoute = parseSignalRoute(rawTarget);
+
+  // We only want to specially handle urls that aren't requesting the dev server
+  if (signalRoute != null) {
+    handleSignalRoute(signalRoute);
+    return;
+  }
 
   const { protocol, hostname } = parsedUrl;
   const isDevServer =
     process.env.SIGNAL_ENABLE_HTTP && hostname === 'localhost';
-  // We only want to specially handle urls that aren't requesting the dev server
-  if (
-    isSgnlHref(target, getLogger()) ||
-    isSignalHttpsLink(target, getLogger())
-  ) {
-    handleSgnlHref(target);
-    return;
-  }
 
   if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
-      await shell.openExternal(target);
+      await shell.openExternal(rawTarget);
     } catch (error) {
       getLogger().error(`Failed to open url: ${Errors.toLogFormat(error)}`);
     }
@@ -525,7 +543,7 @@ function handleCommonWindowEvents(
   const focusInterval = setInterval(setWindowFocus, 10000);
   window.on('closed', () => clearInterval(focusInterval));
 
-  // Works only for mainWindow because it has `enablePreferredSizeMode`
+  // Works only for mainWindow and settings because they have `enablePreferredSizeMode`
   let lastZoomFactor = window.webContents.getZoomFactor();
   const onZoomChanged = () => {
     if (
@@ -541,15 +559,38 @@ function handleCommonWindowEvents(
       return;
     }
 
-    drop(
-      settingsChannel?.invokeCallbackInMainWindow('persistZoomFactor', [
-        zoomFactor,
-      ])
-    );
-
     lastZoomFactor = zoomFactor;
+    if (!mainWindow) {
+      return;
+    }
+
+    if (window === mainWindow) {
+      drop(
+        settingsChannel?.invokeCallbackInMainWindow('persistZoomFactor', [
+          zoomFactor,
+        ])
+      );
+    } else {
+      mainWindow.webContents.setZoomFactor(zoomFactor);
+    }
   };
-  window.webContents.on('preferred-size-changed', onZoomChanged);
+  window.on('show', () => {
+    // Install handler here after we init zoomFactor otherwise an initial
+    // preferred-size-changed event emits with an undesired zoomFactor.
+    window.webContents.on('preferred-size-changed', onZoomChanged);
+  });
+
+  // Workaround to apply zoomFactor because webPreferences does not handle it
+  // https://github.com/electron/electron/issues/10572
+  // But main window emits ready-to-show before window.Events is available
+  // so set main window zoom in background.ts
+  if (window !== mainWindow) {
+    window.once('ready-to-show', async () => {
+      const zoomFactor =
+        (await settingsChannel?.getSettingFromMainWindow('zoomFactor')) ?? 1;
+      window.webContents.setZoomFactor(zoomFactor);
+    });
+  }
 
   nativeThemeNotifier.addWindow(window);
 
@@ -751,8 +792,9 @@ async function createWindow() {
   }
 
   const startInTray =
+    isTestEnvironment(getEnvironment()) ||
     (await systemTraySettingCache.get()) ===
-    SystemTraySetting.MinimizeToAndStartInSystemTray;
+      SystemTraySetting.MinimizeToAndStartInSystemTray;
 
   const visibleOnAnyScreen = some(screen.getAllDisplays(), display => {
     if (
@@ -790,7 +832,9 @@ async function createWindow() {
   setupSpellChecker(
     mainWindow,
     getPreferredSystemLocales(),
-    getResolvedMessagesLocale().i18n
+    getLocaleOverride(),
+    getResolvedMessagesLocale().i18n,
+    getLogger()
   );
   if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
@@ -946,6 +990,7 @@ async function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+    getLogger().info('main window closed event');
     mainWindow = undefined;
     if (settingsChannel) {
       settingsChannel.setMainWindow(mainWindow);
@@ -956,11 +1001,13 @@ async function createWindow() {
   });
 
   mainWindow.on('enter-full-screen', () => {
+    getLogger().info('mainWindow enter-full-screen event');
     if (mainWindow) {
       mainWindow.webContents.send('full-screen-change', true);
     }
   });
   mainWindow.on('leave-full-screen', () => {
+    getLogger().info('mainWindow leave-full-screen event');
     if (mainWindow) {
       mainWindow.webContents.send('full-screen-change', false);
     }
@@ -975,6 +1022,8 @@ async function createWindow() {
     if (!mainWindow) {
       return;
     }
+
+    mainWindow.webContents.send('ci:event', 'db-initialized', {});
 
     const shouldShowWindow =
       !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
@@ -1093,9 +1142,9 @@ async function readyForUpdates() {
   isReadyForUpdates = true;
 
   // First, install requested sticker pack
-  const incomingHref = getIncomingHref(process.argv);
+  const incomingHref = maybeGetIncomingSignalRoute(process.argv);
   if (incomingHref) {
-    handleSgnlHref(incomingHref);
+    handleSignalRoute(incomingHref);
   }
 
   // Second, start checking for app updates
@@ -1315,6 +1364,7 @@ async function showSettingsWindow() {
       contextIsolation: true,
       preload: join(__dirname, '../bundles/settings/preload.js'),
       nativeWindowOpen: true,
+      enablePreferredSizeMode: true,
     },
   };
 
@@ -1371,13 +1421,28 @@ async function openArtCreator() {
 let debugLogWindow: BrowserWindow | undefined;
 async function showDebugLogWindow() {
   if (debugLogWindow) {
-    debugLogWindow.show();
+    doShowDebugLogWindow();
     return;
+  }
+
+  function doShowDebugLogWindow() {
+    if (debugLogWindow) {
+      // Electron has [a macOS bug][0] that causes parent windows to become unresponsive
+      //   if it's fullscreen and opens a fullscreen child window. Until that's fixed, we
+      //   only set the parent on MacOS is if the mainWindow is not fullscreen
+      // [0]: https://github.com/electron/electron/issues/32374
+      if (OS.isMacOS() && mainWindow?.isFullScreen()) {
+        debugLogWindow.setParentWindow(null);
+      } else {
+        debugLogWindow.setParentWindow(mainWindow ?? null);
+      }
+      debugLogWindow.show();
+    }
   }
 
   const titleBarOverlay = await getTitleBarOverlay();
 
-  const options = {
+  const options: Electron.BrowserWindowConstructorOptions = {
     width: 700,
     height: 500,
     resizable: false,
@@ -1394,14 +1459,8 @@ async function showDebugLogWindow() {
       sandbox: true,
       contextIsolation: true,
       preload: join(__dirname, '../bundles/debuglog/preload.js'),
-      nativeWindowOpen: true,
     },
     parent: mainWindow,
-    // Electron has [a macOS bug][0] that causes parent windows to become unresponsive if
-    //   it's fullscreen and opens a fullscreen child window. Until that's fixed, we
-    //   prevent the child window from being fullscreenable, which sidesteps the problem.
-    // [0]: https://github.com/electron/electron/issues/32374
-    fullscreenable: !OS.isMacOS(),
   };
 
   debugLogWindow = new BrowserWindow(options);
@@ -1414,7 +1473,7 @@ async function showDebugLogWindow() {
 
   debugLogWindow.once('ready-to-show', () => {
     if (debugLogWindow) {
-      debugLogWindow.show();
+      doShowDebugLogWindow();
 
       // Electron sometimes puts the window in a strange spot until it's shown.
       debugLogWindow.center();
@@ -1548,6 +1607,7 @@ async function initializeSQL(
     // `sql.sqlCall` will throw an uninitialized error instead of waiting for
     // init to finish.
     await sql.initialize({
+      appVersion: app.getVersion(),
       configDir: userDataPath,
       key,
       logger: getLogger(),
@@ -1581,28 +1641,72 @@ const onDatabaseError = async (error: string) => {
   }
   mainWindow = undefined;
 
+  const { i18n } = getResolvedMessagesLocale();
+
+  let deleteAllDataButtonIndex: number | undefined;
+  let messageDetail: string;
+
+  const buttons = [i18n('icu:copyErrorAndQuit')];
+  const copyErrorAndQuitButtonIndex = 0;
+  const SIGNAL_SUPPORT_LINK = 'https://support.signal.org/error';
+
+  if (error.includes(DBVersionFromFutureError.name)) {
+    // If the DB version is too new, the user likely opened an older version of Signal,
+    // and they would almost never want to delete their data as a result, so we don't show
+    // that option
+    messageDetail = i18n('icu:databaseError__startOldVersion');
+  } else {
+    // Otherwise, this is some other kind of DB error, let's give them the option to
+    // delete.
+    messageDetail = i18n('icu:databaseError__detail', {
+      link: SIGNAL_SUPPORT_LINK,
+    });
+
+    buttons.push(i18n('icu:deleteAndRestart'));
+    deleteAllDataButtonIndex = 1;
+  }
+
   const buttonIndex = dialog.showMessageBoxSync({
-    buttons: [
-      getResolvedMessagesLocale().i18n('icu:deleteAndRestart'),
-      getResolvedMessagesLocale().i18n('icu:copyErrorAndQuit'),
-    ],
-    defaultId: 1,
-    cancelId: 1,
-    detail: redactAll(error),
-    message: getResolvedMessagesLocale().i18n('icu:databaseError'),
+    buttons,
+    defaultId: copyErrorAndQuitButtonIndex,
+    cancelId: copyErrorAndQuitButtonIndex,
+    message: i18n('icu:databaseError'),
+    detail: messageDetail,
     noLink: true,
     type: 'error',
   });
 
-  if (buttonIndex === 1) {
+  if (buttonIndex === copyErrorAndQuitButtonIndex) {
     clipboard.writeText(`Database startup error:\n\n${redactAll(error)}`);
-  } else {
-    await sql.removeDB();
-    userConfig.remove();
-    getLogger().error(
-      'onDatabaseError: Requesting immediate restart after quit'
-    );
-    app.relaunch();
+  } else if (
+    typeof deleteAllDataButtonIndex === 'number' &&
+    buttonIndex === deleteAllDataButtonIndex
+  ) {
+    const confirmationButtons = [
+      i18n('icu:cancel'),
+      i18n('icu:deleteAndRestart'),
+    ];
+    const cancelButtonIndex = 0;
+    const confirmDeleteAllDataButtonIndex = 1;
+    const confirmationButtonIndex = dialog.showMessageBoxSync({
+      buttons: confirmationButtons,
+      defaultId: cancelButtonIndex,
+      cancelId: cancelButtonIndex,
+      message: i18n('icu:databaseError__deleteDataConfirmation'),
+      detail: i18n('icu:databaseError__deleteDataConfirmation__detail'),
+      noLink: true,
+      type: 'warning',
+    });
+
+    if (confirmationButtonIndex === confirmDeleteAllDataButtonIndex) {
+      getLogger().error('onDatabaseError: Deleting all data');
+      await sql.removeDB();
+      userConfig.remove();
+      getLogger().error(
+        'onDatabaseError: Requesting immediate restart after quit'
+      );
+      app.relaunch();
+    }
   }
 
   getLogger().error('onDatabaseError: Quitting application');
@@ -1713,10 +1817,14 @@ app.on('ready', async () => {
   // Write buffered information into newly created logger.
   consoleLogger.writeBufferInto(logger);
 
+  sqlInitPromise = initializeSQL(userDataPath);
+
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(
       loadPreferredSystemLocales()
     );
+
+    localeOverride = await getLocaleOverrideSetting();
 
     const hourCyclePreference = getHourCyclePreference();
     logger.info(`app.ready: hour cycle preference: ${hourCyclePreference}`);
@@ -1728,12 +1836,11 @@ app.on('ready', async () => {
     );
     resolvedTranslationsLocale = loadLocale({
       preferredSystemLocales,
+      localeOverride,
       hourCyclePreference,
       logger: getLogger(),
     });
   }
-
-  sqlInitPromise = initializeSQL(userDataPath);
 
   // First run: configure Signal to minimize to tray. Additionally, on Windows
   // enable auto-start with start-in-tray so that starting from a Desktop icon
@@ -2055,14 +2162,40 @@ async function requestShutdown() {
   }
 }
 
-app.on('before-quit', () => {
+function getWindowDebugInfo() {
+  const windows = BrowserWindow.getAllWindows();
+
+  return {
+    windowCount: windows.length,
+    mainWindowExists: windows.some(win => win === mainWindow),
+    mainWindowIsFullScreen: mainWindow?.isFullScreen(),
+  };
+}
+
+app.on('before-quit', e => {
   getLogger().info('before-quit event', {
     readyForShutdown: windowState.readyForShutdown(),
     shouldQuit: windowState.shouldQuit(),
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
   });
 
   systemTrayService?.markShouldQuit();
   windowState.markShouldQuit();
+});
+
+app.on('will-quit', e => {
+  getLogger().info('will-quit event', {
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
+  });
+});
+
+app.on('quit', e => {
+  getLogger().info('quit event', {
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
+  });
 });
 
 // Quit when all windows are closed.
@@ -2113,24 +2246,29 @@ app.on('will-finish-launching', () => {
   // https://stackoverflow.com/a/43949291
   app.on('open-url', (event, incomingHref) => {
     event.preventDefault();
-
-    if (isCaptchaHref(incomingHref, getLogger())) {
-      const { captcha } = parseCaptchaHref(incomingHref, getLogger());
-      challengeHandler.handleCaptcha(captcha);
-
-      // Show window after handling captcha
-      showWindow();
-
-      return;
+    const route = parseSignalRoute(incomingHref);
+    if (route != null) {
+      handleSignalRoute(route);
     }
-
-    handleSgnlHref(incomingHref);
   });
 });
 
-ipc.on('set-badge-count', (_event: Electron.Event, count: number) => {
-  app.badgeCount = count;
-});
+ipc.on(
+  'set-badge',
+  (_event: Electron.Event, badge: number | 'marked-unread') => {
+    if (badge === 'marked-unread') {
+      if (process.platform === 'darwin') {
+        // Will show a ● on macOS when undefined
+        app.setBadgeCount(undefined);
+      } else {
+        // All other OS's need a number
+        app.setBadgeCount(1);
+      }
+    } else {
+      app.setBadgeCount(badge);
+    }
+  }
+);
 
 ipc.on('remove-setup-menu-items', () => {
   setupMenu();
@@ -2298,10 +2436,12 @@ ipc.on('get-config', async event => {
 
   const parsed = rendererConfigSchema.safeParse({
     name: packageJson.productName,
+    availableLocales: getResolvedMessagesLocale().availableLocales,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
     hourCyclePreference: getResolvedMessagesLocale().hourCyclePreference,
     preferredSystemLocales: getPreferredSystemLocales(),
+    localeOverride: getLocaleOverride(),
     version: app.getVersion(),
     buildCreation: config.get<number>('buildCreation'),
     buildExpiration: config.get<number>('buildExpiration'),
@@ -2369,6 +2509,12 @@ ipc.on('locale-data', event => {
   event.returnValue = getResolvedMessagesLocale().messages;
 });
 
+// Ingested in preload.js via a sendSync call
+ipc.on('locale-display-names', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = getResolvedMessagesLocale().localeDisplayNames;
+});
+
 // TODO DESKTOP-5241
 ipc.on('OS.getHasCustomTitleBar', event => {
   // eslint-disable-next-line no-param-reassign
@@ -2389,7 +2535,8 @@ ipc.handle(
       process.versions.node,
       app.getVersion(),
       os.version(),
-      userAgent
+      userAgent,
+      OS.getLinuxName()
     );
   }
 );
@@ -2421,78 +2568,71 @@ ipc.on('preferences-changed', () => {
   }
 });
 
-function getIncomingHref(argv: Array<string>) {
-  return argv.find(arg => isSgnlHref(arg, getLogger()));
+function maybeGetIncomingSignalRoute(argv: Array<string>) {
+  for (const arg of argv) {
+    const route = parseSignalRoute(arg);
+    if (route != null) {
+      return route;
+    }
+  }
+  return null;
 }
 
-function getIncomingCaptchaHref(argv: Array<string>) {
-  return argv.find(arg => isCaptchaHref(arg, getLogger()));
-}
+function handleSignalRoute(route: ParsedSignalRoute) {
+  const log = getLogger();
 
-function handleSgnlHref(incomingHref: string) {
-  let command;
-  let args;
-  let hash;
-
-  if (isSgnlHref(incomingHref, getLogger())) {
-    ({ command, args, hash } = parseSgnlHref(incomingHref, getLogger()));
-  } else if (isSignalHttpsLink(incomingHref, getLogger())) {
-    ({ command, args, hash } = parseSignalHttpsLink(incomingHref, getLogger()));
+  if (mainWindow == null || !mainWindow.webContents) {
+    log.error('handleSignalRoute: mainWindow is null or missing webContents');
+    return;
   }
 
-  if (mainWindow && mainWindow.webContents) {
-    if (command === 'addstickers') {
-      getLogger().info('Opening sticker pack from sgnl protocol link');
-      const packId = args?.get('pack_id');
-      const packKeyHex = args?.get('pack_key');
-      const packKey = packKeyHex
-        ? Buffer.from(packKeyHex, 'hex').toString('base64')
-        : '';
-      mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
-    } else if (command === 'art-auth') {
-      const token = args?.get('token');
-      const pubKeyBase64 = args?.get('pub_key');
+  log.info('handleSignalRoute: Matched signal route:', route.key);
 
-      mainWindow.webContents.send('authorize-art-creator', {
-        token,
-        pubKeyBase64,
-      });
-    } else if (command === 'signal.group' && hash) {
-      getLogger().info('Showing group from sgnl protocol link');
-      mainWindow.webContents.send('show-group-via-link', { hash });
-    } else if (command === 'signal.me' && hash) {
-      getLogger().info('Showing conversation from sgnl protocol link');
-      mainWindow.webContents.send('show-conversation-via-signal.me', { hash });
-    } else if (
-      command === 'show-conversation' &&
-      args &&
-      args.get('conversationId')
-    ) {
-      getLogger().info('Showing conversation from notification');
-      mainWindow.webContents.send('show-conversation-via-notification', {
-        conversationId: args.get('conversationId'),
-        messageId: args.get('messageId'),
-        storyId: args.get('storyId'),
-      });
-    } else if (
-      command === 'start-call-lobby' &&
-      args &&
-      args.get('conversationId')
-    ) {
-      getLogger().info('Starting call lobby from notification');
-      mainWindow.webContents.send('start-call-lobby', {
-        conversationId: args.get('conversationId'),
-      });
-    } else if (command === 'show-window') {
-      mainWindow.webContents.send('show-window');
-    } else if (command === 'set-is-presenting') {
-      mainWindow.webContents.send('set-is-presenting');
-    } else {
-      getLogger().info('Showing warning that we cannot process link');
-      mainWindow.webContents.send('unknown-sgnl-link');
-    }
+  if (route.key === 'artAddStickers') {
+    mainWindow.webContents.send('show-sticker-pack', {
+      packId: route.args.packId,
+      packKey: Buffer.from(route.args.packKey, 'hex').toString('base64'),
+    });
+  } else if (route.key === 'artAuth') {
+    mainWindow.webContents.send('authorize-art-creator', {
+      token: route.args.token,
+      pubKeyBase64: route.args.pubKey,
+    });
+  } else if (route.key === 'groupInvites') {
+    mainWindow.webContents.send('show-group-via-link', {
+      value: route.args.inviteCode,
+    });
+  } else if (route.key === 'contactByPhoneNumber') {
+    mainWindow.webContents.send('show-conversation-via-signal.me', {
+      kind: 'phoneNumber',
+      value: route.args.phoneNumber,
+    });
+  } else if (route.key === 'contactByEncryptedUsername') {
+    mainWindow.webContents.send('show-conversation-via-signal.me', {
+      kind: 'encryptedUsername',
+      value: route.args.encryptedUsername,
+    });
+  } else if (route.key === 'showConversation') {
+    mainWindow.webContents.send('show-conversation-via-notification', {
+      conversationId: route.args.conversationId,
+      messageId: route.args.messageId,
+      storyId: route.args.storyId,
+    });
+  } else if (route.key === 'startCallLobby') {
+    mainWindow.webContents.send('start-call-lobby', {
+      conversationId: route.args.conversationId,
+    });
+  } else if (route.key === 'showWindow') {
+    mainWindow.webContents.send('show-window');
+  } else if (route.key === 'setIsPresenting') {
+    mainWindow.webContents.send('set-is-presenting');
+  } else if (route.key === 'captcha') {
+    challengeHandler.handleCaptcha(route.args.captchaId);
+    // Show window after handling captcha
+    showWindow();
   } else {
-    getLogger().error('Unhandled sgnl link');
+    log.info('handleSignalRoute: Unknown signal route:', route.key);
+    mainWindow.webContents.send('unknown-sgnl-link');
   }
 }
 
@@ -2553,6 +2693,15 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
   getLogger().info(`Finish ensuring permissions in ${Date.now() - start}ms`);
 }
 
+ipc.handle('get-media-access-status', async (_event, value) => {
+  // This function is not supported on Linux
+  if (!systemPreferences.getMediaAccessStatus) {
+    return undefined;
+  }
+
+  return systemPreferences.getMediaAccessStatus(value);
+});
+
 ipc.handle('get-auto-launch', async () => {
   return app.getLoginItemSettings(await getDefaultLoginItemSettings())
     .openAtLogin;
@@ -2601,13 +2750,16 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   return { canceled: false, filePath: finalFilePath };
 });
 
-ipc.handle('getScreenCaptureSources', async () => {
-  return desktopCapturer.getSources({
-    fetchWindowIcons: true,
-    thumbnailSize: { height: 102, width: 184 },
-    types: ['window', 'screen'],
-  });
-});
+ipc.handle(
+  'getScreenCaptureSources',
+  async (_event, types: Array<'screen' | 'window'> = ['screen', 'window']) => {
+    return desktopCapturer.getSources({
+      fetchWindowIcons: true,
+      thumbnailSize: { height: 102, width: 184 },
+      types,
+    });
+  }
+);
 
 ipc.handle('executeMenuRole', async ({ sender }, untypedRole) => {
   const role = untypedRole as MenuItemConstructorOptions['role'];
@@ -2788,6 +2940,10 @@ async function showStickerCreatorWindow() {
 }
 
 if (isTestEnvironment(getEnvironment())) {
+  ipc.handle('ci:test-electron:debug', async (_event, info) => {
+    process.stdout.write(`ci:test-electron:debug=${JSON.stringify(info)}\n`);
+  });
+
   ipc.handle('ci:test-electron:done', async (_event, info) => {
     if (!process.env.TEST_QUIT_ON_COMPLETE) {
       return;

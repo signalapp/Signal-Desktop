@@ -9,7 +9,7 @@ import { getEnvironment, Environment } from '../environment';
 const AUTODETECT_TYPE_NUMBER = 0;
 const ERROR_CORRECTION_LEVEL = 'L';
 
-type PropsType = Readonly<{
+export type PropsType = Readonly<{
   alt: string;
   className?: string;
   data: string | Uint8Array;

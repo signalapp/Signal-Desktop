@@ -18,14 +18,17 @@ import {
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 import * as log from '../../logging/log';
-import { assertDev } from '../../util/assert';
+import {
+  CallDirection,
+  CallType,
+  DirectCallStatus,
+  GroupCallStatus,
+} from '../../types/CallDisposition';
 
 export type PropsActionsType = {
+  onOutgoingAudioCallInConversation: (conversationId: string) => void;
+  onOutgoingVideoCallInConversation: (conversationId: string) => void;
   returnToActiveCall: () => void;
-  startCallingLobby: (_: {
-    conversationId: string;
-    isVideoCall: boolean;
-  }) => void;
 };
 
 type PropsHousekeeping = {
@@ -34,35 +37,18 @@ type PropsHousekeeping = {
   isNextItemCallingNotification: boolean;
 };
 
-type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
+export type PropsType = CallingNotificationType &
+  PropsActionsType &
+  PropsHousekeeping;
 
 export const CallingNotification: React.FC<PropsType> = React.memo(
   function CallingNotificationInner(props) {
     const { i18n } = props;
-
-    let timestamp: number;
-    let wasMissed = false;
-    switch (props.callMode) {
-      case CallMode.Direct: {
-        const resolvedTime = props.acceptedTime ?? props.endedTime;
-        assertDev(resolvedTime, 'Direct call must have accepted or ended time');
-        timestamp = resolvedTime;
-        wasMissed =
-          props.wasIncoming && !props.acceptedTime && !props.wasDeclined;
-        break;
-      }
-      case CallMode.Group:
-        timestamp = props.startedTime;
-        break;
-      default:
-        log.error(
-          `CallingNotification missing case: ${missingCaseError(props)}`
-        );
-        return null;
+    if (props.callHistory == null) {
+      return null;
     }
-
-    const icon = getCallingIcon(props);
-
+    const { type, direction, status, timestamp } = props.callHistory;
+    const icon = getCallingIcon(type, direction, status);
     return (
       <SystemMessage
         button={renderCallingNotificationButton(props)}
@@ -80,7 +66,12 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
           </>
         }
         icon={icon}
-        kind={wasMissed ? SystemMessageKind.Danger : SystemMessageKind.Normal}
+        kind={
+          status === DirectCallStatus.Missed ||
+          status === GroupCallStatus.Missed
+            ? SystemMessageKind.Danger
+            : SystemMessageKind.Normal
+        }
       />
     );
   }
@@ -90,12 +81,12 @@ function renderCallingNotificationButton(
   props: Readonly<PropsType>
 ): ReactNode {
   const {
-    activeCallConversationId,
     conversationId,
     i18n,
     isNextItemCallingNotification,
+    onOutgoingAudioCallInConversation,
+    onOutgoingVideoCallInConversation,
     returnToActiveCall,
-    startCallingLobby,
   } = props;
 
   if (isNextItemCallingNotification) {
@@ -106,29 +97,40 @@ function renderCallingNotificationButton(
   let disabledTooltipText: undefined | string;
   let onClick: () => void;
 
-  switch (props.callMode) {
+  if (props.callHistory == null) {
+    return null;
+  }
+
+  switch (props.callHistory.mode) {
     case CallMode.Direct: {
-      const { wasIncoming, wasVideoCall } = props;
-      buttonText = wasIncoming
-        ? i18n('icu:calling__call-back')
-        : i18n('icu:calling__call-again');
-      if (activeCallConversationId) {
+      const { direction, type } = props.callHistory;
+      if (props.callHistory.status === DirectCallStatus.Pending) {
+        return null;
+      }
+      buttonText =
+        direction === CallDirection.Incoming
+          ? i18n('icu:calling__call-back')
+          : i18n('icu:calling__call-again');
+      if (props.activeConversationId != null) {
         disabledTooltipText = i18n('icu:calling__in-another-call-tooltip');
         onClick = noop;
       } else {
         onClick = () => {
-          startCallingLobby({ conversationId, isVideoCall: wasVideoCall });
+          if (type === CallType.Video) {
+            onOutgoingVideoCallInConversation(conversationId);
+          } else {
+            onOutgoingAudioCallInConversation(conversationId);
+          }
         };
       }
       break;
     }
     case CallMode.Group: {
-      if (props.ended) {
+      if (props.groupCallEnded) {
         return null;
       }
-      const { deviceCount, maxDevices } = props;
-      if (activeCallConversationId) {
-        if (activeCallConversationId === conversationId) {
+      if (props.activeConversationId != null) {
+        if (props.activeConversationId === conversationId) {
           buttonText = i18n('icu:calling__return');
           onClick = returnToActiveCall;
         } else {
@@ -136,25 +138,25 @@ function renderCallingNotificationButton(
           disabledTooltipText = i18n('icu:calling__in-another-call-tooltip');
           onClick = noop;
         }
-      } else if (deviceCount >= maxDevices) {
+      } else if (props.deviceCount > props.maxDevices) {
         buttonText = i18n('icu:calling__call-is-full');
         disabledTooltipText = i18n(
           'icu:calling__call-notification__button__call-full-tooltip',
           {
-            max: deviceCount,
+            max: props.maxDevices,
           }
         );
         onClick = noop;
       } else {
         buttonText = i18n('icu:calling__join');
         onClick = () => {
-          startCallingLobby({ conversationId, isVideoCall: true });
+          onOutgoingVideoCallInConversation(conversationId);
         };
       }
       break;
     }
     default:
-      log.error(missingCaseError(props));
+      log.error(missingCaseError(props.callHistory.mode));
       return null;
   }
 

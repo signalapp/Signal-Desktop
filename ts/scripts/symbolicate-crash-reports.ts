@@ -108,7 +108,17 @@ async function symbolicate(
   await fs.mkdir(tmpDir, { recursive: true });
 
   const encoded = await fs.readFile(fileName);
-  const { reports } = Proto.CrashReportList.decode(encoded);
+  let reports: ReadonlyArray<Proto.ICrashReport>;
+  if (fileName.endsWith('.raw')) {
+    reports = [
+      {
+        filename: 'report.dmp',
+        content: encoded,
+      },
+    ];
+  } else {
+    ({ reports } = Proto.CrashReportList.decode(encoded));
+  }
 
   const { name: prefix } = path.parse(fileName);
 

@@ -2,30 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationModel } from '../models/conversations';
-import type { UUID } from '../types/UUID';
-import type { MessageModel } from '../models/messages';
+import type { MessageAttributesType } from '../model-types.d';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
 import { isGroup } from './whatTypeOfConversation';
 import { isMessageUnread } from './isMessageUnread';
 
-function isSameUuid(
-  a: UUID | string | null | undefined,
-  b: UUID | string | null | undefined
-): boolean {
-  return a != null && b != null && String(a) === String(b);
-}
-
 export async function shouldReplyNotifyUser(
-  message: MessageModel,
+  messageAttributes: Readonly<
+    Pick<MessageAttributesType, 'readStatus' | 'storyId'>
+  >,
   conversation: ConversationModel
 ): Promise<boolean> {
   // Don't notify if the message has already been read
-  if (!isMessageUnread(message.attributes)) {
+  if (!isMessageUnread(messageAttributes)) {
     return false;
   }
 
-  const storyId = message.get('storyId');
+  const { storyId } = messageAttributes;
 
   // If this is not a reply to a story, always notify.
   if (storyId == null) {
@@ -49,10 +43,10 @@ export async function shouldReplyNotifyUser(
     return false;
   }
 
-  const currentUserId = window.textsecure.storage.user.getUuid();
-  const storySourceId = matchedStory.sourceUuid;
+  const ourAci = window.textsecure.storage.user.getAci();
+  const storySourceAci = matchedStory.sourceServiceId;
 
-  const currentUserIdSource = isSameUuid(storySourceId, currentUserId);
+  const currentUserIdSource = storySourceAci === ourAci;
 
   // If the story is from the current user, always notify
   if (currentUserIdSource) {

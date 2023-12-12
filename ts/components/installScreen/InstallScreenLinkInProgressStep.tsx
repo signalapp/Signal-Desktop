@@ -10,9 +10,9 @@ import { Spinner } from '../Spinner';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 
-export function InstallScreenLinkInProgressStep({
-  i18n,
-}: Readonly<{ i18n: LocalizerType }>): ReactElement {
+export type Props = Readonly<{ i18n: LocalizerType }>;
+
+export function InstallScreenLinkInProgressStep({ i18n }: Props): ReactElement {
   return (
     <div className="module-InstallScreenLinkInProgressStep">
       <TitlebarDragArea />

@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
-import { CallMode } from '../../types/Calling';
 
 const {
   removeAll,
@@ -16,10 +15,6 @@ const {
   saveMessages,
   getCallHistoryMessageByCallId,
 } = dataInterface;
-
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
 
 describe('sql/getCallHistoryMessageByCallId', () => {
   beforeEach(async () => {
@@ -30,38 +25,31 @@ describe('sql/getCallHistoryMessageByCallId', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
 
     const callHistoryMessage: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       type: 'call-history',
       conversationId,
       sent_at: now - 10,
       received_at: now - 10,
       timestamp: now - 10,
-      callHistoryDetails: {
-        callId: '12345',
-        callMode: CallMode.Direct,
-        wasIncoming: true,
-        wasVideoCall: true,
-        wasDeclined: true,
-        acceptedTime: now - 10,
-        endedTime: undefined,
-      },
+      callId: '12345',
     };
 
     await saveMessages([callHistoryMessage], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
-    assert.lengthOf(await _getAllMessages(), 1);
+    const allMessages = await _getAllMessages();
+    assert.lengthOf(allMessages, 1);
 
-    const messageId = await getCallHistoryMessageByCallId(
+    const message = await getCallHistoryMessageByCallId({
       conversationId,
-      '12345'
-    );
-    assert.strictEqual(messageId, callHistoryMessage.id);
+      callId: '12345',
+    });
+    assert.strictEqual(message?.id, callHistoryMessage.id);
   });
 });

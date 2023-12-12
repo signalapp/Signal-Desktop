@@ -3,8 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, select, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallManager';
 import { CallManager } from './CallManager';
 import {
@@ -15,9 +14,12 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
-import type { ConversationTypeType } from '../state/ducks/conversations';
-import type { AvatarColorType } from '../types/Colors';
+import type {
+  ConversationType,
+  ConversationTypeType,
+} from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
+import { generateAci } from '../types/ServiceId';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setupI18n } from '../util/setupI18n';
@@ -32,13 +34,9 @@ const getConversation = () =>
   getDefaultConversation({
     id: '3051234567',
     avatarPath: undefined,
-    color: select(
-      'Callee color',
-      AvatarColors,
-      'ultramarine' as AvatarColorType
-    ),
-    title: text('Callee Title', 'Rick Sanchez'),
-    name: text('Callee Name', 'Rick Sanchez'),
+    color: AvatarColors[0],
+    title: 'Rick Sanchez',
+    name: 'Rick Sanchez',
     phoneNumber: '3051234567',
     profileName: 'Rick Sanchez',
     markedUnread: false,
@@ -49,18 +47,14 @@ const getConversation = () =>
 const getCommonActiveCallData = () => ({
   conversation: getConversation(),
   joinedAt: Date.now(),
-  hasLocalAudio: boolean('hasLocalAudio', true),
-  hasLocalVideo: boolean('hasLocalVideo', false),
-  localAudioLevel: select('localAudioLevel', [0, 0.5, 1], 0),
-  viewMode: select(
-    'viewMode',
-    [CallViewMode.Grid, CallViewMode.Presentation, CallViewMode.Speaker],
-    CallViewMode.Grid
-  ),
-  outgoingRing: boolean('outgoingRing', true),
-  pip: boolean('pip', false),
-  settingsDialogOpen: boolean('settingsDialogOpen', false),
-  showParticipantsList: boolean('showParticipantsList', false),
+  hasLocalAudio: true,
+  hasLocalVideo: false,
+  localAudioLevel: 0,
+  viewMode: CallViewMode.Paginated,
+  outgoingRing: true,
+  pip: false,
+  settingsDialogOpen: false,
+  showParticipantsList: false,
 });
 
 const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
@@ -70,6 +64,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   bounceAppIconStart: action('bounce-app-icon-start'),
   bounceAppIconStop: action('bounce-app-icon-stop'),
   cancelCall: action('cancel-call'),
+  changeCallView: action('change-call-view'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
   getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
@@ -79,23 +74,25 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   hangUpActiveCall: action('hang-up-active-call'),
   i18n,
   isGroupCallOutboundRingEnabled: true,
+  isGroupCallRaiseHandEnabled: true,
+  isGroupCallReactionsEnabled: true,
   keyChangeOk: action('key-change-ok'),
   me: {
     ...getDefaultConversation({
-      color: select(
-        'Caller color',
-        AvatarColors,
-        'ultramarine' as AvatarColorType
-      ),
-      title: text('Caller Title', 'Morty Smith'),
+      color: AvatarColors[0],
+      title: 'Morty Smith',
     }),
-    uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',
+    serviceId: generateAci(),
   },
   notifyForCall: action('notify-for-call'),
   openSystemPreferencesAction: action('open-system-preferences-action'),
   playRingtone: action('play-ringtone'),
   renderDeviceSelection: () => <div />,
+  renderEmojiPicker: () => <>EmojiPicker</>,
+  renderReactionPicker: () => <div />,
   renderSafetyNumberViewer: (_: SafetyNumberProps) => <div />,
+  sendGroupCallRaiseHand: action('send-group-call-raise-hand'),
+  sendGroupCallReaction: action('send-group-call-reaction'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
   setIsCallActive: action('set-is-call-active'),
   setLocalAudio: action('set-local-audio'),
@@ -115,14 +112,15 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
     'toggle-screen-recording-permissions-dialog'
   ),
   toggleSettings: action('toggle-settings'),
-  toggleSpeakerView: action('toggle-speaker-view'),
   isConversationTooBigToRing: false,
   pauseVoiceNotePlayer: action('pause-audio-player'),
 });
 
 export default {
   title: 'Components/CallManager',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 export function NoCall(): JSX.Element {
   return <CallManager {...createProps()} />;
@@ -155,12 +153,15 @@ export function OngoingGroupCall(): JSX.Element {
           callMode: CallMode.Group,
           connectionState: GroupCallConnectionState.Connected,
           conversationsWithSafetyNumberChanges: [],
+          conversationsByDemuxId: new Map<number, ConversationType>(),
           deviceCount: 0,
           joinState: GroupCallJoinState.Joined,
+          localDemuxId: 1,
           maxDevices: 5,
           groupMembers: [],
           isConversationTooBigToRing: false,
           peekedParticipants: [],
+          raisedHands: new Set<number>(),
           remoteParticipants: [],
           remoteAudioLevels: new Map<number, number>(),
         },
@@ -182,10 +183,6 @@ export function RingingDirectCall(): JSX.Element {
     />
   );
 }
-
-RingingDirectCall.story = {
-  name: 'Ringing (direct call)',
-};
 
 export function RingingGroupCall(): JSX.Element {
   return (
@@ -210,10 +207,6 @@ export function RingingGroupCall(): JSX.Element {
     />
   );
 }
-
-RingingGroupCall.story = {
-  name: 'Ringing (group call)',
-};
 
 export function CallRequestNeeded(): JSX.Element {
   return (
@@ -249,12 +242,15 @@ export function GroupCallSafetyNumberChanged(): JSX.Element {
               }),
             },
           ],
+          conversationsByDemuxId: new Map<number, ConversationType>(),
           deviceCount: 0,
           joinState: GroupCallJoinState.Joined,
+          localDemuxId: 1,
           maxDevices: 5,
           groupMembers: [],
           isConversationTooBigToRing: false,
           peekedParticipants: [],
+          raisedHands: new Set<number>(),
           remoteParticipants: [],
           remoteAudioLevels: new Map<number, number>(),
         },
@@ -262,7 +258,3 @@ export function GroupCallSafetyNumberChanged(): JSX.Element {
     />
   );
 }
-
-GroupCallSafetyNumberChanged.story = {
-  name: 'Group call - Safety Number Changed',
-};

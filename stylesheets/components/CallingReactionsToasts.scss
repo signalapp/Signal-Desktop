@@ -1,0 +1,61 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CallingReactionsToasts {
+  position: absolute;
+  inset-block-end: calc($CallControls__height + 32px);
+  inset-inline-start: 65px;
+  width: 100%;
+}
+
+// Normally the newest toasts are appended on top, like this:
+//              | Second |
+// | First | -> |  First |
+//
+// For Reactions we need the newest toasts to come in at the bottom:
+//              |  First |
+// | First | -> | Second |
+//
+// To achieve this, rotate the outer container 180deg so everything is upside-down,
+// then rotate each toast 180deg to reset the rotation of the actual toasts to 0deg.
+.CallingReactionsToasts .CallingToasts {
+  position: absolute;
+  inset-block-start: 0;
+  transform: translateY(-100%) rotate(180deg);
+}
+
+.CallingReactionsToasts .CallingToast {
+  @include font-body-1;
+  padding-inline: 16px;
+  color: $color-gray-20;
+  font-size: 15px;
+  line-height: 20px;
+  transform: rotate(-180deg);
+}
+
+.CallingReactionsToasts .CallingToasts__inner {
+  width: 100%;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+  gap: 12px;
+}
+
+.CallingReactionsToasts .CallingToasts__inner div:nth-child(4) .CallingToast {
+  opacity: 0.9;
+}
+
+.CallingReactionsToasts .CallingToasts__inner div:nth-child(5) .CallingToast {
+  opacity: 0.7;
+}
+
+.CallingReactionsToasts__reaction {
+  position: relative;
+}
+
+.CallingReactionsToasts__reaction .module-emoji {
+  position: absolute;
+  // Float the emoji outside of the toast bubble
+  inset-inline-start: -60px;
+  inset-block-start: -5px;
+}

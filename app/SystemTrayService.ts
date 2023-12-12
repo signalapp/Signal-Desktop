@@ -247,6 +247,7 @@ function getIcon(unreadCount: number) {
     case 'darwin':
       iconSize = '16';
       break;
+    case 'linux':
     case 'win32':
       iconSize = '32';
       break;

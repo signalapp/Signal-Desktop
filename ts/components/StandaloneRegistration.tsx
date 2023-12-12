@@ -10,6 +10,7 @@ import { strictAssert } from '../util/assert';
 import * as log from '../logging/log';
 import { parseNumber } from '../util/libphonenumberUtil';
 import { getChallengeURL } from '../challenge';
+import { VerificationTransport } from '../types/VerificationTransport';
 
 function PhoneInput({
   onValidation,
@@ -100,11 +101,15 @@ export function StandaloneRegistration({
 }: {
   onComplete: () => void;
   requestVerification: (
-    type: 'sms' | 'voice',
     number: string,
-    token: string
+    captcha: string,
+    transport: VerificationTransport
+  ) => Promise<{ sessionId: string }>;
+  registerSingleDevice: (
+    number: string,
+    code: string,
+    sessionId: string
   ) => Promise<void>;
-  registerSingleDevice: (number: string, code: string) => Promise<void>;
 }): JSX.Element {
   useEffect(() => {
     window.IPC.readyForUpdates();
@@ -115,10 +120,11 @@ export function StandaloneRegistration({
   const [number, setNumber] = useState<string | undefined>(undefined);
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
+  const [sessionId, setSessionId] = useState<string | undefined>(undefined);
   const [status, setStatus] = useState<string | undefined>(undefined);
 
   const onRequestCode = useCallback(
-    async (type: 'sms' | 'voice') => {
+    async (transport: VerificationTransport) => {
       if (!isValidNumber) {
         return;
       }
@@ -141,7 +147,8 @@ export function StandaloneRegistration({
       });
 
       try {
-        void requestVerification(type, number, token);
+        const result = await requestVerification(number, token, transport);
+        setSessionId(result.sessionId);
         setError(undefined);
       } catch (err) {
         setError(err.message);
@@ -155,7 +162,7 @@ export function StandaloneRegistration({
       e.preventDefault();
       e.stopPropagation();
 
-      void onRequestCode('sms');
+      void onRequestCode(VerificationTransport.SMS);
     },
     [onRequestCode]
   );
@@ -165,7 +172,7 @@ export function StandaloneRegistration({
       e.preventDefault();
       e.stopPropagation();
 
-      void onRequestCode('voice');
+      void onRequestCode(VerificationTransport.Voice);
     },
     [onRequestCode]
   );
@@ -185,14 +192,14 @@ export function StandaloneRegistration({
       event.preventDefault();
       event.stopPropagation();
 
-      if (!isValidNumber || !isValidCode) {
+      if (!isValidNumber || !isValidCode || !sessionId) {
         return;
       }
 
       strictAssert(number != null && code.length > 0, 'Missing number or code');
 
       try {
-        await registerSingleDevice(number, code);
+        await registerSingleDevice(number, code, sessionId);
         onComplete();
       } catch (err) {
         setStatus(err.message);
@@ -203,6 +210,7 @@ export function StandaloneRegistration({
       onComplete,
       number,
       code,
+      sessionId,
       setStatus,
       isValidNumber,
       isValidCode,

@@ -7,8 +7,10 @@ import { strictAssert } from '../util/assert';
 import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
 import type { LoggerType } from '../types/Logging';
+import { aciSchema } from '../types/ServiceId';
 import { map } from '../util/iterables';
 
+import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
@@ -27,7 +29,7 @@ const isRetriable4xxStatus = (code: number): boolean =>
   RETRYABLE_4XX_FAILURE_STATUSES.has(code);
 
 const reportSpamJobDataSchema = z.object({
-  uuid: z.string().min(1),
+  aci: aciSchema,
   token: z.string().optional(),
   serverGuids: z.string().array().min(1).max(1000),
 });
@@ -48,8 +50,8 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
   protected async run(
     { data }: Readonly<{ data: ReportSpamJobData }>,
     { log }: Readonly<{ log: LoggerType }>
-  ): Promise<void> {
-    const { uuid: senderUuid, token, serverGuids } = data;
+  ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+    const { aci: senderAci, token, serverGuids } = data;
 
     await new Promise<void>(resolve => {
       window.storage.onready(resolve);
@@ -57,7 +59,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
     if (!isDeviceLinked()) {
       log.info("reportSpamJobQueue: skipping this job because we're unlinked");
-      return;
+      return undefined;
     }
 
     await waitForOnline(window.navigator, window);
@@ -68,9 +70,11 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
     try {
       await Promise.all(
         map(serverGuids, serverGuid =>
-          server.reportMessage({ senderUuid, serverGuid, token })
+          server.reportMessage({ senderAci, serverGuid, token })
         )
       );
+
+      return undefined;
     } catch (err: unknown) {
       if (!(err instanceof HTTPError)) {
         throw err;
@@ -87,7 +91,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
         log.info(
           'reportSpamJobQueue: server responded with 508. Giving up on this job'
         );
-        return;
+        return undefined;
       }
 
       if (isRetriable4xxStatus(code) || is5xxStatus(code)) {
@@ -105,7 +109,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
         log.error(
           `reportSpamJobQueue: server responded with ${code} status code. Giving up on this job`
         );
-        return;
+        return undefined;
       }
 
       throw err;

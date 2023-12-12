@@ -23,7 +23,7 @@ import { Environment, getEnvironment } from '../../environment';
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
 
-type PropsType = Readonly<{
+export type PropsType = Readonly<{
   i18n: LocalizerType;
   provisioningUrl: Loadable<string>;
   hasExpired?: boolean;

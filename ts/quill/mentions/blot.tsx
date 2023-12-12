@@ -8,6 +8,7 @@ import Parchment from 'parchment';
 import Quill from 'quill';
 import { render } from 'react-dom';
 import { Emojify } from '../../components/conversation/Emojify';
+import { normalizeAci } from '../../util/normalizeAci';
 import type { MentionBlotValue } from '../util';
 
 declare class QuillEmbed extends Parchment.Embed {
@@ -32,21 +33,21 @@ export class MentionBlot extends Embed {
   }
 
   static override value(node: HTMLElement): MentionBlotValue {
-    const { uuid, title } = node.dataset;
-    if (uuid === undefined || title === undefined) {
+    const { aci, title } = node.dataset;
+    if (aci === undefined || title === undefined) {
       throw new Error(
-        `Failed to make MentionBlot with uuid: ${uuid}, title: ${title}`
+        `Failed to make MentionBlot with aci: ${aci}, title: ${title}`
       );
     }
 
     return {
-      uuid,
+      aci: normalizeAci(aci, 'quill mention blot'),
       title,
     };
   }
 
   static buildSpan(mention: MentionBlotValue, node: HTMLElement): void {
-    node.setAttribute('data-uuid', mention.uuid || '');
+    node.setAttribute('data-aci', mention.aci || '');
     node.setAttribute('data-title', mention.title || '');
     node.setAttribute('contenteditable', 'false');
 

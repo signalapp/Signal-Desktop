@@ -48,7 +48,9 @@ export async function sendSenderKeyDistribution(
   );
 
   if (!isDirectConversation(conversation.attributes)) {
-    log.info('Failing attempt to send null message to group');
+    log.info(
+      'Failing attempt to send sender key distribution message to group'
+    );
     return;
   }
 
@@ -67,7 +69,7 @@ export async function sendSenderKeyDistribution(
   const { groupId } = data;
   const group = window.ConversationController.get(groupId);
   const distributionId = group?.get('senderKeyInfo')?.distributionId;
-  const uuid = conversation.get('uuid');
+  const serviceId = conversation.getServiceId();
 
   if (!distributionId) {
     log.info(
@@ -76,9 +78,9 @@ export async function sendSenderKeyDistribution(
     return;
   }
 
-  if (!uuid) {
+  if (!serviceId) {
     log.info(
-      `conversation ${conversation.idForLogging()} was missing uuid, cancelling job.`
+      `conversation ${conversation.idForLogging()} was missing serviceId, cancelling job.`
     );
     return;
   }
@@ -89,7 +91,7 @@ export async function sendSenderKeyDistribution(
         {
           distributionId,
           groupId,
-          identifiers: [uuid],
+          serviceIds: [serviceId],
           throwIfNotInDatabase: true,
           urgent: false,
         },

@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ডাটাবেস ত্রুটি",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ডাটাবেজ সংক্রান্ত একটি ত্রুটি দেখা দিয়েছে। আপনি ত্রুটিটি কপি করতে পারেন এবং সমস্যাটি সমাধানে সাহায্য করতে Signal সহায়তার সাথে যোগাযোগ করতে পারেন। আপনার যদি এখনই Signal ব্যবহার করার প্রয়োজন হয়, তবে আপনি আপনার ডেটা মুছে ফেলতে পারেন এবং পুনরায় চালু করতে পারেন।\n\nএখানে ভিজিট করার মাধ্যমে সাপোর্টের সাথে যোগাযোগ করুন: {link}",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "সকল ডেটা মুছে ফেলুন এবং পুনরায় চালু করুন",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ডেটা মুছুন এবং পুনরায় চালু করুন",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "স্থায়ীভাবে সব তথ্য মুছে ফেলবেন?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "এই ডিভাইস থেকে আপনার যাবতীয় মেসেজের ইতিহাস এবং মিডিয়া স্থায়ীভাবে মুছে ফেলা হবে। আপনি এই ডিভাইসটি পুনরায় লিংক করার পরে Signal ব্যবহার করতে পারবেন। এটি আপনার ফোন থেকে কোনো ডেটা মুছে ফেলবে না।",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "আপনার ডাটাবেজের সংস্করণ Signal-এর এই সংস্করণের সাথে মিলে না। নিশ্চিত করুন যে আপনি আপনার কম্পিউটারে Signal-এর নতুন সংস্করণ খুলছেন।",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ফাইল",
@@ -299,6 +315,70 @@
   "icu:LeftPane--chats": {
     "messageformat": "চ্যাট",
     "description": "Shown as a header for non-pinned conversations in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "আপনার 'ব্যবহারকারীর নাম' নিয়ে কিছু একটা সমস্যা হয়েছে, এটি আর আপনার অ্যাকাউন্টের জন্য বরাদ্দ করা নেই। আপনি আবার চেষ্টা করে এটি সেট করতে পারেন বা নতুন একটি বেছে নিন।",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "এখনই ঠিক করুন",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "আপনার QR কোড এবং ব্যবহারকারীর নামের লিংকে কিছু একটা ভুল হয়েছে, এটি আর কার্যকর নয়। অন্যদের সাথে শেয়ার করার জন্য একটি নতুন লিংক তৈরি করুন।",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "এখনই ঠিক করুন",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "ট্যাব দেখান",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "ট্যাব লুকান",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "একটি ত্রুটি দেখা দিয়েছে",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count,number} অপঠিত",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "অপঠিত হিসেবে চিহ্নিত করা হয়েছে",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "চ্যাট",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "কল",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "স্টোরি",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "সেটিংস",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Signal আপডেট করুন",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "প্রোফাইল",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "ফিরে যান",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
     "messageformat": "এই চ্যাটগুলো আর্কাইভ করা আছে এবং শুধু নতুন ম্যাসেজ আসলেই এগুলো ইনবক্সে দেখা যাবে।",
@@ -576,6 +656,10 @@
     "messageformat": "তারপরও কল করুন",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "তারপরও যোগ দিন",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "কল চালিয়ে যান",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -637,23 +721,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "নিরাপত্তা নম্বরগুলো আপডেট করা হচ্ছে।",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "আরও জানুন",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "পূর্ববর্তী নিরাপত্তা নম্বর",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "পরবর্তী নিরাপত্তা নম্বর",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "নিরাপত্তা নম্বরের সংস্করণ, {total,number}-এর মধ্যে {index,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "যাচাইকৃত হিসেবে চিহ্নিত করুন",
@@ -663,33 +747,41 @@
     "messageformat": "যাচাইকরণ সম্পূর্ণ করুন",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "{name}-এর সাথে এন্ড-টু-এন্ড এনক্রিপশন যাচাই করতে, তাদের ডিভাইসের সাথে উপরের নম্বরগুলো তুলনা করুন। তারাও তাদের ডিভাইস দিয়ে আপনার কোড স্ক্যান করতে পারবেন।",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "আরো জানুন",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "{name}-এর সাথে এন্ড-টু-এন্ড এনক্রিপশন যাচাই করতে, তার ডিভাইসের উপরে থাকা রঙিন কার্ডটি মিলিয়ে দেখুন এবং নম্বরগুলো তুলনা করুন। যদি এগুলো না মিলে, তবে অন্য আরেক জোড়া নিরাপত্তা নম্বর ব্যবহার করে চেষ্টা করুন। শুধুমাত্র একটি জোড়া মিলতে হবে।",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "{name}-এর সাথে এন্ড-টু-এন্ড এনক্রিপশন যাচাই করতে, তাদের ডিভাইসের সাথে উপরের নম্বরগুলো তুলনা করুন। তারাও তাদের ডিভাইস দিয়ে আপনার কোড স্ক্যান করতে পারবেন।",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "নিরাপত্তা নম্বর পরিবর্তন করুন",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Signal-এ আসন্ন গোপনীয়তা ফিচারগুলোকে সচল করার জন্য পরিবর্তনের সময় নিরাপত্তা নম্বরগুলো আপডেট করা হচ্ছে।",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "নিরাপত্তা নম্বর যাচাই করতে, আপনার কন্টাক্টের ডিভাইসের সাথে থাকা রঙিন কার্ডটি মিলিয়ে দেখুন। যদি এগুলো না মিলে, তবে অন্য আরেক জোড়া নিরাপত্তা নম্বর ব্যবহার করে চেষ্টা করুন। শুধুমাত্র একটি জোড়া মিলতে হবে।",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "সাহায্য প্রয়োজন?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "বুঝতে পেরেছি",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "আপনি এই ব্যক্তির সাথে মেসেজ বিনিময় করার পরে একটি নিরাপত্তা নম্বর তৈরি করা হবে।",
@@ -1267,10 +1359,6 @@
     "messageformat": "সাম্প্রতিক মিডিয়া দেখুন",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name}-এর সাথে আপনার এন্ড-টু-এন্ড এনক্রিপশনের নিরাপত্তা যাচাই করতে, তাদের ডিভাইসের সাথে উপরের নম্বরগুলো তুলনা করুন। তারাও উপরের QR কোডটি স্ক্যান করতে পারবেন।",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "আপনি এই পরিচিতি এর সাথে কোনও বার্তা বিনিময় করেননি। তাদের সাথে আপনার নিরাপত্তা নাম্বার প্রথম বার্তা পাঠানোর পরে পাওয়া যাচ্ছে।"
   },
@@ -1334,17 +1422,17 @@
     "messageformat": "তথ্য",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "মুছে ফেলুন",
-    "description": "Menu item for deleting messages, title case."
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "মেসেজ মুছে ফেলুন",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "চ্যাট মুছে ফেলবেন?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "মেসেজ মুছে ফেলবেন?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "এই চ্যাটটি এই ডিভাইস থেকে মুছে ফেলা হবে।",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "এই চ্যাটের মেসেজগুলো এই ডিভাইস থেকে মুছে ফেলা হবে। মেসেজগুলো মুছে ফেলার পরেও আপনি এই চ্যাটটি অনুসন্ধান করতে পারবেন।",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "গ্রুপ ত্যাগ করুন",
@@ -1437,6 +1525,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "উভয় চ্যাট-এর জন্য আপনার ম্যাসেজের ইতিহাস এখানে একত্রিত করা হয়েছে।",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} নম্বরটি {conversationTitle}-এর। আপনারা দুজনই {sharedGroup} গ্ৰুপের সদস্য।",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} নম্বরটি {conversationTitle}-এর।",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "ছবি এবং উদ্ধৃত মেসেজের থাম্বনেইল",
@@ -1585,10 +1681,6 @@
     "messageformat": "আবার কল করুন",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "কল শুরু করুন",
-    "description": "Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "কলে যোগ দিন",
     "description": "Button label in the call lobby for joining a call"
@@ -1601,13 +1693,25 @@
     "messageformat": "কলের আকারের কারণে মাইক্রোফোন মিউট করা হয়েছে",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "কল নোটিফিকেশন",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "কলটিতে জায়গা নেই",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "ক্যামেরা",
-    "description": "Label under the video button"
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "যোগদান করুন",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "শুরু করুন",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "কলটিতে জায়গা নেই",
+    "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "ক্যামেরা নিষ্ক্রিয় করা হয়েছে",
@@ -1621,10 +1725,6 @@
     "messageformat": "ক্যামেরা চালু করুন",
     "description": "Button tooltip label for turning on the camera"
   },
-  "icu:calling__button--audio__label": {
-    "messageformat": "মিউট",
-    "description": "Label under the audio button"
-  },
   "icu:calling__button--audio-disabled": {
     "messageformat": "মাইক্রোফোন নিষ্ক্রিয় করা হয়েছে",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1636,10 +1736,6 @@
   "icu:calling__button--audio-on": {
     "messageformat": "মাইক আনমিউট করুন",
     "description": "Button tooltip label for turning on the microphone"
-  },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "শেয়ার করুন",
-    "description": "Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "উপস্থাপনা নিষ্ক্রিয় করা",
@@ -1653,10 +1749,6 @@
     "messageformat": "উপস্থাপনা থামান",
     "description": "Button tooltip label for stopping screen sharing"
   },
-  "icu:calling__button--ring__label": {
-    "messageformat": "রিং",
-    "description": "Label under the ring button"
-  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "অংশগ্রহণকারীদের কল করার জন্য গ্রুপটি খুব বড়",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1668,6 +1760,26 @@
   "icu:calling__button--ring__on": {
     "messageformat": "রিং চালু করুন",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "রিং বন্ধ করুন",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "রিং চালু করুন",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "আরো অপশন",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "আপনি",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "আপনার ক্যামেরা বন্ধ রয়েছে",
@@ -2147,6 +2259,10 @@
     "messageformat": "নিরাপত্তা নম্বর দেখুন",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "মেসেজ পাঠান",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "নিরাপত্তা নম্বর দেখুন",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -2235,8 +2351,8 @@
     "messageformat": "ফোন নাম্বার আনা সফল হয়নি। আপনার ইন্টারনেট সংযোগ ঠিক আছে কিনা দেখুন এবং আবার চেষ্টা করুন।",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "এই ম্যাসেজটি পাঠানোর পরবর্তী 3 ঘন্টার মধ্যে এডিট করা যাবে।",
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "এই ম্যাসেজটি পাঠানোর পর শুধুমাত্র পরবর্তী 24 ঘন্টার মধ্যে এটি এডিট করা যাবে।",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -2479,6 +2595,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "এই মেসেজটি মুছে ফেলা হয়েছে।",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "সংযুক্তিটি বেশি বড় তাই দেখানো যাচ্ছে না।",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "কিছু কিছু সংযুক্তি এতটাই বড় থাকে যে তা দেখানো যায় না।",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "ডোনেশনের বিস্তারিত তথ্য সংগ্রহ করা সম্ভব হয়নি",
@@ -3122,10 +3246,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "শুধুমাত্র Signal বিটা",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "শুধুমাত্র Signal বিটা ব্যবহারকারীগণ ম্যাসেজ এডিট করতে পারবেন। আপনি যদি কোনো ম্যাসেজ এডিট করেন, তবে এটি শুধুমাত্র Signal বিটার সর্বশেষ সংস্করণ ব্যবহারকারীদের কাছে দৃশ্যমান হবে।",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "মেসেজ এডিট করুন",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "আপনি যদি কোনো মেসেজ এডিট করেন, তবে এটি শুধুমাত্র Signal-এর সর্বশেষ সংস্করণ ব্যবহারকারীদের কাছে দৃশ্যমান হবে। আপনি যে একটি মেসেজ এডিট করেছেন তারা তা দেখতে পাবেন।",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3380,6 +3512,14 @@
     "messageformat": "ইনকামিং ভিডিও কল…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
+  "icu:outgoingAudioCall": {
+    "messageformat": "ভয়েস কল যাচ্ছে",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "ভিডিও কল যাচ্ছে",
+    "description": "Shown in the timeline for an outgoing video call"
+  },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} আপনাকে কল করছে",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
@@ -3424,9 +3564,69 @@
     "messageformat": "আবারো সংযুক্ত করা হচ্ছে…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} মানুষ} other {{count,number} মানুষ}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "অডিও কল",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "শেষ",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "ত্যাগ করুন",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "মাইক বন্ধ করুন",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "মাইক চালু করুন",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "রিং চালু করুন",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "রিং বন্ধ করুন",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "সেটিংস",
@@ -3468,13 +3668,25 @@
     "messageformat": "পূর্ণস্ক্রিনে কল করুন",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "গ্রিড ভিউতে পাল্টান",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "ভিউ পরিবর্তন করুন",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "স্পিকার ভিউতে পাল্টান",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "গ্রিড ভিউ",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "সাইডবার ভিউ",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "স্পিকার ভিউ",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "ভিউ আপডেট করা হয়েছে",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "কল ছেড়ে যান",
@@ -3575,6 +3787,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "ঠিক আছে",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "মেসেজ এডিট করা যাবে না",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "এই মেসেজটি শুধুমাত্র {max,number} বার এডিট করা যাবে।",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "দুঃখিত, যে sgnl:// লিংকটি উপযুক্ত ছিল না!",
@@ -5252,9 +5472,29 @@
     "messageformat": "ইউজারনেম",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "আপনার 'ব্যবহারকারীর নাম' নিয়ে কিছু একটা সমস্যা হয়েছে, এটি আর আপনার অ্যাকাউন্টের জন্য বরাদ্দ করা নেই।",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--delete-button": {
+    "messageformat": "ব্যবহারকারীর নাম মুছে ফেলুন",
+    "description": "Button text for deletion of the username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--create-button": {
+    "messageformat": "ইউজারনেম তৈরি করুন",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "QR কোড বা লিংক",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "ব্যবহারকারীর নাম রিসেট করা প্রয়োজন",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "ব্যবহারকারীর নামের লিংক রিসেট করা প্রয়োজন",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "আপনার 'ব্যবহারকারীর নাম' শেয়ার করুন",
@@ -5319,10 +5559,6 @@
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "ব্যবহারকারীর নাম মুছে ফেলুন",
     "description": "Shown as aria label for trash icon next to username"
-  },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "এটি আপনার ব্যবহারকারীর নাম মুছে ফেলবে, যা অন্য ব্যবহারকারীদের এই নামটি ব্যবহার করতে দিবে। আপনি কি নিশ্চিত?",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "এটি আপনার ব্যবহারকারীর নাম মুছে ফেলবে এবং আপনার QR কোড ও লিংক অকার্যকর করবে। \"{username}\" অন্যরা দাবি করতে পারবেন। আপনি কি নিশ্চিত?",
@@ -5612,6 +5848,42 @@
     "messageformat": "আপনি আর স্টোরি শেয়ার করতে বা দেখতে পারবেন না। আপনি সম্প্রতি শেয়ার করেছেন এমন স্টোরির আপডেটগুলোও মুছে ফেলা হবে৷",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "ভাষা",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "ভাষা",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "সিস্টেমের ভাষা",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "ভাষা অনুসন্ধান করুন",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "“{searchTerm}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "সেট করুন",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "কার্যকর করতে Signal পুনরায় চালু করুন",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "ভাষা পরিবর্তন করতে, অ্যাপটি পুনরায় চালু করতে হবে।",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "পুনরায় চালু করুন",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} সহজলভ্য সংস্করণে আপডেট করুন",
     "description": "Tooltip for new update available"
@@ -5695,6 +5967,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "আপনার সেটিংস সংরক্ষণ করার সময় একটি ত্রুটি ছিল। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "মেসেজ পাঠান",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "আরো স্টাইল",
@@ -6532,6 +6808,10 @@
     "messageformat": "রিসেট করুন",
     "description": "Text of button at the bottom of the username link modal"
   },
+  "icu:UsernameLinkModalBody__done": {
+    "messageformat": "শেষ",
+    "description": "Text of button at the bottom of the username link modal"
+  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "'ব্যবহারকারীর নাম' লিংকের রং, {total,number}-এর {index,number}",
     "description": "ARIA label of button for selecting username link color"
@@ -6539,6 +6819,14 @@
   "icu:UsernameLinkModalBody__reset__confirm": {
     "messageformat": "আপনার 'ব্যবহারকারীর নাম' রিসেট করলে আপনার বিদ্যমান QR কোড ও লিংক আর কাজ করবে না।",
     "description": "Text of confirmation modal when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "লিংকটি পুনরায় সেট করা হচ্ছে...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "QR কোড এবং লিংক সেট করা হয়নি। আপনার নেটওয়ার্ক সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন।",
+    "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "আপনার Signal 'ইউজারনেম' সেট আপ করুন",
@@ -6592,6 +6880,114 @@
     "messageformat": "আবার পাঠান",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "আরও ক্রিয়া",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "কল",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "নতুন কল",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "নতুন কল",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "আরও ক্রিয়া",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "কলের ইতিহাস মুছে ফেলুন",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "কলের ইতিহাস মুছে ফেলবেন?",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "এটি কলের সকল ইতিহাস স্থায়ীভাবে মুছে ফেলবে",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "সাফ করুন",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "কলের ইতিহাস মুছে ফেলা হয়েছে",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "দেখতে বা কল শুরু করতে ক্লিক করুন",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "অনুসন্ধান",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "মিসড কলের উপর ভিত্তি করে ফিল্টার করুন",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "টগল করুন",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "কোনো সাম্প্রতিক কল নেই। একজন বন্ধুকে কল দিয়ে শুরু করুন।",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "“{query}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "কল আসছে",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "আউটগোয়িং কল",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "মিসড কল",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "গ্রুপ কল",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "কোনো সাম্প্রতিক কথোপকথন নেই।",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "“{query}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {ভয়েস কল যাচ্ছে} other {ভয়েস কল আসছে}}} Video {{direction, select, Outgoing {ভিডিও কল যাচ্ছে} other {ভিডিও কল আসছে}}} Group {{direction, select, Outgoing {আউটগোয়িং গ্রুপ কল} other {ইনকামিং গ্রুপ কল}}} other {{direction, select, Outgoing {আউটগোয়িং কল} other {আগত কল}}}}",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "{type, select, Audio {মিসড ভয়েস কল} Video {ভিডিও কল মিস হয়েছে} Group {মিসড গ্রুপ কল} other {ব্যর্থ কল}}",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "{type, select, Audio {উত্তর না দেওয়া ভয়েস কল} Video {উত্তর না দেওয়া ভিডিও কল} Group {উত্তর দেওয়া হয়নি এমন গ্ৰুপ কল} other {উত্তর দেওয়া হয়নি এমন কল}}",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "{type, select, Audio {প্রত্যাখ্যান করা হয়েছে এমন ভয়েস কল} Video {প্রত্যাখ্যান করা হয়েছে এমন ভিডিও কল} Group {প্রত্যাখ্যান করা হয়েছে এমন গ্ৰুপ কল} other {প্রত্যাখ্যান করা হয়েছে এমন কল}}",
+    "description": "Call History > Short description of call > When call was declined"
+  },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {আরো {count,number} জন টাইপ করছেন।} other {আরো {count,number} জন টাইপ করছেন।}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "নতুন কি",
     "description": "Title for the whats new modal"
@@ -6624,10 +7020,22 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "এই আপডেটে ভয়েস ও ভিডিও কলের জন্য কিছু উন্নতি এবং কিছু ছোট ডকুমেন্টেশন আপডেট অন্তর্ভুক্ত রয়েছে (ধন্যবাদ, {linkToGithub}!)।"
+  "icu:WhatsNew__v6.39--0": {
+    "messageformat": "এখন আপনি আপনার সিস্টেম সেটিংস পরিবর্তন না করেই Signal-এ আপনার নির্বাচিত ভাষা পরিবর্তন করতে পারবেন (Signal সেটিংস > অবয়ব > ভাষা)।"
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "আমরা কিছু গ্রুপ নোটিফিকেশন আইকন আপডেট করেছি।"
+  "icu:WhatsNew__v6.39--1": {
+    "messageformat": "macOS ডিভাইস থেকে কখনো কখনো কল লবিতে যোগ দেওয়ার পর কিছুটা দেরি হওয়ার যে সমস্যাটি দেখা দিতো তা আমরা ঠিক করেছি।"
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "যখন কেউ কোনো গ্রুপ কলে যোগ দেন বা বেরিয়ে যান তখন আমরা ভিডিও টাইলসের জন্য যে ট্রানজিশন অ্যানিমেশনটি দেখায় তা ঠিক করেছি।"
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "এখন আপনি চ্যাট সেটিংসে দ্রুত অ্যাক্সেস করতে বা সেই চ্যাট থেকে কোনো অদেখা স্টোরি দেখতে চ্যাট শিরোনামে একটি প্রোফাইল ছবি বা গ্রুপ অ্যাভাটারে ক্লিক করতে পারবেন। ধন্যবাদ, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

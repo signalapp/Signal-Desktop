@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { Pni } from '@signalapp/libsignal-client';
 import {
-  UUIDKind,
+  ServiceIdKind,
   Proto,
   ReceiptType,
   StorageState,
@@ -14,6 +15,7 @@ import createDebug from 'debug';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
+import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 
@@ -21,7 +23,7 @@ export const debug = createDebug('mock:test:pni-signature');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('pnp/PNI Signature', function needsName() {
+describe('pnp/PNI Signature', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -50,10 +52,10 @@ describe('pnp/PNI Signature', function needsName() {
       {
         whitelisted: true,
         serviceE164: pniContact.device.number,
-        identityKey: pniContact.getPublicKey(UUIDKind.PNI).serialize(),
+        identityKey: pniContact.getPublicKey(ServiceIdKind.PNI).serialize(),
         givenName: 'PNI Contact',
       },
-      UUIDKind.PNI
+      ServiceIdKind.PNI
     );
 
     state = state.addContact(pniContact, {
@@ -64,7 +66,7 @@ describe('pnp/PNI Signature', function needsName() {
     });
 
     // Just to make PNI Contact visible in the left pane
-    state = state.pin(pniContact, UUIDKind.PNI);
+    state = state.pin(pniContact, ServiceIdKind.PNI);
 
     // Add my story
     state = state.addRecord({
@@ -75,7 +77,7 @@ describe('pnp/PNI Signature', function needsName() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -85,7 +87,7 @@ describe('pnp/PNI Signature', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -94,8 +96,8 @@ describe('pnp/PNI Signature', function needsName() {
   it('should be sent by Desktop until encrypted delivery receipt', async () => {
     const { server, desktop } = bootstrap;
 
-    const ourPNIKey = await desktop.getIdentityKey(UUIDKind.PNI);
-    const ourACIKey = await desktop.getIdentityKey(UUIDKind.ACI);
+    const ourPniKey = await desktop.getIdentityKey(ServiceIdKind.PNI);
+    const ourAciKey = await desktop.getIdentityKey(ServiceIdKind.ACI);
 
     const window = await app.getWindow();
 
@@ -107,8 +109,8 @@ describe('pnp/PNI Signature', function needsName() {
       profileName: 'Mysterious Stranger',
     });
 
-    const ourKey = await desktop.popSingleUseKey(UUIDKind.PNI);
-    await stranger.addSingleUseKey(desktop, ourKey, UUIDKind.PNI);
+    const ourKey = await desktop.popSingleUseKey(ServiceIdKind.PNI);
+    await stranger.addSingleUseKey(desktop, ourKey, ServiceIdKind.PNI);
 
     const checkPniSignature = (
       message: Proto.IPniSignatureMessage | null | undefined,
@@ -120,14 +122,20 @@ describe('pnp/PNI Signature', function needsName() {
         );
       }
 
+      if (!message.pni) {
+        throw new Error(
+          `Missing expected pni on pni signature message from ${source}`
+        );
+      }
+
       assert.deepEqual(
-        message.pni,
-        uuidToBytes(desktop.pni),
+        Pni.fromUuidBytes(Buffer.from(message.pni)).getServiceIdString(),
+        desktop.pni,
         `Incorrect pni in pni signature message from ${source}`
       );
 
-      const isValid = ourPNIKey.verifyAlternateIdentity(
-        ourACIKey,
+      const isValid = ourPniKey.verifyAlternateIdentity(
+        ourAciKey,
         Buffer.from(message.signature ?? [])
       );
       assert.isTrue(isValid, `Invalid pni signature from ${source}`);
@@ -135,14 +143,14 @@ describe('pnp/PNI Signature', function needsName() {
 
     debug('sending a message to our PNI');
     await stranger.sendText(desktop, 'A message to PNI', {
-      uuidKind: UUIDKind.PNI,
+      serviceIdKind: ServiceIdKind.PNI,
       withProfileKey: true,
       timestamp: bootstrap.getTimestamp(),
     });
 
     debug('opening conversation with the stranger');
     await leftPane
-      .locator(`[data-testid="${stranger.toContact().uuid}"]`)
+      .locator(`[data-testid="${stranger.toContact().aci}"]`)
       .click();
 
     debug('Accept conversation from a stranger');
@@ -272,13 +280,13 @@ describe('pnp/PNI Signature', function needsName() {
 
     debug('Waiting for a PNI message');
     {
-      const { source, body, uuidKind } = await pniContact.waitForMessage();
+      const { source, body, serviceIdKind } = await pniContact.waitForMessage();
 
       assert.strictEqual(source, desktop, 'PNI message has valid source');
       assert.strictEqual(body, 'Hello PNI', 'PNI message has valid body');
       assert.strictEqual(
-        uuidKind,
-        UUIDKind.PNI,
+        serviceIdKind,
+        ServiceIdKind.PNI,
         'PNI message has valid destination'
       );
     }
@@ -305,7 +313,7 @@ describe('pnp/PNI Signature', function needsName() {
 
     debug('Wait for merge to happen');
     await leftPane
-      .locator(`[data-testid="${pniContact.toContact().uuid}"]`)
+      .locator(`[data-testid="${pniContact.toContact().aci}"]`)
       .waitFor();
 
     {
@@ -319,13 +327,13 @@ describe('pnp/PNI Signature', function needsName() {
 
     debug('Waiting for a ACI message');
     {
-      const { source, body, uuidKind } = await pniContact.waitForMessage();
+      const { source, body, serviceIdKind } = await pniContact.waitForMessage();
 
       assert.strictEqual(source, desktop, 'ACI message has valid source');
       assert.strictEqual(body, 'Hello ACI', 'ACI message has valid body');
       assert.strictEqual(
-        uuidKind,
-        UUIDKind.ACI,
+        serviceIdKind,
+        ServiceIdKind.ACI,
         'ACI message has valid destination'
       );
     }
@@ -337,16 +345,22 @@ describe('pnp/PNI Signature', function needsName() {
         after: state,
       });
 
-      assert.isUndefined(
-        newState.getContact(pniContact, UUIDKind.PNI),
-        'PNI Contact must be removed from storage service'
+      const pniRecord = newState.getContact(pniContact, ServiceIdKind.PNI);
+      const aciRecord = newState.getContact(pniContact, ServiceIdKind.ACI);
+      assert.strictEqual(
+        aciRecord,
+        pniRecord,
+        'ACI Contact must be the same as PNI Contact storage service'
       );
+      assert(aciRecord, 'ACI Contact must be in storage service');
 
-      const aci = newState.getContact(pniContact, UUIDKind.ACI);
-      assert(aci, 'ACI Contact must be in storage service');
-
-      assert.strictEqual(aci?.serviceUuid, pniContact.device.uuid);
-      assert.strictEqual(aci?.pni, pniContact.device.pni);
+      assert.strictEqual(aciRecord?.aci, pniContact.device.aci);
+      assert.strictEqual(
+        aciRecord?.pni &&
+          isUntaggedPniString(aciRecord?.pni) &&
+          toTaggedPni(aciRecord?.pni),
+        pniContact.device.pni
+      );
 
       // Two outgoing, one incoming
       const messages = window.locator('.module-message__text');

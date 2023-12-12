@@ -10,7 +10,7 @@ export type ToastPropsType = {
   units: string;
 };
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   onClose: () => unknown;
 } & ToastPropsType;

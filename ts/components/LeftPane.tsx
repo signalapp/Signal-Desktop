@@ -1,9 +1,9 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
-import { clamp, isNumber, noop } from 'lodash';
+import { isNumber } from 'lodash';
 
 import type { LeftPaneHelper, ToFindType } from './leftPane/LeftPaneHelper';
 import { FindDirection } from './leftPane/LeftPaneHelper';
@@ -26,30 +26,30 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import type { DurationInSeconds } from '../util/durations';
-import type { WidthBreakpoint } from './_util';
-import { getConversationListWidthBreakpoint } from './_util';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util';
 import * as KeyboardLayout from '../services/keyboardLayout';
-import {
-  MIN_WIDTH,
-  SNAP_WIDTH,
-  MIN_FULL_WIDTH,
-  MAX_WIDTH,
-  getWidthFromPreferredWidth,
-} from '../util/leftPaneWidth';
-import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../state/ducks/conversations';
 import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild';
+import { LeftPaneBanner } from './LeftPaneBanner';
 
 import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../types/Avatar';
-import { SizeObserver } from '../hooks/useSizeObserver';
+import { useSizeObserver } from '../hooks/useSizeObserver';
+import {
+  NavSidebar,
+  NavSidebarActionButton,
+  NavSidebarSearchHeader,
+} from './NavSidebar';
+import { ContextMenu } from './ContextMenu';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 export enum LeftPaneMode {
   Inbox,
@@ -61,13 +61,17 @@ export enum LeftPaneMode {
 }
 
 export type PropsType = {
+  otherTabsUnreadStats: UnreadStats;
   hasExpiredDialog: boolean;
+  hasFailedStorySends: boolean;
   hasNetworkDialog: boolean;
+  hasPendingUpdate: boolean;
   hasRelinkDialog: boolean;
   hasUpdateDialog: boolean;
   isUpdateDownloaded: boolean;
-  isContactManagementEnabled: boolean;
   unsupportedOSDialogType: 'error' | 'warning' | undefined;
+  usernameCorrupted: boolean;
+  usernameLinkCorrupted: boolean;
 
   // These help prevent invalid states. For example, we don't need the list of pinned
   //   conversations if we're trying to start a new conversation. Ideally these would be
@@ -114,6 +118,7 @@ export type PropsType = {
   composeReplaceAvatar: ReplaceAvatarActionType;
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
   createGroup: () => void;
+  navTabsCollapsed: boolean;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   removeConversation: (conversationId: string) => void;
@@ -132,10 +137,11 @@ export type PropsType = {
   startSettingGroupMetadata: () => void;
   toggleComposeEditingAvatar: () => unknown;
   toggleConversationInChooseMembers: (conversationId: string) => void;
+  toggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
+  toggleProfileEditor: () => void;
   updateSearchTerm: (_: string) => void;
 
   // Render Props
-  renderMainHeader: () => JSX.Element;
   renderMessageSearchResult: (id: string) => JSX.Element;
   renderNetworkStatus: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
@@ -152,9 +158,10 @@ export type PropsType = {
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
+  otherTabsUnreadStats,
   blockConversation,
   challengeStatus,
   clearConversationSearch,
@@ -169,23 +176,25 @@ export function LeftPane({
   createGroup,
   getPreferredBadge,
   hasExpiredDialog,
+  hasFailedStorySends,
   hasNetworkDialog,
+  hasPendingUpdate,
   hasRelinkDialog,
   hasUpdateDialog,
   i18n,
-  lookupConversationWithoutUuid,
+  lookupConversationWithoutServiceId,
   isMacOS,
   isUpdateDownloaded,
-  isContactManagementEnabled,
   modeSpecificProps,
+  navTabsCollapsed,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
+
   preferredWidthFromStorage,
   removeConversation,
   renderCaptchaDialog,
   renderCrashReportDialog,
   renderExpiredBuildDialog,
-  renderMainHeader,
   renderMessageSearchResult,
   renderNetworkStatus,
   renderUnsupportedOSDialog,
@@ -195,6 +204,8 @@ export function LeftPane({
   searchInConversation,
   selectedConversationId,
   targetedMessageId,
+  toggleNavTabsCollapse,
+  toggleProfileEditor,
   setChallengeStatus,
   setComposeGroupAvatar,
   setComposeGroupExpireTimer,
@@ -213,14 +224,10 @@ export function LeftPane({
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
   unsupportedOSDialogType,
+  usernameCorrupted,
+  usernameLinkCorrupted,
   updateSearchTerm,
 }: PropsType): JSX.Element {
-  const [preferredWidth, setPreferredWidth] = useState(
-    // This clamp is present just in case we get a bogus value from storage.
-    clamp(preferredWidthFromStorage, MIN_WIDTH, MAX_WIDTH)
-  );
-  const [isResizing, setIsResizing] = useState(false);
-
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
     modeSpecificProps
@@ -421,76 +428,6 @@ export function LeftPane({
     startSearch,
   ]);
 
-  const requiresFullWidth = helper.requiresFullWidth();
-
-  useEffect(() => {
-    if (!isResizing) {
-      return noop;
-    }
-
-    const onMouseMove = (event: MouseEvent) => {
-      let width: number;
-
-      const isRTL = i18n.getLocaleDirection() === 'rtl';
-      const x = isRTL ? window.innerWidth - event.clientX : event.clientX;
-
-      if (requiresFullWidth) {
-        width = Math.max(x, MIN_FULL_WIDTH);
-      } else if (x < SNAP_WIDTH) {
-        width = MIN_WIDTH;
-      } else {
-        width = clamp(x, MIN_FULL_WIDTH, MAX_WIDTH);
-      }
-      setPreferredWidth(Math.min(width, MAX_WIDTH));
-
-      event.preventDefault();
-    };
-
-    const stopResizing = () => {
-      setIsResizing(false);
-    };
-
-    document.body.addEventListener('mousemove', onMouseMove);
-    document.body.addEventListener('mouseup', stopResizing);
-    document.body.addEventListener('mouseleave', stopResizing);
-
-    return () => {
-      document.body.removeEventListener('mousemove', onMouseMove);
-      document.body.removeEventListener('mouseup', stopResizing);
-      document.body.removeEventListener('mouseleave', stopResizing);
-    };
-  }, [i18n, isResizing, requiresFullWidth]);
-
-  useEffect(() => {
-    if (!isResizing) {
-      return noop;
-    }
-
-    document.body.classList.add('is-resizing-left-pane');
-    return () => {
-      document.body.classList.remove('is-resizing-left-pane');
-    };
-  }, [isResizing]);
-
-  useEffect(() => {
-    if (isResizing || preferredWidth === preferredWidthFromStorage) {
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      savePreferredLeftPaneWidth(preferredWidth);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [
-    isResizing,
-    preferredWidth,
-    preferredWidthFromStorage,
-    savePreferredLeftPaneWidth,
-  ]);
-
   const preRowsNode = helper.getPreRowsNode({
     clearConversationSearch,
     clearGroupCreationError,
@@ -553,11 +490,12 @@ export function LeftPane({
   //   It also ensures that we scroll to the top when switching views.
   const listKey = preRowsNode ? 1 : 0;
 
-  const width = getWidthFromPreferredWidth(preferredWidth, {
-    requiresFullWidth,
-  });
+  const measureRef = useRef<HTMLDivElement>(null);
+  const measureSize = useSizeObserver(measureRef);
 
-  const widthBreakpoint = getConversationListWidthBreakpoint(width);
+  const widthBreakpoint = getNavSidebarWidthBreakpoint(
+    measureSize?.width ?? preferredWidthFromStorage
+  );
 
   const commonDialogProps = {
     i18n,
@@ -613,128 +551,198 @@ export function LeftPane({
     }
   }
 
+  let maybeBanner: JSX.Element | undefined;
+  if (usernameCorrupted) {
+    maybeBanner = (
+      <LeftPaneBanner
+        actionText={i18n('icu:LeftPane--corrupted-username--action-text')}
+        onClick={toggleProfileEditor}
+      >
+        {i18n('icu:LeftPane--corrupted-username--text')}
+      </LeftPaneBanner>
+    );
+  } else if (usernameLinkCorrupted) {
+    maybeBanner = (
+      <LeftPaneBanner
+        actionText={i18n('icu:LeftPane--corrupted-username-link--action-text')}
+        onClick={toggleProfileEditor}
+      >
+        {i18n('icu:LeftPane--corrupted-username-link--text')}
+      </LeftPaneBanner>
+    );
+  }
+
+  if (maybeBanner) {
+    dialogs.push({ key: 'banner', dialog: maybeBanner });
+  }
+
   return (
-    <nav
-      className={classNames(
-        'module-left-pane',
-        isResizing && 'module-left-pane--is-resizing',
-        `module-left-pane--width-${widthBreakpoint}`,
-        modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers &&
-          'module-left-pane--mode-choose-group-members',
-        modeSpecificProps.mode === LeftPaneMode.Compose &&
-          'module-left-pane--mode-compose'
-      )}
-      style={{ width }}
-    >
-      {/* eslint-enable jsx-a11y/no-static-element-interactions */}
-      <div className="module-left-pane__header">
-        {helper.getHeaderContents({
-          i18n,
-          showInbox,
-          startComposing,
-          showChooseGroupMembers,
-        }) || renderMainHeader()}
-      </div>
-      {helper.getSearchInput({
-        clearConversationSearch,
-        clearSearch,
-        i18n,
-        onChangeComposeSearchTerm: event => {
-          setComposeSearchTerm(event.target.value);
-        },
-        updateSearchTerm,
-        showConversation,
-      })}
-      <div className="module-left-pane__dialogs">
-        {dialogs.map(({ key, dialog }) => (
-          <React.Fragment key={key}>{dialog}</React.Fragment>
-        ))}
-      </div>
-      {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
-      <SizeObserver>
-        {(ref, size) => (
-          <div className="module-left-pane__list--measure" ref={ref}>
-            <div className="module-left-pane__list--wrapper">
-              <div
-                aria-live="polite"
-                className="module-left-pane__list"
-                data-supertab
-                key={listKey}
-                role="presentation"
-                tabIndex={-1}
-              >
-                <ConversationList
-                  dimensions={{
-                    width,
-                    height: size?.height || 0,
-                  }}
-                  getPreferredBadge={getPreferredBadge}
-                  getRow={getRow}
-                  i18n={i18n}
-                  onClickArchiveButton={showArchivedConversations}
-                  onClickContactCheckbox={(
-                    conversationId: string,
-                    disabledReason: undefined | ContactCheckboxDisabledReason
-                  ) => {
-                    switch (disabledReason) {
-                      case undefined:
-                        toggleConversationInChooseMembers(conversationId);
-                        break;
-                      case ContactCheckboxDisabledReason.AlreadyAdded:
-                      case ContactCheckboxDisabledReason.MaximumContactsSelected:
-                        // These are no-ops.
-                        break;
-                      default:
-                        throw missingCaseError(disabledReason);
-                    }
-                  }}
-                  showUserNotFoundModal={showUserNotFoundModal}
-                  setIsFetchingUUID={setIsFetchingUUID}
-                  lookupConversationWithoutUuid={lookupConversationWithoutUuid}
-                  showConversation={showConversation}
-                  blockConversation={blockConversation}
-                  onSelectConversation={onSelectConversation}
-                  onOutgoingAudioCallInConversation={
-                    onOutgoingAudioCallInConversation
-                  }
-                  onOutgoingVideoCallInConversation={
-                    onOutgoingVideoCallInConversation
-                  }
-                  removeConversation={
-                    isContactManagementEnabled ? removeConversation : undefined
-                  }
-                  renderMessageSearchResult={renderMessageSearchResult}
-                  rowCount={helper.getRowCount()}
-                  scrollBehavior={scrollBehavior}
-                  scrollToRowIndex={rowIndexToScrollTo}
-                  scrollable={isScrollable}
-                  shouldRecomputeRowHeights={shouldRecomputeRowHeights}
-                  showChooseGroupMembers={showChooseGroupMembers}
-                  theme={theme}
+    <NavSidebar
+      title="Chats"
+      hideHeader={
+        modeSpecificProps.mode === LeftPaneMode.Archive ||
+        modeSpecificProps.mode === LeftPaneMode.Compose ||
+        modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers ||
+        modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata
+      }
+      i18n={i18n}
+      otherTabsUnreadStats={otherTabsUnreadStats}
+      hasFailedStorySends={hasFailedStorySends}
+      hasPendingUpdate={hasPendingUpdate}
+      navTabsCollapsed={navTabsCollapsed}
+      onToggleNavTabsCollapse={toggleNavTabsCollapse}
+      preferredLeftPaneWidth={preferredWidthFromStorage}
+      requiresFullWidth={
+        modeSpecificProps.mode !== LeftPaneMode.Inbox ||
+        modeSpecificProps.isAboutToSearch
+      }
+      savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+      actions={
+        <>
+          <NavSidebarActionButton
+            label={i18n('icu:newConversation')}
+            icon={<span className="module-left-pane__startComposingIcon" />}
+            onClick={startComposing}
+          />
+          <ContextMenu
+            i18n={i18n}
+            menuOptions={[
+              {
+                label: i18n('icu:avatarMenuViewArchive'),
+                onClick: showArchivedConversations,
+              },
+            ]}
+            popperOptions={{
+              placement: 'bottom',
+              strategy: 'absolute',
+            }}
+            portalToRoot
+          >
+            {({ openMenu, onKeyDown }) => {
+              return (
+                <NavSidebarActionButton
+                  onClick={openMenu}
+                  onKeyDown={onKeyDown}
+                  icon={<span className="module-left-pane__moreActionsIcon" />}
+                  label="More Actions"
                 />
-              </div>
+              );
+            }}
+          </ContextMenu>
+        </>
+      }
+    >
+      <nav
+        className={classNames(
+          'module-left-pane',
+          modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers &&
+            'module-left-pane--mode-choose-group-members',
+          modeSpecificProps.mode === LeftPaneMode.Compose &&
+            'module-left-pane--mode-compose'
+        )}
+      >
+        {/* eslint-enable jsx-a11y/no-static-element-interactions */}
+        <div className="module-left-pane__header">
+          {helper.getHeaderContents({
+            i18n,
+            showInbox,
+            startComposing,
+            showChooseGroupMembers,
+          })}
+        </div>
+        {(widthBreakpoint === WidthBreakpoint.Wide ||
+          modeSpecificProps.mode !== LeftPaneMode.Inbox) && (
+          <NavSidebarSearchHeader>
+            {helper.getSearchInput({
+              clearConversationSearch,
+              clearSearch,
+              i18n,
+              onChangeComposeSearchTerm: event => {
+                setComposeSearchTerm(event.target.value);
+              },
+              updateSearchTerm,
+              showConversation,
+            })}
+          </NavSidebarSearchHeader>
+        )}
+        <div className="module-left-pane__dialogs">
+          {dialogs.map(({ key, dialog }) => (
+            <React.Fragment key={key}>{dialog}</React.Fragment>
+          ))}
+        </div>
+        {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
+        <div className="module-left-pane__list--measure" ref={measureRef}>
+          <div className="module-left-pane__list--wrapper">
+            <div
+              aria-live="polite"
+              className="module-left-pane__list"
+              data-supertab
+              key={listKey}
+              role="presentation"
+              tabIndex={-1}
+            >
+              <ConversationList
+                dimensions={measureSize ?? undefined}
+                getPreferredBadge={getPreferredBadge}
+                getRow={getRow}
+                i18n={i18n}
+                onClickArchiveButton={showArchivedConversations}
+                onClickContactCheckbox={(
+                  conversationId: string,
+                  disabledReason: undefined | ContactCheckboxDisabledReason
+                ) => {
+                  switch (disabledReason) {
+                    case undefined:
+                      toggleConversationInChooseMembers(conversationId);
+                      break;
+                    case ContactCheckboxDisabledReason.AlreadyAdded:
+                    case ContactCheckboxDisabledReason.MaximumContactsSelected:
+                      // These are no-ops.
+                      break;
+                    default:
+                      throw missingCaseError(disabledReason);
+                  }
+                }}
+                showUserNotFoundModal={showUserNotFoundModal}
+                setIsFetchingUUID={setIsFetchingUUID}
+                lookupConversationWithoutServiceId={
+                  lookupConversationWithoutServiceId
+                }
+                showConversation={showConversation}
+                blockConversation={blockConversation}
+                onSelectConversation={onSelectConversation}
+                onOutgoingAudioCallInConversation={
+                  onOutgoingAudioCallInConversation
+                }
+                onOutgoingVideoCallInConversation={
+                  onOutgoingVideoCallInConversation
+                }
+                removeConversation={removeConversation}
+                renderMessageSearchResult={renderMessageSearchResult}
+                rowCount={helper.getRowCount()}
+                scrollBehavior={scrollBehavior}
+                scrollToRowIndex={rowIndexToScrollTo}
+                scrollable={isScrollable}
+                shouldRecomputeRowHeights={shouldRecomputeRowHeights}
+                showChooseGroupMembers={showChooseGroupMembers}
+                theme={theme}
+              />
             </div>
           </div>
+        </div>
+        {footerContents && (
+          <div className="module-left-pane__footer">{footerContents}</div>
         )}
-      </SizeObserver>
-      {footerContents && (
-        <div className="module-left-pane__footer">{footerContents}</div>
-      )}
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <div
-        className="module-left-pane__resize-grab-area"
-        onMouseDown={() => {
-          setIsResizing(true);
-        }}
-      />
-      {challengeStatus !== 'idle' &&
-        renderCaptchaDialog({
-          onSkip() {
-            setChallengeStatus('idle');
-          },
-        })}
-      {crashReportCount > 0 && renderCrashReportDialog()}
-    </nav>
+
+        {challengeStatus !== 'idle' &&
+          renderCaptchaDialog({
+            onSkip() {
+              setChallengeStatus('idle');
+            },
+          })}
+        {crashReportCount > 0 && renderCrashReportDialog()}
+      </nav>
+    </NavSidebar>
   );
 }
 

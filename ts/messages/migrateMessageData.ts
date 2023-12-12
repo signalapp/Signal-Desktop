@@ -7,7 +7,7 @@ import pMap from 'p-map';
 import { CURRENT_SCHEMA_VERSION } from '../types/Message2';
 import { isNotNil } from '../util/isNotNil';
 import type { MessageAttributesType } from '../model-types.d';
-import type { UUIDStringType } from '../types/UUID';
+import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 
 const MAX_CONCURRENCY = 5;
@@ -33,7 +33,7 @@ export async function migrateMessageData({
   ) => Promise<Array<MessageAttributesType>>;
   saveMessages: (
     data: ReadonlyArray<MessageAttributesType>,
-    options: { ourUuid: UUIDStringType }
+    options: { ourAci: AciString }
   ) => Promise<void>;
   maxVersion?: number;
 }>): Promise<
@@ -103,7 +103,7 @@ export async function migrateMessageData({
 
   const saveStartTime = Date.now();
 
-  const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
   await saveMessages(
     [
       ...upgradedMessages,
@@ -114,7 +114,7 @@ export async function migrateMessageData({
         schemaMigrationAttempts: (message.schemaMigrationAttempts ?? 0) + 1,
       })),
     ],
-    { ourUuid }
+    { ourAci }
   );
   const saveDuration = Date.now() - saveStartTime;
 

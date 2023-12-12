@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { generateAci } from '../../types/ServiceId';
 
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+
+const serviceId = generateAci();
 
 describe('isConversationSMSOnly', () => {
   it('returns false if passed an undefined type', () => {
@@ -26,7 +29,7 @@ describe('isConversationSMSOnly', () => {
         isConversationSMSOnly({
           type,
           e164: 'e164',
-          uuid: 'uuid',
+          serviceId,
           discoveredUnregisteredAt: 1,
         })
       );
@@ -37,7 +40,7 @@ describe('isConversationSMSOnly', () => {
         isConversationSMSOnly({
           type,
           e164: 'e164',
-          uuid: 'uuid',
+          serviceId,
           discoveredUnregisteredAt: Date.now(),
         })
       );
@@ -47,7 +50,7 @@ describe('isConversationSMSOnly', () => {
         isConversationSMSOnly({
           type,
           e164: 'e164',
-          uuid: 'uuid',
+          serviceId,
           discoveredUnregisteredAt: Date.now() - fiveHours,
         })
       );

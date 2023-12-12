@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as sinon from 'sinon';
+import { v4 as generateUuid } from 'uuid';
+
 import { times } from 'lodash';
 import { ConversationModel } from '../models/conversations';
 import type { ConversationAttributesType } from '../model-types.d';
-import { UUID } from '../types/UUID';
+import { generateAci } from '../types/ServiceId';
 import { DAY, HOUR, MINUTE, MONTH } from '../util/durations';
 
 import { routineProfileRefresh } from '../routineProfileRefresh';
@@ -27,12 +29,12 @@ describe('routineProfileRefresh', () => {
     overrideAttributes: Partial<ConversationAttributesType> = {}
   ): ConversationModel {
     const result = new ConversationModel({
-      accessKey: UUID.generate().toString(),
+      accessKey: generateUuid(),
       active_at: Date.now(),
       draftAttachments: [],
       draftBodyRanges: [],
       draftTimestamp: null,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       inbox_position: 0,
       isPinned: false,
       lastMessageDeletedForEveryone: false,
@@ -44,7 +46,7 @@ describe('routineProfileRefresh', () => {
       messageRequestResponseType: 0,
       muteExpiresAt: 0,
       profileAvatar: undefined,
-      profileKeyCredential: UUID.generate().toString(),
+      profileKeyCredential: generateUuid(),
       profileKeyCredentialExpiration: Date.now() + 2 * DAY,
       profileSharing: true,
       quotedMessageId: null,
@@ -53,7 +55,7 @@ describe('routineProfileRefresh', () => {
       sharedGroupNames: [],
       timestamp: Date.now(),
       type: 'private',
-      uuid: UUID.generate().toString(),
+      serviceId: generateAci(),
       version: 2,
       ...overrideAttributes,
     });
@@ -86,7 +88,7 @@ describe('routineProfileRefresh', () => {
 
     await routineProfileRefresh({
       allConversations: [conversation1, conversation2],
-      ourConversationId: UUID.generate().toString(),
+      ourConversationId: generateUuid(),
       storage,
       getProfileFn,
       id: 1,
@@ -102,7 +104,7 @@ describe('routineProfileRefresh', () => {
 
     await routineProfileRefresh({
       allConversations: [conversation1, conversation2],
-      ourConversationId: UUID.generate().toString(),
+      ourConversationId: generateUuid(),
       storage: makeStorage(),
       getProfileFn,
       id: 1,
@@ -110,12 +112,12 @@ describe('routineProfileRefresh', () => {
 
     sinon.assert.calledWith(
       getProfileFn,
-      conversation1.get('uuid'),
+      conversation1.getServiceId(),
       conversation1.get('e164')
     );
     sinon.assert.calledWith(
       getProfileFn,
-      conversation2.get('uuid'),
+      conversation2.getServiceId(),
       conversation2.get('e164')
     );
   });
@@ -131,7 +133,7 @@ describe('routineProfileRefresh', () => {
 
     await routineProfileRefresh({
       allConversations: [normal, recentlyFetched, unregisteredAndStale],
-      ourConversationId: UUID.generate().toString(),
+      ourConversationId: generateUuid(),
       storage: makeStorage(),
       getProfileFn,
       id: 1,
@@ -140,17 +142,17 @@ describe('routineProfileRefresh', () => {
     sinon.assert.calledOnce(getProfileFn);
     sinon.assert.calledWith(
       getProfileFn,
-      normal.get('uuid'),
+      normal.getServiceId(),
       normal.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      recentlyFetched.get('uuid'),
+      recentlyFetched.getServiceId(),
       recentlyFetched.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      unregisteredAndStale.get('uuid'),
+      unregisteredAndStale.getServiceId(),
       unregisteredAndStale.get('e164')
     );
   });
@@ -167,8 +169,16 @@ describe('routineProfileRefresh', () => {
       id: 1,
     });
 
-    sinon.assert.calledWith(getProfileFn, notMe.get('uuid'), notMe.get('e164'));
-    sinon.assert.neverCalledWith(getProfileFn, me.get('uuid'), me.get('e164'));
+    sinon.assert.calledWith(
+      getProfileFn,
+      notMe.getServiceId(),
+      notMe.get('e164')
+    );
+    sinon.assert.neverCalledWith(
+      getProfileFn,
+      me.getServiceId(),
+      me.get('e164')
+    );
   });
 
   it('includes your own conversation if profileKeyCredential is expired', async () => {
@@ -187,8 +197,12 @@ describe('routineProfileRefresh', () => {
       id: 1,
     });
 
-    sinon.assert.calledWith(getProfileFn, notMe.get('uuid'), notMe.get('e164'));
-    sinon.assert.calledWith(getProfileFn, me.get('uuid'), me.get('e164'));
+    sinon.assert.calledWith(
+      getProfileFn,
+      notMe.getServiceId(),
+      notMe.get('e164')
+    );
+    sinon.assert.calledWith(getProfileFn, me.getServiceId(), me.get('e164'));
   });
 
   it('skips conversations that were refreshed in last three days', async () => {
@@ -214,7 +228,7 @@ describe('routineProfileRefresh', () => {
         refreshedTwoDaysAgo,
         refreshedThreeDaysAgo,
       ],
-      ourConversationId: UUID.generate().toString(),
+      ourConversationId: generateUuid(),
       storage: makeStorage(),
       getProfileFn,
       id: 1,
@@ -223,27 +237,27 @@ describe('routineProfileRefresh', () => {
     sinon.assert.calledTwice(getProfileFn);
     sinon.assert.calledWith(
       getProfileFn,
-      neverRefreshed.get('uuid'),
+      neverRefreshed.getServiceId(),
       neverRefreshed.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      refreshedToday.get('uuid'),
+      refreshedToday.getServiceId(),
       refreshedToday.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      refreshedYesterday.get('uuid'),
+      refreshedYesterday.getServiceId(),
       refreshedYesterday.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      refreshedTwoDaysAgo.get('uuid'),
+      refreshedTwoDaysAgo.getServiceId(),
       refreshedTwoDaysAgo.get('e164')
     );
     sinon.assert.calledWith(
       getProfileFn,
-      refreshedThreeDaysAgo.get('uuid'),
+      refreshedThreeDaysAgo.getServiceId(),
       refreshedThreeDaysAgo.get('e164')
     );
   });
@@ -287,7 +301,7 @@ describe('routineProfileRefresh', () => {
     [...normalConversations, ...neverFetched].forEach(conversation => {
       sinon.assert.calledWith(
         getProfileFn,
-        conversation.get('uuid'),
+        conversation.getServiceId(),
         conversation.get('e164')
       );
     });
@@ -295,7 +309,7 @@ describe('routineProfileRefresh', () => {
     [me, ...shouldNotBeIncluded].forEach(conversation => {
       sinon.assert.neverCalledWith(
         getProfileFn,
-        conversation.get('uuid'),
+        conversation.getServiceId(),
         conversation.get('e164')
       );
     });

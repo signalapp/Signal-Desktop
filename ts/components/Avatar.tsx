@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
+import { filterDOMProps } from '@react-aria/utils';
 import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
 import type { LocalizerType } from '../types/Util';
@@ -37,9 +38,12 @@ export enum AvatarSize {
   TWENTY = 20,
   TWENTY_EIGHT = 28,
   THIRTY_TWO = 32,
+  THIRTY_SIX = 36,
+  FORTY = 40,
   FORTY_EIGHT = 48,
   FIFTY_TWO = 52,
   EIGHTY = 80,
+  NINETY_SIX = 96,
 }
 
 type BadgePlacementType = { bottom: number; right: number };
@@ -239,7 +243,7 @@ export function Avatar({
   if (onClick) {
     contents = (
       <button
-        {...ariaProps}
+        {...filterDOMProps(ariaProps)}
         className={contentsClassName}
         type="button"
         onClick={onClick}

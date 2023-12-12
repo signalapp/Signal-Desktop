@@ -42,9 +42,8 @@ export function _urlToPath(
     : decoded.slice(options?.isWindows ? 8 : 7);
 
   const withoutQuerystring = _eliminateAllAfterCharacter(withoutScheme, '?');
-  const withoutHash = _eliminateAllAfterCharacter(withoutQuerystring, '#');
 
-  return withoutHash;
+  return withoutQuerystring;
 }
 
 function _createFileHandler({

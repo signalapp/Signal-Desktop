@@ -11,7 +11,9 @@ import {
 import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
 import { IMAGE_GIF } from '../types/MIME';
+import { generateAci } from '../types/ServiceId';
 
+const ACI_1 = generateAci();
 const FLAGS = Proto.DataMessage.Flags;
 
 const TIMESTAMP = Date.now();
@@ -122,7 +124,7 @@ describe('processDataMessage', () => {
     const out = check({
       quote: {
         id: Long.fromNumber(1),
-        authorUuid: 'author',
+        authorAci: ACI_1,
         text: 'text',
         attachments: [
           {
@@ -136,7 +138,7 @@ describe('processDataMessage', () => {
 
     assert.deepStrictEqual(out.quote, {
       id: 1,
-      authorUuid: 'author',
+      authorAci: ACI_1,
       text: 'text',
       attachments: [
         {
@@ -182,13 +184,14 @@ describe('processDataMessage', () => {
       check({
         reaction: {
           emoji: '😎',
+          targetAuthorAci: ACI_1,
           targetTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {
         emoji: '😎',
         remove: false,
-        targetAuthorUuid: undefined,
+        targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
       }
     );
@@ -198,13 +201,14 @@ describe('processDataMessage', () => {
         reaction: {
           emoji: '😎',
           remove: true,
+          targetAuthorAci: ACI_1,
           targetTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {
         emoji: '😎',
         remove: true,
-        targetAuthorUuid: undefined,
+        targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
       }
     );

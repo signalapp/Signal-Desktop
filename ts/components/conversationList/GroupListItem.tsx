@@ -4,7 +4,7 @@
 import React from 'react';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 import { Avatar, AvatarSize } from '../Avatar';
 import { ListTile } from '../ListTile';
 import { UserText } from '../UserText';
@@ -21,7 +21,7 @@ export type GroupListItemConversationType = Pick<
   disabledReason: DisabledReason | undefined;
   membersCount: number;
   memberships: ReadonlyArray<{
-    uuid: UUIDStringType;
+    aci: AciString;
     isAdmin: boolean;
   }>;
 };

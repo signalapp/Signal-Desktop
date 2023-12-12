@@ -6,9 +6,9 @@
 @mixin localized-fonts {
   /* Japanese */
   &:lang(ja) {
-    font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
-      メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
-      sans-serif;
+    font-family: Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic',
+      'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo,
+      'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   /* Farsi (Persian) */
   &:lang(fa) {
@@ -41,6 +41,14 @@
   font-size: 20px;
   line-height: 26px;
   letter-spacing: -0.34px;
+}
+
+@mixin font-title-medium {
+  @include font-family;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: -0.25px;
 }
 
 @mixin font-body-1 {
@@ -127,6 +135,13 @@
 }
 
 @mixin dark-theme() {
+  .dark-theme & {
+    @content;
+  }
+}
+
+@mixin any-theme {
+  &,
   .dark-theme & {
     @content;
   }
@@ -254,23 +269,7 @@ $rtl-icon-map: (
 }
 
 @mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
-  $rtl-svg: get-rtl-svg($svg);
-  @if $rtl-svg {
-    :dir(ltr) & {
-      -webkit-mask: url($svg) no-repeat center;
-      @if $stretch {
-        -webkit-mask-size: 100%;
-      }
-    }
-    :dir(rtl) & {
-      -webkit-mask: url($rtl-svg) no-repeat center;
-      @if $stretch {
-        -webkit-mask-size: 100%;
-      }
-    }
-  } @else {
-    -webkit-mask: url($svg) no-repeat center;
-  }
+  -webkit-mask: url($svg) no-repeat center;
   @if $stretch {
     -webkit-mask-size: 100%;
   }
@@ -280,6 +279,12 @@ $rtl-icon-map: (
   background-color: $color;
   @media (forced-colors: active) {
     background-color: WindowText;
+  }
+  $rtl-svg: get-rtl-svg($svg);
+  @if $rtl-svg {
+    :dir(rtl) & {
+      -webkit-mask: url($rtl-svg) no-repeat center;
+    }
   }
 }
 
@@ -857,4 +862,24 @@ $rtl-icon-map: (
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+}
+
+@mixin NavTabs__Scroller {
+  padding-bottom: 8px;
+  @include scrollbar;
+  &::-webkit-scrollbar-thumb {
+    @include light-theme {
+      border-color: $color-gray-04;
+    }
+    @include dark-theme {
+      border-color: $color-gray-80;
+    }
+  }
+}
+
+@mixin draggable-region {
+  -webkit-app-region: drag;
+  body.context-menu-open & {
+    -webkit-app-region: no-drag;
+  }
 }

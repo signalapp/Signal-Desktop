@@ -4,6 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
+import type { Props } from './ConfirmationDialog';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -12,9 +14,9 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/ConfirmationDialog',
-};
+} satisfies Meta<Props>;
 
-export const _ConfirmationDialog = (): JSX.Element => {
+export function Basic(): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"
@@ -37,11 +39,7 @@ export const _ConfirmationDialog = (): JSX.Element => {
       asdf blip
     </ConfirmationDialog>
   );
-};
-
-_ConfirmationDialog.story = {
-  name: 'ConfirmationDialog',
-};
+}
 
 export function CustomCancelText(): JSX.Element {
   return (
@@ -63,10 +61,6 @@ export function CustomCancelText(): JSX.Element {
     </ConfirmationDialog>
   );
 }
-
-CustomCancelText.story = {
-  name: 'Custom cancel text',
-};
 
 export function NoDefaultCancel(): JSX.Element {
   return (

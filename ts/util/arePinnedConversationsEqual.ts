@@ -24,7 +24,7 @@ export function arePinnedConversationsEqual(
       if (contact) {
         return (
           remotePinnedConversation.contact &&
-          contact.uuid === remotePinnedConversation.contact.uuid
+          contact.serviceId === remotePinnedConversation.contact.serviceId
         );
       }
 

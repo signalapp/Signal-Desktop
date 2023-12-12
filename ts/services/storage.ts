@@ -43,6 +43,7 @@ import { map, filter } from '../util/iterables';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
   ConversationTypes,
+  isDirectConversation,
   typeofConversation,
 } from '../util/whatTypeOfConversation';
 import { SignalService as Proto } from '../protobuf';
@@ -68,7 +69,9 @@ import { isSignalConversation } from '../util/isSignalConversation';
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
 const {
-  eraseStorageServiceStateFromConversations,
+  eraseStorageServiceState,
+  flushUpdateConversationBatcher,
+  getItemById,
   updateConversation,
   updateConversations,
 } = dataInterface;
@@ -251,7 +254,7 @@ async function generateManifest(
       identifierType = ITEM_TYPE.ACCOUNT;
     } else if (conversationType === ConversationTypes.Direct) {
       // Contacts must have UUID
-      if (!conversation.get('uuid')) {
+      if (!conversation.getServiceId()) {
         continue;
       }
 
@@ -1204,7 +1207,10 @@ async function processManifest(
 
       // Remote might have dropped this conversation already, but our value of
       // `firstUnregisteredAt` is too high for us to drop it. Don't reupload it!
-      if (conversation.isUnregistered()) {
+      if (
+        isDirectConversation(conversation.attributes) &&
+        conversation.isUnregistered()
+      ) {
         log.info(
           `storageService.process(${version}): localKey=${missingKey} is ` +
             'unregistered and not in remote manifest'
@@ -1508,7 +1514,7 @@ async function processRemoteRecords(
 
   // Find remote contact records that:
   // - Have `remote.pni === remote.serviceUuid` and have `remote.serviceE164`
-  // - Match local contact that has `local.serviceUuid != remote.pni`.
+  // - Match local contact that has `aci`.
   const splitPNIContacts = new Array<MergeableItemType>();
   prunedStorageItems = prunedStorageItems.filter(item => {
     const { itemType, storageRecord } = item;
@@ -1517,18 +1523,12 @@ async function processRemoteRecords(
       return true;
     }
 
-    if (
-      !contact.serviceE164 ||
-      !contact.pni ||
-      contact.pni !== contact.serviceUuid
-    ) {
+    if (!contact.serviceE164 || !contact.pni) {
       return true;
     }
 
-    const localUuid = window.ConversationController.get(contact.pni)?.get(
-      'uuid'
-    );
-    if (!localUuid || localUuid === contact.pni) {
+    const localAci = window.ConversationController.get(contact.pni)?.getAci();
+    if (!localAci) {
       return true;
     }
 
@@ -1895,12 +1895,12 @@ export function enableStorageService(): void {
   storageServiceEnabled = true;
 }
 
-// Note: this function is meant to be called before ConversationController is hydrated.
-//   It goes directly to the database, so in-memory conversations will be out of date.
 export async function eraseAllStorageServiceState({
   keepUnknownFields = false,
 }: { keepUnknownFields?: boolean } = {}): Promise<void> {
   log.info('storageService.eraseAllStorageServiceState: starting...');
+
+  // First, update high-level storage service metadata
   await Promise.all([
     window.storage.remove('manifestVersion'),
     keepUnknownFields
@@ -1908,7 +1908,34 @@ export async function eraseAllStorageServiceState({
       : window.storage.remove('storage-service-unknown-records'),
     window.storage.remove('storageCredentials'),
   ]);
-  await eraseStorageServiceStateFromConversations();
+
+  // Then, we make the changes to records in memory:
+  //   - Conversations
+  //   - Sticker packs
+  //   - Uninstalled sticker packs
+  //   - Story distribution lists
+
+  // This call just erases stickers for now. Storage service data is not stored
+  //   in memory for Story Distribution Lists. Uninstalled sticker packs are not
+  //   kept in memory at all.
+  window.reduxActions.user.eraseStorageServiceState();
+
+  // Conversations. These properties are not present in redux.
+  window.getConversations().forEach(conversation => {
+    conversation.unset('storageID');
+    conversation.unset('needsStorageServiceSync');
+    conversation.unset('storageUnknownFields');
+  });
+
+  // Then make sure outstanding conversation saves are flushed
+  await flushUpdateConversationBatcher();
+
+  // Then make sure that all previously-outstanding database saves are flushed
+  await getItemById('manifestVersion');
+
+  // Finally, we update the database directly for all record types:
+  await eraseStorageServiceState();
+
   log.info('storageService.eraseAllStorageServiceState: complete');
 }
 

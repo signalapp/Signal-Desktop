@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { StoryReadType } from '../../sql/Interface';
 
@@ -16,10 +16,6 @@ const {
   getLastStoryReadsForAuthor,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/storyReads', () => {
   beforeEach(async () => {
     await _deleteAllStoryReads();
@@ -29,9 +25,9 @@ describe('sql/storyReads', () => {
     assert.lengthOf(await _getAllStoryReads(), 0);
 
     const read: StoryReadType = {
-      authorId: getUuid(),
-      conversationId: getUuid(),
-      storyId: getUuid(),
+      authorId: generateAci(),
+      conversationId: generateUuid(),
+      storyId: generateUuid(),
       storyReadDate: Date.now(),
     };
 
@@ -45,29 +41,29 @@ describe('sql/storyReads', () => {
   describe('getLastStoryReadsForAuthor', () => {
     it('returns n = limit items for author', async () => {
       const now = Date.now();
-      const authorId = getUuid();
+      const authorId = generateAci();
       const read1: StoryReadType = {
         authorId,
-        conversationId: getUuid(),
-        storyId: getUuid(),
+        conversationId: generateUuid(),
+        storyId: generateUuid(),
         storyReadDate: now - 20,
       };
       const read2: StoryReadType = {
         authorId,
-        conversationId: getUuid(),
-        storyId: getUuid(),
+        conversationId: generateUuid(),
+        storyId: generateUuid(),
         storyReadDate: now - 10,
       };
       const read3: StoryReadType = {
         authorId,
-        conversationId: getUuid(),
-        storyId: getUuid(),
+        conversationId: generateUuid(),
+        storyId: generateUuid(),
         storyReadDate: now,
       };
       const read4: StoryReadType = {
-        authorId: getUuid(),
-        conversationId: getUuid(),
-        storyId: getUuid(),
+        authorId: generateAci(),
+        conversationId: generateUuid(),
+        storyId: generateUuid(),
         storyReadDate: now,
       };
 
@@ -88,30 +84,30 @@ describe('sql/storyReads', () => {
 
     it('returns only items in provided conversation', async () => {
       const now = Date.now();
-      const authorId = getUuid();
-      const conversationId = getUuid();
+      const authorId = generateAci();
+      const conversationId = generateUuid();
       const read1: StoryReadType = {
         authorId,
         conversationId,
-        storyId: getUuid(),
+        storyId: generateUuid(),
         storyReadDate: now - 20,
       };
       const read2: StoryReadType = {
         authorId,
         conversationId,
-        storyId: getUuid(),
+        storyId: generateUuid(),
         storyReadDate: now - 10,
       };
       const read3: StoryReadType = {
         authorId,
-        conversationId: getUuid(),
-        storyId: getUuid(),
+        conversationId: generateUuid(),
+        storyId: generateUuid(),
         storyReadDate: now,
       };
       const read4: StoryReadType = {
         authorId,
-        conversationId: getUuid(),
-        storyId: getUuid(),
+        conversationId: generateUuid(),
+        storyId: generateUuid(),
         storyReadDate: now,
       };
 

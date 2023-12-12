@@ -5,6 +5,7 @@ import type { ReactNode, FunctionComponent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import type { BadgeType } from '../../badges/types';
@@ -16,7 +17,6 @@ import { Spinner } from '../Spinner';
 import { Time } from '../Time';
 import { formatDateTimeShort } from '../../util/timestamp';
 import * as durations from '../../util/durations';
-import { UUID } from '../../types/UUID';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -68,7 +68,7 @@ type PropsType = {
   | 'sharedGroupNames'
   | 'title'
   | 'unblurredAvatarPath'
-  | 'uuid'
+  | 'serviceId'
 > &
   (
     | { badge?: undefined; theme?: ThemeType }
@@ -109,12 +109,12 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       unblurredAvatarPath,
       unreadCount,
       unreadMentionsCount,
-      uuid,
+      serviceId,
     } = props;
 
     const identifier = id ? cleanId(id) : undefined;
-    const htmlId = useMemo(() => UUID.generate().toString(), []);
-    const testId = overrideTestId || groupId || uuid;
+    const htmlId = useMemo(() => generateUuid(), []);
+    const testId = overrideTestId || groupId || serviceId;
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
@@ -257,7 +257,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           className={classNames(
             commonClassNames,
             `${BASE_CLASS_NAME}--is-checkbox`,
-            { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
+            { [`${BASE_CLASS_NAME}--disabled`]: disabled }
           )}
           data-id={identifier}
           data-testid={testId}

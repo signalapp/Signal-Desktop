@@ -4,18 +4,20 @@
 import type { ConversationAttributesType } from '../model-types';
 
 import * as log from '../logging/log';
-import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
 import { getRecipientsByConversation } from './getRecipientsByConversation';
 
+import type { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
+
 export async function isCallSafe(
-  attributes: ConversationAttributesType
+  attributes: ConversationAttributesType,
+  source: SafetyNumberChangeSource
 ): Promise<boolean> {
   const recipientsByConversation = getRecipientsByConversation([attributes]);
 
   const callAnyway = await blockSendUntilConversationsAreVerified(
     recipientsByConversation,
-    SafetyNumberChangeSource.Calling
+    source
   );
 
   if (!callAnyway) {

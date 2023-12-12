@@ -4,6 +4,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingScreenSharingController';
 import { CallingScreenSharingController } from './CallingScreenSharingController';
 
@@ -21,7 +22,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/CallingScreenSharingController',
-};
+} satisfies Meta<PropsType>;
 
 export function Controller(): JSX.Element {
   return <CallingScreenSharingController {...createProps()} />;
@@ -37,7 +38,3 @@ export function ReallyLongAppName(): JSX.Element {
     />
   );
 }
-
-ReallyLongAppName.story = {
-  name: 'Really long app name',
-};

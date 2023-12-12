@@ -10,6 +10,8 @@ import { randomBytes } from 'crypto';
 import type { Database, Statement } from '@signalapp/better-sqlite3';
 import SQL from '@signalapp/better-sqlite3';
 import pProps from 'p-props';
+import { v4 as generateUuid } from 'uuid';
+import { z } from 'zod';
 
 import type { Dictionary } from 'lodash';
 import {
@@ -32,8 +34,9 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import type { GroupV2MemberType } from '../model-types.d';
 import type { ReactionType } from '../types/Reactions';
 import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
-import { UUID } from '../types/UUID';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString, AciString } from '../types/ServiceId';
+import { isServiceIdString } from '../types/ServiceId';
 import type { StoredJob } from '../jobs/types';
 import { assertDev, assertSync, strictAssert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
@@ -41,12 +44,10 @@ import { consoleLogger } from '../util/consoleLogger';
 import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
-import { missingCaseError } from '../util/missingCaseError';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
-import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { BadgeType, BadgeImageType } from '../badges/types';
 import { parseBadgeCategory } from '../badges/BadgeCategory';
 import { parseBadgeImageTheme } from '../badges/BadgeImageTheme';
@@ -60,6 +61,7 @@ import type {
   QueryFragment,
 } from './util';
 import {
+  sqlConstant,
   sqlJoin,
   sqlFragment,
   sql,
@@ -142,6 +144,19 @@ import {
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
 } from '../util/search';
+import type {
+  CallHistoryDetails,
+  CallHistoryFilter,
+  CallHistoryGroup,
+  CallHistoryPagination,
+} from '../types/CallDisposition';
+import {
+  DirectCallStatus,
+  callHistoryGroupSchema,
+  CallHistoryFilterStatus,
+  callHistoryDetailsSchema,
+  CallDirection,
+} from '../types/CallDisposition';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -179,7 +194,7 @@ const dataInterface: ServerInterface = {
   getKyberPreKeyById,
   bulkAddKyberPreKeys,
   removeKyberPreKeyById,
-  removeKyberPreKeysByUuid,
+  removeKyberPreKeysByServiceId,
   removeAllKyberPreKeys,
   getAllKyberPreKeys,
 
@@ -187,7 +202,7 @@ const dataInterface: ServerInterface = {
   getPreKeyById,
   bulkAddPreKeys,
   removePreKeyById,
-  removePreKeysByUuid,
+  removePreKeysByServiceId,
   removeAllPreKeys,
   getAllPreKeys,
 
@@ -195,7 +210,7 @@ const dataInterface: ServerInterface = {
   getSignedPreKeyById,
   bulkAddSignedPreKeys,
   removeSignedPreKeyById,
-  removeSignedPreKeysByUuid,
+  removeSignedPreKeysByServiceId,
   removeAllSignedPreKeys,
   getAllSignedPreKeys,
 
@@ -228,11 +243,10 @@ const dataInterface: ServerInterface = {
   bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
-  removeSessionsByUUID,
+  removeSessionsByServiceId,
   removeAllSessions,
   getAllSessions,
 
-  eraseStorageServiceStateFromConversations,
   getConversationCount,
   saveConversation,
   saveConversations,
@@ -246,7 +260,7 @@ const dataInterface: ServerInterface = {
 
   getAllConversations,
   getAllConversationIds,
-  getAllGroupsInvolvingUuid,
+  getAllGroupsInvolvingServiceId,
 
   searchMessages,
 
@@ -288,7 +302,17 @@ const dataInterface: ServerInterface = {
   getConversationRangeCenteredOnMessage,
   getConversationMessageStats,
   getLastConversationMessage,
+  getAllCallHistory,
+  clearCallHistory,
+  cleanupCallHistoryMessages,
+  getCallHistoryUnreadCount,
+  markCallHistoryRead,
+  markAllCallHistoryRead,
   getCallHistoryMessageByCallId,
+  getCallHistory,
+  getCallHistoryGroupsCount,
+  getCallHistoryGroups,
+  saveCallHistory,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
   getMessagesBetween,
@@ -359,6 +383,7 @@ const dataInterface: ServerInterface = {
 
   removeAll,
   removeAllConfiguration,
+  eraseStorageServiceState,
 
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
@@ -389,6 +414,8 @@ const dataInterface: ServerInterface = {
   removeKnownStickers,
   removeKnownDraftAttachments,
   getAllBadgeImageFileLocalPaths,
+
+  runCorruptionChecks,
 };
 export default dataInterface;
 
@@ -474,12 +501,18 @@ function migrateSchemaVersion(db: Database): void {
   setUserVersion(db, newUserVersion);
 }
 
-function openAndMigrateDatabase(filePath: string, key: string) {
+function openAndMigrateDatabase(
+  filePath: string,
+  key: string,
+  readonly: boolean
+) {
   let db: Database | undefined;
 
   // First, we try to open the database without any cipher changes
   try {
-    db = new SQL(filePath);
+    db = new SQL(filePath, {
+      readonly,
+    });
     keyDatabase(db, key);
     switchToWAL(db);
     migrateSchemaVersion(db);
@@ -514,13 +547,16 @@ function openAndMigrateDatabase(filePath: string, key: string) {
 }
 
 const INVALID_KEY = /[^0-9A-Fa-f]/;
-function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
+function openAndSetUpSQLCipher(
+  filePath: string,
+  { key, readonly }: { key: string; readonly: boolean }
+) {
   const match = INVALID_KEY.exec(key);
   if (match) {
     throw new Error(`setupSQLCipher: key '${key}' is not valid`);
   }
 
-  const db = openAndMigrateDatabase(filePath, key);
+  const db = openAndMigrateDatabase(filePath, key, readonly);
 
   // Because foreign key support is not enabled by default!
   db.pragma('foreign_keys = ON');
@@ -528,7 +564,8 @@ function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
   return db;
 }
 
-let globalInstance: Database | undefined;
+let globalWritableInstance: Database | undefined;
+let globalReadonlyInstance: Database | undefined;
 let logger = consoleLogger;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
@@ -542,11 +579,12 @@ async function initialize({
   key,
   logger: suppliedLogger,
 }: {
+  appVersion: string;
   configDir: string;
   key: string;
   logger: LoggerType;
 }): Promise<void> {
-  if (globalInstance) {
+  if (globalWritableInstance || globalReadonlyInstance) {
     throw new Error('Cannot initialize more than once!');
   }
 
@@ -566,26 +604,32 @@ async function initialize({
 
   databaseFilePath = join(dbDir, 'db.sqlite');
 
-  let db: Database | undefined;
+  let writable: Database | undefined;
+  let readonly: Database | undefined;
 
   try {
-    db = openAndSetUpSQLCipher(databaseFilePath, { key });
+    writable = openAndSetUpSQLCipher(databaseFilePath, {
+      key,
+      readonly: false,
+    });
 
     // For profiling use:
     // db.pragma('cipher_profile=\'sqlcipher.log\'');
 
-    updateSchema(db, logger);
+    updateSchema(writable, logger);
+
+    readonly = openAndSetUpSQLCipher(databaseFilePath, { key, readonly: true });
 
     // At this point we can allow general access to the database
-    globalInstance = db;
+    globalWritableInstance = writable;
+    globalReadonlyInstance = readonly;
 
     // test database
     getMessageCountSync();
   } catch (error) {
     logger.error('Database startup error:', error.stack);
-    if (db) {
-      db.close();
-    }
+    readonly?.close();
+    writable?.close();
     throw error;
   }
 }
@@ -593,20 +637,30 @@ async function initialize({
 async function close(): Promise<void> {
   // SQLLite documentation suggests that we run `PRAGMA optimize` right
   // before closing the database connection.
-  globalInstance?.pragma('optimize');
+  globalWritableInstance?.pragma('optimize');
 
-  globalInstance?.close();
-  globalInstance = undefined;
+  globalWritableInstance?.close();
+  globalWritableInstance = undefined;
+  globalReadonlyInstance?.close();
+  globalReadonlyInstance = undefined;
 }
 
 async function removeDB(): Promise<void> {
-  if (globalInstance) {
+  if (globalWritableInstance) {
     try {
-      globalInstance.close();
+      globalWritableInstance.close();
     } catch (error) {
       logger.error('removeDB: Failed to close database:', error.stack);
     }
-    globalInstance = undefined;
+    globalWritableInstance = undefined;
+  }
+  if (globalReadonlyInstance) {
+    try {
+      globalReadonlyInstance.close();
+    } catch (error) {
+      logger.error('removeDB: Failed to close readonly database:', error.stack);
+    }
+    globalReadonlyInstance = undefined;
   }
   if (!databaseFilePath) {
     throw new Error(
@@ -632,136 +686,185 @@ async function removeIndexedDBFiles(): Promise<void> {
   indexedDBPath = undefined;
 }
 
-function getInstance(): Database {
-  if (!globalInstance) {
-    throw new Error('getInstance: globalInstance not set!');
+function getReadonlyInstance(): Database {
+  if (!globalReadonlyInstance) {
+    throw new Error('getReadonlyInstance: globalReadonlyInstance not set!');
   }
 
-  return globalInstance;
+  return globalReadonlyInstance;
+}
+
+async function getWritableInstance(): Promise<Database> {
+  if (!globalWritableInstance) {
+    throw new Error('getWritableInstance: globalWritableInstance not set!');
+  }
+
+  return globalWritableInstance;
+}
+
+// This is okay to use for queries that:
+//
+// - Don't modify persistent tables, but create and do work in temporary
+//   tables
+// - Integrity checks
+//
+function getUnsafeWritableInstance(
+  reason: 'only temp table use' | 'integrity check'
+): Database {
+  // Not actually used
+  void reason;
+
+  if (!globalWritableInstance) {
+    throw new Error(
+      'getUnsafeWritableInstance: globalWritableInstance not set!'
+    );
+  }
+
+  return globalWritableInstance;
 }
 
 const IDENTITY_KEYS_TABLE = 'identityKeys';
 async function createOrUpdateIdentityKey(
   data: StoredIdentityKeyType
 ): Promise<void> {
-  return createOrUpdate(getInstance(), IDENTITY_KEYS_TABLE, data);
+  return createOrUpdate(await getWritableInstance(), IDENTITY_KEYS_TABLE, data);
 }
 async function getIdentityKeyById(
   id: IdentityKeyIdType
 ): Promise<StoredIdentityKeyType | undefined> {
-  return getById(getInstance(), IDENTITY_KEYS_TABLE, id);
+  return getById(getReadonlyInstance(), IDENTITY_KEYS_TABLE, id);
 }
 async function bulkAddIdentityKeys(
   array: Array<StoredIdentityKeyType>
 ): Promise<void> {
-  return bulkAdd(getInstance(), IDENTITY_KEYS_TABLE, array);
+  return bulkAdd(await getWritableInstance(), IDENTITY_KEYS_TABLE, array);
 }
-async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<void> {
-  return removeById(getInstance(), IDENTITY_KEYS_TABLE, id);
+async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<number> {
+  return removeById(await getWritableInstance(), IDENTITY_KEYS_TABLE, id);
 }
-async function removeAllIdentityKeys(): Promise<void> {
-  return removeAllFromTable(getInstance(), IDENTITY_KEYS_TABLE);
+async function removeAllIdentityKeys(): Promise<number> {
+  return removeAllFromTable(await getWritableInstance(), IDENTITY_KEYS_TABLE);
 }
 async function getAllIdentityKeys(): Promise<Array<StoredIdentityKeyType>> {
-  return getAllFromTable(getInstance(), IDENTITY_KEYS_TABLE);
+  return getAllFromTable(getReadonlyInstance(), IDENTITY_KEYS_TABLE);
 }
 
 const KYBER_PRE_KEYS_TABLE = 'kyberPreKeys';
 async function createOrUpdateKyberPreKey(
   data: StoredKyberPreKeyType
 ): Promise<void> {
-  return createOrUpdate(getInstance(), KYBER_PRE_KEYS_TABLE, data);
+  return createOrUpdate(
+    await getWritableInstance(),
+    KYBER_PRE_KEYS_TABLE,
+    data
+  );
 }
 async function getKyberPreKeyById(
   id: PreKeyIdType
 ): Promise<StoredKyberPreKeyType | undefined> {
-  return getById(getInstance(), KYBER_PRE_KEYS_TABLE, id);
+  return getById(getReadonlyInstance(), KYBER_PRE_KEYS_TABLE, id);
 }
 async function bulkAddKyberPreKeys(
   array: Array<StoredKyberPreKeyType>
 ): Promise<void> {
-  return bulkAdd(getInstance(), KYBER_PRE_KEYS_TABLE, array);
+  return bulkAdd(await getWritableInstance(), KYBER_PRE_KEYS_TABLE, array);
 }
 async function removeKyberPreKeyById(
   id: PreKeyIdType | Array<PreKeyIdType>
-): Promise<void> {
-  return removeById(getInstance(), KYBER_PRE_KEYS_TABLE, id);
+): Promise<number> {
+  return removeById(await getWritableInstance(), KYBER_PRE_KEYS_TABLE, id);
 }
-async function removeKyberPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
-  const db = getInstance();
-  db.prepare<Query>('DELETE FROM kyberPreKeys WHERE ourUuid IS $uuid;').run({
-    uuid,
+async function removeKyberPreKeysByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
+  const db = await getWritableInstance();
+  db.prepare<Query>(
+    'DELETE FROM kyberPreKeys WHERE ourServiceId IS $serviceId;'
+  ).run({
+    serviceId,
   });
 }
-async function removeAllKyberPreKeys(): Promise<void> {
-  return removeAllFromTable(getInstance(), KYBER_PRE_KEYS_TABLE);
+async function removeAllKyberPreKeys(): Promise<number> {
+  return removeAllFromTable(await getWritableInstance(), KYBER_PRE_KEYS_TABLE);
 }
 async function getAllKyberPreKeys(): Promise<Array<StoredKyberPreKeyType>> {
-  return getAllFromTable(getInstance(), KYBER_PRE_KEYS_TABLE);
+  return getAllFromTable(getReadonlyInstance(), KYBER_PRE_KEYS_TABLE);
 }
 
 const PRE_KEYS_TABLE = 'preKeys';
 async function createOrUpdatePreKey(data: StoredPreKeyType): Promise<void> {
-  return createOrUpdate(getInstance(), PRE_KEYS_TABLE, data);
+  return createOrUpdate(await getWritableInstance(), PRE_KEYS_TABLE, data);
 }
 async function getPreKeyById(
   id: PreKeyIdType
 ): Promise<StoredPreKeyType | undefined> {
-  return getById(getInstance(), PRE_KEYS_TABLE, id);
+  return getById(getReadonlyInstance(), PRE_KEYS_TABLE, id);
 }
 async function bulkAddPreKeys(array: Array<StoredPreKeyType>): Promise<void> {
-  return bulkAdd(getInstance(), PRE_KEYS_TABLE, array);
+  return bulkAdd(await getWritableInstance(), PRE_KEYS_TABLE, array);
 }
 async function removePreKeyById(
   id: PreKeyIdType | Array<PreKeyIdType>
-): Promise<void> {
-  return removeById(getInstance(), PRE_KEYS_TABLE, id);
+): Promise<number> {
+  return removeById(await getWritableInstance(), PRE_KEYS_TABLE, id);
 }
-async function removePreKeysByUuid(uuid: UUIDStringType): Promise<void> {
-  const db = getInstance();
-  db.prepare<Query>('DELETE FROM preKeys WHERE ourUuid IS $uuid;').run({
-    uuid,
+async function removePreKeysByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
+  const db = await getWritableInstance();
+  db.prepare<Query>(
+    'DELETE FROM preKeys WHERE ourServiceId IS $serviceId;'
+  ).run({
+    serviceId,
   });
 }
-async function removeAllPreKeys(): Promise<void> {
-  return removeAllFromTable(getInstance(), PRE_KEYS_TABLE);
+async function removeAllPreKeys(): Promise<number> {
+  return removeAllFromTable(await getWritableInstance(), PRE_KEYS_TABLE);
 }
 async function getAllPreKeys(): Promise<Array<StoredPreKeyType>> {
-  return getAllFromTable(getInstance(), PRE_KEYS_TABLE);
+  return getAllFromTable(getReadonlyInstance(), PRE_KEYS_TABLE);
 }
 
 const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
 async function createOrUpdateSignedPreKey(
   data: StoredSignedPreKeyType
 ): Promise<void> {
-  return createOrUpdate(getInstance(), SIGNED_PRE_KEYS_TABLE, data);
+  return createOrUpdate(
+    await getWritableInstance(),
+    SIGNED_PRE_KEYS_TABLE,
+    data
+  );
 }
 async function getSignedPreKeyById(
   id: SignedPreKeyIdType
 ): Promise<StoredSignedPreKeyType | undefined> {
-  return getById(getInstance(), SIGNED_PRE_KEYS_TABLE, id);
+  return getById(getReadonlyInstance(), SIGNED_PRE_KEYS_TABLE, id);
 }
 async function bulkAddSignedPreKeys(
   array: Array<StoredSignedPreKeyType>
 ): Promise<void> {
-  return bulkAdd(getInstance(), SIGNED_PRE_KEYS_TABLE, array);
+  return bulkAdd(await getWritableInstance(), SIGNED_PRE_KEYS_TABLE, array);
 }
 async function removeSignedPreKeyById(
   id: SignedPreKeyIdType | Array<SignedPreKeyIdType>
-): Promise<void> {
-  return removeById(getInstance(), SIGNED_PRE_KEYS_TABLE, id);
+): Promise<number> {
+  return removeById(await getWritableInstance(), SIGNED_PRE_KEYS_TABLE, id);
 }
-async function removeSignedPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
-  const db = getInstance();
-  db.prepare<Query>('DELETE FROM signedPreKeys WHERE ourUuid IS $uuid;').run({
-    uuid,
+async function removeSignedPreKeysByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
+  const db = await getWritableInstance();
+  db.prepare<Query>(
+    'DELETE FROM signedPreKeys WHERE ourServiceId IS $serviceId;'
+  ).run({
+    serviceId,
   });
 }
-async function removeAllSignedPreKeys(): Promise<void> {
-  return removeAllFromTable(getInstance(), SIGNED_PRE_KEYS_TABLE);
+async function removeAllSignedPreKeys(): Promise<number> {
+  return removeAllFromTable(await getWritableInstance(), SIGNED_PRE_KEYS_TABLE);
 }
 async function getAllSignedPreKeys(): Promise<Array<StoredSignedPreKeyType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>(
       `
@@ -779,15 +882,15 @@ const ITEMS_TABLE = 'items';
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: StoredItemType<K>
 ): Promise<void> {
-  return createOrUpdate(getInstance(), ITEMS_TABLE, data);
+  return createOrUpdate(await getWritableInstance(), ITEMS_TABLE, data);
 }
 async function getItemById<K extends ItemKeyType>(
   id: K
 ): Promise<StoredItemType<K> | undefined> {
-  return getById(getInstance(), ITEMS_TABLE, id);
+  return getById(getReadonlyInstance(), ITEMS_TABLE, id);
 }
 async function getAllItems(): Promise<StoredAllItemsType> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>('SELECT json FROM items ORDER BY id ASC;')
     .all();
@@ -806,20 +909,19 @@ async function getAllItems(): Promise<StoredAllItemsType> {
 }
 async function removeItemById(
   id: ItemKeyType | Array<ItemKeyType>
-): Promise<void> {
-  return removeById(getInstance(), ITEMS_TABLE, id);
+): Promise<number> {
+  return removeById(await getWritableInstance(), ITEMS_TABLE, id);
 }
-async function removeAllItems(): Promise<void> {
-  return removeAllFromTable(getInstance(), ITEMS_TABLE);
+async function removeAllItems(): Promise<number> {
+  return removeAllFromTable(await getWritableInstance(), ITEMS_TABLE);
 }
 
 async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
-  createOrUpdateSenderKeySync(key);
+  const db = await getWritableInstance();
+  createOrUpdateSenderKeySync(db, key);
 }
 
-function createOrUpdateSenderKeySync(key: SenderKeyType): void {
-  const db = getInstance();
-
+function createOrUpdateSenderKeySync(db: Database, key: SenderKeyType): void {
   prepare(
     db,
     `
@@ -842,7 +944,7 @@ function createOrUpdateSenderKeySync(key: SenderKeyType): void {
 async function getSenderKeyById(
   id: SenderKeyIdType
 ): Promise<SenderKeyType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const row = prepare(db, 'SELECT * FROM senderKeys WHERE id = $id').get({
     id,
   });
@@ -850,17 +952,17 @@ async function getSenderKeyById(
   return row;
 }
 async function removeAllSenderKeys(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   prepare<EmptyQuery>(db, 'DELETE FROM senderKeys').run();
 }
 async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows = prepare<EmptyQuery>(db, 'SELECT * FROM senderKeys').all();
 
   return rows;
 }
 async function removeSenderKeyById(id: SenderKeyIdType): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   prepare(db, 'DELETE FROM senderKeys WHERE id = $id').run({ id });
 }
 
@@ -871,7 +973,7 @@ async function insertSentProto(
     messageIds: SentMessagesType;
   }
 ): Promise<number> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const { recipients, messageIds } = options;
 
   // Note: we use `pluck` in this function to fetch only the first column of returned row.
@@ -911,24 +1013,28 @@ async function insertSentProto(
       `
       INSERT INTO sendLogRecipients (
         payloadId,
-        recipientUuid,
+        recipientServiceId,
         deviceId
       ) VALUES (
         $id,
-        $recipientUuid,
+        $recipientServiceId,
         $deviceId
       );
       `
     );
 
-    const recipientUuids = Object.keys(recipients);
-    for (const recipientUuid of recipientUuids) {
-      const deviceIds = recipients[recipientUuid];
+    const recipientServiceIds = Object.keys(recipients);
+    for (const recipientServiceId of recipientServiceIds) {
+      strictAssert(
+        isServiceIdString(recipientServiceId),
+        'Recipient must be a service id'
+      );
+      const deviceIds = recipients[recipientServiceId];
 
       for (const deviceId of deviceIds) {
         recipientStatement.run({
           id,
-          recipientUuid,
+          recipientServiceId,
           deviceId,
         });
       }
@@ -960,7 +1066,7 @@ async function insertSentProto(
 }
 
 async function deleteSentProtosOlderThan(timestamp: number): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   prepare(
     db,
@@ -976,7 +1082,7 @@ async function deleteSentProtosOlderThan(timestamp: number): Promise<void> {
 }
 
 async function deleteSentProtoByMessageId(messageId: string): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   prepare(
     db,
@@ -993,14 +1099,14 @@ async function deleteSentProtoByMessageId(messageId: string): Promise<void> {
 
 async function insertProtoRecipients({
   id,
-  recipientUuid,
+  recipientServiceId,
   deviceIds,
 }: {
   id: number;
-  recipientUuid: string;
+  recipientServiceId: ServiceIdString;
   deviceIds: Array<number>;
 }): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     const statement = prepare(
@@ -1008,11 +1114,11 @@ async function insertProtoRecipients({
       `
       INSERT INTO sendLogRecipients (
         payloadId,
-        recipientUuid,
+        recipientServiceId,
         deviceId
       ) VALUES (
         $id,
-        $recipientUuid,
+        $recipientServiceId,
         $deviceId
       );
       `
@@ -1021,7 +1127,7 @@ async function insertProtoRecipients({
     for (const deviceId of deviceIds) {
       statement.run({
         id,
-        recipientUuid,
+        recipientServiceId,
         deviceId,
       });
     }
@@ -1033,7 +1139,7 @@ async function deleteSentProtoRecipient(
     | DeleteSentProtoRecipientOptionsType
     | ReadonlyArray<DeleteSentProtoRecipientOptionsType>
 ): Promise<DeleteSentProtoRecipientResultType> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   const items = Array.isArray(options) ? options : [options];
 
@@ -1041,10 +1147,10 @@ async function deleteSentProtoRecipient(
   // returned row.
 
   return db.transaction(() => {
-    const successfulPhoneNumberShares = new Array<string>();
+    const successfulPhoneNumberShares = new Array<ServiceIdString>();
 
     for (const item of items) {
-      const { timestamp, recipientUuid, deviceId } = item;
+      const { timestamp, recipientServiceId, deviceId } = item;
 
       // 1. Figure out what payload we're talking about.
       const rows = prepare(
@@ -1056,10 +1162,10 @@ async function deleteSentProtoRecipient(
           ON sendLogRecipients.payloadId = sendLogPayloads.id
         WHERE
           sendLogPayloads.timestamp = $timestamp AND
-          sendLogRecipients.recipientUuid = $recipientUuid AND
+          sendLogRecipients.recipientServiceId = $recipientServiceId AND
           sendLogRecipients.deviceId = $deviceId;
        `
-      ).all({ timestamp, recipientUuid, deviceId });
+      ).all({ timestamp, recipientServiceId, deviceId });
       if (!rows.length) {
         continue;
       }
@@ -1079,30 +1185,30 @@ async function deleteSentProtoRecipient(
         DELETE FROM sendLogRecipients
         WHERE
           payloadId = $id AND
-          recipientUuid = $recipientUuid AND
+          recipientServiceId = $recipientServiceId AND
           deviceId = $deviceId;
         `
-      ).run({ id, recipientUuid, deviceId });
+      ).run({ id, recipientServiceId, deviceId });
 
       // 3. See how many more recipient devices there were for this payload.
       const remainingDevices = prepare(
         db,
         `
         SELECT count(1) FROM sendLogRecipients
-        WHERE payloadId = $id AND recipientUuid = $recipientUuid;
+        WHERE payloadId = $id AND recipientServiceId = $recipientServiceId;
         `,
         { pluck: true }
-      ).get({ id, recipientUuid });
+      ).get({ id, recipientServiceId });
 
       // 4. If there are no remaining devices for this recipient and we included
       //    the pni signature in the proto - return the recipient to the caller.
       if (remainingDevices === 0 && hasPniSignatureMessage) {
         logger.info(
           'deleteSentProtoRecipient: ' +
-            `Successfully shared phone number with ${recipientUuid} ` +
+            `Successfully shared phone number with ${recipientServiceId} ` +
             `through message ${timestamp}`
         );
-        successfulPhoneNumberShares.push(recipientUuid);
+        successfulPhoneNumberShares.push(recipientServiceId);
       }
 
       strictAssert(
@@ -1143,19 +1249,19 @@ async function deleteSentProtoRecipient(
 
 async function getSentProtoByRecipient({
   now,
-  recipientUuid,
+  recipientServiceId,
   timestamp,
 }: {
   now: number;
-  recipientUuid: string;
+  recipientServiceId: ServiceIdString;
   timestamp: number;
 }): Promise<SentProtoWithMessageIdsType | undefined> {
-  const db = getInstance();
-
   const HOUR = 1000 * 60 * 60;
   const oneDayAgo = now - HOUR * 24;
 
   await deleteSentProtosOlderThan(oneDayAgo);
+
+  const db = getReadonlyInstance();
 
   const row = prepare(
     db,
@@ -1168,12 +1274,12 @@ async function getSentProtoByRecipient({
     LEFT JOIN sendLogMessageIds ON sendLogMessageIds.payloadId = sendLogPayloads.id
     WHERE
       sendLogPayloads.timestamp = $timestamp AND
-      sendLogRecipients.recipientUuid = $recipientUuid
+      sendLogRecipients.recipientServiceId = $recipientServiceId
     GROUP BY sendLogPayloads.id;
     `
   ).get({
     timestamp,
-    recipientUuid,
+    recipientServiceId,
   });
 
   if (!row) {
@@ -1191,11 +1297,11 @@ async function getSentProtoByRecipient({
   };
 }
 async function removeAllSentProtos(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   prepare<EmptyQuery>(db, 'DELETE FROM sendLogPayloads;').run();
 }
 async function getAllSentProtos(): Promise<Array<SentProtoType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows = prepare<EmptyQuery>(db, 'SELECT * FROM sendLogPayloads;').all();
 
   return rows.map(row => ({
@@ -1209,7 +1315,7 @@ async function getAllSentProtos(): Promise<Array<SentProtoType>> {
 async function _getAllSentProtoRecipients(): Promise<
   Array<SentRecipientsDBType>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows = prepare<EmptyQuery>(
     db,
     'SELECT * FROM sendLogRecipients;'
@@ -1218,7 +1324,7 @@ async function _getAllSentProtoRecipients(): Promise<
   return rows;
 }
 async function _getAllSentProtoMessageIds(): Promise<Array<SentMessageDBType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows = prepare<EmptyQuery>(
     db,
     'SELECT * FROM sendLogMessageIds;'
@@ -1228,9 +1334,8 @@ async function _getAllSentProtoMessageIds(): Promise<Array<SentMessageDBType>> {
 }
 
 const SESSIONS_TABLE = 'sessions';
-function createOrUpdateSessionSync(data: SessionType): void {
-  const db = getInstance();
-  const { id, conversationId, ourUuid, uuid } = data;
+function createOrUpdateSessionSync(db: Database, data: SessionType): void {
+  const { id, conversationId, ourServiceId, serviceId } = data;
   if (!id) {
     throw new Error(
       'createOrUpdateSession: Provided data did not have a truthy id'
@@ -1248,37 +1353,38 @@ function createOrUpdateSessionSync(data: SessionType): void {
     INSERT OR REPLACE INTO sessions (
       id,
       conversationId,
-      ourUuid,
-      uuid,
+      ourServiceId,
+      serviceId,
       json
     ) values (
       $id,
       $conversationId,
-      $ourUuid,
-      $uuid,
+      $ourServiceId,
+      $serviceId,
       $json
     )
     `
   ).run({
     id,
     conversationId,
-    ourUuid,
-    uuid,
+    ourServiceId,
+    serviceId,
     json: objectToJSON(data),
   });
 }
 async function createOrUpdateSession(data: SessionType): Promise<void> {
-  return createOrUpdateSessionSync(data);
+  const db = await getWritableInstance();
+  return createOrUpdateSessionSync(db, data);
 }
 
 async function createOrUpdateSessions(
   array: Array<SessionType>
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     for (const item of array) {
-      assertSync(createOrUpdateSessionSync(item));
+      assertSync(createOrUpdateSessionSync(db, item));
     }
   })();
 }
@@ -1292,33 +1398,33 @@ async function commitDecryptResult({
   sessions: Array<SessionType>;
   unprocessed: Array<UnprocessedType>;
 }): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     for (const item of senderKeys) {
-      assertSync(createOrUpdateSenderKeySync(item));
+      assertSync(createOrUpdateSenderKeySync(db, item));
     }
 
     for (const item of sessions) {
-      assertSync(createOrUpdateSessionSync(item));
+      assertSync(createOrUpdateSessionSync(db, item));
     }
 
     for (const item of unprocessed) {
-      assertSync(saveUnprocessedSync(item));
+      assertSync(saveUnprocessedSync(db, item));
     }
   })();
 }
 
 async function bulkAddSessions(array: Array<SessionType>): Promise<void> {
-  return bulkAdd(getInstance(), SESSIONS_TABLE, array);
+  return bulkAdd(await getWritableInstance(), SESSIONS_TABLE, array);
 }
-async function removeSessionById(id: SessionIdType): Promise<void> {
-  return removeById(getInstance(), SESSIONS_TABLE, id);
+async function removeSessionById(id: SessionIdType): Promise<number> {
+  return removeById(await getWritableInstance(), SESSIONS_TABLE, id);
 }
 async function removeSessionsByConversation(
   conversationId: string
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<Query>(
     `
     DELETE FROM sessions
@@ -1328,32 +1434,34 @@ async function removeSessionsByConversation(
     conversationId,
   });
 }
-async function removeSessionsByUUID(uuid: UUIDStringType): Promise<void> {
-  const db = getInstance();
+async function removeSessionsByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
+  const db = await getWritableInstance();
   db.prepare<Query>(
     `
     DELETE FROM sessions
-    WHERE uuid = $uuid;
+    WHERE serviceId = $serviceId;
     `
   ).run({
-    uuid,
+    serviceId,
   });
 }
-async function removeAllSessions(): Promise<void> {
-  return removeAllFromTable(getInstance(), SESSIONS_TABLE);
+async function removeAllSessions(): Promise<number> {
+  return removeAllFromTable(await getWritableInstance(), SESSIONS_TABLE);
 }
 async function getAllSessions(): Promise<Array<SessionType>> {
-  return getAllFromTable(getInstance(), SESSIONS_TABLE);
+  return getAllFromTable(getReadonlyInstance(), SESSIONS_TABLE);
 }
 // Conversations
 
 async function getConversationCount(): Promise<number> {
-  return getCountFromTable(getInstance(), 'conversations');
+  return getCountFromTable(getReadonlyInstance(), 'conversations');
 }
 
 function getConversationMembersList({ members, membersV2 }: ConversationType) {
   if (membersV2) {
-    return membersV2.map((item: GroupV2MemberType) => item.uuid).join(' ');
+    return membersV2.map((item: GroupV2MemberType) => item.aci).join(' ');
   }
   if (members) {
     return members.join(' ');
@@ -1361,10 +1469,7 @@ function getConversationMembersList({ members, membersV2 }: ConversationType) {
   return null;
 }
 
-function saveConversationSync(
-  data: ConversationType,
-  db = getInstance()
-): void {
+function saveConversationSync(db: Database, data: ConversationType): void {
   const {
     active_at,
     e164,
@@ -1375,7 +1480,7 @@ function saveConversationSync(
     profileName,
     profileLastFetchedAt,
     type,
-    uuid,
+    serviceId,
   } = data;
 
   const membersList = getConversationMembersList(data);
@@ -1387,7 +1492,7 @@ function saveConversationSync(
       json,
 
       e164,
-      uuid,
+      serviceId,
       groupId,
 
       active_at,
@@ -1403,7 +1508,7 @@ function saveConversationSync(
       $json,
 
       $e164,
-      $uuid,
+      $serviceId,
       $groupId,
 
       $active_at,
@@ -1423,7 +1528,7 @@ function saveConversationSync(
     ),
 
     e164: e164 || null,
-    uuid: uuid || null,
+    serviceId: serviceId || null,
     groupId: groupId || null,
 
     active_at: active_at || null,
@@ -1437,29 +1542,24 @@ function saveConversationSync(
   });
 }
 
-async function saveConversation(
-  data: ConversationType,
-  db = getInstance()
-): Promise<void> {
-  return saveConversationSync(data, db);
+async function saveConversation(data: ConversationType): Promise<void> {
+  const db = await getWritableInstance();
+  return saveConversationSync(db, data);
 }
 
 async function saveConversations(
   arrayOfConversations: Array<ConversationType>
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     for (const conversation of arrayOfConversations) {
-      assertSync(saveConversationSync(conversation));
+      assertSync(saveConversationSync(db, conversation));
     }
   })();
 }
 
-function updateConversationSync(
-  data: ConversationType,
-  db = getInstance()
-): void {
+function updateConversationSync(db: Database, data: ConversationType): void {
   const {
     id,
     active_at,
@@ -1469,7 +1569,7 @@ function updateConversationSync(
     profileFamilyName,
     profileLastFetchedAt,
     e164,
-    uuid,
+    serviceId,
   } = data;
 
   const membersList = getConversationMembersList(data);
@@ -1480,7 +1580,7 @@ function updateConversationSync(
       json = $json,
 
       e164 = $e164,
-      uuid = $uuid,
+      serviceId = $serviceId,
 
       active_at = $active_at,
       type = $type,
@@ -1499,7 +1599,7 @@ function updateConversationSync(
     ),
 
     e164: e164 || null,
-    uuid: uuid || null,
+    serviceId: serviceId || null,
 
     active_at: active_at || null,
     type,
@@ -1513,24 +1613,26 @@ function updateConversationSync(
 }
 
 async function updateConversation(data: ConversationType): Promise<void> {
-  return updateConversationSync(data);
+  const db = await getWritableInstance();
+  return updateConversationSync(db, data);
 }
 
 async function updateConversations(
   array: Array<ConversationType>
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     for (const item of array) {
-      assertSync(updateConversationSync(item));
+      assertSync(updateConversationSync(db, item));
     }
   })();
 }
 
-function removeConversationsSync(ids: ReadonlyArray<string>): void {
-  const db = getInstance();
-
+function removeConversationsSync(
+  db: Database,
+  ids: ReadonlyArray<string>
+): void {
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   db.prepare<ArrayQuery>(
     `
@@ -1541,7 +1643,7 @@ function removeConversationsSync(ids: ReadonlyArray<string>): void {
 }
 
 async function removeConversation(id: Array<string> | string): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   if (!Array.isArray(id)) {
     db.prepare<Query>('DELETE FROM conversations WHERE id = $id;').run({
@@ -1555,18 +1657,18 @@ async function removeConversation(id: Array<string> | string): Promise<void> {
     throw new Error('removeConversation: No ids to delete!');
   }
 
-  batchMultiVarQuery(db, id, removeConversationsSync);
+  batchMultiVarQuery(db, id, ids => removeConversationsSync(db, ids));
 }
 
 async function _removeAllConversations(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<EmptyQuery>('DELETE from conversations;').run();
 }
 
 async function getConversationById(
   id: string
 ): Promise<ConversationType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const row: { json: string } = db
     .prepare<Query>('SELECT json FROM conversations WHERE id = $id;')
     .get({ id });
@@ -1578,19 +1680,9 @@ async function getConversationById(
   return jsonToObject(row.json);
 }
 
-async function eraseStorageServiceStateFromConversations(): Promise<void> {
-  const db = getInstance();
-
-  db.prepare<EmptyQuery>(
-    `
-    UPDATE conversations
-    SET
-      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields', '$.storageProfileKey');
-    `
-  ).run();
-}
-
-function getAllConversationsSync(db = getInstance()): Array<ConversationType> {
+function getAllConversationsSync(
+  db = getReadonlyInstance()
+): Array<ConversationType> {
   const rows: ConversationRows = db
     .prepare<EmptyQuery>(
       `
@@ -1609,7 +1701,7 @@ async function getAllConversations(): Promise<Array<ConversationType>> {
 }
 
 async function getAllConversationIds(): Promise<Array<string>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: Array<{ id: string }> = db
     .prepare<EmptyQuery>(
       `
@@ -1621,22 +1713,22 @@ async function getAllConversationIds(): Promise<Array<string>> {
   return rows.map(row => row.id);
 }
 
-async function getAllGroupsInvolvingUuid(
-  uuid: UUIDStringType
+async function getAllGroupsInvolvingServiceId(
+  serviceId: ServiceIdString
 ): Promise<Array<ConversationType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: ConversationRows = db
     .prepare<Query>(
       `
       SELECT json, profileLastFetchedAt
       FROM conversations WHERE
         type = 'group' AND
-        members LIKE $uuid
+        members LIKE $serviceId
       ORDER BY id ASC;
       `
     )
     .all({
-      uuid: `%${uuid}%`,
+      serviceId: `%${serviceId}%`,
     });
 
   return rows.map(row => rowToConversation(row));
@@ -1646,16 +1738,21 @@ async function searchMessages({
   query,
   options,
   conversationId,
-  contactUuidsMatchingQuery,
+  contactServiceIdsMatchingQuery,
 }: {
   query: string;
   options?: { limit?: number };
   conversationId?: string;
-  contactUuidsMatchingQuery?: Array<string>;
+  contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
 }): Promise<Array<ServerSearchResultMessageType>> {
   const { limit = conversationId ? 100 : 500 } = options ?? {};
 
-  const db = getInstance();
+  const db = getUnsafeWritableInstance('only temp table use');
+
+  const normalizedQuery = db
+    .signalTokenize(query)
+    .map(token => `"${token.replace(/"/g, '""')}"*`)
+    .join(' ');
 
   // sqlite queries with a join on a virtual table (like FTS5) are de-optimized
   // and can't use indices for ordering results. Instead an in-memory index of
@@ -1686,7 +1783,7 @@ async function searchMessages({
         WHERE
           messages_fts.body MATCH $query;
       `
-    ).run({ query });
+    ).run({ query: normalizedQuery });
 
     if (conversationId === undefined) {
       db.prepare<Query>(
@@ -1737,50 +1834,50 @@ async function searchMessages({
       INNER JOIN messages
         ON messages.rowid = tmp_filtered_results.rowid
       WHERE
-        messages_fts.body MATCH ${query}
+        messages_fts.body MATCH ${normalizedQuery}
       ORDER BY messages.received_at DESC, messages.sent_at DESC
       LIMIT ${limit}
     `;
 
     let result: Array<ServerSearchResultMessageType>;
 
-    if (!contactUuidsMatchingQuery?.length) {
+    if (!contactServiceIdsMatchingQuery?.length) {
       const [sqlQuery, params] = sql`${ftsFragment};`;
       result = db.prepare(sqlQuery).all(params);
     } else {
-      // If contactUuidsMatchingQuery is not empty, we due an OUTER JOIN between:
-      // 1) the messages that mention at least one of contactUuidsMatchingQuery, and
+      // If contactServiceIdsMatchingQuery is not empty, we due an OUTER JOIN between:
+      // 1) the messages that mention at least one of contactServiceIdsMatchingQuery, and
       // 2) the messages that match all the search terms via FTS
       //
       // Note: this groups the results by rowid, so even if one message mentions multiple
       // matching UUIDs, we only return one to be highlighted
       const [sqlQuery, params] = sql`
-        SELECT 
+        SELECT
           messages.rowid as rowid,
-          COALESCE(messages.json, ftsResults.json) as json, 
+          COALESCE(messages.json, ftsResults.json) as json,
           COALESCE(messages.sent_at, ftsResults.sent_at) as sent_at,
           COALESCE(messages.received_at, ftsResults.received_at) as received_at,
-          ftsResults.ftsSnippet, 
-          mentionUuid, 
-          start as mentionStart, 
+          ftsResults.ftsSnippet,
+          mentionAci,
+          start as mentionStart,
           length as mentionLength
         FROM mentions
-        INNER JOIN messages 
-        ON 
-          messages.id = mentions.messageId 
-          AND mentions.mentionUuid IN (
-            ${sqlJoin(contactUuidsMatchingQuery, ', ')}
-          ) 
+        INNER JOIN messages
+        ON
+          messages.id = mentions.messageId
+          AND mentions.mentionAci IN (
+            ${sqlJoin(contactServiceIdsMatchingQuery)}
+          )
           AND ${
             conversationId
               ? sqlFragment`messages.conversationId = ${conversationId}`
               : '1 IS 1'
           }
-          AND messages.isViewOnce IS NOT 1 
+          AND messages.isViewOnce IS NOT 1
           AND messages.storyId IS NULL
         FULL OUTER JOIN (
           ${ftsFragment}
-        ) as ftsResults 
+        ) as ftsResults
         USING (rowid)
         GROUP BY rowid
         ORDER BY received_at DESC, sent_at DESC
@@ -1801,7 +1898,7 @@ async function searchMessages({
 
 function getMessageCountSync(
   conversationId?: string,
-  db = getInstance()
+  db = getReadonlyInstance()
 ): number {
   if (conversationId === undefined) {
     return getCountFromTable(db, 'messages');
@@ -1822,7 +1919,7 @@ function getMessageCountSync(
 }
 
 async function getStoryCount(conversationId: string): Promise<number> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return db
     .prepare<Query>(
       `
@@ -1842,7 +1939,7 @@ async function getMessageCount(conversationId?: string): Promise<number> {
 // Note: we really only use this in 1:1 conversations, where story replies are always
 //   shown, so this has no need to be story-aware.
 function hasUserInitiatedMessages(conversationId: string): boolean {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const exists: number = db
     .prepare<Query>(
@@ -1863,27 +1960,21 @@ function hasUserInitiatedMessages(conversationId: string): boolean {
 }
 
 function saveMessageSync(
+  db: Database,
   data: MessageType,
   options: {
     alreadyInTransaction?: boolean;
-    db?: Database;
     forceSave?: boolean;
     jobToInsert?: StoredJob;
-    ourUuid: UUIDStringType;
+    ourAci: AciString;
   }
 ): string {
-  const {
-    alreadyInTransaction,
-    db = getInstance(),
-    forceSave,
-    jobToInsert,
-    ourUuid,
-  } = options;
+  const { alreadyInTransaction, forceSave, jobToInsert, ourAci } = options;
 
   if (!alreadyInTransaction) {
     return db.transaction(() => {
       return assertSync(
-        saveMessageSync(data, {
+        saveMessageSync(db, data, {
           ...options,
           alreadyInTransaction: true,
         })
@@ -1907,7 +1998,7 @@ function saveMessageSync(
     sent_at,
     serverGuid,
     source,
-    sourceUuid,
+    sourceServiceId,
     sourceDevice,
     storyId,
     type,
@@ -1955,7 +2046,7 @@ function saveMessageSync(
     hasAttachments: hasAttachments ? 1 : 0,
     hasFileAttachments: hasFileAttachments ? 1 : 0,
     hasVisualMediaAttachments: hasVisualMediaAttachments ? 1 : 0,
-    isChangeCreatedByUs: groupV2Change?.from === ourUuid ? 1 : 0,
+    isChangeCreatedByUs: groupV2Change?.from === ourAci ? 1 : 0,
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
     mentionsMe: mentionsMe ? 1 : 0,
@@ -1964,7 +2055,7 @@ function saveMessageSync(
     serverGuid: serverGuid || null,
     sent_at: sent_at || null,
     source: source || null,
-    sourceUuid: sourceUuid || null,
+    sourceServiceId: sourceServiceId || null,
     sourceDevice: sourceDevice || null,
     storyId: storyId || null,
     type: type || null,
@@ -1996,7 +2087,7 @@ function saveMessageSync(
         serverGuid = $serverGuid,
         sent_at = $sent_at,
         source = $source,
-        sourceUuid = $sourceUuid,
+        sourceServiceId = $sourceServiceId,
         sourceDevice = $sourceDevice,
         storyId = $storyId,
         type = $type,
@@ -2015,7 +2106,7 @@ function saveMessageSync(
 
   const toCreate = {
     ...data,
-    id: id || UUID.generate().toString(),
+    id: id || generateUuid(),
   };
 
   prepare(
@@ -2041,7 +2132,7 @@ function saveMessageSync(
       serverGuid,
       sent_at,
       source,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       storyId,
       type,
@@ -2067,7 +2158,7 @@ function saveMessageSync(
       $serverGuid,
       $sent_at,
       $source,
-      $sourceUuid,
+      $sourceServiceId,
       $sourceDevice,
       $storyId,
       $type,
@@ -2094,36 +2185,35 @@ async function saveMessage(
     jobToInsert?: StoredJob;
     forceSave?: boolean;
     alreadyInTransaction?: boolean;
-    ourUuid: UUIDStringType;
+    ourAci: AciString;
   }
 ): Promise<string> {
-  return saveMessageSync(data, options);
+  const db = await getWritableInstance();
+  return saveMessageSync(db, data, options);
 }
 
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
-  options: { forceSave?: boolean; ourUuid: UUIDStringType }
+  options: { forceSave?: boolean; ourAci: AciString }
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     for (const message of arrayOfMessages) {
       assertSync(
-        saveMessageSync(message, { ...options, alreadyInTransaction: true })
+        saveMessageSync(db, message, { ...options, alreadyInTransaction: true })
       );
     }
   })();
 }
 
 async function removeMessage(id: string): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.prepare<Query>('DELETE FROM messages WHERE id = $id;').run({ id });
 }
 
-function removeMessagesSync(ids: ReadonlyArray<string>): void {
-  const db = getInstance();
-
+function removeMessagesSync(db: Database, ids: ReadonlyArray<string>): void {
   db.prepare<ArrayQuery>(
     `
     DELETE FROM messages
@@ -2133,11 +2223,12 @@ function removeMessagesSync(ids: ReadonlyArray<string>): void {
 }
 
 async function removeMessages(ids: ReadonlyArray<string>): Promise<void> {
-  batchMultiVarQuery(getInstance(), ids, removeMessagesSync);
+  const db = await getWritableInstance();
+  batchMultiVarQuery(db, ids, batch => removeMessagesSync(db, batch));
 }
 
 async function getMessageById(id: string): Promise<MessageType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return getMessageByIdSync(db, id);
 }
 
@@ -2161,7 +2252,7 @@ export function getMessageByIdSync(
 async function getMessagesById(
   messageIds: ReadonlyArray<string>
 ): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   return batchMultiVarQuery(
     db,
@@ -2179,7 +2270,7 @@ async function getMessagesById(
 }
 
 async function _getAllMessages(): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>('SELECT json FROM messages ORDER BY id ASC;')
     .all();
@@ -2187,7 +2278,7 @@ async function _getAllMessages(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 async function _removeAllMessages(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.exec(`
     DELETE FROM messages;
     INSERT INTO messages_fts(messages_fts) VALUES('optimize');
@@ -2195,7 +2286,7 @@ async function _removeAllMessages(): Promise<void> {
 }
 
 async function getAllMessageIds(): Promise<Array<string>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: Array<{ id: string }> = db
     .prepare<EmptyQuery>('SELECT id FROM messages ORDER BY id ASC;')
     .all();
@@ -2205,28 +2296,28 @@ async function getAllMessageIds(): Promise<Array<string>> {
 
 async function getMessageBySender({
   source,
-  sourceUuid,
+  sourceServiceId,
   sourceDevice,
   sent_at,
 }: {
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
   sent_at: number;
 }): Promise<MessageType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: JSONRows = prepare(
     db,
     `
     SELECT json FROM messages WHERE
-      (source = $source OR sourceUuid = $sourceUuid) AND
+      (source = $source OR sourceServiceId = $sourceServiceId) AND
       sourceDevice = $sourceDevice AND
       sent_at = $sent_at
     LIMIT 2;
     `
   ).all({
     source: source || null,
-    sourceUuid: sourceUuid || null,
+    sourceServiceId: sourceServiceId || null,
     sourceDevice: sourceDevice || null,
     sent_at,
   });
@@ -2235,7 +2326,7 @@ async function getMessageBySender({
     log.warn('getMessageBySender: More than one message found for', {
       sent_at,
       source,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
     });
   }
@@ -2278,7 +2369,7 @@ async function getUnreadByConversationAndMarkRead({
   readAt?: number;
   now?: number;
 }): Promise<GetUnreadByConversationAndMarkReadResultType> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   return db.transaction(() => {
     const expirationStartTimestamp = Math.min(now, readAt ?? Infinity);
 
@@ -2350,7 +2441,7 @@ async function getUnreadByConversationAndMarkRead({
           'id',
           'sent_at',
           'source',
-          'sourceUuid',
+          'sourceServiceId',
           'type',
         ]),
       };
@@ -2367,13 +2458,13 @@ async function getUnreadReactionsAndMarkRead({
   newestUnreadAt: number;
   storyId?: string;
 }): Promise<Array<ReactionResultType>> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   return db.transaction(() => {
     const unreadMessages: Array<ReactionResultType> = db
       .prepare<Query>(
         `
-        SELECT reactions.rowid, targetAuthorUuid, targetTimestamp, messageId
+        SELECT reactions.rowid, targetAuthorAci, targetTimestamp, messageId
         FROM reactions
         INDEXED BY reactions_unread
         JOIN messages on messages.id IS reactions.messageId
@@ -2407,10 +2498,10 @@ async function getUnreadReactionsAndMarkRead({
 }
 
 async function markReactionAsRead(
-  targetAuthorUuid: string,
+  targetAuthorServiceId: ServiceIdString,
   targetTimestamp: number
 ): Promise<ReactionType | undefined> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   return db.transaction(() => {
     const readReaction = db
       .prepare(
@@ -2418,7 +2509,7 @@ async function markReactionAsRead(
           SELECT *
           FROM reactions
           WHERE
-            targetAuthorUuid = $targetAuthorUuid AND
+            targetAuthorAci = $targetAuthorAci AND
             targetTimestamp = $targetTimestamp AND
             unread = 1
           ORDER BY rowId DESC
@@ -2426,7 +2517,7 @@ async function markReactionAsRead(
         `
       )
       .get({
-        targetAuthorUuid,
+        targetAuthorAci: targetAuthorServiceId,
         targetTimestamp,
       });
 
@@ -2434,11 +2525,11 @@ async function markReactionAsRead(
       `
         UPDATE reactions SET
         unread = 0 WHERE
-        targetAuthorUuid = $targetAuthorUuid AND
+        targetAuthorAci = $targetAuthorAci AND
         targetTimestamp = $targetTimestamp;
       `
     ).run({
-      targetAuthorUuid,
+      targetAuthorAci: targetAuthorServiceId,
       targetTimestamp,
     });
 
@@ -2452,10 +2543,10 @@ async function addReaction({
   fromId,
   messageId,
   messageReceivedAt,
-  targetAuthorUuid,
+  targetAuthorAci,
   targetTimestamp,
 }: ReactionType): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   await db
     .prepare(
       `INSERT INTO reactions (
@@ -2464,7 +2555,7 @@ async function addReaction({
       fromId,
       messageId,
       messageReceivedAt,
-      targetAuthorUuid,
+      targetAuthorAci,
       targetTimestamp,
       unread
     ) VALUES (
@@ -2473,7 +2564,7 @@ async function addReaction({
       $fromId,
       $messageId,
       $messageReceivedAt,
-      $targetAuthorUuid,
+      $targetAuthorAci,
       $targetTimestamp,
       $unread
     );`
@@ -2484,7 +2575,7 @@ async function addReaction({
       fromId,
       messageId,
       messageReceivedAt,
-      targetAuthorUuid,
+      targetAuthorAci,
       targetTimestamp,
       unread: 1,
     });
@@ -2493,37 +2584,37 @@ async function addReaction({
 async function removeReactionFromConversation({
   emoji,
   fromId,
-  targetAuthorUuid,
+  targetAuthorServiceId,
   targetTimestamp,
 }: {
   emoji: string;
   fromId: string;
-  targetAuthorUuid: string;
+  targetAuthorServiceId: ServiceIdString;
   targetTimestamp: number;
 }): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   await db
     .prepare(
       `DELETE FROM reactions WHERE
       emoji = $emoji AND
       fromId = $fromId AND
-      targetAuthorUuid = $targetAuthorUuid AND
+      targetAuthorAci = $targetAuthorAci AND
       targetTimestamp = $targetTimestamp;`
     )
     .run({
       emoji,
       fromId,
-      targetAuthorUuid,
+      targetAuthorAci: targetAuthorServiceId,
       targetTimestamp,
     });
 }
 
 async function _getAllReactions(): Promise<Array<ReactionType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return db.prepare<EmptyQuery>('SELECT * from reactions;').all();
 }
 async function _removeAllReactions(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<EmptyQuery>('DELETE from reactions;').run();
 }
 
@@ -2551,7 +2642,7 @@ function getRecentStoryRepliesSync(
     sentAt = Number.MAX_VALUE,
   }: GetRecentStoryRepliesOptionsType = {}
 ): Array<MessageTypeUnhydrated> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const timeFilters = {
     first: sqlFragment`received_at = ${receivedAt} AND sent_at < ${sentAt}`,
     second: sqlFragment`received_at < ${receivedAt}`,
@@ -2592,7 +2683,7 @@ function getAdjacentMessagesByConversationSync(
     storyId,
   }: AdjacentMessagesByConversationOptionsType
 ): Array<MessageTypeUnhydrated> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   let timeFilters: { first: QueryFragment; second: QueryFragment };
   let timeOrder: QueryFragment;
@@ -2683,12 +2774,12 @@ async function getOlderMessagesByConversation(
 
 async function getAllStories({
   conversationId,
-  sourceUuid,
+  sourceServiceId,
 }: {
   conversationId?: string;
-  sourceUuid?: UUIDStringType;
+  sourceServiceId?: ServiceIdString;
 }): Promise<GetAllStoriesResultType> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: ReadonlyArray<{
     json: string;
     hasReplies: number;
@@ -2714,13 +2805,13 @@ async function getAllStories({
       WHERE
         type IS 'story' AND
         ($conversationId IS NULL OR conversationId IS $conversationId) AND
-        ($sourceUuid IS NULL OR sourceUuid IS $sourceUuid)
+        ($sourceServiceId IS NULL OR sourceServiceId IS $sourceServiceId)
       ORDER BY received_at ASC, sent_at ASC;
       `
     )
     .all({
       conversationId: conversationId || null,
-      sourceUuid: sourceUuid || null,
+      sourceServiceId: sourceServiceId || null,
     });
 
   return rows.map(row => ({
@@ -2748,7 +2839,7 @@ function getOldestMessageForConversation(
     includeStoryReplies: boolean;
   }
 ): MessageMetricsType | undefined {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const [query, params] = sql`
     SELECT received_at, sent_at, id FROM messages WHERE
         conversationId = ${conversationId} AND
@@ -2776,7 +2867,7 @@ function getNewestMessageForConversation(
     includeStoryReplies: boolean;
   }
 ): MessageMetricsType | undefined {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const [query, params] = sql`
     SELECT received_at, sent_at, id FROM messages WHERE
         conversationId = ${conversationId} AND
@@ -2804,7 +2895,7 @@ async function getMessagesBetween(
   conversationId: string,
   options: GetMessagesBetweenOptions
 ): Promise<Array<string>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   // In the future we could accept this as an option, but for now we just
   // use it for the story predicate.
@@ -2846,7 +2937,7 @@ async function getNearbyMessageFromDeletedSet({
   storyId,
   includeStoryReplies,
 }: GetNearbyMessageFromDeletedSetOptionsType): Promise<string | null> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   function runQuery(after: boolean) {
     const dir = after ? sqlFragment`ASC` : sqlFragment`DESC`;
@@ -2858,7 +2949,7 @@ async function getNearbyMessageFromDeletedSet({
         conversationId = ${conversationId} AND
         (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
         isStory IS 0 AND
-        id NOT IN (${sqlJoin(deletedMessageIds, ', ')}) AND
+        id NOT IN (${sqlJoin(deletedMessageIds)}) AND
         type IN ('incoming', 'outgoing')
         AND (
           (received_at = ${received_at} AND sent_at ${compare} ${sent_at}) OR
@@ -2887,13 +2978,11 @@ async function getNearbyMessageFromDeletedSet({
 function getLastConversationActivity({
   conversationId,
   includeStoryReplies,
-  ourUuid,
 }: {
   conversationId: string;
   includeStoryReplies: boolean;
-  ourUuid: UUIDStringType;
 }): MessageType | undefined {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const row = prepare(
     db,
     `
@@ -2910,7 +2999,6 @@ function getLastConversationActivity({
       `
   ).get({
     conversationId,
-    ourUuid,
   });
 
   if (!row) {
@@ -2930,7 +3018,7 @@ function getLastConversationPreview({
     json: string;
   }>;
 
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const index = includeStoryReplies
     ? 'messages_preview'
@@ -2963,20 +3051,17 @@ function getLastConversationPreview({
 async function getConversationMessageStats({
   conversationId,
   includeStoryReplies,
-  ourUuid,
 }: {
   conversationId: string;
   includeStoryReplies: boolean;
-  ourUuid: UUIDStringType;
 }): Promise<ConversationMessageStatsType> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   return db.transaction(() => {
     return {
       activity: getLastConversationActivity({
         conversationId,
         includeStoryReplies,
-        ourUuid,
       }),
       preview: getLastConversationPreview({
         conversationId,
@@ -2992,7 +3077,7 @@ async function getLastConversationMessage({
 }: {
   conversationId: string;
 }): Promise<MessageType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const row = db
     .prepare<Query>(
       `
@@ -3023,7 +3108,7 @@ function getOldestUnseenMessageForConversation(
     includeStoryReplies: boolean;
   }
 ): MessageMetricsType | undefined {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const [query, params] = sql`
     SELECT received_at, sent_at, id FROM messages WHERE
@@ -3061,7 +3146,7 @@ export function getOldestUnreadMentionOfMeForConversationSync(
     includeStoryReplies: boolean;
   }
 ): MessageMetricsType | undefined {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const [query, params] = sql`
       SELECT received_at, sent_at, id FROM messages WHERE
         conversationId = ${conversationId} AND
@@ -3095,7 +3180,7 @@ function getTotalUnreadForConversationSync(
     includeStoryReplies: boolean;
   }
 ): number {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const [query, params] = sql`
     SELECT count(1)
     FROM messages
@@ -3128,7 +3213,7 @@ function getTotalUnreadMentionsOfMeForConversationSync(
     includeStoryReplies: boolean;
   }
 ): number {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const [query, params] = sql`
     SELECT count(1)
     FROM messages
@@ -3153,7 +3238,7 @@ function getTotalUnseenForConversationSync(
     includeStoryReplies: boolean;
   }
 ): number {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const [query, params] = sql`
     SELECT count(1)
       FROM messages
@@ -3207,7 +3292,7 @@ async function getConversationRangeCenteredOnMessage(
 ): Promise<
   GetConversationRangeCenteredOnMessageResultType<MessageTypeUnhydrated>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   return db.transaction(() => {
     return {
@@ -3224,37 +3309,455 @@ async function getConversationRangeCenteredOnMessage(
   })();
 }
 
-async function getCallHistoryMessageByCallId(
-  conversationId: string,
-  callId: string
-): Promise<string | void> {
-  const db = getInstance();
+async function getAllCallHistory(): Promise<ReadonlyArray<CallHistoryDetails>> {
+  const db = getReadonlyInstance();
+  const [query] = sql`
+    SELECT * FROM callsHistory;
+  `;
+  return db.prepare(query).all();
+}
 
-  const id: string | void = db
-    .prepare<Query>(
-      `
-      SELECT id
+async function clearCallHistory(
+  beforeTimestamp: number
+): Promise<Array<string>> {
+  const db = await getWritableInstance();
+  return db.transaction(() => {
+    const whereMessages = sqlFragment`
+      WHERE messages.type IS 'call-history'
+      AND messages.sent_at <= ${beforeTimestamp};
+    `;
+
+    const [selectMessagesQuery, selectMessagesParams] = sql`
+      SELECT id FROM messages ${whereMessages}
+    `;
+    const [clearMessagesQuery, clearMessagesParams] = sql`
+      DELETE FROM messages ${whereMessages}
+    `;
+    const [clearCallsHistoryQuery, clearCallsHistoryParams] = sql`
+      UPDATE callsHistory
+      SET
+        status = ${DirectCallStatus.Deleted},
+        timestamp = ${Date.now()}
+      WHERE callsHistory.timestamp <= ${beforeTimestamp};
+    `;
+
+    const messageIds = db
+      .prepare(selectMessagesQuery)
+      .pluck()
+      .all(selectMessagesParams);
+    db.prepare(clearMessagesQuery).run(clearMessagesParams);
+    try {
+      db.prepare(clearCallsHistoryQuery).run(clearCallsHistoryParams);
+    } catch (error) {
+      logger.error(error, error.message);
+      throw error;
+    }
+
+    return messageIds;
+  })();
+}
+
+async function cleanupCallHistoryMessages(): Promise<void> {
+  const db = await getWritableInstance();
+  return db
+    .transaction(() => {
+      const [query, params] = sql`
+        DELETE FROM messages
+        WHERE messages.id IN (
+          SELECT messages.id FROM messages
+          LEFT JOIN callsHistory ON callsHistory.callId IS messages.callId
+          WHERE messages.type IS 'call-history'
+          AND callsHistory.status IS ${CALL_STATUS_DELETED}
+        )
+      `;
+      db.prepare(query).run(params);
+    })
+    .immediate();
+}
+
+async function getCallHistoryMessageByCallId(options: {
+  conversationId: string;
+  callId: string;
+}): Promise<MessageType | undefined> {
+  const db = getReadonlyInstance();
+  const [query, params] = sql`
+    SELECT json
+    FROM messages
+    WHERE conversationId = ${options.conversationId}
+      AND type = 'call-history'
+      AND callId = ${options.callId}
+  `;
+  const row = db.prepare(query).get(params);
+  if (row == null) {
+    return;
+  }
+  return jsonToObject(row.json);
+}
+
+async function getCallHistory(
+  callId: string,
+  peerId: ServiceIdString | string
+): Promise<CallHistoryDetails | undefined> {
+  const db = getReadonlyInstance();
+
+  const [query, params] = sql`
+    SELECT * FROM callsHistory
+    WHERE callId IS ${callId}
+    AND peerId IS ${peerId};
+  `;
+
+  const row = db.prepare(query).get(params);
+
+  if (row == null) {
+    return;
+  }
+
+  return callHistoryDetailsSchema.parse(row);
+}
+
+const READ_STATUS_UNREAD = sqlConstant(ReadStatus.Unread);
+const READ_STATUS_READ = sqlConstant(ReadStatus.Read);
+const CALL_STATUS_MISSED = sqlConstant(DirectCallStatus.Missed);
+const CALL_STATUS_DELETED = sqlConstant(DirectCallStatus.Deleted);
+const CALL_STATUS_INCOMING = sqlConstant(CallDirection.Incoming);
+const FOUR_HOURS_IN_MS = sqlConstant(4 * 60 * 60 * 1000);
+
+async function getCallHistoryUnreadCount(): Promise<number> {
+  const db = getReadonlyInstance();
+  const [query, params] = sql`
+    SELECT count(*) FROM messages
+    LEFT JOIN callsHistory ON callsHistory.callId = messages.callId
+    WHERE messages.type IS 'call-history'
+      AND messages.readStatus IS ${READ_STATUS_UNREAD}
+      AND callsHistory.status IS ${CALL_STATUS_MISSED}
+      AND callsHistory.direction IS ${CALL_STATUS_INCOMING}
+  `;
+  const row = db.prepare(query).pluck().get(params);
+  return row;
+}
+
+async function markCallHistoryRead(callId: string): Promise<void> {
+  const db = await getWritableInstance();
+  const [query, params] = sql`
+    UPDATE messages
+    SET readStatus = ${READ_STATUS_READ}
+    WHERE type IS 'call-history'
+    AND callId IS ${callId}
+  `;
+  db.prepare(query).run(params);
+}
+
+async function markAllCallHistoryRead(): Promise<ReadonlyArray<string>> {
+  const db = await getWritableInstance();
+
+  return db.transaction(() => {
+    const where = sqlFragment`
+      WHERE messages.type IS 'call-history'
+        AND messages.readStatus IS ${READ_STATUS_UNREAD}
+    `;
+
+    const [selectQuery, selectParams] = sql`
+      SELECT DISTINCT conversationId
       FROM messages
-      WHERE conversationId = $conversationId
-        AND type = 'call-history'
-        AND callMode = 'Direct'
-        AND callId = $callId
-    `
-    )
-    .pluck()
-    .get({
-      conversationId,
-      callId,
-    });
+      ${where};
+    `;
 
-  return id;
+    const conversationIds = db.prepare(selectQuery).pluck().all(selectParams);
+
+    const [updateQuery, updateParams] = sql`
+      UPDATE messages
+      SET readStatus = ${READ_STATUS_READ}
+      ${where};
+    `;
+
+    db.prepare(updateQuery).run(updateParams);
+
+    return conversationIds;
+  })();
+}
+
+function getCallHistoryGroupDataSync(
+  db: Database,
+  isCount: boolean,
+  filter: CallHistoryFilter,
+  pagination: CallHistoryPagination
+): unknown {
+  return db.transaction(() => {
+    const { limit, offset } = pagination;
+    const { status, conversationIds } = filter;
+
+    if (conversationIds != null) {
+      strictAssert(conversationIds.length > 0, "can't filter by empty array");
+
+      const [createTempTable] = sql`
+        CREATE TEMP TABLE temp_callHistory_filtered_conversations (
+          id TEXT,
+          serviceId TEXT,
+          groupId TEXT
+        );
+      `;
+
+      db.exec(createTempTable);
+
+      batchMultiVarQuery(db, conversationIds, ids => {
+        const idList = sqlJoin(ids.map(id => sqlFragment`${id}`));
+
+        const [insertQuery, insertParams] = sql`
+          INSERT INTO temp_callHistory_filtered_conversations
+            (id, serviceId, groupId)
+          SELECT id, serviceId, groupId
+          FROM conversations
+          WHERE conversations.id IN (${idList});
+        `;
+
+        db.prepare(insertQuery).run(insertParams);
+      });
+    }
+
+    const innerJoin =
+      conversationIds != null
+        ? // peerId can be a conversation id (legacy), a serviceId, or a groupId
+          sqlFragment`
+            INNER JOIN temp_callHistory_filtered_conversations ON (
+              temp_callHistory_filtered_conversations.id IS c.peerId
+              OR temp_callHistory_filtered_conversations.serviceId IS c.peerId
+              OR temp_callHistory_filtered_conversations.groupId IS c.peerId
+            )
+          `
+        : sqlFragment``;
+
+    const filterClause =
+      status === CallHistoryFilterStatus.All
+        ? sqlFragment`status IS NOT ${CALL_STATUS_DELETED}`
+        : sqlFragment`
+            direction IS ${CALL_STATUS_INCOMING} AND
+            status IS ${CALL_STATUS_MISSED} AND status IS NOT ${CALL_STATUS_DELETED}
+          `;
+
+    const offsetLimit =
+      limit > 0 ? sqlFragment`LIMIT ${limit} OFFSET ${offset}` : sqlFragment``;
+
+    const projection = isCount
+      ? sqlFragment`COUNT(*) AS count`
+      : sqlFragment`peerId, ringerId, mode, type, direction, status, timestamp, possibleChildren, inPeriod`;
+
+    const [query, params] = sql`
+      SELECT
+        ${projection}
+      FROM (
+        -- 1. 'callAndGroupInfo': This section collects metadata to determine the
+        -- parent and children of each call. We can identify the real parents of calls
+        -- within the query, but we need to build the children at runtime.
+        WITH callAndGroupInfo AS (
+          SELECT
+            *,
+            -- 1a. 'possibleParent': This identifies the first call that _could_ be
+            -- considered the current call's parent. Note: The 'possibleParent' is not
+            -- necessarily the true parent if there is another call between them that
+            -- isn't a part of the group.
+            (
+              SELECT callId
+              FROM callsHistory
+              WHERE
+                callsHistory.direction IS c.direction
+                AND callsHistory.type IS c.type
+                AND callsHistory.peerId IS c.peerId
+                AND (callsHistory.timestamp - ${FOUR_HOURS_IN_MS}) <= c.timestamp
+                AND callsHistory.timestamp >= c.timestamp
+                -- Tracking Android & Desktop separately to make the queries easier to compare
+                -- Android Constraints:
+                AND (
+                  (callsHistory.status IS c.status AND callsHistory.status IS ${CALL_STATUS_MISSED}) OR
+                  (callsHistory.status IS NOT ${CALL_STATUS_MISSED} AND c.status IS NOT ${CALL_STATUS_MISSED})
+                )
+                -- Desktop Constraints:
+                AND callsHistory.status IS c.status
+                AND ${filterClause}
+              ORDER BY timestamp DESC
+            ) as possibleParent,
+            -- 1b. 'possibleChildren': This identifies all possible calls that can
+            -- be grouped with the current call. Note: This current call is not
+            -- necessarily the parent, and not all possible children will end up as
+            -- children as they might have another parent
+            (
+              SELECT JSON_GROUP_ARRAY(
+                JSON_OBJECT(
+                  'callId', callId,
+                  'timestamp', timestamp
+                )
+              )
+              FROM callsHistory
+              WHERE
+                callsHistory.direction IS c.direction
+                AND callsHistory.type IS c.type
+                AND callsHistory.peerId IS c.peerId
+                AND (c.timestamp - ${FOUR_HOURS_IN_MS}) <= callsHistory.timestamp
+                AND c.timestamp >= callsHistory.timestamp
+                -- Tracking Android & Desktop separately to make the queries easier to compare
+                -- Android Constraints:
+                AND (
+                  (callsHistory.status IS c.status AND callsHistory.status IS ${CALL_STATUS_MISSED}) OR
+                  (callsHistory.status IS NOT ${CALL_STATUS_MISSED} AND c.status IS NOT ${CALL_STATUS_MISSED})
+                )
+                -- Desktop Constraints:
+                AND callsHistory.status IS c.status
+                AND ${filterClause}
+              ORDER BY timestamp DESC
+            ) as possibleChildren,
+
+            -- 1c. 'inPeriod': This identifies all calls in a time period after the
+            -- current call. They may or may not be a part of the group.
+            (
+              SELECT GROUP_CONCAT(callId)
+              FROM callsHistory
+              WHERE
+                (c.timestamp - ${FOUR_HOURS_IN_MS}) <= callsHistory.timestamp
+                AND c.timestamp >= callsHistory.timestamp
+                AND ${filterClause}
+            ) AS inPeriod
+          FROM callsHistory AS c
+          ${innerJoin}
+          WHERE
+            ${filterClause}
+          ORDER BY timestamp DESC
+        )
+        -- 2. 'isParent': We need to identify the true parent of the group in cases
+        -- where the previous call is not a part of the group.
+        SELECT
+          *,
+          CASE
+            WHEN LAG (possibleParent, 1, 0) OVER (
+              -- Note: This is an optimization assuming that we've already got 'timestamp DESC' ordering
+              -- from the query above. If we find that ordering isn't always correct, we can uncomment this:
+              -- ORDER BY timestamp DESC
+            ) != possibleParent THEN callId
+            ELSE possibleParent
+          END AS parent
+        FROM callAndGroupInfo
+      ) AS parentCallAndGroupInfo
+      WHERE parent = parentCallAndGroupInfo.callId
+      ORDER BY parentCallAndGroupInfo.timestamp DESC
+      ${offsetLimit};
+    `;
+
+    const result = isCount
+      ? db.prepare(query).pluck(true).get(params)
+      : db.prepare(query).all(params);
+
+    if (conversationIds != null) {
+      const [dropTempTableQuery] = sql`
+        DROP TABLE temp_callHistory_filtered_conversations;
+      `;
+
+      db.exec(dropTempTableQuery);
+    }
+
+    return result;
+  })();
+}
+
+const countSchema = z.number().int().nonnegative();
+
+async function getCallHistoryGroupsCount(
+  filter: CallHistoryFilter
+): Promise<number> {
+  // getCallHistoryGroupDataSync creates a temporary table and thus requires
+  // write access.
+  const db = getUnsafeWritableInstance('only temp table use');
+  const result = getCallHistoryGroupDataSync(db, true, filter, {
+    limit: 0,
+    offset: 0,
+  });
+  return countSchema.parse(result);
+}
+
+const groupsDataSchema = z.array(
+  callHistoryGroupSchema.omit({ children: true }).extend({
+    possibleChildren: z.string(),
+    inPeriod: z.string(),
+  })
+);
+
+const possibleChildrenSchema = z.array(
+  callHistoryDetailsSchema.pick({
+    callId: true,
+    timestamp: true,
+  })
+);
+
+async function getCallHistoryGroups(
+  filter: CallHistoryFilter,
+  pagination: CallHistoryPagination
+): Promise<Array<CallHistoryGroup>> {
+  // getCallHistoryGroupDataSync creates a temporary table and thus requires
+  // write access.
+  const db = getUnsafeWritableInstance('only temp table use');
+  const groupsData = groupsDataSchema.parse(
+    getCallHistoryGroupDataSync(db, false, filter, pagination)
+  );
+
+  const taken = new Set<string>();
+
+  return groupsData
+    .map(groupData => {
+      return {
+        ...groupData,
+        possibleChildren: possibleChildrenSchema.parse(
+          JSON.parse(groupData.possibleChildren)
+        ),
+        inPeriod: new Set(groupData.inPeriod.split(',')),
+      };
+    })
+    .reverse()
+    .map(group => {
+      const { possibleChildren, inPeriod, ...rest } = group;
+      const children = [];
+
+      for (const child of possibleChildren) {
+        if (!taken.has(child.callId) && inPeriod.has(child.callId)) {
+          children.push(child);
+          taken.add(child.callId);
+        }
+      }
+
+      return callHistoryGroupSchema.parse({ ...rest, children });
+    })
+    .reverse();
+}
+
+async function saveCallHistory(callHistory: CallHistoryDetails): Promise<void> {
+  const db = await getWritableInstance();
+
+  const [insertQuery, insertParams] = sql`
+    INSERT OR REPLACE INTO callsHistory (
+      callId,
+      peerId,
+      ringerId,
+      mode,
+      type,
+      direction,
+      status,
+      timestamp
+    ) VALUES (
+      ${callHistory.callId},
+      ${callHistory.peerId},
+      ${callHistory.ringerId},
+      ${callHistory.mode},
+      ${callHistory.type},
+      ${callHistory.direction},
+      ${callHistory.status},
+      ${callHistory.timestamp}
+    );
+  `;
+
+  db.prepare(insertQuery).run(insertParams);
 }
 
 async function hasGroupCallHistoryMessage(
   conversationId: string,
   eraId: string
 ): Promise<boolean> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const exists: number = db
     .prepare<Query>(
@@ -3281,7 +3784,7 @@ async function migrateConversationMessages(
   obsoleteId: string,
   currentId: string
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.prepare<Query>(
     `
@@ -3299,7 +3802,7 @@ async function migrateConversationMessages(
 async function getMessagesBySentAt(
   sentAt: number
 ): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const [query, params] = sql`
       SELECT messages.json, received_at, sent_at FROM edited_messages
@@ -3318,7 +3821,7 @@ async function getMessagesBySentAt(
 }
 
 async function getExpiredMessages(): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const now = Date.now();
 
   const rows: JSONRows = db
@@ -3337,7 +3840,7 @@ async function getExpiredMessages(): Promise<Array<MessageType>> {
 async function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise<
   Array<MessageType>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: JSONRows = db
     .prepare<EmptyQuery>(
       `
@@ -3362,7 +3865,7 @@ async function getMessagesUnexpectedlyMissingExpirationStartTimestamp(): Promise
 }
 
 async function getSoonestMessageExpiry(): Promise<undefined | number> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   // Note: we use `pluck` to only get the first column.
   const result: null | number = db
@@ -3385,7 +3888,7 @@ async function getSoonestMessageExpiry(): Promise<undefined | number> {
 async function getNextTapToViewMessageTimestampToAgeOut(): Promise<
   undefined | number
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const row = db
     .prepare<EmptyQuery>(
       `
@@ -3409,7 +3912,7 @@ async function getNextTapToViewMessageTimestampToAgeOut(): Promise<
 }
 
 async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const THIRTY_DAYS_AGO = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
   const rows: JSONRows = db
@@ -3433,8 +3936,7 @@ async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
 
 const MAX_UNPROCESSED_ATTEMPTS = 10;
 
-function saveUnprocessedSync(data: UnprocessedType): string {
-  const db = getInstance();
+function saveUnprocessedSync(db: Database, data: UnprocessedType): string {
   const {
     id,
     timestamp,
@@ -3443,7 +3945,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     attempts,
     envelope,
     source,
-    sourceUuid,
+    sourceServiceId,
     sourceDevice,
     serverGuid,
     serverTimestamp,
@@ -3466,7 +3968,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       attempts,
       envelope,
       source,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       serverGuid,
       serverTimestamp,
@@ -3481,7 +3983,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       $attempts,
       $envelope,
       $source,
-      $sourceUuid,
+      $sourceServiceId,
       $sourceDevice,
       $serverGuid,
       $serverTimestamp,
@@ -3498,7 +4000,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     attempts,
     envelope: envelope || null,
     source: source || null,
-    sourceUuid: sourceUuid || null,
+    sourceServiceId: sourceServiceId || null,
     sourceDevice: sourceDevice || null,
     serverGuid: serverGuid || null,
     serverTimestamp: serverTimestamp || null,
@@ -3511,13 +4013,13 @@ function saveUnprocessedSync(data: UnprocessedType): string {
 }
 
 function updateUnprocessedWithDataSync(
+  db: Database,
   id: string,
   data: UnprocessedUpdateType
 ): void {
-  const db = getInstance();
   const {
     source,
-    sourceUuid,
+    sourceServiceId,
     sourceDevice,
     serverGuid,
     serverTimestamp,
@@ -3529,7 +4031,7 @@ function updateUnprocessedWithDataSync(
     `
     UPDATE unprocessed SET
       source = $source,
-      sourceUuid = $sourceUuid,
+      sourceServiceId = $sourceServiceId,
       sourceDevice = $sourceDevice,
       serverGuid = $serverGuid,
       serverTimestamp = $serverTimestamp,
@@ -3539,7 +4041,7 @@ function updateUnprocessedWithDataSync(
   ).run({
     id,
     source: source || null,
-    sourceUuid: sourceUuid || null,
+    sourceServiceId: sourceServiceId || null,
     sourceDevice: sourceDevice || null,
     serverGuid: serverGuid || null,
     serverTimestamp: serverTimestamp || null,
@@ -3551,17 +4053,18 @@ async function updateUnprocessedWithData(
   id: string,
   data: UnprocessedUpdateType
 ): Promise<void> {
-  return updateUnprocessedWithDataSync(id, data);
+  const db = await getWritableInstance();
+  return updateUnprocessedWithDataSync(db, id, data);
 }
 
 async function updateUnprocessedsWithData(
   arrayOfUnprocessed: Array<{ id: string; data: UnprocessedUpdateType }>
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     for (const { id, data } of arrayOfUnprocessed) {
-      assertSync(updateUnprocessedWithDataSync(id, data));
+      assertSync(updateUnprocessedWithDataSync(db, id, data));
     }
   })();
 }
@@ -3569,7 +4072,7 @@ async function updateUnprocessedsWithData(
 async function getUnprocessedById(
   id: string
 ): Promise<UnprocessedType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const row = db
     .prepare<Query>('SELECT * FROM unprocessed WHERE id = $id;')
     .get({
@@ -3584,12 +4087,12 @@ async function getUnprocessedById(
 }
 
 async function getUnprocessedCount(): Promise<number> {
-  return getCountFromTable(getInstance(), 'unprocessed');
+  return getCountFromTable(getReadonlyInstance(), 'unprocessed');
 }
 
 async function getAllUnprocessedIds(): Promise<Array<string>> {
   log.info('getAllUnprocessedIds');
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   return db.transaction(() => {
     // cleanup first
@@ -3640,7 +4143,7 @@ async function getUnprocessedByIdsAndIncrementAttempts(
 ): Promise<Array<UnprocessedType>> {
   log.info('getUnprocessedByIdsAndIncrementAttempts', { totalIds: ids.length });
 
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   batchMultiVarQuery(db, ids, batch => {
     return db
@@ -3673,10 +4176,11 @@ async function getUnprocessedByIdsAndIncrementAttempts(
   });
 }
 
-function removeUnprocessedsSync(ids: ReadonlyArray<string>): void {
+function removeUnprocessedsSync(
+  db: Database,
+  ids: ReadonlyArray<string>
+): void {
   log.info('removeUnprocessedsSync', { totalIds: ids.length });
-  const db = getInstance();
-
   db.prepare<ArrayQuery>(
     `
     DELETE FROM unprocessed
@@ -3685,10 +4189,8 @@ function removeUnprocessedsSync(ids: ReadonlyArray<string>): void {
   ).run(ids);
 }
 
-function removeUnprocessedSync(id: string | Array<string>): void {
+function removeUnprocessedSync(db: Database, id: string | Array<string>): void {
   log.info('removeUnprocessedSync', { id });
-  const db = getInstance();
-
   if (!Array.isArray(id)) {
     prepare(db, 'DELETE FROM unprocessed WHERE id = $id;').run({ id });
 
@@ -3701,15 +4203,19 @@ function removeUnprocessedSync(id: string | Array<string>): void {
     return;
   }
 
-  assertSync(batchMultiVarQuery(db, id, removeUnprocessedsSync));
+  assertSync(
+    batchMultiVarQuery(db, id, batch => removeUnprocessedsSync(db, batch))
+  );
 }
 
 async function removeUnprocessed(id: string | Array<string>): Promise<void> {
-  removeUnprocessedSync(id);
+  const db = await getWritableInstance();
+
+  removeUnprocessedSync(db, id);
 }
 
 async function removeAllUnprocessed(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<EmptyQuery>('DELETE FROM unprocessed;').run();
 }
 
@@ -3719,13 +4225,13 @@ const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
 async function getAttachmentDownloadJobById(
   id: string
 ): Promise<AttachmentDownloadJobType | undefined> {
-  return getById(getInstance(), ATTACHMENT_DOWNLOADS_TABLE, id);
+  return getById(getReadonlyInstance(), ATTACHMENT_DOWNLOADS_TABLE, id);
 }
 async function getNextAttachmentDownloadJobs(
   limit?: number,
   options: { timestamp?: number } = {}
 ): Promise<Array<AttachmentDownloadJobType>> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const timestamp =
     options && options.timestamp ? options.timestamp : Date.now();
 
@@ -3755,7 +4261,7 @@ async function getNextAttachmentDownloadJobs(
             `JSON: '${row.json}' ` +
             `Error: ${Errors.toLogFormat(error)}`
         );
-        removeAttachmentDownloadJobSync(row.id);
+        removeAttachmentDownloadJobSync(db, row.id);
         throw new Error(INNER_ERROR);
       }
     });
@@ -3769,7 +4275,7 @@ async function getNextAttachmentDownloadJobs(
 async function saveAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const { id, pending, timestamp } = job;
   if (!id) {
     throw new Error(
@@ -3802,7 +4308,7 @@ async function setAttachmentDownloadJobPending(
   id: string,
   pending: boolean
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<Query>(
     `
     UPDATE attachment_downloads
@@ -3815,7 +4321,7 @@ async function setAttachmentDownloadJobPending(
   });
 }
 async function resetAttachmentDownloadPending(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<EmptyQuery>(
     `
     UPDATE attachment_downloads
@@ -3824,20 +4330,24 @@ async function resetAttachmentDownloadPending(): Promise<void> {
     `
   ).run();
 }
-function removeAttachmentDownloadJobSync(id: string): void {
-  return removeById(getInstance(), ATTACHMENT_DOWNLOADS_TABLE, id);
+function removeAttachmentDownloadJobSync(db: Database, id: string): number {
+  return removeById(db, ATTACHMENT_DOWNLOADS_TABLE, id);
 }
-async function removeAttachmentDownloadJob(id: string): Promise<void> {
-  return removeAttachmentDownloadJobSync(id);
+async function removeAttachmentDownloadJob(id: string): Promise<number> {
+  const db = await getWritableInstance();
+  return removeAttachmentDownloadJobSync(db, id);
 }
-async function removeAllAttachmentDownloadJobs(): Promise<void> {
-  return removeAllFromTable(getInstance(), ATTACHMENT_DOWNLOADS_TABLE);
+async function removeAllAttachmentDownloadJobs(): Promise<number> {
+  return removeAllFromTable(
+    await getWritableInstance(),
+    ATTACHMENT_DOWNLOADS_TABLE
+  );
 }
 
 // Stickers
 
 async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const {
     attemptedStatus,
     author,
@@ -3976,11 +4486,11 @@ async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
   ).run(payload);
 }
 function updateStickerPackStatusSync(
+  db: Database,
   id: string,
   status: StickerPackStatusType,
   options?: { timestamp: number }
 ): void {
-  const db = getInstance();
   const timestamp = options ? options.timestamp || Date.now() : Date.now();
   const installedAt = status === 'installed' ? timestamp : null;
 
@@ -4001,7 +4511,8 @@ async function updateStickerPackStatus(
   status: StickerPackStatusType,
   options?: { timestamp: number }
 ): Promise<void> {
-  return updateStickerPackStatusSync(id, status, options);
+  const db = await getWritableInstance();
+  return updateStickerPackStatusSync(db, id, status, options);
 }
 async function updateStickerPackInfo({
   id,
@@ -4011,7 +4522,7 @@ async function updateStickerPackInfo({
   storageNeedsSync,
   uninstalledAt,
 }: StickerPackInfoType): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   if (uninstalledAt) {
     db.prepare<Query>(
@@ -4052,7 +4563,7 @@ async function updateStickerPackInfo({
   }
 }
 async function clearAllErrorStickerPackAttempts(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.prepare<EmptyQuery>(
     `
@@ -4063,7 +4574,7 @@ async function clearAllErrorStickerPackAttempts(): Promise<void> {
   ).run();
 }
 async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const { emoji, height, id, isCoverOnly, lastUsed, packId, path, width } =
     sticker;
 
@@ -4116,7 +4627,7 @@ async function updateStickerLastUsed(
   stickerId: number,
   lastUsed: number
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<Query>(
     `
     UPDATE stickers
@@ -4143,7 +4654,7 @@ async function addStickerPackReference(
   messageId: string,
   packId: string
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   if (!messageId) {
     throw new Error(
@@ -4175,7 +4686,7 @@ async function deleteStickerPackReference(
   messageId: string,
   packId: string
 ): Promise<ReadonlyArray<string> | undefined> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   if (!messageId) {
     throw new Error(
@@ -4267,7 +4778,7 @@ async function deleteStickerPackReference(
 }
 
 async function deleteStickerPack(packId: string): Promise<Array<string>> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   if (!packId) {
     throw new Error(
@@ -4308,10 +4819,10 @@ async function deleteStickerPack(packId: string): Promise<Array<string>> {
 }
 
 async function getStickerCount(): Promise<number> {
-  return getCountFromTable(getInstance(), 'stickers');
+  return getCountFromTable(getReadonlyInstance(), 'stickers');
 }
 async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const rows = db
     .prepare<EmptyQuery>(
@@ -4332,9 +4843,10 @@ async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
     };
   });
 }
-function addUninstalledStickerPackSync(pack: UninstalledStickerPackType): void {
-  const db = getInstance();
-
+function addUninstalledStickerPackSync(
+  db: Database,
+  pack: UninstalledStickerPackType
+): void {
   db.prepare<Query>(
     `
         INSERT OR REPLACE INTO uninstalled_sticker_packs
@@ -4360,22 +4872,22 @@ function addUninstalledStickerPackSync(pack: UninstalledStickerPackType): void {
 async function addUninstalledStickerPack(
   pack: UninstalledStickerPackType
 ): Promise<void> {
-  return addUninstalledStickerPackSync(pack);
+  const db = await getWritableInstance();
+  return addUninstalledStickerPackSync(db, pack);
 }
-function removeUninstalledStickerPackSync(packId: string): void {
-  const db = getInstance();
-
+function removeUninstalledStickerPackSync(db: Database, packId: string): void {
   db.prepare<Query>(
     'DELETE FROM uninstalled_sticker_packs WHERE id IS $id'
   ).run({ id: packId });
 }
 async function removeUninstalledStickerPack(packId: string): Promise<void> {
-  return removeUninstalledStickerPackSync(packId);
+  const db = await getWritableInstance();
+  return removeUninstalledStickerPackSync(db, packId);
 }
 async function getUninstalledStickerPacks(): Promise<
   Array<UninstalledStickerPackType>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const rows = db
     .prepare<EmptyQuery>(
@@ -4386,7 +4898,7 @@ async function getUninstalledStickerPacks(): Promise<
   return rows || [];
 }
 async function getInstalledStickerPacks(): Promise<Array<StickerPackType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   // If sticker pack has a storageID - it is being downloaded and about to be
   // installed so we better sync it back to storage service if asked.
@@ -4408,7 +4920,7 @@ async function getInstalledStickerPacks(): Promise<Array<StickerPackType>> {
 async function getStickerPackInfo(
   packId: string
 ): Promise<StickerPackInfoType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   return db.transaction(() => {
     const uninstalled = db
@@ -4444,22 +4956,22 @@ async function installStickerPack(
   packId: string,
   timestamp: number
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   return db.transaction(() => {
     const status = 'installed';
-    updateStickerPackStatusSync(packId, status, { timestamp });
+    updateStickerPackStatusSync(db, packId, status, { timestamp });
 
-    removeUninstalledStickerPackSync(packId);
+    removeUninstalledStickerPackSync(db, packId);
   })();
 }
 async function uninstallStickerPack(
   packId: string,
   timestamp: number
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   return db.transaction(() => {
     const status = 'downloaded';
-    updateStickerPackStatusSync(packId, status);
+    updateStickerPackStatusSync(db, packId, status);
 
     db.prepare<Query>(
       `
@@ -4472,7 +4984,7 @@ async function uninstallStickerPack(
       `
     ).run({ packId });
 
-    addUninstalledStickerPackSync({
+    addUninstalledStickerPackSync(db, {
       id: packId,
       uninstalledAt: timestamp,
       storageNeedsSync: true,
@@ -4480,7 +4992,7 @@ async function uninstallStickerPack(
   })();
 }
 async function getAllStickers(): Promise<Array<StickerType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const rows = db
     .prepare<EmptyQuery>(
@@ -4496,7 +5008,7 @@ async function getAllStickers(): Promise<Array<StickerType>> {
 async function getRecentStickers({ limit }: { limit?: number } = {}): Promise<
   Array<StickerType>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
   const rows = db
@@ -4521,7 +5033,7 @@ async function updateEmojiUsage(
   shortName: string,
   timeUsed: number = Date.now()
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     const rows = db
@@ -4555,7 +5067,7 @@ async function updateEmojiUsage(
 }
 
 async function getRecentEmojis(limit = 32): Promise<Array<EmojiType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows = db
     .prepare<Query>(
       `
@@ -4571,7 +5083,7 @@ async function getRecentEmojis(limit = 32): Promise<Array<EmojiType>> {
 }
 
 async function getAllBadges(): Promise<Array<BadgeType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const [badgeRows, badgeImageFileRows] = db.transaction(() => [
     db.prepare<EmptyQuery>('SELECT * FROM badges').all(),
@@ -4608,7 +5120,7 @@ async function getAllBadges(): Promise<Array<BadgeType>> {
 async function updateOrCreateBadges(
   badges: ReadonlyArray<BadgeType>
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   const insertBadge = prepare<Query>(
     db,
@@ -4687,7 +5199,7 @@ async function badgeImageFileDownloaded(
   url: string,
   localPath: string
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   prepare<Query>(
     db,
     'UPDATE badgeImageFiles SET localPath = $localPath WHERE url = $url'
@@ -4695,7 +5207,7 @@ async function badgeImageFileDownloaded(
 }
 
 async function getAllBadgeImageFileLocalPaths(): Promise<Set<string>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const localPaths = db
     .prepare<EmptyQuery>(
       'SELECT localPath FROM badgeImageFiles WHERE localPath IS NOT NULL'
@@ -4703,6 +5215,41 @@ async function getAllBadgeImageFileLocalPaths(): Promise<Set<string>> {
     .pluck()
     .all();
   return new Set(localPaths);
+}
+
+function runCorruptionChecks(): void {
+  let db: Database;
+  try {
+    db = getUnsafeWritableInstance('integrity check');
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: not running the check, no writable instance',
+      Errors.toLogFormat(error)
+    );
+    return;
+  }
+  try {
+    const result = db.pragma('integrity_check');
+    if (result.length === 1 && result.at(0)?.integrity_check === 'ok') {
+      logger.info('runCorruptionChecks: general integrity is ok');
+    } else {
+      logger.error('runCorruptionChecks: general integrity is not ok', result);
+    }
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: general integrity check error',
+      Errors.toLogFormat(error)
+    );
+  }
+  try {
+    db.exec("INSERT INTO messages_fts(messages_fts) VALUES('integrity-check')");
+    logger.info('runCorruptionChecks: FTS5 integrity ok');
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: FTS5 integrity check error.',
+      Errors.toLogFormat(error)
+    );
+  }
 }
 
 type StoryDistributionForDatabase = Readonly<
@@ -4764,7 +5311,7 @@ function freezeStoryDistribution(
 async function _getAllStoryDistributions(): Promise<
   Array<StoryDistributionType>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const storyDistributions = db
     .prepare<EmptyQuery>('SELECT * FROM storyDistributions;')
     .all();
@@ -4774,13 +5321,13 @@ async function _getAllStoryDistributions(): Promise<
 async function _getAllStoryDistributionMembers(): Promise<
   Array<StoryDistributionMemberType>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return db
     .prepare<EmptyQuery>('SELECT * FROM storyDistributionMembers;')
     .all();
 }
 async function _deleteAllStoryDistributions(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<EmptyQuery>('DELETE FROM storyDistributions;').run();
 }
 async function createNewStoryDistribution(
@@ -4791,7 +5338,7 @@ async function createNewStoryDistribution(
     'Distribution list does not have a valid name'
   );
 
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     const payload = freezeStoryDistribution(distribution);
@@ -4832,18 +5379,18 @@ async function createNewStoryDistribution(
       `
       INSERT OR REPLACE INTO storyDistributionMembers (
         listId,
-        uuid
+        serviceId
       ) VALUES (
         $listId,
-        $uuid
+        $serviceId
       );
       `
     );
 
-    for (const uuid of members) {
+    for (const serviceId of members) {
       memberInsertStatement.run({
         listId,
-        uuid,
+        serviceId,
       });
     }
   })();
@@ -4858,13 +5405,13 @@ async function getAllStoryDistributionsWithMembers(): Promise<
 
   return allDistributions.map(list => ({
     ...list,
-    members: (byListId[list.id] || []).map(member => member.uuid),
+    members: (byListId[list.id] || []).map(member => member.serviceId),
   }));
 }
 async function getStoryDistributionWithMembers(
   id: string
 ): Promise<StoryDistributionWithMembersType | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const storyDistribution: StoryDistributionForDatabase | undefined = prepare(
     db,
     'SELECT * FROM storyDistributions WHERE id = $id;'
@@ -4885,7 +5432,7 @@ async function getStoryDistributionWithMembers(
 
   return {
     ...hydrateStoryDistribution(storyDistribution),
-    members: members.map(({ uuid }) => uuid),
+    members: members.map(({ serviceId }) => serviceId),
   };
 }
 function modifyStoryDistributionSync(
@@ -4928,46 +5475,50 @@ function modifyStoryDistributionMembersSync(
   {
     toAdd,
     toRemove,
-  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ) {
   const memberInsertStatement = prepare(
     db,
     `
     INSERT OR REPLACE INTO storyDistributionMembers (
       listId,
-      uuid
+      serviceId
     ) VALUES (
       $listId,
-      $uuid
+      $serviceId
     );
     `
   );
 
-  for (const uuid of toAdd) {
+  for (const serviceId of toAdd) {
     memberInsertStatement.run({
       listId,
-      uuid,
+      serviceId,
     });
   }
 
-  batchMultiVarQuery(db, toRemove, (uuids: ReadonlyArray<UUIDStringType>) => {
-    db.prepare<ArrayQuery>(
-      `
-      DELETE FROM storyDistributionMembers
-      WHERE listId = ? AND uuid IN ( ${uuids.map(() => '?').join(', ')} );
-      `
-    ).run([listId, ...uuids]);
-  });
+  batchMultiVarQuery(
+    db,
+    toRemove,
+    (serviceIds: ReadonlyArray<ServiceIdString>) => {
+      const serviceIdSet = sqlJoin(serviceIds);
+      const [sqlQuery, sqlParams] = sql`
+        DELETE FROM storyDistributionMembers
+        WHERE listId = ${listId} AND serviceId IN (${serviceIdSet});
+      `;
+      db.prepare(sqlQuery).run(sqlParams);
+    }
+  );
 }
 async function modifyStoryDistributionWithMembers(
   distribution: StoryDistributionType,
   {
     toAdd,
     toRemove,
-  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ): Promise<void> {
   const payload = freezeStoryDistribution(distribution);
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   if (toAdd.length || toRemove.length) {
     db.transaction(() => {
@@ -4982,7 +5533,7 @@ async function modifyStoryDistribution(
   distribution: StoryDistributionType
 ): Promise<void> {
   const payload = freezeStoryDistribution(distribution);
-  const db = getInstance();
+  const db = await getWritableInstance();
   modifyStoryDistributionSync(db, payload);
 }
 async function modifyStoryDistributionMembers(
@@ -4990,31 +5541,33 @@ async function modifyStoryDistributionMembers(
   {
     toAdd,
     toRemove,
-  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     modifyStoryDistributionMembersSync(db, listId, { toAdd, toRemove });
   })();
 }
-async function deleteStoryDistribution(id: UUIDStringType): Promise<void> {
-  const db = getInstance();
+async function deleteStoryDistribution(
+  id: StoryDistributionIdString
+): Promise<void> {
+  const db = await getWritableInstance();
   db.prepare<Query>('DELETE FROM storyDistributions WHERE id = $id;').run({
     id,
   });
 }
 
 async function _getAllStoryReads(): Promise<Array<StoryReadType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return db.prepare<EmptyQuery>('SELECT * FROM storyReads;').all();
 }
 async function _deleteAllStoryReads(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   db.prepare<EmptyQuery>('DELETE FROM storyReads;').run();
 }
 async function addNewStoryRead(read: StoryReadType): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   prepare(
     db,
@@ -5038,13 +5591,13 @@ async function getLastStoryReadsForAuthor({
   conversationId,
   limit: initialLimit,
 }: {
-  authorId: UUIDStringType;
-  conversationId?: UUIDStringType;
+  authorId: ServiceIdString;
+  conversationId?: string;
   limit?: number;
 }): Promise<Array<StoryReadType>> {
   const limit = initialLimit || 5;
 
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return db
     .prepare<Query>(
       `
@@ -5066,7 +5619,7 @@ async function getLastStoryReadsForAuthor({
 async function countStoryReadsByConversation(
   conversationId: string
 ): Promise<number> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return db
     .prepare<Query>(
       `
@@ -5080,13 +5633,17 @@ async function countStoryReadsByConversation(
 
 // All data in database
 async function removeAll(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     db.exec(`
+      --- Remove messages delete trigger for performance
+      DROP   TRIGGER messages_on_delete;
+
       DELETE FROM attachment_downloads;
       DELETE FROM badgeImageFiles;
       DELETE FROM badges;
+      DELETE FROM callsHistory;
       DELETE FROM conversations;
       DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;
@@ -5114,15 +5671,28 @@ async function removeAll(): Promise<void> {
       DELETE FROM uninstalled_sticker_packs;
 
       INSERT INTO messages_fts(messages_fts) VALUES('optimize');
+
+      --- Re-create the messages delete trigger
+      --- See migration 45
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        DELETE FROM sendLogPayloads WHERE id IN (
+          SELECT payloadId FROM sendLogMessageIds
+          WHERE messageId = old.id
+        );
+        DELETE FROM reactions WHERE rowid IN (
+          SELECT rowid FROM reactions
+          WHERE messageId = old.id
+        );
+        DELETE FROM storyReads WHERE storyId = old.storyId;
+      END;
     `);
   })();
 }
 
 // Anything that isn't user-visible data
-async function removeAllConfiguration(
-  mode = RemoveAllConfiguration.Full
-): Promise<void> {
-  const db = getInstance();
+async function removeAllConfiguration(): Promise<void> {
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     db.exec(
@@ -5141,32 +5711,59 @@ async function removeAllConfiguration(
       `
     );
 
-    if (mode === RemoveAllConfiguration.Full) {
-      db.exec(
-        `
-        DELETE FROM items;
-        `
-      );
-    } else if (mode === RemoveAllConfiguration.Soft) {
-      const itemIds: ReadonlyArray<string> = db
-        .prepare<EmptyQuery>('SELECT id FROM items')
-        .pluck(true)
-        .all();
+    const itemIds: ReadonlyArray<string> = db
+      .prepare<EmptyQuery>('SELECT id FROM items')
+      .pluck(true)
+      .all();
 
-      const allowedSet = new Set<string>(STORAGE_UI_KEYS);
-      for (const id of itemIds) {
-        if (!allowedSet.has(id)) {
-          removeById(db, 'items', id);
-        }
+    const allowedSet = new Set<string>(STORAGE_UI_KEYS);
+    for (const id of itemIds) {
+      if (!allowedSet.has(id)) {
+        removeById(db, 'items', id);
       }
-    } else {
-      throw missingCaseError(mode);
     }
 
     db.exec(
-      "UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');"
+      `
+      UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');
+      UPDATE storyDistributions SET senderKeyInfoJson = NULL;
+      `
     );
   })();
+}
+
+async function eraseStorageServiceState(): Promise<void> {
+  const db = await getWritableInstance();
+
+  db.exec(`
+    -- Conversations
+    UPDATE conversations
+    SET
+      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.storageUnknownFields');
+
+    -- Stickers
+    UPDATE sticker_packs
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+
+    UPDATE uninstalled_sticker_packs
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+
+    -- Story Distribution Lists
+    UPDATE storyDistributions
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+  `);
 }
 
 const MAX_MESSAGE_MIGRATION_ATTEMPTS = 5;
@@ -5175,7 +5772,7 @@ async function getMessagesNeedingUpgrade(
   limit: number,
   { maxVersion }: { maxVersion: number }
 ): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   const rows: JSONRows = db
     .prepare<Query>(
@@ -5204,7 +5801,7 @@ async function getMessagesWithVisualMediaAttachments(
   conversationId: string,
   { limit }: { limit: number }
 ): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows: JSONRows = db
     .prepare<Query>(
       `
@@ -5233,7 +5830,7 @@ async function getMessagesWithFileAttachments(
   conversationId: string,
   { limit }: { limit: number }
 ): Promise<Array<MessageType>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const rows = db
     .prepare<Query>(
       `
@@ -5257,7 +5854,7 @@ async function getMessagesWithFileAttachments(
 async function getMessageServerGuidsForSpam(
   conversationId: string
 ): Promise<Array<string>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   // The server's maximum is 3, which is why you see `LIMIT 3` in this query. Note that we
   //   use `pluck` here to only get the first column!
@@ -5381,7 +5978,7 @@ function getExternalDraftFilesForConversation(
 async function getKnownMessageAttachments(
   cursor?: MessageAttachmentsCursorType
 ): Promise<GetKnownMessageAttachmentsResultType> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const result = new Set<string>();
   const chunkSize = 1000;
 
@@ -5474,7 +6071,7 @@ async function finishGetKnownMessageAttachments({
   count,
   done,
 }: MessageAttachmentsCursorType): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   const logId = `finishGetKnownMessageAttachments(${runId})`;
   if (!done) {
@@ -5490,7 +6087,7 @@ async function finishGetKnownMessageAttachments({
 }
 
 async function getKnownConversationAttachments(): Promise<Array<string>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const result = new Set<string>();
   const chunkSize = 500;
 
@@ -5541,7 +6138,7 @@ async function getKnownConversationAttachments(): Promise<Array<string>> {
 async function removeKnownStickers(
   allStickers: ReadonlyArray<string>
 ): Promise<Array<string>> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const lookup: Dictionary<boolean> = fromPairs(
     map(allStickers, file => [file, true])
   );
@@ -5592,7 +6189,7 @@ async function removeKnownStickers(
 async function removeKnownDraftAttachments(
   allStickers: ReadonlyArray<string>
 ): Promise<Array<string>> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   const lookup: Dictionary<boolean> = fromPairs(
     map(allStickers, file => [file, true])
   );
@@ -5662,7 +6259,7 @@ async function optimizeFTS(
   if (state === undefined) {
     pageCount = -pageCount;
   }
-  const db = getInstance();
+  const db = await getWritableInstance();
   const getChanges = prepare(db, 'SELECT total_changes() as changes;', {
     pluck: true,
   });
@@ -5692,7 +6289,7 @@ async function optimizeFTS(
 }
 
 async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   return getJobsInQueueSync(db, queueType);
 }
 
@@ -5735,12 +6332,12 @@ export function insertJobSync(db: Database, job: Readonly<StoredJob>): void {
 }
 
 async function insertJob(job: Readonly<StoredJob>): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
   return insertJobSync(db, job);
 }
 
 async function deleteJob(id: string): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
 }
@@ -5748,7 +6345,7 @@ async function deleteJob(id: string): Promise<void> {
 async function wasGroupCallRingPreviouslyCanceled(
   ringId: bigint
 ): Promise<boolean> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   return db
     .prepare<Query>(
@@ -5768,7 +6365,7 @@ async function wasGroupCallRingPreviouslyCanceled(
 }
 
 async function processGroupCallRingCancellation(ringId: bigint): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.prepare<Query>(
     `
@@ -5784,7 +6381,7 @@ async function processGroupCallRingCancellation(ringId: bigint): Promise<void> {
 const MAX_GROUP_CALL_RING_AGE = 30 * durations.MINUTE;
 
 async function cleanExpiredGroupCallRingCancellations(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.prepare<Query>(
     `
@@ -5797,7 +6394,7 @@ async function cleanExpiredGroupCallRingCancellations(): Promise<void> {
 }
 
 async function getMaxMessageCounter(): Promise<number | undefined> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   return db
     .prepare<EmptyQuery>(
@@ -5816,7 +6413,7 @@ async function getMaxMessageCounter(): Promise<number | undefined> {
 }
 
 async function getStatisticsForLogging(): Promise<Record<string, string>> {
-  const db = getInstance();
+  const db = getReadonlyInstance();
   const counts = await pProps({
     messageCount: getMessageCount(),
     conversationCount: getConversationCount(),
@@ -5833,7 +6430,7 @@ async function updateAllConversationColors(
     value: CustomColorType;
   }
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.prepare<Query>(
     `
@@ -5850,7 +6447,7 @@ async function updateAllConversationColors(
 }
 
 async function removeAllProfileKeyCredentials(): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.exec(
     `
@@ -5863,15 +6460,15 @@ async function removeAllProfileKeyCredentials(): Promise<void> {
 
 async function saveEditedMessage(
   mainMessage: MessageType,
-  ourUuid: UUIDStringType,
+  ourAci: AciString,
   { conversationId, messageId, readStatus, sentAt }: EditedMessageType
 ): Promise<void> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   db.transaction(() => {
     assertSync(
-      saveMessageSync(mainMessage, {
-        ourUuid,
+      saveMessageSync(db, mainMessage, {
+        ourAci,
         alreadyInTransaction: true,
       })
     );
@@ -5897,7 +6494,7 @@ async function saveEditedMessage(
 async function _getAllEditedMessages(): Promise<
   Array<{ messageId: string; sentAt: number }>
 > {
-  const db = getInstance();
+  const db = getReadonlyInstance();
 
   return db
     .prepare<Query>(
@@ -5915,7 +6512,7 @@ async function getUnreadEditedMessagesAndMarkRead({
   conversationId: string;
   newestUnreadAt: number;
 }): Promise<GetUnreadByConversationAndMarkReadResultType> {
-  const db = getInstance();
+  const db = await getWritableInstance();
 
   return db.transaction(() => {
     const [selectQuery, selectParams] = sql`
@@ -5963,7 +6560,7 @@ async function getUnreadEditedMessagesAndMarkRead({
           'id',
           'sent_at',
           'source',
-          'sourceUuid',
+          'sourceServiceId',
           'type',
         ]),
         // Use the edited message timestamp

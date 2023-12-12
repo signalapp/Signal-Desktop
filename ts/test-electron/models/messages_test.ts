@@ -3,17 +3,32 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { setupI18n } from '../../util/setupI18n';
+import { v4 as generateUuid } from 'uuid';
+
+import type { AttachmentType } from '../../types/Attachment';
+import type { CallbackResultType } from '../../textsecure/Types.d';
+import type { ConversationModel } from '../../models/conversations';
+import type { MessageAttributesType } from '../../model-types.d';
+import type { MessageModel } from '../../models/messages';
+import type { RawBodyRange } from '../../types/BodyRange';
+import type { StorageAccessType } from '../../types/Storage.d';
+import type { WebAPIType } from '../../textsecure/WebAPI';
+import MessageSender from '../../textsecure/SendMessage';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
-import MessageSender from '../../textsecure/SendMessage';
-import type { WebAPIType } from '../../textsecure/WebAPI';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import type { StorageAccessType } from '../../types/Storage.d';
-import { UUID } from '../../types/UUID';
 import { SignalService as Proto } from '../../protobuf';
+import { generateAci } from '../../types/ServiceId';
 import { getContact } from '../../messages/helpers';
-import type { ConversationModel } from '../../models/conversations';
+import { setupI18n } from '../../util/setupI18n';
+import {
+  APPLICATION_JSON,
+  AUDIO_MP3,
+  IMAGE_GIF,
+  IMAGE_PNG,
+  LONG_MESSAGE,
+  TEXT_ATTACHMENT,
+  VIDEO_MP4,
+} from '../../types/MIME';
 
 describe('Message', () => {
   const STORAGE_KEYS_TO_RESTORE: Array<keyof StorageAccessType> = [
@@ -26,7 +41,7 @@ describe('Message', () => {
   const i18n = setupI18n('en', enMessages);
 
   const attributes = {
-    type: 'outgoing',
+    type: 'outgoing' as const,
     body: 'hi',
     conversationId: 'foo',
     attachments: [],
@@ -35,14 +50,14 @@ describe('Message', () => {
 
   const source = '+1 415-555-5555';
   const me = '+14155555556';
-  const ourUuid = UUID.generate().toString();
+  const ourServiceId = generateAci();
 
-  function createMessage(attrs: { [key: string]: unknown }) {
-    const messages = new window.Whisper.MessageCollection();
-    return messages.add({
-      received_at: Date.now(),
+  function createMessage(attrs: Partial<MessageAttributesType>): MessageModel {
+    return new window.Whisper.Message({
+      id: generateUuid(),
       ...attrs,
-    });
+      received_at: Date.now(),
+    } as MessageAttributesType);
   }
 
   function createMessageAndGetNotificationData(attrs: {
@@ -59,7 +74,7 @@ describe('Message', () => {
       oldStorageValues.set(key, window.textsecure.storage.get(key));
     });
     await window.textsecure.storage.put('number_id', `${me}.2`);
-    await window.textsecure.storage.put('uuid_id', `${ourUuid}.2`);
+    await window.textsecure.storage.put('uuid_id', `${ourServiceId}.2`);
   });
 
   after(async () => {
@@ -76,11 +91,11 @@ describe('Message', () => {
     );
   });
 
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     this.sandbox = sinon.createSandbox();
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
   });
 
@@ -88,7 +103,7 @@ describe('Message', () => {
   describe('send', () => {
     let oldMessageSender: undefined | MessageSender;
 
-    beforeEach(function beforeEach() {
+    beforeEach(function (this: Mocha.Context) {
       oldMessageSender = window.textsecure.messaging;
 
       window.textsecure.messaging =
@@ -109,7 +124,7 @@ describe('Message', () => {
       }
     });
 
-    it('updates `sendStateByConversationId`', async function test() {
+    it('updates `sendStateByConversationId`', async function (this: Mocha.Context) {
       this.sandbox.useFakeTimers(1234);
 
       const ourConversationId =
@@ -150,25 +165,28 @@ describe('Message', () => {
       });
 
       const fakeDataMessage = new Uint8Array(0);
-      const conversation1Uuid = conversation1.get('uuid');
-      const ignoredUuid = UUID.generate().toString();
+      const conversation1Uuid = conversation1.getServiceId();
+      const ignoredUuid = generateAci();
 
       if (!conversation1Uuid) {
         throw new Error('Test setup failed: conversation1 should have a UUID');
       }
 
       const promise = Promise.resolve<CallbackResultType>({
-        successfulIdentifiers: [conversation1Uuid, ignoredUuid],
+        successfulServiceIds: [conversation1Uuid, ignoredUuid],
         errors: [
           Object.assign(new Error('failed'), {
-            identifier: conversation2.get('uuid'),
+            serviceId: conversation2.getServiceId(),
           }),
         ],
         dataMessage: fakeDataMessage,
         editMessage: undefined,
       });
 
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const result = message.get('sendStateByConversationId') || {};
       assert.hasAllKeys(result, [
@@ -188,7 +206,10 @@ describe('Message', () => {
       const message = createMessage({ type: 'outgoing', source });
 
       const promise = Promise.reject(new Error('foo bar'));
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
@@ -202,7 +223,10 @@ describe('Message', () => {
         errors: [new Error('baz qux')],
       };
       const promise = Promise.reject(result);
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
@@ -212,14 +236,12 @@ describe('Message', () => {
 
   describe('getContact', () => {
     it('gets outgoing contact', () => {
-      const messages = new window.Whisper.MessageCollection();
-      const message = messages.add(attributes);
+      const message = createMessage(attributes);
       assert.exists(getContact(message.attributes));
     });
 
     it('gets incoming contact', () => {
-      const messages = new window.Whisper.MessageCollection();
-      const message = messages.add({
+      const message = createMessage({
         type: 'incoming',
         source,
       });
@@ -240,19 +262,19 @@ describe('Message', () => {
     let eve: ConversationModel | undefined;
     before(() => {
       alice = window.ConversationController.getOrCreate(
-        UUID.generate().toString(),
+        generateUuid(),
         'private'
       );
       alice.set({ systemGivenName: 'Alice' });
 
       bob = window.ConversationController.getOrCreate(
-        UUID.generate().toString(),
+        generateUuid(),
         'private'
       );
       bob.set({ systemGivenName: 'Bob' });
 
       eve = window.ConversationController.getOrCreate(
-        UUID.generate().toString(),
+        generateUuid(),
         'private'
       );
       eve.set({ systemGivenName: 'Eve' });
@@ -285,7 +307,8 @@ describe('Message', () => {
           isErased: false,
           attachments: [
             {
-              contentType: 'image/png',
+              contentType: IMAGE_PNG,
+              size: 0,
             },
           ],
         }),
@@ -300,7 +323,8 @@ describe('Message', () => {
           isErased: false,
           attachments: [
             {
-              contentType: 'video/mp4',
+              contentType: VIDEO_MP4,
+              size: 0,
             },
           ],
         }),
@@ -315,7 +339,8 @@ describe('Message', () => {
           isErased: false,
           attachments: [
             {
-              contentType: 'text/plain',
+              contentType: LONG_MESSAGE,
+              size: 0,
             },
           ],
         }),
@@ -340,7 +365,7 @@ describe('Message', () => {
           type: 'incoming',
           source,
           group_update: {
-            left: alice?.get('uuid'),
+            left: alice?.getServiceId(),
           },
         }),
         { text: 'Alice left the group.' }
@@ -351,7 +376,7 @@ describe('Message', () => {
       assert.deepEqual(
         createMessageAndGetNotificationData({
           type: 'incoming',
-          source: alice?.get('uuid'),
+          source: alice?.getServiceId(),
           group_update: {},
         }),
         { text: 'Alice updated the group.' }
@@ -415,7 +440,7 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          group_update: { joined: [bob?.get('uuid')] },
+          group_update: { joined: [bob?.getServiceId()] },
         }),
         {
           text: '+1 415-555-5555 updated the group. Bob joined the group.',
@@ -429,7 +454,11 @@ describe('Message', () => {
           type: 'incoming',
           source,
           group_update: {
-            joined: [bob?.get('uuid'), alice?.get('uuid'), eve?.get('uuid')],
+            joined: [
+              bob?.getServiceId(),
+              alice?.getServiceId(),
+              eve?.getServiceId(),
+            ],
           },
         }),
         {
@@ -445,10 +474,10 @@ describe('Message', () => {
           source,
           group_update: {
             joined: [
-              bob?.get('uuid'),
+              bob?.getServiceId(),
               me,
-              alice?.get('uuid'),
-              eve?.get('uuid'),
+              alice?.getServiceId(),
+              eve?.getServiceId(),
             ],
           },
         }),
@@ -463,7 +492,7 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          group_update: { joined: [bob?.get('uuid')], name: 'blerg' },
+          group_update: { joined: [bob?.getServiceId()], name: 'blerg' },
         }),
         {
           text: "+1 415-555-5555 updated the group. Bob joined the group. Group name is now 'blerg'.",
@@ -476,7 +505,7 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          flags: true,
+          flags: 1,
         }),
         { text: i18n('icu:sessionEnded') }
       );
@@ -487,17 +516,26 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          errors: [{}],
+          errors: [new Error()],
         }),
         { text: i18n('icu:incomingError') }
       );
     });
 
-    const attachmentTestCases = [
+    const attachmentTestCases: Array<{
+      title: string;
+      attachment: AttachmentType;
+      expectedResult: {
+        text: string;
+        emoji: string;
+        bodyRanges?: Array<RawBodyRange>;
+      };
+    }> = [
       {
         title: 'GIF',
         attachment: {
-          contentType: 'image/gif',
+          contentType: IMAGE_GIF,
+          size: 0,
         },
         expectedResult: {
           text: 'GIF',
@@ -508,7 +546,8 @@ describe('Message', () => {
       {
         title: 'photo',
         attachment: {
-          contentType: 'image/png',
+          contentType: IMAGE_PNG,
+          size: 0,
         },
         expectedResult: {
           text: 'Photo',
@@ -519,7 +558,8 @@ describe('Message', () => {
       {
         title: 'video',
         attachment: {
-          contentType: 'video/mp4',
+          contentType: VIDEO_MP4,
+          size: 0,
         },
         expectedResult: {
           text: 'Video',
@@ -530,8 +570,9 @@ describe('Message', () => {
       {
         title: 'voice message',
         attachment: {
-          contentType: 'audio/ogg',
+          contentType: AUDIO_MP3,
           flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
+          size: 0,
         },
         expectedResult: {
           text: 'Voice Message',
@@ -542,8 +583,9 @@ describe('Message', () => {
       {
         title: 'audio message',
         attachment: {
-          contentType: 'audio/ogg',
-          fileName: 'audio.ogg',
+          contentType: AUDIO_MP3,
+          fileName: 'audio.mp3',
+          size: 0,
         },
         expectedResult: {
           text: 'Audio Message',
@@ -554,7 +596,8 @@ describe('Message', () => {
       {
         title: 'plain text',
         attachment: {
-          contentType: 'text/plain',
+          contentType: LONG_MESSAGE,
+          size: 0,
         },
         expectedResult: {
           text: 'File',
@@ -565,7 +608,8 @@ describe('Message', () => {
       {
         title: 'unspecified-type',
         attachment: {
-          contentType: null,
+          contentType: APPLICATION_JSON,
+          size: 0,
         },
         expectedResult: {
           text: 'File',
@@ -594,7 +638,8 @@ describe('Message', () => {
             attachments: [
               attachment,
               {
-                contentType: 'text/html',
+                contentType: TEXT_ATTACHMENT,
+                size: 0,
               },
             ],
           }),
@@ -633,7 +678,7 @@ describe('Message', () => {
         createMessage({
           conversationId: (
             await window.ConversationController.getOrCreateAndWait(
-              UUID.generate().toString(),
+              generateUuid(),
               'private'
             )
           ).id,
@@ -645,7 +690,7 @@ describe('Message', () => {
       );
     });
 
-    it("shows a notification's emoji on non-Linux", async function test() {
+    it("shows a notification's emoji on non-Linux", async function (this: Mocha.Context) {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {
@@ -657,7 +702,7 @@ describe('Message', () => {
         createMessage({
           conversationId: (
             await window.ConversationController.getOrCreateAndWait(
-              UUID.generate().toString(),
+              generateUuid(),
               'private'
             )
           ).id,
@@ -665,7 +710,8 @@ describe('Message', () => {
           source,
           attachments: [
             {
-              contentType: 'image/png',
+              contentType: IMAGE_PNG,
+              size: 0,
             },
           ],
         }).getNotificationText(),
@@ -673,7 +719,7 @@ describe('Message', () => {
       );
     });
 
-    it('hides emoji on Linux', async function test() {
+    it('hides emoji on Linux', async function (this: Mocha.Context) {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {
@@ -685,7 +731,7 @@ describe('Message', () => {
         createMessage({
           conversationId: (
             await window.ConversationController.getOrCreateAndWait(
-              UUID.generate().toString(),
+              generateUuid(),
               'private'
             )
           ).id,
@@ -693,35 +739,13 @@ describe('Message', () => {
           source,
           attachments: [
             {
-              contentType: 'image/png',
+              contentType: IMAGE_PNG,
+              size: 0,
             },
           ],
         }).getNotificationText(),
         'Photo'
       );
     });
-  });
-});
-
-describe('MessageCollection', () => {
-  it('should be ordered oldest to newest', () => {
-    const messages = new window.Whisper.MessageCollection();
-    // Timestamps
-    const today = Date.now();
-    const tomorrow = today + 12345;
-
-    // Add threads
-    messages.add({ received_at: today });
-    messages.add({ received_at: tomorrow });
-
-    const { models } = messages;
-    const firstTimestamp = models[0].get('received_at');
-    const secondTimestamp = models[1].get('received_at');
-
-    // Compare timestamps
-    assert(typeof firstTimestamp === 'number');
-    assert(typeof secondTimestamp === 'number');
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    assert(firstTimestamp! < secondTimestamp!);
   });
 });

@@ -16,8 +16,10 @@ import {
   getUsernamesEnabled,
   getHasCompletedUsernameOnboarding,
   getHasCompletedUsernameLinkOnboarding,
+  getUsernameCorrupted,
   getUsernameLinkColor,
   getUsernameLink,
+  getUsernameLinkCorrupted,
 } from '../selectors/items';
 import { getMe } from '../selectors/conversations';
 import { selectRecentEmojis } from '../selectors/emojis';
@@ -45,6 +47,7 @@ function mapStateToProps(
     firstName,
     familyName,
     id: conversationId,
+    phoneNumber,
     username,
   } = getMe(state);
   const recentEmojis = selectRecentEmojis(state);
@@ -58,6 +61,8 @@ function mapStateToProps(
   const usernameLinkState = getUsernameLinkState(state);
   const usernameLinkColor = getUsernameLinkColor(state);
   const usernameLink = getUsernameLink(state);
+  const usernameCorrupted = getUsernameCorrupted(state);
+  const usernameLinkCorrupted = getUsernameLinkCorrupted(state);
 
   return {
     aboutEmoji,
@@ -74,11 +79,14 @@ function mapStateToProps(
     isUsernameFlagEnabled,
     recentEmojis,
     skinTone,
+    phoneNumber,
     userAvatarData,
     username,
+    usernameCorrupted,
     usernameEditState,
     usernameLinkState,
     usernameLinkColor,
+    usernameLinkCorrupted,
     usernameLink,
 
     renderEditUsernameModalBody,

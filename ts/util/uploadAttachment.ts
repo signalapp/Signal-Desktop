@@ -13,19 +13,24 @@ export async function uploadAttachment(
   attachment: AttachmentWithHydratedData
 ): Promise<UploadedAttachmentType> {
   const keys = getRandomBytes(64);
-  const encrypted = padAndEncryptAttachment(attachment.data, keys);
+  const encrypted = padAndEncryptAttachment({
+    plaintext: attachment.data,
+    keys,
+  });
 
   const { server } = window.textsecure;
   strictAssert(server, 'WebAPI must be initialized');
 
   const cdnKey = await server.putEncryptedAttachment(encrypted.ciphertext);
+  const size = attachment.data.byteLength;
 
   return {
     cdnKey,
     cdnNumber: 2,
     key: keys,
-    size: attachment.data.byteLength,
+    size,
     digest: encrypted.digest,
+    plaintextHash: encrypted.plaintextHash,
 
     contentType: MIMETypeToString(attachment.contentType),
     fileName: attachment.fileName,

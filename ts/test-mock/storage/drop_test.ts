@@ -10,7 +10,7 @@ import { initStorage, debug } from './fixtures';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -20,7 +20,7 @@ describe('storage service', function needsName() {
     ({ bootstrap, app } = await initStorage());
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }

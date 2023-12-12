@@ -1,0 +1,94 @@
+// Copyright 2015 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import './mixins';
+
+@keyframes panel--in--ltr {
+  from {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translateX(500px);
+  }
+
+  to {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translateX(0);
+  }
+}
+
+@keyframes panel--in--rtl {
+  from {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translateX(-500px);
+  }
+
+  to {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translateX(0);
+  }
+}
+
+.conversation {
+  @include light-theme {
+    background-color: $color-white;
+  }
+
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
+
+  .panel {
+    &:not(.main) {
+      &:dir(ltr) {
+        animation: panel--in--ltr 350ms cubic-bezier(0.17, 0.17, 0, 1);
+      }
+      &:dir(rtl) {
+        animation: panel--in--rtl 350ms cubic-bezier(0.17, 0.17, 0, 1);
+      }
+    }
+
+    &--static {
+      animation: none;
+    }
+
+    &--remove {
+      &:dir(ltr) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(100%);
+      }
+      &:dir(rtl) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(-100%);
+      }
+      transition: transform 350ms cubic-bezier(0.17, 0.17, 0, 1);
+    }
+  }
+}
+
+// Make sure the main panel is hidden when other panels are in the dom
+.panel + .main.panel {
+  display: none;
+}
+
+.message-detail-wrapper {
+  height: calc(100% - 48px);
+  width: 100%;
+  overflow-y: auto;
+}
+
+.typing-bubble-wrapper {
+  margin-bottom: 20px;
+}
+
+.contact-detail-pane {
+  overflow-y: scroll;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.permissions-popup,
+.debug-log-window {
+  .modal {
+    background-color: transparent;
+    padding: 0;
+  }
+}

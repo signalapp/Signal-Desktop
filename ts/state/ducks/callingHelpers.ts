@@ -8,7 +8,7 @@ import {
   CallState,
   GroupCallConnectionState,
 } from '../../types/Calling';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 import { missingCaseError } from '../../util/missingCaseError';
 import type {
   DirectCallStateType,
@@ -22,7 +22,7 @@ import type {
 //   support it for direct calls.
 export const getIncomingCall = (
   callsByConversation: Readonly<CallsByConversationType>,
-  ourUuid: UUIDStringType
+  ourAci: AciString
 ): undefined | DirectCallStateType | GroupCallStateType =>
   Object.values(callsByConversation).find(call => {
     switch (call.callMode) {
@@ -30,9 +30,9 @@ export const getIncomingCall = (
         return call.isIncoming && call.callState === CallState.Ringing;
       case CallMode.Group:
         return (
-          call.ringerUuid &&
+          call.ringerAci &&
           call.connectionState === GroupCallConnectionState.NotConnected &&
-          isAnybodyElseInGroupCall(call.peekInfo, ourUuid)
+          isAnybodyElseInGroupCall(call.peekInfo, ourAci)
         );
       default:
         throw missingCaseError(call);
@@ -40,6 +40,6 @@ export const getIncomingCall = (
   });
 
 export const isAnybodyElseInGroupCall = (
-  peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'uuids'>>,
-  ourUuid: UUIDStringType
-): boolean => Boolean(peekInfo?.uuids.some(id => id !== ourUuid));
+  peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'acis'>>,
+  ourAci: AciString
+): boolean => Boolean(peekInfo?.acis.some(id => id !== ourAci));

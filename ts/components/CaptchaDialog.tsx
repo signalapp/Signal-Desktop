@@ -8,7 +8,7 @@ import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { Spinner } from './Spinner';
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   isPending: boolean;
 

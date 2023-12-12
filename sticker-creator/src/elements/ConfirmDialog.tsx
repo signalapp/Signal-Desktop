@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { Ref } from 'react';
+import React, { forwardRef } from 'react';
 
 import { useI18n } from '../contexts/I18n';
 import styles from './ConfirmDialog.module.scss';
@@ -16,19 +17,15 @@ export type Props = Readonly<{
   onCancel: () => unknown;
 }>;
 
-export function ConfirmDialog({
-  title,
-  children,
-  confirm,
-  cancel,
-  onConfirm,
-  onCancel,
-}: Props): JSX.Element {
+export const ConfirmDialog = forwardRef(function ConfirmDialog(
+  { title, children, confirm, cancel, onConfirm, onCancel }: Props,
+  ref: Ref<HTMLDivElement>
+): JSX.Element {
   const i18n = useI18n();
   const cancelText = cancel || i18n('StickerCreator--ConfirmDialog--cancel');
 
   return (
-    <div className={styles.base}>
+    <div ref={ref} className={styles.base}>
       <h1 className={styles.title}>{title}</h1>
       <p className={styles.text}>{children}</p>
       <div className={styles.grow} />
@@ -40,4 +37,4 @@ export function ConfirmDialog({
       </div>
     </div>
   );
-}
+});

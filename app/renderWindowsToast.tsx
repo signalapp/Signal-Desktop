@@ -8,6 +8,12 @@ import type { WindowsNotificationData } from '../ts/services/notifications';
 
 import { NotificationType } from '../ts/services/notifications';
 import { missingCaseError } from '../ts/util/missingCaseError';
+import {
+  setIsPresentingRoute,
+  showConversationRoute,
+  showWindowRoute,
+  startCallLobbyRoute,
+} from '../ts/util/signalRoutes';
 
 function pathToUri(path: string) {
   return `file:///${encodeURI(path.replace(/\\/g, '/'))}`;
@@ -51,21 +57,19 @@ export function renderWindowsToast({
   //   1) this maps to the notify() function in services/notifications.ts
   //   2) this also maps to the url-handling in main.ts
   if (type === NotificationType.Message || type === NotificationType.Reaction) {
-    launch = new URL('sgnl://show-conversation');
-    launch.searchParams.set('conversationId', conversationId);
-    if (messageId) {
-      launch.searchParams.set('messageId', messageId);
-    }
-    if (storyId) {
-      launch.searchParams.set('storyId', storyId);
-    }
+    launch = showConversationRoute.toAppUrl({
+      conversationId,
+      messageId: messageId ?? null,
+      storyId: storyId ?? null,
+    });
   } else if (type === NotificationType.IncomingGroupCall) {
-    launch = new URL(`sgnl://start-call-lobby`);
-    launch.searchParams.set('conversationId', conversationId);
+    launch = startCallLobbyRoute.toAppUrl({
+      conversationId,
+    });
   } else if (type === NotificationType.IncomingCall) {
-    launch = new URL('sgnl://show-window');
+    launch = showWindowRoute.toAppUrl({});
   } else if (type === NotificationType.IsPresenting) {
-    launch = new URL('sgnl://set-is-presenting');
+    launch = setIsPresentingRoute.toAppUrl({});
   } else {
     throw missingCaseError(type);
   }

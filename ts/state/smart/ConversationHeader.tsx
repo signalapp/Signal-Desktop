@@ -12,7 +12,7 @@ import {
 } from '../../components/conversation/ConversationHeader';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getConversationSelector,
   getHasPanelOpen,
   isMissingRequiredProfileSharing,
@@ -45,8 +45,8 @@ const getOutgoingCallButtonStyle = (
   state: StateType
 ): OutgoingCallButtonStyle => {
   const { calling } = state;
-  const ourACI = getUserACI(state);
-  strictAssert(ourACI, 'getOutgoingCallButtonStyle missing our uuid');
+  const ourAci = getUserACI(state);
+  strictAssert(ourAci, 'getOutgoingCallButtonStyle missing our uuid');
 
   if (getActiveCall(calling)) {
     return OutgoingCallButtonStyle.None;
@@ -54,7 +54,7 @@ const getOutgoingCallButtonStyle = (
 
   const conversationCallMode = getConversationCallMode(conversation);
   switch (conversationCallMode) {
-    case CallMode.None:
+    case null:
       return OutgoingCallButtonStyle.None;
     case CallMode.Direct:
       return OutgoingCallButtonStyle.Both;
@@ -62,7 +62,7 @@ const getOutgoingCallButtonStyle = (
       const call = getOwn(calling.callsByConversation, conversation.id);
       if (
         call?.callMode === CallMode.Group &&
-        isAnybodyElseInGroupCall(call.peekInfo, ourACI)
+        isAnybodyElseInGroupCall(call.peekInfo, ourAci)
       ) {
         return OutgoingCallButtonStyle.Join;
       }
@@ -113,10 +113,12 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
   const { searchInConversation } = useSearchActions();
   const { viewUserStories } = useStoriesActions();
 
-  const conversationByUuidSelector = useSelector(getConversationByUuidSelector);
+  const conversationByServiceIdSelector = useSelector(
+    getConversationByServiceIdSelector
+  );
   const groupMemberships = getGroupMemberships(
     conversation,
-    conversationByUuidSelector
+    conversationByServiceIdSelector
   );
   const cannotLeaveBecauseYouAreLastAdmin =
     getCannotLeaveBecauseYouAreLastAdmin(groupMemberships.memberships, isAdmin);

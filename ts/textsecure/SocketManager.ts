@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import URL from 'url';
-import ProxyAgent from 'proxy-agent';
 import type { RequestInit } from 'node-fetch';
 import { Response, Headers } from 'node-fetch';
 import type { connection as WebSocket } from 'websocket';
@@ -14,6 +13,7 @@ import { strictAssert } from '../util/assert';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import * as durations from '../util/durations';
 import { sleep } from '../util/sleep';
+import { createProxyAgent } from '../util/createProxyAgent';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
@@ -68,7 +68,7 @@ export class SocketManager extends EventListener {
 
   private credentials?: WebAPICredentials;
 
-  private readonly proxyAgent?: ReturnType<typeof ProxyAgent>;
+  private readonly proxyAgent?: ReturnType<typeof createProxyAgent>;
 
   private status = SocketStatus.CLOSED;
 
@@ -84,7 +84,7 @@ export class SocketManager extends EventListener {
     super();
 
     if (options.proxyUrl) {
-      this.proxyAgent = new ProxyAgent(options.proxyUrl);
+      this.proxyAgent = createProxyAgent(options.proxyUrl);
     }
 
     this.hasStoriesDisabled = options.hasStoriesDisabled;

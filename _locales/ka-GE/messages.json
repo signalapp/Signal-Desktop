@@ -41,7 +41,7 @@
     "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "\"{contact}\"-ის დამატება \"{group}\"-ში",
+    "messageformat": "\"{contact}\"-ის დამატება ჯგუფში \"{group}\"",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "მონაცემთა ბაზის ხარვეზი",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "მონაცემთა ბაზის ხარვეზს გადავაწყდით. შეგიძლია შეცდომა დააკოპირო და Signal-ის მხარდაჭერის გუნდს დაუკავშირდე, რათა პრობლემის მოგვარებაში დაგეხმაროთ. თუ Signal-ის გამოყენება დაუყოვნებლივ გჭირდება, შეგიძლია შენი მონაცემები წაშალო და გადატვირთო.\n\nდაუკავშირდი მხარდაჭერის გუნდს: {link}",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "მონაცემების სრულად წაშლა და თავიდან დაწყება",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "მონაცემთა წაშლა და გადატვირთვა",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "გსურს სამუდამოდ წაშალო ყველა მონაცემი?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "შენი მიმოწერის მთელი ისტორია და მედია ფაილები ამ მოწყობილობიდან სამუდამოდ წაიშლება. Signal-ის გამოყენებას ამ მოწყობილობაზე ხელახლა დაკავშირების შემდეგ შეძლებ. ეს შენი ტელეფონიდან არცერთ მონაცემს არ წაშლის.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "შენი მონაცემთა ბაზის ვერსია Signal-ის ამ ვერსიას არ ემთხვევა. დარწმუნდი, რომ შენს კომპიუტერში Signal-ის უახლეს ვერსიას ხსნი.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ფაილი",
@@ -300,6 +316,70 @@
     "messageformat": "ჩატები",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "შენს მომხმარებლის სახელს რაღაც მოუვიდა, ის შენს მონაცემებთან აღარ არის დაკავშირებული. შეგიძლია სცადო და ის ახლიდან დააყენო, ან ახალი შეარჩიო.",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "ახლა მოგვარება",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "შენს QR კოდსა და მომხმარებლის სახელის ბმულთან დაკავშირებით რაღაც შეცდომა მოხდა, ის აღარ არის მოქმედი. შექმენი ახალი ბმული სხვებისთვის გასაზიარებლად.",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "ახლა მოგვარება",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "ჩანართების გამოჩენა",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "ჩანართების დამალვა",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "მოხდა ხარვეზი",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count,number} წაუკითხავი",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "მონიშნულია წაუკითხავად",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "ჩატები",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "ზარები",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "Stories-ები",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "პარამეტრები",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Signal-ის განახლება",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "პროფილი",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "უკან",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
+  },
   "icu:archiveHelperText": {
     "messageformat": "ეს ჩატები დაარქივებულია და შემომავალ შეტყობინებებში მხოლოდ ახალი შეტყობინებების მიღების შემთხვევაში გამოჩნდება.",
     "description": "Shown at the top of the archived conversations list in the left pane"
@@ -349,7 +429,7 @@
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "ძებნისას ამ ადამიანს ვერ ნახავ. თუ მომავალში მოგწერს, შეტყობინების მოთხოვნას მიიღებ.",
+    "messageformat": "ძებნისას ამ ადამიანს ვერ ნახავ. თუ მომავალში შეტყობინებას გამოგიგზავნის, მიმოწერის მოთხოვნას მიიღებ.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
@@ -381,7 +461,7 @@
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:chooseDirectory": {
-    "messageformat": "Choose folder",
+    "messageformat": "აირჩიე შენახვის ადგილი",
     "description": "Button to allow the user to find a folder on disk"
   },
   "icu:chooseFile": {
@@ -401,7 +481,7 @@
     "description": "Title of the popup window used to select data previously exported"
   },
   "icu:importErrorHeader": {
-    "messageformat": "Something went wrong!",
+    "messageformat": "Რაღაც არასწორად წავიდა!",
     "description": "Header of the error screen after a failed import"
   },
   "icu:importingHeader": {
@@ -409,7 +489,7 @@
     "description": "Header of screen shown as data is import"
   },
   "icu:importErrorFirst": {
-    "messageformat": "დარწმუნდი, რომ სწორი კატალოგი აირჩიე, რომელიც შეიცავს შენი Signal-ის შენახულ მონაცემებს. მისი სახელი უნდა იწყებოდეს „Signal-ის ექსპორტი“. ასევე შეგიძლია შენი მონაცემების ახალი კოპია Chrome-ის აპიდან შეინახო.",
+    "messageformat": "დარწმუნდი, რომ სწორი კატალოგი აირჩიე, რომელიც შეიცავს შენი Signal-ის შენახულ მონაცემებს. მისი სახელი უნდა იწყებოდეს 'Signal Export.' ასევე შეგიძლია შენი მონაცემების ახალი კოპია Chrome-ის აპიდან შეინახო.",
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
@@ -417,11 +497,11 @@
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "icu:importAgain": {
-    "messageformat": "Choose folder and try again",
+    "messageformat": "აირჩიე შენახვის ადგილი და სცადე ხელახლა",
     "description": "Button shown if the user runs into an error during import, allowing them to start over"
   },
   "icu:importCompleteHeader": {
-    "messageformat": "Success!",
+    "messageformat": "წარმატებულია!",
     "description": "Header shown on the screen at the end of a successful import process"
   },
   "icu:importCompleteStartButton": {
@@ -433,7 +513,7 @@
     "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "icu:selectedLocation": {
-    "messageformat": "your selected location",
+    "messageformat": "შენ მიერ არჩეული მდებარეობა",
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "icu:upgradingDatabase": {
@@ -441,15 +521,15 @@
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "icu:loadingMessages--other": {
-    "messageformat": "{daysAgo, plural, one {იტვირთება 1 დღის წინანდელი წერილები...} other {იტვირთება {daysAgo,number} დღის წინანდელი წერილები...}}",
+    "messageformat": "{daysAgo, plural, one {იტვირთება 1 დღის წინანდელი შეტყობინებები...} other {იტვირთება {daysAgo,number} დღის წინანდელი შეტყობინებები...}}",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from day before yesterday and earlier"
   },
   "icu:loadingMessages--yesterday": {
-    "messageformat": "იტვირთება გუშინდელი წერილები...",
+    "messageformat": "იტვირთება გუშინდელი შეტყობინებები...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from yesterday"
   },
   "icu:loadingMessages--today": {
-    "messageformat": "იტვირთება დღევანდელი წერილები...",
+    "messageformat": "იტვირთება დღევანდელი შეტყობინებები...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from today"
   },
   "icu:view": {
@@ -469,7 +549,7 @@
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:messagesBelow": {
-    "messageformat": "New messages below",
+    "messageformat": "ახალი შეტყობინებები ქვემოთ",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "icu:mentionsBelow": {
@@ -477,7 +557,7 @@
     "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
   },
   "icu:unreadMessage": {
-    "messageformat": "1 Unread Message",
+    "messageformat": "1 წაუკითხავი შეტყობინება",
     "description": "Text for unread message separator, just one message"
   },
   "icu:unreadMessages": {
@@ -489,27 +569,27 @@
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "შენი უსაფრთხოების ნომერი {name}-ი ვერიფიცირებულად მონიშნე",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან ვერიფიცირებულად მონიშნე",
     "description": "Shown in the conversation history when the user marks a contact as verified."
   },
   "icu:youMarkedAsNotVerified": {
-    "messageformat": "შენი უსაფრთხოების ნომერი {name}-ი არა-ვერიფიცირებულად მონიშნე",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან არა-ვერიფიცირებულად მონიშნე",
     "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog."
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "შენი უსაფრთხოების ნომერი{name}-ი ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
+    "messageformat": "შენი უსაფრთხოების ნომერი{name}-სთან ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
     "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device."
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "შენი უსაფრთხოების ნომერი {name}-ი არა-ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან არა-ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "icu:membersNeedingVerification": {
-    "messageformat": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+    "messageformat": "შეენი უსაფრთხოების ნომრები ამ ჯგუფის წევრებთან შეიცვალა მას შემდეგ, რაც ბოლოს დაადასტურე. დააწკაპუნე ჯგუფის წევრზე, რომ დაინახო შენი ახალი უსაფრთხოების ნომერი მასთან ერთად.",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "უსაფრთხოების ნომერი, რომლის ვერიფიცირებასაც ცდილობ, შეიცვალა. გთხოვთ, გადახედო {name1}-ის ახალ უსაფრთხოების ნომერს. დაიმახსოვრე, ეს ცვლილება შეიძლება ნიშნავს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შემოწრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი.",
+    "messageformat": "უსაფრთხოების ნომერი, რომლის ვერიფიცირებასაც ცდილობ, შეიცვალა. გთხოვთ, გადახედო {name1}-ის ახალ უსაფრთხოების ნომერს. დაიმახსოვრე, ეს ცვლილება შეიძლება ნიშნავს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შემოჭრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "icu:safetyNumberChangeDialog__message": {
@@ -557,7 +637,7 @@
     "description": "Label for button that opens context menu for story"
   },
   "icu:identityKeyErrorOnSend": {
-    "messageformat": "{name1}-ის შენი უსაფრთხოების ნომერი შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შეჭრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი. შენ შეგიძლია დაადასტურო ამ კონტაქტთან არსებული უსაფრთხოების ნომერი.",
+    "messageformat": "{name1}-სთან შენი უსაფრთხოების ნომერი შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შეჭრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი. შენ შეგიძლია დაადასტურო ამ კონტაქტთან არსებული უსაფრთხოების ნომერი.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "icu:sendAnyway": {
@@ -576,16 +656,20 @@
     "messageformat": "მაინც დარეკვა",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "მაინც შესვლა",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ზარის გაგრძელება",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "icu:noLongerVerified": {
-    "messageformat": "Your safety number with {name} has changed and is no longer verified. Click to show.",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან შეიცვალა და აღარ არის ვერიფიცირებული. დააწკაპუნე საჩვენებლად.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "icu:multipleNoLongerVerified": {
-    "messageformat": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+    "messageformat": "შენი უსაფრთხოების ნომრები ამ ჯგუფის რამდენიმე წევრთან შეიცვალა და აღარ არის ვერიფიცირებული. დააწკაპუნე საჩვენებლად.",
     "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
@@ -625,35 +709,35 @@
     "description": "Link to open the issue tracker"
   },
   "icu:gotIt": {
-    "messageformat": "Got it!",
+    "messageformat": "გასაგებია!",
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "icu:submit": {
-    "messageformat": "Submit"
+    "messageformat": "დადასტურება"
   },
   "icu:acceptNewKey": {
-    "messageformat": "დასტური",
+    "messageformat": "მიღება",
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "მიმდინარეობს უსაფრთხოების ნომრების განახლება.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "გაიგე მეტი",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "წინა უსაფრთხოების ნომერი",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "მომდევნო უსაფრთხოების ნომერი",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "უსაფრთხოების ნომრის ვერსია, {index,number} {total,number}-დან",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "დადასტურებულად მონიშვნა",
@@ -663,33 +747,41 @@
     "messageformat": "ვერიფიკაციის გასუფთავება",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეედარე მის მოწყობილობაში მოცემული ციფრებს. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანიროს.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "გაიგე მეტი",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეადარე მის მოწყობილობაში ფერად ბარათზე მოცემული ციფრებს. თუ ისინი არ ემთხვევა, გადასქროლე და უსაფრთხოების ნომრების სხვა წყვილი სცადე. მხოლოდ ერთი წყვილი უნდა შეესაბამებოდეს.",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეადარე მის მოწყობილობაში ფერად ბარათზე მოცემული ციფრები. თუ ისინი არ ემთხვევა, გადასქროლე და უსაფრთხოების ნომრების სხვა წყვილი სცადე. მხოლოდ ერთი წყვილი უნდა შეესაბამებოდეს.",
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეუსაბამე მის მოწყობილობაში მოცემული ციფრები. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანიროს.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეედარე მის მოწყობილობაში მოცემული ციფრებს. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანიროს.",
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "ცვლილებები უსაფრთხოების ნომრებში",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "უსაფრთხოების ნომრები ახლდება გარდამავალი პერიოდის განმავლობაში, რათა ჩართოს კონფიდენციალურობის მომავალი ფუნქციები Signal-ში.",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "უსაფრთხოების ნომრების დასადასტურებლად, შეუსაბამე ისინი შენი კონტაქტის მოწყობილობის ბარათებს. თუ ისინი არ ემთხვევა, გადასქროლე და უსაფრთხოების ნომრების სხვა წყვილი სცადე. მხოლოდ ერთი წყვილი უნდა შეესაბამებოდეს.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "დახმარება გჭირდება?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "გასაგებია",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "უსაფრთხოების ნომერი შეიქმნება ამ ადამიანთან მიმოწერის შემდეგ.",
@@ -700,22 +792,22 @@
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
-    "messageformat": "You have verified your safety number with {name}.",
+    "messageformat": "შენ დაადასტურე შენი უსაფრთხოების ნომერი {name}-სთან.",
     "description": "Summary state shown at top of the safety number screen if user has verified contact."
   },
   "icu:isNotVerified": {
-    "messageformat": "You have not verified your safety number with {name}.",
+    "messageformat": "შენ არ დაადასტურე შენი უსაფრთხოების ნომერი {name}-სთან.",
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "icu:verified": {
-    "messageformat": "Verified"
+    "messageformat": "ვერიფიცირებულია"
   },
   "icu:newIdentity": {
-    "messageformat": "New safety number",
+    "messageformat": "უსაფრთხოების ახალი ნომერი",
     "description": "Header for a key change dialog"
   },
   "icu:identityChanged": {
-    "messageformat": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
+    "messageformat": "შენი უსაფრთხოების ნომერი ამ კონტაქტთან შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს თქვენს კომუნიკაციაში ჩარევას, ან ამ კონტაქტმა უბრალოდ გადააყენა Signal-ი. შეგიძლია დაადასტურო უსაფრთხოების ახალი ნომერი ქვემოთ."
   },
   "icu:incomingError": {
     "messageformat": "ხარვეზი შემომავალი შეტყობინების დამუშავებისას"
@@ -817,7 +909,7 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit,number} {units}",
+    "messageformat": "უკაცრავად, არჩეული ფაილი აჭარბებს შეტყობინების ზომის შეზღუდვებს. {limit,number}{units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "icu:unableToLoadAttachment": {
@@ -1267,10 +1359,6 @@
     "messageformat": "ბოლო მედია-ფაილების ნახვა",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name}-თან შენი ბოლომდე დაშიფვრის უსაფრთხოების დასადასტურებლად, შეადარე მის მოწყობილობასთან ზემოთ მოცემული ნომრები. მას ასევე შეუძლია ზემოთ მოცემული QR კოდი დაასკანიროს.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
@@ -1334,17 +1422,17 @@
     "messageformat": "ინფორმაცია",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "წაშლა",
-    "description": "Menu item for deleting messages, title case."
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "შეტყობინებების წაშლა",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "წავშალოთ ჩატი?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "წავშალოთ შეტყობინებები?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "ეს ჩატი ამ მოწყობილობიდან წაიშლება.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "ამ ჩატში არსებული შეტყობინებები ამ მოწყობილობიდან წაიშლება. შეტყობინებების წაშლის შემდეგ ამ ჩატის მოძებნას მაინც შეძლებ.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ჯგუფის დატოვება",
@@ -1437,6 +1525,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "შენი ორივე ჩატის მიმოწერის ისტორია აქ გაერთიანდა.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle}-ს ეკუთვნის. ორივე {sharedGroup}-ის წევრები ხართ.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle}-ს ეკუთვნის",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "სურათის მინიატურა ციტირებული შეტყობინებიდან",
@@ -1585,10 +1681,6 @@
     "messageformat": "ისევ დარეკვა",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "ზარის დაწყება",
-    "description": "Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "ზარზე შესვლა",
     "description": "Button label in the call lobby for joining a call"
@@ -1601,13 +1693,25 @@
     "messageformat": "მიკროფონი დადუმებულია ზარის მოცულობის გამო",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "ზარის შეტყობინებები",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "ზარი გადავსებულია",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "კამერა",
-    "description": "Label under the video button"
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "შეუერთდი",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "დაწყება",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "ზარი გადავსებულია",
+    "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "კამერა გამორთულია",
@@ -1621,10 +1725,6 @@
     "messageformat": "კამერის ჩართვა",
     "description": "Button tooltip label for turning on the camera"
   },
-  "icu:calling__button--audio__label": {
-    "messageformat": "დადუმება",
-    "description": "Label under the audio button"
-  },
   "icu:calling__button--audio-disabled": {
     "messageformat": "მიკროფონი გამორთულია",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1636,10 +1736,6 @@
   "icu:calling__button--audio-on": {
     "messageformat": "მიკროფონის ჩართვა",
     "description": "Button tooltip label for turning on the microphone"
-  },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "გაზიარება",
-    "description": "Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "პრეზენტირება გამორთულია",
@@ -1653,10 +1749,6 @@
     "messageformat": "პრეზენტირების შეწყვეტა",
     "description": "Button tooltip label for stopping screen sharing"
   },
-  "icu:calling__button--ring__label": {
-    "messageformat": "ზარი",
-    "description": "Label under the ring button"
-  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "ჯგუფი ძალიან დიდია მონაწილეებთან დასარეკად.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1668,6 +1760,26 @@
   "icu:calling__button--ring__on": {
     "messageformat": "რეკვის ჩართვა",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "გამორთე ზარის ხმა",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "ჩართე ზარის ხმა",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "მეტი ოფცია",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "შენ",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "შენი კამერა გამორთულია",
@@ -2147,6 +2259,10 @@
     "messageformat": "უსაფრთხოების ნომრის ნახვა",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "მიწერა",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "უსაფრთხოების ნომრის ნახვა",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -2235,8 +2351,8 @@
     "messageformat": "მობილურის ნომრის მიღება ვერ მოხერხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე.",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 3 საათის განმავლობაშია შეგიძლია.",
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 24 საათის განმავლობაშია შესაძლებელი.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -2479,6 +2595,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "ეს შეტყობინება იქნა წაშლილი.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "მიმაგრებული ფაილი საჩვენებლად ზედმეტად დიდია.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "ზოგი მიმაგრებული ფაილი საჩვენებლად ზედმეტად დიდია.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "დონაციის დეტალების მიღება ვერ მოხერხდა",
@@ -3122,10 +3246,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "შესაძლებელია მხოლოდ Signal-ის ბეტა ვერსიაში",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "შეტყობინებების რედაქტირება მხოლოდ Signal-ის ბეტა ვერსიის მომხმარებლებს შეუძლიათ. თუ ამ შეტყობინებებას დაარედაქტირებ, მას მხოლოდ Signal-ის უახლესი ბეტა ვერსიის მომხმარებლები ნახავენ.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "შეტყობინების რედაქტირება",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "თუ ამ შეტყობინებას დაარედაქტირებ, მას მხოლოდ Signal-ის უახლესი ვერსიის მომხმარებლები ნახავენ. იმათ შესაძლებლობა ექნებათ ნახონ, რომ შეტყობინება დაარედაქტირე.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3380,6 +3512,14 @@
     "messageformat": "შემომავალი ვიდეო ზარი…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
+  "icu:outgoingAudioCall": {
+    "messageformat": "გამავალი ხმოვანი ზარი",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "გამავალი ვიდეო ზარი",
+    "description": "Shown in the timeline for an outgoing video call"
+  },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} გირეკავს",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
@@ -3424,9 +3564,69 @@
     "messageformat": "მიმდინარეობს ხელახლა დაკავშირება…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal-ი {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} ადამიანი} other {{count,number} ადამიანი}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "აუდიო ზარი",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "დასრულება",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "დატოვება",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "მიკროფონი გამორთულია",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "მიკროფონი ჩართულია",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "ზარის ხმა ჩართულია",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "ზარის ხმა გამორთულია",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Settings",
@@ -3468,13 +3668,25 @@
     "messageformat": "ზარის ფანჯრის მთელს ეკრანზე გადიდება",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "ბადისებრ ხედზე გადართვა",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "ხედის შეცვლა",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "სპიკერზე გადართვა",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "ბადისებრი ხედი",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "გვერდითი ზოლის ხედი",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "მოსაუბრის ხედი",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "ხედი განახლდა",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "ზარის დატოვება",
@@ -3575,6 +3787,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "კარგი",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "შეტყობინების რედაქტირება შეუძლებელია",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "ამ შეტყობინების რედაქტირება მხოლოდ {max,number}-ჯერ შეიძლება.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "ბოდიში, ამ sgnl:// ბმულს აზრი არ ჰქონდა!",
@@ -5252,9 +5472,29 @@
     "messageformat": "მომხმარებლის სახელი",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "შენს მომხმარებლის სახელს რაღაც მოუვიდა, ის შენს მონაცემებთან აღარ არის დაკავშირებული.",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--delete-button": {
+    "messageformat": "მომხმარებლის სახელის წაშლა",
+    "description": "Button text for deletion of the username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--create-button": {
+    "messageformat": "შექმენი მომხმარებლის სახელი",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "QR კოდი ან ბმული",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "მომხმარებლის სახელს გადაყენება სჭირდება",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "მომხმარებლის სახელის ბმულს გადაყენება სჭირდება",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "მომხმარებლის სახელის გაზიარება",
@@ -5319,10 +5559,6 @@
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "მომხმარებლის სახელის წაშლა",
     "description": "Shown as aria label for trash icon next to username"
-  },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "ეს წაშლის შენს მომხმარებლის სახელს და ნებას მისცემს სხვა მომხმარებლებს, ის გამოიყენონ. დარწმუნებული ხარ?",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "ეს შენს მომხმარებლის სახელს წაშლის და QR კოდსა და ბმულს გააუქმებს. \"{username}\" სხვებისთვის ხელმისაწვდომი გახდება. დარწმუნებული ხარ?",
@@ -5612,6 +5848,42 @@
     "messageformat": "Stories-ების ნახვასა და გაზიარებას ვეღარ შეძლებ. ასევე წაიშლება შენ მიერ ბოლოს გაზიარებული Story-ის განახლებები.",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "ენა",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "ენა",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "სისტემის ენა",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "ენების ძებნა",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "„{searchTerm}“-ზე ვერაფერი მოიძებნა",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "დაყენება",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "გამოსაყენებლად გადატვირთე Signal-ი",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "ენის შესაცვლელად აპი უნდა გადაიტვირთოს.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "გადატვირთვა",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "განახლება ვერსია {version}-ზე ხელმისაწვდომია",
     "description": "Tooltip for new update available"
@@ -5695,6 +5967,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "შენი პარამეტრების შენახვისას მოხდა შეცდომა. გთხოვთ კიდევ სცადო.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "მიწერა",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "მეტი ვარიანტი",
@@ -6532,6 +6808,10 @@
     "messageformat": "ახლიდან დაყენება",
     "description": "Text of button at the bottom of the username link modal"
   },
+  "icu:UsernameLinkModalBody__done": {
+    "messageformat": "შესრულებულია",
+    "description": "Text of button at the bottom of the username link modal"
+  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "მომხმარებლის სახელის ბმულის ფერი, {total,number}-დან {index,number}",
     "description": "ARIA label of button for selecting username link color"
@@ -6539,6 +6819,14 @@
   "icu:UsernameLinkModalBody__reset__confirm": {
     "messageformat": "თუ შენს QR კოდს შეცვლი, შენი არსებული QR კოდი და ბმული აღარ იმუშავებს.",
     "description": "Text of confirmation modal when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "მიმდინარეობს ბმულის გადაყენება...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "QR კოდი და ბმული არ არის დაყენებული. შეამოწმე შენი ინტერნეტ-კავშირი და თავიდან სცადე.",
+    "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "შექმენი შენი Signal-ის მომხმარებლის სახელი",
@@ -6592,6 +6880,114 @@
     "messageformat": "თავიდან გაგზავნა",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "მეტი მოქმედება",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "ზარები",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "ახალი ზარი",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "ახალი ზარი",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "მეტი მოქმედება",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "ზარების ისტორიის წაშლა",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "წავშალოთ ზარების ისტორია?",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "ეს სამუდამოდ წაშლის ზარების მთელ ისტორიას",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "გასუფთავება",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "ზარის ისტორია წაიშალა",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "დააწკაპუნე ზარის სანახავად ან დასაწყებად",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "ძიება",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "გამოტოვებულის მიხედვით გაფილტვრა",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "გადართვა",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "ბოლოდროინდელი ზარები ვერ მოიძებნა. დაიწყე მეგობართან დარეკვით.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "„{query}“-ზე ვერაფერი მოიძებნა",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "შემომავალი",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "გამავალი",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "გამოტოვებული",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "ჯგუფური ზარი",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "ბოლოდროინდელი მიმოწერები ვერ მოიძებნა.",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "„{query}“-ზე ვერაფერი მოიძებნა",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {გამავალი ხმოვანი ზარი} other {შემომავალი ხმოვანი ზარი}}} Video {{direction, select, Outgoing {გამავალი ვიდეო ზარი} other {შემომავალი ვიდეო ზარი}}} Group {{direction, select, Outgoing {ჯგუფის გამავალი ზარი} other {ჯგუფის შემომავალი ზარი}}} other {{direction, select, Outgoing {გამავალი  ზარი} other {შემომავალი ზარი}}}}",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "{type, select, Audio {გამოტოვებული ხმოვანი ზარი} Video {გამოტოვებული ვიდეო ზარი} Group {ჯგუფის გამოტოვებული ზარი} other {გამოტოვებული  ზარი}}",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "{type, select, Audio {უპასუხო ხმოვანი ზარი} Video {უპასუხო ვიდეო ზარი} Group {უპასუხო ჯგუფური ზარი} other {უპასუხო  ზარი}}",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "{type, select, Audio {უარყოფილი ხმოვანი ზარი} Video {უარყოფილი ვიდეო ზარი} Group {უარყოფილი ჯგუფური ზარი} other {უარყოფილი  ზარი}}",
+    "description": "Call History > Short description of call > When call was declined"
+  },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} სხვა ბეჭდავს.} other {{count,number} სხვა ბეჭდავს.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "რა არის ახალი",
     "description": "Title for the whats new modal"
@@ -6624,10 +7020,22 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "ეს განახლება მოიცავს რამდენიმე გაუმჯობესებას ხმოვანი და ვიდეო ზარებისთვის და დოკუმენტაციის რამდენიმე მცირე განახლებას (მადლობა, {linkToGithub}!)."
+  "icu:WhatsNew__v6.39--0": {
+    "messageformat": "ახლა უკვე შეგიძლია, შენი არჩეული ენა Signal-ში შენი სისტემის პარამეტრების შეცვლის გარეშე შეცვალო (სიგნალის პარამეტრები > ვიზუალი > ენა)."
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "ჩვენ განვაახლეთ ჯგუფის შეტყობინებების ზოგიერთი ხატულა. ეს ხატულები ხელს უწყობს კითხვადობის გაუმჯობესებას, განსაკუთრებით ღამის რეჟიმის დროს. წინა ხატულები სიბნელეში უჩინარდებოდნენ. ახალი ხატულები კი სიბნელიდან დაიბადნენ."
+  "icu:WhatsNew__v6.39--1": {
+    "messageformat": "ჩვენ შევასწორეთ მცირე შეფერხება, რომელსაც ხანდახან macOS-ზე ზარის ლობიში შესვლის შემდეგ აწყდებოდი."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "ჩვენ გამოვასწორეთ გარდამავალი ანიმაცია ვიდეოს ფანჯრებისთვის, როდესაც ვინმე უერთდება ან ტოვებს ჯგუფის ზარს."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "ახლა შეგიძლია, პროფილის ფოტოზე ან ჩატის სათაურში ჯგუფის ავატარზე დააწკაპუნო, რათა ჩატის პარამეტრებში სწრაფად გადახვიდე ან ამ ჩატის ნებისმიერი Srory-ი ნახო, რომელიც ჯერ არ გინახავს. მადლობა, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

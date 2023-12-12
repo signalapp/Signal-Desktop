@@ -9,6 +9,7 @@ import { maybeParseUrl } from '../util/url';
 import { replaceEmojiWithSpaces } from '../util/emoji';
 
 import type { AttachmentWithHydratedData } from './Attachment';
+import { artAddStickersRoute, groupInvitesRoute } from '../util/signalRoutes';
 
 export type LinkPreviewImage = AttachmentWithHydratedData;
 
@@ -90,19 +91,18 @@ export function shouldLinkifyMessage(
   if (DIRECTIONAL_OVERRIDES.test(message)) {
     return false;
   }
-  if (UNICODE_DRAWING.test(message)) {
-    return false;
-  }
 
   return true;
 }
 
 export function isStickerPack(link = ''): boolean {
-  return link.startsWith('https://signal.art/addstickers/');
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && artAddStickersRoute.isMatch(url);
 }
 
 export function isGroupLink(link = ''): boolean {
-  return link.startsWith('https://signal.group/');
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && groupInvitesRoute.isMatch(url);
 }
 
 export function findLinks(text: string, caretLocation?: number): Array<string> {
@@ -184,6 +184,10 @@ export function isLinkSneaky(href: string): boolean {
   // This helps users avoid extremely long links (which could be hiding something
   //   sketchy) and also sidesteps the performance implications of extremely long hrefs.
   if (href.length > MAX_HREF_LENGTH) {
+    return true;
+  }
+
+  if (UNICODE_DRAWING.test(href)) {
     return true;
   }
 

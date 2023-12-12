@@ -3,13 +3,13 @@
 
 import { DAY } from './durations';
 import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import * as log from '../logging/log';
 
 export async function deleteGroupStoryReplyForEveryone(
   replyMessageId: string
 ): Promise<void> {
-  const messageModel = await getMessageById(replyMessageId);
+  const messageModel = await __DEPRECATED$getMessageById(replyMessageId);
 
   if (!messageModel) {
     log.warn(

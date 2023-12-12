@@ -13,7 +13,7 @@ export async function getMessagesById(
   const messageIdsToLookUpInDatabase: Array<string> = [];
 
   for (const messageId of messageIds) {
-    const message = window.MessageController.getById(messageId);
+    const message = window.MessageCache.__DEPRECATED$getById(messageId);
     if (message) {
       messagesFromMemory.push(message);
     } else {
@@ -39,7 +39,11 @@ export async function getMessagesById(
     // We use `window.Whisper.Message` instead of `MessageModel` here to avoid a circular
     //   import.
     const message = new window.Whisper.Message(rawMessage);
-    return window.MessageController.register(message.id, message);
+    return window.MessageCache.__DEPRECATED$register(
+      message.id,
+      message,
+      'getMessagesById'
+    );
   });
 
   return [...messagesFromMemory, ...messagesFromDatabase];

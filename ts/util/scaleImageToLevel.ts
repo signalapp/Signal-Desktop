@@ -109,8 +109,9 @@ async function getCanvasBlobAsJPEG(
 }
 
 export async function scaleImageToLevel(
-  fileOrBlobOrURL: File | Blob,
+  fileOrBlobOrURL: File | Blob | string,
   contentType: MIMEType,
+  size: number,
   sendAsHighQuality?: boolean
 ): Promise<{
   blob: Blob;
@@ -136,10 +137,14 @@ export async function scaleImageToLevel(
   const level = sendAsHighQuality
     ? MediaQualityLevels.Three
     : getMediaQualityLevel();
-  const { maxDimensions, quality, size, thresholdSize } =
-    MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
+  const {
+    maxDimensions,
+    quality,
+    size: targetSize,
+    thresholdSize,
+  } = MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
 
-  if (fileOrBlobOrURL.size <= thresholdSize) {
+  if (size <= thresholdSize) {
     // Always encode through canvas as a temporary fix for a library bug
     const blob: Blob = await canvasToBlob(data.image, contentType);
     return {
@@ -161,7 +166,7 @@ export async function scaleImageToLevel(
       scalableDimensions,
       quality
     );
-    if (blob.size <= size) {
+    if (blob.size <= targetSize) {
       return {
         blob,
         contentType: IMAGE_JPEG,

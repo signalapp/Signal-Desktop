@@ -6,7 +6,7 @@ import React, { forwardRef } from 'react';
 import { Input } from './Input';
 import type { LocalizerType } from '../types/Util';
 
-type PropsType = {
+export type PropsType = {
   disabled?: boolean;
   i18n: LocalizerType;
   onChangeValue: (value: string) => void;

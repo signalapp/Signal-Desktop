@@ -15,7 +15,7 @@ import {
   parseAndWriteAvatar,
 } from '../../types/EmbeddedContact';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';
@@ -112,7 +112,7 @@ describe('Contact', () => {
   describe('embeddedContactSelector', () => {
     const regionCode = '1';
     const firstNumber = '+1202555000';
-    const uuid = undefined;
+    const serviceId = undefined;
     const getAbsoluteAttachmentPath = (path: string) => `absolute:${path}`;
 
     it('eliminates avatar if it has had an attachment download error', () => {
@@ -140,13 +140,13 @@ describe('Contact', () => {
         organization: 'Somewhere, Inc.',
         avatar: undefined,
         firstNumber,
-        uuid,
+        serviceId,
         number: undefined,
       };
       const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
-        uuid,
+        serviceId,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
@@ -165,6 +165,7 @@ describe('Contact', () => {
           avatar: fakeAttachment({
             pending: true,
             contentType: IMAGE_GIF,
+            path: undefined,
           }),
         },
       };
@@ -184,20 +185,20 @@ describe('Contact', () => {
           }),
         },
         firstNumber,
-        uuid,
+        serviceId,
         number: undefined,
       };
       const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
-        uuid,
+        serviceId,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
     });
 
     it('calculates absolute path', () => {
-      const fullUuid = UUID.generate().toString();
+      const fullAci = generateAci();
 
       const contact = {
         name: {
@@ -229,13 +230,13 @@ describe('Contact', () => {
           }),
         },
         firstNumber,
-        uuid: fullUuid,
+        serviceId: fullAci,
         number: undefined,
       };
       const actual = embeddedContactSelector(contact, {
         regionCode,
         firstNumber,
-        uuid: fullUuid,
+        serviceId: fullAci,
         getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);

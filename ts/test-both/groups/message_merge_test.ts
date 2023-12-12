@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import {
   _isGroupChangeMessageBounceable,
   _mergeGroupChangeMessages,
@@ -11,13 +12,13 @@ import {
 
 describe('group message merging', () => {
   const defaultMessage = {
-    id: UUID.generate().toString(),
-    conversationId: UUID.generate().toString(),
+    id: generateUuid(),
+    conversationId: generateUuid(),
     timestamp: Date.now(),
     sent_at: Date.now(),
     received_at: Date.now(),
   };
-  const uuid = UUID.generate().toString();
+  const aci = generateAci();
 
   describe('_isGroupChangeMessageBounceable', () => {
     it('should return true for admin approval add', () => {
@@ -29,7 +30,7 @@ describe('group message merging', () => {
             details: [
               {
                 type: 'admin-approval-add-one',
-                uuid,
+                aci,
               },
             ],
           },
@@ -48,7 +49,7 @@ describe('group message merging', () => {
                 type: 'admin-approval-bounce',
                 times: 1,
                 isApprovalPending: true,
-                uuid,
+                aci,
               },
             ],
           },
@@ -65,7 +66,7 @@ describe('group message merging', () => {
             details: [
               {
                 type: 'admin-approval-remove-one',
-                uuid,
+                aci,
               },
             ],
           },
@@ -82,7 +83,7 @@ describe('group message merging', () => {
         details: [
           {
             type: 'admin-approval-add-one' as const,
-            uuid,
+            aci,
           },
         ],
       },
@@ -94,7 +95,7 @@ describe('group message merging', () => {
         details: [
           {
             type: 'admin-approval-remove-one' as const,
-            uuid,
+            aci,
           },
         ],
       },
@@ -106,7 +107,7 @@ describe('group message merging', () => {
         details: [
           {
             type: 'admin-approval-add-one' as const,
-            uuid: UUID.generate().toString(),
+            aci: generateAci(),
           },
         ],
       },
@@ -118,7 +119,7 @@ describe('group message merging', () => {
         details: [
           {
             type: 'admin-approval-remove-one' as const,
-            uuid: UUID.generate().toString(),
+            aci: generateAci(),
           },
         ],
       },
@@ -132,7 +133,7 @@ describe('group message merging', () => {
             type: 'admin-approval-bounce' as const,
             times: 1,
             isApprovalPending: false,
-            uuid,
+            aci,
           },
         ],
       },
@@ -146,13 +147,13 @@ describe('group message merging', () => {
             type: 'admin-approval-bounce' as const,
             times: 1,
             isApprovalPending: true,
-            uuid,
+            aci,
           },
         ],
       },
     };
 
-    it('should merge add with remove if uuid matches', () => {
+    it('should merge add with remove if aci matches', () => {
       assert.deepStrictEqual(
         _mergeGroupChangeMessages(add, remove)?.groupV2Change?.details,
         [
@@ -160,17 +161,17 @@ describe('group message merging', () => {
             isApprovalPending: false,
             times: 1,
             type: 'admin-approval-bounce',
-            uuid,
+            aci,
           },
         ]
       );
     });
 
-    it('should not merge add with remove if uuid does not match', () => {
+    it('should not merge add with remove if aci does not match', () => {
       assert.isUndefined(_mergeGroupChangeMessages(add, removeOther));
     });
 
-    it('should merge bounce with add if uuid matches', () => {
+    it('should merge bounce with add if aci matches', () => {
       assert.deepStrictEqual(
         _mergeGroupChangeMessages(bounce, add)?.groupV2Change?.details,
         [
@@ -178,13 +179,13 @@ describe('group message merging', () => {
             isApprovalPending: true,
             times: 1,
             type: 'admin-approval-bounce',
-            uuid,
+            aci,
           },
         ]
       );
     });
 
-    it('should merge bounce and add with remove if uuid matches', () => {
+    it('should merge bounce and add with remove if aci matches', () => {
       assert.deepStrictEqual(
         _mergeGroupChangeMessages(bounceAndAdd, remove)?.groupV2Change?.details,
         [
@@ -192,13 +193,13 @@ describe('group message merging', () => {
             isApprovalPending: false,
             times: 2,
             type: 'admin-approval-bounce',
-            uuid,
+            aci,
           },
         ]
       );
     });
 
-    it('should not merge bounce with add if uuid does not match', () => {
+    it('should not merge bounce with add if aci does not match', () => {
       assert.isUndefined(_mergeGroupChangeMessages(bounce, addOther));
     });
 
@@ -206,7 +207,7 @@ describe('group message merging', () => {
       assert.isUndefined(_mergeGroupChangeMessages(bounceAndAdd, add));
     });
 
-    it('should not merge bounce and add with remove if uuid does not match', () => {
+    it('should not merge bounce and add with remove if aci does not match', () => {
       assert.isUndefined(_mergeGroupChangeMessages(bounceAndAdd, removeOther));
     });
 

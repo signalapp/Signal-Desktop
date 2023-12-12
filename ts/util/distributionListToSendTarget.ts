@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import type { SenderKeyInfoType } from '../model-types.d';
 import dataInterface from '../sql/Client';
 import type { StoryDistributionType } from '../sql/Interface';
@@ -10,7 +10,7 @@ import { isNotNil } from './isNotNil';
 
 export function distributionListToSendTarget(
   distributionList: StoryDistributionType,
-  pendingSendRecipientIds: ReadonlyArray<string>
+  pendingSendRecipientIds: ReadonlyArray<ServiceIdString>
 ): SenderKeyTargetType {
   let inMemorySenderKeyInfo = distributionList?.senderKeyInfo;
 
@@ -20,9 +20,9 @@ export function distributionListToSendTarget(
     getGroupId: () => undefined,
     getMembers: () =>
       pendingSendRecipientIds
-        .map(uuid => window.ConversationController.get(uuid))
+        .map(serviceId => window.ConversationController.get(serviceId))
         .filter(isNotNil),
-    hasMember: (uuid: UUIDStringType) => recipientsSet.has(uuid),
+    hasMember: (serviceId: ServiceIdString) => recipientsSet.has(serviceId),
     idForLogging: () => `dl(${distributionList.id})`,
     isGroupV2: () => true,
     isValid: () => true,

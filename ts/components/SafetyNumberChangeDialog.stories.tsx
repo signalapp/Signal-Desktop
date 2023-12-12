@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { Props } from './SafetyNumberChangeDialog';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
@@ -11,6 +12,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
 import { MY_STORY_ID } from '../types/Stories';
+import { generateStoryDistributionId } from '../types/StoryDistributionId';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -56,7 +58,7 @@ const useTheme = () => React.useContext(StorybookThemeContext);
 
 export default {
   title: 'Components/SafetyNumberChangeDialog',
-};
+} satisfies Meta<Props>;
 
 export function SingleContactDialog(): JSX.Element {
   const theme = useTheme();
@@ -161,9 +163,6 @@ export function AllVerified(): JSX.Element {
     />
   );
 }
-AllVerified.story = {
-  name: 'All verified; Send button instead',
-};
 
 export function MultipleContactsAllWithBadges(): JSX.Element {
   const theme = useTheme();
@@ -193,10 +192,6 @@ export function MultipleContactsAllWithBadges(): JSX.Element {
     />
   );
 }
-
-MultipleContactsAllWithBadges.story = {
-  name: 'Multiple contacts, all with badges',
-};
 
 export function TenContacts(): JSX.Element {
   const theme = useTheme();
@@ -233,10 +228,6 @@ export function TenContacts(): JSX.Element {
   );
 }
 
-TenContacts.story = {
-  name: 'Ten contacts; first isReviewing = false, then scrolling dialog',
-};
-
 export function NoContacts(): JSX.Element {
   const theme = useTheme();
   return (
@@ -254,7 +245,7 @@ export function NoContacts(): JSX.Element {
           story: {
             name: 'Custom List A',
             conversationId: 'our-conversation-id',
-            distributionId: 'some-other-distribution-id',
+            distributionId: generateStoryDistributionId(),
           },
           contacts: [],
         },
@@ -290,7 +281,7 @@ export function InMultipleStories(): JSX.Element {
           story: {
             name: 'Custom List A',
             conversationId: 'our-conversation-id',
-            distributionId: 'some-other-distribution-id',
+            distributionId: generateStoryDistributionId(),
           },
           contacts: [
             contactWithAllData,

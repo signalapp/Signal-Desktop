@@ -1,15 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type {
-  AttachmentType,
-  DownloadedAttachmentType,
-} from '../types/Attachment';
-import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
+import type { AttachmentType } from '../types/Attachment';
+import { downloadAttachmentV2 as doDownloadAttachment } from '../textsecure/downloadAttachment';
 
 export async function downloadAttachment(
   attachmentData: AttachmentType
-): Promise<DownloadedAttachmentType | null> {
+): Promise<AttachmentType | null> {
   let migratedAttachment: AttachmentType;
 
   const { server } = window.textsecure;

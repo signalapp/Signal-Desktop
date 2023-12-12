@@ -25,6 +25,7 @@ export type OwnProps = Readonly<{
   emoji?: string;
   i18n: LocalizerType;
   onClose?: () => unknown;
+  onOpen?: () => unknown;
   emojiButtonApi?: MutableRefObject<EmojiButtonAPI | undefined>;
   variant?: EmojiButtonVariant;
 }>;
@@ -32,7 +33,7 @@ export type OwnProps = Readonly<{
 export type Props = OwnProps &
   Pick<
     EmojiPickerProps,
-    'doSend' | 'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
+    'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
   >;
 
 export type EmojiButtonAPI = Readonly<{
@@ -45,18 +46,27 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   emoji,
   emojiButtonApi,
   i18n,
-  doSend,
   onClose,
+  onOpen,
   onPickEmoji,
   skinTone,
   onSetSkinTone,
   recentEmojis,
   variant = EmojiButtonVariant.Normal,
 }: Props) {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
+
   const [open, setOpen] = React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const popperRef = React.useRef<HTMLDivElement | null>(null);
   const refMerger = useRefMerger();
+
+  React.useEffect(() => {
+    if (!open) {
+      return;
+    }
+    onOpen?.();
+  }, [open, onOpen]);
 
   const handleClickButton = React.useCallback(() => {
     if (open) {
@@ -155,7 +165,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
       </Reference>
       {open ? (
         <div ref={popperRef}>
-          <Popper placement="top-start" strategy="fixed">
+          <Popper placement={isRTL ? 'top-end' : 'top-start'} strategy="fixed">
             {({ ref, style }) => (
               <EmojiPicker
                 ref={ref}
@@ -167,7 +177,6 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
                     handleClose();
                   }
                 }}
-                doSend={doSend}
                 onClose={handleClose}
                 skinTone={skinTone}
                 onSetSkinTone={onSetSkinTone}

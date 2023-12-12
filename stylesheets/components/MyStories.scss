@@ -5,9 +5,14 @@
   &__distribution {
     &__title {
       @include font-body-1-bold;
-      color: $color-gray-05;
       margin-block: 24px 8px;
       margin-inline: 10px;
+      @include light-theme() {
+        color: $color-gray-90;
+      }
+      @include dark-theme() {
+        color: $color-gray-05;
+      }
     }
   }
 
@@ -23,21 +28,36 @@
     padding-inline-end: 10px;
 
     &:hover {
-      background: $color-gray-65;
+      @include light-theme {
+        background: $color-gray-15;
+      }
+      @include dark-theme {
+        background: $color-gray-65;
+      }
 
       & .MyStories__story__download,
       .MyStories__story__more__button {
-        background: $color-gray-60;
+        @include light-theme() {
+          background: $color-gray-20;
+        }
+        @include dark-theme() {
+          background: $color-gray-60;
+        }
       }
     }
 
     &__details {
       @include font-body-1-bold;
-      color: $color-gray-05;
       display: flex;
       flex-direction: column;
       flex: 1;
       margin-inline-start: 12px;
+      @include light-theme() {
+        color: $color-gray-90;
+      }
+      @include dark-theme() {
+        color: $color-gray-05;
+      }
 
       &__failed {
         align-items: center;
@@ -58,80 +78,142 @@
         &__button {
           @include button-reset;
           @include font-subtitle;
-          color: $color-gray-25;
+          @include light-theme {
+            color: $color-gray-90;
+          }
+          @include dark-theme {
+            color: $color-gray-25;
+          }
         }
       }
     }
 
     &__timestamp {
-      color: $color-gray-25;
       font-weight: normal;
+      @include light-theme {
+        color: $color-gray-90;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+      }
     }
 
     &__download {
       @include button-reset;
       align-items: center;
-      background: $color-gray-65;
       border-radius: 100%;
       display: flex;
       height: 28px;
       justify-content: center;
       width: 28px;
+      @include light-theme {
+        background: $color-gray-20;
+      }
+      @include dark-theme {
+        background: $color-gray-65;
+      }
 
       &::after {
-        @include color-svg(
-          '../images/icons/v3/save/save-compact.svg',
-          $color-gray-15
-        );
         content: '';
         height: 18px;
         width: 18px;
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/save/save-compact.svg',
+            $color-black
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/save/save-compact.svg',
+            $color-gray-15
+          );
+        }
       }
 
       &:hover {
-        background: $color-gray-75 !important;
+        @include light-theme() {
+          background: $color-white !important;
+        }
+        @include dark-theme() {
+          background: $color-gray-75 !important;
+        }
       }
     }
 
     &__more__button {
       align-items: center;
-      background: $color-gray-65;
       border-radius: 100%;
       display: flex;
       height: 28px;
       justify-content: center;
       margin-inline-start: 16px;
       width: 28px;
+      @include light-theme {
+        background: $color-gray-15;
+      }
+      @include dark-theme {
+        background: $color-gray-65;
+      }
 
       &::after {
-        @include color-svg(
-          '../images/icons/v3/more/more-compact.svg',
-          $color-gray-15
-        );
         content: '';
         height: 18px;
         width: 18px;
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/more/more-compact.svg',
+            $color-black
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/more/more-compact.svg',
+            $color-gray-15
+          );
+        }
       }
 
       &:hover {
-        background: $color-gray-75 !important;
+        @include light-theme() {
+          background: $color-white !important;
+        }
+        @include dark-theme() {
+          background: $color-gray-75 !important;
+        }
       }
     }
   }
 
   &__icon {
     &--forward {
-      @include color-svg(
-        '../images/icons/v3/forward/forward-compact.svg',
-        $color-white
-      );
+      @include light-theme() {
+        @include color-svg(
+          '../images/icons/v3/forward/forward-compact.svg',
+          $color-black
+        );
+      }
+      @include dark-theme() {
+        @include color-svg(
+          '../images/icons/v3/forward/forward-compact.svg',
+          $color-white
+        );
+      }
     }
 
     &--delete {
-      @include color-svg(
-        '../images/icons/v3/trash/trash-compact.svg',
-        $color-white
-      );
+      @include light-theme() {
+        @include color-svg(
+          '../images/icons/v3/trash/trash-compact.svg',
+          $color-black
+        );
+      }
+      @include dark-theme() {
+        @include color-svg(
+          '../images/icons/v3/trash/trash-compact.svg',
+          $color-white
+        );
+      }
     }
   }
 
@@ -144,7 +226,7 @@
     @include rounded-corners;
     align-items: center;
     background: $color-ultramarine-dawn;
-    border: 2px solid $color-gray-80;
+    border: 2px solid;
     bottom: -2px;
     display: flex;
     height: 20px;
@@ -154,18 +236,33 @@
     width: 20px;
     z-index: $z-index-base;
 
+    @include light-theme {
+      border-color: $color-gray-04;
+    }
+    @include dark-theme {
+      border-color: $color-gray-80;
+    }
+
     &::after {
       content: '';
+      height: 12px;
+      width: 12px;
       @include color-svg(
         '../images/icons/v3/plus/plus-compact-bold.svg',
         $color-white
       );
-      height: 12px;
-      width: 12px;
     }
   }
 }
 
-.StoryListItem__button:hover .MyStories__avatar__add-story {
-  border-color: $color-gray-65;
+.StoryListItem__button:hover,
+.StoryListItem__button--active {
+  .MyStories__avatar__add-story {
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+    @include dark-theme {
+      border-color: $color-gray-65;
+    }
+  }
 }

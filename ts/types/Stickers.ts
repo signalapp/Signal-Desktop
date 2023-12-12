@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, pick, reject, groupBy, values } from 'lodash';
+import { isNumber, reject, groupBy, values } from 'lodash';
 import pMap from 'p-map';
 import Queue from 'p-queue';
 
@@ -11,7 +11,7 @@ import { makeLookup } from '../util/makeLookup';
 import { maybeParseUrl } from '../util/url';
 import * as Bytes from '../Bytes';
 import * as Errors from './errors';
-import { deriveStickerPackKey, decryptAttachment } from '../Crypto';
+import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto';
 import { IMAGE_WEBP } from './MIME';
 import type { MIMEType } from './MIME';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
@@ -310,7 +310,10 @@ function getReduxStickerActions() {
 function decryptSticker(packKey: string, ciphertext: Uint8Array): Uint8Array {
   const binaryKey = Bytes.fromBase64(packKey);
   const derivedKey = deriveStickerPackKey(binaryKey);
-  const plaintext = decryptAttachment(ciphertext, derivedKey);
+
+  // Note this download and decrypt in memory is okay because these files are maximum
+  //   300kb, enforced by the server.
+  const plaintext = decryptAttachmentV1(ciphertext, derivedKey);
 
   return plaintext;
 }
@@ -469,7 +472,8 @@ export async function downloadEphemeralPack(
       coverStickerId,
       stickerCount,
       status: 'ephemeral' as const,
-      ...pick(proto, ['title', 'author']),
+      title: proto.title ?? '',
+      author: proto.author ?? '',
     };
     stickerPackAdded(pack);
 
@@ -688,7 +692,8 @@ async function doDownloadStickerPack(
       createdAt: Date.now(),
       stickers: {},
       storageNeedsSync: !fromStorageService,
-      ...pick(proto, ['title', 'author']),
+      title: proto.title ?? '',
+      author: proto.author ?? '',
     };
     await Data.createOrUpdateStickerPack(pack);
     stickerPackAdded(pack);

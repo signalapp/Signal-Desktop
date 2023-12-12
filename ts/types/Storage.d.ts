@@ -20,6 +20,7 @@ import type {
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
 import type { ThemeSettingType } from './StorageUIKeys';
+import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
 
@@ -35,7 +36,7 @@ export type SentMediaQualitySettingType = 'standard' | 'high';
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
 export type IdentityKeyMap = Record<
-  string,
+  ServiceIdString,
   {
     privKey: Uint8Array;
     pubKey: Uint8Array;
@@ -50,11 +51,12 @@ export type StorageAccessType = {
   'auto-download-update': boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': ReadonlyArray<string>;
-  'blocked-uuids': ReadonlyArray<string>;
+  'blocked-uuids': ReadonlyArray<ServiceIdString>;
   'call-ringtone-notification': boolean;
   'call-system-notification': boolean;
   'hide-menu-bar': boolean;
   'incoming-call-notification': boolean;
+  localeOverride: string | null;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
@@ -85,6 +87,8 @@ export type StorageAccessType = {
   lastAttemptedToRefreshProfilesAt: number;
   lastResortKeyUpdateTime: number;
   lastResortKeyUpdateTimePNI: number;
+  masterKey: string;
+  masterKeyLastRequestTime: number;
   maxPreKeyId: number;
   maxPreKeyIdPNI: number;
   maxKyberPreKeyId: number;
@@ -93,7 +97,7 @@ export type StorageAccessType = {
   password: string;
   profileKey: Uint8Array;
   regionCode: string;
-  registrationIdMap: Record<string, number>;
+  registrationIdMap: Record<ServiceIdString, number>;
   remoteBuildExpiration: number;
   sendEditWarningShown: boolean;
   sessionResets: SessionResetsType;
@@ -154,11 +158,15 @@ export type StorageAccessType = {
   zoomFactor: ZoomFactorType;
   preferredLeftPaneWidth: number;
   nextScheduledUpdateKeyTime: number;
+  navTabsCollapsed: boolean;
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
+  usernameLastIntegrityCheck: number;
+  usernameCorrupted: boolean;
+  usernameLinkCorrupted: boolean;
   usernameLinkColor: number;
   usernameLink: {
     entropy: Uint8Array;

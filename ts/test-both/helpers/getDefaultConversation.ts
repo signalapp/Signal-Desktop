@@ -3,9 +3,11 @@
 
 import casual from 'casual';
 import { sample } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
+
 import type { ConversationType } from '../../state/ducks/conversations';
-import type { UUIDStringType } from '../../types/UUID';
-import { UUID } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
+import { generateAci } from '../../types/ServiceId';
 import type { GroupListItemConversationType } from '../../components/conversationList/GroupListItem';
 import { getRandomColor } from './getRandomColor';
 import { ConversationColors } from '../../types/Colors';
@@ -32,14 +34,14 @@ export function getDefaultConversation(
     conversationColor: ConversationColors[0],
     color: getRandomColor(),
     firstName,
-    id: UUID.generate().toString(),
+    id: generateUuid(),
     isMe: false,
     lastUpdated: casual.unix_time,
     markedUnread: Boolean(overrideProps.markedUnread),
     sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     titleNoDefault: `${firstName} ${lastName}`,
-    uuid: UUID.generate().toString(),
+    serviceId: generateAci(),
     ...overrideProps,
     type: 'direct' as const,
     acknowledgedGroupNameCollisions: undefined,
@@ -63,7 +65,7 @@ export function getDefaultGroup(
   overrideProps: Partial<ConversationType> = {}
 ): ConversationType {
   const memberships = Array.from(Array(casual.integer(1, 20)), () => ({
-    uuid: UUID.generate().toString(),
+    aci: generateAci(),
     isAdmin: Boolean(casual.coin_flip),
   }));
 
@@ -75,10 +77,10 @@ export function getDefaultGroup(
     color: getRandomColor(),
     conversationColor: ConversationColors[0],
     groupDescription: casual.sentence,
-    groupId: UUID.generate().toString(),
+    groupId: generateUuid(),
     groupLink: casual.url,
     groupVersion: 2,
-    id: UUID.generate().toString(),
+    id: generateUuid(),
     isMe: false,
     lastUpdated: casual.unix_time,
     markedUnread: Boolean(overrideProps.markedUnread),
@@ -86,7 +88,7 @@ export function getDefaultGroup(
     memberships,
     sharedGroupNames: [],
     title: casual.title,
-    uuid: UUID.generate().toString(),
+    serviceId: generateAci(),
     acknowledgedGroupNameCollisions: {},
     storySendMode: StorySendMode.IfActive,
     ...overrideProps,
@@ -94,12 +96,12 @@ export function getDefaultGroup(
   };
 }
 
-export function getDefaultConversationWithUuid(
+export function getDefaultConversationWithServiceId(
   overrideProps: Partial<ConversationType> = {},
-  uuid: UUIDStringType = UUID.generate().toString()
-): ConversationType & { uuid: UUIDStringType } {
+  serviceId: ServiceIdString = generateAci()
+): ConversationType & { serviceId: ServiceIdString } {
   return {
     ...getDefaultConversation(overrideProps),
-    uuid,
+    serviceId,
   };
 }

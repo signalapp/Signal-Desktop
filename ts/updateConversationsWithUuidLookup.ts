@@ -6,7 +6,7 @@ import type { ConversationModel } from './models/conversations';
 import type { WebAPIType } from './textsecure/WebAPI';
 import { assertDev } from './util/assert';
 import { isNotNil } from './util/isNotNil';
-import { getUuidsForE164s } from './util/getUuidsForE164s';
+import { getServiceIdsForE164s } from './util/getServiceIdsForE164s';
 
 export async function updateConversationsWithUuidLookup({
   conversationController,
@@ -27,7 +27,7 @@ export async function updateConversationsWithUuidLookup({
     return;
   }
 
-  const serverLookup = await getUuidsForE164s(server, e164s);
+  const serverLookup = await getServiceIdsForE164s(server, e164s);
 
   await Promise.all(
     conversations.map(async conversation => {
@@ -59,16 +59,18 @@ export async function updateConversationsWithUuidLookup({
       // We got no uuid from CDS so either the person is now unregistered or
       // they can't be looked up by a phone number. Check that uuid still exists,
       // and if not - drop it.
-      let finalUuid = finalConversation.getUuid();
-      if (!pairFromServer && finalUuid) {
-        const doesAccountExist = await server.checkAccountExistence(finalUuid);
+      let finalServiceId = finalConversation.getServiceId();
+      if (!pairFromServer && finalServiceId) {
+        const doesAccountExist = await server.checkAccountExistence(
+          finalServiceId
+        );
         if (!doesAccountExist) {
-          finalConversation.updateUuid(undefined);
-          finalUuid = undefined;
+          finalConversation.updateServiceId(undefined);
+          finalServiceId = undefined;
         }
       }
 
-      if (!finalConversation.get('e164') || !finalUuid) {
+      if (!finalConversation.get('e164') || !finalServiceId) {
         finalConversation.setUnregistered();
       }
     })

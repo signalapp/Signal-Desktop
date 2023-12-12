@@ -19,8 +19,10 @@ import {
   getUserACI,
   getUserPNI,
 } from './user';
+import { getDefaultConversationColor } from './items';
 import { getActiveCall, getCallSelector } from './calling';
 import { getPropsForBubble } from './message';
+import { getCallHistorySelector } from './callHistory';
 
 export const getTimelineItem = (
   state: StateType,
@@ -41,28 +43,32 @@ export const getTimelineItem = (
   const conversationSelector = getConversationSelector(state);
   const regionCode = getRegionCode(state);
   const ourNumber = getUserNumber(state);
-  const ourACI = getUserACI(state);
-  const ourPNI = getUserPNI(state);
+  const ourAci = getUserACI(state);
+  const ourPni = getUserPNI(state);
   const ourConversationId = getUserConversationId(state);
   const callSelector = getCallSelector(state);
+  const callHistorySelector = getCallHistorySelector(state);
   const activeCall = getActiveCall(state);
   const accountSelector = getAccountSelector(state);
   const contactNameColorSelector = getContactNameColorSelector(state);
   const selectedMessageIds = getSelectedMessageIds(state);
+  const defaultConversationColor = getDefaultConversationColor(state);
 
   return getPropsForBubble(message, {
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourACI,
-    ourPNI,
+    ourAci,
+    ourPni,
     regionCode,
     targetedMessageId: targetedMessage?.id,
     targetedMessageCounter: targetedMessage?.counter,
     contactNameColorSelector,
     callSelector,
+    callHistorySelector,
     activeCall,
     accountSelector,
     selectedMessageIds,
+    defaultConversationColor,
   });
 };

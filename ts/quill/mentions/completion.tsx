@@ -13,9 +13,10 @@ import { createPortal } from 'react-dom';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../../components/Avatar';
 import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { MemberRepository } from '../memberRepository';
+import type { MemberType, MemberRepository } from '../memberRepository';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { matchBlotTextPartitions } from '../util';
+import type { MentionBlotValue } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { sameWidthModifier } from '../../util/popperUtil';
 import { UserText } from '../../components/UserText';
@@ -29,10 +30,10 @@ export type MentionCompletionOptions = {
   theme: ThemeType;
 };
 
-const MENTION_REGEX = /(?:^|\W)@([-+\p{L}\p{M}\p{N}]+)$/u;
+const MENTION_REGEX = /(?:^|\W)@([-+\p{L}\p{M}\p{N}]*)$/u;
 
 export class MentionCompletion {
-  results: ReadonlyArray<ConversationType>;
+  results: ReadonlyArray<MemberType>;
 
   index: number;
 
@@ -106,7 +107,7 @@ export class MentionCompletion {
     this.clearResults();
   }
 
-  possiblyShowMemberResults(): ReadonlyArray<ConversationType> {
+  possiblyShowMemberResults(): ReadonlyArray<MemberType> {
     const range = this.quill.getSelection();
 
     if (range) {
@@ -121,7 +122,7 @@ export class MentionCompletion {
       if (leftTokenTextMatch) {
         const [, leftTokenText] = leftTokenTextMatch;
 
-        let results: ReadonlyArray<ConversationType> = [];
+        let results: ReadonlyArray<MemberType> = [];
 
         const memberRepository = this.options.memberRepositoryRef.current;
 
@@ -194,13 +195,18 @@ export class MentionCompletion {
   }
 
   insertMention(
-    mention: ConversationType,
+    member: MemberType,
     index: number,
     range: number,
     withTrailingSpace = false
   ): void {
     // The mention + space we add won't be formatted unless we manually provide attributes
     const attributes = this.getAttributesForInsert(range - 1);
+
+    const mention: MentionBlotValue = {
+      aci: member.aci,
+      title: member.title,
+    };
 
     const delta = new Delta()
       .retain(index)
@@ -261,7 +267,7 @@ export class MentionCompletion {
               {memberResults.map((member, index) => (
                 <button
                   type="button"
-                  key={member.uuid}
+                  key={member.aci}
                   id={`mention-result--${member.name}`}
                   role="option button"
                   aria-selected={memberResultsIndex === index}

@@ -4,110 +4,129 @@
 import type { LocalizerType } from '../types/Util';
 import { CallMode } from '../types/Calling';
 import { missingCaseError } from './missingCaseError';
-import * as log from '../logging/log';
+import type { CallStatus } from '../types/CallDisposition';
+import {
+  CallDirection,
+  DirectCallStatus,
+  type CallHistoryDetails,
+  CallType,
+} from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
+import { strictAssert } from './assert';
 
-type DirectCallNotificationType = {
-  callMode: CallMode.Direct;
-  activeCallConversationId?: string;
-  wasIncoming: boolean;
-  wasVideoCall: boolean;
-  wasDeclined: boolean;
-  acceptedTime?: number;
-  endedTime?: number;
-};
-
-type GroupCallNotificationType = {
-  activeCallConversationId?: string;
-  callMode: CallMode.Group;
-  conversationId: string;
-  creator?: ConversationType;
-  ended: boolean;
+export type CallingNotificationType = Readonly<{
+  // In some older calls, we don't have a call id, this hardens against that.
+  callHistory: CallHistoryDetails | null;
+  callCreator: ConversationType | null;
+  activeConversationId: string | null;
+  groupCallEnded: boolean | null;
   deviceCount: number;
   maxDevices: number;
-  startedTime: number;
-};
-
-export type CallingNotificationType =
-  | DirectCallNotificationType
-  | GroupCallNotificationType;
+}>;
 
 function getDirectCallNotificationText(
-  {
-    wasIncoming,
-    wasVideoCall,
-    wasDeclined,
-    acceptedTime,
-  }: DirectCallNotificationType,
+  callDirection: CallDirection,
+  callType: CallType,
+  callStatus: DirectCallStatus,
   i18n: LocalizerType
 ): string {
-  const wasAccepted = Boolean(acceptedTime);
+  if (callStatus === DirectCallStatus.Pending) {
+    if (callDirection === CallDirection.Incoming) {
+      return callType === CallType.Video
+        ? i18n('icu:incomingVideoCall')
+        : i18n('icu:incomingAudioCall');
+    }
+    return callType === CallType.Video
+      ? i18n('icu:outgoingVideoCall')
+      : i18n('icu:outgoingAudioCall');
+  }
 
-  if (wasIncoming) {
-    if (wasDeclined) {
-      if (wasVideoCall) {
-        return i18n('icu:declinedIncomingVideoCall');
-      }
-      return i18n('icu:declinedIncomingAudioCall');
+  if (callStatus === DirectCallStatus.Accepted) {
+    if (callDirection === CallDirection.Incoming) {
+      return callType === CallType.Video
+        ? i18n('icu:acceptedIncomingVideoCall')
+        : i18n('icu:acceptedIncomingAudioCall');
     }
-    if (wasAccepted) {
-      if (wasVideoCall) {
-        return i18n('icu:acceptedIncomingVideoCall');
-      }
-      return i18n('icu:acceptedIncomingAudioCall');
-    }
-    if (wasVideoCall) {
-      return i18n('icu:missedIncomingVideoCall');
-    }
-    return i18n('icu:missedIncomingAudioCall');
+    return callType === CallType.Video
+      ? i18n('icu:acceptedOutgoingVideoCall')
+      : i18n('icu:acceptedOutgoingAudioCall');
   }
-  if (wasAccepted) {
-    if (wasVideoCall) {
-      return i18n('icu:acceptedOutgoingVideoCall');
+
+  if (callStatus === DirectCallStatus.Declined) {
+    if (callDirection === CallDirection.Incoming) {
+      return callType === CallType.Video
+        ? i18n('icu:declinedIncomingVideoCall')
+        : i18n('icu:declinedIncomingAudioCall');
     }
-    return i18n('icu:acceptedOutgoingAudioCall');
+    return callType === CallType.Video
+      ? i18n('icu:missedOrDeclinedOutgoingVideoCall')
+      : i18n('icu:missedOrDeclinedOutgoingAudioCall');
   }
-  if (wasVideoCall) {
-    return i18n('icu:missedOrDeclinedOutgoingVideoCall');
+
+  if (callStatus === DirectCallStatus.Missed) {
+    if (callDirection === CallDirection.Incoming) {
+      return callType === CallType.Video
+        ? i18n('icu:missedIncomingVideoCall')
+        : i18n('icu:missedIncomingAudioCall');
+    }
+    return callType === CallType.Video
+      ? i18n('icu:missedOrDeclinedOutgoingVideoCall')
+      : i18n('icu:missedOrDeclinedOutgoingAudioCall');
   }
-  return i18n('icu:missedOrDeclinedOutgoingAudioCall');
+
+  if (callStatus === DirectCallStatus.Deleted) {
+    throw new Error(
+      'getDirectCallNotificationText: Cannot render deleted call'
+    );
+  }
+
+  throw missingCaseError(callStatus);
 }
 
 function getGroupCallNotificationText(
-  notification: GroupCallNotificationType,
+  groupCallEnded: boolean,
+  creator: ConversationType | null,
   i18n: LocalizerType
 ): string {
-  if (notification.ended) {
+  if (groupCallEnded) {
     return i18n('icu:calling__call-notification__ended');
   }
-  if (!notification.creator) {
+  if (creator == null) {
     return i18n('icu:calling__call-notification__started-by-someone');
   }
-  if (notification.creator.isMe) {
+  if (creator.isMe) {
     return i18n('icu:calling__call-notification__started-by-you');
   }
   return i18n('icu:calling__call-notification__started', {
-    name: notification.creator.systemGivenName ?? notification.creator.title,
+    name: creator.systemGivenName ?? creator.title,
   });
 }
 
 export function getCallingNotificationText(
-  notification: CallingNotificationType,
+  callingNotification: CallingNotificationType,
   i18n: LocalizerType
-): string {
-  switch (notification.callMode) {
-    case CallMode.Direct:
-      return getDirectCallNotificationText(notification, i18n);
-    case CallMode.Group:
-      return getGroupCallNotificationText(notification, i18n);
-    default:
-      log.error(
-        `getCallingNotificationText: missing case ${missingCaseError(
-          notification
-        )}`
-      );
-      return '';
+): string | null {
+  const { callHistory, callCreator, groupCallEnded } = callingNotification;
+  if (callHistory == null) {
+    return null;
   }
+
+  if (callHistory.mode === CallMode.Direct) {
+    return getDirectCallNotificationText(
+      callHistory.direction,
+      callHistory.type,
+      callHistory.status as DirectCallStatus,
+      i18n
+    );
+  }
+  if (callHistory.mode === CallMode.Group) {
+    strictAssert(
+      groupCallEnded != null,
+      'getCallingNotificationText: groupCallEnded shouldnt be null for a group call'
+    );
+    return getGroupCallNotificationText(groupCallEnded, callCreator, i18n);
+  }
+  throw missingCaseError(callHistory.mode);
 }
 
 type CallingIconType =
@@ -120,42 +139,41 @@ type CallingIconType =
   | 'video-missed'
   | 'video-outgoing';
 
-function getDirectCallingIcon({
-  wasIncoming,
-  wasVideoCall,
-  acceptedTime,
-}: DirectCallNotificationType): CallingIconType {
-  const wasAccepted = Boolean(acceptedTime);
-
-  // video
-  if (wasVideoCall) {
-    if (wasAccepted) {
-      return wasIncoming ? 'video-incoming' : 'video-outgoing';
-    }
-    return 'video-missed';
-  }
-
-  if (wasAccepted) {
-    return wasIncoming ? 'audio-incoming' : 'audio-outgoing';
-  }
-
-  return 'audio-missed';
-}
-
 export function getCallingIcon(
-  notification: CallingNotificationType
+  callType: CallType,
+  callDirection: CallDirection,
+  callStatus: CallStatus
 ): CallingIconType {
-  switch (notification.callMode) {
-    case CallMode.Direct:
-      return getDirectCallingIcon(notification);
-    case CallMode.Group:
-      return 'video';
-    default:
-      log.error(
-        `getCallingNotificationText: missing case ${missingCaseError(
-          notification
-        )}`
-      );
-      return 'phone';
+  if (callType === CallType.Audio) {
+    if (callStatus === DirectCallStatus.Accepted) {
+      return callDirection === CallDirection.Incoming
+        ? 'audio-incoming'
+        : 'audio-outgoing';
+    }
+    if (
+      callStatus === DirectCallStatus.Missed ||
+      callStatus === DirectCallStatus.Declined
+    ) {
+      return 'audio-missed';
+    }
+    return 'phone';
   }
+  if (callType === CallType.Video) {
+    if (callStatus === DirectCallStatus.Accepted) {
+      return callDirection === CallDirection.Incoming
+        ? 'video-incoming'
+        : 'video-outgoing';
+    }
+    if (
+      callStatus === DirectCallStatus.Missed ||
+      callStatus === DirectCallStatus.Declined
+    ) {
+      return 'video-missed';
+    }
+    return 'video';
+  }
+  if (callType === CallType.Group) {
+    return 'video';
+  }
+  throw missingCaseError(callType);
 }

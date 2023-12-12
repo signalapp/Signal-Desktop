@@ -3,15 +3,23 @@
 
 import { ipcRenderer } from 'electron';
 
-import { explodePromise } from './util/explodePromise';
-import { SECOND } from './util/durations';
-import * as log from './logging/log';
 import type { IPCResponse as ChallengeResponseType } from './challenge';
+import type { MessageAttributesType } from './model-types.d';
+import * as log from './logging/log';
+import { explodePromise } from './util/explodePromise';
+import { ipcInvoke } from './sql/channels';
+import { SECOND } from './util/durations';
+import { isSignalRoute } from './util/signalRoutes';
+import { strictAssert } from './util/assert';
 
 type ResolveType = (data: unknown) => void;
 
 export type CIType = {
   deviceName: string;
+  getConversationId: (address: string | null) => string | null;
+  getMessagesBySentAt(
+    sentAt: number
+  ): Promise<ReadonlyArray<MessageAttributesType>>;
   handleEvent: (event: string, data: unknown) => unknown;
   setProvisioningURL: (url: string) => unknown;
   solveChallenge: (response: ChallengeResponseType) => unknown;
@@ -22,6 +30,7 @@ export type CIType = {
       ignorePastEvents?: boolean;
     }
   ) => unknown;
+  openSignalRoute(url: string): Promise<void>;
 };
 
 export function getCI(deviceName: string): CIType {
@@ -108,11 +117,47 @@ export function getCI(deviceName: string): CIType {
     window.Signal.challengeHandler?.onResponse(response);
   }
 
+  async function getMessagesBySentAt(sentAt: number) {
+    const messages = await ipcInvoke<ReadonlyArray<MessageAttributesType>>(
+      'getMessagesBySentAt',
+      [sentAt]
+    );
+    return messages.map(
+      m =>
+        window.MessageCache.__DEPRECATED$register(
+          m.id,
+          m,
+          'CI.getMessagesBySentAt'
+        ).attributes
+    );
+  }
+
+  function getConversationId(address: string | null): string | null {
+    return window.ConversationController.getConversationId(address);
+  }
+
+  async function openSignalRoute(url: string) {
+    strictAssert(
+      isSignalRoute(url),
+      `openSignalRoute: not a valid signal route ${url}`
+    );
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.hidden = true;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
   return {
     deviceName,
+    getConversationId,
+    getMessagesBySentAt,
     handleEvent,
     setProvisioningURL,
     solveChallenge,
     waitForEvent,
+    openSignalRoute,
   };
 }

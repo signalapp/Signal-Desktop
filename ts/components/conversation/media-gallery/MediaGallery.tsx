@@ -29,7 +29,7 @@ export type Props = {
   media: Array<MediaItemType>;
   saveAttachment: SaveAttachmentActionCreatorType;
   showLightboxWithMedia: (
-    selectedAttachmentPath: string | undefined,
+    selectedIndex: number,
     media: Array<MediaItemType>
   ) => void;
 };
@@ -106,7 +106,7 @@ function MediaSection({
             }
 
             case 'media': {
-              showLightboxWithMedia(event.attachment.path, media);
+              showLightboxWithMedia(event.index, media);
               break;
             }
 

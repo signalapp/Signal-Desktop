@@ -3,11 +3,13 @@
 
 import React from 'react';
 
+import type { Meta } from '@storybook/react';
+import type { Props } from './BadgeDescription';
 import { BadgeDescription } from './BadgeDescription';
 
 export default {
   title: 'Components/BadgeDescription',
-};
+} satisfies Meta<Props>;
 
 export function NormalName(): JSX.Element {
   return (
@@ -19,11 +21,7 @@ export function NormalName(): JSX.Element {
   );
 }
 
-NormalName.story = {
-  name: 'Normal name',
-};
-
-export function NameWithRtlOverrides(): JSX.Element {
+export function NameWithRTLOverrides(): JSX.Element {
   return (
     <BadgeDescription
       template="Hello, {short_name}! {short_name}, I think you're great."
@@ -31,7 +29,3 @@ export function NameWithRtlOverrides(): JSX.Element {
     />
   );
 }
-
-NameWithRtlOverrides.story = {
-  name: 'Name with RTL overrides',
-};

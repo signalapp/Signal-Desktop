@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import { range } from 'lodash';
+import * as sinon from 'sinon';
 
 import { getRandomBytes } from '../../Crypto';
 import AccountManager from '../../textsecure/AccountManager';
@@ -11,42 +12,40 @@ import type {
   OuterSignedPrekeyType,
   PreKeyType,
 } from '../../textsecure/Types.d';
-import { UUID, UUIDKind } from '../../types/UUID';
+import { ServiceIdKind, generateAci, generatePni } from '../../types/ServiceId';
 import { DAY } from '../../util/durations';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 describe('AccountManager', () => {
+  let sandbox: sinon.SinonSandbox;
   let accountManager: AccountManager;
 
-  const ourUuid = UUID.generate();
+  const ourAci = generateAci();
+  const ourPni = generatePni();
   const identityKey = window.Signal.Curve.generateKeyPair();
   const pubKey = getRandomBytes(33);
   const privKey = getRandomBytes(32);
 
-  let originalGetIdentityKeyPair: any;
-  let originalGetUuid: any;
-  let originalGetCheckedUuid: any;
-
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
+
     const server: any = {};
     accountManager = new AccountManager(server);
 
-    originalGetIdentityKeyPair =
-      window.textsecure.storage.protocol.getIdentityKeyPair;
-    originalGetUuid = window.textsecure.storage.user.getUuid;
-    originalGetCheckedUuid = window.textsecure.storage.user.getCheckedUuid;
-
-    window.textsecure.storage.protocol.getIdentityKeyPair = () => identityKey;
-    window.textsecure.storage.user.getUuid = () => ourUuid;
-    window.textsecure.storage.user.getCheckedUuid = () => ourUuid;
+    const { storage } = window.textsecure;
+    sandbox.stub(storage.protocol, 'getIdentityKeyPair').returns(identityKey);
+    const { user } = storage;
+    sandbox.stub(user, 'getAci').returns(ourAci);
+    sandbox.stub(user, 'getPni').returns(ourPni);
+    sandbox.stub(user, 'getServiceId').returns(ourAci);
+    sandbox.stub(user, 'getCheckedAci').returns(ourAci);
+    sandbox.stub(user, 'getCheckedPni').returns(ourPni);
+    sandbox.stub(user, 'getCheckedServiceId').returns(ourAci);
   });
 
   afterEach(() => {
-    window.textsecure.storage.protocol.getIdentityKeyPair =
-      originalGetIdentityKeyPair;
-    window.textsecure.storage.user.getUuid = originalGetUuid;
-    window.textsecure.storage.user.getCheckedUuid = originalGetCheckedUuid;
+    sandbox.restore();
   });
 
   describe('encrypted device name', () => {
@@ -67,7 +66,7 @@ describe('AccountManager', () => {
 
     it('handles falsey deviceName', () => {
       const encrypted = accountManager.encryptDeviceName('', identityKey);
-      assert.strictEqual(encrypted, null);
+      assert.strictEqual(encrypted, undefined);
     });
   });
 
@@ -134,7 +133,7 @@ describe('AccountManager', () => {
       ];
 
       // should be no calls to store.removeSignedPreKey, would cause crash
-      return accountManager._cleanSignedPreKeys(UUIDKind.ACI);
+      return accountManager._cleanSignedPreKeys(ServiceIdKind.ACI);
     });
 
     it('eliminates oldest keys, even if recent key is unconfirmed', async () => {
@@ -193,7 +192,7 @@ describe('AccountManager', () => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
-      await accountManager._cleanSignedPreKeys(UUIDKind.ACI);
+      await accountManager._cleanSignedPreKeys(ServiceIdKind.ACI);
       assert.deepEqual(removedKeys, [4]);
     });
   });
@@ -223,124 +222,124 @@ describe('AccountManager', () => {
       const now = Date.now();
       kyberPreKeys = [
         {
-          id: `${ourUuid.toString()}:1`,
+          id: `${ourAci}:1`,
 
           createdAt: now - DAY * 32,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 1,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:2`,
+          id: `${ourAci}:2`,
 
           createdAt: now - DAY * 34,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 2,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:3`,
+          id: `${ourAci}:3`,
 
           createdAt: now - DAY * 38,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 3,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:4`,
+          id: `${ourAci}:4`,
 
           createdAt: now - DAY * 39,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: false,
           keyId: 4,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:5`,
+          id: `${ourAci}:5`,
 
           createdAt: now - DAY * 40,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: false,
           keyId: 5,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
       ];
 
       // should be no calls to store.removeKyberPreKey, would cause crash
-      return accountManager._cleanLastResortKeys(UUIDKind.ACI);
+      return accountManager._cleanLastResortKeys(ServiceIdKind.ACI);
     });
 
     it('eliminates oldest keys, even if recent key is unconfirmed', async () => {
       const now = Date.now();
       kyberPreKeys = [
         {
-          id: `${ourUuid.toString()}:1`,
+          id: `${ourAci}:1`,
 
           createdAt: now - DAY * 32,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 1,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:2`,
+          id: `${ourAci}:2`,
 
           createdAt: now - DAY * 31,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: false,
           keyId: 2,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:3`,
+          id: `${ourAci}:3`,
 
           createdAt: now - DAY * 24,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 3,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
           // Oldest, should be dropped
-          id: `${ourUuid.toString()}:4`,
+          id: `${ourAci}:4`,
 
           createdAt: now - DAY * 38,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 4,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:5`,
+          id: `${ourAci}:5`,
 
           createdAt: now - DAY * 5,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 5,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:6`,
+          id: `${ourAci}:6`,
 
           createdAt: now - DAY * 5,
           data: getRandomBytes(32),
           isLastResort: true,
           isConfirmed: true,
           keyId: 6,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
       ];
 
@@ -352,7 +351,7 @@ describe('AccountManager', () => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
-      await accountManager._cleanLastResortKeys(UUIDKind.ACI);
+      await accountManager._cleanLastResortKeys(ServiceIdKind.ACI);
       assert.deepEqual(removedKeys, [4]);
     });
   });
@@ -378,54 +377,54 @@ describe('AccountManager', () => {
       const now = Date.now();
       preKeys = [
         {
-          id: `${ourUuid.toString()}:1`,
+          id: `${ourAci}:1`,
 
           createdAt: now - DAY * 92,
           keyId: 1,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
         {
-          id: `${ourUuid.toString()}:2`,
+          id: `${ourAci}:2`,
 
           createdAt: now - DAY * 93,
           keyId: 2,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
         {
-          id: `${ourUuid.toString()}:3`,
+          id: `${ourAci}:3`,
 
           createdAt: now - DAY * 93,
           keyId: 3,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
         {
-          id: `${ourUuid.toString()}:4`,
+          id: `${ourAci}:4`,
 
           createdAt: now - DAY * 93,
           keyId: 4,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
         {
-          id: `${ourUuid.toString()}:5`,
+          id: `${ourAci}:5`,
 
           createdAt: now - DAY * 94,
           keyId: 5,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
       ];
 
       // should be no calls to store.removeKyberPreKey, would cause crash
-      return accountManager._cleanPreKeys(UUIDKind.ACI);
+      return accountManager._cleanPreKeys(ServiceIdKind.ACI);
     });
 
     it('eliminates keys not in the 200 newest, over 90 days old', async () => {
@@ -434,11 +433,11 @@ describe('AccountManager', () => {
         // The latest batch
         ...range(0, 100).map(
           (id): PreKeyType => ({
-            id: `${ourUuid.toString()}:${id}`,
+            id: `${ourAci}:${id}`,
 
             createdAt: now - DAY,
             keyId: 1,
-            ourUuid: ourUuid.toString(),
+            ourServiceId: ourAci,
             privateKey: privKey,
             publicKey: pubKey,
           })
@@ -446,22 +445,22 @@ describe('AccountManager', () => {
         // Second-oldest batch, won't be dropped
         ...range(100, 200).map(
           (id): PreKeyType => ({
-            id: `${ourUuid.toString()}:${id}`,
+            id: `${ourAci}:${id}`,
 
             createdAt: now - DAY * 40,
             keyId: 1,
-            ourUuid: ourUuid.toString(),
+            ourServiceId: ourAci,
             privateKey: privKey,
             publicKey: pubKey,
           })
         ),
         // Oldest batch, will be dropped
         {
-          id: `${ourUuid.toString()}:6`,
+          id: `${ourAci}:6`,
 
           createdAt: now - DAY * 92,
           keyId: 6,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
@@ -472,7 +471,7 @@ describe('AccountManager', () => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
-      await accountManager._cleanPreKeys(UUIDKind.ACI);
+      await accountManager._cleanPreKeys(ServiceIdKind.ACI);
       assert.deepEqual(removedKeys, [6]);
     });
   });
@@ -502,59 +501,59 @@ describe('AccountManager', () => {
       const now = Date.now();
       kyberPreKeys = [
         {
-          id: `${ourUuid.toString()}:1`,
+          id: `${ourAci}:1`,
 
           createdAt: now - DAY * 93,
           data: getRandomBytes(32),
           isConfirmed: false,
           isLastResort: false,
           keyId: 1,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:2`,
+          id: `${ourAci}:2`,
 
           createdAt: now - DAY * 93,
           data: getRandomBytes(32),
           isConfirmed: false,
           isLastResort: false,
           keyId: 2,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:3`,
+          id: `${ourAci}:3`,
 
           createdAt: now - DAY * 93,
           data: getRandomBytes(32),
           isConfirmed: false,
           isLastResort: false,
           keyId: 3,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:4`,
+          id: `${ourAci}:4`,
 
           createdAt: now - DAY * 93,
           data: getRandomBytes(32),
           isConfirmed: false,
           isLastResort: false,
           keyId: 4,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
         {
-          id: `${ourUuid.toString()}:5`,
+          id: `${ourAci}:5`,
 
           createdAt: now - DAY * 93,
           data: getRandomBytes(32),
           isConfirmed: false,
           isLastResort: false,
           keyId: 5,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
       ];
 
       // should be no calls to store.removeKyberPreKey, would cause crash
-      return accountManager._cleanKyberPreKeys(UUIDKind.ACI);
+      return accountManager._cleanKyberPreKeys(ServiceIdKind.ACI);
     });
 
     it('eliminates keys not in the newest 200, over 90 days old', async () => {
@@ -563,39 +562,39 @@ describe('AccountManager', () => {
         // The latest batch
         ...range(0, 100).map(
           (id): KyberPreKeyType => ({
-            id: `${ourUuid.toString()}:${id}`,
+            id: `${ourAci}:${id}`,
 
             createdAt: now - DAY,
             data: getRandomBytes(32),
             isConfirmed: false,
             isLastResort: false,
             keyId: 1,
-            ourUuid: ourUuid.toString(),
+            ourServiceId: ourAci,
           })
         ),
         // Second-oldest batch, won't be dropped
         ...range(100, 200).map(
           (id): KyberPreKeyType => ({
-            id: `${ourUuid.toString()}:${id}`,
+            id: `${ourAci}:${id}`,
 
             createdAt: now - DAY * 45,
             data: getRandomBytes(32),
             isConfirmed: false,
             isLastResort: false,
             keyId: 4,
-            ourUuid: ourUuid.toString(),
+            ourServiceId: ourAci,
           })
         ),
         // Oldest batch, will be dropped
         {
-          id: `${ourUuid.toString()}:6`,
+          id: `${ourAci}:6`,
 
           createdAt: now - DAY * 93,
           data: getRandomBytes(32),
           isConfirmed: false,
           isLastResort: false,
           keyId: 6,
-          ourUuid: ourUuid.toString(),
+          ourServiceId: ourAci,
         },
       ];
 
@@ -607,7 +606,7 @@ describe('AccountManager', () => {
         removedKeys = removedKeys.concat(keyIds);
       };
 
-      await accountManager._cleanKyberPreKeys(UUIDKind.ACI);
+      await accountManager._cleanKyberPreKeys(ServiceIdKind.ACI);
       assert.deepEqual(removedKeys, [6]);
     });
   });

@@ -8,7 +8,7 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import { PaymentEventKind } from '../types/Payment';
 import type { AnyPaymentEvent } from '../types/Payment';
 import type { LocalizerType } from '../types/Util';
@@ -111,16 +111,16 @@ export function getPaymentEventDescription(
 export function isQuoteAMatch(
   message: MessageAttributesType | null | undefined,
   conversationId: string,
-  quote: Pick<QuotedMessageType, 'id' | 'authorUuid' | 'author'>
+  quote: Pick<QuotedMessageType, 'id' | 'authorAci' | 'author'>
 ): message is MessageAttributesType {
   if (!message) {
     return false;
   }
 
-  const { authorUuid, id } = quote;
+  const { authorAci, id } = quote;
   const authorConversation = window.ConversationController.lookupOrCreate({
     e164: 'author' in quote ? quote.author : undefined,
-    uuid: authorUuid,
+    serviceId: authorAci,
     reason: 'helpers.isQuoteAMatch',
   });
 
@@ -137,18 +137,18 @@ export function isQuoteAMatch(
 }
 
 export function getContactId(
-  message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceUuid'>
+  message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceServiceId'>
 ): string | undefined {
   const source = getSource(message);
-  const sourceUuid = getSourceUuid(message);
+  const sourceServiceId = getSourceServiceId(message);
 
-  if (!source && !sourceUuid) {
+  if (!source && !sourceServiceId) {
     return window.ConversationController.getOurConversationId();
   }
 
   const conversation = window.ConversationController.lookupOrCreate({
     e164: source,
-    uuid: sourceUuid,
+    serviceId: sourceServiceId,
     reason: 'helpers.getContactId',
   });
   return conversation?.id;
@@ -191,19 +191,19 @@ export function getSourceDevice(
   return sourceDevice || window.textsecure.storage.user.getDeviceId();
 }
 
-export function getSourceUuid(
-  message: Pick<MessageAttributesType, 'type' | 'sourceUuid'>
-): UUIDStringType | undefined {
+export function getSourceServiceId(
+  message: Pick<MessageAttributesType, 'type' | 'sourceServiceId'>
+): ServiceIdString | undefined {
   if (isIncoming(message) || isStory(message)) {
-    return message.sourceUuid;
+    return message.sourceServiceId;
   }
   if (!isOutgoing(message)) {
     log.warn(
-      'Message.getSourceUuid: Called for non-incoming/non-outgoing message'
+      'Message.getSourceServiceId: Called for non-incoming/non-outgoing message'
     );
   }
 
-  return window.textsecure.storage.user.getUuid()?.toString();
+  return window.textsecure.storage.user.getAci();
 }
 
 export const isCustomError = (e: unknown): e is CustomError =>

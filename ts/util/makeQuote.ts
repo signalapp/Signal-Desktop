@@ -38,7 +38,7 @@ export async function makeQuote(
   const quoteId = getMessageSentTimestamp(quotedMessage, { log });
 
   return {
-    authorUuid: contact.get('uuid'),
+    authorAci: contact.getCheckedAci('makeQuote'),
     attachments: isTapToView(quotedMessage)
       ? [{ contentType: IMAGE_JPEG, fileName: null }]
       : await getQuoteAttachment(attachments, preview, sticker),

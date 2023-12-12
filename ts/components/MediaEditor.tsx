@@ -1,30 +1,33 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
+import { useSelector } from 'react-redux';
 import { get, has, noop } from 'lodash';
 
-import type { LocalizerType } from '../types/Util';
-import { ThemeType } from '../types/Util';
-import type { MIMEType } from '../types/MIME';
-import { IMAGE_PNG } from '../types/MIME';
-import type { Props as StickerButtonProps } from './stickers/StickerButton';
+import type {
+  EmojiPickDataType,
+  Props as EmojiPickerProps,
+} from './emoji/EmojiPicker';
+import type { DraftBodyRanges } from '../types/BodyRange';
 import type { ImageStateType } from '../mediaEditor/ImageStateType';
-
-import * as log from '../logging/log';
-import { Button, ButtonVariant } from './Button';
-import { ContextMenu } from './ContextMenu';
-import { Slider } from './Slider';
-import { StickerButton } from './stickers/StickerButton';
-import { Theme } from '../util/theme';
-import { canvasToBytes } from '../util/canvasToBytes';
+import type {
+  InputApi,
+  Props as CompositionInputProps,
+} from './CompositionInput';
+import type { LocalizerType } from '../types/Util';
+import type { MIMEType } from '../types/MIME';
+import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { imageToBlurHash } from '../util/imageToBlurHash';
-import { useFabricHistory } from '../mediaEditor/useFabricHistory';
-import { usePortal } from '../hooks/usePortal';
-import { useUniqueId } from '../hooks/useUniqueId';
 
 import { MediaEditorFabricAnalogTimeSticker } from '../mediaEditor/MediaEditorFabricAnalogTimeSticker';
 import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect';
@@ -35,25 +38,37 @@ import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticke
 import { fabricEffectListener } from '../mediaEditor/fabricEffectListener';
 import { getRGBA, getHSL } from '../mediaEditor/util/color';
 import {
-  TextStyle,
   getTextStyleAttributes,
+  TextStyle,
 } from '../mediaEditor/util/getTextStyleAttributes';
-import { AddCaptionModal } from './AddCaptionModal';
-import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
-import { Spinner } from './Spinner';
-import type { HydratedBodyRangesType } from '../types/BodyRange';
-import { MessageBody } from './conversation/MessageBody';
-import { RenderLocation } from './conversation/MessageTextRenderer';
-import { arrow } from '../util/keyboard';
+
+import * as log from '../logging/log';
+import { Button, ButtonVariant } from './Button';
+import { CompositionInput } from './CompositionInput';
+import { ContextMenu } from './ContextMenu';
+import { EmojiButton } from './emoji/EmojiButton';
+import { IMAGE_PNG } from '../types/MIME';
 import { SizeObserver } from '../hooks/useSizeObserver';
+import { Slider } from './Slider';
+import { Spinner } from './Spinner';
+import { StickerButton } from './stickers/StickerButton';
+import { Theme } from '../util/theme';
+import { ThemeType } from '../types/Util';
+import { arrow } from '../util/keyboard';
+import { canvasToBytes } from '../util/canvasToBytes';
+import { getConversationSelector } from '../state/selectors/conversations';
+import { hydrateRanges } from '../types/BodyRange';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+import { useFabricHistory } from '../mediaEditor/useFabricHistory';
+import { usePortal } from '../hooks/usePortal';
+import { useUniqueId } from '../hooks/useUniqueId';
 
 export type MediaEditorResultType = Readonly<{
   data: Uint8Array;
   contentType: MIMEType;
   blurHash: string;
   caption?: string;
-  captionBodyRanges?: HydratedBodyRangesType;
+  captionBodyRanges?: DraftBodyRanges;
 }>;
 
 export type PropsType = {
@@ -65,18 +80,20 @@ export type PropsType = {
   onClose: () => unknown;
   onDone: (result: MediaEditorResultType) => unknown;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
-  (
-    | {
-        supportsCaption: true;
-        renderCompositionTextArea: (
-          props: SmartCompositionTextAreaProps
-        ) => JSX.Element;
-      }
-    | {
-        supportsCaption?: false;
-        renderCompositionTextArea?: undefined;
-      }
-  );
+  Pick<
+    CompositionInputProps,
+    | 'draftText'
+    | 'draftBodyRanges'
+    | 'getPreferredBadge'
+    | 'isFormattingEnabled'
+    | 'isFormattingFlagEnabled'
+    | 'isFormattingSpoilersFlagEnabled'
+    | 'onPickEmoji'
+    | 'onTextTooLong'
+    | 'platform'
+    | 'sortedGroupMembers'
+  > &
+  EmojiPickerProps;
 
 const INITIAL_IMAGE_STATE: ImageStateType = {
   angle: 0,
@@ -106,6 +123,12 @@ enum DrawTool {
   Highlighter = 'Highlighter',
 }
 
+enum CropPreset {
+  Freeform = 'Freeform',
+  Square = 'Square',
+  Vertical = 'Vertical',
+}
+
 type PendingCropType = {
   left: number;
   top: number;
@@ -128,6 +151,23 @@ export function MediaEditor({
   onClose,
   onDone,
 
+  // CompositionInput
+  draftText,
+  draftBodyRanges,
+  getPreferredBadge,
+  isFormattingEnabled,
+  isFormattingFlagEnabled,
+  isFormattingSpoilersFlagEnabled,
+  onPickEmoji,
+  onTextTooLong,
+  platform,
+  sortedGroupMembers,
+
+  // EmojiPickerProps
+  onSetSkinTone,
+  recentEmojis,
+  skinTone,
+
   // StickerButtonProps
   installedPacks,
   recentStickers,
@@ -137,18 +177,44 @@ export function MediaEditor({
   const [image, setImage] = useState<HTMLImageElement>(new Image());
   const [isStickerPopperOpen, setIsStickerPopperOpen] =
     useState<boolean>(false);
+  const [isEmojiPopperOpen, setEmojiPopperOpen] = useState<boolean>(false);
 
-  const [caption, setCaption] = useState('');
+  const [caption, setCaption] = useState(draftText ?? '');
   const [captionBodyRanges, setCaptionBodyRanges] = useState<
-    HydratedBodyRangesType | undefined
-  >();
+    DraftBodyRanges | undefined
+  >(draftBodyRanges);
 
-  const [showAddCaptionModal, setShowAddCaptionModal] = useState(false);
+  const conversationSelector = useSelector(getConversationSelector);
+  const hydratedBodyRanges = useMemo(
+    () => hydrateRanges(captionBodyRanges, conversationSelector),
+    [captionBodyRanges, conversationSelector]
+  );
+
+  const inputApiRef = useRef<InputApi | undefined>();
+
+  const closeEmojiPickerAndFocusComposer = useCallback(() => {
+    if (inputApiRef.current) {
+      inputApiRef.current.focus();
+    }
+    setEmojiPopperOpen(false);
+  }, [inputApiRef]);
+
+  const insertEmoji = useCallback(
+    (e: EmojiPickDataType) => {
+      if (inputApiRef.current) {
+        inputApiRef.current.insertEmoji(e);
+        onPickEmoji(e);
+      }
+    },
+    [inputApiRef, onPickEmoji]
+  );
 
   const canvasId = useUniqueId();
 
   const [imageState, setImageState] =
     useState<ImageStateType>(INITIAL_IMAGE_STATE);
+
+  const [cropPreset, setCropPreset] = useState<CropPreset>(CropPreset.Freeform);
 
   // History state
   const { canRedo, canUndo, redoIfPossible, takeSnapshot, undoIfPossible } =
@@ -199,8 +265,8 @@ export function MediaEditor({
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
   const onTryClose = useCallback(() => {
-    confirmDiscardIf(caption !== '' || Boolean(image), onClose);
-  }, [confirmDiscardIf, caption, image, onClose]);
+    confirmDiscardIf(canUndo, onClose);
+  }, [confirmDiscardIf, canUndo, onClose]);
 
   // Keyboard support
   useEffect(() => {
@@ -228,6 +294,12 @@ export function MediaEditor({
       [
         ev => ev.key === 'Escape',
         () => {
+          // if the emoji popper is open,
+          // it will use the escape key to close itself
+          if (isEmojiPopperOpen) {
+            return;
+          }
+
           // close window if the user is not in the middle of something
           if (editMode === undefined) {
             // if the stickers popper is open,
@@ -377,6 +449,7 @@ export function MediaEditor({
   }, [
     fabricCanvas,
     editMode,
+    isEmojiPopperOpen,
     isStickerPopperOpen,
     onTryClose,
     redoIfPossible,
@@ -523,6 +596,40 @@ export function MediaEditor({
     }
   }, [fabricCanvas, sliderValue, textStyle]);
 
+  useEffect(() => {
+    if (!fabricCanvas) {
+      return;
+    }
+
+    const rect = fabricCanvas.getObjects().find(obj => {
+      return obj instanceof MediaEditorFabricCropRect;
+    });
+
+    if (!rect) {
+      return;
+    }
+
+    const PADDING = MediaEditorFabricCropRect.PADDING / zoom;
+    let height =
+      imageState.height - PADDING * Math.max(440 / imageState.height, 2);
+    let width =
+      imageState.width - PADDING * Math.max(440 / imageState.width, 2);
+
+    if (cropPreset === CropPreset.Square) {
+      const size = Math.min(height, width);
+      height = size;
+      width = size;
+    } else if (cropPreset === CropPreset.Vertical) {
+      width = height * 0.5625;
+    }
+
+    rect.set({ height, width, scaleX: 1, scaleY: 1 });
+    fabricCanvas.viewportCenterObject(rect);
+    rect.setCoords();
+
+    setCanCrop(true);
+  }, [cropPreset, fabricCanvas, imageState.height, imageState.width, zoom]);
+
   // Create the CroppingRect
   useEffect(() => {
     if (!fabricCanvas) {
@@ -632,148 +739,159 @@ export function MediaEditor({
     return null;
   }
 
-  let tooling: JSX.Element | undefined;
+  let toolElement: JSX.Element | undefined;
   if (editMode === EditMode.Text) {
-    tooling = (
+    toolElement = (
       <>
-        <Slider
-          handleStyle={{ backgroundColor: getHSL(sliderValue) }}
-          label={i18n('icu:CustomColorEditor__hue')}
-          moduleClassName="HueSlider MediaEditor__tools__tool"
-          onChange={setSliderValue}
-          value={sliderValue}
-        />
-        <ContextMenu
-          i18n={i18n}
-          menuOptions={[
-            {
-              icon: 'MediaEditor__icon--text-regular',
-              label: i18n('icu:MediaEditor__text--regular'),
-              onClick: () => setTextStyle(TextStyle.Regular),
-              value: TextStyle.Regular,
-            },
-            {
-              icon: 'MediaEditor__icon--text-highlight',
-              label: i18n('icu:MediaEditor__text--highlight'),
-              onClick: () => setTextStyle(TextStyle.Highlight),
-              value: TextStyle.Highlight,
-            },
-            {
-              icon: 'MediaEditor__icon--text-outline',
-              label: i18n('icu:MediaEditor__text--outline'),
-              onClick: () => setTextStyle(TextStyle.Outline),
-              value: TextStyle.Outline,
-            },
-          ]}
-          moduleClassName={classNames('MediaEditor__tools__tool', {
-            'MediaEditor__tools__button--text-regular':
-              textStyle === TextStyle.Regular,
-            'MediaEditor__tools__button--text-highlight':
-              textStyle === TextStyle.Highlight,
-            'MediaEditor__tools__button--text-outline':
-              textStyle === TextStyle.Outline,
-          })}
-          theme={Theme.Dark}
-          value={textStyle}
-        />
-        <button
-          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
-          onClick={() => {
-            setEditMode(undefined);
+        <div className="MediaEditor__tools-row-1" />
+        <div className="MediaEditor__tools-row-2">
+          <div className="MediaEditor__toolbar">
+            <Slider
+              handleStyle={{ backgroundColor: getHSL(sliderValue) }}
+              label={i18n('icu:CustomColorEditor__hue')}
+              moduleClassName="HueSlider MediaEditor__toolbar__tool"
+              onChange={setSliderValue}
+              value={sliderValue}
+            />
+            <ContextMenu
+              i18n={i18n}
+              menuOptions={[
+                {
+                  icon: 'MediaEditor__icon--text-regular',
+                  label: i18n('icu:MediaEditor__text--regular'),
+                  onClick: () => setTextStyle(TextStyle.Regular),
+                  value: TextStyle.Regular,
+                },
+                {
+                  icon: 'MediaEditor__icon--text-highlight',
+                  label: i18n('icu:MediaEditor__text--highlight'),
+                  onClick: () => setTextStyle(TextStyle.Highlight),
+                  value: TextStyle.Highlight,
+                },
+                {
+                  icon: 'MediaEditor__icon--text-outline',
+                  label: i18n('icu:MediaEditor__text--outline'),
+                  onClick: () => setTextStyle(TextStyle.Outline),
+                  value: TextStyle.Outline,
+                },
+              ]}
+              moduleClassName={classNames('MediaEditor__toolbar__tool', {
+                'MediaEditor__toolbar__button--text-regular':
+                  textStyle === TextStyle.Regular,
+                'MediaEditor__toolbar__button--text-highlight':
+                  textStyle === TextStyle.Highlight,
+                'MediaEditor__toolbar__button--text-outline':
+                  textStyle === TextStyle.Outline,
+              })}
+              theme={Theme.Dark}
+              value={textStyle}
+            />
+          </div>
+          <Button
+            onClick={() => {
+              setEditMode(undefined);
 
-            const activeObject = fabricCanvas?.getActiveObject();
-            if (activeObject instanceof MediaEditorFabricIText) {
-              activeObject.exitEditing();
-            }
-          }}
-          type="button"
-        >
-          {i18n('icu:done')}
-        </button>
+              const activeObject = fabricCanvas?.getActiveObject();
+              if (activeObject instanceof MediaEditorFabricIText) {
+                activeObject.exitEditing();
+              }
+            }}
+            theme={Theme.Dark}
+            variant={ButtonVariant.Secondary}
+          >
+            {i18n('icu:done')}
+          </Button>
+        </div>
       </>
     );
   } else if (editMode === EditMode.Draw) {
-    tooling = (
+    toolElement = (
       <>
-        <Slider
-          handleStyle={{ backgroundColor: getHSL(sliderValue) }}
-          label={i18n('icu:CustomColorEditor__hue')}
-          moduleClassName="HueSlider MediaEditor__tools__tool"
-          onChange={setSliderValue}
-          value={sliderValue}
-        />
-        <ContextMenu
-          i18n={i18n}
-          menuOptions={[
-            {
-              icon: 'MediaEditor__icon--draw-pen',
-              label: i18n('icu:MediaEditor__draw--pen'),
-              onClick: () => setDrawTool(DrawTool.Pen),
-              value: DrawTool.Pen,
-            },
-            {
-              icon: 'MediaEditor__icon--draw-highlighter',
-              label: i18n('icu:MediaEditor__draw--highlighter'),
-              onClick: () => setDrawTool(DrawTool.Highlighter),
-              value: DrawTool.Highlighter,
-            },
-          ]}
-          moduleClassName={classNames('MediaEditor__tools__tool', {
-            'MediaEditor__tools__button--draw-pen': drawTool === DrawTool.Pen,
-            'MediaEditor__tools__button--draw-highlighter':
-              drawTool === DrawTool.Highlighter,
-          })}
-          theme={Theme.Dark}
-          value={drawTool}
-        />
-        <ContextMenu
-          i18n={i18n}
-          menuOptions={[
-            {
-              icon: 'MediaEditor__icon--width-thin',
-              label: i18n('icu:MediaEditor__draw--thin'),
-              onClick: () => setDrawWidth(DrawWidth.Thin),
-              value: DrawWidth.Thin,
-            },
-            {
-              icon: 'MediaEditor__icon--width-regular',
-              label: i18n('icu:MediaEditor__draw--regular'),
-              onClick: () => setDrawWidth(DrawWidth.Regular),
-              value: DrawWidth.Regular,
-            },
-            {
-              icon: 'MediaEditor__icon--width-medium',
-              label: i18n('icu:MediaEditor__draw--medium'),
-              onClick: () => setDrawWidth(DrawWidth.Medium),
-              value: DrawWidth.Medium,
-            },
-            {
-              icon: 'MediaEditor__icon--width-heavy',
-              label: i18n('icu:MediaEditor__draw--heavy'),
-              onClick: () => setDrawWidth(DrawWidth.Heavy),
-              value: DrawWidth.Heavy,
-            },
-          ]}
-          moduleClassName={classNames('MediaEditor__tools__tool', {
-            'MediaEditor__tools__button--width-thin':
-              drawWidth === DrawWidth.Thin,
-            'MediaEditor__tools__button--width-regular':
-              drawWidth === DrawWidth.Regular,
-            'MediaEditor__tools__button--width-medium':
-              drawWidth === DrawWidth.Medium,
-            'MediaEditor__tools__button--width-heavy':
-              drawWidth === DrawWidth.Heavy,
-          })}
-          theme={Theme.Dark}
-          value={drawWidth}
-        />
-        <button
-          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
-          onClick={() => setEditMode(undefined)}
-          type="button"
-        >
-          {i18n('icu:done')}
-        </button>
+        <div className="MediaEditor__tools-row-1" />
+        <div className="MediaEditor__tools-row-2">
+          <div className="MediaEditor__toolbar">
+            <Slider
+              handleStyle={{ backgroundColor: getHSL(sliderValue) }}
+              label={i18n('icu:CustomColorEditor__hue')}
+              moduleClassName="HueSlider MediaEditor__toolbar__tool"
+              onChange={setSliderValue}
+              value={sliderValue}
+            />
+            <ContextMenu
+              i18n={i18n}
+              menuOptions={[
+                {
+                  icon: 'MediaEditor__icon--draw-pen',
+                  label: i18n('icu:MediaEditor__draw--pen'),
+                  onClick: () => setDrawTool(DrawTool.Pen),
+                  value: DrawTool.Pen,
+                },
+                {
+                  icon: 'MediaEditor__icon--draw-highlighter',
+                  label: i18n('icu:MediaEditor__draw--highlighter'),
+                  onClick: () => setDrawTool(DrawTool.Highlighter),
+                  value: DrawTool.Highlighter,
+                },
+              ]}
+              moduleClassName={classNames('MediaEditor__toolbar__tool', {
+                'MediaEditor__toolbar__button--draw-pen':
+                  drawTool === DrawTool.Pen,
+                'MediaEditor__toolbar__button--draw-highlighter':
+                  drawTool === DrawTool.Highlighter,
+              })}
+              theme={Theme.Dark}
+              value={drawTool}
+            />
+            <ContextMenu
+              i18n={i18n}
+              menuOptions={[
+                {
+                  icon: 'MediaEditor__icon--width-thin',
+                  label: i18n('icu:MediaEditor__draw--thin'),
+                  onClick: () => setDrawWidth(DrawWidth.Thin),
+                  value: DrawWidth.Thin,
+                },
+                {
+                  icon: 'MediaEditor__icon--width-regular',
+                  label: i18n('icu:MediaEditor__draw--regular'),
+                  onClick: () => setDrawWidth(DrawWidth.Regular),
+                  value: DrawWidth.Regular,
+                },
+                {
+                  icon: 'MediaEditor__icon--width-medium',
+                  label: i18n('icu:MediaEditor__draw--medium'),
+                  onClick: () => setDrawWidth(DrawWidth.Medium),
+                  value: DrawWidth.Medium,
+                },
+                {
+                  icon: 'MediaEditor__icon--width-heavy',
+                  label: i18n('icu:MediaEditor__draw--heavy'),
+                  onClick: () => setDrawWidth(DrawWidth.Heavy),
+                  value: DrawWidth.Heavy,
+                },
+              ]}
+              moduleClassName={classNames('MediaEditor__toolbar__tool', {
+                'MediaEditor__toolbar__button--width-thin':
+                  drawWidth === DrawWidth.Thin,
+                'MediaEditor__toolbar__button--width-regular':
+                  drawWidth === DrawWidth.Regular,
+                'MediaEditor__toolbar__button--width-medium':
+                  drawWidth === DrawWidth.Medium,
+                'MediaEditor__toolbar__button--width-heavy':
+                  drawWidth === DrawWidth.Heavy,
+              })}
+              theme={Theme.Dark}
+              value={drawWidth}
+            />
+          </div>
+          <Button
+            onClick={() => setEditMode(undefined)}
+            theme={Theme.Dark}
+            variant={ButtonVariant.Secondary}
+          >
+            {i18n('icu:done')}
+          </Button>
+        </div>
       </>
     );
   } else if (editMode === EditMode.Crop) {
@@ -784,132 +902,215 @@ export function MediaEditor({
       imageState.flipY ||
       imageState.angle !== 0;
 
-    tooling = (
+    toolElement = (
       <>
-        <button
-          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
-          disabled={!canReset}
-          onClick={async () => {
-            if (!fabricCanvas) {
-              return;
-            }
-
-            const newImageState = {
-              ...INITIAL_IMAGE_STATE,
-              height: image.height,
-              width: image.width,
-            };
-            setImageState(newImageState);
-            moveFabricObjectsForReset(fabricCanvas, imageState);
-            takeSnapshot('reset', newImageState);
-          }}
-          type="button"
-        >
-          {i18n('icu:MediaEditor__crop--reset')}
-        </button>
-        <button
-          aria-label={i18n('icu:MediaEditor__crop--rotate')}
-          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--rotate"
-          onClick={() => {
-            if (!fabricCanvas) {
-              return;
-            }
-
-            fabricCanvas.getObjects().forEach(obj => {
-              if (obj instanceof MediaEditorFabricCropRect) {
+        <div className="MediaEditor__tools-row-1">
+          <button
+            className={classNames(
+              'MediaEditor__crop-preset MediaEditor__crop-preset--free',
+              {
+                'MediaEditor__crop-preset--selected':
+                  cropPreset === CropPreset.Freeform,
+              }
+            )}
+            onClick={() => setCropPreset(CropPreset.Freeform)}
+            type="button"
+          >
+            Freeform
+          </button>
+          <button
+            className={classNames(
+              'MediaEditor__crop-preset MediaEditor__crop-preset--square',
+              {
+                'MediaEditor__crop-preset--selected':
+                  cropPreset === CropPreset.Square,
+              }
+            )}
+            onClick={() => setCropPreset(CropPreset.Square)}
+            type="button"
+          >
+            Square
+          </button>
+          <button
+            className={classNames(
+              'MediaEditor__crop-preset MediaEditor__crop-preset--vertical',
+              {
+                'MediaEditor__crop-preset--selected':
+                  cropPreset === CropPreset.Vertical,
+              }
+            )}
+            onClick={() => setCropPreset(CropPreset.Vertical)}
+            type="button"
+          >
+            9:16
+          </button>
+        </div>
+        <div className="MediaEditor__tools-row-2">
+          <Button
+            disabled={!canReset}
+            onClick={async () => {
+              if (!fabricCanvas) {
                 return;
               }
 
-              const center = obj.getCenterPoint();
+              const newImageState = {
+                ...INITIAL_IMAGE_STATE,
+                height: image.height,
+                width: image.width,
+              };
+              setImageState(newImageState);
+              setCropPreset(CropPreset.Freeform);
+              moveFabricObjectsForReset(fabricCanvas, imageState);
+              takeSnapshot('reset', newImageState);
+            }}
+            theme={Theme.Dark}
+            variant={ButtonVariant.Secondary}
+          >
+            {i18n('icu:MediaEditor__crop--reset')}
+          </Button>
+          <div className="MediaEditor__toolbar__crop">
+            <button
+              aria-label={i18n('icu:MediaEditor__crop--rotate')}
+              className="MediaEditor__toolbar__crop__button MediaEditor__toolbar__button--rotate"
+              onClick={() => {
+                if (!fabricCanvas) {
+                  return;
+                }
 
-              obj.set('angle', ((obj.angle || 0) + 270) % 360);
+                fabricCanvas.getObjects().forEach(obj => {
+                  if (obj instanceof MediaEditorFabricCropRect) {
+                    return;
+                  }
 
-              obj.setPositionByOrigin(
-                new fabric.Point(center.y, imageState.width - center.x),
-                'center',
-                'center'
+                  const center = obj.getCenterPoint();
+
+                  obj.set('angle', ((obj.angle || 0) + 270) % 360);
+
+                  obj.setPositionByOrigin(
+                    new fabric.Point(center.y, imageState.width - center.x),
+                    'center',
+                    'center'
+                  );
+                  obj.setCoords();
+                });
+
+                const newImageState = {
+                  ...imageState,
+                  angle: (imageState.angle + 270) % 360,
+                  height: imageState.width,
+                  width: imageState.height,
+                };
+                setImageState(newImageState);
+                takeSnapshot('rotate', newImageState);
+              }}
+              type="button"
+            />
+            <button
+              aria-label={i18n('icu:MediaEditor__crop--flip')}
+              className="MediaEditor__toolbar__crop__button MediaEditor__toolbar__button--flip"
+              onClick={() => {
+                if (!fabricCanvas) {
+                  return;
+                }
+
+                const newImageState = {
+                  ...imageState,
+                  ...(imageState.angle % 180
+                    ? { flipY: !imageState.flipY }
+                    : { flipX: !imageState.flipX }),
+                };
+                setImageState(newImageState);
+                takeSnapshot('flip', newImageState);
+              }}
+              type="button"
+            />
+            <button
+              aria-label={i18n('icu:MediaEditor__crop--lock')}
+              className={classNames(
+                'MediaEditor__toolbar__crop__button',
+                `MediaEditor__toolbar__button--crop-${
+                  cropAspectRatioLock ? '' : 'un'
+                }locked`
+              )}
+              onClick={() => {
+                if (fabricCanvas) {
+                  fabricCanvas.uniformScaling = !cropAspectRatioLock;
+                }
+                setCropAspectRatioLock(!cropAspectRatioLock);
+              }}
+              type="button"
+            />
+          </div>
+          <Button
+            onClick={() => {
+              if (!canCrop) {
+                setEditMode(undefined);
+                return;
+              }
+
+              if (!fabricCanvas) {
+                return;
+              }
+
+              const pendingCrop = getPendingCrop(fabricCanvas);
+              if (!pendingCrop) {
+                return;
+              }
+
+              const newImageState = getNewImageStateFromCrop(
+                imageState,
+                pendingCrop
               );
-              obj.setCoords();
-            });
-
-            const newImageState = {
-              ...imageState,
-              angle: (imageState.angle + 270) % 360,
-              height: imageState.width,
-              width: imageState.height,
-            };
-            setImageState(newImageState);
-            takeSnapshot('rotate', newImageState);
-          }}
-          type="button"
-        />
-        <button
-          aria-label={i18n('icu:MediaEditor__crop--flip')}
-          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--flip"
-          onClick={() => {
-            if (!fabricCanvas) {
-              return;
-            }
-
-            const newImageState = {
-              ...imageState,
-              ...(imageState.angle % 180
-                ? { flipY: !imageState.flipY }
-                : { flipX: !imageState.flipX }),
-            };
-            setImageState(newImageState);
-            takeSnapshot('flip', newImageState);
-          }}
-          type="button"
-        />
-        <button
-          aria-label={i18n('icu:MediaEditor__crop--lock')}
-          className={classNames(
-            'MediaEditor__tools__button',
-            `MediaEditor__tools__button--crop-${
-              cropAspectRatioLock ? '' : 'un'
-            }locked`
-          )}
-          onClick={() => {
-            if (fabricCanvas) {
-              fabricCanvas.uniformScaling = !cropAspectRatioLock;
-            }
-            setCropAspectRatioLock(!cropAspectRatioLock);
-          }}
-          type="button"
-        />
-        <button
-          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
-          disabled={!canCrop}
-          onClick={() => {
-            if (!fabricCanvas) {
-              return;
-            }
-
-            const pendingCrop = getPendingCrop(fabricCanvas);
-            if (!pendingCrop) {
-              return;
-            }
-
-            const newImageState = getNewImageStateFromCrop(
-              imageState,
-              pendingCrop
-            );
-            setImageState(newImageState);
-            moveFabricObjectsForCrop(fabricCanvas, pendingCrop);
-            takeSnapshot('crop', newImageState);
-            setEditMode(undefined);
-          }}
-          type="button"
-        >
-          {i18n('icu:done')}
-        </button>
+              setImageState(newImageState);
+              moveFabricObjectsForCrop(fabricCanvas, pendingCrop);
+              takeSnapshot('crop', newImageState);
+              setEditMode(undefined);
+              setCropPreset(CropPreset.Freeform);
+            }}
+            theme={Theme.Dark}
+            variant={ButtonVariant.Secondary}
+          >
+            {i18n('icu:done')}
+          </Button>
+        </div>
       </>
     );
   }
 
   return createPortal(
     <div className="MediaEditor">
+      <div className="MediaEditor__history-buttons">
+        <button
+          aria-label={i18n('icu:MediaEditor__control--undo')}
+          className="MediaEditor__control MediaEditor__control--undo"
+          disabled={!canUndo}
+          onClick={() => {
+            if (editMode === EditMode.Crop) {
+              setEditMode(undefined);
+            }
+            undoIfPossible();
+          }}
+          type="button"
+        />
+        <button
+          aria-label={i18n('icu:MediaEditor__control--redo')}
+          className="MediaEditor__control MediaEditor__control--redo"
+          disabled={!canRedo}
+          onClick={() => {
+            if (editMode === EditMode.Crop) {
+              setEditMode(undefined);
+            }
+            redoIfPossible();
+          }}
+          type="button"
+        />
+      </div>
+      <button
+        aria-label={i18n('icu:close')}
+        className="MediaEditor__close"
+        onClick={onTryClose}
+        type="button"
+      />
       <div className="MediaEditor__container">
         <SizeObserver
           onSizeChange={size => {
@@ -934,170 +1135,100 @@ export function MediaEditor({
           )}
         </SizeObserver>
       </div>
-      <div className="MediaEditor__toolbar">
-        {tooling ? (
-          <div className="MediaEditor__tools">{tooling}</div>
+      <div className="MediaEditor__tools">
+        {toolElement !== undefined ? (
+          toolElement
         ) : (
           <>
-            {props.supportsCaption ? (
-              <div className="MediaEditor__toolbar__caption">
-                <button
-                  type="button"
-                  className="MediaEditor__toolbar__caption__add-caption-button"
-                  onClick={() => setShowAddCaptionModal(true)}
-                >
-                  {caption !== '' ? (
-                    <span>
-                      <MessageBody
-                        renderLocation={RenderLocation.MediaEditor}
-                        bodyRanges={captionBodyRanges}
-                        i18n={i18n}
-                        isSpoilerExpanded={{}}
-                        text={caption}
-                      />
-                    </span>
-                  ) : (
-                    i18n('icu:MediaEditor__caption-button')
-                  )}
-                </button>
-
-                {showAddCaptionModal && (
-                  <AddCaptionModal
-                    i18n={i18n}
-                    draftText={caption}
-                    draftBodyRanges={captionBodyRanges}
-                    onSubmit={(messageText, bodyRanges) => {
-                      setCaption(messageText.trim());
-                      setCaptionBodyRanges(bodyRanges);
-                      setShowAddCaptionModal(false);
-                    }}
-                    onClose={() => setShowAddCaptionModal(false)}
-                    RenderCompositionTextArea={props.renderCompositionTextArea}
-                    theme={ThemeType.dark}
-                  />
-                )}
-              </div>
-            ) : (
-              <div className="MediaEditor__toolbar--space" />
-            )}
-          </>
-        )}
-        <div className="MediaEditor__toolbar--buttons">
-          <Button
-            onClick={onTryClose}
-            theme={Theme.Dark}
-            variant={ButtonVariant.Secondary}
-          >
-            {i18n('icu:discard')}
-          </Button>
-          <div className="MediaEditor__controls">
-            <button
-              aria-label={i18n('icu:MediaEditor__control--draw')}
-              className={classNames({
-                MediaEditor__control: true,
-                'MediaEditor__control--pen': true,
-                'MediaEditor__control--selected': editMode === EditMode.Draw,
-              })}
-              onClick={() => {
-                setEditMode(
-                  editMode === EditMode.Draw ? undefined : EditMode.Draw
-                );
-              }}
-              type="button"
-            />
-            <button
-              aria-label={i18n('icu:MediaEditor__control--text')}
-              className={classNames({
-                MediaEditor__control: true,
-                'MediaEditor__control--text': true,
-                'MediaEditor__control--selected': editMode === EditMode.Text,
-              })}
-              onClick={() => {
-                if (editMode === EditMode.Text) {
-                  setEditMode(undefined);
-                  const obj = fabricCanvas?.getActiveObject();
-                  if (obj instanceof MediaEditorFabricIText) {
-                    obj.exitEditing();
+            <div className="MediaEditor__tools-row-1">
+              <button
+                aria-label={i18n('icu:MediaEditor__control--draw')}
+                className={classNames({
+                  MediaEditor__control: true,
+                  'MediaEditor__control--pen': true,
+                  'MediaEditor__control--selected': editMode === EditMode.Draw,
+                })}
+                onClick={() => {
+                  setEditMode(
+                    editMode === EditMode.Draw ? undefined : EditMode.Draw
+                  );
+                }}
+                type="button"
+              />
+              <button
+                aria-label={i18n('icu:MediaEditor__control--text')}
+                className={classNames({
+                  MediaEditor__control: true,
+                  'MediaEditor__control--text': true,
+                  'MediaEditor__control--selected': editMode === EditMode.Text,
+                })}
+                onClick={() => {
+                  if (editMode === EditMode.Text) {
+                    setEditMode(undefined);
+                    const obj = fabricCanvas?.getActiveObject();
+                    if (obj instanceof MediaEditorFabricIText) {
+                      obj.exitEditing();
+                    }
+                  } else {
+                    setEditMode(EditMode.Text);
                   }
-                } else {
-                  setEditMode(EditMode.Text);
-                }
-              }}
-              type="button"
-            />
-            <StickerButton
-              blessedPacks={[]}
-              className={classNames({
-                MediaEditor__control: true,
-                'MediaEditor__control--sticker': true,
-              })}
-              onOpenStateChanged={value => {
-                setIsStickerPopperOpen(value);
-              }}
-              clearInstalledStickerPack={noop}
-              clearShowIntroduction={() => {
-                // We're using this as a callback for when the sticker button
-                // is pressed.
-                fabricCanvas?.discardActiveObject();
-                setEditMode(undefined);
-              }}
-              clearShowPickerHint={noop}
-              i18n={i18n}
-              installedPacks={installedPacks}
-              knownPacks={[]}
-              onPickSticker={(_packId, _stickerId, src: string) => {
-                if (!fabricCanvas) {
-                  return;
-                }
+                }}
+                type="button"
+              />
+              <button
+                aria-label={i18n('icu:MediaEditor__control--crop')}
+                className={classNames({
+                  MediaEditor__control: true,
+                  'MediaEditor__control--crop': true,
+                  'MediaEditor__control--selected': editMode === EditMode.Crop,
+                })}
+                onClick={() => {
+                  if (!fabricCanvas) {
+                    return;
+                  }
+                  if (editMode === EditMode.Crop) {
+                    const obj = fabricCanvas.getActiveObject();
+                    if (obj instanceof MediaEditorFabricCropRect) {
+                      fabricCanvas.remove(obj);
+                    }
+                    setEditMode(undefined);
+                  } else {
+                    setEditMode(EditMode.Crop);
+                  }
+                }}
+                type="button"
+              />
+              <StickerButton
+                blessedPacks={[]}
+                className={classNames({
+                  MediaEditor__control: true,
+                  'MediaEditor__control--sticker': true,
+                })}
+                onOpenStateChanged={value => {
+                  setIsStickerPopperOpen(value);
+                }}
+                clearInstalledStickerPack={noop}
+                clearShowIntroduction={() => {
+                  // We're using this as a callback for when the sticker button
+                  // is pressed.
+                  fabricCanvas?.discardActiveObject();
+                  setEditMode(undefined);
+                }}
+                clearShowPickerHint={noop}
+                i18n={i18n}
+                installedPacks={installedPacks}
+                knownPacks={[]}
+                onPickSticker={(_packId, _stickerId, src: string) => {
+                  if (!fabricCanvas) {
+                    return;
+                  }
 
-                const STICKER_SIZE_RELATIVE_TO_CANVAS = 4;
-                const size =
-                  Math.min(imageState.width, imageState.height) /
-                  STICKER_SIZE_RELATIVE_TO_CANVAS;
-
-                const sticker = new MediaEditorFabricSticker(src);
-                sticker.scaleToHeight(size);
-                sticker.setPositionByOrigin(
-                  new fabric.Point(imageState.width / 2, imageState.height / 2),
-                  'center',
-                  'center'
-                );
-                sticker.setCoords();
-
-                fabricCanvas.add(sticker);
-                fabricCanvas.setActiveObject(sticker);
-                setEditMode(undefined);
-              }}
-              onPickTimeSticker={(style: 'analog' | 'digital') => {
-                if (!fabricCanvas) {
-                  return;
-                }
-
-                if (style === 'digital') {
-                  const sticker = new MediaEditorFabricDigitalTimeSticker(
-                    Date.now()
-                  );
-                  sticker.setPositionByOrigin(
-                    new fabric.Point(
-                      imageState.width / 2,
-                      imageState.height / 2
-                    ),
-                    'center',
-                    'center'
-                  );
-                  sticker.setCoords();
-
-                  fabricCanvas.add(sticker);
-                  fabricCanvas.setActiveObject(sticker);
-                }
-
-                if (style === 'analog') {
-                  const sticker = new MediaEditorFabricAnalogTimeSticker();
                   const STICKER_SIZE_RELATIVE_TO_CANVAS = 4;
                   const size =
                     Math.min(imageState.width, imageState.height) /
                     STICKER_SIZE_RELATIVE_TO_CANVAS;
 
+                  const sticker = new MediaEditorFabricSticker(src);
                   sticker.scaleToHeight(size);
                   sticker.setPositionByOrigin(
                     new fabric.Point(
@@ -1111,142 +1242,182 @@ export function MediaEditor({
 
                   fabricCanvas.add(sticker);
                   fabricCanvas.setActiveObject(sticker);
-                }
-
-                setEditMode(undefined);
-              }}
-              receivedPacks={[]}
-              recentStickers={recentStickers}
-              showPickerHint={false}
-              theme={Theme.Dark}
-            />
-            <button
-              aria-label={i18n('icu:MediaEditor__control--crop')}
-              className={classNames({
-                MediaEditor__control: true,
-                'MediaEditor__control--crop': true,
-                'MediaEditor__control--selected': editMode === EditMode.Crop,
-              })}
-              onClick={() => {
-                if (!fabricCanvas) {
-                  return;
-                }
-                if (editMode === EditMode.Crop) {
-                  const obj = fabricCanvas.getActiveObject();
-                  if (obj instanceof MediaEditorFabricCropRect) {
-                    fabricCanvas.remove(obj);
+                  setEditMode(undefined);
+                }}
+                onPickTimeSticker={(style: 'analog' | 'digital') => {
+                  if (!fabricCanvas) {
+                    return;
                   }
+
+                  if (style === 'digital') {
+                    const sticker = new MediaEditorFabricDigitalTimeSticker(
+                      Date.now()
+                    );
+                    sticker.setPositionByOrigin(
+                      new fabric.Point(
+                        imageState.width / 2,
+                        imageState.height / 2
+                      ),
+                      'center',
+                      'center'
+                    );
+                    sticker.setCoords();
+
+                    fabricCanvas.add(sticker);
+                    fabricCanvas.setActiveObject(sticker);
+                  }
+
+                  if (style === 'analog') {
+                    const sticker = new MediaEditorFabricAnalogTimeSticker();
+                    const STICKER_SIZE_RELATIVE_TO_CANVAS = 4;
+                    const size =
+                      Math.min(imageState.width, imageState.height) /
+                      STICKER_SIZE_RELATIVE_TO_CANVAS;
+
+                    sticker.scaleToHeight(size);
+                    sticker.setPositionByOrigin(
+                      new fabric.Point(
+                        imageState.width / 2,
+                        imageState.height / 2
+                      ),
+                      'center',
+                      'center'
+                    );
+                    sticker.setCoords();
+
+                    fabricCanvas.add(sticker);
+                    fabricCanvas.setActiveObject(sticker);
+                  }
+
                   setEditMode(undefined);
-                } else {
-                  setEditMode(EditMode.Crop);
-                }
-              }}
-              type="button"
-            />
-            <button
-              aria-label={i18n('icu:MediaEditor__control--undo')}
-              className="MediaEditor__control MediaEditor__control--undo"
-              disabled={!canUndo}
-              onClick={() => {
-                if (editMode === EditMode.Crop) {
+                }}
+                receivedPacks={[]}
+                recentStickers={recentStickers}
+                showPickerHint={false}
+                theme={Theme.Dark}
+              />
+            </div>
+            <div className="MediaEditor__tools-row-2">
+              <div className="MediaEditor__tools--input dark-theme">
+                <CompositionInput
+                  draftText={caption}
+                  draftBodyRanges={hydratedBodyRanges}
+                  getPreferredBadge={getPreferredBadge}
+                  i18n={i18n}
+                  inputApi={inputApiRef}
+                  isFormattingEnabled={isFormattingEnabled}
+                  isFormattingFlagEnabled={isFormattingFlagEnabled}
+                  isFormattingSpoilersFlagEnabled={
+                    isFormattingSpoilersFlagEnabled
+                  }
+                  moduleClassName="StoryViewsNRepliesModal__input"
+                  onCloseLinkPreview={noop}
+                  onEditorStateChange={({ bodyRanges, messageText }) => {
+                    setCaptionBodyRanges(bodyRanges);
+                    setCaption(messageText);
+                  }}
+                  onPickEmoji={onPickEmoji}
+                  onSubmit={noop}
+                  onTextTooLong={onTextTooLong}
+                  placeholder={i18n('icu:MediaEditor__input-placeholder')}
+                  platform={platform}
+                  sendCounter={0}
+                  sortedGroupMembers={sortedGroupMembers}
+                  theme={ThemeType.dark}
+                >
+                  <EmojiButton
+                    className="StoryViewsNRepliesModal__emoji-button"
+                    i18n={i18n}
+                    onPickEmoji={insertEmoji}
+                    onOpen={() => setEmojiPopperOpen(true)}
+                    onClose={closeEmojiPickerAndFocusComposer}
+                    recentEmojis={recentEmojis}
+                    skinTone={skinTone}
+                    onSetSkinTone={onSetSkinTone}
+                  />
+                </CompositionInput>
+              </div>
+              <Button
+                disabled={!image || isSaving || isSending}
+                onClick={async () => {
+                  if (!fabricCanvas) {
+                    return;
+                  }
+
                   setEditMode(undefined);
-                }
-                undoIfPossible();
-              }}
-              type="button"
-            />
-            <button
-              aria-label={i18n('icu:MediaEditor__control--redo')}
-              className="MediaEditor__control MediaEditor__control--redo"
-              disabled={!canRedo}
-              onClick={() => {
-                if (editMode === EditMode.Crop) {
-                  setEditMode(undefined);
-                }
-                redoIfPossible();
-              }}
-              type="button"
-            />
-          </div>
-          <Button
-            disabled={!image || isSaving || isSending}
-            onClick={async () => {
-              if (!fabricCanvas) {
-                return;
-              }
+                  setIsSaving(true);
 
-              setEditMode(undefined);
-              setIsSaving(true);
+                  let data: Uint8Array;
+                  let blurHash: string;
+                  try {
+                    const renderFabricCanvas = await cloneFabricCanvas(
+                      fabricCanvas
+                    );
 
-              let data: Uint8Array;
-              let blurHash: string;
-              try {
-                const renderFabricCanvas = await cloneFabricCanvas(
-                  fabricCanvas
-                );
+                    renderFabricCanvas.remove(
+                      ...renderFabricCanvas
+                        .getObjects()
+                        .filter(obj => obj.excludeFromExport)
+                    );
 
-                renderFabricCanvas.remove(
-                  ...renderFabricCanvas
-                    .getObjects()
-                    .filter(obj => obj.excludeFromExport)
-                );
+                    let finalImageState: ImageStateType;
+                    const pendingCrop = getPendingCrop(fabricCanvas);
+                    if (pendingCrop) {
+                      finalImageState = getNewImageStateFromCrop(
+                        imageState,
+                        pendingCrop
+                      );
+                      moveFabricObjectsForCrop(renderFabricCanvas, pendingCrop);
+                      drawFabricBackgroundImage({
+                        fabricCanvas: renderFabricCanvas,
+                        image,
+                        imageState: finalImageState,
+                      });
+                    } else {
+                      finalImageState = imageState;
+                    }
 
-                let finalImageState: ImageStateType;
-                const pendingCrop = getPendingCrop(fabricCanvas);
-                if (pendingCrop) {
-                  finalImageState = getNewImageStateFromCrop(
-                    imageState,
-                    pendingCrop
-                  );
-                  moveFabricObjectsForCrop(renderFabricCanvas, pendingCrop);
-                  drawFabricBackgroundImage({
-                    fabricCanvas: renderFabricCanvas,
-                    image,
-                    imageState: finalImageState,
+                    renderFabricCanvas.setDimensions({
+                      width: finalImageState.width,
+                      height: finalImageState.height,
+                    });
+                    renderFabricCanvas.setZoom(1);
+                    const renderedCanvas = renderFabricCanvas.toCanvasElement();
+
+                    data = await canvasToBytes(renderedCanvas);
+
+                    const blob = new Blob([data], {
+                      type: IMAGE_PNG,
+                    });
+
+                    blurHash = await props.imageToBlurHash(blob);
+                  } catch (err) {
+                    onTryClose();
+                    throw err;
+                  } finally {
+                    setIsSaving(false);
+                  }
+
+                  onDone({
+                    contentType: IMAGE_PNG,
+                    data,
+                    caption: caption !== '' ? caption : undefined,
+                    captionBodyRanges,
+                    blurHash,
                   });
-                } else {
-                  finalImageState = imageState;
-                }
-
-                renderFabricCanvas.setDimensions({
-                  width: finalImageState.width,
-                  height: finalImageState.height,
-                });
-                renderFabricCanvas.setZoom(1);
-                const renderedCanvas = renderFabricCanvas.toCanvasElement();
-
-                data = await canvasToBytes(renderedCanvas);
-
-                const blob = new Blob([data], {
-                  type: IMAGE_PNG,
-                });
-
-                blurHash = await props.imageToBlurHash(blob);
-              } catch (err) {
-                onTryClose();
-                throw err;
-              } finally {
-                setIsSaving(false);
-              }
-
-              onDone({
-                contentType: IMAGE_PNG,
-                data,
-                caption: caption !== '' ? caption : undefined,
-                captionBodyRanges,
-                blurHash,
-              });
-            }}
-            theme={Theme.Dark}
-            variant={ButtonVariant.Primary}
-          >
-            {isSending ? (
-              <Spinner svgSize="small" />
-            ) : (
-              doneButtonLabel || i18n('icu:save')
-            )}
-          </Button>
-        </div>
+                }}
+                theme={Theme.Dark}
+                variant={ButtonVariant.Primary}
+              >
+                {isSending ? (
+                  <Spinner svgSize="small" />
+                ) : (
+                  doneButtonLabel || i18n('icu:save')
+                )}
+              </Button>
+            </div>
+          </>
+        )}
       </div>
       {confirmDiscardModal}
     </div>,

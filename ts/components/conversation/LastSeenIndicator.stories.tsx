@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
-import { number } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './LastSeenIndicator';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { setupI18n } from '../../util/setupI18n';
@@ -14,26 +12,19 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/LastSeenIndicator',
-};
+  argTypes: {
+    count: { control: { type: 'number' } },
+  },
+  args: {
+    i18n,
+    count: 1,
+  },
+} satisfies Meta<Props>;
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  count: number('count', overrideProps.count || 1),
-  i18n,
-});
-
-export function One(): JSX.Element {
-  const props = createProps();
-  return <LastSeenIndicator {...props} />;
+export function One(args: Props): JSX.Element {
+  return <LastSeenIndicator {...args} />;
 }
 
-export function MoreThanOne(): JSX.Element {
-  const props = createProps({
-    count: 5,
-  });
-
-  return <LastSeenIndicator {...props} />;
+export function MoreThanOne(args: Props): JSX.Element {
+  return <LastSeenIndicator {...args} count={5} />;
 }
-
-MoreThanOne.story = {
-  name: 'More than One',
-};

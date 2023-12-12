@@ -22,6 +22,7 @@ import { MAX_FRAME_WIDTH } from '../calling/constants';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { missingCaseError } from '../util/missingCaseError';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
+import { isReconnecting } from '../util/callingIsReconnecting';
 
 // This value should be kept in sync with the hard-coded CSS height. It should also be
 //   less than `MAX_FRAME_HEIGHT`.
@@ -154,6 +155,7 @@ export function CallingPipRemoteVideo({
             conversation={conversation}
             hasRemoteVideo={hasRemoteVideo}
             i18n={i18n}
+            isReconnecting={isReconnecting(activeCall)}
             setRendererCanvas={setRendererCanvas}
           />
         </div>
@@ -173,6 +175,7 @@ export function CallingPipRemoteVideo({
             remoteParticipant={activeGroupCallSpeaker}
             remoteParticipantsCount={activeCall.remoteParticipants.length}
             isActiveSpeakerInSpeakerView={false}
+            isCallReconnecting={isReconnecting(activeCall)}
           />
         </div>
       );

@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './GroupV2PendingApprovalActions';
 import { GroupV2PendingApprovalActions } from './GroupV2PendingApprovalActions';
 import { setupI18n } from '../../util/setupI18n';
@@ -19,7 +19,7 @@ const createProps = (): GroupV2PendingApprovalActionsPropsType => ({
 
 export default {
   title: 'Components/Conversation/GroupV2PendingApprovalActions',
-};
+} satisfies Meta<GroupV2PendingApprovalActionsPropsType>;
 
 export function Default(): JSX.Element {
   return <GroupV2PendingApprovalActions {...createProps()} />;

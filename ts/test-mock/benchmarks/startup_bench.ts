@@ -47,7 +47,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
               timestamp: bootstrap.getTimestamp(),
               messages: [
                 {
-                  senderUUID: contact.device.uuid,
+                  senderAci: contact.device.aci,
                   timestamp: messageTimestamp,
                 },
               ],
@@ -63,7 +63,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
           `Pong from mock server ${i + 1} / ${MESSAGE_BATCH_SIZE}`,
           {
             timestamp: messageTimestamp,
-            destinationUUID: contact.device.uuid,
+            destinationServiceId: contact.device.aci,
           }
         )
       );

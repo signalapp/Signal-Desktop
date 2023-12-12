@@ -10,7 +10,11 @@ import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
-import { Server, UUIDKind, loadCertificates } from '@signalapp/mock-server';
+import {
+  Server,
+  ServiceIdKind,
+  loadCertificates,
+} from '@signalapp/mock-server';
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
 import { drop } from '../util/drop';
@@ -66,6 +70,7 @@ export type BootstrapOptions = Readonly<{
   linkedDevices?: number;
   contactCount?: number;
   contactsWithoutProfileKey?: number;
+  unknownContactCount?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
 }>;
@@ -76,6 +81,7 @@ type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
     linkedDevices: number;
     contactCount: number;
     contactsWithoutProfileKey: number;
+    unknownContactCount: number;
     contactNames: ReadonlyArray<string>;
   }>;
 
@@ -110,6 +116,7 @@ export class Bootstrap {
   private readonly options: BootstrapInternalOptions;
   private privContacts?: ReadonlyArray<PrimaryDevice>;
   private privContactsWithoutProfileKey?: ReadonlyArray<PrimaryDevice>;
+  private privUnknownContacts?: ReadonlyArray<PrimaryDevice>;
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
@@ -126,6 +133,7 @@ export class Bootstrap {
       linkedDevices: 5,
       contactCount: MAX_CONTACTS,
       contactsWithoutProfileKey: 0,
+      unknownContactCount: 0,
       contactNames: CONTACT_NAMES,
       benchmark: false,
 
@@ -133,7 +141,9 @@ export class Bootstrap {
     };
 
     assert(
-      this.options.contactCount + this.options.contactsWithoutProfileKey <=
+      this.options.contactCount +
+        this.options.contactsWithoutProfileKey +
+        this.options.unknownContactCount <=
         this.options.contactNames.length
     );
   }
@@ -146,13 +156,8 @@ export class Bootstrap {
     const { port } = this.server.address();
     debug('started server on port=%d', port);
 
-    const contactNames = this.options.contactNames.slice(
-      0,
-      this.options.contactCount + this.options.contactsWithoutProfileKey
-    );
-
     const allContacts = await Promise.all(
-      contactNames.map(async profileName => {
+      this.options.contactNames.map(async profileName => {
         const primary = await this.server.createPrimaryDevice({
           profileName,
         });
@@ -166,9 +171,14 @@ export class Bootstrap {
       })
     );
 
-    this.privContacts = allContacts.slice(0, this.options.contactCount);
-    this.privContactsWithoutProfileKey = allContacts.slice(
-      this.contacts.length
+    this.privContacts = allContacts.splice(0, this.options.contactCount);
+    this.privContactsWithoutProfileKey = allContacts.splice(
+      0,
+      this.options.contactsWithoutProfileKey
+    );
+    this.privUnknownContacts = allContacts.splice(
+      0,
+      this.options.unknownContactCount
     );
 
     this.privPhone = await this.server.createPrimaryDevice({
@@ -233,11 +243,11 @@ export class Bootstrap {
     await this.phone.addSingleUseKey(this.desktop, desktopKey);
 
     for (const contact of this.allContacts) {
-      for (const uuidKind of [UUIDKind.ACI, UUIDKind.PNI]) {
+      for (const serviceIdKind of [ServiceIdKind.ACI, ServiceIdKind.PNI]) {
         // eslint-disable-next-line no-await-in-loop
-        const contactKey = await this.desktop.popSingleUseKey(uuidKind);
+        const contactKey = await this.desktop.popSingleUseKey(serviceIdKind);
         // eslint-disable-next-line no-await-in-loop
-        await contact.addSingleUseKey(this.desktop, contactKey, uuidKind);
+        await contact.addSingleUseKey(this.desktop, contactKey, serviceIdKind);
       }
     }
 
@@ -265,21 +275,44 @@ export class Bootstrap {
     debug('starting the app');
 
     const { port } = this.server.address();
+    const config = await this.generateConfig(port);
 
-    const app = new App({
-      main: ELECTRON,
-      args: [CI_SCRIPT],
-      config: await this.generateConfig(port),
-    });
-
-    await app.start();
-
-    this.lastApp = app;
-    app.on('close', () => {
-      if (this.lastApp === app) {
-        this.lastApp = undefined;
+    let startAttempts = 0;
+    const MAX_ATTEMPTS = 5;
+    let app: App | undefined;
+    while (!app) {
+      startAttempts += 1;
+      if (startAttempts > MAX_ATTEMPTS) {
+        throw new Error(
+          `App failed to start after ${MAX_ATTEMPTS} times, giving up`
+        );
       }
-    });
+      const startedApp = new App({
+        main: ELECTRON,
+        args: [CI_SCRIPT],
+        config,
+      });
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await startedApp.start();
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `Failed to start the app, attempt ${startAttempts}, retrying`,
+          error
+        );
+        continue;
+      }
+
+      this.lastApp = startedApp;
+      startedApp.on('close', () => {
+        if (this.lastApp === startedApp) {
+          this.lastApp = undefined;
+        }
+      });
+
+      app = startedApp;
+    }
 
     return app;
   }
@@ -326,6 +359,12 @@ export class Bootstrap {
     const { logsDir } = this;
     await fs.rename(logsDir, outDir);
 
+    const page = await app?.getWindow();
+    if (process.env.TRACING) {
+      await page
+        ?.context()
+        .tracing.stop({ path: path.join(outDir, 'trace.zip') });
+    }
     if (app) {
       const window = await app.getWindow();
       const screenshot = await window.screenshot();
@@ -368,9 +407,20 @@ export class Bootstrap {
     );
     return this.privContactsWithoutProfileKey;
   }
+  public get unknownContacts(): ReadonlyArray<PrimaryDevice> {
+    assert(
+      this.privUnknownContacts,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+    return this.privUnknownContacts;
+  }
 
   public get allContacts(): ReadonlyArray<PrimaryDevice> {
-    return [...this.contacts, ...this.contactsWithoutProfileKey];
+    return [
+      ...this.contacts,
+      ...this.contactsWithoutProfileKey,
+      ...this.unknownContacts,
+    ];
   }
 
   //
@@ -389,6 +439,9 @@ export class Bootstrap {
 
     try {
       await pTimeout(fn(bootstrap), timeout);
+      if (process.env.FORCE_ARTIFACT_SAVE) {
+        await bootstrap.saveLogs();
+      }
     } catch (error) {
       await bootstrap.saveLogs();
       throw error;

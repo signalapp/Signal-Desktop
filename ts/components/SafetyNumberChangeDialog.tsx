@@ -21,11 +21,13 @@ import { ContextMenu } from './ContextMenu';
 import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
 import { MY_STORY_ID } from '../types/Stories';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import { UserText } from './UserText';
 
 export enum SafetyNumberChangeSource {
-  Calling = 'Calling',
+  InitiateCall = 'InitiateCall',
+  JoinCall = 'JoinCall',
   MessageSend = 'MessageSend',
   Story = 'Story',
 }
@@ -48,7 +50,7 @@ type StoryContacts = {
     // For My Story or custom distribution lists, conversationId will be our own
     conversationId: string;
     // For Group stories, distributionId will not be provided
-    distributionId?: string;
+    distributionId?: StoryDistributionIdString;
   };
   contacts: Array<ConversationType>;
 };
@@ -62,8 +64,8 @@ export type Props = Readonly<{
   onCancel: () => void;
   onConfirm: () => void;
   removeFromStory?: (
-    distributionId: string,
-    uuids: Array<UUIDStringType>
+    distributionId: StoryDistributionIdString,
+    serviceIds: Array<ServiceIdString>
   ) => unknown;
   renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
   theme: ThemeType;
@@ -275,8 +277,8 @@ function ContactSection({
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   removeFromStory?: (
-    distributionId: string,
-    uuids: Array<UUIDStringType>
+    distributionId: StoryDistributionIdString,
+    serviceIds: Array<ServiceIdString>
   ) => unknown;
   setSelectedContact: (contact: ConversationType) => void;
   theme: ThemeType;
@@ -309,7 +311,9 @@ function ContactSection({
   }
 
   const { distributionId } = section.story;
-  const uuids = section.contacts.map(contact => contact.uuid).filter(isNotNil);
+  const serviceIds = section.contacts
+    .map(contact => contact.serviceId)
+    .filter(isNotNil);
   const sectionName =
     distributionId === MY_STORY_ID
       ? i18n('icu:Stories__mine')
@@ -321,17 +325,17 @@ function ContactSection({
         <div className="module-SafetyNumberChangeDialog__row__story-name">
           {sectionName}
         </div>
-        {distributionId && removeFromStory && uuids.length > 1 && (
+        {distributionId && removeFromStory && serviceIds.length > 1 && (
           <SectionButtonWithMenu
             ariaLabel={i18n('icu:safetyNumberChangeDialog__actions-story', {
               story: sectionName,
             })}
             i18n={i18n}
-            memberCount={uuids.length}
+            memberCount={serviceIds.length}
             storyName={sectionName}
             theme={theme}
             removeFromStory={() => {
-              removeFromStory(distributionId, uuids);
+              removeFromStory(distributionId, serviceIds);
             }}
           />
         )}
@@ -431,18 +435,18 @@ function ContactRow({
   theme,
 }: Readonly<{
   contact: ConversationType;
-  distributionId?: string;
+  distributionId?: StoryDistributionIdString;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   removeFromStory?: (
-    distributionId: string,
-    uuids: Array<UUIDStringType>
+    distributionId: StoryDistributionIdString,
+    serviceIds: Array<ServiceIdString>
   ) => unknown;
   setSelectedContact: (contact: ConversationType) => void;
   shouldShowNumber: boolean;
   theme: ThemeType;
 }>) {
-  const { uuid } = contact;
+  const { serviceId } = contact;
 
   return (
     <li className="module-SafetyNumberChangeDialog__row" key={contact.id}>
@@ -492,14 +496,14 @@ function ContactRow({
           </div>
         ) : null}
       </div>
-      {distributionId && removeFromStory && uuid ? (
+      {distributionId && removeFromStory && serviceId ? (
         <RowButtonWithMenu
           ariaLabel={i18n('icu:safetyNumberChangeDialog__actions-contact', {
             contact: contact.title,
           })}
           i18n={i18n}
           theme={theme}
-          removeFromStory={() => removeFromStory(distributionId, [uuid])}
+          removeFromStory={() => removeFromStory(distributionId, [serviceId])}
           verifyContact={() => setSelectedContact(contact)}
         />
       ) : (

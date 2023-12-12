@@ -4,12 +4,14 @@
 import type { ElectronApplication, Locator, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
 import { EventEmitter } from 'events';
+import pTimeout from 'p-timeout';
 
 import type {
   IPCRequest as ChallengeRequestType,
   IPCResponse as ChallengeResponseType,
 } from '../challenge';
 import type { ReceiptType } from '../types/Receipt';
+import { SECOND } from '../util/durations';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -40,6 +42,8 @@ export type AppOptionsType = Readonly<{
   config: string;
 }>;
 
+const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
+
 export class App extends EventEmitter {
   private privApp: ElectronApplication | undefined;
 
@@ -48,15 +52,38 @@ export class App extends EventEmitter {
   }
 
   public async start(): Promise<void> {
-    this.privApp = await electron.launch({
-      executablePath: this.options.main,
-      args: this.options.args.slice(),
-      env: {
-        ...process.env,
-        SIGNAL_CI_CONFIG: this.options.config,
-      },
-      locale: 'en',
-    });
+    try {
+      // launch the electron processs
+      this.privApp = await electron.launch({
+        executablePath: this.options.main,
+        args: this.options.args.slice(),
+        env: {
+          ...process.env,
+          SIGNAL_CI_CONFIG: this.options.config,
+        },
+        locale: 'en',
+        timeout: 30 * SECOND,
+      });
+
+      // wait for the first window to load
+      await pTimeout(
+        (async () => {
+          const page = await this.getWindow();
+          if (process.env.TRACING) {
+            await page.context().tracing.start({
+              name: 'tracing',
+              screenshots: true,
+              snapshots: true,
+            });
+          }
+          await page?.waitForLoadState('load');
+        })(),
+        20 * SECOND
+      );
+    } catch (e) {
+      this.privApp?.process().kill('SIGKILL');
+      throw e;
+    }
 
     this.privApp.on('close', () => this.emit('close'));
   }
@@ -76,6 +103,10 @@ export class App extends EventEmitter {
 
   public async waitForProvisionURL(): Promise<string> {
     return this.waitForEvent('provisioning-url');
+  }
+
+  public async waitForDbInitialized(): Promise<void> {
+    return this.waitForEvent('db-initialized');
   }
 
   public async waitUntilLoaded(): Promise<AppLoadedInfoType> {
@@ -129,6 +160,13 @@ export class App extends EventEmitter {
     return this.app.firstWindow();
   }
 
+  public async openSignalRoute(url: URL | string): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate(
+      `window.SignalCI.openSignalRoute(${JSON.stringify(url.toString())})`
+    );
+  }
+
   // EventEmitter types
 
   public override on(type: 'close', callback: () => void): this;
@@ -152,11 +190,15 @@ export class App extends EventEmitter {
   // Private
   //
 
-  private async waitForEvent<T>(event: string): Promise<T> {
+  private async waitForEvent<T>(
+    event: string,
+    timeout = WAIT_FOR_EVENT_TIMEOUT
+  ): Promise<T> {
     const window = await this.getWindow();
 
     const result = await window.evaluate(
-      `window.SignalCI.waitForEvent(${JSON.stringify(event)})`
+      `window.SignalCI.waitForEvent(${JSON.stringify(event)})`,
+      { timeout }
     );
 
     return result as T;

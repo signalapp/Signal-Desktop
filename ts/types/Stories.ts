@@ -9,7 +9,8 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStatus } from '../messages/MessageSendState';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
-import type { UUIDStringType } from './UUID';
+import type { ServiceIdString } from './ServiceId';
+import type { StoryDistributionIdString } from './StoryDistributionId';
 
 export type ReplyType = {
   author: Pick<
@@ -93,7 +94,7 @@ export type StoryViewType = {
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
-    | 'uuid'
+    | 'serviceId'
   >;
   sendState?: Array<StorySendStateType>;
   timestamp: number;
@@ -102,14 +103,15 @@ export type StoryViewType = {
 };
 
 export type MyStoryType = {
-  id: string;
+  // Either a distribution list id or a conversation (group) id
+  id: StoryDistributionIdString | string;
   name: string;
   reducedSendStatus: ResolvedSendStatus;
   stories: Array<StoryViewType>;
 };
 
-export const MY_STORY_ID: UUIDStringType =
-  '00000000-0000-0000-0000-000000000000';
+export const MY_STORY_ID: StoryDistributionIdString =
+  '00000000-0000-0000-0000-000000000000' as StoryDistributionIdString;
 
 export enum StoryViewDirectionType {
   Next = 'Next',
@@ -138,14 +140,15 @@ export enum StoryViewModeType {
 
 export type StoryDistributionListWithMembersDataType = Omit<
   StoryDistributionListDataType,
-  'memberUuids'
+  'memberServiceIds'
 > & {
   members: Array<ConversationType>;
 };
 
 export function getStoryDistributionListName(
   i18n: LocalizerType,
-  id: string,
+  // Distribution id or conversation (group) id
+  id: StoryDistributionIdString | string | undefined,
   name: string
 ): string {
   return id === MY_STORY_ID ? i18n('icu:Stories__mine') : name;
@@ -170,8 +173,7 @@ export enum ResolvedSendStatus {
 }
 
 export type StoryMessageRecipientsType = Array<{
-  destinationAci?: string;
-  destinationPni?: string;
-  distributionListIds: Array<string>;
+  destinationServiceId?: ServiceIdString;
+  distributionListIds: Array<StoryDistributionIdString>;
   isAllowedToReply: boolean;
 }>;

@@ -5,8 +5,37 @@ import Fuse from 'fuse.js';
 import { get } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
+import type { AciString } from '../types/ServiceId';
+import { isAciString } from '../util/isAciString';
 import { filter, map } from '../util/iterables';
 import { removeDiacritics } from '../util/removeDiacritics';
+import { isNotNil } from '../util/isNotNil';
+
+export type MemberType = Omit<ConversationType, 'serviceId'> &
+  Readonly<{
+    aci: AciString;
+  }>;
+
+function toMember({
+  serviceId,
+  ...restOfConvo
+}: ConversationType): MemberType | undefined {
+  if (!isAciString(serviceId)) {
+    return undefined;
+  }
+
+  return {
+    ...restOfConvo,
+    aci: serviceId,
+  };
+}
+
+// Exported for testing
+export function _toMembers(
+  conversations: ReadonlyArray<ConversationType>
+): Array<MemberType> {
+  return conversations.map(toMember).filter(isNotNil);
+}
 
 const FUSE_OPTIONS = {
   location: 0,
@@ -16,7 +45,7 @@ const FUSE_OPTIONS = {
   minMatchCharLength: 1,
   keys: ['name', 'firstName', 'profileName', 'title'],
   getFn(
-    conversation: Readonly<ConversationType>,
+    conversation: Readonly<MemberType>,
     path: string | Array<string>
   ): ReadonlyArray<string> | string {
     // It'd be nice to avoid this cast, but Fuse's types don't allow it.
@@ -39,21 +68,21 @@ const FUSE_OPTIONS = {
 };
 
 export class MemberRepository {
+  private members: ReadonlyArray<MemberType>;
   private isFuseReady = false;
 
-  private fuse: Fuse<ConversationType> = new Fuse<ConversationType>(
-    [],
-    FUSE_OPTIONS
-  );
+  private fuse = new Fuse<MemberType>([], FUSE_OPTIONS);
 
-  constructor(private members: ReadonlyArray<ConversationType> = []) {}
+  constructor(conversations: ReadonlyArray<ConversationType> = []) {
+    this.members = _toMembers(conversations);
+  }
 
-  updateMembers(members: ReadonlyArray<ConversationType>): void {
-    this.members = members;
+  updateMembers(conversations: ReadonlyArray<ConversationType>): void {
+    this.members = _toMembers(conversations);
     this.isFuseReady = false;
   }
 
-  getMembers(omit?: ConversationType): ReadonlyArray<ConversationType> {
+  getMembers(omit?: Pick<MemberType, 'id'>): ReadonlyArray<MemberType> {
     if (omit) {
       return this.members.filter(({ id }) => id !== omit.id);
     }
@@ -61,22 +90,22 @@ export class MemberRepository {
     return this.members;
   }
 
-  getMemberById(id?: string): ConversationType | undefined {
+  getMemberById(id?: string): MemberType | undefined {
     return id
       ? this.members.find(({ id: memberId }) => memberId === id)
       : undefined;
   }
 
-  getMemberByUuid(uuid?: string): ConversationType | undefined {
-    return uuid
-      ? this.members.find(({ uuid: memberUuid }) => memberUuid === uuid)
+  getMemberByAci(aci?: AciString): MemberType | undefined {
+    return aci
+      ? this.members.find(({ aci: memberAci }) => memberAci === aci)
       : undefined;
   }
 
   search(
     pattern: string,
-    omit?: ConversationType
-  ): ReadonlyArray<ConversationType> {
+    omit?: Pick<MemberType, 'id'>
+  ): ReadonlyArray<MemberType> {
     if (!this.isFuseReady) {
       this.fuse.setCollection(this.members);
       this.isFuseReady = true;

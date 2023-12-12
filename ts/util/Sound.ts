@@ -124,11 +124,11 @@ export class Sound {
     }
 
     if (soundStyle === SoundType.VoiceNoteEnd) {
-      return 'sounds/state-change_confirm-down.ogg';
+      return 'sounds/state-change_confirm-up.ogg';
     }
 
     if (soundStyle === SoundType.VoiceNoteStart) {
-      return 'sounds/state-change_confirm-up.ogg';
+      return 'sounds/state-change_confirm-down.ogg';
     }
 
     if (soundStyle === SoundType.Whoosh) {

@@ -11,8 +11,7 @@ import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { strictAssert } from '../util/assert';
 import { sleep } from '../util/sleep';
 import { getMinNickname, getMaxNickname } from '../util/Username';
-import { bytesToUuid } from '../Crypto';
-import { uuidToBytes } from '../util/uuidToBytes';
+import { bytesToUuid, uuidToBytes } from '../util/uuidToBytes';
 import type { UsernameReservationType } from '../types/Username';
 import { ReserveUsernameError, ConfirmUsernameResult } from '../types/Username';
 import * as Errors from '../types/errors';
@@ -187,6 +186,8 @@ export async function confirmUsername(
       usernames.createUsernameLink(username);
 
     await window.storage.remove('usernameLink');
+    await window.storage.remove('usernameCorrupted');
+    await window.storage.remove('usernameLinkCorrupted');
 
     const { usernameLinkHandle: serverIdString } = await server.confirmUsername(
       {
@@ -224,7 +225,7 @@ export async function confirmUsername(
 }
 
 export async function deleteUsername(
-  previousUsername: string,
+  previousUsername: string | undefined,
   abortSignal?: AbortSignal
 ): Promise<void> {
   const { server } = window.textsecure;
@@ -239,6 +240,7 @@ export async function deleteUsername(
   }
 
   await window.storage.remove('usernameLink');
+  await window.storage.remove('usernameCorrupted');
   await server.deleteUsername(abortSignal);
   await updateUsernameAndSyncProfile(undefined);
 }
@@ -258,6 +260,7 @@ export async function resetLink(username: string): Promise<void> {
   const { entropy, encryptedUsername } = usernames.createUsernameLink(username);
 
   await window.storage.remove('usernameLink');
+  await window.storage.remove('usernameLinkCorrupted');
 
   const { usernameLinkHandle: serverIdString } =
     await server.replaceUsernameLink({ encryptedUsername });
@@ -275,26 +278,45 @@ const USERNAME_LINK_ENTROPY_SIZE = 32;
 
 export async function resolveUsernameByLinkBase64(
   base64: string
-): Promise<string> {
+): Promise<string | undefined> {
+  const content = Bytes.fromBase64(base64);
+  const entropy = content.slice(0, USERNAME_LINK_ENTROPY_SIZE);
+  const serverId = content.slice(USERNAME_LINK_ENTROPY_SIZE);
+
+  return resolveUsernameByLink({ entropy, serverId });
+}
+
+export type ResolveUsernameByLinkOptionsType = Readonly<{
+  entropy: Uint8Array;
+  serverId: Uint8Array;
+}>;
+
+export async function resolveUsernameByLink({
+  entropy,
+  serverId: serverIdBytes,
+}: ResolveUsernameByLinkOptionsType): Promise<string | undefined> {
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('server interface is not available!');
   }
 
-  const content = Bytes.fromBase64(base64);
-  const entropy = content.slice(0, USERNAME_LINK_ENTROPY_SIZE);
-  const serverIdBytes = content.slice(USERNAME_LINK_ENTROPY_SIZE);
-
   const serverId = bytesToUuid(serverIdBytes);
   strictAssert(serverId, 'Failed to re-encode server id as uuid');
 
   strictAssert(window.textsecure.server, 'WebAPI must be available');
-  const { usernameLinkEncryptedValue } = await server.resolveUsernameLink(
-    serverId
-  );
+  try {
+    const { usernameLinkEncryptedValue } = await server.resolveUsernameLink(
+      serverId
+    );
 
-  return usernames.decryptUsernameLink({
-    entropy: Buffer.from(entropy),
-    encryptedUsername: Buffer.from(usernameLinkEncryptedValue),
-  });
+    return usernames.decryptUsernameLink({
+      entropy: Buffer.from(entropy),
+      encryptedUsername: Buffer.from(usernameLinkEncryptedValue),
+    });
+  } catch (error) {
+    if (error instanceof HTTPError && error.code === 404) {
+      return undefined;
+    }
+    throw error;
+  }
 }

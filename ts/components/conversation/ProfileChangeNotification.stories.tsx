@@ -2,17 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
+import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import type { PropsType } from './ProfileChangeNotification';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ProfileChangeNotification',
-};
+} satisfies Meta<PropsType>;
 
 export function FromContact(): JSX.Element {
   return (
@@ -33,10 +34,6 @@ export function FromContact(): JSX.Element {
   );
 }
 
-FromContact.story = {
-  name: 'From contact',
-};
-
 export function FromNonContact(): JSX.Element {
   return (
     <ProfileChangeNotification
@@ -55,10 +52,6 @@ export function FromNonContact(): JSX.Element {
   );
 }
 
-FromNonContact.story = {
-  name: 'From non-contact',
-};
-
 export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
   return (
     <ProfileChangeNotification
@@ -76,7 +69,3 @@ export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
     />
   );
 }
-
-FromContactWithLongNamesBeforeAndAfter.story = {
-  name: 'From contact with long names before and after',
-};

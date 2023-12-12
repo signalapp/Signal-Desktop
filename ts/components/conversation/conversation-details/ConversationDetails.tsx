@@ -4,6 +4,7 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
 
+import classNames from 'classnames';
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 import type {
@@ -52,6 +53,37 @@ import type {
 import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 import { PanelType } from '../../../types/Panels';
+import type { CallStatus } from '../../../types/CallDisposition';
+import {
+  CallType,
+  type CallHistoryGroup,
+  CallDirection,
+  DirectCallStatus,
+  GroupCallStatus,
+} from '../../../types/CallDisposition';
+import { formatDate, formatTime } from '../../../util/timestamp';
+import { NavTab } from '../../../state/ducks/nav';
+
+function describeCallHistory(
+  i18n: LocalizerType,
+  type: CallType,
+  direction: CallDirection,
+  status: CallStatus
+): string {
+  if (status === DirectCallStatus.Missed || status === GroupCallStatus.Missed) {
+    if (direction === CallDirection.Incoming) {
+      return i18n('icu:CallHistory__Description--Missed', { type });
+    }
+    return i18n('icu:CallHistory__Description--Unanswered', { type });
+  }
+  if (
+    status === DirectCallStatus.Declined ||
+    status === GroupCallStatus.Declined
+  ) {
+    return i18n('icu:CallHistory__Description--Declined', { type });
+  }
+  return i18n('icu:CallHistory__Description--Default', { type, direction });
+}
 
 enum ModalState {
   NothingOpen,
@@ -65,6 +97,7 @@ enum ModalState {
 export type StateProps = {
   areWeASubscriber: boolean;
   badges?: ReadonlyArray<BadgeType>;
+  callHistoryGroup?: CallHistoryGroup | null;
   canEditGroupInfo: boolean;
   canAddNewMembers: boolean;
   conversation?: ConversationType;
@@ -80,6 +113,7 @@ export type StateProps = {
   memberships: ReadonlyArray<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
+  selectedNavTab: NavTab;
   theme: ThemeType;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   renderChooseGroupMembersModal: (
@@ -101,6 +135,7 @@ type ActionProps = {
     }
   ) => unknown;
   blockConversation: (id: string) => void;
+
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
@@ -153,6 +188,7 @@ export function ConversationDetails({
   areWeASubscriber,
   badges,
   blockConversation,
+  callHistoryGroup,
   canEditGroupInfo,
   canAddNewMembers,
   conversation,
@@ -180,6 +216,7 @@ export function ConversationDetails({
   replaceAvatar,
   saveAvatarToDisk,
   searchInConversation,
+  selectedNavTab,
   setDisappearingMessages,
   setMuteExpiration,
   showContactModal,
@@ -364,6 +401,20 @@ export function ConversationDetails({
       />
 
       <div className="ConversationDetails__header-buttons">
+        {selectedNavTab === NavTab.Calls && (
+          <Button
+            icon={ButtonIconType.message}
+            onClick={() => {
+              showConversation({
+                conversationId: conversation?.id,
+                switchToAssociatedView: true,
+              });
+            }}
+            variant={ButtonVariant.Details}
+          >
+            {i18n('icu:ConversationDetails__HeaderButton--Message')}
+          </Button>
+        )}
         {!conversation.isMe && (
           <>
             <ConversationDetailsCallButton
@@ -397,16 +448,56 @@ export function ConversationDetails({
         >
           {isMuted ? i18n('icu:unmute') : i18n('icu:mute')}
         </Button>
-        <Button
-          icon={ButtonIconType.search}
-          onClick={() => {
-            searchInConversation(conversation.id);
-          }}
-          variant={ButtonVariant.Details}
-        >
-          {i18n('icu:search')}
-        </Button>
+        {selectedNavTab !== NavTab.Calls && (
+          <Button
+            icon={ButtonIconType.search}
+            onClick={() => {
+              searchInConversation(conversation.id);
+            }}
+            variant={ButtonVariant.Details}
+          >
+            {i18n('icu:search')}
+          </Button>
+        )}
       </div>
+
+      {callHistoryGroup && (
+        <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
+          <ol className="ConversationDetails__CallHistoryGroup__List">
+            {callHistoryGroup.children.map(child => {
+              return (
+                <li
+                  key={child.callId}
+                  className="ConversationDetails__CallHistoryGroup__Item"
+                >
+                  <span
+                    className={classNames(
+                      'ConversationDetails__CallHistoryGroup__ItemIcon',
+                      {
+                        'ConversationDetails__CallHistoryGroup__ItemIcon--Audio':
+                          callHistoryGroup.type === CallType.Audio,
+                        'ConversationDetails__CallHistoryGroup__ItemIcon--Video':
+                          callHistoryGroup.type !== CallType.Audio,
+                      }
+                    )}
+                  />
+                  <span className="ConversationDetails__CallHistoryGroup__ItemLabel">
+                    {describeCallHistory(
+                      i18n,
+                      callHistoryGroup.type,
+                      callHistoryGroup.direction,
+                      callHistoryGroup.status
+                    )}
+                  </span>
+                  <span className="ConversationDetails__CallHistoryGroup__ItemTimestamp">
+                    {formatTime(i18n, child.timestamp, Date.now(), false)}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </PanelSection>
+      )}
 
       <PanelSection>
         {!isGroup || canEditGroupInfo ? (
@@ -440,28 +531,30 @@ export function ConversationDetails({
             }
           />
         ) : null}
-        <PanelRow
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('icu:showChatColorEditor')}
-              icon={IconType.color}
-            />
-          }
-          label={i18n('icu:showChatColorEditor')}
-          onClick={() => {
-            pushPanelForConversation({
-              type: PanelType.ChatColorEditor,
-            });
-          }}
-          right={
-            <div
-              className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
-              style={{
-                ...getCustomColorStyle(conversation.customColor),
-              }}
-            />
-          }
-        />
+        {selectedNavTab === NavTab.Chats && (
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:showChatColorEditor')}
+                icon={IconType.color}
+              />
+            }
+            label={i18n('icu:showChatColorEditor')}
+            onClick={() => {
+              pushPanelForConversation({
+                type: PanelType.ChatColorEditor,
+              });
+            }}
+            right={
+              <div
+                className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
+                style={{
+                  ...getCustomColorStyle(conversation.customColor),
+                }}
+              />
+            }
+          />
+        )}
         {isGroup && (
           <PanelRow
             icon={

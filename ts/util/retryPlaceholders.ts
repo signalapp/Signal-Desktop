@@ -4,6 +4,7 @@
 import { z } from 'zod';
 import { groupBy } from 'lodash';
 import * as log from '../logging/log';
+import { aciSchema } from '../types/ServiceId';
 
 const retryItemSchema = z
   .object({
@@ -11,7 +12,7 @@ const retryItemSchema = z
     sentAt: z.number(),
     receivedAt: z.number(),
     receivedAtCounter: z.number(),
-    senderUuid: z.string(),
+    senderAci: aciSchema,
     wasOpened: z.boolean().optional(),
   })
   .passthrough();

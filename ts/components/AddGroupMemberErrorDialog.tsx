@@ -23,7 +23,7 @@ type PropsDataType =
       recommendedMaximumNumberOfContacts: number;
     };
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   onClose: () => void;
 } & PropsDataType;

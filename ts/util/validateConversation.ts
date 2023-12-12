@@ -3,7 +3,7 @@
 
 import type { ValidateConversationType } from '../model-types.d';
 import { isDirectConversation } from './whatTypeOfConversation';
-import { isValidUuid } from '../types/UUID';
+import { isServiceIdString } from '../types/ServiceId';
 
 export function validateConversation(
   attributes: ValidateConversationType
@@ -12,11 +12,11 @@ export function validateConversation(
     return `Invalid conversation type: ${attributes.type}`;
   }
 
-  if (!attributes.e164 && !attributes.uuid && !attributes.groupId) {
-    return 'Missing one of e164, uuid, or groupId';
+  if (!attributes.e164 && !attributes.serviceId && !attributes.groupId) {
+    return 'Missing one of e164, serviceId, or groupId';
   }
 
-  const error = validateNumber(attributes) || validateUuid(attributes);
+  const error = validateNumber(attributes) || validateServiceId(attributes);
 
   if (error) {
     return error;
@@ -38,13 +38,15 @@ function validateNumber(attributes: ValidateConversationType): string | null {
   return null;
 }
 
-function validateUuid(attributes: ValidateConversationType): string | null {
-  if (isDirectConversation(attributes) && attributes.uuid) {
-    if (isValidUuid(attributes.uuid)) {
+function validateServiceId(
+  attributes: ValidateConversationType
+): string | null {
+  if (isDirectConversation(attributes) && attributes.serviceId) {
+    if (isServiceIdString(attributes.serviceId)) {
       return null;
     }
 
-    return 'Invalid UUID';
+    return 'Invalid ServiceId';
   }
 
   return null;

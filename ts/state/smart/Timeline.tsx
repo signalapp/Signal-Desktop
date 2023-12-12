@@ -19,7 +19,7 @@ import type { ConversationType } from '../ducks/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getMessages,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getConversationMessagesSelector,
   getConversationSelector,
   getConversationsByTitleSelector,
@@ -98,8 +98,8 @@ function renderHeroRow(id: string): JSX.Element {
 function renderMiniPlayer(options: { shouldFlow: boolean }): JSX.Element {
   return <SmartMiniPlayer {...options} />;
 }
-function renderTypingBubble(id: string): JSX.Element {
-  return <SmartTypingBubble id={id} />;
+function renderTypingBubble(conversationId: string): JSX.Element {
+  return <SmartTypingBubble conversationId={conversationId} />;
 }
 
 const getWarning = (
@@ -139,11 +139,12 @@ const getWarning = (
         return undefined;
       }
 
-      const getConversationByUuid = getConversationByUuidSelector(state);
+      const getConversationByServiceId =
+        getConversationByServiceIdSelector(state);
 
       const { memberships } = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       );
       const groupNameCollisions = getCollisionsFromMemberships(memberships);
       const hasGroupMembersWithSameName = !isEmpty(groupNameCollisions);
@@ -174,7 +175,7 @@ const getContactSpoofingReview = (
   }
 
   const conversationSelector = getConversationSelector(state);
-  const getConversationByUuid = getConversationByUuidSelector(state);
+  const getConversationByServiceId = getConversationByServiceIdSelector(state);
 
   const currentConversation = conversationSelector(selectedConversationId);
 
@@ -194,7 +195,7 @@ const getContactSpoofingReview = (
       );
       const { memberships } = getGroupMemberships(
         currentConversation,
-        getConversationByUuid
+        getConversationByServiceId
       );
       const groupNameCollisions = getCollisionsFromMemberships(memberships);
 
@@ -240,13 +241,16 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       'unreadCount',
       'unreadMentionsCount',
       'isGroupV1AndDisabled',
+      'typingContactIdTimestamps',
     ]),
     isConversationSelected: state.conversations.selectedConversationId === id,
     isIncomingMessageRequest: Boolean(
       conversation.messageRequestsEnabled &&
         !conversation.acceptedMessageRequest
     ),
-    isSomeoneTyping: Boolean(conversation.typingContactId),
+    isSomeoneTyping: Boolean(
+      Object.keys(conversation.typingContactIdTimestamps ?? {}).length > 0
+    ),
     ...conversationMessages,
 
     invitedContactsForNewlyCreatedGroup:

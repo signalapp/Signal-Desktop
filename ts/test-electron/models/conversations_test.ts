@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
+
 import { SendStatus } from '../../messages/MessageSendState';
 import { IMAGE_PNG } from '../../types/MIME';
-import { UUID } from '../../types/UUID';
+import { generateAci, generatePni } from '../../types/ServiceId';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {
@@ -18,15 +20,15 @@ describe('Conversations', () => {
 
   it('updates lastMessage even in race conditions with db', async () => {
     const ourNumber = '+15550000000';
-    const ourUuid = UUID.generate().toString();
-    const ourPni = UUID.generate().toString();
+    const ourAci = generateAci();
+    const ourPni = generatePni();
 
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
       avatars: [],
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       e164: '+15551234567',
-      uuid: UUID.generate().toString(),
+      serviceId: generateAci(),
       type: 'private',
       inbox_position: 0,
       isPinned: false,
@@ -40,7 +42,7 @@ describe('Conversations', () => {
 
     await window.textsecure.storage.user.setCredentials({
       number: ourNumber,
-      uuid: ourUuid,
+      aci: ourAci,
       pni: ourPni,
       deviceId: 2,
       deviceName: 'my device',
@@ -63,7 +65,7 @@ describe('Conversations', () => {
       hasAttachments: false,
       hasFileAttachments: false,
       hasVisualMediaAttachments: false,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       received_at: now,
       sent_at: now,
       timestamp: now,
@@ -79,9 +81,13 @@ describe('Conversations', () => {
     // Saving to db and updating the convo's last message
     await window.Signal.Data.saveMessage(message.attributes, {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
-    message = window.MessageController.register(message.id, message);
+    message = window.MessageCache.__DEPRECATED$register(
+      message.id,
+      message,
+      'test'
+    );
     await window.Signal.Data.updateConversation(conversation.attributes);
     await conversation.updateLastMessage();
 
@@ -113,9 +119,9 @@ describe('Conversations', () => {
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
       avatars: [],
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       e164: '+15551234567',
-      uuid: UUID.generate().toString(),
+      serviceId: generateAci(),
       type: 'private',
       inbox_position: 0,
       isPinned: false,

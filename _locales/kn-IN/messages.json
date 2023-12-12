@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ಡೇಟಾಬೇಸಿನಲ್ಲಿ ದೋಷ",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ಡೇಟಾಬೇಸ್ ದೋಷ ಸಂಭವಿಸಿದೆ. ನೀವು ದೋಷವನ್ನು ನಕಲಿಸಬಹುದು ಮತ್ತು ಈ ಸಮಸ್ಯೆಯನ್ನು ಸರಿಪಡಿಸಲು ನೆರವಾಗಲು Signal ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು. ನೀವು Signal ಅನ್ನು ಈಗಲೇ ಬಳಸಬೇಕಿದ್ದಲ್ಲಿ, ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸಬಹುದು.\n\nಇಲ್ಲಿಗೆ ಭೇಟಿ ನೀಡುವ ಮೂಲಕ ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ: {link}",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸಿ",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ಡೇಟಾವನ್ನು ಅಳಿಸಿ ಮತ್ತು ಮರುಪ್ರಾರಂಭಿಸಿ",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಬೇಕೆ?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "ನಿಮ್ಮ ಎಲ್ಲಾ ಮೆಸೇಜಿಂಗ್ ಇತಿಹಾಸ ಮತ್ತು ಮೀಡಿಯಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಈ ಸಾಧನದಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ. ಸಾಧನವನ್ನು ಮರುಲಿಂಕ್ ಮಾಡಿದ ನಂತರ ನಿಮಗೆ Signal ಅನ್ನು ಈ ಸಾಧನದಲ್ಲಿ ಬಳಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ. ಇದು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಯಾವುದೇ ಡೇಟಾವನ್ನು ಅಳಿಸುವುದಿಲ್ಲ.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "ನಿಮ್ಮ ಡೇಟಾಬೇಸ್‌ನ ಈ ಆವೃತ್ತಿಯು Signal ನ ಈ ಆವೃತ್ತಿಗೆ ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ. ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal ನ ಹೊಚ್ಚಹೊಸ ಆವೃತ್ತಿಯನ್ನು ತೆರೆಯುತ್ತಿರುವುದನ್ನು ಖಾತ್ರಿಗೊಳಿಸಿ.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ಫೈಲ್",
@@ -299,6 +315,70 @@
   "icu:LeftPane--chats": {
     "messageformat": "ಚಾಟ್‌‌ ಗಳು",
     "description": "Shown as a header for non-pinned conversations in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್‌ನಲ್ಲಿ ಏನೋ ತಪ್ಪಾಗಿದೆ, ಅದನ್ನು ಇನ್ನು ಮುಂದೆ ನಿಮ್ಮ ಖಾತೆಗೆ ನಿಯೋಜಿಸಲಾಗುವುದಿಲ್ಲ. ನೀವು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ ಹೊಂದಿಸಬಹುದು ಅಥವಾ ಹೊಸತನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು.",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "ಈಗಲೇ ಸರಿಪಡಿಸಿ",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "ನಿಮ್ಮ QR ಕೋಡ್ ಮತ್ತು ಯೂಸರ್‌ನೇಮ್ ಲಿಂಕ್‌ನಲ್ಲಿ ಏನೋ ತಪ್ಪಾಗಿದೆ, ಅದು ಇನ್ನು ಮುಂದೆ ಮಾನ್ಯವಾಗಿರುವುದಿಲ್ಲ. ಇತರರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಲು ಹೊಸ ಲಿಂಕ್ ರಚಿಸಿ.",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "ಈಗಲೇ ಸರಿಪಡಿಸಿ",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "ಟ್ಯಾಬ್‌ಗಳನ್ನು ತೋರಿಸಿ",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "ಟ್ಯಾಬ್‌ಗಳನ್ನು ಮರೆ ಮಾಡಿ",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "ಒಂದು ದೋಷ ಉಂಟಾಗಿದೆ",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count,number} ಓದಿಲ್ಲ",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "ಓದಿಲ್ಲ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "ಚಾಟ್‌‌ ಗಳು",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "ಕರೆಗಳು",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "ಸ್ಟೋರೀಸ್",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Signal ಅನ್ನು ನವೀಕರಿಸಿ",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "ಪ್ರೊಫೈಲ್",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "ಹಿಂದಕ್ಕೆ",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
     "messageformat": "ಈ ಚಾಟ್‌ಗಳನ್ನು ಆರ್ಕೈವ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಹೊಸ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸಿದರೆ ಮಾತ್ರ ಇನ್‌ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.",
@@ -576,6 +656,10 @@
     "messageformat": "ಹೇಗಾದರೂ ಕರೆ ಮಾಡಿ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "ಹೇಗಾದರೂ ಸೇರಿ",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ಕರೆಯನ್ನು ಮುಂದುವರಿಸಿ",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -637,23 +721,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "ಹಿಂದಿನ ಸುರಕ್ಷಾ ಸಂಖ್ಯೆ",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "ಮುಂದಿನ ಸುರಕ್ಷಾ ಸಂಖ್ಯೆ",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಯ ಆವೃತ್ತಿ, {total,number} ನಲ್ಲಿ {index,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ",
@@ -663,33 +747,41 @@
     "messageformat": "ದೃಢೀಕರಣವನ್ನು ತೆರವುಗೊಳಿಸಿ",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "{name} ಅವರೊಂದಿಗೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಅವರ ಸಾಧನದೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ಕೂಡಾ ತಮ್ಮ ಸಾಧನದೊಂದಿಗೆ ನಿಮ್ಮ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "{name} ಅವರೊಂದಿಗಿನ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಕಲರ್ ಕಾರ್ಡ್ ಅನ್ನು ಅವರ ಸಾಧನೊಂದಿಗೆ ಹೊಂದಿಸಿ ಮತ್ತು ಸಂಖ್ಯೆಗಳನ್ನು ತುಲನೆ ಮಾಡಿ. ಇವುಗಳು ಹೊಂದಿಕೆಯಾಗದಿದ್ದರೆ, ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳ ಇನ್ನೊಂದು ಜೊತೆಯನ್ನು ಪ್ರಯತ್ನಿಸಿ. ಕೇವಲ ಒಂದು ಜೊತೆ ಹೊಂದಿಕೆಯಾಗಬೇಕು.",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "{name} ಅವರೊಂದಿಗೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಅವರ ಸಾಧನದೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ಕೂಡಾ ತಮ್ಮ ಸಾಧನದೊಂದಿಗೆ ನಿಮ್ಮ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳಿಗೆ ಬದಲಾವಣೆಗಳು",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Signal ನಲ್ಲಿ ಮುಂಬರುವ ಗೌಪ್ಯತಾ ಫೀಚರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಪರಿವರ್ತನೆಯ ಅವಧಿಯಲ್ಲಿ ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ.\n\n",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳನ್ನು ದೃಢೀಕರಿಸಲು, ನಿಮ್ಮ ಸಂಪರ್ಕದ ಸಾಧನದೊಂದಿಗೆ ಕಲರ್ ಕಾರ್ಡ್‌ ಹೊಂದಿಸಿ. ಇವುಗಳು ಹೊಂದಿಕೆಯಾಗದಿದ್ದರೆ, ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳ ಇನ್ನೊಂದು ಜೊತೆಯನ್ನು ಪ್ರಯತ್ನಿಸಿ. ಕೇವಲ ಒಂದು ಜೊತೆ ಹೊಂದಿಕೆಯಾಗಬೇಕು.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "ಸಹಾಯ ಅಗತ್ಯವಿದೆಯೇ?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "ಅರ್ಥವಾಯಿತು",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "ನೀವು ಈ ವ್ಯಕ್ತಿಯೊಂದಿಗೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿದ ಬಳಿಕ ಅವರೊಂದಿಗ ಒಂದು ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಯನ್ನು ರಚಿಸಲಾಗುತ್ತದೆ.",
@@ -1267,10 +1359,6 @@
     "messageformat": "ಇತ್ತೀಚಿನ ಮಾಧ್ಯಮವನ್ನು ನೋಡಿ",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಎಂಡ್ ಟು ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಭದ್ರತೆಯನ್ನು ದೃಢೀಕರಿಸಲು, ಅವರ ಸಾಧನಗಳೊಂದಿಗೆ ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ಕೂಡಾ ಮೇಲಿನ ಕ್ಯೂಆರ್ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "ನೀವು ಇನ್ನೂ ಈ ಸಂಪರ್ಕದೊಂದಿಗೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿಲ್ಲ. ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಿರುತ್ತದೆ."
   },
@@ -1334,17 +1422,17 @@
     "messageformat": "ಮಾಹಿತಿ",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "ಅಳಿಸಿ",
-    "description": "Menu item for deleting messages, title case."
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿ",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "ಚಾಟ್ ಅಳಿಸಬೇಕೆ?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "ಮೆಸೇಜ್‍‌ಗಳನ್ನು ಅಳಿಸಬೇಕೆ?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "ಈ ಚಾಟ್ ಅನ್ನು ಈ ಸಾಧನದಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "ಈ ಸಾಧನದಿಂದ ಈ ಚಾಟ್‌ನಲ್ಲಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿದ ನಂತರವೂ ಈ ಚಾಟ್‌ ಅನ್ನು ನೀವು ಹುಡುಕಬಹುದು.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ಗ್ರೂಪ್ ಅನ್ನು ತೊರೆಯಿರಿ",
@@ -1437,6 +1525,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "ಎರಡೂ ಚಾಟ್‌ಗಳ ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸವನ್ನು ಇಲ್ಲಿ ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ. ನೀವಿಬ್ಬರೂ {sharedGroup} ನ ಸದಸ್ಯರಾಗಿದ್ದೀರಿ.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} ಯು {conversationTitle} ಅವರದ್ದಾಗಿದೆ",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "ಕೋಟ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ನಿಂದ ಥಂಬ್‌ನೇಲ್ ಇಮೇಜ್",
@@ -1585,10 +1681,6 @@
     "messageformat": "ಮತ್ತೊಮ್ಮೆ ಕರೆ ಮಾಡಿ",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "ಕರೆ ಆರಂಭಿಸಿ",
-    "description": "Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "ಕರೆಗೆ ಸೇರಿ",
     "description": "Button label in the call lobby for joining a call"
@@ -1601,13 +1693,25 @@
     "messageformat": "ಕರೆಯ ಗಾತ್ರದಿಂದಾಗಿ ಮೈಕ್ರೋಫೋನ್ ಮ್ಯೂಟ್ ಆಗಿದೆ",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "ಕರೆ ಅಧಿಸೂಚನೆಗಳು",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "ಕರೆ ಭರ್ತಿಯಾಗಿದೆ",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "ಕ್ಯಾಮರಾ",
-    "description": "Label under the video button"
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "ಸೇರಿಕೊಳ್ಳಿ",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "ಆರಂಭಿಸಿ",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "ಕರೆ ಭರ್ತಿಯಾಗಿದೆ",
+    "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "ಕ್ಯಾಮರಾ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
@@ -1621,10 +1725,6 @@
     "messageformat": "ಕ್ಯಾಮರಾ ಆನ್ ಮಾಡಿ",
     "description": "Button tooltip label for turning on the camera"
   },
-  "icu:calling__button--audio__label": {
-    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿ",
-    "description": "Label under the audio button"
-  },
   "icu:calling__button--audio-disabled": {
     "messageformat": "ಮೈಕ್ರೋಫೋನ್‌ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1636,10 +1736,6 @@
   "icu:calling__button--audio-on": {
     "messageformat": "ಮೈಕ್ ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಿ",
     "description": "Button tooltip label for turning on the microphone"
-  },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "ಹಂಚಿಕೊಳ್ಳಿ",
-    "description": "Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "ಪ್ರೀಸೆಟ್ ಮಾಡುವುದನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
@@ -1653,10 +1749,6 @@
     "messageformat": "ಪ್ರೆಸೆಂಟ್ ಮಾಡುವುದನ್ನು ನಿಲ್ಲಿಸಿ",
     "description": "Button tooltip label for stopping screen sharing"
   },
-  "icu:calling__button--ring__label": {
-    "messageformat": "ರಿಂಗ್",
-    "description": "Label under the ring button"
-  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "ಭಾಗಿಗಳ ಕೂಟ ಮಾಡಲು ಗ್ರೂಪ್ ತೀರಾ ದೊಡ್ಡದಾಗಿದೆ.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1668,6 +1760,26 @@
   "icu:calling__button--ring__on": {
     "messageformat": "ರಿಂಗಿಂಗ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "ರಿಂಗಿಂಗ್ ಆಫ್ ಮಾಡಿ",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "ರಿಂಗಿಂಗ್ ಆನ್ ಮಾಡಿ",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "ಇನ್ನಷ್ಟು ಆಯ್ಕೆಗಳು",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "ನೀವು",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "ನಿಮ್ಮ ಕ್ಯಾಮರಾ ಆಫ್ ಆಗಿದೆ",
@@ -2147,6 +2259,10 @@
     "messageformat": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ವೀಕ್ಷಿಸಿ",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "ಮೆಸೇಜ್",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ವೀಕ್ಷಿಸಿ",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -2235,8 +2351,8 @@
     "messageformat": "ಫೋನ್ ನಂಬರ್ ಪಡೆಯಲು ವಿಫಲವಾಗಿದೆ. ನಿಮ್ಮ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "ನೀವು ಈ ಮೆಸೇಜ್ ಕಳುಹಿಸಿದ 3 ಗಂಟೆಗಳ ಒಳಗೆ ಮಾತ್ರ ಎಡಿಟ್‌ಗಳನ್ನು ನೀವು ಅನ್ವಯಿಸಬಹುದು.",
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "ನೀವು ಈ ಮೆಸೇಜ್ ಕಳುಹಿಸಿದ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಮಾತ್ರ ಎಡಿಟ್‌ಗಳು ಅನ್ವಯಿಸಬಹುದು.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -2479,6 +2595,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗಿದೆ.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "ಪ್ರದರ್ಶಿಸಲು ಲಗತ್ತು ತೀರಾ ದೊಡ್ಡದಾಗಿದೆ.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "ಪ್ರದರ್ಶಿಸಲು ಕೆಲವು ಲಗತ್ತುಗಳು ತೀರಾ ದೊಡ್ಡದಾಗಿವೆ.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "ದೇಣಿಗೆ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ",
@@ -3122,10 +3246,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signal ಬೀಟಾ ಮಾತ್ರ",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡುವಿಕೆಯು Signal ಬೀಟಾ ಬಳಕೆದಾರರಿಗೆ ಮಾತ್ರ ಲಭ್ಯವಿದೆ. ಮೆಸೇಜ್ ಅನ್ನು ನೀವು ಎಡಿಟ್ ಮಾಡಿದರೆ, ಅದು Signal ಬೀಟಾದ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಯಲ್ಲಿರುವವರಿಗೆ ಮಾತ್ರ ಕಾಣುತ್ತದೆ.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "ಮೆಸೇಜ್ ಎಡಿಟ್ ಮಾಡಿ",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "ನೀವು ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಿದರೆ, ಅದು Signal ನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಗಳಲ್ಲಿ ಇರುವವರಿಗೆ ಮಾತ್ರ ಕಾಣುತ್ತದೆ. ನೀವು ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಿದರೆ ಅವರಿಗೆ ನೋಡಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3380,6 +3512,14 @@
     "messageformat": "ಒಳಬರುವ ವೀಡಿಯೊ ಕರೆ…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
+  "icu:outgoingAudioCall": {
+    "messageformat": "ಹೊರಹೋಗುವ ವಾಯ್ಸ್ ಕಾಲ್",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "ಹೊರಹೋಗುವ ವೀಡಿಯೊ ಕಾಲ್",
+    "description": "Shown in the timeline for an outgoing video call"
+  },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} ಅವರು ನಿಮಗೆ ಕರೆ ಮಾಡುತ್ತಿದ್ದಾರೆೆ",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
@@ -3424,9 +3564,69 @@
     "messageformat": "ಮರುಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} ಜನರು}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "ಆಡಿಯೊ ಕರೆ",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "ಮುಕ್ತಾಯ",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "ತೊರೆಯಿರಿ",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "ಮೈಕ್ ಆಫ್ ಆಗಿದೆ",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "ಮೈಕ್ ಆನ್ ಆಗಿದೆ",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "ರಿಂಗಿಂಗ್ ಆನ್ ಆಗಿದೆ",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "ರಿಂಗಿಂಗ್ ಆಫ್",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
@@ -3468,13 +3668,25 @@
     "messageformat": "ಫುಲ್‌ಸ್ಕ್ರೀನ್ ಕಾಲ್",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "ಗ್ರಿಡ್ ವ್ಯೂಗೆ ಬದಲಿಸಿ",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "ವೀಕ್ಷಣೆಯನ್ನು ಬದಲಾಯಿಸಿ",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "ಸ್ಪೀಕರ್ ವ್ಯೂಗೆ ಬದಲಿಸಿ",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "ಗ್ರಿಡ್ ವೀಕ್ಷಣೆ",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "ಸೈಡ್‌ಬಾರ್ ವೀಕ್ಷಣೆ",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "ಸ್ಪೀಕರ್ ವೀಕ್ಷಣೆ",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "ವೀಕ್ಷಣೆ ನವೀಕರಣಗೊಂಡಿದೆ",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "ಕರೆ ಬಿಡಿ",
@@ -3575,6 +3787,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "ಸರಿ",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "ಈ ಮೆಸೇಜ್‌ಗೆ {max,number} ಎಡಿಟ್‌ಗಳನ್ನು ಮಾತ್ರ ಅನ್ವಯಿಸಬಹುದಾಗಿದೆ.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "ಕ್ಷಮಿಸಿ, ಆ sgnl:// ಲಿಂಕ್‌ ಅರ್ಥವಾಗಿಲ್ಲ!",
@@ -5252,9 +5472,29 @@
     "messageformat": "ಯೂಸರ್‌ನೇಮ್",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್‌ನಲ್ಲಿ ಏನೋ ತಪ್ಪಾಗಿದೆ, ಅದನ್ನು ಇನ್ನು ಮುಂದೆ ನಿಮ್ಮ ಖಾತೆಗೆ ನಿಯೋಜಿಸಲಾಗುವುದಿಲ್ಲ.",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--delete-button": {
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್ ಅಳಿಸಿ",
+    "description": "Button text for deletion of the username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--create-button": {
+    "messageformat": "ಬಳಕೆದಾರ ಹೆಸರನ್ನು ರಚಿಸಿ",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "QR ಕೋಡ್ ಅಥವಾ ಲಿಂಕ್",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಮರುಹೊಂದಿಸಬೇಕಿದೆ",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್ ಲಿಂಕ್ ಅನ್ನು ಮರುಹೊಂದಿಸಬೇಕಿದೆ",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಹಂಚಿಕೊಳ್ಳಿ",
@@ -5319,10 +5559,6 @@
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "ಯೂಸರ್‌ನೇಮ್ ಅಳಿಸಿ",
     "description": "Shown as aria label for trash icon next to username"
-  },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "ಇದು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ತೆಗೆದುಹಾಕಲಿದೆ, ಇದನ್ನು ಬೇರೆ ಬಳಕೆದಾರರು ಕ್ಲೈಮ್ ಮಾಡಲು ಅವಕಾಶ ನೀಡಲಾಗುತ್ತದೆ. ನೀವು ಖಚಿತವಾಗಿದ್ದೀರಾ?",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "ಇದು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ತೆಗೆದುಹಾಕುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ QR ಕೋಡ್ ಮತ್ತು ಲಿಂಕ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ. ಇತರರಿಗೆ ಕ್ಲೈಮ್ ಮಾಡಲು “{username}” ಲಭ್ಯವಾಗಲಿದೆ. ನಿಮಗೆ ಖಾತ್ರಿಯಿದೆಯೇ?",
@@ -5612,6 +5848,42 @@
     "messageformat": "ಸ್ಟೋರೀಸ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ನಿಮಗೆ ಇನ್ನು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇತ್ತೀಚೆಗೆ ಹಂಚಿಕೊಂಡ ಸ್ಟೋರಿ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಕೂಡಾ ಅಳಿಸಲಾಗುತ್ತದೆ.",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "ಭಾಷೆ",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "ಭಾಷೆ",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "ಸಿಸ್ಟಮ್ ಭಾಷೆ",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "ಭಾಷೆಗಳನ್ನು ಹುಡುಕಿ",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "{searchTerm} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "ಹೊಂದಿಸಿ",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "ಅನ್ವಯಿಸಲು Signal ಅನ್ನು ಮರುಪ್ರಾರಂಭಿಸಿ",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "ಭಾಷೆಯನ್ನು ಬದಲಾಯಿಸಲು, ಆ್ಯಪ್ ಅನ್ನು ಮರುಪ್ರಾರಂಭಿಸಬೇಕಿದೆ.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "ಮರುಪ್ರಾರಂಭಿಸಿ",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "ಲಭ್ಯವಿರುವ ಆವೃತ್ತಿ {version} ಕ್ಕೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ",
     "description": "Tooltip for new update available"
@@ -5695,6 +5967,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "ನಿಮ್ಮ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "ಮೆಸೇಜ್",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "ಇನ್ನಷ್ಟು ಶೈಲಿಗಳು",
@@ -6532,6 +6808,10 @@
     "messageformat": "ಮರುಹೊಂದಿಸಿ",
     "description": "Text of button at the bottom of the username link modal"
   },
+  "icu:UsernameLinkModalBody__done": {
+    "messageformat": "ಮುಗಿದಿದೆ",
+    "description": "Text of button at the bottom of the username link modal"
+  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "ಯೂಸರ್‌ನೇಮ್ ಲಿಂಕ್ ಬಣ್ಣ, {total,number} ನ {index,number}",
     "description": "ARIA label of button for selecting username link color"
@@ -6539,6 +6819,14 @@
   "icu:UsernameLinkModalBody__reset__confirm": {
     "messageformat": "ನಿಮ್ಮ QR ಕೋಡ್ ಅನ್ನು ನೀವು ರೀಸೆಟ್ ಮಾಡಿದರೆ, ನಿಮ್ಮ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ QR ಕೋಡ್ ಮತ್ತು ಲಿಂಕ್ ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ.",
     "description": "Text of confirmation modal when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "ಲಿಂಕ್ ಅನ್ನು ಮರುಹೊಂದಿಸಲಾಗುತ್ತಿದೆ...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "QR ಕೋಡ್ ಮತ್ತು ಲಿಂಕ್ ಅನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ. ನಿಮ್ಮ ನೆಟ್‌ವರ್ಕ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "ನಿಮ್ಮ Signal ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಸೆಟಪ್ ಮಾಡಿ",
@@ -6592,6 +6880,114 @@
     "messageformat": "ಪುನಃ ಕಳುಹಿಸಿ",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "ಇನ್ನಷ್ಟು ಕ್ರಮಗಳು",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "ಕರೆಗಳು",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "ಹೊಸ ಕರೆ",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "ಹೊಸ ಕರೆ",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "ಇನ್ನಷ್ಟು ಕ್ರಮಗಳು",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "ಕರೆ ಇತಿಹಾಸ ತೆರವುಗೊಳಿಸಿ",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "ಕರೆ ಇತಿಹಾಸ ತೆರವುಗೊಳಿಸಬೇಕೆ?",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "ಇದು ಎಲ್ಲಾ ಕರೆ ಇತಿಹಾಸವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುತ್ತದೆ",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "ತೆರವುಗೊಳಿಸಿ",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "ಕರೆ ಇತಿಹಾಸವನ್ನು ತೆರವುಗೊಳಿಸಲಾಗಿದೆ",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "ಕರೆಯನ್ನು ವೀಕ್ಷಿಸಲು ಅಥವಾ ಪ್ರಾಂಭಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "ಹುಡುಕಿ",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "ತಪ್ಪಿ ಹೋದವುಗಳು ಎಂಬುದಾಗಿ ಫಿಲ್ಟರ್ ಮಾಡಿ",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "ಟಾಗಲ್",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "ಇತ್ತೀಚಿನ ಯಾವುದೇ ಕರೆಗಳಿಲ್ಲ. ಸ್ನೇಹಿತರಿಗೆ ಕರೆ ಮಾಡುವ ಮೂಲಕ ಪ್ರಾರಂಭಿಸಿ.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "ಒಳಬರುವ",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "ಹೊರಹೋಗುವ",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "ತಪ್ಪಿಹೋದ",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "ಗ್ರೂಪ್ ಕಾಲ್",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "ಇತ್ತೀಚಿನ ಯಾವುದೇ ಸಂಭಾಷಣೆಗಳಿಲ್ಲ.",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {ಹೊರಹೋಗುವ ವಾಯ್ಸ್ ಕಾಲ್} other {ಒಳಬರುವ ವಾಯ್ಸ್ ಕಾಲ್}}} Video {{direction, select, Outgoing {ಹೊರಹೋಗುವ ವೀಡಿಯೊ ಕಾಲ್} other {ಒಳಬರುವ ವೀಡಿಯೊ ಕಾಲ್}}} Group {{direction, select, Outgoing {ಹೊರಹೋಗುವ ಗ್ರೂಪ್ ಕರೆ} other {ಒಳಬರುವ ಗ್ರೂಪ್ ಕರೆ}}} other {{direction, select, Outgoing {ಹೊರಹೋಗುವ ಕರೆ} other {ಒಳಬರುವ ಕರೆ}}}}",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "{type, select, Audio {ಮಿಸ್ಡ್ ವಾಯ್ಸ್ ಕಾಲ್} Video {ಮಿಸ್ಡ್ ವೀಡಿಯೊ ಕಾಲ್} Group {ತಪ್ಪಿದ ಗ್ರೂಪ್ ಕರೆ} other {ತಪ್ಪಿದ ಕರೆ}}",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "{type, select, Audio {ಉತ್ತರಿಸದ ವಾಯ್ಸ್ ಕಾಲ್} Video {ಉತ್ತರಿಸದ ವೀಡಿಯೊ ಕಾಲ್} Group {ಉತ್ತರಿಸದ ಗ್ರೂಪ್ ಕರೆ} other {ಉತ್ತರಿಸದ  ಕರೆ}}",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "{type, select, Audio {ನಿರಾಕರಿಸಿದ ಧ್ವನಿ ಕರೆ} Video {ನಿರಾಕರಿಸಿದ ವೀಡಿಯೊ ಕರೆ} Group {ನಿರಾಕರಿಸಿದ ಗ್ರೂಪ್ ಕರೆ} other {ನಿರಾಕರಿಸಿದ  ಕರೆ}}",
+    "description": "Call History > Short description of call > When call was declined"
+  },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ಇತರೆ ವ್ಯಕ್ತಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.} other {{count,number} ಇತರ ಮಂದಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ಹೊಸತೇನಿದೆ",
     "description": "Title for the whats new modal"
@@ -6624,10 +7020,22 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "ಈ ನವೀಕರಣವು ಧ್ವನಿ ಮತ್ತು ವೀಡಿಯೊ ಕರೆಗಳಿಗೆ ಕೆಲವು ಸುಧಾರಣೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ ಮತ್ತು ಕೆಲವು ಸಣ್ಣ ಡಾಕ್ಯುಮೆಂಟೇಶನ್ ನವೀಕರಣಗಳನ್ನು ಒಳಗೊಂಡಿದೆ (ಧನ್ಯವಾದಗಳು, {linkToGithub}!)."
+  "icu:WhatsNew__v6.39--0": {
+    "messageformat": "ಈಗ ನಿಮ್ಮ ಸಿಸ್ಟಮ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸದೆಯೇ Signal ನಲ್ಲಿ ನಿಮ್ಮ ಆಯ್ಕೆಯ ಭಾಷೆಯನ್ನು ನೀವು ಬದಲಾಯಿಸಬಹುದು (Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ರೂಪ > ಭಾಷೆ)."
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "ಯಾರಾದರೂ ಹೊಸದಾಗಿ ಗ್ರೂಪ್‌ಗೆ ಸೇರಿದಾಗ ಕಾಣಿಸಿಕೊಳ್ಳುವಂತಹ ಗ್ರೂಪ್ ಅಪ್‌ಡೇಟ್‌ಗಳ ಅಧಿಸೂಚನೆ ಐಕಾನ್‌ಗಳನ್ನು ನಾವು ಮಾರ್ಪಡಿಸಿದ್ದೇವೆ. ಈ ಐಕಾನ್‌ಗಳು, ವಿಶೇಷವಾಗಿ ನೀವು ಡಾರ್ಕ್ ಥೀಮ್‌ನ ಡಾರ್ಕ್‌ನೆಸ್‌‍ನೊಳಗೆ ಇದ್ದರೆ ಸ್ಪಷ್ಟತೆಯನ್ನು ಸುಧಾರಿಸಲು ನೆರವಾಗುತ್ತವೆ. ಹಿಂದಿನ ಐಕಾನ್‌ಗಳು ಕೇವಲ ಡಾರ್ಕ್ ಅನ್ನು ಅಳವಡಿಸಿಕೊಂಡಿವೆ. ಹೊಸ ಐಕಾನ್‌ಗಳು ಅದರಲ್ಲೇ ಹುಟ್ಟಿ, ಅದರಿಂದಲೇ ರೂಪುಗೊಂಡಿವೆ."
+  "icu:WhatsNew__v6.39--1": {
+    "messageformat": "MacOS ಸಾಧನಗಳಲ್ಲಿ ಕರೆ ಲಾಬಿಗೆ ಸೇರುವಾಗ ಕೆಲವೊಮ್ಮೆ ಸಂಭವಿಸುತ್ತಿದ್ದ ತುಸು ವಿಳಂಬವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ, ಇದರಿಂದಾಗಿ ಮೀಟಿಂಗ್‌ಗೆ ಸೇರುವಾಗ ಉಂಟಾಗುತ್ತಿದ್ದ ಅರ್ಧ ಸೆಕೆಂಡ್ ವಿಳಂಬದ ಸಮಸ್ಯೆ ಇನ್ನಿರುವುದಿಲ್ಲ."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "ಯಾರಾದರೂ ಗುಂಪು ಕರೆಗೆ ಸೇರಿದಾಗ ಅಥವಾ ತೊರೆದಾಗ ನಾವು ವೀಡಿಯೊ ಟೈಲ್‌ಗಳಿಗಾಗಿ ಪರಿವರ್ತನೆಯ ಅನಿಮೇಷನ್ ಅನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಸ್ನೇಹಿತರ ಮುಖ ವೀಕ್ಷಣೆಗೆ ಸ್ಲೈಡ್ ಆಗಿರುವುದನ್ನು ನೀವು ನೋಡಿದಾಗ, ಅದು ಸಾಮಾಜಿಕ ಚಳುವಳಿಯಾಗಿದೆ."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "ಈಗ ನೀವು ಚಾಟ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಪ್ರವೇಶಿಸಲು ಅಥವಾ ಆ ಚಾಟ್‌ನಿಂದ ಯಾವುದೇ ಕಾಣದ ಸ್ಟೋರೀಸ್ ಅನ್ನು ವೀಕ್ಷಿಸಲು ಚಾಟ್ ಹೆಡರ್‌ನಲ್ಲಿ ಪ್ರೊಫೈಲ್ ಫೋಟೋ ಅಥವಾ ಗುಂಪು ಅವತಾರ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಬಹುದು. ಧನ್ಯವಾದಗಳು, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

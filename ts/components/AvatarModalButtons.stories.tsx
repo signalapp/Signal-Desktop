@@ -5,6 +5,7 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './AvatarModalButtons';
 import { AvatarModalButtons } from './AvatarModalButtons';
@@ -21,7 +22,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/AvatarModalButtons',
-};
+} satisfies Meta<PropsType>;
 
 export function HasChanges(): JSX.Element {
   return (
@@ -33,14 +34,6 @@ export function HasChanges(): JSX.Element {
   );
 }
 
-HasChanges.story = {
-  name: 'Has changes',
-};
-
 export function NoChanges(): JSX.Element {
   return <AvatarModalButtons {...createProps()} />;
 }
-
-NoChanges.story = {
-  name: 'No changes',
-};

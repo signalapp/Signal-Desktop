@@ -7,7 +7,7 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
 import {
-  getMaximumAttachmentSizeInKb,
+  getMaximumOutgoingAttachmentSizeInKb,
   getRenderDetailsForLimit,
   KIBIBYTE,
 } from '../types/AttachmentSize';
@@ -75,7 +75,7 @@ export async function processAttachment(
 }
 
 function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
-  const limitKb = getMaximumAttachmentSizeInKb(getRemoteConfigValue);
+  const limitKb = getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue);
   // this needs to be cast properly
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

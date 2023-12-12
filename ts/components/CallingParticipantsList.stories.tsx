@@ -5,11 +5,13 @@ import * as React from 'react';
 import { sample } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingParticipantsList';
 import { CallingParticipantsList } from './CallingParticipantsList';
 import { AvatarColors } from '../types/Colors';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
-import { getDefaultConversationWithUuid } from '../test-both/helpers/getDefaultConversation';
+import { generateAci } from '../types/ServiceId';
+import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -19,13 +21,15 @@ function createParticipant(
   participantProps: Partial<GroupCallRemoteParticipantType>
 ): GroupCallRemoteParticipantType {
   return {
+    aci: generateAci(),
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
+    isHandRaised: Boolean(participantProps.isHandRaised),
     presenting: Boolean(participantProps.presenting),
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
-    ...getDefaultConversationWithUuid({
+    ...getDefaultConversationWithServiceId({
       avatarPath: participantProps.avatarPath,
       color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
@@ -39,22 +43,18 @@ function createParticipant(
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   onClose: action('on-close'),
-  ourUuid: 'cf085e6a-e70b-41ec-a310-c198248af13f',
+  ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
 });
 
 export default {
   title: 'Components/CallingParticipantsList',
-};
+} satisfies Meta<PropsType>;
 
 export function NoOne(): JSX.Element {
   const props = createProps();
   return <CallingParticipantsList {...props} />;
 }
-
-NoOne.story = {
-  name: 'No one',
-};
 
 export function SoloCall(): JSX.Element {
   const props = createProps({

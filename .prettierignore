@@ -18,6 +18,8 @@ ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
 ts/util/lint/exceptions.json
+storybook-static
+build/locale-display-names.json
 
 # Third-party files
 node_modules/**
@@ -29,6 +31,9 @@ js/WebAudioRecorderMp3.js
 # Assets
 /images/
 /fixtures/
+
+# Version control
+**/.git
 
 # Github workflows
 .github/**

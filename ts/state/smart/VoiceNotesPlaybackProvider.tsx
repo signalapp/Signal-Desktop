@@ -12,6 +12,7 @@ import {
 } from '../ducks/audioPlayer';
 import { globalMessageAudio } from '../../services/globalMessageAudio';
 import { strictAssert } from '../../util/assert';
+import { drop } from '../../util/drop';
 import * as log from '../../logging/log';
 import { Sound, SoundType } from '../../util/Sound';
 import { getConversations } from '../selectors/conversations';
@@ -20,10 +21,10 @@ import { markViewed } from '../ducks/conversations';
 import * as Errors from '../../types/errors';
 import { usePrevious } from '../../hooks/usePrevious';
 
-const stateChangeConfirmUpSound = new Sound({
+const stateChangeConfirmDownSound = new Sound({
   soundType: SoundType.VoiceNoteStart,
 });
-const stateChangeConfirmDownSound = new Sound({
+const stateChangeConfirmUpSound = new Sound({
   soundType: SoundType.VoiceNoteEnd,
 });
 
@@ -128,10 +129,12 @@ export function SmartVoiceNotesPlaybackProvider(
     });
 
     if (playNextConsecutiveSound) {
-      // eslint-disable-next-line more/no-then
-      void stateChangeConfirmUpSound.play().then(() => {
-        globalMessageAudio.play();
-      });
+      drop(
+        (async () => {
+          await stateChangeConfirmDownSound.play();
+          globalMessageAudio.play();
+        })()
+      );
     } else {
       globalMessageAudio.play();
     }
@@ -220,7 +223,7 @@ function loadAudio({
     },
     onEnded() {
       if (playFinishConsecutiveSound) {
-        void stateChangeConfirmDownSound.play();
+        drop(stateChangeConfirmUpSound.play());
       }
       messageAudioEnded();
     },

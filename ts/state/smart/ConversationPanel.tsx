@@ -2,7 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MutableRefObject } from 'react';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import type { PanelRenderType } from '../../types/Panels';
 import * as log from '../../logging/log';
@@ -23,6 +30,7 @@ import { getIntl } from '../selectors/user';
 import {
   getIsPanelAnimating,
   getPanelInformation,
+  getWasPanelAnimated,
 } from '../selectors/conversations';
 import { focusableSelectors } from '../../util/focusableSelectors';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -41,7 +49,6 @@ type AnimationProps<T> = {
 };
 
 function doAnimate({
-  isRTL,
   onAnimationStarted,
   onAnimationDone,
   overlay,
@@ -66,7 +73,6 @@ function doAnimate({
   const animation = animateNode.animate(panel.keyframes, {
     ...ANIMATION_CONFIG,
     id: 'panel-animation',
-    direction: isRTL ? 'reverse' : 'normal',
   });
 
   onAnimationStarted();
@@ -92,37 +98,48 @@ export function ConversationPanel({
   const panelInformation = useSelector(getPanelInformation);
   const { panelAnimationDone, panelAnimationStarted } =
     useConversationsActions();
-  const [shouldRenderPoppedPanel, setShouldRenderPoppedPanel] = useState(true);
+
   const animateRef = useRef<HTMLDivElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    setShouldRenderPoppedPanel(true);
-  }, [panelInformation?.prevPanel]);
 
   const i18n = useSelector(getIntl);
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   const isAnimating = useSelector(getIsPanelAnimating);
+  const wasAnimated = useSelector(getWasPanelAnimated);
+
+  const [lastPanelDoneAnimating, setLastPanelDoneAnimating] =
+    useState<PanelRenderType | null>(null);
+
+  const wasAnimatedRef = useRef(wasAnimated);
+  useEffect(() => {
+    wasAnimatedRef.current = wasAnimated;
+  }, [wasAnimated]);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
+    setLastPanelDoneAnimating(null);
+  }, [panelInformation?.prevPanel]);
+
+  const onAnimationDone = useCallback(
+    (panel: PanelRenderType | null) => {
+      setLastPanelDoneAnimating(panel);
       panelAnimationDone();
-      setShouldRenderPoppedPanel(false);
+    },
+    [panelAnimationDone]
+  );
+
+  useEffect(() => {
+    if (prefersReducedMotion || wasAnimatedRef.current) {
+      onAnimationDone(panelInformation?.prevPanel ?? null);
       return;
     }
 
     if (panelInformation?.direction === 'pop') {
-      if (!shouldRenderPoppedPanel) {
-        return;
-      }
-
       return doAnimate({
         isRTL,
         onAnimationDone: () => {
-          panelAnimationDone();
-          setShouldRenderPoppedPanel(false);
+          onAnimationDone(panelInformation?.prevPanel ?? null);
         },
         onAnimationStarted: panelAnimationStarted,
         overlay: {
@@ -136,20 +153,18 @@ export function ConversationPanel({
           ref: animateRef,
           keyframes: [
             { transform: 'translateX(0%)' },
-            { transform: 'translateX(100%)' },
+            { transform: isRTL ? 'translateX(-100%)' : 'translateX(100%)' },
           ],
         },
       });
     }
 
     if (panelInformation?.direction === 'push') {
-      if (!panelInformation?.currPanel) {
-        return;
-      }
-
       return doAnimate({
         isRTL,
-        onAnimationDone: panelAnimationDone,
+        onAnimationDone: () => {
+          onAnimationDone(panelInformation?.prevPanel ?? null);
+        },
         onAnimationStarted: panelAnimationStarted,
         overlay: {
           ref: overlayRef,
@@ -161,7 +176,7 @@ export function ConversationPanel({
         panel: {
           ref: animateRef,
           keyframes: [
-            { transform: 'translateX(100%)' },
+            { transform: isRTL ? 'translateX(-100%)' : 'translateX(100%)' },
             { transform: 'translateX(0%)' },
           ],
         },
@@ -171,13 +186,12 @@ export function ConversationPanel({
     return undefined;
   }, [
     isRTL,
-    panelAnimationDone,
+    onAnimationDone,
     panelAnimationStarted,
     panelInformation?.currPanel,
     panelInformation?.direction,
     panelInformation?.prevPanel,
     prefersReducedMotion,
-    shouldRenderPoppedPanel,
   ]);
 
   if (!panelInformation) {
@@ -200,10 +214,10 @@ export function ConversationPanel({
             panel={activePanel}
           />
         )}
-        {shouldRenderPoppedPanel && (
+        {lastPanelDoneAnimating !== prevPanel && (
           <div className="ConversationPanel__overlay" ref={overlayRef} />
         )}
-        {shouldRenderPoppedPanel && prevPanel && (
+        {prevPanel && lastPanelDoneAnimating !== prevPanel && (
           <PanelContainer
             conversationId={conversationId}
             panel={prevPanel}
@@ -318,7 +332,10 @@ function PanelElement({
         i18n={i18n}
         onSendMessage={() => {
           if (signalAccount) {
-            startConversation(signalAccount.phoneNumber, signalAccount.uuid);
+            startConversation(
+              signalAccount.phoneNumber,
+              signalAccount.serviceId
+            );
           }
         }}
       />
@@ -333,7 +350,7 @@ function PanelElement({
     return (
       <SmartPendingInvites
         conversationId={conversationId}
-        ourUuid={window.storage.user.getCheckedUuid().toString()}
+        ourAci={window.storage.user.getCheckedAci()}
       />
     );
   }

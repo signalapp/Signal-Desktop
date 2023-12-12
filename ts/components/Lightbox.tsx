@@ -17,6 +17,7 @@ import type { LocalizerType } from '../types/Util';
 import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 import { Avatar, AvatarSize } from './Avatar';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import { formatDateTimeForAttachment } from '../util/timestamp';
@@ -230,7 +231,9 @@ export function Lightbox({
 
     if (videoElement.paused) {
       onMediaPlaybackStart();
-      void videoElement.play();
+      void videoElement.play().catch(error => {
+        log.error('Lightbox: Failed to play video', Errors.toLogFormat(error));
+      });
     } else {
       videoElement.pause();
     }
@@ -776,7 +779,7 @@ function LightboxHeader({
       <div className="Lightbox__header--content">
         <div className="Lightbox__header--name">{conversation.title}</div>
         <div className="Lightbox__header--timestamp">
-          {formatDateTimeForAttachment(i18n, message.received_at_ms ?? now)}
+          {formatDateTimeForAttachment(i18n, message.sent_at ?? now)}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import type { PrimaryDevice, Group } from '@signalapp/mock-server';
-import { StorageState, Proto, UUIDKind } from '@signalapp/mock-server';
+import { StorageState, Proto, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
@@ -16,7 +16,7 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 export const debug = createDebug('mock:test:gv2');
 
-describe('pnp/send gv2 invite', function needsName() {
+describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -59,11 +59,11 @@ describe('pnp/send gv2 invite', function needsName() {
         identityState: Proto.ContactRecord.IdentityState.VERIFIED,
         whitelisted: true,
 
-        identityKey: pniContact.getPublicKey(UUIDKind.PNI).serialize(),
+        identityKey: pniContact.getPublicKey(ServiceIdKind.PNI).serialize(),
 
         givenName: 'PNI Contact',
       },
-      UUIDKind.PNI
+      ServiceIdKind.PNI
     );
 
     state = state.addRecord({
@@ -74,7 +74,7 @@ describe('pnp/send gv2 invite', function needsName() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -84,7 +84,7 @@ describe('pnp/send gv2 invite', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -102,9 +102,9 @@ describe('pnp/send gv2 invite', function needsName() {
 
     debug('clicking compose and "New group" buttons');
 
-    await leftPane.locator('.module-main-header__compose-icon').click();
+    await window.getByRole('button', { name: 'New chat' }).click();
 
-    await leftPane.locator('[data-testid=CreateNewGroupButton]').click();
+    await leftPane.getByTestId('CreateNewGroupButton').click();
 
     debug('inviting ACI member');
 
@@ -165,9 +165,7 @@ describe('pnp/send gv2 invite', function needsName() {
       .locator('button.module-ConversationHeader__button--more')
       .click();
 
-    await conversationStack
-      .locator('.react-contextmenu-item >> "Group settings"')
-      .click();
+    await window.locator('.react-contextmenu-item >> "Group settings"').click();
 
     debug('editing group title');
     {

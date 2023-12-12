@@ -124,7 +124,7 @@ export async function sendProfileKey(
     });
     sendPromise = messaging.sendIndividualProto({
       contentHint,
-      identifier: conversation.getSendTarget(),
+      serviceId: conversation.getSendTarget(),
       options: sendOptions,
       proto,
       timestamp,
@@ -135,8 +135,8 @@ export async function sendProfileKey(
       log.error('No revision provided, but conversation is GroupV2');
     }
 
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-    if (!conversation.hasMember(ourUuid)) {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    if (!conversation.hasMember(ourAci)) {
       log.info(
         `We are not part of group ${conversation.idForLogging()}; refusing to send`
       );

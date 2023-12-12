@@ -3,11 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { escapeRegExp, isNumber, omit } from 'lodash';
+import { escapeRegExp, isNumber, omit, partition } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { missingCaseError } from '../util/missingCaseError';
+import { isNotNil } from '../util/isNotNil';
 import type { ConversationType } from '../state/ducks/conversations';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
@@ -15,6 +16,8 @@ import {
   SNIPPET_TRUNCATION_PLACEHOLDER,
 } from '../util/search';
 import { assertDev } from '../util/assert';
+import type { AciString } from './ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 
 // Cold storage of body ranges
 
@@ -37,7 +40,7 @@ export namespace BodyRange {
   export const { Style } = Proto.DataMessage.BodyRange;
 
   export type Mention = {
-    mentionUuid: string;
+    mentionAci: AciString;
   };
   export type Link = {
     url: string;
@@ -65,7 +68,7 @@ export namespace BodyRange {
     bodyRange: BodyRange<T>
   ): bodyRange is X {
     // satisfies keyof Mention
-    return ('mentionUuid' as const) in bodyRange;
+    return ('mentionAci' as const) in bodyRange;
   }
   export function isFormatting(
     bodyRange: BodyRange<object>
@@ -144,7 +147,10 @@ const MENTION_NAME = 'mention';
 
 // We drop unknown bodyRanges and remove extra stuff so they serialize properly
 export function filterAndClean(
-  ranges: ReadonlyArray<Proto.DataMessage.IBodyRange> | undefined | null
+  ranges:
+    | ReadonlyArray<Proto.DataMessage.IBodyRange | RawBodyRange>
+    | undefined
+    | null
 ): ReadonlyArray<RawBodyRange> | undefined {
   if (!ranges) {
     return undefined;
@@ -164,35 +170,52 @@ export function filterAndClean(
   };
 
   return ranges
-    .filter((range: Proto.DataMessage.IBodyRange): range is RawBodyRange => {
-      if (!isNumber(range.start)) {
+    .map(range => {
+      const { start, length, ...restOfRange } = range;
+      if (!isNumber(start)) {
         log.warn('filterAndClean: Dropping bodyRange with non-number start');
-        return false;
+        return undefined;
       }
-      if (!isNumber(range.length)) {
+      if (!isNumber(length)) {
         log.warn('filterAndClean: Dropping bodyRange with non-number length');
-        return false;
+        return undefined;
       }
 
-      if (range.mentionUuid) {
+      let mentionAci: AciString | undefined;
+      if ('mentionAci' in range && range.mentionAci) {
+        mentionAci = normalizeAci(range.mentionAci, 'BodyRange.mentionAci');
+      }
+
+      if (mentionAci) {
         countByTypeRecord[MENTION_NAME] += 1;
         if (countByTypeRecord[MENTION_NAME] > MAX_PER_TYPE) {
-          return false;
+          return undefined;
         }
-        return true;
+
+        return {
+          ...restOfRange,
+          start,
+          length,
+          mentionAci,
+        };
       }
-      if (range.style) {
+      if ('style' in range && range.style) {
         countByTypeRecord[range.style] += 1;
         if (countByTypeRecord[range.style] > MAX_PER_TYPE) {
-          return false;
+          return undefined;
         }
-        return true;
+        return {
+          ...restOfRange,
+          start,
+          length,
+          style: range.style,
+        };
       }
 
       log.warn('filterAndClean: Dropping unknown bodyRange');
-      return false;
+      return undefined;
     })
-    .map(range => ({ ...range }));
+    .filter(isNotNil);
 }
 
 export function hydrateRanges(
@@ -205,7 +228,7 @@ export function hydrateRanges(
 
   return filterAndClean(ranges)?.map(range => {
     if (BodyRange.isMention(range)) {
-      const conversation = conversationSelector(range.mentionUuid);
+      const conversation = conversationSelector(range.mentionAci);
 
       return {
         ...range,
@@ -620,55 +643,208 @@ export function processBodyRangesForSearchResult({
 
 export const SPOILER_REPLACEMENT = '■■■■';
 
-export function applyRangesForText({
-  text,
-  mentions,
-  spoilers,
-}: {
-  text: string | undefined;
-  mentions: ReadonlyArray<HydratedBodyRangeMention>;
-  spoilers: ReadonlyArray<BodyRange<BodyRange.Formatting>>;
-}): string | undefined {
-  if (!text) {
-    return text;
+/**
+ * Replace text in a string at a given range, returning the new string. The
+ * replacement can be a different length than the text it's replacing.
+ * @example
+ * ```ts
+ * replaceText('hello world!!!', 'jamie', 6, 11) === 'hello jamie!!!'
+ * ```
+ */
+function replaceText(
+  input: string,
+  insert: string,
+  start: number,
+  end: number
+): string {
+  return input.slice(0, start) + insert + input.slice(end);
+}
+
+export type BodyWithBodyRanges = {
+  body: string;
+  bodyRanges: HydratedBodyRangesType;
+};
+
+type Span = {
+  start: number;
+  end: number;
+};
+
+function snapSpanToEdgesOfReplacement(
+  span: Span,
+  replacement: Span
+): Span | null {
+  // If the span is empty, we can just remove it
+  if (span.start >= span.end) {
+    return null;
   }
 
-  let updatedText = text;
-  let sortableMentions: Array<HydratedBodyRangeMention> = mentions.slice();
+  // If the span is inside the replacement (not exactly the same), we remove it
+  if (
+    (span.start > replacement.start && span.end <= replacement.end) ||
+    (span.start >= replacement.start && span.end < replacement.end)
+  ) {
+    return null;
+  }
 
-  const sortableSpoilers: Array<BodyRange<BodyRange.Formatting>> =
-    spoilers.slice();
-  updatedText = sortableSpoilers
-    .sort((a, b) => b.start - a.start)
-    .reduce((acc, { start, length }) => {
-      const left = acc.slice(0, start);
-      const end = start + length;
-      const right = acc.slice(end);
+  let start: number;
+  if (span.start < replacement.start) {
+    start = span.start;
+  } else if (span.start === replacement.start) {
+    start = replacement.start;
+  } else if (span.start < replacement.end) {
+    start = replacement.start; // snap to the start of the replacement
+  } else if (span.start === replacement.end) {
+    start = replacement.end; // snap to the end of the replacement
+  } else {
+    start = span.start;
+  }
 
-      // Note: this is a simplified filter because mentions always have length=1
-      sortableMentions = sortableMentions
-        .filter(mention => {
-          return mention.start < start || mention.start >= end;
-        })
-        .map(mention => {
-          if (mention.start >= end) {
-            return {
-              ...mention,
-              start: mention.start - (length - SPOILER_REPLACEMENT.length),
-            };
-          }
+  let end: number;
+  if (span.end < replacement.start) {
+    end = span.end;
+  } else if (span.end === replacement.start) {
+    end = replacement.start;
+  } else if (span.end < replacement.end) {
+    end = replacement.end; // snap to the start of the replacement
+  } else if (span.end === replacement.end) {
+    end = replacement.end; // snap to the end of the replacement
+  } else {
+    end = span.end;
+  }
 
-          return mention;
-        });
+  // If this made the span empty, we can remove it
+  if (start === end) {
+    return null;
+  }
 
-      return `${left}${SPOILER_REPLACEMENT}${right}`;
-    }, updatedText);
+  return { start, end };
+}
 
-  return sortableMentions
-    .sort((a, b) => b.start - a.start)
-    .reduce((acc, { start, length, replacementText }) => {
-      const left = acc.slice(0, start);
-      const right = acc.slice(start + length);
-      return `${left}@${replacementText}${right}`;
-    }, updatedText);
+function toSpan(range: HydratedBodyRangeType) {
+  return { start: range.start, end: range.start + range.length };
+}
+
+/**
+ * Apply a single replacement range to a string, returning the new string and
+ * updated ranges. This only works for mentions and spoilers. The other ranges
+ * are updated to stay outside of the replaced text, or removed if are only
+ * inside the replaced text.
+ */
+export function applyRangeToText(
+  input: BodyWithBodyRanges,
+  // mention or spoiler
+  replacement: HydratedBodyRangeType
+): BodyWithBodyRanges {
+  let insert: string;
+
+  if (BodyRange.isMention(replacement)) {
+    insert = `@${replacement.replacementText}`;
+  } else if (
+    BodyRange.isFormatting(replacement) &&
+    replacement.style === BodyRange.Style.SPOILER
+  ) {
+    insert = SPOILER_REPLACEMENT;
+  } else {
+    throw new Error('Invalid range');
+  }
+
+  const updatedBody = replaceText(
+    input.body,
+    insert,
+    replacement.start,
+    replacement.start + replacement.length
+  );
+
+  const updatedRanges = input.bodyRanges
+    .map((otherRange): HydratedBodyRangeType | null => {
+      // It is easier to work with a `start-end` here because we can easily
+      // adjust it at the end based on the diff of the inserted text
+      const otherRangeSpan = toSpan(otherRange);
+      const replacementSpan = toSpan(replacement);
+
+      const result = snapSpanToEdgesOfReplacement(
+        otherRangeSpan,
+        replacementSpan
+      );
+      if (result == null) {
+        return null;
+      }
+
+      let { start, end } = result;
+
+      // The difference between the length of the range we're inserting and the
+      // length of the inserted text
+      // - "\uFFFC".length == 1 -> "@jamie".length == 6, so diff == 5
+      // - "spoiler".length == 7 -> "■■■■".length == 4, so diff == -3
+      const insertionDiff = insert.length - replacement.length;
+      // We only need to adjust positions at or after the end of the replacement
+      if (start >= replacementSpan.end) {
+        start += insertionDiff;
+      }
+      if (end >= replacementSpan.end) {
+        end += insertionDiff;
+      }
+
+      return { ...otherRange, start, length: end - start };
+    })
+    .filter((r): r is HydratedBodyRangeType => {
+      return r != null;
+    });
+
+  return { body: updatedBody, bodyRanges: updatedRanges };
+}
+
+function _applyRangeOfType(
+  input: BodyWithBodyRanges,
+  condition: (bodyRange: HydratedBodyRangeType) => boolean
+) {
+  const [matchedRanges, otherRanges] = partition(input.bodyRanges, condition);
+  return matchedRanges
+    .sort((a, b) => {
+      return b.start - a.start;
+    })
+    .reduce<BodyWithBodyRanges>(
+      (prev, matchedRange) => {
+        return applyRangeToText(prev, matchedRange);
+      },
+      { body: input.body, bodyRanges: otherRanges }
+    );
+}
+
+/**
+ * Apply some body ranges to body, returning the new string and updated ranges.
+ * This only works for mentions and spoilers. The other ranges are updated to
+ * stay outside of the replaced text, or removed if are only inside the
+ * replaced text.
+ *
+ * You can optionally enable/disable replacing mentions and spoilers.
+ */
+export function applyRangesToText(
+  input: BodyWithBodyRanges,
+  options: {
+    replaceMentions: boolean; // "@jamie"
+    replaceSpoilers: boolean; // "■■■■"
+  }
+): BodyWithBodyRanges {
+  let state = input;
+
+  // Short-circuit if there are no ranges
+  if (state.bodyRanges.length === 0) {
+    return state;
+  }
+
+  if (options.replaceSpoilers) {
+    state = _applyRangeOfType(state, bodyRange => {
+      return BodyRange.isFormatting(bodyRange) && bodyRange.style === SPOILER;
+    });
+  }
+
+  if (options.replaceMentions) {
+    state = _applyRangeOfType(state, bodyRange => {
+      return BodyRange.isMention(bodyRange);
+    });
+  }
+
+  return state;
 }

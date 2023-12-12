@@ -11,7 +11,7 @@ import { config } from '../context/config';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { createSetting } from '../util/preload';
 import { environment } from '../context/environment';
-import { localeMessages } from '../context/localeMessages';
+import { localeDisplayNames, localeMessages } from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
 
 const hasCustomTitleBar = ipcRenderer.sendSync('OS.getHasCustomTitleBar');
@@ -40,16 +40,19 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   async getMenuOptions(): Promise<MenuOptionsType> {
     return ipcRenderer.invoke('getMenuOptions');
   },
+  getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
+  getLocaleDisplayNames: () => localeDisplayNames,
 
   getResolvedMessagesLocale: () => config.resolvedTranslationsLocale,
   getResolvedMessagesLocaleDirection: () =>
     config.resolvedTranslationsLocaleDirection,
   getHourCyclePreference: () => config.hourCyclePreference,
   getPreferredSystemLocales: () => config.preferredSystemLocales,
-
+  getLocaleOverride: () => config.localeOverride,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
+  restartApp: () => ipcRenderer.send('restart'),
   OS: {
     getClassName: () => ipcRenderer.sendSync('OS.getClassName'),
     hasCustomTitleBar: () => hasCustomTitleBar,

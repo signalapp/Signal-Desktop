@@ -6,46 +6,12 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 16px;
+  gap: 20px;
+  padding-top: 16px;
+  padding-inline: 10px;
 
   a {
     text-decoration: none;
-  }
-
-  &__migration {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-
-    width: 100%;
-    margin-block: 0 8px;
-
-    &__text {
-      flex-grow: 1;
-
-      text-align: start;
-      @include font-subtitle;
-      @include light-theme {
-        color: $color-gray-60;
-      }
-
-      @include dark-theme {
-        color: $color-gray-25;
-      }
-
-      p {
-        margin: 0;
-      }
-    }
-
-    &__icon {
-      flex-shrink: 0;
-      display: inline-block;
-      width: 48px;
-      height: 48px;
-      background: url('../images/safety-number-migration.svg');
-    }
   }
 
   &__card-container {
@@ -66,21 +32,7 @@
     padding: 24px;
     border-radius: 12px;
 
-    &--e164 {
-      background-color: $color-bright-gray;
-
-      .module-SafetyNumberViewer__card__number {
-        color: $color-gray-75;
-      }
-    }
-
-    &--aci {
-      background-color: $color-borage-blue;
-
-      .module-SafetyNumberViewer__card__number {
-        color: $color-white;
-      }
-    }
+    background-color: $color-borage-blue;
 
     &__qr {
       width: 120px;
@@ -95,6 +47,7 @@
       flex-wrap: wrap;
       gap: 8px;
       justify-content: center;
+      color: $color-white;
 
       font-family: $monospace;
       margin-block: 0 4px;
@@ -102,86 +55,6 @@
       @include keyboard-mode {
         &:focus {
           box-shadow: 0 0 0 3px $color-ultramarine;
-        }
-      }
-    }
-
-    &__prev,
-    &__next {
-      --height: 36px;
-      position: absolute;
-      top: calc(50% - var(--height) / 2);
-
-      width: 18px;
-      height: var(--height);
-    }
-
-    &__prev {
-      inset-inline-start: 0;
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-shallow-left.svg',
-          $color-gray-75
-        );
-      }
-
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-shallow-left.svg',
-          $color-gray-15
-        );
-      }
-    }
-
-    &__next {
-      inset-inline-end: 0;
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-shallow-right.svg',
-          $color-gray-75
-        );
-      }
-
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-shallow-right.svg',
-          $color-gray-15
-        );
-      }
-    }
-  }
-
-  &__carousel {
-    display: flex;
-    gap: 8px;
-
-    &__dot {
-      @include button-reset;
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
-
-      @include light-theme {
-        background: $color-gray-25;
-      }
-
-      @include dark-theme {
-        background: $color-gray-60;
-      }
-
-      @include keyboard-mode {
-        &:focus {
-          box-shadow: 0 0 0 3px $color-ultramarine;
-        }
-      }
-
-      &[aria-pressed='true'] {
-        @include light-theme {
-          background: $color-black;
-        }
-
-        @include dark-theme {
-          background: $color-white;
         }
       }
     }
@@ -196,6 +69,8 @@
     @include dark-theme {
       color: $color-gray-25;
     }
+
+    margin-top: 4px;
   }
 
   &__verification-status {

@@ -3,7 +3,7 @@
 
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
-import type { UUID, UUIDStringType, TaggedUUIDStringType } from '../types/UUID';
+import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
 import type { TextAttachmentType } from '../types/Attachment';
 import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
@@ -44,7 +44,7 @@ export type WebAPICredentials = {
 
 export type DeviceType = {
   id: number;
-  identifier: string;
+  serviceId: ServiceIdString;
   registrationId: number;
 };
 
@@ -88,10 +88,10 @@ export type ProcessedEnvelope = Readonly<{
   // Mostly from Proto.Envelope except for null/undefined
   type: Proto.Envelope.Type;
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
-  destinationUuid: UUID;
-  updatedPni?: UUID;
+  destinationServiceId: ServiceIdString;
+  updatedPni?: PniString;
   timestamp: number;
   content?: Uint8Array;
   serverGuid: string;
@@ -138,7 +138,7 @@ export type ProcessedQuoteAttachment = {
 
 export type ProcessedQuote = {
   id?: number;
-  authorUuid?: string;
+  authorAci?: AciString;
   text?: string;
   attachments: ReadonlyArray<ProcessedQuoteAttachment>;
   bodyRanges?: ReadonlyArray<ProcessedBodyRange>;
@@ -173,7 +173,7 @@ export type ProcessedSticker = {
 export type ProcessedReaction = {
   emoji?: string;
   remove: boolean;
-  targetAuthorUuid?: string;
+  targetAuthorAci?: AciString;
   targetTimestamp?: number;
 };
 
@@ -225,7 +225,7 @@ export type ProcessedUnidentifiedDeliveryStatus = Omit<
   Proto.SyncMessage.Sent.IUnidentifiedDeliveryStatus,
   'destinationAci' | 'destinationPni'
 > & {
-  destinationUuid?: TaggedUUIDStringType;
+  destinationServiceId?: ServiceIdString;
   isAllowedToReplyToStory?: boolean;
 };
 
@@ -233,7 +233,7 @@ export type ProcessedStoryMessageRecipient = Omit<
   Proto.SyncMessage.Sent.IStoryMessageRecipient,
   'destinationAci' | 'destinationPni'
 > & {
-  destinationUuid?: TaggedUUIDStringType;
+  destinationServiceId?: ServiceIdString;
 };
 
 export type ProcessedSent = Omit<
@@ -245,7 +245,7 @@ export type ProcessedSent = Omit<
   | 'destinationPni'
 > & {
   destinationId?: string;
-  destinationUuid?: TaggedUUIDStringType;
+  destinationServiceId?: ServiceIdString;
   unidentifiedStatus?: Array<ProcessedUnidentifiedDeliveryStatus>;
   storyMessageRecipients?: Array<ProcessedStoryMessageRecipient>;
 };
@@ -260,10 +260,10 @@ export type CustomError = Error & {
 };
 
 export type CallbackResultType = {
-  successfulIdentifiers?: Array<string>;
-  failoverIdentifiers?: Array<string>;
+  successfulServiceIds?: Array<ServiceIdString>;
+  failoverServiceIds?: Array<ServiceIdString>;
   errors?: Array<CustomError>;
-  unidentifiedDeliveries?: Array<string>;
+  unidentifiedDeliveries?: Array<ServiceIdString>;
   dataMessage: Uint8Array | undefined;
   editMessage: Uint8Array | undefined;
 
@@ -275,7 +275,7 @@ export type CallbackResultType = {
   contentHint?: number;
   contentProto?: Uint8Array;
   timestamp?: number;
-  recipients?: Record<string, Array<number>>;
+  recipients?: Record<ServiceIdString, Array<number>>;
   urgent?: boolean;
   hasPniSignatureMessage?: boolean;
 };
@@ -292,6 +292,6 @@ export type PniKeyMaterialType = Readonly<{
 }>;
 
 export type PniSignatureMessageType = Readonly<{
-  pni: UUIDStringType;
+  pni: PniString;
   signature: Uint8Array;
 }>;

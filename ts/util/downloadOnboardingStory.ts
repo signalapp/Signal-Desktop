@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import type { AttachmentType } from '../types/Attachment';
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
@@ -8,39 +10,20 @@ import * as log from '../logging/log';
 import { IMAGE_JPEG } from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
-import { UUID } from '../types/UUID';
 import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists';
-import { runStorageServiceSyncJob } from '../services/storage';
 import { saveNewMessageBatcher } from './messageBatcher';
 import { strictAssert } from './assert';
 import { incrementMessageCounter } from './incrementMessageCounter';
 
-// * Check if we've viewed onboarding story. Short circuit.
-// * Run storage service sync (just in case) and check again.
-// * If it has been viewed and it's downloaded on this device, delete & return.
+// First, this function is meant to be run after a storage service sync
+
+// * If onboarding story has been viewed and it's downloaded on this device,
+//   delete & return.
 // * Check if we've already downloaded the onboarding story.
 // * Download onboarding story, create db entry, mark as downloaded.
 // * If story has been viewed mark as viewed on AccountRecord.
 // * If we viewed it >24 hours ago, delete.
 export async function downloadOnboardingStory(): Promise<void> {
-  const hasViewedOnboardingStory = window.storage.get(
-    'hasViewedOnboardingStory'
-  );
-
-  if (hasViewedOnboardingStory) {
-    await findAndDeleteOnboardingStoryIfExists();
-    return;
-  }
-
-  runStorageServiceSyncJob();
-
-  window.Whisper.events.once(
-    'storageService:syncComplete',
-    continueDownloadingOnboardingStory
-  );
-}
-
-async function continueDownloadingOnboardingStory(): Promise<void> {
   const { server } = window.textsecure;
 
   strictAssert(server, 'server not initialized');
@@ -105,7 +88,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
         attachments: [attachment],
         canReplyToStory: false,
         conversationId: signalConversation.id,
-        id: UUID.generate().toString(),
+        id: generateUuid(),
         readStatus: ReadStatus.Unread,
         received_at: incrementMessageCounter(),
         received_at_ms: timestamp,
@@ -113,7 +96,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
         sent_at: timestamp,
         serverTimestamp: timestamp,
         sourceDevice: 1,
-        sourceUuid: signalConversation.get('uuid'),
+        sourceServiceId: signalConversation.getServiceId(),
         timestamp,
         type: 'story',
       };

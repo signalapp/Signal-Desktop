@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingButton';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
@@ -13,101 +12,79 @@ import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  buttonType:
-    overrideProps.buttonType ||
-    select('buttonType', CallingButtonType, CallingButtonType.HANG_UP),
-  i18n,
-  onClick: action('on-click'),
-  onMouseEnter: action('on-mouse-enter'),
-  onMouseLeave: action('on-mouse-leave'),
-  tooltipDirection: select(
-    'tooltipDirection',
-    TooltipPlacement,
-    overrideProps.tooltipDirection || TooltipPlacement.Bottom
-  ),
-});
-
 export default {
   title: 'Components/CallingButton',
-};
+  component: CallingButton,
+  argTypes: {
+    buttonType: {
+      control: { type: 'select' },
+      options: Object.values(CallingButtonType),
+    },
+    tooltipDirection: {
+      control: { type: 'select' },
+      options: Object.values(TooltipPlacement),
+    },
+  },
+  args: {
+    buttonType: CallingButtonType.RING_ON,
+    i18n,
+    onClick: action('on-click'),
+    onMouseEnter: action('on-mouse-enter'),
+    onMouseLeave: action('on-mouse-leave'),
+    tooltipDirection: TooltipPlacement.Bottom,
+  },
+} satisfies Meta<PropsType>;
 
-export function KitchenSink(): JSX.Element {
+export function KitchenSink(args: PropsType): JSX.Element {
   return (
     <>
-      {Object.keys(CallingButtonType).map(buttonType => (
-        <CallingButton
-          key={buttonType}
-          {...createProps({ buttonType: buttonType as CallingButtonType })}
-        />
+      {Object.values(CallingButtonType).map(buttonType => (
+        <CallingButton key={buttonType} {...args} buttonType={buttonType} />
       ))}
     </>
   );
 }
 
-export function AudioOn(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.AUDIO_ON,
-  });
-  return <CallingButton {...props} />;
+export function AudioOn(args: PropsType): JSX.Element {
+  return <CallingButton {...args} buttonType={CallingButtonType.AUDIO_ON} />;
 }
 
-export function AudioOff(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.AUDIO_OFF,
-  });
-  return <CallingButton {...props} />;
+export function AudioOff(args: PropsType): JSX.Element {
+  return <CallingButton {...args} buttonType={CallingButtonType.AUDIO_OFF} />;
 }
 
-export function AudioDisabled(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.AUDIO_DISABLED,
-  });
-  return <CallingButton {...props} />;
+export function AudioDisabled(args: PropsType): JSX.Element {
+  return (
+    <CallingButton {...args} buttonType={CallingButtonType.AUDIO_DISABLED} />
+  );
 }
 
-export function VideoOn(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.VIDEO_ON,
-  });
-  return <CallingButton {...props} />;
+export function VideoOn(args: PropsType): JSX.Element {
+  return <CallingButton {...args} buttonType={CallingButtonType.VIDEO_ON} />;
 }
 
-export function VideoOff(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.VIDEO_OFF,
-  });
-  return <CallingButton {...props} />;
+export function VideoOff(args: PropsType): JSX.Element {
+  return <CallingButton {...args} buttonType={CallingButtonType.VIDEO_OFF} />;
 }
 
-export function VideoDisabled(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.VIDEO_DISABLED,
-  });
-  return <CallingButton {...props} />;
+export function VideoDisabled(args: PropsType): JSX.Element {
+  return (
+    <CallingButton {...args} buttonType={CallingButtonType.VIDEO_DISABLED} />
+  );
 }
 
-export function TooltipRight(): JSX.Element {
-  const props = createProps({
-    tooltipDirection: TooltipPlacement.Right,
-  });
-  return <CallingButton {...props} />;
+export function TooltipRight(args: PropsType): JSX.Element {
+  return <CallingButton {...args} tooltipDirection={TooltipPlacement.Right} />;
 }
 
-TooltipRight.story = {
-  name: 'Tooltip right',
-};
-
-export function PresentingOn(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.PRESENTING_ON,
-  });
-  return <CallingButton {...props} />;
+export function PresentingOn(args: PropsType): JSX.Element {
+  return (
+    <CallingButton {...args} buttonType={CallingButtonType.PRESENTING_ON} />
+  );
 }
 
-export function PresentingOff(): JSX.Element {
-  const props = createProps({
-    buttonType: CallingButtonType.PRESENTING_OFF,
-  });
-  return <CallingButton {...props} />;
+export function PresentingOff(args: PropsType): JSX.Element {
+  return (
+    <CallingButton {...args} buttonType={CallingButtonType.PRESENTING_OFF} />
+  );
 }

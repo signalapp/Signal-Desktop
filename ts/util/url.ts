@@ -5,7 +5,7 @@ export function maybeParseUrl(value: string): undefined | URL {
   if (typeof value === 'string') {
     try {
       return new URL(value);
-    } catch (err) {
+    } catch {
       /* Errors are ignored. */
     }
   }

@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './ReactionViewer';
 import { ReactionViewer } from './ReactionViewer';
 import { setupI18n } from '../../util/setupI18n';
@@ -16,7 +15,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ReactionViewer',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getPreferredBadge: () => undefined,

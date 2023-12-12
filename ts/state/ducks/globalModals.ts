@@ -17,12 +17,10 @@ import type { MessagePropsType } from '../selectors/message';
 import type { RecipientsByConversation } from './stories';
 import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import type { StateType as RootStateType } from '../reducer';
-import type { UUIDStringType } from '../../types/UUID';
 import * as Errors from '../../types/errors';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
 import * as log from '../../logging/log';
-import { getMessageById } from '../../messages/getMessageById';
 import { getMessagePropsSelector } from '../selectors/message';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
@@ -58,7 +56,7 @@ export type ForwardMessagesPropsType = ReadonlyDeep<{
   onForward?: () => void;
 }>;
 export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
-  promiseUuid: UUIDStringType;
+  promiseUuid: SingleServePromise.SingleServePromiseIdString;
   source?: SafetyNumberChangeSource;
 }>;
 export type FormattingWarningDataType = ReadonlyDeep<{
@@ -112,8 +110,10 @@ const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
-const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
-const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
+const HIDE_SERVICE_ID_NOT_FOUND_MODAL =
+  'globalModals/HIDE_SERVICE_ID_NOT_FOUND_MODAL';
+const SHOW_SERVICE_ID_NOT_FOUND_MODAL =
+  'globalModals/SHOW_SERVICE_ID_NOT_FOUND_MODAL';
 const SHOW_STORIES_SETTINGS = 'globalModals/SHOW_STORIES_SETTINGS';
 const HIDE_STORIES_SETTINGS = 'globalModals/HIDE_STORIES_SETTINGS';
 const TOGGLE_DELETE_MESSAGES_MODAL =
@@ -135,7 +135,7 @@ const CLOSE_GV2_MIGRATION_DIALOG = 'globalModals/CLOSE_GV2_MIGRATION_DIALOG';
 const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
 const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
-const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+export const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
 const SHOW_FORMATTING_WARNING_MODAL =
   'globalModals/SHOW_FORMATTING_WARNING_MODAL';
 const SHOW_SEND_EDIT_WARNING_MODAL =
@@ -186,11 +186,11 @@ type ShowWhatsNewModalActionType = ReadonlyDeep<{
 }>;
 
 type HideUserNotFoundModalActionType = ReadonlyDeep<{
-  type: typeof HIDE_UUID_NOT_FOUND_MODAL;
+  type: typeof HIDE_SERVICE_ID_NOT_FOUND_MODAL;
 }>;
 
 export type ShowUserNotFoundModalActionType = ReadonlyDeep<{
-  type: typeof SHOW_UUID_NOT_FOUND_MODAL;
+  type: typeof SHOW_SERVICE_ID_NOT_FOUND_MODAL;
   payload: UserNotFoundModalStateType;
 }>;
 
@@ -286,7 +286,7 @@ type CloseErrorModalActionType = ReadonlyDeep<{
   type: typeof CLOSE_ERROR_MODAL;
 }>;
 
-type ShowErrorModalActionType = ReadonlyDeep<{
+export type ShowErrorModalActionType = ReadonlyDeep<{
   type: typeof SHOW_ERROR_MODAL;
   payload: {
     description?: string;
@@ -445,7 +445,7 @@ function showWhatsNewModal(): ShowWhatsNewModalActionType {
 
 function hideUserNotFoundModal(): HideUserNotFoundModalActionType {
   return {
-    type: HIDE_UUID_NOT_FOUND_MODAL,
+    type: HIDE_SERVICE_ID_NOT_FOUND_MODAL,
   };
 }
 
@@ -453,7 +453,7 @@ function showUserNotFoundModal(
   payload: UserNotFoundModalStateType
 ): ShowUserNotFoundModalActionType {
   return {
-    type: SHOW_UUID_NOT_FOUND_MODAL,
+    type: SHOW_SERVICE_ID_NOT_FOUND_MODAL,
     payload,
   };
 }
@@ -507,7 +507,7 @@ function showGV2MigrationDialog(
       });
 
     const invitedMemberIds = pendingMembersV2.map(
-      (item: GroupV2PendingMemberType) => item.uuid
+      (item: GroupV2PendingMemberType) => item.serviceId
     );
 
     dispatch({
@@ -558,15 +558,12 @@ function toggleForwardMessagesModal(
 
     const messagesProps = await Promise.all(
       messageIds.map(async messageId => {
-        const message = await getMessageById(messageId);
+        const messageAttributes = await window.MessageCache.resolveAttributes(
+          'toggleForwardMessagesModal',
+          messageId
+        );
 
-        if (!message) {
-          throw new Error(
-            `toggleForwardMessagesModal: no message found for ${messageId}`
-          );
-        }
-
-        const attachments = message.get('attachments') ?? [];
+        const { attachments = [] } = messageAttributes;
 
         if (!attachments.every(isDownloaded)) {
           dispatch(
@@ -575,7 +572,7 @@ function toggleForwardMessagesModal(
         }
 
         const messagePropsSelector = getMessagePropsSelector(getState());
-        const messageProps = messagePropsSelector(message.attributes);
+        const messageProps = messagePropsSelector(messageAttributes);
 
         return messageProps;
       })
@@ -764,14 +761,10 @@ function showEditHistoryModal(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, ShowEditHistoryModalActionType> {
   return async dispatch => {
-    const message = await getMessageById(messageId);
-
-    if (!message) {
-      log.warn('showEditHistoryModal: no message found');
-      return;
-    }
-
-    const messageAttributes = message.attributes;
+    const messageAttributes = await window.MessageCache.resolveAttributes(
+      'showEditHistoryModal',
+      messageId
+    );
     const nextEditHistoryMessages =
       copyOverMessageAttributesIntoEditHistory(messageAttributes);
 
@@ -904,14 +897,14 @@ export function reducer(
     };
   }
 
-  if (action.type === HIDE_UUID_NOT_FOUND_MODAL) {
+  if (action.type === HIDE_SERVICE_ID_NOT_FOUND_MODAL) {
     return {
       ...state,
       userNotFoundModalState: undefined,
     };
   }
 
-  if (action.type === SHOW_UUID_NOT_FOUND_MODAL) {
+  if (action.type === SHOW_SERVICE_ID_NOT_FOUND_MODAL) {
     return {
       ...state,
       userNotFoundModalState: {

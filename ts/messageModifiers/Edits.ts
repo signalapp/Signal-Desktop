@@ -5,10 +5,13 @@ import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { drop } from '../util/drop';
-import { filter, size } from '../util/iterables';
 import { getContactId } from '../messages/helpers';
 import { handleEditMessage } from '../util/handleEditMessage';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import {
+  isAttachmentDownloadQueueEmpty,
+  registerQueueEmptyCallback,
+} from '../util/attachmentDownloadQueue';
 
 export type EditAttributesType = {
   conversationId: string;
@@ -22,34 +25,47 @@ export type EditAttributesType = {
 
 const edits = new Map<string, EditAttributesType>();
 
+function remove(edit: EditAttributesType): void {
+  edits.delete(edit.envelopeId);
+  edit.removeFromMessageReceiverCache();
+}
+
 export function forMessage(
   messageAttributes: Pick<
     MessageAttributesType,
     | 'editMessageTimestamp'
     | 'sent_at'
     | 'source'
-    | 'sourceUuid'
+    | 'sourceServiceId'
     | 'timestamp'
     | 'type'
   >
 ): Array<EditAttributesType> {
   const sentAt = getMessageSentTimestamp(messageAttributes, { log });
-  const matchingEdits = filter(edits, ([_envelopeId, item]) => {
+  const editValues = Array.from(edits.values());
+
+  if (!isAttachmentDownloadQueueEmpty()) {
+    log.info(
+      'Edits.forMessage attachmentDownloadQueue not empty, not processing edits'
+    );
+    registerQueueEmptyCallback(flushEdits);
+    return [];
+  }
+
+  const matchingEdits = editValues.filter(item => {
     return (
       item.targetSentTimestamp === sentAt &&
       item.fromId === getContactId(messageAttributes)
     );
   });
 
-  if (size(matchingEdits) > 0) {
-    const result: Array<EditAttributesType> = [];
+  if (matchingEdits.length > 0) {
     const editsLogIds: Array<number> = [];
 
-    Array.from(matchingEdits).forEach(([envelopeId, item]) => {
-      result.push(item);
+    const result = matchingEdits.map(item => {
       editsLogIds.push(item.message.sent_at);
-      edits.delete(envelopeId);
-      item.removeFromMessageReceiverCache();
+      remove(item);
+      return item;
     });
 
     log.info(
@@ -62,10 +78,25 @@ export function forMessage(
   return [];
 }
 
+export async function flushEdits(): Promise<void> {
+  log.info('Edits.flushEdits running');
+  return drop(
+    Promise.all(Array.from(edits.values()).map(edit => onEdit(edit)))
+  );
+}
+
 export async function onEdit(edit: EditAttributesType): Promise<void> {
   edits.set(edit.envelopeId, edit);
 
   const logId = `Edits.onEdit(timestamp=${edit.message.timestamp};target=${edit.targetSentTimestamp})`;
+
+  if (!isAttachmentDownloadQueueEmpty()) {
+    log.info(
+      `${logId}: attachmentDownloadQueue not empty, not processing edits`
+    );
+    registerQueueEmptyCallback(flushEdits);
+    return;
+  }
 
   try {
     // The conversation the edited message was in; we have to find it in the database
@@ -99,22 +130,22 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
 
         if (!targetMessage) {
           log.info(`${logId}: No message`);
-
           return;
         }
 
-        const message = window.MessageController.register(
+        const message = window.MessageCache.__DEPRECATED$register(
           targetMessage.id,
-          targetMessage
+          targetMessage,
+          'Edits.onEdit'
         );
 
         await handleEditMessage(message.attributes, edit);
 
-        edits.delete(edit.envelopeId);
-        edit.removeFromMessageReceiverCache();
+        remove(edit);
       })
     );
   } catch (error) {
+    remove(edit);
     log.error(`${logId} error:`, Errors.toLogFormat(error));
   }
 }

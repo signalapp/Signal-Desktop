@@ -10,6 +10,7 @@ import { filterAndSortConversationsByRecent } from '../util/filterAndSortConvers
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationWithStoriesType } from '../state/selectors/conversations';
 import type { LocalizerType } from '../types/Util';
+import { ThemeType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal';
 import {
@@ -21,7 +22,8 @@ import {
   Page as StoriesSettingsPage,
 } from './StoriesSettingsModal';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString } from '../types/ServiceId';
 import { Alert } from './Alert';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonSize, ButtonVariant } from './Button';
@@ -33,7 +35,6 @@ import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
 import type { RenderModalPage, ModalPropsType } from './Modal';
 import { PagedModal, ModalPage } from './Modal';
 import { StoryDistributionListName } from './StoryDistributionListName';
-import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
 import { StoryImage } from './StoryImage';
 import type { AttachmentType } from '../types/Attachment';
@@ -41,6 +42,7 @@ import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { makeObjectUrl, revokeObjectUrl } from '../types/VisualAttachment';
 import { UserText } from './UserText';
+import { Theme } from '../util/theme';
 
 export type PropsType = {
   draftAttachment: AttachmentType;
@@ -54,21 +56,22 @@ export type PropsType = {
   i18n: LocalizerType;
   me: ConversationType;
   onClose: () => unknown;
-  onDeleteList: (listId: string) => unknown;
+  onDeleteList: (listId: StoryDistributionIdString) => unknown;
   onDistributionListCreated: (
     name: string,
-    viewerUuids: Array<UUIDStringType>
-  ) => Promise<UUIDStringType>;
+    viewerServiceIds: Array<ServiceIdString>
+  ) => Promise<StoryDistributionIdString>;
   onSelectedStoryList: (options: {
     conversationId: string;
-    distributionId: string | undefined;
-    uuids: Array<UUIDStringType>;
+    distributionId: StoryDistributionIdString | undefined;
+    serviceIds: Array<ServiceIdString>;
   }) => unknown;
   onSend: (
-    listIds: Array<UUIDStringType>,
+    listIds: Array<StoryDistributionIdString>,
     conversationIds: Array<string>
   ) => unknown;
   signalConnections: Array<ConversationType>;
+  theme: ThemeType;
   toggleGroupsForStorySend: (cids: Array<string>) => Promise<void>;
   mostRecentActiveStoryTimestampByGroupOrDistributionList: Record<
     string,
@@ -99,21 +102,23 @@ const Page = {
 
 type PageType = SendStoryPage | StoriesSettingsPage;
 
-function getListMemberUuids(
+function getListMemberServiceIds(
   list: StoryDistributionListWithMembersDataType,
   signalConnections: Array<ConversationType>
-): Array<UUIDStringType> {
-  const memberUuids = list.members.map(({ uuid }) => uuid).filter(isNotNil);
+): Array<ServiceIdString> {
+  const memberServiceIds = list.members
+    .map(({ serviceId }) => serviceId)
+    .filter(isNotNil);
 
   if (list.id === MY_STORY_ID && list.isBlockList) {
-    const excludeUuids = new Set<string>(memberUuids);
+    const excludeServiceIds = new Set<ServiceIdString>(memberServiceIds);
     return signalConnections
-      .map(conversation => conversation.uuid)
+      .map(conversation => conversation.serviceId)
       .filter(isNotNil)
-      .filter(uuid => !excludeUuids.has(uuid));
+      .filter(serviceId => !excludeServiceIds.has(serviceId));
   }
 
-  return memberUuids;
+  return memberServiceIds;
 }
 
 export function SendStoryModal({
@@ -138,6 +143,7 @@ export function SendStoryModal({
   onViewersUpdated,
   setMyStoriesToAllSignalConnections,
   signalConnections,
+  theme,
   toggleGroupsForStorySend,
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
@@ -147,9 +153,9 @@ export function SendStoryModal({
 
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
-  const [selectedListIds, setSelectedListIds] = useState<Set<UUIDStringType>>(
-    new Set()
-  );
+  const [selectedListIds, setSelectedListIds] = useState<
+    Set<StoryDistributionIdString>
+  >(new Set());
   const [selectedGroupIds, setSelectedGroupIds] = useState<Set<string>>(
     new Set()
   );
@@ -157,13 +163,13 @@ export function SendStoryModal({
     () =>
       distributionLists
         .filter(list => selectedListIds.has(list.id))
-        .map(list => list.name)
+        .map(list => getStoryDistributionListName(i18n, list.id, list.name))
         .concat(
           groupStories
             .filter(group => selectedGroupIds.has(group.id))
             .map(group => group.title)
         ),
-    [distributionLists, groupStories, selectedGroupIds, selectedListIds]
+    [distributionLists, groupStories, selectedGroupIds, selectedListIds, i18n]
   );
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -215,7 +221,7 @@ export function SendStoryModal({
     string | undefined
   >();
   const [confirmDeleteList, setConfirmDeleteList] = useState<
-    { id: string; name: string } | undefined
+    { id: StoryDistributionIdString; name: string } | undefined
   >();
 
   const [listIdToEdit, setListIdToEdit] = useState<string | undefined>();
@@ -236,7 +242,7 @@ export function SendStoryModal({
     return distributionLists.find(list => list.id === listIdToEdit);
   }, [distributionLists, listIdToEdit]);
 
-  // myStoriesPrivacy, myStoriesPrivacyUuids, and myStories are only used
+  // myStoriesPrivacy, myStoriesPrivacyServiceIds, and myStories are only used
   // during the first time posting to My Stories experience where we have
   // to select the privacy settings.
   const ogMyStories = useMemo(
@@ -262,9 +268,7 @@ export function SendStoryModal({
   if (page === Page.ChooseGroups) {
     selectedNames = chosenGroupNames.join(', ');
   } else {
-    selectedNames = selectedStoryNames
-      .map(listName => getStoryDistributionListName(i18n, listName, listName))
-      .join(', ');
+    selectedNames = selectedStoryNames.join(', ');
   }
 
   const [objectUrl, setObjectUrl] = useState<string | undefined>(undefined);
@@ -304,18 +308,18 @@ export function SendStoryModal({
           </Button>
           <Button
             onClick={() => {
-              const uuids = stagedMyStories.members
-                .map(convo => convo.uuid)
+              const serviceIds = stagedMyStories.members
+                .map(convo => convo.serviceId)
                 .filter(isNotNil);
 
               if (stagedMyStories.isBlockList) {
                 if (stagedMyStories.members.length) {
-                  onHideMyStoriesFrom(uuids);
+                  onHideMyStoriesFrom(serviceIds);
                 } else {
                   setMyStoriesToAllSignalConnections();
                 }
               } else {
-                onViewersUpdated(MY_STORY_ID, uuids);
+                onViewersUpdated(MY_STORY_ID, serviceIds);
               }
 
               setSelectedContacts([]);
@@ -399,6 +403,7 @@ export function SendStoryModal({
         setPage={setPage}
         setSelectedContacts={setSelectedContacts}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+        theme={theme}
         onBackButtonClick={() =>
           confirmDiscardIf(selectedContacts.length > 0, () =>
             setListIdToEdit(undefined)
@@ -418,10 +423,10 @@ export function SendStoryModal({
         candidateConversations={candidateConversations}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
-        onCreateList={async (name, uuids) => {
+        onCreateList={async (name, serviceIds) => {
           const newDistributionListId = await onDistributionListCreated(
             name,
-            uuids
+            serviceIds
           );
 
           setSelectedContacts([]);
@@ -431,19 +436,19 @@ export function SendStoryModal({
 
           setPage(Page.SendStory);
         }}
-        onViewersUpdated={uuids => {
+        onViewersUpdated={serviceIds => {
           if (listIdToEdit && page === Page.AddViewer) {
-            onViewersUpdated(listIdToEdit, uuids);
+            onViewersUpdated(listIdToEdit, serviceIds);
             setPage(Page.EditingDistributionList);
           } else if (page === Page.ChooseViewers) {
             setPage(Page.NameStory);
           } else if (listIdToEdit && page === Page.HideStoryFrom) {
-            onHideMyStoriesFrom(uuids);
+            onHideMyStoriesFrom(serviceIds);
             setPage(Page.SendStory);
           } else if (page === Page.HideStoryFrom || page === Page.AddViewer) {
-            const uuidsSet = new Set(uuids);
+            const serviceIdSet = new Set(serviceIds);
             const members = candidateConversations.filter(convo =>
-              convo.uuid ? uuidsSet.has(convo.uuid) : false
+              convo.serviceId ? serviceIdSet.has(convo.serviceId) : false
             );
             setStagedMyStories(myStories => ({
               ...myStories,
@@ -482,6 +487,7 @@ export function SendStoryModal({
         }
         selectedContacts={selectedContacts}
         setSelectedContacts={setSelectedContacts}
+        theme={theme}
       />
     );
   } else if (page === Page.ChooseGroups) {
@@ -661,7 +667,7 @@ export function SendStoryModal({
               onSelectedStoryList({
                 conversationId: ourConversationId,
                 distributionId: list.id,
-                uuids: getListMemberUuids(list, signalConnections),
+                serviceIds: getListMemberServiceIds(list, signalConnections),
               });
             }
           }}
@@ -697,7 +703,7 @@ export function SendStoryModal({
                 placement: 'bottom',
                 strategy: 'absolute',
               }}
-              theme={Theme.Dark}
+              theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
             >
               <label
                 className="SendStoryModal__distribution-list__label"
@@ -792,7 +798,7 @@ export function SendStoryModal({
               onSelectedStoryList({
                 conversationId: group.id,
                 distributionId: undefined,
-                uuids: group.memberships.map(({ uuid }) => uuid),
+                serviceIds: group.memberships.map(({ aci }) => aci),
               });
             }
           }}
@@ -813,7 +819,7 @@ export function SendStoryModal({
                 placement: 'bottom',
                 strategy: 'absolute',
               }}
-              theme={Theme.Dark}
+              theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
             >
               <label
                 className="SendStoryModal__distribution-list__label"
@@ -885,49 +891,55 @@ export function SendStoryModal({
           />
         </div>
         <div className="SendStoryModal__top-bar">
-          {i18n('icu:stories')}
-          <ContextMenu
-            aria-label={i18n('icu:SendStoryModal__new')}
-            i18n={i18n}
-            menuOptions={[
-              {
-                label: i18n('icu:SendStoryModal__new-custom--title'),
-                description: i18n(
-                  'icu:SendStoryModal__new-custom--description'
-                ),
-                icon: 'SendStoryModal__icon--custom',
-                onClick: () => setPage(Page.ChooseViewers),
-              },
-              {
-                label: i18n('icu:SendStoryModal__new-group--title'),
-                description: i18n('icu:SendStoryModal__new-group--description'),
-                icon: 'SendStoryModal__icon--group',
-                onClick: () => setPage(Page.ChooseGroups),
-              },
-            ]}
-            moduleClassName="SendStoryModal__new-story"
-            popperOptions={{
-              placement: 'bottom',
-              strategy: 'absolute',
-            }}
-            theme={Theme.Dark}
-          >
-            {({ openMenu, onKeyDown, ref, menuNode }) => (
-              <div>
-                <Button
-                  ref={ref}
-                  className="SendStoryModal__new-story__button"
-                  variant={ButtonVariant.Secondary}
-                  size={ButtonSize.Small}
-                  onClick={openMenu}
-                  onKeyDown={onKeyDown}
-                >
-                  {i18n('icu:SendStoryModal__new')}
-                </Button>
-                {menuNode}
-              </div>
-            )}
-          </ContextMenu>
+          <div className="SendStoryModal__top-bar-title">
+            {i18n('icu:stories')}
+          </div>
+          <div className="SendStoryModal__top-bar-actions">
+            <ContextMenu
+              aria-label={i18n('icu:SendStoryModal__new')}
+              i18n={i18n}
+              menuOptions={[
+                {
+                  label: i18n('icu:SendStoryModal__new-custom--title'),
+                  description: i18n(
+                    'icu:SendStoryModal__new-custom--description'
+                  ),
+                  icon: 'SendStoryModal__icon--custom',
+                  onClick: () => setPage(Page.ChooseViewers),
+                },
+                {
+                  label: i18n('icu:SendStoryModal__new-group--title'),
+                  description: i18n(
+                    'icu:SendStoryModal__new-group--description'
+                  ),
+                  icon: 'SendStoryModal__icon--group',
+                  onClick: () => setPage(Page.ChooseGroups),
+                },
+              ]}
+              moduleClassName="SendStoryModal__new-story"
+              popperOptions={{
+                placement: 'bottom',
+                strategy: 'absolute',
+              }}
+              theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
+            >
+              {({ openMenu, onKeyDown, ref, menuNode }) => (
+                <div>
+                  <Button
+                    ref={ref}
+                    className="SendStoryModal__new-story__button"
+                    variant={ButtonVariant.Secondary}
+                    size={ButtonSize.Small}
+                    onClick={openMenu}
+                    onKeyDown={onKeyDown}
+                  >
+                    {i18n('icu:SendStoryModal__new')}
+                  </Button>
+                  {menuNode}
+                </div>
+              )}
+            </ContextMenu>
+          </div>
         </div>
         {fullList.map(listOrGroup =>
           // only group has a type field
@@ -944,7 +956,7 @@ export function SendStoryModal({
       {!confirmDiscardModal && (
         <PagedModal
           modalName="SendStoryModal"
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
           onClose={() => confirmDiscardIf(selectedContacts.length > 0, onClose)}
         >
           {modal}
@@ -955,7 +967,7 @@ export function SendStoryModal({
           body={i18n('icu:SendStoryModal__announcements-only')}
           i18n={i18n}
           onClose={() => setHasAnnouncementsOnlyAlert(false)}
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         />
       )}
       {confirmRemoveGroupId && (
@@ -975,7 +987,7 @@ export function SendStoryModal({
           onClose={() => {
             setConfirmRemoveGroupId(undefined);
           }}
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         >
           {i18n('icu:SendStoryModal__confirm-remove-group')}
         </ConfirmationDialog>
@@ -997,7 +1009,7 @@ export function SendStoryModal({
           onClose={() => {
             setConfirmDeleteList(undefined);
           }}
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         >
           {i18n('icu:StoriesSettings__delete-list--confirm', {
             name: confirmDeleteList.name,

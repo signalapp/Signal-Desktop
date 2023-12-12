@@ -22,7 +22,7 @@ export function getDistributionListsForRedux(): Array<StoryDistributionListDataT
       id: list.id,
       isBlockList: Boolean(list.isBlockList),
       name: list.name,
-      memberUuids: list.members,
+      memberServiceIds: list.members,
     }))
     .filter(list => !list.deletedAtTimestamp);
 

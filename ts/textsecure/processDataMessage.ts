@@ -29,6 +29,8 @@ import { SECOND, DurationInSeconds } from '../util/durations';
 import type { AnyPaymentEvent } from '../types/Payment';
 import { PaymentEventKind } from '../types/Payment';
 import { filterAndClean } from '../types/BodyRange';
+import { isAciString } from '../util/isAciString';
+import { normalizeAci } from '../util/normalizeAci';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -129,9 +131,14 @@ export function processQuote(
     return undefined;
   }
 
+  const { authorAci } = quote;
+  if (!isAciString(authorAci)) {
+    throw new Error('quote.authorAci is not an ACI string');
+  }
+
   return {
     id: quote.id?.toNumber(),
-    authorUuid: dropNull(quote.authorUuid),
+    authorAci: normalizeAci(authorAci, 'Quote.authorAci'),
     text: dropNull(quote.text),
     attachments: (quote.attachments ?? []).map(attachment => {
       return {
@@ -220,10 +227,15 @@ export function processReaction(
     return undefined;
   }
 
+  const { targetAuthorAci } = reaction;
+  if (!isAciString(targetAuthorAci)) {
+    throw new Error('reaction.targetAuthorAci is not an ACI string');
+  }
+
   return {
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
-    targetAuthorUuid: dropNull(reaction.targetAuthorUuid),
+    targetAuthorAci: normalizeAci(targetAuthorAci, 'Reaction.targetAuthorAci'),
     targetTimestamp: reaction.targetTimestamp?.toNumber(),
   };
 }

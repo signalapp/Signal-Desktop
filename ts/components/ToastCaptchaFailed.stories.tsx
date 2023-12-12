@@ -3,8 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './ToastCaptchaFailed';
 import { ToastCaptchaFailed } from './ToastCaptchaFailed';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -17,12 +18,8 @@ const defaultProps = {
 
 export default {
   title: 'Components/ToastCaptchaFailed',
-};
+} satisfies Meta<PropsType>;
 
 export const _ToastCaptchaFailed = (): JSX.Element => (
   <ToastCaptchaFailed {...defaultProps} />
 );
-
-_ToastCaptchaFailed.story = {
-  name: 'ToastCaptchaFailed',
-};

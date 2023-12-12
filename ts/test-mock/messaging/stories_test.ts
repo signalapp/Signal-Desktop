@@ -9,18 +9,18 @@ import type { Group } from '@signalapp/mock-server';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
-import { UUID } from '../../types/UUID';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 
-export const debug = createDebug('mock:test:edit');
+export const debug = createDebug('mock:test:stories');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-const DISTRIBUTION1 = UUID.generate().toString();
-const DISTRIBUTION2 = UUID.generate().toString();
+const DISTRIBUTION1 = generateStoryDistributionId();
+const DISTRIBUTION2 = generateStoryDistributionId();
 
-describe('story/messaging', function unknownContacts() {
+describe('story/messaging', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -52,7 +52,7 @@ describe('story/messaging', function unknownContacts() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: false,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -66,7 +66,7 @@ describe('story/messaging', function unknownContacts() {
           identifier: uuidToBytes(DISTRIBUTION1),
           isBlockList: false,
           name: 'first',
-          recipientUuids: [first.device.uuid],
+          recipientServiceIds: [first.device.aci],
         },
       },
     });
@@ -78,7 +78,7 @@ describe('story/messaging', function unknownContacts() {
           identifier: uuidToBytes(DISTRIBUTION2),
           isBlockList: false,
           name: 'second',
-          recipientUuids: [second.device.uuid],
+          recipientServiceIds: [second.device.aci],
         },
       },
     });
@@ -113,7 +113,7 @@ describe('story/messaging', function unknownContacts() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
@@ -149,12 +149,12 @@ describe('story/messaging', function unknownContacts() {
             },
             storyMessageRecipients: [
               {
-                destinationServiceId: first.device.uuid,
+                destinationServiceId: first.device.aci,
                 distributionListIds: [DISTRIBUTION1],
                 isAllowedToReply: true,
               },
               {
-                destinationServiceId: second.device.uuid,
+                destinationServiceId: second.device.aci,
                 distributionListIds: [DISTRIBUTION2],
                 isAllowedToReply: true,
               },
@@ -172,7 +172,7 @@ describe('story/messaging', function unknownContacts() {
         dataMessage: {
           body: 'first reply',
           storyContext: {
-            authorUuid: phone.device.uuid,
+            authorAci: phone.device.aci,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           timestamp: Long.fromNumber(sentAt + 1),
@@ -186,7 +186,7 @@ describe('story/messaging', function unknownContacts() {
         dataMessage: {
           body: 'second reply',
           storyContext: {
-            authorUuid: phone.device.uuid,
+            authorAci: phone.device.aci,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           timestamp: Long.fromNumber(sentAt + 2),
@@ -199,10 +199,10 @@ describe('story/messaging', function unknownContacts() {
 
     debug('Finding both replies');
     await leftPane
-      .locator(`[data-testid="${first.device.uuid}"] >> "first reply"`)
+      .locator(`[data-testid="${first.device.aci}"] >> "first reply"`)
       .waitFor();
     await leftPane
-      .locator(`[data-testid="${second.device.uuid}"] >> "second reply"`)
+      .locator(`[data-testid="${second.device.aci}"] >> "second reply"`)
       .waitFor();
   });
 
@@ -214,14 +214,14 @@ describe('story/messaging', function unknownContacts() {
     debug('waiting for storage service sync to complete');
     await app.waitForStorageService();
 
-    const leftPane = window.locator('#LeftPane');
+    await window.getByTestId('NavTabsItem--Stories').click();
 
     debug('Create and send a story to the group');
-    await leftPane.getByRole('button', { name: 'Stories' }).click();
     await window.getByRole('button', { name: 'Add a story' }).first().click();
     await window.getByRole('button', { name: 'Text story' }).click();
-    await window.locator('.TextAttachment').click();
-    await window.getByRole('textbox', { name: 'Add text' }).type('hello');
+    // Note: For some reason `.click()` doesn't work here anymore.
+    await window.locator('.TextAttachment').dispatchEvent('click');
+    await window.getByRole('textbox', { name: 'Add text' }).fill('hello');
     await window.getByRole('button', { name: 'Next' }).click();
     await window
       .locator('.Checkbox__container')
@@ -236,14 +236,17 @@ describe('story/messaging', function unknownContacts() {
     }
     const sentAt = new Date(time).valueOf();
 
-    debug('Contact sends reply to group story');
+    debug('Contact sends reply to group story', {
+      story: sentAt,
+      reply: sentAt + 1,
+    });
     await contacts[0].sendRaw(
       desktop,
       {
         dataMessage: {
           body: 'first reply',
           storyContext: {
-            authorUuid: desktop.uuid,
+            authorAci: desktop.aci,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           groupV2: {

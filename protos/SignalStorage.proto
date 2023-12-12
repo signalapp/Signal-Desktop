@@ -77,7 +77,7 @@ message ContactRecord {
     UNVERIFIED = 2;
   }
 
-  optional string serviceUuid = 1;
+  optional string aci = 1;
   optional string serviceE164 = 2;
   optional string pni = 15;
   optional bytes profileKey = 3;
@@ -136,7 +136,7 @@ message AccountRecord {
 
   message PinnedConversation {
     message Contact {
-      optional string uuid = 1;
+      optional string serviceId = 1;
       optional string e164 = 2;
     }
 
@@ -203,7 +203,7 @@ message AccountRecord {
 message StoryDistributionListRecord {
   optional bytes identifier = 1;
   optional string name = 2;
-  repeated string recipientUuids = 3;
+  repeated string recipientServiceIds = 3;
   optional uint64 deletedAtTimestamp = 4;
   optional bool allowsReplies = 5;
   optional bool isBlockList = 6;

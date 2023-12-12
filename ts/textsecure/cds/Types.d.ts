@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString, PniString } from '../../types/ServiceId';
 
 export type CDSAuthType = Readonly<{
   username: string;
@@ -9,16 +9,15 @@ export type CDSAuthType = Readonly<{
 }>;
 
 export type CDSResponseEntryType = Readonly<{
-  aci: UUIDStringType | undefined;
-  pni: UUIDStringType | undefined;
+  aci: AciString | undefined;
+  pni: PniString | undefined;
 }>;
 
 export type CDSResponseType = ReadonlyMap<string, CDSResponseEntryType>;
 
 export type CDSRequestOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
-  acis: ReadonlyArray<UUIDStringType>;
-  accessKeys: ReadonlyArray<string>;
+  acisAndAccessKeys: ReadonlyArray<{ aci: AciString; accessKey: string }>;
   returnAcisWithoutUaks?: boolean;
   timeout?: number;
 }>;

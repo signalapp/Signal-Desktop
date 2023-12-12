@@ -4,7 +4,9 @@
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { SignalService as Proto } from '../protobuf';
+import type { AciString } from '../types/ServiceId';
 import * as log from '../logging/log';
+import { normalizeAci } from './normalizeAci';
 import { filter } from './iterables';
 import { getContactId } from '../messages/helpers';
 import { getTimestampFromLong } from './timestampLongUtils';
@@ -17,24 +19,27 @@ export async function findStoryMessages(
     return [];
   }
 
-  const { authorUuid, sentTimestamp } = storyContext;
+  const { authorAci: rawAuthorAci, sentTimestamp } = storyContext;
 
-  if (!authorUuid || !sentTimestamp) {
+  if (!rawAuthorAci || !sentTimestamp) {
     return [];
   }
+
+  const authorAci = normalizeAci(rawAuthorAci, 'findStoryMessage');
 
   const sentAt = getTimestampFromLong(sentTimestamp);
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
 
-  const inMemoryMessages = window.MessageController.filterBySentAt(sentAt);
+  const inMemoryMessages =
+    window.MessageCache.__DEPRECATED$filterBySentAt(sentAt);
   const matchingMessages = [
     ...filter(inMemoryMessages, item =>
       isStoryAMatch(
         item.attributes,
         conversationId,
         ourConversationId,
-        authorUuid,
+        authorAci,
         sentAt
       )
     ),
@@ -47,7 +52,7 @@ export async function findStoryMessages(
   log.info('findStoryMessages: db lookup needed', sentAt);
   const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
   const found = messages.filter(item =>
-    isStoryAMatch(item, conversationId, ourConversationId, authorUuid, sentAt)
+    isStoryAMatch(item, conversationId, ourConversationId, authorAci, sentAt)
   );
 
   if (found.length === 0) {
@@ -56,7 +61,11 @@ export async function findStoryMessages(
   }
 
   const result = found.map(attributes =>
-    window.MessageController.register(attributes.id, attributes)
+    window.MessageCache.__DEPRECATED$register(
+      attributes.id,
+      attributes,
+      'findStoryMessages'
+    )
   );
   return result;
 }
@@ -65,7 +74,7 @@ function isStoryAMatch(
   message: MessageAttributesType | null | undefined,
   conversationId: string,
   ourConversationId: string,
-  authorUuid: string,
+  authorAci: AciString,
   sentTimestamp: number
 ): message is MessageAttributesType {
   if (!message) {
@@ -74,7 +83,7 @@ function isStoryAMatch(
 
   const authorConversation = window.ConversationController.lookupOrCreate({
     e164: undefined,
-    uuid: authorUuid,
+    serviceId: authorAci,
     reason: 'isStoryAMatch',
   });
 

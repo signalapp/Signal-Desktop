@@ -25,7 +25,7 @@
 
   &__page-selector {
     padding-top: calc(24px + var(--title-bar-drag-area-height));
-    min-width: 240px;
+    min-width: min(34%, 240px);
     @include light-theme {
       background: $color-gray-02;
     }
@@ -194,6 +194,13 @@
     padding-block: 4px;
     padding-inline: 24px;
 
+    &--icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-inline-end: 12px;
+    }
+
     &--key {
       flex-grow: 1;
       padding-inline-end: 20px;
@@ -290,5 +297,111 @@
     &:last-child {
       margin-bottom: 8px;
     }
+  }
+}
+
+.Preferences__LanguageIcon {
+  @include light-theme {
+    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-75);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-15);
+  }
+}
+
+.Preferences__LanguageButton {
+  @include button-reset;
+}
+
+.Preferences__LanguageModal {
+  height: 560px;
+  .module-Modal__body {
+    flex-grow: 1;
+  }
+}
+
+.Preferences__LanguageModal__Title {
+  @include font-body-1-bold;
+  margin-inline: 8px;
+}
+
+.Preferences__LanguageModal__NoResults {
+  @include font-body-1;
+  margin: 16px;
+  text-align: center;
+}
+
+.Preferences__LanguageModal__Item {
+  @include button-reset;
+  width: 100%;
+  padding-block: 2px;
+  padding-inline: 8px;
+  &:hover {
+    .Preferences__LanguageModal__Item__Inner {
+      @include light-theme {
+        background-color: $color-black-alpha-06;
+      }
+      @include dark-theme {
+        background-color: $color-white-alpha-06;
+      }
+    }
+  }
+  &:focus {
+    outline: none;
+    .Preferences__LanguageModal__Item__Inner {
+      @include keyboard-mode {
+        background-color: $color-black-alpha-06;
+        box-shadow: 0 0 0 2px $color-ultramarine;
+      }
+      @include dark-keyboard-mode {
+        background-color: $color-white-alpha-06;
+      }
+    }
+  }
+}
+
+.Preferences__LanguageModal__Item__Inner {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding-block: 5px;
+  padding-inline: 16px;
+  border-radius: 8px;
+}
+
+.Preferences__LanguageModal__Item__Label {
+  flex-grow: 1;
+}
+
+.Preferences__LanguageModal__Item__Current {
+  display: block;
+  @include font-body-1;
+}
+
+.Preferences__LanguageModal__Item__Check {
+  display: flex;
+  height: 20px;
+  width: 20px;
+  align-items: center;
+  justify-content: center;
+  background: $color-ultramarine;
+  @include rounded-corners;
+  &::after {
+    @include color-svg('../images/icons/v3/check/check.svg', $color-white);
+    content: '';
+    height: 14px;
+    width: 14px;
+  }
+}
+
+.Preferences__LanguageModal__Item__Matching {
+  display: block;
+  @include font-body-2;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
   }
 }

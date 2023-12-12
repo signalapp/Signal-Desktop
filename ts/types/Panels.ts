@@ -3,7 +3,7 @@
 
 import type { EmbeddedContactType } from './EmbeddedContact';
 import type { MessageAttributesType } from '../model-types.d';
-import type { UUIDStringType } from './UUID';
+import type { ServiceIdString } from './ServiceId';
 
 export enum PanelType {
   AllMedia = 'AllMedia',
@@ -28,7 +28,7 @@ export type PanelRequestType =
         contact: EmbeddedContactType;
         signalAccount?: {
           phoneNumber: string;
-          uuid: UUIDStringType;
+          serviceId: ServiceIdString;
         };
       };
     }
@@ -50,7 +50,7 @@ export type PanelRenderType =
         contact: EmbeddedContactType;
         signalAccount?: {
           phoneNumber: string;
-          uuid: UUIDStringType;
+          serviceId: ServiceIdString;
         };
       };
     }

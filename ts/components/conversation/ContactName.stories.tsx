@@ -2,21 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './ContactName';
 import { ContactName } from './ContactName';
 import { ContactNameColors } from '../../types/Colors';
 
 export default {
   title: 'Components/Conversation/ContactName',
-};
+} satisfies Meta<PropsType>;
 
 export function FirstNameAndTitleTitlePreferred(): JSX.Element {
   return <ContactName firstName="Ignored" title="Someone 🔥 Somewhere" />;
 }
-
-FirstNameAndTitleTitlePreferred.story = {
-  name: 'First name and title; title preferred',
-};
 
 export function FirstNameAndTitleFirstNamePreferred(): JSX.Element {
   return (
@@ -27,10 +24,6 @@ export function FirstNameAndTitleFirstNamePreferred(): JSX.Element {
     />
   );
 }
-
-FirstNameAndTitleFirstNamePreferred.story = {
-  name: 'First name and title; first name preferred',
-};
 
 export function Colors(): JSX.Element {
   return (

@@ -18,13 +18,10 @@ import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { createApp } from './state/roots/createApp';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 
-import { createStore } from './state/createStore';
-
 // Types
 import * as TypesAttachment from './types/Attachment';
 import * as VisualAttachment from './types/VisualAttachment';
 import * as MessageType from './types/Message2';
-import { UUID } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 
@@ -380,7 +377,6 @@ export const setup = (options: {
   };
 
   const State = {
-    createStore,
     Roots,
   };
 
@@ -388,7 +384,6 @@ export const setup = (options: {
     Message: MessageType,
 
     // Mostly for debugging
-    UUID,
     Address,
     QualifiedAddress,
   };

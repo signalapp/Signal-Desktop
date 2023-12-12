@@ -11,6 +11,7 @@ import { maybeParseUrl } from '../ts/util/url';
 import type { MenuListType } from '../ts/types/menu';
 import type { LocalizerType } from '../ts/types/Util';
 import { strictAssert } from '../ts/util/assert';
+import type { LoggerType } from '../ts/types/Logging';
 
 export const FAKE_DEFAULT_LOCALE = 'en-x-ignore'; // -x- is an extension space for attaching other metadata to the locale
 
@@ -55,16 +56,35 @@ export function getLanguages(
 export const setup = (
   browserWindow: BrowserWindow,
   preferredSystemLocales: ReadonlyArray<string>,
-  i18n: LocalizerType
+  localeOverride: string | null,
+  i18n: LocalizerType,
+  logger: LoggerType
 ): void => {
   const { session } = browserWindow.webContents;
+
+  session.on('spellcheck-dictionary-download-begin', (_event, lang) => {
+    logger.info('spellcheck: dictionary download begin:', lang);
+  });
+  session.on('spellcheck-dictionary-download-failure', (_event, lang) => {
+    logger.error('spellcheck: dictionary download failure:', lang);
+  });
+  session.on('spellcheck-dictionary-download-success', (_event, lang) => {
+    logger.info('spellcheck: dictionary download success:', lang);
+  });
+  session.on('spellcheck-dictionary-initialized', (_event, lang) => {
+    logger.info('spellcheck: dictionary initialized:', lang);
+  });
+
+  // Locale override should be combined with other preferences rather than
+  // replace them entirely.
+  const combinedLocales =
+    localeOverride != null
+      ? [localeOverride, ...preferredSystemLocales]
+      : preferredSystemLocales;
+
   const availableLocales = session.availableSpellCheckerLanguages;
-  const languages = getLanguages(
-    preferredSystemLocales,
-    availableLocales,
-    'en'
-  );
-  console.log('spellcheck: user locales:', preferredSystemLocales);
+  const languages = getLanguages(combinedLocales, availableLocales, 'en');
+  console.log('spellcheck: user locales:', combinedLocales);
   console.log(
     'spellcheck: available spellchecker languages:',
     availableLocales

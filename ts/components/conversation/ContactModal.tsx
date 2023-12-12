@@ -191,9 +191,10 @@ export function ContactModal({
               onClick={() => {
                 if (conversation && hasStories) {
                   viewUserStories({
-                    conversationId: conversation.id,
+                    conversationId: contact.id,
                     storyViewMode: StoryViewModeType.User,
                   });
+                  hideContactModal();
                 } else {
                   setView(ContactModalView.ShowingAvatar);
                 }

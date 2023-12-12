@@ -5,7 +5,6 @@ import EventTarget from './EventTarget';
 import AccountManager from './AccountManager';
 import MessageReceiver from './MessageReceiver';
 import utils from './Helpers';
-import { ContactBuffer } from './ContactsParser';
 import SyncRequest from './SyncRequest';
 import MessageSender from './SendMessage';
 import { Storage } from './Storage';
@@ -17,7 +16,6 @@ export type TextSecureType = {
   storage: Storage;
 
   AccountManager: typeof AccountManager;
-  ContactBuffer: typeof ContactBuffer;
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
   MessageSender: typeof MessageSender;
@@ -34,7 +32,6 @@ export const textsecure: TextSecureType = {
   storage: new Storage(),
 
   AccountManager,
-  ContactBuffer,
   EventTarget,
   MessageReceiver,
   MessageSender,

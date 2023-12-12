@@ -34,6 +34,12 @@ export const GroupAvatarIcons = [
   'surfboard',
 ] as const;
 
+export type ContactAvatarType = {
+  path: string;
+  url?: string;
+  hash?: string;
+};
+
 type GroupAvatarIconType = typeof GroupAvatarIcons[number];
 
 type PersonalAvatarIconType = typeof PersonalAvatarIcons[number];

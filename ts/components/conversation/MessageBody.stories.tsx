@@ -3,19 +3,32 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './MessageBody';
 import { MessageBody } from './MessageBody';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { BodyRange } from '../../types/BodyRange';
+import { generateAci } from '../../types/ServiceId';
 import { RenderLocation } from './MessageTextRenderer';
+
+const SERVICE_ID_1 = generateAci();
+const SERVICE_ID_2 = generateAci();
+const SERVICE_ID_3 = generateAci();
+const SERVICE_ID_4 = generateAci();
+const SERVICE_ID_5 = generateAci();
+const SERVICE_ID_6 = generateAci();
+const SERVICE_ID_7 = generateAci();
+const SERVICE_ID_8 = generateAci();
+const SERVICE_ID_9 = generateAci();
+const SERVICE_ID_10 = generateAci();
+const SERVICE_ID_11 = generateAci();
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/MessageBody',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
@@ -94,10 +107,6 @@ export function JumbomojiDisabledByText(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-JumbomojiDisabledByText.story = {
-  name: 'Jumbomoji Disabled by Text',
-};
-
 export function TextPending(): JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
@@ -115,7 +124,7 @@ export function Mention(): JSX.Element {
       {
         start: 5,
         length: 1,
-        mentionUuid: 'tuv',
+        mentionAci: SERVICE_ID_1,
         replacementText: 'Bender B Rodriguez 🤖',
         conversationID: 'x',
       },
@@ -126,10 +135,6 @@ export function Mention(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-Mention.story = {
-  name: '@Mention',
-};
-
 export function MultipleMentions(): JSX.Element {
   const props = createProps({
     // These are intentionally in a mixed order to test how we deal with that
@@ -137,21 +142,21 @@ export function MultipleMentions(): JSX.Element {
       {
         start: 2,
         length: 1,
-        mentionUuid: 'def',
+        mentionAci: SERVICE_ID_2,
         replacementText: 'Philip J Fry',
         conversationID: 'x',
       },
       {
         start: 4,
         length: 1,
-        mentionUuid: 'abc',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Professor Farnsworth',
         conversationID: 'x',
       },
       {
         start: 0,
         length: 1,
-        mentionUuid: 'xyz',
+        mentionAci: SERVICE_ID_4,
         replacementText: 'Yancy Fry',
         conversationID: 'x',
       },
@@ -168,10 +173,6 @@ export function MultipleMentions(): JSX.Element {
   );
 }
 
-MultipleMentions.story = {
-  name: 'Multiple @Mentions',
-};
-
 export function ComplexMessageBody(): JSX.Element {
   const props = createProps({
     bodyRanges: [
@@ -179,21 +180,21 @@ export function ComplexMessageBody(): JSX.Element {
       {
         start: 78,
         length: 1,
-        mentionUuid: 'wer',
+        mentionAci: SERVICE_ID_5,
         replacementText: 'Acid Burn',
         conversationID: 'x',
       },
       {
         start: 80,
         length: 1,
-        mentionUuid: 'xox',
+        mentionAci: SERVICE_ID_6,
         replacementText: 'Cereal Killer',
         conversationID: 'x',
       },
       {
         start: 4,
         length: 1,
-        mentionUuid: 'ldo',
+        mentionAci: SERVICE_ID_6,
         replacementText: 'Zero Cool',
         conversationID: 'x',
       },
@@ -210,10 +211,6 @@ export function ComplexMessageBody(): JSX.Element {
     </>
   );
 }
-
-ComplexMessageBody.story = {
-  name: 'Complex MessageBody',
-};
 
 export function FormattingBasic(): JSX.Element {
   const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
@@ -311,14 +308,14 @@ export function FormattingSpoiler(): JSX.Element {
       {
         start: 54,
         length: 1,
-        mentionUuid: 'a',
+        mentionAci: SERVICE_ID_7,
         conversationID: 'a',
         replacementText: '🅰️ Alice',
       },
       {
         start: 60,
         length: 1,
-        mentionUuid: 'b',
+        mentionAci: SERVICE_ID_8,
         conversationID: 'b',
         replacementText: '🅱️ Bob',
       },
@@ -371,35 +368,35 @@ export function FormattingNesting(): JSX.Element {
       {
         start: 29,
         length: 1,
-        mentionUuid: 'a',
+        mentionAci: SERVICE_ID_7,
         conversationID: 'a',
         replacementText: '🅰️ Alice',
       },
       {
         start: 61,
         length: 1,
-        mentionUuid: 'b',
+        mentionAci: SERVICE_ID_8,
         conversationID: 'b',
         replacementText: '🅱️ Bob',
       },
       {
         start: 68,
         length: 1,
-        mentionUuid: 'c',
+        mentionAci: SERVICE_ID_9,
         conversationID: 'c',
         replacementText: 'Charlie',
       },
       {
         start: 80,
         length: 1,
-        mentionUuid: 'd',
+        mentionAci: SERVICE_ID_10,
         conversationID: 'd',
         replacementText: 'Dan',
       },
       {
         start: 105,
         length: 1,
-        mentionUuid: 'e',
+        mentionAci: SERVICE_ID_11,
         conversationID: 'e',
         replacementText: 'Eve',
       },
@@ -439,7 +436,7 @@ export function FormattingComplex(): JSX.Element {
       {
         start: 24,
         length: 1,
-        mentionUuid: 'abc',
+        mentionAci: SERVICE_ID_3,
         conversationID: 'x',
         replacementText: '🤖 Hello',
       },
@@ -471,7 +468,7 @@ export function FormattingComplex(): JSX.Element {
       {
         start: 491,
         length: 1,
-        mentionUuid: 'abc',
+        mentionAci: SERVICE_ID_3,
         conversationID: 'x',
         replacementText: '🤖 Hello',
       },

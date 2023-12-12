@@ -4,12 +4,45 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { assert } from 'chai';
+import Long from 'long';
 
 import * as Bytes from '../../Bytes';
 import type { LocalUserDataType } from '../../util/sessionTranslation';
 import { sessionRecordToProtobuf } from '../../util/sessionTranslation';
 
 const getRecordCopy = (record: any): any => JSON.parse(JSON.stringify(record));
+
+function protoToJSON(value: unknown): unknown {
+  if (value == null) {
+    return value;
+  }
+
+  if (typeof value === 'string' || typeof value === 'number') {
+    return value;
+  }
+
+  if (Buffer.isBuffer(value) || value instanceof Uint8Array) {
+    return Buffer.from(value).toString('base64');
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(protoToJSON);
+  }
+
+  if (Long.isLong(value)) {
+    return value.toNumber();
+  }
+
+  if (typeof value === 'object') {
+    const res: Record<string, unknown> = {};
+    for (const key of Object.keys(value)) {
+      res[key] = protoToJSON((value as Record<string, unknown>)[key]);
+    }
+    return res;
+  }
+
+  return value;
+}
 
 describe('sessionTranslation', () => {
   let ourData: LocalUserDataType;
@@ -93,6 +126,7 @@ describe('sessionTranslation', () => {
             index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
+          messageKeys: [],
         },
         receiverChains: [
           {
@@ -121,13 +155,14 @@ describe('sessionTranslation', () => {
         localRegistrationId: 3554,
         aliceBaseKey: 'BVeHv5MAbMgKeaoO/G1CMBdqhC7bo7Mtc4EWxI0oT19N',
       },
+      previousSessions: [],
     };
 
     const recordCopy = getRecordCopy(record);
 
     const actual = sessionRecordToProtobuf(record, ourData);
 
-    assert.deepEqual(expected, actual.toJSON());
+    assert.deepEqual(expected, protoToJSON(actual));
 
     // We want to ensure that conversion doesn't modify incoming data
     assert.deepEqual(record, recordCopy);
@@ -330,6 +365,7 @@ describe('sessionTranslation', () => {
             index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
+          messageKeys: [],
         },
         receiverChains: [
           {
@@ -436,12 +472,14 @@ describe('sessionTranslation', () => {
             chainKey: {
               index: 3,
             },
+            messageKeys: [],
           },
           {
             senderRatchetKey: 'BRRAnr1NhizgCPPzmYV9qGBpvwCpSQH0Rx+UOtl78wUg',
             chainKey: {
               index: 1,
             },
+            messageKeys: [],
           },
           {
             senderRatchetKey: 'BZvOKPA+kXiCg8TIP/52fu1reCDirC7wb5nyRGce3y4N',
@@ -488,31 +526,35 @@ describe('sessionTranslation', () => {
             chainKey: {
               index: 2,
             },
+            messageKeys: [],
           },
           {
             senderRatchetKey: 'BV7ECvKbwKIAD61BXDYr0xr3JtckuKzR1Hw8cVPWGtlo',
             chainKey: {
               index: 3,
             },
+            messageKeys: [],
           },
           {
             senderRatchetKey: 'BTC7rQqoykGR5Aaix7RkAhI5fSXufc6pVGN9OIC8EW5c',
             chainKey: {
               index: 1,
             },
+            messageKeys: [],
           },
         ],
         remoteRegistrationId: 4243,
         localRegistrationId: 3554,
         aliceBaseKey: 'BVeHv5MAbMgKeaoO/G1CMBdqhC7bo7Mtc4EWxI0oT19N',
       },
+      previousSessions: [],
     };
 
     const recordCopy = getRecordCopy(record);
 
     const actual = sessionRecordToProtobuf(record, ourData);
 
-    assert.deepEqual(expected, actual.toJSON());
+    assert.deepEqual(expected, protoToJSON(actual));
 
     // We want to ensure that conversion doesn't modify incoming data
     assert.deepEqual(record, recordCopy);
@@ -585,6 +627,7 @@ describe('sessionTranslation', () => {
             index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
+          messageKeys: [],
         },
         receiverChains: [
           {
@@ -618,13 +661,14 @@ describe('sessionTranslation', () => {
         localRegistrationId: 3554,
         aliceBaseKey: 'BVeHv5MAbMgKeaoO/G1CMBdqhC7bo7Mtc4EWxI0oT19N',
       },
+      previousSessions: [],
     };
 
     const recordCopy = getRecordCopy(record);
 
     const actual = sessionRecordToProtobuf(record, ourData);
 
-    assert.deepEqual(expected, actual.toJSON());
+    assert.deepEqual(expected, protoToJSON(actual));
 
     // We want to ensure that conversion doesn't modify incoming data
     assert.deepEqual(record, recordCopy);
@@ -772,6 +816,7 @@ describe('sessionTranslation', () => {
             index: 0,
             key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
           },
+          messageKeys: [],
         },
         receiverChains: [
           {
@@ -815,6 +860,7 @@ describe('sessionTranslation', () => {
               index: 0,
               key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
             },
+            messageKeys: [],
           },
           receiverChains: [
             {
@@ -857,6 +903,7 @@ describe('sessionTranslation', () => {
               index: 0,
               key: '6EI/Nw+vHhCoB499OpM/kLkQJFzrfqoAZ00w1ZgnowU=',
             },
+            messageKeys: [],
           },
           receiverChains: [
             {
@@ -892,7 +939,7 @@ describe('sessionTranslation', () => {
 
     const actual = sessionRecordToProtobuf(record, ourData);
 
-    assert.deepEqual(expected, actual.toJSON());
+    assert.deepEqual(expected, protoToJSON(actual));
 
     // We want to ensure that conversion doesn't modify incoming data
     assert.deepEqual(record, recordCopy);
@@ -950,6 +997,7 @@ describe('sessionTranslation', () => {
           signedPreKeyId: 2995,
         },
         previousCounter: 1,
+        receiverChains: [],
         remoteIdentityPublic: 'BRmB2uSNpwbXZJjisIh1p/VgRctUZSVIoiEm2ThjiHoq',
         remoteRegistrationId: 3188,
         rootKey: 'GzGfNozK5vDKqL4+fdqpiMRIuHNOndM6iMhGubNR1mk=',
@@ -958,19 +1006,21 @@ describe('sessionTranslation', () => {
             index: 1,
             key: 'tl5Eby9q7n8PVeiriKoRjHhu9Y0RxvJ90PMq5MfKwgA=',
           },
+          messageKeys: [],
           senderRatchetKey: 'BRSm55wC8hrG5Rp7l9gxtOhugp5ulcco20upOFCPyyJo',
           senderRatchetKeyPrivate:
             'IC0mCV0kFVAf+Q4cHid5hR7vy+5F0SvpYYaqsSA6d00=',
         },
         sessionVersion: 3,
       },
+      previousSessions: [],
     };
 
     const recordCopy = getRecordCopy(record);
 
     const actual = sessionRecordToProtobuf(record, ourData);
 
-    assert.deepEqual(expected, actual.toJSON());
+    assert.deepEqual(expected, protoToJSON(actual));
 
     // We want to ensure that conversion doesn't modify incoming data
     assert.deepEqual(record, recordCopy);

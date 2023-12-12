@@ -7,22 +7,37 @@ import { MINUTE } from '../../util/durations';
 import { drop } from '../../util/drop';
 
 import { ProfileService } from '../../services/profiles';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { HTTPError } from '../../textsecure/Errors';
 
 describe('util/profiles', () => {
-  const UUID_1 = UUID.generate().toString();
-  const UUID_2 = UUID.generate().toString();
-  const UUID_3 = UUID.generate().toString();
-  const UUID_4 = UUID.generate().toString();
-  const UUID_5 = UUID.generate().toString();
+  const SERVICE_ID_1 = generateAci();
+  const SERVICE_ID_2 = generateAci();
+  const SERVICE_ID_3 = generateAci();
+  const SERVICE_ID_4 = generateAci();
+  const SERVICE_ID_5 = generateAci();
 
   beforeEach(async () => {
-    await window.ConversationController.getOrCreateAndWait(UUID_1, 'private');
-    await window.ConversationController.getOrCreateAndWait(UUID_2, 'private');
-    await window.ConversationController.getOrCreateAndWait(UUID_3, 'private');
-    await window.ConversationController.getOrCreateAndWait(UUID_4, 'private');
-    await window.ConversationController.getOrCreateAndWait(UUID_5, 'private');
+    await window.ConversationController.getOrCreateAndWait(
+      SERVICE_ID_1,
+      'private'
+    );
+    await window.ConversationController.getOrCreateAndWait(
+      SERVICE_ID_2,
+      'private'
+    );
+    await window.ConversationController.getOrCreateAndWait(
+      SERVICE_ID_3,
+      'private'
+    );
+    await window.ConversationController.getOrCreateAndWait(
+      SERVICE_ID_4,
+      'private'
+    );
+    await window.ConversationController.getOrCreateAndWait(
+      SERVICE_ID_5,
+      'private'
+    );
   });
 
   describe('clearAll', () => {
@@ -32,10 +47,10 @@ describe('util/profiles', () => {
       };
       const service = new ProfileService(getProfileWithLongDelay);
 
-      const promise1 = service.get(UUID_1);
-      const promise2 = service.get(UUID_2);
-      const promise3 = service.get(UUID_3);
-      const promise4 = service.get(UUID_4);
+      const promise1 = service.get(SERVICE_ID_1);
+      const promise2 = service.get(SERVICE_ID_2);
+      const promise3 = service.get(SERVICE_ID_3);
+      const promise4 = service.get(SERVICE_ID_4);
 
       service.clearAll('testing');
 
@@ -56,12 +71,12 @@ describe('util/profiles', () => {
       const service = new ProfileService(getProfileWithIncrement);
 
       // Queued and immediately started due to concurrency = 3
-      drop(service.get(UUID_1));
-      drop(service.get(UUID_2));
-      drop(service.get(UUID_3));
+      drop(service.get(SERVICE_ID_1));
+      drop(service.get(SERVICE_ID_2));
+      drop(service.get(SERVICE_ID_3));
 
       // Queued but only run after paused queue restarts
-      const lastPromise = service.get(UUID_4);
+      const lastPromise = service.get(SERVICE_ID_4);
 
       const pausePromise = service.pause(5);
 
@@ -86,10 +101,10 @@ describe('util/profiles', () => {
       const pausePromise = service.pause(5);
 
       // None of these are even queued
-      const promise1 = service.get(UUID_1);
-      const promise2 = service.get(UUID_2);
-      const promise3 = service.get(UUID_3);
-      const promise4 = service.get(UUID_4);
+      const promise1 = service.get(SERVICE_ID_1);
+      const promise2 = service.get(SERVICE_ID_2);
+      const promise3 = service.get(SERVICE_ID_3);
+      const promise4 = service.get(SERVICE_ID_4);
 
       await assert.isRejected(promise1, 'paused queue');
       await assert.isRejected(promise2, 'paused queue');
@@ -117,19 +132,19 @@ describe('util/profiles', () => {
         const service = new ProfileService(getProfileWhichThrows);
 
         // Queued and immediately started due to concurrency = 3
-        const promise1 = service.get(UUID_1);
-        const promise2 = service.get(UUID_2);
-        const promise3 = service.get(UUID_3);
+        const promise1 = service.get(SERVICE_ID_1);
+        const promise2 = service.get(SERVICE_ID_2);
+        const promise3 = service.get(SERVICE_ID_3);
 
         // Never started, but queued
-        const promise4 = service.get(UUID_4);
+        const promise4 = service.get(SERVICE_ID_4);
 
         assert.strictEqual(runCount, 3, 'before await');
 
         await assert.isRejected(promise1, `fake ${code}`);
 
         // Never queued
-        const promise5 = service.get(UUID_5);
+        const promise5 = service.get(SERVICE_ID_5);
 
         await assert.isRejected(promise2, 'job cancelled');
         await assert.isRejected(promise3, 'job cancelled');

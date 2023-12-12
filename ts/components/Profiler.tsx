@@ -20,14 +20,6 @@ type InternalPropsType = Readonly<{
   ): void;
 }>;
 
-function Fallback({ children }: InternalPropsType): JSX.Element {
-  return <>{children}</>;
-}
-
-const BaseProfiler: React.FC<InternalPropsType> =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (React as any).unstable_Profiler || Fallback;
-
 export type PropsType = Readonly<{
   id: string;
   children: ReactNode;
@@ -50,8 +42,8 @@ const onRender: InternalPropsType['onRender'] = (
 
 export function Profiler({ id, children }: PropsType): JSX.Element {
   return (
-    <BaseProfiler id={id} onRender={onRender}>
+    <React.Profiler id={id} onRender={onRender}>
       {children}
-    </BaseProfiler>
+    </React.Profiler>
   );
 }

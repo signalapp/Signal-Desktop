@@ -3,7 +3,7 @@
 
 import { Bytes } from './context/Bytes';
 
-const bytes = window.SignalContext?.bytes || new Bytes();
+const bytes = globalThis.window?.SignalContext?.bytes || new Bytes();
 
 export function fromBase64(value: string): Uint8Array {
   return bytes.fromBase64(value);

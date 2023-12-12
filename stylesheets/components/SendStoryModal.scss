@@ -50,6 +50,10 @@
     user-select: none;
   }
 
+  &__top-bar-title {
+    flex: 1;
+  }
+
   &__new-story {
     &__button {
       font-weight: 500;

@@ -17,7 +17,7 @@ import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
 
 import * as log from '../../logging/log';
-import { getMessageById } from '../../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
 import type { MessageAttributesType } from '../../model-types.d';
 import { isGIF } from '../../types/Attachment';
 import {
@@ -48,12 +48,12 @@ export type LightboxStateType =
       media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
       hasPrevMessage: boolean;
       hasNextMessage: boolean;
-      selectedAttachmentPath: string | undefined;
+      selectedIndex: number | undefined;
     };
 
 const CLOSE_LIGHTBOX = 'lightbox/CLOSE';
 const SHOW_LIGHTBOX = 'lightbox/SHOW';
-const SET_SELECTED_LIGHTBOX_PATH = 'lightbox/SET_SELECTED_LIGHTBOX_PATH';
+const SET_SELECTED_LIGHTBOX_INDEX = 'lightbox/SET_SELECTED_LIGHTBOX_INDEX';
 
 type CloseLightboxActionType = ReadonlyDeep<{
   type: typeof CLOSE_LIGHTBOX;
@@ -67,13 +67,13 @@ type ShowLightboxActionType = {
     media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
     hasPrevMessage: boolean;
     hasNextMessage: boolean;
-    selectedAttachmentPath: string | undefined;
+    selectedIndex: number | undefined;
   };
 };
 
-type SetSelectedLightboxPathActionType = ReadonlyDeep<{
-  type: typeof SET_SELECTED_LIGHTBOX_PATH;
-  payload: string | undefined;
+type SetSelectedLightboxIndexActionType = ReadonlyDeep<{
+  type: typeof SET_SELECTED_LIGHTBOX_INDEX;
+  payload: number;
 }>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -83,7 +83,7 @@ type LightboxActionType =
   | MessageDeletedActionType
   | MessageExpiredActionType
   | ShowLightboxActionType
-  | SetSelectedLightboxPathActionType;
+  | SetSelectedLightboxIndexActionType;
 
 function closeLightbox(): ThunkAction<
   void,
@@ -116,7 +116,7 @@ function closeLightbox(): ThunkAction<
 }
 
 function showLightboxWithMedia(
-  selectedAttachmentPath: string | undefined,
+  selectedIndex: number | undefined,
   media: ReadonlyArray<ReadonlyDeep<MediaItemType>>
 ): ShowLightboxActionType {
   return {
@@ -124,7 +124,7 @@ function showLightboxWithMedia(
     payload: {
       isViewOnce: false,
       media,
-      selectedAttachmentPath,
+      selectedIndex,
       hasPrevMessage: false,
       hasNextMessage: false,
     },
@@ -137,7 +137,7 @@ function showLightboxForViewOnceMedia(
   return async dispatch => {
     log.info('showLightboxForViewOnceMedia: attempting to display message');
 
-    const message = await getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(messageId);
     if (!message) {
       throw new Error(
         `showLightboxForViewOnceMedia: Message ${messageId} missing!`
@@ -202,7 +202,7 @@ function showLightboxForViewOnceMedia(
       payload: {
         isViewOnce: true,
         media,
-        selectedAttachmentPath: undefined,
+        selectedIndex: undefined,
         hasPrevMessage: false,
         hasNextMessage: false,
       },
@@ -232,7 +232,7 @@ function showLightbox(opts: {
   return async (dispatch, getState) => {
     const { attachment, messageId } = opts;
 
-    const message = await getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(messageId);
     if (!message) {
       throw new Error(`showLightbox: Message ${messageId} missing!`);
     }
@@ -264,7 +264,7 @@ function showLightbox(opts: {
 
     const authorId =
       window.ConversationController.lookupOrCreate({
-        uuid: message.get('sourceUuid'),
+        serviceId: message.get('sourceServiceId'),
         e164: message.get('source'),
         reason: 'conversation_view.showLightBox',
       })?.id || message.get('conversationId');
@@ -335,7 +335,7 @@ function showLightbox(opts: {
       payload: {
         isViewOnce: false,
         media,
-        selectedAttachmentPath: attachment.path,
+        selectedIndex: media.findIndex(({ path }) => path === attachment.path),
         hasPrevMessage:
           older.length > 0 && filterValidAttachments(older[0]).length > 0,
         hasNextMessage:
@@ -373,7 +373,7 @@ function showLightboxForAdjacentMessage(
       sent_at: sentAt,
     } = media.message;
 
-    const message = await getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(messageId);
     if (!message) {
       log.warn('showLightboxForAdjacentMessage: original message is gone');
       dispatch({
@@ -464,12 +464,12 @@ function showLightboxForPrevMessage(): ThunkAction<
   return showLightboxForAdjacentMessage(AdjacentMessageDirection.Previous);
 }
 
-function setSelectedLightboxPath(
-  path: string | undefined
-): SetSelectedLightboxPathActionType {
+function setSelectedLightboxIndex(
+  index: number
+): SetSelectedLightboxIndexActionType {
   return {
-    type: SET_SELECTED_LIGHTBOX_PATH,
-    payload: path,
+    type: SET_SELECTED_LIGHTBOX_INDEX,
+    payload: index,
   };
 }
 
@@ -480,7 +480,7 @@ export const actions = {
   showLightboxWithMedia,
   showLightboxForPrevMessage,
   showLightboxForNextMessage,
-  setSelectedLightboxPath,
+  setSelectedLightboxIndex,
 };
 
 export const useLightboxActions = (): BoundActionCreatorsMapObject<
@@ -508,14 +508,17 @@ export function reducer(
     };
   }
 
-  if (action.type === SET_SELECTED_LIGHTBOX_PATH) {
+  if (action.type === SET_SELECTED_LIGHTBOX_INDEX) {
     if (!state.isShowingLightbox) {
       return state;
     }
 
     return {
       ...state,
-      selectedAttachmentPath: action.payload,
+      selectedIndex: Math.max(
+        0,
+        Math.min(state.media.length - 1, action.payload)
+      ),
     };
   }
 

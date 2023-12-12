@@ -27,6 +27,7 @@ export type Props = {
   // defaults to div
   rootElement?: 'div' | 'button';
   testId?: string;
+  'aria-selected'?: boolean;
 };
 
 /**
@@ -80,6 +81,7 @@ const ListTileImpl = React.forwardRef<HTMLButtonElement, Props>(
       variant = 'item',
       rootElement = 'div',
       testId,
+      ...ariaProps
     }: Props,
     ref
   ) {
@@ -97,6 +99,7 @@ const ListTileImpl = React.forwardRef<HTMLButtonElement, Props>(
       'aria-disabled': disabled ? true : undefined,
       onContextMenu,
       'data-testid': testId,
+      ...ariaProps,
     };
 
     const contents = (

@@ -35,7 +35,6 @@ export function MetaStage(): JSX.Element {
   const title = useTitle();
   const author = useAuthor();
   const [confirming, setConfirming] = React.useState(false);
-  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
   const onDrop = React.useCallback(
     async ([file]: Array<FileWithPath>) => {
@@ -69,7 +68,6 @@ export function MetaStage(): JSX.Element {
 
   return (
     <AppStage
-      nextButtonRef={buttonRef}
       onNext={onNext}
       nextActive={valid}
       noMessage
@@ -83,7 +81,6 @@ export function MetaStage(): JSX.Element {
           confirm={i18n('StickerCreator--MetaStage--ConfirmDialog--confirm')}
           onCancel={onCancel}
           onConfirm={onConfirm}
-          buttonRef={buttonRef}
         >
           {i18n(`StickerCreator--MetaStage--ConfirmDialog--text--${artType}`)}
         </ConfirmModal>

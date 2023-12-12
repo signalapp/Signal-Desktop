@@ -6,7 +6,8 @@ import casual from 'casual';
 import type { StoryDistributionListDataType } from '../../state/ducks/storyDistributionLists';
 import type { StoryDistributionListWithMembersDataType } from '../../types/Stories';
 import { MY_STORY_ID } from '../../types/Stories';
-import { UUID } from '../../types/UUID';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId';
+import { generateAci } from '../../types/ServiceId';
 import { getDefaultConversation } from './getDefaultConversation';
 
 export function getFakeDistributionListsWithMembers(): Array<StoryDistributionListWithMembersDataType> {
@@ -34,10 +35,10 @@ export function getFakeDistributionLists(): Array<StoryDistributionListDataType>
 export function getFakeDistributionList(): StoryDistributionListDataType {
   return {
     allowsReplies: Boolean(casual.coin_flip),
-    id: UUID.generate().toString(),
+    id: generateStoryDistributionId(),
     isBlockList: false,
-    memberUuids: Array.from(Array(casual.integer(3, 12)), () =>
-      UUID.generate().toString()
+    memberServiceIds: Array.from(Array(casual.integer(3, 12)), () =>
+      generateAci()
     ),
     name: casual.title,
   };
@@ -48,7 +49,7 @@ export function getMyStories(): StoryDistributionListDataType {
     allowsReplies: true,
     id: MY_STORY_ID,
     isBlockList: true,
-    memberUuids: [],
+    memberServiceIds: [],
     name: MY_STORY_ID,
   };
 }

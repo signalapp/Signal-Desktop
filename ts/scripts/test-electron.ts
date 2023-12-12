@@ -31,6 +31,16 @@ try {
   process.exit(1);
 }
 
+const debugMatch = stdout.matchAll(/ci:test-electron:debug=(.*)?\n/g);
+Array.from(debugMatch).forEach(info => {
+  try {
+    const args = JSON.parse(info[1]);
+    console.log('DEBUG:', args);
+  } catch {
+    // this section intentionally left blank
+  }
+});
+
 const match = stdout.match(/ci:test-electron:done=(.*)?\n/);
 
 if (!match) {

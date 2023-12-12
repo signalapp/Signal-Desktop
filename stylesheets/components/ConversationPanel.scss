@@ -20,6 +20,7 @@
 
   &__body {
     margin-top: calc(#{$header-height} + var(--title-bar-drag-area-height));
+    padding-inline: 24px;
   }
 
   &__header {

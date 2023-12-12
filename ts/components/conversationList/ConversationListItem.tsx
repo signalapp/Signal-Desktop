@@ -60,11 +60,11 @@ export type PropsData = Pick<
   | 'shouldShowDraft'
   | 'title'
   | 'type'
-  | 'typingContactId'
+  | 'typingContactIdTimestamps'
   | 'unblurredAvatarPath'
   | 'unreadCount'
   | 'unreadMentionsCount'
-  | 'uuid'
+  | 'serviceId'
 > & {
   badge?: BadgeType;
 };
@@ -104,13 +104,15 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     theme,
     title,
     type,
-    typingContactId,
+    typingContactIdTimestamps,
     unblurredAvatarPath,
     unreadCount,
     unreadMentionsCount,
-    uuid,
+    serviceId,
   }) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
+    const isSomeoneTyping =
+      Object.keys(typingContactIdTimestamps ?? {}).length > 0;
     const headerName = (
       <>
         {isMe ? (
@@ -122,7 +124,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         ) : (
           <ContactName
             module={HEADER_CONTACT_NAME_CLASS_NAME}
-            isSignalConversation={isSignalConversation({ id, uuid })}
+            isSignalConversation={isSignalConversation({ id, serviceId })}
             title={title}
           />
         )}
@@ -139,7 +141,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
           {i18n('icu:ConversationListItem--message-request')}
         </span>
       );
-    } else if (typingContactId) {
+    } else if (isSomeoneTyping) {
       messageText = <TypingAnimation i18n={i18n} />;
     } else if (shouldShowDraft && draftPreview) {
       messageText = (
@@ -221,7 +223,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         unreadCount={unreadCount}
         unreadMentionsCount={unreadMentionsCount}
         unblurredAvatarPath={unblurredAvatarPath}
-        uuid={uuid}
+        serviceId={serviceId}
       />
     );
   }

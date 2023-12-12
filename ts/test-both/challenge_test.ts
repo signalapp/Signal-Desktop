@@ -32,7 +32,7 @@ describe('ChallengeHandler', () => {
   let challengeStatus = 'idle';
   let queuesStarted: Array<string> = [];
 
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     storage.clear();
     challengeStatus = 'idle';
     queuesStarted = [];
@@ -43,7 +43,7 @@ describe('ChallengeHandler', () => {
     });
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
   });
 
@@ -57,6 +57,7 @@ describe('ChallengeHandler', () => {
       retryAt: NOW + DEFAULT_RETRY_AFTER,
       createdAt: NOW - SECOND,
       reason: 'test',
+      silent: false,
       ...options,
     };
   };
@@ -123,7 +124,7 @@ describe('ChallengeHandler', () => {
     );
   };
 
-  it('should automatically start queue after timeout', async function test() {
+  it('should automatically start queue after timeout', async function (this: Mocha.Context) {
     const handler = await createHandler();
 
     const one = createChallenge('1');
@@ -138,7 +139,7 @@ describe('ChallengeHandler', () => {
     assert.isFalse(isInStorage(one.conversationId));
   });
 
-  it('should send challenge response', async function test() {
+  it('should send challenge response', async function (this: Mocha.Context) {
     const handler = await createHandler({ autoSolve: true });
 
     const one = createChallenge('1', {
@@ -154,7 +155,7 @@ describe('ChallengeHandler', () => {
     assert.equal(challengeStatus, 'idle');
   });
 
-  it('should send old challenges', async function test() {
+  it('should send old challenges', async function (this: Mocha.Context) {
     const handler = await createHandler();
 
     const challenges = [
@@ -185,7 +186,7 @@ describe('ChallengeHandler', () => {
     await createHandler();
 
     for (const challenge of challenges) {
-      await handler.unregister(challenge.conversationId);
+      await handler.unregister(challenge.conversationId, 'test');
     }
 
     for (const challenge of challenges) {
@@ -212,7 +213,7 @@ describe('ChallengeHandler', () => {
     assert.deepEqual(queuesStarted, [one.conversationId]);
   });
 
-  it('should not retry expired challenges', async function test() {
+  it('should not retry expired challenges', async function (this: Mocha.Context) {
     const handler = await createHandler();
 
     const one = createChallenge('1');
@@ -223,7 +224,7 @@ describe('ChallengeHandler', () => {
       autoSolve: true,
       expireAfter: -1,
     });
-    await handler.unregister(one.conversationId);
+    await handler.unregister(one.conversationId, 'test');
 
     challengeStatus = 'idle';
     await newHandler.load();
@@ -238,7 +239,7 @@ describe('ChallengeHandler', () => {
     assert.isFalse(isInStorage(one.conversationId));
   });
 
-  it('should send challenges that matured while we were offline', async function test() {
+  it('should send challenges that matured while we were offline', async function (this: Mocha.Context) {
     const handler = await createHandler();
 
     const one = createChallenge('1');
@@ -265,7 +266,7 @@ describe('ChallengeHandler', () => {
     assert.equal(challengeStatus, 'idle');
   });
 
-  it('should trigger onChallengeSolved', async function test() {
+  it('should trigger onChallengeSolved', async function (this: Mocha.Context) {
     const onChallengeSolved = sinon.stub();
 
     const handler = await createHandler({
@@ -284,7 +285,7 @@ describe('ChallengeHandler', () => {
     sinon.assert.calledOnce(onChallengeSolved);
   });
 
-  it('should trigger onChallengeFailed', async function test() {
+  it('should trigger onChallengeFailed', async function (this: Mocha.Context) {
     const onChallengeFailed = sinon.stub();
 
     const handler = await createHandler({

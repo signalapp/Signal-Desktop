@@ -5,7 +5,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { DraftBodyRanges } from '../types/BodyRange';
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+} from '../types/BodyRange';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
 import { RecordingState } from '../types/AudioRecorder';
@@ -36,6 +39,7 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
 import { isImageAttachment, isVoiceMessage } from '../types/Attachment';
+import type { AciString } from '../types/ServiceId';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
@@ -84,10 +88,12 @@ export type OwnProps = Readonly<{
     conversationId: string,
     onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
   ) => unknown;
+  convertDraftBodyRangesIntoHydrated: (
+    bodyRanges: DraftBodyRanges | undefined
+  ) => HydratedBodyRangesType | undefined;
   conversationId: string;
   discardEditMessage: (id: string) => unknown;
   draftEditMessage?: DraftEditMessageType;
-  uuid?: string;
   draftAttachments: ReadonlyArray<AttachmentDraftType>;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
@@ -131,7 +137,7 @@ export type OwnProps = Readonly<{
     options: {
       bodyRanges?: DraftBodyRanges;
       message?: string;
-      quoteAuthorUuid?: string;
+      quoteAuthorAci?: AciString;
       quoteSentAt?: number;
       targetMessageId: string;
     }
@@ -153,7 +159,7 @@ export type OwnProps = Readonly<{
       'i18n' | 'onClick' | 'onClose' | 'withContentAbove' | 'isCompose'
     >
   >;
-  quotedMessageAuthorUuid?: string;
+  quotedMessageAuthorAci?: AciString;
   quotedMessageSentAt?: number;
 
   removeAttachment: (conversationId: string, filePath: string) => unknown;
@@ -221,6 +227,7 @@ export function CompositionArea({
   // Base props
   addAttachment,
   conversationId,
+  convertDraftBodyRangesIntoHydrated,
   discardEditMessage,
   draftEditMessage,
   focusCounter,
@@ -256,7 +263,7 @@ export function CompositionArea({
   // Quote
   quotedMessageId,
   quotedMessageProps,
-  quotedMessageAuthorUuid,
+  quotedMessageAuthorAci,
   quotedMessageSentAt,
   scrollToMessage,
   // MediaQualitySelector
@@ -356,7 +363,7 @@ export function CompositionArea({
           message,
           // sent timestamp for the quote
           quoteSentAt: quotedMessageSentAt,
-          quoteAuthorUuid: quotedMessageAuthorUuid,
+          quoteAuthorAci: quotedMessageAuthorAci,
           targetMessageId: editedMessageId,
         });
       } else {
@@ -374,7 +381,7 @@ export function CompositionArea({
       draftAttachments,
       editedMessageId,
       quotedMessageSentAt,
-      quotedMessageAuthorUuid,
+      quotedMessageAuthorAci,
       sendEditedMessage,
       sendMultiMediaMessage,
       setLarge,
@@ -434,12 +441,14 @@ export function CompositionArea({
   useEffect(() => {
     if (inputApiRef.current) {
       inputApiRef.current.focus();
+      setHasFocus(true);
     }
   }, []);
   // Focus input whenever explicitly requested
   useEffect(() => {
     if (focusCounter !== previousFocusCounter && inputApiRef.current) {
       inputApiRef.current.focus();
+      setHasFocus(true);
     }
   }, [inputApiRef, focusCounter, previousFocusCounter]);
 
@@ -534,7 +543,6 @@ export function CompositionArea({
         <EmojiButton
           emojiButtonApi={emojiButtonRef}
           i18n={i18n}
-          doSend={handleForceSend}
           onPickEmoji={insertEmoji}
           onClose={() => setComposerFocus(conversationId)}
           recentEmojis={recentEmojis}
@@ -851,12 +859,25 @@ export function CompositionArea({
         'url' in attachmentToEdit &&
         attachmentToEdit.url && (
           <MediaEditor
+            draftBodyRanges={draftBodyRanges}
+            draftText={draftText}
+            getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             imageSrc={attachmentToEdit.url}
             imageToBlurHash={imageToBlurHash}
+            installedPacks={installedPacks}
+            isFormattingEnabled={isFormattingEnabled}
+            isFormattingFlagEnabled={isFormattingFlagEnabled}
+            isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
             isSending={false}
             onClose={() => setAttachmentToEdit(undefined)}
-            onDone={({ data, contentType, blurHash }) => {
+            onDone={({
+              caption,
+              captionBodyRanges,
+              data,
+              contentType,
+              blurHash,
+            }) => {
               const newAttachment = {
                 ...attachmentToEdit,
                 contentType,
@@ -867,9 +888,25 @@ export function CompositionArea({
 
               addAttachment(conversationId, newAttachment);
               setAttachmentToEdit(undefined);
+              onEditorStateChange?.({
+                bodyRanges: captionBodyRanges ?? [],
+                conversationId,
+                messageText: caption ?? '',
+                sendCounter,
+              });
+
+              inputApiRef.current?.setContents(
+                caption ?? '',
+                convertDraftBodyRangesIntoHydrated(captionBodyRanges),
+                true
+              );
             }}
-            installedPacks={installedPacks}
+            onPickEmoji={onPickEmoji}
+            onTextTooLong={onTextTooLong}
+            platform={platform}
             recentStickers={recentStickers}
+            skinTone={skinTone}
+            sortedGroupMembers={sortedGroupMembers}
           />
         )}
       <div className="CompositionArea__toggle-large">

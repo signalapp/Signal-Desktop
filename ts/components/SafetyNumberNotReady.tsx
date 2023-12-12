@@ -8,7 +8,7 @@ import { Modal } from './Modal';
 import { Intl } from './Intl';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import type { LocalizerType } from '../types/Util';
-import { SAFETY_NUMBER_MIGRATION_URL } from '../types/support';
+import { SAFETY_NUMBER_URL } from '../types/support';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -16,7 +16,7 @@ export type PropsType = {
 };
 
 function onLearnMore() {
-  openLinkInWebBrowser(SAFETY_NUMBER_MIGRATION_URL);
+  openLinkInWebBrowser(SAFETY_NUMBER_URL);
 }
 
 export function SafetyNumberNotReady({

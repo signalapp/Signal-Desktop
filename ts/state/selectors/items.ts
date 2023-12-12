@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
-import { SafetyNumberMode } from '../../types/safetyNumber';
 import { innerIsBucketValueEnabled } from '../../RemoteConfig';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig';
 import type { StateType } from '../reducer';
@@ -14,14 +13,14 @@ import type {
   ConversationColorType,
   CustomColorType,
 } from '../../types/Colors';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 import { isBeta } from '../../util/version';
 import { DurationInSeconds } from '../../util/durations';
-import { generateUsernameLink } from '../../util/sgnlHref';
 import * as Bytes from '../../Bytes';
 import { getUserNumber, getUserACI } from './user';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -60,10 +59,10 @@ const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
   e164: string | undefined,
-  uuid: UUIDStringType | undefined
+  aci: AciString | undefined
 ): boolean => {
   const flagValue = config[name]?.value;
-  return innerIsBucketValueEnabled(name, flagValue, e164, uuid);
+  return innerIsBucketValueEnabled(name, flagValue, e164, aci);
 };
 
 export const getRemoteConfig = createSelector(
@@ -94,10 +93,14 @@ export const getHasCompletedUsernameLinkOnboarding = createSelector(
     Boolean(state.hasCompletedUsernameLinkOnboarding)
 );
 
-export const getHasCompletedSafetyNumberOnboarding = createSelector(
+export const getUsernameCorrupted = createSelector(
   getItems,
-  (state: ItemsStateType): boolean =>
-    Boolean(state.hasCompletedSafetyNumberOnboarding)
+  (state: ItemsStateType): boolean => Boolean(state.usernameCorrupted)
+);
+
+export const getUsernameLinkCorrupted = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.usernameLinkCorrupted)
 );
 
 export const getUsernameLinkColor = createSelector(
@@ -119,7 +122,9 @@ export const getUsernameLink = createSelector(
 
     const content = Bytes.concatenate([entropy, serverId]);
 
-    return generateUsernameLink(Bytes.toBase64(content));
+    return contactByEncryptedUsernameRoute
+      .toWebUrl({ encryptedUsername: Bytes.toBase64(content) })
+      .toString();
   }
 );
 
@@ -140,7 +145,7 @@ export const getStoriesEnabled = createSelector(
     state: ItemsStateType,
     remoteConfig: ConfigMapType,
     e164: string | undefined,
-    aci: UUIDStringType | undefined
+    aci: AciString | undefined
   ): boolean => {
     if (state.hasStoriesDisabled) {
       return false;
@@ -164,61 +169,6 @@ export const getStoriesEnabled = createSelector(
     }
 
     return false;
-  }
-);
-
-export const getContactManagementEnabled = createSelector(
-  getRemoteConfig,
-  (remoteConfig: ConfigMapType): boolean => {
-    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.contactManagement')) {
-      return true;
-    }
-
-    if (
-      isRemoteConfigFlagEnabled(
-        remoteConfig,
-        'desktop.contactManagement.beta'
-      ) &&
-      isBeta(window.getVersion())
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-);
-
-export const getSafetyNumberMode = createSelector(
-  getRemoteConfig,
-  getServerTimeSkew,
-  (_state: StateType, { now }: { now: number }) => now,
-  (
-    remoteConfig: ConfigMapType,
-    serverTimeSkew: number,
-    now: number
-  ): SafetyNumberMode => {
-    if (
-      !isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberAci') &&
-      !(
-        isRemoteConfigFlagEnabled(
-          remoteConfig,
-          'desktop.safetyNumberAci.beta'
-        ) && isBeta(window.getVersion())
-      )
-    ) {
-      return SafetyNumberMode.JustE164;
-    }
-
-    const timestamp = remoteConfig['global.safetyNumberAci']?.value;
-    if (typeof timestamp !== 'number') {
-      return SafetyNumberMode.DefaultE164AndThenACI;
-    }
-
-    // Note: serverTimeSkew is a difference between server time and local time,
-    // so we have to add local time to it to correct it for a skew.
-    return now + serverTimeSkew >= timestamp
-      ? SafetyNumberMode.DefaultACIAndMaybeE164
-      : SafetyNumberMode.DefaultE164AndThenACI;
   }
 );
 
@@ -311,4 +261,9 @@ export const getAutoDownloadUpdate = createSelector(
 export const getTextFormattingEnabled = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)
+);
+
+export const getNavTabsCollapsed = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
 );

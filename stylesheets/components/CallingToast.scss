@@ -1,25 +1,58 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-.CallingToast {
-  @include button-reset();
-  @include font-body-1-bold;
-  background-color: $color-gray-75;
-  border-radius: 8px;
-  color: $color-white;
-  max-width: 80%;
-  opacity: 1;
-  padding: 12px;
-  position: absolute;
-  text-align: center;
-  top: 12px;
-  transform: translateY(0);
-  transition: transform 200ms ease-out, opacity 200ms ease-out;
-  user-select: none;
-  z-index: $z-index-above-above-base;
+.CallingToasts {
+  position: fixed;
+  z-index: $z-index-toast;
+  top: 32px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
 
-  &--hidden {
-    opacity: 0;
-    transform: translateY(-7px);
+.CallingToasts__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  gap: 8px;
+}
+
+.CallingToast--dismissable {
+  @include button-reset();
+}
+
+.CallingToast {
+  @include font-subtitle;
+  padding-block: 8px;
+  padding-inline: 12px;
+  border-radius: 22px;
+  background-color: $color-gray-80;
+  color: $color-gray-15;
+  text-align: center;
+  user-select: none;
+  &__reconnecting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.CallingButtonToasts .CallingToasts {
+  position: absolute;
+  top: -20px;
+  transform: translateY(-100%);
+  inset-inline-start: 0;
+}
+
+.CallingToast__viewChanged {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  &__icon {
+    width: 18px;
+    height: 18px;
   }
 }

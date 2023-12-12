@@ -57,10 +57,10 @@ export async function sendSavedProto(
     return;
   }
 
-  const uuid = conversation.get('uuid');
-  if (!uuid) {
+  const serviceId = conversation.getServiceId();
+  if (!serviceId) {
     log.info(
-      `conversation ${conversation.idForLogging()} was missing uuid, cancelling job.`
+      `conversation ${conversation.idForLogging()} was missing serviceId, cancelling job.`
     );
     return;
   }
@@ -84,7 +84,7 @@ export async function sendSavedProto(
         groupId,
         options: sendOptions,
         proto,
-        recipients: [uuid],
+        recipients: [serviceId],
         timestamp: originalTimestamp,
         urgent,
         story,

@@ -259,6 +259,10 @@
       @include button-icon('../images/icons/v3/phone/phone-compact.svg');
     }
 
+    &--message::before {
+      @include button-icon('../images/icons/v3/chat/chat-compact.svg');
+    }
+
     &--muted::before {
       @include button-icon('../images/icons/v3/bell/bell-slash-compact.svg');
     }

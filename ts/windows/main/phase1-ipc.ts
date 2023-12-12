@@ -8,7 +8,6 @@ import { mapValues } from 'lodash';
 import type { IPCType } from '../../window.d';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback';
 import { getSignalConnections } from '../../util/getSignalConnections';
-import { UUIDKind } from '../../types/UUID';
 import { ThemeType } from '../../types/Util';
 import { getEnvironment, Environment } from '../../environment';
 import { SignalContext } from '../context';
@@ -87,6 +86,8 @@ const IPC: IPCType = {
     ipc.send('draw-attention');
   },
   getAutoLaunch: () => ipc.invoke('get-auto-launch'),
+  getMediaAccessStatus: mediaType =>
+    ipc.invoke('get-media-access-status', mediaType),
   getMediaPermissions: () => ipc.invoke('settings:get:mediaPermissions'),
   getMediaCameraPermissions: () =>
     ipc.invoke('settings:get:mediaCameraPermissions'),
@@ -98,13 +99,9 @@ const IPC: IPCType = {
     }),
   readyForUpdates: () => ipc.send('ready-for-updates'),
   removeSetupMenuItems: () => ipc.send('remove-setup-menu-items'),
-  restart: () => {
-    log.info('restart');
-    ipc.send('restart');
-  },
   setAutoHideMenuBar: autoHide => ipc.send('set-auto-hide-menu-bar', autoHide),
   setAutoLaunch: value => ipc.invoke('set-auto-launch', value),
-  setBadgeCount: count => ipc.send('set-badge-count', count),
+  setBadge: badge => ipc.send('set-badge', badge),
   setMenuBarVisibility: visibility =>
     ipc.send('set-menu-bar-visibility', visibility),
   showDebugLog: () => {
@@ -192,8 +189,8 @@ ipc.on('additional-log-data-request', async event => {
     statistics = {};
   }
 
-  const ourUuid = window.textsecure.storage.user.getUuid();
-  const ourPni = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+  const ourAci = window.textsecure.storage.user.getAci();
+  const ourPni = window.textsecure.storage.user.getPni();
 
   event.sender.send('additional-log-data-response', {
     capabilities: ourCapabilities || {},
@@ -211,8 +208,8 @@ ipc.on('additional-log-data-request', async event => {
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
       e164: window.textsecure.storage.user.getNumber(),
-      uuid: ourUuid && ourUuid.toString(),
-      pni: ourPni && ourPni.toString(),
+      uuid: ourAci,
+      pni: ourPni,
       conversationId: ourConversation && ourConversation.id,
     },
   });
@@ -288,24 +285,18 @@ ipc.on('delete-all-data', async () => {
 });
 
 ipc.on('show-sticker-pack', (_event, info) => {
-  const { packId, packKey } = info;
-  const { showStickerPack } = window.Events;
-  if (showStickerPack) {
-    showStickerPack(packId, packKey);
-  }
+  window.Events.showStickerPack?.(info.packId, info.packKey);
 });
 
 ipc.on('show-group-via-link', (_event, info) => {
-  const { hash } = info;
-  const { showGroupViaLink } = window.Events;
-  if (showGroupViaLink) {
-    void showGroupViaLink(hash);
-  }
+  strictAssert(typeof info.value === 'string', 'Got an invalid value over IPC');
+  drop(window.Events.showGroupViaLink?.(info.value));
 });
 
 ipc.on('open-art-creator', () => {
   drop(window.Events.openArtCreator());
 });
+
 window.openArtCreator = ({
   username,
   password,
@@ -317,19 +308,21 @@ window.openArtCreator = ({
 };
 
 ipc.on('authorize-art-creator', (_event, info) => {
-  const { token, pubKeyBase64 } = info;
-  window.Events.authorizeArtCreator?.({ token, pubKeyBase64 });
+  window.Events.authorizeArtCreator?.(info);
 });
 
 ipc.on('start-call-lobby', (_event, { conversationId }) => {
+  window.IPC.showWindow();
   window.reduxActions?.calling?.startCallingLobby({
     conversationId,
     isVideoCall: true,
   });
 });
+
 ipc.on('show-window', () => {
   window.IPC.showWindow();
 });
+
 ipc.on('set-is-presenting', () => {
   window.reduxActions?.calling?.setPresenting();
 });
@@ -344,12 +337,13 @@ ipc.on(
   }
 );
 ipc.on('show-conversation-via-signal.me', (_event, info) => {
-  const { hash } = info;
-  strictAssert(typeof hash === 'string', 'Got an invalid hash over IPC');
+  const { kind, value } = info;
+  strictAssert(typeof kind === 'string', 'Got an invalid kind over IPC');
+  strictAssert(typeof value === 'string', 'Got an invalid value over IPC');
 
   const { showConversationViaSignalDotMe } = window.Events;
   if (showConversationViaSignalDotMe) {
-    void showConversationViaSignalDotMe(hash);
+    void showConversationViaSignalDotMe(kind, value);
   }
 });
 

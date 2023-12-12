@@ -25,6 +25,7 @@
     "@formatjs/fast-memoize": "1.2.8",
     "@indutny/emoji-picker-react": "4.4.9",
     "@popperjs/core": "2.11.7",
+    "@react-aria/interactions": "3.19.0",
     "@reduxjs/toolkit": "1.9.5",
     "@stablelib/x25519": "1.0.3",
     "base64-js": "1.5.1",

@@ -37,12 +37,12 @@ export async function authorizeArtCreator({
   );
   const keys = Bytes.concatenate([aesKey, macKey]);
 
-  const { ciphertext } = encryptAttachment(
-    Proto.ArtProvisioningMessage.encode({
+  const { ciphertext } = encryptAttachment({
+    plaintext: Proto.ArtProvisioningMessage.encode({
       ...auth,
     }).finish(),
-    keys
-  );
+    keys,
+  });
 
   const envelope = Proto.ArtProvisioningEnvelope.encode({
     publicKey: ourKeys.pubKey,

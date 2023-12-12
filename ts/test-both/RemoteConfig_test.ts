@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 
+import { normalizeAci } from '../util/normalizeAci';
 import {
   getCountryCodeValue,
   getBucketValue,
@@ -10,7 +11,7 @@ import {
 } from '../RemoteConfig';
 
 describe('RemoteConfig', () => {
-  const uuid = '15b9729c-51ea-4ddb-b516-652befe78062';
+  const aci = normalizeAci('15b9729c-51ea-4ddb-b516-652befe78062', 'test');
 
   describe('#innerIsBucketValueEnabled', () => {
     // Note: bucketValue is 497941 for 'desktop.stories2' key
@@ -21,7 +22,7 @@ describe('RemoteConfig', () => {
           'desktop.stories2',
           '*:1000000',
           '+12125550000',
-          uuid
+          aci
         ),
         true
       );
@@ -33,7 +34,7 @@ describe('RemoteConfig', () => {
           'desktop.stories2',
           '1:500000',
           '+12125550000',
-          uuid
+          aci
         ),
         true
       );
@@ -45,7 +46,7 @@ describe('RemoteConfig', () => {
           'desktop.stories2',
           '1:400000',
           '+12125550000',
-          uuid
+          aci
         ),
         false
       );
@@ -91,7 +92,7 @@ describe('RemoteConfig', () => {
     it('returns undefined for empty value', () => {
       const flagName = 'research.megaphone.1';
 
-      assert.strictEqual(getBucketValue(uuid, flagName), 243315);
+      assert.strictEqual(getBucketValue(aci, flagName), 243315);
     });
   });
 });

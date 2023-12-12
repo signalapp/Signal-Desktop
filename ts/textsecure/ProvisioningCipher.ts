@@ -13,18 +13,19 @@ import {
 import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
 import { strictAssert } from '../util/assert';
-import { normalizeUuid } from '../util/normalizeUuid';
+import { dropNull } from '../util/dropNull';
 
 type ProvisionDecryptResult = {
   aciKeyPair: KeyPairType;
   pniKeyPair?: KeyPairType;
   number?: string;
   aci?: string;
-  pni?: string;
+  untaggedPni?: string;
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
   profileKey?: Uint8Array;
+  masterKey?: Uint8Array;
 };
 
 class ProvisioningCipherInner {
@@ -34,9 +35,10 @@ class ProvisioningCipherInner {
     provisionEnvelope: Proto.ProvisionEnvelope
   ): Promise<ProvisionDecryptResult> {
     strictAssert(
-      provisionEnvelope.publicKey && provisionEnvelope.body,
-      'Missing required fields in ProvisionEnvelope'
+      provisionEnvelope.publicKey,
+      'Missing publicKey in ProvisionEnvelope'
     );
+    strictAssert(provisionEnvelope.body, 'Missing body in ProvisionEnvelope');
     const masterEphemeral = provisionEnvelope.publicKey;
     const message = provisionEnvelope.body;
     if (new Uint8Array(message)[0] !== 1) {
@@ -73,19 +75,23 @@ class ProvisioningCipherInner {
 
     const { aci, pni } = provisionMessage;
     strictAssert(aci, 'Missing aci in provisioning message');
+    strictAssert(pni, 'Missing pni in provisioning message');
 
     const ret: ProvisionDecryptResult = {
       aciKeyPair,
       pniKeyPair,
-      number: provisionMessage.number,
-      aci: normalizeUuid(aci, 'ProvisionMessage.aci'),
-      pni: pni ? normalizeUuid(pni, 'ProvisionMessage.pni') : undefined,
-      provisioningCode: provisionMessage.provisioningCode,
-      userAgent: provisionMessage.userAgent,
-      readReceipts: provisionMessage.readReceipts,
+      number: dropNull(provisionMessage.number),
+      aci,
+      untaggedPni: pni,
+      provisioningCode: dropNull(provisionMessage.provisioningCode),
+      userAgent: dropNull(provisionMessage.userAgent),
+      readReceipts: provisionMessage.readReceipts ?? false,
     };
-    if (provisionMessage.profileKey) {
+    if (Bytes.isNotEmpty(provisionMessage.profileKey)) {
       ret.profileKey = provisionMessage.profileKey;
+    }
+    if (Bytes.isNotEmpty(provisionMessage.masterKey)) {
+      ret.masterKey = provisionMessage.masterKey;
     }
     return ret;
   }

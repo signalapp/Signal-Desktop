@@ -16,7 +16,7 @@ describe('startTimeTravelDetector', () => {
     sandbox.restore();
   });
 
-  it('calls the callback when the time between checks is more than 2 seconds', async function test() {
+  it('calls the callback when the time between checks is more than 2 seconds', async () => {
     const callback = sandbox.fake();
 
     startTimeTravelDetector(callback);

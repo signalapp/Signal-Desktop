@@ -4,7 +4,7 @@
 import { createSelector } from 'reselect';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString, PniString } from '../../types/ServiceId';
 import type { LocaleMessagesType } from '../../types/I18N';
 import type { MenuOptionsType } from '../../types/menu';
 
@@ -37,12 +37,12 @@ export const getUserConversationId = createSelector(
 
 export const getUserACI = createSelector(
   getUser,
-  (state: UserStateType): UUIDStringType | undefined => state.ourACI
+  (state: UserStateType): AciString | undefined => state.ourAci
 );
 
 export const getUserPNI = createSelector(
   getUser,
-  (state: UserStateType): UUIDStringType | undefined => state.ourPNI
+  (state: UserStateType): PniString | undefined => state.ourPni
 );
 
 export const getIntl = createSelector(

@@ -3,30 +3,30 @@
 
 import { strictAssert } from '../util/assert';
 
-import type { UUIDStringType } from './UUID';
-import { UUID } from './UUID';
+import type { ServiceIdString } from './ServiceId';
+import { isServiceIdString } from './ServiceId';
 import type { AddressStringType } from './Address';
 import { Address } from './Address';
 
-const QUALIFIED_ADDRESS_REGEXP = /^([0-9a-f-]+):([0-9a-f-]+).(\d+)$/i;
+const QUALIFIED_ADDRESS_REGEXP = /^([:0-9a-f-]+):([:0-9a-f-]+).(\d+)$/i;
 
 export type QualifiedAddressCreateOptionsType = Readonly<{
-  ourUuid: string;
-  uuid: string;
+  ourServiceId: ServiceIdString;
+  serviceId: ServiceIdString;
   deviceId: number;
 }>;
 
 export type QualifiedAddressStringType =
-  `${UUIDStringType}:${AddressStringType}`;
+  `${ServiceIdString}:${AddressStringType}`;
 
 export class QualifiedAddress {
   constructor(
-    public readonly ourUuid: UUID,
+    public readonly ourServiceId: ServiceIdString,
     public readonly address: Address
   ) {}
 
-  public get uuid(): UUID {
-    return this.address.uuid;
+  public get serviceId(): ServiceIdString {
+    return this.address.serviceId;
   }
 
   public get deviceId(): number {
@@ -34,18 +34,23 @@ export class QualifiedAddress {
   }
 
   public toString(): QualifiedAddressStringType {
-    return `${this.ourUuid.toString()}:${this.address.toString()}`;
+    return `${this.ourServiceId}:${this.address.toString()}`;
   }
 
   public static parse(value: string): QualifiedAddress {
     const match = value.match(QUALIFIED_ADDRESS_REGEXP);
     strictAssert(match != null, `Invalid QualifiedAddress: ${value}`);
-    const [whole, ourUuid, uuid, deviceId] = match;
+    const [whole, ourServiceId, serviceId, deviceId] = match;
     strictAssert(whole === value, 'Integrity check');
+    strictAssert(
+      isServiceIdString(ourServiceId),
+      'Our service id is incorrect'
+    );
+    strictAssert(isServiceIdString(serviceId), 'Their service id is incorrect');
 
     return new QualifiedAddress(
-      new UUID(ourUuid),
-      Address.create(uuid, parseInt(deviceId, 10))
+      ourServiceId,
+      Address.create(serviceId, parseInt(deviceId, 10))
     );
   }
 }

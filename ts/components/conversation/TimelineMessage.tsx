@@ -33,6 +33,7 @@ import {
 } from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
 import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
+import { useScrollerLock } from '../../hooks/useScrollLock';
 
 export type PropsData = {
   canDownload: boolean;
@@ -175,6 +176,14 @@ export function TimelineMessage(props: Props): JSX.Element {
     [reactionPickerRoot]
   );
 
+  useScrollerLock({
+    reason: 'TimelineMessage reactionPicker',
+    lockScrollWhen: reactionPickerRoot != null,
+    onUserInterrupt() {
+      toggleReactionPicker(true);
+    },
+  });
+
   useEffect(() => {
     let cleanUpHandler: (() => void) | undefined;
     if (reactionPickerRoot) {
@@ -298,8 +307,8 @@ export function TimelineMessage(props: Props): JSX.Element {
           menuTriggerRef={menuTriggerRef}
           showMenu={handleContextMenu}
           onDownload={handleDownload}
-          onReplyToMessage={handleReplyToMessage}
-          onReact={handleReact}
+          onReplyToMessage={canReply ? handleReplyToMessage : undefined}
+          onReact={canReact ? handleReact : undefined}
         />
         {reactionPickerRoot &&
           createPortal(
@@ -337,9 +346,10 @@ export function TimelineMessage(props: Props): JSX.Element {
     isWindowWidthNotNarrow,
     direction,
     menuTriggerRef,
+    canReply,
+    canReact,
     handleContextMenu,
     handleDownload,
-
     handleReplyToMessage,
     handleReact,
     reactionPickerRoot,

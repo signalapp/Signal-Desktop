@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as sinon from 'sinon';
 import { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
 import {
   _analyzeSenderKeyDevices,
   _shouldFailSend,
 } from '../../util/sendToGroup';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { DeviceType } from '../../textsecure/Types.d';
 import {
@@ -27,39 +26,24 @@ import {
 } from '../../textsecure/Errors';
 
 describe('sendToGroup', () => {
-  const uuidOne = UUID.generate().toString();
-  const uuidTwo = UUID.generate().toString();
-
-  let sandbox: sinon.SinonSandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-
-    const stub = sandbox.stub(UUID, 'lookup');
-    stub.withArgs(uuidOne).returns(new UUID(uuidOne));
-    stub.withArgs(uuidTwo).returns(new UUID(uuidTwo));
-    stub.returns(undefined);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+  const serviceIdOne = generateAci();
+  const serviceIdTwo = generateAci();
 
   describe('#_analyzeSenderKeyDevices', () => {
     function getDefaultDeviceList(): Array<DeviceType> {
       return [
         {
-          identifier: uuidOne,
+          serviceId: serviceIdOne,
           id: 1,
           registrationId: 11,
         },
         {
-          identifier: uuidOne,
+          serviceId: serviceIdOne,
           id: 2,
           registrationId: 22,
         },
         {
-          identifier: uuidTwo,
+          serviceId: serviceIdTwo,
           id: 2,
           registrationId: 33,
         },
@@ -72,15 +56,15 @@ describe('sendToGroup', () => {
 
       const {
         newToMemberDevices,
-        newToMemberUuids,
+        newToMemberServiceIds,
         removedFromMemberDevices,
-        removedFromMemberUuids,
+        removedFromMemberServiceIds,
       } = _analyzeSenderKeyDevices(memberDevices, devicesForSend);
 
       assert.isEmpty(newToMemberDevices);
-      assert.isEmpty(newToMemberUuids);
+      assert.isEmpty(newToMemberServiceIds);
       assert.isEmpty(removedFromMemberDevices);
-      assert.isEmpty(removedFromMemberUuids);
+      assert.isEmpty(removedFromMemberServiceIds);
     });
     it('returns set of new devices', () => {
       const memberDevices = getDefaultDeviceList();
@@ -91,26 +75,26 @@ describe('sendToGroup', () => {
 
       const {
         newToMemberDevices,
-        newToMemberUuids,
+        newToMemberServiceIds,
         removedFromMemberDevices,
-        removedFromMemberUuids,
+        removedFromMemberServiceIds,
       } = _analyzeSenderKeyDevices(memberDevices, devicesForSend);
 
       assert.deepEqual(newToMemberDevices, [
         {
-          identifier: uuidOne,
+          serviceId: serviceIdOne,
           id: 2,
           registrationId: 22,
         },
         {
-          identifier: uuidTwo,
+          serviceId: serviceIdTwo,
           id: 2,
           registrationId: 33,
         },
       ]);
-      assert.deepEqual(newToMemberUuids, [uuidOne, uuidTwo]);
+      assert.deepEqual(newToMemberServiceIds, [serviceIdOne, serviceIdTwo]);
       assert.isEmpty(removedFromMemberDevices);
-      assert.isEmpty(removedFromMemberUuids);
+      assert.isEmpty(removedFromMemberServiceIds);
     });
     it('returns set of removed devices', () => {
       const memberDevices = getDefaultDeviceList();
@@ -121,26 +105,29 @@ describe('sendToGroup', () => {
 
       const {
         newToMemberDevices,
-        newToMemberUuids,
+        newToMemberServiceIds,
         removedFromMemberDevices,
-        removedFromMemberUuids,
+        removedFromMemberServiceIds,
       } = _analyzeSenderKeyDevices(memberDevices, devicesForSend);
 
       assert.isEmpty(newToMemberDevices);
-      assert.isEmpty(newToMemberUuids);
+      assert.isEmpty(newToMemberServiceIds);
       assert.deepEqual(removedFromMemberDevices, [
         {
-          identifier: uuidOne,
+          serviceId: serviceIdOne,
           id: 2,
           registrationId: 22,
         },
         {
-          identifier: uuidTwo,
+          serviceId: serviceIdTwo,
           id: 2,
           registrationId: 33,
         },
       ]);
-      assert.deepEqual(removedFromMemberUuids, [uuidOne, uuidTwo]);
+      assert.deepEqual(removedFromMemberServiceIds, [
+        serviceIdOne,
+        serviceIdTwo,
+      ]);
     });
     it('returns empty removals if partial send', () => {
       const memberDevices = getDefaultDeviceList();
@@ -152,9 +139,9 @@ describe('sendToGroup', () => {
       const isPartialSend = true;
       const {
         newToMemberDevices,
-        newToMemberUuids,
+        newToMemberServiceIds,
         removedFromMemberDevices,
-        removedFromMemberUuids,
+        removedFromMemberServiceIds,
       } = _analyzeSenderKeyDevices(
         memberDevices,
         devicesForSend,
@@ -162,9 +149,9 @@ describe('sendToGroup', () => {
       );
 
       assert.isEmpty(newToMemberDevices);
-      assert.isEmpty(newToMemberUuids);
+      assert.isEmpty(newToMemberServiceIds);
       assert.isEmpty(removedFromMemberDevices);
-      assert.isEmpty(removedFromMemberUuids);
+      assert.isEmpty(removedFromMemberServiceIds);
     });
   });
 
@@ -193,7 +180,7 @@ describe('sendToGroup', () => {
       assert.isTrue(
         _shouldFailSend(
           new UnregisteredUserError(
-            'something',
+            generateAci(),
             new HTTPError('something', {
               code: 400,
               headers: {},

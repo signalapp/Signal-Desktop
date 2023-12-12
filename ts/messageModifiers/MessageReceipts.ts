@@ -1,18 +1,16 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import { isEqual } from 'lodash';
-import { Collection, Model } from 'backbone';
 
 import type { MessageModel } from '../models/messages';
 import type { MessageAttributesType } from '../model-types.d';
+import type { SendStateByConversationId } from '../messages/MessageSendState';
 import { isOutgoing, isStory } from '../state/selectors/message';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
 import { createWaitBatcher } from '../util/waitBatcher';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 import {
   SendActionType,
@@ -22,9 +20,11 @@ import {
 import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
-import { getSourceUuid } from '../messages/helpers';
+import { getSourceServiceId } from '../messages/helpers';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import { getMessageIdForLogging } from '../util/idForLogging';
+import { generateCacheKey } from './generateCacheKey';
 
 const { deleteSentProtoRecipient } = dataInterface;
 
@@ -35,18 +35,18 @@ export enum MessageReceiptType {
 }
 
 export type MessageReceiptAttributesType = {
+  envelopeId: string;
   messageSentAt: number;
   receiptTimestamp: number;
-  sourceUuid: UUIDStringType;
+  removeFromMessageReceiverCache: () => unknown;
   sourceConversationId: string;
   sourceDevice: number;
+  sourceServiceId: ServiceIdString;
   type: MessageReceiptType;
   wasSentEncrypted: boolean;
 };
 
-class MessageReceiptModel extends Model<MessageReceiptAttributesType> {}
-
-let singleton: MessageReceipts | undefined;
+const receipts = new Map<string, MessageReceiptAttributesType>();
 
 const deleteSentProtoBatcher = createWaitBatcher({
   name: 'deleteSentProtoBatcher',
@@ -60,8 +60,8 @@ const deleteSentProtoBatcher = createWaitBatcher({
       items
     );
 
-    for (const uuid of successfulPhoneNumberShares) {
-      const convo = window.ConversationController.get(uuid);
+    for (const serviceId of successfulPhoneNumberShares) {
+      const convo = window.ConversationController.get(serviceId);
       if (!convo) {
         continue;
       }
@@ -78,9 +78,20 @@ const deleteSentProtoBatcher = createWaitBatcher({
   },
 });
 
+function remove(receipt: MessageReceiptAttributesType): void {
+  receipts.delete(
+    generateCacheKey({
+      sender: receipt.sourceServiceId,
+      timestamp: receipt.messageSentAt,
+      type: receipt.type,
+    })
+  );
+  receipt.removeFromMessageReceiverCache();
+}
+
 async function getTargetMessage(
   sourceId: string,
-  sourceUuid: UUIDStringType,
+  serviceId: ServiceIdString,
   messages: ReadonlyArray<MessageAttributesType>
 ): Promise<MessageModel | null> {
   if (messages.length === 0) {
@@ -91,10 +102,16 @@ async function getTargetMessage(
       (isOutgoing(item) || isStory(item)) && sourceId === item.conversationId
   );
   if (message) {
-    return window.MessageController.register(message.id, message);
+    return window.MessageCache.__DEPRECATED$register(
+      message.id,
+      message,
+      'MessageReceipts.getTargetMessage 1'
+    );
   }
 
-  const groups = await window.Signal.Data.getAllGroupsInvolvingUuid(sourceUuid);
+  const groups = await window.Signal.Data.getAllGroupsInvolvingServiceId(
+    serviceId
+  );
 
   const ids = groups.map(item => item.id);
   ids.push(sourceId);
@@ -107,7 +124,11 @@ async function getTargetMessage(
     return null;
   }
 
-  return window.MessageController.register(target.id, target);
+  return window.MessageCache.__DEPRECATED$register(
+    target.id,
+    target,
+    'MessageReceipts.getTargetMessage 2'
+  );
 }
 
 const wasDeliveredWithSealedSender = (
@@ -121,10 +142,10 @@ const wasDeliveredWithSealedSender = (
   );
 
 const shouldDropReceipt = (
-  receipt: MessageReceiptModel,
+  receipt: MessageReceiptAttributesType,
   message: MessageModel
 ): boolean => {
-  const type = receipt.get('type');
+  const { type } = receipt;
   switch (type) {
     case MessageReceiptType.Delivery:
       return false;
@@ -140,198 +161,256 @@ const shouldDropReceipt = (
   }
 };
 
-export class MessageReceipts extends Collection<MessageReceiptModel> {
-  static getSingleton(): MessageReceipts {
-    if (!singleton) {
-      singleton = new MessageReceipts();
-    }
-
-    return singleton;
+export function forMessage(
+  message: MessageModel
+): Array<MessageReceiptAttributesType> {
+  if (!isOutgoing(message.attributes) && !isStory(message.attributes)) {
+    return [];
   }
 
-  forMessage(message: MessageModel): Array<MessageReceiptModel> {
-    if (!isOutgoing(message.attributes) && !isStory(message.attributes)) {
-      return [];
-    }
+  const logId = `MessageReceipts.forMessage(${getMessageIdForLogging(
+    message.attributes
+  )})`;
 
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
-    const sourceUuid = getSourceUuid(message.attributes);
-    if (ourUuid !== sourceUuid) {
-      return [];
-    }
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const sourceServiceId = getSourceServiceId(message.attributes);
+  if (ourAci !== sourceServiceId) {
+    return [];
+  }
 
-    const sentAt = getMessageSentTimestamp(message.attributes, { log });
-    const receipts = this.filter(
-      receipt => receipt.get('messageSentAt') === sentAt
-    );
-    if (receipts.length) {
-      log.info(`MessageReceipts: found early receipts for message ${sentAt}`);
-      this.remove(receipts);
-    }
-    return receipts.filter(receipt => {
-      if (shouldDropReceipt(receipt, message)) {
-        log.info(
-          `MessageReceipts: Dropping an early receipt ${receipt.get('type')} ` +
-            `for message ${sentAt}`
-        );
-        return false;
-      }
+  const receiptValues = Array.from(receipts.values());
 
-      return true;
+  const sentAt = getMessageSentTimestamp(message.attributes, { log });
+  const result = receiptValues.filter(item => item.messageSentAt === sentAt);
+  if (result.length > 0) {
+    log.info(`${logId}: found early receipts for message ${sentAt}`);
+    result.forEach(receipt => {
+      remove(receipt);
     });
   }
 
-  private async updateMessageSendState(
-    receipt: MessageReceiptModel,
-    message: MessageModel
-  ): Promise<void> {
-    const messageSentAt = receipt.get('messageSentAt');
-
+  return result.filter(receipt => {
     if (shouldDropReceipt(receipt, message)) {
       log.info(
-        `MessageReceipts: Dropping a receipt ${receipt.get('type')} ` +
-          `for message ${messageSentAt}`
+        `${logId}: Dropping an early receipt ${receipt.type} for message ${sentAt}`
       );
-      return;
+      return false;
     }
 
-    const receiptTimestamp = receipt.get('receiptTimestamp');
-    const sourceConversationId = receipt.get('sourceConversationId');
-    const type = receipt.get('type');
+    return true;
+  });
+}
 
-    const oldSendStateByConversationId =
-      message.get('sendStateByConversationId') || {};
-    const oldSendState = getOwn(
+function getNewSendStateByConversationId(
+  oldSendStateByConversationId: SendStateByConversationId,
+  receipt: MessageReceiptAttributesType
+): SendStateByConversationId {
+  const { receiptTimestamp, sourceConversationId, type } = receipt;
+
+  const oldSendState = getOwn(
+    oldSendStateByConversationId,
+    sourceConversationId
+  ) ?? { status: SendStatus.Sent, updatedAt: undefined };
+
+  let sendActionType: SendActionType;
+  switch (type) {
+    case MessageReceiptType.Delivery:
+      sendActionType = SendActionType.GotDeliveryReceipt;
+      break;
+    case MessageReceiptType.Read:
+      sendActionType = SendActionType.GotReadReceipt;
+      break;
+    case MessageReceiptType.View:
+      sendActionType = SendActionType.GotViewedReceipt;
+      break;
+    default:
+      throw missingCaseError(type);
+  }
+
+  const newSendState = sendStateReducer(oldSendState, {
+    type: sendActionType,
+    updatedAt: receiptTimestamp,
+  });
+
+  return {
+    ...oldSendStateByConversationId,
+    [sourceConversationId]: newSendState,
+  };
+}
+
+async function updateMessageSendState(
+  receipt: MessageReceiptAttributesType,
+  message: MessageModel
+): Promise<void> {
+  const { messageSentAt } = receipt;
+  const logId = `MessageReceipts.updateMessageSendState(sentAt=${receipt.messageSentAt})`;
+
+  if (shouldDropReceipt(receipt, message)) {
+    log.info(
+      `${logId}: Dropping a receipt ${receipt.type} for message ${messageSentAt}`
+    );
+    return;
+  }
+
+  let hasChanges = false;
+
+  const editHistory = message.get('editHistory') ?? [];
+  const newEditHistory = editHistory?.map(edit => {
+    if (messageSentAt !== edit.timestamp) {
+      return edit;
+    }
+
+    const oldSendStateByConversationId = edit.sendStateByConversationId ?? {};
+    const newSendStateByConversationId = getNewSendStateByConversationId(
       oldSendStateByConversationId,
-      sourceConversationId
-    ) ?? { status: SendStatus.Sent, updatedAt: undefined };
+      receipt
+    );
 
-    let sendActionType: SendActionType;
-    switch (type) {
-      case MessageReceiptType.Delivery:
-        sendActionType = SendActionType.GotDeliveryReceipt;
-        break;
-      case MessageReceiptType.Read:
-        sendActionType = SendActionType.GotReadReceipt;
-        break;
-      case MessageReceiptType.View:
-        sendActionType = SendActionType.GotViewedReceipt;
-        break;
-      default:
-        throw missingCaseError(type);
-    }
+    return {
+      ...edit,
+      sendStateByConversationId: newSendStateByConversationId,
+    };
+  });
+  if (!isEqual(newEditHistory, editHistory)) {
+    message.set('editHistory', newEditHistory);
+    hasChanges = true;
+  }
 
-    const newSendState = sendStateReducer(oldSendState, {
-      type: sendActionType,
-      updatedAt: receiptTimestamp,
-    });
+  const editMessageTimestamp = message.get('editMessageTimestamp');
+  if (
+    (!editMessageTimestamp && messageSentAt === message.get('timestamp')) ||
+    messageSentAt === editMessageTimestamp
+  ) {
+    const oldSendStateByConversationId =
+      message.get('sendStateByConversationId') ?? {};
+    const newSendStateByConversationId = getNewSendStateByConversationId(
+      oldSendStateByConversationId,
+      receipt
+    );
 
     // The send state may not change. For example, this can happen if we get a read
     //   receipt before a delivery receipt.
-    if (!isEqual(oldSendState, newSendState)) {
-      message.set('sendStateByConversationId', {
-        ...oldSendStateByConversationId,
-        [sourceConversationId]: newSendState,
-      });
-
-      queueUpdateMessage(message.attributes);
-
-      // notify frontend listeners
-      const conversation = window.ConversationController.get(
-        message.get('conversationId')
-      );
-      const updateLeftPane = conversation
-        ? conversation.debouncedUpdateLastMessage
-        : undefined;
-      if (updateLeftPane) {
-        updateLeftPane();
-      }
-    }
-
-    if (
-      (type === MessageReceiptType.Delivery &&
-        wasDeliveredWithSealedSender(sourceConversationId, message) &&
-        receipt.get('wasSentEncrypted')) ||
-      type === MessageReceiptType.Read
-    ) {
-      const recipient = window.ConversationController.get(sourceConversationId);
-      const recipientUuid = recipient?.get('uuid');
-      const deviceId = receipt.get('sourceDevice');
-
-      if (recipientUuid && deviceId) {
-        await Promise.all([
-          deleteSentProtoBatcher.add({
-            timestamp: messageSentAt,
-            recipientUuid,
-            deviceId,
-          }),
-
-          // We want the above call to not be delayed when testing with
-          // CI.
-          window.SignalCI
-            ? deleteSentProtoBatcher.flushAndWait()
-            : Promise.resolve(),
-        ]);
-      } else {
-        log.warn(
-          `MessageReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${sourceConversationId}`
-        );
-      }
+    if (!isEqual(oldSendStateByConversationId, newSendStateByConversationId)) {
+      message.set('sendStateByConversationId', newSendStateByConversationId);
+      hasChanges = true;
     }
   }
 
-  async onReceipt(receipt: MessageReceiptModel): Promise<void> {
-    const messageSentAt = receipt.get('messageSentAt');
-    const sourceConversationId = receipt.get('sourceConversationId');
-    const sourceUuid = receipt.get('sourceUuid');
-    const type = receipt.get('type');
+  if (hasChanges) {
+    queueUpdateMessage(message.attributes);
 
-    try {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        messageSentAt
+    // notify frontend listeners
+    const conversation = window.ConversationController.get(
+      message.get('conversationId')
+    );
+    const updateLeftPane = conversation
+      ? conversation.debouncedUpdateLastMessage
+      : undefined;
+    if (updateLeftPane) {
+      updateLeftPane();
+    }
+  }
+
+  const { sourceConversationId, type } = receipt;
+
+  if (
+    (type === MessageReceiptType.Delivery &&
+      wasDeliveredWithSealedSender(sourceConversationId, message) &&
+      receipt.wasSentEncrypted) ||
+    type === MessageReceiptType.Read
+  ) {
+    const recipient = window.ConversationController.get(sourceConversationId);
+    const recipientServiceId = recipient?.getServiceId();
+    const deviceId = receipt.sourceDevice;
+
+    if (recipientServiceId && deviceId) {
+      await Promise.all([
+        deleteSentProtoBatcher.add({
+          timestamp: messageSentAt,
+          recipientServiceId,
+          deviceId,
+        }),
+
+        // We want the above call to not be delayed when testing with
+        // CI.
+        window.SignalCI
+          ? deleteSentProtoBatcher.flushAndWait()
+          : Promise.resolve(),
+      ]);
+    } else {
+      log.warn(
+        `${logId}: Missing serviceId or deviceId for deliveredTo ${sourceConversationId}`
+      );
+    }
+  }
+}
+
+export async function onReceipt(
+  receipt: MessageReceiptAttributesType
+): Promise<void> {
+  receipts.set(
+    generateCacheKey({
+      sender: receipt.sourceServiceId,
+      timestamp: receipt.messageSentAt,
+      type: receipt.type,
+    }),
+    receipt
+  );
+
+  const { messageSentAt, sourceConversationId, sourceServiceId, type } =
+    receipt;
+
+  const logId = `MessageReceipts.onReceipt(sentAt=${receipt.messageSentAt})`;
+
+  try {
+    const messages = await window.Signal.Data.getMessagesBySentAt(
+      messageSentAt
+    );
+
+    const message = await getTargetMessage(
+      sourceConversationId,
+      sourceServiceId,
+      messages
+    );
+
+    if (message) {
+      await updateMessageSendState(receipt, message);
+    } else {
+      // We didn't find any messages but maybe it's a story sent message
+      const targetMessages = messages.filter(
+        item =>
+          item.storyDistributionListId &&
+          item.sendStateByConversationId &&
+          !item.deletedForEveryone &&
+          Boolean(item.sendStateByConversationId[sourceConversationId])
       );
 
-      const message = await getTargetMessage(
-        sourceConversationId,
-        sourceUuid,
-        messages
-      );
-
-      if (message) {
-        await this.updateMessageSendState(receipt, message);
-      } else {
-        // We didn't find any messages but maybe it's a story sent message
-        const targetMessages = messages.filter(
-          item =>
-            item.storyDistributionListId &&
-            item.sendStateByConversationId &&
-            !item.deletedForEveryone &&
-            Boolean(item.sendStateByConversationId[sourceConversationId])
+      // Nope, no target message was found
+      if (!targetMessages.length) {
+        log.info(
+          `${logId}: No message for receipt`,
+          type,
+          sourceConversationId,
+          sourceServiceId
         );
-
-        // Nope, no target message was found
-        if (!targetMessages.length) {
-          log.info(
-            'MessageReceipts: No message for receipt',
-            type,
-            sourceConversationId,
-            sourceUuid,
-            messageSentAt
-          );
-          return;
-        }
-
-        await Promise.all(
-          targetMessages.map(msg => {
-            const model = window.MessageController.register(msg.id, msg);
-            return this.updateMessageSendState(receipt, model);
-          })
-        );
+        return;
       }
 
-      this.remove(receipt);
-    } catch (error) {
-      log.error('MessageReceipts.onReceipt error:', Errors.toLogFormat(error));
+      await Promise.all(
+        targetMessages.map(msg => {
+          const model = window.MessageCache.__DEPRECATED$register(
+            msg.id,
+            msg,
+            'MessageReceipts.onReceipt'
+          );
+          return updateMessageSendState(receipt, model);
+        })
+      );
     }
+
+    remove(receipt);
+  } catch (error) {
+    remove(receipt);
+    log.error(`${logId} error:`, Errors.toLogFormat(error));
   }
 }

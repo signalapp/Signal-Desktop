@@ -45,12 +45,18 @@ export function SmartSendAnywayDialog(): JSX.Element {
   let confirmText: string | undefined = i18n(
     'icu:safetyNumberChangeDialog__pending-messages'
   );
-  if (safetyNumberChangedBlockingData?.source) {
-    confirmText =
-      safetyNumberChangedBlockingData?.source ===
-      SafetyNumberChangeSource.Calling
-        ? i18n('icu:callAnyway')
-        : undefined;
+  if (
+    safetyNumberChangedBlockingData?.source ===
+    SafetyNumberChangeSource.InitiateCall
+  ) {
+    confirmText = i18n('icu:callAnyway');
+  } else if (
+    safetyNumberChangedBlockingData?.source ===
+    SafetyNumberChangeSource.JoinCall
+  ) {
+    confirmText = i18n('icu:joinAnyway');
+  } else {
+    confirmText = undefined;
   }
 
   return (

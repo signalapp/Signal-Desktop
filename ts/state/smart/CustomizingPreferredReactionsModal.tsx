@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import type { StateType } from '../reducer';
 import type { LocalizerType } from '../../types/Util';
 import { useActions as usePreferredReactionsActions } from '../ducks/preferredReactions';
-import { useActions as useItemsActions } from '../ducks/items';
+import { useItemsActions } from '../ducks/items';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import { useRecentEmojis } from '../selectors/emojis';

@@ -20,7 +20,7 @@ function voiceNoteDataForMessage(
       timestamp: 0,
       url: undefined,
       source: undefined,
-      sourceUuid: undefined,
+      sourceServiceId: undefined,
       messageIdForLogging: messageId,
       isPlayed: false,
     },

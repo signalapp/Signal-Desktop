@@ -1,4 +1,4 @@
-// Copyright 2013 Signal Messenger, LLC
+// Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Agent as HTTPSAgent } from 'https';
@@ -11,7 +11,10 @@ import { callbackify, promisify } from 'util';
 import pTimeout from 'p-timeout';
 
 import * as log from '../logging/log';
-import { electronLookup as electronLookupWithCb } from './dns';
+import {
+  electronLookup as electronLookupWithCb,
+  interleaveAddresses,
+} from './dns';
 import { strictAssert } from './assert';
 import { parseIntOrThrow } from './parseIntOrThrow';
 import { sleep } from './sleep';
@@ -50,44 +53,11 @@ export class Agent extends HTTPSAgent {
       );
 
       const addresses = await electronLookup(host, { all: true });
-      const firstAddr = addresses.find(
-        ({ family }) => family === 4 || family === 6
-      );
-      if (!firstAddr) {
-        throw new Error(`Agent.createConnection: failed to resolve ${host}`);
-      }
-
-      const v4 = addresses.filter(({ family }) => family === 4);
-      const v6 = addresses.filter(({ family }) => family === 6);
-
-      // Interleave addresses for Happy Eyeballs, but keep the first address
-      // type from the DNS response first in the list.
-      const interleaved = new Array<LookupAddress>();
-      while (v4.length !== 0 || v6.length !== 0) {
-        const v4Entry = v4.pop();
-        const v6Entry = v6.pop();
-
-        if (firstAddr.family === 4) {
-          if (v4Entry !== undefined) {
-            interleaved.push(v4Entry);
-          }
-          if (v6Entry !== undefined) {
-            interleaved.push(v6Entry);
-          }
-        } else {
-          if (v6Entry !== undefined) {
-            interleaved.push(v6Entry);
-          }
-          if (v4Entry !== undefined) {
-            interleaved.push(v4Entry);
-          }
-        }
-      }
 
       const start = Date.now();
 
       const { socket, address, v4Attempts, v6Attempts } = await happyEyeballs({
-        addrs: interleaved,
+        addresses,
         port,
         tlsOptions: {
           ca: options.ca,
@@ -113,9 +83,10 @@ export class Agent extends HTTPSAgent {
 }
 
 export type HappyEyeballsOptions = Readonly<{
-  addrs: ReadonlyArray<LookupAddress>;
+  addresses: ReadonlyArray<LookupAddress>;
   port?: number;
-  tlsOptions: ConnectionOptions;
+  connect?: typeof defaultConnect;
+  tlsOptions?: ConnectionOptions;
 }>;
 
 export type HappyEyeballsResult = Readonly<{
@@ -126,17 +97,19 @@ export type HappyEyeballsResult = Readonly<{
 }>;
 
 export async function happyEyeballs({
-  addrs,
+  addresses,
   port = 443,
   tlsOptions,
+  connect = defaultConnect,
 }: HappyEyeballsOptions): Promise<HappyEyeballsResult> {
-  const abortControllers = addrs.map(() => new AbortController());
-
   let v4Attempts = 0;
   let v6Attempts = 0;
 
+  const interleaved = interleaveAddresses(addresses);
+  const abortControllers = interleaved.map(() => new AbortController());
+
   const results = await Promise.allSettled(
-    addrs.map(async (addr, index) => {
+    interleaved.map(async (addr, index) => {
       const abortController = abortControllers[index];
       if (index !== 0) {
         await sleep(index * DELAY_MS, abortController.signal);
@@ -148,12 +121,16 @@ export async function happyEyeballs({
         v6Attempts += 1;
       }
 
-      const socket = await connect({
-        address: addr.address,
-        port,
-        tlsOptions,
-        abortSignal: abortController.signal,
-      });
+      const socket = await pTimeout(
+        connect({
+          address: addr.address,
+          port,
+          tlsOptions,
+          abortSignal: abortController.signal,
+        }),
+        CONNECT_TIMEOUT_MS,
+        'createHTTPSAgent.connect: connection timed out'
+      );
 
       if (abortController.signal.aborted) {
         throw new Error('Aborted');
@@ -179,7 +156,7 @@ export async function happyEyeballs({
 
     return {
       socket,
-      address: addrs[index],
+      address: interleaved[index],
       v4Attempts,
       v6Attempts,
     };
@@ -197,45 +174,37 @@ export async function happyEyeballs({
   throw results[0].reason;
 }
 
-type DelayedConnectOptionsType = Readonly<{
+export type ConnectOptionsType = Readonly<{
   port: number;
   address: string;
-  tlsOptions: ConnectionOptions;
+  tlsOptions?: ConnectionOptions;
   abortSignal?: AbortSignal;
-  timeout?: number;
 }>;
 
-async function connect({
+async function defaultConnect({
   port,
   address,
   tlsOptions,
   abortSignal,
-  timeout = CONNECT_TIMEOUT_MS,
-}: DelayedConnectOptionsType): Promise<net.Socket> {
+}: ConnectOptionsType): Promise<net.Socket> {
   const socket = tls.connect(port, address, {
     ...tlsOptions,
     signal: abortSignal,
   });
 
-  return pTimeout(
-    (async () => {
-      const { promise: onHandshake, resolve, reject } = explodePromise<void>();
+  const { promise: onHandshake, resolve, reject } = explodePromise<void>();
 
-      socket.once('secureConnect', resolve);
-      socket.once('error', reject);
+  socket.once('secureConnect', resolve);
+  socket.once('error', reject);
 
-      try {
-        await onHandshake;
-      } finally {
-        socket.removeListener('secureConnect', resolve);
-        socket.removeListener('error', reject);
-      }
+  try {
+    await onHandshake;
+  } finally {
+    socket.removeListener('secureConnect', resolve);
+    socket.removeListener('error', reject);
+  }
 
-      return socket;
-    })(),
-    timeout,
-    'createHTTPSAgent.connect: connection timed out'
-  );
+  return socket;
 }
 
 export function createHTTPSAgent(options: AgentOptions = {}): Agent {

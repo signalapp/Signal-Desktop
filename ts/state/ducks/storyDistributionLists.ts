@@ -7,11 +7,12 @@ import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import type { StoryDistributionWithMembersType } from '../../sql/Interface';
-import type { UUIDStringType } from '../../types/UUID';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
+import type { ServiceIdString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
 import dataInterface from '../../sql/Client';
 import { MY_STORY_ID } from '../../types/Stories';
-import { UUID } from '../../types/UUID';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import { deleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
 import { replaceIndex } from '../../util/replaceIndex';
 import { storageServiceUploadJob } from '../../services/storage';
@@ -21,12 +22,12 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 // State
 
 export type StoryDistributionListDataType = ReadonlyDeep<{
-  id: UUIDStringType;
+  id: StoryDistributionIdString;
   deletedAtTimestamp?: number;
   name: string;
   allowsReplies: boolean;
   isBlockList: boolean;
-  memberUuids: Array<UUIDStringType>;
+  memberServiceIds: Array<ServiceIdString>;
 }>;
 
 export type StoryDistributionListStateType = ReadonlyDeep<{
@@ -67,13 +68,13 @@ type DeleteListActionType = ReadonlyDeep<{
 
 type HideMyStoriesFromActionType = ReadonlyDeep<{
   type: typeof HIDE_MY_STORIES_FROM;
-  payload: Array<UUIDStringType>;
+  payload: Array<ServiceIdString>;
 }>;
 
 type ModifyDistributionListType = ReadonlyDeep<
-  Omit<StoryDistributionListDataType, 'memberUuids'> & {
-    membersToAdd: Array<UUIDStringType>;
-    membersToRemove: Array<UUIDStringType>;
+  Omit<StoryDistributionListDataType, 'memberServiceIds'> & {
+    membersToAdd: Array<ServiceIdString>;
+    membersToRemove: Array<ServiceIdString>;
   }
 >;
 
@@ -90,7 +91,7 @@ type ViewersChangedActionType = ReadonlyDeep<{
   type: typeof VIEWERS_CHANGED;
   payload: {
     listId: string;
-    memberUuids: Array<UUIDStringType>;
+    memberServiceIds: Array<ServiceIdString>;
   };
 }>;
 
@@ -155,11 +156,11 @@ function allowsRepliesChanged(
 
 function createDistributionList(
   name: string,
-  memberUuids: Array<UUIDStringType>,
+  memberServiceIds: Array<ServiceIdString>,
   storageServiceDistributionListRecord?: StoryDistributionWithMembersType,
   shouldSave = true
 ): ThunkAction<
-  Promise<UUIDStringType>,
+  Promise<StoryDistributionIdString>,
   RootStateType,
   string,
   CreateListActionType
@@ -167,9 +168,9 @@ function createDistributionList(
   return async dispatch => {
     const storyDistribution: StoryDistributionWithMembersType = {
       allowsReplies: true,
-      id: UUID.generate().toString(),
+      id: generateStoryDistributionId(),
       isBlockList: false,
-      members: memberUuids,
+      members: memberServiceIds,
       name,
       senderKeyInfo: undefined,
       storageNeedsSync: true,
@@ -191,7 +192,7 @@ function createDistributionList(
         deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
         id: storyDistribution.id,
         isBlockList: Boolean(storyDistribution.isBlockList),
-        memberUuids,
+        memberServiceIds,
         name: storyDistribution.name,
       },
     });
@@ -262,7 +263,7 @@ function modifyDistributionList(
 }
 
 function hideMyStoriesFrom(
-  memberUuids: Array<UUIDStringType>
+  memberServiceIds: Array<ServiceIdString>
 ): ThunkAction<void, RootStateType, null, HideMyStoriesFromActionType> {
   return async dispatch => {
     const myStories = await dataInterface.getStoryDistributionWithMembers(
@@ -276,7 +277,7 @@ function hideMyStoriesFrom(
       return;
     }
 
-    const toAdd = new Set<UUIDStringType>(memberUuids);
+    const toAdd = new Set<ServiceIdString>(memberServiceIds);
 
     await dataInterface.modifyStoryDistributionWithMembers(
       {
@@ -286,7 +287,7 @@ function hideMyStoriesFrom(
       },
       {
         toAdd: Array.from(toAdd),
-        toRemove: myStories.members.filter(uuid => !toAdd.has(uuid)),
+        toRemove: myStories.members.filter(serviceId => !toAdd.has(serviceId)),
       }
     );
 
@@ -296,19 +297,19 @@ function hideMyStoriesFrom(
 
     dispatch({
       type: HIDE_MY_STORIES_FROM,
-      payload: memberUuids,
+      payload: memberServiceIds,
     });
   };
 }
 
 function removeMembersFromDistributionList(
   listId: string,
-  memberUuids: Array<UUIDStringType>
+  memberServiceIds: Array<ServiceIdString>
 ): ThunkAction<void, RootStateType, null, ModifyListActionType> {
   return async dispatch => {
-    if (!memberUuids.length) {
+    if (!memberServiceIds.length) {
       log.warn(
-        'storyDistributionLists.removeMembersFromDistributionList cannot remove a member without uuid',
+        'storyDistributionLists.removeMembersFromDistributionList cannot remove a member without serviceId',
         listId
       );
       return;
@@ -325,8 +326,8 @@ function removeMembersFromDistributionList(
       return;
     }
 
-    let toAdd: Array<UUIDStringType> = [];
-    let toRemove: Array<UUIDStringType> = memberUuids;
+    let toAdd: Array<ServiceIdString> = [];
+    let toRemove: Array<ServiceIdString> = memberServiceIds;
     let { isBlockList } = storyDistribution;
 
     // My Story is set to 'All Signal Connections' or is already an exclude list
@@ -335,7 +336,7 @@ function removeMembersFromDistributionList(
       (storyDistribution.members.length === 0 || isBlockList)
     ) {
       isBlockList = true;
-      toAdd = memberUuids;
+      toAdd = memberServiceIds;
       toRemove = [];
 
       // The user has now configured My Stories
@@ -358,7 +359,7 @@ function removeMembersFromDistributionList(
       'storyDistributionLists.removeMembersFromDistributionList: removed',
       {
         listId,
-        memberUuids,
+        memberServiceIds,
       }
     );
 
@@ -421,7 +422,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
 
 function updateStoryViewers(
   listId: string,
-  memberUuids: Array<UUIDStringType>
+  memberServiceIds: Array<ServiceIdString>
 ): ThunkAction<void, RootStateType, null, ViewersChangedActionType> {
   return async dispatch => {
     const storyDistribution =
@@ -435,21 +436,23 @@ function updateStoryViewers(
       return;
     }
 
-    const existingUuids = new Set<UUIDStringType>(storyDistribution.members);
-    const toAdd: Array<UUIDStringType> = [];
+    const existingServiceIds = new Set<ServiceIdString>(
+      storyDistribution.members
+    );
+    const toAdd: Array<ServiceIdString> = [];
 
-    memberUuids.forEach(uuid => {
-      if (!existingUuids.has(uuid)) {
-        toAdd.push(uuid);
+    memberServiceIds.forEach(serviceId => {
+      if (!existingServiceIds.has(serviceId)) {
+        toAdd.push(serviceId);
       }
     });
 
-    const updatedUuids = new Set<UUIDStringType>(memberUuids);
-    const toRemove: Array<UUIDStringType> = [];
+    const updatedServiceIds = new Set<ServiceIdString>(memberServiceIds);
+    const toRemove: Array<ServiceIdString> = [];
 
-    storyDistribution.members.forEach(uuid => {
-      if (!updatedUuids.has(uuid)) {
-        toRemove.push(uuid);
+    storyDistribution.members.forEach(serviceId => {
+      if (!updatedServiceIds.has(serviceId)) {
+        toRemove.push(serviceId);
       }
     });
 
@@ -475,14 +478,14 @@ function updateStoryViewers(
       type: VIEWERS_CHANGED,
       payload: {
         listId,
-        memberUuids,
+        memberServiceIds,
       },
     });
   };
 }
 
 function removeMemberFromAllDistributionLists(
-  member: UUIDStringType
+  member: ServiceIdString
 ): ThunkAction<void, RootStateType, null, ModifyListActionType> {
   return async dispatch => {
     const logId = `removeMemberFromAllDistributionLists(${member})`;
@@ -558,17 +561,17 @@ export function reducer(
     );
     if (listIndex >= 0) {
       const existingDistributionList = state.distributionLists[listIndex];
-      const memberUuids = new Set<UUIDStringType>(
-        existingDistributionList.memberUuids
+      const memberServiceIds = new Set<ServiceIdString>(
+        existingDistributionList.memberServiceIds
       );
-      membersToAdd.forEach(uuid => memberUuids.add(uuid));
-      membersToRemove.forEach(uuid => memberUuids.delete(uuid));
+      membersToAdd.forEach(serviceId => memberServiceIds.add(serviceId));
+      membersToRemove.forEach(serviceId => memberServiceIds.delete(serviceId));
 
       return {
         distributionLists: replaceIndex(state.distributionLists, listIndex, {
           ...existingDistributionList,
           ...distributionListDetails,
-          memberUuids: Array.from(memberUuids),
+          memberServiceIds: Array.from(memberServiceIds),
         }),
       };
     }
@@ -578,7 +581,7 @@ export function reducer(
         ...state.distributionLists,
         {
           ...distributionListDetails,
-          memberUuids: membersToAdd,
+          memberServiceIds: membersToAdd,
         },
       ],
     };
@@ -596,7 +599,7 @@ export function reducer(
       action.payload.listId,
       () => ({
         deletedAtTimestamp: action.payload.deletedAtTimestamp,
-        memberUuids: [],
+        memberServiceIds: [],
         name: '',
       })
     );
@@ -610,7 +613,7 @@ export function reducer(
       MY_STORY_ID,
       () => ({
         isBlockList: true,
-        memberUuids: action.payload,
+        memberServiceIds: action.payload,
       })
     );
 
@@ -635,7 +638,7 @@ export function reducer(
       action.payload.listId,
       () => ({
         isBlockList: false,
-        memberUuids: Array.from(new Set(action.payload.memberUuids)),
+        memberServiceIds: Array.from(new Set(action.payload.memberServiceIds)),
       })
     );
 
@@ -648,7 +651,7 @@ export function reducer(
       MY_STORY_ID,
       () => ({
         isBlockList: true,
-        memberUuids: [],
+        memberServiceIds: [],
       })
     );
 

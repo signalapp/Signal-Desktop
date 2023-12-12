@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './WhatsNewModal';
 import { WhatsNewModal } from './WhatsNewModal';
 import enMessages from '../../_locales/en/messages.json';
@@ -13,7 +13,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/WhatsNewModal',
-};
+} satisfies Meta<PropsType>;
 
 const getDefaultProps = (): PropsType => ({
   hideWhatsNewModal: action('hideWhatsNewModal'),

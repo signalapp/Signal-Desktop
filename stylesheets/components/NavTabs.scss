@@ -1,0 +1,244 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+$NavTabs__ToggleButton__blockPadding: 4px;
+$NavTabs__ItemIcon__size: 20px;
+$NavTabs__ProfileAvatar__size: 28px;
+
+// This effectively wraps the entire app
+.NavTabs__Container {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.NavTabs {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  width: $NavTabs__width;
+  height: 100%;
+  padding-top: var(--title-bar-drag-area-height);
+  @include light-theme {
+    background-color: $color-gray-04;
+    border-inline-end: 1px solid $color-black-alpha-16;
+  }
+  @include dark-theme {
+    background-color: $color-gray-80;
+    border-inline-end: 1px solid $color-white-alpha-16;
+  }
+}
+
+.NavTabs--collapsed {
+  display: none;
+}
+
+// Wraps .NavTabs__ItemButton to make the hitbox larger
+.NavTabs__Item {
+  width: 100%;
+  padding-block: $NavTabs__Item__blockPadding;
+  padding-inline: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  &:focus {
+    // Handled by .NavTabs__ItemButton
+    outline: none;
+  }
+  &.NavTabs__Toggle {
+    padding-block: calc(
+      $NavTabs__Item__blockPadding + $NavTabs__ItemButton__blockPadding -
+        $NavTabs__ToggleButton__blockPadding
+    );
+  }
+}
+
+.NavTabs__ItemButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: $NavTabs__ItemButton__blockPadding;
+  border-radius: 8px;
+  .NavTabs__Item:hover &,
+  .NavTabs__Item:focus & {
+    @include light-theme {
+      background-color: $color-black-alpha-06;
+    }
+    @include dark-theme {
+      background-color: $color-white-alpha-06;
+    }
+  }
+  .NavTabs__Item:focus & {
+    outline: none;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
+  }
+  .NavTabs__Item:active &,
+  .NavTabs__Item[aria-selected='true'] & {
+    @include light-theme {
+      background: $color-gray-20;
+    }
+    @include dark-theme {
+      background: $color-gray-62;
+    }
+  }
+
+  .NavTabs__Toggle & {
+    width: fit-content;
+    padding: $NavTabs__ToggleButton__blockPadding;
+    margin-block: 0;
+    margin-inline: auto;
+    border-radius: 4px;
+  }
+  .NavTabs__Item--Profile & {
+    // Normalize for the size difference of the avatar vs sidebar icons
+    padding-block: calc(
+      $NavTabs__ItemButton__blockPadding -
+        (($NavTabs__ProfileAvatar__size - $NavTabs__ItemIcon__size) / 2)
+    );
+  }
+}
+
+.NavTabs__ItemContent {
+  display: inline-flex;
+  position: relative;
+}
+
+.NavTabs__ItemLabel {
+  @include sr-only;
+}
+
+.NavTabs__ItemUnreadBadge {
+  @include rounded-corners;
+  align-items: center;
+  background-color: $color-accent-red;
+  color: $color-white;
+  display: flex;
+  font-size: 10px;
+  height: 16px;
+  justify-content: center;
+  min-width: 16px;
+  overflow: hidden;
+  padding-block: 0;
+  padding-inline: 2px;
+  position: absolute;
+  inset-inline-end: -6px;
+  top: -4px;
+  user-select: none;
+  z-index: $z-index-base;
+  word-break: keep-all;
+}
+
+.NavTabs__ItemUpdateBadge {
+  background: $color-ultramarine;
+  border-radius: 100%;
+  border: 1px solid $color-white;
+  height: 8px;
+  width: 8px;
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+}
+
+.NavTabs__ItemIcon {
+  display: block;
+  width: $NavTabs__ItemIcon__size;
+  height: $NavTabs__ItemIcon__size;
+}
+
+@mixin NavTabs__Icon($icon) {
+  @include light-theme {
+    @include color-svg($icon, $color-black);
+  }
+  @include dark-theme {
+    @include color-svg($icon, $color-gray-15);
+  }
+}
+
+.NavTabs__ItemIcon--Menu {
+  @include NavTabs__Icon('../images/icons/v3/menu/menu.svg');
+}
+
+.NavTabs__ItemIcon--Settings {
+  @include NavTabs__Icon('../images/icons/v3/settings/settings.svg');
+}
+
+.NavTabs__ItemIcon--Chats {
+  @include NavTabs__Icon('../images/icons/v3/chat/chat.svg');
+  .NavTabs__Item:active &,
+  .NavTabs__Item[aria-selected='true'] & {
+    @include NavTabs__Icon('../images/icons/v3/chat/chat-fill.svg');
+  }
+}
+
+.NavTabs__ItemIcon--Calls {
+  @include NavTabs__Icon('../images/icons/v3/phone/phone.svg');
+  .NavTabs__Item:active &,
+  .NavTabs__Item[aria-selected='true'] & {
+    @include NavTabs__Icon('../images/icons/v3/phone/phone-fill.svg');
+  }
+}
+
+.NavTabs__ItemIcon--Stories {
+  @include NavTabs__Icon('../images/icons/v3/stories/stories.svg');
+  .NavTabs__Item:active &,
+  .NavTabs__Item[aria-selected='true'] & {
+    @include NavTabs__Icon('../images/icons/v3/stories/stories-fill.svg');
+  }
+}
+
+.NavTabs__ItemIconLabel {
+  @include sr-only;
+}
+
+.NavTabs__TabList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+}
+
+.NavTabs__Misc {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.NavTabs__TabPanel {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.NavTabs__ContextMenuIcon--Settings {
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v3/settings/settings.svg',
+      $color-white
+    );
+  }
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v3/settings/settings.svg',
+      $color-black
+    );
+  }
+}
+
+.NavTabs__ContextMenuIcon--Update {
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/refresh/refresh.svg', $color-white);
+  }
+  @include light-theme {
+    @include color-svg('../images/icons/v3/refresh/refresh.svg', $color-black);
+  }
+}

@@ -33,13 +33,14 @@ export enum ButtonVariant {
 
 export enum ButtonIconType {
   audio = 'audio',
+  message = 'message',
   muted = 'muted',
   search = 'search',
   unmuted = 'unmuted',
   video = 'video',
 }
 
-type PropsType = {
+export type PropsType = {
   className?: string;
   disabled?: boolean;
   icon?: ButtonIconType;

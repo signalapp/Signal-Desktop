@@ -10,7 +10,7 @@ import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -21,7 +21,7 @@ describe('storage service', function needsName() {
     ({ bootstrap, app, group } = await initStorage());
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
@@ -66,9 +66,7 @@ describe('storage service', function needsName() {
       );
       await moreButton.click();
 
-      const pinButton = conversationStack.locator(
-        '.react-contextmenu-item >> "Pin chat"'
-      );
+      const pinButton = window.locator('.react-contextmenu-item >> "Pin chat"');
       await pinButton.click();
 
       const newState = await phone.waitForStorageState({
@@ -101,7 +99,7 @@ describe('storage service', function needsName() {
 
         debug('pinning contact=%d', i);
         const convo = leftPane.locator(
-          `[data-testid="${contact.toContact().uuid}"]`
+          `[data-testid="${contact.toContact().aci}"]`
         );
         await convo.click();
 
@@ -110,7 +108,7 @@ describe('storage service', function needsName() {
         );
         await moreButton.click();
 
-        const pinButton = conversationStack.locator(
+        const pinButton = window.locator(
           '.react-contextmenu-item >> "Pin chat"'
         );
         await pinButton.click();

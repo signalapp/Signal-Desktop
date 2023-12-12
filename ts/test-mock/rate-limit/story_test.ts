@@ -15,7 +15,7 @@ export const debug = createDebug('mock:test:rate-limit');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('story/no-sender-key', function needsName() {
+describe('story/no-sender-key', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -47,7 +47,7 @@ describe('story/no-sender-key', function needsName() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -56,7 +56,7 @@ describe('story/no-sender-key', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -71,7 +71,7 @@ describe('story/no-sender-key', function needsName() {
     } = bootstrap;
 
     for (const contact of contacts) {
-      server.rateLimit({ source: desktop.uuid, target: contact.device.uuid });
+      server.rateLimit({ source: desktop.aci, target: contact.device.aci });
     }
 
     const window = await app.getWindow();
@@ -79,8 +79,9 @@ describe('story/no-sender-key', function needsName() {
     debug('Posting a new story');
     {
       const storiesPane = window.locator('.Stories');
+      const storiesCreator = window.locator('.StoryCreator');
 
-      await window.locator('button.module-main-header__stories-icon').click();
+      await window.getByTestId('NavTabsItem--Stories').click();
 
       await storiesPane
         .locator('button.Stories__pane__add-story__button')
@@ -93,13 +94,16 @@ describe('story/no-sender-key', function needsName() {
         .click();
 
       debug('Focusing textarea');
-      await storiesPane.locator('.TextAttachment__story').click();
+      // Note: For some reason `.click()` doesn't work here anymore.
+      await storiesCreator.locator('.TextAttachment').dispatchEvent('click');
 
       debug('Entering text');
-      await storiesPane.locator('.TextAttachment__text__textarea').type('123');
+      await storiesCreator
+        .locator('.TextAttachment__text__textarea')
+        .fill('123');
 
       debug('Clicking "Next"');
-      await storiesPane
+      await storiesCreator
         .locator('.StoryCreator__toolbar button >> "Next"')
         .click();
 

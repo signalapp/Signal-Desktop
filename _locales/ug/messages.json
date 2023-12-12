@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ساندان خاتالىقى",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "سانداندا خاتالىق كۆرۈلدى. خاتالىقنى كۆچۈرىۋالالايسىز ۋە ئۇنى ئوڭشاش ئۈچۈن Signal ياردەم بىلەن ئالاقىلىشىڭ. ئەگەر Signalنى دەرھال ئىشلەتمەكچى بولسىڭىز، سانلىق مەلۇماتلىرىڭىزنى ئۆچۈرۈپ، قايتا قوزغاتسىڭىز بولىدۇ.\n\nياردەم ئالاقىلىشىش ئۇسۇلى:{link}",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "بارلىق سانلىق مەلۇماتلارنى ئۆچۈرۈپ قايتا قوزغىتىش",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "سانلىق مەلۇماتلارنى ئۆچۈرۈپ، قايتا قوزغىتىش",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "سانلىق مەلۇماتلارنى پۈتۈنلەي ئۆچۈرەمسىز؟",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "بارلىق ئۇچۇر خاتىرىڭىز ۋە مېديالىرىڭىز بۇ ئۈسكۈنىدىن مەڭگۈلۈككە ئۆچۈرىلىۋېتىدۇ. ئۇنى قايتا ئۇلىغاندىن كېيىن Signalنى بۇ ئۈسكۈنىدە ئىشلىتەلەيسىز. بۇ سىزنىڭ تېلېفونىڭىزدىكى ھېچقانداق سانلىق مەلۇماتنى ئۆچۈرمەيدۇ.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "سىزنىڭ ساندانىڭىزنىڭ نەشرى Signalنىڭ بۇ نەشرىگە ماس كەلمەيدۇ. كومپيۇتېرىڭىزدا Signalنىڭ ئەڭ يېڭى نەشىرىنى ئېچىۋاتقانلىقىڭىزنى جەزملەشتۈرۈڭ.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ھۆججەت",
@@ -299,6 +315,70 @@
   "icu:LeftPane--chats": {
     "messageformat": "پاراڭ",
     "description": "Shown as a header for non-pinned conversations in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "ئىشلەتكۈچى نامىڭىزدا خاتالىق كۆرۈلگەن بولۇپ، ئۇ ئەمدى سىزنىڭ ھېساباتىڭىزغا تەۋە ئەمەس. ئۇنى قايتا تەڭشەپ سىناپ باقسىڭىز ياكى يېڭى بىر نام تاللىسىڭىز بولىدۇ.",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "دەرھال ئوڭشاش",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "QR كودىڭىز ۋە ئىشلەتكۈچى نامى ئۇلانمىڭىزدا مەسىلە كۆرۈلگەن بولۇپ، ئۇلار ئەمدى ئىناۋەتسىز. باشقىلار بىلەن ئورتاقلىشىش ئۈچۈن يېڭى ئۇلانما قۇرۇڭ.",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "دەرھال ئوڭشاش",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "بەتكۈچنى كۆرسىتىش",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "بەتكۈچنى يوشۇرۇش",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "خاتالىق كۆرۈلدى",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count,number} ئوقۇلمىغان ئۇچۇر",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "ئوقۇلمىغان دەپ بەلگە قويۇلغان",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "پاراڭ",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "چاقىرىشلار",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "ھېكايىلەر",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "تەڭشەكلەر",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Signal نى يېڭىلا",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "ئارخىپ",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "قايت",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
     "messageformat": "بۇ پاراڭلار ئارخىپلاشتۇرۇلدى، پەقەت يېڭى ئۇچۇر تاپشۇرۇۋالغاندا قوبۇللاش ساندۇقىدا كۆرۈنىدۇ.",
@@ -576,6 +656,10 @@
     "messageformat": "چاقىرىۋەر",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "يەنىلا قوشۇلۇڭ",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "داۋاملىق چاقىر",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -637,23 +721,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "بىخەتەرلىك نومۇرى يېڭىلىنىۋاتىدۇ.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "كۆپرەك ئۆگىنىش",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "ئالدىنقى بىخەتەرلىك نومۇرى",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "كىيىنكى بىخەتەرلىك نومۇرى",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "بىخەتەرلىك نۇمۇر نەشىرلىرى، {index,number}نىڭ{total,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "دەلىللەندى بەلگىسى سال",
@@ -663,33 +747,41 @@
     "messageformat": "دەلىللەشنى تازىلا",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "«{name}» بىلەن ئۇچتىن ئۇچقا مەخپىيلەشتۈرۈشنى جەزىملەشتۈرۈش ئۈچۈن، يۇقىرىدىكى نومۇرلارنى ئۇلارنىڭ ئەسۋاپلىرىدىكىلەر بىلەن سېلىشتۇرۇڭ. ئۇلارمۇ سىزنىڭ كودىڭىزنى ئۆزلىرىنىڭ ئەسۋاپلىرى بىلەن سكاننېرلىيالايدۇ.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "تەپسىلاتى",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "«{name}» بىلەن ئۇچتىن ئۇچقا مەخپىيلەشتۈرۈشنى جەزىملەشتۈرۈش ئۈچۈن، يۇقىرىدىكى رەڭ كارتلىرىنى ئۇلارنىڭ ئەسۋاپلىرىدىكىلەر بىلەن ماسلاشتۇرۇڭ. ئەگەر بۇلار ماسلاشمىسا، باشقا بىخەتەرلىك نومۇرلىرىنى سىناڭ. پەقەت بىر جۈپ نومۇرنىڭ ماسلىشىشى كۇپايە.",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "«{name}» بىلەن ئۇچتىن ئۇچقا مەخپىيلەشتۈرۈشنى جەزىملەشتۈرۈش ئۈچۈن، يۇقىرىدىكى نومۇرلارنى ئۇلارنىڭ ئەسۋاپلىرىدىكىلەر بىلەن سېلىشتۇرۇڭ. ئۇلارمۇ سىزنىڭ كودىڭىزنى ئۆزلىرىنىڭ ئەسۋاپلىرى بىلەن سكاننېرلىيالايدۇ.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "بىخەتەرلىك نومۇرىنى ئۆزگەرتىش",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Signal دىكى يېڭى مەخپىيەتلىك ئىقتىدارلىرىنى قوزغىتىش ئۈچۈن بىخەتەرلىك نومۇرى بۇ ئۆتكۈنچى مەزگىلدە يېڭىلىنىپ بارىدۇ.",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "بىخەتەرلىك نومۇرلىرىنى جەزىملەشتۈرۈش ئۈچۈن، رەڭ كارتلىرىنى سىزنىڭ ئالاقىداشلىرىڭىزنى ئەسۋاپلىرى بىلەن ماسلاشتۇرۇڭ. ئەگەر بۇلار ماسلاشمىسا، باشقا بىخەتەرلىك نومۇرلىرىنى سىناڭ. پەقەت بىر جۈپ نومۇرنىڭ ماسلىشىشى كۇپايە.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "ياردەم كېرەكمۇ؟",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "بىلدىم",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "بۇ كىشى بىلەن ئۇچۇرلاشقاندىن كېيىن بىر بىخەتەرلىك نومۇرى شەكىللىنىدۇ.",
@@ -1267,10 +1359,6 @@
     "messageformat": "يېقىنقى مېدىيالارنى كۆرۈش",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "«{name}» بىلەن ئاراڭلاردىكى تېرمىنال مەخپىيەتلىك بىخەتەرلىكىنى دەلىللەش ئۈچۈن، ئۇلارنىڭ ئۈسكۈنىسىنىڭ ئۈستىدىكى رەقەملەرنى سېلىشتۇرۇپ كۆرۈڭ. ئۇلارمۇ سىزنىڭ QR كودىڭىزنى سكاننېرلىيالايدۇ.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "سىز بۇ ئالاقىداش بىلەن ئۇچۇرلىشىپ باقمىغان. ئۇلار بىلەن بولغان بىخەتەرلىك نومۇرىڭىز ئۇچۇرلىشىشنى باشلىغاندىن كېيىن ئاندىن ھاسىل بولىدۇ."
   },
@@ -1334,17 +1422,17 @@
     "messageformat": "ئۇچۇر",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "ئۆچۈر",
-    "description": "Menu item for deleting messages, title case."
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "ئۇچۇر ئۆچۈرۈش",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "سۆھبەتنى ئۆچۈرەمسىز؟",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "ئۇچۇرنى ئۆچۈرەمسىز؟",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "بۇ پاراڭ بۇ ئۈسكۈنىدىن ئۆچۈرۈلىدۇ.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "بۇ پاراڭدىكى ئۇچۇرلار بۇ ئۈسكۈنىدىن ئۆچۈرۈلىدۇ. ئۇچۇرلارنى ئۆچۈرگەندىن كېيىنمۇ بۇ پاراڭنى يەنىلا تاپالايسىز.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "گۇرۇپپىدىن ئايرىلىش",
@@ -1437,6 +1525,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "ھەر ئىككى پاراڭدىكى ئۇچۇرلىشىش خاتىرىڭىز بۇ يەردە بىرلەشتۈرۈلدى.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle} گە تەۋە. ھەر ئىككىڭلار «{sharedGroup}» نىڭ ئەزاسى.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle} گە تەۋە",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "نەقىل ئېلىنغان ئۇچۇرنىڭ كىچىك رەسىمى",
@@ -1585,10 +1681,6 @@
     "messageformat": "قايتا چاقىر",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "چاقىرىق باشلا",
-    "description": "Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "چاقىرىققا قېتىل",
     "description": "Button label in the call lobby for joining a call"
@@ -1601,13 +1693,25 @@
     "messageformat": "چاقىرىقتىكى كىشىلەر بەك كۆپ بولغاچقا چاقىرىق ئۈنسىز قىلىندى",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "چاقىرىق ئۇقتۇرۇشلىرى",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "چاقىرىق توشتى",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "كامېرا",
-    "description": "Label under the video button"
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "قوشۇلۇش",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "باشلاش",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "چاقىرىق توشتى",
+    "description": "Button in the call lobby when you can't join because the call is full"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "كامېرا چەكلەنگەن",
@@ -1621,10 +1725,6 @@
     "messageformat": "كامېرانى ئېچىش",
     "description": "Button tooltip label for turning on the camera"
   },
-  "icu:calling__button--audio__label": {
-    "messageformat": "ئۈنسىز",
-    "description": "Label under the audio button"
-  },
   "icu:calling__button--audio-disabled": {
     "messageformat": "مىكروفون چەكلەنگەن",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1636,10 +1736,6 @@
   "icu:calling__button--audio-on": {
     "messageformat": "مىكروفوننى ئېچىش",
     "description": "Button tooltip label for turning on the microphone"
-  },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "ھەمبەھىرلە",
-    "description": "Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "ئېكران ئورتاقلىشىش چەكلەنگەن",
@@ -1653,10 +1749,6 @@
     "messageformat": "ئېكران ئورتاقلىشىشنى توختىتىش",
     "description": "Button tooltip label for stopping screen sharing"
   },
-  "icu:calling__button--ring__label": {
-    "messageformat": "قوڭغۇراق",
-    "description": "Label under the ring button"
-  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "قېتىلغۇچىلارنى چاقىرىشقا گۇرۇپپا بەك چوڭ كېلىپ قالدى",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1668,6 +1760,26 @@
   "icu:calling__button--ring__on": {
     "messageformat": "قوڭغۇراقنى قوزغىتىش",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "قوڭغۇراقنى ئېتىش",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "قوڭغۇراقنى ئېچىش",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "تېخىمۇ كۆپ تاللاش",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "سىز",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "كامېرا تاقاق",
@@ -2147,6 +2259,10 @@
     "messageformat": "بىخەتەرلىك نومۇرىنى كۆرۈڭ",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "ئۇچۇر",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "بىخەتەرلىك نومۇرىنى كۆرۈڭ",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -2235,8 +2351,8 @@
     "messageformat": "تېلېفون نومۇرىغا ئېرىشەلمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ.",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "بۇ ئۇچۇرنى يوللاپ پەقەت 3 سائەت ئىچىدىلا تەھرىرلەشكە بولىدۇ.",
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "بۇ ئۇچۇرنى يوللاپ 24 سائەت ئىچىدىلا تەھرىرلەشكە بولىدۇ.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -2479,6 +2595,14 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "بۇ ئۇچۇر ئۆچۈرۈلگەن",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "قىستۇرما بەك چوڭ بولغاچقا كۆرسەتكىلى بولمىدى.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "بەزى قىستۇرمىلار بەك چوڭ بولغاچقا كۆرسەتكىلى بولمىدى.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:donation--missing": {
     "messageformat": "ئىئانە تەپسىلاتىغا ئېرىشەلمىدى",
@@ -3122,10 +3246,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signal سىناق نەشرى ئۈچۈنلا",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "ئۇچۇرلارنى پەقەت Signal سىناق نەشرى ئىشلەتكۈچىلىرىلا تەھرىرلىيەلەيدۇ. ئەگەر ئۇچۇر تەھرىرلىسىڭىز، ئۇنى پەقەت Signal ئەڭ يېڭى سىناق نەشرىنى ئىشلىتىۋاتقان كىشىلەرلا كۆرەلەيدۇ.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "ئۇچۇر تەھرىرلەڭ",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "ئەگەر سىز ئۇچۇرنى تەھرىرلىسىڭىز، ئۇنى پەقەت Signalنىڭ ئەڭ يېڭى نەشرىنى ئىشلىتىۋاتقان كىشىلەرلا كۆرەلەيدۇ. ئۇلار سىزنىڭ ئۇچۇرنى تەھرىرلىگەنلىكىڭىزنى كۆرەلەيدۇ.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3380,6 +3512,14 @@
     "messageformat": "كەلگەن ۋىدېيولۇق چاقىرىق...",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
+  "icu:outgoingAudioCall": {
+    "messageformat": "ئۇرۇلغان ئاۋازلىق چاقىرىق",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "ئۇرۇلغان ۋىدېيولۇق چاقىرىق",
+    "description": "Shown in the timeline for an outgoing video call"
+  },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} سىزنى چاقىرىۋاتىدۇ",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
@@ -3424,9 +3564,69 @@
     "messageformat": "قايتا ئۇلىنىۋاتىدۇ...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, other {{count,number} كىشى}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "ئاۋازلىق چاقىرىق",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "ئاخىرلاشتۇرۇش",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "ئايرىلىش",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "مىكروفون ئېتىك",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "مىكروفون ئوچۇق",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "قوڭغۇراق ئوچۇق",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "قوڭغۇراق ئېتىك",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "Your hand is raised.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "تەڭشەكلەر",
@@ -3468,13 +3668,25 @@
     "messageformat": "چاقىرىقنى پۈتۈن ئېكرانلاشتۇرۇش",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "كاتەكچە كۆرۈنۈشىگە ئالماشتۇرۇش",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "كۆرۈنۈشنى ئۆزگەرتىش",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "ياڭراتقۇ كۆرۈنۈشىگە ئاماشتۇرۇش",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "سېتكا كۆرۈنۈش",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "يانبالداق كۆرۈنۈش",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "سۆزلىگۈچى كۆرۈنۈشى",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "كۆرۈنۈش يېڭىلاندى",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "چاقىرىقتىن ئايرىل",
@@ -3575,6 +3787,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "جەزملە",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "ئۇچۇرنى تەھرىرلىيەلمىدى",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "بۇ ئۇچۇرغا پەقەت {max,number} تەھرىرلەشنى قوللانغىلى بولىدۇ.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "كەچۈرۈڭ، بۇ sgnl:// ئۇلانمىسى خاتا!",
@@ -5252,9 +5472,29 @@
     "messageformat": "ئىشلەتكۈچى ئىسمى",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "سىزنىڭ ئىشلەتكۈى نامىڭىزدا بەزى مەسىلىلەر بار، بۇ ئەمدى سىزنىڭ ھېسابىڭىزغا تەقسىم قىلىنمايدۇ.",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--delete-button": {
+    "messageformat": "ئىشلەتكۈچى نامىنى ئۆچۈرۈش",
+    "description": "Button text for deletion of the username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--create-button": {
+    "messageformat": "ئىشلەتكۈچى نامى بېكىتىش",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "QR كودى ياكى ئۇلانما",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "ئىشلەتكۈچى نامىنى قايتا بېكىتىش كېرەك",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "ئىشلەتكۈچى نامى ئۇلانمىسىنى قايتا بېكىتىش كېرەك",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "ئەزالىق ئىسمىڭىزنى پايلىشىڭ",
@@ -5319,10 +5559,6 @@
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "ئىشلەتكۈچى نامىنى ئۆچۈرۈش",
     "description": "Shown as aria label for trash icon next to username"
-  },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "بۇنداق قىلغاندا ئىشلەتكۈچى نامى ئۆچۈرۈلىدۇ ۋە باشقىلار بۇ ئىشلەتكۈچى نامىنى ئىشلەتسە بولىدۇ. جەزملەشتۈرەمسىز؟",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "بۇ سىزنىڭ ئىشلەتكۈچى نامىڭىزنى ئۆچۈرىۋېتىدۇ ھەمدە QR كودىڭىز ۋە ئۇلانمىسى بېكار قىلىنىدۇ. \"{username}\" بولسا باشقىلارنىڭ ئىشلىتىشىگە سۇنۇلىدۇ. جەزىملەشتۈرەمسىز؟",
@@ -5612,6 +5848,42 @@
     "messageformat": "ھېكايىلەرنى ئەمدى ئورتاقلىشالمايسىز ياكى كۆرەلمەيسىز. سىز يېقىندا ئورتاقلاشقان ھېكايە يېڭىلانمىلىرىمۇ ئۆچۈرۈلىدۇ.",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "تىل",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "تىل",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "سىستېما تىلى",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "تىل ئىزدەش",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "{searchTerm} ئۈچۈن نەتىجە يوق",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "بېكىتىش",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "قوللىنىش ئۈچۈن Signal نى قايتا قوزغىتىڭ",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "تىلنى ئۆزگەرتىش ئۈچۈن ئەپنى قايتا قوزغىتىش كېرەك.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "قايتا قوزغىتىش",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} نەشرىنى يېڭىلاشقا بولىدۇ",
     "description": "Tooltip for new update available"
@@ -5695,6 +5967,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "تەڭشەكلىرىڭىزنى ساقلىغاندا خاتالىق كۆرۈلدى. قايتا سىناڭ.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "ئۇچۇر",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "تېخىمۇ كۆپ ئۇسلۇب",
@@ -6532,6 +6808,10 @@
     "messageformat": "ئەسلىگە قايتۇر",
     "description": "Text of button at the bottom of the username link modal"
   },
+  "icu:UsernameLinkModalBody__done": {
+    "messageformat": "بولدى",
+    "description": "Text of button at the bottom of the username link modal"
+  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "ئىشلەتكۈچى نامىنىڭ ئۇلانما رەڭگى، {total,number}نىڭ{index,number}",
     "description": "ARIA label of button for selecting username link color"
@@ -6539,6 +6819,14 @@
   "icu:UsernameLinkModalBody__reset__confirm": {
     "messageformat": "ئەگەر سىز QR كودىڭىزنى يېڭلىسىڭىز، سىزنىڭ ھازىرقى QR كودىڭىز ۋە ئۇلانمىڭىز ئىشلىمەيدۇ.",
     "description": "Text of confirmation modal when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "ئۇلانمىنى يېڭىلاۋاتىدۇ...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "QR كودى ۋە ئۇلانمىسى بېكىتىلمىدى. تور ئۇلىنىشىنى تەكشۈرۈپ قايتا سىناڭ.",
+    "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Signal ئىشلەتكۈچى نامىنى بەلگىلەڭ",
@@ -6592,6 +6880,114 @@
     "messageformat": "قايتا يوللا",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "تېخىمۇ كۆپ مەشغۇلات",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "چاقىرىشلار",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "يېڭى چاقىرىق",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "يېڭى چاقىرىق",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "تېخىمۇ كۆپ مەشغۇلات",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "چاقىرىق تارىخىنى تازىلاش",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "چاقىرىق تارىخىنى تازىلامسىز؟",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "بۇ مەشغۇلات بارلىق چاقىرىق تارىخىنى مەڭگۈلۈك ئ‍ۆچۈرىدۇ",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "تازىلا",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "چاقىرىق خاتىرىسى تازىلاندى",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "كۆرۈش ياكى چاقىرىق باشلىتىش ئۈچۈن بۇ يەرنى چېكىڭ",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "ئىزدە",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "يوقالغانلار بىلەن سۈزۈش",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "ئالماشتۇر",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "يېڭى بىر چاقىرىق يوق. دوستىڭىزغا چاقىرىق قىلىپ باشلاڭ.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "{query} ئۈچۈن نەتىجە يوق",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "كېلىۋاتقان",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "ئۇرۇلغىنى",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "ئېلىنمىغىنى",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "گۇرۇپپا چاقىرىقى",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "يېڭى بىر پاراڭ يوق.",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "{query} ئۈچۈن نەتىجە يوق",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {ئۇرۇلغان ئاۋازلىق چاقىرىق} other {كەلگەن ئاۋازلىق چاقىرىق}}} Video {{direction, select, Outgoing {ئۇرۇلغان ۋىدېيولۇق چاقىرىق} other {كەلگەن ۋىدېيولۇق چاقىرىق}}} Group {{direction, select, Outgoing {ئۇرۇلغان گۇرۇپپا چاقىرىقى} other {كەلگەن گۇرۇپپا چاقىرىقى}}} other {{direction, select, Outgoing {قىلىنغان  چاقىرىق} other {كەلگەن  چاقىرىق}}}}",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "{type, select, Audio {ئېلىنمىغان ئاۋازلىق چاقىرىق} Video {سۆزلەشمىگەن سىن چاقىرىش} Group {ئېلىنمىغان گۇرۇپپا چاقىرىقى} other {سۆزلەشمىگەن چاقىرىش}}",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "{type, select, Audio {جاۋابسىز ئاۋازلىق چاقىرىق} Video {جاۋابسىز ۋىدېيولۇق چاقىرىق} Group {جاۋاپسىز توپ چاقىرىقى} other {جاۋاپسىز  چاقىرىق}}",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "{type, select, Audio {رەت قىلىنغان ئاۋازلىق چاقىرىق} Video {رەت قىلىنغان ۋىدېيولۇق چاقىرىق} Group {رەت قىلىنغان توپ چاقىرىقى} other {رەت قىلىنغان  چاقىرىق}}",
+    "description": "Call History > Short description of call > When call was declined"
+  },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} باشقىلار يېزىۋاتىدۇ.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "يېڭىلىقلار",
     "description": "Title for the whats new modal"
@@ -6624,10 +7020,22 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "بۇ يېڭىلاش ئاۋازلىق ۋە ۋىدېئولۇق چاقىرىقلاردىكى ۋە بەزى كىچىك ھۆججەت يېڭىلىنىشلىرىدىكى ياخشىلىنىشلارنى ئۆز ئىچىگە ئالىدۇ. (رەھمەت، {linkToGithub}!)."
+  "icu:WhatsNew__v6.39--0": {
+    "messageformat": "ئەمدى Signal دا تۆۋەندىكى ئۇسۇل بىلەن سىستېما تىلىنى ئۆزگەرتمەي تۇرۇپمۇ تاللىغان تىلىڭىزنى ئۆزگەرتەلەيسىز (Signal تەڭشەك > كۆرۈنۈش > تىل)."
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "بىز بەزى گۇرۇپپا ئۇقتۇرۇش سىنبەلگىلىرىنى يېڭىلاپ چىقتۇق."
+  "icu:WhatsNew__v6.39--1": {
+    "messageformat": "چاقىرىق زالىغا قوشۇلغاندا macOS ئۈسكۈنىلەردە بەزى ۋاقىتلاردا كۆرۈلىدىغان كېچىكىش مەسىلىسىنى ھەل قىلدۇق."
+  },
+  "icu:WhatsNew__v6.41--0": {
+    "messageformat": "بىرەيلەن گۇرۇپپا چاقىرىقىغا قوشۇلغان ياكى ئۇنىڭدىن ئايرىلغاندىكى ۋىدېيو ئۆتكۈنچى كارتون مەسلىسىنى ھەل قىلدۇق."
+  },
+  "icu:WhatsNew__v6.41--1": {
+    "messageformat": "ھازىر پاراڭلىشىش سەرلەۋھەسىدىكى ئارخىپ رەسىمى ياكى گۇرۇپپا باش سۈرىتىنى چېكىپ، پاراڭ تەڭشەكلىرىگە كىرەلەيسىز ياكى بۇ پاراڭدىكى كۆرمەي قالغان ھېكايىلەرنى كۆرەلەيسىز. رەھمەت، {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.42--0": {
+    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+  },
+  "icu:WhatsNew__v6.42--1": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
   }
 }

@@ -12,7 +12,7 @@ import { ContactName } from './conversation/ContactName';
 import { GroupDialog } from './GroupDialog';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
-type PropsType = {
+export type PropsType = {
   contacts: Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;

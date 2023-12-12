@@ -99,15 +99,17 @@ function Bars({ audioLevel }: { audioLevel: number }): ReactElement {
   );
 }
 
+export type Props = Readonly<{
+  hasAudio: boolean;
+  audioLevel: number;
+  shouldShowSpeaking: boolean;
+}>;
+
 export function CallingAudioIndicator({
   hasAudio,
   audioLevel,
   shouldShowSpeaking,
-}: Readonly<{
-  hasAudio: boolean;
-  audioLevel: number;
-  shouldShowSpeaking: boolean;
-}>): ReactElement {
+}: Props): ReactElement {
   if (!hasAudio) {
     return (
       <div

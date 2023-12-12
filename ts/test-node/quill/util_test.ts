@@ -9,9 +9,15 @@ import {
   getDeltaToRestartMention,
 } from '../../quill/util';
 import { BodyRange } from '../../types/BodyRange';
+import { generateAci } from '../../types/ServiceId';
+
+const SERVICE_ID_1 = generateAci();
+const SERVICE_ID_2 = generateAci();
+const SERVICE_ID_3 = generateAci();
+const SERVICE_ID_4 = generateAci();
 
 describe('getDeltaToRemoveStaleMentions', () => {
-  const memberUuids = ['abcdef', 'ghijkl'];
+  const memberUuids = [SERVICE_ID_1, SERVICE_ID_2];
 
   describe('given text', () => {
     it('retains the text', () => {
@@ -32,10 +38,10 @@ describe('getDeltaToRemoveStaleMentions', () => {
       const originalOps = [
         {
           insert: {
-            mention: { uuid: '12345', title: 'Klaus' },
+            mention: { aci: SERVICE_ID_3, title: 'Klaus' },
           },
         },
-        { insert: { mention: { uuid: 'abcdef', title: 'Werner' } } },
+        { insert: { mention: { aci: SERVICE_ID_1, title: 'Werner' } } },
       ];
 
       const { ops } = getDeltaToRemoveStaleMentions(originalOps, memberUuids);
@@ -218,6 +224,42 @@ describe('getTextAndRangesFromOps', () => {
       ]);
     });
 
+    it('does not trim at beginning of the message if monospace', () => {
+      const ops = [
+        {
+          insert: '  ',
+        },
+        {
+          insert: '  Text with leading ',
+          attributes: { monospace: true },
+        },
+        {
+          insert: 'whitespace!!',
+          attributes: { bold: true, italic: true },
+        },
+      ];
+      const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+      assert.equal(text, '  Text with leading whitespace!!');
+      assert.equal(bodyRanges.length, 3);
+      assert.deepEqual(bodyRanges, [
+        {
+          start: 0,
+          length: 20,
+          style: BodyRange.Style.MONOSPACE,
+        },
+        {
+          start: 20,
+          length: 12,
+          style: BodyRange.Style.BOLD,
+        },
+        {
+          start: 20,
+          length: 12,
+          style: BodyRange.Style.ITALIC,
+        },
+      ]);
+    });
+
     it('handles formatting of whitespace at beginning/ending of message', () => {
       const ops = [
         {
@@ -279,7 +321,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: 'abcdef',
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },
@@ -290,7 +332,7 @@ describe('getTextAndRangesFromOps', () => {
       assert.deepEqual(bodyRanges, [
         {
           length: 1,
-          mentionUuid: 'abcdef',
+          mentionAci: SERVICE_ID_1,
           replacementText: '@fred',
           start: 15,
         },
@@ -304,7 +346,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: 'abcdef',
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },
@@ -315,7 +357,7 @@ describe('getTextAndRangesFromOps', () => {
       assert.deepEqual(bodyRanges, [
         {
           length: 1,
-          mentionUuid: 'abcdef',
+          mentionAci: SERVICE_ID_1,
           replacementText: '@fred',
           start: 0,
         },
@@ -328,7 +370,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: 'abcdef',
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },
@@ -340,7 +382,7 @@ describe('getTextAndRangesFromOps', () => {
       assert.deepEqual(bodyRanges, [
         {
           length: 1,
-          mentionUuid: 'abcdef',
+          mentionAci: SERVICE_ID_1,
           replacementText: '@fred',
           start: 6,
         },
@@ -360,7 +402,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: 'a',
+              aci: SERVICE_ID_4,
               title: '@alice',
             },
           },
@@ -419,7 +461,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           start: 5,
           length: 1,
-          mentionUuid: 'a',
+          mentionAci: SERVICE_ID_4,
           replacementText: '@alice',
         },
         {
@@ -503,7 +545,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: 'a',
+              aci: SERVICE_ID_4,
               title: '@alice',
             },
           },
@@ -518,7 +560,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           start: 0,
           length: 1,
-          mentionUuid: 'a',
+          mentionAci: SERVICE_ID_4,
           replacementText: '@alice',
         },
         {
@@ -543,7 +585,7 @@ describe('getDeltaToRestartMention', () => {
         {
           insert: {
             mention: {
-              uuid: 'ghijkl',
+              aci: SERVICE_ID_2,
               title: '@sam',
             },
           },
@@ -554,7 +596,7 @@ describe('getDeltaToRestartMention', () => {
         {
           insert: {
             mention: {
-              uuid: 'abcdef',
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },

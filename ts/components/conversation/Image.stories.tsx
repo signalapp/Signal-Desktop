@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { pngUrl } from '../../storybook/Fixtures';
 import type { Props } from './Image';
 import { CurveType, Image } from './Image';
@@ -20,7 +19,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/Image',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   alt: overrideProps.alt || '',
@@ -59,10 +58,6 @@ export function UrlWithHeightWidth(): JSX.Element {
 
   return <Image {...props} />;
 }
-
-UrlWithHeightWidth.story = {
-  name: 'URL with Height/Width',
-};
 
 export function Caption(): JSX.Element {
   const defaultProps = createProps();
@@ -112,10 +107,6 @@ export function NoBorderOrBackground(): JSX.Element {
   );
 }
 
-NoBorderOrBackground.story = {
-  name: 'No Border or Background',
-};
-
 export function Pending(): JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
@@ -148,10 +139,6 @@ export function PendingWBlurhash(): JSX.Element {
     />
   );
 }
-
-PendingWBlurhash.story = {
-  name: 'Pending w/blurhash',
-};
 
 export function CurvedCorners(): JSX.Element {
   const props = createProps({
@@ -200,10 +187,6 @@ export function FullOverlayWithText(): JSX.Element {
   return <Image {...props} />;
 }
 
-FullOverlayWithText.story = {
-  name: 'Full Overlay with Text',
-};
-
 export function Blurhash(): JSX.Element {
   const defaultProps = createProps();
   const props = {
@@ -228,10 +211,6 @@ function UndefinedBlurHashWrapper() {
 export function UndefinedBlurHash(): JSX.Element {
   return <UndefinedBlurHashWrapper />;
 }
-
-UndefinedBlurHash.story = {
-  name: 'undefined blurHash',
-};
 
 export function MissingImage(): JSX.Element {
   const defaultProps = createProps();

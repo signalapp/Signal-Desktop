@@ -3,28 +3,31 @@
 
 import React from 'react';
 import { memoize, times } from 'lodash';
-import { number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './GroupCallOverflowArea';
 import { GroupCallOverflowArea } from './GroupCallOverflowArea';
 import { setupI18n } from '../util/setupI18n';
-import { getDefaultConversationWithUuid } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import enMessages from '../../_locales/en/messages.json';
+import { generateAci } from '../types/ServiceId';
 
 const MAX_PARTICIPANTS = 32;
 
 const i18n = setupI18n('en', enMessages);
 
 const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
+  aci: generateAci(),
   demuxId: index,
   hasRemoteAudio: index % 3 !== 0,
   hasRemoteVideo: index % 4 !== 0,
+  isHandRaised: (index - 2) % 8 === 0,
   presenting: false,
   sharingScreen: false,
   videoAspectRatio: 1.3,
-  ...getDefaultConversationWithUuid({
+  ...getDefaultConversationWithServiceId({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
     title: `Participant ${index + 1}`,
   }),
@@ -32,12 +35,15 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
 
 export default {
   title: 'Components/GroupCallOverflowArea',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 const defaultProps = {
   getFrameBuffer: memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE)),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   i18n,
+  isCallReconnecting: false,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
   remoteAudioLevels: new Map<number, number>(),
   remoteParticipantsCount: 1,
@@ -66,10 +72,6 @@ export function NoOverflowedParticipants(): JSX.Element {
   );
 }
 
-NoOverflowedParticipants.story = {
-  name: 'No overflowed participants',
-};
-
 export function OneOverflowedParticipant(): JSX.Element {
   return (
     <Container>
@@ -80,10 +82,6 @@ export function OneOverflowedParticipant(): JSX.Element {
     </Container>
   );
 }
-
-OneOverflowedParticipant.story = {
-  name: 'One overflowed participant',
-};
 
 export function ThreeOverflowedParticipants(): JSX.Element {
   return (
@@ -96,10 +94,6 @@ export function ThreeOverflowedParticipants(): JSX.Element {
   );
 }
 
-ThreeOverflowedParticipants.story = {
-  name: 'Three overflowed participants',
-};
-
 export function ManyOverflowedParticipants(): JSX.Element {
   return (
     <Container>
@@ -107,18 +101,9 @@ export function ManyOverflowedParticipants(): JSX.Element {
         {...defaultProps}
         overflowedParticipants={allRemoteParticipants.slice(
           0,
-          number('Participant count', MAX_PARTICIPANTS, {
-            range: true,
-            min: 0,
-            max: MAX_PARTICIPANTS,
-            step: 1,
-          })
+          MAX_PARTICIPANTS
         )}
       />
     </Container>
   );
 }
-
-ManyOverflowedParticipants.story = {
-  name: 'Many overflowed participants',
-};

@@ -6,7 +6,7 @@ import * as log from '../logging/log';
 import { explodePromise } from './explodePromise';
 import type { RecipientsByConversation } from '../state/ducks/stories';
 import { isNotNil } from './isNotNil';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import { waitForAll } from './waitForAll';
 
 export async function blockSendUntilConversationsAreVerified(
@@ -14,20 +14,23 @@ export async function blockSendUntilConversationsAreVerified(
   source: SafetyNumberChangeSource,
   timestampThreshold?: number
 ): Promise<boolean> {
-  const allUuids = getAllUuids(byConversationId);
+  const allServiceIds = getAllServiceIds(byConversationId);
   await waitForAll({
-    tasks: Array.from(allUuids).map(uuid => async () => updateUuidTrust(uuid)),
+    tasks: Array.from(allServiceIds).map(
+      serviceId => async () => updateServiceIdTrust(serviceId)
+    ),
   });
 
-  const untrustedByConversation = filterUuids(
+  const untrustedByConversation = filterServiceIds(
     byConversationId,
-    (uuid: UUIDStringType) => !isUuidTrusted(uuid, timestampThreshold)
+    (serviceId: ServiceIdString) =>
+      !isServiceIdTrusted(serviceId, timestampThreshold)
   );
 
-  const untrustedUuids = getAllUuids(untrustedByConversation);
-  if (untrustedUuids.size) {
+  const untrustedServiceIds = getAllServiceIds(untrustedByConversation);
+  if (untrustedServiceIds.size) {
     log.info(
-      `blockSendUntilConversationsAreVerified: Blocking send; ${untrustedUuids.size} untrusted uuids`
+      `blockSendUntilConversationsAreVerified: Blocking send; ${untrustedServiceIds.size} untrusted uuids`
     );
 
     const explodedPromise = explodePromise<boolean>();
@@ -42,8 +45,8 @@ export async function blockSendUntilConversationsAreVerified(
   return true;
 }
 
-async function updateUuidTrust(uuid: string) {
-  const conversation = window.ConversationController.get(uuid);
+async function updateServiceIdTrust(serviceId: ServiceIdString) {
+  const conversation = window.ConversationController.get(serviceId);
   if (!conversation) {
     return;
   }
@@ -51,11 +54,14 @@ async function updateUuidTrust(uuid: string) {
   await conversation.updateVerified();
 }
 
-function isUuidTrusted(uuid: string, timestampThreshold?: number) {
-  const conversation = window.ConversationController.get(uuid);
+function isServiceIdTrusted(
+  serviceId: ServiceIdString,
+  timestampThreshold?: number
+) {
+  const conversation = window.ConversationController.get(serviceId);
   if (!conversation) {
     log.warn(
-      `blockSendUntilConversationsAreVerified/isUuidTrusted: No conversation for send target ${uuid}`
+      `blockSendUntilConversationsAreVerified/isServiceIdTrusted: No conversation for send target ${serviceId}`
     );
     return true;
   }
@@ -73,35 +79,39 @@ function isUuidTrusted(uuid: string, timestampThreshold?: number) {
   return true;
 }
 
-export function getAllUuids(
+export function getAllServiceIds(
   byConversation: RecipientsByConversation
-): Set<UUIDStringType> {
-  const allUuids = new Set<UUIDStringType>();
+): Set<ServiceIdString> {
+  const allServiceIds = new Set<ServiceIdString>();
   Object.values(byConversation).forEach(conversationData => {
-    conversationData.uuids.forEach(uuid => allUuids.add(uuid));
+    conversationData.serviceIds.forEach(serviceId =>
+      allServiceIds.add(serviceId)
+    );
 
     if (conversationData.byDistributionId) {
       Object.values(conversationData.byDistributionId).forEach(
         distributionData => {
-          distributionData.uuids.forEach(uuid => allUuids.add(uuid));
+          distributionData.serviceIds.forEach(serviceId =>
+            allServiceIds.add(serviceId)
+          );
         }
       );
     }
   });
-  return allUuids;
+  return allServiceIds;
 }
 
-export function filterUuids(
+export function filterServiceIds(
   byConversation: RecipientsByConversation,
-  predicate: (uuid: UUIDStringType) => boolean
+  predicate: (serviceId: ServiceIdString) => boolean
 ): RecipientsByConversation {
   const filteredByConversation: RecipientsByConversation = {};
   Object.entries(byConversation).forEach(
     ([conversationId, conversationData]) => {
-      const conversationFiltered = conversationData.uuids
-        .map(uuid => {
-          if (predicate(uuid)) {
-            return uuid;
+      const conversationFiltered = conversationData.serviceIds
+        .map(serviceId => {
+          if (predicate(serviceId)) {
+            return serviceId;
           }
 
           return undefined;
@@ -109,16 +119,16 @@ export function filterUuids(
         .filter(isNotNil);
 
       let byDistributionId:
-        | Record<string, { uuids: Array<UUIDStringType> }>
+        | Record<string, { serviceIds: Array<ServiceIdString> }>
         | undefined;
 
       if (conversationData.byDistributionId) {
         Object.entries(conversationData.byDistributionId).forEach(
           ([distributionId, distributionData]) => {
-            const distributionFiltered = distributionData.uuids
-              .map(uuid => {
-                if (predicate(uuid)) {
-                  return uuid;
+            const distributionFiltered = distributionData.serviceIds
+              .map(serviceId => {
+                if (predicate(serviceId)) {
+                  return serviceId;
                 }
 
                 return undefined;
@@ -129,7 +139,7 @@ export function filterUuids(
               byDistributionId = {
                 ...byDistributionId,
                 [distributionId]: {
-                  uuids: distributionFiltered,
+                  serviceIds: distributionFiltered,
                 },
               };
             }
@@ -139,7 +149,7 @@ export function filterUuids(
 
       if (conversationFiltered.length || byDistributionId) {
         filteredByConversation[conversationId] = {
-          uuids: conversationFiltered,
+          serviceIds: conversationFiltered,
           ...(byDistributionId ? { byDistributionId } : undefined),
         };
       }

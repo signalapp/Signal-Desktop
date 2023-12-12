@@ -24,7 +24,6 @@ export type Props = Readonly<{
   noScroll?: boolean;
   onNext?: () => unknown;
   onPrev?: () => unknown;
-  nextButtonRef?: React.RefObject<HTMLButtonElement>;
   nextText?: string;
   showGuide?: boolean;
   setShowGuide?: (value: boolean) => unknown;
@@ -48,7 +47,6 @@ export function AppStage(props: Props): JSX.Element {
     next,
     nextActive,
     nextText,
-    nextButtonRef,
     noScroll,
     onNext,
     onPrev,
@@ -99,7 +97,6 @@ export function AppStage(props: Props): JSX.Element {
         ) : null}
         {next || onNext ? (
           <Button
-            buttonRef={nextButtonRef}
             className={styles.button}
             onClick={onNext || handleNext}
             primary

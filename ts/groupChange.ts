@@ -3,14 +3,16 @@
 
 import type { LocalizerType } from './types/Util';
 import type { ReplacementValuesType } from './types/I18N';
-import type { UUIDStringType } from './types/UUID';
+import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
 import { missingCaseError } from './util/missingCaseError';
 
 import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
 import * as log from './logging/log';
 
-export type SmartContactRendererType<T> = (uuid: UUIDStringType) => T | string;
+export type SmartContactRendererType<T> = (
+  serviceId: ServiceIdString
+) => T | string;
 export type StringRendererType<T> = (
   id: string,
   i18n: LocalizerType,
@@ -18,10 +20,11 @@ export type StringRendererType<T> = (
 ) => T | string;
 
 export type RenderOptionsType<T> = {
-  from?: UUIDStringType;
+  // `from` will be a PNI when the change is "declining a PNI invite".
+  from?: ServiceIdString;
   i18n: LocalizerType;
-  ourACI?: UUIDStringType;
-  ourPNI?: UUIDStringType;
+  ourAci: AciString | undefined;
+  ourPni: PniString | undefined;
   renderContact: SmartContactRendererType<T>;
   renderString: StringRendererType<T>;
 };
@@ -70,8 +73,8 @@ export function renderChangeDetail<T>(
   const {
     from,
     i18n: localizer,
-    ourACI,
-    ourPNI,
+    ourAci,
+    ourPni,
     renderContact,
     renderString,
   } = options;
@@ -83,13 +86,15 @@ export function renderChangeDetail<T>(
     return renderString(id, localizer, components);
   }
 
-  const isOurUuid = (uuid?: UUIDStringType): boolean => {
-    if (!uuid) {
+  const isOurServiceId = (serviceId?: ServiceIdString): boolean => {
+    if (!serviceId) {
       return false;
     }
-    return Boolean((ourACI && uuid === ourACI) || (ourPNI && uuid === ourPNI));
+    return Boolean(
+      (ourAci && serviceId === ourAci) || (ourPni && serviceId === ourPni)
+    );
   };
-  const fromYou = isOurUuid(from);
+  const fromYou = isOurServiceId(from);
 
   if (detail.type === 'create') {
     if (fromYou) {
@@ -246,8 +251,8 @@ export function renderChangeDetail<T>(
     return '';
   }
   if (detail.type === 'member-add') {
-    const { uuid } = detail;
-    const weAreJoiner = isOurUuid(uuid);
+    const { aci } = detail;
+    const weAreJoiner = isOurServiceId(aci);
 
     if (weAreJoiner) {
       if (fromYou) {
@@ -262,25 +267,25 @@ export function renderChangeDetail<T>(
     }
     if (fromYou) {
       return i18n('icu:GroupV2--member-add--other--you', {
-        memberName: renderContact(uuid),
+        memberName: renderContact(aci),
       });
     }
     if (from) {
       return i18n('icu:GroupV2--member-add--other--other', {
         adderName: renderContact(from),
-        addeeName: renderContact(uuid),
+        addeeName: renderContact(aci),
       });
     }
     return i18n('icu:GroupV2--member-add--other--unknown', {
-      memberName: renderContact(uuid),
+      memberName: renderContact(aci),
     });
   }
   if (detail.type === 'member-add-from-invite') {
-    const { uuid, inviter } = detail;
-    const weAreJoiner = isOurUuid(uuid);
-    const weAreInviter = isOurUuid(inviter);
+    const { aci, inviter } = detail;
+    const weAreJoiner = isOurServiceId(aci);
+    const weAreInviter = isOurServiceId(inviter);
 
-    if (!from || from !== uuid) {
+    if (!from || from !== aci) {
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {
@@ -293,17 +298,17 @@ export function renderChangeDetail<T>(
 
       if (fromYou) {
         return i18n('icu:GroupV2--member-add--invited--you', {
-          inviteeName: renderContact(uuid),
+          inviteeName: renderContact(aci),
         });
       }
       if (from) {
         return i18n('icu:GroupV2--member-add--invited--other', {
           memberName: renderContact(from),
-          inviteeName: renderContact(uuid),
+          inviteeName: renderContact(aci),
         });
       }
       return i18n('icu:GroupV2--member-add--invited--unknown', {
-        inviteeName: renderContact(uuid),
+        inviteeName: renderContact(aci),
       });
     }
 
@@ -317,12 +322,12 @@ export function renderChangeDetail<T>(
     }
     if (weAreInviter) {
       return i18n('icu:GroupV2--member-add--from-invite--from-you', {
-        inviteeName: renderContact(uuid),
+        inviteeName: renderContact(aci),
       });
     }
     if (inviter) {
       return i18n('icu:GroupV2--member-add--from-invite--other', {
-        inviteeName: renderContact(uuid),
+        inviteeName: renderContact(aci),
         inviterName: renderContact(inviter),
       });
     }
@@ -330,17 +335,17 @@ export function renderChangeDetail<T>(
       'icu:GroupV2--member-add--from-invite--other-no-from',
 
       {
-        inviteeName: renderContact(uuid),
+        inviteeName: renderContact(aci),
       }
     );
   }
   if (detail.type === 'member-add-from-link') {
-    const { uuid } = detail;
+    const { aci } = detail;
 
-    if (fromYou && isOurUuid(uuid)) {
+    if (fromYou && isOurServiceId(aci)) {
       return i18n('icu:GroupV2--member-add-from-link--you--you');
     }
-    if (from && uuid === from) {
+    if (from && aci === from) {
       return i18n('icu:GroupV2--member-add-from-link--other', {
         memberName: renderContact(from),
       });
@@ -350,12 +355,12 @@ export function renderChangeDetail<T>(
     //   from group change events, which always have a sender.
     log.warn('member-add-from-link change type; we have no from!');
     return i18n('icu:GroupV2--member-add--other--unknown', {
-      memberName: renderContact(uuid),
+      memberName: renderContact(aci),
     });
   }
   if (detail.type === 'member-add-from-admin-approval') {
-    const { uuid } = detail;
-    const weAreJoiner = isOurUuid(uuid);
+    const { aci } = detail;
+    const weAreJoiner = isOurServiceId(aci);
 
     if (weAreJoiner) {
       if (from) {
@@ -378,7 +383,7 @@ export function renderChangeDetail<T>(
       return i18n(
         'icu:GroupV2--member-add-from-admin-approval--other--you',
 
-        { joinerName: renderContact(uuid) }
+        { joinerName: renderContact(aci) }
       );
     }
     if (from) {
@@ -387,7 +392,7 @@ export function renderChangeDetail<T>(
 
         {
           adminName: renderContact(from),
-          joinerName: renderContact(uuid),
+          joinerName: renderContact(aci),
         }
       );
     }
@@ -398,12 +403,12 @@ export function renderChangeDetail<T>(
     return i18n(
       'icu:GroupV2--member-add-from-admin-approval--other--unknown',
 
-      { joinerName: renderContact(uuid) }
+      { joinerName: renderContact(aci) }
     );
   }
   if (detail.type === 'member-remove') {
-    const { uuid } = detail;
-    const weAreLeaver = isOurUuid(uuid);
+    const { aci } = detail;
+    const weAreLeaver = isOurServiceId(aci);
 
     if (weAreLeaver) {
       if (fromYou) {
@@ -419,10 +424,10 @@ export function renderChangeDetail<T>(
 
     if (fromYou) {
       return i18n('icu:GroupV2--member-remove--other--you', {
-        memberName: renderContact(uuid),
+        memberName: renderContact(aci),
       });
     }
-    if (from && from === uuid) {
+    if (from && from === aci) {
       return i18n('icu:GroupV2--member-remove--other--self', {
         memberName: renderContact(from),
       });
@@ -430,16 +435,16 @@ export function renderChangeDetail<T>(
     if (from) {
       return i18n('icu:GroupV2--member-remove--other--other', {
         adminName: renderContact(from),
-        memberName: renderContact(uuid),
+        memberName: renderContact(aci),
       });
     }
     return i18n('icu:GroupV2--member-remove--other--unknown', {
-      memberName: renderContact(uuid),
+      memberName: renderContact(aci),
     });
   }
   if (detail.type === 'member-privilege') {
-    const { uuid, newPrivilege } = detail;
-    const weAreMember = isOurUuid(uuid);
+    const { aci, newPrivilege } = detail;
+    const weAreMember = isOurServiceId(aci);
 
     if (newPrivilege === RoleEnum.ADMINISTRATOR) {
       if (weAreMember) {
@@ -456,17 +461,17 @@ export function renderChangeDetail<T>(
 
       if (fromYou) {
         return i18n('icu:GroupV2--member-privilege--promote--other--you', {
-          memberName: renderContact(uuid),
+          memberName: renderContact(aci),
         });
       }
       if (from) {
         return i18n('icu:GroupV2--member-privilege--promote--other--other', {
           adminName: renderContact(from),
-          memberName: renderContact(uuid),
+          memberName: renderContact(aci),
         });
       }
       return i18n('icu:GroupV2--member-privilege--promote--other--unknown', {
-        memberName: renderContact(uuid),
+        memberName: renderContact(aci),
       });
     }
     if (newPrivilege === RoleEnum.DEFAULT) {
@@ -481,7 +486,7 @@ export function renderChangeDetail<T>(
 
       if (fromYou) {
         return i18n('icu:GroupV2--member-privilege--demote--other--you', {
-          memberName: renderContact(uuid),
+          memberName: renderContact(aci),
         });
       }
       if (from) {
@@ -490,14 +495,14 @@ export function renderChangeDetail<T>(
 
           {
             adminName: renderContact(from),
-            memberName: renderContact(uuid),
+            memberName: renderContact(aci),
           }
         );
       }
       return i18n(
         'icu:GroupV2--member-privilege--demote--other--unknown',
 
-        { memberName: renderContact(uuid) }
+        { memberName: renderContact(aci) }
       );
     }
     log.warn(
@@ -506,8 +511,8 @@ export function renderChangeDetail<T>(
     return '';
   }
   if (detail.type === 'pending-add-one') {
-    const { uuid } = detail;
-    const weAreInvited = isOurUuid(uuid);
+    const { serviceId } = detail;
+    const weAreInvited = isOurServiceId(serviceId);
     if (weAreInvited) {
       if (from) {
         return i18n('icu:GroupV2--pending-add--one--you--other', {
@@ -518,7 +523,7 @@ export function renderChangeDetail<T>(
     }
     if (fromYou) {
       return i18n('icu:GroupV2--pending-add--one--other--you', {
-        inviteeName: renderContact(uuid),
+        inviteeName: renderContact(serviceId),
       });
     }
     if (from) {
@@ -547,23 +552,23 @@ export function renderChangeDetail<T>(
     });
   }
   if (detail.type === 'pending-remove-one') {
-    const { inviter, uuid } = detail;
-    const weAreInviter = isOurUuid(inviter);
-    const weAreInvited = isOurUuid(uuid);
-    const sentByInvited = Boolean(from && from === uuid);
+    const { inviter, serviceId } = detail;
+    const weAreInviter = isOurServiceId(inviter);
+    const weAreInvited = isOurServiceId(serviceId);
+    const sentByInvited = Boolean(from && from === serviceId);
     const sentByInviter = Boolean(from && inviter && from === inviter);
 
     if (weAreInviter) {
       if (sentByInvited) {
         return i18n('icu:GroupV2--pending-remove--decline--you', {
-          inviteeName: renderContact(uuid),
+          inviteeName: renderContact(serviceId),
         });
       }
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--one--you',
 
-          { inviteeName: renderContact(uuid) }
+          { inviteeName: renderContact(serviceId) }
         );
       }
       if (from) {
@@ -572,14 +577,14 @@ export function renderChangeDetail<T>(
 
           {
             adminName: renderContact(from),
-            inviteeName: renderContact(uuid),
+            inviteeName: renderContact(serviceId),
           }
         );
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from-you--one--unknown',
 
-        { inviteeName: renderContact(uuid) }
+        { inviteeName: renderContact(serviceId) }
       );
     }
     if (sentByInvited) {
@@ -643,7 +648,7 @@ export function renderChangeDetail<T>(
   }
   if (detail.type === 'pending-remove-many') {
     const { count, inviter } = detail;
-    const weAreInviter = isOurUuid(inviter);
+    const weAreInviter = isOurServiceId(inviter);
 
     if (weAreInviter) {
       if (fromYou) {
@@ -722,19 +727,19 @@ export function renderChangeDetail<T>(
     );
   }
   if (detail.type === 'admin-approval-add-one') {
-    const { uuid } = detail;
-    const weAreJoiner = isOurUuid(uuid);
+    const { aci } = detail;
+    const weAreJoiner = isOurServiceId(aci);
 
     if (weAreJoiner) {
       return i18n('icu:GroupV2--admin-approval-add-one--you');
     }
     return i18n('icu:GroupV2--admin-approval-add-one--other', {
-      joinerName: renderContact(uuid),
+      joinerName: renderContact(aci),
     });
   }
   if (detail.type === 'admin-approval-remove-one') {
-    const { uuid } = detail;
-    const weAreJoiner = isOurUuid(uuid);
+    const { aci } = detail;
+    const weAreJoiner = isOurServiceId(aci);
 
     if (weAreJoiner) {
       if (fromYou) {
@@ -747,14 +752,14 @@ export function renderChangeDetail<T>(
       return i18n(
         'icu:GroupV2--admin-approval-remove-one--other--you',
 
-        { joinerName: renderContact(uuid) }
+        { joinerName: renderContact(aci) }
       );
     }
-    if (from && from === uuid) {
+    if (from && from === aci) {
       return i18n(
         'icu:GroupV2--admin-approval-remove-one--other--own',
 
-        { joinerName: renderContact(uuid) }
+        { joinerName: renderContact(aci) }
       );
     }
     if (from) {
@@ -763,7 +768,7 @@ export function renderChangeDetail<T>(
 
         {
           adminName: renderContact(from),
-          joinerName: renderContact(uuid),
+          joinerName: renderContact(aci),
         }
       );
     }
@@ -773,20 +778,20 @@ export function renderChangeDetail<T>(
     return i18n(
       'icu:GroupV2--admin-approval-remove-one--other--own',
 
-      { joinerName: renderContact(uuid) }
+      { joinerName: renderContact(aci) }
     );
   }
   if (detail.type === 'admin-approval-bounce') {
-    const { uuid, times, isApprovalPending } = detail;
+    const { aci, times, isApprovalPending } = detail;
 
     let firstMessage: T | string;
     if (times === 1) {
       firstMessage = i18n('icu:GroupV2--admin-approval-bounce--one', {
-        joinerName: renderContact(uuid),
+        joinerName: renderContact(aci),
       });
     } else {
       firstMessage = i18n('icu:GroupV2--admin-approval-bounce', {
-        joinerName: renderContact(uuid),
+        joinerName: renderContact(aci),
         numberOfRequests: times,
       });
     }
@@ -798,7 +803,7 @@ export function renderChangeDetail<T>(
     const secondMessage = renderChangeDetail(
       {
         type: 'admin-approval-add-one',
-        uuid,
+        aci,
       },
       options
     );

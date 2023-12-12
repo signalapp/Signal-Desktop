@@ -11,6 +11,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { InContactsIcon } from './InContactsIcon';
 import type { LocalizerType } from '../types/Util';
+import type { ServiceIdString } from '../types/ServiceId';
 import { sortByTitle } from '../util/sortByTitle';
 import type { ConversationType } from '../state/ducks/conversations';
 import { isInSystemContacts } from '../util/isInSystemContacts';
@@ -25,7 +26,7 @@ type ParticipantType = ConversationType & {
 export type PropsType = {
   readonly i18n: LocalizerType;
   readonly onClose: () => void;
-  readonly ourUuid: string | undefined;
+  readonly ourServiceId: ServiceIdString | undefined;
   readonly participants: Array<ParticipantType>;
 };
 
@@ -33,7 +34,7 @@ export const CallingParticipantsList = React.memo(
   function CallingParticipantsListInner({
     i18n,
     onClose,
-    ourUuid,
+    ourServiceId,
     participants,
   }: PropsType) {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
@@ -101,12 +102,12 @@ export const CallingParticipantsList = React.memo(
                 (participant: ParticipantType, index: number) => (
                   <li
                     className="module-calling-participants-list__contact"
-                    // It's tempting to use `participant.uuid` as the `key` here, but that
-                    //   can result in duplicate keys for participants who have joined on
-                    //   multiple devices.
+                    // It's tempting to use `participant.serviceId` as the `key`
+                    //   here, but that can result in duplicate keys for
+                    //   participants who have joined on multiple devices.
                     key={index}
                   >
-                    <div>
+                    <div className="module-calling-participants-list__avatar-and-name">
                       <Avatar
                         acceptedMessageRequest={
                           participant.acceptedMessageRequest
@@ -122,7 +123,8 @@ export const CallingParticipantsList = React.memo(
                         sharedGroupNames={participant.sharedGroupNames}
                         size={AvatarSize.THIRTY_TWO}
                       />
-                      {ourUuid && participant.uuid === ourUuid ? (
+                      {ourServiceId &&
+                      participant.serviceId === ourServiceId ? (
                         <span className="module-calling-participants-list__name">
                           {i18n('icu:you')}
                         </span>
@@ -144,15 +146,15 @@ export const CallingParticipantsList = React.memo(
                         </>
                       )}
                     </div>
-                    <div>
-                      {participant.hasRemoteAudio === false ? (
-                        <span className="module-calling-participants-list__muted--audio" />
-                      ) : null}
+                    <div className="module-calling-participants-list__status">
                       {participant.hasRemoteVideo === false ? (
                         <span className="module-calling-participants-list__muted--video" />
                       ) : null}
                       {participant.presenting ? (
                         <span className="module-calling-participants-list__presenting" />
+                      ) : null}
+                      {participant.hasRemoteAudio === false ? (
+                        <span className="module-calling-participants-list__muted--audio" />
                       ) : null}
                     </div>
                   </li>

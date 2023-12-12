@@ -29,14 +29,14 @@ const mapStateToProps = (state: StateType): PropsDataType => {
   let isAdmin = false;
   if (contact && currentConversation && currentConversation.memberships) {
     currentConversation.memberships.forEach(membership => {
-      if (membership.uuid === contact.uuid) {
+      if (membership.aci === contact.serviceId) {
         isMember = true;
         isAdmin = membership.isAdmin;
       }
     });
   }
 
-  const hasStories = getHasStoriesSelector(state)(conversationId);
+  const hasStories = getHasStoriesSelector(state)(contactId);
 
   return {
     areWeASubscriber: getAreWeASubscriber(state),

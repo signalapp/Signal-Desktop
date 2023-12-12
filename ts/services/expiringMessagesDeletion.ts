@@ -1,6 +1,7 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { batch } from 'react-redux';
 import { debounce } from 'lodash';
 
 import type { MessageModel } from '../models/messages';
@@ -8,7 +9,6 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
 import * as Errors from '../types/errors';
-import { scheduleOptimizeFTS } from './ftsOptimizer';
 
 class ExpiringMessagesDeletionService {
   public update: typeof this.checkExpiringMessages;
@@ -31,36 +31,30 @@ class ExpiringMessagesDeletionService {
 
       const messageIds: Array<string> = [];
       const inMemoryMessages: Array<MessageModel> = [];
-      const messageCleanup: Array<Promise<void>> = [];
 
       messages.forEach(dbMessage => {
-        const message = window.MessageController.register(
+        const message = window.MessageCache.__DEPRECATED$register(
           dbMessage.id,
-          dbMessage
+          dbMessage,
+          'destroyExpiredMessages'
         );
         messageIds.push(message.id);
         inMemoryMessages.push(message);
-        messageCleanup.push(message.cleanup());
       });
 
-      // We delete after the trigger to allow the conversation time to process
-      //   the expiration before the message is removed from the database.
       await window.Signal.Data.removeMessages(messageIds);
-      await Promise.all(messageCleanup);
 
-      inMemoryMessages.forEach(message => {
-        window.SignalContext.log.info('Message expired', {
-          sentAt: message.get('sent_at'),
+      batch(() => {
+        inMemoryMessages.forEach(message => {
+          window.SignalContext.log.info('Message expired', {
+            sentAt: message.get('sent_at'),
+          });
+
+          // We do this to update the UI, if this message is being displayed somewhere
+          message.trigger('expired');
+          window.reduxActions.conversations.messageExpired(message.id);
         });
-
-        // We do this to update the UI, if this message is being displayed somewhere
-        message.trigger('expired');
-        window.reduxActions.conversations.messageExpired(message.id);
       });
-
-      if (messages.length > 0) {
-        scheduleOptimizeFTS();
-      }
     } catch (error) {
       window.SignalContext.log.error(
         'destroyExpiredMessages: Error deleting expired messages',

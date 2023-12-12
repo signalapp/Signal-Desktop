@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { PropsType } from './GroupLinkManagement';
@@ -17,7 +16,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ConversationDetails/GroupLinkManagement',
-};
+} satisfies Meta<PropsType>;
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
@@ -61,10 +60,6 @@ export function OffAdmin(): JSX.Element {
   return <GroupLinkManagement {...props} />;
 }
 
-OffAdmin.story = {
-  name: 'Off (Admin)',
-};
-
 export function OnAdmin(): JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY),
@@ -73,10 +68,6 @@ export function OnAdmin(): JSX.Element {
 
   return <GroupLinkManagement {...props} />;
 }
-
-OnAdmin.story = {
-  name: 'On (Admin)',
-};
 
 export function OnAdminAdminApprovalNeeded(): JSX.Element {
   const props = createProps(
@@ -87,10 +78,6 @@ export function OnAdminAdminApprovalNeeded(): JSX.Element {
   return <GroupLinkManagement {...props} />;
 }
 
-OnAdminAdminApprovalNeeded.story = {
-  name: 'On (Admin + Admin Approval Needed)',
-};
-
 export function OnNonAdmin(): JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY)
@@ -99,16 +86,8 @@ export function OnNonAdmin(): JSX.Element {
   return <GroupLinkManagement {...props} />;
 }
 
-OnNonAdmin.story = {
-  name: 'On (Non-admin)',
-};
-
 export function OffNonAdminUserCannotGetHere(): JSX.Element {
   const props = createProps(undefined, false);
 
   return <GroupLinkManagement {...props} />;
 }
-
-OffNonAdminUserCannotGetHere.story = {
-  name: 'Off (Non-admin) - user cannot get here',
-};

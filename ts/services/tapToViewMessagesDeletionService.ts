@@ -15,7 +15,11 @@ async function eraseTapToViewMessages() {
       await window.Signal.Data.getTapToViewMessagesNeedingErase();
     await Promise.all(
       messages.map(async fromDB => {
-        const message = window.MessageController.register(fromDB.id, fromDB);
+        const message = window.MessageCache.__DEPRECATED$register(
+          fromDB.id,
+          fromDB,
+          'eraseTapToViewMessages'
+        );
 
         window.SignalContext.log.info(
           'eraseTapToViewMessages: erasing message contents',

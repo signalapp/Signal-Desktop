@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Group } from '@signalapp/mock-server';
-import { Proto, UUIDKind } from '@signalapp/mock-server';
+import type { Group, PrimaryDevice } from '@signalapp/mock-server';
+import { Proto, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
@@ -12,24 +12,28 @@ import type { App } from '../bootstrap';
 
 export const debug = createDebug('mock:test:gv2');
 
-describe('pnp/accept gv2 invite', function needsName() {
+describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
   let app: App;
   let group: Group;
+  let unknownContact: PrimaryDevice;
 
   beforeEach(async () => {
-    bootstrap = new Bootstrap();
+    bootstrap = new Bootstrap({
+      contactCount: 10,
+      unknownContactCount: 3,
+    });
     await bootstrap.init();
 
-    const { contacts } = bootstrap;
-
+    const { contacts, unknownContacts } = bootstrap;
     const [first, second] = contacts;
+    [unknownContact] = unknownContacts;
 
     group = await first.createGroup({
       title: 'Invite by PNI',
-      members: [first, second],
+      members: [first, second, unknownContact],
     });
 
     app = await bootstrap.link();
@@ -37,15 +41,15 @@ describe('pnp/accept gv2 invite', function needsName() {
     const { desktop } = bootstrap;
 
     group = await first.inviteToGroup(group, desktop, {
-      uuidKind: UUIDKind.PNI,
+      serviceIdKind: ServiceIdKind.PNI,
     });
 
     // Verify that created group has pending member
-    assert.strictEqual(group.state?.members?.length, 2);
-    assert(!group.getMemberByUUID(desktop.uuid));
-    assert(!group.getMemberByUUID(desktop.pni));
-    assert(!group.getPendingMemberByUUID(desktop.uuid));
-    assert(group.getPendingMemberByUUID(desktop.pni));
+    assert.strictEqual(group.state?.members?.length, 3);
+    assert(!group.getMemberByServiceId(desktop.aci));
+    assert(!group.getMemberByServiceId(desktop.pni));
+    assert(!group.getPendingMemberByServiceId(desktop.aci));
+    assert(group.getPendingMemberByServiceId(desktop.pni));
 
     const window = await app.getWindow();
 
@@ -55,7 +59,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     await leftPane.locator(`[data-testid="${group.id}"]`).click();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -76,11 +80,11 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
-    assert.strictEqual(group.state?.members?.length, 3);
-    assert(group.getMemberByUUID(desktop.uuid));
-    assert(!group.getMemberByUUID(desktop.pni));
-    assert(!group.getPendingMemberByUUID(desktop.uuid));
-    assert(!group.getPendingMemberByUUID(desktop.pni));
+    assert.strictEqual(group.state?.members?.length, 4);
+    assert(group.getMemberByServiceId(desktop.aci));
+    assert(!group.getMemberByServiceId(desktop.pni));
+    assert(!group.getPendingMemberByServiceId(desktop.aci));
+    assert(!group.getPendingMemberByServiceId(desktop.pni));
 
     debug('Checking that notifications are present');
     await window
@@ -94,10 +98,10 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     debug('Invite PNI again');
     group = await second.inviteToGroup(group, desktop, {
-      uuidKind: UUIDKind.PNI,
+      serviceIdKind: ServiceIdKind.PNI,
     });
-    assert(group.getMemberByUUID(desktop.uuid));
-    assert(group.getPendingMemberByUUID(desktop.pni));
+    assert(group.getMemberByServiceId(desktop.aci));
+    assert(group.getPendingMemberByServiceId(desktop.pni));
 
     await window
       .locator(`"${second.profileName} invited you to the group."`)
@@ -108,15 +112,21 @@ describe('pnp/accept gv2 invite', function needsName() {
       .locator('.module-message-request-actions button >> "Accept"')
       .waitFor({ state: 'hidden' });
 
-    debug('Leave the group through settings');
-
-    await conversationStack
+    await window
       .locator('button.module-ConversationHeader__button--more')
       .click();
 
-    await conversationStack
-      .locator('.react-contextmenu-item >> "Group settings"')
-      .click();
+    await window.locator('.react-contextmenu-item >> "Group settings"').click();
+
+    debug(
+      'Checking that we see all members of group, including (previously) unknown contact'
+    );
+    await window
+      .locator('.ConversationDetails-panel-section__title >> "4 members"')
+      .waitFor();
+    await window.getByText(unknownContact.profileName).waitFor();
+
+    debug('Leave the group through settings');
 
     await conversationStack
       .locator('.conversation-details-panel >> "Leave group"')
@@ -127,11 +137,11 @@ describe('pnp/accept gv2 invite', function needsName() {
     debug('Waiting for final group update');
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 4);
-    assert.strictEqual(group.state?.members?.length, 2);
-    assert(!group.getMemberByUUID(desktop.uuid));
-    assert(!group.getMemberByUUID(desktop.pni));
-    assert(!group.getPendingMemberByUUID(desktop.uuid));
-    assert(group.getPendingMemberByUUID(desktop.pni));
+    assert.strictEqual(group.state?.members?.length, 3);
+    assert(!group.getMemberByServiceId(desktop.aci));
+    assert(!group.getMemberByServiceId(desktop.pni));
+    assert(!group.getPendingMemberByServiceId(desktop.aci));
+    assert(group.getPendingMemberByServiceId(desktop.pni));
   });
 
   it('should decline PNI invite and modify the group state', async () => {
@@ -151,11 +161,11 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
-    assert.strictEqual(group.state?.members?.length, 2);
-    assert(!group.getMemberByUUID(desktop.uuid));
-    assert(!group.getMemberByUUID(desktop.pni));
-    assert(!group.getPendingMemberByUUID(desktop.uuid));
-    assert(!group.getPendingMemberByUUID(desktop.pni));
+    assert.strictEqual(group.state?.members?.length, 3);
+    assert(!group.getMemberByServiceId(desktop.aci));
+    assert(!group.getMemberByServiceId(desktop.pni));
+    assert(!group.getPendingMemberByServiceId(desktop.aci));
+    assert(!group.getPendingMemberByServiceId(desktop.pni));
 
     // Verify that sync message was sent.
     const { syncMessage } = await phone.waitForSyncMessage(entry =>
@@ -186,7 +196,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     debug('Inviting ACI from another contact');
     group = await second.inviteToGroup(group, desktop, {
-      uuidKind: UUIDKind.ACI,
+      serviceIdKind: ServiceIdKind.ACI,
     });
 
     const conversationStack = window.locator('.Inbox__conversation-stack');
@@ -211,11 +221,11 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);
-    assert.strictEqual(group.state?.members?.length, 3);
-    assert(group.getMemberByUUID(desktop.uuid));
-    assert(!group.getMemberByUUID(desktop.pni));
-    assert(!group.getPendingMemberByUUID(desktop.uuid));
-    assert(group.getPendingMemberByUUID(desktop.pni));
+    assert.strictEqual(group.state?.members?.length, 4);
+    assert(group.getMemberByServiceId(desktop.aci));
+    assert(!group.getMemberByServiceId(desktop.pni));
+    assert(!group.getPendingMemberByServiceId(desktop.aci));
+    assert(group.getPendingMemberByServiceId(desktop.pni));
 
     debug('Verifying invite list');
     await conversationStack
@@ -248,7 +258,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     // Invite ACI from another contact
     group = await second.inviteToGroup(group, desktop, {
-      uuidKind: UUIDKind.ACI,
+      serviceIdKind: ServiceIdKind.ACI,
     });
 
     const conversationStack = window.locator('.Inbox__conversation-stack');
@@ -263,11 +273,11 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);
-    assert.strictEqual(group.state?.members?.length, 2);
-    assert(!group.getMemberByUUID(desktop.uuid));
-    assert(!group.getMemberByUUID(desktop.pni));
-    assert(!group.getPendingMemberByUUID(desktop.uuid));
-    assert(group.getPendingMemberByUUID(desktop.pni));
+    assert.strictEqual(group.state?.members?.length, 3);
+    assert(!group.getMemberByServiceId(desktop.aci));
+    assert(!group.getMemberByServiceId(desktop.pni));
+    assert(!group.getPendingMemberByServiceId(desktop.aci));
+    assert(group.getPendingMemberByServiceId(desktop.pni));
   });
 
   it('should display a single notification for remote PNI accept', async () => {
@@ -282,11 +292,11 @@ describe('pnp/accept gv2 invite', function needsName() {
     });
 
     debug('Inviting remote PNI to group');
-    const secondKey = await second.device.popSingleUseKey(UUIDKind.PNI);
-    await first.addSingleUseKey(second.device, secondKey, UUIDKind.PNI);
+    const secondKey = await second.device.popSingleUseKey(ServiceIdKind.PNI);
+    await first.addSingleUseKey(second.device, secondKey, ServiceIdKind.PNI);
 
     group = await first.inviteToGroup(group, second.device, {
-      uuidKind: UUIDKind.PNI,
+      serviceIdKind: ServiceIdKind.PNI,
       timestamp: bootstrap.getTimestamp(),
 
       // There is no one to receive it so don't bother.

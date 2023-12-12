@@ -217,8 +217,7 @@
 
 .module-sticker-manager__preview-modal {
   &__modal.module-Modal {
-    max-width: 440px;
-    width: 440px;
+    width: fit-content;
   }
   &__error {
     color: $color-accent-red;
@@ -239,7 +238,6 @@
     display: grid;
     grid-gap: 8px;
     grid-template-columns: repeat(4, 1fr);
-    overflow-y: auto;
 
     &__cell {
       width: 96px;

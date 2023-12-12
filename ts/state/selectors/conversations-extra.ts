@@ -6,6 +6,7 @@
 
 import { createSelector } from 'reselect';
 
+import { normalizeStoryDistributionId } from '../../types/StoryDistributionId';
 import type { ContactsByStory } from '../../components/SafetyNumberChangeDialog';
 import type { ConversationVerificationData } from '../ducks/conversations';
 import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists';
@@ -41,41 +42,46 @@ export const getByDistributionListConversationsStoppingSend = createSelector(
           return;
         }
 
-        const conversationUuids = new Set(
-          conversationData.uuidsNeedingVerification
+        const conversationServiceIds = new Set(
+          conversationData.serviceIdsNeedingVerification
         );
 
         if (conversationData.byDistributionId) {
           Object.entries(conversationData.byDistributionId).forEach(
             ([distributionId, distributionData]) => {
-              if (distributionData.uuidsNeedingVerification.length === 0) {
+              if (distributionData.serviceIdsNeedingVerification.length === 0) {
                 return;
               }
               const currentDistribution =
                 distributionListSelector(distributionId);
 
               if (!currentDistribution) {
-                distributionData.uuidsNeedingVerification.forEach(uuid => {
-                  conversationUuids.add(uuid);
-                });
+                distributionData.serviceIdsNeedingVerification.forEach(
+                  serviceId => {
+                    conversationServiceIds.add(serviceId);
+                  }
+                );
                 return;
               }
 
               conversations.push({
                 story: {
                   conversationId,
-                  distributionId,
+                  distributionId: normalizeStoryDistributionId(
+                    distributionId,
+                    'conversations-extra'
+                  ),
                   name: currentDistribution.name,
                 },
-                contacts: distributionData.uuidsNeedingVerification.map(uuid =>
-                  conversationSelector(uuid)
+                contacts: distributionData.serviceIdsNeedingVerification.map(
+                  serviceId => conversationSelector(serviceId)
                 ),
               });
             }
           );
         }
 
-        if (conversationUuids.size) {
+        if (conversationServiceIds.size) {
           const currentConversation = conversationSelector(conversationId);
           conversations.push({
             story: isGroup(currentConversation)
@@ -84,8 +90,8 @@ export const getByDistributionListConversationsStoppingSend = createSelector(
                   name: currentConversation.title,
                 }
               : undefined,
-            contacts: Array.from(conversationUuids).map(uuid =>
-              conversationSelector(uuid)
+            contacts: Array.from(conversationServiceIds).map(serviceId =>
+              conversationSelector(serviceId)
             ),
           });
         }

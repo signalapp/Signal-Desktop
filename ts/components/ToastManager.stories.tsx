@@ -1,9 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
 import enMessages from '../../_locales/en/messages.json';
 import { ToastManager } from './ToastManager';
 import type { AnyToast } from '../types/Toast';
@@ -26,6 +27,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.Blocked };
     case ToastType.BlockedGroup:
       return { toastType: ToastType.BlockedGroup };
+    case ToastType.CallHistoryCleared:
+      return { toastType: ToastType.CallHistoryCleared };
     case ToastType.CannotEditMessage:
       return { toastType: ToastType.CannotEditMessage };
     case ToastType.CannotForwardEmptyMessage:
@@ -140,25 +143,23 @@ export default {
   title: 'Components/ToastManager',
   component: ToastManager,
   argTypes: {
-    hideToast: { action: true },
-    openFileInFolder: { action: true },
-    onUndoArchive: { action: true },
-    i18n: {
-      defaultValue: i18n,
-    },
     toastType: {
-      defaultValue: ToastType.AddingUserToGroup,
       options: ToastType,
       control: { type: 'select' },
     },
-    OS: {
-      defaultValue: 'macOS',
-    },
   },
-} as Meta<Args>;
+  args: {
+    hideToast: action('hideToast'),
+    openFileInFolder: action('openFileInFolder'),
+    onUndoArchive: action('onUndoArchive'),
+    i18n,
+    toastType: ToastType.AddingUserToGroup,
+    OS: 'macOS',
+  },
+} satisfies Meta<Args>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<Args> = args => {
+const Template: StoryFn<Args> = args => {
   const { toastType, ...rest } = args;
   return (
     <>

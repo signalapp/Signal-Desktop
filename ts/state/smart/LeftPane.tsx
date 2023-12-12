@@ -11,7 +11,7 @@ import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
 import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
-import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
 import { isDone as isRegistrationDone } from '../../util/registration';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
@@ -40,7 +40,9 @@ import { hasNetworkDialog } from '../selectors/network';
 import {
   getPreferredLeftPaneWidth,
   getUsernamesEnabled,
-  getContactManagementEnabled,
+  getUsernameCorrupted,
+  getUsernameLinkCorrupted,
+  getNavTabsCollapsed,
 } from '../selectors/items';
 import {
   getComposeAvatarData,
@@ -56,6 +58,7 @@ import {
   getFilteredComposeGroups,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
+  getMe,
   getRecommendedGroupSizeModalState,
   getSelectedConversationId,
   getTargetedMessage,
@@ -70,7 +73,6 @@ import {
   getGroupSizeHardLimit,
 } from '../../groups/limits';
 
-import { SmartMainHeader } from './MainHeader';
 import { SmartMessageSearchResult } from './MessageSearchResult';
 import { SmartNetworkStatus } from './NetworkStatus';
 import { SmartRelinkDialog } from './RelinkDialog';
@@ -80,9 +82,6 @@ import { SmartUpdateDialog } from './UpdateDialog';
 import { SmartCaptchaDialog } from './CaptchaDialog';
 import { SmartCrashReportDialog } from './CrashReportDialog';
 
-function renderMainHeader(): JSX.Element {
-  return <SmartMainHeader />;
-}
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
 }
@@ -181,6 +180,7 @@ const getModeSpecificProps = (
           OneTimeModalState.Showing,
         isShowingMaximumGroupSizeModal:
           getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
+        ourUsername: getMe(state).username,
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
@@ -207,6 +207,8 @@ const getModeSpecificProps = (
 const mapStateToProps = (state: StateType) => {
   const hasUpdateDialog = isUpdateDialogVisible(state);
   const hasUnsupportedOS = isOSUnsupported(state);
+  const usernameCorrupted = getUsernameCorrupted(state);
+  const usernameLinkCorrupted = getUsernameLinkCorrupted(state);
 
   let hasExpiredDialog = false;
   let unsupportedOSDialogType: 'error' | 'warning' | undefined;
@@ -227,20 +229,21 @@ const mapStateToProps = (state: StateType) => {
     hasUpdateDialog,
     isUpdateDownloaded: isUpdateDownloaded(state),
     unsupportedOSDialogType,
+    usernameCorrupted,
+    usernameLinkCorrupted,
 
     modeSpecificProps: getModeSpecificProps(state),
+    navTabsCollapsed: getNavTabsCollapsed(state),
     preferredWidthFromStorage: getPreferredLeftPaneWidth(state),
     selectedConversationId: getSelectedConversationId(state),
     targetedMessageId: getTargetedMessage(state)?.id,
     showArchived: getShowArchived(state),
     getPreferredBadge: getPreferredBadgeSelector(state),
-    isContactManagementEnabled: getContactManagementEnabled(state),
     i18n: getIntl(state),
     isMacOS: getIsMacOS(state),
     regionCode: getRegionCode(state),
     challengeStatus: state.network.challengeStatus,
     crashReportCount: state.crashReports.count,
-    renderMainHeader,
     renderMessageSearchResult,
     renderNetworkStatus,
     renderRelinkDialog,
@@ -249,7 +252,7 @@ const mapStateToProps = (state: StateType) => {
     renderCrashReportDialog,
     renderExpiredBuildDialog,
     renderUnsupportedOSDialog,
-    lookupConversationWithoutUuid,
+    lookupConversationWithoutServiceId,
     theme: getTheme(state),
   };
 };

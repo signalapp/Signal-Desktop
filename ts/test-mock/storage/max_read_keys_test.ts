@@ -5,14 +5,14 @@ import { assert } from 'chai';
 import { Proto } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { MAX_READ_KEYS } from '../../services/storageConstants';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -22,7 +22,7 @@ describe('storage service', function needsName() {
     ({ bootstrap, app } = await initStorage());
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
@@ -45,7 +45,7 @@ describe('storage service', function needsName() {
 
     debug('wait for first contact to be pinned in the left pane');
     await leftPane
-      .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+      .locator(`[data-testid="${firstContact.toContact().aci}"]`)
       .waitFor();
 
     {
@@ -57,7 +57,7 @@ describe('storage service', function needsName() {
           type: IdentifierType.CONTACT,
           record: {
             contact: {
-              serviceUuid: UUID.generate().toString(),
+              aci: generateAci(),
             },
           },
         });
@@ -76,7 +76,7 @@ describe('storage service', function needsName() {
 
     debug('wait for last contact to be pinned in the left pane');
     await leftPane
-      .locator(`[data-testid="${lastContact.toContact().uuid}"]`)
+      .locator(`[data-testid="${lastContact.toContact().aci}"]`)
       .waitFor({ timeout: durations.MINUTE });
 
     debug('Verifying the final manifest version');

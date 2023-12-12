@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useRef } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -89,7 +89,11 @@ export type PropsType = {
   sticky?: boolean;
   theme?: Theme;
   wrapperClassName?: string;
+  delay?: number;
 };
+
+let GLOBAL_EXIT_TIMER: NodeJS.Timeout | undefined;
+let GLOBAL_TOOLTIP_DISABLE_DELAY = false;
 
 export function Tooltip({
   children,
@@ -100,14 +104,55 @@ export function Tooltip({
   theme,
   popperModifiers = [],
   wrapperClassName,
+  delay,
 }: PropsType): JSX.Element {
-  const [isHovering, setIsHovering] = React.useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>();
+  const [active, setActive] = React.useState(false);
 
-  const showTooltip = isHovering || Boolean(sticky);
+  const showTooltip = active || Boolean(sticky);
 
   const tooltipThemeClassName = theme
     ? `module-tooltip--${themeClassName(theme)}`
     : undefined;
+
+  function handleHoverChanged(hovering: boolean) {
+    // Don't accept updates that aren't valid anymore
+    clearTimeout(GLOBAL_EXIT_TIMER);
+    clearTimeout(timeoutRef.current);
+
+    // We can skip past all of this if there's no delay
+    if (delay != null) {
+      // If we're now hovering, and delays haven't been disabled globally
+      // we should start the timer to show the tooltip
+      if (hovering && !GLOBAL_TOOLTIP_DISABLE_DELAY) {
+        timeoutRef.current = setTimeout(() => {
+          setActive(true);
+          // Since we have shown a tooltip we can now disable these delays
+          // globally.
+          GLOBAL_TOOLTIP_DISABLE_DELAY = true;
+        }, delay);
+        return;
+      }
+
+      if (!hovering) {
+        // If we're not hovering, we should hide the tooltip immediately
+        setActive(false);
+
+        // If we've disabled delays globally, we need to start a timer to undo
+        // that after some time has passed.
+        if (GLOBAL_TOOLTIP_DISABLE_DELAY) {
+          GLOBAL_EXIT_TIMER = setTimeout(() => {
+            GLOBAL_TOOLTIP_DISABLE_DELAY = false;
+
+            // We're always going to use 300 here so that a tooltip with a really
+            // long delay doesn't affect all of the others
+          }, 300);
+        }
+        return;
+      }
+    }
+    setActive(hovering);
+  }
 
   return (
     <Manager>
@@ -116,7 +161,7 @@ export function Tooltip({
           <TooltipEventWrapper
             className={wrapperClassName}
             ref={ref}
-            onHoverChanged={setIsHovering}
+            onHoverChanged={handleHoverChanged}
           >
             {children}
           </TooltipEventWrapper>

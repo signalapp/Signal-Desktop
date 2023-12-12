@@ -27,20 +27,20 @@ import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
-import type { MessageForwardDraft } from '../util/maybeForwardMessages';
-import {
-  isDraftEditable,
-  isDraftForwardable,
-} from '../util/maybeForwardMessages';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { HydratedBodyRangesType } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
+import { applyRangesToText } from '../types/BodyRange';
 import { UserText } from './UserText';
 import { Modal } from './Modal';
 import { SizeObserver } from '../hooks/useSizeObserver';
+import {
+  isDraftEditable,
+  isDraftForwardable,
+  type MessageForwardDraft,
+} from '../types/ForwardDraft';
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -135,11 +135,25 @@ export function ForwardMessagesModal({
     } else {
       doForwardMessages(
         conversationIds,
-        drafts.map(draft => ({
-          ...draft,
+        drafts.map(draft => {
           // We don't keep @mention bodyRanges in multi-forward scenarios
-          bodyRanges: draft.bodyRanges?.filter(BodyRange.isFormatting),
-        }))
+          const result = applyRangesToText(
+            {
+              body: draft.messageBody ?? '',
+              bodyRanges: draft.bodyRanges ?? [],
+            },
+            {
+              replaceMentions: true,
+              replaceSpoilers: false,
+            }
+          );
+
+          return {
+            ...draft,
+            messageBody: result.body,
+            bodyRanges: result.bodyRanges,
+          };
+        })
       );
     }
   }, [
@@ -358,7 +372,9 @@ export function ForwardMessagesModal({
                           toggleSelectedConversation(conversationId);
                         }
                       }}
-                      lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
+                      lookupConversationWithoutServiceId={
+                        asyncShouldNeverBeCalled
+                      }
                       showConversation={shouldNeverBeCalled}
                       showUserNotFoundModal={shouldNeverBeCalled}
                       setIsFetchingUUID={shouldNeverBeCalled}

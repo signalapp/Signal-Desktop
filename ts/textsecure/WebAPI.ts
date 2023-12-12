@@ -8,7 +8,6 @@
 
 import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
-import ProxyAgent from 'proxy-agent';
 import type { Agent } from 'https';
 import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
 import PQueue from 'p-queue';
@@ -23,17 +22,30 @@ import * as durations from '../util/durations';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
-import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
+import {
+  getTimeoutStream,
+  getStreamWithTimeout,
+} from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
-import { isPnpEnabled } from '../util/isPnpEnabled';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
+import { createProxyAgent } from '../util/createProxyAgent';
 import type { SocketStatus } from '../types/SocketStatus';
+import { VerificationTransport } from '../types/VerificationTransport';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
-import type { UUID, UUIDStringType } from '../types/UUID';
-import { UUIDKind } from '../types/UUID';
+import type {
+  ServiceIdString,
+  AciString,
+  UntaggedPniString,
+} from '../types/ServiceId';
+import {
+  ServiceIdKind,
+  serviceIdSchema,
+  aciSchema,
+  untaggedPniSchema,
+} from '../types/ServiceId';
 import type { DirectoryConfigType } from '../types/RendererConfig';
 import * as Bytes from '../Bytes';
 import { randomInt } from '../Crypto';
@@ -107,7 +119,7 @@ const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * durations.SECOND;
 type AgentCacheType = {
   [name: string]: {
     timestamp: number;
-    agent: ReturnType<typeof ProxyAgent> | Agent;
+    agent: ReturnType<typeof createProxyAgent> | Agent;
   };
 };
 const agents: AgentCacheType = {};
@@ -178,7 +190,7 @@ type BytesWithDetailsType = {
 };
 
 export const multiRecipient200ResponseSchema = z.object({
-  uuids404: z.array(z.string()).optional(),
+  uuids404: z.array(serviceIdSchema).optional(),
   needsSync: z.boolean().optional(),
 });
 export type MultiRecipient200ResponseType = z.infer<
@@ -187,7 +199,7 @@ export type MultiRecipient200ResponseType = z.infer<
 
 export const multiRecipient409ResponseSchema = z.array(
   z.object({
-    uuid: z.string(),
+    uuid: serviceIdSchema,
     devices: z.object({
       missingDevices: z.array(z.number()).optional(),
       extraDevices: z.array(z.number()).optional(),
@@ -200,7 +212,7 @@ export type MultiRecipient409ResponseType = z.infer<
 
 export const multiRecipient410ResponseSchema = z.array(
   z.object({
-    uuid: z.string(),
+    uuid: serviceIdSchema,
     devices: z.object({
       staleDevices: z.array(z.number()).optional(),
     }),
@@ -246,7 +258,7 @@ async function _promiseAjax(
     }
     agents[cacheKey] = {
       agent: proxyUrl
-        ? new ProxyAgent(proxyUrl)
+        ? createProxyAgent(proxyUrl)
         : createHTTPSAgent({
             keepAlive: !options.disableSessionResumption,
             maxCachedSessions: options.disableSessionResumption ? 0 : undefined,
@@ -478,16 +490,13 @@ function makeHTTPError(
 }
 
 const URL_CALLS = {
-  accounts: 'v1/accounts',
   accountExistence: 'v1/accounts/account',
   attachmentId: 'v3/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
-  boostBadges: 'v1/subscription/boost/badges',
   challenge: 'v1/challenge',
   config: 'v1/config',
   deliveryCert: 'v1/certificate/delivery',
-  devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
   discovery: 'v1/discovery',
   getGroupAvatarUpload: 'v1/groups/avatar/form',
@@ -503,10 +512,12 @@ const URL_CALLS = {
   groupsViaLink: 'v1/groups/join/',
   groupToken: 'v1/groups/token',
   keys: 'v2/keys',
+  linkDevice: 'v1/devices/link',
   messages: 'v1/messages',
   multiRecipient: 'v1/messages/multi_recipient',
   phoneNumberDiscoverability: 'v2/accounts/phone_number_discoverability',
   profile: 'v1/profile',
+  registration: 'v1/registration',
   registerCapabilities: 'v1/devices/capabilities',
   reportMessage: 'v1/messages/report',
   signed: 'v2/keys/signed',
@@ -515,12 +526,14 @@ const URL_CALLS = {
   storageRead: 'v1/storage/read',
   storageToken: 'v1/storage/auth',
   subscriptions: 'v1/subscription',
+  subscriptionConfiguration: 'v1/subscription/configuration',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
   username: 'v1/accounts/username_hash',
   reserveUsername: 'v1/accounts/username_hash/reserve',
   confirmUsername: 'v1/accounts/username_hash/confirm',
   usernameLink: 'v1/accounts/username_link',
+  verificationSession: 'v1/verification/session',
   whoami: 'v1/accounts/whoami',
 };
 
@@ -533,7 +546,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   // ProfileController
   'profile',
 
-  // AttachmentControllerV2
+  // AttachmentControllerV3
   'attachmentId',
 
   // RemoteConfigController
@@ -544,7 +557,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   'getGroupCredentials',
 
   // Devices
-  'devices',
+  'linkDevice',
   'registerCapabilities',
   'supportUnauthenticatedDelivery',
 
@@ -708,7 +721,7 @@ export type GetAccountForUsernameOptionsType = Readonly<{
 }>;
 
 const getAccountForUsernameResultZod = z.object({
-  uuid: z.string(),
+  uuid: aciSchema,
 });
 
 export type GetAccountForUsernameResultType = z.infer<
@@ -747,16 +760,9 @@ const whoamiResultZod = z.object({
 });
 export type WhoamiResultType = z.infer<typeof whoamiResultZod>;
 
-export type ConfirmCodeResultType = Readonly<{
-  uuid: UUIDStringType;
-  pni: UUIDStringType;
-  deviceId?: number;
-}>;
-
 export type CdsLookupOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
-  acis?: ReadonlyArray<UUIDStringType>;
-  accessKeys?: ReadonlyArray<string>;
+  acisAndAccessKeys?: ReadonlyArray<{ aci: AciString; accessKey: string }>;
   returnAcisWithoutUaks?: boolean;
 }>;
 
@@ -791,21 +797,26 @@ export type GetGroupCredentialsOptionsType = Readonly<{
 }>;
 
 export type GetGroupCredentialsResultType = Readonly<{
-  pni?: string | null;
+  pni?: UntaggedPniString | null;
   credentials: ReadonlyArray<GroupCredentialType>;
 }>;
 
-const verifyAciResponse = z.object({
+const verifyServiceIdResponse = z.object({
   elements: z.array(
     z.object({
-      aci: z.string(),
+      uuid: serviceIdSchema,
       identityKey: z.string(),
     })
   ),
 });
 
-export type VerifyAciRequestType = Array<{ aci: string; fingerprint: string }>;
-export type VerifyAciResponseType = z.infer<typeof verifyAciResponse>;
+export type VerifyServiceIdRequestType = Array<{
+  uuid: ServiceIdString;
+  fingerprint: string;
+}>;
+export type VerifyServiceIdResponseType = z.infer<
+  typeof verifyServiceIdResponse
+>;
 
 export type ReserveUsernameOptionsType = Readonly<{
   hashes: ReadonlyArray<Uint8Array>;
@@ -855,18 +866,31 @@ export type ResolveUsernameLinkResultType = z.infer<
   typeof resolveUsernameLinkResultZod
 >;
 
-export type ConfirmCodeOptionsType = Readonly<{
+export type CreateAccountOptionsType = Readonly<{
+  sessionId: string;
   number: string;
   code: string;
   newPassword: string;
   registrationId: number;
   pniRegistrationId: number;
-  deviceName?: string | null;
-  accessKey?: Uint8Array;
+  accessKey: Uint8Array;
+  aciPublicKey: Uint8Array;
+  pniPublicKey: Uint8Array;
+  aciSignedPreKey: UploadSignedPreKeyType;
+  pniSignedPreKey: UploadSignedPreKeyType;
+  aciPqLastResortPreKey: UploadSignedPreKeyType;
+  pniPqLastResortPreKey: UploadSignedPreKeyType;
 }>;
 
+const linkDeviceResultZod = z.object({
+  uuid: aciSchema,
+  pni: untaggedPniSchema,
+  deviceId: z.number(),
+});
+export type LinkDeviceResultType = z.infer<typeof linkDeviceResultZod>;
+
 export type ReportMessageOptionsType = Readonly<{
-  senderUuid: string;
+  senderAci: AciString;
   serverGuid: string;
   token?: string;
 }>;
@@ -892,14 +916,43 @@ export type ServerKeyCountType = {
   pqCount: number;
 };
 
+export type LinkDeviceOptionsType = Readonly<{
+  number: string;
+  verificationCode: string;
+  encryptedDeviceName?: string;
+  newPassword: string;
+  registrationId: number;
+  pniRegistrationId: number;
+  aciSignedPreKey: UploadSignedPreKeyType;
+  pniSignedPreKey: UploadSignedPreKeyType;
+  aciPqLastResortPreKey: UploadSignedPreKeyType;
+  pniPqLastResortPreKey: UploadSignedPreKeyType;
+}>;
+
+const createAccountResultZod = z.object({
+  uuid: aciSchema,
+  pni: untaggedPniSchema,
+});
+export type CreateAccountResultType = z.infer<typeof createAccountResultZod>;
+
+const verificationSessionZod = z.object({
+  id: z.string(),
+  allowedToRequestCode: z.boolean(),
+  verified: z.boolean(),
+});
+
+export type RequestVerificationResultType = Readonly<{
+  sessionId: string;
+}>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
   cancelInflightRequests: (reason: string) => void;
   cdsLookup: (options: CdsLookupOptionsType) => Promise<CDSResponseType>;
-  confirmCode: (
-    options: ConfirmCodeOptionsType
-  ) => Promise<ConfirmCodeResultType>;
+  createAccount: (
+    options: CreateAccountOptionsType
+  ) => Promise<CreateAccountResultType>;
   createGroup: (
     group: Proto.IGroup,
     options: GroupCredentialsType
@@ -918,8 +971,15 @@ export type WebAPIType = {
       timeout?: number;
     }
   ) => Promise<Uint8Array>;
+  getAttachmentV2: (
+    cdnKey: string,
+    cdnNumber?: number,
+    options?: {
+      disableRetries?: boolean;
+      timeout?: number;
+    }
+  ) => Promise<Readable>;
   getAvatar: (path: string) => Promise<Uint8Array>;
-  getDevices: () => Promise<GetDevicesResultType>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
   getGroupFromLink: (
@@ -938,33 +998,33 @@ export type WebAPIType = {
     credentials: GroupCredentialsType
   ) => Promise<GroupLogResponseType>;
   getIceServers: () => Promise<GetIceServersResultType>;
-  getKeysForIdentifier: (
-    identifier: string,
+  getKeysForServiceId: (
+    serviceId: ServiceIdString,
     deviceId?: number
   ) => Promise<ServerKeysType>;
-  getKeysForIdentifierUnauth: (
-    identifier: string,
+  getKeysForServiceIdUnauth: (
+    serviceId: ServiceIdString,
     deviceId?: number,
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
-  getMyKeyCounts: (uuidKind: UUIDKind) => Promise<ServerKeyCountType>;
+  getMyKeyCounts: (serviceIdKind: ServiceIdKind) => Promise<ServerKeyCountType>;
   getOnboardingStoryManifest: () => Promise<{
     version: string;
     languages: Record<string, Array<string>>;
   }>;
   getProfile: (
-    identifier: string,
+    serviceId: ServiceIdString,
     options: GetProfileOptionsType
   ) => Promise<ProfileType>;
   getAccountForUsername: (
     options: GetAccountForUsernameOptionsType
   ) => Promise<GetAccountForUsernameResultType>;
   getProfileUnauth: (
-    identifier: string,
+    serviceId: ServiceIdString,
     options: GetProfileUnauthOptionsType
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
-  getBoostBadgesFromServer: (
+  getSubscriptionConfiguration: (
     userLanguages: ReadonlyArray<string>
   ) => Promise<unknown>;
   getProvisioningResource: (
@@ -987,6 +1047,7 @@ export type WebAPIType = {
     href: string,
     abortSignal: AbortSignal
   ) => Promise<null | linkPreviewFetch.LinkPreviewImage>;
+  linkDevice: (options: LinkDeviceOptionsType) => Promise<LinkDeviceResultType>;
   makeProxiedRequest: (
     targetUrl: string,
     options?: ProxiedRequestOptionsType
@@ -1004,8 +1065,8 @@ export type WebAPIType = {
   ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   postBatchIdentityCheck: (
-    elements: VerifyAciRequestType
-  ) => Promise<VerifyAciResponseType>;
+    elements: VerifyServiceIdRequestType
+  ) => Promise<VerifyServiceIdResponseType>;
   putEncryptedAttachment: (encryptedBin: Uint8Array) => Promise<string>;
   putProfile: (
     jsonData: ProfileRequestDataType
@@ -1029,20 +1090,26 @@ export type WebAPIType = {
     serverId: string
   ) => Promise<ResolveUsernameLinkResultType>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
-  registerKeys: (genKeys: UploadKeysType, uuidKind: UUIDKind) => Promise<void>;
+  registerKeys: (
+    genKeys: UploadKeysType,
+    serviceIdKind: ServiceIdKind
+  ) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
   reportMessage: (options: ReportMessageOptionsType) => Promise<void>;
-  requestVerificationSMS: (number: string, token: string) => Promise<void>;
-  requestVerificationVoice: (number: string, token: string) => Promise<void>;
-  checkAccountExistence: (uuid: UUID) => Promise<boolean>;
+  requestVerification: (
+    number: string,
+    captcha: string,
+    transport: VerificationTransport
+  ) => Promise<RequestVerificationResultType>;
+  checkAccountExistence: (serviceId: ServiceIdString) => Promise<boolean>;
   sendMessages: (
-    destination: string,
+    destination: ServiceIdString,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     options: { online?: boolean; story?: boolean; urgent?: boolean }
   ) => Promise<void>;
   sendMessagesUnauth: (
-    destination: string,
+    destination: ServiceIdString,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     options: {
@@ -1097,6 +1164,12 @@ export type UploadPreKeyType = {
   publicKey: Uint8Array;
 };
 export type UploadKyberPreKeyType = UploadSignedPreKeyType;
+
+type SerializedSignedPreKeyType = Readonly<{
+  keyId: number;
+  publicKey: string;
+  signature: string;
+}>;
 
 export type UploadKeysType = {
   identityKey: Uint8Array;
@@ -1296,7 +1369,7 @@ export function initialize({
 
     let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
     if (proxyUrl) {
-      const agent = new ProxyAgent(proxyUrl);
+      const agent = createProxyAgent(proxyUrl);
       fetchForLinkPreviews = (href, init) => fetch(href, { ...init, agent });
     } else {
       fetchForLinkPreviews = fetch;
@@ -1309,7 +1382,7 @@ export function initialize({
       cdsLookup,
       checkAccountExistence,
       checkSockets,
-      confirmCode,
+      createAccount,
       confirmUsername,
       createGroup,
       deleteUsername,
@@ -1322,11 +1395,10 @@ export function initialize({
       getArtAuth,
       getArtProvisioningSocket,
       getAttachment,
+      getAttachmentV2,
       getAvatar,
       getBadgeImageFile,
-      getBoostBadgesFromServer,
       getConfig,
-      getDevices,
       getGroup,
       getGroupAvatar,
       getGroupCredentials,
@@ -1335,8 +1407,8 @@ export function initialize({
       getGroupLog,
       getHasSubscription,
       getIceServers,
-      getKeysForIdentifier,
-      getKeysForIdentifierUnauth,
+      getKeysForServiceId,
+      getKeysForServiceIdUnauth,
       getMyKeyCounts,
       getOnboardingStoryManifest,
       getProfile,
@@ -1349,6 +1421,8 @@ export function initialize({
       getStorageCredentials,
       getStorageManifest,
       getStorageRecords,
+      getSubscriptionConfiguration,
+      linkDevice,
       logout,
       makeProxiedRequest,
       makeSfuRequest,
@@ -1369,8 +1443,7 @@ export function initialize({
       resolveUsernameLink,
       replaceUsernameLink,
       reportMessage,
-      requestVerificationSMS,
-      requestVerificationVoice,
+      requestVerification,
       reserveUsername,
       sendChallengeResponse,
       sendMessages,
@@ -1458,14 +1531,30 @@ export function initialize({
       }
     }
 
-    function uuidKindToQuery(kind: UUIDKind): string {
+    function serializeSignedPreKey(
+      preKey?: UploadSignedPreKeyType
+    ): SerializedSignedPreKeyType | undefined {
+      if (preKey == null) {
+        return undefined;
+      }
+
+      const { keyId, publicKey, signature } = preKey;
+
+      return {
+        keyId,
+        publicKey: Bytes.toBase64(publicKey),
+        signature: Bytes.toBase64(signature),
+      };
+    }
+
+    function serviceIdKindToQuery(kind: ServiceIdKind): string {
       let value: string;
-      if (kind === UUIDKind.ACI) {
+      if (kind === ServiceIdKind.ACI) {
         value = 'aci';
-      } else if (kind === UUIDKind.PNI) {
+      } else if (kind === ServiceIdKind.PNI) {
         value = 'pni';
       } else {
-        throw new Error(`Unsupported UUIDKind: ${kind}`);
+        throw new Error(`Unsupported ServiceIdKind: ${kind}`);
       }
       return `identity=${value}`;
     }
@@ -1676,7 +1765,9 @@ export function initialize({
       });
     }
 
-    async function postBatchIdentityCheck(elements: VerifyAciRequestType) {
+    async function postBatchIdentityCheck(
+      elements: VerifyServiceIdRequestType
+    ) {
       const res = await _ajax({
         data: JSON.stringify({ elements }),
         call: 'batchIdentityCheck',
@@ -1684,7 +1775,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      const result = verifyAciResponse.safeParse(res);
+      const result = verifyServiceIdResponse.safeParse(res);
 
       if (result.success) {
         return result.data;
@@ -1699,13 +1790,13 @@ export function initialize({
     }
 
     function getProfileUrl(
-      identifier: string,
+      serviceId: ServiceIdString,
       {
         profileKeyVersion,
         profileKeyCredentialRequest,
       }: GetProfileCommonOptionsType
     ) {
-      let profileUrl = `/${identifier}`;
+      let profileUrl = `/${serviceId}`;
       if (profileKeyVersion !== undefined) {
         profileUrl += `/${profileKeyVersion}`;
         if (profileKeyCredentialRequest !== undefined) {
@@ -1724,7 +1815,7 @@ export function initialize({
     }
 
     async function getProfile(
-      identifier: string,
+      serviceId: ServiceIdString,
       options: GetProfileOptionsType
     ) {
       const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
@@ -1733,13 +1824,13 @@ export function initialize({
       return (await _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: getProfileUrl(identifier, options),
+        urlParameters: getProfileUrl(serviceId, options),
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
         },
         responseType: 'json',
         redactUrl: _createRedactor(
-          identifier,
+          serviceId,
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
@@ -1781,7 +1872,7 @@ export function initialize({
     }
 
     async function getProfileUnauth(
-      identifier: string,
+      serviceId: ServiceIdString,
       options: GetProfileUnauthOptionsType
     ) {
       const {
@@ -1794,7 +1885,7 @@ export function initialize({
       return (await _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: getProfileUrl(identifier, options),
+        urlParameters: getProfileUrl(serviceId, options),
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
         },
@@ -1802,7 +1893,7 @@ export function initialize({
         unauthenticated: true,
         accessKey,
         redactUrl: _createRedactor(
-          identifier,
+          serviceId,
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
@@ -1859,11 +1950,11 @@ export function initialize({
       );
     }
 
-    async function getBoostBadgesFromServer(
+    async function getSubscriptionConfiguration(
       userLanguages: ReadonlyArray<string>
     ): Promise<unknown> {
       return _ajax({
-        call: 'boostBadges',
+        call: 'subscriptionConfiguration',
         httpType: 'GET',
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
@@ -1976,7 +2067,7 @@ export function initialize({
     }
 
     async function reportMessage({
-      senderUuid,
+      senderAci,
       serverGuid,
       token,
     }: ReportMessageOptionsType): Promise<void> {
@@ -1985,34 +2076,78 @@ export function initialize({
       await _ajax({
         call: 'reportMessage',
         httpType: 'POST',
-        urlParameters: urlPathFromComponents([senderUuid, serverGuid]),
+        urlParameters: urlPathFromComponents([senderAci, serverGuid]),
         responseType: 'bytes',
         jsonData,
       });
     }
 
-    async function requestVerificationSMS(number: string, token: string) {
-      await _ajax({
-        call: 'accounts',
-        httpType: 'GET',
-        urlParameters: `/sms/code/${number}?captcha=${token}`,
-      });
+    async function requestVerification(
+      number: string,
+      captcha: string,
+      transport: VerificationTransport
+    ) {
+      // Create a new blank session using just a E164
+      let session = verificationSessionZod.parse(
+        await _ajax({
+          call: 'verificationSession',
+          httpType: 'POST',
+          responseType: 'json',
+          jsonData: {
+            number,
+          },
+          unauthenticated: true,
+          accessKey: undefined,
+        })
+      );
+
+      // Submit a captcha solution to the session
+      session = verificationSessionZod.parse(
+        await _ajax({
+          call: 'verificationSession',
+          httpType: 'PATCH',
+          urlParameters: `/${encodeURIComponent(session.id)}`,
+          responseType: 'json',
+          jsonData: {
+            captcha,
+          },
+          unauthenticated: true,
+          accessKey: undefined,
+        })
+      );
+
+      // Verify that captcha was accepted
+      if (!session.allowedToRequestCode) {
+        throw new Error('requestVerification: Not allowed to send code');
+      }
+
+      // Request an SMS or Voice confirmation
+      session = verificationSessionZod.parse(
+        await _ajax({
+          call: 'verificationSession',
+          httpType: 'POST',
+          urlParameters: `/${encodeURIComponent(session.id)}/code`,
+          responseType: 'json',
+          jsonData: {
+            client: 'ios',
+            transport:
+              transport === VerificationTransport.SMS ? 'sms' : 'voice',
+          },
+          unauthenticated: true,
+          accessKey: undefined,
+        })
+      );
+
+      // Return sessionId to be used in `createAccount`
+      return { sessionId: session.id };
     }
 
-    async function requestVerificationVoice(number: string, token: string) {
-      await _ajax({
-        call: 'accounts',
-        httpType: 'GET',
-        urlParameters: `/voice/code/${number}?captcha=${token}`,
-      });
-    }
-
-    async function checkAccountExistence(uuid: UUID) {
+    async function checkAccountExistence(serviceId: ServiceIdString) {
       try {
         await _ajax({
           httpType: 'HEAD',
           call: 'accountExistence',
-          urlParameters: `/${uuid.toString()}`,
+          urlParameters: `/${serviceId}`,
           unauthenticated: true,
           accessKey: undefined,
         });
@@ -2051,58 +2186,151 @@ export function initialize({
       current.resolve();
     }
 
-    async function confirmCode({
-      number,
-      code,
-      newPassword,
-      registrationId,
-      pniRegistrationId,
-      deviceName,
-      accessKey,
-    }: ConfirmCodeOptionsType) {
-      const capabilities: CapabilitiesUploadType = {
-        pni: isPnpEnabled(),
-      };
-
-      const jsonData = {
-        capabilities,
-        fetchesMessages: true,
-        name: deviceName || undefined,
-        registrationId,
-        pniRegistrationId,
-        supportsSms: false,
-        unidentifiedAccessKey: accessKey
-          ? Bytes.toBase64(accessKey)
-          : undefined,
-        unrestrictedUnidentifiedAccess: false,
-      };
-
-      const call = deviceName ? 'devices' : 'accounts';
-      const urlPrefix = deviceName ? '/' : '/code/';
-
+    async function _withNewCredentials<
+      Result extends { uuid: AciString; deviceId?: number }
+    >(
+      { username: newUsername, password: newPassword }: WebAPICredentials,
+      callback: () => Promise<Result>
+    ): Promise<Result> {
       // Reset old websocket credentials and disconnect.
       // AccountManager is our only caller and it will trigger
       // `registration_done` which will update credentials.
       await logout();
 
       // Update REST credentials, though. We need them for the call below
-      username = number;
+      username = newUsername;
       password = newPassword;
 
-      const response = (await _ajax({
-        isRegistration: true,
-        call,
-        httpType: 'PUT',
-        responseType: 'json',
-        urlParameters: urlPrefix + code,
-        jsonData,
-      })) as ConfirmCodeResultType;
+      const result = await callback();
+
+      const { uuid: aci = newUsername, deviceId = 1 } = result;
 
       // Set final REST credentials to let `registerKeys` succeed.
-      username = `${response.uuid || number}.${response.deviceId || 1}`;
+      username = `${aci}.${deviceId}`;
       password = newPassword;
 
-      return response;
+      return result;
+    }
+
+    async function createAccount({
+      sessionId,
+      number,
+      code,
+      newPassword,
+      registrationId,
+      pniRegistrationId,
+      accessKey,
+      aciPublicKey,
+      pniPublicKey,
+      aciSignedPreKey,
+      pniSignedPreKey,
+      aciPqLastResortPreKey,
+      pniPqLastResortPreKey,
+    }: CreateAccountOptionsType) {
+      const session = verificationSessionZod.parse(
+        await _ajax({
+          isRegistration: true,
+          call: 'verificationSession',
+          httpType: 'PUT',
+          urlParameters: `/${encodeURIComponent(sessionId)}/code`,
+          responseType: 'json',
+          jsonData: {
+            code,
+          },
+          unauthenticated: true,
+          accessKey: undefined,
+        })
+      );
+
+      if (!session.verified) {
+        throw new Error('createAccount: invalid code');
+      }
+
+      const jsonData = {
+        sessionId: session.id,
+        accountAttributes: {
+          fetchesMessages: true,
+          registrationId,
+          pniRegistrationId,
+          capabilities: {
+            pni: true,
+          },
+          unidentifiedAccessKey: Bytes.toBase64(accessKey),
+        },
+        requireAtomic: true,
+        skipDeviceTransfer: true,
+        aciIdentityKey: Bytes.toBase64(aciPublicKey),
+        pniIdentityKey: Bytes.toBase64(pniPublicKey),
+        aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
+        pniSignedPreKey: serializeSignedPreKey(pniSignedPreKey),
+        aciPqLastResortPreKey: serializeSignedPreKey(aciPqLastResortPreKey),
+        pniPqLastResortPreKey: serializeSignedPreKey(pniPqLastResortPreKey),
+      };
+
+      return _withNewCredentials(
+        {
+          username: number,
+          password: newPassword,
+        },
+        async () => {
+          const responseJson = await _ajax({
+            isRegistration: true,
+            call: 'registration',
+            httpType: 'POST',
+            responseType: 'json',
+            jsonData,
+          });
+
+          return createAccountResultZod.parse(responseJson);
+        }
+      );
+    }
+
+    async function linkDevice({
+      number,
+      verificationCode,
+      encryptedDeviceName,
+      newPassword,
+      registrationId,
+      pniRegistrationId,
+      aciSignedPreKey,
+      pniSignedPreKey,
+      aciPqLastResortPreKey,
+      pniPqLastResortPreKey,
+    }: LinkDeviceOptionsType) {
+      const jsonData = {
+        verificationCode,
+        accountAttributes: {
+          fetchesMessages: true,
+          name: encryptedDeviceName,
+          registrationId,
+          pniRegistrationId,
+          capabilities: {
+            pni: true,
+          },
+        },
+        aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
+        pniSignedPreKey: serializeSignedPreKey(pniSignedPreKey),
+        aciPqLastResortPreKey: serializeSignedPreKey(aciPqLastResortPreKey),
+        pniPqLastResortPreKey: serializeSignedPreKey(pniPqLastResortPreKey),
+      };
+      return _withNewCredentials(
+        {
+          username: number,
+          password: newPassword,
+        },
+        async () => {
+          const responseJson = await _ajax({
+            isRegistration: true,
+            call: 'linkDevice',
+            httpType: 'PUT',
+            responseType: 'json',
+            jsonData,
+          });
+
+          return linkDeviceResultZod.parse(responseJson);
+        }
+      );
     }
 
     async function updateDeviceName(deviceName: string) {
@@ -2121,14 +2349,6 @@ export function initialize({
         httpType: 'GET',
         responseType: 'json',
       })) as GetIceServersResultType;
-    }
-
-    async function getDevices() {
-      return (await _ajax({
-        call: 'devices',
-        httpType: 'GET',
-        responseType: 'json',
-      })) as GetDevicesResultType;
     }
 
     type JSONSignedPreKeyType = {
@@ -2154,7 +2374,10 @@ export function initialize({
       signedPreKey?: JSONSignedPreKeyType;
     };
 
-    async function registerKeys(genKeys: UploadKeysType, uuidKind: UUIDKind) {
+    async function registerKeys(
+      genKeys: UploadKeysType,
+      serviceIdKind: ServiceIdKind
+    ) {
       const preKeys = genKeys.preKeys?.map(key => ({
         keyId: key.keyId,
         publicKey: Bytes.toBase64(key.publicKey),
@@ -2186,30 +2409,14 @@ export function initialize({
         identityKey: Bytes.toBase64(genKeys.identityKey),
         preKeys,
         pqPreKeys,
-        ...(genKeys.pqLastResortPreKey
-          ? {
-              pqLastResortPreKey: {
-                keyId: genKeys.pqLastResortPreKey.keyId,
-                publicKey: Bytes.toBase64(genKeys.pqLastResortPreKey.publicKey),
-                signature: Bytes.toBase64(genKeys.pqLastResortPreKey.signature),
-              },
-            }
-          : null),
-        ...(genKeys.signedPreKey
-          ? {
-              signedPreKey: {
-                keyId: genKeys.signedPreKey.keyId,
-                publicKey: Bytes.toBase64(genKeys.signedPreKey.publicKey),
-                signature: Bytes.toBase64(genKeys.signedPreKey.signature),
-              },
-            }
-          : null),
+        pqLastResortPreKey: serializeSignedPreKey(genKeys.pqLastResortPreKey),
+        signedPreKey: serializeSignedPreKey(genKeys.signedPreKey),
       };
 
       await _ajax({
         isRegistration: true,
         call: 'keys',
-        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
+        urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
         httpType: 'PUT',
         jsonData: keys,
       });
@@ -2226,11 +2433,11 @@ export function initialize({
     }
 
     async function getMyKeyCounts(
-      uuidKind: UUIDKind
+      serviceIdKind: ServiceIdKind
     ): Promise<ServerKeyCountType> {
       const result = (await _ajax({
         call: 'keys',
-        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
+        urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { count: 'number', pqCount: 'number' },
@@ -2325,26 +2532,29 @@ export function initialize({
       };
     }
 
-    async function getKeysForIdentifier(identifier: string, deviceId?: number) {
+    async function getKeysForServiceId(
+      serviceId: ServiceIdString,
+      deviceId?: number
+    ) {
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId || '*'}?pq=true`,
+        urlParameters: `/${serviceId}/${deviceId || '*'}?pq=true`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
       })) as ServerKeyResponseType;
       return handleKeys(keys);
     }
 
-    async function getKeysForIdentifierUnauth(
-      identifier: string,
+    async function getKeysForServiceIdUnauth(
+      serviceId: ServiceIdString,
       deviceId?: number,
       { accessKey }: { accessKey?: string } = {}
     ) {
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId || '*'}?pq=true`,
+        urlParameters: `/${serviceId}/${deviceId || '*'}?pq=true`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,
@@ -2354,7 +2564,7 @@ export function initialize({
     }
 
     async function sendMessagesUnauth(
-      destination: string,
+      destination: ServiceIdString,
       messages: ReadonlyArray<MessageType>,
       timestamp: number,
       {
@@ -2388,7 +2598,7 @@ export function initialize({
     }
 
     async function sendMessages(
-      destination: string,
+      destination: ServiceIdString,
       messages: ReadonlyArray<MessageType>,
       timestamp: number,
       {
@@ -2676,6 +2886,61 @@ export function initialize({
       }
     }
 
+    async function getAttachmentV2(
+      cdnKey: string,
+      cdnNumber?: number,
+      options?: {
+        disableRetries?: boolean;
+        timeout?: number;
+      }
+    ): Promise<Readable> {
+      const abortController = new AbortController();
+
+      const cdnUrl = isNumber(cdnNumber)
+        ? cdnUrlObject[cdnNumber] ?? cdnUrlObject['0']
+        : cdnUrlObject['0'];
+      // This is going to the CDN, not the service, so we use _outerAjax
+      const downloadStream = await _outerAjax(
+        `${cdnUrl}/attachments/${cdnKey}`,
+        {
+          certificateAuthority,
+          disableRetries: options?.disableRetries,
+          proxyUrl,
+          responseType: 'stream',
+          timeout: options?.timeout || 0,
+          type: 'GET',
+          redactUrl: _createRedactor(cdnKey),
+          version,
+          abortSignal: abortController.signal,
+        }
+      );
+
+      const timeoutStream = getTimeoutStream({
+        name: `getAttachment(${cdnKey})`,
+        timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
+        abortController,
+      });
+
+      const combinedStream = downloadStream
+        // We do this manually; pipe() doesn't flow errors through the streams for us
+        .on('error', (error: Error) => {
+          timeoutStream.emit('error', error);
+        })
+        .pipe(timeoutStream);
+
+      const cancelRequest = (error: Error) => {
+        combinedStream.emit('error', error);
+        abortController.abort();
+      };
+      registerInflightRequest(cancelRequest);
+
+      combinedStream.on('done', () => {
+        unregisterInFlightRequest(cancelRequest);
+      });
+
+      return combinedStream;
+    }
+
     async function putEncryptedAttachment(encryptedBin: Uint8Array) {
       const response = attachmentV3Response.parse(
         await _ajax({
@@ -2721,6 +2986,12 @@ export function initialize({
         type: 'PUT',
         version,
         data: encryptedBin,
+        redactUrl: () => {
+          const tmp = new URL(uploadLocation);
+          tmp.search = '';
+          tmp.pathname = '';
+          return `${tmp}[REDACTED]`;
+        },
       });
 
       return cdnKey;
@@ -2853,7 +3124,8 @@ export function initialize({
         call: 'getGroupCredentials',
         urlParameters:
           `?redemptionStartSeconds=${startDayInSeconds}&` +
-          `redemptionEndSeconds=${endDayInSeconds}`,
+          `redemptionEndSeconds=${endDayInSeconds}&` +
+          'pniAsServiceId=true',
         httpType: 'GET',
         responseType: 'json',
       })) as CredentialResponseType;
@@ -3118,7 +3390,7 @@ export function initialize({
         return getGroupLog(
           {
             ...options,
-            startVersion: joinedAtVersion,
+            startVersion: joinedAtVersion ?? 0,
           },
           credentials
         );
@@ -3207,14 +3479,12 @@ export function initialize({
 
     async function cdsLookup({
       e164s,
-      acis = [],
-      accessKeys = [],
+      acisAndAccessKeys = [],
       returnAcisWithoutUaks,
     }: CdsLookupOptionsType): Promise<CDSResponseType> {
       return cds.request({
         e164s,
-        acis,
-        accessKeys,
+        acisAndAccessKeys,
         returnAcisWithoutUaks,
       });
     }

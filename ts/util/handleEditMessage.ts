@@ -10,21 +10,35 @@ import type {
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as Edits from '../messageModifiers/Edits';
-import * as durations from './durations';
 import * as log from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import dataInterface from '../sql/Client';
 import { drop } from './drop';
 import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
+import { isAciString } from './isAciString';
 import { getMessageIdForLogging } from './idForLogging';
 import { hasErrors } from '../state/selectors/message';
 import { isIncoming, isOutgoing } from '../messages/helpers';
-import { isOlderThan } from './timestamp';
 import { isDirectConversation } from './whatTypeOfConversation';
+import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { modifyTargetMessage } from './modifyTargetMessage';
 
 const RECURSION_LIMIT = 15;
+
+function getAttachmentSignatureSafe(
+  attachment: AttachmentType
+): string | undefined {
+  try {
+    return getAttachmentSignature(attachment);
+  } catch {
+    log.warn(
+      'handleEditMessage: attachment was missing digest',
+      attachment.blurHash
+    );
+    return undefined;
+  }
+}
 
 export async function handleEditMessage(
   mainMessage: MessageAttributesType,
@@ -44,6 +58,15 @@ export async function handleEditMessage(
   }
 
   log.info(idLog);
+
+  // Use local aci for outgoing messages and sourceServiceId for incoming.
+  const senderAci = isOutgoing(mainMessage)
+    ? window.storage.user.getCheckedAci()
+    : mainMessage.sourceServiceId;
+  if (!isAciString(senderAci)) {
+    log.warn(`${idLog}: Cannot edit a message from PNI source`);
+    return;
+  }
 
   // Verify that we can safely apply an edit to this type of message
   if (mainMessage.deletedForEveryone) {
@@ -74,15 +97,16 @@ export async function handleEditMessage(
   if (
     serverTimestamp &&
     !isNoteToSelf &&
-    isOlderThan(serverTimestamp, durations.DAY)
+    isTooOldToModifyMessage(serverTimestamp, mainMessage)
   ) {
-    log.warn(`${idLog}: cannot edit message older than 24h`, serverTimestamp);
+    log.warn(`${idLog}: cannot edit message older than 48h`, serverTimestamp);
     return;
   }
 
-  const mainMessageModel = window.MessageController.register(
+  const mainMessageModel = window.MessageCache.__DEPRECATED$register(
     mainMessage.id,
-    mainMessage
+    mainMessage,
+    'handleEditMessage'
   );
 
   // Pull out the edit history from the main message. If this is the first edit
@@ -94,6 +118,7 @@ export async function handleEditMessage(
       bodyRanges: mainMessage.bodyRanges,
       preview: mainMessage.preview,
       quote: mainMessage.quote,
+      sendStateByConversationId: { ...mainMessage.sendStateByConversationId },
       timestamp: mainMessage.timestamp,
     },
   ];
@@ -118,7 +143,7 @@ export async function handleEditMessage(
   const quoteSignatures: Map<string, AttachmentType> = new Map();
 
   mainMessage.attachments?.forEach(attachment => {
-    const signature = getAttachmentSignature(attachment);
+    const signature = getAttachmentSignatureSafe(attachment);
     if (signature) {
       attachmentSignatures.set(signature, attachment);
     }
@@ -127,7 +152,7 @@ export async function handleEditMessage(
     if (!preview.image) {
       return;
     }
-    const signature = getAttachmentSignature(preview.image);
+    const signature = getAttachmentSignatureSafe(preview.image);
     if (signature) {
       previewSignatures.set(signature, preview);
     }
@@ -137,7 +162,7 @@ export async function handleEditMessage(
       if (!attachment.thumbnail) {
         continue;
       }
-      const signature = getAttachmentSignature(attachment.thumbnail);
+      const signature = getAttachmentSignatureSafe(attachment.thumbnail);
       if (signature) {
         quoteSignatures.set(signature, attachment);
       }
@@ -147,7 +172,7 @@ export async function handleEditMessage(
   let newAttachments = 0;
   const nextEditedMessageAttachments =
     upgradedEditedMessageData.attachments?.map(attachment => {
-      const signature = getAttachmentSignature(attachment);
+      const signature = getAttachmentSignatureSafe(attachment);
       const existingAttachment = signature
         ? attachmentSignatures.get(signature)
         : undefined;
@@ -167,7 +192,7 @@ export async function handleEditMessage(
         return preview;
       }
 
-      const signature = getAttachmentSignature(preview.image);
+      const signature = getAttachmentSignatureSafe(preview.image);
       const existingPreview = signature
         ? previewSignatures.get(signature)
         : undefined;
@@ -197,7 +222,7 @@ export async function handleEditMessage(
         if (!attachment.thumbnail) {
           return attachment;
         }
-        const signature = getAttachmentSignature(attachment.thumbnail);
+        const signature = getAttachmentSignatureSafe(attachment.thumbnail);
         const existingThumbnail = signature
           ? quoteSignatures.get(signature)
           : undefined;
@@ -224,6 +249,8 @@ export async function handleEditMessage(
     body: upgradedEditedMessageData.body,
     bodyRanges: upgradedEditedMessageData.bodyRanges,
     preview: nextEditedMessagePreview,
+    sendStateByConversationId:
+      upgradedEditedMessageData.sendStateByConversationId,
     timestamp: upgradedEditedMessageData.timestamp,
     quote: nextEditedMessageQuote,
   };
@@ -273,7 +300,7 @@ export async function handleEditMessage(
           messageId: mainMessage.id,
           conversationId: editAttributes.conversationId,
           senderE164: editAttributes.message.source,
-          senderUuid: editAttributes.message.sourceUuid,
+          senderAci,
           timestamp: editAttributes.message.timestamp,
           isDirectConversation: isDirectConversation(conversation.attributes),
         });
@@ -292,7 +319,7 @@ export async function handleEditMessage(
   drop(
     dataInterface.saveEditedMessage(
       mainMessageModel.attributes,
-      window.textsecure.storage.user.getCheckedUuid().toString(),
+      window.textsecure.storage.user.getCheckedAci(),
       {
         conversationId: editAttributes.conversationId,
         messageId: mainMessage.id,
@@ -313,7 +340,7 @@ export async function handleEditMessage(
     drop(mainMessageConversation.updateLastMessage());
     // Apply any other operations, excluding edits that target this message
     await modifyTargetMessage(mainMessageModel, mainMessageConversation, {
-      isFirstRun: true,
+      isFirstRun: false,
       skipEdits: true,
     });
   }

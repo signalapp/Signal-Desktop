@@ -34,7 +34,6 @@ export type EmojiPickDataType = {
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
-  readonly doSend?: () => unknown;
   readonly skinTone?: number;
   readonly onSetSkinTone?: (tone: number) => unknown;
   readonly recentEmojis?: ReadonlyArray<string>;
@@ -71,7 +70,6 @@ export const EmojiPicker = React.memo(
     (
       {
         i18n,
-        doSend,
         onPickEmoji,
         skinTone = 0,
         onSetSkinTone,
@@ -82,6 +80,8 @@ export const EmojiPicker = React.memo(
       }: Props,
       ref
     ) => {
+      const isRTL = i18n.getLocaleDirection() === 'rtl';
+
       const [firstRecent] = React.useState(recentEmojis);
       const [selectedCategory, setSelectedCategory] = React.useState<Category>(
         categories[0]
@@ -151,11 +151,7 @@ export const EmojiPicker = React.memo(
           const { shortName } = e.currentTarget.dataset;
           if ('key' in e) {
             if (e.key === 'Enter') {
-              if (doSend) {
-                doSend();
-                e.stopPropagation();
-                e.preventDefault();
-              } else if (shortName) {
+              if (shortName) {
                 onPickEmoji({ skinTone: selectedTone, shortName });
                 e.stopPropagation();
                 e.preventDefault();
@@ -167,7 +163,7 @@ export const EmojiPicker = React.memo(
             onPickEmoji({ skinTone: selectedTone, shortName });
           }
         },
-        [doSend, onPickEmoji, selectedTone]
+        [onPickEmoji, selectedTone]
       );
 
       // Handle key presses, particularly Escape
@@ -445,6 +441,8 @@ export const EmojiPicker = React.memo(
                       height={height}
                       columnCount={COL_COUNT}
                       columnWidth={38}
+                      // react-virtualized Grid default style has direction: 'ltr'
+                      style={{ direction: isRTL ? 'rtl' : 'ltr' }}
                       rowHeight={getRowHeight}
                       rowCount={rowCount}
                       cellRenderer={cellRenderer}

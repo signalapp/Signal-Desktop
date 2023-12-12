@@ -35,7 +35,7 @@ export function AttachmentSection({
           const { message, index, attachment } = mediaItem;
 
           const onClick = () => {
-            onItemClick({ type, message, attachment });
+            onItemClick({ type, message, attachment, index: mediaItem.index });
           };
 
           switch (type) {

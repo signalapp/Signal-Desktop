@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 
+import { action } from '@storybook/addon-actions';
 import enMessages from '../../_locales/en/messages.json';
 import { setupI18n } from '../util/setupI18n';
 import type { UsernameReservationType } from '../types/Username';
@@ -29,11 +30,9 @@ export default {
   argTypes: {
     currentUsername: {
       type: { name: 'string', required: false },
-      defaultValue: undefined,
     },
     state: {
       control: { type: 'radio' },
-      defaultValue: State.Open,
       options: {
         Open: State.Open,
         Closed: State.Closed,
@@ -43,7 +42,6 @@ export default {
     },
     error: {
       control: { type: 'radio' },
-      defaultValue: undefined,
       options: {
         None: undefined,
         NotEnoughCharacters: UsernameReservationError.NotEnoughCharacters,
@@ -54,26 +52,24 @@ export default {
         General: UsernameReservationError.General,
       },
     },
-    maxUsername: {
-      defaultValue: 20,
-    },
-    minUsername: {
-      defaultValue: 3,
-    },
-    discriminator: {
+    reservation: {
       type: { name: 'string', required: false },
-      defaultValue: undefined,
     },
-    i18n: {
-      defaultValue: i18n,
-    },
-    onClose: { action: true },
-    onError: { action: true },
-    setUsernameReservationError: { action: true },
-    reserveUsername: { action: true },
-    confirmUsername: { action: true },
   },
-} as Meta;
+  args: {
+    currentUsername: undefined,
+    state: State.Open,
+    error: undefined,
+    maxNickname: 20,
+    minNickname: 3,
+    reservation: undefined,
+    i18n,
+    onClose: action('onClose'),
+    setUsernameReservationError: action('setUsernameReservationError'),
+    reserveUsername: action('reserveUsername'),
+    confirmUsername: action('confirmUsername'),
+  },
+} satisfies Meta<PropsType>;
 
 type ArgsType = PropsType & {
   discriminator?: string;
@@ -81,7 +77,7 @@ type ArgsType = PropsType & {
 };
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<ArgsType> = args => {
+const Template: StoryFn<ArgsType> = args => {
   let { reservation } = args;
   if (!reservation && args.discriminator) {
     reservation = {
@@ -95,36 +91,22 @@ const Template: Story<ArgsType> = args => {
 
 export const WithoutUsername = Template.bind({});
 WithoutUsername.args = {};
-WithoutUsername.story = {
-  name: 'without current username',
-};
 
 export const WithUsername = Template.bind({});
-WithUsername.args = {};
-WithUsername.story = {
-  name: 'with current username',
-  args: {
-    currentUsername: 'signaluser.12',
-  },
+WithUsername.args = {
+  currentUsername: 'signaluser.12',
 };
 
 export const WithReservation = Template.bind({});
-WithReservation.args = {};
-WithReservation.story = {
-  name: 'with reservation',
-  args: {
-    currentUsername: 'reserved',
-    reservation: DEFAULT_RESERVATION,
-  },
+WithReservation.args = {
+  currentUsername: 'reserved',
+  reservation: DEFAULT_RESERVATION,
 };
 
 export const UsernameEditingConfirming = Template.bind({});
 UsernameEditingConfirming.args = {
   state: State.Confirming,
   currentUsername: 'signaluser.12',
-};
-UsernameEditingConfirming.story = {
-  name: 'Username editing, Confirming',
 };
 
 export const UsernameEditingUsernameTaken = Template.bind({});
@@ -133,18 +115,12 @@ UsernameEditingUsernameTaken.args = {
   error: UsernameReservationError.UsernameNotAvailable,
   currentUsername: 'signaluser.12',
 };
-UsernameEditingUsernameTaken.story = {
-  name: 'Username editing, username taken',
-};
 
 export const UsernameEditingUsernameWrongCharacters = Template.bind({});
 UsernameEditingUsernameWrongCharacters.args = {
   state: State.Open,
   error: UsernameReservationError.CheckCharacters,
   currentUsername: 'signaluser.12',
-};
-UsernameEditingUsernameWrongCharacters.story = {
-  name: 'Username editing, Wrong Characters',
 };
 
 export const UsernameEditingUsernameTooShort = Template.bind({});
@@ -153,16 +129,10 @@ UsernameEditingUsernameTooShort.args = {
   error: UsernameReservationError.NotEnoughCharacters,
   currentUsername: 'sig',
 };
-UsernameEditingUsernameTooShort.story = {
-  name: 'Username editing, username too short',
-};
 
 export const UsernameEditingGeneralError = Template.bind({});
 UsernameEditingGeneralError.args = {
   state: State.Open,
   error: UsernameReservationError.General,
   currentUsername: 'signaluser.12',
-};
-UsernameEditingGeneralError.story = {
-  name: 'Username editing, general error',
 };

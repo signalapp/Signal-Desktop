@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './IncomingCallBar';
 import { IncomingCallBar } from './IncomingCallBar';
 import { CallMode } from '../types/Calling';
 import { setupI18n } from '../util/setupI18n';
@@ -53,7 +54,7 @@ const groupConversation = getDefaultConversation({
 
 export default {
   title: 'Components/IncomingCallBar',
-};
+} satisfies Meta<PropsType>;
 
 export function IncomingDirectCallVideo(): JSX.Element {
   return (
@@ -66,10 +67,6 @@ export function IncomingDirectCallVideo(): JSX.Element {
   );
 }
 
-IncomingDirectCallVideo.story = {
-  name: 'Incoming direct call (video)',
-};
-
 export function IncomingDirectCallAudio(): JSX.Element {
   return (
     <IncomingCallBar
@@ -80,10 +77,6 @@ export function IncomingDirectCallAudio(): JSX.Element {
     />
   );
 }
-
-IncomingDirectCallAudio.story = {
-  name: 'Incoming direct call (audio)',
-};
 
 export function IncomingGroupCallOnlyCallingYou(): JSX.Element {
   return (
@@ -97,10 +90,6 @@ export function IncomingGroupCallOnlyCallingYou(): JSX.Element {
   );
 }
 
-IncomingGroupCallOnlyCallingYou.story = {
-  name: 'Incoming group call (only calling you)',
-};
-
 export function IncomingGroupCallCallingYouAnd1Other(): JSX.Element {
   return (
     <IncomingCallBar
@@ -112,10 +101,6 @@ export function IncomingGroupCallCallingYouAnd1Other(): JSX.Element {
     />
   );
 }
-
-IncomingGroupCallCallingYouAnd1Other.story = {
-  name: 'Incoming group call (calling you and 1 other)',
-};
 
 export function IncomingGroupCallCallingYouAnd2Others(): JSX.Element {
   return (
@@ -131,10 +116,6 @@ export function IncomingGroupCallCallingYouAnd2Others(): JSX.Element {
     />
   );
 }
-
-IncomingGroupCallCallingYouAnd2Others.story = {
-  name: 'Incoming group call (calling you and 2 others)',
-};
 
 export function IncomingGroupCallCallingYouAnd3Others(): JSX.Element {
   return (
@@ -152,10 +133,6 @@ export function IncomingGroupCallCallingYouAnd3Others(): JSX.Element {
   );
 }
 
-IncomingGroupCallCallingYouAnd3Others.story = {
-  name: 'Incoming group call (calling you and 3 others)',
-};
-
 export function IncomingGroupCallCallingYouAnd4Others(): JSX.Element {
   return (
     <IncomingCallBar
@@ -172,7 +149,3 @@ export function IncomingGroupCallCallingYouAnd4Others(): JSX.Element {
     />
   );
 }
-
-IncomingGroupCallCallingYouAnd4Others.story = {
-  name: 'Incoming group call (calling you and 4 others)',
-};

@@ -68,10 +68,18 @@ export function ToastManager({
     return <Toast onClose={hideToast}>{i18n('icu:unblockGroupToSend')}</Toast>;
   }
 
+  if (toastType === ToastType.CallHistoryCleared) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:CallsTab__ToastCallHistoryCleared')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CannotEditMessage) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:ToastManager__CannotEditMessage')}
+        {i18n('icu:ToastManager__CannotEditMessage_24')}
       </Toast>
     );
   }

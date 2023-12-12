@@ -14,7 +14,7 @@ export function isSignalConnection(
   return (
     isDirectConversation(conversation) &&
     (conversation.profileSharing || isInSystemContacts(conversation)) &&
-    conversation.uuid !== undefined &&
+    conversation.serviceId !== undefined &&
     !isConversationEverUnregistered(conversation)
   );
 }

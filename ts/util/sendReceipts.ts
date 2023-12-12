@@ -59,20 +59,20 @@ export async function sendReceipts({
 
   const receiptsBySenderId: Map<string, Array<Receipt>> = receipts.reduce(
     (result, receipt) => {
-      const { senderE164, senderUuid } = receipt;
-      if (!senderE164 && !senderUuid) {
-        log.error('no sender E164 or UUID. Skipping this receipt');
+      const { senderE164, senderAci } = receipt;
+      if (!senderE164 && !senderAci) {
+        log.error('no sender E164 or Service Id. Skipping this receipt');
         return result;
       }
 
       const sender = window.ConversationController.lookupOrCreate({
         e164: senderE164,
-        uuid: senderUuid,
+        serviceId: senderAci,
         reason: 'sendReceipts',
       });
       if (!sender) {
         throw new Error(
-          'no conversation found with that E164/UUID. Cannot send this receipt'
+          'no conversation found with that E164/Service Id. Cannot send this receipt'
         );
       }
 
@@ -131,10 +131,11 @@ export async function sendReceipts({
             receipt => receipt.isDirectConversation
           );
 
+          const senderAci = sender.getCheckedAci('sendReceipts');
+
           await handleMessageSend(
             messaging[methodName]({
-              senderE164: sender.get('e164'),
-              senderUuid: sender.get('uuid'),
+              senderAci,
               isDirectConversation,
               timestamps,
               options: sendOptions,

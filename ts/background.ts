@@ -3,10 +3,10 @@
 
 import { webFrame } from 'electron';
 import { isNumber, throttle, groupBy } from 'lodash';
-import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
+import { v4 as generateUuid } from 'uuid';
 
 import * as Registration from './util/registration';
 import MessageReceiver from './textsecure/MessageReceiver';
@@ -20,10 +20,7 @@ import createTaskWithTimeout, {
   resumeTasksWithTimeout,
   reportLongRunningTasks,
 } from './textsecure/TaskWithTimeout';
-import type {
-  MessageAttributesType,
-  ReactionAttributesType,
-} from './model-types.d';
+import type { MessageAttributesType } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
@@ -39,10 +36,8 @@ import { drop } from './util/drop';
 import { explodePromise } from './util/explodePromise';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
-import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
-import { isPnpEnabled } from './util/isPnpEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
@@ -56,7 +51,7 @@ import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
-import { optimizeFTS } from './services/ftsOptimizer';
+import { usernameIntegrity } from './services/usernameIntegrity';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -112,19 +107,16 @@ import { AppViewType } from './state/ducks/app';
 import type { BadgesStateType } from './state/ducks/badges';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
-import { actionCreators } from './state/actions';
 import * as Deletes from './messageModifiers/Deletes';
 import type { EditAttributesType } from './messageModifiers/Edits';
 import * as Edits from './messageModifiers/Edits';
-import {
-  MessageReceipts,
-  MessageReceiptType,
-} from './messageModifiers/MessageReceipts';
-import { MessageRequests } from './messageModifiers/MessageRequests';
-import { Reactions } from './messageModifiers/Reactions';
-import { ReadSyncs } from './messageModifiers/ReadSyncs';
-import { ViewSyncs } from './messageModifiers/ViewSyncs';
-import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
+import type { ReactionAttributesType } from './messageModifiers/Reactions';
+import * as MessageReceipts from './messageModifiers/MessageReceipts';
+import * as MessageRequests from './messageModifiers/MessageRequests';
+import * as Reactions from './messageModifiers/Reactions';
+import * as ReadSyncs from './messageModifiers/ReadSyncs';
+import * as ViewSyncs from './messageModifiers/ViewSyncs';
+import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs';
 import type { DeleteAttributesType } from './messageModifiers/Deletes';
 import type { MessageReceiptAttributesType } from './messageModifiers/MessageReceipts';
 import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests';
@@ -145,9 +137,10 @@ import {
 } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
-import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
-import { isValidUuid, UUIDKind, UUID } from './types/UUID';
-import type { TaggedUUIDStringType } from './types/UUID';
+import type { ServiceIdString } from './types/ServiceId';
+import { ServiceIdKind, isServiceIdString } from './types/ServiceId';
+import { isAciString } from './util/isAciString';
+import { normalizeAci } from './util/normalizeAci';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
@@ -158,7 +151,6 @@ import { startInteractionMode } from './services/InteractionMode';
 import type { MainWindowStatsType } from './windows/context';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
-import { getInitialState } from './state/getInitialState';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -167,8 +159,8 @@ import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
-import { downloadOnboardingStory } from './util/downloadOnboardingStory';
 import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
+import { initializeRedux } from './state/initializeRedux';
 import { StartupQueue } from './util/StartupQueue';
 import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
@@ -186,6 +178,16 @@ import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration'
 import { makeLookup } from './util/makeLookup';
 import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts';
 import { createEventHandler } from './quill/signal-clipboard/util';
+import { onCallLogEventSync } from './util/onCallLogEventSync';
+import {
+  getCallsHistoryForRedux,
+  loadCallsHistory,
+} from './services/callHistoryLoader';
+import {
+  getCallIdFromEra,
+  updateLocalGroupCallHistoryTimestamp,
+} from './util/callDisposition';
+import { deriveStorageServiceKey } from './Crypto';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -250,10 +252,6 @@ export async function startApp(): Promise<void> {
     });
     window.textsecure.server = server;
     window.textsecure.messaging = new window.textsecure.MessageSender(server);
-
-    initializeAllJobQueues({
-      server,
-    });
 
     challengeHandler = new ChallengeHandler({
       storage: window.storage,
@@ -434,6 +432,10 @@ export async function startApp(): Promise<void> {
       'callEventSync',
       queuedEventListener(onCallEventSync, false)
     );
+    messageReceiver.addEventListener(
+      'callLogEventSync',
+      queuedEventListener(onCallLogEventSync, false)
+    );
   });
 
   ourProfileKeyService.initialize(window.storage);
@@ -585,9 +587,10 @@ export async function startApp(): Promise<void> {
   window.textsecure.storage.protocol.on(
     'lowKeys',
     throttle(
-      (ourUuid: UUID) => {
-        const uuidKind = window.textsecure.storage.user.getOurUuidKind(ourUuid);
-        drop(window.getAccountManager().maybeUpdateKeys(uuidKind));
+      (ourServiceId: ServiceIdString) => {
+        const serviceIdKind =
+          window.textsecure.storage.user.getOurServiceIdKind(ourServiceId);
+        drop(window.getAccountManager().maybeUpdateKeys(serviceIdKind));
       },
       durations.MINUTE,
       { trailing: true, leading: false }
@@ -827,6 +830,14 @@ export async function startApp(): Promise<void> {
       );
     });
 
+    window.document.body.classList.add('window-focused');
+    window.addEventListener('focus', () => {
+      window.document.body.classList.add('window-focused');
+    });
+    window.addEventListener('blur', () =>
+      window.document.body.classList.remove('window-focused')
+    );
+
     // How long since we were last running?
     const lastHeartbeat = toDayMillis(window.storage.get('lastHeartbeat', 0));
     const previousLastStartup = window.storage.get('lastStartup');
@@ -837,7 +848,7 @@ export async function startApp(): Promise<void> {
       log.warn(
         `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
       );
-      await unlinkAndDisconnect(RemoveAllConfiguration.Soft);
+      await unlinkAndDisconnect();
     }
 
     // Start heartbeat timer
@@ -949,10 +960,14 @@ export async function startApp(): Promise<void> {
         await window.Signal.Data.removeAllProfileKeyCredentials();
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v6.38.0-beta.1')) {
+        await window.storage.remove('hasCompletedSafetyNumberOnboarding');
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v5.30.0-alpha')) {
         await deleteAllLogs();
-        window.IPC.restart();
+        window.SignalContext.restartApp();
         return;
       }
     }
@@ -965,10 +980,7 @@ export async function startApp(): Promise<void> {
     if (newVersion) {
       await window.Signal.Data.cleanupOrphanedAttachments();
 
-      optimizeFTS();
-
-      // Don't block on the following operation
-      void window.Signal.Data.ensureFilePermissions();
+      drop(window.Signal.Data.ensureFilePermissions());
     }
 
     setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);
@@ -1066,7 +1078,7 @@ export async function startApp(): Promise<void> {
           `retryPlaceholders/interval: Found ${expired.length} expired items`
         );
         expired.forEach(item => {
-          const { conversationId, senderUuid, sentAt } = item;
+          const { conversationId, senderAci, sentAt } = item;
           const conversation =
             window.ConversationController.get(conversationId);
           if (conversation) {
@@ -1077,7 +1089,7 @@ export async function startApp(): Promise<void> {
                 conversation.addDeliveryIssue({
                   receivedAt,
                   receivedAtCounter,
-                  senderUuid,
+                  senderAci,
                   sentAt,
                 })
               )
@@ -1121,6 +1133,7 @@ export async function startApp(): Promise<void> {
         loadInitialBadgesState(),
         loadStories(),
         loadDistributionLists(),
+        loadCallsHistory(),
         window.textsecure.storage.protocol.hydrateCaches(),
         (async () => {
           mainWindowStats = await window.SignalContext.getMainWindowStats();
@@ -1128,7 +1141,6 @@ export async function startApp(): Promise<void> {
         (async () => {
           menuOptions = await window.SignalContext.getMenuOptions();
         })(),
-        downloadOnboardingStory(),
       ]);
       await window.ConversationController.checkForConflicts();
     } catch (error) {
@@ -1137,7 +1149,7 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(error)
       );
     } finally {
-      initializeRedux({ mainWindowStats, menuOptions });
+      setupAppState({ mainWindowStats, menuOptions });
       drop(start());
       window.Signal.Services.initializeNetworkObserver(
         window.reduxActions.network
@@ -1159,84 +1171,24 @@ export async function startApp(): Promise<void> {
     }
   });
 
-  function initializeRedux({
+  function setupAppState({
     mainWindowStats,
     menuOptions,
   }: {
     mainWindowStats: MainWindowStatsType;
     menuOptions: MenuOptionsType;
   }) {
-    // Here we set up a full redux store with initial state for our LeftPane Root
-    const convoCollection = window.getConversations();
-    const initialState = getInitialState({
-      badges: initialBadgesState,
+    initializeRedux({
+      callsHistory: getCallsHistoryForRedux(),
+      initialBadgesState,
       mainWindowStats,
       menuOptions,
       stories: getStoriesForRedux(),
       storyDistributionLists: getDistributionListsForRedux(),
     });
 
-    const store = window.Signal.State.createStore(initialState);
-    window.reduxStore = store;
-
-    // Binding these actions to our redux store and exposing them allows us to update
-    //   redux when things change in the backbone world.
-    window.reduxActions = {
-      accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
-      app: bindActionCreators(actionCreators.app, store.dispatch),
-      audioPlayer: bindActionCreators(
-        actionCreators.audioPlayer,
-        store.dispatch
-      ),
-      audioRecorder: bindActionCreators(
-        actionCreators.audioRecorder,
-        store.dispatch
-      ),
-      badges: bindActionCreators(actionCreators.badges, store.dispatch),
-      calling: bindActionCreators(actionCreators.calling, store.dispatch),
-      composer: bindActionCreators(actionCreators.composer, store.dispatch),
-      conversations: bindActionCreators(
-        actionCreators.conversations,
-        store.dispatch
-      ),
-      crashReports: bindActionCreators(
-        actionCreators.crashReports,
-        store.dispatch
-      ),
-      inbox: bindActionCreators(actionCreators.inbox, store.dispatch),
-      emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
-      expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
-      globalModals: bindActionCreators(
-        actionCreators.globalModals,
-        store.dispatch
-      ),
-      items: bindActionCreators(actionCreators.items, store.dispatch),
-      lightbox: bindActionCreators(actionCreators.lightbox, store.dispatch),
-      linkPreviews: bindActionCreators(
-        actionCreators.linkPreviews,
-        store.dispatch
-      ),
-      mediaGallery: bindActionCreators(
-        actionCreators.mediaGallery,
-        store.dispatch
-      ),
-      network: bindActionCreators(actionCreators.network, store.dispatch),
-      safetyNumber: bindActionCreators(
-        actionCreators.safetyNumber,
-        store.dispatch
-      ),
-      search: bindActionCreators(actionCreators.search, store.dispatch),
-      stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
-      stories: bindActionCreators(actionCreators.stories, store.dispatch),
-      storyDistributionLists: bindActionCreators(
-        actionCreators.storyDistributionLists,
-        store.dispatch
-      ),
-      toast: bindActionCreators(actionCreators.toast, store.dispatch),
-      updates: bindActionCreators(actionCreators.updates, store.dispatch),
-      user: bindActionCreators(actionCreators.user, store.dispatch),
-      username: bindActionCreators(actionCreators.username, store.dispatch),
-    };
+    // Here we set up a full redux store with initial state for our LeftPane Root
+    const convoCollection = window.getConversations();
 
     const {
       conversationAdded,
@@ -1307,12 +1259,8 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.on('userChanged', (reconnect = false) => {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
-      const newACI = window.textsecure.storage.user
-        .getUuid(UUIDKind.ACI)
-        ?.toString();
-      const newPNI = window.textsecure.storage.user
-        .getUuid(UUIDKind.PNI)
-        ?.toString();
+      const newACI = window.textsecure.storage.user.getAci();
+      const newPNI = window.textsecure.storage.user.getPni();
       const ourConversation =
         window.ConversationController.getOurConversation();
 
@@ -1324,8 +1272,8 @@ export async function startApp(): Promise<void> {
         ourConversationId: ourConversation?.get('id'),
         ourDeviceId: newDeviceId,
         ourNumber: newNumber,
-        ourACI: newACI,
-        ourPNI: newPNI,
+        ourAci: newACI,
+        ourPni: newPNI,
         regionCode: window.storage.get('regionCode'),
       });
 
@@ -1394,31 +1342,20 @@ export async function startApp(): Promise<void> {
   });
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
-    void unlinkAndDisconnect(RemoveAllConfiguration.Full);
+    void unlinkAndDisconnect();
   });
 
   async function runStorageService() {
     StorageService.enableStorageService();
-
-    if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'background/runStorageService: We are primary device; not sending key sync request'
-      );
-      return;
-    }
-
-    try {
-      await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
-    } catch (error) {
-      log.error(
-        'runStorageService: Failed to queue sync message',
-        Errors.toLogFormat(error)
-      );
-    }
   }
 
   async function start() {
     // Storage is ready because `start()` is called from `storage.onready()`
+
+    strictAssert(server !== undefined, 'start: server not initialized');
+    initializeAllJobQueues({
+      server,
+    });
 
     strictAssert(challengeHandler, 'start: challengeHandler');
     await challengeHandler.load();
@@ -1449,7 +1386,7 @@ export async function startApp(): Promise<void> {
     log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
-    if (!window.textsecure.storage.user.getUuid()) {
+    if (!window.textsecure.storage.user.getAci()) {
       log.info(
         "Expiration start timestamp cleanup: Cancelling update; we don't have our own UUID"
       );
@@ -1480,25 +1417,25 @@ export async function startApp(): Promise<void> {
         });
 
       await window.Signal.Data.saveMessages(newMessageAttributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
 
     log.info('listening for registration events');
-    window.Whisper.events.on('registration_done', () => {
+    window.Whisper.events.on('registration_done', async () => {
       log.info('handling registration event');
 
       strictAssert(server !== undefined, 'WebAPI not ready');
-      void server.authenticate(
+      await server.authenticate(
         window.textsecure.storage.user.getWebAPICredentials()
       );
 
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
       window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
-      void window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
+      drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
 
-      void connect(true);
+      drop(connect(true));
     });
 
     cancelInitializationMessage();
@@ -1522,7 +1459,7 @@ export async function startApp(): Promise<void> {
     });
 
     const isCoreDataValid = Boolean(
-      window.textsecure.storage.user.getUuid() &&
+      window.textsecure.storage.user.getAci() &&
         window.ConversationController.getOurConversation()
     );
 
@@ -1640,6 +1577,10 @@ export async function startApp(): Promise<void> {
       log.warn('Already online. Had a blip in online/offline status.');
       Timers.clearTimeout(disconnectTimer);
       disconnectTimer = undefined;
+
+      if (challengeHandler) {
+        drop(challengeHandler.onOnline());
+      }
       return;
     }
     if (disconnectTimer) {
@@ -1840,9 +1781,9 @@ export async function startApp(): Promise<void> {
 
       const deviceId = window.textsecure.storage.user.getDeviceId();
 
-      if (!window.textsecure.storage.user.getUuid()) {
+      if (!window.textsecure.storage.user.getAci()) {
         log.error('UUID not captured during registration, unlinking');
-        return unlinkAndDisconnect(RemoveAllConfiguration.Full);
+        return unlinkAndDisconnect();
       }
 
       if (connectCount === 1) {
@@ -1850,7 +1791,7 @@ export async function startApp(): Promise<void> {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
           await server.registerCapabilities({
-            pni: isPnpEnabled(),
+            pni: true,
           });
         } catch (error) {
           log.error(
@@ -1860,12 +1801,32 @@ export async function startApp(): Promise<void> {
         }
       }
 
-      if (!window.textsecure.storage.user.getUuid(UUIDKind.PNI)) {
+      if (!window.textsecure.storage.user.getPni()) {
         log.error('PNI not captured during registration, unlinking softly');
-        return unlinkAndDisconnect(RemoveAllConfiguration.Soft);
+        return unlinkAndDisconnect();
       }
 
       if (firstRun === true && deviceId !== 1) {
+        if (!window.storage.get('masterKey')) {
+          const lastSent = window.storage.get('masterKeyLastRequestTime') ?? 0;
+          const now = Date.now();
+
+          // If we last attempted sync one day in the past, or if we time
+          // traveled.
+          if (isOlderThan(lastSent, DAY) || lastSent > now) {
+            log.warn('connect: masterKey not captured, requesting sync');
+            await singleProtoJobQueue.add(
+              MessageSender.getRequestKeySyncMessage()
+            );
+            await window.storage.put('masterKeyLastRequestTime', now);
+          } else {
+            log.warn(
+              'connect: masterKey not captured, but sync requested recently.' +
+                'Not running'
+            );
+          }
+        }
+
         const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
         if (
           !hasThemeSetting &&
@@ -1985,8 +1946,7 @@ export async function startApp(): Promise<void> {
         throw new Error('Expected challenge handler to be initialized');
       }
 
-      // Intentionally not awaiting
-      void challengeHandler.onOnline();
+      drop(challengeHandler.onOnline());
 
       reconnectBackOff.reset();
     } finally {
@@ -2092,6 +2052,8 @@ export async function startApp(): Promise<void> {
 
       void routineProfileRefresher.start();
     }
+
+    drop(usernameIntegrity.start());
   }
 
   let initialStartupCount = 0;
@@ -2155,7 +2117,7 @@ export async function startApp(): Promise<void> {
   function onTyping(ev: TypingEvent): void {
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
-    const { typing, sender, senderUuid, senderDevice } = ev;
+    const { typing, sender, senderAci, senderDevice } = ev;
     const { groupV2Id, started } = typing || {};
 
     // We don't do anything with incoming typing messages if the setting is disabled
@@ -2168,7 +2130,7 @@ export async function startApp(): Promise<void> {
     const { conversation: senderConversation } =
       window.ConversationController.maybeMergeContacts({
         e164: sender,
-        aci: senderUuid,
+        aci: senderAci,
         reason: `onTyping(${typing.timestamp})`,
       });
 
@@ -2187,19 +2149,19 @@ export async function startApp(): Promise<void> {
     }
     if (!conversation) {
       log.warn(
-        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), ${sender}, ${senderUuid})`
+        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), ${sender}, ${senderAci})`
       );
       return;
     }
 
-    const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
-    const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+    const ourAci = window.textsecure.storage.user.getAci();
+    const ourPni = window.textsecure.storage.user.getPni();
 
     // We drop typing notifications in groups we're not a part of
     if (
       !isDirectConversation(conversation.attributes) &&
-      !(ourACI && conversation.hasMember(ourACI)) &&
-      !(ourPNI && conversation.hasMember(ourPNI))
+      !(ourAci && conversation.hasMember(ourAci)) &&
+      !(ourPni && conversation.hasMember(ourPni))
     ) {
       log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
@@ -2338,12 +2300,15 @@ export async function startApp(): Promise<void> {
   }: EnvelopeUnsealedEvent): Promise<void> {
     throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
 
-    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-    if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
+    const ourAci = window.textsecure.storage.user.getAci();
+    if (
+      envelope.sourceServiceId !== ourAci &&
+      isAciString(envelope.sourceServiceId)
+    ) {
       const { mergePromises, conversation } =
         window.ConversationController.maybeMergeContacts({
           e164: envelope.source,
-          aci: envelope.sourceUuid,
+          aci: envelope.sourceServiceId,
           reason: `onEnvelopeUnsealed(${envelope.timestamp})`,
         });
 
@@ -2367,9 +2332,7 @@ export async function startApp(): Promise<void> {
       message: data.message,
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destination: data.source,
-      destinationUuid: {
-        aci: data.sourceUuid,
-      },
+      destinationServiceId: data.sourceAci,
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
@@ -2389,11 +2352,14 @@ export async function startApp(): Promise<void> {
       const sender = getContact(message.attributes);
       strictAssert(sender, 'MessageModel has no sender');
 
-      const uuidKind = window.textsecure.storage.user.getOurUuidKind(
-        new UUID(data.destinationUuid)
+      const serviceIdKind = window.textsecure.storage.user.getOurServiceIdKind(
+        data.destinationServiceId
       );
 
-      if (uuidKind === UUIDKind.PNI && !sender.get('shareMyPhoneNumber')) {
+      if (
+        serviceIdKind === ServiceIdKind.PNI &&
+        !sender.get('shareMyPhoneNumber')
+      ) {
         log.info(
           'onMessageReceived: setting shareMyPhoneNumber ' +
             `for ${sender.idForLogging()}`
@@ -2413,12 +2379,12 @@ export async function startApp(): Promise<void> {
 
     if (data.message.reaction) {
       strictAssert(
-        data.message.reaction.targetAuthorUuid,
-        'Reaction without targetAuthorUuid'
+        data.message.reaction.targetAuthorAci,
+        'Reaction without targetAuthorAci'
       );
-      const targetAuthorUuid = normalizeUuid(
-        data.message.reaction.targetAuthorUuid,
-        'DataMessage.Reaction.targetAuthorUuid'
+      const targetAuthorAci = normalizeAci(
+        data.message.reaction.targetAuthorAci,
+        'DataMessage.Reaction.targetAuthorAci'
       );
 
       const { reaction, timestamp } = data.message;
@@ -2433,29 +2399,29 @@ export async function startApp(): Promise<void> {
         reaction.targetTimestamp,
         'Reaction without targetTimestamp'
       );
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:reaction',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:reaction',
+        });
       strictAssert(fromConversation, 'Reaction without fromConversation');
 
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
         emoji: reaction.emoji,
         fromId: fromConversation.id,
         remove: reaction.remove,
         source: ReactionSource.FromSomeoneElse,
         storyReactionMessage: message,
-        targetAuthorUuid,
+        targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
-      const reactionModel = Reactions.getSingleton().add(attributes);
 
-      drop(Reactions.getSingleton().onReaction(reactionModel));
-
-      confirm();
+      drop(Reactions.onReaction(attributes));
       return;
     }
 
@@ -2468,11 +2434,12 @@ export async function startApp(): Promise<void> {
         'Delete missing targetSentTimestamp'
       );
       strictAssert(data.serverTimestamp, 'Delete missing serverTimestamp');
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:delete',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:delete',
+        });
       strictAssert(fromConversation, 'Delete missing fromConversation');
 
       const attributes: DeleteAttributesType = {
@@ -2491,11 +2458,12 @@ export async function startApp(): Promise<void> {
       const { editedMessageTimestamp } = data.message;
 
       strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:edit',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          aci: data.sourceAci,
+          e164: data.source,
+          reason: 'onMessageReceived:edit',
+        });
       strictAssert(fromConversation, 'Edit missing fromConversation');
 
       log.info('Queuing incoming edit for', {
@@ -2524,7 +2492,7 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    void message.handleDataMessage(data.message, event.confirm);
+    drop(message.handleDataMessage(data.message, event.confirm));
   }
 
   async function onProfileKeyUpdate({
@@ -2532,7 +2500,7 @@ export async function startApp(): Promise<void> {
     confirm,
   }: ProfileKeyUpdateEvent): Promise<void> {
     const { conversation } = window.ConversationController.maybeMergeContacts({
-      aci: data.sourceUuid,
+      aci: data.sourceAci,
       e164: data.source,
       reason: 'onProfileKeyUpdate',
     });
@@ -2545,7 +2513,7 @@ export async function startApp(): Promise<void> {
 
     log.info(
       'onProfileKeyUpdate: updating profileKey for',
-      data.sourceUuid,
+      data.sourceAci,
       data.source
     );
 
@@ -2602,10 +2570,10 @@ export async function startApp(): Promise<void> {
       unidentifiedStatus.reduce(
         (
           result: SendStateByConversationId,
-          { destinationUuid, destination, isAllowedToReplyToStory }
+          { destinationServiceId, destination, isAllowedToReplyToStory }
         ) => {
           const conversation = window.ConversationController.get(
-            destinationUuid?.aci || destinationUuid?.pni || destination
+            destinationServiceId || destination
           );
           if (!conversation || conversation.id === ourId) {
             return result;
@@ -2632,17 +2600,12 @@ export async function startApp(): Promise<void> {
     if (unidentifiedStatus.length) {
       unidentifiedDeliveries = unidentifiedStatus
         .filter(item => Boolean(item.unidentified))
-        .map(
-          item =>
-            item.destinationUuid?.aci ||
-            item.destinationUuid?.pni ||
-            item.destination
-        )
+        .map(item => item.destinationServiceId || item.destination)
         .filter(isNotNil);
     }
 
     const partialMessage: MessageAttributesType = {
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -2660,7 +2623,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: window.textsecure.storage.user.getNumber(),
       sourceDevice: data.device,
-      sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
+      sourceServiceId: window.textsecure.storage.user.getAci(),
       timestamp,
       type: data.message.isStory ? 'story' : 'outgoing',
       storyDistributionListId: data.storyDistributionListId,
@@ -2674,11 +2637,11 @@ export async function startApp(): Promise<void> {
   const getMessageDescriptor = ({
     message,
     destination,
-    destinationUuid,
+    destinationServiceId,
   }: {
     message: ProcessedDataMessage;
     destination?: string;
-    destinationUuid?: TaggedUUIDStringType;
+    destinationServiceId?: ServiceIdString;
   }): MessageDescriptor => {
     if (message.groupV2) {
       const { id } = message.groupV2;
@@ -2719,7 +2682,7 @@ export async function startApp(): Promise<void> {
     }
 
     const conversation = window.ConversationController.get(
-      destinationUuid?.aci || destinationUuid?.pni || destination
+      destinationServiceId || destination
     );
     strictAssert(conversation, 'Destination conversation cannot be created');
 
@@ -2736,8 +2699,8 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const source = window.textsecure.storage.user.getNumber();
-    const sourceUuid = window.textsecure.storage.user.getUuid()?.toString();
-    strictAssert(source && sourceUuid, 'Missing user number and uuid');
+    const sourceServiceId = window.textsecure.storage.user.getAci();
+    strictAssert(source && sourceServiceId, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
       ...data,
@@ -2758,42 +2721,40 @@ export async function startApp(): Promise<void> {
 
     if (data.message.reaction) {
       strictAssert(
-        data.message.reaction.targetAuthorUuid,
-        'Reaction without targetAuthorUuid'
+        data.message.reaction.targetAuthorAci,
+        'Reaction without targetAuthorAci'
       );
-      const targetAuthorUuid = normalizeUuid(
-        data.message.reaction.targetAuthorUuid,
-        'DataMessage.Reaction.targetAuthorUuid'
+      const targetAuthorAci = normalizeAci(
+        data.message.reaction.targetAuthorAci,
+        'DataMessage.Reaction.targetAuthorAci'
       );
 
       const { reaction, timestamp } = data.message;
       strictAssert(
         reaction.targetTimestamp,
-        'Reaction without targetAuthorUuid'
+        'Reaction without targetAuthorAci'
       );
 
       if (!isValidReactionEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
-        event.confirm();
+        confirm();
         return;
       }
 
       log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
         emoji: reaction.emoji,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
         remove: reaction.remove,
         source: ReactionSource.FromSync,
         storyReactionMessage: message,
-        targetAuthorUuid,
+        targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
-      const reactionModel = Reactions.getSingleton().add(attributes);
-
-      drop(Reactions.getSingleton().onReaction(reactionModel));
-
-      event.confirm();
+      drop(Reactions.onReaction(attributes));
       return;
     }
 
@@ -2848,9 +2809,11 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    void message.handleDataMessage(data.message, event.confirm, {
-      data,
-    });
+    drop(
+      message.handleDataMessage(data.message, event.confirm, {
+        data,
+      })
+    );
   }
 
   type MessageDescriptor = {
@@ -2867,7 +2830,7 @@ export async function startApp(): Promise<void> {
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
     const partialMessage: MessageAttributesType = {
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -2881,7 +2844,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: data.source,
       sourceDevice: data.sourceDevice,
-      sourceUuid: data.sourceUuid ? UUID.cast(data.sourceUuid) : undefined,
+      sourceServiceId: data.sourceAci,
       timestamp: data.timestamp,
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
@@ -2896,9 +2859,29 @@ export async function startApp(): Promise<void> {
   ): boolean {
     if (message.groupCallUpdate) {
       if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
+        const conversationId = messageDescriptor.id;
+        const callId =
+          message.groupCallUpdate?.eraId != null
+            ? getCallIdFromEra(message.groupCallUpdate.eraId)
+            : null;
+        log.info(
+          'handleGroupCallUpdateMessage',
+          message.timestamp,
+          callId,
+          conversationId
+        );
         window.reduxActions.calling.peekNotConnectedGroupCall({
-          conversationId: messageDescriptor.id,
+          conversationId,
         });
+        if (callId != null) {
+          drop(
+            updateLocalGroupCallHistoryTimestamp(
+              conversationId,
+              callId,
+              message.timestamp
+            )
+          );
+        }
         return true;
       }
       log.warn(
@@ -2908,9 +2891,7 @@ export async function startApp(): Promise<void> {
     return false;
   }
 
-  async function unlinkAndDisconnect(
-    mode: RemoveAllConfiguration
-  ): Promise<void> {
+  async function unlinkAndDisconnect(): Promise<void> {
     window.Whisper.events.trigger('unauthorized');
 
     log.warn(
@@ -2950,15 +2931,21 @@ export async function startApp(): Promise<void> {
     );
 
     try {
-      log.info(`unlinkAndDisconnect: removing configuration, mode ${mode}`);
-      await window.textsecure.storage.protocol.removeAllConfiguration(mode);
+      log.info('unlinkAndDisconnect: removing configuration');
 
-      // This was already done in the database with removeAllConfiguration; this does it
-      //   for all the conversation models in memory.
+      // First, make changes to conversations in memory
       window.getConversations().forEach(conversation => {
-        // eslint-disable-next-line no-param-reassign
-        delete conversation.attributes.senderKeyInfo;
+        conversation.unset('senderKeyInfo');
       });
+
+      // Then make sure outstanding conversation saves are flushed
+      await window.Signal.Data.flushUpdateConversationBatcher();
+
+      // Then make sure that all previously-outstanding database saves are flushed
+      await window.Signal.Data.getItemById('manifestVersion');
+
+      // Finally, conversations in the database, and delete all config tables
+      await window.textsecure.storage.protocol.removeAllConfiguration();
 
       // These three bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
@@ -2988,6 +2975,9 @@ export async function startApp(): Promise<void> {
       }
       await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
+      // Re-hydrate items from memory; removeAllConfiguration above changed database
+      await window.storage.fetch();
+
       log.info('unlinkAndDisconnect: Successfully cleared local configuration');
     } catch (eraseError) {
       log.error(
@@ -3008,7 +2998,7 @@ export async function startApp(): Promise<void> {
       error instanceof HTTPError &&
       (error.code === 401 || error.code === 403)
     ) {
-      void unlinkAndDisconnect(RemoveAllConfiguration.Full);
+      void unlinkAndDisconnect();
       return;
     }
 
@@ -3016,21 +3006,18 @@ export async function startApp(): Promise<void> {
   }
 
   function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent): void {
-    ev.confirm();
-
-    const { source, sourceUuid, timestamp } = ev;
+    const { source, sourceAci, timestamp } = ev;
     log.info(`view once open sync ${source} ${timestamp}`);
-    strictAssert(sourceUuid, 'ViewOnceOpen without sourceUuid');
+    strictAssert(sourceAci, 'ViewOnceOpen without sourceAci');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
     const attributes: ViewOnceOpenSyncAttributesType = {
+      removeFromMessageReceiverCache: ev.confirm,
       source,
-      sourceUuid,
+      sourceAci,
       timestamp,
     };
-    const sync = ViewOnceOpenSyncs.getSingleton().add(attributes);
-
-    void ViewOnceOpenSyncs.getSingleton().onSync(sync);
+    drop(ViewOnceOpenSyncs.onSync(attributes));
   }
 
   async function onFetchLatestSync(ev: FetchLatestEvent): Promise<void> {
@@ -3043,9 +3030,9 @@ export async function startApp(): Promise<void> {
     switch (eventType) {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
         log.info('onFetchLatestSync: fetching latest local profile');
-        const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
+        const ourAci = window.textsecure.storage.user.getAci();
         const ourE164 = window.textsecure.storage.user.getNumber();
-        await getProfile(ourUuid, ourE164);
+        await getProfile(ourAci, ourE164);
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
@@ -3065,7 +3052,17 @@ export async function startApp(): Promise<void> {
   async function onKeysSync(ev: KeysEvent) {
     ev.confirm();
 
-    const { storageServiceKey } = ev;
+    const { masterKey } = ev;
+    let { storageServiceKey } = ev;
+
+    if (masterKey == null) {
+      log.info('onKeysSync: deleting window.masterKey');
+      await window.storage.remove('masterKey');
+    } else {
+      // Override provided storageServiceKey because it is deprecated.
+      storageServiceKey = deriveStorageServiceKey(masterKey);
+      await window.storage.put('masterKey', Bytes.toBase64(masterKey));
+    }
 
     if (storageServiceKey == null) {
       log.info('onKeysSync: deleting window.storageKey');
@@ -3083,10 +3080,17 @@ export async function startApp(): Promise<void> {
         log.info(
           'onKeysSync: updated storage service key, erasing state and fetching'
         );
-        await window.storage.put('storageKey', storageServiceKeyBase64);
-        await StorageService.eraseAllStorageServiceState({
-          keepUnknownFields: true,
-        });
+        try {
+          await window.storage.put('storageKey', storageServiceKeyBase64);
+          await StorageService.eraseAllStorageServiceState({
+            keepUnknownFields: true,
+          });
+        } catch (error) {
+          log.info(
+            'onKeysSync: Failed to erase storage service data, starting sync job anyway',
+            Errors.toLogFormat(error)
+          );
+        }
       }
 
       await StorageService.runStorageServiceSyncJob();
@@ -3094,14 +3098,11 @@ export async function startApp(): Promise<void> {
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
-    ev.confirm();
-
-    const { threadE164, threadUuid, groupV2Id, messageRequestResponseType } =
-      ev;
+    const { threadE164, threadAci, groupV2Id, messageRequestResponseType } = ev;
 
     log.info('onMessageRequestResponse', {
       threadE164,
-      threadUuid,
+      threadAci,
       groupV2Id: `groupv2(${groupV2Id})`,
       messageRequestResponseType,
     });
@@ -3111,22 +3112,24 @@ export async function startApp(): Promise<void> {
       'onMessageRequestResponse: missing type'
     );
 
+    strictAssert(ev.envelopeId, 'onMessageRequestResponse: no envelope id');
+
     const attributes: MessageRequestAttributesType = {
+      envelopeId: ev.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       threadE164,
-      threadUuid,
+      threadAci,
       groupV2Id,
       type: messageRequestResponseType,
     };
-    const sync = MessageRequests.getSingleton().add(attributes);
-
-    void MessageRequests.getSingleton().onResponse(sync);
+    drop(MessageRequests.onResponse(attributes));
   }
 
   function onReadReceipt(event: Readonly<ReadEvent>): void {
     onReadOrViewReceipt({
       logTitle: 'read receipt',
       event,
-      type: MessageReceiptType.Read,
+      type: MessageReceipts.MessageReceiptType.Read,
     });
   }
 
@@ -3134,7 +3137,7 @@ export async function startApp(): Promise<void> {
     onReadOrViewReceipt({
       logTitle: 'view receipt',
       event,
-      type: MessageReceiptType.View,
+      type: MessageReceipts.MessageReceiptType.View,
     });
   }
 
@@ -3145,67 +3148,67 @@ export async function startApp(): Promise<void> {
   }: Readonly<{
     event: ReadEvent | ViewEvent;
     logTitle: string;
-    type: MessageReceiptType.Read | MessageReceiptType.View;
+    type:
+      | MessageReceipts.MessageReceiptType.Read
+      | MessageReceipts.MessageReceiptType.View;
   }>): void {
     const {
       envelopeTimestamp,
       timestamp,
       source,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       wasSentEncrypted,
     } = event.receipt;
-    const { conversation: sourceConversation } =
-      window.ConversationController.maybeMergeContacts({
-        aci: sourceUuid,
-        e164: source,
-        reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
-      });
+    const sourceConversation = window.ConversationController.lookupOrCreate({
+      serviceId: sourceServiceId,
+      e164: source,
+      reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
+    });
+    strictAssert(sourceConversation, 'Failed to create conversation');
     log.info(
       logTitle,
-      `${sourceUuid || source}.${sourceDevice}`,
+      `${sourceServiceId || source}.${sourceDevice}`,
       envelopeTimestamp,
       'for sent message',
       timestamp
     );
 
-    event.confirm();
-
     strictAssert(
-      isValidUuid(sourceUuid),
-      'onReadOrViewReceipt: Missing sourceUuid'
+      isServiceIdString(sourceServiceId),
+      'onReadOrViewReceipt: Missing sourceServiceId'
     );
     strictAssert(sourceDevice, 'onReadOrViewReceipt: Missing sourceDevice');
 
     const attributes: MessageReceiptAttributesType = {
+      envelopeId: event.receipt.envelopeId,
+      removeFromMessageReceiverCache: event.confirm,
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId: sourceConversation.id,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       type,
       wasSentEncrypted,
     };
-    const receipt = MessageReceipts.getSingleton().add(attributes);
-
-    // Note: We do not wait for completion here
-    void MessageReceipts.getSingleton().onReceipt(receipt);
+    drop(MessageReceipts.onReceipt(attributes));
   }
 
-  function onReadSync(ev: ReadSyncEvent): Promise<void> {
-    const { envelopeTimestamp, sender, senderUuid, timestamp } = ev.read;
+  async function onReadSync(ev: ReadSyncEvent): Promise<void> {
+    const { envelopeTimestamp, sender, senderAci, timestamp } = ev.read;
     const readAt = envelopeTimestamp;
-    const senderConversation = window.ConversationController.lookupOrCreate({
-      e164: sender,
-      uuid: senderUuid,
-      reason: 'onReadSync',
-    });
+    const { conversation: senderConversation } =
+      window.ConversationController.maybeMergeContacts({
+        aci: senderAci,
+        e164: sender,
+        reason: 'onReadSync',
+      });
     const senderId = senderConversation?.id;
 
     log.info(
       'read sync',
       sender,
-      senderUuid,
+      senderAci,
       envelopeTimestamp,
       senderId,
       'for message',
@@ -3213,38 +3216,36 @@ export async function startApp(): Promise<void> {
     );
 
     strictAssert(senderId, 'onReadSync missing senderId');
-    strictAssert(senderUuid, 'onReadSync missing senderUuid');
+    strictAssert(senderAci, 'onReadSync missing senderAci');
     strictAssert(timestamp, 'onReadSync missing timestamp');
 
     const attributes: ReadSyncAttributesType = {
+      envelopeId: ev.read.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       senderId,
       sender,
-      senderUuid,
+      senderAci,
       timestamp,
       readAt,
     };
-    const receipt = ReadSyncs.getSingleton().add(attributes);
 
-    receipt.on('remove', ev.confirm);
-
-    // Note: Here we wait, because we want read states to be in the database
-    //   before we move on.
-    return ReadSyncs.getSingleton().onSync(receipt);
+    await ReadSyncs.onSync(attributes);
   }
 
-  function onViewSync(ev: ViewSyncEvent): Promise<void> {
-    const { envelopeTimestamp, senderE164, senderUuid, timestamp } = ev.view;
-    const senderConversation = window.ConversationController.lookupOrCreate({
-      e164: senderE164,
-      uuid: senderUuid,
-      reason: 'onViewSync',
-    });
+  async function onViewSync(ev: ViewSyncEvent): Promise<void> {
+    const { envelopeTimestamp, senderE164, senderAci, timestamp } = ev.view;
+    const { conversation: senderConversation } =
+      window.ConversationController.maybeMergeContacts({
+        e164: senderE164,
+        aci: senderAci,
+        reason: 'onViewSync',
+      });
     const senderId = senderConversation?.id;
 
     log.info(
       'view sync',
       senderE164,
-      senderUuid,
+      senderAci,
       envelopeTimestamp,
       senderId,
       'for message',
@@ -3252,48 +3253,42 @@ export async function startApp(): Promise<void> {
     );
 
     strictAssert(senderId, 'onViewSync missing senderId');
-    strictAssert(senderUuid, 'onViewSync missing senderUuid');
+    strictAssert(senderAci, 'onViewSync missing senderAci');
     strictAssert(timestamp, 'onViewSync missing timestamp');
 
     const attributes: ViewSyncAttributesType = {
+      envelopeId: ev.view.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       senderId,
       senderE164,
-      senderUuid,
+      senderAci,
       timestamp,
       viewedAt: envelopeTimestamp,
     };
-    const receipt = ViewSyncs.getSingleton().add(attributes);
 
-    receipt.on('remove', ev.confirm);
-
-    // Note: Here we wait, because we want viewed states to be in the database
-    //   before we move on.
-    return ViewSyncs.getSingleton().onSync(receipt);
+    await ViewSyncs.onSync(attributes);
   }
 
   function onDeliveryReceipt(ev: DeliveryEvent): void {
     const { deliveryReceipt } = ev;
     const {
       envelopeTimestamp,
-      sourceUuid,
+      sourceServiceId,
       source,
       sourceDevice,
       timestamp,
       wasSentEncrypted,
     } = deliveryReceipt;
 
-    ev.confirm();
-
-    const { conversation: sourceConversation } =
-      window.ConversationController.maybeMergeContacts({
-        aci: sourceUuid,
-        e164: source,
-        reason: `onDeliveryReceipt(${envelopeTimestamp})`,
-      });
+    const sourceConversation = window.ConversationController.lookupOrCreate({
+      serviceId: sourceServiceId,
+      e164: source,
+      reason: `onDeliveryReceipt(${envelopeTimestamp})`,
+    });
 
     log.info(
       'delivery receipt from',
-      `${sourceUuid || source}.${sourceDevice}`,
+      `${sourceServiceId || source}.${sourceDevice}`,
       envelopeTimestamp,
       'for sent message',
       timestamp,
@@ -3305,24 +3300,25 @@ export async function startApp(): Promise<void> {
       'onDeliveryReceipt: missing envelopeTimestamp'
     );
     strictAssert(
-      isValidUuid(sourceUuid),
-      'onDeliveryReceipt: missing valid sourceUuid'
+      isServiceIdString(sourceServiceId),
+      'onDeliveryReceipt: missing valid sourceServiceId'
     );
     strictAssert(sourceDevice, 'onDeliveryReceipt: missing sourceDevice');
+    strictAssert(sourceConversation, 'onDeliveryReceipt: missing conversation');
 
     const attributes: MessageReceiptAttributesType = {
+      envelopeId: ev.deliveryReceipt.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
-      sourceConversationId: sourceConversation?.id,
-      sourceUuid,
+      sourceConversationId: sourceConversation.id,
+      sourceServiceId,
       sourceDevice,
-      type: MessageReceiptType.Delivery,
+      type: MessageReceipts.MessageReceiptType.Delivery,
       wasSentEncrypted,
     };
-    const receipt = MessageReceipts.getSingleton().add(attributes);
 
-    // Note: We don't wait for completion here
-    void MessageReceipts.getSingleton().onReceipt(receipt);
+    drop(MessageReceipts.onReceipt(attributes));
   }
 }
 

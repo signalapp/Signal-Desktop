@@ -7,7 +7,7 @@ import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -17,7 +17,7 @@ describe('storage service', function needsName() {
     ({ bootstrap, app } = await initStorage());
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
@@ -52,9 +52,9 @@ describe('storage service', function needsName() {
     const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Opening conversation with a stranger');
-    debug(stranger.toContact().uuid);
+    debug(stranger.toContact().aci);
     await leftPane
-      .locator(`[data-testid="${stranger.toContact().uuid}"]`)
+      .locator(`[data-testid="${stranger.toContact().aci}"]`)
       .click();
 
     debug("Verify that we stored stranger's profile key");

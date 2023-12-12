@@ -5,7 +5,6 @@ import { v4 as uuid } from 'uuid';
 
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { ReadStatus } from '../messages/MessageReadStatus';
-import { UUID } from '../types/UUID';
 import { SendStatus } from '../messages/MessageSendState';
 import { BodyRange } from '../types/BodyRange';
 import { strictAssert } from '../util/assert';
@@ -42,7 +41,7 @@ export async function populateConversationWithMessages({
   const logId = 'benchmarkConversationOpen/populateConversationWithMessages';
   log.info(`${logId}: populating conversation`);
 
-  const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
   const conversation = window.ConversationController.get(conversationId);
 
   strictAssert(
@@ -71,7 +70,9 @@ export async function populateConversationWithMessages({
       schemaVersion: window.Signal.Types.Message.CURRENT_SCHEMA_VERSION,
       received_at: incrementMessageCounter(),
       readStatus: isUnread ? ReadStatus.Unread : ReadStatus.Read,
-      sourceUuid: new UUID(isIncoming ? conversationId : ourUuid).toString(),
+      sourceServiceId: isIncoming
+        ? conversation.getCheckedServiceId('CI')
+        : ourAci,
       ...(isIncoming
         ? {}
         : {
@@ -87,7 +88,7 @@ export async function populateConversationWithMessages({
 
   await window.Signal.Data.saveMessages(messages, {
     forceSave: true,
-    ourUuid,
+    ourAci,
   });
 
   conversation.set('active_at', Date.now());

@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -22,7 +23,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/AvatarTextEditor',
-};
+} satisfies Meta<PropsType>;
 
 export function Empty(): JSX.Element {
   return <AvatarTextEditor {...createProps()} />;
@@ -42,10 +43,6 @@ export function WithData(): JSX.Element {
   );
 }
 
-WithData.story = {
-  name: 'with Data',
-};
-
 export function WithWideCharacters(): JSX.Element {
   return (
     <AvatarTextEditor
@@ -59,7 +56,3 @@ export function WithWideCharacters(): JSX.Element {
     />
   );
 }
-
-WithWideCharacters.story = {
-  name: 'with wide characters',
-};

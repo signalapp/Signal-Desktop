@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { v4 as getGuid } from 'uuid';
 
 import { getRandomBytes } from '../../Crypto';
 import { Address } from '../../types/Address';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { explodePromise } from '../../util/explodePromise';
 import { SignalProtocolStore } from '../../SignalProtocolStore';
 import type { ConversationModel } from '../../models/conversations';
@@ -17,9 +16,9 @@ describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;
   let oldUuidId: string | undefined;
 
-  const ourUuid = getGuid();
-  const uuidWithKeyChange = getGuid();
-  const address = Address.create(uuidWithKeyChange, 1);
+  const ourServiceId = generateAci();
+  const ourServiceIdWithKeyChange = generateAci();
+  const address = Address.create(ourServiceIdWithKeyChange, 1);
   const oldKey = getRandomBytes(33);
   const newKey = getRandomBytes(33);
   let store: SignalProtocolStore;
@@ -33,7 +32,7 @@ describe('KeyChangeListener', () => {
     oldNumberId = storage.get('number_id');
     oldUuidId = storage.get('uuid_id');
     await storage.put('number_id', '+14155555556.2');
-    await storage.put('uuid_id', `${ourUuid}.2`);
+    await storage.put('uuid_id', `${ourServiceId}.2`);
   });
 
   after(async () => {
@@ -57,7 +56,7 @@ describe('KeyChangeListener', () => {
     await window.ConversationController.load();
 
     convo = await window.ConversationController.getOrCreateAndWait(
-      uuidWithKeyChange,
+      ourServiceIdWithKeyChange,
       'private'
     );
 
@@ -69,11 +68,11 @@ describe('KeyChangeListener', () => {
 
   afterEach(async () => {
     await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
-      logId: uuidWithKeyChange,
+      logId: ourServiceIdWithKeyChange,
     });
     await window.Signal.Data.removeConversation(convo.id);
 
-    await store.removeIdentityKey(new UUID(uuidWithKeyChange));
+    await store.removeIdentityKey(ourServiceIdWithKeyChange);
   });
 
   describe('When we have a conversation with this contact', () => {
@@ -99,14 +98,14 @@ describe('KeyChangeListener', () => {
         ),
         'group',
         {
-          members: [uuidWithKeyChange],
+          members: [ourServiceIdWithKeyChange],
         }
       );
     });
 
     afterEach(async () => {
       await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
-        logId: uuidWithKeyChange,
+        logId: ourServiceIdWithKeyChange,
       });
       await window.Signal.Data.removeConversation(groupConvo.id);
     });
@@ -116,7 +115,7 @@ describe('KeyChangeListener', () => {
 
       const { resolve, promise } = explodePromise<void>();
       groupConvo.addKeyChange = async (_, keyChangedId) => {
-        assert.equal(uuidWithKeyChange, keyChangedId?.toString());
+        assert.equal(ourServiceIdWithKeyChange, keyChangedId);
         groupConvo.addKeyChange = original;
         resolve();
       };

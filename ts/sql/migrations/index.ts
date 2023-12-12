@@ -3,9 +3,9 @@
 
 import type { Database } from '@signalapp/better-sqlite3';
 import { keyBy } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 
 import type { LoggerType } from '../../types/Logging';
-import { UUID } from '../../types/UUID';
 import {
   getSchemaVersion,
   getUserVersion,
@@ -62,6 +62,20 @@ import updateToSchemaVersion83 from './83-mentions';
 import updateToSchemaVersion84 from './84-all-mentions';
 import updateToSchemaVersion85 from './85-add-kyber-keys';
 import updateToSchemaVersion86 from './86-story-replies-index';
+import updateToSchemaVersion87 from './87-cleanup';
+import updateToSchemaVersion88 from './88-service-ids';
+import updateToSchemaVersion89 from './89-call-history';
+import updateToSchemaVersion90 from './90-delete-story-reply-screenshot';
+import updateToSchemaVersion91 from './91-clean-keys';
+import { updateToSchemaVersion920 } from './920-clean-more-keys';
+import { updateToSchemaVersion930 } from './930-fts5-secure-delete';
+import { updateToSchemaVersion940 } from './940-fts5-revert';
+import { updateToSchemaVersion950 } from './950-fts5-secure-delete';
+import { updateToSchemaVersion960 } from './960-untag-pni';
+import {
+  version as MAX_VERSION,
+  updateToSchemaVersion970,
+} from './970-fts5-optimize';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -765,13 +779,7 @@ function updateToSchemaVersion17(
       );
     }
 
-    try {
-      db.exec('DROP INDEX messages_view_once;');
-    } catch (error) {
-      logger.info(
-        'updateToSchemaVersion17: Index messages_view_once did not already exist'
-      );
-    }
+    db.exec('DROP INDEX IF EXISTS messages_view_once;');
 
     db.exec(`
       CREATE INDEX messages_view_once ON messages (
@@ -964,7 +972,7 @@ function updateToSchemaVersion20(
 
     for (const row of allConversations) {
       const oldId = row.id;
-      const newId = UUID.generate().toString();
+      const newId = generateUuid();
       allConversationsByOldId[oldId].id = newId;
       const patchObj: { id: string; e164?: string; groupId?: string } = {
         id: newId,
@@ -1021,7 +1029,7 @@ function updateToSchemaVersion20(
         } else {
           // We didn't previously have a private conversation for this member,
           // we need to create one
-          const id = UUID.generate().toString();
+          const id = generateUuid();
           const updatedConversation = {
             id,
             e164: m,
@@ -1904,7 +1912,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion2,
   updateToSchemaVersion3,
   updateToSchemaVersion4,
-  (_v: number, _i: Database, _l: LoggerType): void => undefined, // version 5 was dropped
+  // version 5 was dropped
   updateToSchemaVersion6,
   updateToSchemaVersion7,
   updateToSchemaVersion8,
@@ -1994,38 +2002,79 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion84,
   updateToSchemaVersion85,
   updateToSchemaVersion86,
+  updateToSchemaVersion87,
+  updateToSchemaVersion88,
+  updateToSchemaVersion89,
+
+  updateToSchemaVersion90,
+  updateToSchemaVersion91,
+  // From here forward, all migrations should be multiples of 10
+  updateToSchemaVersion920,
+  updateToSchemaVersion930,
+  updateToSchemaVersion940,
+  updateToSchemaVersion950,
+  updateToSchemaVersion960,
+  updateToSchemaVersion970,
 ];
+
+export class DBVersionFromFutureError extends Error {
+  override name = 'DBVersionFromFutureError';
+}
+
+export function enableFTS5SecureDelete(db: Database, logger: LoggerType): void {
+  const isEnabled =
+    db
+      .prepare(
+        `
+          SELECT v FROM messages_fts_config WHERE k is 'secure-delete';
+        `
+      )
+      .pluck()
+      .get() === 1;
+
+  if (!isEnabled) {
+    logger.info('enableFTS5SecureDelete: enabling');
+    db.exec(`
+      -- Enable secure-delete
+      INSERT INTO messages_fts
+      (messages_fts, rank)
+      VALUES
+      ('secure-delete', 1);
+    `);
+  }
+}
 
 export function updateSchema(db: Database, logger: LoggerType): void {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
-  const userVersion = getUserVersion(db);
-  const maxUserVersion = SCHEMA_VERSIONS.length;
+  const startingVersion = getUserVersion(db);
   const schemaVersion = getSchemaVersion(db);
 
   logger.info(
     'updateSchema:\n',
-    ` Current user_version: ${userVersion};\n`,
-    ` Most recent db schema: ${maxUserVersion};\n`,
+    ` Current user_version: ${startingVersion};\n`,
+    ` Most recent db schema: ${MAX_VERSION};\n`,
     ` SQLite version: ${sqliteVersion};\n`,
     ` SQLCipher version: ${sqlcipherVersion};\n`,
     ` (deprecated) schema_version: ${schemaVersion};\n`
   );
 
-  if (userVersion > maxUserVersion) {
-    throw new Error(
-      `SQL: User version is ${userVersion} but the expected maximum version ` +
-        `is ${maxUserVersion}. Did you try to start an old version of Signal?`
+  if (startingVersion > MAX_VERSION) {
+    throw new DBVersionFromFutureError(
+      `SQL: User version is ${startingVersion} but the expected maximum version ` +
+        `is ${MAX_VERSION}.`
     );
   }
 
-  for (let index = 0; index < maxUserVersion; index += 1) {
+  for (let index = 0, max = SCHEMA_VERSIONS.length; index < max; index += 1) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
 
-    runSchemaUpdate(userVersion, db, logger);
+    runSchemaUpdate(startingVersion, db, logger);
   }
 
-  if (userVersion !== maxUserVersion) {
+  enableFTS5SecureDelete(db, logger);
+
+  if (startingVersion !== MAX_VERSION) {
     const start = Date.now();
     db.pragma('optimize');
     const duration = Date.now() - start;

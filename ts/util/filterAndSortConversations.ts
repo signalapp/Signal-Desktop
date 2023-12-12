@@ -7,7 +7,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 import { WEEK } from './durations';
 import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
-import { getConversationUnreadCountForAppBadge } from './getConversationUnreadCountForAppBadge';
+import { countConversationUnreadStats, hasUnread } from './countUnreadStats';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -56,8 +56,12 @@ type CommandRunnerType = (
 
 const COMMANDS = new Map<string, CommandRunnerType>();
 
-COMMANDS.set('uuidEndsWith', (conversations, query) => {
-  return conversations.filter(convo => convo.uuid?.endsWith(query));
+COMMANDS.set('serviceIdEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.serviceId?.endsWith(query));
+});
+
+COMMANDS.set('pniEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.pni?.endsWith(query));
 });
 
 COMMANDS.set('idEndsWith', (conversations, query) => {
@@ -73,18 +77,11 @@ COMMANDS.set('groupIdEndsWith', (conversations, query) => {
 });
 
 COMMANDS.set('unread', conversations => {
-  const canCountMutedConversations =
+  const includeMuted =
     window.storage.get('badge-count-muted-conversations') || false;
-
-  return conversations.filter(convo => {
-    return getConversationUnreadCountForAppBadge(
-      {
-        ...convo,
-
-        // Difference between redux type and conversation attributes
-        active_at: convo.activeAt,
-      },
-      canCountMutedConversations
+  return conversations.filter(conversation => {
+    return hasUnread(
+      countConversationUnreadStats(conversation, { includeMuted })
     );
   });
 });
@@ -96,7 +93,7 @@ function searchConversations(
   searchTerm: string,
   regionCode: string | undefined
 ): ReadonlyArray<Pick<Fuse.FuseResult<ConversationType>, 'item' | 'score'>> {
-  const maybeCommand = searchTerm.match(/^!([^\s]+):(.*)$/);
+  const maybeCommand = searchTerm.match(/^!([^\s:]+)(?::(.*))?$/);
   if (maybeCommand) {
     const [, commandName, query] = maybeCommand;
 
@@ -109,7 +106,7 @@ function searchConversations(
   const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
 
   const currentConversations = conversations.filter(conversation => {
-    return !conversation.left && !conversation.hiddenFromConversationSearch;
+    return !conversation.left;
   });
 
   // Escape the search term

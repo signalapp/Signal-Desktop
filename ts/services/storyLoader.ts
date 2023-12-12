@@ -112,7 +112,7 @@ export function getStoryDataFromMessageAttributes(
       'readStatus',
       'sendStateByConversationId',
       'source',
-      'sourceUuid',
+      'sourceServiceId',
       'storyDistributionListId',
       'storyRecipientsVersion',
       'timestamp',
@@ -144,7 +144,7 @@ async function repairUnexpiredStories(): Promise<void> {
   const storiesWithExpiry = storyData
     .filter(
       story =>
-        story.sourceUuid !== SIGNAL_ACI &&
+        story.sourceServiceId !== SIGNAL_ACI &&
         (!story.expirationStartTimestamp ||
           !story.expireTimer ||
           story.expireTimer > DAY_AS_SECONDS)
@@ -172,7 +172,7 @@ async function repairUnexpiredStories(): Promise<void> {
   await Promise.all(
     storiesWithExpiry.map(messageAttributes => {
       return window.Signal.Data.saveMessage(messageAttributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     })
   );

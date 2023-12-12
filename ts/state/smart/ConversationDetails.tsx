@@ -11,12 +11,15 @@ import type { StateProps } from '../../components/conversation/conversation-deta
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
   getConversationByIdSelector,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getAllComposableConversations,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getActiveCallState } from '../selectors/calling';
-import { getAreWeASubscriber } from '../selectors/items';
+import {
+  getAreWeASubscriber,
+  getDefaultConversationColor,
+} from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getBadgesSelector,
@@ -33,9 +36,12 @@ import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
 } from '../../groups/limits';
+import type { CallHistoryGroup } from '../../types/CallDisposition';
+import { getSelectedNavTab } from '../selectors/nav';
 
 export type SmartConversationDetailsProps = {
   conversationId: string;
+  callHistoryGroup?: CallHistoryGroup | null;
 };
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
@@ -71,13 +77,15 @@ const mapStateToProps = (
     Boolean(conversation.groupLink) &&
     conversation.accessControlAddFromInviteLink !== ACCESS_ENUM.UNSATISFIABLE;
 
-  const conversationByUuidSelector = getConversationByUuidSelector(state);
+  const conversationByServiceIdSelector =
+    getConversationByServiceIdSelector(state);
   const groupMemberships = getGroupMemberships(
     conversation,
-    conversationByUuidSelector
+    conversationByServiceIdSelector
   );
 
   const badges = getBadgesSelector(state)(conversation.badges);
+  const defaultConversationColor = getDefaultConversationColor(state);
 
   const groupsInCommon =
     conversation.type === 'direct'
@@ -85,7 +93,7 @@ const mapStateToProps = (
           c =>
             c.type === 'group' &&
             (c.memberships ?? []).some(
-              member => member.uuid === conversation.uuid
+              member => member.aci === conversation.serviceId
             )
         )
       : [];
@@ -96,13 +104,14 @@ const mapStateToProps = (
   const maxRecommendedGroupSize = getGroupSizeRecommendedLimit(151);
   return {
     ...props,
+
     areWeASubscriber: getAreWeASubscriber(state),
     badges,
     canEditGroupInfo,
     canAddNewMembers,
     conversation: {
       ...conversation,
-      ...getConversationColorAttributes(conversation),
+      ...getConversationColorAttributes(conversation, defaultConversationColor),
     },
     getPreferredBadge: getPreferredBadgeSelector(state),
     hasActiveCall: Boolean(getActiveCallState(state)),
@@ -115,6 +124,7 @@ const mapStateToProps = (
     hasGroupLink,
     groupsInCommon: groupsInCommonSorted,
     isGroup: conversation.type === 'group',
+    selectedNavTab: getSelectedNavTab(state),
     theme: getTheme(state),
     renderChooseGroupMembersModal,
     renderConfirmAdditionsModal,

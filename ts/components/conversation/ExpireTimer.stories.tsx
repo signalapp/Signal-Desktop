@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import type { Meta } from '@storybook/react';
 import type { Props } from './ExpireTimer';
 import { ExpireTimer } from './ExpireTimer';
 
 export default {
   title: 'Components/Conversation/ExpireTimer',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   direction: overrideProps.direction || 'outgoing',
@@ -25,10 +26,6 @@ export const _30Seconds = (): JSX.Element => {
   return <ExpireTimer {...props} />;
 };
 
-_30Seconds.story = {
-  name: '30 seconds',
-};
-
 export const _2Minutes = (): JSX.Element => {
   const twoMinutes = 60 * 1000 * 2;
   const props = createProps({
@@ -37,10 +34,6 @@ export const _2Minutes = (): JSX.Element => {
   });
 
   return <ExpireTimer {...props} />;
-};
-
-_2Minutes.story = {
-  name: '2 minutes',
 };
 
 export function InProgress(): JSX.Element {

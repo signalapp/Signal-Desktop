@@ -37,6 +37,8 @@ const MIN_HEIGHT = 50;
 
 // Used for display
 
+export class AttachmentSizeError extends Error {}
+
 export type AttachmentType = {
   error?: boolean;
   blurHash?: string;
@@ -44,6 +46,7 @@ export type AttachmentType = {
   contentType: MIME.MIMEType;
   digest?: string;
   fileName?: string;
+  plaintextHash?: string;
   uploadTimestamp?: number;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
@@ -72,17 +75,16 @@ export type AttachmentType = {
   cdnNumber?: number;
   cdnId?: string;
   cdnKey?: string;
+  key?: string;
   data?: Uint8Array;
   textAttachment?: TextAttachmentType;
+  wasTooBig?: boolean;
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
 
   /** Legacy field, used long ago for migrating attachments to disk. */
   schemaVersion?: number;
-
-  /** Removed once we download the attachment */
-  key?: string;
 };
 
 export type UploadedAttachmentType = Proto.IAttachmentPointer &
@@ -93,6 +95,7 @@ export type UploadedAttachmentType = Proto.IAttachmentPointer &
     size: number;
     digest: Uint8Array;
     contentType: string;
+    plaintextHash: string;
   }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {
@@ -1010,9 +1013,9 @@ export const defaultBlurHash = (theme: ThemeType = ThemeType.light): string => {
 };
 
 export const canBeDownloaded = (
-  attachment: Pick<AttachmentType, 'key' | 'digest'>
+  attachment: Pick<AttachmentType, 'digest' | 'key' | 'wasTooBig'>
 ): boolean => {
-  return Boolean(attachment.key && attachment.digest);
+  return Boolean(attachment.digest && attachment.key && !attachment.wasTooBig);
 };
 
 export function getAttachmentSignature(attachment: AttachmentType): string {

@@ -12,7 +12,7 @@ import {
   getAttachmentUrlForPath,
   getMessagePropStatus,
   getSource,
-  getSourceUuid,
+  getSourceServiceId,
 } from './message';
 import {
   getConversationByIdSelector,
@@ -28,7 +28,7 @@ import { getMessageIdForLogging } from '../../util/idForLogging';
 import * as Attachment from '../../types/Attachment';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer';
 import { isPlayed } from '../../types/Attachment';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 
 export type VoiceNoteForPlayback = {
   id: string;
@@ -36,7 +36,7 @@ export type VoiceNoteForPlayback = {
   url: string | undefined;
   type: 'incoming' | 'outgoing';
   source: string | undefined;
-  sourceUuid: UUIDStringType | undefined;
+  sourceServiceId: ServiceIdString | undefined;
   isPlayed: boolean;
   messageIdForLogging: string;
   timestamp: number;
@@ -58,17 +58,20 @@ export const selectVoiceNoteTitle = createSelector(
   getUserConversationId,
   getConversationSelector,
   getIntl,
-  (ourNumber, ourACI, ourConversationId, conversationSelector, i18n) => {
+  (ourNumber, ourAci, ourConversationId, conversationSelector, i18n) => {
     return (
-      message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceUuid'>
+      message: Pick<
+        MessageAttributesType,
+        'type' | 'source' | 'sourceServiceId'
+      >
     ) => {
       const source = getSource(message, ourNumber);
-      const sourceUuid = getSourceUuid(message, ourACI);
+      const sourceServiceId = getSourceServiceId(message, ourAci);
 
       const conversation =
-        !source && !sourceUuid
+        !source && !sourceServiceId
           ? conversationSelector(ourConversationId)
-          : conversationSelector(sourceUuid || source);
+          : conversationSelector(sourceServiceId || source);
 
       return conversation.isMe ? i18n('icu:you') : conversation.title;
     };
@@ -103,7 +106,7 @@ export function extractVoiceNoteForPlayback(
     messageIdForLogging: getMessageIdForLogging(message),
     timestamp: message.timestamp,
     source: message.source,
-    sourceUuid: message.sourceUuid,
+    sourceServiceId: message.sourceServiceId,
   };
 }
 

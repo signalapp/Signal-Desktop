@@ -23,8 +23,8 @@ import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assertDev, strictAssert } from './util/assert';
 import { isMoreRecentThan } from './util/timestamp';
-import { MINUTE, DurationInSeconds } from './util/durations';
-import { normalizeUuid } from './util/normalizeUuid';
+import { MINUTE, DurationInSeconds, SECOND } from './util/durations';
+import { drop } from './util/drop';
 import { dropNull } from './util/dropNull';
 import type {
   ConversationAttributesType,
@@ -39,12 +39,14 @@ import {
   decodeProfileKeyCredentialPresentation,
   decryptGroupBlob,
   decryptProfileKey,
-  decryptUuid,
+  decryptAci,
+  decryptPni,
+  decryptServiceId,
   deriveGroupID,
   deriveGroupPublicParams,
   deriveGroupSecretParams,
   encryptGroupBlob,
-  encryptUuid,
+  encryptServiceId,
   getAuthCredentialPresentation,
   getClientZkAuthOperations,
   getClientZkGroupCipher,
@@ -73,8 +75,13 @@ import {
 } from './util/whatTypeOfConversation';
 import * as Bytes from './Bytes';
 import type { AvatarDataType } from './types/Avatar';
-import { UUID, UUIDKind, isValidUuid } from './types/UUID';
-import type { UUIDStringType } from './types/UUID';
+import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
+import {
+  ServiceIdKind,
+  isPniString,
+  isServiceIdString,
+} from './types/ServiceId';
+import { isAciString } from './util/isAciString';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
 import { isNotNil } from './util/isNotNil';
@@ -87,6 +94,8 @@ import {
 import { ReadStatus } from './messages/MessageReadStatus';
 import { SeenStatus } from './MessageSeenStatus';
 import { incrementMessageCounter } from './util/incrementMessageCounter';
+import { sleep } from './util/sleep';
+import { groupInvitesRoute } from './util/signalRoutes';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -135,34 +144,34 @@ type GroupV2GroupLinkRemoveChangeType = {
 
 type GroupV2MemberAddChangeType = {
   type: 'member-add';
-  uuid: UUIDStringType;
+  aci: AciString;
 };
 type GroupV2MemberAddFromInviteChangeType = {
   type: 'member-add-from-invite';
-  uuid: UUIDStringType;
-  inviter?: UUIDStringType;
+  aci: AciString;
+  inviter?: AciString;
 };
 type GroupV2MemberAddFromLinkChangeType = {
   type: 'member-add-from-link';
-  uuid: UUIDStringType;
+  aci: AciString;
 };
 type GroupV2MemberAddFromAdminApprovalChangeType = {
   type: 'member-add-from-admin-approval';
-  uuid: UUIDStringType;
+  aci: AciString;
 };
 type GroupV2MemberPrivilegeChangeType = {
   type: 'member-privilege';
-  uuid: UUIDStringType;
+  aci: AciString;
   newPrivilege: number;
 };
 type GroupV2MemberRemoveChangeType = {
   type: 'member-remove';
-  uuid: UUIDStringType;
+  aci: AciString;
 };
 
 type GroupV2PendingAddOneChangeType = {
   type: 'pending-add-one';
-  uuid: UUIDStringType;
+  serviceId: ServiceIdString;
 };
 type GroupV2PendingAddManyChangeType = {
   type: 'pending-add-many';
@@ -171,32 +180,32 @@ type GroupV2PendingAddManyChangeType = {
 // Note: pending-remove is only used if user didn't also join the group at the same time
 type GroupV2PendingRemoveOneChangeType = {
   type: 'pending-remove-one';
-  uuid: UUIDStringType;
-  inviter?: UUIDStringType;
+  serviceId: ServiceIdString;
+  inviter?: AciString;
 };
 // Note: pending-remove is only used if user didn't also join the group at the same time
 type GroupV2PendingRemoveManyChangeType = {
   type: 'pending-remove-many';
   count: number;
-  inviter?: UUIDStringType;
+  inviter?: AciString;
 };
 
 type GroupV2AdminApprovalAddOneChangeType = {
   type: 'admin-approval-add-one';
-  uuid: UUIDStringType;
+  aci: AciString;
 };
 // Note: admin-approval-remove-one is only used if user didn't also join the group at
 //   the same time
 type GroupV2AdminApprovalRemoveOneChangeType = {
   type: 'admin-approval-remove-one';
-  uuid: UUIDStringType;
-  inviter?: UUIDStringType;
+  aci: AciString;
+  inviter?: AciString;
 };
 type GroupV2AdminApprovalBounceChangeType = {
   type: 'admin-approval-bounce';
   times: number;
   isApprovalPending: boolean;
-  uuid: UUIDStringType;
+  aci: AciString;
 };
 export type GroupV2DescriptionChangeType = {
   type: 'description';
@@ -236,7 +245,7 @@ export type GroupV2ChangeDetailType =
   | GroupV2TitleChangeType;
 
 export type GroupV2ChangeType = {
-  from?: UUIDStringType;
+  from?: ServiceIdString;
   details: Array<GroupV2ChangeDetailType>;
 };
 
@@ -260,16 +269,12 @@ if (!isNumber(MAX_MESSAGE_SCHEMA)) {
   );
 }
 
-type MemberType = {
-  profileKey: string;
-  uuid: UUIDStringType;
-};
 type UpdatesResultType = {
   // The array of new messages to be added into the message timeline
   groupChangeMessages: Array<GroupChangeMessageType>;
-  // The set of members in the group, and we largely just pull profile keys for each,
+  // The map of members in the group, and we largely just pull profile keys for each,
   //   because the group membership is updated in newAttributes
-  members: Array<MemberType>;
+  newProfileKeys: Map<AciString, string>;
   // To be merged into the conversation model
   newAttributes: ConversationAttributesType;
 };
@@ -287,7 +292,7 @@ type BasicMessageType = Pick<
 
 type GroupV2ChangeMessageType = {
   type: 'group-v2-change';
-} & Pick<MessageAttributesType, 'groupV2Change' | 'sourceUuid'>;
+} & Pick<MessageAttributesType, 'groupV2Change' | 'sourceServiceId'>;
 
 type GroupV1MigrationMessageType = {
   type: 'group-v1-migration';
@@ -300,7 +305,7 @@ type TimerNotificationMessageType = {
   type: 'timer-notification';
 } & Pick<
   MessageAttributesType,
-  'sourceUuid' | 'flags' | 'expirationTimerUpdate'
+  'sourceServiceId' | 'flags' | 'expirationTimerUpdate'
 >;
 
 type GroupChangeMessageType = BasicMessageType &
@@ -379,16 +384,16 @@ export function buildGroupLink(
     },
   }).finish();
 
-  const hash = toWebSafeBase64(Bytes.toBase64(bytes));
+  const inviteCode = toWebSafeBase64(Bytes.toBase64(bytes));
 
-  return `https://signal.group/#${hash}`;
+  return groupInvitesRoute.toWebUrl({ inviteCode }).toString();
 }
 
-export function parseGroupLink(hash: string): {
+export function parseGroupLink(value: string): {
   masterKey: string;
   inviteLinkPassword: string;
 } {
-  const base64 = fromWebSafeBase64(hash);
+  const base64 = fromWebSafeBase64(value);
   const buffer = Bytes.fromBase64(base64);
 
   const inviteLinkProto = Proto.GroupInviteLink.decode(buffer);
@@ -591,7 +596,7 @@ function buildGroupProto(
   proto.members = (attributes.membersV2 || []).map(item => {
     const member = new Proto.Member();
 
-    const conversation = window.ConversationController.get(item.uuid);
+    const conversation = window.ConversationController.get(item.aci);
     if (!conversation) {
       throw new Error(`buildGroupProto/${logId}: no conversation for member!`);
     }
@@ -614,31 +619,34 @@ function buildGroupProto(
     return member;
   });
 
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourAci = window.storage.user.getCheckedAci();
 
-  const ourACICipherTextBuffer = encryptUuid(clientZkGroupCipher, ourACI);
+  const ourAciCipherTextBuffer = encryptServiceId(clientZkGroupCipher, ourAci);
 
   proto.membersPendingProfileKey = (attributes.pendingMembersV2 || []).map(
     item => {
       const pendingMember = new Proto.MemberPendingProfileKey();
       const member = new Proto.Member();
 
-      const conversation = window.ConversationController.get(item.uuid);
+      const conversation = window.ConversationController.get(item.serviceId);
       if (!conversation) {
         throw new Error('buildGroupProto: no conversation for pending member!');
       }
 
-      const uuid = conversation.getCheckedUuid(
-        'buildGroupProto: pending member was missing uuid!'
+      const serviceId = conversation.getCheckedServiceId(
+        'buildGroupProto: pending member was missing serviceId!'
       );
 
-      const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+      const uuidCipherTextBuffer = encryptServiceId(
+        clientZkGroupCipher,
+        serviceId
+      );
       member.userId = uuidCipherTextBuffer;
       member.role = item.role || MEMBER_ROLE_ENUM.DEFAULT;
 
       pendingMember.member = member;
       pendingMember.timestamp = Long.fromNumber(item.timestamp);
-      pendingMember.addedByUserId = ourACICipherTextBuffer;
+      pendingMember.addedByUserId = ourAciCipherTextBuffer;
 
       return pendingMember;
     }
@@ -678,8 +686,8 @@ export async function buildAddMembersChange(
   );
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
-  const ourACICipherTextBuffer = encryptUuid(clientZkGroupCipher, ourACI);
+  const ourAci = window.storage.user.getCheckedAci();
+  const ourAciCipherTextBuffer = encryptServiceId(clientZkGroupCipher, ourAci);
 
   const now = Date.now();
 
@@ -699,11 +707,11 @@ export async function buildAddMembersChange(
         return;
       }
 
-      const uuid = contact.getUuid();
-      if (!uuid) {
+      const serviceId = contact.getServiceId();
+      if (!serviceId) {
         assertDev(
           false,
-          `buildAddMembersChange/${logId}: missing UUID; skipping`
+          `buildAddMembersChange/${logId}: missing serviceId; skipping`
         );
         return;
       }
@@ -717,7 +725,7 @@ export async function buildAddMembersChange(
       const profileKeyCredential = contact.get('profileKeyCredential');
 
       const member = new Proto.Member();
-      member.userId = encryptUuid(clientZkGroupCipher, uuid);
+      member.userId = encryptServiceId(clientZkGroupCipher, serviceId);
       member.role = MEMBER_ROLE_ENUM.DEFAULT;
       member.joinedAtVersion = newGroupVersion;
 
@@ -739,7 +747,7 @@ export async function buildAddMembersChange(
       } else {
         const memberPendingProfileKey = new Proto.MemberPendingProfileKey();
         memberPendingProfileKey.member = member;
-        memberPendingProfileKey.addedByUserId = ourACICipherTextBuffer;
+        memberPendingProfileKey.addedByUserId = ourAciCipherTextBuffer;
         memberPendingProfileKey.timestamp = Long.fromNumber(now);
 
         const addPendingMemberAction =
@@ -750,10 +758,13 @@ export async function buildAddMembersChange(
       }
 
       const doesMemberNeedUnban = conversation.bannedMembersV2?.find(
-        bannedMember => bannedMember.uuid === uuid.toString()
+        bannedMember => bannedMember.serviceId === serviceId
       );
       if (doesMemberNeedUnban) {
-        const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+        const uuidCipherTextBuffer = encryptServiceId(
+          clientZkGroupCipher,
+          serviceId
+        );
 
         const deleteMemberBannedAction =
           new Proto.GroupChange.Actions.DeleteMemberBannedAction();
@@ -1003,20 +1014,20 @@ export function buildAccessControlMembersChange(
 export function _maybeBuildAddBannedMemberActions({
   clientZkGroupCipher,
   group,
-  ourUuid,
-  uuid,
+  ourAci,
+  serviceId,
 }: {
   clientZkGroupCipher: ClientZkGroupCipher;
   group: Pick<ConversationAttributesType, 'bannedMembersV2'>;
-  ourUuid: UUID;
-  uuid: UUID;
+  ourAci: AciString;
+  serviceId: ServiceIdString;
 }): Pick<
   Proto.GroupChange.IActions,
   'addMembersBanned' | 'deleteMembersBanned'
 > {
   const doesMemberNeedBan =
-    !group.bannedMembersV2?.find(member => member.uuid === uuid.toString()) &&
-    !uuid.isEqual(ourUuid);
+    !group.bannedMembersV2?.find(member => member.serviceId === serviceId) &&
+    serviceId !== ourAci;
   if (!doesMemberNeedBan) {
     return {};
   }
@@ -1039,9 +1050,9 @@ export function _maybeBuildAddBannedMemberActions({
       const deleteMemberBannedAction =
         new Proto.GroupChange.Actions.DeleteMemberBannedAction();
 
-      deleteMemberBannedAction.deletedUserId = encryptUuid(
+      deleteMemberBannedAction.deletedUserId = encryptServiceId(
         clientZkGroupCipher,
-        new UUID(bannedMember.uuid)
+        bannedMember.serviceId
       );
 
       return deleteMemberBannedAction;
@@ -1051,7 +1062,7 @@ export function _maybeBuildAddBannedMemberActions({
   const addMemberBannedAction =
     new Proto.GroupChange.Actions.AddMemberBannedAction();
 
-  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  const uuidCipherTextBuffer = encryptServiceId(clientZkGroupCipher, serviceId);
   addMemberBannedAction.added = new Proto.MemberBanned();
   addMemberBannedAction.added.userId = uuidCipherTextBuffer;
 
@@ -1064,12 +1075,12 @@ export function _maybeBuildAddBannedMemberActions({
 // TODO AND-1101
 export function buildDeletePendingAdminApprovalMemberChange({
   group,
-  ourUuid,
-  uuid,
+  ourAci,
+  aci,
 }: {
   group: ConversationAttributesType;
-  ourUuid: UUID;
-  uuid: UUID;
+  ourAci: AciString;
+  aci: AciString;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
 
@@ -1079,7 +1090,7 @@ export function buildDeletePendingAdminApprovalMemberChange({
     );
   }
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  const uuidCipherTextBuffer = encryptServiceId(clientZkGroupCipher, aci);
 
   const deleteMemberPendingAdminApproval =
     new Proto.GroupChange.Actions.DeleteMemberPendingAdminApprovalAction();
@@ -1094,8 +1105,8 @@ export function buildDeletePendingAdminApprovalMemberChange({
     _maybeBuildAddBannedMemberActions({
       clientZkGroupCipher,
       group,
-      ourUuid,
-      uuid,
+      ourAci,
+      serviceId: aci,
     });
 
   if (addMembersBanned) {
@@ -1151,13 +1162,13 @@ export function buildAddMember({
   group,
   profileKeyCredentialBase64,
   serverPublicParamsBase64,
-  uuid,
+  serviceId,
 }: {
   group: ConversationAttributesType;
   profileKeyCredentialBase64: string;
   serverPublicParamsBase64: string;
   joinFromInviteLink?: boolean;
-  uuid: UUID;
+  serviceId: ServiceIdString;
 }): Proto.GroupChange.Actions {
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
 
@@ -1187,16 +1198,16 @@ export function buildAddMember({
   actions.addMembers = [addMember];
 
   const doesMemberNeedUnban = group.bannedMembersV2?.find(
-    member => member.uuid === uuid.toString()
+    member => member.serviceId === serviceId
   );
   if (doesMemberNeedUnban) {
     const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-    const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+    const userIdCipherText = encryptServiceId(clientZkGroupCipher, serviceId);
 
     const deleteMemberBannedAction =
       new Proto.GroupChange.Actions.DeleteMemberBannedAction();
 
-    deleteMemberBannedAction.deletedUserId = uuidCipherTextBuffer;
+    deleteMemberBannedAction.deletedUserId = userIdCipherText;
     actions.deleteMembersBanned = [deleteMemberBannedAction];
   }
 
@@ -1204,10 +1215,10 @@ export function buildAddMember({
 }
 
 export function buildDeletePendingMemberChange({
-  uuids,
+  serviceIds,
   group,
 }: {
-  uuids: ReadonlyArray<UUID>;
+  serviceIds: ReadonlyArray<ServiceIdString>;
   group: ConversationAttributesType;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
@@ -1219,8 +1230,11 @@ export function buildDeletePendingMemberChange({
   }
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
 
-  const deletePendingMembers = uuids.map(uuid => {
-    const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  const deletePendingMembers = serviceIds.map(serviceId => {
+    const uuidCipherTextBuffer = encryptServiceId(
+      clientZkGroupCipher,
+      serviceId
+    );
     const deletePendingMember =
       new Proto.GroupChange.Actions.DeleteMemberPendingProfileKeyAction();
     deletePendingMember.deletedUserId = uuidCipherTextBuffer;
@@ -1235,12 +1249,12 @@ export function buildDeletePendingMemberChange({
 
 export function buildDeleteMemberChange({
   group,
-  ourUuid,
-  uuid,
+  ourAci,
+  serviceId,
 }: {
   group: ConversationAttributesType;
-  ourUuid: UUID;
-  uuid: UUID;
+  ourAci: AciString;
+  serviceId: ServiceIdString;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
 
@@ -1248,7 +1262,7 @@ export function buildDeleteMemberChange({
     throw new Error('buildDeleteMemberChange: group was missing secretParams!');
   }
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  const uuidCipherTextBuffer = encryptServiceId(clientZkGroupCipher, serviceId);
 
   const deleteMember = new Proto.GroupChange.Actions.DeleteMemberAction();
   deleteMember.deletedUserId = uuidCipherTextBuffer;
@@ -1260,8 +1274,8 @@ export function buildDeleteMemberChange({
     _maybeBuildAddBannedMemberActions({
       clientZkGroupCipher,
       group,
-      ourUuid,
-      uuid,
+      ourAci,
+      serviceId,
     });
 
   if (addMembersBanned) {
@@ -1275,10 +1289,10 @@ export function buildDeleteMemberChange({
 }
 
 export function buildAddBannedMemberChange({
-  uuid,
+  serviceId,
   group,
 }: {
-  uuid: UUID;
+  serviceId: ServiceIdString;
   group: ConversationAttributesType;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
@@ -1289,23 +1303,21 @@ export function buildAddBannedMemberChange({
     );
   }
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  const userIdCipherText = encryptServiceId(clientZkGroupCipher, serviceId);
 
   const addMemberBannedAction =
     new Proto.GroupChange.Actions.AddMemberBannedAction();
 
   addMemberBannedAction.added = new Proto.MemberBanned();
-  addMemberBannedAction.added.userId = uuidCipherTextBuffer;
+  addMemberBannedAction.added.userId = userIdCipherText;
 
   actions.addMembersBanned = [addMemberBannedAction];
 
-  if (
-    group.pendingAdminApprovalV2?.some(item => item.uuid === uuid.toString())
-  ) {
+  if (group.pendingAdminApprovalV2?.some(item => item.aci === serviceId)) {
     const deleteMemberPendingAdminApprovalAction =
       new Proto.GroupChange.Actions.DeleteMemberPendingAdminApprovalAction();
 
-    deleteMemberPendingAdminApprovalAction.deletedUserId = uuidCipherTextBuffer;
+    deleteMemberPendingAdminApprovalAction.deletedUserId = userIdCipherText;
 
     actions.deleteMemberPendingAdminApprovals = [
       deleteMemberPendingAdminApprovalAction,
@@ -1318,11 +1330,11 @@ export function buildAddBannedMemberChange({
 }
 
 export function buildModifyMemberRoleChange({
-  uuid,
+  serviceId,
   group,
   role,
 }: {
-  uuid: UUID;
+  serviceId: ServiceIdString;
   group: ConversationAttributesType;
   role: number;
 }): Proto.GroupChange.Actions {
@@ -1333,10 +1345,10 @@ export function buildModifyMemberRoleChange({
   }
 
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  const userIdCipherText = encryptServiceId(clientZkGroupCipher, serviceId);
 
   const toggleAdmin = new Proto.GroupChange.Actions.ModifyMemberRoleAction();
-  toggleAdmin.userId = uuidCipherTextBuffer;
+  toggleAdmin.userId = userIdCipherText;
   toggleAdmin.role = role;
 
   actions.version = (group.revision || 0) + 1;
@@ -1347,10 +1359,10 @@ export function buildModifyMemberRoleChange({
 
 export function buildPromotePendingAdminApprovalMemberChange({
   group,
-  uuid,
+  aci,
 }: {
   group: ConversationAttributesType;
-  uuid: UUID;
+  aci: AciString;
 }): Proto.GroupChange.Actions {
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
   const actions = new Proto.GroupChange.Actions();
@@ -1362,11 +1374,11 @@ export function buildPromotePendingAdminApprovalMemberChange({
   }
 
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-  const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
+  const userIdCipher = encryptServiceId(clientZkGroupCipher, aci);
 
   const promotePendingMember =
     new Proto.GroupChange.Actions.PromoteMemberPendingAdminApprovalAction();
-  promotePendingMember.userId = uuidCipherTextBuffer;
+  promotePendingMember.userId = userIdCipher;
   promotePendingMember.role = MEMBER_ROLE_ENUM.DEFAULT;
 
   actions.version = (group.revision || 0) + 1;
@@ -1739,7 +1751,7 @@ export async function fetchMembershipProof({
     secretParams,
     request: (sender, options) => sender.getGroupMembershipToken(options),
   });
-  return response.token;
+  return dropNull(response.token);
 }
 
 // Creating a group
@@ -1779,7 +1791,7 @@ export async function createGroupV2(
   const secretParams = Bytes.toBase64(fields.secretParams);
   const publicParams = Bytes.toBase64(fields.publicParams);
 
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
+  const ourAci = window.storage.user.getCheckedAci();
 
   const ourConversation =
     window.ConversationController.getOurConversationOrThrow();
@@ -1790,7 +1802,7 @@ export async function createGroupV2(
 
   const membersV2: Array<GroupV2MemberType> = [
     {
-      uuid: ourACI,
+      aci: ourAci,
       role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
       joinedAtVersion: 0,
     },
@@ -1810,9 +1822,12 @@ export async function createGroupV2(
         return;
       }
 
-      const contactUuid = contact.get('uuid');
-      if (!contactUuid) {
-        assertDev(false, `createGroupV2/${logId}: missing UUID; skipping`);
+      const contactServiceId = contact.getServiceId();
+      if (!contactServiceId) {
+        assertDev(
+          false,
+          `createGroupV2/${logId}: missing service id; skipping`
+        );
         return;
       }
 
@@ -1822,15 +1837,16 @@ export async function createGroupV2(
       }
 
       if (contact.get('profileKey') && contact.get('profileKeyCredential')) {
+        strictAssert(isAciString(contactServiceId), 'profile key without ACI');
         membersV2.push({
-          uuid: contactUuid,
+          aci: contactServiceId,
           role: MEMBER_ROLE_ENUM.DEFAULT,
           joinedAtVersion: 0,
         });
       } else {
         pendingMembersV2.push({
-          addedByUserId: ourACI,
-          uuid: contactUuid,
+          addedByUserId: ourAci,
+          serviceId: contactServiceId,
           timestamp: Date.now(),
           role: MEMBER_ROLE_ENUM.DEFAULT,
         });
@@ -1945,7 +1961,7 @@ export async function createGroupV2(
     {
       ...protoAndConversationAttributes,
       active_at: now,
-      addedBy: ourACI,
+      addedBy: ourAci,
       avatar: avatarAttribute,
       avatars,
       groupVersion: 2,
@@ -1976,7 +1992,7 @@ export async function createGroupV2(
   const createdTheGroupMessage: MessageAttributesType = {
     ...generateBasicMessage(),
     type: 'group-v2-change',
-    sourceUuid: ourACI,
+    sourceServiceId: ourAci,
     conversationId: conversation.id,
     readStatus: ReadStatus.Read,
     received_at: incrementMessageCounter(),
@@ -1985,16 +2001,20 @@ export async function createGroupV2(
     seenStatus: SeenStatus.Seen,
     sent_at: timestamp,
     groupV2Change: {
-      from: ourACI,
+      from: ourAci,
       details: [{ type: 'create' }],
     },
   };
   await dataInterface.saveMessages([createdTheGroupMessage], {
     forceSave: true,
-    ourUuid: ourACI,
+    ourAci,
   });
-  const model = new window.Whisper.Message(createdTheGroupMessage);
-  window.MessageController.register(model.id, model);
+  let model = new window.Whisper.Message(createdTheGroupMessage);
+  model = window.MessageCache.__DEPRECATED$register(
+    model.id,
+    model,
+    'createGroupV2'
+  );
   conversation.trigger('newmessage', model);
 
   if (expireTimer) {
@@ -2087,9 +2107,9 @@ export async function isGroupEligibleToMigrate(
     return false;
   }
 
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourAci = window.storage.user.getCheckedAci();
   const areWeMember =
-    !conversation.get('left') && conversation.hasMember(ourACI);
+    !conversation.get('left') && conversation.hasMember(ourAci);
   if (!areWeMember) {
     return false;
   }
@@ -2102,7 +2122,7 @@ export async function isGroupEligibleToMigrate(
     if (!contact) {
       return false;
     }
-    if (!contact.get('uuid')) {
+    if (!contact.getServiceId()) {
       return false;
     }
   }
@@ -2129,7 +2149,7 @@ export async function getGroupMigrationMembers(
     );
   }
 
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
+  const ourAci = window.storage.user.getCheckedAci();
 
   let areWeMember = false;
   let areWeInvited = false;
@@ -2157,10 +2177,10 @@ export async function getGroupMigrationMembers(
           return null;
         }
 
-        const contactUuid = contact.get('uuid');
-        if (!contactUuid) {
+        const contactAci = contact.getAci();
+        if (!contactAci) {
           log.warn(
-            `getGroupMigrationMembers/${logId}: membersV2 - missing uuid for ${e164}, skipping.`
+            `getGroupMigrationMembers/${logId}: membersV2 - missing aci for ${e164}, skipping.`
           );
           return null;
         }
@@ -2193,7 +2213,7 @@ export async function getGroupMigrationMembers(
         memberLookup[conversationId] = true;
 
         return {
-          uuid: contactUuid,
+          aci: contactAci,
           role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
           joinedAtVersion: 0,
         };
@@ -2229,7 +2249,7 @@ export async function getGroupMigrationMembers(
         return null;
       }
 
-      const contactUuid = contact.get('uuid');
+      const contactUuid = contact.getServiceId();
       if (!contactUuid) {
         log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - missing uuid for ${e164}, skipping.`
@@ -2243,9 +2263,9 @@ export async function getGroupMigrationMembers(
       }
 
       return {
-        uuid: contactUuid,
+        serviceId: contactUuid,
         timestamp: now,
-        addedByUserId: ourACI,
+        addedByUserId: ourAci,
         role: MEMBER_ROLE_ENUM.ADMINISTRATOR,
       };
     })
@@ -2409,7 +2429,11 @@ export async function initiateMigrationToGroupV2(
       groupChangeMessages.push({
         ...generateBasicMessage(),
         type: 'group-v1-migration',
-        invitedGV2Members: pendingMembersV2,
+        invitedGV2Members: pendingMembersV2.map(
+          ({ serviceId: uuid, ...rest }) => {
+            return { ...rest, uuid };
+          }
+        ),
         droppedGV2MemberIds,
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
@@ -2420,7 +2444,7 @@ export async function initiateMigrationToGroupV2(
         updates: {
           newAttributes,
           groupChangeMessages,
-          members: [],
+          newProfileKeys: new Map(),
         },
       });
 
@@ -2491,21 +2515,21 @@ export function buildMigrationBubble(
   previousGroupV1MembersIds: ReadonlyArray<string>,
   newAttributes: ConversationAttributesType
 ): GroupChangeMessageType {
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
-  const ourPNI = window.storage.user.getUuid(UUIDKind.PNI);
+  const ourAci = window.storage.user.getCheckedAci();
+  const ourPni = window.storage.user.getPni();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
 
   // Assemble items to commemorate this event for the timeline..
   const combinedConversationIds: Array<string> = [
-    ...(newAttributes.membersV2 || []).map(item => item.uuid),
-    ...(newAttributes.pendingMembersV2 || []).map(item => item.uuid),
-  ].map(uuid => {
+    ...(newAttributes.membersV2 || []).map(item => item.aci),
+    ...(newAttributes.pendingMembersV2 || []).map(item => item.serviceId),
+  ].map(serviceId => {
     const conversation = window.ConversationController.lookupOrCreate({
-      uuid,
+      serviceId,
       reason: 'buildMigrationBubble',
     });
-    strictAssert(conversation, `Conversation not found for ${uuid}`);
+    strictAssert(conversation, `Conversation not found for ${serviceId}`);
     return conversation.id;
   });
   const droppedMemberIds: Array<string> = difference(
@@ -2513,15 +2537,11 @@ export function buildMigrationBubble(
     combinedConversationIds
   ).filter(id => id && id !== ourConversationId);
   const invitedMembers = (newAttributes.pendingMembersV2 || []).filter(
-    item =>
-      item.uuid !== ourACI.toString() &&
-      !(ourPNI && item.uuid === ourPNI.toString())
+    item => item.serviceId !== ourAci && !(ourPni && item.serviceId === ourPni)
   );
 
   const areWeInvited = (newAttributes.pendingMembersV2 || []).some(
-    item =>
-      item.uuid === ourACI.toString() ||
-      (ourPNI && item.uuid === ourPNI.toString())
+    item => item.serviceId === ourAci || (ourPni && item.serviceId === ourPni)
   );
 
   return {
@@ -2529,7 +2549,9 @@ export function buildMigrationBubble(
     type: 'group-v1-migration',
     groupMigration: {
       areWeInvited,
-      invitedMembers,
+      invitedMembers: invitedMembers.map(({ serviceId: uuid, ...rest }) => {
+        return { ...rest, uuid };
+      }),
       droppedMemberIds,
     },
   };
@@ -2625,7 +2647,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
     updates: {
       newAttributes,
       groupChangeMessages,
-      members: [],
+      newProfileKeys: new Map(),
     },
   });
 
@@ -2658,8 +2680,8 @@ export async function respondToGroupV2Migration({
     );
   }
 
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
-  const wereWePreviouslyAMember = conversation.hasMember(ourACI);
+  const ourAci = window.storage.user.getCheckedAci();
+  const wereWePreviouslyAMember = conversation.hasMember(ourAci);
 
   // Derive GroupV2 fields
   const groupV1IdBuffer = Bytes.fromBinary(previousGroupV1Id);
@@ -2762,7 +2784,7 @@ export async function respondToGroupV2Migration({
                   addedBy: undefined,
                   left: true,
                   members: (conversation.get('members') || []).filter(
-                    item => item !== ourACI.toString() && item !== ourNumber
+                    item => item !== ourAci && item !== ourNumber
                   ),
                 },
                 groupChangeMessages: [
@@ -2778,7 +2800,7 @@ export async function respondToGroupV2Migration({
                       details: [
                         {
                           type: 'member-remove' as const,
-                          uuid: ourACI.toString(),
+                          aci: ourAci,
                         },
                       ],
                     },
@@ -2786,7 +2808,7 @@ export async function respondToGroupV2Migration({
                     seenStatus: SeenStatus.Unseen,
                   },
                 ],
-                members: [],
+                newProfileKeys: new Map(),
               },
             });
             return;
@@ -2808,7 +2830,7 @@ export async function respondToGroupV2Migration({
                   seenStatus: SeenStatus.Seen,
                 },
               ],
-              members: [],
+              newProfileKeys: new Map(),
             },
           });
           return;
@@ -2845,10 +2867,10 @@ export async function respondToGroupV2Migration({
   });
 
   const areWeInvited = (newAttributes.pendingMembersV2 || []).some(
-    item => item.uuid === ourACI.toString()
+    item => item.serviceId === ourAci
   );
   const areWeMember = (newAttributes.membersV2 || []).some(
-    item => item.uuid === ourACI.toString()
+    item => item.aci === ourAci
   );
   if (!areWeInvited && !areWeMember) {
     // Add a message to the timeline saying the user was removed. This shouldn't happen.
@@ -2859,7 +2881,7 @@ export async function respondToGroupV2Migration({
         details: [
           {
             type: 'member-remove' as const,
-            uuid: ourACI.toString(),
+            aci: ourAci,
           },
         ],
       },
@@ -2879,7 +2901,7 @@ export async function respondToGroupV2Migration({
     updates: {
       newAttributes,
       groupChangeMessages,
-      members: profileKeysToMembers(newProfileKeys),
+      newProfileKeys: profileKeysToMap(newProfileKeys),
     },
   });
 
@@ -3015,28 +3037,25 @@ async function updateGroup(
 ): Promise<void> {
   const logId = conversation.idForLogging();
 
-  const { newAttributes, groupChangeMessages, members } = updates;
-  const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
-  const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+  const { newAttributes, groupChangeMessages, newProfileKeys } = updates;
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const ourPni = window.textsecure.storage.user.getPni();
 
   const startingRevision = conversation.get('revision');
   const endingRevision = newAttributes.revision;
 
   const wasMemberOrPending =
-    conversation.hasMember(ourACI) ||
-    conversation.isMemberPending(ourACI) ||
-    (ourPNI && conversation.isMemberPending(ourPNI));
+    conversation.hasMember(ourAci) ||
+    conversation.isMemberPending(ourAci) ||
+    (ourPni && conversation.isMemberPending(ourPni));
   const isMemberOrPending =
     !newAttributes.left ||
     newAttributes.pendingMembersV2?.some(
-      item =>
-        item.uuid === ourACI.toString() || item.uuid === ourPNI?.toString()
+      item => item.serviceId === ourAci || item.serviceId === ourPni
     );
   const isMemberOrPendingOrAwaitingApproval =
     isMemberOrPending ||
-    newAttributes.pendingAdminApprovalV2?.some(
-      item => item.uuid === ourACI.toString()
-    );
+    newAttributes.pendingAdminApprovalV2?.some(item => item.aci === ourAci);
 
   const isInitialDataFetch =
     !isNumber(startingRevision) && isNumber(endingRevision);
@@ -3088,22 +3107,19 @@ async function updateGroup(
   const contactsWithoutProfileKey = new Array<ConversationModel>();
 
   // Capture profile key for each member in the group, if we don't have it yet
-  members.forEach(member => {
-    const contact = window.ConversationController.getOrCreate(
-      member.uuid,
-      'private'
-    );
+  for (const [aci, profileKey] of newProfileKeys) {
+    const contact = window.ConversationController.getOrCreate(aci, 'private');
 
     if (
       !isMe(contact.attributes) &&
-      member.profileKey &&
-      member.profileKey.length > 0 &&
-      contact.get('profileKey') !== member.profileKey
+      profileKey &&
+      profileKey.length > 0 &&
+      contact.get('profileKey') !== profileKey
     ) {
       contactsWithoutProfileKey.push(contact);
-      void contact.setProfileKey(member.profileKey);
+      drop(contact.setProfileKey(profileKey));
     }
-  });
+  }
 
   let profileFetches: Promise<Array<void>> | undefined;
   if (contactsWithoutProfileKey.length !== 0) {
@@ -3119,7 +3135,12 @@ async function updateGroup(
 
   if (changeMessagesToSave.length > 0) {
     try {
-      await profileFetches;
+      if (contactsWithoutProfileKey && contactsWithoutProfileKey.length > 0) {
+        await Promise.race([profileFetches, sleep(30 * SECOND)]);
+        log.info(
+          `updateGroup/${logId}: timed out or finished fetching ${contactsWithoutProfileKey.length} profiles`
+        );
+      }
     } catch (error) {
       log.error(
         `updateGroup/${logId}: failed to fetch missing profiles`,
@@ -3148,8 +3169,7 @@ async function updateGroup(
   const justAdded = !wasMemberOrPending && isMemberOrPending;
   const addedBy =
     newAttributes.pendingMembersV2?.find(
-      item =>
-        item.uuid === ourACI.toString() || item.uuid === ourPNI?.toString()
+      item => item.serviceId === ourAci || item.serviceId === ourPni
     )?.addedByUserId || newAttributes.addedBy;
 
   if (justAdded && addedBy) {
@@ -3212,19 +3232,19 @@ export function _mergeGroupChangeMessages(
     return undefined;
   }
 
-  const { uuid } = secondDetail;
-  strictAssert(uuid, 'admin approval message should have uuid');
+  const { aci } = secondDetail;
+  strictAssert(aci, 'admin approval message should have aci');
 
   let updatedDetail;
   // Member was previously added and is now removed
   if (
     !isApprovalPending &&
     firstDetail.type === 'admin-approval-add-one' &&
-    firstDetail.uuid === uuid
+    firstDetail.aci === aci
   ) {
     updatedDetail = {
       type: 'admin-approval-bounce' as const,
-      uuid,
+      aci,
       times: 1,
       isApprovalPending,
     };
@@ -3232,12 +3252,12 @@ export function _mergeGroupChangeMessages(
     // There is an existing bounce event - merge this one into it.
   } else if (
     firstDetail.type === 'admin-approval-bounce' &&
-    firstDetail.uuid === uuid &&
+    firstDetail.aci === aci &&
     firstDetail.isApprovalPending === !isApprovalPending
   ) {
     updatedDetail = {
       type: 'admin-approval-bounce' as const,
-      uuid,
+      aci,
       times: firstDetail.times + (isApprovalPending ? 0 : 1),
       isApprovalPending,
     };
@@ -3292,7 +3312,7 @@ async function appendChangeMessages(
     `appendChangeMessages/${logId}: processing ${messages.length} messages`
   );
 
-  const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
 
   let lastMessage = await dataInterface.getLastConversationMessage({
     conversationId: conversation.id,
@@ -3331,7 +3351,7 @@ async function appendChangeMessages(
 
     log.info(`appendChangeMessages/${logId}: updating ${first.id}`);
     await dataInterface.saveMessage(first, {
-      ourUuid: ourACI.toString(),
+      ourAci,
 
       // We don't use forceSave here because this is an update of existing
       // message.
@@ -3341,7 +3361,7 @@ async function appendChangeMessages(
       `appendChangeMessages/${logId}: saving ${rest.length} new messages`
     );
     await dataInterface.saveMessages(rest, {
-      ourUuid: ourACI.toString(),
+      ourAci,
       forceSave: true,
     });
   } else {
@@ -3349,14 +3369,14 @@ async function appendChangeMessages(
       `appendChangeMessages/${logId}: saving ${mergedMessages.length} new messages`
     );
     await dataInterface.saveMessages(mergedMessages, {
-      ourUuid: ourACI.toString(),
+      ourAci,
       forceSave: true,
     });
   }
 
   let newMessages = 0;
   for (const changeMessage of mergedMessages) {
-    const existing = window.MessageController.getById(changeMessage.id);
+    const existing = window.MessageCache.__DEPRECATED$getById(changeMessage.id);
 
     // Update existing message
     if (existing) {
@@ -3368,8 +3388,12 @@ async function appendChangeMessages(
       continue;
     }
 
-    const model = new window.Whisper.Message(changeMessage);
-    window.MessageController.register(model.id, model);
+    let model = new window.Whisper.Message(changeMessage);
+    model = window.MessageCache.__DEPRECATED$register(
+      model.id,
+      model,
+      'appendChangeMessages'
+    );
     conversation.trigger('newmessage', model);
     newMessages += 1;
   }
@@ -3402,11 +3426,11 @@ async function getGroupUpdates({
 
   const currentRevision = group.revision;
   const isFirstFetch = !isNumber(group.revision);
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourAci = window.storage.user.getCheckedAci();
 
   const isInitialCreationMessage = isFirstFetch && newRevision === 0;
   const weAreAwaitingApproval = (group.pendingAdminApprovalV2 || []).find(
-    item => item.uuid === ourACI.toString()
+    item => item.aci === ourAci
   );
   const isOneVersionUp =
     isNumber(currentRevision) &&
@@ -3430,8 +3454,12 @@ async function getGroupUpdates({
     if (isChangeSupported) {
       if (!wrappedGroupChange.isTrusted) {
         strictAssert(
-          groupChange.serverSignature && groupChange.actions,
+          groupChange.serverSignature,
           'Server signature must be present in untrusted group change'
+        );
+        strictAssert(
+          groupChange.actions,
+          'Actions must be present in untrusted group change'
         );
         try {
           verifyNotarySignature(
@@ -3448,7 +3476,7 @@ async function getGroupUpdates({
           return {
             newAttributes: group,
             groupChangeMessages: [],
-            members: [],
+            newProfileKeys: new Map(),
           };
         }
       }
@@ -3542,7 +3570,7 @@ async function getGroupUpdates({
   return {
     newAttributes: group,
     groupChangeMessages: [],
-    members: [],
+    newProfileKeys: new Map(),
   };
 }
 
@@ -3552,9 +3580,7 @@ async function updateGroupViaPreJoinInfo({
   group: ConversationAttributesType;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
-  const ourACI = window.textsecure.storage.user
-    .getCheckedUuid(UUIDKind.ACI)
-    .toString();
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
 
   const { publicParams, secretParams } = group;
   if (!secretParams) {
@@ -3591,20 +3617,20 @@ async function updateGroupViaPreJoinInfo({
   const newAttributes: ConversationAttributesType = {
     ...group,
     description: decryptGroupDescription(
-      preJoinInfo.descriptionBytes,
+      dropNull(preJoinInfo.descriptionBytes),
       secretParams
     ),
-    name: decryptGroupTitle(preJoinInfo.title, secretParams),
+    name: decryptGroupTitle(dropNull(preJoinInfo.title), secretParams),
     left: true,
     members: group.members || [],
     pendingMembersV2: group.pendingMembersV2 || [],
     pendingAdminApprovalV2: [
       {
-        uuid: ourACI,
+        aci: ourAci,
         timestamp: Date.now(),
       },
     ],
-    revision: preJoinInfo.version,
+    revision: dropNull(preJoinInfo.version),
 
     temporaryMemberCount: preJoinInfo.memberCount || 1,
   };
@@ -3618,7 +3644,7 @@ async function updateGroupViaPreJoinInfo({
       current: newAttributes,
       dropInitialJoinMessage: false,
     }),
-    members: [],
+    newProfileKeys: new Map(),
   };
 }
 
@@ -3668,7 +3694,7 @@ async function updateGroupViaState({
       current: newAttributes,
       dropInitialJoinMessage,
     }),
-    members: profileKeysToMembers(newProfileKeys),
+    newProfileKeys: profileKeysToMap(newProfileKeys),
   };
 }
 
@@ -3702,7 +3728,7 @@ async function updateGroupViaSingleChange({
     );
     const {
       newAttributes,
-      members,
+      newProfileKeys,
       groupChangeMessages: catchupMessages,
     } = await updateGroupViaLogs({
       group: singleChangeResult.newAttributes,
@@ -3737,7 +3763,10 @@ async function updateGroupViaSingleChange({
     //   keep the final group attributes generated, as well as any new members.
     return {
       groupChangeMessages,
-      members: [...singleChangeResult.members, ...members],
+      newProfileKeys: new Map([
+        ...singleChangeResult.newProfileKeys,
+        ...newProfileKeys,
+      ]),
       newAttributes,
     };
   }
@@ -3822,8 +3851,8 @@ async function generateLeftGroupChanges(
 ): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   log.info(`generateLeftGroupChanges/${logId}: Starting...`);
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
-  const ourPNI = window.storage.user.getCheckedUuid(UUIDKind.PNI)?.toString();
+  const ourAci = window.storage.user.getCheckedAci();
+  const ourPni = window.storage.user.getCheckedPni();
 
   const { masterKey, groupInviteLinkPassword } = group;
   let { revision } = group;
@@ -3838,7 +3867,7 @@ async function generateLeftGroupChanges(
         masterKey
       );
 
-      revision = preJoinInfo.version;
+      revision = dropNull(preJoinInfo.version);
     }
   } catch (error) {
     log.warn(
@@ -3850,12 +3879,12 @@ async function generateLeftGroupChanges(
   const newAttributes: ConversationAttributesType = {
     ...group,
     addedBy: undefined,
-    membersV2: (group.membersV2 || []).filter(member => member.uuid !== ourACI),
+    membersV2: (group.membersV2 || []).filter(member => member.aci !== ourAci),
     pendingMembersV2: (group.pendingMembersV2 || []).filter(
-      member => member.uuid !== ourACI && member.uuid !== ourPNI
+      member => member.serviceId !== ourAci && member.serviceId !== ourPni
     ),
     pendingAdminApprovalV2: (group.pendingAdminApprovalV2 || []).filter(
-      member => member.uuid !== ourACI
+      member => member.aci !== ourAci
     ),
     left: true,
     revision,
@@ -3867,7 +3896,7 @@ async function generateLeftGroupChanges(
       current: newAttributes,
       old: group,
     }),
-    members: [],
+    newProfileKeys: new Map(),
   };
 }
 
@@ -3910,7 +3939,7 @@ async function integrateGroupChanges({
   const logId = idForLogging(group.groupId);
   let attributes = group;
   const finalMessages: Array<Array<GroupChangeMessageType>> = [];
-  const finalMembers: Array<Array<MemberType>> = [];
+  const finalNewProfileKeys = new Map<AciString, string>();
 
   const imax = changes.length;
   for (let i = 0; i < imax; i += 1) {
@@ -3937,7 +3966,7 @@ async function integrateGroupChanges({
         const {
           newAttributes,
           groupChangeMessages,
-          members,
+          newProfileKeys,
           // eslint-disable-next-line no-await-in-loop
         } = await integrateGroupChange({
           group: attributes,
@@ -3948,7 +3977,9 @@ async function integrateGroupChanges({
 
         attributes = newAttributes;
         finalMessages.push(groupChangeMessages);
-        finalMembers.push(members);
+        for (const [aci, profileKey] of newProfileKeys) {
+          finalNewProfileKeys.set(aci, profileKey);
+        }
       } catch (error) {
         log.error(
           `integrateGroupChanges/${logId}: Failed to apply change log, continuing to apply remaining change logs.`,
@@ -3981,14 +4012,14 @@ async function integrateGroupChanges({
     return {
       newAttributes: attributes,
       groupChangeMessages,
-      members: flatten(finalMembers),
+      newProfileKeys: finalNewProfileKeys,
     };
   }
 
   return {
     newAttributes: attributes,
     groupChangeMessages: flatten(finalMessages),
-    members: flatten(finalMembers),
+    newProfileKeys: finalNewProfileKeys,
   };
 }
 
@@ -4017,12 +4048,9 @@ async function integrateGroupChange({
   }
 
   const isFirstFetch = !isNumber(group.revision);
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
-  const ourPNI = window.storage.user.getUuid(UUIDKind.PNI);
+  const ourAci = window.storage.user.getCheckedAci();
   const weAreAwaitingApproval = (group.pendingAdminApprovalV2 || []).find(
-    item =>
-      item.uuid === ourACI.toString() ||
-      (ourPNI && item.uuid === ourPNI.toString())
+    item => item.aci === ourAci
   );
 
   // These need to be populated from the groupChange. But we might not get one!
@@ -4031,7 +4059,7 @@ async function integrateGroupChange({
   let isMoreThanOneVersionUp = false;
   let groupChangeActions: undefined | Proto.GroupChange.IActions;
   let decryptedChangeActions: undefined | DecryptedGroupChangeActions;
-  let sourceUuid: undefined | UUIDStringType;
+  let sourceServiceId: undefined | ServiceIdString;
 
   if (groupChange) {
     groupChangeActions = Proto.GroupChange.Actions.decode(
@@ -4051,7 +4079,7 @@ async function integrateGroupChange({
       return {
         newAttributes: group,
         groupChangeMessages: [],
-        members: [],
+        newProfileKeys: new Map(),
       };
     }
 
@@ -4065,8 +4093,8 @@ async function integrateGroupChange({
       decryptedChangeActions !== undefined,
       'Should have decrypted group actions'
     );
-    ({ sourceUuid } = decryptedChangeActions);
-    strictAssert(sourceUuid, 'Should have source UUID');
+    ({ sourceServiceId } = decryptedChangeActions);
+    strictAssert(sourceServiceId, 'Should have source service id');
 
     isChangeSupported =
       !isNumber(groupChange.changeEpoch) ||
@@ -4083,7 +4111,7 @@ async function integrateGroupChange({
         return {
           newAttributes: group,
           groupChangeMessages: [],
-          members: [],
+          newProfileKeys: new Map(),
         };
       }
       if (groupChangeActions.version === group.revision) {
@@ -4099,7 +4127,7 @@ async function integrateGroupChange({
 
   let attributes = group;
   const aggregatedChangeMessages = [];
-  const aggregatedMembers = [];
+  const finalNewProfileKeys = new Map<AciString, string>();
 
   const canApplyChange =
     groupChange &&
@@ -4110,7 +4138,7 @@ async function integrateGroupChange({
 
   // Apply the change first
   if (canApplyChange) {
-    if (!sourceUuid || !groupChangeActions || !decryptedChangeActions) {
+    if (!sourceServiceId || !groupChangeActions || !decryptedChangeActions) {
       throw new Error(
         `integrateGroupChange/${logId}: Missing necessary information that should have come from group actions`
       );
@@ -4125,19 +4153,21 @@ async function integrateGroupChange({
       await applyGroupChange({
         group,
         actions: decryptedChangeActions,
-        sourceUuid,
+        sourceServiceId,
       });
 
     const groupChangeMessages = extractDiffs({
       old: attributes,
       current: newAttributes,
-      sourceUuid,
+      sourceServiceId,
       promotedAciToPniMap,
     });
 
     attributes = newAttributes;
     aggregatedChangeMessages.push(groupChangeMessages);
-    aggregatedMembers.push(profileKeysToMembers(newProfileKeys));
+    for (const [aci, profileKey] of profileKeysToMap(newProfileKeys)) {
+      finalNewProfileKeys.set(aci, profileKey);
+    }
   }
 
   // Apply the group state afterwards to verify that we didn't miss anything
@@ -4161,25 +4191,28 @@ async function integrateGroupChange({
       logId
     );
 
-    const { newAttributes, newProfileKeys, otherChanges } =
-      await applyGroupState({
-        group: attributes,
-        groupState: decryptedGroupState,
-        sourceUuid: isFirstFetch ? sourceUuid : undefined,
-      });
+    const {
+      newAttributes,
+      newProfileKeys: newProfileKeysList,
+      otherChanges,
+    } = await applyGroupState({
+      group: attributes,
+      groupState: decryptedGroupState,
+      sourceServiceId: isFirstFetch ? sourceServiceId : undefined,
+    });
 
     const groupChangeMessages = extractDiffs({
       old: attributes,
       current: newAttributes,
-      sourceUuid: isFirstFetch ? sourceUuid : undefined,
+      sourceServiceId: isFirstFetch ? sourceServiceId : undefined,
     });
 
-    const newMembers = profileKeysToMembers(newProfileKeys);
+    const newProfileKeys = profileKeysToMap(newProfileKeysList);
 
     if (
       canApplyChange &&
       (groupChangeMessages.length !== 0 ||
-        newMembers.length !== 0 ||
+        newProfileKeys.size !== 0 ||
         otherChanges)
     ) {
       assertDev(
@@ -4191,14 +4224,16 @@ async function integrateGroupChange({
         `integrateGroupChange/${logId}: local state was different from ` +
           'the remote final state. ' +
           `Got ${groupChangeMessages.length} change messages, ` +
-          `${newMembers.length} updated members, and ` +
+          `${newProfileKeys.size} updated members, and ` +
           `otherChanges=${otherChanges}`
       );
     }
 
     attributes = newAttributes;
     aggregatedChangeMessages.push(groupChangeMessages);
-    aggregatedMembers.push(newMembers);
+    for (const [aci, profileKey] of newProfileKeys) {
+      finalNewProfileKeys.set(aci, profileKey);
+    }
   } else {
     strictAssert(
       canApplyChange,
@@ -4209,7 +4244,7 @@ async function integrateGroupChange({
   return {
     newAttributes: attributes,
     groupChangeMessages: aggregatedChangeMessages.flat(),
-    members: aggregatedMembers.flat(),
+    newProfileKeys: finalNewProfileKeys,
   };
 }
 
@@ -4217,38 +4252,38 @@ function extractDiffs({
   current,
   dropInitialJoinMessage,
   old,
-  sourceUuid,
+  sourceServiceId,
   promotedAciToPniMap,
 }: {
   current: ConversationAttributesType;
   dropInitialJoinMessage?: boolean;
   old: ConversationAttributesType;
-  sourceUuid?: UUIDStringType;
-  promotedAciToPniMap?: ReadonlyMap<UUIDStringType, UUIDStringType>;
+  sourceServiceId?: ServiceIdString;
+  promotedAciToPniMap?: ReadonlyMap<AciString, PniString>;
 }): Array<GroupChangeMessageType> {
   const logId = idForLogging(old.groupId);
   const details: Array<GroupV2ChangeDetailType> = [];
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
-  const ourPNI = window.storage.user.getUuid(UUIDKind.PNI);
+  const ourAci = window.storage.user.getCheckedAci();
+  const ourPni = window.storage.user.getPni();
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
   let areWeInGroup = false;
-  let uuidKindInvitedToGroup: UUIDKind | undefined;
+  let serviceIdKindInvitedToGroup: ServiceIdKind | undefined;
   let areWePendingApproval = false;
   let whoInvitedUsUserId = null;
 
-  function isUs(uuid: UUIDStringType): boolean {
-    return uuid === ourACI.toString() || uuid === ourPNI?.toString();
+  function isUs(serviceId: ServiceIdString): boolean {
+    return serviceId === ourAci || serviceId === ourPni;
   }
   function keepOnlyOurAdds(
     list: Array<GroupV2ChangeDetailType>
   ): Array<GroupV2ChangeDetailType> {
     return list.filter(
       item =>
-        (item.type === 'member-add-from-invite' && isUs(item.uuid)) ||
-        (item.type === 'member-add-from-link' && isUs(item.uuid)) ||
-        (item.type === 'member-add-from-admin-approval' && isUs(item.uuid)) ||
-        (item.type === 'member-add' && isUs(item.uuid))
+        (item.type === 'member-add-from-invite' && isUs(item.aci)) ||
+        (item.type === 'member-add-from-link' && isUs(item.aci)) ||
+        (item.type === 'member-add-from-admin-approval' && isUs(item.aci)) ||
+        (item.type === 'member-add' && isUs(item.aci))
     );
   }
 
@@ -4353,47 +4388,45 @@ function extractDiffs({
 
   // membersV2
 
-  const oldMemberLookup = new Map<UUIDStringType, GroupV2MemberType>(
-    (old.membersV2 || []).map(member => [member.uuid, member])
+  const oldMemberLookup = new Map<AciString, GroupV2MemberType>(
+    (old.membersV2 || []).map(member => [member.aci, member])
   );
-  const didWeStartInGroup =
-    (ourACI && oldMemberLookup.get(ourACI.toString())) ||
-    (ourPNI && oldMemberLookup.get(ourPNI.toString()));
+  const didWeStartInGroup = Boolean(ourAci && oldMemberLookup.has(ourAci));
 
   const oldPendingMemberLookup = new Map<
-    UUIDStringType,
+    ServiceIdString,
     GroupV2PendingMemberType
-  >((old.pendingMembersV2 || []).map(member => [member.uuid, member]));
+  >((old.pendingMembersV2 || []).map(member => [member.serviceId, member]));
   const oldPendingAdminApprovalLookup = new Map<
-    UUIDStringType,
+    AciString,
     GroupV2PendingAdminApprovalType
-  >((old.pendingAdminApprovalV2 || []).map(member => [member.uuid, member]));
-  const currentPendingMemberSet = new Set<UUIDStringType>(
-    (current.pendingMembersV2 || []).map(member => member.uuid)
+  >((old.pendingAdminApprovalV2 || []).map(member => [member.aci, member]));
+  const currentPendingMemberSet = new Set<ServiceIdString>(
+    (current.pendingMembersV2 || []).map(member => member.serviceId)
   );
 
   const aciToPniMap = new Map(promotedAciToPniMap?.entries());
-  if (ourACI && ourPNI) {
-    aciToPniMap.set(ourACI.toString(), ourPNI.toString());
+  if (ourAci && ourPni) {
+    aciToPniMap.set(ourAci, ourPni);
   }
 
-  const pniToAciMap = new Map<UUIDStringType, UUIDStringType>();
+  const pniToAciMap = new Map<PniString, AciString>();
   for (const [aci, pni] of aciToPniMap) {
     pniToAciMap.set(pni, aci);
   }
 
   (current.membersV2 || []).forEach(currentMember => {
-    const { uuid } = currentMember;
-    const uuidIsUs = isUs(uuid);
+    const { aci } = currentMember;
+    const uuidIsUs = isUs(aci);
 
     if (uuidIsUs) {
       areWeInGroup = true;
     }
 
-    const oldMember = oldMemberLookup.get(uuid);
+    const oldMember = oldMemberLookup.get(aci);
     if (!oldMember) {
-      let pendingMember = oldPendingMemberLookup.get(uuid);
-      const pni = aciToPniMap.get(uuid);
+      let pendingMember = oldPendingMemberLookup.get(aci);
+      const pni = aciToPniMap.get(aci);
       if (!pendingMember && pni) {
         pendingMember = oldPendingMemberLookup.get(pni);
 
@@ -4409,29 +4442,29 @@ function extractDiffs({
       if (pendingMember) {
         details.push({
           type: 'member-add-from-invite',
-          uuid,
+          aci,
           inviter: pendingMember.addedByUserId,
         });
       } else if (currentMember.joinedFromLink) {
         details.push({
           type: 'member-add-from-link',
-          uuid,
+          aci,
         });
       } else if (currentMember.approvedByAdmin) {
         details.push({
           type: 'member-add-from-admin-approval',
-          uuid,
+          aci,
         });
       } else {
         details.push({
           type: 'member-add',
-          uuid,
+          aci,
         });
       }
     } else if (oldMember.role !== currentMember.role) {
       details.push({
         type: 'member-privilege',
-        uuid,
+        aci,
         newPrivilege: currentMember.role,
       });
     }
@@ -4439,49 +4472,49 @@ function extractDiffs({
     // We don't want to generate an admin-approval-remove event for this newly-added
     //   member. But we don't know for sure if this is an admin approval; for that we
     //   consulted the approvedByAdmin flag saved on the member.
-    oldPendingAdminApprovalLookup.delete(uuid);
+    oldPendingAdminApprovalLookup.delete(aci);
 
     // If we capture a pending remove here, it's an 'accept invitation', and we don't
     //   want to generate a pending-remove event for it
-    oldPendingMemberLookup.delete(uuid);
+    oldPendingMemberLookup.delete(aci);
 
     // This deletion makes it easier to capture removals
-    oldMemberLookup.delete(uuid);
+    oldMemberLookup.delete(aci);
   });
 
   const removedMemberIds = Array.from(oldMemberLookup.keys());
-  removedMemberIds.forEach(uuid => {
+  removedMemberIds.forEach(aci => {
     details.push({
       type: 'member-remove',
-      uuid,
+      aci,
     });
   });
 
   // pendingMembersV2
 
-  let lastPendingUuid: UUIDStringType | undefined;
+  let lastPendingServiceId: ServiceIdString | undefined;
   let pendingCount = 0;
   (current.pendingMembersV2 || []).forEach(currentPendingMember => {
-    const { uuid } = currentPendingMember;
-    const oldPendingMember = oldPendingMemberLookup.get(uuid);
+    const { serviceId } = currentPendingMember;
+    const oldPendingMember = oldPendingMemberLookup.get(serviceId);
 
-    if (isUs(uuid)) {
-      if (uuid === ourACI.toString()) {
-        uuidKindInvitedToGroup = UUIDKind.ACI;
-      } else if (uuidKindInvitedToGroup === undefined) {
-        uuidKindInvitedToGroup = UUIDKind.PNI;
+    if (isUs(serviceId)) {
+      if (serviceId === ourAci) {
+        serviceIdKindInvitedToGroup = ServiceIdKind.ACI;
+      } else if (serviceIdKindInvitedToGroup === undefined) {
+        serviceIdKindInvitedToGroup = ServiceIdKind.PNI;
       }
 
       whoInvitedUsUserId = currentPendingMember.addedByUserId;
     }
 
     if (!oldPendingMember) {
-      lastPendingUuid = uuid;
+      lastPendingServiceId = serviceId;
       pendingCount += 1;
     }
 
     // This deletion makes it easier to capture removals
-    oldPendingMemberLookup.delete(uuid);
+    oldPendingMemberLookup.delete(serviceId);
   });
 
   if (pendingCount > 1) {
@@ -4490,10 +4523,10 @@ function extractDiffs({
       count: pendingCount,
     });
   } else if (pendingCount === 1) {
-    if (lastPendingUuid) {
+    if (lastPendingServiceId) {
       details.push({
         type: 'pending-add-one',
-        uuid: lastPendingUuid,
+        serviceId: lastPendingServiceId,
       });
     } else {
       log.warn(
@@ -4522,13 +4555,13 @@ function extractDiffs({
       inviter: allSameInviter ? inviter : undefined,
     });
   } else if (removedPendingMemberIds.length === 1) {
-    const uuid = removedPendingMemberIds[0];
-    const removedMember = oldPendingMemberLookup.get(uuid);
+    const serviceId = removedPendingMemberIds[0];
+    const removedMember = oldPendingMemberLookup.get(serviceId);
     strictAssert(removedMember !== undefined, 'Removed member not found');
 
     details.push({
       type: 'pending-remove-one',
-      uuid,
+      serviceId,
       inviter: removedMember.addedByUserId,
     });
   }
@@ -4537,22 +4570,22 @@ function extractDiffs({
 
   (current.pendingAdminApprovalV2 || []).forEach(
     currentPendingAdminAprovalMember => {
-      const { uuid } = currentPendingAdminAprovalMember;
-      const oldPendingMember = oldPendingAdminApprovalLookup.get(uuid);
+      const { aci } = currentPendingAdminAprovalMember;
+      const oldPendingMember = oldPendingAdminApprovalLookup.get(aci);
 
-      if (uuid === ourACI.toString()) {
+      if (aci === ourAci) {
         areWePendingApproval = true;
       }
 
       if (!oldPendingMember) {
         details.push({
           type: 'admin-approval-add-one',
-          uuid,
+          aci,
         });
       }
 
       // This deletion makes it easier to capture removals
-      oldPendingAdminApprovalLookup.delete(uuid);
+      oldPendingAdminApprovalLookup.delete(aci);
     }
   );
 
@@ -4561,10 +4594,10 @@ function extractDiffs({
   const removedPendingAdminApprovalIds = Array.from(
     oldPendingAdminApprovalLookup.keys()
   );
-  removedPendingAdminApprovalIds.forEach(uuid => {
+  removedPendingAdminApprovalIds.forEach(aci => {
     details.push({
       type: 'admin-approval-remove-one',
-      uuid,
+      aci,
     });
   });
 
@@ -4585,15 +4618,19 @@ function extractDiffs({
   let timerNotification: GroupChangeMessageType | undefined;
 
   const firstUpdate = !isNumber(old.revision);
-  const isFromUs = ourACI.toString() === sourceUuid;
+  const isFromUs = ourAci === sourceServiceId;
   const justJoinedGroup = !firstUpdate && !didWeStartInGroup && areWeInGroup;
 
-  const from = (sourceUuid && pniToAciMap.get(sourceUuid)) ?? sourceUuid;
+  const from =
+    (sourceServiceId &&
+      isPniString(sourceServiceId) &&
+      pniToAciMap.get(sourceServiceId)) ||
+    sourceServiceId;
 
   // Here we hardcode initial messages if this is our first time processing data for this
   //   group. Ideally we can collapse it down to just one of: 'you were added',
   //   'you were invited', or 'you created.'
-  if (firstUpdate && uuidKindInvitedToGroup !== undefined) {
+  if (firstUpdate && serviceIdKindInvitedToGroup !== undefined) {
     // Note, we will add 'you were invited' to group even if dropInitialJoinMessage = true
     message = {
       ...generateBasicMessage(),
@@ -4603,9 +4640,9 @@ function extractDiffs({
         details: [
           {
             type: 'pending-add-one',
-            uuid: window.storage.user
-              .getCheckedUuid(uuidKindInvitedToGroup)
-              .toString(),
+            serviceId: window.storage.user.getCheckedServiceId(
+              serviceIdKindInvitedToGroup
+            ),
           },
         ],
       },
@@ -4617,11 +4654,11 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: ourACI.toString(),
+        from: ourAci,
         details: [
           {
             type: 'admin-approval-add-one',
-            uuid: ourACI.toString(),
+            aci: ourAci,
           },
         ],
       },
@@ -4632,7 +4669,7 @@ function extractDiffs({
   } else if (
     firstUpdate &&
     current.revision === 0 &&
-    sourceUuid === ourACI.toString()
+    sourceServiceId === ourAci
   ) {
     message = {
       ...generateBasicMessage(),
@@ -4699,7 +4736,7 @@ function extractDiffs({
     message = {
       ...generateBasicMessage(),
       type: 'group-v2-change',
-      sourceUuid,
+      sourceServiceId,
       groupV2Change: {
         from,
         details: filteredDetails,
@@ -4711,7 +4748,7 @@ function extractDiffs({
     message = {
       ...generateBasicMessage(),
       type: 'group-v2-change',
-      sourceUuid,
+      sourceServiceId,
       groupV2Change: {
         from,
         details,
@@ -4738,11 +4775,11 @@ function extractDiffs({
     timerNotification = {
       ...generateBasicMessage(),
       type: 'timer-notification',
-      sourceUuid,
+      sourceServiceId,
       flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
-        sourceUuid,
+        sourceServiceId,
       },
     };
   }
@@ -4756,16 +4793,17 @@ function extractDiffs({
   return result;
 }
 
-function profileKeysToMembers(items: ReadonlyArray<GroupChangeMemberType>) {
-  return items.map(item => ({
-    profileKey: Bytes.toBase64(item.profileKey),
-    uuid: item.uuid,
-  }));
+function profileKeysToMap(items: ReadonlyArray<GroupChangeMemberType>) {
+  const map = new Map<AciString, string>();
+  for (const { aci, profileKey } of items) {
+    map.set(aci, Bytes.toBase64(profileKey));
+  }
+  return map;
 }
 
 type GroupChangeMemberType = {
   profileKey: Uint8Array;
-  uuid: UUIDStringType;
+  aci: AciString;
 };
 type GroupApplyResultType = {
   newAttributes: ConversationAttributesType;
@@ -4774,20 +4812,20 @@ type GroupApplyResultType = {
 };
 
 type GroupApplyChangeResultType = GroupApplyResultType & {
-  promotedAciToPniMap: Map<UUIDStringType, UUIDStringType>;
+  promotedAciToPniMap: Map<AciString, PniString>;
 };
 
 async function applyGroupChange({
   actions,
   group,
-  sourceUuid,
+  sourceServiceId,
 }: {
   actions: DecryptedGroupChangeActions;
   group: ConversationAttributesType;
-  sourceUuid: UUIDStringType;
+  sourceServiceId: ServiceIdString;
 }): Promise<GroupApplyChangeResultType> {
   const logId = idForLogging(group.groupId);
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
+  const ourAci = window.storage.user.getCheckedAci();
 
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
@@ -4795,23 +4833,23 @@ async function applyGroupChange({
   const version = actions.version || 0;
   const result = { ...group };
   const newProfileKeys: Array<GroupChangeMemberType> = [];
-  const promotedAciToPniMap = new Map<UUIDStringType, UUIDStringType>();
+  const promotedAciToPniMap = new Map<AciString, PniString>();
 
-  const members: Record<UUIDStringType, GroupV2MemberType> = fromPairs(
-    (result.membersV2 || []).map(member => [member.uuid, member])
+  const members: Record<AciString, GroupV2MemberType> = fromPairs(
+    (result.membersV2 || []).map(member => [member.aci, member])
   );
-  const pendingMembers: Record<UUIDStringType, GroupV2PendingMemberType> =
+  const pendingMembers: Record<ServiceIdString, GroupV2PendingMemberType> =
     fromPairs(
-      (result.pendingMembersV2 || []).map(member => [member.uuid, member])
+      (result.pendingMembersV2 || []).map(member => [member.serviceId, member])
     );
   const pendingAdminApprovalMembers: Record<
-    UUIDStringType,
+    AciString,
     GroupV2PendingAdminApprovalType
   > = fromPairs(
-    (result.pendingAdminApprovalV2 || []).map(member => [member.uuid, member])
+    (result.pendingAdminApprovalV2 || []).map(member => [member.aci, member])
   );
-  const bannedMembers = new Map<UUIDStringType, GroupV2BannedMemberType>(
-    (result.bannedMembersV2 || []).map(member => [member.uuid, member])
+  const bannedMembers = new Map<ServiceIdString, GroupV2BannedMemberType>(
+    (result.bannedMembersV2 || []).map(member => [member.serviceId, member])
   );
 
   if (result.temporaryMemberCount) {
@@ -4830,7 +4868,7 @@ async function applyGroupChange({
       throw new Error('applyGroupChange: addMember.added is missing');
     }
 
-    const addedUuid = UUID.cast(added.userId);
+    const addedUuid = added.userId;
 
     if (members[addedUuid]) {
       log.warn(
@@ -4840,7 +4878,7 @@ async function applyGroupChange({
     }
 
     members[addedUuid] = {
-      uuid: addedUuid,
+      aci: addedUuid,
       role: added.role || MEMBER_ROLE_ENUM.DEFAULT,
       joinedAtVersion: version,
       joinedFromLink: addMember.joinFromInviteLink || false,
@@ -4854,14 +4892,14 @@ async function applyGroupChange({
     }
 
     // Capture who added us
-    if (ourACI && sourceUuid && addedUuid === ourACI) {
-      result.addedBy = sourceUuid;
+    if (ourAci && sourceServiceId && addedUuid === ourAci) {
+      result.addedBy = sourceServiceId;
     }
 
     if (added.profileKey) {
       newProfileKeys.push({
         profileKey: added.profileKey,
-        uuid: UUID.cast(added.userId),
+        aci: added.userId,
       });
     }
   });
@@ -4875,9 +4913,8 @@ async function applyGroupChange({
       );
     }
 
-    const deletedUuid = UUID.cast(deletedUserId);
-    if (members[deletedUuid]) {
-      delete members[deletedUuid];
+    if (members[deletedUserId]) {
+      delete members[deletedUserId];
     } else {
       log.warn(
         `applyGroupChange/${logId}: Attempt to remove member failed; was not in members.`
@@ -4892,10 +4929,9 @@ async function applyGroupChange({
       throw new Error('applyGroupChange: modifyMemberRole had a missing value');
     }
 
-    const userUuid = UUID.cast(userId);
-    if (members[userUuid]) {
-      members[userUuid] = {
-        ...members[userUuid],
+    if (members[userId]) {
+      members[userId] = {
+        ...members[userId],
         role,
       };
     } else {
@@ -4908,17 +4944,24 @@ async function applyGroupChange({
   // modifyMemberProfileKeys?:
   // Array<GroupChange.Actions.ModifyMemberProfileKeyAction>;
   (actions.modifyMemberProfileKeys || []).forEach(modifyMemberProfileKey => {
-    const { profileKey, uuid } = modifyMemberProfileKey;
-    if (!profileKey || !uuid) {
+    const { profileKey, aci } = modifyMemberProfileKey;
+    if (!profileKey || !aci) {
       throw new Error(
         'applyGroupChange: modifyMemberProfileKey had a missing value'
       );
     }
 
-    newProfileKeys.push({
-      profileKey,
-      uuid: UUID.cast(uuid),
-    });
+    if (aci === sourceServiceId || !hasProfileKey(aci)) {
+      newProfileKeys.push({
+        profileKey,
+        aci,
+      });
+    } else {
+      log.warn(
+        `applyGroupChange/${logId}: Attempt to modify member profile key ` +
+          'failed; sourceServiceId is not the same as change aci'
+      );
+    }
   });
 
   // addPendingMembers?: Array<
@@ -4932,24 +4975,24 @@ async function applyGroupChange({
       );
     }
 
-    const addedUuid = UUID.cast(added.member.userId);
+    const addedUserId = added.member.userId;
 
-    if (members[addedUuid]) {
+    if (isAciString(addedUserId) && members[addedUserId]) {
       log.warn(
         `applyGroupChange/${logId}: Attempt to add pendingMember failed; was already in members.`
       );
       return;
     }
-    if (pendingMembers[addedUuid]) {
+    if (pendingMembers[addedUserId]) {
       log.warn(
         `applyGroupChange/${logId}: Attempt to add pendingMember failed; was already in pendingMembers.`
       );
       return;
     }
 
-    pendingMembers[addedUuid] = {
-      uuid: addedUuid,
-      addedByUserId: UUID.cast(added.addedByUserId),
+    pendingMembers[addedUserId] = {
+      serviceId: addedUserId,
+      addedByUserId: added.addedByUserId,
       timestamp: added.timestamp,
       role: added.member.role || MEMBER_ROLE_ENUM.DEFAULT,
     };
@@ -4966,10 +5009,8 @@ async function applyGroupChange({
       );
     }
 
-    const deletedUuid = UUID.cast(deletedUserId);
-
-    if (pendingMembers[deletedUuid]) {
-      delete pendingMembers[deletedUuid];
+    if (pendingMembers[deletedUserId]) {
+      delete pendingMembers[deletedUserId];
     } else {
       log.warn(
         `applyGroupChange/${logId}: Attempt to remove pendingMember failed; was not in pendingMembers.`
@@ -4981,40 +5022,39 @@ async function applyGroupChange({
   //   GroupChange.Actions.PromoteMemberPendingProfileKeyAction
   // >;
   (actions.promotePendingMembers || []).forEach(promotePendingMember => {
-    const { profileKey, uuid: rawUuid } = promotePendingMember;
-    if (!profileKey || !rawUuid) {
+    const { profileKey, aci } = promotePendingMember;
+    if (!profileKey || !aci) {
       throw new Error(
         'applyGroupChange: promotePendingMember had a missing value'
       );
     }
 
-    const uuid = UUID.cast(rawUuid);
-    const previousRecord = pendingMembers[uuid];
+    const previousRecord = pendingMembers[aci];
 
-    if (pendingMembers[uuid]) {
-      delete pendingMembers[uuid];
+    if (pendingMembers[aci]) {
+      delete pendingMembers[aci];
     } else {
       log.warn(
         `applyGroupChange/${logId}: Attempt to promote pendingMember failed; was not in pendingMembers.`
       );
     }
 
-    if (members[uuid]) {
+    if (members[aci]) {
       log.warn(
         `applyGroupChange/${logId}: Attempt to promote pendingMember failed; was already in members.`
       );
       return;
     }
 
-    members[uuid] = {
-      uuid,
+    members[aci] = {
+      aci,
       joinedAtVersion: version,
       role: previousRecord.role || MEMBER_ROLE_ENUM.DEFAULT,
     };
 
     newProfileKeys.push({
       profileKey,
-      uuid,
+      aci,
     });
   });
 
@@ -5050,14 +5090,14 @@ async function applyGroupChange({
       }
 
       members[aci] = {
-        uuid: aci,
+        aci,
         joinedAtVersion: version,
         role: previousRecord.role || MEMBER_ROLE_ENUM.DEFAULT,
       };
 
       newProfileKeys.push({
         profileKey,
-        uuid: aci,
+        aci,
       });
     }
   );
@@ -5147,36 +5187,35 @@ async function applyGroupChange({
           'applyGroupChange: modifyMemberProfileKey had a missing value'
         );
       }
-      const addedUuid = UUID.cast(added.userId);
 
-      if (members[addedUuid]) {
+      if (members[added.userId]) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in members.`
         );
         return;
       }
-      if (pendingMembers[addedUuid]) {
+      if (pendingMembers[added.userId]) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in pendingMembers.`
         );
         return;
       }
-      if (pendingAdminApprovalMembers[addedUuid]) {
+      if (pendingAdminApprovalMembers[added.userId]) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in pendingAdminApprovalMembers.`
         );
         return;
       }
 
-      pendingAdminApprovalMembers[addedUuid] = {
-        uuid: addedUuid,
+      pendingAdminApprovalMembers[added.userId] = {
+        aci: added.userId,
         timestamp: added.timestamp,
       };
 
       if (added.profileKey) {
         newProfileKeys.push({
           profileKey: added.profileKey,
-          uuid: addedUuid,
+          aci: added.userId,
         });
       }
     }
@@ -5194,10 +5233,8 @@ async function applyGroupChange({
         );
       }
 
-      const deletedUuid = UUID.cast(deletedUserId);
-
-      if (pendingAdminApprovalMembers[deletedUuid]) {
-        delete pendingAdminApprovalMembers[deletedUuid];
+      if (pendingAdminApprovalMembers[deletedUserId]) {
+        delete pendingAdminApprovalMembers[deletedUserId];
       } else {
         log.warn(
           `applyGroupChange/${logId}: Attempt to remove pendingAdminApproval failed; was not in pendingAdminApprovalMembers.`
@@ -5218,31 +5255,29 @@ async function applyGroupChange({
         );
       }
 
-      const userUuid = UUID.cast(userId);
-
-      if (pendingAdminApprovalMembers[userUuid]) {
-        delete pendingAdminApprovalMembers[userUuid];
+      if (pendingAdminApprovalMembers[userId]) {
+        delete pendingAdminApprovalMembers[userId];
       } else {
         log.warn(
           `applyGroupChange/${logId}: Attempt to promote pendingAdminApproval failed; was not in pendingAdminApprovalMembers.`
         );
       }
-      if (pendingMembers[userUuid]) {
-        delete pendingAdminApprovalMembers[userUuid];
+      if (pendingMembers[userId]) {
+        delete pendingAdminApprovalMembers[userId];
         log.warn(
           `applyGroupChange/${logId}: Deleted pendingAdminApproval from pendingMembers.`
         );
       }
 
-      if (members[userUuid]) {
+      if (members[userId]) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to promote pendingMember failed; was already in members.`
         );
         return;
       }
 
-      members[userUuid] = {
-        uuid: userUuid,
+      members[userId] = {
+        aci: userId,
         joinedAtVersion: version,
         role: role || MEMBER_ROLE_ENUM.DEFAULT,
         approvedByAdmin: true,
@@ -5280,32 +5315,32 @@ async function applyGroupChange({
 
   if (actions.addMembersBanned && actions.addMembersBanned.length > 0) {
     actions.addMembersBanned.forEach(member => {
-      if (bannedMembers.has(member.uuid)) {
+      if (bannedMembers.has(member.serviceId)) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to add banned member failed; was already in banned list.`
         );
         return;
       }
 
-      bannedMembers.set(member.uuid, member);
+      bannedMembers.set(member.serviceId, member);
     });
   }
 
   if (actions.deleteMembersBanned && actions.deleteMembersBanned.length > 0) {
-    actions.deleteMembersBanned.forEach(uuid => {
-      if (!bannedMembers.has(uuid)) {
+    actions.deleteMembersBanned.forEach(serviceId => {
+      if (!bannedMembers.has(serviceId)) {
         log.warn(
           `applyGroupChange/${logId}: Attempt to remove banned member failed; was not in banned list.`
         );
         return;
       }
 
-      bannedMembers.delete(uuid);
+      bannedMembers.delete(serviceId);
     });
   }
 
-  if (ourACI) {
-    result.left = !members[ourACI];
+  if (ourAci) {
+    result.left = !members[ourAci];
   }
   if (result.left) {
     result.addedBy = undefined;
@@ -5412,7 +5447,10 @@ export async function applyNewAvatar(
 }
 /* eslint-enable no-param-reassign */
 
-function profileKeyHasChanged(userId: string, newProfileKey: Uint8Array) {
+function profileKeyHasChanged(
+  userId: ServiceIdString,
+  newProfileKey: Uint8Array
+) {
   const conversation = window.ConversationController.get(userId);
   if (!conversation) {
     return true;
@@ -5428,14 +5466,24 @@ function profileKeyHasChanged(userId: string, newProfileKey: Uint8Array) {
   return newBase64 !== existingBase64;
 }
 
+function hasProfileKey(userId: ServiceIdString) {
+  const conversation = window.ConversationController.get(userId);
+  if (!conversation) {
+    return false;
+  }
+
+  const existingBase64 = conversation.get('profileKey');
+  return existingBase64 !== undefined;
+}
+
 async function applyGroupState({
   group,
   groupState,
-  sourceUuid,
+  sourceServiceId,
 }: {
   group: ConversationAttributesType;
   groupState: DecryptedGroupState;
-  sourceUuid?: UUIDStringType;
+  sourceServiceId?: ServiceIdString;
 }): Promise<GroupApplyResultType> {
   const logId = idForLogging(group.groupId);
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
@@ -5449,19 +5497,19 @@ async function applyGroupState({
 
   // Used to detect changes in these lists
   const members: Record<string, GroupV2MemberType> = fromPairs(
-    (result.membersV2 || []).map(member => [member.uuid, member])
+    (result.membersV2 || []).map(member => [member.aci, member])
   );
   const pendingMembers: Record<string, GroupV2PendingMemberType> = fromPairs(
-    (result.pendingMembersV2 || []).map(member => [member.uuid, member])
+    (result.pendingMembersV2 || []).map(member => [member.serviceId, member])
   );
   const pendingAdminApprovalMembers: Record<
     string,
     GroupV2PendingAdminApprovalType
   > = fromPairs(
-    (result.pendingAdminApprovalV2 || []).map(member => [member.uuid, member])
+    (result.pendingAdminApprovalV2 || []).map(member => [member.aci, member])
   );
   const bannedMembers = new Map<string, GroupV2BannedMemberType>(
-    (result.bannedMembersV2 || []).map(member => [member.uuid, member])
+    (result.bannedMembersV2 || []).map(member => [member.serviceId, member])
   );
 
   // version
@@ -5506,25 +5554,25 @@ async function applyGroupState({
 
   // Optimization: we assume we have left the group unless we are found in members
   result.left = true;
-  const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
+  const ourAci = window.storage.user.getCheckedAci();
 
   // members
   const wasPreviouslyAMember = (result.membersV2 || []).some(
-    item => item.uuid !== ourACI
+    item => item.aci !== ourAci
   );
   if (groupState.members) {
     result.membersV2 = groupState.members.map(member => {
-      if (member.userId === ourACI) {
+      if (member.userId === ourAci) {
         result.left = false;
 
         // Capture who added us if we were previously not in group
         if (
-          sourceUuid &&
+          sourceServiceId &&
           !wasPreviouslyAMember &&
           isNumber(member.joinedAtVersion) &&
           member.joinedAtVersion === version
         ) {
-          result.addedBy = sourceUuid;
+          result.addedBy = sourceServiceId;
         }
       }
 
@@ -5535,15 +5583,19 @@ async function applyGroupState({
       }
 
       const previousMember = members[member.userId];
-      if (
-        member.profileKey &&
-        (!previousMember ||
-          profileKeyHasChanged(member.userId, member.profileKey))
-      ) {
+      if (member.profileKey && !hasProfileKey(member.userId)) {
         newProfileKeys.push({
           profileKey: member.profileKey,
-          uuid: UUID.cast(member.userId),
+          aci: member.userId,
         });
+      } else if (
+        member.profileKey &&
+        profileKeyHasChanged(member.userId, member.profileKey)
+      ) {
+        log.warn(
+          `applyGroupState(${logId}): Member ${member.userId} had different profileKey`
+        );
+        otherChanges = true;
       } else if (!previousMember) {
         otherChanges = true;
       }
@@ -5561,8 +5613,8 @@ async function applyGroupState({
 
       return {
         role: member.role || MEMBER_ROLE_ENUM.DEFAULT,
-        joinedAtVersion: member.joinedAtVersion || version,
-        uuid: UUID.cast(member.userId),
+        joinedAtVersion: member.joinedAtVersion,
+        aci: member.userId,
       };
     });
   }
@@ -5615,8 +5667,8 @@ async function applyGroupState({
         }
 
         return {
-          addedByUserId: UUID.cast(member.addedByUserId),
-          uuid: UUID.cast(member.member.userId),
+          addedByUserId: member.addedByUserId,
+          serviceId: member.member.userId,
           timestamp: member.timestamp,
           role: member.member.role || MEMBER_ROLE_ENUM.DEFAULT,
         };
@@ -5629,15 +5681,19 @@ async function applyGroupState({
     result.pendingAdminApprovalV2 = groupState.membersPendingAdminApproval.map(
       member => {
         const previousMember = pendingAdminApprovalMembers[member.userId];
-        if (
-          member.profileKey &&
-          (!previousMember ||
-            profileKeyHasChanged(member.userId, member.profileKey))
-        ) {
+        if (member.profileKey && !hasProfileKey(member.userId)) {
           newProfileKeys.push({
             profileKey: member.profileKey,
-            uuid: UUID.cast(member.userId),
+            aci: member.userId,
           });
+        } else if (
+          member.profileKey &&
+          profileKeyHasChanged(member.userId, member.profileKey)
+        ) {
+          log.warn(
+            `applyGroupState(${logId}): Member ${member.userId} had different profileKey`
+          );
+          otherChanges = true;
         } else if (!previousMember) {
           otherChanges = true;
         }
@@ -5650,7 +5706,7 @@ async function applyGroupState({
         }
 
         return {
-          uuid: UUID.cast(member.userId),
+          aci: member.userId,
           timestamp: member.timestamp,
         };
       }
@@ -5678,14 +5734,14 @@ async function applyGroupState({
 
   // membersBanned
   result.bannedMembersV2 = groupState.membersBanned?.map(member => {
-    const previousMember = bannedMembers.get(member.uuid);
+    const previousMember = bannedMembers.get(member.serviceId);
     if (!previousMember) {
       otherChanges = true;
     }
     if (previousMember && previousMember.timestamp !== member.timestamp) {
       otherChanges = true;
       log.warn(
-        `applyGroupState(${logId}): Member ${member.uuid} had different timestamp`
+        `applyGroupState(${logId}): Member ${member.serviceId} had different timestamp`
       );
     }
 
@@ -5754,36 +5810,37 @@ function normalizeTimestamp(timestamp: Long | null | undefined): number {
 
 type DecryptedGroupChangeActions = {
   version?: number;
-  sourceUuid?: UUIDStringType;
+  sourceServiceId?: ServiceIdString;
   addMembers?: ReadonlyArray<{
     added: DecryptedMember;
     joinFromInviteLink: boolean;
   }>;
   deleteMembers?: ReadonlyArray<{
-    deletedUserId: string;
+    deletedUserId: AciString;
   }>;
   modifyMemberRoles?: ReadonlyArray<{
-    userId: string;
+    userId: AciString;
     role: Proto.Member.Role;
   }>;
   modifyMemberProfileKeys?: ReadonlyArray<{
     profileKey: Uint8Array;
-    uuid: UUIDStringType;
+    aci: AciString;
   }>;
   addPendingMembers?: ReadonlyArray<{
     added: DecryptedMemberPendingProfileKey;
   }>;
   deletePendingMembers?: ReadonlyArray<{
-    deletedUserId: string;
+    // This might be a PNI
+    deletedUserId: ServiceIdString;
   }>;
   promotePendingMembers?: ReadonlyArray<{
     profileKey: Uint8Array;
-    uuid: UUIDStringType;
+    aci: AciString;
   }>;
   promoteMembersPendingPniAciProfileKey?: ReadonlyArray<{
     profileKey: Uint8Array;
-    aci: UUIDStringType;
-    pni: UUIDStringType;
+    aci: AciString;
+    pni: PniString;
   }>;
   modifyTitle?: {
     title?: Proto.GroupAttributeBlob;
@@ -5795,10 +5852,10 @@ type DecryptedGroupChangeActions = {
     added: DecryptedMemberPendingAdminApproval;
   }>;
   deleteMemberPendingAdminApprovals?: ReadonlyArray<{
-    deletedUserId: string;
+    deletedUserId: AciString;
   }>;
   promoteMemberPendingAdminApprovals?: ReadonlyArray<{
-    userId: string;
+    userId: AciString;
     role: Proto.Member.Role;
   }>;
   modifyInviteLinkPassword?: {
@@ -5811,7 +5868,8 @@ type DecryptedGroupChangeActions = {
     announcementsOnly: boolean;
   };
   addMembersBanned?: ReadonlyArray<GroupV2BannedMemberType>;
-  deleteMembersBanned?: ReadonlyArray<UUIDStringType>;
+  // This might be a PNI
+  deleteMembersBanned?: ReadonlyArray<ServiceIdString>;
 } & Pick<
   Proto.GroupChange.IActions,
   | 'modifyAttributesAccess'
@@ -5831,29 +5889,27 @@ function decryptGroupChange(
 
   const clientZkGroupCipher = getClientZkGroupCipher(groupSecretParams);
 
-  if (actions.sourceUuid && actions.sourceUuid.length !== 0) {
+  if (actions.sourceUserId && actions.sourceUserId.length !== 0) {
     try {
-      result.sourceUuid = UUID.cast(
-        normalizeUuid(
-          decryptUuid(clientZkGroupCipher, actions.sourceUuid),
-          'actions.sourceUuid'
-        )
+      result.sourceServiceId = decryptServiceId(
+        clientZkGroupCipher,
+        actions.sourceUserId
       );
     } catch (error) {
       log.warn(
-        `decryptGroupChange/${logId}: Unable to decrypt sourceUuid.`,
+        `decryptGroupChange/${logId}: Unable to decrypt sourceServiceId.`,
         Errors.toLogFormat(error)
       );
     }
 
-    if (!isValidUuid(result.sourceUuid)) {
+    if (!result.sourceServiceId || !isServiceIdString(result.sourceServiceId)) {
       log.warn(
-        `decryptGroupChange/${logId}: Invalid sourceUuid. Clearing sourceUuid.`
+        `decryptGroupChange/${logId}: Invalid sourceServiceId. Clearing sourceServiceId.`
       );
-      result.sourceUuid = undefined;
+      result.sourceServiceId = undefined;
     }
   } else {
-    throw new Error('decryptGroupChange: Missing sourceUuid');
+    throw new Error('decryptGroupChange: Missing sourceServiceId');
   }
 
   // addMembers?: Array<GroupChange.Actions.AddMemberAction>;
@@ -5888,25 +5944,14 @@ function decryptGroupChange(
         'decryptGroupChange: deleteMember.deletedUserId was missing'
       );
 
-      let userId: string;
+      let userId: AciString;
       try {
-        userId = normalizeUuid(
-          decryptUuid(clientZkGroupCipher, deletedUserId),
-          'actions.deleteMembers.deletedUserId'
-        );
+        userId = decryptAci(clientZkGroupCipher, deletedUserId);
       } catch (error) {
         log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt deleteMembers.deletedUserId. Dropping member.`,
           Errors.toLogFormat(error)
         );
-        return null;
-      }
-
-      if (!isValidUuid(userId)) {
-        log.warn(
-          `decryptGroupChange/${logId}: Dropping deleteMember due to invalid userId`
-        );
-
         return null;
       }
 
@@ -5922,25 +5967,14 @@ function decryptGroupChange(
         'decryptGroupChange: modifyMemberRole.userId was missing'
       );
 
-      let userId: string;
+      let userId: AciString;
       try {
-        userId = normalizeUuid(
-          decryptUuid(clientZkGroupCipher, modifyMember.userId),
-          'actions.modifyMemberRoles.userId'
-        );
+        userId = decryptAci(clientZkGroupCipher, modifyMember.userId);
       } catch (error) {
         log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt modifyMemberRole.userId. Dropping member.`,
           Errors.toLogFormat(error)
         );
-        return null;
-      }
-
-      if (!isValidUuid(userId)) {
-        log.warn(
-          `decryptGroupChange/${logId}: Dropping modifyMemberRole due to invalid userId`
-        );
-
         return null;
       }
 
@@ -5989,18 +6023,15 @@ function decryptGroupChange(
         'decryptGroupChange: modifyMemberProfileKeys.profileKey was missing'
       );
 
-      let uuid: UUIDStringType;
+      let aci: AciString;
       let profileKey: Uint8Array;
       try {
-        uuid = normalizeUuid(
-          decryptUuid(clientZkGroupCipher, userId),
-          'actions.modifyMemberProfileKeys.userId'
-        );
+        aci = decryptAci(clientZkGroupCipher, userId);
 
         profileKey = decryptProfileKey(
           clientZkGroupCipher,
           encryptedProfileKey,
-          uuid
+          aci
         );
       } catch (error) {
         log.warn(
@@ -6017,7 +6048,7 @@ function decryptGroupChange(
         );
       }
 
-      return { uuid, profileKey };
+      return { aci, profileKey };
     })
   );
 
@@ -6055,12 +6086,9 @@ function decryptGroupChange(
         Bytes.isNotEmpty(deletedUserId),
         'decryptGroupChange: deletePendingMembers.deletedUserId was missing'
       );
-      let userId: string;
+      let userId: ServiceIdString;
       try {
-        userId = normalizeUuid(
-          decryptUuid(clientZkGroupCipher, deletedUserId),
-          'actions.deletePendingMembers.deletedUserId'
-        );
+        userId = decryptServiceId(clientZkGroupCipher, deletedUserId);
       } catch (error) {
         log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt deletePendingMembers.deletedUserId. Dropping member.`,
@@ -6069,7 +6097,7 @@ function decryptGroupChange(
         return null;
       }
 
-      if (!isValidUuid(userId)) {
+      if (!isServiceIdString(userId)) {
         log.warn(
           `decryptGroupChange/${logId}: Dropping deletePendingMember due to invalid deletedUserId`
         );
@@ -6114,18 +6142,15 @@ function decryptGroupChange(
         'decryptGroupChange: promotePendingMembers.profileKey was missing'
       );
 
-      let uuid: UUIDStringType;
+      let aci: AciString;
       let profileKey: Uint8Array;
       try {
-        uuid = normalizeUuid(
-          decryptUuid(clientZkGroupCipher, userId),
-          'actions.promotePendingMembers.userId'
-        );
+        aci = decryptAci(clientZkGroupCipher, userId);
 
         profileKey = decryptProfileKey(
           clientZkGroupCipher,
           encryptedProfileKey,
-          uuid
+          aci
         );
       } catch (error) {
         log.warn(
@@ -6142,7 +6167,7 @@ function decryptGroupChange(
         );
       }
 
-      return { uuid, profileKey };
+      return { aci, profileKey };
     })
   );
 
@@ -6168,47 +6193,23 @@ function decryptGroupChange(
             'promoteMembersPendingPniAciProfileKey.profileKey was missing'
         );
 
-        let userId: string;
-        let pni: string;
+        let aci: AciString;
+        let pni: PniString;
         let profileKey: Uint8Array;
         try {
-          userId = normalizeUuid(
-            decryptUuid(clientZkGroupCipher, promotePendingMember.userId),
-            'actions.promoteMembersPendingPniAciProfileKey.userId'
-          );
-          pni = normalizeUuid(
-            decryptUuid(clientZkGroupCipher, promotePendingMember.pni),
-            'actions.promoteMembersPendingPniAciProfileKey.pni'
-          );
+          aci = decryptAci(clientZkGroupCipher, promotePendingMember.userId);
+          pni = decryptPni(clientZkGroupCipher, promotePendingMember.pni);
 
           profileKey = decryptProfileKey(
             clientZkGroupCipher,
             promotePendingMember.profileKey,
-            UUID.cast(userId)
+            aci
           );
         } catch (error) {
           log.warn(
             `decryptGroupChange/${logId}: Unable to decrypt promoteMembersPendingPniAciProfileKey. Dropping member.`,
             Errors.toLogFormat(error)
           );
-          return null;
-        }
-
-        if (!isValidUuid(userId)) {
-          log.warn(
-            `decryptGroupChange/${logId}: Dropping ` +
-              'promoteMembersPendingPniAciProfileKey due to invalid ACI'
-          );
-
-          return null;
-        }
-
-        if (!isValidUuid(pni)) {
-          log.warn(
-            `decryptGroupChange/${logId}: Dropping ` +
-              'promoteMembersPendingPniAciProfileKey due to invalid PNI'
-          );
-
           return null;
         }
 
@@ -6220,7 +6221,7 @@ function decryptGroupChange(
         }
 
         return {
-          aci: userId,
+          aci,
           pni,
           profileKey,
         };
@@ -6363,12 +6364,9 @@ function decryptGroupChange(
           'decryptGroupChange: deletePendingApproval.deletedUserId was missing'
         );
 
-        let userId: string;
+        let aci: AciString;
         try {
-          userId = normalizeUuid(
-            decryptUuid(clientZkGroupCipher, deletedUserId),
-            'actions.deleteMemberPendingAdminApprovals'
-          );
+          aci = decryptAci(clientZkGroupCipher, deletedUserId);
         } catch (error) {
           log.warn(
             `decryptGroupChange/${logId}: Unable to decrypt deletePendingApproval.deletedUserId. Dropping member.`,
@@ -6376,15 +6374,8 @@ function decryptGroupChange(
           );
           return null;
         }
-        if (!isValidUuid(userId)) {
-          log.warn(
-            `decryptGroupChange/${logId}: Dropping deletePendingApproval due to invalid deletedUserId`
-          );
 
-          return null;
-        }
-
-        return { deletedUserId: userId };
+        return { deletedUserId: aci };
       }
     )
   );
@@ -6401,12 +6392,9 @@ function decryptGroupChange(
           'decryptGroupChange: promoteAdminApproval.userId was missing'
         );
 
-        let decryptedUserId: string;
+        let decryptedUserId: AciString;
         try {
-          decryptedUserId = normalizeUuid(
-            decryptUuid(clientZkGroupCipher, userId),
-            'actions.promoteMemberPendingAdminApprovals.userId'
-          );
+          decryptedUserId = decryptAci(clientZkGroupCipher, userId);
         } catch (error) {
           log.warn(
             `decryptGroupChange/${logId}: Unable to decrypt promoteAdminApproval.userId. Dropping member.`,
@@ -6478,13 +6466,13 @@ function decryptGroupChange(
           );
           return null;
         }
-        const uuid = normalizeUuid(
-          decryptUuid(clientZkGroupCipher, item.added.userId),
-          'addMembersBanned.added.userId'
+        const serviceId = decryptServiceId(
+          clientZkGroupCipher,
+          item.added.userId
         );
         const timestamp = normalizeTimestamp(item.added.timestamp);
 
-        return { uuid, timestamp };
+        return { serviceId, timestamp };
       })
       .filter(isNotNil);
   }
@@ -6499,10 +6487,7 @@ function decryptGroupChange(
           );
           return null;
         }
-        return normalizeUuid(
-          decryptUuid(clientZkGroupCipher, item.deletedUserId),
-          'deleteMembersBanned.deletedUserId'
-        );
+        return decryptServiceId(clientZkGroupCipher, item.deletedUserId);
       })
       .filter(isNotNil);
   }
@@ -6618,9 +6603,13 @@ function decryptGroupState(
     const { accessControl } = groupState;
     strictAssert(accessControl, 'No accessControl field found');
 
-    const attributes = dropNull(accessControl.attributes);
-    const members = dropNull(accessControl.members);
-    const addFromInviteLink = dropNull(accessControl.addFromInviteLink);
+    const attributes =
+      accessControl.attributes ?? Proto.AccessControl.AccessRequired.UNKNOWN;
+    const members =
+      accessControl.members ?? Proto.AccessControl.AccessRequired.UNKNOWN;
+    const addFromInviteLink =
+      accessControl.addFromInviteLink ??
+      Proto.AccessControl.AccessRequired.UNKNOWN;
 
     strictAssert(
       isValidAccess(attributes),
@@ -6643,11 +6632,12 @@ function decryptGroupState(
   }
 
   // version
+  const version = groupState.version ?? 0;
   strictAssert(
-    isNumber(groupState.version),
-    `decryptGroupState: Expected version to be a number; it was ${groupState.version}`
+    isNumber(version),
+    `decryptGroupState: Expected version to be a number or null; it was ${groupState.version}`
   );
-  result.version = groupState.version;
+  result.version = version;
 
   // members
   if (groupState.members) {
@@ -6712,13 +6702,10 @@ function decryptGroupState(
           );
           return null;
         }
-        const uuid = normalizeUuid(
-          decryptUuid(clientZkGroupCipher, item.userId),
-          'membersBanned.added.userId'
-        );
+        const serviceId = decryptServiceId(clientZkGroupCipher, item.userId);
         const timestamp = item.timestamp?.toNumber() ?? 0;
 
-        return { uuid, timestamp };
+        return { serviceId, timestamp };
       })
       .filter(isNotNil);
   } else {
@@ -6731,10 +6718,10 @@ function decryptGroupState(
 }
 
 type DecryptedMember = Readonly<{
-  userId: string;
+  userId: AciString;
   profileKey: Uint8Array;
   role: Proto.Member.Role;
-  joinedAtVersion?: number;
+  joinedAtVersion: number;
 }>;
 
 function decryptMember(
@@ -6748,23 +6735,14 @@ function decryptMember(
     'decryptMember: Member had missing userId'
   );
 
-  let userId: string;
+  let userId: AciString;
   try {
-    userId = normalizeUuid(
-      decryptUuid(clientZkGroupCipher, member.userId),
-      'decryptMember.userId'
-    );
+    userId = decryptAci(clientZkGroupCipher, member.userId);
   } catch (error) {
     log.warn(
       `decryptMember/${logId}: Unable to decrypt member userid. Dropping member.`,
       Errors.toLogFormat(error)
     );
-    return undefined;
-  }
-
-  if (!isValidUuid(userId)) {
-    log.warn(`decryptMember/${logId}: Dropping member due to invalid userId`);
-
     return undefined;
   }
 
@@ -6776,7 +6754,7 @@ function decryptMember(
   const profileKey = decryptProfileKey(
     clientZkGroupCipher,
     member.profileKey,
-    UUID.cast(userId)
+    userId
   );
 
   if (!isValidProfileKey(profileKey)) {
@@ -6794,15 +6772,15 @@ function decryptMember(
     userId,
     profileKey,
     role,
-    joinedAtVersion: dropNull(member.joinedAtVersion),
+    joinedAtVersion: dropNull(member.joinedAtVersion) ?? 0,
   };
 }
 
 type DecryptedMemberPendingProfileKey = {
-  addedByUserId: string;
+  addedByUserId: AciString;
   timestamp: number;
   member: {
-    userId: string;
+    userId: ServiceIdString;
     role?: Proto.Member.Role;
   };
 };
@@ -6818,23 +6796,13 @@ function decryptMemberPendingProfileKey(
     'decryptMemberPendingProfileKey: Member had missing addedByUserId'
   );
 
-  let addedByUserId: string;
+  let addedByUserId: AciString;
   try {
-    addedByUserId = normalizeUuid(
-      decryptUuid(clientZkGroupCipher, member.addedByUserId),
-      'decryptMemberPendingProfileKey.addedByUserId'
-    );
+    addedByUserId = decryptAci(clientZkGroupCipher, member.addedByUserId);
   } catch (error) {
     log.warn(
       `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member addedByUserId. Dropping member.`,
       Errors.toLogFormat(error)
-    );
-    return undefined;
-  }
-
-  if (!isValidUuid(addedByUserId)) {
-    log.warn(
-      `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to invalid addedByUserId`
     );
     return undefined;
   }
@@ -6862,25 +6830,14 @@ function decryptMemberPendingProfileKey(
     'decryptMemberPendingProfileKey: Member had missing member.userId'
   );
 
-  let decryptedUserId: string;
+  let decryptedUserId: ServiceIdString;
   try {
-    decryptedUserId = normalizeUuid(
-      decryptUuid(clientZkGroupCipher, userId),
-      'decryptMemberPendingProfileKey.member.userId'
-    );
+    decryptedUserId = decryptServiceId(clientZkGroupCipher, userId);
   } catch (error) {
     log.warn(
       `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member userId. Dropping member.`,
       Errors.toLogFormat(error)
     );
-    return undefined;
-  }
-
-  if (!isValidUuid(decryptedUserId)) {
-    log.warn(
-      `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to invalid member.userId`
-    );
-
     return undefined;
   }
 
@@ -6903,7 +6860,7 @@ function decryptMemberPendingProfileKey(
 }
 
 type DecryptedMemberPendingAdminApproval = {
-  userId: string;
+  userId: AciString;
   profileKey?: Uint8Array;
   timestamp: number;
 };
@@ -6924,25 +6881,14 @@ function decryptMemberPendingAdminApproval(
     'decryptMemberPendingAdminApproval: Missing userId'
   );
 
-  let decryptedUserId: string;
+  let decryptedUserId: AciString;
   try {
-    decryptedUserId = normalizeUuid(
-      decryptUuid(clientZkGroupCipher, userId),
-      'decryptMemberPendingAdminApproval.userId'
-    );
+    decryptedUserId = decryptAci(clientZkGroupCipher, userId);
   } catch (error) {
     log.warn(
       `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt pending member userId. Dropping member.`,
       Errors.toLogFormat(error)
     );
-    return undefined;
-  }
-
-  if (!isValidUuid(decryptedUserId)) {
-    log.warn(
-      `decryptMemberPendingAdminApproval/${logId}: Invalid userId. Dropping member.`
-    );
-
     return undefined;
   }
 
@@ -6953,7 +6899,7 @@ function decryptMemberPendingAdminApproval(
       decryptedProfileKey = decryptProfileKey(
         clientZkGroupCipher,
         profileKey,
-        UUID.cast(decryptedUserId)
+        decryptedUserId
       );
     } catch (error) {
       log.warn(
@@ -6980,7 +6926,7 @@ function decryptMemberPendingAdminApproval(
 
 export function getMembershipList(
   conversationId: string
-): Array<{ uuid: UUIDStringType; uuidCiphertext: Uint8Array }> {
+): Array<{ aci: AciString; uuidCiphertext: Uint8Array }> {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
     throw new Error('getMembershipList: cannot find conversation');
@@ -6994,9 +6940,9 @@ export function getMembershipList(
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
   return conversation.getMembers().map(member => {
-    const uuid = member.getCheckedUuid('getMembershipList: member has no UUID');
+    const aci = member.getCheckedAci('getMembershipList: member has no aci');
 
-    const uuidCiphertext = encryptUuid(clientZkGroupCipher, uuid);
-    return { uuid: uuid.toString(), uuidCiphertext };
+    const uuidCiphertext = encryptServiceId(clientZkGroupCipher, aci);
+    return { aci, uuidCiphertext };
   });
 }

@@ -1,6 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type {
@@ -12,8 +14,8 @@ import type { AttachmentType } from '../types/Attachment';
 import { ErrorWithToast } from '../types/ErrorWithToast';
 import { SendStatus } from '../messages/MessageSendState';
 import { ToastType } from '../types/Toast';
-import { UUID } from '../types/UUID';
-import { canEditMessage } from './canEditMessage';
+import type { AciString } from '../types/ServiceId';
+import { canEditMessage, isWithinMaxEdits } from './canEditMessage';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -21,7 +23,7 @@ import {
 import { concat, filter, map, repeat, zipObject, find } from './iterables';
 import { getConversationIdForLogging } from './idForLogging';
 import { isQuoteAMatch } from '../messages/helpers';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { handleEditMessage } from './handleEditMessage';
 import { incrementMessageCounter } from './incrementMessageCounter';
 import { isGroupV1 } from './whatTypeOfConversation';
@@ -41,14 +43,14 @@ export async function sendEditedMessage(
     bodyRanges,
     preview,
     quoteSentAt,
-    quoteAuthorUuid,
+    quoteAuthorAci,
     targetMessageId,
   }: {
     body?: string;
     bodyRanges?: DraftBodyRanges;
     preview: Array<LinkPreviewType>;
     quoteSentAt?: number;
-    quoteAuthorUuid?: string;
+    quoteAuthorAci?: AciString;
     targetMessageId: string;
   }
 ): Promise<void> {
@@ -62,7 +64,7 @@ export async function sendEditedMessage(
     conversation.attributes
   )})`;
 
-  const targetMessage = await getMessageById(targetMessageId);
+  const targetMessage = await __DEPRECATED$getMessageById(targetMessageId);
   strictAssert(targetMessage, 'could not find message to edit');
 
   if (isGroupV1(conversation.attributes)) {
@@ -75,7 +77,10 @@ export async function sendEditedMessage(
     return;
   }
 
-  if (!canEditMessage(targetMessage.attributes)) {
+  if (
+    !canEditMessage(targetMessage.attributes) ||
+    !isWithinMaxEdits(targetMessage.attributes)
+  ) {
     throw new ErrorWithToast(
       `${idLog}: cannot edit`,
       ToastType.CannotEditMessage
@@ -93,30 +98,6 @@ export async function sendEditedMessage(
   log.info(`${idLog}: edited(${timestamp}) original(${targetSentTimestamp})`);
 
   conversation.clearTypingTimers();
-
-  const ourConversation =
-    window.ConversationController.getOurConversationOrThrow();
-  const fromId = ourConversation.id;
-
-  const recipientMaybeConversations = map(
-    conversation.getRecipients(),
-    identifier => window.ConversationController.get(identifier)
-  );
-  const recipientConversations = filter(recipientMaybeConversations, isNotNil);
-  const recipientConversationIds = concat(
-    map(recipientConversations, c => c.id),
-    [fromId]
-  );
-  const sendStateByConversationId = zipObject(
-    recipientConversationIds,
-    repeat({
-      status: SendStatus.Pending,
-      updatedAt: timestamp,
-    })
-  );
-
-  // Resetting send state for the target message
-  targetMessage.set({ sendStateByConversationId });
 
   // Can't send both preview and attachments
   const attachments =
@@ -141,7 +122,7 @@ export async function sendEditedMessage(
   };
 
   let quote: QuotedMessageType | undefined;
-  if (quoteSentAt !== undefined && quoteAuthorUuid !== undefined) {
+  if (quoteSentAt !== undefined && quoteAuthorAci !== undefined) {
     const existingQuote = targetMessage.get('quote');
 
     // Keep the quote if unchanged.
@@ -154,7 +135,7 @@ export async function sendEditedMessage(
       const matchingMessage = find(messages, item =>
         isQuoteAMatch(item, conversationId, {
           id: quoteSentAt,
-          authorUuid: quoteAuthorUuid,
+          authorAci: quoteAuthorAci,
         })
       );
 
@@ -163,6 +144,28 @@ export async function sendEditedMessage(
       }
     }
   }
+
+  const ourConversation =
+    window.ConversationController.getOurConversationOrThrow();
+  const fromId = ourConversation.id;
+
+  // Create the send state for later use
+  const recipientMaybeConversations = map(
+    conversation.getRecipients(),
+    identifier => window.ConversationController.get(identifier)
+  );
+  const recipientConversations = filter(recipientMaybeConversations, isNotNil);
+  const recipientConversationIds = concat(
+    map(recipientConversations, c => c.id),
+    [fromId]
+  );
+  const sendStateByConversationId = zipObject(
+    recipientConversationIds,
+    repeat({
+      status: SendStatus.Pending,
+      updatedAt: timestamp,
+    })
+  );
 
   // An ephemeral message that we just use to handle the edit
   const tmpMessage: MessageAttributesType = {
@@ -183,10 +186,11 @@ export async function sendEditedMessage(
         image,
       };
     }),
-    id: UUID.generate().toString(),
+    id: generateUuid(),
     quote,
     received_at: incrementMessageCounter(),
     received_at_ms: timestamp,
+    sendStateByConversationId,
     sent_at: timestamp,
     timestamp,
     type: 'outgoing',
@@ -201,6 +205,9 @@ export async function sendEditedMessage(
     message: tmpMessage,
   });
 
+  // Reset send state prior to send
+  targetMessage.set({ sendStateByConversationId });
+
   // Inserting the send into a job and saving it to the message
   await timeAndLogIfTooLong(
     SEND_REPORT_THRESHOLD_MS,
@@ -211,7 +218,7 @@ export async function sendEditedMessage(
           conversationId,
           messageId: targetMessageId,
           revision: conversation.get('revision'),
-          editedMessageTimestamp: targetSentTimestamp,
+          editedMessageTimestamp: timestamp,
         },
         async jobToInsert => {
           log.info(
@@ -219,7 +226,7 @@ export async function sendEditedMessage(
           );
           await window.Signal.Data.saveMessage(targetMessage.attributes, {
             jobToInsert,
-            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+            ourAci: window.textsecure.storage.user.getCheckedAci(),
           });
         }
       ),
@@ -239,7 +246,7 @@ export async function sendEditedMessage(
         now: timestamp,
       });
     },
-    duration => `${idLog}: batchDisptach took ${duration}ms`
+    duration => `${idLog}: batchDispatch took ${duration}ms`
   );
 
   window.Signal.Data.updateConversation(conversation.attributes);

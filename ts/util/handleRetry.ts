@@ -17,7 +17,7 @@ import { parseIntOrThrow } from './parseIntOrThrow';
 import * as RemoteConfig from '../RemoteConfig';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import { UUID } from '../types/UUID';
+import type { AciString, ServiceIdString } from '../types/ServiceId';
 import {
   ToastInternalError,
   ToastInternalErrorKind,
@@ -46,9 +46,10 @@ const RETRY_LIMIT = 5;
 
 // Entrypoints
 
-const retryRecord = new Map<number, number>();
+type RetryKeyType = `${AciString}.${number}:${number}`;
+const retryRecord = new Map<RetryKeyType, number>();
 
-export function _getRetryRecord(): Map<number, number> {
+export function _getRetryRecord(): Map<string, number> {
   return retryRecord;
 }
 
@@ -57,11 +58,11 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   const {
     groupId: requestGroupId,
     requesterDevice,
-    requesterUuid,
+    requesterAci,
     senderDevice,
     sentAt,
   } = retryRequest;
-  const logId = `${requesterUuid}.${requesterDevice} ${sentAt}.${senderDevice}`;
+  const logId = `${requesterAci}.${requesterDevice} ${sentAt}.${senderDevice}`;
 
   log.info(`onRetryRequest/${logId}: Starting...`);
 
@@ -73,8 +74,9 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     return;
   }
 
-  const retryCount = (retryRecord.get(sentAt) || 0) + 1;
-  retryRecord.set(sentAt, retryCount);
+  const retryKey: RetryKeyType = `${requesterAci}.${requesterDevice}:${sentAt}`;
+  const retryCount = (retryRecord.get(retryKey) || 0) + 1;
+  retryRecord.set(retryKey, retryCount);
   if (retryCount > RETRY_LIMIT) {
     log.warn(
       `onRetryRequest/${logId}: retryCount is ${retryCount}; returning early.`
@@ -116,7 +118,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
 
   const sentProto = await window.Signal.Data.getSentProtoByRecipient({
     now: Date.now(),
-    recipientUuid: requesterUuid,
+    recipientServiceId: requesterAci,
     timestamp: sentAt,
   });
 
@@ -142,7 +144,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     logId,
     messageIds,
     requestGroupId,
-    requesterUuid,
+    requesterAci,
     timestamp,
   });
   // eslint-disable-next-line prefer-destructuring
@@ -158,7 +160,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
       contentProto,
       logId,
       messaging,
-      requesterUuid,
+      requesterAci,
       timestamp,
     });
     if (!contentProto) {
@@ -168,7 +170,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   const story = Boolean(contentProto.storyMessage);
 
   const recipientConversation = window.ConversationController.getOrCreate(
-    requesterUuid,
+    requesterAci,
     'private'
   );
   const protoToSend = new Proto.Content(contentProto);
@@ -209,13 +211,13 @@ function maybeShowDecryptionToast(
 export function onInvalidPlaintextMessage({
   data,
 }: InvalidPlaintextEvent): void {
-  const { senderUuid, senderDevice, timestamp } = data;
-  const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
+  const { senderAci, senderDevice, timestamp } = data;
+  const logId = `${senderAci}.${senderDevice} ${timestamp}`;
 
   log.info(`onInvalidPlaintextMessage/${logId}: Starting...`);
 
   const conversation = window.ConversationController.getOrCreate(
-    senderUuid,
+    senderAci,
     'private'
   );
 
@@ -227,13 +229,14 @@ export async function onDecryptionError(
   event: DecryptionErrorEvent
 ): Promise<void> {
   const { confirm, decryptionError } = event;
-  const { senderUuid, senderDevice, timestamp } = decryptionError;
-  const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
+  const { senderAci, senderDevice, timestamp } = decryptionError;
+  const logId = `${senderAci}.${senderDevice} ${timestamp}`;
 
   log.info(`onDecryptionError/${logId}: Starting...`);
 
-  const retryCount = (retryRecord.get(timestamp) || 0) + 1;
-  retryRecord.set(timestamp, retryCount);
+  const retryKey: RetryKeyType = `${senderAci}.${senderDevice}:${timestamp}`;
+  const retryCount = (retryRecord.get(retryKey) || 0) + 1;
+  retryRecord.set(retryKey, retryCount);
   if (retryCount > RETRY_LIMIT) {
     log.warn(
       `onDecryptionError/${logId}: retryCount is ${retryCount}; returning early.`
@@ -243,7 +246,7 @@ export async function onDecryptionError(
   }
 
   const conversation = window.ConversationController.getOrCreate(
-    senderUuid,
+    senderAci,
     'private'
   );
   const name = conversation.getTitle();
@@ -263,7 +266,7 @@ export async function onDecryptionError(
 
 async function archiveSessionOnMatch({
   ratchetKey,
-  requesterUuid,
+  requesterAci,
   requesterDevice,
   senderDevice,
 }: RetryRequestEventData): Promise<boolean> {
@@ -275,10 +278,10 @@ async function archiveSessionOnMatch({
     return false;
   }
 
-  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
   const address = new QualifiedAddress(
-    ourUuid,
-    Address.create(requesterUuid, requesterDevice)
+    ourAci,
+    Address.create(requesterAci, requesterDevice)
   );
   const session = await window.textsecure.storage.protocol.loadSession(address);
 
@@ -298,7 +301,7 @@ async function sendDistributionMessageOrNullMessage(
   options: RetryRequestEventData,
   didArchive: boolean
 ): Promise<void> {
-  const { groupId, requesterUuid } = options;
+  const { groupId, requesterAci } = options;
   let sentDistributionMessage = false;
   log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
 
@@ -310,7 +313,7 @@ async function sendDistributionMessageOrNullMessage(
   }
 
   const conversation = window.ConversationController.getOrCreate(
-    requesterUuid,
+    requesterAci,
     'private'
   );
 
@@ -318,9 +321,9 @@ async function sendDistributionMessageOrNullMessage(
     const group = window.ConversationController.get(groupId);
     const distributionId = group?.get('senderKeyInfo')?.distributionId;
 
-    if (group && !group.hasMember(new UUID(requesterUuid))) {
+    if (group && !group.hasMember(requesterAci)) {
       throw new Error(
-        `sendDistributionMessageOrNullMessage/${logId}: Requester ${requesterUuid} is not a member of ${conversation.idForLogging()}`
+        `sendDistributionMessageOrNullMessage/${logId}: Requester ${requesterAci} is not a member of ${conversation.idForLogging()}`
       );
     }
 
@@ -405,22 +408,22 @@ async function checkDistributionListAndAddSKDM({
   timestamp,
   confirm,
   logId,
-  requesterUuid,
+  requesterAci,
   messaging,
 }: {
   contentProto: Proto.IContent;
   timestamp: number;
   confirm: () => void;
-  requesterUuid: string;
+  requesterAci: AciString;
   logId: string;
   messaging: MessageSender;
 }): Promise<Proto.IContent | undefined> {
   let distributionList: StoryDistributionListDataType | undefined;
   const { storyDistributionLists } = window.reduxStore.getState();
-  const membersByListId = new Map<string, Set<string>>();
+  const membersByListId = new Map<string, Set<ServiceIdString>>();
   const listsById = new Map<string, StoryDistributionListDataType>();
   storyDistributionLists.distributionLists.forEach(list => {
-    membersByListId.set(list.id, new Set(list.memberUuids));
+    membersByListId.set(list.id, new Set(list.memberServiceIds));
     listsById.set(list.id, list);
   });
 
@@ -436,7 +439,7 @@ async function checkDistributionListAndAddSKDM({
       return false;
     }
 
-    const isInList = members.has(requesterUuid);
+    const isInList = members.has(requesterAci);
 
     if (isInList) {
       distributionList = listsById.get(listId);
@@ -447,7 +450,7 @@ async function checkDistributionListAndAddSKDM({
 
   if (!isInAnyDistributionList) {
     log.warn(
-      `checkDistributionListAndAddSKDM/${logId}: requesterUuid is not in distribution list. Dropping.`
+      `checkDistributionListAndAddSKDM/${logId}: requesterAci is not in distribution list. Dropping.`
     );
     confirm();
     return undefined;
@@ -487,14 +490,14 @@ async function maybeAddSenderKeyDistributionMessage({
   logId,
   messageIds,
   requestGroupId,
-  requesterUuid,
+  requesterAci,
   timestamp,
 }: {
   contentProto: Proto.IContent;
   logId: string;
   messageIds: Array<string>;
   requestGroupId?: string;
-  requesterUuid: string;
+  requesterAci: AciString;
   timestamp: number;
 }): Promise<{
   contentProto: Proto.IContent;
@@ -522,9 +525,9 @@ async function maybeAddSenderKeyDistributionMessage({
     };
   }
 
-  if (!conversation.hasMember(new UUID(requesterUuid))) {
+  if (!conversation.hasMember(requesterAci)) {
     throw new Error(
-      `maybeAddSenderKeyDistributionMessage/${logId}: Recipient ${requesterUuid} is not a member of ${conversation.idForLogging()}`
+      `maybeAddSenderKeyDistributionMessage/${logId}: Recipient ${requesterAci} is not a member of ${conversation.idForLogging()}`
     );
   }
 
@@ -567,10 +570,10 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
     receivedAtCounter,
     receivedAtDate,
     senderDevice,
-    senderUuid,
+    senderAci,
     timestamp,
   } = decryptionError;
-  const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
+  const logId = `${senderAci}.${senderDevice} ${timestamp}`;
 
   log.info(`requestResend/${logId}: Starting...`, {
     cipherTextBytesLength: cipherTextBytes?.byteLength,
@@ -587,7 +590,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   // 1. Find the target conversation
 
   const sender = window.ConversationController.getOrCreate(
-    senderUuid,
+    senderAci,
     'private'
   );
 
@@ -621,7 +624,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
       plaintext: Bytes.toBase64(plaintext.serialize()),
       receivedAtCounter,
       receivedAtDate,
-      senderUuid,
+      senderAci,
       senderDevice,
       timestamp,
     });
@@ -634,7 +637,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   }
 }
 
-function scheduleSessionReset(senderUuid: string, senderDevice: number) {
+function scheduleSessionReset(senderAci: AciString, senderDevice: number) {
   // Postpone sending light session resets until the queue is empty
   const { lightSessionResetQueue } = window.Signal.Services;
 
@@ -646,10 +649,10 @@ function scheduleSessionReset(senderUuid: string, senderDevice: number) {
 
   drop(
     lightSessionResetQueue.add(async () => {
-      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+      const ourAci = window.textsecure.storage.user.getCheckedAci();
 
       await window.textsecure.storage.protocol.lightSessionReset(
-        new QualifiedAddress(ourUuid, Address.create(senderUuid, senderDevice))
+        new QualifiedAddress(ourAci, Address.create(senderAci, senderDevice))
       );
     })
   );
@@ -658,18 +661,18 @@ function scheduleSessionReset(senderUuid: string, senderDevice: number) {
 export function startAutomaticSessionReset(
   decryptionError: Pick<
     DecryptionErrorEventData,
-    'senderUuid' | 'senderDevice' | 'timestamp'
+    'senderAci' | 'senderDevice' | 'timestamp'
   >
 ): void {
-  const { senderUuid, senderDevice, timestamp } = decryptionError;
-  const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
+  const { senderAci, senderDevice, timestamp } = decryptionError;
+  const logId = `${senderAci}.${senderDevice} ${timestamp}`;
 
   log.info(`startAutomaticSessionReset/${logId}: Starting...`);
 
-  scheduleSessionReset(senderUuid, senderDevice);
+  scheduleSessionReset(senderAci, senderDevice);
 
   const conversation = window.ConversationController.lookupOrCreate({
-    uuid: senderUuid,
+    serviceId: senderAci,
     reason: 'startAutomaticSessionReset',
   });
   if (!conversation) {

@@ -4,7 +4,7 @@
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import * as Errors from '../types/errors';
-import * as durations from './durations';
+import { DAY } from './durations';
 import * as log from '../logging/log';
 import {
   conversationJobQueue,
@@ -15,12 +15,11 @@ import {
   getConversationIdForLogging,
   getMessageIdForLogging,
 } from './idForLogging';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { getRecipientConversationIds } from './getRecipientConversationIds';
 import { getRecipients } from './getRecipients';
 import { repeat, zipObject } from './iterables';
-
-const THREE_HOURS = durations.HOUR * 3;
+import { isMe } from './whatTypeOfConversation';
 
 export async function sendDeleteForEveryoneMessage(
   conversationAttributes: ConversationAttributesType,
@@ -35,16 +34,21 @@ export async function sendDeleteForEveryoneMessage(
     timestamp: targetTimestamp,
     id: messageId,
   } = options;
-  const message = await getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(messageId);
   if (!message) {
     throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
   }
   const idForLogging = getMessageIdForLogging(message.attributes);
 
-  const timestamp = Date.now();
-  const maxDuration = deleteForEveryoneDuration || THREE_HOURS;
-  if (timestamp - targetTimestamp > maxDuration) {
-    throw new Error(`Cannot send DOE for a message older than ${maxDuration}`);
+  // If conversation is a Note To Self, no deletion time limits apply.
+  if (!isMe(conversationAttributes)) {
+    const timestamp = Date.now();
+    const maxDuration = deleteForEveryoneDuration || DAY;
+    if (timestamp - targetTimestamp > maxDuration) {
+      throw new Error(
+        `Cannot send DOE for a message older than ${maxDuration}`
+      );
+    }
   }
 
   message.set({
@@ -79,7 +83,7 @@ export async function sendDeleteForEveryoneMessage(
       );
       await window.Signal.Data.saveMessage(message.attributes, {
         jobToInsert,
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     });
   } catch (error) {

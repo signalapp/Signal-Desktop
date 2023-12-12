@@ -12,7 +12,7 @@ const SPRING_CONFIG = {
   velocity: 0.01,
 };
 
-type ButtonProps = {
+export type ButtonProps = {
   context?: 'incoming' | 'outgoing';
   variant: 'message' | 'mini' | 'draft';
   mod: 'play' | 'pause' | 'download' | 'pending';

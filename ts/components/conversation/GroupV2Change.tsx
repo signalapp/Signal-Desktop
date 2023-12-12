@@ -10,7 +10,11 @@ import type { ReplacementValuesType } from '../../types/I18N';
 import type { FullJSXType } from '../Intl';
 import { Intl } from '../Intl';
 import type { LocalizerType } from '../../types/Util';
-import type { UUIDStringType } from '../../types/UUID';
+import type {
+  AciString,
+  PniString,
+  ServiceIdString,
+} from '../../types/ServiceId';
 import { GroupDescriptionText } from '../GroupDescriptionText';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
@@ -26,20 +30,20 @@ export type PropsDataType = {
   areWeAdmin: boolean;
   conversationId: string;
   groupMemberships?: ReadonlyArray<{
-    uuid: UUIDStringType;
+    aci: AciString;
     isAdmin: boolean;
   }>;
-  groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
+  groupBannedMemberships?: ReadonlyArray<ServiceIdString>;
   groupName?: string;
-  ourACI?: UUIDStringType;
-  ourPNI?: UUIDStringType;
+  ourAci: AciString | undefined;
+  ourPni: PniString | undefined;
   change: GroupV2ChangeType;
 };
 
 export type PropsActionsType = {
   blockGroupLinkRequests: (
     conversationId: string,
-    uuid: UUIDStringType
+    serviceId: ServiceIdString
   ) => unknown;
 };
 
@@ -108,11 +112,11 @@ const changeToIconMap = new Map<string, GroupIconType>([
 function getIcon(
   detail: GroupV2ChangeDetailType,
   isLastText = true,
-  fromId?: UUIDStringType
+  fromId?: ServiceIdString
 ): GroupIconType {
   const changeType = detail.type;
   let possibleIcon = changeToIconMap.get(changeType);
-  const isSameId = fromId === get(detail, 'uuid', null);
+  const isSameId = fromId === get(detail, 'aci', null);
   if (isSameId) {
     if (changeType === 'member-remove') {
       possibleIcon = 'group-leave';
@@ -143,29 +147,27 @@ function GroupV2Detail({
   groupBannedMemberships,
   groupName,
   i18n,
-  ourACI,
-  ourPNI,
+  ourAci,
   renderContact,
   text,
 }: {
   areWeAdmin: boolean;
   blockGroupLinkRequests: (
     conversationId: string,
-    uuid: UUIDStringType
+    serviceId: ServiceIdString
   ) => unknown;
   conversationId: string;
   detail: GroupV2ChangeDetailType;
   isLastText: boolean;
   groupMemberships?: ReadonlyArray<{
-    uuid: UUIDStringType;
+    aci: AciString;
     isAdmin: boolean;
   }>;
-  groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
+  groupBannedMemberships?: ReadonlyArray<ServiceIdString>;
   groupName?: string;
   i18n: LocalizerType;
-  fromId?: UUIDStringType;
-  ourACI?: UUIDStringType;
-  ourPNI?: UUIDStringType;
+  fromId?: ServiceIdString;
+  ourAci: AciString | undefined;
   renderContact: SmartContactRendererType<FullJSXType>;
   text: FullJSXType;
 }): JSX.Element {
@@ -204,10 +206,10 @@ function GroupV2Detail({
       if (
         !isLastText ||
         detail.type !== 'admin-approval-bounce' ||
-        !detail.uuid
+        !detail.aci
       ) {
         log.warn(
-          'GroupV2Detail: ConfirmingblockGroupLinkRequests but missing uuid or wrong change type'
+          'GroupV2Detail: ConfirmingblockGroupLinkRequests but missing aci or wrong change type'
         );
         modalNode = undefined;
         break;
@@ -219,7 +221,7 @@ function GroupV2Detail({
           title={i18n('icu:PendingRequests--block--title')}
           actions={[
             {
-              action: () => blockGroupLinkRequests(conversationId, detail.uuid),
+              action: () => blockGroupLinkRequests(conversationId, detail.aci),
               text: i18n('icu:PendingRequests--block--confirm'),
               style: 'affirmative',
             },
@@ -231,7 +233,7 @@ function GroupV2Detail({
             id="icu:PendingRequests--block--contents"
             i18n={i18n}
             components={{
-              name: renderContact(detail.uuid),
+              name: renderContact(detail.aci),
             }}
           />
         </ConfirmationDialog>
@@ -259,12 +261,11 @@ function GroupV2Detail({
     isLastText &&
     detail.type === 'admin-approval-bounce' &&
     areWeAdmin &&
-    detail.uuid &&
-    detail.uuid !== ourACI &&
-    detail.uuid !== ourPNI &&
-    (!fromId || fromId === detail.uuid) &&
-    !groupMemberships?.some(item => item.uuid === detail.uuid) &&
-    !groupBannedMemberships?.some(uuid => uuid === detail.uuid)
+    detail.aci &&
+    detail.aci !== ourAci &&
+    (!fromId || fromId === detail.aci) &&
+    !groupMemberships?.some(item => item.aci === detail.aci) &&
+    !groupBannedMemberships?.some(serviceId => serviceId === detail.aci)
   ) {
     buttonNode = (
       <Button
@@ -297,8 +298,8 @@ export function GroupV2Change(props: PropsType): ReactElement {
     groupMemberships,
     groupName,
     i18n,
-    ourACI,
-    ourPNI,
+    ourAci,
+    ourPni,
     renderContact,
   } = props;
 
@@ -306,8 +307,8 @@ export function GroupV2Change(props: PropsType): ReactElement {
     <>
       {renderChange<FullJSXType>(change, {
         i18n,
-        ourACI,
-        ourPNI,
+        ourAci,
+        ourPni,
         renderContact,
         renderString: renderStringToIntl,
       }).map(({ detail, isLastText, text }, index) => {
@@ -326,8 +327,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
             // Difficult to find a unique key for this type
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            ourACI={ourACI}
-            ourPNI={ourPNI}
+            ourAci={ourAci}
             renderContact={renderContact}
             text={text}
           />

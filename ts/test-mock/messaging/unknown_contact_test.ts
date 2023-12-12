@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { PrimaryDevice } from '@signalapp/mock-server';
+import { Proto } from '@signalapp/mock-server';
 import createDebug from 'debug';
 import Long from 'long';
 import type { Page } from 'playwright';
@@ -12,7 +13,7 @@ import { Bootstrap } from '../bootstrap';
 
 export const debug = createDebug('mock:test:edit');
 
-describe('unknown contacts', function unknownContacts() {
+describe('unknown contacts', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -21,21 +22,16 @@ describe('unknown contacts', function unknownContacts() {
   let unknownContact: PrimaryDevice;
 
   beforeEach(async () => {
-    bootstrap = new Bootstrap();
+    bootstrap = new Bootstrap({ contactCount: 1, unknownContactCount: 1 });
     await bootstrap.init();
     app = await bootstrap.link();
     page = await app.getWindow();
 
-    const { server, desktop } = bootstrap;
-    unknownContact = await server.createPrimaryDevice({
-      profileName: 'Hugh Ameye',
-    });
-
-    const ourKey = await desktop.popSingleUseKey();
-    await unknownContact.addSingleUseKey(desktop, ourKey);
+    const { unknownContacts } = bootstrap;
+    [unknownContact] = unknownContacts;
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
@@ -53,6 +49,8 @@ describe('unknown contacts', function unknownContacts() {
       callingMessage: {
         offer: {
           callId: new Long(Math.floor(Math.random() * 1e10)),
+          type: Proto.CallingMessage.Offer.Type.OFFER_AUDIO_CALL,
+          opaque: new Uint8Array(0),
         },
       },
     });
