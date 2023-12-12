@@ -1161,7 +1161,17 @@ async function readyForUpdates() {
       settingsChannel !== undefined,
       'SettingsChannel must be initialized'
     );
-    await updater.start(settingsChannel, getLogger(), getMainWindow);
+    await updater.start({
+      settingsChannel,
+      logger: getLogger(),
+      getMainWindow,
+      canRunSilently: () => {
+        return (
+          systemTrayService?.isVisible() === true &&
+          mainWindow?.isVisible() === false
+        );
+      },
+    });
   } catch (error) {
     getLogger().error(
       'Error starting update checks:',

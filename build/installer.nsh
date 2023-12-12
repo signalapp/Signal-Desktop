@@ -45,3 +45,17 @@ ManifestDPIAware true
 
   end_semver_check:
 !macroend
+
+!macro customInstall
+  ${If} ${Silent}
+  ${AndIf} ${isUpdated}
+    # Copied from app-builder-lib templates/nsis/common.nsh:
+
+    # "otherwise app window will be in background"
+    HideWindow
+
+    # Signal modification: '--start-in-tray' added
+    ${StdUtils.ExecShellAsUser} $0 "$launchLink" "open" \
+        "--updated --start-in-tray"
+  ${EndIf}
+!macroend

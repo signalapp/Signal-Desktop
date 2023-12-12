@@ -117,6 +117,10 @@ export class SystemTrayService {
     this.isQuitting = true;
   }
 
+  isVisible(): boolean {
+    return this.tray !== undefined;
+  }
+
   private render(): void {
     if (this.isEnabled && this.browserWindow) {
       this.renderEnabled();
