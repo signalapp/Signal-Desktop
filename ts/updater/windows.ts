@@ -44,13 +44,16 @@ export class WindowsUpdater extends Updater {
       })
     );
   }
-  protected async installUpdate(updateFilePath: string): Promise<void> {
+  protected async installUpdate(
+    updateFilePath: string,
+    isSilent: boolean
+  ): Promise<void> {
     const { logger } = this;
 
-    this.setUpdateListener(async () => {
+    const doInstall = async () => {
       logger.info('downloadAndInstall: installing...');
       try {
-        await this.install(updateFilePath);
+        await this.install(updateFilePath, isSilent);
         this.installing = true;
       } catch (error) {
         this.markCannotUpdate(error);
@@ -61,10 +64,18 @@ export class WindowsUpdater extends Updater {
       logger.info('downloadAndInstall: restarting...');
       markShouldQuit();
       app.quit();
-    });
+    };
+
+    if (isSilent) {
+      logger.info('downloadAndInstall: running immediately...');
+      await doInstall();
+      return;
+    }
+
+    this.setUpdateListener(doInstall);
   }
 
-  private async install(filePath: string): Promise<void> {
+  private async install(filePath: string, isSilent: boolean): Promise<void> {
     if (this.installing) {
       return;
     }
@@ -73,6 +84,12 @@ export class WindowsUpdater extends Updater {
 
     logger.info('windows/install: installing package...');
     const args = ['--updated'];
+    if (isSilent) {
+      // App isn't automatically restarted with "/S" flag, but "--updated"
+      // will trigger our code in `build/installer.nsh` that will start the app
+      // with "--start-in-tray" flag (see `app/main.ts`)
+      args.push('/S');
+    }
     const options = {
       detached: true,
       stdio: 'ignore' as const, // TypeScript considers this a plain string without help

@@ -84,6 +84,13 @@ type DownloadUpdateResultType = Readonly<{
   signature: Buffer;
 }>;
 
+export type UpdaterOptionsType = Readonly<{
+  settingsChannel: SettingsChannel;
+  logger: LoggerType;
+  getMainWindow: () => BrowserWindow | undefined;
+  canRunSilently: () => boolean;
+}>;
+
 export abstract class Updater {
   protected fileName: string | undefined;
 
@@ -91,17 +98,31 @@ export abstract class Updater {
 
   protected cachedDifferentialData: DifferentialDownloadDataType | undefined;
 
+  protected readonly logger: LoggerType;
+
+  private readonly settingsChannel: SettingsChannel;
+
+  protected readonly getMainWindow: () => BrowserWindow | undefined;
+
   private throttledSendDownloadingUpdate: (downloadedSize: number) => void;
 
   private activeDownload: Promise<boolean> | undefined;
 
   private markedCannotUpdate = false;
 
-  constructor(
-    protected readonly logger: LoggerType,
-    private readonly settingsChannel: SettingsChannel,
-    protected readonly getMainWindow: () => BrowserWindow | undefined
-  ) {
+  private readonly canRunSilently: () => boolean;
+
+  constructor({
+    settingsChannel,
+    logger,
+    getMainWindow,
+    canRunSilently,
+  }: UpdaterOptionsType) {
+    this.settingsChannel = settingsChannel;
+    this.logger = logger;
+    this.getMainWindow = getMainWindow;
+    this.canRunSilently = canRunSilently;
+
     this.throttledSendDownloadingUpdate = throttle((downloadedSize: number) => {
       const mainWindow = this.getMainWindow();
       mainWindow?.webContents.send(
@@ -141,7 +162,10 @@ export abstract class Updater {
 
   protected abstract deletePreviousInstallers(): Promise<void>;
 
-  protected abstract installUpdate(updateFilePath: string): Promise<void>;
+  protected abstract installUpdate(
+    updateFilePath: string,
+    isSilent: boolean
+  ): Promise<void>;
 
   //
   // Protected methods
@@ -255,7 +279,7 @@ export abstract class Updater {
         );
       }
 
-      await this.installUpdate(updateFilePath);
+      await this.installUpdate(updateFilePath, this.canRunSilently());
 
       const mainWindow = this.getMainWindow();
       if (mainWindow) {
