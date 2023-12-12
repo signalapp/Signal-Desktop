@@ -27,6 +27,7 @@ describe('locale', async () => {
         const actualLocale = await load({
           preferredSystemLocales,
           localeOverride: null,
+          localeDirectionTestingOverride: null,
           hourCyclePreference: HourCyclePreference.UnknownPreference,
           logger,
         });

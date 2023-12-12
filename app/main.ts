@@ -109,7 +109,7 @@ import { SettingsChannel } from '../ts/main/settingsChannel';
 import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url';
 import { getHeicConverter } from '../ts/workers/heicConverterMain';
 
-import type { LocaleType } from './locale';
+import type { LocaleDirection, LocaleType } from './locale';
 import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
@@ -144,6 +144,7 @@ const consoleLogger = createBufferedConsoleLogger();
 let logger: LoggerType | undefined;
 let preferredSystemLocales: Array<string> | undefined;
 let localeOverride: string | null | undefined;
+
 let resolvedTranslationsLocale: LocaleType | undefined;
 let settingsChannel: SettingsChannel | undefined;
 
@@ -159,6 +160,11 @@ const development =
 
 const ciMode = config.get<'full' | 'benchmark' | false>('ciMode');
 const forcePreloadBundle = config.get<boolean>('forcePreloadBundle');
+const localeDirectionTestingOverride = config.has(
+  'localeDirectionTestingOverride'
+)
+  ? config.get<LocaleDirection>('localeDirectionTestingOverride')
+  : null;
 
 const preventDisplaySleepService = new PreventDisplaySleepService(
   powerSaveBlocker
@@ -1858,6 +1864,7 @@ app.on('ready', async () => {
     resolvedTranslationsLocale = loadLocale({
       preferredSystemLocales,
       localeOverride,
+      localeDirectionTestingOverride,
       hourCyclePreference,
       logger: getLogger(),
     });

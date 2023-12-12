@@ -78,34 +78,6 @@ function getLocaleDirection(
   return 'ltr';
 }
 
-function finalize(
-  availableLocales: Array<string>,
-  messages: LocaleMessagesType,
-  backupMessages: LocaleMessagesType,
-  localeName: string,
-  hourCyclePreference: HourCyclePreference,
-  localeDisplayNames: LocaleDisplayNames,
-  logger: LoggerType
-): LocaleType {
-  // We start with english, then overwrite that with anything present in locale
-  const finalMessages = merge(backupMessages, messages);
-
-  const i18n = setupI18n(localeName, finalMessages);
-
-  const direction = getLocaleDirection(localeName, logger);
-  logger.info(`locale: Text info direction for ${localeName}: ${direction}`);
-
-  return {
-    availableLocales,
-    i18n,
-    name: localeName,
-    direction,
-    messages: finalMessages,
-    hourCyclePreference,
-    localeDisplayNames,
-  };
-}
-
 export function _getAvailableLocales(): Array<string> {
   return JSON.parse(
     readFileSync(
@@ -118,11 +90,13 @@ export function _getAvailableLocales(): Array<string> {
 export function load({
   preferredSystemLocales,
   localeOverride,
+  localeDirectionTestingOverride,
   hourCyclePreference,
   logger,
 }: {
   preferredSystemLocales: Array<string>;
   localeOverride: string | null;
+  localeDirectionTestingOverride: LocaleDirection | null;
   hourCyclePreference: HourCyclePreference;
   logger: LoggerType;
 }): LocaleType {
@@ -151,15 +125,22 @@ export function load({
 
   const matchedLocaleMessages = getLocaleMessages(matchedLocale);
   const englishMessages = getLocaleMessages('en');
-  const languageDisplayNames = getLocaleDisplayNames();
+  const localeDisplayNames = getLocaleDisplayNames();
 
-  return finalize(
+  // We start with english, then overwrite that with anything present in locale
+  const finalMessages = merge(englishMessages, matchedLocaleMessages);
+  const i18n = setupI18n(matchedLocale, finalMessages);
+  const direction =
+    localeDirectionTestingOverride ?? getLocaleDirection(matchedLocale, logger);
+  logger.info(`locale: Text info direction for ${matchedLocale}: ${direction}`);
+
+  return {
     availableLocales,
-    matchedLocaleMessages,
-    englishMessages,
-    matchedLocale,
+    i18n,
+    name: matchedLocale,
+    direction,
+    messages: finalMessages,
     hourCyclePreference,
-    languageDisplayNames,
-    logger
-  );
+    localeDisplayNames,
+  };
 }
