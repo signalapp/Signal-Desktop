@@ -221,7 +221,7 @@ if (OS.isWindows()) {
     sendDummyKeystroke = windowsNotifications.sendDummyKeystroke;
   } catch (error) {
     getLogger().error(
-      'Failed to initalize Windows Notifications:',
+      'Failed to initialize Windows Notifications:',
       error.stack
     );
   }
