@@ -31,6 +31,7 @@ export interface MessageAttributes {
   expirationType?: DisappearingMessageType;
   /** in seconds, 0 means no expiration */
   expireTimer: number;
+  /** in milliseconds */
   expirationStartTimestamp: number;
   expires_at?: number;
   expirationTimerUpdate?: ExpirationTimerUpdate;

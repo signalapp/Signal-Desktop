@@ -148,8 +148,8 @@ export async function processExpireRequestResponse(
   return results;
 }
 
-type UpdatedExpiryWithHashes = { messageHashes: Array<string>; updatedExpiry: number };
-type UpdatedExpiryWithHash = { messageHash: string; updatedExpiry: number };
+type UpdatedExpiryWithHashes = { messageHashes: Array<string>; updatedExpiryMs: number };
+type UpdatedExpiryWithHash = { messageHash: string; updatedExpiryMs: number };
 
 async function updateExpiryOnNodes(
   targetNode: Snode,
@@ -210,7 +210,7 @@ async function updateExpiryOnNodes(
       }
       changesValid.push({
         messageHashes: expirationResult.hashes,
-        updatedExpiry: expirationResult.expiry,
+        updatedExpiryMs: expirationResult.expiry,
       });
     }
 
@@ -222,17 +222,16 @@ async function updateExpiryOnNodes(
       // we requested hashes which are not part of the result. They most likely expired already so let's mark those messages as expiring now.
       changesValid.push({
         messageHashes: hashesRequestedButNotInResults,
-        updatedExpiry: Date.now(),
+        updatedExpiryMs: Date.now(),
       });
     }
 
     const expiryWithIndividualHash: Array<UpdatedExpiryWithHash> = flatten(
       changesValid.map(change =>
-        change.messageHashes.map(h => ({ messageHash: h, updatedExpiry: change.updatedExpiry }))
+        change.messageHashes.map(h => ({ messageHash: h, updatedExpiryMs: change.updatedExpiryMs }))
       )
     );
-    debugger;
-    console.warn('update expiry expiryWithIndividualHash: ', expiryWithIndividualHash);
+    window.log.debug('update expiry expiryWithIndividualHash: ', expiryWithIndividualHash);
     return expiryWithIndividualHash;
   } catch (err) {
     // NOTE batch requests have their own retry logic which includes abort errors that will break our retry logic so we need to catch them and throw regular errors
@@ -373,7 +372,7 @@ export type ExpiringDetails = Array<
 export async function expireMessagesOnSnode(
   expiringDetails: ExpiringDetails,
   options: WithShortenOrExtend
-): Promise<Array<{ messageHash: string; updatedExpiry: number }>> {
+): Promise<Array<{ messageHash: string; updatedExpiryMs: number }>> {
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
     throw new Error('[expireMessageOnSnode] No pubkey found');

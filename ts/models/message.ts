@@ -1157,26 +1157,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public isExpired() {
-    return this.msTilExpire() <= 0;
-  }
-
-  public msTilExpire() {
     if (!this.isExpiring()) {
-      return Infinity;
+      return false;
     }
     const now = Date.now();
     const start = this.getExpirationStartTimestamp();
     if (!start) {
-      return Infinity;
+      return false;
     }
     const delta = this.getExpireTimer() * 1000;
-    let msFromNow = start + delta - now;
-    if (msFromNow < 0) {
-      msFromNow = 0;
-    }
-    return msFromNow;
+    const msFromNow = start + delta - now;
+    return msFromNow < 0;
   }
-
   public async setToExpire() {
     if (this.isExpiring() && !this.getExpiresAt()) {
       const start = this.getExpirationStartTimestamp();

@@ -79,10 +79,22 @@ async function destroyExpiredMessages() {
     messages.forEach(expired => {
       window.log.info('Message expired', {
         sentAt: expired.get('sent_at'),
+        hash: expired.getMessageHash(),
       });
     });
 
     await destroyMessagesAndUpdateRedux(messagesExpiredDetails);
+    const convosToRefresh = uniq(messagesExpiredDetails.map(m => m.conversationKey));
+    await Promise.all(
+      convosToRefresh.map(async c => {
+        getConversationController()
+          .get(c)
+          ?.updateLastMessage();
+        return getConversationController()
+          .get(c)
+          ?.refreshInMemoryDetails();
+      })
+    );
   } catch (error) {
     window.log.error(
       'destroyExpiredMessages: Error deleting expired messages',
@@ -552,7 +564,7 @@ async function updateMessageExpiriesOnSwarm(messages: Array<MessageModel>) {
     window.log.debug(`[updateMessageExpiriesOnSwarm] no expiringDetails to update`);
     return;
   }
-  console.warn('expiringDetails', expiringDetails);
+  window.log.debug('updateMessageExpiriesOnSwarm: expiringDetails', expiringDetails);
 
   const newTTLs = await expireMessagesOnSnode(expiringDetails, { shortenOrExtend: 'shorten' });
   const updatedMsgModels: Array<MessageModel> = [];
@@ -562,10 +574,23 @@ async function updateMessageExpiriesOnSwarm(messages: Array<MessageModel>) {
       return;
     }
 
-    const newTTL = m.updatedExpiry;
-    if (newTTL && newTTL !== message.getExpiresAt()) {
+    const newTTLms = m.updatedExpiryMs;
+    const realReadAt = newTTLms - message.getExpireTimer() * 1000;
+    if (
+      newTTLms &&
+      (newTTLms !== message.getExpiresAt() ||
+        message.get('expirationStartTimestamp') !== realReadAt) &&
+      message.getExpireTimer()
+    ) {
+      window.log.debug(`updateMessageExpiriesOnSwarm: setting for msg hash ${m.messageHash}:`, {
+        expires_at: newTTLms,
+        expirationStartTimestamp: realReadAt,
+        unread: READ_MESSAGE_STATE.read,
+      });
       message.set({
-        expires_at: newTTL,
+        expires_at: newTTLms,
+        expirationStartTimestamp: realReadAt,
+        unread: READ_MESSAGE_STATE.read,
       });
 
       updatedMsgModels.push(message);

@@ -2,6 +2,7 @@
 import { compact, isEmpty, isNumber, uniq } from 'lodash';
 import { v4 } from 'uuid';
 import { Data } from '../../../../data/data';
+import { READ_MESSAGE_STATE } from '../../../../models/conversationAttributes';
 import { MessageModel } from '../../../../models/message';
 import { isSignInByLinking } from '../../../../util/storage';
 import { getExpiriesFromSnode } from '../../../apis/snode_api/getExpiriesRequest';
@@ -66,13 +67,31 @@ class FetchMsgExpirySwarmJob extends PersistedJob<FetchMsgExpirySwarmPersistedDa
           if (expiry.fetchedExpiry <= 0) {
             continue;
           }
-          const found = msgModels.find(m => m.getMessageHash() === expiry.messageHash);
-          if (!found) {
+          const message = msgModels.find(m => m.getMessageHash() === expiry.messageHash);
+          if (!message) {
             continue;
           }
-          if (found.get('expires_at') !== expiry.fetchedExpiry) {
-            found.set('expires_at', expiry.fetchedExpiry);
-            updatedMsgModels.push(found);
+          const realReadAt = expiry.fetchedExpiry - message.getExpireTimer() * 1000;
+
+          if (
+            (message.get('expirationStartTimestamp') !== realReadAt ||
+              message.get('expires_at') !== expiry.fetchedExpiry) &&
+            message.getExpireTimer()
+          ) {
+            window.log.debug(
+              `FetchMsgExpirySwarmJob: setting for msg hash ${message.getMessageHash()}:`,
+              {
+                expires_at: expiry.fetchedExpiry,
+                unread: READ_MESSAGE_STATE.read,
+                expirationStartTimestamp: realReadAt,
+              }
+            );
+            message.set({
+              expires_at: expiry.fetchedExpiry,
+              unread: READ_MESSAGE_STATE.read,
+              expirationStartTimestamp: realReadAt,
+            });
+            updatedMsgModels.push(message);
           }
         }
       }
