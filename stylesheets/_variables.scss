@@ -1,9 +1,9 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-$inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
-  'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
-  'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
+// Note: Add language-specific fallbacks in @localized-fonts mixin
+$inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
+  'Segoe UI', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // Note: This font-family is checked for in matchMonospace, to support paste scenarios
 $monospace: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo,
