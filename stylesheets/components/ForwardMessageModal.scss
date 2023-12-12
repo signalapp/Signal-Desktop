@@ -23,22 +23,6 @@
     }
   }
 
-  &__header {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    @include font-body-1-bold;
-
-    &--edit {
-      border-bottom: 1px solid $color-gray-15;
-
-      @include dark-theme() {
-        border-color: $color-gray-60;
-      }
-    }
-  }
-
   &__list-wrapper {
     flex-grow: 1;
     overflow: hidden;
