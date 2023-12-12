@@ -7140,6 +7140,14 @@ button.module-image__border-overlay:focus {
   user-select: none;
   visibility: hidden;
 
+  // style a menu with only one option
+  &:not(:has(:nth-child(2))) {
+    padding-block: 0;
+    .react-contextmenu-item {
+      padding-block: 9px;
+      border-radius: 4px;
+    }
+  }
   @include light-theme {
     background-color: $color-white;
   }

@@ -10,6 +10,7 @@ import * as KeyboardLayout from '../services/keyboardLayout';
 import { getHasPanelOpen } from '../state/selectors/conversations';
 import { isInFullScreenCall } from '../state/selectors/calling';
 import { isShowingAnyModal } from '../state/selectors/globalModals';
+import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu';
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 
@@ -225,7 +226,7 @@ export function useToggleReactionPicker(
 }
 
 export function useOpenContextMenu(
-  openContextMenu: () => unknown
+  openContextMenu: ContextMenuTriggerType['handleContextClick'] | undefined
 ): KeyboardShortcutHandlerType {
   const hasOverlay = useHasAnyOverlay();
 
@@ -247,7 +248,7 @@ export function useOpenContextMenu(
         ev.preventDefault();
         ev.stopPropagation();
 
-        openContextMenu();
+        openContextMenu?.(new MouseEvent('click'));
         return true;
       }
 

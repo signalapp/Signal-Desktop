@@ -16,7 +16,11 @@ import { dropNull } from './dropNull';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
 import { getCallSelector, getActiveCall } from '../state/selectors/calling';
 import { getCallingNotificationText } from './callingNotification';
-import { getConversationSelector } from '../state/selectors/conversations';
+import {
+  getConversationSelector,
+  getSelectedMessageIds,
+  getTargetedMessage,
+} from '../state/selectors/conversations';
 import { getStringForConversationMerge } from './getStringForConversationMerge';
 import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTitleNoDefault, getNumber } from './getTitle';
@@ -376,6 +380,8 @@ export function getNotificationDataForMessage(
       activeCall: getActiveCall(state),
       callHistorySelector: getCallHistorySelector(state),
       conversationSelector: getConversationSelector(state),
+      selectedMessageIds: getSelectedMessageIds(state),
+      targetedMessageId: getTargetedMessage(state)?.id,
     });
     if (callingNotification) {
       const text = getCallingNotificationText(callingNotification, window.i18n);

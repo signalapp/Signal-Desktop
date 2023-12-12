@@ -3677,10 +3677,17 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/conversation/TimelineMessage.tsx",
-    "line": "  const menuTriggerRef = useRef<Trigger | null>(null);",
+    "path": "ts/components/conversation/CallingNotification.tsx",
+    "line": "    const menuTriggerRef = React.useRef<ContextMenuTriggerType | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-11-03T14:21:47.456Z"
+    "updated": "2023-12-08T20:28:57.595Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/TimelineMessage.tsx",
+    "line": "  const menuTriggerRef = useRef<ContextMenuTriggerType | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-12-08T20:28:57.595Z"
   },
   {
     "rule": "React-useRef",

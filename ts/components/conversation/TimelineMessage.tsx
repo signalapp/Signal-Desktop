@@ -5,8 +5,8 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { Ref } from 'react';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
-import ReactDOM, { createPortal } from 'react-dom';
+import { ContextMenuTrigger } from 'react-contextmenu';
+import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 import { isDownloaded } from '../../types/Attachment';
@@ -34,6 +34,11 @@ import {
 import { PanelType } from '../../types/Panels';
 import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
 import { useScrollerLock } from '../../hooks/useScrollLock';
+import {
+  type ContextMenuTriggerType,
+  MessageContextMenu,
+  useHandleMessageContextMenu,
+} from './MessageContextMenu';
 
 export type PropsData = {
   canDownload: boolean;
@@ -76,12 +81,6 @@ export type Props = PropsData &
       props: React.ComponentProps<typeof SmartReactionPicker>
     ) => JSX.Element;
   };
-
-type Trigger = {
-  handleContextClick: (
-    event: React.MouseEvent<HTMLDivElement> | MouseEvent
-  ) => void;
-};
 
 /**
  * Message with menu/context-menu (as necessary for rendering in the timeline)
@@ -132,7 +131,7 @@ export function TimelineMessage(props: Props): JSX.Element {
   const [reactionPickerRoot, setReactionPickerRoot] = useState<
     HTMLDivElement | undefined
   >(undefined);
-  const menuTriggerRef = useRef<Trigger | null>(null);
+  const menuTriggerRef = useRef<ContextMenuTriggerType | null>(null);
 
   const isWindowWidthNotNarrow =
     containerWidthBreakpoint !== WidthBreakpoint.Narrow;
@@ -228,22 +227,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     [kickOffAttachmentDownload, saveAttachment, attachments, id, timestamp]
   );
 
-  const handleContextMenu = React.useCallback(
-    (event: React.MouseEvent<HTMLDivElement>): void => {
-      const selection = window.getSelection();
-      if (selection && !selection.isCollapsed) {
-        return;
-      }
-      if (event.target instanceof HTMLAnchorElement) {
-        return;
-      }
-      if (menuTriggerRef.current) {
-        menuTriggerRef.current.handleContextClick(event);
-      }
-    },
-    [menuTriggerRef]
-  );
-
+  const handleContextMenu = useHandleMessageContextMenu(menuTriggerRef);
   const canForward =
     !isTapToView && !deletedForEveryone && !giftBadge && !contact && !payment;
 
@@ -280,15 +264,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     handleReact || noop
   );
 
-  const handleOpenContextMenu = useCallback(() => {
-    if (!menuTriggerRef.current) {
-      return;
-    }
-    const event = new MouseEvent('click');
-    menuTriggerRef.current.handleContextClick(event);
-  }, []);
-
-  const openContextMenuKeyboard = useOpenContextMenu(handleOpenContextMenu);
+  const openContextMenuKeyboard = useOpenContextMenu(handleContextMenu);
 
   useKeyboardShortcutsConditionally(
     Boolean(isTargeted),
@@ -419,7 +395,7 @@ type MessageMenuProps = {
   i18n: LocalizerType;
   triggerId: string;
   isWindowWidthNotNarrow: boolean;
-  menuTriggerRef: Ref<Trigger>;
+  menuTriggerRef: Ref<ContextMenuTriggerType>;
   showMenu: (event: React.MouseEvent<HTMLDivElement>) => void;
   onDownload: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
@@ -569,208 +545,3 @@ function MessageMenu({
     </div>
   );
 }
-
-type MessageContextProps = {
-  i18n: LocalizerType;
-  triggerId: string;
-  shouldShowAdditional: boolean;
-
-  onDownload: (() => void) | undefined;
-  onEdit: (() => void) | undefined;
-  onReplyToMessage: (() => void) | undefined;
-  onReact: (() => void) | undefined;
-  onRetryMessageSend: (() => void) | undefined;
-  onRetryDeleteForEveryone: (() => void) | undefined;
-  onCopy: (() => void) | undefined;
-  onForward: (() => void) | undefined;
-  onDeleteMessage: () => void;
-  onMoreInfo: () => void;
-  onSelect: () => void;
-};
-
-const MessageContextMenu = ({
-  i18n,
-  triggerId,
-  shouldShowAdditional,
-  onDownload,
-  onEdit,
-  onReplyToMessage,
-  onReact,
-  onMoreInfo,
-  onCopy,
-  onSelect,
-  onRetryMessageSend,
-  onRetryDeleteForEveryone,
-  onForward,
-  onDeleteMessage,
-}: MessageContextProps): JSX.Element => {
-  const menu = (
-    <ContextMenu id={triggerId}>
-      {shouldShowAdditional && (
-        <>
-          {onDownload && (
-            <MenuItem
-              attributes={{
-                className:
-                  'module-message__context--icon module-message__context__download',
-              }}
-              onClick={onDownload}
-            >
-              {i18n('icu:MessageContextMenu__download')}
-            </MenuItem>
-          )}
-          {onReplyToMessage && (
-            <MenuItem
-              attributes={{
-                className:
-                  'module-message__context--icon module-message__context__reply',
-              }}
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                onReplyToMessage();
-              }}
-            >
-              {i18n('icu:MessageContextMenu__reply')}
-            </MenuItem>
-          )}
-          {onReact && (
-            <MenuItem
-              attributes={{
-                className:
-                  'module-message__context--icon module-message__context__react',
-              }}
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                onReact();
-              }}
-            >
-              {i18n('icu:MessageContextMenu__react')}
-            </MenuItem>
-          )}
-        </>
-      )}
-      {onForward && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__forward-message',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            onForward();
-          }}
-        >
-          {i18n('icu:MessageContextMenu__forward')}
-        </MenuItem>
-      )}
-      {onEdit && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__edit-message',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            onEdit();
-          }}
-        >
-          {i18n('icu:edit')}
-        </MenuItem>
-      )}
-      <MenuItem
-        attributes={{
-          className:
-            'module-message__context--icon module-message__context__select',
-        }}
-        onClick={() => {
-          onSelect();
-        }}
-      >
-        {i18n('icu:MessageContextMenu__select')}
-      </MenuItem>
-      {onCopy && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__copy-timestamp',
-          }}
-          onClick={() => {
-            onCopy();
-          }}
-        >
-          {i18n('icu:copy')}
-        </MenuItem>
-      )}
-      <MenuItem
-        attributes={{
-          className:
-            'module-message__context--icon module-message__context__more-info',
-        }}
-        onClick={(event: React.MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          onMoreInfo();
-        }}
-      >
-        {i18n('icu:MessageContextMenu__info')}
-      </MenuItem>
-      <MenuItem
-        attributes={{
-          className:
-            'module-message__context--icon module-message__context__delete-message',
-        }}
-        onClick={(event: React.MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          onDeleteMessage();
-        }}
-      >
-        {i18n('icu:MessageContextMenu__deleteMessage')}
-      </MenuItem>
-      {onRetryMessageSend && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__retry-send',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            onRetryMessageSend();
-          }}
-        >
-          {i18n('icu:retrySend')}
-        </MenuItem>
-      )}
-      {onRetryDeleteForEveryone && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__delete-message-for-everyone',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            onRetryDeleteForEveryone();
-          }}
-        >
-          {i18n('icu:retryDeleteForEveryone')}
-        </MenuItem>
-      )}
-    </ContextMenu>
-  );
-
-  return ReactDOM.createPortal(menu, document.body);
-};

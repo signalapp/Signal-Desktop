@@ -22,6 +22,8 @@ export type CallingNotificationType = Readonly<{
   groupCallEnded: boolean | null;
   deviceCount: number;
   maxDevices: number;
+  isSelectMode: boolean;
+  isTargeted: boolean;
 }>;
 
 function getDirectCallNotificationText(

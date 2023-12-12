@@ -1328,6 +1328,8 @@ export type GetPropsForCallHistoryOptions = Pick<
   | 'callHistorySelector'
   | 'conversationSelector'
   | 'ourConversationId'
+  | 'selectedMessageIds'
+  | 'targetedMessageId'
 >;
 
 const emptyCallNotification: CallingNotificationType = {
@@ -1337,6 +1339,8 @@ const emptyCallNotification: CallingNotificationType = {
   groupCallEnded: null,
   maxDevices: Infinity,
   deviceCount: 0,
+  isSelectMode: false,
+  isTargeted: false,
 };
 
 export function getPropsForCallHistory(
@@ -1347,6 +1351,8 @@ export function getPropsForCallHistory(
     activeCall,
     conversationSelector,
     ourConversationId,
+    selectedMessageIds,
+    targetedMessageId,
   }: GetPropsForCallHistoryOptions
 ): CallingNotificationType {
   const { callId } = message;
@@ -1368,6 +1374,8 @@ export function getPropsForCallHistory(
     'getPropsForCallHistory: Missing conversation'
   );
 
+  const isSelectMode = selectedMessageIds != null;
+
   let callCreator: ConversationType | null = null;
   if (callHistory.ringerId) {
     callCreator = conversationSelector(callHistory.ringerId);
@@ -1383,6 +1391,8 @@ export function getPropsForCallHistory(
       groupCallEnded: false,
       deviceCount: 0,
       maxDevices: Infinity,
+      isSelectMode,
+      isTargeted: message.id === targetedMessageId,
     };
   }
 
@@ -1410,6 +1420,8 @@ export function getPropsForCallHistory(
     groupCallEnded: callId !== conversationCallId || deviceCount === 0,
     deviceCount,
     maxDevices,
+    isSelectMode,
+    isTargeted: message.id === targetedMessageId,
   };
 }
 
