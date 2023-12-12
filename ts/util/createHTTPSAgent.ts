@@ -33,6 +33,28 @@ const CONNECT_TIMEOUT_MS = 10 * SECOND;
 
 const electronLookup = promisify(electronLookupWithCb);
 
+const HOST_LOG_ALLOWLIST = new Set([
+  // Production
+  'chat.signal.org',
+  'storage.signal.org',
+  'cdsi.signal.org',
+  'cdn.signal.org',
+  'cdn2.signal.org',
+  'create.signal.art',
+
+  // Staging
+  'chat.staging.signal.org',
+  'storage-staging.signal.org',
+  'cdsi.staging.signal.org',
+  'cdn-staging.signal.org',
+  'cdn2-staging.signal.org',
+  'create.staging.signal.art',
+
+  // Common
+  'updates2.signal.org',
+  'sfu.voip.signal.org',
+]);
+
 export class Agent extends HTTPSAgent {
   constructor(options: AgentOptions = {}) {
     super({
@@ -65,16 +87,18 @@ export class Agent extends HTTPSAgent {
         },
       });
 
-      const duration = Date.now() - start;
-      const logLine =
-        `createHTTPSAgent.createConnection(${host}): connected to ` +
-        `IPv${address.family} addr after ${duration}ms ` +
-        `(attempts v4=${v4Attempts} v6=${v6Attempts})`;
+      if (HOST_LOG_ALLOWLIST.has(host)) {
+        const duration = Date.now() - start;
+        const logLine =
+          `createHTTPSAgent.createConnection(${host}): connected to ` +
+          `IPv${address.family} addr after ${duration}ms ` +
+          `(attempts v4=${v4Attempts} v6=${v6Attempts})`;
 
-      if (v4Attempts + v6Attempts > 1 || duration > CONNECT_THRESHOLD_MS) {
-        log.warn(logLine);
-      } else {
-        log.info(logLine);
+        if (v4Attempts + v6Attempts > 1 || duration > CONNECT_THRESHOLD_MS) {
+          log.warn(logLine);
+        } else {
+          log.info(logLine);
+        }
       }
 
       return socket;
