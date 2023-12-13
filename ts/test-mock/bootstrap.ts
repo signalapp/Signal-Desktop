@@ -19,6 +19,7 @@ import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConst
 import * as durations from '../util/durations';
 import { drop } from '../util/drop';
 import { App } from './playwright';
+import { CONTACT_COUNT } from './benchmarks/fixtures';
 
 export { App };
 
@@ -40,6 +41,10 @@ const CONTACT_FIRST_NAMES = [
   'Alice',
   'Bob',
   'Charlie',
+  'Danielle',
+  'Elaine',
+  'Frankie',
+  'Grandma',
   'Paul',
   'Steve',
   'William',
@@ -51,13 +56,37 @@ const CONTACT_LAST_NAMES = [
   'Miller',
   'Davis',
   'Lopez',
-  'Gonazales',
+  'Gonzales',
+  'Singh',
+  'Baker',
+  'Farmer',
+];
+
+const CONTACT_SUFFIXES = [
+  'Sr.',
+  'Jr.',
+  'the 3rd',
+  'the 4th',
+  'the 5th',
+  'the 6th',
+  'the 7th',
+  'the 8th',
+  'the 9th',
+  'the 10th',
 ];
 
 const CONTACT_NAMES = new Array<string>();
 for (const firstName of CONTACT_FIRST_NAMES) {
   for (const lastName of CONTACT_LAST_NAMES) {
     CONTACT_NAMES.push(`${firstName} ${lastName}`);
+  }
+}
+
+for (const suffix of CONTACT_SUFFIXES) {
+  for (const firstName of CONTACT_FIRST_NAMES) {
+    for (const lastName of CONTACT_LAST_NAMES) {
+      CONTACT_NAMES.push(`${firstName} ${lastName}, ${suffix}`);
+    }
   }
 }
 
@@ -131,7 +160,7 @@ export class Bootstrap {
 
     this.options = {
       linkedDevices: 5,
-      contactCount: MAX_CONTACTS,
+      contactCount: CONTACT_COUNT,
       contactsWithoutProfileKey: 0,
       unknownContactCount: 0,
       contactNames: CONTACT_NAMES,
@@ -140,12 +169,12 @@ export class Bootstrap {
       ...options,
     };
 
-    assert(
+    const totalContactCount =
       this.options.contactCount +
-        this.options.contactsWithoutProfileKey +
-        this.options.unknownContactCount <=
-        this.options.contactNames.length
-    );
+      this.options.contactsWithoutProfileKey +
+      this.options.unknownContactCount;
+    assert(totalContactCount <= this.options.contactNames.length);
+    assert(totalContactCount <= MAX_CONTACTS);
   }
 
   public async init(): Promise<void> {
@@ -156,19 +185,26 @@ export class Bootstrap {
     const { port } = this.server.address();
     debug('started server on port=%d', port);
 
+    const totalContactCount =
+      this.options.contactCount +
+      this.options.contactsWithoutProfileKey +
+      this.options.unknownContactCount;
+
     const allContacts = await Promise.all(
-      this.options.contactNames.map(async profileName => {
-        const primary = await this.server.createPrimaryDevice({
-          profileName,
-        });
+      this.options.contactNames
+        .slice(0, totalContactCount)
+        .map(async profileName => {
+          const primary = await this.server.createPrimaryDevice({
+            profileName,
+          });
 
-        for (let i = 0; i < this.options.linkedDevices; i += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          await this.server.createSecondaryDevice(primary);
-        }
+          for (let i = 0; i < this.options.linkedDevices; i += 1) {
+            // eslint-disable-next-line no-await-in-loop
+            await this.server.createSecondaryDevice(primary);
+          }
 
-        return primary;
-      })
+          return primary;
+        })
     );
 
     this.privContacts = allContacts.splice(0, this.options.contactCount);

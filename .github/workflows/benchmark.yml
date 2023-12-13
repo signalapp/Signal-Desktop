@@ -89,8 +89,28 @@ jobs:
       env:
         NODE_ENV: production
         RUN_COUNT: 100
+        CONVERSATION_SIZE: 500
         ELECTRON_ENABLE_STACK_DUMPING: on
         ARTIFACTS_DIR: artifacts/group-send
+
+    - name: Run large group send benchmarks with delivery receipts
+      run: |
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum node \
+          ts/test-mock/benchmarks/group_send_bench.js | \
+          tee benchmark-large-group-send.log
+      timeout-minutes: 10
+      env:
+        NODE_ENV: production
+        GROUP_SIZE: 500
+        CONTACT_COUNT: 500
+        GROUP_DELIVERY_RECEIPTS: 500
+        DISCARD_COUNT: 2
+        RUN_COUNT: 20
+        CONVERSATION_SIZE: 50
+        ELECTRON_ENABLE_STACK_DUMPING: on
+        ARTIFACTS_DIR: artifacts/large-group-send
 
     - name: Run conversation open benchmarks
       run: |
@@ -131,6 +151,7 @@ jobs:
           node ./bin/collect.js ../benchmark-startup.log data/startup.json
           node ./bin/collect.js ../benchmark-send.log data/send.json
           node ./bin/collect.js ../benchmark-group-send.log data/group-send.json
+          node ./bin/collect.js ../benchmark-large-group-send.log data/large-group-send.json
           node ./bin/collect.js ../benchmark-convo-open.log data/convo-open.json
           npm run build
           git config --global user.email "no-reply@signal.org"

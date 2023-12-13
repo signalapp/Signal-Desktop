@@ -15,11 +15,14 @@ import {
   debug,
   RUN_COUNT,
   GROUP_SIZE,
+  CONVERSATION_SIZE,
   DISCARD_COUNT,
+  GROUP_DELIVERY_RECEIPTS,
 } from './fixtures';
 import { stats } from '../../util/benchmark/stats';
+import { sleep } from '../../util/sleep';
+import { MINUTE } from '../../util/durations';
 
-const CONVERSATION_SIZE = 500; // messages
 const LAST_MESSAGE = 'start sending messages now';
 
 Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
@@ -46,7 +49,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const messages = new Array<Buffer>();
   debug('encrypting');
   // Fill left pane
-  for (const contact of members.slice().reverse()) {
+  for (const contact of members.slice(0, CONVERSATION_SIZE).reverse()) {
     const messageTimestamp = bootstrap.getTimestamp();
 
     messages.push(
@@ -114,17 +117,58 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
           `>> text=${LAST_MESSAGE}`
       )
       .first();
-    await item.click();
+    await item.click({ timeout: 2 * MINUTE });
   }
 
-  const timeline = window.locator(
-    '.timeline-wrapper, .Inbox__conversation .ConversationView'
-  );
-
   const deltaList = new Array<number>();
+  const input = await app.waitForEnabledComposer();
+
+  function sendReceiptsInBatches({
+    receipts,
+    batchSize,
+    nextBatchSize,
+    runId,
+    delay,
+  }: {
+    receipts: Array<Buffer>;
+    batchSize: number;
+    nextBatchSize: number;
+    runId: number;
+    delay: number;
+  }) {
+    const receiptsToSend = receipts.splice(0, batchSize);
+    debug(`sending ${receiptsToSend.length} receipts for runId ${runId}`);
+
+    receiptsToSend.forEach(delivery => server.send(desktop, delivery));
+
+    if (receipts.length) {
+      setTimeout(
+        () =>
+          sendReceiptsInBatches({
+            receipts,
+            batchSize: nextBatchSize,
+            nextBatchSize,
+            runId,
+            delay,
+          }),
+        delay
+      );
+    }
+  }
+
+  let receiptsFromPreviousMessage: Array<Buffer> = [];
   for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {
-    debug('finding composition input and clicking it');
-    const input = await app.waitForEnabledComposer();
+    debug(`sending previous ${receiptsFromPreviousMessage.length} receipts`);
+
+    // deliver up to 256 receipts at once (max that server will send) and then in chunks
+    // of 30 every 200ms to approximate real behavior as we acknowledge each batch
+    sendReceiptsInBatches({
+      receipts: receiptsFromPreviousMessage,
+      batchSize: 256,
+      nextBatchSize: 30,
+      delay: 100,
+      runId,
+    });
 
     debug('entering message text');
     await input.type(`my message ${runId}`);
@@ -139,18 +183,19 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     debug('waiting for timing from the app');
     const { timestamp, delta } = await app.waitForMessageSend();
 
+    // Sleep to allow any receipts from previous rounds to be processed
+    await sleep(1000);
+
     debug('sending delivery receipts');
-    const delivery = await first.encryptReceipt(desktop, {
-      timestamp: timestamp + 1,
-      messageTimestamps: [timestamp],
-      type: ReceiptType.Delivery,
-    });
-
-    await server.send(desktop, delivery);
-
-    debug('waiting for message state change');
-    const message = timeline.locator(`[data-testid="${timestamp}"]`);
-    await message.waitFor();
+    receiptsFromPreviousMessage = await Promise.all(
+      members.slice(0, GROUP_DELIVERY_RECEIPTS).map(member =>
+        member.encryptReceipt(desktop, {
+          timestamp: timestamp + 1,
+          messageTimestamps: [timestamp],
+          type: ReceiptType.Delivery,
+        })
+      )
+    );
 
     if (runId >= DISCARD_COUNT) {
       deltaList.push(delta);
