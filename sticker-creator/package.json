@@ -16,7 +16,7 @@
     "lint": "run-p eslint prettier:format",
     "eslint": "eslint --cache .",
     "prettier:format": "prettier --list-different --cache --write .",
-    "prettier:check": "prettier --list-different --cache --check .",
+    "prettier:check": "prettier --cache --check .",
     "build:emoji": "cwebp -progress -mt -preset icon -alpha_filter best -alpha_q 20 -pass 10 -q 50 ./node_modules/emoji-datasource-apple/img/apple/sheets-clean/64.png -o ./src/assets/emoji.webp",
     "build:protos": "pbjs --target static-module --force-number --no-typeurl --no-delimited --no-verify --no-create --no-convert --wrap es6 --out src/util/protos.js ./protos/*.proto && pbts --out src/util/protos.d.ts src/util/protos.js",
     "test": "vitest"

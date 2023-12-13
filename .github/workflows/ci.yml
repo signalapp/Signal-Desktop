@@ -249,6 +249,40 @@ jobs:
       with:
         path: artifacts
 
+  sticker-creator:
+    name: Sticker Creator
+    runs-on: ubuntu-latest-8-cores
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: sticker-creator
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18.17.1'
+    - run: npm install -g yarn@1.22.10
+
+    - name: Install Sticker Creator node_modules
+      run: yarn install
+
+    - name: Build Sticker Creator
+      run: yarn build
+
+    - name: Check Sticker Creator types
+      run: yarn check:types
+
+    - name: Check Sticker Creator formatting
+      run: yarn prettier:check
+
+    - name: Check Sticker Creator linting
+      run: yarn lint
+
+    - name: Run tests
+      run: yarn test --run
+
   mock-tests:
     needs: lint
     runs-on: ubuntu-latest-8-cores
