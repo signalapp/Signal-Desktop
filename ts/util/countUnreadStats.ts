@@ -35,6 +35,7 @@ export type ConversationPropsForUnreadStats = Readonly<
     | 'muteExpiresAt'
     | 'unreadCount'
     | 'unreadMentionsCount'
+    | 'left'
   >
 >;
 
@@ -49,6 +50,9 @@ function canCountConversation(
     return false;
   }
   if (!options.includeMuted && isConversationMuted(conversation)) {
+    return false;
+  }
+  if (conversation.left) {
     return false;
   }
   return true;
