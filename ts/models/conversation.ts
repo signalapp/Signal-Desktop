@@ -2022,8 +2022,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
-
+    const existingLastMessageAttribute = this.get('lastMessage');
+    const existingLastMessageStatus = this.get('lastMessageStatus');
     if (!messages || !messages.length) {
+      if (existingLastMessageAttribute || existingLastMessageStatus) {
+        this.set({
+          lastMessageStatus: undefined,
+          lastMessage: undefined,
+        });
+        await this.commit();
+      }
       return;
     }
     const lastMessageModel = messages.at(0);
@@ -2037,8 +2045,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             lastMessageStatus,
           }
         : { lastMessage: '', lastMessageStatus: undefined };
-    const existingLastMessageAttribute = this.get('lastMessage');
-    const existingLastMessageStatus = this.get('lastMessageStatus');
 
     // TODO when the last message get removed from a conversation, the lastUpdate is ignored and we keep the last message.
 

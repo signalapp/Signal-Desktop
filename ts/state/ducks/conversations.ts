@@ -16,6 +16,7 @@ import {
   PropsForMessageRequestResponse,
 } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
+import { DisappearingMessages } from '../../session/disappearing_messages';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
@@ -1140,6 +1141,7 @@ export async function openConversationWithMessages(args: {
 }) {
   const { conversationKey, messageId } = args;
 
+  await DisappearingMessages.destroyExpiredMessages();
   await unmarkAsForcedUnread(conversationKey);
 
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);

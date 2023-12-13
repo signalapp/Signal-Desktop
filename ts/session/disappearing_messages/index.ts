@@ -67,6 +67,7 @@ async function destroyExpiredMessages() {
   try {
     window.log.info('destroyExpiredMessages: Loading messages...');
     const messages = await Data.getExpiredMessages();
+    window.log.debug('destroyExpiredMessages: count:', messages.length);
 
     const messagesExpiredDetails: Array<{
       conversationKey: string;
@@ -85,6 +86,7 @@ async function destroyExpiredMessages() {
 
     await destroyMessagesAndUpdateRedux(messagesExpiredDetails);
     const convosToRefresh = uniq(messagesExpiredDetails.map(m => m.conversationKey));
+    window.log.info('destroyExpiredMessages: convosToRefresh:', convosToRefresh);
     await Promise.all(
       convosToRefresh.map(async c => {
         getConversationController()
@@ -476,6 +478,18 @@ function getMessageReadyToDisappear(
         expirationStartTimestamp) /
         1000}s ago, so with ${(expires_at - Date.now()) / 1000}s left`
     );
+    messageModel.set({
+      expirationStartTimestamp,
+      expires_at,
+    });
+  } else if (
+    expirationType === 'deleteAfterSend' &&
+    expireTimer > 0 &&
+    messageExpirationFromRetrieve &&
+    messageExpirationFromRetrieve > 0
+  ) {
+    const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
+    const expires_at = messageExpirationFromRetrieve;
     messageModel.set({
       expirationStartTimestamp,
       expires_at,
