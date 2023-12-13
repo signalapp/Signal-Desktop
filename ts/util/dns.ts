@@ -1,35 +1,17 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LookupOneOptions, LookupAllOptions, LookupAddress } from 'dns';
-import { lookup as nodeLookup } from 'dns';
+import type {
+  LookupOneOptions,
+  LookupAllOptions,
+  LookupAddress,
+  lookup as nodeLookup,
+} from 'dns';
 import { ipcRenderer, net } from 'electron';
 import type { ResolvedHost } from 'electron';
 
 import { strictAssert } from './assert';
 import { drop } from './drop';
-
-const HOST_ALLOWLIST = new Set([
-  // Production
-  'chat.signal.org',
-  'storage.signal.org',
-  'cdsi.signal.org',
-  'cdn.signal.org',
-  'cdn2.signal.org',
-  'create.signal.art',
-
-  // Staging
-  'chat.staging.signal.org',
-  'storage-staging.signal.org',
-  'cdsi.staging.signal.org',
-  'cdn-staging.signal.org',
-  'cdn2-staging.signal.org',
-  'create.staging.signal.art',
-
-  // Common
-  'updates2.signal.org',
-  'sfu.voip.signal.org',
-]);
 
 function lookupAll(
   hostname: string,
@@ -40,11 +22,6 @@ function lookupAll(
     family?: number
   ) => void
 ): void {
-  if (!HOST_ALLOWLIST.has(hostname)) {
-    nodeLookup(hostname, opts, callback);
-    return;
-  }
-
   // Node.js support various signatures, but we only support one.
   strictAssert(typeof opts === 'object', 'missing options');
   strictAssert(typeof callback === 'function', 'missing callback');

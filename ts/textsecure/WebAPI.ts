@@ -1367,13 +1367,17 @@ export function initialize({
       log.warn(`${logId}: Done`);
     }
 
-    let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
+    let fetchAgent: Agent;
     if (proxyUrl) {
-      const agent = createProxyAgent(proxyUrl);
-      fetchForLinkPreviews = (href, init) => fetch(href, { ...init, agent });
+      fetchAgent = createProxyAgent(proxyUrl);
     } else {
-      fetchForLinkPreviews = fetch;
+      fetchAgent = createHTTPSAgent({
+        keepAlive: false,
+        maxCachedSessions: 0,
+      });
     }
+    const fetchForLinkPreviews: linkPreviewFetch.FetchFn = (href, init) =>
+      fetch(href, { ...init, agent: fetchAgent });
 
     // Thanks, function hoisting!
     return {
