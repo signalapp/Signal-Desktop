@@ -1842,7 +1842,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         timestamp: sentAt,
         attachments,
         expirationType: message.getExpirationType() ?? 'unknown',
-        expireTimer: message.getExpireTimer(),
+        expireTimer: message.getExpireTimerSeconds(),
         preview: preview ? [preview] : [],
         quote,
         lokiProfile: UserUtils.getOurProfile(),

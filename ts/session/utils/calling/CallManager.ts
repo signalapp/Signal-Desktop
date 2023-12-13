@@ -548,14 +548,17 @@ export async function USER_callRecipient(recipient: string) {
   // initiating a call is analogous to sending a message request
   await approveConvoAndSendResponse(recipient, true);
 
-  // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
+  // Note: we do the sending of the preoffer manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
   const rawMessage = await MessageUtils.toRawMessage(
     PubKey.cast(recipient),
     preOfferMsg,
     SnodeNamespaces.UserMessages
   );
-  const { wrappedEnvelope } = await MessageSender.send(rawMessage);
+  const { wrappedEnvelope } = await MessageSender.send({
+    message: rawMessage,
+    isSyncMessage: false,
+  });
   void PnServer.notifyPnServer(wrappedEnvelope, recipient);
 
   await openMediaDevicesAndAddTracks();

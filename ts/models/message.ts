@@ -291,8 +291,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getPropsForExpiringMessage(): PropsForExpiringMessage {
     const expirationType = this.getExpirationType();
-    const expirationDurationMs = this.getExpireTimer()
-      ? this.getExpireTimer() * DURATION.SECONDS
+    const expirationDurationMs = this.getExpireTimerSeconds()
+      ? this.getExpireTimerSeconds() * DURATION.SECONDS
       : null;
 
     const expireTimerStart = this.getExpirationStartTimestamp() || null;
@@ -515,7 +515,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationType = this.getExpirationType();
-    const expirationDurationMs = this.getExpireTimer() * DURATION.SECONDS;
+    const expirationDurationMs = this.getExpireTimerSeconds() * DURATION.SECONDS;
     const expireTimerStart = this.getExpirationStartTimestamp();
     const expirationTimestamp =
       expirationType && expireTimerStart && expirationDurationMs
@@ -988,6 +988,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return lodashSize(this.get('errors')) > 0;
   }
 
+  /**
+   * Update the messageHash field of that message instance. Does not call commit()
+   *
+   * @param messageHash
+   */
   public async updateMessageHash(messageHash: string) {
     if (!messageHash) {
       window?.log?.error('Message hash not provided to update message hash');
@@ -995,8 +1000,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     this.set({
       messageHash,
     });
-
-    await this.commit();
   }
 
   public async sendSyncMessageOnly(contentMessage: ContentMessage) {
@@ -1117,7 +1120,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const convo = this.getConversation();
     const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
     const expirationType = this.getExpirationType();
-    const expireTimer = this.getExpireTimer();
+    const expireTimer = this.getExpireTimerSeconds();
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
       const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -1153,7 +1156,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public isExpiring() {
-    return this.getExpireTimer() && this.getExpirationStartTimestamp();
+    return this.getExpireTimerSeconds() && this.getExpirationStartTimestamp();
   }
 
   public isExpired() {
@@ -1165,14 +1168,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (!start) {
       return false;
     }
-    const delta = this.getExpireTimer() * 1000;
+    const delta = this.getExpireTimerSeconds() * 1000;
     const msFromNow = start + delta - now;
     return msFromNow < 0;
   }
   public async setToExpire() {
     if (this.isExpiring() && !this.getExpiresAt()) {
       const start = this.getExpirationStartTimestamp();
-      const delta = this.getExpireTimer() * 1000;
+      const delta = this.getExpireTimerSeconds() * 1000;
       if (!start) {
         return;
       }
@@ -1364,7 +1367,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return this.get('expirationType');
   }
 
-  public getExpireTimer() {
+  /**
+   *
+   * @returns the expireTimer (in seconds) for this message
+   */
+  public getExpireTimerSeconds() {
     return this.get('expireTimer');
   }
 

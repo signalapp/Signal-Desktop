@@ -227,8 +227,8 @@ export class MessageQueue {
    * @param message Message to be sent
    */
   public async sendToPubKeyNonDurably({
-    message,
     namespace,
+    message,
     pubkey,
   }: {
     pubkey: PubKey;
@@ -242,7 +242,10 @@ export class MessageQueue {
     let rawMessage;
     try {
       rawMessage = await MessageUtils.toRawMessage(pubkey, message, namespace);
-      const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send(rawMessage);
+      const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send({
+        message: rawMessage,
+        isSyncMessage: false,
+      });
       await MessageSentHandler.handleMessageSentSuccess(
         rawMessage,
         effectiveTimestamp,
@@ -273,12 +276,10 @@ export class MessageQueue {
         // We put the event handling inside this job to avoid sending duplicate events
         const job = async () => {
           try {
-            const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send(
+            const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send({
               message,
-              undefined,
-              undefined,
-              isSyncMessage
-            );
+              isSyncMessage,
+            });
 
             await MessageSentHandler.handleMessageSentSuccess(
               message,
@@ -332,7 +333,7 @@ export class MessageQueue {
       // We allow a message for ourselves only if it's a ConfigurationMessage, a ClosedGroupNewMessage,
       // or a message with a syncTarget set.
 
-      if (MessageSender.isSyncMessage(message)) {
+      if (MessageSender.isContentSyncMessage(message)) {
         window?.log?.info('OutgoingMessageQueue: Processing sync message');
         isSyncMessage = true;
       } else {

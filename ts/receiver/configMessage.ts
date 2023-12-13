@@ -708,7 +708,7 @@ async function applyConvoVolatileUpdateFromWrapper(
       );
 
       const messagesExpiringAfterRead = messagesExpiring.filter(
-        m => m.getExpirationType() === 'deleteAfterRead' && m.getExpireTimer() > 0
+        m => m.getExpirationType() === 'deleteAfterRead' && m.getExpireTimerSeconds() > 0
       );
 
       const messageIdsToFetchExpiriesFor = compact(messagesExpiringAfterRead.map(m => m.id));

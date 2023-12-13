@@ -71,12 +71,12 @@ class FetchMsgExpirySwarmJob extends PersistedJob<FetchMsgExpirySwarmPersistedDa
           if (!message) {
             continue;
           }
-          const realReadAt = expiry.fetchedExpiry - message.getExpireTimer() * 1000;
+          const realReadAt = expiry.fetchedExpiry - message.getExpireTimerSeconds() * 1000;
 
           if (
             (message.get('expirationStartTimestamp') !== realReadAt ||
               message.get('expires_at') !== expiry.fetchedExpiry) &&
-            message.getExpireTimer()
+            message.getExpireTimerSeconds()
           ) {
             window.log.debug(
               `FetchMsgExpirySwarmJob: setting for msg hash ${message.getMessageHash()}:`,

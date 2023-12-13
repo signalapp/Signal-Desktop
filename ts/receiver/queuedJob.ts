@@ -316,7 +316,7 @@ async function markConvoAsReadIfOutgoingMessage(
     const sentAt = message.get('sent_at') || message.get('serverTimestamp');
     if (sentAt) {
       const expirationType = message.getExpirationType();
-      const expireTimer = message.getExpireTimer();
+      const expireTimer = message.getExpireTimerSeconds();
       // NOTE starting disappearing messages timer for all outbound messages
       if (
         expirationType &&
@@ -373,13 +373,13 @@ export async function handleMessageJob(
     // NOTE we handle incoming disappear after send messages and sync messages here
     if (
       conversation &&
-      messageModel.getExpireTimer() > 0 &&
+      messageModel.getExpireTimerSeconds() > 0 &&
       !messageModel.getExpirationStartTimestamp()
     ) {
       const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         messageModel.getExpirationType(),
-        messageModel.getExpireTimer()
+        messageModel.getExpireTimerSeconds()
       );
 
       // TODO legacy messages support will be removed in a future release

@@ -394,7 +394,7 @@ async function checkForExpireUpdateInContentMessage(
  */
 function checkForExpiringOutgoingMessage(message: MessageModel, location?: string) {
   const convo = message.getConversation();
-  const expireTimer = message.getExpireTimer();
+  const expireTimer = message.getExpireTimerSeconds();
   const expirationType = message.getExpirationType();
 
   if (
@@ -540,7 +540,7 @@ async function updateMessageExpiriesOnSwarm(messages: Array<MessageModel>) {
   messages.forEach(msg => {
     const hash = msg.getMessageHash();
     const timestampStarted = msg.getExpirationStartTimestamp();
-    const timerSeconds = msg.getExpireTimer();
+    const timerSeconds = msg.getExpireTimerSeconds();
     const disappearingType = msg.getExpirationType();
     if (
       !hash ||
@@ -575,12 +575,12 @@ async function updateMessageExpiriesOnSwarm(messages: Array<MessageModel>) {
     }
 
     const newTTLms = m.updatedExpiryMs;
-    const realReadAt = newTTLms - message.getExpireTimer() * 1000;
+    const realReadAt = newTTLms - message.getExpireTimerSeconds() * 1000;
     if (
       newTTLms &&
       (newTTLms !== message.getExpiresAt() ||
         message.get('expirationStartTimestamp') !== realReadAt) &&
-      message.getExpireTimer()
+      message.getExpireTimerSeconds()
     ) {
       window.log.debug(`updateMessageExpiriesOnSwarm: setting for msg hash ${m.messageHash}:`, {
         expires_at: newTTLms,

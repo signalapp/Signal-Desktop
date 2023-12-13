@@ -163,7 +163,7 @@ async function handleMessageSentFailure(
   });
 
   // Disappeared messages that fail to send should not disappear
-  if (fetchedMessage.getExpirationType() && fetchedMessage.getExpireTimer() > 0) {
+  if (fetchedMessage.getExpirationType() && fetchedMessage.getExpireTimerSeconds() > 0) {
     fetchedMessage.set({
       expirationStartTimestamp: undefined,
     });
