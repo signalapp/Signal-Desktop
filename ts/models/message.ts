@@ -880,12 +880,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       const timestamp = Date.now(); // force a new timestamp to handle user fixed his clock;
-      const expireTimer = conversation.getExpireTimer();
-      const expirationType = DisappearingMessages.changeToDisappearingMessageType(
-        conversation,
-        expireTimer,
-        conversation.getExpirationMode()
-      );
 
       const chatParams: VisibleMessageParams = {
         identifier: this.id,
@@ -895,8 +889,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         preview: preview ? [preview] : [],
         quote,
         lokiProfile: UserUtils.getOurProfile(),
-        expirationType,
-        expireTimer,
+        // Note: we should have the fields set on that object when we've added it to the DB.
+        // We don't want to reuse the conversation setting, as it might change since this message was sent.
+        expirationType: this.getExpirationType() || null,
+        expireTimer: this.getExpireTimerSeconds(),
       };
       if (!chatParams.lokiProfile) {
         delete chatParams.lokiProfile;

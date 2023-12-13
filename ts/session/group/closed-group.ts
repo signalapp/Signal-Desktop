@@ -6,6 +6,7 @@ import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
 import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
+import { MessageAttributesOptionals } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import {
   addKeyPairToCacheAndDBIfNeeded,
@@ -18,7 +19,7 @@ import { getConversationController } from '../conversations';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { DisappearingMessages } from '../disappearing_messages';
-import { DisappearAfterSendOnly } from '../disappearing_messages/types';
+import { DisappearAfterSendOnly, DisappearingMessageUpdate } from '../disappearing_messages/types';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
@@ -74,9 +75,11 @@ export async function initiateClosedGroupUpdate(
     convo.getExpireTimer(),
     convo.getExpirationMode()
   );
+  const expireTimer = convo.getExpireTimer();
 
   if (expirationType === 'deleteAfterRead') {
-    throw new Error(`Groups cannot be deleteAfterRead. convo id: ${convo.id}`);
+    window.log.warn(`Groups cannot be deleteAfterRead. convo id: ${convo.id}`);
+    throw new Error(`Groups cannot be deleteAfterRead`);
   }
 
   // do not give an admins field here. We don't want to be able to update admins and
@@ -89,7 +92,7 @@ export async function initiateClosedGroupUpdate(
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
     expirationType,
-    expireTimer: convo.getExpireTimer(),
+    expireTimer,
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -103,38 +106,44 @@ export async function initiateClosedGroupUpdate(
     admins: convo.get('groupAdmins'),
   };
 
+  const sharedDetails = {
+    sender: UserUtils.getOurPubKeyStrFromCache(),
+    sentAt: Date.now(),
+
+    expireUpdate: {
+      expirationType: groupDetails.expirationType || ('unknown' as const),
+      expirationTimer: expireTimer || 0,
+      messageExpirationFromRetrieve: GetNetworkTime.getNowWithNetworkOffset() + expireTimer * 1000,
+    },
+    convo,
+  };
+
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = _.pick(diff, 'newName');
 
-    const dbMessageName = await addUpdateMessage(
-      convo,
-      nameOnlyDiff,
-      UserUtils.getOurPubKeyStrFromCache(),
-      Date.now()
-    );
+    const dbMessageName = await addUpdateMessage({
+      diff: nameOnlyDiff,
+      ...sharedDetails,
+    });
     await sendNewName(convo, diff.newName, dbMessageName.id as string);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = _.pick(diff, 'joiningMembers');
 
-    const dbMessageAdded = await addUpdateMessage(
-      convo,
-      joiningOnlyDiff,
-      UserUtils.getOurPubKeyStrFromCache(),
-      Date.now()
-    );
+    const dbMessageAdded = await addUpdateMessage({
+      diff: joiningOnlyDiff,
+      ...sharedDetails,
+    });
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id as string, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { kickedMembers: diff.leavingMembers };
-    const dbMessageLeaving = await addUpdateMessage(
-      convo,
-      leavingOnlyDiff,
-      UserUtils.getOurPubKeyStrFromCache(),
-      Date.now()
-    );
+    const dbMessageLeaving = await addUpdateMessage({
+      diff: leavingOnlyDiff,
+      ...sharedDetails,
+    });
     const stillMembers = members;
     await sendRemovedMembers(
       convo,
@@ -146,12 +155,19 @@ export async function initiateClosedGroupUpdate(
   await convo.commit();
 }
 
-export async function addUpdateMessage(
-  convo: ConversationModel,
-  diff: GroupDiff,
-  sender: string,
-  sentAt: number
-): Promise<MessageModel> {
+export async function addUpdateMessage({
+  convo,
+  diff,
+  sender,
+  sentAt,
+  expireUpdate,
+}: {
+  convo: ConversationModel;
+  diff: GroupDiff;
+  sender: string;
+  sentAt: number;
+  expireUpdate: DisappearingMessageUpdate | null;
+}): Promise<MessageModel> {
   const groupUpdate: any = {};
 
   if (diff.newName) {
@@ -170,49 +186,38 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  const expirationMode = convo.getExpirationMode();
-  const expireTimer = convo.getExpireTimer();
-  let expirationType;
-  let expirationStartTimestamp;
+  const isUs = UserUtils.isUsFromCache(sender);
+  const msgModel: MessageAttributesOptionals = {
+    sent_at: sentAt,
+    group_update: groupUpdate,
+    source: sender,
+    conversationId: convo.id,
+    type: isUs ? 'outgoing' : 'incoming',
+  };
 
-  if (convo && expirationMode && expireTimer > 0) {
-    expirationType =
-      expirationMode !== 'off'
-        ? DisappearingMessages.changeToDisappearingMessageType(convo, expireTimer, expirationMode)
-        : undefined;
+  if (convo && expireUpdate && expireUpdate.expirationType && expireUpdate.expirationTimer > 0) {
+    const { expirationTimer, expirationType, isLegacyDataMessage } = expireUpdate;
+
+    msgModel.expirationType = expirationType === 'deleteAfterSend' ? 'deleteAfterSend' : 'unknown';
+    msgModel.expireTimer = msgModel.expirationType === 'deleteAfterSend' ? expirationTimer : 0;
 
     // NOTE Triggers disappearing for an incoming groupUpdate message
     // TODO legacy messages support will be removed in a future release
-    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
-        expirationMode,
+    if (isLegacyDataMessage || expirationType === 'deleteAfterSend') {
+      msgModel.expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
+        isLegacyDataMessage ? 'legacy' : expirationType === 'unknown' ? 'off' : expirationType,
         sentAt,
         'addUpdateMessage'
       );
     }
   }
 
-  const msgModel = {
-    sent_at: sentAt,
-    group_update: groupUpdate,
-    expirationType,
-    expireTimer,
-    expirationStartTimestamp,
-  };
-
-  if (UserUtils.isUsFromCache(sender)) {
-    const outgoingMessage = await convo.addSingleOutgoingMessage(msgModel);
-    return outgoingMessage;
-  }
-
-  const incomingMessage = await convo.addSingleIncomingMessage({
-    ...msgModel,
-    source: sender,
-  });
-
-  await convo.commit();
-
-  return incomingMessage;
+  return isUs
+    ? convo.addSingleOutgoingMessage(msgModel)
+    : convo.addSingleIncomingMessage({
+        ...msgModel,
+        source: sender,
+      });
 }
 
 function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff {

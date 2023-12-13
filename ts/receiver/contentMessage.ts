@@ -23,6 +23,7 @@ import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { DisappearingMessages } from '../session/disappearing_messages';
+import { DisappearingMessageMode } from '../session/disappearing_messages/types';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
@@ -552,7 +553,8 @@ export async function innerHandleSwarmContentMessage({
 
       await handleDataExtractionNotification(
         envelope,
-        content.dataExtractionNotification as SignalService.DataExtractionNotification
+        content.dataExtractionNotification as SignalService.DataExtractionNotification,
+        content
       );
       perfEnd(
         `handleDataExtractionNotification-${envelope.id}`,
@@ -839,7 +841,8 @@ async function handleMessageRequestResponse(
  */
 export async function handleDataExtractionNotification(
   envelope: EnvelopePlus,
-  dataNotificationMessage: SignalService.DataExtractionNotification
+  dataNotificationMessage: SignalService.DataExtractionNotification,
+  content: SignalService.Content
 ): Promise<void> {
   // we currently don't care about the timestamp included in the field itself, just the timestamp of the envelope
   const { type, timestamp: referencedAttachment } = dataNotificationMessage;
@@ -855,53 +858,55 @@ export async function handleDataExtractionNotification(
     return;
   }
 
-  if (!type || !source) {
+  if (!type || !source || !timestamp) {
     window?.log?.info('DataNotification pre check failed');
 
     return;
   }
 
-  if (timestamp) {
-    const envelopeTimestamp = toNumber(timestamp);
-    const referencedAttachmentTimestamp = toNumber(referencedAttachment);
+  const envelopeTimestamp = toNumber(timestamp);
+  const referencedAttachmentTimestamp = toNumber(referencedAttachment);
+  const expireTimer = content.expirationTimer || 0;
 
-    const expirationMode = convo.getExpirationMode();
-    const expireTimer = convo.getExpireTimer();
-    let expirationType;
-    let expirationStartTimestamp;
+  const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
+    convo,
+    DisappearingMessageMode[content.expirationType],
+    expireTimer
+  );
+  let expirationType;
+  let expirationStartTimestamp;
 
-    if (convo && expirationMode && expireTimer > 0) {
-      expirationType =
-        expirationMode !== 'off'
-          ? DisappearingMessages.changeToDisappearingMessageType(convo, expireTimer, expirationMode)
-          : undefined;
+  if (convo && expirationMode && expireTimer > 0) {
+    expirationType =
+      expirationMode !== 'off'
+        ? DisappearingMessages.changeToDisappearingMessageType(convo, expireTimer, expirationMode)
+        : undefined;
 
-      // NOTE Triggers disappearing for an incoming DataExtractionNotification message
-      // TODO legacy messages support will be removed in a future release
-      if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-        expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
-          expirationMode,
-          undefined,
-          'handleDataExtractionNotification'
-        );
-      }
+    // NOTE Triggers disappearing for an incoming DataExtractionNotification message
+    // TODO legacy messages support will be removed in a future release
+    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+      expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
+        expirationMode,
+        undefined,
+        'handleDataExtractionNotification'
+      );
     }
-
-    await convo.addSingleIncomingMessage({
-      source,
-      sent_at: envelopeTimestamp,
-      dataExtractionNotification: {
-        type,
-        referencedAttachmentTimestamp, // currently unused
-        source,
-      },
-
-      unread: READ_MESSAGE_STATE.unread, // 1 means unread
-      expirationType,
-      expireTimer,
-      expirationStartTimestamp,
-    });
-
-    convo.updateLastMessage();
   }
+
+  await convo.addSingleIncomingMessage({
+    source,
+    sent_at: envelopeTimestamp,
+    dataExtractionNotification: {
+      type,
+      referencedAttachmentTimestamp, // currently unused
+      source,
+    },
+
+    unread: READ_MESSAGE_STATE.unread,
+    expirationType,
+    expireTimer,
+    expirationStartTimestamp,
+  });
+
+  convo.updateLastMessage();
 }

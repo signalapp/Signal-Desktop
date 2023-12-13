@@ -136,7 +136,7 @@ type InMemoryConvoInfos = {
 const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map();
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
-  public updateLastMessage: () => any;
+  public updateLastMessage: () => unknown; // unknown because it is a Promise that we do not wait to await
   public throttledBumpTyping: () => void;
   public throttledNotify: (message: MessageModel) => void;
   public markConversationRead: (opts: {
@@ -857,14 +857,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // to be above the message that initiated that change, hence the subtraction.
     const timestamp = (receivedAt || Date.now()) - 1;
 
-    // NOTE if we turn off disappearing messages we want the control message to expire based on the last available setting
-    const oldExpirationMode = this.getExpirationMode();
-    const oldExpireTimer = this.getExpireTimer();
-    const oldExpirationType = DisappearingMessages.changeToDisappearingMessageType(
-      this,
-      oldExpireTimer,
-      oldExpirationMode
-    );
+    // NOTE when we turn the disappearing setting to off, we don't want it to expire with the previous expiration anymore
 
     const isV2DisappearReleased = ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached();
     // when the v2 disappear is released, the changes we make are only for our outgoing messages, not shared with a contact anymore
@@ -931,8 +924,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // force that message to expire with the old disappear setting when the setting was turned off.
     // this is to make the update to 'off' disappear with the previous disappearing message setting
     message.set({
-      expirationType: expireTimer === 0 ? oldExpirationType : expirationType,
-      expireTimer: expireTimer === 0 ? oldExpireTimer : expireTimer,
+      expirationType,
+      expireTimer,
     });
 
     if (this.isActive()) {
@@ -2047,6 +2040,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const existingLastMessageAttribute = this.get('lastMessage');
     const existingLastMessageStatus = this.get('lastMessageStatus');
 
+    // TODO when the last message get removed from a conversation, the lastUpdate is ignored and we keep the last message.
+
     if (
       lastMessageUpdate.lastMessage !== existingLastMessageAttribute ||
       lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus
@@ -2384,13 +2379,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   private matchesDisappearingMode(mode: DisappearingMessageConversationModeType) {
+    const ours = this.getExpirationMode();
+    // Note: couldn't this be ours === mode with a twist maybe?
     const success =
       mode === 'deleteAfterRead'
-        ? this.getExpirationMode() === 'deleteAfterRead'
+        ? ours === 'deleteAfterRead'
         : mode === 'deleteAfterSend'
-        ? this.getExpirationMode() === 'deleteAfterSend'
+        ? ours === 'deleteAfterSend'
         : mode === 'off'
-        ? this.getExpirationMode() === 'off'
+        ? ours === 'off'
         : false;
 
     return success;
@@ -2545,8 +2542,6 @@ async function cleanUpExpireHistoryFromConvo(conversationId: string, isPrivate: 
     conversationId,
     isPrivate
   );
-  console.warn('cleanUpExpirationTimerUpdateHistory', conversationId, isPrivate, updateIdsRemoved);
-
   window.inboxStore.dispatch(
     messagesDeleted(updateIdsRemoved.map(m => ({ conversationKey: conversationId, messageId: m })))
   );

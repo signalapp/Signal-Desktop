@@ -175,7 +175,8 @@ export async function handleSwarmDataMessage({
   if (cleanDataMessage.closedGroupControlMessage) {
     await handleClosedGroupControlMessage(
       envelope,
-      cleanDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+      cleanDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage,
+      expireUpdate || null
     );
     return;
   }
