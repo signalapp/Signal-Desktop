@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { sample, times } from 'lodash';
+import { sample, shuffle, times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -721,5 +721,67 @@ function useReactionsEmitter(
     }, frequency);
     return () => clearInterval(interval);
   }, [frequency, removeAfter, call]);
+  return call;
+}
+
+export function GroupCallHandRaising(): JSX.Element {
+  const remoteParticipants = allRemoteParticipants.slice(0, 10);
+  const [props] = React.useState(
+    createProps({
+      callMode: CallMode.Group,
+      remoteParticipants,
+      viewMode: CallViewMode.Overflow,
+    })
+  );
+
+  const activeCall = useHandRaiser(props.activeCall as ActiveGroupCallType);
+
+  return <CallScreen {...props} activeCall={activeCall} />;
+}
+
+// Every [frequency] ms, all hands are lowered and [random min to max] random hands
+// are raised
+function useHandRaiser(
+  activeCall: ActiveGroupCallType,
+  frequency = 3000,
+  min = 0,
+  max = 5
+) {
+  const [call, setCall] = React.useState(activeCall);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCall(state => {
+        const participantsCount = call.remoteParticipants.length;
+        const usableMax = Math.min(max, participantsCount);
+        const raiseCount = Math.floor(min + (usableMax - min) * Math.random());
+        const participantIndices = shuffle(
+          Array.from(Array(participantsCount).keys())
+        ).slice(0, raiseCount);
+
+        const participantIndicesSet = new Set(participantIndices);
+        const remoteParticipants = [...call.remoteParticipants].map(
+          (participant, index) => {
+            return {
+              ...participant,
+              isHandRaised: participantIndicesSet.has(index),
+            };
+          }
+        );
+
+        const raisedHands = new Set(
+          participantIndices.map(
+            index => call.remoteParticipants[index].demuxId
+          )
+        );
+
+        return {
+          ...state,
+          remoteParticipants,
+          raisedHands,
+        };
+      });
+    }, frequency);
+    return () => clearInterval(interval);
+  }, [frequency, call, max, min]);
   return call;
 }
