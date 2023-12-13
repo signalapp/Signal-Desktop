@@ -50,8 +50,8 @@ const INTERVAL = 30 * durations.MINUTE;
 
 type JSONVendorSchema = {
   minOSVersion?: string;
-  requireManualUpdate?: boolean;
-  requireUserConfirmation?: boolean;
+  requireManualUpdate?: 'true' | 'false';
+  requireUserConfirmation?: 'true' | 'false';
 };
 
 type JSONUpdateSchema = {
@@ -285,7 +285,8 @@ export abstract class Updater {
 
       await this.installUpdate(
         updateFilePath,
-        !updateInfo.vendor?.requireUserConfirmation && this.canRunSilently()
+        updateInfo.vendor?.requireUserConfirmation !== 'true' &&
+          this.canRunSilently()
       );
 
       const mainWindow = this.getMainWindow();
@@ -402,7 +403,7 @@ export abstract class Updater {
 
     const { vendor } = parsedYaml;
     if (vendor) {
-      if (vendor.requireManualUpdate) {
+      if (vendor.requireManualUpdate === 'true') {
         this.logger.warn('checkForUpdates: manual update required');
         this.markCannotUpdate(
           new Error('yaml file has requireManualUpdate flag'),
