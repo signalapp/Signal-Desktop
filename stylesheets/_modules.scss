@@ -3956,6 +3956,10 @@ button.module-image__border-overlay:focus {
     transition: top 200ms linear, inset-inline-start 200ms linear,
       transform 200ms linear, width 200ms linear, height 200ms linear;
 
+    @media (prefers-reduced-motion) {
+      transition: none;
+    }
+
     &:after {
       content: '';
       position: absolute;
