@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 import moment from 'moment';
 
@@ -20,34 +20,69 @@ type ReleaseNotesType = {
   features: Array<JSX.Element>;
 };
 
+// Exported so it doesn't get marked unused
+export function ExternalLink(props: {
+  href: string;
+  children: ReactNode;
+}): JSX.Element {
+  return (
+    <a href={props.href} target="_blank" rel="noreferrer">
+      {props.children}
+    </a>
+  );
+}
+
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
 }: PropsType): JSX.Element {
-  let contentNode: ReactChild;
+  let contentNode: ReactNode;
 
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.42--0" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.43--0" />,
       <Intl
         i18n={i18n}
-        id="icu:WhatsNew__v6.42--1"
+        id="icu:WhatsNew__v6.43--1"
         components={{
           linkToGithub1: (
-            <a href="https://github.com/qauff" target="_blank" rel="noreferrer">
-              @qauff
-            </a>
+            <ExternalLink href="https://github.com/MahdiNazemi">
+              @MahdiNazemi
+            </ExternalLink>
+          ),
+        }}
+      />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.43--2"
+        components={{
+          linkToGithub1: (
+            <ExternalLink href="https://github.com/Shrinks99">
+              @Shrinks99
+            </ExternalLink>
+          ),
+        }}
+      />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.43--3"
+        components={{
+          linkToGithub1: (
+            <ExternalLink href="https://github.com/NetSysFire">
+              @NetSysFire
+            </ExternalLink>
           ),
           linkToGithub2: (
-            <a
-              href="https://github.com/wyvurn-h4x3r"
-              target="_blank"
-              rel="noreferrer"
-            >
-              @wyvurn-h4x3r
-            </a>
+            <ExternalLink href="https://github.com/timjamello">
+              @timjamello
+            </ExternalLink>
+          ),
+          linkToGithub3: (
+            <ExternalLink href="https://github.com/u32i64">
+              @u32i64
+            </ExternalLink>
           ),
         }}
       />,
