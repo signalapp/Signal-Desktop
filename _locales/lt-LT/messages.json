@@ -1774,7 +1774,7 @@
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "messageformat": "{count, plural, one {Pakeltos rankos: · {count,number} asmuo} few {Pakeltos rankos: · {count,number} asmenys} many {Pakeltos rankos: · {count,number} asmens} other {Pakeltos rankos: · {count,number} asmenų}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
   },
   "icu:CallingReactions--me": {
@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second} ir dar {others} žmonės(-ių) yra šiame skambutyje",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal skambins naudotojams {first}, {second} bei dar {others} žmonėms",
+    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second} ir dar {others} gaus pranešimą",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Išvalyti programos duomenis",
+    "messageformat": "Delete application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "Tai išvalys visus programoje esančius duomenis ir pašalins visas žinutes bei įrašytą paskyros informaciją.",
+    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Išvalyti duomenis",
+    "messageformat": "Delete data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Tu ketini ištrinti visą įrašytą šios programos paskyros informaciją, įskaitant visus adresatus ir visas žinutes. Visada ir vėl galėsi susieti programą su savo mobiliuoju įrenginiu, tačiau tai neatkurs ištrintų žinučių.",
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{group1}, {group2}, {group3} ir dar {remainingCount,number} grupių narys",
+    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3597,35 +3597,35 @@
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Your hand is raised.",
+    "messageformat": "Jūsų ranka pakelta.",
     "description": "Shown in a call when the user raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} raised a hand.",
+    "messageformat": "{name} pakėlė ranką.",
     "description": "Shown in a call when someone else raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--two": {
-    "messageformat": "{name} and {otherName} raised a hand.",
+    "messageformat": "{name} ir {otherName} pakėlė rankas.",
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
-    "messageformat": "Open queue",
+    "messageformat": "Atverti eilę",
     "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "Lower",
+    "messageformat": "Nuleisti",
     "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
   },
   "icu:CallControls__MenuItemRaiseHand": {
-    "messageformat": "Raise Hand",
+    "messageformat": "Pakelti ranką",
     "description": "Menu item to raise your hand during a call."
   },
   "icu:CallControls__MenuItemRaiseHand--lower": {
-    "messageformat": "Lower Hand",
+    "messageformat": "Nuleisti ranką",
     "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Šiai žinutei galima atlikti tik {max,number} pakeitimų.",
+    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} pakvietė {count,number} žmones(-ių) į grupę.",
+    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "Į grupę buvo pakviesta {count,number} žmonių(-ės).",
+    "messageformat": "{count, plural, other {#}} people were invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} panaikino pakvietimus prisijungti prie grupės {count,number} žmonėms(-ių), kuriuos pakvietė {memberName}.",
+    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count,number} nariai (-ių) buvo pašalinti iš grupės.",
+    "messageformat": "{count, plural, other {#}} members were removed from the group.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "Pasirinkta: {count,number}",
+    "messageformat": "{count, plural, other {#}} selected",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "Neįtraukti žmonės: {num,number}",
+    "messageformat": "{num, plural, other {#}} people excluded",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7020,22 +7020,22 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.39--0": {
-    "messageformat": "Dabar programėlėje „Signal“ galima pakeisti pasirinktą kalbą nekeičiant savo sistemos nustatymų („Signal“ nustatymai > Išvaizda > Kalba)."
-  },
-  "icu:WhatsNew__v6.39--1": {
-    "messageformat": "Ištaisėme trumpą uždelsimą, kurį kartais patirdavo „macOS“ įrenginių naudotojai laukdami prijungimo prie skambučio."
-  },
-  "icu:WhatsNew__v6.41--0": {
-    "messageformat": "Pataisėme vaizdo įrašų plytelių perėjimo animaciją, kai kas nors prisijungia arba išeina iš grupės skambučio. Jei pamatote draugo veidą, atsirandantį rodinyje, taip ir turi būti."
-  },
-  "icu:WhatsNew__v6.41--1": {
-    "messageformat": "Dabar pokalbio antraštėje galite spustelėti profilio nuotrauką arba grupės avatarą, kad greitai pasiektumėte pokalbio nustatymus arba peržiūrėtumėte nematytas to pokalbio istorijas. Ačiū, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.42--0": {
-    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+    "messageformat": "Ištaisėme klaidą, kylančią rodant cituotus atsakymus į vaizdo įrašus. Atsakymai buvo rodomi kaip atsakymai į nuotraukas (jei gerai pagalvoti, juk vaizdo įrašas ir yra tiesiog nuotraukų seka)."
   },
   "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
+    "messageformat": "Dėkojame {linkToGithub1} ir {linkToGithub2} už pagalbą dirbant ties šia versija."
+  },
+  "icu:WhatsNew__v6.43--0": {
+    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+  },
+  "icu:WhatsNew__v6.43--1": {
+    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--2": {
+    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--3": {
+    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
   }
 }
