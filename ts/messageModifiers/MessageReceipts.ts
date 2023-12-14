@@ -129,12 +129,12 @@ function getTargetMessage({
         sendStatus === undefined ||
         UNDELIVERED_SEND_STATUSES.includes(sendStatus)
       ) {
-        log.warn(`
-          MessageReceipts.getTargetMessage: received receipt for undelivered message,
-          status: ${sendStatus},
-          sourceConversationId: ${sourceConversationId}, 
-          message: ${getMessageIdForLogging(message)}.
-        `);
+        log.warn(
+          'MessageReceipts.getTargetMessage: received receipt for undelivered message, ' +
+            `status: ${sendStatus}, ` +
+            `sourceConversationId: ${sourceConversationId}, ` +
+            `message: ${getMessageIdForLogging(msg)}.`
+        );
         return false;
       }
 
