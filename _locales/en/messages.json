@@ -1977,15 +1977,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Clear application data",
+    "messageformat": "Delete application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will clear all data in the application, removing all messages and saved account information.",
+    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Clear data",
+    "messageformat": "Delete data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1993,7 +1993,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
