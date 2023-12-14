@@ -1774,7 +1774,7 @@
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "messageformat": "{count, plural, other {손 든 사람 · {count,number}명}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
   },
   "icu:CallingReactions--me": {
@@ -3597,35 +3597,35 @@
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Your hand is raised.",
+    "messageformat": "손을 들었습니다.",
     "description": "Shown in a call when the user raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} raised a hand.",
+    "messageformat": "{name} 님이 손을 들었습니다.",
     "description": "Shown in a call when someone else raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--two": {
-    "messageformat": "{name} and {otherName} raised a hand.",
+    "messageformat": "{name} 님과 {otherName} 님이 손을 들었습니다.",
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "messageformat": "{name} 님과 {otherName} 님 외 {overflowCount,number}명이 손을 들었습니다.",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
-    "messageformat": "Open queue",
+    "messageformat": "손 든 사람 열기",
     "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "Lower",
+    "messageformat": "손 내리기",
     "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
   },
   "icu:CallControls__MenuItemRaiseHand": {
-    "messageformat": "Raise Hand",
+    "messageformat": "손 들기",
     "description": "Menu item to raise your hand during a call."
   },
   "icu:CallControls__MenuItemRaiseHand--lower": {
-    "messageformat": "Lower Hand",
+    "messageformat": "손 내리기",
     "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
@@ -7033,9 +7033,9 @@
     "messageformat": "이제 대화 헤더에서 프로필 사진이나 그룹 아바타를 클릭하여 빠르게 대화 설정을 이용하거나 대화의 확인하지 않은 스토리를 확인할 수 있습니다. 고마워요, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.42--0": {
-    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+    "messageformat": "영상에 대한 인용 회신을 표시할 때 발생하던 버그를 수정했습니다."
   },
   "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
+    "messageformat": "이번 릴리스에 도움을 준 {linkToGithub1} 님과 {linkToGithub2} 님께 감사를 표합니다."
   }
 }

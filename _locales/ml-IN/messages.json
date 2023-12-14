@@ -1774,7 +1774,7 @@
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "messageformat": "{count, plural, one {ഉയർത്തിയ കൈകൾ · {count,number} ആൾ} other {ഉയർത്തിയ കൈകൾ · {count,number} പേർ}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
   },
   "icu:CallingReactions--me": {
@@ -3597,35 +3597,35 @@
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Your hand is raised.",
+    "messageformat": "നിങ്ങൾ കൈ ഉയർത്തിയിരിക്കുന്നു.",
     "description": "Shown in a call when the user raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} raised a hand.",
+    "messageformat": "{name} ഒരു കൈ ഉയർത്തി.",
     "description": "Shown in a call when someone else raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--two": {
-    "messageformat": "{name} and {otherName} raised a hand.",
+    "messageformat": "{name} , {otherName} എന്നിവർ കൈ ഉയർത്തി.",
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "messageformat": "{name}, {otherName}, എന്നിവരും മറ്റ് {overflowCount,number} പേരും കൈ ഉയർത്തി.",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
-    "messageformat": "Open queue",
+    "messageformat": "ക്യൂ തുറക്കുക",
     "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "Lower",
+    "messageformat": "താഴ്ത്തുക",
     "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
   },
   "icu:CallControls__MenuItemRaiseHand": {
-    "messageformat": "Raise Hand",
+    "messageformat": "കൈ ഉയർത്തുക",
     "description": "Menu item to raise your hand during a call."
   },
   "icu:CallControls__MenuItemRaiseHand--lower": {
-    "messageformat": "Lower Hand",
+    "messageformat": "കൈ താഴ്ത്തുക",
     "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
@@ -7033,9 +7033,9 @@
     "messageformat": "ചാറ്റ് ക്രമീകരണങ്ങൾ വേഗത്തിൽ ആക്‌സസ് ചെയ്യാനോ ആ ചാറ്റിൽ നിന്ന് കാണാത്ത സ്‌റ്റോറികൾ കാണാനോ ഇപ്പോൾ ചാറ്റ് ഹെഡറിലെ ഒരു പ്രൊഫൈൽ ഫോട്ടോയിലോ ഗ്രൂപ്പ് അവതാറിലോ ക്ലിക്ക് ചെയ്യാം. നന്ദി, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.42--0": {
-    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+    "messageformat": "ഓരോ വീഡിയോയും ഫോട്ടോകളുടെ ഒരു ശ്രേണി മാത്രമാണെങ്കിലും, ഫോട്ടോകൾക്കുള്ള ക്വാട്ട് ചെയ്ത മറുപടികൾ എന്ന മട്ടിൽ വീഡിയോകൾക്കുള്ള ക്വാട്ട് ചെയ്ത മറുപടികൾ പ്രദർശിപ്പിക്കുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു."
   },
   "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
+    "messageformat": "ഈ റിലീസുമായി ബന്ധപ്പെട്ട സഹായത്തിന് {linkToGithub1} , {linkToGithub2} എന്നിവർക്ക് നന്ദി."
   }
 }
