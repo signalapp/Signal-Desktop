@@ -2038,15 +2038,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const lastMessageStatus = lastMessageModel.getMessagePropStatus() || undefined;
     const lastMessageNotificationText = lastMessageModel.getNotificationText() || undefined;
     // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
-    const lastMessageUpdate =
-      !!lastMessageNotificationText && !isEmpty(lastMessageNotificationText)
-        ? {
-            lastMessage: lastMessageNotificationText || '',
-            lastMessageStatus,
-          }
-        : { lastMessage: '', lastMessageStatus: undefined };
-
-    // TODO when the last message get removed from a conversation, the lastUpdate is ignored and we keep the last message.
+    const lastMessageUpdate = !isEmpty(lastMessageNotificationText)
+      ? {
+          lastMessage: lastMessageNotificationText || '',
+          lastMessageStatus,
+        }
+      : { lastMessage: '', lastMessageStatus: undefined };
 
     if (
       lastMessageUpdate.lastMessage !== existingLastMessageAttribute ||

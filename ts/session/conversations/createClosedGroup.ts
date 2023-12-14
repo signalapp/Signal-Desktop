@@ -8,7 +8,6 @@ import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { generateClosedGroupPublicKey, generateCurve25519KeyPairWithoutPrefix } from '../crypto';
-import { DisappearAfterSendOnly, DisappearingMessageType } from '../disappearing_messages/types';
 import {
   ClosedGroupNewMessage,
   ClosedGroupNewMessageParams,
@@ -68,15 +67,14 @@ export async function createClosedGroup(groupName: string, members: Array<string
   await convo.commit();
   convo.updateLastMessage();
 
-  // Send a closed group update message to all members individually
+  // Send a closed group update message to all members individually.
+  // Note: we do not make those messages expire
   const allInvitesSent = await sendToGroupMembers(
     listOfMembers,
     groupPublicKey,
     groupName,
     admins,
-    encryptionKeyPair,
-    existingExpirationType,
-    existingExpireTimer
+    encryptionKeyPair
   );
 
   if (allInvitesSent) {
@@ -103,8 +101,6 @@ async function sendToGroupMembers(
   groupName: string,
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
-  existingExpirationType: DisappearAfterSendOnly,
-  existingExpireTimer: number,
   isRetry: boolean = false
 ): Promise<any> {
   const promises = createInvitePromises(
@@ -112,9 +108,7 @@ async function sendToGroupMembers(
     groupPublicKey,
     groupName,
     admins,
-    encryptionKeyPair,
-    existingExpirationType,
-    existingExpireTimer
+    encryptionKeyPair
   );
   window?.log?.info(`Sending invites for group ${groupPublicKey} to ${listOfMembers}`);
   // evaluating if all invites sent, if failed give the option to retry failed invites via modal dialog
@@ -169,8 +163,6 @@ async function sendToGroupMembers(
             groupName,
             admins,
             encryptionKeyPair,
-            existingExpirationType,
-            existingExpireTimer,
             isRetrySend
           );
         }
@@ -186,9 +178,7 @@ function createInvitePromises(
   groupPublicKey: string,
   groupName: string,
   admins: Array<string>,
-  encryptionKeyPair: ECKeyPair,
-  existingExpirationType: DisappearingMessageType,
-  existingExpireTimer: number
+  encryptionKeyPair: ECKeyPair
 ) {
   return listOfMembers.map(async m => {
     const messageParams: ClosedGroupNewMessageParams = {
@@ -198,8 +188,8 @@ function createInvitePromises(
       admins,
       keypair: encryptionKeyPair,
       timestamp: Date.now(),
-      expirationType: existingExpirationType,
-      expireTimer: existingExpireTimer,
+      expirationType: null, // Note: we do not make those messages expire as we want them available as much as possible on the swarm of the recipient
+      expireTimer: 0,
     };
     const message = new ClosedGroupNewMessage(messageParams);
     return getMessageQueue().sendToPubKeyNonDurably({

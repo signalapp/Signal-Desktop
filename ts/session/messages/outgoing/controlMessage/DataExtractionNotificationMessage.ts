@@ -1,23 +1,21 @@
-import { v4 as uuid } from 'uuid';
-
-import { ContentMessage } from '..';
 import { getMessageQueue } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
 import { getConversationController } from '../../../conversations';
+import { DisappearingMessages } from '../../../disappearing_messages';
 import { PubKey } from '../../../types';
 import { UserUtils } from '../../../utils';
-import { MessageParams } from '../Message';
+import { ExpirableMessage, ExpirableMessageParams } from '../ExpirableMessage';
 
-interface DataExtractionNotificationMessageParams extends MessageParams {
+interface DataExtractionNotificationMessageParams extends ExpirableMessageParams {
   referencedAttachmentTimestamp: number;
 }
 
-export class DataExtractionNotificationMessage extends ContentMessage {
+export class DataExtractionNotificationMessage extends ExpirableMessage {
   public readonly referencedAttachmentTimestamp: number;
 
   constructor(params: DataExtractionNotificationMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
+    super(params);
     this.referencedAttachmentTimestamp = params.referencedAttachmentTimestamp;
     // this does not make any sense
     if (!this.referencedAttachmentTimestamp) {
@@ -57,11 +55,20 @@ export const sendDataExtractionNotification = async (
     return;
   }
 
+  const expireTimer = convo.getExpireTimer();
+  const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+    convo,
+    expireTimer,
+    convo.getExpirationMode()
+  );
+
   const dataExtractionNotificationMessage = new DataExtractionNotificationMessage({
     referencedAttachmentTimestamp,
-    identifier: uuid(),
     timestamp: Date.now(),
+    expirationType,
+    expireTimer,
   });
+
   const pubkey = PubKey.cast(conversationId);
   window.log.info(
     `Sending DataExtractionNotification to ${conversationId} about attachment: ${referencedAttachmentTimestamp}`

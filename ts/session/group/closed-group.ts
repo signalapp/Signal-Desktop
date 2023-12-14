@@ -290,8 +290,12 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
     groupId,
     identifier: messageId,
     name,
-    expirationType: null,
-    expireTimer: null,
+    expirationType: DisappearingMessages.changeToDisappearingMessageType(
+      convo,
+      convo.getExpireTimer(),
+      convo.getExpirationMode()
+    ),
+    expireTimer: convo.getExpireTimer(),
   });
   await getMessageQueue().sendToGroup({
     message: nameChangeMessage,
@@ -328,8 +332,12 @@ async function sendAddedMembers(
     groupId,
     addedMembers,
     identifier: messageId,
-    expirationType: null,
-    expireTimer: null,
+    expirationType: DisappearingMessages.changeToDisappearingMessageType(
+      convo,
+      convo.getExpireTimer(),
+      convo.getExpirationMode()
+    ),
+    expireTimer: convo.getExpireTimer(),
   });
   await getMessageQueue().sendToGroup({
     message: closedGroupControlMessage,
@@ -393,8 +401,12 @@ export async function sendRemovedMembers(
     groupId,
     removedMembers,
     identifier: messageId,
-    expirationType: null,
-    expireTimer: null,
+    expirationType: DisappearingMessages.changeToDisappearingMessageType(
+      convo,
+      convo.getExpireTimer(),
+      convo.getExpirationMode()
+    ),
+    expireTimer: convo.getExpireTimer(),
   });
   // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
   await getMessageQueue().sendToGroup({
@@ -455,7 +467,7 @@ async function generateAndSendNewEncryptionKeyPair(
     groupId: toHex(groupId),
     timestamp: GetNetworkTime.getNowWithNetworkOffset(),
     encryptedKeyPairs: wrappers,
-    expirationType: null,
+    expirationType: null, // we keep that one **not** expiring (not rendered in the clients, and we need it to be as available as possible on the swarm)
     expireTimer: null,
   });
 

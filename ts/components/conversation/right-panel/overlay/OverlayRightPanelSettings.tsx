@@ -276,8 +276,7 @@ export const OverlayRightPanelSettings = () => {
     ? window.i18n('youLeftTheGroup')
     : window.i18n('leaveGroup');
 
-  const showUpdateGroupNameButton =
-    isGroup && (!isPublic || (isPublic && weAreAdmin)) && !commonNoShow;
+  const showUpdateGroupNameButton = isGroup && weAreAdmin && !commonNoShow; // legacy groups non-admin cannot change groupname anymore
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
   const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 

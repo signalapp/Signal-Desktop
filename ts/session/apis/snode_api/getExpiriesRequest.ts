@@ -70,7 +70,6 @@ async function getExpiriesFromNodes(
       throw Error(`getExpiriesFromNodes result is not 200 but ${firstResult.code}`);
     }
 
-    debugger;
     // expirationResults is a record of {messageHash: currentExpiry}
     const expirationResults = await processGetExpiriesRequestResponse(
       targetNode,

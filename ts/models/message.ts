@@ -486,6 +486,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return undefined;
     }
 
+    // some incoming legacy group updates are outgoing, but when synced to our other devices have just the received_at field set.
+    // when that is the case, we don't want to render the spinning 'sending' state
+    if (this.get('received_at')) {
+      return undefined;
+    }
+
     if (this.isDataExtractionNotification() || this.get('callNotificationType')) {
       return undefined;
     }
