@@ -1774,7 +1774,7 @@
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "messageformat": "{count, plural, one {చేయి పైకెత్తినవారు · {count,number} వ్యక్తి} other {చేయి పైకెత్తినవారు · {count,number} వ్యక్తులు}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
   },
   "icu:CallingReactions--me": {
@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, మరియు {others} ఇతర ఈ కాల్‌లో ఉన్నారు",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "{first}, {second}, మరియు {others} ఇతరులకు Signal  రింగ్ చేస్తుంది",
+    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second},  మరియు {others} ఇతరులకు నోటిఫై చేయబడుతుంది",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "అప్లికేషన్ డేటాను క్లియర్ చేయండి",
+    "messageformat": "Delete application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "ఇది అనువర్తనంలోని మొత్తం సమాచారం క్లియర్ చేస్తుంది, అన్ని సందేశాలను మరియు ఖాతా సమాచారాన్ని తీసివేస్తుంది",
+    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "సమాచారం క్లియర్ చేయండి",
+    "messageformat": "Delete data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "అన్ని పరిచయాలు మరియు అన్ని సందేశాలతో సహా ఈ అప్లికేషన్ యొక్క భద్రపరచబడిన ఖాతా సమాచారాన్నంతటిని మీరు తొలగించబోతున్నారు. మీ మొబైల్ పరికరంతో మీరు ఎల్లప్పుడూ మళ్ళీ లింక్ చేయవచ్చు, కానీ అది తొలగించబడిన సందేశాలను పునరుద్ధరించదు.",
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{group1}, {group2}, {group3} మరియు {remainingCount,number} సభ్యుడు",
+    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3597,35 +3597,35 @@
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Your hand is raised.",
+    "messageformat": "మీ చేయి పైకి లేచింది.",
     "description": "Shown in a call when the user raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} raised a hand.",
+    "messageformat": "{name} చేయి పైకెత్తారు.",
     "description": "Shown in a call when someone else raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--two": {
-    "messageformat": "{name} and {otherName} raised a hand.",
+    "messageformat": "{name} మరియు {otherName} చేయి పైకెత్తారు.",
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
-    "messageformat": "Open queue",
+    "messageformat": "క్యూ తెరవండి",
     "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "Lower",
+    "messageformat": "కిందకి దించండి",
     "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
   },
   "icu:CallControls__MenuItemRaiseHand": {
-    "messageformat": "Raise Hand",
+    "messageformat": "చేయి పైకెత్తండి",
     "description": "Menu item to raise your hand during a call."
   },
   "icu:CallControls__MenuItemRaiseHand--lower": {
-    "messageformat": "Lower Hand",
+    "messageformat": "చేయి దించండి",
     "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "ఈ సందేశానికి {max,number} సవరణలుు మాత్రమే వర్తింపచేయబడవచ్చు.",
+    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} {count,number} మందిని బృందానికి ఆహ్వానించారు.",
+    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "ఈ బృందానికి {count,number} మందిని ఆహ్వానించారు.",
+    "messageformat": "{count, plural, other {#}} people were invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{memberName} ఆహ్వానించిన {count,number} మందికి {adminName} సమూహానికి ఆహ్వానాలను ఉపసంహరించుకున్నారు.",
+    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "గ్రూప్ నుండి {count,number} మంది సభ్యులు తొలగించబడినారు.",
+    "messageformat": "{count, plural, other {#}} members were removed from the group.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count,number} ఎంచుకోబడినాయి",
+    "messageformat": "{count, plural, other {#}} selected",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num,number} మంది వ్యక్తులు మినహాయించబడ్డారు",
+    "messageformat": "{num, plural, other {#}} people excluded",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7020,22 +7020,22 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.39--0": {
-    "messageformat": "మీ సిస్టమ్ సెట్టింగ్‌లను మార్చకుండానే Signal లో మీరు ఎంచుకున్న భాషను ఇప్పుడు మీరు మార్చవచ్చు (Signal సెట్టింగ్‌లు > రూపం > భాష)."
-  },
-  "icu:WhatsNew__v6.39--1": {
-    "messageformat": "కాల్ లాబీలో చేరిన తర్వాత macOS లో కొన్నిసార్లు జరిగిన కొద్దిపాటి ఆలస్యాన్ని మేము పరిష్కరించాము."
-  },
-  "icu:WhatsNew__v6.41--0": {
-    "messageformat": "ఎవరైనా గ్రూప్ కాల్‌లో చేరినప్పుడు లేదా వదిలి వెళ్ళినప్పుడు వీడియో టైల్స్ కోసం స్థిత్యంతర యానిమేషన్‌ను మేము పరిష్కరించాము. స్నేహితుడి ముఖాన్ని చూసినప్పుడు వీక్షణలోకి జారుకోండి, ఇది ఒక సామాజిక చేష్ట."
-  },
-  "icu:WhatsNew__v6.41--1": {
-    "messageformat": "చాట్ సెట్టింగ్‌లను వేగంగా యాక్సెస్ చేయడానికి లేదా ఆ చాట్ నుండి కనిపించని కథలను వీక్షించడానికి చాట్ హెడర్‌లోని ప్రొఫైల్ ఫోటో లేదా గ్రూప్ అవతార్‌పై ఇప్పుడు మీరు క్లిక్ చేయవచ్చు. ధన్యవాదాలు, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.42--0": {
-    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+    "messageformat": "వీడియోలకు కోట్ చేసిన ప్రత్యుత్తరాలను ప్రదర్శిస్తున్నప్పుడు మేము బగ్‌ను పరిష్కరించాము."
   },
   "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
+    "messageformat": "ఈ విడుదలకు వారు చేసిన సహాయానికి {linkToGithub1} మరియు {linkToGithub2}కు మా కృతజ్ఞతలు."
+  },
+  "icu:WhatsNew__v6.43--0": {
+    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+  },
+  "icu:WhatsNew__v6.43--1": {
+    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--2": {
+    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--3": {
+    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
   }
 }

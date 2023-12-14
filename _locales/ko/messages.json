@@ -1774,7 +1774,7 @@
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "messageformat": "{count, plural, other {손 든 사람 · {count,number}명}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
   },
   "icu:CallingReactions--me": {
@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first} 님, {second} 님과 {others} 님이 통화 중입니다.",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal에서 {first} 님과 {second} 님 외 {others}명의 전화벨을 울립니다.",
+    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first} 님과 {second} 님 외 {others}명에게 알립니다.",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "애플리케이션 데이터 지우기",
+    "messageformat": "Delete application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "모든 메시지와 저장된 계정 정보를 포함한 애플리케이션의 모든 데이터를 삭제합니다.",
+    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "데이터 비우기",
+    "messageformat": "Delete data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "이 애플리케이션에 저장된 계정 정보, 모든 연락처와 모든 메시지를 삭제하려 합니다. 모바일 기기를 다시 연결할 수 있으나 삭제된 메시지는 복구할 수 없습니다.",
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{group1}, {group2}, {group3} 및 {remainingCount,number}개 이상 그룹의 멤버입니다",
+    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3597,35 +3597,35 @@
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Your hand is raised.",
+    "messageformat": "손을 들었습니다.",
     "description": "Shown in a call when the user raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} raised a hand.",
+    "messageformat": "{name} 님이 손을 들었습니다.",
     "description": "Shown in a call when someone else raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--two": {
-    "messageformat": "{name} and {otherName} raised a hand.",
+    "messageformat": "{name} 님과 {otherName} 님이 손을 들었습니다.",
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
-    "messageformat": "Open queue",
+    "messageformat": "손 든 사람 열기",
     "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "Lower",
+    "messageformat": "손 내리기",
     "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
   },
   "icu:CallControls__MenuItemRaiseHand": {
-    "messageformat": "Raise Hand",
+    "messageformat": "손 들기",
     "description": "Menu item to raise your hand during a call."
   },
   "icu:CallControls__MenuItemRaiseHand--lower": {
-    "messageformat": "Lower Hand",
+    "messageformat": "손 내리기",
     "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "이 메시지는 {max,number}번만 수정할 수 있습니다.",
+    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} 님이 {count,number}명의 사용자를 그룹에 초대했습니다.",
+    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count,number}명의 사람들이 그룹에 초대되었습니다.",
+    "messageformat": "{count, plural, other {#}} people were invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} 님이 {memberName} 님이 초대한 {count,number}명의 그룹 초대를 취소했습니다.",
+    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "멤버 {count,number}명이 그룹에서 제거되었습니다.",
+    "messageformat": "{count, plural, other {#}} members were removed from the group.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count,number}개 선택함",
+    "messageformat": "{count, plural, other {#}} selected",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num,number}명을 제외함",
+    "messageformat": "{num, plural, other {#}} people excluded",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7020,22 +7020,22 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.39--0": {
-    "messageformat": "이제 시스템 설정을 변경하지 않고 Signal 선택 언어를 변경할 수 있습니다(Signal 설정 > 디자인 > 언어)."
-  },
-  "icu:WhatsNew__v6.39--1": {
-    "messageformat": "macOS에서 통화 로비에 참가한 후 간혹 발생하던 짧은 지연을 해결했습니다."
-  },
-  "icu:WhatsNew__v6.41--0": {
-    "messageformat": "다른 사람이 그룹 통화에 들어오거나 나갈 때 표시되는 동영상 타일의 전환 애니메이션을 수정했습니다."
-  },
-  "icu:WhatsNew__v6.41--1": {
-    "messageformat": "이제 대화 헤더에서 프로필 사진이나 그룹 아바타를 클릭하여 빠르게 대화 설정을 이용하거나 대화의 확인하지 않은 스토리를 확인할 수 있습니다. 고마워요, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.42--0": {
-    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+    "messageformat": "영상에 대한 인용 회신을 표시할 때 발생하던 버그를 수정했습니다."
   },
   "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
+    "messageformat": "이번 릴리스에 도움을 준 {linkToGithub1} 님과 {linkToGithub2} 님께 감사를 표합니다."
+  },
+  "icu:WhatsNew__v6.43--0": {
+    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+  },
+  "icu:WhatsNew__v6.43--1": {
+    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--2": {
+    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--3": {
+    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
   }
 }

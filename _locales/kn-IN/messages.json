@@ -1774,7 +1774,7 @@
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Raised hands · {count,number} person} other {Raised hands · {count,number} people}}",
+    "messageformat": "{count, plural, one {ಕೈ ಎತ್ತಿದವರು · {count,number} ಮಂದಿ} other {ಕೈ ಎತ್ತಿದವರು · {count,number} ಮಂದಿ}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
   },
   "icu:CallingReactions--me": {
@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second} ಮತ್ತು {others} ಇತರರು ಈ ಕಾಲ್‌ನಲ್ಲಿದ್ದಾರೆ",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal {first}, {second}, ಮತ್ತು {others} ಇತರರಿಗೆ ರಿಂಗ್ ಮಾಡಲಿದೆ",
+    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, ಮತ್ತು {others} ಇತರರಿಗೆ ತಿಳಿಸಲಾಗುತ್ತದೆ",
+    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "ಅಪ್ಲಿಕೇಶನ್ ಡೇಟಾ ತೆರವುಗೊಳಿಸಿ",
+    "messageformat": "Delete application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿನ ಎಲ್ಲ ಡೇಟಾವನ್ನು ಇದು ತೆರವುಗೊಳಿಸುತ್ತದೆ, ಎಲ್ಲ ಮೆಸೇಜ್‌ಗಲು ಮತ್ತು ಉಳಿಸಿದ ಖಾತೆ ಮಾಹಿತಿಯನ್ನು ತೆಗೆದುಹಾಕುತ್ತದೆ.",
+    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "ಡೇಟಾ ತೆರವುಗೊಳಿಸಿ",
+    "messageformat": "Delete data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "ಎಲ್ಲ ಸಂಪರ್ಕಗಳು ಮತ್ತು ಎಲ್ಲ ಸಂದೇಶಗಳೂ ಸೇರಿದಂತೆ ಈ ಅಪ್ಲಿಕೇಸನ್‌ನ ಎಲ್ಲ ಉಳಿಸಿದ ಖಾತೆ ಮಾಹಿತಿಯನ್ನು ನೀವು ಅಳಿಸಲಿದ್ದೀರಿ. ಪುನಃ ನಿಮ್ಮ ಮೊಬೈಲ್‌ ಸಾಧನದೊಂದಿಗೆ ಯಾವಾಗ ಬೇಕಾದರೂ ಲಿಂಕ್‌ ಮಾಡಬಹುದು. ಅದರೆ, ಅಳಿಸಿದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಇದು ಮರುಸ್ಥಾಪಿಸುವುದಿಲ್ಲ.",
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{group1}, {group2}, {group3} ಮತ್ತು {remainingCount,number} ಇನ್ನಷ್ಟು ಸದಸ್ಯರು",
+    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3597,35 +3597,35 @@
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Your hand is raised.",
+    "messageformat": "ನೀವು ಕೈ ಎತ್ತಿದ್ದೀರಿ.",
     "description": "Shown in a call when the user raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} raised a hand.",
+    "messageformat": "{name} ಕೈ ಎತ್ತಿದರು.",
     "description": "Shown in a call when someone else raises their hand."
   },
   "icu:CallControls__RaiseHandsToast--two": {
-    "messageformat": "{name} and {otherName} raised a hand.",
+    "messageformat": "{name} ಮತ್ತು {otherName} ಕೈ ಎತ್ತಿದರು.",
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount,number} more raised a hand.",
+    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
-    "messageformat": "Open queue",
+    "messageformat": "ಸರದಿ ತೆರೆಯಿರಿ",
     "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "Lower",
+    "messageformat": "ಕೆಳಗಿಳಿಸಿ",
     "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
   },
   "icu:CallControls__MenuItemRaiseHand": {
-    "messageformat": "Raise Hand",
+    "messageformat": "ಕೈ ಎತ್ತಿ",
     "description": "Menu item to raise your hand during a call."
   },
   "icu:CallControls__MenuItemRaiseHand--lower": {
-    "messageformat": "Lower Hand",
+    "messageformat": "ಕೈ ಕೆಳಗಿಳಿಸಿ",
     "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "ಈ ಮೆಸೇಜ್‌ಗೆ {max,number} ಎಡಿಟ್‌ಗಳನ್ನು ಮಾತ್ರ ಅನ್ವಯಿಸಬಹುದಾಗಿದೆ.",
+    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} ಅವರು {count,number} ಜನರನ್ನು ಗ್ರೂಪ್‌ಗೆ ಆಹ್ವಾನಿಸಿದ್ದಾರೆ.",
+    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count,number} ಜನರನ್ನು ಗ್ರೂಪ್‌ಗೆ ಆಹ್ವಾನಿಸಲಾಗಿದೆ.",
+    "messageformat": "{count, plural, other {#}} people were invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{memberName} ಅವರು {count,number} ಜನರಿಗೆ ಕಳುಹಿಸಿದ ಗ್ರೂಪ್ ಆಹ್ವಾನಗಳನ್ನು {adminName} ಅವರು ಹಿಂಪಡೆದಿದ್ದಾರೆ.",
+    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count,number} ಸದಸ್ಯರನ್ನು ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಲಾಗಿದೆ.",
+    "messageformat": "{count, plural, other {#}} members were removed from the group.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count,number} ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ",
+    "messageformat": "{count, plural, other {#}} selected",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num,number} ಜನರನ್ನು ಹೊರತುಪಡಿಸಲಾಗಿದೆ",
+    "messageformat": "{num, plural, other {#}} people excluded",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7020,22 +7020,22 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.39--0": {
-    "messageformat": "ಈಗ ನಿಮ್ಮ ಸಿಸ್ಟಮ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸದೆಯೇ Signal ನಲ್ಲಿ ನಿಮ್ಮ ಆಯ್ಕೆಯ ಭಾಷೆಯನ್ನು ನೀವು ಬದಲಾಯಿಸಬಹುದು (Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ರೂಪ > ಭಾಷೆ)."
-  },
-  "icu:WhatsNew__v6.39--1": {
-    "messageformat": "MacOS ಸಾಧನಗಳಲ್ಲಿ ಕರೆ ಲಾಬಿಗೆ ಸೇರುವಾಗ ಕೆಲವೊಮ್ಮೆ ಸಂಭವಿಸುತ್ತಿದ್ದ ತುಸು ವಿಳಂಬವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ, ಇದರಿಂದಾಗಿ ಮೀಟಿಂಗ್‌ಗೆ ಸೇರುವಾಗ ಉಂಟಾಗುತ್ತಿದ್ದ ಅರ್ಧ ಸೆಕೆಂಡ್ ವಿಳಂಬದ ಸಮಸ್ಯೆ ಇನ್ನಿರುವುದಿಲ್ಲ."
-  },
-  "icu:WhatsNew__v6.41--0": {
-    "messageformat": "ಯಾರಾದರೂ ಗುಂಪು ಕರೆಗೆ ಸೇರಿದಾಗ ಅಥವಾ ತೊರೆದಾಗ ನಾವು ವೀಡಿಯೊ ಟೈಲ್‌ಗಳಿಗಾಗಿ ಪರಿವರ್ತನೆಯ ಅನಿಮೇಷನ್ ಅನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಸ್ನೇಹಿತರ ಮುಖ ವೀಕ್ಷಣೆಗೆ ಸ್ಲೈಡ್ ಆಗಿರುವುದನ್ನು ನೀವು ನೋಡಿದಾಗ, ಅದು ಸಾಮಾಜಿಕ ಚಳುವಳಿಯಾಗಿದೆ."
-  },
-  "icu:WhatsNew__v6.41--1": {
-    "messageformat": "ಈಗ ನೀವು ಚಾಟ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಪ್ರವೇಶಿಸಲು ಅಥವಾ ಆ ಚಾಟ್‌ನಿಂದ ಯಾವುದೇ ಕಾಣದ ಸ್ಟೋರೀಸ್ ಅನ್ನು ವೀಕ್ಷಿಸಲು ಚಾಟ್ ಹೆಡರ್‌ನಲ್ಲಿ ಪ್ರೊಫೈಲ್ ಫೋಟೋ ಅಥವಾ ಗುಂಪು ಅವತಾರ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಬಹುದು. ಧನ್ಯವಾದಗಳು, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.42--0": {
-    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
+    "messageformat": "ವೀಡಿಯೊಗಳಿಗೆ ಉಲ್ಲೇಖಿಸಿದ ಪ್ರತ್ಯುತ್ತರಗಳನ್ನು ಫೋಟೋಗಳಿಗೆ ಉಲ್ಲೇಖಿಸಿದ ಪ್ರತ್ಯುತ್ತರಗಳಂತೆ ಪ್ರದರ್ಶಿಸುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ, ಆದರೂ ನೀವು ಅದರ ಬಗ್ಗೆ ಯೋಚಿಸಿದರೆ ಪ್ರತಿ ವೀಡಿಯೊವು ನಿಜವಾಗಿಯೂ ಫೋಟೋಗಳ ಅನುಕ್ರಮಣಿಕೆ ಆಗಿದೆ."
   },
   "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
+    "messageformat": "ಈ ಆವೃತ್ತಿಗೆ ಸಹಾಯ ಮಾಡಿದ್ದಕ್ಕಾಗಿ {linkToGithub1} ಮತ್ತು {linkToGithub2} ಅವರಿಗೆ ಧನ್ಯವಾದಗಳು."
+  },
+  "icu:WhatsNew__v6.43--0": {
+    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+  },
+  "icu:WhatsNew__v6.43--1": {
+    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--2": {
+    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+  },
+  "icu:WhatsNew__v6.43--3": {
+    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
   }
 }
