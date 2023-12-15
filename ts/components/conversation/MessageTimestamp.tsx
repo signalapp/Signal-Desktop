@@ -47,7 +47,7 @@ export function MessageTimestamp({
           : null,
         withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
         withSticker ? `${moduleName}--with-sticker` : null,
-        isOutlineOnlyBubble ? `${moduleName}--ouline-only-bubble` : null
+        isOutlineOnlyBubble ? `${moduleName}--outline-only-bubble` : null
       )}
       timestamp={timestamp}
     >
