@@ -12,7 +12,13 @@ const updateMessageBatcher = createBatcher<MessageAttributesType>({
   maxSize: 50,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
     log.info('updateMessageBatcher', messageAttrs.length);
-    await window.Signal.Data.saveMessages(messageAttrs, {
+
+    // Grab the latest from the cache in case they've changed
+    const messagesToSave = messageAttrs.map(
+      message => window.MessageCache.accessAttributes(message.id) ?? message
+    );
+
+    await window.Signal.Data.saveMessages(messagesToSave, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   },
@@ -40,7 +46,13 @@ export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
   maxSize: 30,
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
     log.info('saveNewMessageBatcher', messageAttrs.length);
-    await window.Signal.Data.saveMessages(messageAttrs, {
+
+    // Grab the latest from the cache in case they've changed
+    const messagesToSave = messageAttrs.map(
+      message => window.MessageCache.accessAttributes(message.id) ?? message
+    );
+
+    await window.Signal.Data.saveMessages(messagesToSave, {
       forceSave: true,
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
