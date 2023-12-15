@@ -18,6 +18,11 @@ import { MY_STORY_ID } from '../../types/Stories';
 import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import {
+  DELETE_SENT_PROTO_BATCHER_WAIT_MS,
+  RECEIPT_BATCHER_WAIT_MS,
+} from '../../types/Receipt';
+import { sleep } from '../../util/sleep';
 
 export const debug = createDebug('mock:test:pni-signature');
 
@@ -221,7 +226,12 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
         messageTimestamps: [dataMessage.timestamp?.toNumber() ?? 0],
         timestamp: receiptTimestamp,
       });
+      // Wait for receipts to be batched and processed (+ buffer)
+      await sleep(
+        RECEIPT_BATCHER_WAIT_MS + DELETE_SENT_PROTO_BATCHER_WAIT_MS + 20
+      );
     }
+
     debug('Enter third message text');
     {
       const compositionInput = await app.waitForEnabledComposer();

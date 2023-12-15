@@ -10,13 +10,15 @@ import type { Page } from 'playwright';
 import type { App } from '../playwright';
 import * as durations from '../../util/durations';
 import { Bootstrap } from '../bootstrap';
-import { ReceiptType } from '../../types/Receipt';
+import { RECEIPT_BATCHER_WAIT_MS, ReceiptType } from '../../types/Receipt';
 import { SendStatus } from '../../messages/MessageSendState';
 import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import { generateAci } from '../../types/ServiceId';
 import { IMAGE_GIF } from '../../types/MIME';
 import { type } from '../helpers';
+import type { MessageAttributesType } from '../../model-types';
+import { sleep } from '../../util/sleep';
 
 export const debug = createDebug('mock:test:edit');
 
@@ -501,6 +503,20 @@ describe('editing', function (this: Mocha.Suite) {
     });
 
     it('tracks message send state for edits', async () => {
+      async function getMessageFromApp(
+        originalMessageTimestamp: number
+      ): Promise<MessageAttributesType> {
+        await sleep(RECEIPT_BATCHER_WAIT_MS + 20);
+        const messages = await page.evaluate(
+          timestamp => window.SignalCI?.getMessagesBySentAt(timestamp),
+          originalMessageTimestamp
+        );
+        strictAssert(messages, 'messages does not exist');
+        strictAssert(messages.length === 1, 'message does not exist');
+
+        return messages[0];
+      }
+
       async function editMessage(
         page: Page,
         timestamp: number,
@@ -601,14 +617,8 @@ describe('editing', function (this: Mocha.Suite) {
       debug("testing message's send state (original)");
       {
         debug('getting message from app (original)');
-        const messages = await page.evaluate(
-          timestamp => window.SignalCI?.getMessagesBySentAt(timestamp),
-          originalMessageTimestamp
-        );
-        strictAssert(messages, 'messages does not exist');
+        const message = await getMessageFromApp(originalMessageTimestamp);
 
-        debug('verifying message send state (original)');
-        const [message] = messages;
         strictAssert(
           message.sendStateByConversationId,
           'sendStateByConversationId'
@@ -651,15 +661,7 @@ describe('editing', function (this: Mocha.Suite) {
 
       debug("testing message's send state (current(v2) and original (v1))");
       {
-        debug('getting message from app');
-        const messages = await page.evaluate(
-          timestamp => window.SignalCI?.getMessagesBySentAt(timestamp),
-          originalMessageTimestamp
-        );
-        strictAssert(messages, 'messages does not exist');
-
-        debug('verifying message send state & edit');
-        const [message] = messages;
+        const message = await getMessageFromApp(originalMessageTimestamp);
         strictAssert(message.editHistory, 'edit history exists');
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_v2, v1] = message.editHistory;
@@ -747,14 +749,7 @@ describe('editing', function (this: Mocha.Suite) {
       debug("testing v4's send state");
       {
         debug('getting edited message from app (v4)');
-        const messages = await page.evaluate(
-          timestamp => window.SignalCI?.getMessagesBySentAt(timestamp),
-          originalMessageTimestamp
-        );
-        strictAssert(messages, 'messages does not exist');
-
-        debug('verifying edited message send state (v4)');
-        const [message] = messages;
+        const message = await getMessageFromApp(originalMessageTimestamp);
 
         strictAssert(
           message.sendStateByConversationId,

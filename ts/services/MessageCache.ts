@@ -8,7 +8,6 @@ import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
-import { drop } from '../util/drop';
 import { getEnvironment, Environment } from '../environment';
 import { getMessageConversation } from '../util/getMessageConversation';
 import { getMessageModelLogger } from '../util/MessageModelLogger';
@@ -144,15 +143,39 @@ export class MessageCache {
 
   // Updates a message's attributes and saves the message to cache and to the
   // database. Option to skip the save to the database.
+
+  // Overload #1: if skipSaveToDatabase = true, returns void
+  public setAttributes({
+    messageId,
+    messageAttributes,
+    skipSaveToDatabase,
+  }: {
+    messageId: string;
+    messageAttributes: Partial<MessageAttributesType>;
+    skipSaveToDatabase: true;
+  }): void;
+
+  // Overload #2: if skipSaveToDatabase = false, returns DB save promise
+  public setAttributes({
+    messageId,
+    messageAttributes,
+    skipSaveToDatabase,
+  }: {
+    messageId: string;
+    messageAttributes: Partial<MessageAttributesType>;
+    skipSaveToDatabase: false;
+  }): Promise<string>;
+
+  // Implementation
   public setAttributes({
     messageId,
     messageAttributes: partialMessageAttributes,
-    skipSaveToDatabase = false,
+    skipSaveToDatabase,
   }: {
     messageId: string;
     messageAttributes: Partial<MessageAttributesType>;
     skipSaveToDatabase: boolean;
-  }): void {
+  }): Promise<string> | undefined {
     let messageAttributes = this.accessAttributes(messageId);
 
     softAssert(messageAttributes, 'could not find message attributes');
@@ -206,11 +229,10 @@ export class MessageCache {
     if (skipSaveToDatabase) {
       return;
     }
-    drop(
-      window.Signal.Data.saveMessage(messageAttributes, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-      })
-    );
+
+    return window.Signal.Data.saveMessage(messageAttributes, {
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
+    });
   }
 
   private throttledReduxUpdaters = new LRU<string, typeof this.updateRedux>({
