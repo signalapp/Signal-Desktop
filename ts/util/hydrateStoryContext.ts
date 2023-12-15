@@ -60,20 +60,30 @@ export async function hydrateStoryContext(
       conversation && isDirectConversation(conversation.attributes),
       'hydrateStoryContext: Not a type=direct conversation'
     );
-    window.MessageCache.setAttributes({
-      messageId,
-      messageAttributes: {
-        storyReplyContext: {
-          attachment: undefined,
-          // This is ok to do because story replies only show in 1:1 conversations
-          // so the story that was quoted should be from the same conversation.
-          authorAci: conversation?.getAci(),
-          // No messageId = referenced story not found
-          messageId: '',
-        },
+    const newMessageAttributes: Partial<MessageAttributesType> = {
+      storyReplyContext: {
+        attachment: undefined,
+        // This is ok to do because story replies only show in 1:1 conversations
+        // so the story that was quoted should be from the same conversation.
+        authorAci: conversation?.getAci(),
+        // No messageId = referenced story not found
+        messageId: '',
       },
-      skipSaveToDatabase: !shouldSave,
-    });
+    };
+    if (shouldSave) {
+      await window.MessageCache.setAttributes({
+        messageId,
+        messageAttributes: newMessageAttributes,
+        skipSaveToDatabase: false,
+      });
+    } else {
+      window.MessageCache.setAttributes({
+        messageId,
+        messageAttributes: newMessageAttributes,
+        skipSaveToDatabase: true,
+      });
+    }
+
     return;
   }
 
@@ -85,15 +95,24 @@ export async function hydrateStoryContext(
 
   const { sourceServiceId: authorAci } = storyMessage;
   strictAssert(isAciString(authorAci), 'Story message from pni');
-  window.MessageCache.setAttributes({
-    messageId,
-    messageAttributes: {
-      storyReplyContext: {
-        attachment: omit(attachment, 'screenshotData'),
-        authorAci,
-        messageId: storyMessage.id,
-      },
+  const newMessageAttributes: Partial<MessageAttributesType> = {
+    storyReplyContext: {
+      attachment: omit(attachment, 'screenshotData'),
+      authorAci,
+      messageId: storyMessage.id,
     },
-    skipSaveToDatabase: !shouldSave,
-  });
+  };
+  if (shouldSave) {
+    await window.MessageCache.setAttributes({
+      messageId,
+      messageAttributes: newMessageAttributes,
+      skipSaveToDatabase: false,
+    });
+  } else {
+    window.MessageCache.setAttributes({
+      messageId,
+      messageAttributes: newMessageAttributes,
+      skipSaveToDatabase: true,
+    });
+  }
 }
