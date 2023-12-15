@@ -4540,7 +4540,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, one {# member} other {# members}} were removed from the group.",
+    "messageformat": "{count, plural, one {# member was} other {# members were}} removed from the group.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
