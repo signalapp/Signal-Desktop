@@ -155,7 +155,10 @@ import { getSenderIdentifier } from '../util/getSenderIdentifier';
 import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
-import { getPropForTimestamp, setPropForTimestamp } from '../util/editHelpers';
+import {
+  getPropForTimestamp,
+  getChangesForPropAtTimestamp,
+} from '../util/editHelpers';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 /* eslint-disable more/no-then */
@@ -838,7 +841,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const targetTimestamp = editMessageTimestamp || this.get('timestamp');
     const sendStateByConversationId = getPropForTimestamp({
       log,
-      message: this,
+      message: this.attributes,
       prop: 'sendStateByConversationId',
       targetTimestamp,
     });
@@ -852,13 +855,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         })
     );
 
-    setPropForTimestamp({
+    const attributesToUpdate = getChangesForPropAtTimestamp({
       log,
-      message: this,
+      message: this.attributes,
       prop: 'sendStateByConversationId',
       targetTimestamp,
       value: newSendStateByConversationId,
     });
+    if (attributesToUpdate) {
+      this.set(attributesToUpdate);
+    }
 
     // We aren't trying to send this message anymore, so we'll delete these caches
     delete this.cachedOutgoingContactData;
@@ -956,7 +962,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sendStateByConversationId = {
       ...(getPropForTimestamp({
         log,
-        message: this,
+        message: this.attributes,
         prop: 'sendStateByConversationId',
         targetTimestamp,
       }) || {}),
@@ -1101,21 +1107,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // We may overwrite this in the `saveErrors` call below.
     attributesToUpdate.errors = [];
 
-    this.set(attributesToUpdate);
+    const additionalProps = getChangesForPropAtTimestamp({
+      log,
+      message: this.attributes,
+      prop: 'sendStateByConversationId',
+      targetTimestamp,
+      value: sendStateByConversationId,
+    });
+
+    this.set({ ...attributesToUpdate, ...additionalProps });
     if (saveErrors) {
       saveErrors(errorsToSave);
     } else {
       // We skip save because we'll save in the next step.
       void this.saveErrors(errorsToSave, { skipSave: true });
     }
-
-    setPropForTimestamp({
-      log,
-      message: this,
-      prop: 'sendStateByConversationId',
-      targetTimestamp,
-      value: sendStateByConversationId,
-    });
 
     if (!this.doNotSave) {
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1237,7 +1243,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const conv = this.getConversation()!;
 
       const sendEntries = Object.entries(
-        this.get('sendStateByConversationId') || {}
+        getPropForTimestamp({
+          log,
+          message: this.attributes,
+          prop: 'sendStateByConversationId',
+          targetTimestamp,
+        }) || {}
       );
       const sentEntries = filter(sendEntries, ([_conversationId, { status }]) =>
         isSent(status)
@@ -1292,7 +1303,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ).then(async result => {
         let newSendStateByConversationId: undefined | SendStateByConversationId;
         const sendStateByConversationId =
-          this.get('sendStateByConversationId') || {};
+          getPropForTimestamp({
+            log,
+            message: this.attributes,
+            prop: 'sendStateByConversationId',
+            targetTimestamp,
+          }) || {};
         const ourOldSendState = getOwn(
           sendStateByConversationId,
           ourConversation.id
@@ -1310,12 +1326,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           }
         }
 
+        const attributesForUpdate = newSendStateByConversationId
+          ? getChangesForPropAtTimestamp({
+              log,
+              message: this.attributes,
+              prop: 'sendStateByConversationId',
+              value: newSendStateByConversationId,
+              targetTimestamp,
+            })
+          : null;
+
         this.set({
           synced: true,
           dataMessage: null,
-          ...(newSendStateByConversationId
-            ? { sendStateByConversationId: newSendStateByConversationId }
-            : {}),
+          ...attributesForUpdate,
         });
 
         // Return early, skip the save
