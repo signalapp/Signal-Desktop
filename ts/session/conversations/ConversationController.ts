@@ -26,7 +26,6 @@ import { OpenGroupUtils } from '../apis/open_group_api/utils';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
-import { DisappearingMessages } from '../disappearing_messages';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { UserUtils } from '../utils';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
@@ -497,12 +496,8 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: networkTimestamp,
     groupId,
-    expirationType: DisappearingMessages.changeToDisappearingMessageType(
-      convo,
-      convo.getExpireTimer(),
-      convo.getExpirationMode()
-    ),
-    expireTimer: convo.getExpireTimer(),
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: null,
   });
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);

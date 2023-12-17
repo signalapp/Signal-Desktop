@@ -188,7 +188,7 @@ function createInvitePromises(
       admins,
       keypair: encryptionKeyPair,
       timestamp: Date.now(),
-      expirationType: null, // Note: we do not make those messages expire as we want them available as much as possible on the swarm of the recipient
+      expirationType: null, // we keep that one **not** expiring
       expireTimer: 0,
     };
     const message = new ClosedGroupNewMessage(messageParams);

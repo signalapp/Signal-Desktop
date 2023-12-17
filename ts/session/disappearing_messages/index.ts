@@ -582,6 +582,7 @@ async function updateMessageExpiriesOnSwarm(messages: Array<MessageModel>) {
 
   const newTTLs = await expireMessagesOnSnode(expiringDetails, { shortenOrExtend: 'shorten' });
   const updatedMsgModels: Array<MessageModel> = [];
+  window.log.debug('updateMessageExpiriesOnSwarm newTTLs: ', newTTLs);
   newTTLs.forEach(m => {
     const message = messages.find(model => model.getMessageHash() === m.messageHash);
     if (!message) {

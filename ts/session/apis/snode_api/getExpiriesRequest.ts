@@ -5,7 +5,7 @@ import { Snode } from '../../../data/data';
 import { UserUtils } from '../../utils';
 import { EmptySwarmError } from '../../utils/errors';
 import { SeedNodeAPI } from '../seed_node_api';
-import { GetExpiriesFromNodeSubRequest } from './SnodeRequestTypes';
+import { GetExpiriesFromNodeSubRequest, fakeHash } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
@@ -149,7 +149,7 @@ export async function buildGetExpiriesRequest({
 export async function getExpiriesFromSnode({ messageHashes }: GetExpiriesFromSnodeProps) {
   // FIXME There is a bug in the snode code that requires at least 2 messages to be requested. Will be fixed in next storage server release
   if (messageHashes.length === 1) {
-    messageHashes.push('fakehash');
+    messageHashes.push(fakeHash);
   }
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();

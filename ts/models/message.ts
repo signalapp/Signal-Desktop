@@ -231,6 +231,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public isDataExtractionNotification() {
     return !!this.get('dataExtractionNotification');
   }
+  public isCallNotification() {
+    return !!this.get('callNotificationType');
+  }
 
   public getNotificationText() {
     let description = this.getDescription();
@@ -488,11 +491,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // some incoming legacy group updates are outgoing, but when synced to our other devices have just the received_at field set.
     // when that is the case, we don't want to render the spinning 'sending' state
-    if (this.get('received_at')) {
+    if (
+      (this.isExpirationTimerUpdate() || this.isDataExtractionNotification()) &&
+      this.get('received_at')
+    ) {
       return undefined;
     }
 
-    if (this.isDataExtractionNotification() || this.get('callNotificationType')) {
+    if (this.isDataExtractionNotification() || this.isCallNotification()) {
       return undefined;
     }
 
@@ -1339,7 +1345,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
       ]);
     }
-    if (this.get('callNotificationType')) {
+    if (this.isCallNotification()) {
       const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
         this.get('conversationId')
       );

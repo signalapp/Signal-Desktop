@@ -21,6 +21,7 @@ import {
   MAX_SUBREQUESTS_COUNT,
   UpdateExpiryOnNodeSubRequest,
   WithShortenOrExtend,
+  fakeHash,
 } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { getSwarmFor } from './snodePool';
@@ -81,7 +82,7 @@ export async function verifyExpireMsgsResponseSignature({
 
 export type ExpireRequestResponseResults = Record<
   string,
-  { hashes: Array<string>; expiry: number }
+  { hashes: Array<string>; expiry: number; unchangedHashes: Record<string, number> }
 >;
 
 export async function processExpireRequestResponse(
@@ -142,7 +143,7 @@ export async function processExpireRequestResponse(
       );
       continue;
     }
-    results[nodeKey] = { hashes: updatedHashes, expiry };
+    results[nodeKey] = { hashes: updatedHashes, expiry, unchangedHashes: unchangedHashes ?? {} };
   }
 
   return results;
@@ -212,17 +213,32 @@ async function updateExpiryOnNodes(
         messageHashes: expirationResult.hashes,
         updatedExpiryMs: expirationResult.expiry,
       });
+      if (!isEmpty(expirationResult.unchangedHashes)) {
+        const unchanged = Object.entries(expirationResult.unchangedHashes);
+        unchanged.forEach(m => {
+          changesValid.push({
+            messageHashes: [m[0]],
+            updatedExpiryMs: m[1],
+          });
+        });
+      }
     }
 
     const hashesRequestedButNotInResults = difference(
       flatten(expireRequests.map(m => m.params.messages)),
-      flatten(changesValid.map(c => c.messageHashes))
+      [...flatten(changesValid.map(c => c.messageHashes)), fakeHash]
     );
     if (!isEmpty(hashesRequestedButNotInResults)) {
+      const now = Date.now();
+      window.log.debug(
+        'messageHashes not found on swarm, considering them expired now():',
+        hashesRequestedButNotInResults,
+        now
+      );
       // we requested hashes which are not part of the result. They most likely expired already so let's mark those messages as expiring now.
       changesValid.push({
         messageHashes: hashesRequestedButNotInResults,
-        updatedExpiryMs: Date.now(),
+        updatedExpiryMs: now,
       });
     }
 
@@ -351,6 +367,14 @@ function groupMsgByExpiry(expiringDetails: ExpiringDetails) {
     }
     groupedBySameExpiry[expiryStr].push(messageHash);
   }
+
+  Object.keys(groupedBySameExpiry).forEach(k => {
+    if (groupedBySameExpiry[k].length === 1) {
+      // We need to have at least 2 hashes until the next storage server release
+      groupedBySameExpiry[k].push(fakeHash);
+    }
+  });
+
   return groupedBySameExpiry;
 }
 

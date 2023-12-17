@@ -1009,6 +1009,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           ...expireUpdate,
           groupId: this.get('id'),
         };
+        // NOTE: we agreed that outgoing ExpirationTimerUpdate **for groups** are not expiring.
+        expireUpdate.expirationType = 'unknown';
+        expireUpdate.expireTimer = 0;
 
         const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 
@@ -1834,7 +1837,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         identifier: id,
         timestamp: sentAt,
         attachments,
-        expirationType: message.getExpirationType() ?? 'unknown',
+        expirationType: message.getExpirationType() ?? 'unknown', // Note we assume that the caller used a setting allowed for that conversation when building it. Here we just send it.
         expireTimer: message.getExpireTimerSeconds(),
         preview: preview ? [preview] : [],
         quote,

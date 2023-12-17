@@ -290,12 +290,8 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
     groupId,
     identifier: messageId,
     name,
-    expirationType: DisappearingMessages.changeToDisappearingMessageType(
-      convo,
-      convo.getExpireTimer(),
-      convo.getExpirationMode()
-    ),
-    expireTimer: convo.getExpireTimer(),
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
   await getMessageQueue().sendToGroup({
     message: nameChangeMessage,
@@ -304,7 +300,7 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
 }
 
 async function sendAddedMembers(
-  convo: ConversationModel,
+  _convo: ConversationModel,
   addedMembers: Array<string>,
   messageId: string,
   groupUpdate: GroupInfo
@@ -324,20 +320,14 @@ async function sendAddedMembers(
   }
 
   const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
-  const expirationMode = convo.getExpirationMode() || 'off';
-  const existingExpireTimer = convo.getExpireTimer() || 0;
   // Send the Added Members message to the group (only members already in the group will get it)
   const closedGroupControlMessage = new ClosedGroupAddedMembersMessage({
     timestamp: Date.now(),
     groupId,
     addedMembers,
     identifier: messageId,
-    expirationType: DisappearingMessages.changeToDisappearingMessageType(
-      convo,
-      convo.getExpireTimer(),
-      convo.getExpirationMode()
-    ),
-    expireTimer: convo.getExpireTimer(),
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
   await getMessageQueue().sendToGroup({
     message: closedGroupControlMessage,
@@ -353,12 +343,8 @@ async function sendAddedMembers(
     members,
     keypair: encryptionKeyPair,
     identifier: messageId || uuidv4(),
-    expirationType: DisappearingMessages.changeToDisappearingMessageType(
-      convo,
-      existingExpireTimer,
-      expirationMode
-    ),
-    expireTimer: existingExpireTimer,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
 
   const promises = addedMembers.map(async m => {
@@ -401,12 +387,8 @@ export async function sendRemovedMembers(
     groupId,
     removedMembers,
     identifier: messageId,
-    expirationType: DisappearingMessages.changeToDisappearingMessageType(
-      convo,
-      convo.getExpireTimer(),
-      convo.getExpirationMode()
-    ),
-    expireTimer: convo.getExpireTimer(),
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
   // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
   await getMessageQueue().sendToGroup({
@@ -467,8 +449,8 @@ async function generateAndSendNewEncryptionKeyPair(
     groupId: toHex(groupId),
     timestamp: GetNetworkTime.getNowWithNetworkOffset(),
     encryptedKeyPairs: wrappers,
-    expirationType: null, // we keep that one **not** expiring (not rendered in the clients, and we need it to be as available as possible on the swarm)
-    expireTimer: null,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
 
   distributingClosedGroupEncryptionKeyPairs.set(toHex(groupId), newKeyPair);
