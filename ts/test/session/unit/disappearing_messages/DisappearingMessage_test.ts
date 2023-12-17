@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Sinon from 'sinon';
-import { ConversationModel } from '../../../../models/conversation';
+import { Conversation, ConversationModel } from '../../../../models/conversation';
 import {
   ConversationAttributes,
   ConversationTypeEnum,
@@ -454,10 +454,9 @@ describe('DisappearingMessage', () => {
 
       expect(
         expireUpdate?.isLegacyConversationSettingMessage,
-        'isLegacyConversationSettingMessage should be undefined'
-      ).to.be.undefined;
-      expect(expireUpdate?.isLegacyDataMessage, 'isLegacyDataMessage should be undefined').to.be
-        .undefined;
+        'isLegacyConversationSettingMessage should be false'
+      ).to.be.false;
+      expect(expireUpdate?.isLegacyDataMessage, 'isLegacyDataMessage should be false').to.be.false;
     });
   });
 
@@ -548,13 +547,14 @@ describe('DisappearingMessage', () => {
 
   describe('conversation.ts', () => {
     describe('updateExpireTimer', () => {
-      it('if the coversation is public it should return false', async () => {
+      it('if the conversation is public it should throw', async () => {
         const conversation = new ConversationModel({
           ...conversationArgs,
         });
 
         Sinon.stub(conversation, 'isPublic').returns(true);
-        const updateSuccess = await conversation.updateExpireTimer({
+
+        const promise = conversation.updateExpireTimer({
           providedDisappearingMode: 'deleteAfterSend',
           providedExpireTimer: 600,
           fromSync: false, // if the update comes from a config or sync message
@@ -562,10 +562,17 @@ describe('DisappearingMessage', () => {
           existingMessage: undefined,
           fromCurrentDevice: false,
         });
-        expect(updateSuccess, 'should be false').to.be.false;
+        await expect(promise).is.rejectedWith(
+          "updateExpireTimer() Disappearing messages aren't supported in communities"
+        );
       });
 
-      it('if we receive the same settings we ignore it', async () => {
+      // we always add a message when we get an update as we remove previous ones and only keep one in the history
+      it("if we receive the same settings we don't ignore it", async () => {
+        TestUtils.stubData('saveMessage').resolves();
+        TestUtils.stubData('getItemById').resolves();
+        TestUtils.stubData('createOrUpdateItem').resolves();
+
         const conversation = new ConversationModel({
           ...conversationArgs,
         });
@@ -573,6 +580,8 @@ describe('DisappearingMessage', () => {
           expirationMode: 'deleteAfterRead',
           expireTimer: 60,
         });
+        Sinon.stub(conversation, 'commit').resolves();
+        Sinon.stub(Conversation, 'cleanUpExpireHistoryFromConvo').resolves();
 
         const updateSuccess = await conversation.updateExpireTimer({
           providedDisappearingMode: 'deleteAfterRead',
@@ -582,9 +591,11 @@ describe('DisappearingMessage', () => {
           existingMessage: undefined,
           fromCurrentDevice: false,
         });
-        expect(updateSuccess, 'should be false').to.be.false;
+        expect(updateSuccess, 'should be true').to.be.true;
       });
+
       it("if an update is successful then the conversation should have it's settings updated", async () => {
+        Sinon.stub(Conversation, 'cleanUpExpireHistoryFromConvo').resolves();
         const conversation = new ConversationModel({
           ...conversationArgs,
         });

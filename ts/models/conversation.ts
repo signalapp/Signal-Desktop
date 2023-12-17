@@ -117,6 +117,7 @@ import {
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
 
+import { v4 } from 'uuid';
 import { DisappearingMessages } from '../session/disappearing_messages';
 import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob';
@@ -927,6 +928,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expirationType,
       expireTimer,
     });
+    if (!message.get('id')) {
+      message.set({ id: v4() });
+    }
 
     if (this.isActive()) {
       this.set('active_at', timestamp);
@@ -963,12 +967,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
       await message.commit();
 
-      await cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
+      await Conversation.cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
       return true;
     }
     await message.commit();
 
-    await cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
+    await Conversation.cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
     //
     // Below is the "sending the update to the conversation" part.
     // We would have returned if that message sending part was not needed
@@ -2552,3 +2556,5 @@ async function cleanUpExpireHistoryFromConvo(conversationId: string, isPrivate: 
     messagesDeleted(updateIdsRemoved.map(m => ({ conversationKey: conversationId, messageId: m })))
   );
 }
+
+export const Conversation = { cleanUpExpireHistoryFromConvo };
