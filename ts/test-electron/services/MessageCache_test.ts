@@ -8,6 +8,7 @@ import { MessageModel } from '../../models/messages';
 import { strictAssert } from '../../util/assert';
 
 import { MessageCache } from '../../services/MessageCache';
+import { generateAci } from '../../types/ServiceId';
 
 describe('MessageCache', () => {
   describe('filterBySentAt', () => {
@@ -340,6 +341,47 @@ describe('MessageCache', () => {
 
       const undefinedMessage = mc.accessAttributes(uuid());
       assert.isUndefined(undefinedMessage, 'access did not find message');
+    });
+  });
+
+  describe('setAttributes', () => {
+    it('saves the new attributes to the database', async () => {
+      const mc = new MessageCache();
+
+      const ourAci = generateAci();
+      const id = uuid();
+      const messageAttributes: MessageAttributesType = {
+        conversationId: uuid(),
+        id,
+        received_at: 1,
+        sent_at: Date.now(),
+        timestamp: Date.now(),
+        type: 'incoming',
+      };
+      await window.Signal.Data.saveMessage(messageAttributes, {
+        forceSave: true,
+        ourAci,
+      });
+
+      const changes = {
+        received_at: 2,
+      };
+      const newAttributes = {
+        ...messageAttributes,
+        ...changes,
+      };
+
+      mc.toMessageAttributes(messageAttributes);
+
+      await mc.setAttributes({
+        messageId: id,
+        messageAttributes: changes,
+        skipSaveToDatabase: false,
+      });
+
+      const messageFromDatabase = await window.Signal.Data.getMessageById(id);
+
+      assert.deepEqual(newAttributes, messageFromDatabase);
     });
   });
 

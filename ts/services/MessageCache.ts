@@ -230,7 +230,7 @@ export class MessageCache {
       return;
     }
 
-    return window.Signal.Data.saveMessage(messageAttributes, {
+    return window.Signal.Data.saveMessage(nextMessageAttributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   }
