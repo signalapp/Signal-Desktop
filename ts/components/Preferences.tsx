@@ -75,6 +75,7 @@ export type PropsDataType = {
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
   hasAudioNotifications?: boolean;
+  hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
   hasAutoLaunch: boolean;
   hasCallNotifications: boolean;
@@ -159,6 +160,7 @@ type PropsFunctionType = {
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
+  onAutoConvertEmojiChange: CheckboxChangeHandlerType;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
   onCallNotificationsChange: CheckboxChangeHandlerType;
@@ -257,6 +259,7 @@ export function Preferences({
   executeMenuRole,
   getConversationsWithCustomColor,
   hasAudioNotifications,
+  hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
   hasAutoLaunch,
   hasCallNotifications,
@@ -293,6 +296,7 @@ export function Preferences({
   makeSyncRequest,
   notificationContent,
   onAudioNotificationsChange,
+  onAutoConvertEmojiChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
   onCallNotificationsChange,
@@ -855,6 +859,16 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="linkPreviews"
             onChange={noop}
+          />
+          <Checkbox
+            checked={hasAutoConvertEmoji}
+            description={i18n(
+              'icu:Preferences__auto-convert-emoji--description'
+            )}
+            label={i18n('icu:Preferences__auto-convert-emoji--title')}
+            moduleClassName="Preferences__checkbox"
+            name="autoConvertEmoji"
+            onChange={onAutoConvertEmojiChange}
           />
           <Control
             left={i18n('icu:Preferences__sent-media-quality')}

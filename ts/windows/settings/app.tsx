@@ -34,6 +34,7 @@ SettingsWindowProps.onRender(
     executeMenuRole,
     getConversationsWithCustomColor,
     hasAudioNotifications,
+    hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
@@ -69,6 +70,7 @@ SettingsWindowProps.onRender(
     makeSyncRequest,
     notificationContent,
     onAudioNotificationsChange,
+    onAutoConvertEmojiChange,
     onAutoDownloadUpdateChange,
     onAutoLaunchChange,
     onCallNotificationsChange,
@@ -135,6 +137,7 @@ SettingsWindowProps.onRender(
         executeMenuRole={executeMenuRole}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
         hasAudioNotifications={hasAudioNotifications}
+        hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
         hasAutoLaunch={hasAutoLaunch}
         hasCallNotifications={hasCallNotifications}
@@ -174,6 +177,7 @@ SettingsWindowProps.onRender(
         makeSyncRequest={makeSyncRequest}
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
+        onAutoConvertEmojiChange={onAutoConvertEmojiChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}
         onCallNotificationsChange={onCallNotificationsChange}

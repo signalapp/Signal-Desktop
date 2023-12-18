@@ -50,6 +50,7 @@ export type IPCEventsValuesType = {
   alwaysRelayCalls: boolean | undefined;
   audioNotification: boolean | undefined;
   audioMessage: boolean;
+  autoConvertEmoji: boolean;
   autoDownloadUpdate: boolean;
   autoLaunch: boolean;
   callRingtoneNotification: boolean;
@@ -344,6 +345,8 @@ export function createIPCEvents(
       window.storage.get('auto-download-update', true),
     setAutoDownloadUpdate: value =>
       window.storage.put('auto-download-update', value),
+    getAutoConvertEmoji: () => window.storage.get('autoConvertEmoji', false),
+    setAutoConvertEmoji: value => window.storage.put('autoConvertEmoji', value),
     getSentMediaQualitySetting: () =>
       window.storage.get('sent-media-quality', 'standard'),
     setSentMediaQualitySetting: value =>

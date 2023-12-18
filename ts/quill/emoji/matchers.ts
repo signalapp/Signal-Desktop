@@ -15,8 +15,8 @@ export const matchEmojiImage: Matcher = (
     node.classList.contains('emoji') ||
     node.classList.contains('module-emoji__image--16px')
   ) {
-    const emoji = node.getAttribute('aria-label');
-    return new Delta().insert({ emoji }, attributes);
+    const value = node.getAttribute('aria-label');
+    return new Delta().insert({ emoji: { value } }, attributes);
   }
   return delta;
 };
@@ -27,8 +27,8 @@ export const matchEmojiBlot: Matcher = (
   attributes: AttributeMap
 ): Delta => {
   if (node.classList.contains('emoji-blot')) {
-    const { emoji } = node.dataset;
-    return new Delta().insert({ emoji }, attributes);
+    const { emoji: value, source } = node.dataset;
+    return new Delta().insert({ emoji: { value, source } }, attributes);
   }
   return delta;
 };

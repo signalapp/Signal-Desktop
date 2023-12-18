@@ -93,6 +93,7 @@ export class SettingsChannel extends EventEmitter {
     });
     this.installSetting('textFormatting');
 
+    this.installSetting('autoConvertEmoji');
     this.installSetting('autoDownloadUpdate');
     this.installSetting('autoLaunch');
 

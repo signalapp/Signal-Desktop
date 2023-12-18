@@ -39,7 +39,9 @@ import {
   getDeltaToRemoveStaleMentions,
   getTextAndRangesFromOps,
   isMentionBlot,
+  isEmojiBlot,
   getDeltaToRestartMention,
+  getDeltaToRestartEmoji,
   insertEmojiOps,
   insertFormattingAndMentionsOps,
 } from '../quill/util';
@@ -284,7 +286,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     const delta = new Delta()
       .retain(insertionRange.index)
       .delete(insertionRange.length)
-      .insert({ emoji });
+      .insert({ emoji: { value: emoji } });
 
     quill.updateContents(delta, 'user');
     quill.setSelection(insertionRange.index + 1, 0, 'user');
@@ -512,17 +514,24 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
 
     const [blotToDelete] = quill.getLeaf(selection.index);
-    if (!isMentionBlot(blotToDelete)) {
-      return true;
+    if (isMentionBlot(blotToDelete)) {
+      const contents = quill.getContents(0, selection.index - 1);
+      const restartDelta = getDeltaToRestartMention(contents.ops);
+
+      quill.updateContents(restartDelta);
+      quill.setSelection(selection.index, 0);
+      return false;
     }
 
-    const contents = quill.getContents(0, selection.index - 1);
-    const restartDelta = getDeltaToRestartMention(contents.ops);
+    if (isEmojiBlot(blotToDelete)) {
+      const contents = quill.getContents(0, selection.index);
+      const restartDelta = getDeltaToRestartEmoji(contents.ops);
 
-    quill.updateContents(restartDelta);
-    quill.setSelection(selection.index, 0);
+      quill.updateContents(restartDelta);
+      return false;
+    }
 
-    return false;
+    return true;
   };
 
   const onChange = (): void => {
@@ -731,7 +740,9 @@ export function CompositionInput(props: Props): React.ReactElement {
                 callbacksRef.current.onPickEmoji(emoji),
               skinTone,
             },
-            autoSubstituteAsciiEmojis: true,
+            autoSubstituteAsciiEmojis: {
+              skinTone,
+            },
             formattingMenu: {
               i18n,
               isMenuEnabled: isFormattingEnabled,

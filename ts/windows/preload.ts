@@ -38,6 +38,7 @@ installCallback('syncRequest');
 installSetting('alwaysRelayCalls');
 installSetting('audioMessage');
 installSetting('audioNotification');
+installSetting('autoConvertEmoji');
 installSetting('autoDownloadUpdate');
 installSetting('autoLaunch');
 installSetting('callRingtoneNotification');
