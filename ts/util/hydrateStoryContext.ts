@@ -97,7 +97,7 @@ export async function hydrateStoryContext(
   strictAssert(isAciString(authorAci), 'Story message from pni');
   const newMessageAttributes: Partial<MessageAttributesType> = {
     storyReplyContext: {
-      attachment: omit(attachment, 'screenshotData'),
+      attachment: attachment ? omit(attachment, 'screenshotData') : undefined,
       authorAci,
       messageId: storyMessage.id,
     },
