@@ -62,12 +62,14 @@ import {
   matchStrikethrough,
 } from '../quill/formatting/matchers';
 import { missingCaseError } from '../util/missingCaseError';
+import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
 Quill.register('formats/block', DirectionalBlot);
 Quill.register('formats/monospace', MonospaceBlot);
 Quill.register('formats/spoiler', SpoilerBlot);
+Quill.register('modules/autoSubstituteAsciiEmojis', AutoSubstituteAsciiEmojis);
 Quill.register('modules/emojiCompletion', EmojiCompletion);
 Quill.register('modules/mentionCompletion', MentionCompletion);
 Quill.register('modules/formattingMenu', FormattingMenu);
@@ -729,6 +731,7 @@ export function CompositionInput(props: Props): React.ReactElement {
                 callbacksRef.current.onPickEmoji(emoji),
               skinTone,
             },
+            autoSubstituteAsciiEmojis: true,
             formattingMenu: {
               i18n,
               isMenuEnabled: isFormattingEnabled,
