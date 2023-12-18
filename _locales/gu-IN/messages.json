@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {{first}, {second}, અને {others,number} અન્યો આ કૉલમાં છે} other {આ કૉલમાં {first}, {second}, અને {others,number} અન્યો}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Signal {first}, {second} અને {others,number}ને રિંગ કરશે} other {Signal {first}, {second}, અને {others,number} અન્યોને રિંગ કરશે}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {{first}, {second} અને {others,number} અન્યોને સૂચિત કરવામાં આવશે} other {{first}, {second}, અને {others,number} અન્યોને સૂચિત કરવામાં આવશે}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "એપ્લિકેશન ડેટા ડિલીટ કરો",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "આ બધા મેસેજ અને સેવ કરેલ અકાઉન્ટની માહિતી દૂર કરીને એપ્લિકેશનમાંનો તમામ ડેટા ડિલીટ કરશે.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "ડેટા ડિલીટ કરો",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Signal ડેસ્કટોપના આ વર્ઝનમાંથી તમામ ડેટા અને મેસેજ ડિલીટ કરવા છે? તમે હંમેશા આ ડેસ્કટોપને ફરીથી લિંક કરી શકો છો, પરંતુ તમારા મેસેજ રિસ્ટોર થશે નહીં. તમારું Signal એકાઉન્ટ અને તમારા ફોન અથવા અન્ય લિંક કરેલા ડિવાઇસ પરનો ડેટા ડિલીટ કરવામાં નહીં આવે.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {{group1}, {group2}, {group3} અને {remainingCount,number} વધુના સભ્ય} other {{group1}, {group2}, {group3} અને {remainingCount,number} વધુના સભ્ય}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName}, અને {overflowCount,number} વધુ લોકોએ હાથ ઊંચો કર્યો.} other {{name}, {otherName}, અને {overflowCount,number} વધુ લોકોએ હાથ ઊંચો કર્યો.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {આ મેસેજ પર માત્ર {max,number} ફેરફાર જ કરી શકાય છે.} other {આ મેસેજ પર માત્ર {max,number} ફેરફારો જ કરી શકાય છે.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {{memberName} એ {memberName} વ્યક્તિને ગ્રુપમાં આમંત્રિત કરી.} other {{memberName} એ {count,number} લોકોને ગ્રુપમાં આમંત્રિત કર્યા.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {{count,number} વ્યક્તિને ગ્રુપમાં આમંત્રિત કરવામાં આવી હતી.} other {{count,number} લોકોને ગ્રુપમાં આમંત્રિત કરવામાં આવ્યા હતા.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {{memberName} દ્વારા આમંત્રિત {count,number} વ્યક્તિ માટે {adminName} એ ગ્રૂપમાં આમંત્રણો રદ કર્યા.} other {{memberName} દ્વારા આમંત્રિત {count,number} લોકો માટે {adminName} એ ગ્રૂપમાં આમંત્રણો રદ કર્યા.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {{count,number} સભ્યને ગ્રૂપમાંથી દૂર કરવામાં આવ્યા.} other {{count,number} સભ્યોને ગ્રૂપમાથી દૂર કરવામાં આવ્યા.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number} પસંદ કર્યો} other {{count,number} પસંદ કર્યા}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {{num,number} વ્યક્તિને બાકાત કરી} other {{num,number} લોકોને બાકાત કર્યા}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "આ રિલીઝમાં મદદ કરવા બદલ {linkToGithub1} અને {linkToGithub2}નો આભાર."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "હવે તમે કોઈ પણ કૉલ ઇવેન્ટ પર રાઇટ-ક્લિક કરીને તેને ચેટમાંથી ડિલીટ કરી શકો છો."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "જ્યારે ફારસી ભાષા પસંદ કરવામાં આવે ત્યારે વાંચનક્ષમતા સુધારવા માટે તે માટેના મૂળભૂત ફોન્ટને Vazirmatnમાં અપડેટ કરવામાં આવ્યા છે (Signal સેટિંગ્સ > દેખાવ > ભાષા). આભાર, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "વોઇસ મેસેજમાં પ્લેબેક સ્પીડ સૂચકોનો હવે સહેજ નવો દેખાવ હશે. આભાર, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "અમે આ રિલીઝમાં તેમના યોગદાન બદલ {linkToGithub1}, {linkToGithub2}, અને {linkToGithub3} નો પણ આભાર માનવા માંગીએ છીએ."
   }
 }

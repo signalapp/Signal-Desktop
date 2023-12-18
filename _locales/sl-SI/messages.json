@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {{first}, {second}, in še {others,number} drug_ga so v tem klicu} two {{first}, {second}, in še {others,number} druga_gi so v tem klicu} few {{first}, {second}, in še {others,number} drugi_ge so v tem klicu} other {{first}, {second} in še {others,number} drugih so v tem klicu}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Signal bo zvonil uporabnikoma_cama {first}, {second} in še {others,number} drugemu_gi} two {Signal bo zvonil uporabnikoma_cama {first}, {second} in še {others,number} drugima} few {Signal bo zvonil uporabnikoma_cama {first}, {second} in še {others,number} drugim} other {Signal bo zvonil uporabnikoma_cama {first}, {second} in še {others,number} drugim}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {{first}, {second} in še {others,number} drug_a bodo obveščeni} two {{first}, {second} in še {others,number} druga_gi bodo obveščeni} few {{first}, {second} in še {others,number} drugi_ge bodo obveščeni} other {{first}, {second} in še {others,number} drugih bodo obveščeni}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Izbris podatkov aplikacije",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "S tem boste izbrisali vse podatke v aplikaciji, odstranili vsa sporočila in podatke o računu.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Izbris podatkov",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Želite izbrisati vse podatke in sporočila iz te različice Signal Desktop? To namizje lahko vedno znova povežete, vendar vaša sporočila ne bodo obnovljena. Vaš račun Signal in podatki v vašem telefonu ali drugih povezanih napravah ne bodo izbrisani.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} druge} two {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} drugih} few {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} drugih} other {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} drugih}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} in še nekdo drug so dvignili roko.} two {{name}, {otherName} in {overflowCount,number} druga so dvignili roko.} few {{name}, {otherName} in {overflowCount,number} drugi so dvignili roko.} other {{name}, {otherName} in {overflowCount,number} drugih je dvignilo roko.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {To sporočilo je mogoče urediti le {max,number}x.} two {To sporočilo je mogoče urediti le {max,number}x.} few {To sporočilo je mogoče urediti le {max,number}x.} other {To sporočilo je mogoče urediti le {max,number}x.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {Član_ica {memberName} je povabil_a 1 osebo v skupino.} two {Član_ica {memberName} je povabil_a {count,number} osebi v skupino.} few {Član_ica {memberName} je povabil_a {count,number} osebe v skupino.} other {Član_ica {memberName} je povabil_a {count,number} oseb v skupino.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {{count,number} oseba je bila povabljena v to skupino} two {{count,number} uporabnika_ci sta bila_li povabljena_ni v skupino.} few {{count,number} uporabniki_ce so bili_e povabljeni_ne v skupino.} other {{count,number} uporabnikov_ic je bilo povabljenih v skupino.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnika_ico, povabljenih s strani člana_ice {memberName}.} two {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnika_ici, povabljenih s strani člana_ice {memberName}.} few {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnike_ice, povabljenih s strani člana_ice {memberName}.} other {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnikov_ic, povabljenih s strani člana_ice {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {{count,number} uporabnik_ica je bil/-a odstranjen/-a iz skupine.} two {{count,number} uporabnika_ici sta bila/-i odstranjena/-i iz skupine.} few {{count,number} uporabniki_ice so bili/-e odstranjeni/-e iz skupine.} other {{count,number} uporabnikov_ic je bilo odstranjenih iz skupine.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number} izbran} two {{count,number} izbrana} few {{count,number} izbrani} other {{count,number} izbranih}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {{num,number} oseba izključena} two {{num,number}osebi izključeni} few {{num,number} osebe izključene} other {{num,number} ljudi izključenih}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Hvala {linkToGithub1} in {linkToGithub2} za pomoč pri tej izdaji."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Spremenite neodgovorjeni klic v nekaj, česar ne boste pogrešali. Zdaj lahko z desno miškino tipko kliknete katerikoli dogodek klica in ga izbrišete iz klepeta."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Privzeta pisava za perzijščino je bila posodobljena na Vazirmatn za izboljšanje berljivosti, ko je ta jezik izbran (Nastavitve Signala > Videz > Jezik). Hvala, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Indikatorji hitrosti predvajanja v glasovnih sporočilih imajo nekoliko nov videz. X označuje mesto. Hvala, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Prav tako bi se radi zahvalili {linkToGithub1}, {linkToGithub2} in {linkToGithub3} za njihove prispevke k tej izdaji."
   }
 }
