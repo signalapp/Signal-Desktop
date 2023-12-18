@@ -30,7 +30,6 @@ import {
   RECEIPT_BATCHER_WAIT_MS,
 } from '../types/Receipt';
 import { drop } from '../util/drop';
-import { strictAssert } from '../util/assert';
 
 const { deleteSentProtoRecipient } = dataInterface;
 
@@ -85,7 +84,6 @@ const processReceiptBatcher = createWaitBatcher({
       receipt: MessageReceiptAttributesType
     ): void {
       const existing = receiptsByMessageId.get(message.id);
-
       if (!existing) {
         window.MessageCache.toMessageAttributes(message);
         receiptsByMessageId.set(message.id, [receipt]);
@@ -146,12 +144,13 @@ const processReceiptBatcher = createWaitBatcher({
       }
     }
 
-    for (const [
-      messageId,
-      receiptsForMessage,
-    ] of receiptsByMessageId.entries()) {
-      drop(processReceiptsForMessage(messageId, receiptsForMessage));
-    }
+    await Promise.all(
+      [...receiptsByMessageId.entries()].map(
+        ([messageId, receiptsForMessage]) => {
+          return processReceiptsForMessage(messageId, receiptsForMessage);
+        }
+      )
+    );
   },
 });
 
@@ -230,7 +229,7 @@ function updateMessageWithReceipts(
   for (const receipt of receiptsToProcess) {
     updatedMessage = {
       ...updatedMessage,
-      ...updateMessageSendStateWithReceipt(message.id, receipt),
+      ...updateMessageSendStateWithReceipt(updatedMessage, receipt),
     };
   }
   return { updatedMessage, validReceipts: receiptsToProcess };
@@ -443,14 +442,10 @@ function getNewSendStateByConversationId(
 }
 
 function updateMessageSendStateWithReceipt(
-  messageId: string,
+  message: MessageAttributesType,
   receipt: MessageReceiptAttributesType
 ): Partial<MessageAttributesType> {
   const { messageSentAt } = receipt;
-
-  // Get message from cache to make sure we have most recent
-  const message = window.MessageCache.accessAttributes(messageId);
-  strictAssert(message, 'Message should exist in cache');
 
   const newAttributes: Partial<MessageAttributesType> = {};
 
