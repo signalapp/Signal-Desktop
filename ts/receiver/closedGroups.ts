@@ -325,6 +325,7 @@ export async function handleNewClosedGroup(
         receivedAt: GetNetworkTime.getNowWithNetworkOffset(),
         fromSync: false,
         fromCurrentDevice: false,
+        fromConfigMessage: false,
       });
 
       await removeFromCache(envelope);

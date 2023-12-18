@@ -248,6 +248,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
         fromSync: true,
         shouldCommitConvo: false,
         fromCurrentDevice: false,
+        fromConfigMessage: true,
       });
       changes = success;
     }
@@ -394,6 +395,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
           fromSync: true,
           fromCurrentDevice: false,
           shouldCommitConvo: false,
+          fromConfigMessage: true,
         });
         changes = changes || success;
       }
@@ -627,6 +629,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         fromSync: true,
         shouldCommitConvo: false,
         fromCurrentDevice: false,
+        fromConfigMessage: true,
       });
       changes = success;
     }

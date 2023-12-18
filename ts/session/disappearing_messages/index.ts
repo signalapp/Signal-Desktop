@@ -399,11 +399,15 @@ function checkForExpiringOutgoingMessage(message: MessageModel, location?: strin
   const expireTimer = message.getExpireTimerSeconds();
   const expirationType = message.getExpirationType();
 
+  const isGroupConvo = !!convo?.isClosedGroup();
+  const isControlMessage = message.isControlMessage();
+
   if (
     convo &&
     expirationType &&
     expireTimer > 0 &&
-    Boolean(message.getExpirationStartTimestamp()) === false
+    !message.getExpirationStartTimestamp() &&
+    !(isGroupConvo && isControlMessage)
   ) {
     const expirationMode = changeToDisappearingConversationMode(convo, expirationType, expireTimer);
 
@@ -443,6 +447,24 @@ function getMessageReadyToDisappear(
     expirationTimer: expireTimer,
     messageExpirationFromRetrieve,
   } = expireUpdate;
+
+  // This message is an ExpirationTimerUpdate
+  if (messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
+    const expirationTimerUpdate = {
+      expirationType,
+      expireTimer,
+      source: messageModel.get('source'),
+    };
+
+    messageModel.set({
+      expirationTimerUpdate,
+    });
+  }
+
+  // Note: We agreed that a control message for legacy groups does not expire
+  if (conversationModel.isClosedGroup() && messageModel.isControlMessage()) {
+    return messageModel;
+  }
 
   /**
    * This is quite tricky, but when we receive a message from the network, it might be a disappearing after read one, which was already read by another device.
@@ -493,19 +515,6 @@ function getMessageReadyToDisappear(
     messageModel.set({
       expirationStartTimestamp,
       expires_at,
-    });
-  }
-
-  // This message is an ExpirationTimerUpdate
-  if (messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
-    const expirationTimerUpdate = {
-      expirationType,
-      expireTimer,
-      source: messageModel.get('source'),
-    };
-
-    messageModel.set({
-      expirationTimerUpdate,
     });
   }
 

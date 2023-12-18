@@ -109,12 +109,8 @@ export async function initiateClosedGroupUpdate(
   const sharedDetails = {
     sender: UserUtils.getOurPubKeyStrFromCache(),
     sentAt: Date.now(),
-
-    expireUpdate: {
-      expirationType: groupDetails.expirationType || ('unknown' as const),
-      expirationTimer: expireTimer || 0,
-      messageExpirationFromRetrieve: GetNetworkTime.getNowWithNetworkOffset() + expireTimer * 1000,
-    },
+    // Note: we agreed that legacy group control messages do not expire
+    expireUpdate: null,
     convo,
   };
 

@@ -561,6 +561,7 @@ describe('DisappearingMessage', () => {
           shouldCommitConvo: false,
           existingMessage: undefined,
           fromCurrentDevice: false,
+          fromConfigMessage: false,
         });
         await expect(promise).is.rejectedWith(
           "updateExpireTimer() Disappearing messages aren't supported in communities"
@@ -590,6 +591,7 @@ describe('DisappearingMessage', () => {
           shouldCommitConvo: false,
           existingMessage: undefined,
           fromCurrentDevice: false,
+          fromConfigMessage: false,
         });
         expect(updateSuccess, 'should be true').to.be.true;
       });
@@ -613,6 +615,7 @@ describe('DisappearingMessage', () => {
           shouldCommitConvo: false,
           existingMessage: undefined,
           fromCurrentDevice: false,
+          fromConfigMessage: false,
         });
         expect(updateSuccess, 'should be true').to.be.true;
         expect(

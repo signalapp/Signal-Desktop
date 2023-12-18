@@ -17,6 +17,7 @@ import {
   xor,
 } from 'lodash';
 
+import { v4 } from 'uuid';
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
@@ -117,7 +118,6 @@ import {
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
 
-import { v4 } from 'uuid';
 import { DisappearingMessages } from '../session/disappearing_messages';
 import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob';
@@ -826,7 +826,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedExpireTimer,
     providedSource,
     receivedAt, // is set if it comes from outside
-    fromSync, // if the update comes from a config or sync message
+    fromSync, // if the update comes from sync message ONLY
+    fromConfigMessage, // if the update comes from a libsession config message ONLY
     fromCurrentDevice,
     shouldCommitConvo = true,
     existingMessage,
@@ -837,10 +838,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     receivedAt?: number; // is set if it comes from outside
     fromSync: boolean;
     fromCurrentDevice: boolean;
+    fromConfigMessage: boolean;
     shouldCommitConvo?: boolean;
     existingMessage?: MessageModel;
   }): Promise<boolean> {
-    const isRemoteChange = Boolean((receivedAt || fromSync) && !fromCurrentDevice);
+    const isRemoteChange = Boolean(
+      (receivedAt || fromSync || fromConfigMessage) && !fromCurrentDevice
+    );
+
+    // we don't add an update message when this comes from a config message, as we already have the SyncedMessage itself with the right timestamp to display
+    const shouldAddExpireUpdateMessage = !fromConfigMessage;
 
     if (this.isPublic()) {
       throw new Error("updateExpireTimer() Disappearing messages aren't supported in communities");
@@ -887,6 +894,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       });
     }
 
+    if (!shouldAddExpireUpdateMessage) {
+      await Conversation.cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
+
+      if (shouldCommitConvo) {
+        // tell the UI this conversation was updated
+        await this.commit();
+      }
+      return false;
+    }
+
     let message = existingMessage || undefined;
     const expirationType = DisappearingMessages.changeToDisappearingMessageType(
       this,
@@ -922,12 +939,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
       }
     }
-    // force that message to expire with the old disappear setting when the setting was turned off.
-    // this is to make the update to 'off' disappear with the previous disappearing message setting
+
+    // Note: we agreed that a closed group ControlMessage message does not expire.
     message.set({
-      expirationType,
-      expireTimer,
+      expirationType: this.isClosedGroup() ? 'unknown' : expirationType,
+      expireTimer: this.isClosedGroup() ? 0 : expireTimer,
     });
+
     if (!message.get('id')) {
       message.set({ id: v4() });
     }
@@ -950,7 +968,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
 
       if (!message.getExpirationStartTimestamp()) {
-        const canBeDeleteAfterSend = this.isMe() || this.isGroup();
+        // Note: we agreed that a closed group ControlMessage message does not expire.
+
+        const canBeDeleteAfterSend = this.isMe() || !(this.isGroup() && message.isControlMessage());
         if (
           (canBeDeleteAfterSend && expirationMode === 'legacy') ||
           expirationMode === 'deleteAfterSend'
@@ -1009,13 +1029,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     if (this.isClosedGroup()) {
       if (this.isAdmin(UserUtils.getOurPubKeyStrFromCache())) {
+        // NOTE: we agreed that outgoing ExpirationTimerUpdate **for groups** are not expiring,
+        // but they still need the content to be right(as this is what we use for the change itself)
+
         const expireUpdateForGroup = {
           ...expireUpdate,
           groupId: this.get('id'),
         };
-        // NOTE: we agreed that outgoing ExpirationTimerUpdate **for groups** are not expiring.
-        expireUpdate.expirationType = 'unknown';
-        expireUpdate.expireTimer = 0;
 
         const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 

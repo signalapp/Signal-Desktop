@@ -13,17 +13,13 @@ import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
-import {
-  CONVERSATION_PRIORITIES,
-  ConversationTypeEnum,
-  READ_MESSAGE_STATE,
-} from '../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { DisappearingMessages } from '../session/disappearing_messages';
-import { DisappearingMessageMode } from '../session/disappearing_messages/types';
+import { DisappearingMessageUpdate } from '../session/disappearing_messages/types';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
@@ -482,17 +478,17 @@ export async function innerHandleSwarmContentMessage({
       );
     }
 
+    const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
+      content,
+      conversationModelForUIUpdate,
+      messageExpirationFromRetrieve
+    );
     if (content.dataMessage) {
       // because typescript is funky with incoming protobufs
       if (isEmpty(content.dataMessage.profileKey)) {
         content.dataMessage.profileKey = null;
       }
 
-      const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
-        content,
-        conversationModelForUIUpdate,
-        messageExpirationFromRetrieve
-      );
       // TODO legacy messages support will be removed in a future release
       if (expireUpdate?.isDisappearingMessagesV2Released) {
         await DisappearingMessages.checkHasOutdatedDisappearingMessageClient(
@@ -554,7 +550,7 @@ export async function innerHandleSwarmContentMessage({
       await handleDataExtractionNotification(
         envelope,
         content.dataExtractionNotification as SignalService.DataExtractionNotification,
-        content
+        expireUpdate || null
       );
       perfEnd(
         `handleDataExtractionNotification-${envelope.id}`,
@@ -835,14 +831,14 @@ async function handleMessageRequestResponse(
 }
 
 /**
- * A DataExtractionNotification message can only come from a 1 o 1 conversation.
+ * A DataExtractionNotification message can only come from a 1o1 conversation.
  *
- * We drop them if the convo is not a 1 o 1 conversation.
+ * We drop them if the convo is not a 1o1 conversation.
  */
 export async function handleDataExtractionNotification(
   envelope: EnvelopePlus,
   dataNotificationMessage: SignalService.DataExtractionNotification,
-  content: SignalService.Content
+  expireUpdate: DisappearingMessageUpdate | null
 ): Promise<void> {
   // we currently don't care about the timestamp included in the field itself, just the timestamp of the envelope
   const { type, timestamp: referencedAttachment } = dataNotificationMessage;
@@ -852,9 +848,8 @@ export async function handleDataExtractionNotification(
 
   const convo = getConversationController().get(source);
   if (!convo || !convo.isPrivate()) {
-    window?.log?.info(
-      'Got DataNotification for unknown or non private convo or read receipt not enabled'
-    );
+    window?.log?.info('Got DataNotification for unknown or non-private convo');
+
     return;
   }
 
@@ -866,34 +861,8 @@ export async function handleDataExtractionNotification(
 
   const envelopeTimestamp = toNumber(timestamp);
   const referencedAttachmentTimestamp = toNumber(referencedAttachment);
-  const expireTimer = content.expirationTimer || 0;
 
-  const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
-    convo,
-    DisappearingMessageMode[content.expirationType],
-    expireTimer
-  );
-  let expirationType;
-  let expirationStartTimestamp;
-
-  if (convo && expirationMode && expireTimer > 0) {
-    expirationType =
-      expirationMode !== 'off'
-        ? DisappearingMessages.changeToDisappearingMessageType(convo, expireTimer, expirationMode)
-        : undefined;
-
-    // NOTE Triggers disappearing for an incoming DataExtractionNotification message
-    // TODO legacy messages support will be removed in a future release
-    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
-        expirationMode,
-        undefined,
-        'handleDataExtractionNotification'
-      );
-    }
-  }
-
-  await convo.addSingleIncomingMessage({
+  let created = await convo.addSingleIncomingMessage({
     source,
     sent_at: envelopeTimestamp,
     dataExtractionNotification: {
@@ -901,12 +870,13 @@ export async function handleDataExtractionNotification(
       referencedAttachmentTimestamp, // currently unused
       source,
     },
-
-    unread: READ_MESSAGE_STATE.unread,
-    expirationType,
-    expireTimer,
-    expirationStartTimestamp,
   });
-
+  created = DisappearingMessages.getMessageReadyToDisappear(
+    convo,
+    created,
+    0,
+    expireUpdate || undefined
+  );
+  await created.commit();
   convo.updateLastMessage();
 }

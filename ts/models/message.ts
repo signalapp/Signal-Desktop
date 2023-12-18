@@ -198,6 +198,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return Boolean(flags & expirationTimerFlag) && !isEmpty(this.getExpirationTimerUpdate());
   }
 
+  public isControlMessage() {
+    return (
+      this.isExpirationTimerUpdate() ||
+      this.isDataExtractionNotification() ||
+      this.isMessageRequestResponse ||
+      this.isGroupUpdate()
+    );
+  }
+
   public isIncoming() {
     return this.get('type') === 'incoming';
   }
@@ -1230,6 +1239,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   private dispatchMessageUpdate() {
     updatesToDispatch.set(this.id, this.getMessageModelProps());
     throttledAllMessagesDispatch();
+  }
+
+  private isGroupUpdate() {
+    return !isEmpty(this.get('group_update'));
   }
 
   /**
