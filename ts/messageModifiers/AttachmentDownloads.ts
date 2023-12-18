@@ -29,6 +29,7 @@ import * as log from '../logging/log';
 import {
   KIBIBYTE,
   getMaximumIncomingAttachmentSizeInKb,
+  getMaximumIncomingTextAttachmentSizeInKb,
 } from '../types/AttachmentSize';
 
 const {
@@ -281,12 +282,21 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
     let downloaded: AttachmentType | null = null;
 
     try {
-      const { size } = attachment;
       const maxInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
+      const maxTextAttachmentSizeInKib =
+        getMaximumIncomingTextAttachmentSizeInKb(getValue);
+
+      const { size } = attachment;
       const sizeInKib = size / KIBIBYTE;
+
       if (!size || sizeInKib > maxInKib) {
         throw new AttachmentSizeError(
           `Attachment Job ${id}: Attachment was ${sizeInKib}kib, max is ${maxInKib}kib`
+        );
+      }
+      if (type === 'long-message' && sizeInKib > maxTextAttachmentSizeInKib) {
+        throw new AttachmentSizeError(
+          `Attachment Job ${id}: Text attachment was ${sizeInKib}kib, max is ${maxTextAttachmentSizeInKib}kib`
         );
       }
 

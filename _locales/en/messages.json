@@ -2891,6 +2891,10 @@
     "messageformat": "Read more",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Message too long to display more",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} sent you a message that can't be processed or displayed because it uses a new Signal feature."
   },
