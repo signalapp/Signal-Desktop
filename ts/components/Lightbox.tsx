@@ -161,7 +161,7 @@ export function Lightbox({
   }, [setVideoTime, videoElement]);
 
   const handleSave = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (isViewOnce) {
       return;
@@ -193,6 +193,8 @@ export function Lightbox({
 
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      const isMacOS = (window.platform === 'darwin');
+
       switch (event.key) {
         case 'Escape': {
           closeLightbox();
@@ -211,10 +213,16 @@ export function Lightbox({
           onNext(event);
           break;
 
+        case 's':
+          if (isMacOS ? event.metaKey : event.ctrlKey) {
+              handleSave(event);
+          }
+          break;
+
         default:
       }
     },
-    [closeLightbox, onNext, onPrevious]
+    [closeLightbox, onNext, onPrevious, handleSave]
   );
 
   const onClose = (event: React.MouseEvent<HTMLElement>) => {
