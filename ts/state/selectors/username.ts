@@ -11,6 +11,7 @@ import type {
 } from '../ducks/username';
 import type {
   UsernameEditState,
+  UsernameLinkState,
   UsernameReservationState,
   UsernameReservationError,
 } from '../ducks/usernameEnums';
@@ -21,6 +22,11 @@ export const getUsernameState = (state: StateType): UsernameStateType =>
 export const getUsernameEditState = createSelector(
   getUsernameState,
   (state: UsernameStateType): UsernameEditState => state.editState
+);
+
+export const getUsernameLinkState = createSelector(
+  getUsernameState,
+  (state: UsernameStateType): UsernameLinkState => state.linkState
 );
 
 export const getUsernameReservation = createSelector(

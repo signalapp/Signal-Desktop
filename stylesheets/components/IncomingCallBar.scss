@@ -3,26 +3,28 @@
 
 .IncomingCallBar {
   &__container {
+    -webkit-app-region: no-drag;
     animation: IncomingCallBar--animation 0.2s forwards ease-out;
     position: fixed;
     top: 22px;
+    user-select: none;
     width: 100%;
-    z-index: $z-index-popup;
-    padding: {
-      left: 1rem;
-      right: 1rem;
-    }
+    z-index: $z-index-calling;
+    padding-inline: 1rem;
   }
 
   &__bar {
+    -webkit-app-region: no-drag;
     align-items: center;
     background-color: $color-gray-75;
     border-radius: 8px;
     display: flex;
     height: 70px;
     justify-content: space-between;
-    margin: 0 auto;
+    margin-block: 0;
+    margin-inline: auto;
     max-width: 600px;
+    user-select: none;
     width: 100%;
   }
 
@@ -33,7 +35,7 @@
 
     &--avatar {
       margin-bottom: 8px;
-      margin-left: 16px;
+      margin-inline-start: 16px;
       margin-top: 8px;
       position: relative;
     }
@@ -42,7 +44,7 @@
       align-items: stretch;
       display: flex;
       flex-direction: column;
-      margin-left: 12px;
+      margin-inline-start: 12px;
       min-width: 0;
     }
 
@@ -67,7 +69,7 @@
 
   &__actions {
     display: flex;
-    margin-right: 16px;
+    margin-inline-end: 16px;
   }
 
   &__button {
@@ -77,10 +79,15 @@
     display: flex;
     height: 40px;
     justify-content: center;
-    margin-left: 12px;
-    margin-right: 12px;
     outline: none;
     width: 40px;
+
+    &__container {
+      border-radius: 40px;
+      height: 40px;
+      margin-inline: 12px;
+      width: 40px;
+    }
 
     &--accept-video-as-audio {
       background-color: $color-gray-45;
@@ -99,7 +106,7 @@
 
       div {
         @include color-svg(
-          '../images/icons/v2/video-off-solid-24.svg',
+          '../images/icons/v3/video/video-slash-fill.svg',
           $color-white
         );
         height: 24px;
@@ -124,7 +131,7 @@
 
       div {
         @include color-svg(
-          '../images/icons/v2/video-solid-24.svg',
+          '../images/icons/v3/video/video-fill.svg',
           $color-white
         );
         height: 24px;
@@ -149,7 +156,7 @@
 
       div {
         @include color-svg(
-          '../images/icons/v2/phone-right-solid-24.svg',
+          '../images/icons/v3/phone/phone-fill.svg',
           $color-white
         );
         height: 24px;
@@ -174,7 +181,7 @@
 
       div {
         @include color-svg(
-          '../images/icons/v2/phone-down-24.svg',
+          '../images/icons/v3/phone/phone-down-fill.svg',
           $color-white
         );
         height: 24px;

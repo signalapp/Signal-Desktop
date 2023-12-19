@@ -22,8 +22,7 @@ export class ChallengeMainHandler {
 
     log.info(
       'challengeMain.handleCaptcha: sending captcha response to ' +
-        `${handlers.length} handlers`,
-      response
+        `${handlers.length} handlers`
     );
     for (const resolve of handlers) {
       resolve(response);

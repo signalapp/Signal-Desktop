@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './DialogUpdate';
 import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
 import { WidthBreakpoint } from './_util';
@@ -29,15 +30,13 @@ const defaultProps = {
 
 export default {
   title: 'Components/DialogUpdate',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 export function KnobsPlayground(): JSX.Element {
-  const containerWidthBreakpoint = select(
-    'containerWidthBreakpoint',
-    WidthBreakpoint,
-    WidthBreakpoint.Wide
-  );
-  const dialogType = select('dialogType', DialogType, DialogType.Update);
+  const containerWidthBreakpoint = WidthBreakpoint.Wide;
+  const dialogType = DialogType.AutoUpdate;
 
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
@@ -57,16 +56,25 @@ export function UpdateWide(): JSX.Element {
       <DialogUpdate
         {...defaultProps}
         containerWidthBreakpoint={WidthBreakpoint.Wide}
-        dialogType={DialogType.Update}
+        dialogType={DialogType.AutoUpdate}
         currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
   );
 }
 
-UpdateWide.story = {
-  name: 'Update (Wide)',
-};
+export function DownloadedWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogUpdate
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        dialogType={DialogType.DownloadedUpdate}
+        currentVersion="5.24.0"
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 export function DownloadReadyWide(): JSX.Element {
   return (
@@ -82,10 +90,6 @@ export function DownloadReadyWide(): JSX.Element {
   );
 }
 
-DownloadReadyWide.story = {
-  name: 'DownloadReady (Wide)',
-};
-
 export function FullDownloadReadyWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -99,10 +103,6 @@ export function FullDownloadReadyWide(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-FullDownloadReadyWide.story = {
-  name: 'FullDownloadReady (Wide)',
-};
 
 export function DownloadingWide(): JSX.Element {
   const [downloadedSize, setDownloadedSize] = React.useState(0);
@@ -136,10 +136,6 @@ export function DownloadingWide(): JSX.Element {
   );
 }
 
-DownloadingWide.story = {
-  name: 'Downloading (Wide)',
-};
-
 export function CannotUpdateWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -152,10 +148,6 @@ export function CannotUpdateWide(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-CannotUpdateWide.story = {
-  name: 'Cannot_Update (Wide)',
-};
 
 export function CannotUpdateBetaWide(): JSX.Element {
   return (
@@ -170,10 +162,6 @@ export function CannotUpdateBetaWide(): JSX.Element {
   );
 }
 
-CannotUpdateBetaWide.story = {
-  name: 'Cannot_Update_Beta (Wide)',
-};
-
 export function CannotUpdateRequireManualWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -186,10 +174,6 @@ export function CannotUpdateRequireManualWide(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-CannotUpdateRequireManualWide.story = {
-  name: 'Cannot_Update_Require_Manual (Wide)',
-};
 
 export function CannotUpdateRequireManualBetaWide(): JSX.Element {
   return (
@@ -204,10 +188,6 @@ export function CannotUpdateRequireManualBetaWide(): JSX.Element {
   );
 }
 
-CannotUpdateRequireManualBetaWide.story = {
-  name: 'Cannot_Update_Require_Manual_Beta (Wide)',
-};
-
 export function MacOSReadOnlyWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -220,10 +200,6 @@ export function MacOSReadOnlyWide(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-MacOSReadOnlyWide.story = {
-  name: 'MacOS_Read_Only (Wide)',
-};
 
 export function UnsupportedOSWide(): JSX.Element {
   return (
@@ -238,26 +214,31 @@ export function UnsupportedOSWide(): JSX.Element {
   );
 }
 
-UnsupportedOSWide.story = {
-  name: 'UnsupportedOS (Wide)',
-};
-
 export function UpdateNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
         {...defaultProps}
         containerWidthBreakpoint={WidthBreakpoint.Narrow}
-        dialogType={DialogType.Update}
+        dialogType={DialogType.AutoUpdate}
         currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
   );
 }
 
-UpdateNarrow.story = {
-  name: 'Update (Narrow)',
-};
+export function DownloadedNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogUpdate
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        dialogType={DialogType.DownloadedUpdate}
+        currentVersion="5.24.0"
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 export function DownloadReadyNarrow(): JSX.Element {
   return (
@@ -273,10 +254,6 @@ export function DownloadReadyNarrow(): JSX.Element {
   );
 }
 
-DownloadReadyNarrow.story = {
-  name: 'DownloadReady (Narrow)',
-};
-
 export function FullDownloadReadyNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -291,10 +268,6 @@ export function FullDownloadReadyNarrow(): JSX.Element {
   );
 }
 
-FullDownloadReadyNarrow.story = {
-  name: 'FullDownloadReady (Narrow)',
-};
-
 export function DownloadingNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -307,10 +280,6 @@ export function DownloadingNarrow(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-DownloadingNarrow.story = {
-  name: 'Downloading (Narrow)',
-};
 
 export function CannotUpdateNarrow(): JSX.Element {
   return (
@@ -325,10 +294,6 @@ export function CannotUpdateNarrow(): JSX.Element {
   );
 }
 
-CannotUpdateNarrow.story = {
-  name: 'Cannot Update (Narrow)',
-};
-
 export function CannotUpdateBetaNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -341,10 +306,6 @@ export function CannotUpdateBetaNarrow(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-CannotUpdateBetaNarrow.story = {
-  name: 'Cannot Update Beta (Narrow)',
-};
 
 export function CannotUpdateRequireManualNarrow(): JSX.Element {
   return (
@@ -359,10 +320,6 @@ export function CannotUpdateRequireManualNarrow(): JSX.Element {
   );
 }
 
-CannotUpdateRequireManualNarrow.story = {
-  name: 'Cannot_Update_Require_Manual (Narrow)',
-};
-
 export function CannotUpdateRequireManualBetaNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -375,10 +332,6 @@ export function CannotUpdateRequireManualBetaNarrow(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-CannotUpdateRequireManualBetaNarrow.story = {
-  name: 'Cannot_Update_Require_Manual_Beta (Narrow)',
-};
 
 export function MacOSReadOnlyNarrow(): JSX.Element {
   return (
@@ -393,10 +346,6 @@ export function MacOSReadOnlyNarrow(): JSX.Element {
   );
 }
 
-MacOSReadOnlyNarrow.story = {
-  name: 'MacOS_Read_Only (Narrow)',
-};
-
 export function UnsupportedOSNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -409,7 +358,3 @@ export function UnsupportedOSNarrow(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-UnsupportedOSNarrow.story = {
-  name: 'UnsupportedOS (Narrow)',
-};

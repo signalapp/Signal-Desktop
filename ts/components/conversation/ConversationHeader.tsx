@@ -3,7 +3,6 @@
 
 import type { ReactNode } from 'react';
 import React from 'react';
-import Measure from 'react-measure';
 import classNames from 'classnames';
 import {
   ContextMenu,
@@ -12,7 +11,7 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
-import { Emojify } from './Emojify';
+import { createPortal } from 'react-dom';
 import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
 import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
@@ -39,6 +38,9 @@ import {
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
+import { UserText } from '../UserText';
+import { Alert } from '../Alert';
+import { SizeObserver } from '../../hooks/useSizeObserver';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -49,11 +51,11 @@ export enum OutgoingCallButtonStyle {
 
 export type PropsDataType = {
   badge?: BadgeType;
-  conversationTitle?: string;
+  cannotLeaveBecauseYouAreLastAdmin: boolean;
+  hasPanelShowing?: boolean;
   hasStories?: HasStories;
   isMissingMandatoryProfileSharing?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
-  showBackButton?: boolean;
   isSMSOnly?: boolean;
   isSignalConversation?: boolean;
   theme: ThemeType;
@@ -86,8 +88,10 @@ export type PropsDataType = {
 
 export type PropsActionsType = {
   destroyMessages: (conversationId: string) => void;
+  leaveGroup: (conversationId: string) => void;
   onArchive: (conversationId: string) => void;
   onMarkUnread: (conversationId: string) => void;
+  toggleSelectMode: (on: boolean) => void;
   onMoveToInbox: (conversationId: string) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
@@ -118,6 +122,8 @@ enum ModalState {
 
 type StateType = {
   hasDeleteMessagesConfirmation: boolean;
+  hasLeaveGroupConfirmation: boolean;
+  hasCannotLeaveGroupBecauseYouAreLastAdminAlert: boolean;
   isNarrow: boolean;
   modalState: ModalState;
 };
@@ -138,6 +144,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     this.state = {
       hasDeleteMessagesConfirmation: false,
+      hasLeaveGroupConfirmation: false,
+      hasCannotLeaveGroupBecauseYouAreLastAdminAlert: false,
       isNarrow: false,
       modalState: ModalState.NothingOpen,
     };
@@ -153,37 +161,21 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     }
   }
 
-  private renderBackButton(): ReactNode {
-    const { i18n, popPanelForConversation, showBackButton } = this.props;
-
-    return (
-      <button
-        type="button"
-        onClick={popPanelForConversation}
-        className={classNames(
-          'module-ConversationHeader__back-icon',
-          showBackButton ? 'module-ConversationHeader__back-icon--show' : null
-        )}
-        disabled={!showBackButton}
-        aria-label={i18n('goBack')}
-      />
-    );
-  }
-
   private renderHeaderInfoTitle(): ReactNode {
     const { name, title, type, i18n, isMe } = this.props;
 
     if (isMe) {
       return (
         <div className="module-ConversationHeader__header__info__title">
-          {i18n('noteToSelf')}
+          {i18n('icu:noteToSelf')}
+          <span className="ContactModal__official-badge" />
         </div>
       );
     }
 
     return (
       <div className="module-ConversationHeader__header__info__title">
-        <Emojify text={title} />
+        <UserText text={title} />
         {isInSystemContacts({ name, type }) ? (
           <InContactsIcon
             className="module-ConversationHeader__header__info__title__in-contacts-icon"
@@ -211,7 +203,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     return null;
   }
 
-  private renderAvatar(): ReactNode {
+  private renderAvatar(onClickFallback: undefined | (() => void)): ReactNode {
     const {
       acceptedMessageRequest,
       avatarPath,
@@ -250,7 +242,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
                     storyViewMode: StoryViewModeType.User,
                   });
                 }
-              : undefined
+              : onClickFallback
           }
           phoneNumber={phoneNumber}
           profileName={profileName}
@@ -289,13 +281,13 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     return (
       <div className="module-ConversationHeader__header__info__subtitle__verified">
-        {i18n('verified')}
+        {i18n('icu:verified')}
       </div>
     );
   }
 
   private renderMoreButton(triggerId: string): ReactNode {
-    const { i18n, showBackButton } = this.props;
+    const { i18n } = this.props;
 
     return (
       <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
@@ -304,18 +296,16 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           onClick={this.showMenuBound}
           className={classNames(
             'module-ConversationHeader__button',
-            'module-ConversationHeader__button--more',
-            showBackButton ? null : 'module-ConversationHeader__button--show'
+            'module-ConversationHeader__button--more'
           )}
-          disabled={showBackButton}
-          aria-label={i18n('moreInfo')}
+          aria-label={i18n('icu:moreInfo')}
         />
       </ContextMenuTrigger>
     );
   }
 
   private renderSearchButton(): ReactNode {
-    const { i18n, id, searchInConversation, showBackButton } = this.props;
+    const { i18n, id, searchInConversation } = this.props;
 
     return (
       <button
@@ -323,11 +313,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         onClick={() => searchInConversation(id)}
         className={classNames(
           'module-ConversationHeader__button',
-          'module-ConversationHeader__button--search',
-          showBackButton ? null : 'module-ConversationHeader__button--show'
+          'module-ConversationHeader__button--search'
         )}
-        disabled={showBackButton}
-        aria-label={i18n('search')}
+        aria-label={i18n('icu:search')}
       />
     );
   }
@@ -336,6 +324,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     const {
       acceptedMessageRequest,
       canChangeTimer,
+      cannotLeaveBecauseYouAreLastAdmin,
       expireTimer,
       groupVersion,
       i18n,
@@ -349,6 +338,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       muteExpiresAt,
       onArchive,
       onMarkUnread,
+      toggleSelectMode,
       onMoveToInbox,
       pushPanelForConversation,
       setDisappearingMessages,
@@ -356,24 +346,25 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       setPinned,
       type,
     } = this.props;
+    const isRTL = i18n.getLocaleDirection() === 'rtl';
 
     const muteOptions = getMuteOptions(muteExpiresAt, i18n);
 
-    const muteTitle = <span>{i18n('muteNotificationsTitle')}</span>;
+    const muteTitle = <span>{i18n('icu:muteNotificationsTitle')}</span>;
 
     if (isSignalConversation) {
       const isMuted = muteExpiresAt && isConversationMuted({ muteExpiresAt });
 
       return (
-        <ContextMenu id={triggerId}>
-          <SubMenu hoverDelay={1} title={muteTitle} rtl>
+        <ContextMenu id={triggerId} rtl={isRTL}>
+          <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
             {isMuted ? (
               <MenuItem
                 onClick={() => {
                   setMuteExpiration(id, 0);
                 }}
               >
-                {i18n('unmute')}
+                {i18n('icu:unmute')}
               </MenuItem>
             ) : (
               <MenuItem
@@ -381,7 +372,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
                   setMuteExpiration(id, Number.MAX_SAFE_INTEGER);
                 }}
               >
-                {i18n('muteAlways')}
+                {i18n('icu:muteAlways')}
               </MenuItem>
             )}
           </SubMenu>
@@ -400,6 +391,44 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     );
 
     const hasGV2AdminEnabled = isGroup && groupVersion === 2;
+
+    if (isGroup && groupVersion !== 2) {
+      return (
+        <ContextMenu id={triggerId}>
+          <MenuItem
+            onClick={() =>
+              pushPanelForConversation({ type: PanelType.GroupV1Members })
+            }
+          >
+            {i18n('icu:showMembers')}
+          </MenuItem>
+          <MenuItem
+            onClick={() =>
+              pushPanelForConversation({ type: PanelType.AllMedia })
+            }
+          >
+            {i18n('icu:viewRecentMedia')}
+          </MenuItem>
+          <MenuItem divider />
+          {isArchived ? (
+            <MenuItem onClick={() => onMoveToInbox(id)}>
+              {i18n('icu:moveConversationToInbox')}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={() => onArchive(id)}>
+              {i18n('icu:archiveConversation')}
+            </MenuItem>
+          )}
+          <MenuItem
+            onClick={() =>
+              this.setState({ hasDeleteMessagesConfirmation: true })
+            }
+          >
+            {i18n('icu:deleteMessagesInConversation')}
+          </MenuItem>
+        </ContextMenu>
+      );
+    }
 
     const isActiveExpireTimer = (value: number): boolean => {
       if (!expireTimer) {
@@ -420,7 +449,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       let text: string;
 
       if (seconds === -1) {
-        text = i18n('customDisappearingTimeOption');
+        text = i18n('icu:customDisappearingTimeOption');
       } else {
         text = expirationTimer.format(i18n, seconds, {
           capitalizeOff: true,
@@ -451,14 +480,14 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       );
     });
 
-    return (
-      <ContextMenu id={triggerId}>
+    return createPortal(
+      <ContextMenu id={triggerId} rtl={isRTL}>
         {disableTimerChanges ? null : (
-          <SubMenu hoverDelay={1} title={disappearingTitle} rtl>
+          <SubMenu hoverDelay={1} title={disappearingTitle} rtl={!isRTL}>
             {expireDurations}
           </SubMenu>
         )}
-        <SubMenu hoverDelay={1} title={muteTitle} rtl>
+        <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
           {muteOptions.map(item => (
             <MenuItem
               key={item.name}
@@ -480,58 +509,75 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             }
           >
             {isGroup
-              ? i18n('showConversationDetails')
-              : i18n('showConversationDetails--direct')}
-          </MenuItem>
-        ) : null}
-        {isGroup && !hasGV2AdminEnabled ? (
-          <MenuItem
-            onClick={() =>
-              pushPanelForConversation({ type: PanelType.GroupV1Members })
-            }
-          >
-            {i18n('showMembers')}
+              ? i18n('icu:showConversationDetails')
+              : i18n('icu:showConversationDetails--direct')}
           </MenuItem>
         ) : null}
         <MenuItem
           onClick={() => pushPanelForConversation({ type: PanelType.AllMedia })}
         >
-          {i18n('viewRecentMedia')}
+          {i18n('icu:viewRecentMedia')}
+        </MenuItem>
+        <MenuItem divider />
+        <MenuItem
+          onClick={() => {
+            toggleSelectMode(true);
+          }}
+        >
+          {i18n('icu:ConversationHeader__menu__selectMessages')}
         </MenuItem>
         <MenuItem divider />
         {!markedUnread ? (
           <MenuItem onClick={() => onMarkUnread(id)}>
-            {i18n('markUnread')}
+            {i18n('icu:markUnread')}
           </MenuItem>
         ) : null}
+        {isPinned ? (
+          <MenuItem onClick={() => setPinned(id, false)}>
+            {i18n('icu:unpinConversation')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={() => setPinned(id, true)}>
+            {i18n('icu:pinConversation')}
+          </MenuItem>
+        )}
         {isArchived ? (
           <MenuItem onClick={() => onMoveToInbox(id)}>
-            {i18n('moveConversationToInbox')}
+            {i18n('icu:moveConversationToInbox')}
           </MenuItem>
         ) : (
           <MenuItem onClick={() => onArchive(id)}>
-            {i18n('archiveConversation')}
+            {i18n('icu:archiveConversation')}
           </MenuItem>
         )}
         <MenuItem
           onClick={() => this.setState({ hasDeleteMessagesConfirmation: true })}
         >
-          {i18n('deleteMessages')}
+          {i18n('icu:deleteMessagesInConversation')}
         </MenuItem>
-        {isPinned ? (
-          <MenuItem onClick={() => setPinned(id, false)}>
-            {i18n('unpinConversation')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={() => setPinned(id, true)}>
-            {i18n('pinConversation')}
+        {isGroup && (
+          <MenuItem
+            onClick={() => {
+              if (cannotLeaveBecauseYouAreLastAdmin) {
+                this.setState({
+                  hasCannotLeaveGroupBecauseYouAreLastAdminAlert: true,
+                });
+              } else {
+                this.setState({ hasLeaveGroupConfirmation: true });
+              }
+            }}
+          >
+            {i18n(
+              'icu:ConversationHeader__ContextMenu__LeaveGroupAction__title'
+            )}
           </MenuItem>
         )}
-      </ContextMenu>
+      </ContextMenu>,
+      document.body
     );
   }
 
-  private renderConfirmationDialog(): ReactNode {
+  private renderDeleteMessagesConfirmationDialog(): ReactNode {
     const { hasDeleteMessagesConfirmation } = this.state;
     const { destroyMessages, i18n, id } = this.props;
 
@@ -542,6 +588,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     return (
       <ConfirmationDialog
         dialogName="ConversationHeader.destroyMessages"
+        title={i18n(
+          'icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title'
+        )}
         actions={[
           {
             action: () => {
@@ -549,7 +598,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               destroyMessages(id);
             },
             style: 'negative',
-            text: i18n('delete'),
+            text: i18n('icu:delete'),
           },
         ]}
         i18n={i18n}
@@ -557,26 +606,81 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           this.setState({ hasDeleteMessagesConfirmation: false });
         }}
       >
-        {i18n('deleteConversationConfirmation')}
+        {i18n(
+          'icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description'
+        )}
       </ConfirmationDialog>
     );
   }
 
-  private renderHeader(): ReactNode {
-    const { conversationTitle, groupVersion, pushPanelForConversation, type } =
+  private renderLeaveGroupConfirmationDialog(): ReactNode {
+    const { hasLeaveGroupConfirmation } = this.state;
+    const { cannotLeaveBecauseYouAreLastAdmin, leaveGroup, i18n, id } =
       this.props;
 
-    if (conversationTitle !== undefined) {
-      return (
-        <div className="module-ConversationHeader__header">
-          <div className="module-ConversationHeader__header__info">
-            <div className="module-ConversationHeader__header__info__title">
-              {conversationTitle}
-            </div>
-          </div>
-        </div>
-      );
+    if (!hasLeaveGroupConfirmation) {
+      return;
     }
+
+    return (
+      <ConfirmationDialog
+        dialogName="ConversationHeader.leaveGroup"
+        title={i18n('icu:ConversationHeader__LeaveGroupConfirmation__title')}
+        actions={[
+          {
+            disabled: cannotLeaveBecauseYouAreLastAdmin,
+            action: () => {
+              this.setState({ hasLeaveGroupConfirmation: false });
+              if (!cannotLeaveBecauseYouAreLastAdmin) {
+                leaveGroup(id);
+              } else {
+                this.setState({
+                  hasLeaveGroupConfirmation: false,
+                  hasCannotLeaveGroupBecauseYouAreLastAdminAlert: true,
+                });
+              }
+            },
+            style: 'negative',
+            text: i18n(
+              'icu:ConversationHeader__LeaveGroupConfirmation__confirmButton'
+            ),
+          },
+        ]}
+        i18n={i18n}
+        onClose={() => {
+          this.setState({ hasLeaveGroupConfirmation: false });
+        }}
+      >
+        {i18n('icu:ConversationHeader__LeaveGroupConfirmation__description')}
+      </ConfirmationDialog>
+    );
+  }
+
+  private renderCannotLeaveGroupBecauseYouAreLastAdminAlert() {
+    const { hasCannotLeaveGroupBecauseYouAreLastAdminAlert } = this.state;
+    const { i18n } = this.props;
+
+    if (!hasCannotLeaveGroupBecauseYouAreLastAdminAlert) {
+      return;
+    }
+
+    return (
+      <Alert
+        i18n={i18n}
+        body={i18n(
+          'icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description'
+        )}
+        onClose={() => {
+          this.setState({
+            hasCannotLeaveGroupBecauseYouAreLastAdminAlert: false,
+          });
+        }}
+      />
+    );
+  }
+
+  private renderHeader(): ReactNode {
+    const { groupVersion, pushPanelForConversation, type } = this.props;
 
     let onClick: undefined | (() => void);
     switch (type) {
@@ -600,7 +704,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         throw missingCaseError(type);
     }
 
-    const avatar = this.renderAvatar();
+    const avatar = this.renderAvatar(onClick);
     const contents = (
       <div className="module-ConversationHeader__header__info">
         {this.renderHeaderInfoTitle()}
@@ -612,13 +716,15 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       return (
         <div className="module-ConversationHeader__header">
           {avatar}
-          <button
-            type="button"
-            className="module-ConversationHeader__header--clickable"
-            onClick={onClick}
-          >
-            {contents}
-          </button>
+          <div>
+            <button
+              type="button"
+              className="module-ConversationHeader__header--clickable"
+              onClick={onClick}
+            >
+              {contents}
+            </button>
+          </div>
         </div>
       );
     }
@@ -636,6 +742,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       announcementsOnly,
       areWeAdmin,
       expireTimer,
+      hasPanelShowing,
       i18n,
       id,
       isSMSOnly,
@@ -644,8 +751,12 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onOutgoingVideoCallInConversation,
       outgoingCallButtonStyle,
       setDisappearingMessages,
-      showBackButton,
     } = this.props;
+
+    if (hasPanelShowing) {
+      return null;
+    }
+
     const { isNarrow, modalState } = this.state;
     const triggerId = `conversation-${id}`;
 
@@ -671,24 +782,21 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     return (
       <>
         {modalNode}
-        {this.renderConfirmationDialog()}
-        <Measure
-          bounds
-          onResize={({ bounds }) => {
-            if (!bounds || !bounds.width) {
-              return;
-            }
-            this.setState({ isNarrow: bounds.width < 500 });
+        {this.renderDeleteMessagesConfirmationDialog()}
+        {this.renderLeaveGroupConfirmationDialog()}
+        {this.renderCannotLeaveGroupBecauseYouAreLastAdminAlert()}
+        <SizeObserver
+          onSizeChange={size => {
+            this.setState({ isNarrow: size.width < 500 });
           }}
         >
-          {({ measureRef }) => (
+          {measureRef => (
             <div
               className={classNames('module-ConversationHeader', {
                 'module-ConversationHeader--narrow': isNarrow,
               })}
               ref={measureRef}
             >
-              {this.renderBackButton()}
               {this.renderHeader()}
               {!isSMSOnly && !isSignalConversation && (
                 <OutgoingCallButtons
@@ -704,7 +812,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
                     onOutgoingVideoCallInConversation
                   }
                   outgoingCallButtonStyle={outgoingCallButtonStyle}
-                  showBackButton={showBackButton}
                 />
               )}
               {this.renderSearchButton()}
@@ -712,7 +819,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               {this.renderMenu(triggerId)}
             </div>
           )}
-        </Measure>
+        </SizeObserver>
       </>
     );
   }
@@ -727,7 +834,6 @@ function OutgoingCallButtons({
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   outgoingCallButtonStyle,
-  showBackButton,
 }: { isNarrow: boolean } & Pick<
   PropsType,
   | 'announcementsOnly'
@@ -737,20 +843,17 @@ function OutgoingCallButtons({
   | 'onOutgoingAudioCallInConversation'
   | 'onOutgoingVideoCallInConversation'
   | 'outgoingCallButtonStyle'
-  | 'showBackButton'
 >): JSX.Element | null {
   const videoButton = (
     <button
-      aria-label={i18n('makeOutgoingVideoCall')}
+      aria-label={i18n('icu:makeOutgoingVideoCall')}
       className={classNames(
         'module-ConversationHeader__button',
         'module-ConversationHeader__button--video',
-        showBackButton ? null : 'module-ConversationHeader__button--show',
-        !showBackButton && announcementsOnly && !areWeAdmin
+        announcementsOnly && !areWeAdmin
           ? 'module-ConversationHeader__button--show-disabled'
           : undefined
       )}
-      disabled={showBackButton}
       onClick={() => onOutgoingVideoCallInConversation(id)}
       type="button"
     />
@@ -776,28 +879,27 @@ function OutgoingCallButtons({
             onClick={() => onOutgoingAudioCallInConversation(id)}
             className={classNames(
               'module-ConversationHeader__button',
-              'module-ConversationHeader__button--audio',
-              showBackButton ? null : 'module-ConversationHeader__button--show'
+              'module-ConversationHeader__button--audio'
             )}
-            disabled={showBackButton}
-            aria-label={i18n('makeOutgoingCall')}
+            aria-label={i18n('icu:makeOutgoingCall')}
           />
         </>
       );
     case OutgoingCallButtonStyle.Join:
       return (
         <button
-          aria-label={i18n('joinOngoingCall')}
+          aria-label={i18n('icu:joinOngoingCall')}
           className={classNames(
             'module-ConversationHeader__button',
             'module-ConversationHeader__button--join-call',
-            showBackButton ? null : 'module-ConversationHeader__button--show'
+            announcementsOnly && !areWeAdmin
+              ? 'module-ConversationHeader__button--show-disabled'
+              : undefined
           )}
-          disabled={showBackButton}
           onClick={() => onOutgoingVideoCallInConversation(id)}
           type="button"
         >
-          {isNarrow ? null : i18n('joinOngoingCall')}
+          {isNarrow ? null : i18n('icu:joinOngoingCall')}
         </button>
       );
     default:

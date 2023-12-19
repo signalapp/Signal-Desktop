@@ -5,6 +5,7 @@ import type { ReactNode, FunctionComponent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import type { BadgeType } from '../../badges/types';
@@ -16,7 +17,6 @@ import { Spinner } from '../Spinner';
 import { Time } from '../Time';
 import { formatDateTimeShort } from '../../util/timestamp';
 import * as durations from '../../util/durations';
-import { UUID } from '../../types/UUID';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -33,6 +33,7 @@ const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 export const SPINNER_CLASS_NAME = `${BASE_CLASS_NAME}__spinner`;
 
 type PropsType = {
+  buttonAriaLabel?: string;
   checked?: boolean;
   conversationType: 'group' | 'direct';
   disabled?: boolean;
@@ -51,6 +52,7 @@ type PropsType = {
   onClick?: () => void;
   shouldShowSpinner?: boolean;
   unreadCount?: number;
+  unreadMentionsCount?: number;
   avatarSize?: AvatarSize;
   testId?: string;
 } & Pick<
@@ -66,7 +68,7 @@ type PropsType = {
   | 'sharedGroupNames'
   | 'title'
   | 'unblurredAvatarPath'
-  | 'uuid'
+  | 'serviceId'
 > &
   (
     | { badge?: undefined; theme?: ThemeType }
@@ -79,6 +81,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       acceptedMessageRequest,
       avatarPath,
       avatarSize,
+      buttonAriaLabel,
       checked,
       color,
       conversationType,
@@ -105,12 +108,13 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       title,
       unblurredAvatarPath,
       unreadCount,
-      uuid,
+      unreadMentionsCount,
+      serviceId,
     } = props;
 
     const identifier = id ? cleanId(id) : undefined;
-    const htmlId = useMemo(() => UUID.generate().toString(), []);
-    const testId = overrideTestId || groupId || uuid;
+    const htmlId = useMemo(() => generateUuid(), []);
+    const testId = overrideTestId || groupId || serviceId;
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
@@ -132,11 +136,17 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     } else if (isCheckbox) {
       let ariaLabel: string;
       if (disabled) {
-        ariaLabel = i18n('cannotSelectContact', [title]);
+        ariaLabel = i18n('icu:cannotSelectContact', {
+          name: title,
+        });
       } else if (checked) {
-        ariaLabel = i18n('deselectContact', [title]);
+        ariaLabel = i18n('icu:deselectContact', {
+          name: title,
+        });
       } else {
-        ariaLabel = i18n('selectContact', [title]);
+        ariaLabel = i18n('icu:selectContact', {
+          name: title,
+        });
       }
       actionNode = (
         <div className={CHECKBOX_CONTAINER_CLASS_NAME}>
@@ -157,6 +167,27 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
         </div>
       );
     }
+
+    const unreadIndicators = (() => {
+      if (!isUnread) {
+        return null;
+      }
+      return (
+        <div className={`${CONTENT_CLASS_NAME}__unread-indicators`}>
+          {unreadMentionsCount ? (
+            <UnreadIndicator variant={UnreadIndicatorVariant.UNREAD_MENTIONS} />
+          ) : null}
+          {unreadCount ? (
+            <UnreadIndicator
+              variant={UnreadIndicatorVariant.UNREAD_MESSAGES}
+              count={unreadCount}
+            />
+          ) : (
+            <UnreadIndicator variant={UnreadIndicatorVariant.MARKED_UNREAD} />
+          )}
+        </div>
+      );
+    })();
 
     const contents = (
       <>
@@ -181,7 +212,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
               ? { badge: props.badge, theme: props.theme }
               : { badge: undefined })}
           />
-          <UnreadIndicator count={unreadCount} isUnread={isUnread} />
+          {unreadIndicators}
         </div>
         <div
           className={classNames(
@@ -208,7 +239,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
                 </div>
               )}
               {messageStatusIcon}
-              <UnreadIndicator count={unreadCount} isUnread={isUnread} />
+              {unreadIndicators}
             </div>
           ) : null}
         </div>
@@ -226,7 +257,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           className={classNames(
             commonClassNames,
             `${BASE_CLASS_NAME}--is-checkbox`,
-            { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
+            { [`${BASE_CLASS_NAME}--disabled`]: disabled }
           )}
           data-id={identifier}
           data-testid={testId}
@@ -244,7 +275,12 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     if (onClick) {
       return (
         <button
-          aria-label={i18n('BaseConversationListItem__aria-label', { title })}
+          aria-label={
+            buttonAriaLabel ||
+            i18n('icu:BaseConversationListItem__aria-label', {
+              title,
+            })
+          }
           className={classNames(
             commonClassNames,
             `${BASE_CLASS_NAME}--is-button`
@@ -302,17 +338,53 @@ function Timestamp({
   );
 }
 
-function UnreadIndicator({
-  count = 0,
-  isUnread,
-}: Readonly<{ count?: number; isUnread: boolean }>) {
-  if (!isUnread) {
-    return null;
+enum UnreadIndicatorVariant {
+  MARKED_UNREAD = 'marked-unread',
+  UNREAD_MESSAGES = 'unread-messages',
+  UNREAD_MENTIONS = 'unread-mentions',
+}
+
+type UnreadIndicatorPropsType =
+  | {
+      variant: UnreadIndicatorVariant.MARKED_UNREAD;
+    }
+  | {
+      variant: UnreadIndicatorVariant.UNREAD_MESSAGES;
+      count: number;
+    }
+  | { variant: UnreadIndicatorVariant.UNREAD_MENTIONS };
+
+function UnreadIndicator(props: UnreadIndicatorPropsType) {
+  let content: React.ReactNode;
+
+  switch (props.variant) {
+    case UnreadIndicatorVariant.MARKED_UNREAD:
+      content = null;
+      break;
+    case UnreadIndicatorVariant.UNREAD_MESSAGES:
+      content = props.count > 0 && props.count;
+      break;
+    case UnreadIndicatorVariant.UNREAD_MENTIONS:
+      content = (
+        <div
+          className={classNames(
+            `${BASE_CLASS_NAME}__unread-indicator--${props.variant}__icon`
+          )}
+        />
+      );
+      break;
+    default:
+      throw new Error('Unexpected variant');
   }
 
   return (
-    <div className={classNames(`${BASE_CLASS_NAME}__unread-indicator`)}>
-      {Boolean(count) && count}
+    <div
+      className={classNames(
+        `${BASE_CLASS_NAME}__unread-indicator`,
+        `${BASE_CLASS_NAME}__unread-indicator--${props.variant}`
+      )}
+    >
+      {content}
     </div>
   );
 }

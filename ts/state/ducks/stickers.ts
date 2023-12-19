@@ -18,6 +18,8 @@ import {
 import { storageServiceUploadJob } from '../../services/storage';
 import { sendStickerPackSync } from '../../shims/textsecure';
 import { trigger } from '../../shims/events';
+import { ERASE_STORAGE_SERVICE } from './user';
+import type { EraseStorageServiceStateAction } from './user';
 
 import type { NoopActionType } from './noop';
 
@@ -128,27 +130,27 @@ type UseStickerFulfilledAction = ReadonlyDeep<{
 
 export type StickersActionType = ReadonlyDeep<
   | ClearInstalledStickerPackAction
+  | InstallStickerPackFulfilledAction
+  | NoopActionType
   | StickerAddedAction
   | StickerPackAddedAction
-  | InstallStickerPackFulfilledAction
-  | UninstallStickerPackFulfilledAction
-  | StickerPackUpdatedAction
   | StickerPackRemovedAction
+  | StickerPackUpdatedAction
+  | UninstallStickerPackFulfilledAction
   | UseStickerFulfilledAction
-  | NoopActionType
 >;
 
 // Action Creators
 
 export const actions = {
-  downloadStickerPack,
   clearInstalledStickerPack,
+  downloadStickerPack,
+  installStickerPack,
   removeStickerPack,
   stickerAdded,
   stickerPackAdded,
-  installStickerPack,
-  uninstallStickerPack,
   stickerPackUpdated,
+  uninstallStickerPack,
   useSticker,
 };
 
@@ -356,7 +358,7 @@ export function getEmptyState(): StickersStateType {
 
 export function reducer(
   state: Readonly<StickersStateType> = getEmptyState(),
-  action: Readonly<StickersActionType>
+  action: Readonly<StickersActionType | EraseStorageServiceStateAction>
 ): StickersStateType {
   if (action.type === 'stickers/STICKER_PACK_ADDED') {
     // ts complains due to `stickers: {}` being overridden by the payload
@@ -494,6 +496,27 @@ export function reducer(
           },
         },
       },
+    };
+  }
+
+  if (action.type === ERASE_STORAGE_SERVICE) {
+    const { packs } = state;
+
+    const entries = Object.entries(packs).map(([id, pack]) => {
+      return [
+        id,
+        omit(pack, [
+          'storageID',
+          'storageVersion',
+          'storageUnknownFields',
+          'storageNeedsSync',
+        ]),
+      ];
+    });
+
+    return {
+      ...state,
+      packs: Object.fromEntries(entries),
     };
   }
 

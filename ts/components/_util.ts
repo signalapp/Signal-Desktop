@@ -11,7 +11,6 @@ export enum WidthBreakpoint {
   Narrow = 'narrow',
 }
 
-export const getConversationListWidthBreakpoint = (
-  width: number
-): WidthBreakpoint =>
-  width >= 150 ? WidthBreakpoint.Wide : WidthBreakpoint.Narrow;
+export function getNavSidebarWidthBreakpoint(width: number): WidthBreakpoint {
+  return width >= 150 ? WidthBreakpoint.Wide : WidthBreakpoint.Narrow;
+}

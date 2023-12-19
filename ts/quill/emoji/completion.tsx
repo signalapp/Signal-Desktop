@@ -204,6 +204,15 @@ export class EmojiCompletion {
     return PASS_THROUGH;
   }
 
+  getAttributesForInsert(index: number): Record<string, unknown> {
+    const character = index > 0 ? index - 1 : 0;
+    const contents = this.quill.getContents(character, 1);
+    return contents.ops.reduce(
+      (acc, op) => ({ acc, ...op.attributes }),
+      {} as Record<string, unknown>
+    );
+  }
+
   completeEmoji(): void {
     const range = this.quill.getSelection();
 
@@ -241,7 +250,9 @@ export class EmojiCompletion {
     const delta = new Delta().retain(index).delete(range).insert({ emoji });
 
     if (withTrailingSpace) {
-      this.quill.updateContents(delta.insert(' '), 'user');
+      // The extra space we add won't be formatted unless we manually provide attributes
+      const attributes = this.getAttributesForInsert(range - 1);
+      this.quill.updateContents(delta.insert(' ', attributes), 'user');
       this.quill.setSelection(index + 2, 0, 'user');
     } else {
       this.quill.updateContents(delta, 'user');

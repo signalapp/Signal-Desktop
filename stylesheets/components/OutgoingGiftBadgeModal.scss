@@ -16,8 +16,7 @@
   &__description {
     @include font-body-1;
     margin-top: 8px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
     width: 328px;
   }
   &__badge {
@@ -27,8 +26,7 @@
 
     &--missing {
       border-radius: 50%;
-      margin-left: auto;
-      margin-right: auto;
+      margin-inline: auto;
 
       @include light-theme {
         background-color: $color-gray-05;

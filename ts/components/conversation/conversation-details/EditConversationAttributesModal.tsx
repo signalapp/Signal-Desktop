@@ -192,12 +192,12 @@ export function EditConversationAttributesModal({
         />
 
         <div className="module-EditConversationAttributesModal__description-warning">
-          {i18n('EditConversationAttributesModal__description-warning')}
+          {i18n('icu:EditConversationAttributesModal__description-warning')}
         </div>
 
         {requestState === RequestState.InactiveWithError && (
           <div className="module-EditConversationAttributesModal__error-message">
-            {i18n('updateGroupAttributes__error-message')}
+            {i18n('icu:updateGroupAttributes__error-message')}
           </div>
         )}
       </form>
@@ -212,7 +212,7 @@ export function EditConversationAttributesModal({
         onClick={onClose}
         variant={ButtonVariant.Secondary}
       >
-        {i18n('cancel')}
+        {i18n('icu:cancel')}
       </Button>
 
       <Button
@@ -224,7 +224,7 @@ export function EditConversationAttributesModal({
         {isRequestActive ? (
           <Spinner size="20px" svgSize="small" direction="on-avatar" />
         ) : (
-          i18n('save')
+          i18n('icu:save')
         )}
       </Button>
     </>
@@ -236,7 +236,7 @@ export function EditConversationAttributesModal({
       hasXButton
       i18n={i18n}
       onClose={onClose}
-      title={i18n('updateGroupAttributes__title')}
+      title={i18n('icu:updateGroupAttributes__title')}
       modalFooter={modalFooter}
     >
       {content}

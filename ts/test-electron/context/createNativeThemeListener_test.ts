@@ -60,9 +60,10 @@ describe('NativeThemeListener', () => {
 
     const listener = createNativeThemeListener(ipc, holder);
 
-    ipc.emit('native-theme:changed', null, <NativeThemeState>{
+    const state: NativeThemeState = {
       shouldUseDarkColors: false,
-    });
+    };
+    ipc.emit('native-theme:changed', null, state);
 
     assert.strictEqual(holder.systemTheme, 'light');
     assert.strictEqual(listener.getSystemTheme(), 'light');
@@ -80,8 +81,9 @@ describe('NativeThemeListener', () => {
       done();
     });
 
-    ipc.emit('native-theme:changed', null, <NativeThemeState>{
+    const state: NativeThemeState = {
       shouldUseDarkColors: false,
-    });
+    };
+    ipc.emit('native-theme:changed', null, state);
   });
 });

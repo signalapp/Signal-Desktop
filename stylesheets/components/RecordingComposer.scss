@@ -1,0 +1,37 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.RecordingComposer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 10px;
+  padding-inline: 18px;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    border-radius: 16px;
+    height: 32px;
+    padding-block: 6px;
+    padding-inline: 12px;
+    overflow: hidden;
+
+    @include light-theme {
+      background: $color-gray-05;
+    }
+    @include dark-theme {
+      background: $color-gray-75;
+    }
+  }
+
+  &__button {
+    font-size: 13px;
+    min-width: 76px;
+    line-height: 18px;
+    padding-block: 5px;
+    padding-inline: 16px;
+  }
+}

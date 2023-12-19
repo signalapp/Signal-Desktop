@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { memoize, sortBy } from 'lodash';
-import os from 'os';
-import { ipcRenderer as ipc } from 'electron';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 import type { FetchLogIpcData, LogEntryType } from './shared';
 import {
@@ -39,47 +37,27 @@ const getHeader = (
     capabilities,
     remoteConfig,
     statistics,
-    appMetrics,
     user,
   }: Omit<FetchLogIpcData, 'logEntries'>,
   nodeVersion: string,
-  appVersion: string
+  appVersion: string,
+  osVersion: string,
+  userAgent: string,
+  linuxVersion?: string
 ): string =>
   [
     headerSection('System info', {
       Time: Date.now(),
-      'User agent': window.navigator.userAgent,
+      'User agent': userAgent,
       'Node version': nodeVersion,
       Environment: getEnvironment(),
       'App version': appVersion,
-      'OS version': os.version(),
+      'OS version': osVersion,
+      ...(linuxVersion && { 'Linux version': linuxVersion }),
     }),
     headerSection('User info', user),
     headerSection('Capabilities', capabilities),
     headerSection('Remote config', remoteConfig),
-    headerSection(
-      'Metrics',
-      appMetrics.reduce((acc, stats, index) => {
-        const {
-          type = '?',
-          serviceName = '?',
-          name = '?',
-          cpu,
-          memory,
-        } = stats;
-
-        const processId = `${index}:${type}/${serviceName}/${name}`;
-
-        return {
-          ...acc,
-          [processId]:
-            `cpuUsage=${cpu.percentCPUUsage.toFixed(2)} ` +
-            `wakeups=${cpu.idleWakeupsPerSecond} ` +
-            `workingMemory=${memory.workingSetSize} ` +
-            `peakWorkingMemory=${memory.peakWorkingSetSize}`,
-        };
-      }, {})
-    ),
     headerSection('Statistics', statistics),
     headerSectionTitle('Logs'),
   ].join('\n');
@@ -103,17 +81,26 @@ function formatLine(mightBeEntry: unknown): string {
   return `${getLevel(entry.level)} ${entry.time} ${entry.msg}`;
 }
 
-export async function fetch(
+export function getLog(
+  data: unknown,
   nodeVersion: string,
-  appVersion: string
-): Promise<string> {
-  const data: unknown = await ipc.invoke('fetch-log');
-
+  appVersion: string,
+  osVersion: string,
+  userAgent: string,
+  linuxVersion?: string
+): string {
   let header: string;
   let body: string;
   if (isFetchLogIpcData(data)) {
     const { logEntries } = data;
-    header = getHeader(data, nodeVersion, appVersion);
+    header = getHeader(
+      data,
+      nodeVersion,
+      appVersion,
+      osVersion,
+      userAgent,
+      linuxVersion
+    );
     body = logEntries.map(formatLine).join('\n');
   } else {
     header = headerSectionTitle('Partial logs');

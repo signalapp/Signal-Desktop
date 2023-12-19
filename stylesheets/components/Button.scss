@@ -9,19 +9,25 @@
   }
 
   @mixin hover-and-active-states($background-color, $mix-color) {
-    &:hover:not(:disabled) {
-      background: mix($background-color, $mix-color, 85%);
+    &:hover {
+      @include not-disabled {
+        background: mix($background-color, $mix-color, 85%);
+      }
     }
-    &:active:not(:disabled) {
-      background: mix($background-color, $mix-color, 75%);
+    &:active {
+      @include not-disabled {
+        background: mix($background-color, $mix-color, 75%);
+      }
     }
   }
 
   @include button-reset;
   border-radius: 4px;
-  padding: 8px 16px;
+  padding-block: 8px;
+  padding-inline: 16px;
   text-align: center;
   user-select: none;
+  -webkit-app-region: no-drag;
 
   @include keyboard-mode {
     @include focus-box-shadow($color-white, $color-ultramarine);
@@ -31,7 +37,7 @@
     @include focus-box-shadow($color-black, $color-ultramarine-icon);
   }
 
-  &:disabled {
+  @include disabled {
     cursor: not-allowed;
   }
 
@@ -47,7 +53,8 @@
   &--small {
     @include font-body-2;
     @include rounded-corners;
-    padding: 6px 12px;
+    padding-block: 6px;
+    padding-inline: 12px;
   }
 
   &--primary {
@@ -57,7 +64,7 @@
     color: $color;
     background: $background-color;
 
-    &:disabled {
+    @include disabled {
       color: fade-out($color, 0.4);
       background: fade-out($background-color, 0.6);
     }
@@ -79,7 +86,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: $color-black-alpha-40;
         background: fade-out($background-color, 0.6);
       }
@@ -102,7 +109,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: $color-white-alpha-20;
         background: fade-out($background-color, 0.6);
       }
@@ -126,7 +133,7 @@
     color: $color;
     background: $background-color;
 
-    &:disabled {
+    @include disabled {
       color: fade-out($color, 0.4);
       background: fade-out($background-color, 0.6);
     }
@@ -148,7 +155,7 @@
     color: $color;
     background: $background-color;
 
-    &:disabled {
+    @include disabled {
       color: fade-out($color, 0.4);
       background: fade-out($background-color, 0.6);
     }
@@ -166,10 +173,8 @@
     @include rounded-corners;
 
     &.module-Button--small {
-      padding: {
-        top: 5px;
-        bottom: 5px;
-      }
+      padding-top: 5px;
+      padding-bottom: 5px;
       font-weight: 500;
     }
 
@@ -180,7 +185,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: fade-out($color, 0.4);
         background: fade-out($background-color, 0.6);
       }
@@ -194,7 +199,7 @@
       color: $color;
       background: $background-color;
 
-      &:disabled {
+      @include disabled {
         color: fade-out($color, 0.4);
         background: fade-out($background-color, 0.6);
       }
@@ -251,53 +256,27 @@
     }
 
     &--audio::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/phone-outline-24.svg');
-      }
+      @include button-icon('../images/icons/v3/phone/phone-compact.svg');
+    }
 
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/phone-solid-24.svg');
-      }
+    &--message::before {
+      @include button-icon('../images/icons/v3/chat/chat-compact.svg');
     }
 
     &--muted::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/bell-disabled-outline-24.svg');
-      }
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/bell-disabled-solid-24.svg');
-      }
-    }
-
-    &--photo::before {
-      @include button-icon('../images/icons/v2/photo-album-outline-24.svg');
+      @include button-icon('../images/icons/v3/bell/bell-slash-compact.svg');
     }
 
     &--search::before {
-      @include button-icon('../images/icons/v2/search-16.svg');
-    }
-
-    &--text::before {
-      @include button-icon('../images/icons/v2/text-24.svg');
+      @include button-icon('../images/icons/v3/search/search-compact.svg');
     }
 
     &--unmuted::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/bell-outline-24.svg');
-      }
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/bell-solid-24.svg');
-      }
+      @include button-icon('../images/icons/v3/bell/bell-compact.svg');
     }
 
     &--video::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/video-outline-24.svg');
-      }
-
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/video-solid-24.svg');
-      }
+      @include button-icon('../images/icons/v3/video/video-compact.svg');
     }
   }
 }

@@ -22,10 +22,10 @@ import { filter, flatten, map, pick, sortBy } from 'lodash';
 import readFirstLine from 'firstline';
 import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
+import { CircularBuffer } from 'cirbuf';
 
 import type { LoggerType } from '../types/Logging';
 import * as Errors from '../types/errors';
-import * as durations from '../util/durations';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 
 import * as log from './log';
@@ -44,7 +44,7 @@ declare global {
   }
 }
 
-const MAX_LOG_LINES = 1000000;
+const MAX_LOG_LINES = 10_000_000;
 
 let globalLogger: undefined | pino.Logger;
 let shouldRestart = false;
@@ -62,13 +62,6 @@ export async function initialize(
   const basePath = app.getPath('userData');
   const logPath = join(basePath, 'logs');
   mkdirSync(logPath, { recursive: true });
-
-  let appMetrics = app.getAppMetrics();
-
-  setInterval(() => {
-    // CPU stats are computed since the last call to `getAppMetrics`.
-    appMetrics = app.getAppMetrics();
-  }, 30 * durations.SECOND).unref();
 
   try {
     await cleanupLogs(logPath);
@@ -140,7 +133,6 @@ export async function initialize(
       ]);
       data = {
         logEntries,
-        appMetrics,
         ...rest,
       };
     } catch (error) {
@@ -287,7 +279,7 @@ export async function eliminateOldEntries(
 
 // Exported for testing only.
 export async function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
-  const results = new Array<LogEntryType>();
+  const results = new CircularBuffer<LogEntryType>(MAX_LOG_LINES);
 
   const rawStream = createReadStream(logFile);
   const jsonStream = rawStream.pipe(
@@ -311,12 +303,9 @@ export async function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
     }
 
     results.push(result);
-    if (results.length > MAX_LOG_LINES) {
-      results.shift();
-    }
   }
 
-  return results;
+  return results.toArray();
 }
 
 // Exported for testing only.
@@ -342,7 +331,7 @@ export function fetchLogs(logPath: string): Promise<Array<LogEntryType>> {
 
 export const fetchAdditionalLogData = (
   mainWindow: BrowserWindow
-): Promise<Omit<FetchLogIpcData, 'logEntries' | 'appMetrics'>> =>
+): Promise<Omit<FetchLogIpcData, 'logEntries'>> =>
   new Promise(resolve => {
     mainWindow.webContents.send('additional-log-data-request');
     ipc.once('additional-log-data-response', (_event, data) => {

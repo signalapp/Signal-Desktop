@@ -33,12 +33,13 @@ export function ProfileEditorModal({
   ...restProps
 }: PropsType): JSX.Element {
   const MODAL_TITLES_BY_EDIT_STATE: Record<EditState, string | undefined> = {
-    [EditState.BetterAvatar]: i18n('ProfileEditorModal--avatar'),
-    [EditState.Bio]: i18n('ProfileEditorModal--about'),
-    [EditState.None]: i18n('ProfileEditorModal--profile'),
-    [EditState.ProfileName]: i18n('ProfileEditorModal--name'),
+    [EditState.BetterAvatar]: i18n('icu:ProfileEditorModal--avatar'),
+    [EditState.Bio]: i18n('icu:ProfileEditorModal--about'),
+    [EditState.None]: i18n('icu:ProfileEditorModal--profile'),
+    [EditState.ProfileName]: i18n('icu:ProfileEditorModal--name'),
     [EditState.UsernameOnboarding]: undefined,
-    [EditState.Username]: i18n('ProfileEditorModal--username'),
+    [EditState.Username]: i18n('icu:ProfileEditorModal--username'),
+    [EditState.UsernameLink]: undefined,
   };
 
   const [modalTitle, setModalTitle] = useState(
@@ -49,11 +50,11 @@ export function ProfileEditorModal({
     return (
       <ConfirmationDialog
         dialogName="ProfileEditorModal.error"
-        cancelText={i18n('Confirmation--confirm')}
+        cancelText={i18n('icu:Confirmation--confirm')}
         i18n={i18n}
         onClose={toggleProfileEditorHasError}
       >
-        {i18n('ProfileEditorModal--error')}
+        {i18n('icu:ProfileEditorModal--error')}
       </ConfirmationDialog>
     );
   }

@@ -9,9 +9,9 @@ import { SystemMessage } from './SystemMessage';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
 import { Intl } from '../Intl';
-import { Emojify } from './Emojify';
 
 import { DeliveryIssueDialog } from './DeliveryIssueDialog';
+import { UserText } from '../UserText';
 
 export type PropsDataType = {
   sender?: ConversationType;
@@ -46,9 +46,9 @@ export function DeliveryIssueNotification(
       <SystemMessage
         contents={
           <Intl
-            id="DeliveryIssue--notification"
+            id="icu:DeliveryIssue--notification"
             components={{
-              sender: <Emojify text={sender.firstName || sender.title} />,
+              sender: <UserText text={sender.firstName || sender.title} />,
             }}
             i18n={i18n}
           />
@@ -60,7 +60,7 @@ export function DeliveryIssueNotification(
             size={ButtonSize.Small}
             variant={ButtonVariant.SystemMessage}
           >
-            {i18n('DeliveryIssue--learnMore')}
+            {i18n('icu:DeliveryIssue--learnMore')}
           </Button>
         }
       />

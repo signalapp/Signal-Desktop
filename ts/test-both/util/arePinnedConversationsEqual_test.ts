@@ -12,7 +12,7 @@ describe('arePinnedConversationsEqual', () => {
     const localValue = [
       {
         contact: {
-          uuid: '72313cde-2784-4a6f-a92a-abbe23763a60',
+          serviceId: '72313cde-2784-4a6f-a92a-abbe23763a60',
           e164: '+13055551234',
         },
       },
@@ -23,7 +23,7 @@ describe('arePinnedConversationsEqual', () => {
     const remoteValue = [
       {
         contact: {
-          uuid: '72313cde-2784-4a6f-a92a-abbe23763a60',
+          serviceId: '72313cde-2784-4a6f-a92a-abbe23763a60',
           e164: '+13055551234',
         },
       },
@@ -39,13 +39,13 @@ describe('arePinnedConversationsEqual', () => {
     const localValue = [
       {
         contact: {
-          uuid: '72313cde-2784-4a6f-a92a-abbe23763a60',
+          serviceId: '72313cde-2784-4a6f-a92a-abbe23763a60',
           e164: '+13055551234',
         },
       },
       {
         contact: {
-          uuid: 'f59a9fed-9e91-4bb4-a015-d49e58b47e25',
+          serviceId: 'f59a9fed-9e91-4bb4-a015-d49e58b47e25',
           e164: '+17865554321',
         },
       },
@@ -53,13 +53,13 @@ describe('arePinnedConversationsEqual', () => {
     const remoteValue = [
       {
         contact: {
-          uuid: 'f59a9fed-9e91-4bb4-a015-d49e58b47e25',
+          serviceId: 'f59a9fed-9e91-4bb4-a015-d49e58b47e25',
           e164: '+17865554321',
         },
       },
       {
         contact: {
-          uuid: '72313cde-2784-4a6f-a92a-abbe23763a60',
+          serviceId: '72313cde-2784-4a6f-a92a-abbe23763a60',
           e164: '+13055551234',
         },
       },
@@ -72,7 +72,7 @@ describe('arePinnedConversationsEqual', () => {
     const localValue = [
       {
         contact: {
-          uuid: '72313cde-2784-4a6f-a92a-abbe23763a60',
+          serviceId: '72313cde-2784-4a6f-a92a-abbe23763a60',
           e164: '+13055551234',
         },
       },
@@ -85,7 +85,7 @@ describe('arePinnedConversationsEqual', () => {
     const localValue = [
       {
         contact: {
-          uuid: '72313cde-2784-4a6f-a92a-abbe23763a60',
+          serviceId: '72313cde-2784-4a6f-a92a-abbe23763a60',
           e164: '+13055551234',
         },
       },

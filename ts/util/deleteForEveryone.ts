@@ -1,17 +1,20 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { DeleteModel } from '../messageModifiers/Deletes';
+import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
-import { DAY } from './durations';
 import { isMe } from './whatTypeOfConversation';
 import { getContactId } from '../messages/helpers';
 import { isStory } from '../state/selectors/message';
+import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 
 export async function deleteForEveryone(
   message: MessageModel,
-  doe: DeleteModel,
+  doe: Pick<
+    DeleteAttributesType,
+    'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
+  >,
   shouldPersist = true
 ): Promise<void> {
   if (isDeletionByMe(message, doe)) {
@@ -30,13 +33,13 @@ export async function deleteForEveryone(
     return;
   }
 
-  if (isDeletionTooOld(message, doe)) {
+  if (isTooOldToModifyMessage(doe.serverTimestamp, message.attributes)) {
     log.warn('Received late DOE. Dropping.', {
-      fromId: doe.get('fromId'),
-      targetSentTimestamp: doe.get('targetSentTimestamp'),
+      fromId: doe.fromId,
+      targetSentTimestamp: doe.targetSentTimestamp,
       messageServerTimestamp: message.get('serverTimestamp'),
       messageSentAt: message.get('sent_at'),
-      deleteServerTimestamp: doe.get('serverTimestamp'),
+      deleteServerTimestamp: doe.serverTimestamp,
     });
     return;
   }
@@ -46,22 +49,12 @@ export async function deleteForEveryone(
 
 function isDeletionByMe(
   message: Readonly<MessageModel>,
-  doe: Readonly<DeleteModel>
+  doe: Pick<DeleteAttributesType, 'fromId'>
 ): boolean {
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
   return (
     getContactId(message.attributes) === ourConversationId &&
-    doe.get('fromId') === ourConversationId
+    doe.fromId === ourConversationId
   );
-}
-
-function isDeletionTooOld(
-  message: Readonly<MessageModel>,
-  doe: Readonly<DeleteModel>
-): boolean {
-  const messageTimestamp =
-    message.get('serverTimestamp') || message.get('sent_at') || 0;
-  const delta = Math.abs(doe.get('serverTimestamp') - messageTimestamp);
-  return delta > DAY;
 }

@@ -3,8 +3,14 @@
 
 import { useCallback, useEffect } from 'react';
 import { get } from 'lodash';
+import { useSelector } from 'react-redux';
 
+import type { StateType } from '../state/reducer';
 import * as KeyboardLayout from '../services/keyboardLayout';
+import { getHasPanelOpen } from '../state/selectors/conversations';
+import { isInFullScreenCall } from '../state/selectors/calling';
+import { isShowingAnyModal } from '../state/selectors/globalModals';
+import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu';
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 
@@ -20,6 +26,26 @@ function isCtrlOrAlt(ev: KeyboardEvent): boolean {
   const controlKey = get(window, 'platform') === 'darwin' && ctrlKey;
   const theAltKey = get(window, 'platform') !== 'darwin' && altKey;
   return controlKey || theAltKey;
+}
+
+function useHasPanels(): boolean {
+  return useSelector(getHasPanelOpen);
+}
+
+function useHasGlobalModal(): boolean {
+  return useSelector<StateType, boolean>(isShowingAnyModal);
+}
+
+function useHasCalling(): boolean {
+  return useSelector<StateType, boolean>(isInFullScreenCall);
+}
+
+function useHasAnyOverlay(): boolean {
+  const panels = useHasPanels();
+  const globalModal = useHasGlobalModal();
+  const calling = useHasCalling();
+
+  return panels || globalModal || calling;
 }
 
 export function useActiveCallShortcuts(
@@ -118,8 +144,14 @@ export function useStartCallShortcuts(
 export function useStartRecordingShortcut(
   startAudioRecording: () => unknown
 ): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
   return useCallback(
     ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
       const { shiftKey } = ev;
       const key = KeyboardLayout.lookup(ev);
 
@@ -133,15 +165,21 @@ export function useStartRecordingShortcut(
 
       return false;
     },
-    [startAudioRecording]
+    [hasOverlay, startAudioRecording]
   );
 }
 
 export function useAttachFileShortcut(
   attachFile: () => unknown
 ): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
   return useCallback(
     ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
       const { shiftKey } = ev;
       const key = KeyboardLayout.lookup(ev);
 
@@ -155,15 +193,21 @@ export function useAttachFileShortcut(
 
       return false;
     },
-    [attachFile]
+    [attachFile, hasOverlay]
   );
 }
 
 export function useToggleReactionPicker(
   handleReact: () => unknown
 ): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
   return useCallback(
     ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
       const { shiftKey } = ev;
       const key = KeyboardLayout.lookup(ev);
 
@@ -177,7 +221,74 @@ export function useToggleReactionPicker(
 
       return false;
     },
-    [handleReact]
+    [handleReact, hasOverlay]
+  );
+}
+
+export function useOpenContextMenu(
+  openContextMenu: ContextMenuTriggerType['handleContextClick'] | undefined
+): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
+  return useCallback(
+    ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
+      const { shiftKey } = ev;
+      const key = KeyboardLayout.lookup(ev);
+
+      const isMacOS = get(window, 'platform') === 'darwin';
+
+      if (
+        (!isMacOS && shiftKey && key === 'F10') ||
+        (isMacOS && isCmdOrCtrl(ev) && key === 'F12')
+      ) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        openContextMenu?.(new MouseEvent('click'));
+        return true;
+      }
+
+      return false;
+    },
+    [hasOverlay, openContextMenu]
+  );
+}
+
+export function useEditLastMessageSent(
+  maybeEditMessage: () => boolean
+): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
+  return useCallback(
+    ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
+      const key = KeyboardLayout.lookup(ev);
+
+      const { shiftKey } = ev;
+      if (shiftKey || isCtrlOrAlt(ev)) {
+        return false;
+      }
+
+      if (key === 'ArrowUp') {
+        const value = maybeEditMessage();
+        if (value) {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+
+        return value;
+      }
+
+      return false;
+    },
+    [hasOverlay, maybeEditMessage]
   );
 }
 
@@ -194,4 +305,24 @@ export function useKeyboardShortcuts(
       document.removeEventListener('keydown', handleKeydown);
     };
   }, [eventHandlers]);
+}
+
+export function useKeyboardShortcutsConditionally(
+  condition: boolean,
+  ...eventHandlers: Array<KeyboardShortcutHandlerType>
+): void {
+  useEffect(() => {
+    if (!condition) {
+      return;
+    }
+
+    function handleKeydown(ev: KeyboardEvent): void {
+      eventHandlers.some(eventHandler => eventHandler(ev));
+    }
+
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [condition, eventHandlers]);
 }

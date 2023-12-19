@@ -4,33 +4,34 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import { assert } from 'chai';
-import { v4 as getGuid } from 'uuid';
 import Long from 'long';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
 import { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import type { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
+import { generateAci } from '../types/ServiceId';
+import type { AciString } from '../types/ServiceId';
 import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
 
 describe('MessageReceiver', () => {
-  const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
+  const someAci = generateAci();
   const deviceId = 1;
 
-  let oldUuid: string | undefined;
+  let oldAci: AciString | undefined;
   let oldDeviceId: number | undefined;
 
   beforeEach(async () => {
-    oldUuid = window.storage.user.getUuid()?.toString();
+    oldAci = window.storage.user.getAci();
     oldDeviceId = window.storage.user.getDeviceId();
-    await window.storage.user.setUuidAndDeviceId(getGuid(), 2);
+    await window.storage.user.setAciAndDeviceId(generateAci(), 2);
     await window.storage.protocol.hydrateCaches();
   });
 
   afterEach(async () => {
-    if (oldUuid !== undefined && oldDeviceId !== undefined) {
-      await window.storage.user.setUuidAndDeviceId(oldUuid, oldDeviceId);
+    if (oldAci !== undefined && oldDeviceId !== undefined) {
+      await window.storage.user.setAciAndDeviceId(oldAci, oldDeviceId);
     }
     await window.storage.protocol.removeAllUnprocessed();
   });
@@ -45,7 +46,7 @@ describe('MessageReceiver', () => {
 
       const body = Proto.Envelope.encode({
         type: Proto.Envelope.Type.CIPHERTEXT,
-        sourceUuid: uuid,
+        sourceServiceId: someAci,
         sourceDevice: deviceId,
         timestamp: Long.fromNumber(Date.now()),
         content: Crypto.getRandomBytes(200),
@@ -68,7 +69,7 @@ describe('MessageReceiver', () => {
         messageReceiver.addEventListener(
           'decryption-error',
           (error: DecryptionErrorEvent) => {
-            assert.strictEqual(error.decryptionError.senderUuid, uuid);
+            assert.strictEqual(error.decryptionError.senderAci, someAci);
             assert.strictEqual(error.decryptionError.senderDevice, deviceId);
             resolve();
           }

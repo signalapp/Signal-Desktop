@@ -35,13 +35,13 @@
       min-height: 300px;
       padding: 16px;
       // Need more padding on the right to make room for floating emoji button
-      padding-right: 36px;
+      padding-inline-end: 36px;
     }
   }
 
   &__emoji {
     position: absolute;
-    right: 8px;
+    inset-inline-end: 8px;
     top: 8px;
 
     button::after {
@@ -54,8 +54,9 @@
     color: $color-gray-45;
     position: absolute;
     bottom: 0;
-    left: 0;
-    padding: 12px 12px 12px 24px;
+    inset-inline-start: 0;
+    padding-block: 12px;
+    padding-inline: 24px 12px;
   }
 
   // remove background, should be seamless with modal

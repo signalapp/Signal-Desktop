@@ -6,8 +6,13 @@ import type {
   AttachmentType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
-import { getMaximumAttachmentSizeInKb, KIBIBYTE } from './attachments';
+import {
+  getMaximumOutgoingAttachmentSizeInKb,
+  getRenderDetailsForLimit,
+  KIBIBYTE,
+} from '../types/AttachmentSize';
 import * as Errors from '../types/errors';
+import { getValue as getRemoteConfigValue } from '../RemoteConfig';
 import { fileToBytes } from './fileToBytes';
 import { handleImageAttachment } from './handleImageAttachment';
 import { handleVideoAttachment } from './handleVideoAttachment';
@@ -17,7 +22,8 @@ import { showToast } from './showToast';
 import { ToastFileSize } from '../components/ToastFileSize';
 
 export async function processAttachment(
-  file: File
+  file: File,
+  options?: { generateScreenshot: boolean }
 ): Promise<InMemoryAttachmentDraftType | void> {
   const fileType = stringToMIMEType(file.type);
 
@@ -26,7 +32,7 @@ export async function processAttachment(
     if (isImageTypeSupported(fileType) || isHeic(fileType, file.name)) {
       attachment = await handleImageAttachment(file);
     } else if (isVideoTypeSupported(fileType)) {
-      attachment = await handleVideoAttachment(file);
+      attachment = await handleVideoAttachment(file, options);
     } else {
       const data = await fileToBytes(file);
       attachment = {
@@ -68,26 +74,8 @@ export async function processAttachment(
   }
 }
 
-export function getRenderDetailsForLimit(limitKb: number): {
-  limit: string;
-  units: string;
-} {
-  const units = ['kB', 'MB', 'GB'];
-  let u = -1;
-  let limit = limitKb * KIBIBYTE;
-  do {
-    limit /= KIBIBYTE;
-    u += 1;
-  } while (limit >= KIBIBYTE && u < units.length - 1);
-
-  return {
-    limit: limit.toFixed(0),
-    units: units[u],
-  };
-}
-
 function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
-  const limitKb = getMaximumAttachmentSizeInKb();
+  const limitKb = getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue);
   // this needs to be cast properly
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

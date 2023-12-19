@@ -1,11 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
-
+import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { number } from '@storybook/addon-knobs';
-
+import { noop } from 'lodash';
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './Lightbox';
 import { Lightbox } from './Lightbox';
@@ -25,7 +24,9 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Lightbox',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 type OverridePropsMediaItemType = Partial<MediaItemType> & { caption?: string };
 
@@ -54,15 +55,28 @@ function createMediaItem(
   };
 }
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  closeLightbox: action('closeLightbox'),
-  i18n,
-  isViewOnce: Boolean(overrideProps.isViewOnce),
-  media: overrideProps.media || [],
-  saveAttachment: action('saveAttachment'),
-  selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
-  toggleForwardMessageModal: action('toggleForwardMessageModal'),
-});
+const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const media = overrideProps.media || [];
+  return {
+    closeLightbox: action('closeLightbox'),
+    i18n,
+    isViewOnce: Boolean(overrideProps.isViewOnce),
+    media,
+    saveAttachment: action('saveAttachment'),
+    selectedIndex,
+    toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
+    onMediaPlaybackStart: noop,
+    onPrevAttachment: () => {
+      setSelectedIndex(Math.max(0, selectedIndex - 1));
+    },
+    onNextAttachment: () => {
+      setSelectedIndex(Math.min(media.length - 1, selectedIndex + 1));
+    },
+    onSelectAttachment: setSelectedIndex,
+  };
+};
 
 export function Multimedia(): JSX.Element {
   const props = createProps({
@@ -180,10 +194,6 @@ export function ImageWithCaptionNormalImage(): JSX.Element {
   );
 }
 
-ImageWithCaptionNormalImage.story = {
-  name: 'Image with Caption (normal image)',
-};
-
 export function ImageWithCaptionAllWhiteImage(): JSX.Element {
   return (
     <Lightbox
@@ -199,10 +209,6 @@ export function ImageWithCaptionAllWhiteImage(): JSX.Element {
     />
   );
 }
-
-ImageWithCaptionAllWhiteImage.story = {
-  name: 'Image with Caption (all-white image)',
-};
 
 export function SingleVideo(): JSX.Element {
   return (
@@ -235,10 +241,6 @@ export function SingleVideoWCaption(): JSX.Element {
     />
   );
 }
-
-SingleVideoWCaption.story = {
-  name: 'Single Video w/caption',
-};
 
 export function UnsupportedImageType(): JSX.Element {
   return (
@@ -301,10 +303,6 @@ export function CustomChildren(): JSX.Element {
     </Lightbox>
   );
 }
-
-CustomChildren.story = {
-  name: 'Custom children',
-};
 
 export function ConversationHeader(): JSX.Element {
   return (

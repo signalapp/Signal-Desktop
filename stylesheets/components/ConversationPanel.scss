@@ -1,0 +1,120 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ConversationPanel {
+  height: 100%;
+  inset-inline-start: 0;
+  overflow-y: overlay;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: $z-index-above-base;
+
+  @include light-theme() {
+    background-color: $color-white;
+  }
+
+  @include dark-theme() {
+    background-color: $color-gray-95;
+  }
+
+  &__body {
+    margin-top: calc(#{$header-height} + var(--title-bar-drag-area-height));
+    padding-inline: 24px;
+  }
+
+  &__header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: calc(#{$header-height} + var(--title-bar-drag-area-height));
+    padding-top: var(--title-bar-drag-area-height);
+    position: fixed;
+    width: 100%;
+    z-index: $z-index-base;
+
+    @include light-theme {
+      color: $color-gray-90;
+      background-color: $color-white;
+    }
+    @include dark-theme {
+      color: $color-gray-02;
+      background-color: $color-gray-95;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+
+      &__title {
+        @include font-body-1-bold;
+        display: flex;
+        align-items: center;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        user-select: none;
+
+        &__in-contacts-icon {
+          margin-inline-start: 4px;
+        }
+      }
+    }
+
+    &__back-button {
+      border: none;
+      display: inline-block;
+      height: 20px;
+      margin-inline: 24px 6px;
+      min-width: 20px;
+      opacity: 0;
+      opacity: 1;
+      vertical-align: text-bottom;
+      -webkit-app-region: no-drag;
+      width: 20px;
+
+      &:disabled {
+        cursor: default;
+      }
+
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-left.svg',
+          $color-gray-90
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-left.svg',
+          $color-gray-02
+        );
+      }
+
+      @include keyboard-mode {
+        &:focus {
+          background-color: $color-ultramarine;
+        }
+      }
+      @include dark-keyboard-mode {
+        &:focus {
+          background-color: $color-ultramarine-light;
+        }
+      }
+    }
+  }
+
+  &__overlay {
+    height: 100%;
+    inset-inline-start: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: $z-index-above-base;
+  }
+
+  &__hidden {
+    display: none;
+  }
+}

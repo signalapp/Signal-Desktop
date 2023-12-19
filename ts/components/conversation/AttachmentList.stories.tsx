@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
-import type { AttachmentDraftType } from '../../types/Attachment';
+import type { Meta } from '@storybook/react';
+import type {
+  AttachmentDraftType,
+  AttachmentType,
+} from '../../types/Attachment';
 import type { Props } from './AttachmentList';
 import { AttachmentList } from './AttachmentList';
 import {
@@ -17,14 +19,13 @@ import {
 } from '../../types/MIME';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-
 import { fakeDraftAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/AttachmentList',
-};
+} satisfies Meta<Props<AttachmentDraftType | AttachmentType>>;
 
 const createProps = (
   overrideProps: Partial<Props<AttachmentDraftType>> = {}
@@ -109,10 +110,6 @@ export function MultipleWithNonVisualTypes(): JSX.Element {
 
   return <AttachmentList {...props} />;
 }
-
-MultipleWithNonVisualTypes.story = {
-  name: 'Multiple with Non-Visual Types',
-};
 
 export function EmptyList(): JSX.Element {
   const props = createProps();

@@ -34,9 +34,6 @@ export type PropsType = Readonly<{
   executeMenuRole: ExecuteMenuRoleType;
   titleBarDoubleClick?: () => void;
   children: ReactNode;
-
-  // Needs to be overridden in sticker-creator
-  iconSrc?: string;
 }> &
   (MenuPropsType | { hasMenu?: false });
 
@@ -107,9 +104,12 @@ function convertMenu(
     // `app/main.ts`.
     accelerator = accelerator?.replace(
       /CommandOrControl|CmdOrCtrl/g,
-      i18n('Keyboard--Key--ctrl')
+      i18n('icu:Keyboard--Key--ctrl')
     );
-    accelerator = accelerator?.replace(/Shift/g, i18n('Keyboard--Key--shift'));
+    accelerator = accelerator?.replace(
+      /Shift/g,
+      i18n('icu:Keyboard--Key--shift')
+    );
 
     return {
       type,
@@ -132,7 +132,6 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
     titleBarDoubleClick,
     children,
     hasMenu,
-    iconSrc = 'images/icon_32.png',
   } = props;
 
   const isWindowActive = useIsWindowActive();
@@ -226,6 +225,7 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
 
         // actions
         forceUpdate: () => executeMenuAction('forceUpdate'),
+        openArtCreator: () => executeMenuAction('openArtCreator'),
         openContactUs: () => executeMenuAction('openContactUs'),
         openForums: () => executeMenuAction('openForums'),
         openJoinTheBeta: () => executeMenuAction('openJoinTheBeta'),
@@ -237,7 +237,6 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
         showDebugLog: () => executeMenuAction('showDebugLog'),
         showKeyboardShortcuts: () => executeMenuAction('showKeyboardShortcuts'),
         showSettings: () => executeMenuAction('showSettings'),
-        showStickerCreator: () => executeMenuAction('showStickerCreator'),
         showWindow: () => executeMenuAction('showWindow'),
       },
       i18n
@@ -260,7 +259,7 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
       <TitleBar
         className="TitleBarContainer__title"
         platform="win32"
-        iconSrc={iconSrc}
+        iconSrc="images/titlebar_icon.svg"
         theme={titleBarTheme}
         maximized={isMaximized}
         menu={maybeMenu}

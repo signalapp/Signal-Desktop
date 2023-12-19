@@ -33,7 +33,8 @@
 
     display: flex;
     align-items: center;
-    padding: 7px 16px;
+    padding-block: 7px;
+    padding-inline: 16px;
     width: 100%;
 
     &:last-child {
@@ -63,83 +64,148 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
+    margin-inline-end: 10px;
     width: 20px;
   }
 
   &__send-message__bubble-icon {
-    height: 16px;
-    width: 18px;
+    height: 20px;
+    width: 20px;
 
     @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/message-outline-24.svg',
-        $color-gray-75
-      );
+      @include color-svg('../images/icons/v3/chat/chat.svg', $color-gray-75);
     }
 
     @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/message-outline-24.svg',
-        $color-gray-15
-      );
+      @include color-svg('../images/icons/v3/chat/chat.svg', $color-gray-15);
     }
   }
 
   &__safety-number__bubble-icon {
-    height: 18px;
-    width: 17px;
+    height: 20px;
+    width: 20px;
 
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/safety-number-outline-24.svg',
+        '../images/icons/v3/safety_number/safety_number.svg',
         $color-gray-75
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/safety-number-outline-24.svg',
+        '../images/icons/v3/safety_number/safety_number.svg',
         $color-gray-15
       );
     }
   }
 
-  &__make-admin__bubble-icon,
+  &__make-admin__bubble-icon {
+    height: 20px;
+    width: 20px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v3/key/key.svg', $color-gray-75);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v3/key/key.svg', $color-gray-15);
+    }
+  }
+
   &__add-to-another-group__bubble-icon {
-    height: 16px;
-    width: 18px;
+    height: 20px;
+    width: 20px;
 
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/group-outline-24.svg',
+        '../images/icons/v3/plus/plus-circle.svg',
         $color-gray-75
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/group-outline-24.svg',
+        '../images/icons/v3/plus/plus-circle.svg',
         $color-gray-15
       );
     }
   }
 
   &__remove-from-group__bubble-icon {
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
 
     @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/leave-group-outline-16.svg',
-        $color-gray-75
-      );
+      @include color-svg('../images/icons/v3/leave/leave.svg', $color-gray-75);
     }
 
     @include dark-theme {
+      @include color-svg('../images/icons/v3/leave/leave.svg', $color-gray-15);
+    }
+  }
+
+  &__official-badge,
+  &__official-badge__large {
+    display: inline-block;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+    }
+
+    // white background behind the icon
+    &::before {
+      top: 2px;
+      inset-inline-start: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      background: $color-white;
+    }
+  }
+
+  &__official-badge {
+    height: 14px;
+    margin-inline-start: 4px;
+    width: 14px;
+
+    &::after {
+      top: 0;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 100%;
       @include color-svg(
-        '../images/icons/v2/leave-group-outline-16.svg',
-        $color-gray-15
+        '../images/icons/v3/official/official-compact.svg',
+        $color-ultramarine
+      );
+    }
+  }
+
+  &__official-badge__large {
+    height: 24px;
+    margin-inline-start: 9px;
+    width: 24px;
+
+    &::before {
+      top: 4px;
+      inset-inline-start: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+    }
+
+    &::after {
+      top: 0;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 100%;
+      @include color-svg(
+        '../images/icons/v3/official/official.svg',
+        $color-ultramarine
       );
     }
   }

@@ -7,6 +7,8 @@ import { fabric } from 'fabric';
 import * as log from '../logging/log';
 
 import type { ImageStateType } from './ImageStateType';
+import { MediaEditorFabricAnalogTimeSticker } from './MediaEditorFabricAnalogTimeSticker';
+import { MediaEditorFabricDigitalTimeSticker } from './MediaEditorFabricDigitalTimeSticker';
 import { MediaEditorFabricIText } from './MediaEditorFabricIText';
 import { MediaEditorFabricPath } from './MediaEditorFabricPath';
 import { MediaEditorFabricSticker } from './MediaEditorFabricSticker';
@@ -152,6 +154,8 @@ export function useFabricHistory({
     //   doesn't make it easy to deserialize into a custom class without polluting the
     //   global namespace. See <http://fabricjs.com/fabric-intro-part-3#subclassing>.
     Object.assign(fabric, {
+      MediaEditorFabricAnalogTimeSticker,
+      MediaEditorFabricDigitalTimeSticker,
       MediaEditorFabricIText,
       MediaEditorFabricPath,
       MediaEditorFabricSticker,
@@ -216,7 +220,7 @@ export function useFabricHistory({
 }
 
 function getCanvasState(fabricCanvas: fabric.Canvas): string {
-  return JSON.stringify(fabricCanvas.toDatalessJSON());
+  return JSON.stringify(fabricCanvas.toDatalessJSON(['data']));
 }
 
 function getIsTimeTraveling({

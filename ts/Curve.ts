@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as client from '@signalapp/libsignal-client';
+import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { constantTimeEqual } from './Crypto';
@@ -57,6 +58,40 @@ export function generatePreKey(keyId: number): CompatPreKeyType {
     keyId,
     keyPair,
   };
+}
+
+export function generateKyberPreKey(
+  identityKeyPair: KeyPairType,
+  keyId: number
+): KyberPreKeyRecord {
+  if (!isNonNegativeInteger(keyId)) {
+    throw new TypeError(
+      `generateKyberPreKey: Invalid argument for keyId: ${keyId}`
+    );
+  }
+
+  if (
+    !(identityKeyPair.privKey instanceof Uint8Array) ||
+    identityKeyPair.privKey.byteLength !== 32 ||
+    !(identityKeyPair.pubKey instanceof Uint8Array) ||
+    identityKeyPair.pubKey.byteLength !== 33
+  ) {
+    throw new TypeError(
+      'generateKyberPreKey: Invalid argument for identityKeyPair'
+    );
+  }
+
+  const keyPair = client.KEMKeyPair.generate();
+  const signature = calculateSignature(
+    identityKeyPair.privKey,
+    keyPair.getPublicKey().serialize()
+  );
+  return client.KyberPreKeyRecord.new(
+    keyId,
+    Date.now(),
+    keyPair,
+    Buffer.from(signature)
+  );
 }
 
 export function generateKeyPair(): KeyPairType {

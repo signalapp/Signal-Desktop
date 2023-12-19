@@ -1,13 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { mapValues } from 'lodash';
-
 export function maybeParseUrl(value: string): undefined | URL {
   if (typeof value === 'string') {
     try {
       return new URL(value);
-    } catch (err) {
+    } catch {
       /* Errors are ignored. */
     }
   }
@@ -20,18 +18,18 @@ export function setUrlSearchParams(
   searchParams: Readonly<Record<string, unknown>>
 ): URL {
   const result = cloneUrl(url);
-  result.search = new URLSearchParams(
-    mapValues(searchParams, stringifySearchParamValue)
-  ).toString();
+  result.search = '';
+  for (const [key, value] of Object.entries(searchParams)) {
+    if (value == null) {
+      continue;
+    }
+    result.searchParams.append(key, String(value));
+  }
   return result;
 }
 
 function cloneUrl(url: Readonly<URL>): URL {
   return new URL(url.href);
-}
-
-function stringifySearchParamValue(value: unknown): string {
-  return value == null ? '' : String(value);
 }
 
 export function urlPathFromComponents(

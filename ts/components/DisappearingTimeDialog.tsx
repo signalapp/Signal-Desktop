@@ -21,9 +21,11 @@ export type PropsType = Readonly<{
   onClose: () => void;
 }>;
 
-const UNITS = ['seconds', 'minutes', 'hours', 'days', 'weeks'];
+const UNITS = ['seconds', 'minutes', 'hours', 'days', 'weeks'] as const;
 
-const UNIT_TO_SEC = new Map<string, number>([
+export type Unit = typeof UNITS[number];
+
+const UNIT_TO_SEC = new Map<Unit, number>([
   ['seconds', 1],
   ['minutes', 60],
   ['hours', 60 * 60],
@@ -31,7 +33,7 @@ const UNIT_TO_SEC = new Map<string, number>([
   ['weeks', 7 * 24 * 60 * 60],
 ]);
 
-const RANGES = new Map<string, [number, number]>([
+const RANGES = new Map<Unit, [number, number]>([
   ['seconds', [1, 60]],
   ['minutes', [1, 60]],
   ['hours', [1, 24]],
@@ -48,7 +50,7 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
     onClose,
   } = props;
 
-  let initialUnit = 'seconds';
+  let initialUnit: Unit = 'seconds';
   let initialUnitValue = 1;
   for (const unit of UNITS) {
     const sec = UNIT_TO_SEC.get(unit) || 1;
@@ -62,7 +64,7 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
   }
 
   const [unitValue, setUnitValue] = useState(initialUnitValue);
-  const [unit, setUnit] = useState(initialUnit);
+  const [unit, setUnit] = useState<Unit>(initialUnit);
 
   const range = RANGES.get(unit) || [1, 1];
 
@@ -78,11 +80,11 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
       i18n={i18n}
       theme={theme}
       onClose={onClose}
-      title={i18n('DisappearingTimeDialog__title')}
+      title={i18n('icu:DisappearingTimeDialog__title')}
       hasXButton
       actions={[
         {
-          text: i18n('DisappearingTimeDialog__set'),
+          text: i18n('icu:DisappearingTimeDialog__set'),
           style: 'affirmative',
           action() {
             onSubmit(
@@ -94,23 +96,23 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
         },
       ]}
     >
-      <p>{i18n('DisappearingTimeDialog__body')}</p>
+      <p>{i18n('icu:DisappearingTimeDialog__body')}</p>
       <section className={`${CSS_MODULE}__time-boxes`}>
         <Select
-          ariaLabel={i18n('DisappearingTimeDialog__label--value')}
+          ariaLabel={i18n('icu:DisappearingTimeDialog__label--value')}
           moduleClassName={`${CSS_MODULE}__time-boxes__value`}
           value={unitValue}
           onChange={newValue => setUnitValue(parseInt(newValue, 10))}
           options={values.map(value => ({ value, text: value.toString() }))}
         />
         <Select
-          ariaLabel={i18n('DisappearingTimeDialog__label--units')}
+          ariaLabel={i18n('icu:DisappearingTimeDialog__label--units')}
           moduleClassName={`${CSS_MODULE}__time-boxes__units`}
           value={unit}
           onChange={newUnit => {
-            setUnit(newUnit);
+            setUnit(newUnit as Unit);
 
-            const ranges = RANGES.get(newUnit);
+            const ranges = RANGES.get(newUnit as Unit);
             if (!ranges) {
               return;
             }
@@ -121,7 +123,13 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
           options={UNITS.map(unitName => {
             return {
               value: unitName,
-              text: i18n(`DisappearingTimeDialog__${unitName}`),
+              text: {
+                seconds: i18n('icu:DisappearingTimeDialog__seconds'),
+                minutes: i18n('icu:DisappearingTimeDialog__minutes'),
+                hours: i18n('icu:DisappearingTimeDialog__hours'),
+                days: i18n('icu:DisappearingTimeDialog__days'),
+                weeks: i18n('icu:DisappearingTimeDialog__weeks'),
+              }[unitName],
             };
           })}
         />

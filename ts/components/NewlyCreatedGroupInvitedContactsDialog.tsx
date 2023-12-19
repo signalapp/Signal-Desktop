@@ -12,7 +12,7 @@ import { ContactName } from './conversation/ContactName';
 import { GroupDialog } from './GroupDialog';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
-type PropsType = {
+export type PropsType = {
   contacts: Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
@@ -27,39 +27,38 @@ export function NewlyCreatedGroupInvitedContactsDialog({
   onClose,
   theme,
 }: PropsType): JSX.Element {
-  let title: string;
   let body: ReactNode;
   if (contacts.length === 1) {
     const contact = contacts[0];
 
-    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--one');
     body = (
       <>
         <GroupDialog.Paragraph>
           <Intl
             i18n={i18n}
-            id="NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
-            components={[<ContactName title={contact.title} />]}
+            id="icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
+            components={{ name: <ContactName title={contact.title} /> }}
           />
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>
-          {i18n('NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph')}
+          {i18n(
+            'icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph'
+          )}
         </GroupDialog.Paragraph>
       </>
     );
   } else {
-    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--many', [
-      contacts.length.toString(),
-    ]);
     body = (
       <>
         <GroupDialog.Paragraph>
           {i18n(
-            'NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many'
+            'icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many'
           )}
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>
-          {i18n('NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph')}
+          {i18n(
+            'icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph'
+          )}
         </GroupDialog.Paragraph>
         <GroupDialog.Contacts
           contacts={contacts}
@@ -75,9 +74,9 @@ export function NewlyCreatedGroupInvitedContactsDialog({
     <GroupDialog
       i18n={i18n}
       onClickPrimaryButton={onClose}
-      primaryButtonText={i18n('Confirmation--confirm')}
+      primaryButtonText={i18n('icu:Confirmation--confirm')}
       secondaryButtonText={i18n(
-        'NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
+        'icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
       )}
       onClickSecondaryButton={() => {
         openLinkInWebBrowser(
@@ -85,7 +84,9 @@ export function NewlyCreatedGroupInvitedContactsDialog({
         );
       }}
       onClose={onClose}
-      title={title}
+      title={i18n('icu:NewlyCreatedGroupInvitedContactsDialog--title', {
+        count: contacts.length,
+      })}
     >
       {body}
     </GroupDialog>

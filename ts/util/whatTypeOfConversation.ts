@@ -24,10 +24,12 @@ export function isDirectConversation(
 }
 
 export function isMe(conversationAttrs: ConversationAttributesType): boolean {
-  const { e164, uuid } = conversationAttrs;
+  const { e164, serviceId } = conversationAttrs;
   const ourNumber = window.textsecure.storage.user.getNumber();
-  const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-  return Boolean((e164 && e164 === ourNumber) || (uuid && uuid === ourUuid));
+  const ourAci = window.textsecure.storage.user.getAci();
+  return Boolean(
+    (e164 && e164 === ourNumber) || (serviceId && serviceId === ourAci)
+  );
 }
 
 export function isGroup(

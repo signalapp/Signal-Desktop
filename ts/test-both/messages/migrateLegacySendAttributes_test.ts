@@ -21,7 +21,7 @@ describe('migrateLegacySendAttributes', () => {
   ) => {
     const lookup = new Map<string, ConversationType>();
     conversations.forEach(conversation => {
-      [conversation.id, conversation.uuid, conversation.e164].forEach(
+      [conversation.id, conversation.serviceId, conversation.e164].forEach(
         property => {
           if (property) {
             lookup.set(property, conversation);
@@ -92,18 +92,18 @@ describe('migrateLegacySendAttributes', () => {
     const message = {
       ...defaultMessage,
       recipients: [
-        failedConversationByUuid.uuid,
-        failedConversationByE164.uuid,
-        pendingConversation.uuid,
-        sentConversation.uuid,
-        deliveredConversation.uuid,
-        readConversation.uuid,
+        failedConversationByUuid.serviceId,
+        failedConversationByE164.serviceId,
+        pendingConversation.serviceId,
+        sentConversation.serviceId,
+        deliveredConversation.serviceId,
+        readConversation.serviceId,
         ignoredUuid(),
-        ourConversation.uuid,
+        ourConversation.serviceId,
       ],
       errors: [
         Object.assign(new Error('looked up by UUID'), {
-          identifier: failedConversationByUuid.uuid,
+          identifier: failedConversationByUuid.serviceId,
         }),
         Object.assign(new Error('looked up by E164'), {
           number: failedConversationByE164.e164,
@@ -115,16 +115,16 @@ describe('migrateLegacySendAttributes', () => {
       ],
       sent_to: [
         sentConversation.e164,
-        conversationNotInRecipientsList.uuid,
+        conversationNotInRecipientsList.serviceId,
         ignoredUuid(),
-        ourConversation.uuid,
+        ourConversation.serviceId,
       ],
       delivered_to: [
-        deliveredConversation.uuid,
+        deliveredConversation.serviceId,
         ignoredUuid(),
-        ourConversation.uuid,
+        ourConversation.serviceId,
       ],
-      read_by: [readConversation.uuid, ignoredUuid()],
+      read_by: [readConversation.serviceId, ignoredUuid()],
     };
     const getConversation = createGetConversation(
       failedConversationByUuid,
@@ -240,8 +240,8 @@ describe('migrateLegacySendAttributes', () => {
       ...defaultMessage,
       conversationId: ourConversation.id,
       recipients: [],
-      destination: ourConversation.uuid,
-      sent_to: [ourConversation.uuid],
+      destination: ourConversation.serviceId,
+      sent_to: [ourConversation.serviceId],
       sent: true,
       synced: true,
       unidentifiedDeliveries: [],

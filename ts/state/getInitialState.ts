@@ -5,15 +5,18 @@ import { getEmptyState as accounts } from './ducks/accounts';
 import { getEmptyState as app } from './ducks/app';
 import { getEmptyState as audioPlayer } from './ducks/audioPlayer';
 import { getEmptyState as audioRecorder } from './ducks/audioRecorder';
+import { getEmptyState as callHistory } from './ducks/callHistory';
 import { getEmptyState as calling } from './ducks/calling';
 import { getEmptyState as composer } from './ducks/composer';
 import { getEmptyState as conversations } from './ducks/conversations';
 import { getEmptyState as crashReports } from './ducks/crashReports';
 import { getEmptyState as expiration } from './ducks/expiration';
 import { getEmptyState as globalModals } from './ducks/globalModals';
+import { getEmptyState as inbox } from './ducks/inbox';
 import { getEmptyState as lightbox } from './ducks/lightbox';
 import { getEmptyState as linkPreviews } from './ducks/linkPreviews';
 import { getEmptyState as mediaGallery } from './ducks/mediaGallery';
+import { getEmptyState as nav } from './ducks/nav';
 import { getEmptyState as network } from './ducks/network';
 import { getEmptyState as preferredReactions } from './ducks/preferredReactions';
 import { getEmptyState as safetyNumber } from './ducks/safetyNumber';
@@ -31,20 +34,24 @@ import type { MainWindowStatsType } from '../windows/context';
 import type { MenuOptionsType } from '../types/menu';
 import type { StoryDataType } from './ducks/stories';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
-import * as OS from '../OS';
-import { UUIDKind } from '../types/UUID';
+import OS from '../util/os/osMain';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 import { getInitialState as stickers } from '../types/Stickers';
 import { getThemeType } from '../util/getThemeType';
+import { getInteractionMode } from '../services/InteractionMode';
+import { makeLookup } from '../util/makeLookup';
+import type { CallHistoryDetails } from '../types/CallDisposition';
 
 export function getInitialState({
   badges,
+  callsHistory,
   stories,
   storyDistributionLists,
   mainWindowStats,
   menuOptions,
 }: {
   badges: BadgesStateType;
+  callsHistory: ReadonlyArray<CallHistoryDetails>;
   stories: Array<StoryDataType>;
   storyDistributionLists: Array<StoryDistributionListDataType>;
   mainWindowStats: MainWindowStatsType;
@@ -57,12 +64,8 @@ export function getInitialState({
     conversation.format()
   );
   const ourNumber = window.textsecure.storage.user.getNumber();
-  const ourACI = window.textsecure.storage.user
-    .getUuid(UUIDKind.ACI)
-    ?.toString();
-  const ourPNI = window.textsecure.storage.user
-    .getUuid(UUIDKind.PNI)
-    ?.toString();
+  const ourAci = window.textsecure.storage.user.getAci();
+  const ourPni = window.textsecure.storage.user.getPni();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
@@ -85,39 +88,33 @@ export function getInitialState({
     audioPlayer: audioPlayer(),
     audioRecorder: audioRecorder(),
     badges,
+    callHistory: {
+      ...callHistory(),
+      callHistoryByCallId: makeLookup(callsHistory, 'callId'),
+    },
     calling: calling(),
     composer: composer(),
     conversations: {
       ...conversations(),
-      conversationLookup: window.Signal.Util.makeLookup(
-        formattedConversations,
-        'id'
-      ),
-      conversationsByE164: window.Signal.Util.makeLookup(
-        formattedConversations,
-        'e164'
-      ),
-      conversationsByUuid: {
-        ...window.Signal.Util.makeLookup(formattedConversations, 'uuid'),
-        ...window.Signal.Util.makeLookup(formattedConversations, 'pni'),
+      conversationLookup: makeLookup(formattedConversations, 'id'),
+      conversationsByE164: makeLookup(formattedConversations, 'e164'),
+      conversationsByServiceId: {
+        ...makeLookup(formattedConversations, 'serviceId'),
+        ...makeLookup(formattedConversations, 'pni'),
       },
-      conversationsByGroupId: window.Signal.Util.makeLookup(
-        formattedConversations,
-        'groupId'
-      ),
-      conversationsByUsername: window.Signal.Util.makeLookup(
-        formattedConversations,
-        'username'
-      ),
+      conversationsByGroupId: makeLookup(formattedConversations, 'groupId'),
+      conversationsByUsername: makeLookup(formattedConversations, 'username'),
     },
     crashReports: crashReports(),
     emojis: emojis(),
     expiration: expiration(),
     globalModals: globalModals(),
+    inbox: inbox(),
     items,
     lightbox: lightbox(),
     linkPreviews: linkPreviews(),
     mediaGallery: mediaGallery(),
+    nav: nav(),
     network: network(),
     preferredReactions: preferredReactions(),
     safetyNumber: safetyNumber(),
@@ -137,17 +134,17 @@ export function getInitialState({
       ...user(),
       attachmentsPath: window.BasePaths.attachments,
       i18n: window.i18n,
-      interactionMode: window.getInteractionMode(),
+      interactionMode: getInteractionMode(),
       isMainWindowFullScreen: mainWindowStats.isFullScreen,
       isMainWindowMaximized: mainWindowStats.isMaximized,
-      localeMessages: window.SignalContext.localeMessages,
+      localeMessages: window.i18n.getLocaleMessages(),
       menuOptions,
       osName,
-      ourACI,
+      ourAci,
       ourConversationId,
       ourDeviceId,
       ourNumber,
-      ourPNI,
+      ourPni,
       platform: window.platform,
       regionCode: window.storage.get('regionCode'),
       stickersPath: window.BasePaths.stickers,

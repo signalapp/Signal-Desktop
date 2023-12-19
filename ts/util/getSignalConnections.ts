@@ -5,8 +5,10 @@ import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import type { ConversationType } from '../state/ducks/conversations';
 import { isInSystemContacts } from './isInSystemContacts';
+import { isSignalConversation } from './isSignalConversation';
 import { isDirectConversation } from './whatTypeOfConversation';
 import { isConversationEverUnregistered } from './isConversationUnregistered';
+import { isBlocked } from './isBlocked';
 
 export function isSignalConnection(
   conversation: ConversationType | ConversationAttributesType
@@ -14,7 +16,11 @@ export function isSignalConnection(
   return (
     isDirectConversation(conversation) &&
     (conversation.profileSharing || isInSystemContacts(conversation)) &&
-    conversation.uuid !== undefined &&
+    conversation.serviceId !== undefined &&
+    ('isBlocked' in conversation
+      ? !conversation.isBlocked
+      : !isBlocked(conversation)) &&
+    !isSignalConversation(conversation) &&
     !isConversationEverUnregistered(conversation)
   );
 }

@@ -12,6 +12,16 @@ export enum UsernameEditState {
 }
 
 //
+// UsernameLinkModalBody
+//
+
+export enum UsernameLinkState {
+  Ready = 'Ready',
+  Updating = 'Updating',
+  Error = 'Error',
+}
+
+//
 // EditUsernameModalBody
 //
 

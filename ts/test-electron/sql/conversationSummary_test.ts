@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { DurationInSeconds } from '../../util/durations';
 
 import type { MessageAttributesType } from '../../model-types.d';
@@ -17,10 +17,6 @@ const {
   getConversationMessageStats,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/conversationSummary', () => {
   beforeEach(async () => {
     await removeAll();
@@ -31,10 +27,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -43,7 +39,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -52,10 +48,10 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 2,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
-        conversationId: getUuid(),
+        conversationId: generateUuid(),
         sent_at: now + 3,
         received_at: now + 3,
         timestamp: now + 3,
@@ -63,14 +59,13 @@ describe('sql/conversationSummary', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 
@@ -83,10 +78,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -95,29 +90,29 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
         sent_at: now + 2,
         received_at: now + 2,
         timestamp: now + 2,
-        storyId: getUuid(),
+        storyId: generateUuid(),
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'incoming',
         conversationId,
         sent_at: now + 3,
         received_at: now + 3,
         timestamp: now + 3,
-        storyId: getUuid(),
+        storyId: generateUuid(),
       };
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -125,7 +120,6 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         includeStoryReplies: false,
-        ourUuid,
       });
 
       assert.strictEqual(messages.activity?.body, message1.body, 'activity');
@@ -137,10 +131,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         // @ts-expect-error We're forcing a null type here for testing
         type: null,
@@ -150,7 +144,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'change-number-notification',
         conversationId,
@@ -159,7 +153,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 2,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'group-v1-migration',
         conversationId,
@@ -168,7 +162,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 3,
       };
       const message4: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 5',
         type: 'profile-change',
         conversationId,
@@ -177,7 +171,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 5,
       };
       const message5: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 6',
         type: 'story',
         conversationId,
@@ -186,7 +180,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 6,
       };
       const message6: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 7',
         type: 'universal-timer-notification',
         conversationId,
@@ -195,7 +189,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 7,
       };
       const message7: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 8',
         type: 'verified-change',
         conversationId,
@@ -208,7 +202,7 @@ describe('sql/conversationSummary', () => {
         [message1, message2, message3, message4, message5, message6, message7],
         {
           forceSave: true,
-          ourUuid,
+          ourAci,
         }
       );
 
@@ -216,7 +210,6 @@ describe('sql/conversationSummary', () => {
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 
@@ -227,10 +220,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         // @ts-expect-error We're forcing a null type here for testing
         type: null,
@@ -240,7 +233,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'change-number-notification',
         conversationId,
@@ -249,7 +242,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 2,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'group-v1-migration',
         conversationId,
@@ -258,7 +251,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 3,
       };
       const message4: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 4',
         type: 'keychange',
         conversationId,
@@ -267,7 +260,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 4,
       };
       const message5: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 6',
         type: 'profile-change',
         conversationId,
@@ -276,7 +269,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 6,
       };
       const message6: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 7',
         type: 'story',
         conversationId,
@@ -285,7 +278,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 7,
       };
       const message7: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 8',
         type: 'universal-timer-notification',
         conversationId,
@@ -294,7 +287,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 8,
       };
       const message8: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 9',
         type: 'verified-change',
         conversationId,
@@ -316,7 +309,7 @@ describe('sql/conversationSummary', () => {
         ],
         {
           forceSave: true,
-          ourUuid,
+          ourAci,
         }
       );
 
@@ -324,7 +317,6 @@ describe('sql/conversationSummary', () => {
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 
@@ -335,10 +327,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -351,7 +343,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -366,14 +358,13 @@ describe('sql/conversationSummary', () => {
 
       await saveMessages([message1, message2], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 2);
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 
@@ -384,10 +375,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -401,7 +392,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -416,14 +407,13 @@ describe('sql/conversationSummary', () => {
 
       await saveMessages([message1, message2], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 2);
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 
@@ -434,10 +424,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -446,7 +436,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -459,14 +449,13 @@ describe('sql/conversationSummary', () => {
 
       await saveMessages([message1, message2], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 2);
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 
@@ -477,10 +466,10 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -491,7 +480,7 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -504,14 +493,13 @@ describe('sql/conversationSummary', () => {
 
       await saveMessages([message1, message2], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 2);
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 
@@ -522,20 +510,20 @@ describe('sql/conversationSummary', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const otherUuid = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const otherServiceId = generateAci();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1 - removing ourselves',
         type: 'group-v2-change',
         conversationId,
         groupV2Change: {
-          from: ourUuid,
+          from: ourAci,
           details: [
             {
               type: 'member-remove',
-              uuid: ourUuid,
+              aci: ourAci,
             },
           ],
         },
@@ -544,16 +532,16 @@ describe('sql/conversationSummary', () => {
         timestamp: now + 1,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2 - someone else leaving',
         type: 'group-v2-change',
         conversationId,
         groupV2Change: {
-          from: otherUuid,
+          from: otherServiceId,
           details: [
             {
               type: 'member-remove',
-              uuid: otherUuid,
+              aci: otherServiceId,
             },
           ],
         },
@@ -564,14 +552,13 @@ describe('sql/conversationSummary', () => {
 
       await saveMessages([message1, message2], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 2);
 
       const messages = await getConversationMessageStats({
         conversationId,
-        ourUuid,
         includeStoryReplies: false,
       });
 

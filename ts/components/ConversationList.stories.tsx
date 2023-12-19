@@ -3,11 +3,10 @@
 
 import React, { useContext } from 'react';
 import { times, omit } from 'lodash';
-
+import { v4 as generateUuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
-import { boolean, date, select, text } from '@storybook/addon-knobs';
-
-import type { Row } from './ConversationList';
+import type { Meta } from '@storybook/react';
+import type { Row, PropsType } from './ConversationList';
 import { ConversationList, RowType } from './ConversationList';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
@@ -18,14 +17,15 @@ import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
-import { UUID } from '../types/UUID';
-import { makeFakeLookupConversationWithoutUuid } from '../test-both/helpers/fakeLookupConversationWithoutUuid';
+import { makeFakeLookupConversationWithoutServiceId } from '../test-both/helpers/fakeLookupConversationWithoutServiceId';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/ConversationList',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 const defaultConversations: Array<ConversationListItemPropsType> = [
   getDefaultConversation({
@@ -67,9 +67,17 @@ function Wrapper({
       getRow={(index: number) => rows[index]}
       shouldRecomputeRowHeights={false}
       i18n={i18n}
+      blockConversation={action('blockConversation')}
       onSelectConversation={action('onSelectConversation')}
+      onOutgoingAudioCallInConversation={action(
+        'onOutgoingAudioCallInConversation'
+      )}
+      onOutgoingVideoCallInConversation={action(
+        'onOutgoingVideoCallInConversation'
+      )}
       onClickArchiveButton={action('onClickArchiveButton')}
       onClickContactCheckbox={action('onClickContactCheckbox')}
+      removeConversation={action('removeConversation')}
       renderMessageSearchResult={(id: string) => (
         <MessageSearchResult
           body="Lorem ipsum wow"
@@ -87,7 +95,7 @@ function Wrapper({
         />
       )}
       scrollable={scrollable}
-      lookupConversationWithoutUuid={makeFakeLookupConversationWithoutUuid()}
+      lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}
       showChooseGroupMembers={action('showChooseGroupMembers')}
       showUserNotFoundModal={action('showUserNotFoundModal')}
       setIsFetchingUUID={action('setIsFetchingUUID')}
@@ -97,15 +105,13 @@ function Wrapper({
   );
 }
 
-export const _ArchiveButton = (): JSX.Element => (
-  <Wrapper
-    rows={[{ type: RowType.ArchiveButton, archivedConversationsCount: 123 }]}
-  />
-);
-
-_ArchiveButton.story = {
-  name: 'Archive button',
-};
+export function ArchiveButton(): JSX.Element {
+  return (
+    <Wrapper
+      rows={[{ type: RowType.ArchiveButton, archivedConversationsCount: 123 }]}
+    />
+  );
+}
 
 export function ContactNoteToSelf(): JSX.Element {
   return (
@@ -124,10 +130,6 @@ export function ContactNoteToSelf(): JSX.Element {
   );
 }
 
-ContactNoteToSelf.story = {
-  name: 'Contact: note to self',
-};
-
 export function ContactDirect(): JSX.Element {
   return (
     <Wrapper
@@ -136,9 +138,19 @@ export function ContactDirect(): JSX.Element {
   );
 }
 
-ContactDirect.story = {
-  name: 'Contact: direct',
-};
+export function ContactDirectWithContextMenu(): JSX.Element {
+  return (
+    <Wrapper
+      rows={[
+        {
+          type: RowType.Contact,
+          contact: defaultConversations[0],
+          hasContextMenu: true,
+        },
+      ]}
+    />
+  );
+}
 
 export function ContactDirectWithShortAbout(): JSX.Element {
   return (
@@ -152,10 +164,6 @@ export function ContactDirectWithShortAbout(): JSX.Element {
     />
   );
 }
-
-ContactDirectWithShortAbout.story = {
-  name: 'Contact: direct with short about',
-};
 
 export function ContactDirectWithLongAbout(): JSX.Element {
   return (
@@ -174,10 +182,6 @@ export function ContactDirectWithLongAbout(): JSX.Element {
   );
 }
 
-ContactDirectWithLongAbout.story = {
-  name: 'Contact: direct with long about',
-};
-
 export function ContactGroup(): JSX.Element {
   return (
     <Wrapper
@@ -190,10 +194,6 @@ export function ContactGroup(): JSX.Element {
     />
   );
 }
-
-ContactGroup.story = {
-  name: 'Contact: group',
-};
 
 export function ContactCheckboxes(): JSX.Element {
   return (
@@ -222,10 +222,6 @@ export function ContactCheckboxes(): JSX.Element {
   );
 }
 
-ContactCheckboxes.story = {
-  name: 'Contact checkboxes',
-};
-
 export function ContactCheckboxesDisabled(): JSX.Element {
   return (
     <Wrapper
@@ -253,42 +249,29 @@ export function ContactCheckboxesDisabled(): JSX.Element {
   );
 }
 
-ContactCheckboxesDisabled.story = {
-  name: 'Contact checkboxes: disabled',
-};
-
 const createConversation = (
   overrideProps: Partial<ConversationListItemPropsType> = {}
 ): ConversationListItemPropsType => ({
   ...overrideProps,
-  acceptedMessageRequest: boolean(
-    'acceptedMessageRequest',
+  acceptedMessageRequest:
     overrideProps.acceptedMessageRequest !== undefined
       ? overrideProps.acceptedMessageRequest
-      : true
-  ),
+      : true,
   badges: [],
-  isMe: boolean('isMe', overrideProps.isMe || false),
-  avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
+  isMe: overrideProps.isMe ?? false,
+  avatarPath: overrideProps.avatarPath ?? '',
   id: overrideProps.id || '',
-  isSelected: boolean('isSelected', overrideProps.isSelected || false),
-  title: text('title', overrideProps.title || 'Some Person'),
+  isSelected: overrideProps.isSelected ?? false,
+  title: overrideProps.title ?? 'Some Person',
   profileName: overrideProps.profileName || 'Some Person',
   type: overrideProps.type || 'direct',
-  markedUnread: boolean('markedUnread', overrideProps.markedUnread || false),
+  markedUnread: overrideProps.markedUnread ?? false,
   lastMessage: overrideProps.lastMessage || {
-    text: text('lastMessage.text', 'Hi there!'),
-    status: select(
-      'status',
-      MessageStatuses.reduce((m, s) => ({ ...m, [s]: s }), {}),
-      'read'
-    ),
+    text: 'Hi there!',
+    status: 'read',
     deletedForEveryone: false,
   },
-  lastUpdated: date(
-    'lastUpdated',
-    new Date(overrideProps.lastUpdated || Date.now() - 5 * 60 * 1000)
-  ),
+  lastUpdated: overrideProps.lastUpdated ?? Date.now() - 5 * 60 * 1000,
   sharedGroupNames: [],
 });
 
@@ -307,18 +290,10 @@ const renderConversation = (
 
 export const ConversationName = (): JSX.Element => renderConversation();
 
-ConversationName.story = {
-  name: 'Conversation: name',
-};
-
 export const ConversationNameAndAvatar = (): JSX.Element =>
   renderConversation({
     avatarPath: '/fixtures/kitten-1-64-64.jpg',
   });
-
-ConversationNameAndAvatar.story = {
-  name: 'Conversation: name and avatar',
-};
 
 export const ConversationWithYourself = (): JSX.Element =>
   renderConversation({
@@ -331,10 +306,6 @@ export const ConversationWithYourself = (): JSX.Element =>
     title: 'Myself',
     isMe: true,
   });
-
-ConversationWithYourself.story = {
-  name: 'Conversation: with yourself',
-};
 
 export function ConversationsMessageStatuses(): JSX.Element {
   return (
@@ -349,37 +320,27 @@ export function ConversationsMessageStatuses(): JSX.Element {
   );
 }
 
-ConversationsMessageStatuses.story = {
-  name: 'Conversations: Message Statuses',
-};
-
 export const ConversationTypingStatus = (): JSX.Element =>
   renderConversation({
-    typingContactId: UUID.generate().toString(),
+    typingContactIdTimestamps: {
+      [generateUuid()]: Date.now(),
+    },
   });
-
-ConversationTypingStatus.story = {
-  name: 'Conversation: Typing Status',
-};
 
 export const ConversationWithDraft = (): JSX.Element =>
   renderConversation({
     shouldShowDraft: true,
-    draftPreview: "I'm in the middle of typing this...",
+    draftPreview: {
+      text: "I'm in the middle of typing this...",
+      prefix: '🎤',
+      bodyRanges: [],
+    },
   });
-
-ConversationWithDraft.story = {
-  name: 'Conversation: With draft',
-};
 
 export const ConversationDeletedForEveryone = (): JSX.Element =>
   renderConversation({
     lastMessage: { deletedForEveryone: true },
   });
-
-ConversationDeletedForEveryone.story = {
-  name: 'Conversation: Deleted for everyone',
-};
 
 export const ConversationMessageRequest = (): JSX.Element =>
   renderConversation({
@@ -390,10 +351,6 @@ export const ConversationMessageRequest = (): JSX.Element =>
       deletedForEveryone: false,
     },
   });
-
-ConversationMessageRequest.story = {
-  name: 'Conversation: Message Request',
-};
 
 export function ConversationsUnreadCount(): JSX.Element {
   return (
@@ -413,16 +370,8 @@ export function ConversationsUnreadCount(): JSX.Element {
   );
 }
 
-ConversationsUnreadCount.story = {
-  name: 'Conversations: unread count',
-};
-
 export const ConversationMarkedUnread = (): JSX.Element =>
   renderConversation({ markedUnread: true });
-
-ConversationMarkedUnread.story = {
-  name: 'Conversation: marked unread',
-};
 
 export const ConversationSelected = (): JSX.Element =>
   renderConversation({
@@ -434,10 +383,6 @@ export const ConversationSelected = (): JSX.Element =>
     isSelected: true,
   });
 
-ConversationSelected.story = {
-  name: 'Conversation: Selected',
-};
-
 export const ConversationEmojiInMessage = (): JSX.Element =>
   renderConversation({
     lastMessage: {
@@ -446,10 +391,6 @@ export const ConversationEmojiInMessage = (): JSX.Element =>
       deletedForEveryone: false,
     },
   });
-
-ConversationEmojiInMessage.story = {
-  name: 'Conversation: Emoji in Message',
-};
 
 export const ConversationLinkInMessage = (): JSX.Element =>
   renderConversation({
@@ -460,10 +401,6 @@ export const ConversationLinkInMessage = (): JSX.Element =>
     },
   });
 
-ConversationLinkInMessage.story = {
-  name: 'Conversation: Link in Message',
-};
-
 export const ConversationLongName = (): JSX.Element => {
   const name =
     'Long contact name. Esquire. The third. And stuff. And more! And more!';
@@ -471,10 +408,6 @@ export const ConversationLongName = (): JSX.Element => {
   return renderConversation({
     title: name,
   });
-};
-
-ConversationLongName.story = {
-  name: 'Conversation: long name',
 };
 
 export function ConversationLongMessage(): JSX.Element {
@@ -502,10 +435,6 @@ Line 4, well.`,
   );
 }
 
-ConversationLongMessage.story = {
-  name: 'Conversation: Long Message',
-};
-
 export function ConversationsVariousTimes(): JSX.Element {
   const pairs: Array<[number, string]> = [
     [Date.now() - 5 * 60 * 60 * 1000, 'Five hours ago'],
@@ -531,10 +460,6 @@ export function ConversationsVariousTimes(): JSX.Element {
   );
 }
 
-ConversationsVariousTimes.story = {
-  name: 'Conversations: Various Times',
-};
-
 export function ConversationMissingDate(): JSX.Element {
   const row = {
     type: RowType.Conversation as const,
@@ -543,10 +468,6 @@ export function ConversationMissingDate(): JSX.Element {
 
   return <Wrapper rows={[row]} />;
 }
-
-ConversationMissingDate.story = {
-  name: 'Conversation: Missing Date',
-};
 
 export function ConversationMissingMessage(): JSX.Element {
   const row = {
@@ -557,10 +478,6 @@ export function ConversationMissingMessage(): JSX.Element {
   return <Wrapper rows={[row]} />;
 }
 
-ConversationMissingMessage.story = {
-  name: 'Conversation: Missing Message',
-};
-
 export const ConversationMissingText = (): JSX.Element =>
   renderConversation({
     lastMessage: {
@@ -570,18 +487,10 @@ export const ConversationMissingText = (): JSX.Element =>
     },
   });
 
-ConversationMissingText.story = {
-  name: 'Conversation: Missing Text',
-};
-
 export const ConversationMutedConversation = (): JSX.Element =>
   renderConversation({
     muteExpiresAt: Date.now() + 1000 * 60 * 60,
   });
-
-ConversationMutedConversation.story = {
-  name: 'Conversation: Muted Conversation',
-};
 
 export const ConversationAtMention = (): JSX.Element =>
   renderConversation({
@@ -594,29 +503,29 @@ export const ConversationAtMention = (): JSX.Element =>
     },
   });
 
-ConversationAtMention.story = {
-  name: 'Conversation: At Mention',
-};
-
 export function Headers(): JSX.Element {
   return (
     <Wrapper
       rows={[
         {
           type: RowType.Header,
-          i18nKey: 'conversationsHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:conversationsHeader'),
         },
         {
           type: RowType.Header,
-          i18nKey: 'messagesHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:messagesHeader'),
         },
         {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         },
         {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         },
       ]}
     />
@@ -629,7 +538,8 @@ export function FindByPhoneNumber(): JSX.Element {
       rows={[
         {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         },
         {
           type: RowType.StartNewConversation,
@@ -663,17 +573,14 @@ export function FindByPhoneNumber(): JSX.Element {
   );
 }
 
-FindByPhoneNumber.story = {
-  name: 'Find by phone number',
-};
-
 export function FindByUsername(): JSX.Element {
   return (
     <Wrapper
       rows={[
         {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         },
         {
           type: RowType.UsernameSearchResult,
@@ -690,10 +597,6 @@ export function FindByUsername(): JSX.Element {
   );
 }
 
-FindByUsername.story = {
-  name: 'Find by username',
-};
-
 export function SearchResultsLoadingSkeleton(): JSX.Element {
   return (
     <Wrapper
@@ -707,10 +610,6 @@ export function SearchResultsLoadingSkeleton(): JSX.Element {
     />
   );
 }
-
-SearchResultsLoadingSkeleton.story = {
-  name: 'Search results loading skeleton',
-};
 
 export function KitchenSink(): JSX.Element {
   return (
@@ -745,7 +644,8 @@ export function KitchenSink(): JSX.Element {
         },
         {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         },
         {
           type: RowType.Contact,
@@ -753,7 +653,8 @@ export function KitchenSink(): JSX.Element {
         },
         {
           type: RowType.Header,
-          i18nKey: 'messagesHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:messagesHeader'),
         },
         {
           type: RowType.Conversation,
@@ -765,7 +666,8 @@ export function KitchenSink(): JSX.Element {
         },
         {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         },
         {
           type: RowType.UsernameSearchResult,
@@ -780,7 +682,3 @@ export function KitchenSink(): JSX.Element {
     />
   );
 }
-
-KitchenSink.story = {
-  name: 'Kitchen sink',
-};

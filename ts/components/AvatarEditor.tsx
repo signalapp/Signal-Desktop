@@ -196,13 +196,13 @@ export function AvatarEditor({
               }}
               type="button"
             >
-              {i18n('text')}
+              {i18n('icu:text')}
             </button>
           </div>
         </div>
         <hr className="AvatarEditor__divider" />
         <div className="AvatarEditor__avatar-selector-title">
-          {i18n('AvatarEditor--choose')}
+          {i18n('icu:AvatarEditor--choose')}
         </div>
         <div className="AvatarEditor__avatars">
           {localAvatarData.map(avatarData => (

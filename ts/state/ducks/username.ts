@@ -10,20 +10,18 @@ import {
   ConfirmUsernameResult,
 } from '../../types/Username';
 import * as usernameServices from '../../services/username';
+import { storageServiceUploadJob } from '../../services/storage';
 import type { ReserveUsernameResultType } from '../../services/username';
-import {
-  isValidNickname,
-  getMinNickname,
-  getMaxNickname,
-} from '../../util/Username';
 import { missingCaseError } from '../../util/missingCaseError';
 import { sleep } from '../../util/sleep';
 import { assertDev } from '../../util/assert';
 import type { StateType as RootStateType } from '../reducer';
 import type { PromiseAction } from '../util';
 import { getMe } from '../selectors/conversations';
+import { getUsernameCorrupted } from '../selectors/items';
 import {
   UsernameEditState,
+  UsernameLinkState,
   UsernameReservationState,
   UsernameReservationError,
 } from './usernameEnums';
@@ -42,6 +40,9 @@ export type UsernameStateType = ReadonlyDeep<{
   // ProfileEditor
   editState: UsernameEditState;
 
+  // UsernameLinkModalBody
+  linkState: UsernameLinkState;
+
   // EditUsernameModalBody
   usernameReservation: UsernameReservationStateType;
 }>;
@@ -55,6 +56,7 @@ const SET_USERNAME_RESERVATION_ERROR = 'username/SET_RESERVATION_ERROR';
 const RESERVE_USERNAME = 'username/RESERVE_USERNAME';
 const CONFIRM_USERNAME = 'username/CONFIRM_USERNAME';
 const DELETE_USERNAME = 'username/DELETE_USERNAME';
+const RESET_USERNAME_LINK = 'username/RESET_USERNAME_LINK';
 
 type SetUsernameEditStateActionType = ReadonlyDeep<{
   type: typeof SET_USERNAME_EDIT_STATE;
@@ -91,6 +93,9 @@ type ConfirmUsernameActionType = ReadonlyDeep<
 type DeleteUsernameActionType = ReadonlyDeep<
   PromiseAction<typeof DELETE_USERNAME, void>
 >;
+type ResetUsernameLinkActionType = ReadonlyDeep<
+  PromiseAction<typeof RESET_USERNAME_LINK, void>
+>;
 
 export type UsernameActionType = ReadonlyDeep<
   | SetUsernameEditStateActionType
@@ -100,6 +105,7 @@ export type UsernameActionType = ReadonlyDeep<
   | ReserveUsernameActionType
   | ConfirmUsernameActionType
   | DeleteUsernameActionType
+  | ResetUsernameLinkActionType
 >;
 
 export const actions = {
@@ -110,6 +116,10 @@ export const actions = {
   reserveUsername,
   confirmUsername,
   deleteUsername,
+  markCompletedUsernameOnboarding,
+  resetUsernameLink,
+  setUsernameLinkColor,
+  markCompletedUsernameLinkOnboarding,
 };
 
 export function setUsernameEditState(
@@ -163,17 +173,6 @@ export function reserveUsername(
 > {
   return (dispatch, getState) => {
     if (!nickname) {
-      return;
-    }
-
-    if (!isValidNickname(nickname)) {
-      const error = getNicknameInvalidError(nickname);
-      if (error) {
-        dispatch(setUsernameReservationError(error));
-      } else {
-        assertDev(false, 'This should not happen');
-        dispatch(setUsernameReservationError(UsernameReservationError.General));
-      }
       return;
     }
 
@@ -250,9 +249,10 @@ export function deleteUsername({
 > {
   return (dispatch, getState) => {
     const me = getMe(getState());
+    const isUsernameCorrupted = getUsernameCorrupted(getState());
     const username = me.username ?? defaultUsername;
 
-    if (!username) {
+    if (!username && !isUsernameCorrupted) {
       return;
     }
 
@@ -260,7 +260,7 @@ export function deleteUsername({
       try {
         await doDeleteUsername(username);
       } catch {
-        dispatch(showToast(ToastType.FailedToDeleteUsername));
+        dispatch(showToast({ toastType: ToastType.FailedToDeleteUsername }));
       }
     };
 
@@ -271,11 +271,72 @@ export function deleteUsername({
   };
 }
 
+export type ResetUsernameLinkOptionsType = ReadonlyDeep<{
+  doResetLink?: typeof usernameServices.resetLink;
+}>;
+
+export function resetUsernameLink({
+  doResetLink = usernameServices.resetLink,
+}: ResetUsernameLinkOptionsType = {}): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ResetUsernameLinkActionType
+> {
+  return dispatch => {
+    const me = window.ConversationController.getOurConversationOrThrow();
+    const username = me.get('username');
+    assertDev(username, 'Username is required for resetting link');
+
+    dispatch({
+      type: RESET_USERNAME_LINK,
+      payload: doResetLink(username),
+    });
+  };
+}
+
+function markCompletedUsernameOnboarding(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  never
+> {
+  return async () => {
+    await window.storage.put('hasCompletedUsernameOnboarding', true);
+    const me = window.ConversationController.getOurConversationOrThrow();
+    me.captureChange('usernameOnboarding');
+    storageServiceUploadJob();
+  };
+}
+
+function markCompletedUsernameLinkOnboarding(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  never
+> {
+  return async () => {
+    await window.storage.put('hasCompletedUsernameLinkOnboarding', true);
+  };
+}
+
+function setUsernameLinkColor(
+  color: number
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    await window.storage.put('usernameLinkColor', color);
+    const me = window.ConversationController.getOurConversationOrThrow();
+    me.captureChange('usernameLinkColor');
+    storageServiceUploadJob();
+  };
+}
+
 // Reducers
 
 export function getEmptyState(): UsernameStateType {
   return {
     editState: UsernameEditState.Editing,
+    linkState: UsernameLinkState.Ready,
     usernameReservation: {
       state: UsernameReservationState.Closed,
     },
@@ -364,6 +425,14 @@ export function reducer(
         stateError = UsernameReservationError.CheckCharacters;
       } else if (error === ReserveUsernameError.Conflict) {
         stateError = UsernameReservationError.UsernameNotAvailable;
+      } else if (error === ReserveUsernameError.NotEnoughCharacters) {
+        stateError = UsernameReservationError.NotEnoughCharacters;
+      } else if (error === ReserveUsernameError.TooManyCharacters) {
+        stateError = UsernameReservationError.TooManyCharacters;
+      } else if (error === ReserveUsernameError.CheckStartingCharacter) {
+        stateError = UsernameReservationError.CheckStartingCharacter;
+      } else if (error === ReserveUsernameError.CheckCharacters) {
+        stateError = UsernameReservationError.CheckCharacters;
       } else {
         throw missingCaseError(error);
       }
@@ -441,6 +510,7 @@ export function reducer(
       return {
         ...state,
         usernameReservation: {
+          reservation: state.usernameReservation.reservation,
           state: UsernameReservationState.Open,
           error: UsernameReservationError.ConflictOrGone,
         },
@@ -483,32 +553,26 @@ export function reducer(
     return state;
   }
 
+  if (action.type === 'username/RESET_USERNAME_LINK_PENDING') {
+    return {
+      ...state,
+      linkState: UsernameLinkState.Updating,
+    };
+  }
+
+  if (action.type === 'username/RESET_USERNAME_LINK_FULFILLED') {
+    return {
+      ...state,
+      linkState: UsernameLinkState.Ready,
+    };
+  }
+
+  if (action.type === 'username/RESET_USERNAME_LINK_REJECTED') {
+    return {
+      ...state,
+      linkState: UsernameLinkState.Error,
+    };
+  }
+
   return state;
-}
-
-// Helpers
-
-function getNicknameInvalidError(
-  nickname: string | undefined
-): UsernameReservationError | undefined {
-  if (!nickname) {
-    return undefined;
-  }
-
-  if (nickname.length < getMinNickname()) {
-    return UsernameReservationError.NotEnoughCharacters;
-  }
-
-  if (!/^[0-9a-z_]+$/.test(nickname)) {
-    return UsernameReservationError.CheckCharacters;
-  }
-  if (!/^[a-z_]/.test(nickname)) {
-    return UsernameReservationError.CheckStartingCharacter;
-  }
-
-  if (nickname.length > getMaxNickname()) {
-    return UsernameReservationError.TooManyCharacters;
-  }
-
-  return undefined;
 }

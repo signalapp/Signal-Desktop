@@ -35,30 +35,30 @@ export function SafetyNumberNotification({
   i18n,
   toggleSafetyNumberModal,
 }: Props): JSX.Element {
-  const changeKey = isGroup
-    ? 'safetyNumberChangedGroup'
-    : 'safetyNumberChanged';
-
+  const name = (
+    <span
+      key="external-1"
+      className="module-safety-number-notification__contact"
+    >
+      <ContactName
+        title={contact.title}
+        module="module-safety-number-notification__contact"
+      />
+    </span>
+  );
   return (
     <SystemMessage
       icon="safety-number"
       contents={
-        // eslint-disable-next-line local-rules/valid-i18n-keys
-        <Intl
-          id={changeKey}
-          components={[
-            <span
-              key="external-1"
-              className="module-safety-number-notification__contact"
-            >
-              <ContactName
-                title={contact.title}
-                module="module-safety-number-notification__contact"
-              />
-            </span>,
-          ]}
-          i18n={i18n}
-        />
+        isGroup ? (
+          <Intl
+            id="icu:safetyNumberChangedGroup"
+            components={{ name }}
+            i18n={i18n}
+          />
+        ) : (
+          <Intl id="icu:safetyNumberChanged" i18n={i18n} />
+        )
       }
       button={
         <Button

@@ -8,6 +8,7 @@ import * as Bytes from '../Bytes';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import type { ParsedJob } from './types';
+import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { DAY } from '../util/durations';
@@ -31,6 +32,10 @@ const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(MAX_RETRY_TIME);
 export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
   private parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
 
+  protected override getQueues(): ReadonlySet<PQueue> {
+    return new Set([this.parallelQueue]);
+  }
+
   protected override getInMemoryQueue(
     _parsedJob: ParsedJob<SingleProtoJobData>
   ): PQueue {
@@ -47,7 +52,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       timestamp,
     }: Readonly<{ data: SingleProtoJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
-  ): Promise<void> {
+  ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
     const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
     const isFinalAttempt = attempt >= MAX_ATTEMPTS;
 
@@ -58,12 +63,12 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       skipWait: false,
     });
     if (!shouldContinue) {
-      return;
+      return undefined;
     }
 
     const {
       contentHint,
-      identifier,
+      serviceId,
       isSyncMessage,
       messageIds = [],
       protoBase64,
@@ -71,33 +76,31 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       urgent,
     } = data;
     log.info(
-      `starting ${type} send to ${identifier} with timestamp ${timestamp}`
+      `starting ${type} send to ${serviceId} with timestamp ${timestamp}`
     );
 
-    const conversation = window.ConversationController.get(identifier);
+    const conversation = window.ConversationController.get(serviceId);
     if (!conversation) {
-      throw new Error(
-        `Failed to get conversation for identifier ${identifier}`
-      );
+      throw new Error(`Failed to get conversation for serviceId ${serviceId}`);
     }
 
     if (!isConversationAccepted(conversation.attributes)) {
       log.info(
         `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
       );
-      return;
+      return undefined;
     }
     if (isConversationUnregistered(conversation.attributes)) {
       log.info(
         `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
       );
-      return;
+      return undefined;
     }
     if (conversation.isBlocked()) {
       log.info(
         `conversation ${conversation.idForLogging()} is blocked; refusing to send`
       );
-      return;
+      return undefined;
     }
 
     const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
@@ -114,7 +117,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       await handleMessageSend(
         messaging.sendIndividualProto({
           contentHint,
-          identifier,
+          serviceId,
           options,
           proto,
           timestamp,
@@ -131,6 +134,8 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
         toThrow: error,
       });
     }
+
+    return undefined;
   }
 }
 

@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { Emojify } from '../Emojify';
 import { GroupDescription } from '../GroupDescription';
 import { About } from '../About';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList';
@@ -15,6 +14,7 @@ import type { LocalizerType, ThemeType } from '../../../types/Util';
 import { bemGenerator } from './util';
 import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
+import { UserText } from '../../UserText';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -54,6 +54,7 @@ export function ConversationDetailsHeader({
 
   let preferredBadge: undefined | BadgeType;
   let subtitle: ReactNode;
+  let hasNestedButton = false;
   if (isGroup) {
     if (conversation.groupDescription) {
       subtitle = (
@@ -63,12 +64,13 @@ export function ConversationDetailsHeader({
           title={conversation.title}
         />
       );
+      hasNestedButton = true;
     } else if (canEdit) {
-      subtitle = i18n('ConversationDetailsHeader--add-group-description');
+      subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
-      subtitle = i18n('ConversationDetailsHeader--members', [
-        memberships.length.toString(),
-      ]);
+      subtitle = i18n('icu:ConversationDetailsHeader--members', {
+        number: memberships.length,
+      });
     }
   } else if (!isMe) {
     subtitle = (
@@ -106,7 +108,8 @@ export function ConversationDetailsHeader({
   const contents = (
     <div>
       <div className={bem('title')}>
-        <Emojify text={isMe ? i18n('noteToSelf') : conversation.title} />
+        {isMe ? i18n('icu:noteToSelf') : <UserText text={conversation.title} />}
+        {isMe && <span className="ContactModal__official-badge__large" />}
       </div>
     </div>
   );
@@ -162,21 +165,25 @@ export function ConversationDetailsHeader({
         >
           {contents}
         </button>
-        <button
-          type="button"
-          onClick={ev => {
-            if (ev.target instanceof HTMLAnchorElement) {
-              return;
-            }
-
-            ev.preventDefault();
-            ev.stopPropagation();
-            startEditing(false);
-          }}
-          className={bem('root', 'editable')}
-        >
+        {hasNestedButton ? (
           <div className={bem('subtitle')}>{subtitle}</div>
-        </button>
+        ) : (
+          <button
+            type="button"
+            onClick={ev => {
+              if (ev.target instanceof HTMLAnchorElement) {
+                return;
+              }
+
+              ev.preventDefault();
+              ev.stopPropagation();
+              startEditing(false);
+            }}
+            className={bem('root', 'editable')}
+          >
+            <div className={bem('subtitle')}>{subtitle}</div>
+          </button>
+        )}
       </div>
     );
   }

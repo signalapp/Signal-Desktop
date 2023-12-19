@@ -5,8 +5,6 @@
 import { createWriteStream } from 'fs';
 import { pathExists } from 'fs-extra';
 import { readdir, stat, writeFile, mkdir } from 'fs/promises';
-import { promisify } from 'util';
-import { execFile } from 'child_process';
 import { join, normalize, extname } from 'path';
 import { tmpdir, release as osRelease } from 'os';
 import { throttle } from 'lodash';
@@ -18,8 +16,6 @@ import { gt, lt } from 'semver';
 import config from 'config';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
-import pify from 'pify';
-import rimraf from 'rimraf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
@@ -41,7 +37,7 @@ import type { SettingsChannel } from '../main/settingsChannel';
 
 import type { LoggerType } from '../types/Logging';
 import { getGotOptions } from './got';
-import { checkIntegrity, gracefulRename } from './util';
+import { checkIntegrity, gracefulRename, gracefulRimraf } from './util';
 import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential';
 import {
   prepareDownload as prepareDifferentialDownload,
@@ -50,9 +46,13 @@ import {
   isValidPreparedData as isValidDifferentialData,
 } from './differential';
 
-const rimrafPromise = pify(rimraf);
-
 const INTERVAL = 30 * durations.MINUTE;
+
+type JSONVendorSchema = {
+  minOSVersion?: string;
+  requireManualUpdate?: 'true' | 'false';
+  requireUserConfirmation?: 'true' | 'false';
+};
 
 type JSONUpdateSchema = {
   version: string;
@@ -65,10 +65,7 @@ type JSONUpdateSchema = {
   path: string;
   sha512: string;
   releaseDate: string;
-  vendor?: {
-    requireManualUpdate?: boolean;
-    minOSVersion?: string;
-  };
+  vendor?: JSONVendorSchema;
 };
 
 export type UpdateInformationType = {
@@ -77,6 +74,7 @@ export type UpdateInformationType = {
   version: string;
   sha512: string;
   differentialData: DifferentialDownloadDataType | undefined;
+  vendor?: JSONVendorSchema;
 };
 
 enum DownloadMode {
@@ -90,6 +88,13 @@ type DownloadUpdateResultType = Readonly<{
   signature: Buffer;
 }>;
 
+export type UpdaterOptionsType = Readonly<{
+  settingsChannel: SettingsChannel;
+  logger: LoggerType;
+  getMainWindow: () => BrowserWindow | undefined;
+  canRunSilently: () => boolean;
+}>;
+
 export abstract class Updater {
   protected fileName: string | undefined;
 
@@ -97,17 +102,31 @@ export abstract class Updater {
 
   protected cachedDifferentialData: DifferentialDownloadDataType | undefined;
 
+  protected readonly logger: LoggerType;
+
+  private readonly settingsChannel: SettingsChannel;
+
+  protected readonly getMainWindow: () => BrowserWindow | undefined;
+
   private throttledSendDownloadingUpdate: (downloadedSize: number) => void;
 
   private activeDownload: Promise<boolean> | undefined;
 
   private markedCannotUpdate = false;
 
-  constructor(
-    protected readonly logger: LoggerType,
-    private readonly settingsChannel: SettingsChannel,
-    protected readonly getMainWindow: () => BrowserWindow | undefined
-  ) {
+  private readonly canRunSilently: () => boolean;
+
+  constructor({
+    settingsChannel,
+    logger,
+    getMainWindow,
+    canRunSilently,
+  }: UpdaterOptionsType) {
+    this.settingsChannel = settingsChannel;
+    this.logger = logger;
+    this.getMainWindow = getMainWindow;
+    this.canRunSilently = canRunSilently;
+
     this.throttledSendDownloadingUpdate = throttle((downloadedSize: number) => {
       const mainWindow = this.getMainWindow();
       mainWindow?.webContents.send(
@@ -147,7 +166,10 @@ export abstract class Updater {
 
   protected abstract deletePreviousInstallers(): Promise<void>;
 
-  protected abstract installUpdate(updateFilePath: string): Promise<void>;
+  protected abstract installUpdate(
+    updateFilePath: string,
+    isSilent: boolean
+  ): Promise<void>;
 
   //
   // Protected methods
@@ -261,14 +283,24 @@ export abstract class Updater {
         );
       }
 
-      await this.installUpdate(updateFilePath);
+      await this.installUpdate(
+        updateFilePath,
+        updateInfo.vendor?.requireUserConfirmation !== 'true' &&
+          this.canRunSilently()
+      );
 
       const mainWindow = this.getMainWindow();
       if (mainWindow) {
         logger.info('downloadAndInstall: showing update dialog...');
-        mainWindow.webContents.send('show-update-dialog', DialogType.Update, {
-          version: this.version,
-        });
+        mainWindow.webContents.send(
+          'show-update-dialog',
+          mode === DownloadMode.Automatic
+            ? DialogType.AutoUpdate
+            : DialogType.DownloadedUpdate,
+          {
+            version: this.version,
+          }
+        );
       } else {
         logger.warn(
           'downloadAndInstall: no mainWindow, cannot show update dialog'
@@ -371,7 +403,7 @@ export abstract class Updater {
 
     const { vendor } = parsedYaml;
     if (vendor) {
-      if (vendor.requireManualUpdate) {
+      if (vendor.requireManualUpdate === 'true') {
         this.logger.warn('checkForUpdates: manual update required');
         this.markCannotUpdate(
           new Error('yaml file has requireManualUpdate flag'),
@@ -475,6 +507,7 @@ export abstract class Updater {
       version,
       sha512,
       differentialData,
+      vendor,
     };
   }
 
@@ -604,7 +637,7 @@ export abstract class Updater {
         // We could have failed to update differentially due to low free disk
         // space. Remove all cached updates since we are doing a full download
         // anyway.
-        await rimrafPromise(cacheDir);
+        await gracefulRimraf(this.logger, cacheDir);
         cacheDir = await createUpdateCacheDirIfNeeded();
 
         await this.downloadAndReport(
@@ -650,7 +683,7 @@ export abstract class Updater {
       }
 
       try {
-        await deleteTempDir(restoreDir);
+        await deleteTempDir(this.logger, restoreDir);
       } catch (error) {
         this.logger.warn(
           'downloadUpdate: Failed to remove backup folder, ignoring',
@@ -661,7 +694,7 @@ export abstract class Updater {
       return { updateFilePath: targetUpdatePath, signature };
     } finally {
       if (!tempPathFailover) {
-        await deleteTempDir(tempDir);
+        await deleteTempDir(this.logger, tempDir);
       }
     }
   }
@@ -718,22 +751,12 @@ export abstract class Updater {
       return process.arch;
     }
 
-    try {
-      // We might be running under Rosetta
-      const flag = 'sysctl.proc_translated';
-      const { stdout } = await promisify(execFile)('sysctl', ['-i', flag]);
-
-      if (stdout.includes(`${flag}: 1`)) {
-        this.logger.info('updater: running under Rosetta');
-        return 'arm64';
-      }
-    } catch (error) {
-      this.logger.warn(
-        `updater: Rosetta detection failed with ${Errors.toLogFormat(error)}`
-      );
+    if (app.runningUnderARM64Translation) {
+      this.logger.info('updater: running under arm64 translation');
+      return 'arm64';
     }
 
-    this.logger.info('updater: not running under Rosetta');
+    this.logger.info('updater: not running under arm64 translation');
     return process.arch;
   }
 }
@@ -906,7 +929,10 @@ export async function createUpdateCacheDirIfNeeded(): Promise<string> {
   return targetDir;
 }
 
-export async function deleteTempDir(targetDir: string): Promise<void> {
+export async function deleteTempDir(
+  logger: LoggerType,
+  targetDir: string
+): Promise<void> {
   if (await pathExists(targetDir)) {
     const pathInfo = await stat(targetDir);
     if (!pathInfo.isDirectory()) {
@@ -923,7 +949,7 @@ export async function deleteTempDir(targetDir: string): Promise<void> {
     );
   }
 
-  await rimrafPromise(targetDir);
+  await gracefulRimraf(logger, targetDir);
 }
 
 export function getCliOptions<T>(options: ParserConfiguration['options']): T {

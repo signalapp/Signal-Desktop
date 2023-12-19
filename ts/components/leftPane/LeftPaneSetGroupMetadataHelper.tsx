@@ -83,7 +83,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     i18n: LocalizerType;
     showChooseGroupMembers: () => void;
   }>): ReactChild {
-    const backButtonLabel = i18n('setGroupMetadata__back-button');
+    const backButtonLabel = i18n('icu:setGroupMetadata__back-button');
 
     return (
       <div className="module-left-pane__header__contents">
@@ -96,7 +96,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
           type="button"
         />
         <div className="module-left-pane__header__contents__text">
-          {i18n('setGroupMetadata__title')}
+          {i18n('icu:setGroupMetadata__title')}
         </div>
       </div>
     );
@@ -156,7 +156,9 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
             hasXButton
             i18n={i18n}
             onClose={toggleComposeEditingAvatar}
-            title={i18n('LeftPaneSetGroupMetadataHelper__avatar-modal-title')}
+            title={i18n(
+              'icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title'
+            )}
           >
             <AvatarEditor
               avatarColor={avatarColor}
@@ -211,7 +213,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
 
         {this.hasError && (
           <Alert
-            body={i18n('setGroupMetadata__error-message')}
+            body={i18n('icu:setGroupMetadata__error-message')}
             i18n={i18n}
             onClose={clearGroupCreationError}
           />
@@ -235,9 +237,11 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
         }}
       >
         {this.isCreating ? (
-          <Spinner size="20px" svgSize="small" direction="on-avatar" />
+          <span aria-label={i18n('icu:loading')} role="status">
+            <Spinner size="20px" svgSize="small" direction="on-avatar" />
+          </span>
         ) : (
-          i18n('setGroupMetadata__create-group')
+          i18n('icu:setGroupMetadata__create-group')
         )}
       </Button>
     );
@@ -258,7 +262,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     if (rowIndex === 0) {
       return {
         type: RowType.Header,
-        i18nKey: 'setGroupMetadata__members-header',
+        getHeaderText: i18n => i18n('icu:setGroupMetadata__members-header'),
       };
     }
 

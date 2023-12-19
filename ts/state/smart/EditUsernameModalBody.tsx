@@ -15,15 +15,17 @@ import {
   getUsernameReservationObject,
   getUsernameReservationError,
 } from '../selectors/username';
+import { getUsernameCorrupted } from '../selectors/items';
 import { getMe } from '../selectors/conversations';
 
 function mapStateToProps(state: StateType): PropsDataType {
   const i18n = getIntl(state);
   const { username } = getMe(state);
+  const usernameCorrupted = getUsernameCorrupted(state);
 
   return {
     i18n,
-    currentUsername: username,
+    currentUsername: usernameCorrupted ? undefined : username,
     minNickname: getMinNickname(),
     maxNickname: getMaxNickname(),
     state: getUsernameReservationState(state),

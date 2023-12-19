@@ -10,7 +10,7 @@ import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -21,15 +21,12 @@ describe('storage service', function needsName() {
     ({ bootstrap, app, group } = await initStorage());
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
 
-    if (this.currentTest?.state !== 'passed') {
-      await bootstrap.saveLogs(app);
-    }
-
+    await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
   });
@@ -39,8 +36,8 @@ describe('storage service', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
-    const conversationStack = window.locator('.conversation-stack');
+    const leftPane = window.locator('#LeftPane');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Verifying that the group is pinned on startup');
     await leftPane.locator(`[data-testid="${group.id}"]`).waitFor();
@@ -69,9 +66,7 @@ describe('storage service', function needsName() {
       );
       await moreButton.click();
 
-      const pinButton = conversationStack.locator(
-        '.react-contextmenu-item >> "Pin Conversation"'
-      );
+      const pinButton = window.locator('.react-contextmenu-item >> "Pin chat"');
       await pinButton.click();
 
       const newState = await phone.waitForStorageState({
@@ -104,7 +99,7 @@ describe('storage service', function needsName() {
 
         debug('pinning contact=%d', i);
         const convo = leftPane.locator(
-          `[data-testid="${contact.toContact().uuid}"]`
+          `[data-testid="${contact.toContact().aci}"]`
         );
         await convo.click();
 
@@ -113,8 +108,8 @@ describe('storage service', function needsName() {
         );
         await moreButton.click();
 
-        const pinButton = conversationStack.locator(
-          '.react-contextmenu-item >> "Pin Conversation"'
+        const pinButton = window.locator(
+          '.react-contextmenu-item >> "Pin chat"'
         );
         await pinButton.click();
 

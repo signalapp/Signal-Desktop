@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
+import type { PropsType } from './ConversationNotificationsSettings';
 import { ConversationNotificationsSettings } from './ConversationNotificationsSettings';
 
 const i18n = setupI18n('en', enMessages);
@@ -14,7 +14,7 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title:
     'Components/Conversation/ConversationDetails/ConversationNotificationsSettings',
-};
+} satisfies Meta<PropsType>;
 
 const getCommonProps = () => ({
   id: 'conversation-id',
@@ -30,10 +30,6 @@ export function GroupConversationAllDefault(): JSX.Element {
   return <ConversationNotificationsSettings {...getCommonProps()} />;
 }
 
-GroupConversationAllDefault.story = {
-  name: 'Group conversation, all default',
-};
-
 export function GroupConversationMuted(): JSX.Element {
   return (
     <ConversationNotificationsSettings
@@ -43,10 +39,6 @@ export function GroupConversationMuted(): JSX.Element {
   );
 }
 
-GroupConversationMuted.story = {
-  name: 'Group conversation, muted',
-};
-
 export function GroupConversationMentionsMuted(): JSX.Element {
   return (
     <ConversationNotificationsSettings
@@ -55,7 +47,3 @@ export function GroupConversationMentionsMuted(): JSX.Element {
     />
   );
 }
-
-GroupConversationMentionsMuted.story = {
-  name: 'Group conversation, @mentions muted',
-};

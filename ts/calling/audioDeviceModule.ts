@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { makeEnumParser } from '../util/enum';
-import * as OS from '../OS';
+import OS from '../util/os/osMain';
 
 export enum AudioDeviceModule {
   Default = 'Default',

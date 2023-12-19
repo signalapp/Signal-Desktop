@@ -30,9 +30,7 @@ export function RemoveGroupMemberConfirmationDialog({
     group.accessControlAddFromInviteLink
   );
 
-  const intlComponents = {
-    name: <ContactName title={conversation.title} />,
-  };
+  const contactName = <ContactName title={conversation.title} />;
 
   return (
     <ConfirmationDialog
@@ -40,7 +38,7 @@ export function RemoveGroupMemberConfirmationDialog({
       actions={[
         {
           action: onRemove,
-          text: i18n('RemoveGroupMemberConfirmation__remove-button'),
+          text: i18n('icu:RemoveGroupMemberConfirmation__remove-button'),
           style: 'negative',
         },
       ]}
@@ -50,14 +48,14 @@ export function RemoveGroupMemberConfirmationDialog({
         accessControlEnabled ? (
           <Intl
             i18n={i18n}
-            id="RemoveGroupMemberConfirmation__description__with-link"
-            components={intlComponents}
+            id="icu:RemoveGroupMemberConfirmation__description__with-link"
+            components={{ name: contactName }}
           />
         ) : (
           <Intl
             i18n={i18n}
-            id="RemoveGroupMemberConfirmation__description"
-            components={intlComponents}
+            id="icu:RemoveGroupMemberConfirmation__description"
+            components={{ name: contactName }}
           />
         )
       }

@@ -11,47 +11,66 @@ import type { DeltaStatic, KeyboardStatic, RangeStatic } from 'quill';
 import Quill from 'quill';
 
 import { MentionCompletion } from '../quill/mentions/completion';
+import { FormattingMenu, QuillFormattingStyle } from '../quill/formatting/menu';
+import { MonospaceBlot } from '../quill/formatting/monospaceBlot';
+import { SpoilerBlot } from '../quill/formatting/spoilerBlot';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { convertShortName } from './emoji/lib';
 import type {
-  LocalizerType,
-  DraftBodyRangesType,
-  ThemeType,
-} from '../types/Util';
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+  RangeNode,
+} from '../types/BodyRange';
+import { BodyRange, collapseRangeTree, insertRange } from '../types/BodyRange';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { isValidUuid } from '../types/UUID';
+import { isAciString } from '../util/isAciString';
 import { MentionBlot } from '../quill/mentions/blot';
 import {
   matchEmojiImage,
   matchEmojiBlot,
-  matchReactEmoji,
   matchEmojiText,
 } from '../quill/emoji/matchers';
 import { matchMention } from '../quill/mentions/matchers';
 import { MemberRepository } from '../quill/memberRepository';
 import {
   getDeltaToRemoveStaleMentions,
-  getTextAndMentionsFromOps,
+  getTextAndRangesFromOps,
   isMentionBlot,
   getDeltaToRestartMention,
-  insertMentionOps,
   insertEmojiOps,
+  insertFormattingAndMentionsOps,
 } from '../quill/util';
 import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
+import { isNotNil } from '../util/isNotNil';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 import { useRefMerger } from '../hooks/useRefMerger';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
+import type { DraftEditMessageType } from '../model-types.d';
+import { usePrevious } from '../hooks/usePrevious';
+import {
+  matchBold,
+  matchItalic,
+  matchMonospace,
+  matchSpoiler,
+  matchStrikethrough,
+} from '../quill/formatting/matchers';
+import { missingCaseError } from '../util/missingCaseError';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
 Quill.register('formats/block', DirectionalBlot);
+Quill.register('formats/monospace', MonospaceBlot);
+Quill.register('formats/spoiler', SpoilerBlot);
 Quill.register('modules/emojiCompletion', EmojiCompletion);
 Quill.register('modules/mentionCompletion', MentionCompletion);
+Quill.register('modules/formattingMenu', FormattingMenu);
 Quill.register('modules/signalClipboard', SignalClipboard);
 
 type HistoryStatic = {
@@ -64,7 +83,7 @@ export type InputApi = {
   insertEmoji: (e: EmojiPickDataType) => void;
   setContents: (
     text: string,
-    draftBodyRanges?: DraftBodyRangesType,
+    draftBodyRanges?: HydratedBodyRangesType,
     cursorToEnd?: boolean
   ) => void;
   reset: () => void;
@@ -76,32 +95,40 @@ export type Props = Readonly<{
   conversationId?: string;
   i18n: LocalizerType;
   disabled?: boolean;
+  draftEditMessage?: DraftEditMessageType;
   getPreferredBadge: PreferredBadgeSelectorType;
   large?: boolean;
   inputApi?: React.MutableRefObject<InputApi | undefined>;
+  isFormattingEnabled: boolean;
+  sendCounter: number;
   skinTone?: EmojiPickDataType['skinTone'];
   draftText?: string;
-  draftBodyRanges?: DraftBodyRangesType;
+  draftBodyRanges?: HydratedBodyRangesType;
   moduleClassName?: string;
   theme: ThemeType;
   placeholder?: string;
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
   scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
-  onEditorStateChange?(
-    conversationId: string | undefined,
-    messageText: string,
-    bodyRanges: DraftBodyRangesType,
-    caretLocation?: number
-  ): unknown;
+  onEditorStateChange?(options: {
+    bodyRanges: DraftBodyRanges;
+    caretLocation?: number;
+    conversationId: string | undefined;
+    messageText: string;
+    sendCounter: number;
+  }): unknown;
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
+  onBlur?: () => unknown;
+  onFocus?: () => unknown;
   onSubmit(
     message: string,
-    mentions: DraftBodyRangesType,
+    bodyRanges: DraftBodyRanges,
     timestamp: number
   ): unknown;
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
+  platform: string;
+  shouldHidePopovers?: boolean;
   getQuotedMessage?(): unknown;
   clearQuotedMessage?(): unknown;
   linkPreviewLoading?: boolean;
@@ -119,21 +146,28 @@ export function CompositionInput(props: Props): React.ReactElement {
     conversationId,
     disabled,
     draftBodyRanges,
+    draftEditMessage,
     draftText,
     getPreferredBadge,
     getQuotedMessage,
     i18n,
     inputApi,
+    isFormattingEnabled,
     large,
     linkPreviewLoading,
     linkPreviewResult,
     moduleClassName,
     onCloseLinkPreview,
+    onBlur,
+    onFocus,
     onPickEmoji,
     onScroll,
     onSubmit,
     placeholder,
+    platform,
+    shouldHidePopovers,
     skinTone,
+    sendCounter,
     sortedGroupMembers,
     theme,
   } = props;
@@ -141,6 +175,8 @@ export function CompositionInput(props: Props): React.ReactElement {
   const refMerger = useRefMerger();
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
+    React.useState<JSX.Element>();
+  const [formattingChooserElement, setFormattingChooserElement] =
     React.useState<JSX.Element>();
   const [lastSelectionRange, setLastSelectionRange] =
     React.useState<RangeStatic | null>(null);
@@ -159,37 +195,62 @@ export function CompositionInput(props: Props): React.ReactElement {
     new MemberRepository()
   );
 
+  const [isMouseDown, setIsMouseDown] = React.useState<boolean>(false);
+
   const generateDelta = (
     text: string,
-    bodyRanges: DraftBodyRangesType
+    bodyRanges: HydratedBodyRangesType
   ): Delta => {
-    const initialOps = [{ insert: text }];
-    const opsWithMentions = insertMentionOps(initialOps, bodyRanges);
-    const opsWithEmojis = insertEmojiOps(opsWithMentions);
+    const textLength = text.length;
+    const tree = bodyRanges.reduce<ReadonlyArray<RangeNode>>((acc, range) => {
+      if (range.start < textLength) {
+        return insertRange(range, acc);
+      }
+      return acc;
+    }, []);
+    const nodes = collapseRangeTree({ tree, text });
+    const opsWithFormattingAndMentions = insertFormattingAndMentionsOps(nodes);
+    const opsWithEmojis = insertEmojiOps(opsWithFormattingAndMentions, {});
 
     return new Delta(opsWithEmojis);
   };
 
-  const getTextAndMentions = (): [string, DraftBodyRangesType] => {
+  const getTextAndRanges = (): {
+    text: string;
+    bodyRanges: DraftBodyRanges;
+  } => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
-      return ['', []];
+      return { text: '', bodyRanges: [] };
     }
 
     const contents = quill.getContents();
 
     if (contents === undefined) {
-      return ['', []];
+      return { text: '', bodyRanges: [] };
     }
 
     const { ops } = contents;
 
     if (ops === undefined) {
-      return ['', []];
+      return { text: '', bodyRanges: [] };
     }
 
-    return getTextAndMentionsFromOps(ops);
+    const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+
+    return {
+      text,
+      bodyRanges: bodyRanges.filter(range => {
+        if (BodyRange.isMention(range)) {
+          return true;
+        }
+        if (BodyRange.isFormatting(range)) {
+          return true;
+        }
+        throw missingCaseError(range);
+      }),
+    };
   };
 
   const focus = () => {
@@ -248,7 +309,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
   const setContents = (
     text: string,
-    bodyRanges?: DraftBodyRangesType,
+    bodyRanges?: HydratedBodyRangesType,
     cursorToEnd?: boolean
   ) => {
     const quill = quillRef.current;
@@ -285,13 +346,13 @@ export function CompositionInput(props: Props): React.ReactElement {
       return;
     }
 
-    const [text, mentions] = getTextAndMentions();
+    const { text, bodyRanges } = getTextAndRanges();
 
     log.info(
-      `CompositionInput: Submitting message ${timestamp} with ${mentions.length} mentions`
+      `CompositionInput: Submitting message ${timestamp} with ${bodyRanges.length} ranges`
     );
     canSendRef.current = false;
-    onSubmit(text, mentions, timestamp);
+    onSubmit(text, bodyRanges, timestamp);
   };
 
   if (inputApi) {
@@ -316,6 +377,35 @@ export function CompositionInput(props: Props): React.ReactElement {
     submit();
     return false;
   };
+
+  const previousFormattingEnabled = usePrevious(
+    isFormattingEnabled,
+    isFormattingEnabled
+  );
+  const previousIsMouseDown = usePrevious(isMouseDown, isMouseDown);
+
+  React.useEffect(() => {
+    const formattingChanged =
+      typeof previousFormattingEnabled === 'boolean' &&
+      previousFormattingEnabled !== isFormattingEnabled;
+    const mouseDownChanged = previousIsMouseDown !== isMouseDown;
+
+    const quill = quillRef.current;
+    const changed = formattingChanged || mouseDownChanged;
+    if (quill && changed) {
+      quill.getModule('formattingMenu').updateOptions({
+        isMenuEnabled: isFormattingEnabled,
+        isMouseDown,
+      });
+      quill.options.formats = getQuillFormats();
+    }
+  }, [
+    isFormattingEnabled,
+    isMouseDown,
+    previousFormattingEnabled,
+    previousIsMouseDown,
+    quillRef,
+  ]);
 
   const onEnter = (): boolean => {
     const quill = quillRef.current;
@@ -436,7 +526,7 @@ export function CompositionInput(props: Props): React.ReactElement {
   const onChange = (): void => {
     const quill = quillRef.current;
 
-    const [text, mentions] = getTextAndMentions();
+    const { text, bodyRanges } = getTextAndRanges();
 
     if (quill !== undefined) {
       const historyModule: HistoryStatic = quill.getModule('history');
@@ -458,12 +548,13 @@ export function CompositionInput(props: Props): React.ReactElement {
         setTimeout(() => {
           const selection = quill.getSelection();
 
-          onEditorStateChange(
+          onEditorStateChange({
+            bodyRanges,
+            caretLocation: selection ? selection.index : undefined,
             conversationId,
-            text,
-            mentions,
-            selection ? selection.index : undefined
-          );
+            messageText: text,
+            sendCounter,
+          });
         }, 0);
       }
     }
@@ -483,6 +574,29 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.enable(!disabled);
     quill.focus();
   }, [disabled]);
+
+  React.useEffect(() => {
+    const quill = quillRef.current;
+
+    if (quill === undefined) {
+      return;
+    }
+
+    function handleFocus() {
+      onFocus?.();
+    }
+    function handleBlur() {
+      onBlur?.();
+    }
+
+    quill.root.addEventListener('focus', handleFocus);
+    quill.root.addEventListener('blur', handleBlur);
+
+    return () => {
+      quill.root.removeEventListener('focus', handleFocus);
+      quill.root.removeEventListener('blur', handleBlur);
+    };
+  }, [onFocus, onBlur]);
 
   React.useEffect(() => {
     const emojiCompletion = emojiCompletionRef.current;
@@ -524,11 +638,12 @@ export function CompositionInput(props: Props): React.ReactElement {
       return;
     }
 
-    const currentMemberUuids = currentMembers
-      .map(m => m.uuid)
-      .filter(isValidUuid);
+    const currentMemberAcis = currentMembers
+      .map(m => m.serviceId)
+      .filter(isNotNil)
+      .filter(isAciString);
 
-    const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberUuids);
+    const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberAcis);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     quill.updateContents(newDelta as any);
@@ -603,7 +718,11 @@ export function CompositionInput(props: Props): React.ReactElement {
               matchers: [
                 ['IMG', matchEmojiImage],
                 ['IMG', matchEmojiBlot],
-                ['SPAN', matchReactEmoji],
+                ['STRONG', matchBold],
+                ['EM', matchItalic],
+                ['SPAN', matchMonospace],
+                ['S', matchStrikethrough],
+                ['SPAN', matchSpoiler],
                 [Node.TEXT_NODE, matchEmojiText],
                 ['SPAN', matchMention(memberRepositoryRef)],
               ],
@@ -617,6 +736,12 @@ export function CompositionInput(props: Props): React.ReactElement {
                 callbacksRef.current.onPickEmoji(emoji),
               skinTone,
             },
+            formattingMenu: {
+              i18n,
+              isMenuEnabled: isFormattingEnabled,
+              platform,
+              setFormattingChooserElement,
+            },
             mentionCompletion: {
               getPreferredBadge,
               me: sortedGroupMembers
@@ -628,8 +753,8 @@ export function CompositionInput(props: Props): React.ReactElement {
               theme,
             },
           }}
-          formats={['emoji', 'mention']}
-          placeholder={placeholder || i18n('sendMessage')}
+          formats={getQuillFormats()}
+          placeholder={placeholder || i18n('icu:sendMessage')}
           readOnly={disabled}
           ref={element => {
             if (element) {
@@ -693,15 +818,59 @@ export function CompositionInput(props: Props): React.ReactElement {
 
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
+  const onMouseDown = React.useCallback(
+    event => {
+      const target = event.target as HTMLElement;
+      try {
+        // If the user is actually clicking the format menu, we drop this event
+        if (target.closest('.module-composition-input__format-menu')) {
+          return;
+        }
+        setIsMouseDown(true);
+
+        const onMouseUp = () => {
+          setIsMouseDown(false);
+          window.removeEventListener('mouseup', onMouseUp);
+        };
+        window.addEventListener('mouseup', onMouseUp);
+      } catch (error) {
+        log.error(
+          'CompositionInput.onMouseDown: Failed to check event target',
+          Errors.toLogFormat(error)
+        );
+      }
+      setIsMouseDown(true);
+    },
+    [setIsMouseDown]
+  );
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
           <div
             className={getClassName('__input')}
+            data-supertab
             ref={ref}
             data-testid="CompositionInput"
+            data-enabled={disabled ? 'false' : 'true'}
+            onMouseDown={onMouseDown}
           >
+            {draftEditMessage && (
+              <div className={getClassName('__editing-message')}>
+                {i18n('icu:CompositionInput__editing-message')}
+              </div>
+            )}
+            {draftEditMessage?.attachmentThumbnail && (
+              <div className={getClassName('__editing-message__attachment')}>
+                <img
+                  alt={i18n('icu:stagedImageAttachment', {
+                    path: draftEditMessage.attachmentThumbnail,
+                  })}
+                  src={draftEditMessage.attachmentThumbnail}
+                />
+              </div>
+            )}
             {conversationId && linkPreviewLoading && linkPreviewResult && (
               <StagedLinkPreview
                 {...linkPreviewResult}
@@ -729,12 +898,32 @@ export function CompositionInput(props: Props): React.ReactElement {
               )}
             >
               {reactQuill}
-              {emojiCompletionElement}
-              {mentionCompletionElement}
+              {shouldHidePopovers ? null : (
+                <>
+                  {emojiCompletionElement}
+                  {mentionCompletionElement}
+                  {formattingChooserElement}
+                </>
+              )}
             </div>
           </div>
         )}
       </Reference>
     </Manager>
   );
+}
+
+function getQuillFormats(): Array<string> {
+  return [
+    // For image replacement (local-only)
+    'emoji',
+    // @mentions
+    'mention',
+    QuillFormattingStyle.spoiler,
+    QuillFormattingStyle.monospace,
+    // Built-in
+    QuillFormattingStyle.bold,
+    QuillFormattingStyle.italic,
+    QuillFormattingStyle.strike,
+  ];
 }

@@ -9,7 +9,7 @@ import { Intl } from '../Intl';
 
 import { SystemMessage } from './SystemMessage';
 import { MessageTimestamp } from './MessageTimestamp';
-import { Emojify } from './Emojify';
+import { UserText } from '../UserText';
 
 export type PropsData = {
   sender: ConversationType;
@@ -30,9 +30,11 @@ export function ChangeNumberNotification(props: Props): JSX.Element {
       contents={
         <>
           <Intl
-            id="ChangeNumber--notification"
+            id="icu:ChangeNumber--notification"
             components={{
-              sender: <Emojify text={sender.title || sender.firstName || ''} />,
+              sender: (
+                <UserText text={sender.title || sender.firstName || ''} />
+              ),
             }}
             i18n={i18n}
           />

@@ -6,6 +6,7 @@ import React from 'react';
 import type { Props as MessageBodyPropsType } from './MessageBody';
 import { MessageBody } from './MessageBody';
 import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice';
+import { shouldLinkifyMessage } from '../../types/LinkPreview';
 
 export type Props = Pick<
   MessageBodyPropsType,
@@ -13,7 +14,10 @@ export type Props = Pick<
   | 'direction'
   | 'disableLinks'
   | 'i18n'
+  | 'isSpoilerExpanded'
+  | 'onExpandSpoiler'
   | 'kickOffBodyDownload'
+  | 'renderLocation'
   | 'showConversation'
   | 'text'
   | 'textAttachment'
@@ -38,19 +42,25 @@ export function MessageBodyReadMore({
   displayLimit,
   i18n,
   id,
+  isSpoilerExpanded,
   kickOffBodyDownload,
   messageExpanded,
+  onExpandSpoiler,
+  renderLocation,
   showConversation,
   text,
   textAttachment,
 }: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
+  const shouldDisableLinks = disableLinks || !shouldLinkifyMessage(text);
   const { hasReadMore, text: slicedText } = graphemeAndLinkAwareSlice(
     text,
     maxLength,
     BUFFER
   );
+
+  const disableJumbomoji = bodyRanges?.length ? true : undefined;
 
   const onIncreaseTextLength = hasReadMore
     ? () => {
@@ -62,10 +72,14 @@ export function MessageBodyReadMore({
     <MessageBody
       bodyRanges={bodyRanges}
       direction={direction}
-      disableLinks={disableLinks}
+      disableJumbomoji={disableJumbomoji}
+      disableLinks={shouldDisableLinks}
       i18n={i18n}
+      isSpoilerExpanded={isSpoilerExpanded}
       kickOffBodyDownload={kickOffBodyDownload}
+      onExpandSpoiler={onExpandSpoiler}
       onIncreaseTextLength={onIncreaseTextLength}
+      renderLocation={renderLocation}
       showConversation={showConversation}
       text={slicedText}
       textAttachment={textAttachment}

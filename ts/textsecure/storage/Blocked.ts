@@ -4,6 +4,7 @@
 import { without } from 'lodash';
 
 import type { StorageInterface } from '../../types/Storage.d';
+import type { ServiceIdString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
@@ -41,32 +42,34 @@ export class Blocked {
     await this.storage.put(BLOCKED_NUMBERS_ID, without(numbers, number));
   }
 
-  public getBlockedUuids(): Array<string> {
-    return this.storage.get(BLOCKED_UUIDS_ID, new Array<string>());
+  public getBlockedServiceIds(): Array<ServiceIdString> {
+    return this.storage.get(BLOCKED_UUIDS_ID, new Array<ServiceIdString>());
   }
 
-  public isUuidBlocked(uuid: string): boolean {
-    return this.getBlockedUuids().includes(uuid);
+  public isServiceIdBlocked(serviceId: ServiceIdString): boolean {
+    return this.getBlockedServiceIds().includes(serviceId);
   }
 
-  public async addBlockedUuid(uuid: string): Promise<void> {
-    const uuids = this.getBlockedUuids();
-    if (uuids.includes(uuid)) {
+  public async addBlockedServiceId(serviceId: ServiceIdString): Promise<void> {
+    const serviceIds = this.getBlockedServiceIds();
+    if (serviceIds.includes(serviceId)) {
       return;
     }
 
-    log.info('adding', uuid, 'to blocked list');
-    await this.storage.put(BLOCKED_UUIDS_ID, uuids.concat(uuid));
+    log.info('adding', serviceId, 'to blocked list');
+    await this.storage.put(BLOCKED_UUIDS_ID, serviceIds.concat(serviceId));
   }
 
-  public async removeBlockedUuid(uuid: string): Promise<void> {
-    const numbers = this.getBlockedUuids();
-    if (!numbers.includes(uuid)) {
+  public async removeBlockedServiceId(
+    serviceId: ServiceIdString
+  ): Promise<void> {
+    const numbers = this.getBlockedServiceIds();
+    if (!numbers.includes(serviceId)) {
       return;
     }
 
-    log.info('removing', uuid, 'from blocked list');
-    await this.storage.put(BLOCKED_UUIDS_ID, without(numbers, uuid));
+    log.info('removing', serviceId, 'from blocked list');
+    await this.storage.put(BLOCKED_UUIDS_ID, without(numbers, serviceId));
   }
 
   public getBlockedGroups(): Array<string> {

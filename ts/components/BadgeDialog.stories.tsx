@@ -5,18 +5,20 @@ import type { ComponentProps } from 'react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getFakeBadge, getFakeBadges } from '../test-both/helpers/getFakeBadge';
 import { repeat, zipObject } from '../util/iterables';
 import { BadgeImageTheme } from '../badges/BadgeImageTheme';
+import type { PropsType } from './BadgeDialog';
 import { BadgeDialog } from './BadgeDialog';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/BadgeDialog',
-};
+} satisfies Meta<PropsType>;
 
 const defaultProps: ComponentProps<typeof BadgeDialog> = {
   areWeASubscriber: false,
@@ -31,17 +33,9 @@ export function NoBadgesClosedImmediately(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={[]} />;
 }
 
-NoBadgesClosedImmediately.story = {
-  name: 'No badges (closed immediately)',
-};
-
 export function OneBadge(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(1)} />;
 }
-
-OneBadge.story = {
-  name: 'One badge',
-};
 
 export function BadgeWithNoImageShouldBeImpossible(): JSX.Element {
   return (
@@ -56,10 +50,6 @@ export function BadgeWithNoImageShouldBeImpossible(): JSX.Element {
     />
   );
 }
-
-BadgeWithNoImageShouldBeImpossible.story = {
-  name: 'Badge with no image (should be impossible)',
-};
 
 export function BadgeWithPendingImage(): JSX.Element {
   return (
@@ -79,10 +69,6 @@ export function BadgeWithPendingImage(): JSX.Element {
     />
   );
 }
-
-BadgeWithPendingImage.story = {
-  name: 'Badge with pending image',
-};
 
 export function BadgeWithOnlyOneLowDetailImage(): JSX.Element {
   return (
@@ -112,25 +98,13 @@ export function BadgeWithOnlyOneLowDetailImage(): JSX.Element {
   );
 }
 
-BadgeWithOnlyOneLowDetailImage.story = {
-  name: 'Badge with only one, low-detail image',
-};
-
 export function FiveBadges(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(5)} />;
 }
 
-FiveBadges.story = {
-  name: 'Five badges',
-};
-
 export function ManyBadges(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(50)} />;
 }
-
-ManyBadges.story = {
-  name: 'Many badges',
-};
 
 export function ManyBadgesUserIsASubscriber(): JSX.Element {
   return (
@@ -141,7 +115,3 @@ export function ManyBadgesUserIsASubscriber(): JSX.Element {
     />
   );
 }
-
-ManyBadgesUserIsASubscriber.story = {
-  name: 'Many badges, user is a subscriber',
-};

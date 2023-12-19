@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-import { boolean, number, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import { pngUrl } from '../../storybook/Fixtures';
 import type { Props } from './Image';
 import { CurveType, Image } from './Image';
@@ -21,10 +19,10 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/Image',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  alt: text('alt', overrideProps.alt || ''),
+  alt: overrideProps.alt || '',
   attachment:
     overrideProps.attachment ||
     fakeAttachment({
@@ -32,42 +30,27 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       fileName: 'sax.png',
       url: pngUrl,
     }),
-  blurHash: text('blurHash', overrideProps.blurHash || ''),
-  bottomOverlay: boolean('bottomOverlay', overrideProps.bottomOverlay || false),
-  closeButton: boolean('closeButton', overrideProps.closeButton || false),
-  curveBottomLeft: number(
-    'curveBottomLeft',
-    overrideProps.curveBottomLeft || CurveType.None
-  ),
-  curveBottomRight: number(
-    'curveBottomRight',
-    overrideProps.curveBottomRight || CurveType.None
-  ),
-  curveTopLeft: number(
-    'curveTopLeft',
-    overrideProps.curveTopLeft || CurveType.None
-  ),
-  curveTopRight: number(
-    'curveTopRight',
-    overrideProps.curveTopRight || CurveType.None
-  ),
-  darkOverlay: boolean('darkOverlay', overrideProps.darkOverlay || false),
-  height: number('height', overrideProps.height || 100),
+  blurHash: overrideProps.blurHash || '',
+  bottomOverlay: overrideProps.bottomOverlay || false,
+  closeButton: overrideProps.closeButton || false,
+  curveBottomLeft: overrideProps.curveBottomLeft || CurveType.None,
+  curveBottomRight: overrideProps.curveBottomRight || CurveType.None,
+  curveTopLeft: overrideProps.curveTopLeft || CurveType.None,
+  curveTopRight: overrideProps.curveTopRight || CurveType.None,
+  darkOverlay: overrideProps.darkOverlay || false,
+  height: overrideProps.height || 100,
   i18n,
-  noBackground: boolean('noBackground', overrideProps.noBackground || false),
-  noBorder: boolean('noBorder', overrideProps.noBorder || false),
+  noBackground: overrideProps.noBackground || false,
+  noBorder: overrideProps.noBorder || false,
   onClick: action('onClick'),
   onClickClose: action('onClickClose'),
   onError: action('onError'),
-  overlayText: text('overlayText', overrideProps.overlayText || ''),
-  playIconOverlay: boolean(
-    'playIconOverlay',
-    overrideProps.playIconOverlay || false
-  ),
-  tabIndex: number('tabIndex', overrideProps.tabIndex || 0),
-  theme: text('theme', overrideProps.theme || 'light') as ThemeType,
-  url: text('url', 'url' in overrideProps ? overrideProps.url || '' : pngUrl),
-  width: number('width', overrideProps.width || 100),
+  overlayText: overrideProps.overlayText || '',
+  playIconOverlay: overrideProps.playIconOverlay || false,
+  tabIndex: overrideProps.tabIndex || 0,
+  theme: overrideProps.theme || ('light' as ThemeType),
+  url: 'url' in overrideProps ? overrideProps.url || '' : pngUrl,
+  width: overrideProps.width || 100,
 });
 
 export function UrlWithHeightWidth(): JSX.Element {
@@ -75,10 +58,6 @@ export function UrlWithHeightWidth(): JSX.Element {
 
   return <Image {...props} />;
 }
-
-UrlWithHeightWidth.story = {
-  name: 'URL with Height/Width',
-};
 
 export function Caption(): JSX.Element {
   const defaultProps = createProps();
@@ -128,10 +107,6 @@ export function NoBorderOrBackground(): JSX.Element {
   );
 }
 
-NoBorderOrBackground.story = {
-  name: 'No Border or Background',
-};
-
 export function Pending(): JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
@@ -164,10 +139,6 @@ export function PendingWBlurhash(): JSX.Element {
     />
   );
 }
-
-PendingWBlurhash.story = {
-  name: 'Pending w/blurhash',
-};
 
 export function CurvedCorners(): JSX.Element {
   const props = createProps({
@@ -216,10 +187,6 @@ export function FullOverlayWithText(): JSX.Element {
   return <Image {...props} />;
 }
 
-FullOverlayWithText.story = {
-  name: 'Full Overlay with Text',
-};
-
 export function Blurhash(): JSX.Element {
   const defaultProps = createProps();
   const props = {
@@ -244,10 +211,6 @@ function UndefinedBlurHashWrapper() {
 export function UndefinedBlurHash(): JSX.Element {
   return <UndefinedBlurHashWrapper />;
 }
-
-UndefinedBlurHash.story = {
-  name: 'undefined blurHash',
-};
 
 export function MissingImage(): JSX.Element {
   const defaultProps = createProps();

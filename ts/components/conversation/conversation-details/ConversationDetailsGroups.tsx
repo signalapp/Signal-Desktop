@@ -49,7 +49,7 @@ export function ConversationDetailsGroups({
     >
       <PanelRow
         icon={<div className="ConversationDetails-groups__add-to-group-icon" />}
-        label={i18n('ConversationDetailsGroups--add-to-group')}
+        label={i18n('icu:ConversationDetailsGroups--add-to-group')}
         onClick={() => toggleAddUserToAnotherGroupModal(contactId)}
       />
       {groupsInCommon.slice(0, groupsToShow).map(group => (
@@ -77,12 +77,12 @@ export function ConversationDetailsGroups({
         <PanelRow
           icon={
             <ConversationDetailsIcon
-              ariaLabel={i18n('ConversationDetailsGroups--show-all')}
+              ariaLabel={i18n('icu:ConversationDetailsGroups--show-all')}
               icon={IconType.down}
             />
           }
           onClick={() => setShowAllGroups(true)}
-          label={i18n('ConversationDetailsGroups--show-all')}
+          label={i18n('icu:ConversationDetailsGroups--show-all')}
         />
       )}
     </PanelSection>

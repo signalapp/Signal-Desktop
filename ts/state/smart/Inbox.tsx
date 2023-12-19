@@ -4,27 +4,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import type { AppStateType } from '../ducks/app';
-import type { ConversationsStateType } from '../ducks/conversations';
 import type { StateType } from '../reducer';
 import { Inbox } from '../../components/Inbox';
 import { getIntl } from '../selectors/user';
-import { SmartConversationView } from './ConversationView';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
-import { SmartLeftPane } from './LeftPane';
-import { useConversationsActions } from '../ducks/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
+import type { SmartNavTabsProps } from './NavTabs';
+import { SmartNavTabs } from './NavTabs';
+import { SmartStoriesTab } from './StoriesTab';
+import { SmartCallsTab } from './CallsTab';
+import { useItemsActions } from '../ducks/items';
+import { getNavTabsCollapsed } from '../selectors/items';
+import { SmartChatsTab } from './ChatsTab';
 
-function renderConversationView() {
-  return <SmartConversationView />;
+function renderChatsTab() {
+  return <SmartChatsTab />;
+}
+
+function renderCallsTab() {
+  return <SmartCallsTab />;
 }
 
 function renderCustomizingPreferredReactionsModal() {
   return <SmartCustomizingPreferredReactionsModal />;
 }
 
-function renderLeftPane() {
-  return <SmartLeftPane />;
+function renderNavTabs(props: SmartNavTabsProps) {
+  return <SmartNavTabs {...props} />;
+}
+
+function renderStoriesTab() {
+  return <SmartStoriesTab />;
 }
 
 export function SmartInbox(): JSX.Element {
@@ -32,39 +42,35 @@ export function SmartInbox(): JSX.Element {
   const isCustomizingPreferredReactions = useSelector(
     getIsCustomizingPreferredReactions
   );
+  const envelopeTimestamp = useSelector<StateType, number | undefined>(
+    state => state.inbox.envelopeTimestamp
+  );
+  const firstEnvelopeTimestamp = useSelector<StateType, number | undefined>(
+    state => state.inbox.firstEnvelopeTimestamp
+  );
   const { hasInitialLoadCompleted } = useSelector<StateType, AppStateType>(
     state => state.app
   );
-  const { selectedConversationId, selectedMessage, selectedMessageSource } =
-    useSelector<StateType, ConversationsStateType>(
-      state => state.conversations
-    );
-  const {
-    onConversationClosed,
-    onConversationOpened,
-    scrollToMessage,
-    showConversation,
-  } = useConversationsActions();
-  const { showWhatsNewModal } = useGlobalModalActions();
+
+  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const { toggleNavTabsCollapse } = useItemsActions();
 
   return (
     <Inbox
+      envelopeTimestamp={envelopeTimestamp}
+      firstEnvelopeTimestamp={firstEnvelopeTimestamp}
       hasInitialLoadCompleted={hasInitialLoadCompleted}
       i18n={i18n}
       isCustomizingPreferredReactions={isCustomizingPreferredReactions}
-      onConversationClosed={onConversationClosed}
-      onConversationOpened={onConversationOpened}
-      renderConversationView={renderConversationView}
+      navTabsCollapsed={navTabsCollapsed}
+      onToggleNavTabsCollapse={toggleNavTabsCollapse}
+      renderChatsTab={renderChatsTab}
+      renderCallsTab={renderCallsTab}
       renderCustomizingPreferredReactionsModal={
         renderCustomizingPreferredReactionsModal
       }
-      renderLeftPane={renderLeftPane}
-      scrollToMessage={scrollToMessage}
-      selectedConversationId={selectedConversationId}
-      selectedMessage={selectedMessage}
-      selectedMessageSource={selectedMessageSource}
-      showConversation={showConversation}
-      showWhatsNewModal={showWhatsNewModal}
+      renderNavTabs={renderNavTabs}
+      renderStoriesTab={renderStoriesTab}
     />
   );
 }

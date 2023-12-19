@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
@@ -18,6 +17,7 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 import { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
 import { PaymentEventKind } from '../../types/Payment';
+import { ErrorBoundary } from './ErrorBoundary';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -58,29 +58,38 @@ const getDefaultProps = () => ({
   getPreferredBadge: () => undefined,
   id: 'asdf',
   isNextItemCallingNotification: false,
-  isSelected: false,
+  isTargeted: false,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
-  selectMessage: action('selectMessage'),
+  platform: 'darwin',
+  targetMessage: action('targetMessage'),
+  toggleSelectMessage: action('toggleSelectMessage'),
   reactToMessage: action('reactToMessage'),
   checkForAccount: action('checkForAccount'),
-  clearSelectedMessage: action('clearSelectedMessage'),
+  clearTargetedMessage: action('clearTargetedMessage'),
+  setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
+  copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),
-  deleteMessage: action('deleteMessage'),
-  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   messageExpanded: action('messageExpanded'),
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
   saveAttachment: action('saveAttachment'),
+  onOutgoingAudioCallInConversation: action(
+    'onOutgoingAudioCallInConversation'
+  ),
+  onOutgoingVideoCallInConversation: action(
+    'onOutgoingVideoCallInConversation'
+  ),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showLightbox: action('showLightbox'),
-  toggleForwardMessageModal: action('toggleForwardMessageModal'),
+  toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
+  toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   showExpiredIncomingTapToViewToast: action(
@@ -90,14 +99,14 @@ const getDefaultProps = () => ({
     'showExpiredIncomingTapToViewToast'
   ),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
-  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
-  startCallingLobby: action('startCallingLobby'),
+  showSpoiler: action('showSpoiler'),
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,
   shouldHideMetadata: false,
   shouldRenderDateHeader: false,
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
   now: Date.now(),
 
@@ -107,11 +116,13 @@ const getDefaultProps = () => ({
   renderReactionPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   viewStory: action('viewStory'),
+
+  onReplyToMessage: action('onReplyToMessage'),
 });
 
 export default {
   title: 'Components/Conversation/TimelineItem',
-};
+} satisfies Meta<TimelineItemProps>;
 
 export function PlainMessage(): JSX.Element {
   const item = {
@@ -143,11 +154,24 @@ export function Notification(): JSX.Element {
       },
     },
     {
+      type: 'timerNotification',
+      data: {
+        phoneNumber: '(202) 555-0000',
+        disabled: true,
+        ...getDefaultConversation(),
+        type: 'fromOther',
+      },
+    },
+    {
       type: 'universalTimerNotification',
       data: null,
     },
     {
       type: 'chatSessionRefreshed',
+    },
+    {
+      type: 'contactRemovedNotification',
+      data: null,
     },
     {
       type: 'safetyNumberNotification',
@@ -526,6 +550,14 @@ export function Notification(): JSX.Element {
         contact: getDefaultConversation(),
       },
     },
+    {
+      type: 'conversationMerge',
+      data: {
+        conversationTitle: 'Alice',
+        obsoleteConversationTitle: 'Nancy',
+        obsoleteConversationNumber: '+121255501234',
+      },
+    },
   ];
 
   return (
@@ -552,7 +584,11 @@ export function UnknownType(): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any as TimelineItemProps['item'];
 
-  return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
+  return (
+    <ErrorBoundary i18n={i18n} showDebugLog={action('showDebugLog')}>
+      <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />
+    </ErrorBoundary>
+  );
 }
 
 export function MissingItem(): JSX.Element {

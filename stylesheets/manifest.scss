@@ -12,10 +12,6 @@
 @import 'progress';
 @import 'emoji';
 
-// Old style: main view
-@import 'index';
-@import 'conversation';
-
 // Old style: modules
 @import 'modules';
 
@@ -39,20 +35,29 @@
 @import './components/BadgeSustainerInstructionsDialog.scss';
 @import './components/BetterAvatarBubble.scss';
 @import './components/Button.scss';
+@import './components/CallsTab.scss';
 @import './components/CallingAudioIndicator.scss';
+@import './components/CallingStatusIndicator.scss';
 @import './components/CallingButton.scss';
+@import './components/CallControls.scss';
+@import './components/CallSettingsButton.scss';
 @import './components/CallingLobby.scss';
-@import './components/CallingLobbyJoinButton.scss';
 @import './components/CallingPreCallInfo.scss';
 @import './components/CallingScreenSharingController.scss';
 @import './components/CallingSelectPresentingSourcesModal.scss';
 @import './components/CallingToast.scss';
+@import './components/CallingRaisedHandsList.scss';
+@import './components/CallingRaisedHandsToasts.scss';
+@import './components/CallingReactionsToasts.scss';
 @import './components/ChatColorPicker.scss';
 @import './components/Checkbox.scss';
 @import './components/CircleCheckbox.scss';
 @import './components/CompositionArea.scss';
+@import './components/CompositionRecording.scss';
+@import './components/CompositionRecordingDraft.scss';
 @import './components/CompositionInput.scss';
 @import './components/CompositionTextArea.scss';
+@import './components/ContactListItem.scss';
 @import './components/ContactModal.scss';
 @import './components/ContactName.scss';
 @import './components/ContactPill.scss';
@@ -64,13 +69,16 @@
 @import './components/ConversationHeader.scss';
 @import './components/ConversationHero.scss';
 @import './components/ConversationMergeNotification.scss';
+@import './components/ConversationPanel.scss';
 @import './components/ConversationView.scss';
 @import './components/CustomColorEditor.scss';
 @import './components/CustomizingPreferredReactionsModal.scss';
 @import './components/DebugLogWindow.scss';
+@import './components/DeleteMessagesModal.scss';
 @import './components/DisappearingTimeDialog.scss';
 @import './components/DisappearingTimerSelect.scss';
 @import './components/EditConversationAttributesModal.scss';
+@import './components/EditHistoryMessagesModal.scss';
 @import './components/EditUsernameModalBody.scss';
 @import './components/ForwardMessageModal.scss';
 @import './components/GradientDial.scss';
@@ -86,6 +94,8 @@
 @import './components/InstallScreenLinkInProgressStep.scss';
 @import './components/InstallScreenQrCodeNotScannedStep.scss';
 @import './components/InstallScreenSignalLogo.scss';
+@import './components/InstallScreenUpdateDialog.scss';
+@import './components/LeftPaneBanner.scss';
 @import './components/LeftPaneDialog.scss';
 @import './components/LeftPaneSearchInput.scss';
 @import './components/Lightbox.scss';
@@ -94,23 +104,33 @@
 @import './components/MediaQualitySelector.scss';
 @import './components/MessageAudio.scss';
 @import './components/MessageBody.scss';
+@import './components/MessageTextRenderer.scss';
 @import './components/MessageDetail.scss';
+@import './components/MiniPlayer.scss';
 @import './components/Modal.scss';
 @import './components/MyStories.scss';
+@import './components/NavSidebar.scss';
+@import './components/NavTabs.scss';
 @import './components/OutgoingGiftBadgeModal.scss';
 @import './components/PermissionsPopup.scss';
+@import './components/PlaybackButton.scss';
+@import './components/PlaybackRateButton.scss';
 @import './components/Preferences.scss';
 @import './components/ProfileEditor.scss';
 @import './components/Quote.scss';
 @import './components/ReactionPickerPicker.scss';
+@import './components/RecordingComposer.scss';
 @import './components/SafetyNumberChangeDialog.scss';
+@import './components/SafetyNumberOnboarding.scss';
 @import './components/SafetyNumberViewer.scss';
 @import './components/ScrollDownButton.scss';
 @import './components/SearchInput.scss';
 @import './components/SearchResultsLoadingFakeHeader.scss';
 @import './components/SearchResultsLoadingFakeRow.scss';
 @import './components/Select.scss';
+@import './components/SelectModeActions.scss';
 @import './components/SendStoryModal.scss';
+@import './components/ShortcutGuide.scss';
 @import './components/SignalConnectionsModal.scss';
 @import './components/Slider.scss';
 @import './components/StagedLinkPreview.scss';
@@ -134,5 +154,8 @@
 @import './components/TimelineWarnings.scss';
 @import './components/TitleBarContainer.scss';
 @import './components/Toast.scss';
+@import './components/Waveform.scss';
+@import './components/WaveformScrubber.scss';
+@import './components/UsernameLinkModalBody.scss';
 @import './components/UsernameOnboardingModalBody.scss';
 @import './components/WhatsNew.scss';

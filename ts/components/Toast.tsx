@@ -7,11 +7,11 @@ import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
+import * as log from '../logging/log';
 
 export type PropsType = {
   autoDismissDisabled?: boolean;
   children: ReactNode;
-  align?: 'left' | 'center';
   className?: string;
   disableCloseOnClick?: boolean;
   onClose: () => unknown;
@@ -26,7 +26,6 @@ export type PropsType = {
 export const Toast = memo(function ToastInner({
   autoDismissDisabled = false,
   children,
-  align = 'center',
   className,
   disableCloseOnClick = false,
   onClose,
@@ -36,6 +35,35 @@ export const Toast = memo(function ToastInner({
 }: PropsType): JSX.Element | null {
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
   const [focusRef] = useRestoreFocus();
+  const [align, setAlign] = React.useState<'left' | 'center'>('left');
+
+  useEffect(() => {
+    function updateAlign() {
+      const leftPane = document.querySelector('.module-left-pane');
+      const composer = document.querySelector(
+        '.ConversationView__composition-area'
+      );
+
+      if (
+        leftPane != null &&
+        composer != null &&
+        leftPane.classList.contains('module-left-pane--width-narrow')
+      ) {
+        setAlign('center');
+        return;
+      }
+
+      setAlign('left');
+    }
+
+    updateAlign();
+
+    if (window.reduxStore == null) {
+      log.warn('Toast: No redux store');
+      return;
+    }
+    return window.reduxStore.subscribe(updateAlign);
+  }, []);
 
   useEffect(() => {
     const div = document.createElement('div');

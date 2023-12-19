@@ -1,55 +1,60 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { UUID } from '../types/UUID';
 import * as log from '../logging/log';
 import { isNotNil } from './isNotNil';
 import { updateIdentityKey } from '../services/profiles';
+import type { ServiceIdString } from '../types/ServiceId';
 
 export async function verifyStoryListMembers(
-  uuids: Array<string>
-): Promise<{ untrustedUuids: Set<string>; verifiedUuids: Set<string> }> {
+  serviceIds: Array<ServiceIdString>
+): Promise<{
+  untrustedServiceIds: Set<ServiceIdString>;
+  verifiedServiceIds: Set<ServiceIdString>;
+}> {
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('verifyStoryListMembers: server not available');
   }
 
-  const verifiedUuids = new Set<string>();
-  const untrustedUuids = new Set<string>();
+  const verifiedServiceIds = new Set<ServiceIdString>();
+  const untrustedServiceIds = new Set<ServiceIdString>();
 
   const elements = await Promise.all(
-    uuids.map(async aci => {
-      const uuid = new UUID(aci);
+    serviceIds.map(async serviceId => {
       const fingerprint =
-        await window.textsecure.storage.protocol.getFingerprint(uuid);
+        await window.textsecure.storage.protocol.getFingerprint(serviceId);
 
       if (!fingerprint) {
-        log.warn('verifyStoryListMembers: no fingerprint found for uuid=', aci);
-        untrustedUuids.add(aci);
+        log.warn(
+          'verifyStoryListMembers: no fingerprint found for serviceId=',
+          serviceId
+        );
+        untrustedServiceIds.add(serviceId);
         return;
       }
 
-      verifiedUuids.add(aci);
-      return { aci, fingerprint };
+      verifiedServiceIds.add(serviceId);
+      return { uuid: serviceId, fingerprint };
     })
   );
 
-  const { elements: unverifiedACI } = await server.postBatchIdentityCheck(
+  const { elements: unverifiedServiceId } = await server.postBatchIdentityCheck(
     elements.filter(isNotNil)
   );
 
   await Promise.all(
-    unverifiedACI.map(async ({ aci, identityKey }) => {
-      untrustedUuids.add(aci);
-      verifiedUuids.delete(aci);
+    unverifiedServiceId.map(async ({ uuid: serviceId, identityKey }) => {
+      untrustedServiceIds.add(serviceId);
+      verifiedServiceIds.delete(serviceId);
 
       if (identityKey) {
-        await updateIdentityKey(identityKey, new UUID(aci));
+        await updateIdentityKey(identityKey, serviceId);
       } else {
-        await window.ConversationController.get(aci)?.getProfiles();
+        await window.ConversationController.get(serviceId)?.getProfiles();
       }
     })
   );
 
-  return { untrustedUuids, verifiedUuids };
+  return { untrustedServiceIds, verifiedServiceIds };
 }

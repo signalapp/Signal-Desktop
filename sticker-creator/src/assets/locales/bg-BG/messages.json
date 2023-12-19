@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "Създател на изкуство за стикери"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "Създайте нов пакет стикери"
+  },
+  "SignIn--title" : {
+    "message" : "Създайте пакет със стикери",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "Точно както с всичко останало в Signal, <linkToBlog>стикерите също са криптирани</linkToBlog>. Използвайте този инструмент, за да създадете свои собствени персонализирани пакети стикери.",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "Код за вписване",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "Отворете уебсайта Signal, за да започнете",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "За съжаление вашият браузър не се поддържа. Моля, отворете този линк във Firefox или Chrome",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "Отказ"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$ минути",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "Не бяха открити емотикони",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "Търсете емотикони",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "Цвят на кожата $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "Усмивки и хора",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "Животни и природа",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "Храни и напитки",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "Пътуване и места",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "Дейности",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "Обекти",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "Символи",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "Знамена",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "Създател на изкуство за Signal",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "Създаване на пакет със Signal стикери",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "Лого на Signal",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "Указания за създаване на пакет стикери",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "Натиснете, за да добавите или пуснете изображения тук",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "Пуснете изображения тук",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "Пакет със стикери",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "Пакет със стикери",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "Отказ",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "Копирайте",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "Напред",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "Обратно",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "Добавете стикери",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "Премахване на изображението",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "Кликнете или плъзнете/пуснете файл, за да добавите стикер",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "Стикерите трябва да са в PNG, APNG или WebP формат, с прозрачен фон и 512x512 пиксела. Препоръчителният отстъп е 16px.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "Преглед на отстъпите",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "Добави емотикона към всеки стикер",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "Това ни позволява да предлагаме стикери докато чатите.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "Още няколко детайла…",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "Заглавие",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "Дайте име на вашия пакет стикери",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "Автор",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "Въведете име, с което да запазите стикерите си",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "Изображение на корицата",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "Това е изображението, което ще се показва, когато споделяте вашия пакет със стикери",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "Сигурни ли сте, че искате да качите пакета със стикери?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "Качване",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "След създаването на пакета със стикери вече няма да можете да редактирате или изтривате.",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "Вашият пакет със стикери се създава",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "$count$ от $total$ качени",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "Честито! Вие създадохте пакет със стикери.",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "Отворете новите ви стикери от иконата за стикери или споделете с вашите приятели чрез линка по-долу.",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "Използвайте хаштага $hashtag$, за да помогнете на хората да намерят адресите на пакети със стикери, които искате да споделите публично.",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "URL на пакета със стикери",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "Инсталирай",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "Създайте друг пакет със стикери",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "Разгледай новия пакет със стикери, който създадох за Signal. #makeprivacystick",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, one {1 изображение е добавено} other {{count,number} изображения са добавени}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "В момента не се поддържат анимирани стикери",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "Пуснатото изображение е твърде голямо",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "Грешка при обработката на изображението",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "Анимираните PNG изображения трябва да са квадратни",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "Анимираните изображения трябва да се повтарят постоянно",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "Размерите на анимираното PNG изображение са твърде големи",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "Размерите на анимираното PNG изображение са твърде малки",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "Грешка при качване на изображения: $message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "Неуспешна връзка със сървъра: $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "Неуспешно качване на изображения поради изтекла идентификация. Моля, отворете уебсайта от Signal Desktop отново.",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "Линкът е копиран",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "Моят стикер в светла тема",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "Моят стикер в тъмна тема",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "Моля, настройте Signal на вашия телефон и настолен компютър, за да създавате пакети със стикери",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "Емотикони",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "Персонализирайте реакциите",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "Псевдоним на емотикон",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

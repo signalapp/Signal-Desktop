@@ -75,6 +75,7 @@ export class RecorderClass {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         audio: { mandatory: { googAutoGainControl: false } } as any,
       });
+
       if (!this.context || !this.input) {
         const err = new Error(
           'Recorder/getUserMedia/stream: Missing context or input!'

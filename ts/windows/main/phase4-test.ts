@@ -11,8 +11,11 @@ if (config.environment === 'test') {
   console.log('Importing test infrastructure...');
   require('./preload_test');
 }
-if (config.enableCI) {
-  console.log('Importing CI infrastructure...');
+
+if (config.ciMode) {
+  console.log(
+    `Importing CI infrastructure; enabled in config, mode: ${config.ciMode}`
+  );
   const { getCI } = require('../../CI');
   window.SignalCI = getCI(window.getTitle());
 }

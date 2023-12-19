@@ -9,7 +9,7 @@ import { assertDev } from '../../util/assert';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import {
   getConversationByIdSelector,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
 } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
@@ -26,7 +26,9 @@ export function SmartGV1Members({ conversationId }: PropsType): JSX.Element {
   const { showContactModal } = useGlobalModalActions();
 
   const conversationSelector = useSelector(getConversationByIdSelector);
-  const conversationByUuidSelector = useSelector(getConversationByUuidSelector);
+  const conversationByServiceIdSelector = useSelector(
+    getConversationByServiceIdSelector
+  );
 
   const conversation = conversationSelector(conversationId);
   assertDev(
@@ -36,7 +38,7 @@ export function SmartGV1Members({ conversationId }: PropsType): JSX.Element {
 
   const { memberships } = getGroupMemberships(
     conversation,
-    conversationByUuidSelector
+    conversationByServiceIdSelector
   );
 
   return (

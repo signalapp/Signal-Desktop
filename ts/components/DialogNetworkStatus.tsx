@@ -65,8 +65,8 @@ export function DialogNetworkStatus({
         containerWidthBreakpoint={containerWidthBreakpoint}
         type="warning"
         icon={spinner}
-        title={i18n('connecting')}
-        subtitle={i18n('connectingHangOn')}
+        title={i18n('icu:connecting')}
+        subtitle={i18n('icu:connectingHangOn')}
       />
     );
   }
@@ -76,10 +76,10 @@ export function DialogNetworkStatus({
       containerWidthBreakpoint={containerWidthBreakpoint}
       type="warning"
       icon="network"
-      title={isOnline ? i18n('disconnected') : i18n('offline')}
-      subtitle={i18n('checkNetworkConnection')}
+      title={isOnline ? i18n('icu:disconnected') : i18n('icu:offline')}
+      subtitle={i18n('icu:checkNetworkConnection')}
       hasAction
-      clickLabel={i18n('connect')}
+      clickLabel={i18n('icu:connect')}
       onClick={reconnect}
     />
   );

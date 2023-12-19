@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
+import classNames from 'classnames';
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 import type {
@@ -52,6 +53,37 @@ import type {
 import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 import { PanelType } from '../../../types/Panels';
+import type { CallStatus } from '../../../types/CallDisposition';
+import {
+  CallType,
+  type CallHistoryGroup,
+  CallDirection,
+  DirectCallStatus,
+  GroupCallStatus,
+} from '../../../types/CallDisposition';
+import { formatDate, formatTime } from '../../../util/timestamp';
+import { NavTab } from '../../../state/ducks/nav';
+
+function describeCallHistory(
+  i18n: LocalizerType,
+  type: CallType,
+  direction: CallDirection,
+  status: CallStatus
+): string {
+  if (status === DirectCallStatus.Missed || status === GroupCallStatus.Missed) {
+    if (direction === CallDirection.Incoming) {
+      return i18n('icu:CallHistory__Description--Missed', { type });
+    }
+    return i18n('icu:CallHistory__Description--Unanswered', { type });
+  }
+  if (
+    status === DirectCallStatus.Declined ||
+    status === GroupCallStatus.Declined
+  ) {
+    return i18n('icu:CallHistory__Description--Declined', { type });
+  }
+  return i18n('icu:CallHistory__Description--Default', { type, direction });
+}
 
 enum ModalState {
   NothingOpen,
@@ -65,6 +97,7 @@ enum ModalState {
 export type StateProps = {
   areWeASubscriber: boolean;
   badges?: ReadonlyArray<BadgeType>;
+  callHistoryGroup?: CallHistoryGroup | null;
   canEditGroupInfo: boolean;
   canAddNewMembers: boolean;
   conversation?: ConversationType;
@@ -80,6 +113,7 @@ export type StateProps = {
   memberships: ReadonlyArray<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
+  selectedNavTab: NavTab;
   theme: ThemeType;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   renderChooseGroupMembersModal: (
@@ -101,6 +135,7 @@ type ActionProps = {
     }
   ) => unknown;
   blockConversation: (id: string) => void;
+
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
@@ -133,12 +168,27 @@ type ActionProps = {
 
 export type Props = StateProps & ActionProps;
 
+export function getCannotLeaveBecauseYouAreLastAdmin(
+  memberships: ReadonlyArray<GroupV2Membership>,
+  isAdmin: boolean
+): boolean {
+  const otherMemberships = memberships.filter(({ member }) => !member.isMe);
+  const isJustMe = otherMemberships.length === 0;
+  const isAnyoneElseAnAdmin = otherMemberships.some(
+    membership => membership.isAdmin
+  );
+  const cannotLeaveBecauseYouAreLastAdmin =
+    isAdmin && !isJustMe && !isAnyoneElseAnAdmin;
+  return cannotLeaveBecauseYouAreLastAdmin;
+}
+
 export function ConversationDetails({
   acceptConversation,
   addMembersToGroup,
   areWeASubscriber,
   badges,
   blockConversation,
+  callHistoryGroup,
   canEditGroupInfo,
   canAddNewMembers,
   conversation,
@@ -166,6 +216,7 @@ export function ConversationDetails({
   replaceAvatar,
   saveAvatarToDisk,
   searchInConversation,
+  selectedNavTab,
   setDisappearingMessages,
   setMuteExpiration,
   showContactModal,
@@ -196,13 +247,13 @@ export function ConversationDetails({
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
 
-  const otherMemberships = memberships.filter(({ member }) => !member.isMe);
-  const isJustMe = otherMemberships.length === 0;
-  const isAnyoneElseAnAdmin = otherMemberships.some(
-    membership => membership.isAdmin
-  );
   const cannotLeaveBecauseYouAreLastAdmin =
-    isAdmin && !isJustMe && !isAnyoneElseAnAdmin;
+    getCannotLeaveBecauseYouAreLastAdmin(memberships, isAdmin);
+
+  const onCloseModal = useCallback(() => {
+    setModalState(ModalState.NothingOpen);
+    setEditGroupAttributesRequestState(RequestState.Inactive);
+  }, []);
 
   let modalNode: ReactNode;
   switch (modalState) {
@@ -242,10 +293,7 @@ export function ConversationDetails({
               },
             });
           }}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-            setEditGroupAttributesRequestState(RequestState.Inactive);
-          }}
+          onClose={onCloseModal}
           requestState={editGroupAttributesRequestState}
           title={conversation.title}
           deleteAvatarFromDisk={deleteAvatarFromDisk}
@@ -289,10 +337,7 @@ export function ConversationDetails({
           }}
           maxGroupSize={maxGroupSize}
           maxRecommendedGroupSize={maxRecommendedGroupSize}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-            setEditGroupAttributesRequestState(RequestState.Inactive);
-          }}
+          onClose={onCloseModal}
           requestState={addGroupMembersRequestState}
         />
       );
@@ -303,9 +348,7 @@ export function ConversationDetails({
           i18n={i18n}
           id={conversation.id}
           muteExpiresAt={conversation.muteExpiresAt}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-          }}
+          onClose={onCloseModal}
           setMuteExpiration={setMuteExpiration}
         />
       );
@@ -318,15 +361,13 @@ export function ConversationDetails({
             {
               action: () => setMuteExpiration(conversation.id, 0),
               style: 'affirmative',
-              text: i18n('unmute'),
+              text: i18n('icu:unmute'),
             },
           ]}
           hasXButton
           i18n={i18n}
-          title={i18n('ConversationDetails__unmute--title')}
-          onClose={() => {
-            setModalState(ModalState.NothingOpen);
-          }}
+          title={i18n('icu:ConversationDetails__unmute--title')}
+          onClose={onCloseModal}
         >
           {getMutedUntilText(Number(conversation.muteExpiresAt), i18n)}
         </ConfirmationDialog>
@@ -360,6 +401,20 @@ export function ConversationDetails({
       />
 
       <div className="ConversationDetails__header-buttons">
+        {selectedNavTab === NavTab.Calls && (
+          <Button
+            icon={ButtonIconType.message}
+            onClick={() => {
+              showConversation({
+                conversationId: conversation?.id,
+                switchToAssociatedView: true,
+              });
+            }}
+            variant={ButtonVariant.Details}
+          >
+            {i18n('icu:ConversationDetails__HeaderButton--Message')}
+          </Button>
+        )}
         {!conversation.isMe && (
           <>
             <ConversationDetailsCallButton
@@ -391,18 +446,58 @@ export function ConversationDetails({
           }}
           variant={ButtonVariant.Details}
         >
-          {isMuted ? i18n('unmute') : i18n('mute')}
+          {isMuted ? i18n('icu:unmute') : i18n('icu:mute')}
         </Button>
-        <Button
-          icon={ButtonIconType.search}
-          onClick={() => {
-            searchInConversation(conversation.id);
-          }}
-          variant={ButtonVariant.Details}
-        >
-          {i18n('search')}
-        </Button>
+        {selectedNavTab !== NavTab.Calls && (
+          <Button
+            icon={ButtonIconType.search}
+            onClick={() => {
+              searchInConversation(conversation.id);
+            }}
+            variant={ButtonVariant.Details}
+          >
+            {i18n('icu:search')}
+          </Button>
+        )}
       </div>
+
+      {callHistoryGroup && (
+        <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
+          <ol className="ConversationDetails__CallHistoryGroup__List">
+            {callHistoryGroup.children.map(child => {
+              return (
+                <li
+                  key={child.callId}
+                  className="ConversationDetails__CallHistoryGroup__Item"
+                >
+                  <span
+                    className={classNames(
+                      'ConversationDetails__CallHistoryGroup__ItemIcon',
+                      {
+                        'ConversationDetails__CallHistoryGroup__ItemIcon--Audio':
+                          callHistoryGroup.type === CallType.Audio,
+                        'ConversationDetails__CallHistoryGroup__ItemIcon--Video':
+                          callHistoryGroup.type !== CallType.Audio,
+                      }
+                    )}
+                  />
+                  <span className="ConversationDetails__CallHistoryGroup__ItemLabel">
+                    {describeCallHistory(
+                      i18n,
+                      callHistoryGroup.type,
+                      callHistoryGroup.direction,
+                      callHistoryGroup.status
+                    )}
+                  </span>
+                  <span className="ConversationDetails__CallHistoryGroup__ItemTimestamp">
+                    {formatTime(i18n, child.timestamp, Date.now(), false)}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </PanelSection>
+      )}
 
       <PanelSection>
         {!isGroup || canEditGroupInfo ? (
@@ -410,19 +505,21 @@ export function ConversationDetails({
             icon={
               <ConversationDetailsIcon
                 ariaLabel={i18n(
-                  'ConversationDetails--disappearing-messages-label'
+                  'icu:ConversationDetails--disappearing-messages-label'
                 )}
                 icon={IconType.timer}
               />
             }
             info={
               isGroup
-                ? i18n('ConversationDetails--disappearing-messages-info--group')
+                ? i18n(
+                    'icu:ConversationDetails--disappearing-messages-info--group'
+                  )
                 : i18n(
-                    'ConversationDetails--disappearing-messages-info--direct'
+                    'icu:ConversationDetails--disappearing-messages-info--direct'
                   )
             }
-            label={i18n('ConversationDetails--disappearing-messages-label')}
+            label={i18n('icu:ConversationDetails--disappearing-messages-label')}
             right={
               <DisappearingTimerSelect
                 i18n={i18n}
@@ -434,37 +531,39 @@ export function ConversationDetails({
             }
           />
         ) : null}
-        <PanelRow
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('showChatColorEditor')}
-              icon={IconType.color}
-            />
-          }
-          label={i18n('showChatColorEditor')}
-          onClick={() => {
-            pushPanelForConversation({
-              type: PanelType.ChatColorEditor,
-            });
-          }}
-          right={
-            <div
-              className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
-              style={{
-                ...getCustomColorStyle(conversation.customColor),
-              }}
-            />
-          }
-        />
+        {selectedNavTab === NavTab.Chats && (
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:showChatColorEditor')}
+                icon={IconType.color}
+              />
+            }
+            label={i18n('icu:showChatColorEditor')}
+            onClick={() => {
+              pushPanelForConversation({
+                type: PanelType.ChatColorEditor,
+              });
+            }}
+            right={
+              <div
+                className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
+                style={{
+                  ...getCustomColorStyle(conversation.customColor),
+                }}
+              />
+            }
+          />
+        )}
         {isGroup && (
           <PanelRow
             icon={
               <ConversationDetailsIcon
-                ariaLabel={i18n('ConversationDetails--notifications')}
+                ariaLabel={i18n('icu:ConversationDetails--notifications')}
                 icon={IconType.notifications}
               />
             }
-            label={i18n('ConversationDetails--notifications')}
+            label={i18n('icu:ConversationDetails--notifications')}
             onClick={() =>
               pushPanelForConversation({
                 type: PanelType.NotificationSettings,
@@ -516,27 +615,29 @@ export function ConversationDetails({
             <PanelRow
               icon={
                 <ConversationDetailsIcon
-                  ariaLabel={i18n('ConversationDetails--group-link')}
+                  ariaLabel={i18n('icu:ConversationDetails--group-link')}
                   icon={IconType.link}
                 />
               }
-              label={i18n('ConversationDetails--group-link')}
+              label={i18n('icu:ConversationDetails--group-link')}
               onClick={() =>
                 pushPanelForConversation({
                   type: PanelType.GroupLinkManagement,
                 })
               }
-              right={hasGroupLink ? i18n('on') : i18n('off')}
+              right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
             />
           ) : null}
           <PanelRow
             icon={
               <ConversationDetailsIcon
-                ariaLabel={i18n('ConversationDetails--requests-and-invites')}
+                ariaLabel={i18n(
+                  'icu:ConversationDetails--requests-and-invites'
+                )}
                 icon={IconType.invites}
               />
             }
-            label={i18n('ConversationDetails--requests-and-invites')}
+            label={i18n('icu:ConversationDetails--requests-and-invites')}
             onClick={() =>
               pushPanelForConversation({
                 type: PanelType.GroupInvites,
@@ -548,11 +649,11 @@ export function ConversationDetails({
             <PanelRow
               icon={
                 <ConversationDetailsIcon
-                  ariaLabel={i18n('permissions')}
+                  ariaLabel={i18n('icu:permissions')}
                   icon={IconType.lock}
                 />
               }
-              label={i18n('permissions')}
+              label={i18n('icu:permissions')}
               onClick={() =>
                 pushPanelForConversation({
                   type: PanelType.GroupPermissions,
@@ -623,14 +724,13 @@ function ConversationDetailsCallButton({
       onClick={onClick}
       variant={ButtonVariant.Details}
     >
-      {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-      {i18n(type)}
+      {type === 'audio' ? i18n('icu:audio') : i18n('icu:video')}
     </Button>
   );
 
   if (disabled) {
     return (
-      <Tooltip content={i18n('calling__in-another-call-tooltip')}>
+      <Tooltip content={i18n('icu:calling__in-another-call-tooltip')}>
         {button}
       </Tooltip>
     );

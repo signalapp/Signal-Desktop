@@ -1,11 +1,18 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, MouseEvent, ReactChild, ReactNode } from 'react';
+import type {
+  AriaAttributes,
+  CSSProperties,
+  MouseEvent,
+  ReactChild,
+  ReactNode,
+} from 'react';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
+import { filterDOMProps } from '@react-aria/utils';
 import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
 import type { LocalizerType } from '../types/Util';
@@ -31,8 +38,12 @@ export enum AvatarSize {
   TWENTY = 20,
   TWENTY_EIGHT = 28,
   THIRTY_TWO = 32,
+  THIRTY_SIX = 36,
+  FORTY = 40,
   FORTY_EIGHT = 48,
+  FIFTY_TWO = 52,
   EIGHTY = 80,
+  NINETY_SIX = 96,
 }
 
 type BadgePlacementType = { bottom: number; right: number };
@@ -67,7 +78,8 @@ export type Props = {
   | { badge: undefined; theme?: ThemeType }
   | { badge: BadgeType; theme: ThemeType }
 ) &
-  Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
+  Pick<React.HTMLProps<HTMLDivElement>, 'className'> &
+  AriaAttributes;
 
 const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [28, { bottom: -4, right: -2 }],
@@ -116,6 +128,7 @@ export function Avatar({
     sharedGroupNames,
     unblurredAvatarPath,
   }),
+  ...ariaProps
 }: Props): JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -179,7 +192,7 @@ export function Avatar({
           }}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
-          <div className="module-Avatar__click-to-view">{i18n('view')}</div>
+          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
         )}
       </>
     );
@@ -229,7 +242,12 @@ export function Avatar({
   );
   if (onClick) {
     contents = (
-      <button className={contentsClassName} type="button" onClick={onClick}>
+      <button
+        {...filterDOMProps(ariaProps)}
+        className={contentsClassName}
+        type="button"
+        onClick={onClick}
+      >
         {contentsChildren}
       </button>
     );
@@ -282,7 +300,9 @@ export function Avatar({
 
   return (
     <div
-      aria-label={i18n('contactAvatarAlt', [title])}
+      aria-label={i18n('icu:contactAvatarAlt', {
+        name: title,
+      })}
       className={classNames(
         'module-Avatar',
         Boolean(storyRing) && 'module-Avatar--with-story',

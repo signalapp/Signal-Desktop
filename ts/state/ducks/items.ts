@@ -13,8 +13,6 @@ import { drop } from '../../util/drop';
 import type {
   ConversationColorType,
   CustomColorType,
-  CustomColorsItemType,
-  DefaultConversationColorType,
 } from '../../types/Colors';
 import { ConversationColors } from '../../types/Colors';
 import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
@@ -24,24 +22,26 @@ import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig';
 
 // State
 
-export type ItemsStateType = ReadonlyDeep<{
-  universalExpireTimer?: number;
-
-  [key: string]: unknown;
-
-  remoteConfig?: RemoteConfigType;
-
-  // This property should always be set and this is ensured in background.ts
-  defaultConversationColor?: DefaultConversationColorType;
-
-  customColors?: CustomColorsItemType;
-
-  preferredLeftPaneWidth?: number;
-
-  preferredReactionEmoji?: Array<string>;
-
-  areWeASubscriber?: boolean;
-}>;
+export type ItemsStateType = ReadonlyDeep<
+  {
+    [key: string]: unknown;
+    remoteConfig?: RemoteConfigType;
+    serverTimeSkew?: number;
+  } & Partial<
+    Pick<
+      StorageAccessType,
+      | 'universalExpireTimer'
+      | 'defaultConversationColor'
+      | 'customColors'
+      | 'preferredLeftPaneWidth'
+      | 'navTabsCollapsed'
+      | 'preferredReactionEmoji'
+      | 'areWeASubscriber'
+      | 'usernameLinkColor'
+      | 'usernameLink'
+    >
+  >
+>;
 
 // Actions
 
@@ -89,6 +89,7 @@ export const actions = {
   resetDefaultChatColor,
   savePreferredLeftPaneWidth,
   setGlobalDefaultConversationColor,
+  toggleNavTabsCollapse,
   onSetSkinTone,
   putItem,
   putItemExternal,
@@ -97,8 +98,9 @@ export const actions = {
   resetItems,
 };
 
-export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
-  useBoundActions(actions);
+export const useItemsActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function putItem<K extends keyof StorageAccessType>(
   key: K,
@@ -151,7 +153,7 @@ function resetItems(): ItemsResetAction {
 
 function getDefaultCustomColorData() {
   return {
-    colors: {},
+    colors: {} as Record<string, CustomColorType>,
     version: 1,
   };
 }
@@ -277,6 +279,14 @@ function savePreferredLeftPaneWidth(
 ): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
   return dispatch => {
     dispatch(putItem('preferredLeftPaneWidth', preferredWidth));
+  };
+}
+
+function toggleNavTabsCollapse(
+  navTabsCollapsed: boolean
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return dispatch => {
+    dispatch(putItem('navTabsCollapsed', navTabsCollapsed));
   };
 }
 

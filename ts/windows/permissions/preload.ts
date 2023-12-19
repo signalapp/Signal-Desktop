@@ -1,14 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { contextBridge } from 'electron';
-
-import { SignalContext } from '../context';
-
+import { MinimalSignalContext } from '../minimalContext';
 import { createSetting } from '../../util/preload';
-import { PermissionsPopup } from '../../components/PermissionsPopup';
+import { drop } from '../../util/drop';
 
 const mediaCameraPermissions = createSetting('mediaCameraPermissions', {
   getter: false,
@@ -17,46 +13,28 @@ const mediaPermissions = createSetting('mediaPermissions', {
   getter: false,
 });
 
-contextBridge.exposeInMainWorld(
-  'nativeThemeListener',
-  window.SignalContext.nativeThemeListener
-);
+const params = new URLSearchParams(document.location.search);
+const forCalling = params.get('forCalling') === 'true';
+const forCamera = params.get('forCamera') === 'true';
 
-contextBridge.exposeInMainWorld('SignalContext', {
-  ...SignalContext,
-  renderWindow: () => {
-    const { forCalling, forCamera } = SignalContext.config;
+function onClose() {
+  drop(MinimalSignalContext.executeMenuRole('close'));
+}
 
-    let message;
-    if (forCalling) {
-      if (forCamera) {
-        message = SignalContext.i18n('videoCallingPermissionNeeded');
+const Signal = {
+  PermissionsWindowProps: {
+    forCalling,
+    forCamera,
+    onAccept: () => {
+      if (!forCamera) {
+        drop(mediaPermissions.setValue(true));
       } else {
-        message = SignalContext.i18n('audioCallingPermissionNeeded');
+        drop(mediaCameraPermissions.setValue(true));
       }
-    } else {
-      message = SignalContext.i18n('audioPermissionNeeded');
-    }
-
-    function onClose() {
-      void SignalContext.executeMenuRole('close');
-    }
-
-    ReactDOM.render(
-      React.createElement(PermissionsPopup, {
-        i18n: SignalContext.i18n,
-        message,
-        onAccept: () => {
-          if (!forCamera) {
-            void mediaPermissions.setValue(true);
-          } else {
-            void mediaCameraPermissions.setValue(true);
-          }
-          onClose();
-        },
-        onClose,
-      }),
-      document.getElementById('app')
-    );
+      onClose();
+    },
+    onClose,
   },
-});
+};
+contextBridge.exposeInMainWorld('Signal', Signal);
+contextBridge.exposeInMainWorld('SignalContext', MinimalSignalContext);

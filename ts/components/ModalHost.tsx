@@ -133,6 +133,7 @@ export const ModalHost = React.memo(function ModalHostInner({
                 const exemptParent = target.closest(
                   '.TitleBarContainer__title, ' +
                     '.module-composition-input__suggestions, ' +
+                    '.module-composition-input__format-menu, ' +
                     '.module-calling__modal-container'
                 );
                 if (exemptParent) {

@@ -9,6 +9,7 @@ import {
   StoryViewModeType,
 } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
+import { ThemeType } from '../types/Util';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
@@ -18,22 +19,37 @@ import { StoryImage } from './StoryImage';
 import { Theme } from '../util/theme';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { useRetryStorySend } from '../hooks/useRetryStorySend';
+import { NavSidebar } from './NavSidebar';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 export type PropsType = {
   i18n: LocalizerType;
+  otherTabsUnreadStats: UnreadStats;
+  hasFailedStorySends: boolean;
+  hasPendingUpdate: boolean;
+  navTabsCollapsed: boolean;
   myStories: Array<MyStoryType>;
   onBack: () => unknown;
   onDelete: (story: StoryViewType) => unknown;
   onForward: (storyId: string) => unknown;
   onSave: (story: StoryViewType) => unknown;
+  onMediaPlaybackStart: () => void;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   queueStoryDownload: (storyId: string) => unknown;
   retryMessageSend: (messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
   hasViewReceiptSetting: boolean;
+  preferredLeftPaneWidth: number;
+  savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
+  theme: ThemeType;
 };
 
 export function MyStories({
   i18n,
+  otherTabsUnreadStats,
+  hasFailedStorySends,
+  hasPendingUpdate,
+  navTabsCollapsed,
   myStories,
   onBack,
   onDelete,
@@ -43,6 +59,11 @@ export function MyStories({
   retryMessageSend,
   viewStory,
   hasViewReceiptSetting,
+  onMediaPlaybackStart,
+  onToggleNavTabsCollapse,
+  preferredLeftPaneWidth,
+  savePreferredLeftPaneWidth,
+  theme,
 }: PropsType): JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
@@ -55,7 +76,7 @@ export function MyStories({
           dialogName="MyStories.delete"
           actions={[
             {
-              text: i18n('delete'),
+              text: i18n('icu:delete'),
               action: () => onDelete(confirmDeleteStory),
               style: 'negative',
             },
@@ -63,52 +84,57 @@ export function MyStories({
           i18n={i18n}
           onClose={() => setConfirmDeleteStory(undefined)}
         >
-          {i18n('MyStories__delete')}
+          {i18n('icu:MyStories__delete')}
         </ConfirmationDialog>
       )}
-      <div className="Stories__pane__header Stories__pane__header--centered">
-        <button
-          aria-label={i18n('back')}
-          className="Stories__pane__header--back"
-          onClick={onBack}
-          type="button"
-        />
-        <div className="Stories__pane__header--title">
-          {i18n('MyStories__title')}
-        </div>
-      </div>
-      <div className="Stories__pane__list">
-        {myStories.map(list => (
-          <div className="MyStories__distribution" key={list.id}>
-            <div className="MyStories__distribution__title">
-              <StoryDistributionListName
-                i18n={i18n}
-                id={list.id}
-                name={list.name}
-              />
+      <NavSidebar
+        i18n={i18n}
+        title={i18n('icu:MyStories__title')}
+        otherTabsUnreadStats={otherTabsUnreadStats}
+        hasFailedStorySends={hasFailedStorySends}
+        hasPendingUpdate={hasPendingUpdate}
+        navTabsCollapsed={navTabsCollapsed}
+        onBack={onBack}
+        onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+        preferredLeftPaneWidth={preferredLeftPaneWidth}
+        requiresFullWidth
+        savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+      >
+        <div className="Stories__pane__list">
+          {myStories.map(list => (
+            <div className="MyStories__distribution" key={list.id}>
+              <div className="MyStories__distribution__title">
+                <StoryDistributionListName
+                  i18n={i18n}
+                  id={list.id}
+                  name={list.name}
+                />
+              </div>
+              {list.stories.map(story => (
+                <StorySent
+                  hasViewReceiptSetting={hasViewReceiptSetting}
+                  i18n={i18n}
+                  key={story.messageId}
+                  onForward={onForward}
+                  onSave={onSave}
+                  onMediaPlaybackStart={onMediaPlaybackStart}
+                  queueStoryDownload={queueStoryDownload}
+                  retryMessageSend={retryMessageSend}
+                  setConfirmDeleteStory={setConfirmDeleteStory}
+                  story={story}
+                  theme={theme}
+                  viewStory={viewStory}
+                />
+              ))}
             </div>
-            {list.stories.map(story => (
-              <StorySent
-                hasViewReceiptSetting={hasViewReceiptSetting}
-                i18n={i18n}
-                key={story.messageId}
-                onForward={onForward}
-                onSave={onSave}
-                queueStoryDownload={queueStoryDownload}
-                retryMessageSend={retryMessageSend}
-                setConfirmDeleteStory={setConfirmDeleteStory}
-                story={story}
-                viewStory={viewStory}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-      {!myStories.length && (
-        <div className="Stories__pane__list--empty">
-          {i18n('Stories__list-empty')}
+          ))}
         </div>
-      )}
+        {!myStories.length && (
+          <div className="Stories__pane__list--empty">
+            {i18n('icu:Stories__list-empty')}
+          </div>
+        )}
+      </NavSidebar>
     </>
   );
 }
@@ -122,6 +148,8 @@ type StorySentPropsType = Pick<
   | 'queueStoryDownload'
   | 'retryMessageSend'
   | 'viewStory'
+  | 'onMediaPlaybackStart'
+  | 'theme'
 > & {
   setConfirmDeleteStory: (_: StoryViewType | undefined) => unknown;
   story: StoryViewType;
@@ -132,10 +160,12 @@ function StorySent({
   i18n,
   onForward,
   onSave,
+  onMediaPlaybackStart,
   queueStoryDownload,
   retryMessageSend,
   setConfirmDeleteStory,
   story,
+  theme,
   viewStory,
 }: StorySentPropsType): JSX.Element {
   const sendStatus = resolveStorySendStatus(story.sendState ?? []);
@@ -146,7 +176,7 @@ function StorySent({
     <div className="MyStories__story" key={story.timestamp}>
       {renderAlert()}
       <button
-        aria-label={i18n('MyStories__story')}
+        aria-label={i18n('icu:MyStories__story')}
         className="StoryListItem__button MyStories__story-button"
         onClick={() => {
           if (
@@ -169,26 +199,27 @@ function StorySent({
         <div className="StoryListItem__previews">
           <StoryImage
             attachment={story.attachment}
-            firstName={i18n('you')}
+            firstName={i18n('icu:you')}
             i18n={i18n}
             isMe
             isThumbnail
-            label={i18n('MyStories__story')}
+            label={i18n('icu:MyStories__story')}
             moduleClassName="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={story.messageId}
+            onMediaPlaybackStart={onMediaPlaybackStart}
           />
         </div>
         <div className="MyStories__story__details">
           {sendStatus === ResolvedSendStatus.Sending &&
-            i18n('Stories__list--sending')}
+            i18n('icu:Stories__list--sending')}
           {sendStatus === ResolvedSendStatus.Failed && (
             <div className="MyStories__story__details__failed">
               <div>
-                {i18n('Stories__list--send_failed')}
+                {i18n('icu:Stories__list--send_failed')}
                 {!wasManuallyRetried && (
                   <div className="MyStories__story__details__failed__button">
-                    {i18n('Stories__list--retry-send')}
+                    {i18n('icu:Stories__list--retry-send')}
                   </div>
                 )}
               </div>
@@ -197,10 +228,10 @@ function StorySent({
           {sendStatus === ResolvedSendStatus.PartiallySent && (
             <div className="MyStories__story__details__failed">
               <div>
-                {i18n('Stories__list--partially-sent')}
+                {i18n('icu:Stories__list--partially-sent')}
                 {!wasManuallyRetried && (
                   <div className="MyStories__story__details__failed__button">
-                    {i18n('Stories__list--retry-send')}
+                    {i18n('icu:Stories__list--retry-send')}
                   </div>
                 )}
               </div>
@@ -225,7 +256,7 @@ function StorySent({
       </button>
       {story.attachment && (story.attachment.path || story.attachment.data) && (
         <button
-          aria-label={i18n('MyStories__download')}
+          aria-label={i18n('icu:MyStories__download')}
           className="MyStories__story__download"
           onClick={() => {
             onSave(story);
@@ -238,14 +269,14 @@ function StorySent({
         menuOptions={[
           {
             icon: 'MyStories__icon--forward',
-            label: i18n('forward'),
+            label: i18n('icu:forward'),
             onClick: () => {
               onForward(story.messageId);
             },
           },
           {
             icon: 'StoryListItem__icon--info',
-            label: i18n('StoryListItem__info'),
+            label: i18n('icu:StoryListItem__info'),
             onClick: () => {
               viewStory({
                 storyId: story.messageId,
@@ -256,14 +287,14 @@ function StorySent({
           },
           {
             icon: 'MyStories__icon--delete',
-            label: i18n('delete'),
+            label: i18n('icu:delete'),
             onClick: () => {
               setConfirmDeleteStory(story);
             },
           },
         ]}
         moduleClassName="MyStories__story__more"
-        theme={Theme.Dark}
+        theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
       />
     </div>
   );

@@ -17,6 +17,7 @@ import {
   getTempDir,
   deleteTempDir,
 } from '../../updater/common';
+import * as log from '../../logging/log';
 
 describe('updater/signatures', () => {
   const windows = parseYaml(`version: 1.23.2
@@ -164,7 +165,7 @@ releaseDate: '2021-12-03T19:00:23.754Z'
       const dir = await createTempDir();
       assert.isTrue((await stat(dir)).isDirectory());
 
-      await deleteTempDir(dir);
+      await deleteTempDir(log, dir);
 
       assert.isFalse(await pathExists(dir), 'Directory should be deleted');
     });
@@ -181,7 +182,7 @@ releaseDate: '2021-12-03T19:00:23.754Z'
 
       await mkdir(dir);
 
-      await deleteTempDir(dir);
+      await deleteTempDir(log, dir);
 
       assert.isFalse(await pathExists(dir), 'Directory should be deleted');
     });

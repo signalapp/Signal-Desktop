@@ -19,7 +19,9 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import { RenderLocation } from '../conversation/MessageTextRenderer';
 
+const EMPTY_OBJECT = Object.freeze(Object.create(null));
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
 export const MessageStatuses = [
@@ -53,19 +55,22 @@ export type PropsData = Pick<
   | 'muteExpiresAt'
   | 'phoneNumber'
   | 'profileName'
+  | 'removalStage'
   | 'sharedGroupNames'
   | 'shouldShowDraft'
   | 'title'
   | 'type'
-  | 'typingContactId'
+  | 'typingContactIdTimestamps'
   | 'unblurredAvatarPath'
   | 'unreadCount'
-  | 'uuid'
+  | 'unreadMentionsCount'
+  | 'serviceId'
 > & {
   badge?: BadgeType;
 };
 
 type PropsHousekeeping = {
+  buttonAriaLabel?: string;
   i18n: LocalizerType;
   onClick: (id: string) => void;
   theme: ThemeType;
@@ -78,6 +83,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     acceptedMessageRequest,
     avatarPath,
     badge,
+    buttonAriaLabel,
     color,
     draftPreview,
     groupId,
@@ -92,27 +98,33 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     onClick,
     phoneNumber,
     profileName,
+    removalStage,
     sharedGroupNames,
     shouldShowDraft,
     theme,
     title,
     type,
-    typingContactId,
+    typingContactIdTimestamps,
     unblurredAvatarPath,
     unreadCount,
-    uuid,
+    unreadMentionsCount,
+    serviceId,
   }) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
+    const isSomeoneTyping =
+      Object.keys(typingContactIdTimestamps ?? {}).length > 0;
     const headerName = (
       <>
         {isMe ? (
-          <span className={HEADER_CONTACT_NAME_CLASS_NAME}>
-            {i18n('noteToSelf')}
-          </span>
+          <ContactName
+            module={HEADER_CONTACT_NAME_CLASS_NAME}
+            isMe={isMe}
+            title={i18n('icu:noteToSelf')}
+          />
         ) : (
           <ContactName
             module={HEADER_CONTACT_NAME_CLASS_NAME}
-            isSignalConversation={isSignalConversation({ id, uuid })}
+            isSignalConversation={isSignalConversation({ id, serviceId })}
             title={title}
           />
         )}
@@ -123,42 +135,50 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     let messageText: ReactNode = null;
     let messageStatusIcon: ReactNode = null;
 
-    if (!acceptedMessageRequest) {
+    if (!acceptedMessageRequest && removalStage !== 'justNotification') {
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
-          {i18n('ConversationListItem--message-request')}
+          {i18n('icu:ConversationListItem--message-request')}
         </span>
       );
-    } else if (typingContactId) {
+    } else if (isSomeoneTyping) {
       messageText = <TypingAnimation i18n={i18n} />;
     } else if (shouldShowDraft && draftPreview) {
       messageText = (
         <>
           <span className={`${MESSAGE_TEXT_CLASS_NAME}__draft-prefix`}>
-            {i18n('ConversationListItem--draft-prefix')}
+            {i18n('icu:ConversationListItem--draft-prefix')}
           </span>
           <MessageBody
-            text={truncateMessageText(draftPreview)}
+            bodyRanges={draftPreview.bodyRanges}
             disableJumbomoji
             disableLinks
             i18n={i18n}
+            isSpoilerExpanded={{}}
+            prefix={draftPreview.prefix}
+            renderLocation={RenderLocation.ConversationList}
+            text={draftPreview.text}
           />
         </>
       );
     } else if (lastMessage?.deletedForEveryone) {
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__deleted-for-everyone`}>
-          {i18n('message--deletedForEveryone')}
+          {i18n('icu:message--deletedForEveryone')}
         </span>
       );
     } else if (lastMessage) {
       messageText = (
         <MessageBody
-          text={truncateMessageText(lastMessage.text)}
           author={type === 'group' ? lastMessage.author : undefined}
+          bodyRanges={lastMessage.bodyRanges}
           disableJumbomoji
           disableLinks
           i18n={i18n}
+          isSpoilerExpanded={EMPTY_OBJECT}
+          prefix={lastMessage.prefix}
+          renderLocation={RenderLocation.ConversationList}
+          text={lastMessage.text}
         />
       );
       if (lastMessage.status) {
@@ -180,6 +200,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
         badge={badge}
+        buttonAriaLabel={buttonAriaLabel}
         color={color}
         conversationType={type}
         groupId={groupId}
@@ -200,19 +221,10 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         theme={theme}
         title={title}
         unreadCount={unreadCount}
+        unreadMentionsCount={unreadMentionsCount}
         unblurredAvatarPath={unblurredAvatarPath}
-        uuid={uuid}
+        serviceId={serviceId}
       />
     );
   }
 );
-
-// This takes `unknown` because, sometimes, values from the database don't match our
-//   types. In the long term, we should fix that. In the short term, this smooths over the
-//   problem.
-function truncateMessageText(text: unknown): string {
-  if (typeof text !== 'string') {
-    return '';
-  }
-  return text.replace(/(?:\r?\n)+/g, ' ');
-}

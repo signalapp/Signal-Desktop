@@ -15,11 +15,21 @@ import type {
   AttachmentDownloadJobTypeType,
 } from '../sql/Interface';
 
+import { getValue } from '../RemoteConfig';
 import type { MessageModel } from '../models/messages';
 import type { AttachmentType } from '../types/Attachment';
+import {
+  AttachmentSizeError,
+  getAttachmentSignature,
+  isDownloaded,
+} from '../types/Attachment';
 import * as Errors from '../types/errors';
 import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
+import {
+  KIBIBYTE,
+  getMaximumIncomingAttachmentSizeInKb,
+} from '../types/AttachmentSize';
 
 const {
   getMessageById,
@@ -77,6 +87,7 @@ export async function stop(): Promise<void> {
 
 export async function addJob(
   attachment: AttachmentType,
+  // TODO: DESKTOP-5279
   job: { messageId: string; type: AttachmentDownloadJobTypeType; index: number }
 ): Promise<AttachmentType> {
   if (!attachment) {
@@ -267,13 +278,40 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       return;
     }
 
-    await _addAttachmentToMessage(
-      message,
-      { ...attachment, pending: true },
-      { type, index }
-    );
+    let downloaded: AttachmentType | null = null;
 
-    const downloaded = await downloadAttachment(attachment);
+    try {
+      const { size } = attachment;
+      const maxInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
+      const sizeInKib = size / KIBIBYTE;
+      if (!size || sizeInKib > maxInKib) {
+        throw new AttachmentSizeError(
+          `Attachment Job ${id}: Attachment was ${sizeInKib}kib, max is ${maxInKib}kib`
+        );
+      }
+
+      await _addAttachmentToMessage(
+        message,
+        { ...attachment, pending: true },
+        { type, index }
+      );
+
+      // If the download is bigger than expected, we'll stop in the middle
+      downloaded = await downloadAttachment(attachment);
+    } catch (error) {
+      if (error instanceof AttachmentSizeError) {
+        log.error(Errors.toLogFormat(error));
+        await _addAttachmentToMessage(
+          message,
+          _markAttachmentAsTooBig(attachment),
+          { type, index }
+        );
+        await _finishJob(message, id);
+        return;
+      }
+
+      throw error;
+    }
 
     if (!downloaded) {
       logger.warn(
@@ -345,7 +383,7 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       );
       if (message) {
         await saveMessage(message.attributes, {
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          ourAci: window.textsecure.storage.user.getCheckedAci(),
         });
       }
 
@@ -389,7 +427,7 @@ async function _getMessageById(
   id: string,
   messageId: string
 ): Promise<MessageModel | undefined> {
-  const message = window.MessageController.getById(messageId);
+  const message = window.MessageCache.__DEPRECATED$getById(messageId);
 
   if (message) {
     return message;
@@ -406,7 +444,11 @@ async function _getMessageById(
   }
 
   strictAssert(messageId === messageAttributes.id, 'message id mismatch');
-  return window.MessageController.register(messageId, messageAttributes);
+  return window.MessageCache.__DEPRECATED$register(
+    messageId,
+    messageAttributes,
+    'AttachmentDownloads._getMessageById'
+  );
 }
 
 async function _finishJob(
@@ -416,7 +458,7 @@ async function _finishJob(
   if (message) {
     logger.info(`attachment_downloads/_finishJob for job id: ${id}`);
     await saveMessage(message.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   }
 
@@ -433,8 +475,16 @@ function _markAttachmentAsPermanentError(
   attachment: AttachmentType
 ): AttachmentType {
   return {
-    ...omit(attachment, ['key', 'digest', 'id']),
+    ...omit(attachment, ['key', 'id']),
     error: true,
+  };
+}
+
+function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
+  return {
+    ...omit(attachment, ['key', 'id']),
+    error: true,
+    wasTooBig: true,
   };
 }
 
@@ -454,6 +504,7 @@ async function _addAttachmentToMessage(
   }
 
   const logPrefix = `${message.idForLogging()} (type: ${type}, index: ${index})`;
+  const attachmentSignature = getAttachmentSignature(attachment);
 
   if (type === 'long-message') {
     // Attachment wasn't downloaded yet.
@@ -480,44 +531,100 @@ async function _addAttachmentToMessage(
     return;
   }
 
+  const maybeReplaceAttachment = (existing: AttachmentType): AttachmentType => {
+    if (isDownloaded(existing)) {
+      return existing;
+    }
+
+    if (attachmentSignature !== getAttachmentSignature(existing)) {
+      return existing;
+    }
+
+    return attachment;
+  };
+
   if (type === 'attachment') {
     const attachments = message.get('attachments');
-    if (!attachments || attachments.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: attachments didn't exist or ${index} was too large`
-      );
+
+    let handledInEditHistory = false;
+
+    const editHistory = message.get('editHistory');
+    if (editHistory) {
+      const newEditHistory = editHistory.map(edit => {
+        if (!edit.attachments) {
+          return edit;
+        }
+
+        return {
+          ...edit,
+          // Loop through all the attachments to find the attachment we intend
+          // to replace.
+          attachments: edit.attachments.map(item => {
+            const newItem = maybeReplaceAttachment(item);
+            handledInEditHistory ||= item !== newItem;
+            return newItem;
+          }),
+        };
+      });
+
+      if (handledInEditHistory) {
+        message.set({ editHistory: newEditHistory });
+      }
     }
-    _checkOldAttachment(attachments, index.toString(), logPrefix);
 
-    const newAttachments = [...attachments];
-    newAttachments[index] = attachment;
-
-    message.set({ attachments: newAttachments });
+    if (attachments) {
+      message.set({
+        attachments: attachments.map(item => maybeReplaceAttachment(item)),
+      });
+    }
 
     return;
   }
 
   if (type === 'preview') {
     const preview = message.get('preview');
-    if (!preview || preview.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: preview didn't exist or ${index} was too large`
-      );
+
+    let handledInEditHistory = false;
+
+    const editHistory = message.get('editHistory');
+    if (preview && editHistory) {
+      const newEditHistory = editHistory.map(edit => {
+        if (!edit.preview) {
+          return edit;
+        }
+
+        return {
+          ...edit,
+          preview: edit.preview.map(item => {
+            if (!item.image) {
+              return item;
+            }
+
+            const newImage = maybeReplaceAttachment(item.image);
+            handledInEditHistory ||= item.image !== newImage;
+            return { ...item, image: newImage };
+          }),
+        };
+      });
+
+      if (handledInEditHistory) {
+        message.set({ editHistory: newEditHistory });
+      }
     }
-    const item = preview[index];
-    if (!item) {
-      throw new Error(`_addAttachmentToMessage: preview ${index} was falsey`);
+
+    if (preview) {
+      message.set({
+        preview: preview.map(item => {
+          if (!item.image) {
+            return item;
+          }
+          return {
+            ...item,
+            image: maybeReplaceAttachment(item.image),
+          };
+        }),
+      });
     }
-
-    _checkOldAttachment(item, 'image', logPrefix);
-
-    const newPreview = [...preview];
-    newPreview[index] = {
-      ...preview[index],
-      image: attachment,
-    };
-
-    message.set({ preview: newPreview });
 
     return;
   }
@@ -529,6 +636,7 @@ async function _addAttachmentToMessage(
         `_addAttachmentToMessage: contact didn't exist or ${index} was too large`
       );
     }
+
     const item = contact[index];
     if (item && item.avatar && item.avatar.avatar) {
       _checkOldAttachment(item.avatar, 'avatar', logPrefix);
@@ -554,37 +662,57 @@ async function _addAttachmentToMessage(
 
   if (type === 'quote') {
     const quote = message.get('quote');
-    if (!quote) {
-      throw new Error("_addAttachmentToMessage: quote didn't exist");
+    const editHistory = message.get('editHistory');
+    let handledInEditHistory = false;
+    if (editHistory) {
+      const newEditHistory = editHistory.map(edit => {
+        if (!edit.quote) {
+          return edit;
+        }
+
+        return {
+          ...edit,
+          quote: {
+            ...edit.quote,
+            attachments: edit.quote.attachments.map(item => {
+              const { thumbnail } = item;
+              if (!thumbnail) {
+                return;
+              }
+
+              const newThumbnail = maybeReplaceAttachment(thumbnail);
+              if (thumbnail !== newThumbnail) {
+                handledInEditHistory = true;
+              }
+              return { ...item, thumbnail: newThumbnail };
+            }),
+          },
+        };
+      });
+
+      if (handledInEditHistory) {
+        message.set({ editHistory: newEditHistory });
+      }
     }
-    const { attachments } = quote;
-    if (!attachments || attachments.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: quote attachments didn't exist or ${index} was too large`
-      );
+
+    if (quote) {
+      const newQuote = {
+        ...quote,
+        attachments: quote.attachments.map(item => {
+          const { thumbnail } = item;
+          if (!thumbnail) {
+            return item;
+          }
+
+          return {
+            ...item,
+            thumbnail: maybeReplaceAttachment(thumbnail),
+          };
+        }),
+      };
+
+      message.set({ quote: newQuote });
     }
-
-    const item = attachments[index];
-    if (!item) {
-      throw new Error(
-        `_addAttachmentToMessage: quote attachment ${index} was falsey`
-      );
-    }
-
-    _checkOldAttachment(item, 'thumbnail', logPrefix);
-
-    const newAttachments = [...attachments];
-    newAttachments[index] = {
-      ...attachments[index],
-      thumbnail: attachment,
-    };
-
-    const newQuote = {
-      ...quote,
-      attachments: newAttachments,
-    };
-
-    message.set({ quote: newQuote });
 
     return;
   }

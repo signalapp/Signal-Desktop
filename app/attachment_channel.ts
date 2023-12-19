@@ -189,7 +189,7 @@ export function initialize({
   sql: MainSQL;
 }): void {
   if (initialized) {
-    throw new Error('initialze: Already initialized!');
+    throw new Error('initialize: Already initialized!');
   }
   initialized = true;
 

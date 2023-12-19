@@ -1,10 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 import casual from 'casual';
+import { v4 as generateUuid } from 'uuid';
 
 import type { PropsType } from './ProfileEditor';
 import enMessages from '../../_locales/en/messages.json';
@@ -12,11 +13,12 @@ import { ProfileEditor } from './ProfileEditor';
 import { EditUsernameModalBody } from './EditUsernameModalBody';
 import {
   UsernameEditState,
+  UsernameLinkState,
   UsernameReservationState,
 } from '../state/ducks/usernameEnums';
-import { UUID } from '../types/UUID';
 import { getRandomColor } from '../test-both/helpers/getRandomColor';
 import { setupI18n } from '../util/setupI18n';
+import { SignalService as Proto } from '../protobuf';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -24,68 +26,68 @@ export default {
   component: ProfileEditor,
   title: 'Components/ProfileEditor',
   argTypes: {
-    aboutEmoji: {
-      defaultValue: '',
-    },
-    aboutText: {
-      defaultValue: casual.sentence,
-    },
-    profileAvatarPath: {
-      defaultValue: undefined,
-    },
-    conversationId: {
-      defaultValue: UUID.generate().toString(),
-    },
-    color: {
-      defaultValue: getRandomColor(),
-    },
-    deleteAvatarFromDisk: { action: true },
-    familyName: {
-      defaultValue: casual.last_name,
-    },
-    firstName: {
-      defaultValue: casual.first_name,
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
     isUsernameFlagEnabled: {
       control: { type: 'checkbox' },
-      defaultValue: false,
     },
     usernameEditState: {
       control: { type: 'radio' },
-      defaultValue: UsernameEditState.Editing,
       options: {
         Editing: UsernameEditState.Editing,
         ConfirmingDelete: UsernameEditState.ConfirmingDelete,
         Deleting: UsernameEditState.Deleting,
       },
     },
-    onEditStateChanged: { action: true },
-    onProfileChanged: { action: true },
-    onSetSkinTone: { action: true },
-    showToast: { action: true },
-    recentEmojis: {
-      defaultValue: [],
+    usernameCorrupted: {
+      control: 'boolean',
     },
-    replaceAvatar: { action: true },
-    saveAvatarToDisk: { action: true },
-    markCompletedUsernameOnboarding: { action: true },
-    openUsernameReservationModal: { action: true },
-    setUsernameEditState: { action: true },
-    deleteUsername: { action: true },
-    skinTone: {
-      defaultValue: 0,
+    usernameLinkState: {
+      control: { type: 'select' },
+      options: [UsernameLinkState.Ready, UsernameLinkState.Updating],
     },
-    userAvatarData: {
-      defaultValue: [],
-    },
-    username: {
-      defaultValue: undefined,
+    usernameLinkCorrupted: {
+      control: 'boolean',
     },
   },
-} as Meta;
+  args: {
+    aboutEmoji: '',
+    aboutText: casual.sentence,
+    profileAvatarPath: undefined,
+    conversationId: generateUuid(),
+    color: getRandomColor(),
+    deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
+    familyName: casual.last_name,
+    firstName: casual.first_name,
+    i18n,
+
+    usernameLink: 'https://signal.me/#eu/testtest',
+    usernameLinkColor: Proto.AccountRecord.UsernameLink.Color.PURPLE,
+    isUsernameFlagEnabled: false,
+    usernameEditState: UsernameEditState.Editing,
+    usernameLinkState: UsernameLinkState.Ready,
+
+    recentEmojis: [],
+    skinTone: 0,
+    userAvatarData: [],
+    username: undefined,
+
+    onEditStateChanged: action('onEditStateChanged'),
+    onProfileChanged: action('onProfileChanged'),
+    onSetSkinTone: action('onSetSkinTone'),
+    saveAttachment: action('saveAttachment'),
+    setUsernameLinkColor: action('setUsernameLinkColor'),
+    showToast: action('showToast'),
+    replaceAvatar: action('replaceAvatar'),
+    resetUsernameLink: action('resetUsernameLink'),
+    saveAvatarToDisk: action('saveAvatarToDisk'),
+    markCompletedUsernameOnboarding: action('markCompletedUsernameOnboarding'),
+    markCompletedUsernameLinkOnboarding: action(
+      'markCompletedUsernameLinkOnboarding'
+    ),
+    openUsernameReservationModal: action('openUsernameReservationModal'),
+    setUsernameEditState: action('setUsernameEditState'),
+    deleteUsername: action('deleteUsername'),
+  },
+} satisfies Meta<PropsType>;
 
 function renderEditUsernameModalBody(props: {
   onClose: () => void;
@@ -106,7 +108,7 @@ function renderEditUsernameModalBody(props: {
 }
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => {
+const Template: StoryFn<PropsType> = args => {
   const [skinTone, setSkinTone] = useState(0);
 
   return (
@@ -132,34 +134,21 @@ export const WithFullName = Template.bind({});
 WithFullName.args = {
   familyName: casual.last_name,
 };
-WithFullName.story = {
-  name: 'with Full Name',
-};
-
 export const WithCustomAbout = Template.bind({});
 WithCustomAbout.args = {
   aboutEmoji: '🙏',
   aboutText: 'Live. Laugh. Love',
-};
-WithCustomAbout.story = {
-  name: 'with Custom About',
 };
 
 export const WithUsernameFlagEnabled = Template.bind({});
 WithUsernameFlagEnabled.args = {
   isUsernameFlagEnabled: true,
 };
-WithUsernameFlagEnabled.story = {
-  name: 'with Username flag enabled',
-};
 
 export const WithUsernameFlagEnabledAndUsername = Template.bind({});
 WithUsernameFlagEnabledAndUsername.args = {
   isUsernameFlagEnabled: true,
   username: 'signaluser.123',
-};
-WithUsernameFlagEnabledAndUsername.story = {
-  name: 'with Username flag enabled and username',
 };
 
 export const DeletingUsername = Template.bind({});

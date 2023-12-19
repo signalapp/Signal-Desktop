@@ -7,7 +7,8 @@
   }
 
   &__body p {
-    margin: 0 0 25px 0;
+    margin-block: 0 25px;
+    margin-inline: 0;
   }
 
   &__time-boxes {
@@ -19,7 +20,7 @@
     }
 
     &__units {
-      margin-left: 9px;
+      margin-inline-start: 9px;
     }
   }
 }

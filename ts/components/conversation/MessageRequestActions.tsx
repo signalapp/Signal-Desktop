@@ -15,6 +15,7 @@ import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   i18n: LocalizerType;
+  isHidden?: boolean;
 } & Omit<ContactNameProps, 'module'> &
   Omit<
     MessageRequestActionsConfirmationProps,
@@ -30,10 +31,57 @@ export function MessageRequestActions({
   deleteConversation,
   firstName,
   i18n,
+  isHidden,
   isBlocked,
   title,
 }: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
+
+  const name = (
+    <strong
+      key="name"
+      className="module-message-request-actions__message__name"
+    >
+      <ContactName firstName={firstName} title={title} preferFirstName />
+    </strong>
+  );
+
+  let message: JSX.Element | undefined;
+  if (conversationType === 'direct') {
+    if (isBlocked) {
+      message = (
+        <Intl
+          i18n={i18n}
+          id="icu:MessageRequests--message-direct-blocked"
+          components={{ name }}
+        />
+      );
+    } else if (isHidden) {
+      message = (
+        <Intl
+          i18n={i18n}
+          id="icu:MessageRequests--message-direct-hidden"
+          components={{ name }}
+        />
+      );
+    } else {
+      message = (
+        <Intl
+          i18n={i18n}
+          id="icu:MessageRequests--message-direct"
+          components={{ name }}
+        />
+      );
+    }
+  } else if (conversationType === 'group') {
+    if (isBlocked) {
+      message = (
+        <Intl i18n={i18n} id="icu:MessageRequests--message-group-blocked" />
+      );
+    } else {
+      message = <Intl i18n={i18n} id="icu:MessageRequests--message-group" />;
+    }
+  }
 
   return (
     <>
@@ -52,26 +100,7 @@ export function MessageRequestActions({
         />
       ) : null}
       <div className="module-message-request-actions">
-        <p className="module-message-request-actions__message">
-          <Intl
-            i18n={i18n}
-            id={`MessageRequests--message-${conversationType}${
-              isBlocked ? '-blocked' : ''
-            }`}
-            components={[
-              <strong
-                key="name"
-                className="module-message-request-actions__message__name"
-              >
-                <ContactName
-                  firstName={firstName}
-                  title={title}
-                  preferFirstName
-                />
-              </strong>,
-            ]}
-          />
-        </p>
+        <p className="module-message-request-actions__message">{message}</p>
         <div className="module-message-request-actions__buttons">
           <Button
             onClick={() => {
@@ -79,7 +108,7 @@ export function MessageRequestActions({
             }}
             variant={ButtonVariant.SecondaryDestructive}
           >
-            {i18n('MessageRequests--delete')}
+            {i18n('icu:MessageRequests--delete')}
           </Button>
           {isBlocked ? (
             <Button
@@ -88,7 +117,7 @@ export function MessageRequestActions({
               }}
               variant={ButtonVariant.SecondaryAffirmative}
             >
-              {i18n('MessageRequests--unblock')}
+              {i18n('icu:MessageRequests--unblock')}
             </Button>
           ) : (
             <Button
@@ -97,7 +126,7 @@ export function MessageRequestActions({
               }}
               variant={ButtonVariant.SecondaryDestructive}
             >
-              {i18n('MessageRequests--block')}
+              {i18n('icu:MessageRequests--block')}
             </Button>
           )}
           {!isBlocked ? (
@@ -105,7 +134,7 @@ export function MessageRequestActions({
               onClick={() => acceptConversation(conversationId)}
               variant={ButtonVariant.SecondaryAffirmative}
             >
-              {i18n('MessageRequests--accept')}
+              {i18n('icu:MessageRequests--accept')}
             </Button>
           ) : null}
         </div>

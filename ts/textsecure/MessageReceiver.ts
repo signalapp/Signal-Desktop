@@ -3,9 +3,11 @@
 
 /* eslint-disable no-bitwise */
 
-import { isBoolean, isNumber, omit } from 'lodash';
+import { isBoolean, isNumber, isString, omit } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
+import { existsSync } from 'fs';
+import { removeSync } from 'fs-extra';
 
 import type {
   SealedSenderDecryptionResult,
@@ -13,11 +15,13 @@ import type {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
 import {
+  ContentHint,
   CiphertextMessageType,
   DecryptionErrorMessage,
   groupDecrypt,
   PlaintextContent,
   PreKeySignalMessage,
+  Pni,
   processSenderKeyDistributionMessage,
   ProtocolAddress,
   PublicKey,
@@ -31,28 +35,39 @@ import {
 
 import {
   IdentityKeys,
+  KyberPreKeys,
   PreKeys,
   SenderKeys,
   Sessions,
   SignedPreKeys,
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
-import { assertDev, strictAssert } from '../util/assert';
+import { strictAssert, assertDev } from '../util/assert';
 import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
 import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
-import { normalizeUuid } from '../util/normalizeUuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
-import { DurationInSeconds } from '../util/durations';
-import { deriveMasterKeyFromGroupV1, bytesToUuid } from '../Crypto';
-import type { DownloadedAttachmentType } from '../types/Attachment';
+import { DurationInSeconds, SECOND } from '../util/durations';
+import type { AttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import type { UUIDStringType } from '../types/UUID';
-import { UUID, UUIDKind } from '../types/UUID';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
+import type { ServiceIdString } from '../types/ServiceId';
+import {
+  ServiceIdKind,
+  normalizeServiceId,
+  normalizePni,
+  isPniString,
+  isUntaggedPniString,
+  isServiceIdString,
+  fromPniObject,
+  toTaggedPni,
+} from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
+import { isAciString } from '../util/isAciString';
 import * as Errors from '../types/errors';
 
 import { SignalService as Proto } from '../protobuf';
@@ -68,9 +83,10 @@ import {
 import { processSyncMessage } from './processSyncMessage';
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
-import { downloadAttachment } from './downloadAttachment';
+import { downloadAttachmentV2 } from './downloadAttachment';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
-import { ContactBuffer, GroupBuffer } from './ContactsParser';
+import type { ContactDetailsWithAvatar } from './ContactsParser';
+import { parseContactsV2 } from './ContactsParser';
 import type { WebAPIType } from './WebAPI';
 import type { Storage } from './Storage';
 import { WarnOnlyError } from './Errors';
@@ -86,8 +102,10 @@ import type {
   UnprocessedType,
 } from './Types.d';
 import {
+  CallEventSyncEvent,
   EmptyEvent,
-  EnvelopeEvent,
+  EnvelopeQueuedEvent,
+  EnvelopeUnsealedEvent,
   ProgressEvent,
   TypingEvent,
   ErrorEvent,
@@ -95,6 +113,7 @@ import {
   DecryptionErrorEvent,
   SentEvent,
   ProfileKeyUpdateEvent,
+  InvalidPlaintextEvent,
   MessageEvent,
   RetryRequestEvent,
   ReadEvent,
@@ -108,10 +127,8 @@ import {
   ReadSyncEvent,
   ViewSyncEvent,
   ContactSyncEvent,
-  GroupEvent,
-  GroupSyncEvent,
   StoryRecipientUpdateEvent,
-  CallEventSyncEvent,
+  CallLogEventSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
@@ -122,14 +139,19 @@ import type { SendTypesType } from '../util/handleMessageSend';
 import { getStoriesBlocked } from '../util/stories';
 import { isNotNil } from '../util/isNotNil';
 import { chunk } from '../util/iterables';
+import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { filterAndClean } from '../types/BodyRange';
+import { getCallEventForProto } from '../util/callDisposition';
+import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
+import { CallLogEvent } from '../types/CallDisposition';
 
-const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
 type UnsealedEnvelope = Readonly<
-  Omit<ProcessedEnvelope, 'sourceUuid'> & {
-    sourceUuid: UUIDStringType;
+  Omit<ProcessedEnvelope, 'sourceServiceId'> & {
+    sourceServiceId: ServiceIdString;
     unidentifiedDeliveryReceived?: boolean;
     contentHint?: number;
     groupId?: string;
@@ -154,6 +176,12 @@ type DecryptResult = Readonly<
 type DecryptSealedSenderResult = Readonly<{
   plaintext?: Uint8Array;
   unsealedPlaintext?: SealedSenderDecryptionResult;
+  wasEncrypted: boolean;
+}>;
+
+type InnerDecryptResultType = Readonly<{
+  plaintext: Uint8Array;
+  wasEncrypted: boolean;
 }>;
 
 type CacheAddItemType = {
@@ -230,12 +258,12 @@ function getEnvelopeId(envelope: ProcessedEnvelope): string {
 
   let prefix = '';
 
-  if (envelope.sourceUuid || envelope.source) {
-    const sender = envelope.sourceUuid || envelope.source;
+  if (envelope.sourceServiceId || envelope.source) {
+    const sender = envelope.sourceServiceId || envelope.source;
     prefix += `${sender}.${envelope.sourceDevice} `;
   }
 
-  prefix += `> ${envelope.destinationUuid.toString()}`;
+  prefix += `> ${envelope.destinationServiceId}`;
 
   return `${prefix} ${timestamp} (${envelope.id})`;
 }
@@ -274,6 +302,8 @@ export default class MessageReceiver
   private serverTrustRoot: Uint8Array;
 
   private stoppingProcessing?: boolean;
+
+  private pniIdentityKeyCheckRequired?: boolean;
 
   constructor({ server, storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
@@ -368,50 +398,47 @@ export default class MessageReceiver
 
       try {
         const decoded = Proto.Envelope.decode(plaintext);
-        const serverTimestamp = decoded.serverTimestamp?.toNumber();
+        const serverTimestamp = decoded.serverTimestamp?.toNumber() ?? 0;
 
-        const ourUuid = this.storage.user.getCheckedUuid();
+        const ourAci = this.storage.user.getCheckedAci();
 
         const envelope: ProcessedEnvelope = {
           // Make non-private envelope IDs dashless so they don't get redacted
           //   from logs
           id: getGuid().replace(/-/g, ''),
-          receivedAtCounter: window.Signal.Util.incrementMessageCounter(),
+          receivedAtCounter: incrementMessageCounter(),
           receivedAtDate: Date.now(),
           // Calculate the message age (time on server).
           messageAgeSec: this.calculateMessageAge(headers, serverTimestamp),
 
           // Proto.Envelope fields
-          type: decoded.type,
-          sourceUuid: decoded.sourceUuid
-            ? normalizeUuid(
-                decoded.sourceUuid,
-                'MessageReceiver.handleRequest.sourceUuid'
+          type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
+          sourceServiceId: decoded.sourceServiceId
+            ? normalizeServiceId(
+                decoded.sourceServiceId,
+                'MessageReceiver.handleRequest.sourceServiceId'
               )
             : undefined,
-          sourceDevice: decoded.sourceDevice,
-          destinationUuid: decoded.destinationUuid
-            ? new UUID(
-                normalizeUuid(
-                  decoded.destinationUuid,
-                  'MessageReceiver.handleRequest.destinationUuid'
-                )
+          sourceDevice: decoded.sourceDevice ?? 1,
+          destinationServiceId: decoded.destinationServiceId
+            ? normalizeServiceId(
+                decoded.destinationServiceId,
+                'MessageReceiver.handleRequest.destinationServiceId'
               )
-            : ourUuid,
-          updatedPni: decoded.updatedPni
-            ? new UUID(
-                normalizeUuid(
-                  decoded.updatedPni,
+            : ourAci,
+          updatedPni:
+            decoded.updatedPni && isUntaggedPniString(decoded.updatedPni)
+              ? normalizePni(
+                  toTaggedPni(decoded.updatedPni),
                   'MessageReceiver.handleRequest.updatedPni'
                 )
-              )
-            : undefined,
-          timestamp: decoded.timestamp?.toNumber(),
+              : undefined,
+          timestamp: decoded.timestamp?.toNumber() ?? 0,
           content: dropNull(decoded.content),
-          serverGuid: decoded.serverGuid,
+          serverGuid: decoded.serverGuid ?? getGuid(),
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
-          story: decoded.story,
+          story: decoded.story ?? false,
           reportingToken: decoded.reportingToken?.length
             ? decoded.reportingToken
             : undefined,
@@ -530,6 +557,11 @@ export default class MessageReceiver
   ): void;
 
   public override addEventListener(
+    name: 'invalid-plaintext',
+    handler: (ev: InvalidPlaintextEvent) => void
+  ): void;
+
+  public override addEventListener(
     name: 'sent',
     handler: (ev: SentEvent) => void
   ): void;
@@ -605,18 +637,13 @@ export default class MessageReceiver
   ): void;
 
   public override addEventListener(
-    name: 'group',
-    handler: (ev: GroupEvent) => void
+    name: 'envelopeQueued',
+    handler: (ev: EnvelopeQueuedEvent) => void
   ): void;
 
   public override addEventListener(
-    name: 'groupSync',
-    handler: (ev: GroupSyncEvent) => void
-  ): void;
-
-  public override addEventListener(
-    name: 'envelope',
-    handler: (ev: EnvelopeEvent) => void
+    name: 'envelopeUnsealed',
+    handler: (ev: EnvelopeUnsealedEvent) => void
   ): void;
 
   public override addEventListener(
@@ -627,6 +654,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'callEventSync',
     handler: (ev: CallEventSyncEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'callLogEventSync',
+    handler: (ev: CallLogEventSyncEvent) => void
   ): void;
 
   public override addEventListener(name: string, handler: EventHandler): void {
@@ -714,6 +746,15 @@ export default class MessageReceiver
         this.decryptAndCacheBatcher.flushAndWait(),
         this.cacheRemoveBatcher.flushAndWait(),
       ]);
+
+      if (this.pniIdentityKeyCheckRequired) {
+        log.warn(
+          "MessageReceiver: got 'empty' event, " +
+            'running scheduled pni identity key check'
+        );
+        drop(checkOurPniIdentityKey());
+      }
+      this.pniIdentityKeyCheckRequired = false;
 
       log.info("MessageReceiver: emitting 'empty' event");
       this.dispatchEvent(new EmptyEvent());
@@ -822,7 +863,7 @@ export default class MessageReceiver
 
       const decoded = Proto.Envelope.decode(envelopePlaintext);
 
-      const ourUuid = this.storage.user.getCheckedUuid();
+      const ourAci = this.storage.user.getCheckedAci();
 
       const envelope: ProcessedEnvelope = {
         id: item.id,
@@ -832,23 +873,28 @@ export default class MessageReceiver
         messageAgeSec: item.messageAgeSec || 0,
 
         // Proto.Envelope fields
-        type: decoded.type,
+        type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
         source: item.source,
-        sourceUuid:
-          item.sourceUuid ||
-          (decoded.sourceUuid ? UUID.cast(decoded.sourceUuid) : undefined),
-        sourceDevice: decoded.sourceDevice || item.sourceDevice,
-        destinationUuid: new UUID(
-          decoded.destinationUuid || item.destinationUuid || ourUuid.toString()
+        sourceServiceId: normalizeServiceId(
+          item.sourceServiceId || decoded.sourceServiceId,
+          'CachedEnvelope.sourceServiceId'
         ),
-        updatedPni: decoded.updatedPni
-          ? new UUID(decoded.updatedPni)
+        sourceDevice: decoded.sourceDevice || item.sourceDevice,
+        destinationServiceId: normalizeServiceId(
+          decoded.destinationServiceId || item.destinationServiceId || ourAci,
+          'CachedEnvelope.destinationServiceId'
+        ),
+        updatedPni: isUntaggedPniString(decoded.updatedPni)
+          ? normalizePni(
+              toTaggedPni(decoded.updatedPni),
+              'CachedEnvelope.updatedPni'
+            )
           : undefined,
-        timestamp: decoded.timestamp?.toNumber(),
+        timestamp: decoded.timestamp?.toNumber() ?? 0,
         content: dropNull(decoded.content),
-        serverGuid: decoded.serverGuid,
+        serverGuid: decoded.serverGuid ?? getGuid(),
         serverTimestamp:
-          item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
+          item.serverTimestamp || decoded.serverTimestamp?.toNumber() || 0,
         urgent: isBoolean(item.urgent) ? item.urgent : true,
         story: Boolean(item.story),
         reportingToken: item.reportingToken
@@ -869,17 +915,30 @@ export default class MessageReceiver
         }
 
         strictAssert(
-          envelope.sourceUuid,
+          envelope.sourceServiceId,
           'Decrypted envelope must have source uuid'
         );
 
         // Pacify typescript
         const decryptedEnvelope = {
           ...envelope,
-          sourceUuid: envelope.sourceUuid,
+          sourceServiceId: envelope.sourceServiceId,
         };
 
         // Maintain invariant: encrypted queue => decrypted queue
+        const envelopeId = getEnvelopeId(decryptedEnvelope);
+        const taskId = `queueCached(EnvelopeEvent(${envelopeId}))`;
+        drop(
+          this.addToQueue(
+            async () =>
+              this.dispatchAndWait(
+                taskId,
+                new EnvelopeQueuedEvent(decryptedEnvelope)
+              ),
+            taskId,
+            TaskType.Decrypted
+          )
+        );
         drop(
           this.addToQueue(
             async () => {
@@ -977,7 +1036,7 @@ export default class MessageReceiver
         pendingUnprocessed: true,
       });
 
-      const storesMap = new Map<UUIDStringType, LockedStores>();
+      const storesMap = new Map<ServiceIdString, LockedStores>();
       const failed: Array<UnprocessedType> = [];
 
       // Below we:
@@ -993,26 +1052,26 @@ export default class MessageReceiver
         await Promise.all<void>(
           items.map(async ({ data, envelope }) => {
             try {
-              const { destinationUuid } = envelope;
+              const { destinationServiceId } = envelope;
 
-              let stores = storesMap.get(destinationUuid.toString());
+              let stores = storesMap.get(destinationServiceId);
               if (!stores) {
                 stores = {
                   senderKeyStore: new SenderKeys({
-                    ourUuid: destinationUuid,
+                    ourServiceId: destinationServiceId,
                     zone,
                   }),
                   sessionStore: new Sessions({
                     zone,
-                    ourUuid: destinationUuid,
+                    ourServiceId: destinationServiceId,
                   }),
                   identityKeyStore: new IdentityKeys({
                     zone,
-                    ourUuid: destinationUuid,
+                    ourServiceId: destinationServiceId,
                   }),
                   zone,
                 };
-                storesMap.set(destinationUuid.toString(), stores);
+                storesMap.set(destinationServiceId, stores);
               }
 
               const result = await this.queueEncryptedEnvelope(
@@ -1050,10 +1109,10 @@ export default class MessageReceiver
               ...data,
 
               source: envelope.source,
-              sourceUuid: envelope.sourceUuid,
+              sourceServiceId: envelope.sourceServiceId,
               sourceDevice: envelope.sourceDevice,
-              destinationUuid: envelope.destinationUuid.toString(),
-              updatedPni: envelope.updatedPni?.toString(),
+              destinationServiceId: envelope.destinationServiceId,
+              updatedPni: envelope.updatedPni,
               serverGuid: envelope.serverGuid,
               serverTimestamp: envelope.serverTimestamp,
               decrypted: Bytes.toBase64(plaintext),
@@ -1185,13 +1244,14 @@ export default class MessageReceiver
     log.info('queueing envelope', logId);
 
     const task = async (): Promise<DecryptResult> => {
-      const { destinationUuid } = envelope;
-      const uuidKind = this.storage.user.getOurUuidKind(destinationUuid);
-      if (uuidKind === UUIDKind.Unknown) {
+      const { destinationServiceId } = envelope;
+      const serviceIdKind =
+        this.storage.user.getOurServiceIdKind(destinationServiceId);
+      if (serviceIdKind === ServiceIdKind.Unknown) {
         log.warn(
           'MessageReceiver.decryptAndCacheBatch: ' +
             `Rejecting envelope ${getEnvelopeId(envelope)}, ` +
-            `unknown uuid: ${destinationUuid}`
+            `unknown serviceId: ${destinationServiceId}`
         );
         return { plaintext: undefined, envelope: undefined };
       }
@@ -1199,7 +1259,7 @@ export default class MessageReceiver
       const unsealedEnvelope = await this.unsealEnvelope(
         stores,
         envelope,
-        uuidKind
+        serviceIdKind
       );
 
       // Dropped early
@@ -1209,17 +1269,20 @@ export default class MessageReceiver
 
       logId = getEnvelopeId(unsealedEnvelope);
 
-      const taskId = `dispatchEvent(EnvelopeEvent(${logId}))`;
+      const taskId = `dispatchEvent(EnvelopeUnsealedEvent(${logId}))`;
       drop(
         this.addToQueue(
           async () =>
-            this.dispatchAndWait(taskId, new EnvelopeEvent(unsealedEnvelope)),
+            this.dispatchAndWait(
+              taskId,
+              new EnvelopeUnsealedEvent(unsealedEnvelope)
+            ),
           taskId,
           TaskType.Decrypted
         )
       );
 
-      return this.decryptEnvelope(stores, unsealedEnvelope, uuidKind);
+      return this.decryptEnvelope(stores, unsealedEnvelope, serviceIdKind);
     };
 
     try {
@@ -1282,7 +1345,7 @@ export default class MessageReceiver
   private async unsealEnvelope(
     stores: LockedStores,
     envelope: ProcessedEnvelope,
-    uuidKind: UUIDKind
+    serviceIdKind: ServiceIdKind
   ): Promise<UnsealedEnvelope | undefined> {
     const logId = getEnvelopeId(envelope);
 
@@ -1293,23 +1356,26 @@ export default class MessageReceiver
 
     if (envelope.type !== Proto.Envelope.Type.UNIDENTIFIED_SENDER) {
       strictAssert(
-        envelope.sourceUuid,
+        envelope.sourceServiceId,
         'Unsealed envelope must have source uuid'
       );
       return {
         ...envelope,
-        sourceUuid: envelope.sourceUuid,
+        sourceServiceId: envelope.sourceServiceId,
         cipherTextBytes: envelope.content,
         cipherTextType: envelopeTypeToCiphertextType(envelope.type),
       };
     }
 
-    if (uuidKind === UUIDKind.PNI) {
+    if (serviceIdKind === ServiceIdKind.PNI) {
       log.warn(`MessageReceiver.unsealEnvelope(${logId}): dropping for PNI`);
       return undefined;
     }
 
-    strictAssert(uuidKind === UUIDKind.ACI, 'Sealed non-ACI envelope');
+    strictAssert(
+      serviceIdKind === ServiceIdKind.ACI,
+      'Sealed non-ACI envelope'
+    );
 
     const ciphertext = envelope.content;
     if (!ciphertext) {
@@ -1328,7 +1394,7 @@ export default class MessageReceiver
     const certificate = messageContent.senderCertificate();
 
     const originalSource = envelope.source;
-    const originalSourceUuid = envelope.sourceUuid;
+    const originalSourceUuid = envelope.sourceServiceId;
 
     const newEnvelope: UnsealedEnvelope = {
       ...envelope,
@@ -1338,9 +1404,9 @@ export default class MessageReceiver
 
       // Overwrite Envelope fields
       source: dropNull(certificate.senderE164()),
-      sourceUuid: normalizeUuid(
+      sourceServiceId: normalizeServiceId(
         certificate.senderUuid(),
-        'MessageReceiver.unsealEnvelope.UNIDENTIFIED_SENDER.sourceUuid'
+        'MessageReceiver.unsealEnvelope.UNIDENTIFIED_SENDER.sourceServiceId'
       ),
       sourceDevice: certificate.senderDeviceId(),
 
@@ -1361,7 +1427,7 @@ export default class MessageReceiver
   private async decryptEnvelope(
     stores: LockedStores,
     envelope: UnsealedEnvelope,
-    uuidKind: UUIDKind
+    serviceIdKind: ServiceIdKind
   ): Promise<DecryptResult> {
     const logId = `MessageReceiver.decryptEnvelope(${getEnvelopeId(envelope)})`;
 
@@ -1372,8 +1438,8 @@ export default class MessageReceiver
 
     if (envelope.type === Proto.Envelope.Type.RECEIPT) {
       strictAssert(
-        envelope.sourceUuid,
-        'Unsealed delivery receipt must have sourceUuid'
+        envelope.sourceServiceId,
+        'Unsealed delivery receipt must have sourceServiceId'
       );
       await this.onDeliveryReceipt(envelope);
       return { plaintext: undefined, envelope };
@@ -1391,17 +1457,19 @@ export default class MessageReceiver
     }
 
     log.info(logId);
-    const plaintext = await this.decrypt(
+    const decryptResult = await this.decrypt(
       stores,
       envelope,
       ciphertext,
-      uuidKind
+      serviceIdKind
     );
 
-    if (!plaintext) {
+    if (!decryptResult) {
       log.warn(`${logId}: plaintext was falsey`);
-      return { plaintext, envelope };
+      return { plaintext: undefined, envelope };
     }
+
+    const { plaintext, wasEncrypted } = decryptResult;
 
     // Note: we need to process this as part of decryption, because we might need this
     //   sender key to decrypt the next message in the queue!
@@ -1410,6 +1478,35 @@ export default class MessageReceiver
     let inProgressMessageType = '';
     try {
       const content = Proto.Content.decode(plaintext);
+      if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
+        log.warn(
+          `${logId}: dropping plaintext envelope without decryption error message`
+        );
+
+        const { sourceServiceId: senderAci } = envelope;
+        strictAssert(isAciString(senderAci), 'Sender uuid must be an ACI');
+
+        const event = new InvalidPlaintextEvent({
+          senderDevice: envelope.sourceDevice ?? 1,
+          senderAci,
+          timestamp: envelope.timestamp,
+        });
+
+        this.removeFromCache(envelope);
+
+        const envelopeId = getEnvelopeId(envelope);
+
+        // Avoid deadlocks by scheduling processing on decrypted queue
+        drop(
+          this.addToQueue(
+            async () => this.dispatchEvent(event),
+            `decrypted/dispatchEvent/InvalidPlaintextEvent(${envelopeId})`,
+            TaskType.Decrypted
+          )
+        );
+
+        return { plaintext: undefined, envelope };
+      }
 
       isGroupV2 =
         Boolean(content.dataMessage?.groupV2) ||
@@ -1464,7 +1561,7 @@ export default class MessageReceiver
       }
 
       const sender = window.ConversationController.get(
-        envelope.sourceUuid || envelope.source
+        envelope.sourceServiceId || envelope.source
       );
       if (
         (isStoryReply || isStory) &&
@@ -1489,13 +1586,6 @@ export default class MessageReceiver
       // Some sync messages have to be fully processed in the middle of
       // decryption queue since subsequent envelopes use their key material.
       const { syncMessage } = content;
-      if (syncMessage?.pniIdentity) {
-        inProgressMessageType = 'pni identity';
-        await this.handlePNIIdentity(envelope, syncMessage.pniIdentity);
-        this.removeFromCache(envelope);
-        return { plaintext: undefined, envelope };
-      }
-
       if (syncMessage?.pniChangeNumber) {
         inProgressMessageType = 'pni change number';
         await this.handlePNIChangeNumber(envelope, syncMessage.pniChangeNumber);
@@ -1515,7 +1605,8 @@ export default class MessageReceiver
     if (
       !isGroupV2 &&
       ((envelope.source && this.isBlocked(envelope.source)) ||
-        (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid)))
+        (envelope.sourceServiceId &&
+          this.isServiceIdBlocked(envelope.sourceServiceId)))
     ) {
       log.info(`${logId}: Dropping non-GV2 message from blocked sender`);
       this.removeFromCache(envelope);
@@ -1592,10 +1683,11 @@ export default class MessageReceiver
       getEnvelopeId(envelope),
       new DeliveryEvent(
         {
+          envelopeId: envelope.id,
           timestamp: envelope.timestamp,
           envelopeTimestamp: envelope.timestamp,
           source: envelope.source,
-          sourceUuid: envelope.sourceUuid,
+          sourceServiceId: envelope.sourceServiceId,
           sourceDevice: envelope.sourceDevice,
           wasSentEncrypted: false,
         },
@@ -1623,7 +1715,7 @@ export default class MessageReceiver
     ciphertext: Uint8Array
   ): Promise<DecryptSealedSenderResult> {
     const localE164 = this.storage.user.getNumber();
-    const { destinationUuid } = envelope;
+    const { destinationServiceId } = envelope;
     const localDeviceId = parseIntOrThrow(
       this.storage.user.getDeviceId(),
       'MessageReceiver.decryptSealedSender: localDeviceId'
@@ -1657,6 +1749,7 @@ export default class MessageReceiver
 
       return {
         plaintext: plaintextContent.body(),
+        wasEncrypted: false,
       };
     }
 
@@ -1670,8 +1763,12 @@ export default class MessageReceiver
       const sealedSenderIdentifier = certificate.senderUuid();
       const sealedSenderSourceDevice = certificate.senderDeviceId();
 
+      strictAssert(
+        isServiceIdString(sealedSenderIdentifier),
+        'Sealed sender identifier is service id'
+      );
       const address = new QualifiedAddress(
-        destinationUuid,
+        destinationServiceId,
         Address.create(sealedSenderIdentifier, sealedSenderSourceDevice)
       );
 
@@ -1688,7 +1785,7 @@ export default class MessageReceiver
           ),
         zone
       );
-      return { plaintext };
+      return { plaintext, wasEncrypted: true };
     }
 
     log.info(
@@ -1696,10 +1793,15 @@ export default class MessageReceiver
         'unidentified message/passing to sealedSenderDecryptMessage'
     );
 
-    const preKeyStore = new PreKeys({ ourUuid: destinationUuid });
-    const signedPreKeyStore = new SignedPreKeys({ ourUuid: destinationUuid });
+    const preKeyStore = new PreKeys({ ourServiceId: destinationServiceId });
+    const signedPreKeyStore = new SignedPreKeys({
+      ourServiceId: destinationServiceId,
+    });
+    const kyberPreKeyStore = new KyberPreKeys({
+      ourServiceId: destinationServiceId,
+    });
 
-    const sealedSenderIdentifier = envelope.sourceUuid;
+    const sealedSenderIdentifier = envelope.sourceServiceId;
     strictAssert(
       sealedSenderIdentifier !== undefined,
       'Empty sealed sender identifier'
@@ -1709,58 +1811,65 @@ export default class MessageReceiver
       'Empty sealed sender device'
     );
     const address = new QualifiedAddress(
-      destinationUuid,
+      destinationServiceId,
       Address.create(sealedSenderIdentifier, envelope.sourceDevice)
     );
     const unsealedPlaintext = await this.storage.protocol.enqueueSessionJob(
       address,
+      `sealedSenderDecryptMessage(${address.toString()})`,
       () =>
         sealedSenderDecryptMessage(
           Buffer.from(ciphertext),
           PublicKey.deserialize(Buffer.from(this.serverTrustRoot)),
           envelope.serverTimestamp,
           localE164 || null,
-          destinationUuid.toString(),
+          destinationServiceId,
           localDeviceId,
           sessionStore,
           identityKeyStore,
           preKeyStore,
-          signedPreKeyStore
+          signedPreKeyStore,
+          kyberPreKeyStore
         ),
       zone
     );
 
-    return { unsealedPlaintext };
+    return { unsealedPlaintext, wasEncrypted: true };
   }
 
   private async innerDecrypt(
     stores: LockedStores,
     envelope: UnsealedEnvelope,
     ciphertext: Uint8Array,
-    uuidKind: UUIDKind
-  ): Promise<Uint8Array | undefined> {
+    serviceIdKind: ServiceIdKind
+  ): Promise<InnerDecryptResultType | undefined> {
     const { sessionStore, identityKeyStore, zone } = stores;
 
     const logId = getEnvelopeId(envelope);
     const envelopeTypeEnum = Proto.Envelope.Type;
 
-    const identifier = envelope.sourceUuid;
+    const identifier = envelope.sourceServiceId;
     const { sourceDevice } = envelope;
 
-    const { destinationUuid } = envelope;
-    const preKeyStore = new PreKeys({ ourUuid: destinationUuid });
-    const signedPreKeyStore = new SignedPreKeys({ ourUuid: destinationUuid });
+    const { destinationServiceId } = envelope;
+    const preKeyStore = new PreKeys({ ourServiceId: destinationServiceId });
+    const signedPreKeyStore = new SignedPreKeys({
+      ourServiceId: destinationServiceId,
+    });
+    const kyberPreKeyStore = new KyberPreKeys({
+      ourServiceId: destinationServiceId,
+    });
 
     strictAssert(identifier !== undefined, 'Empty identifier');
     strictAssert(sourceDevice !== undefined, 'Empty source device');
 
     const address = new QualifiedAddress(
-      destinationUuid,
+      destinationServiceId,
       Address.create(identifier, sourceDevice)
     );
 
     if (
-      uuidKind === UUIDKind.PNI &&
+      serviceIdKind === ServiceIdKind.PNI &&
       envelope.type !== envelopeTypeEnum.PREKEY_BUNDLE
     ) {
       log.warn(
@@ -1771,8 +1880,9 @@ export default class MessageReceiver
     }
 
     strictAssert(
-      uuidKind === UUIDKind.PNI || uuidKind === UUIDKind.ACI,
-      `Unsupported uuidKind: ${uuidKind}`
+      serviceIdKind === ServiceIdKind.PNI ||
+        serviceIdKind === ServiceIdKind.ACI,
+      `Unsupported serviceIdKind: ${serviceIdKind}`
     );
 
     if (envelope.type === envelopeTypeEnum.PLAINTEXT_CONTENT) {
@@ -1780,7 +1890,10 @@ export default class MessageReceiver
       const buffer = Buffer.from(ciphertext);
       const plaintextContent = PlaintextContent.deserialize(buffer);
 
-      return this.unpad(plaintextContent.body());
+      return {
+        plaintext: this.unpad(plaintextContent.body()),
+        wasEncrypted: false,
+      };
     }
     if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
       log.info(`decrypt/${logId}: ciphertext message`);
@@ -1798,6 +1911,7 @@ export default class MessageReceiver
 
       const plaintext = await this.storage.protocol.enqueueSessionJob(
         address,
+        `signalDecrypt(${address.toString()})`,
         async () =>
           this.unpad(
             await signalDecrypt(
@@ -1809,7 +1923,7 @@ export default class MessageReceiver
           ),
         zone
       );
-      return plaintext;
+      return { plaintext, wasEncrypted: true };
     }
     if (envelope.type === envelopeTypeEnum.PREKEY_BUNDLE) {
       log.info(`decrypt/${logId}: prekey message`);
@@ -1829,6 +1943,7 @@ export default class MessageReceiver
 
       const plaintext = await this.storage.protocol.enqueueSessionJob(
         address,
+        `signalDecryptPreKey(${address.toString()})`,
         async () =>
           this.unpad(
             await signalDecryptPreKey(
@@ -1837,23 +1952,21 @@ export default class MessageReceiver
               sessionStore,
               identityKeyStore,
               preKeyStore,
-              signedPreKeyStore
+              signedPreKeyStore,
+              kyberPreKeyStore
             )
           ),
         zone
       );
-      return plaintext;
+      return { plaintext, wasEncrypted: true };
     }
     if (envelope.type === envelopeTypeEnum.UNIDENTIFIED_SENDER) {
       log.info(`decrypt/${logId}: unidentified message`);
-      const { plaintext, unsealedPlaintext } = await this.decryptSealedSender(
-        stores,
-        envelope,
-        ciphertext
-      );
+      const { plaintext, unsealedPlaintext, wasEncrypted } =
+        await this.decryptSealedSender(stores, envelope, ciphertext);
 
       if (plaintext) {
-        return this.unpad(plaintext);
+        return { plaintext: this.unpad(plaintext), wasEncrypted };
       }
 
       if (unsealedPlaintext) {
@@ -1867,7 +1980,7 @@ export default class MessageReceiver
 
         // Return just the content because that matches the signature of the other
         //   decrypt methods used above.
-        return this.unpad(content);
+        return { plaintext: this.unpad(content), wasEncrypted };
       }
 
       throw new Error('Unexpected lack of plaintext from unidentified sender');
@@ -1879,13 +1992,21 @@ export default class MessageReceiver
     stores: LockedStores,
     envelope: UnsealedEnvelope,
     ciphertext: Uint8Array,
-    uuidKind: UUIDKind
-  ): Promise<Uint8Array | undefined> {
+    serviceIdKind: ServiceIdKind
+  ): Promise<InnerDecryptResultType | undefined> {
     try {
-      return await this.innerDecrypt(stores, envelope, ciphertext, uuidKind);
+      return await this.innerDecrypt(
+        stores,
+        envelope,
+        ciphertext,
+        serviceIdKind
+      );
     } catch (error) {
-      const uuid = envelope.sourceUuid;
+      const uuid = envelope.sourceServiceId;
       const deviceId = envelope.sourceDevice;
+
+      const ourAci = this.storage.user.getCheckedAci();
+      const isFromMe = ourAci === uuid;
 
       // Job timed out, not a decryption error
       if (
@@ -1911,7 +2032,8 @@ export default class MessageReceiver
 
       if (
         (envelope.source && this.isBlocked(envelope.source)) ||
-        (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
+        (envelope.sourceServiceId &&
+          this.isServiceIdBlocked(envelope.sourceServiceId))
       ) {
         log.info(
           'MessageReceiver.decrypt: Error from blocked sender; no further processing'
@@ -1923,17 +2045,38 @@ export default class MessageReceiver
       const envelopeId = getEnvelopeId(envelope);
 
       if (uuid && deviceId) {
+        const senderAci = uuid;
+        if (!isAciString(senderAci)) {
+          log.info(
+            'MessageReceiver.decrypt: Error from PNI; no further processing'
+          );
+          this.removeFromCache(envelope);
+          throw error;
+        }
+
+        if (serviceIdKind === ServiceIdKind.PNI) {
+          log.info(
+            'MessageReceiver.decrypt: Error on PNI; no further processing; ' +
+              'queueing pni identity check'
+          );
+          this.pniIdentityKeyCheckRequired = true;
+          this.removeFromCache(envelope);
+          throw error;
+        }
+
         const { cipherTextBytes, cipherTextType } = envelope;
         const event = new DecryptionErrorEvent(
           {
             cipherTextBytes,
             cipherTextType,
-            contentHint: envelope.contentHint,
+            contentHint:
+              envelope.contentHint ??
+              (isFromMe ? ContentHint.Resendable : undefined),
             groupId: envelope.groupId,
             receivedAtCounter: envelope.receivedAtCounter,
             receivedAtDate: envelope.receivedAtDate,
             senderDevice: deviceId,
-            senderUuid: uuid,
+            senderAci,
             timestamp: envelope.timestamp,
           },
           () => this.removeFromCache(envelope)
@@ -1968,7 +2111,7 @@ export default class MessageReceiver
 
     const {
       destination,
-      destinationUuid,
+      destinationServiceId,
       timestamp,
       message: msg,
       expirationStartTimestamp,
@@ -1980,42 +2123,22 @@ export default class MessageReceiver
       throw new Error('MessageReceiver.handleSentMessage: message was falsey!');
     }
 
-    let p: Promise<void> = Promise.resolve();
+    // TODO: DESKTOP-5804
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      if (destinationUuid) {
-        p = this.handleEndSession(envelope, new UUID(destinationUuid));
-      } else if (destination) {
-        const theirUuid = UUID.lookup(destination);
-        if (theirUuid) {
-          p = this.handleEndSession(envelope, theirUuid);
-        } else {
-          log.warn(`handleSentMessage: uuid not found for ${destination}`);
-          p = Promise.resolve();
-        }
+      if (destinationServiceId) {
+        await this.handleEndSession(envelope, destinationServiceId);
       } else {
         throw new Error(
           'MessageReceiver.handleSentMessage: Cannot end session with falsey destination'
         );
       }
     }
-    await p;
 
     const message = this.processDecrypted(envelope, msg);
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
-    const { source, sourceUuid } = envelope;
-    const ourE164 = this.storage.user.getNumber();
-    const ourUuid = this.storage.user.getCheckedUuid().toString();
-    const isMe =
-      (source && ourE164 && source === ourE164) ||
-      (sourceUuid && ourUuid && sourceUuid === ourUuid);
-    const isLeavingGroup = Boolean(
-      !message.groupV2 &&
-        message.group &&
-        message.group.type === Proto.GroupContext.Type.QUIT
-    );
 
-    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    if (groupId && isBlocked) {
       log.warn(
         `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
       );
@@ -2025,9 +2148,9 @@ export default class MessageReceiver
 
     const ev = new SentEvent(
       {
+        envelopeId: envelope.id,
         destination: dropNull(destination),
-        destinationUuid:
-          dropNull(destinationUuid) || envelope.destinationUuid.toString(),
+        destinationServiceId,
         timestamp: timestamp?.toNumber(),
         serverTimestamp: envelope.serverTimestamp,
         device: envelope.sourceDevice,
@@ -2048,17 +2171,24 @@ export default class MessageReceiver
     msg: Proto.IStoryMessage,
     sentMessage?: ProcessedSent
   ): Promise<void> {
-    const logId = getEnvelopeId(envelope);
+    const envelopeId = getEnvelopeId(envelope);
+    const logId = `MessageReceiver.handleStoryMessage(${envelopeId})`;
 
     logUnexpectedUrgentValue(envelope, 'story');
 
     if (getStoriesBlocked()) {
-      log.info('MessageReceiver.handleStoryMessage: dropping', logId);
+      log.info(`${logId}: dropping`);
       this.removeFromCache(envelope);
       return;
     }
 
-    log.info('MessageReceiver.handleStoryMessage', logId);
+    log.info(`${logId} starting`);
+
+    const { sourceServiceId: sourceAci } = envelope;
+    strictAssert(
+      isAciString(sourceAci),
+      'MessageReceiver.handleEditMesage: received message from PNI'
+    );
 
     const attachments: Array<ProcessedAttachment> = [];
     let preview: ReadonlyArray<ProcessedPreview> | undefined;
@@ -2093,11 +2223,7 @@ export default class MessageReceiver
 
     const groupV2 = msg.group ? processGroupV2Context(msg.group) : undefined;
     if (groupV2 && this.isGroupBlocked(groupV2.id)) {
-      log.warn(
-        `MessageReceiver.handleStoryMessage: envelope ${getEnvelopeId(
-          envelope
-        )} ignored; destined for blocked group`
-      );
+      log.warn(`${logId}: ignored; destined for blocked group`);
       this.removeFromCache(envelope);
       return;
     }
@@ -2108,16 +2234,15 @@ export default class MessageReceiver
     );
 
     if (timeRemaining <= 0) {
-      log.info(
-        'MessageReceiver.handleStoryMessage: story already expired',
-        logId
-      );
+      log.info(`${logId}: story already expired`);
       this.removeFromCache(envelope);
       return;
     }
 
     const message: ProcessedDataMessage = {
       attachments,
+
+      bodyRanges: filterAndClean(msg.bodyRanges),
       preview,
       canReplyToStory: Boolean(msg.allowsReplies),
       expireTimer: DurationInSeconds.DAY,
@@ -2129,9 +2254,11 @@ export default class MessageReceiver
     };
 
     if (sentMessage && message.groupV2) {
+      log.warn(`${logId}: envelope is a sent group story`);
       const ev = new SentEvent(
         {
-          destinationUuid: envelope.destinationUuid.toString(),
+          envelopeId: envelope.id,
+          destinationServiceId: envelope.destinationServiceId,
           device: envelope.sourceDevice,
           isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
           message,
@@ -2140,16 +2267,13 @@ export default class MessageReceiver
           serverTimestamp: envelope.serverTimestamp,
           timestamp: envelope.timestamp,
           unidentifiedStatus: sentMessage.storyMessageRecipients
-            ?.map(({ destinationUuid, isAllowedToReply }) => {
-              if (!destinationUuid) {
+            ?.map(({ destinationServiceId, isAllowedToReply }) => {
+              if (!destinationServiceId) {
                 return;
               }
 
               return {
-                destinationUuid: normalizeUuid(
-                  destinationUuid,
-                  'handleStoryMessage.destinationUuid'
-                ),
+                destinationServiceId,
                 isAllowedToReplyToStory: Boolean(isAllowedToReply),
               };
             })
@@ -2162,54 +2286,62 @@ export default class MessageReceiver
     }
 
     if (sentMessage) {
+      log.warn(`${logId}: envelope is a sent distribution list story`);
       const { storyMessageRecipients } = sentMessage;
       const recipients = storyMessageRecipients ?? [];
 
-      const isAllowedToReply = new Map<string, boolean>();
-      const distributionListToSentUuid = new Map<string, Set<string>>();
+      const isAllowedToReply = new Map<ServiceIdString, boolean>();
+      const distributionListToSentServiceId = new Map<
+        string,
+        Set<ServiceIdString>
+      >();
 
       recipients.forEach(recipient => {
-        const { destinationUuid } = recipient;
-        if (!destinationUuid) {
+        const { destinationServiceId } = recipient;
+        if (!destinationServiceId) {
           return;
         }
 
-        const normalizedDestinationUuid = normalizeUuid(
-          destinationUuid,
-          'handleStoryMessage.destinationUuid'
-        );
-
-        recipient.distributionListIds?.forEach(listId => {
-          const sentUuids: Set<string> =
-            distributionListToSentUuid.get(listId) || new Set();
-          sentUuids.add(normalizedDestinationUuid);
-          distributionListToSentUuid.set(listId, sentUuids);
-        });
+        if (recipient.distributionListIds) {
+          recipient.distributionListIds.forEach(listId => {
+            const sentServiceIds: Set<ServiceIdString> =
+              distributionListToSentServiceId.get(listId) || new Set();
+            sentServiceIds.add(destinationServiceId);
+            distributionListToSentServiceId.set(listId, sentServiceIds);
+          });
+        } else {
+          assertDev(
+            false,
+            `${logId}: missing distribution list id for: ${destinationServiceId}`
+          );
+        }
 
         isAllowedToReply.set(
-          normalizedDestinationUuid,
+          destinationServiceId,
           recipient.isAllowedToReply !== false
         );
       });
 
-      distributionListToSentUuid.forEach((sentToUuids, listId) => {
+      distributionListToSentServiceId.forEach((sentToServiceIds, listId) => {
         const ev = new SentEvent(
           {
-            destinationUuid: envelope.destinationUuid.toString(),
+            envelopeId: envelope.id,
+            destinationServiceId: envelope.destinationServiceId,
             timestamp: envelope.timestamp,
             serverTimestamp: envelope.serverTimestamp,
             device: envelope.sourceDevice,
-            unidentifiedStatus: Array.from(sentToUuids).map(
-              destinationUuid => ({
-                destinationUuid,
-                isAllowedToReplyToStory: isAllowedToReply.get(destinationUuid),
+            unidentifiedStatus: Array.from(sentToServiceIds).map(
+              destinationServiceId => ({
+                destinationServiceId,
+                isAllowedToReplyToStory:
+                  isAllowedToReply.has(destinationServiceId),
               })
             ),
             message,
             isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
             receivedAtCounter: envelope.receivedAtCounter,
             receivedAtDate: envelope.receivedAtDate,
-            storyDistributionListId: normalizeUuid(
+            storyDistributionListId: normalizeStoryDistributionId(
               listId,
               'storyDistributionListId'
             ),
@@ -2221,12 +2353,14 @@ export default class MessageReceiver
       return;
     }
 
+    log.warn(`${logId}: envelope is a received story`);
     const ev = new MessageEvent(
       {
+        envelopeId: envelope.id,
         source: envelope.source,
-        sourceUuid: envelope.sourceUuid,
+        sourceAci,
         sourceDevice: envelope.sourceDevice,
-        destinationUuid: envelope.destinationUuid.toString(),
+        destinationServiceId: envelope.destinationServiceId,
         timestamp: envelope.timestamp,
         serverGuid: envelope.serverGuid,
         serverTimestamp: envelope.serverTimestamp,
@@ -2234,6 +2368,70 @@ export default class MessageReceiver
           envelope.unidentifiedDeliveryReceived
         ),
         message,
+        receivedAtCounter: envelope.receivedAtCounter,
+        receivedAtDate: envelope.receivedAtDate,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+    return this.dispatchAndWait(logId, ev);
+  }
+
+  private async handleEditMessage(
+    envelope: UnsealedEnvelope,
+    msg: Proto.IEditMessage
+  ): Promise<void> {
+    const logId = `MessageReceiver.handleEditMessage(${getEnvelopeId(
+      envelope
+    )})`;
+    log.info(logId);
+
+    if (!msg.targetSentTimestamp) {
+      log.info(`${logId}: cannot edit message. No targetSentTimestamp`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    if (!msg.dataMessage) {
+      log.info(`${logId}: cannot edit message. No dataMessage`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const message = this.processDecrypted(envelope, msg.dataMessage);
+    const groupId = this.getProcessedGroupId(message);
+    const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
+
+    if (groupId && isBlocked) {
+      log.warn(
+        `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const { sourceServiceId: sourceAci } = envelope;
+    strictAssert(
+      isAciString(sourceAci),
+      'MessageReceiver.handleEditMesage: received message from PNI'
+    );
+
+    const ev = new MessageEvent(
+      {
+        envelopeId: envelope.id,
+        source: envelope.source,
+        sourceAci,
+        sourceDevice: envelope.sourceDevice,
+        destinationServiceId: envelope.destinationServiceId,
+        timestamp: envelope.timestamp,
+        serverGuid: envelope.serverGuid,
+        serverTimestamp: envelope.serverTimestamp,
+        unidentifiedDeliveryReceived: Boolean(
+          envelope.unidentifiedDeliveryReceived
+        ),
+        message: {
+          ...message,
+          editedMessageTimestamp: msg.targetSentTimestamp.toNumber(),
+        },
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
       },
@@ -2258,22 +2456,25 @@ export default class MessageReceiver
     }
 
     let p: Promise<void> = Promise.resolve();
-    const destination = envelope.sourceUuid;
-    if (!destination) {
+    const { sourceServiceId: sourceAci } = envelope;
+    if (!sourceAci) {
       throw new Error(
-        'MessageReceiver.handleDataMessage: source and sourceUuid were falsey'
+        'MessageReceiver.handleDataMessage: sourceAci was falsey'
       );
     }
+
+    strictAssert(
+      isAciString(sourceAci),
+      'MessageReceiver.handleDataMessage: received message from PNI'
+    );
 
     if (this.isInvalidGroupData(msg, envelope)) {
       this.removeFromCache(envelope);
       return undefined;
     }
 
-    this.checkGroupV1Data(msg);
-
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      p = this.handleEndSession(envelope, new UUID(destination));
+      p = this.handleEndSession(envelope, sourceAci);
     }
 
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) {
@@ -2287,7 +2488,7 @@ export default class MessageReceiver
       const ev = new ProfileKeyUpdateEvent(
         {
           source: envelope.source,
-          sourceUuid: envelope.sourceUuid,
+          sourceAci,
           profileKey: Bytes.toBase64(msg.profileKey),
         },
         this.removeFromCache.bind(this, envelope)
@@ -2309,8 +2510,6 @@ export default class MessageReceiver
       msg.flags & Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       type = 'expirationTimerUpdate';
-    } else if (msg.group) {
-      type = 'legacyGroupChange';
     }
     // Note: other data messages without any of these attributes will fall into the
     //   'message' bucket - like stickers, gift badges, etc.
@@ -2320,19 +2519,8 @@ export default class MessageReceiver
     const message = this.processDecrypted(envelope, msg);
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
-    const { source, sourceUuid } = envelope;
-    const ourE164 = this.storage.user.getNumber();
-    const ourUuid = this.storage.user.getCheckedUuid().toString();
-    const isMe =
-      (source && ourE164 && source === ourE164) ||
-      (sourceUuid && ourUuid && sourceUuid === ourUuid);
-    const isLeavingGroup = Boolean(
-      !message.groupV2 &&
-        message.group &&
-        message.group.type === Proto.GroupContext.Type.QUIT
-    );
 
-    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    if (groupId && isBlocked) {
       log.warn(
         `Message ${getEnvelopeId(envelope)} ignored; destined for blocked group`
       );
@@ -2342,10 +2530,11 @@ export default class MessageReceiver
 
     const ev = new MessageEvent(
       {
+        envelopeId: envelope.id,
         source: envelope.source,
-        sourceUuid: envelope.sourceUuid,
+        sourceAci,
         sourceDevice: envelope.sourceDevice,
-        destinationUuid: envelope.destinationUuid.toString(),
+        destinationServiceId: envelope.destinationServiceId,
         timestamp: envelope.timestamp,
         serverGuid: envelope.serverGuid,
         serverTimestamp: envelope.serverTimestamp,
@@ -2358,6 +2547,7 @@ export default class MessageReceiver
       },
       this.removeFromCache.bind(this, envelope)
     );
+
     return this.dispatchAndWait(logId, ev);
   }
 
@@ -2371,14 +2561,14 @@ export default class MessageReceiver
     }
 
     const { timestamp } = envelope;
-    const identifier = envelope.groupId || envelope.sourceUuid;
+    const identifier = envelope.groupId || envelope.sourceServiceId;
     const conversation = window.ConversationController.get(identifier);
 
     try {
       if (!conversation) {
         const idForLogging = envelope.groupId
           ? `groupv2(${envelope.groupId})`
-          : envelope.sourceUuid;
+          : envelope.sourceServiceId;
         log.info(
           `maybeUpdateTimestamp/${timestamp}: No conversation found for identifier ${idForLogging}`
         );
@@ -2463,6 +2653,11 @@ export default class MessageReceiver
       return;
     }
 
+    if (content.editMessage) {
+      await this.handleEditMessage(envelope, content.editMessage);
+      return;
+    }
+
     this.removeFromCache(envelope);
 
     if (Bytes.isEmpty(content.senderKeyDistributionMessage)) {
@@ -2482,18 +2677,20 @@ export default class MessageReceiver
     const buffer = Buffer.from(decryptionError);
     const request = DecryptionErrorMessage.deserialize(buffer);
 
-    const { sourceUuid, sourceDevice } = envelope;
-    if (!sourceUuid || !sourceDevice) {
+    const { sourceServiceId: sourceAci, sourceDevice } = envelope;
+    if (!sourceAci || !sourceDevice) {
       log.error(`handleDecryptionError/${logId}: Missing uuid or device!`);
       this.removeFromCache(envelope);
       return;
     }
 
+    strictAssert(isAciString(sourceAci), 'Source uuid must be ACI');
+
     const event = new RetryRequestEvent(
       {
         groupId: envelope.groupId,
         requesterDevice: sourceDevice,
-        requesterUuid: sourceUuid,
+        requesterAci: sourceAci,
         ratchetKey: request.ratchetKey(),
         senderDevice: request.deviceId(),
         sentAt: request.timestamp(),
@@ -2516,23 +2713,27 @@ export default class MessageReceiver
     // Note: we don't call removeFromCache here because this message can be combined
     //   with a dataMessage, for example. That processing will dictate cache removal.
 
-    const identifier = envelope.sourceUuid;
-    const { sourceDevice } = envelope;
+    const { sourceServiceId, sourceDevice } = envelope;
+    if (!sourceServiceId) {
+      throw new Error(
+        `handleSenderKeyDistributionMessage: Missing sourceServiceId for envelope ${envelopeId}`
+      );
+    }
     if (!isNumber(sourceDevice)) {
       throw new Error(
         `handleSenderKeyDistributionMessage: Missing sourceDevice for envelope ${envelopeId}`
       );
     }
 
-    const sender = ProtocolAddress.new(identifier, sourceDevice);
+    const sender = ProtocolAddress.new(sourceServiceId, sourceDevice);
     const senderKeyDistributionMessage =
       SenderKeyDistributionMessage.deserialize(
         Buffer.from(distributionMessage)
       );
-    const { destinationUuid } = envelope;
+    const { destinationServiceId } = envelope;
     const address = new QualifiedAddress(
-      destinationUuid,
-      Address.create(identifier, sourceDevice)
+      destinationServiceId,
+      Address.create(sourceServiceId, sourceDevice)
     );
 
     await this.storage.protocol.enqueueSenderKeyJob(
@@ -2558,17 +2759,19 @@ export default class MessageReceiver
     // Note: we don't call removeFromCache here because this message can be combined
     //   with a dataMessage, for example. That processing will dictate cache removal.
 
-    const aci = envelope.sourceUuid;
+    const aci = envelope.sourceServiceId;
 
     const { pni: pniBytes, signature } = pniSignatureMessage;
     strictAssert(Bytes.isNotEmpty(pniBytes), `${logId}: missing PNI bytes`);
-    const pni = bytesToUuid(pniBytes);
+    const pni = fromPniObject(Pni.fromUuidBytes(Buffer.from(pniBytes)));
     strictAssert(pni, `${logId}: missing PNI`);
     strictAssert(Bytes.isNotEmpty(signature), `${logId}: empty signature`);
+    strictAssert(isAciString(aci), `${logId}: invalid ACI`);
+    strictAssert(isPniString(pni), `${logId}: invalid PNI`);
 
     const isValid = await this.storage.protocol.verifyAlternateIdentity({
-      aci: new UUID(aci),
-      pni: new UUID(pni),
+      aci,
+      pni,
       signature,
     });
 
@@ -2599,7 +2802,8 @@ export default class MessageReceiver
 
     if (
       (envelope.source && this.isBlocked(envelope.source)) ||
-      (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
+      (envelope.sourceServiceId &&
+        this.isServiceIdBlocked(envelope.sourceServiceId))
     ) {
       const logId = getEnvelopeId(envelope);
 
@@ -2649,10 +2853,11 @@ export default class MessageReceiver
       receiptMessage.timestamp.map(async rawTimestamp => {
         const ev = new EventClass(
           {
+            envelopeId: envelope.id,
             timestamp: rawTimestamp?.toNumber(),
             envelopeTimestamp: envelope.timestamp,
             source: envelope.source,
-            sourceUuid: envelope.sourceUuid,
+            sourceServiceId: envelope.sourceServiceId,
             sourceDevice: envelope.sourceDevice,
             wasSentEncrypted: true,
           },
@@ -2687,35 +2892,31 @@ export default class MessageReceiver
       envelope.sourceDevice !== undefined,
       'TypingMessage requires sourceDevice in the envelope'
     );
+    strictAssert(
+      isAciString(envelope.sourceServiceId),
+      'Sender of typing indicator must be an ACI'
+    );
 
     const { groupId, timestamp, action } = typingMessage;
 
-    let groupIdString: string | undefined;
     let groupV2IdString: string | undefined;
-    if (groupId && groupId.byteLength > 0) {
-      if (groupId.byteLength === GROUPV1_ID_LENGTH) {
-        groupIdString = Bytes.toBinary(groupId);
-        groupV2IdString = this.deriveGroupV2FromV1(groupId);
-      } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
-        groupV2IdString = Bytes.toBase64(groupId);
-      } else {
-        log.error('handleTypingMessage: Received invalid groupId value');
-      }
+    if (groupId && groupId.byteLength === GROUPV2_ID_LENGTH) {
+      groupV2IdString = Bytes.toBase64(groupId);
+    } else {
+      log.error('handleTypingMessage: Received invalid groupId value');
     }
 
     this.dispatchEvent(
       new TypingEvent({
         sender: envelope.source,
-        senderUuid: envelope.sourceUuid,
+        senderAci: envelope.sourceServiceId,
         senderDevice: envelope.sourceDevice,
         typing: {
+          groupV2Id: groupV2IdString,
           typingMessage,
           timestamp: timestamp?.toNumber() ?? Date.now(),
           started: action === Proto.TypingMessage.Action.STARTED,
           stopped: action === Proto.TypingMessage.Action.STOPPED,
-
-          groupId: groupIdString,
-          groupV2Id: groupV2IdString,
         },
       })
     );
@@ -2733,22 +2934,7 @@ export default class MessageReceiver
     message: Proto.IDataMessage,
     envelope: ProcessedEnvelope
   ): boolean {
-    const { group, groupV2 } = message;
-
-    if (group) {
-      const { id } = group;
-      strictAssert(id, 'Group data has no id');
-      const isInvalid = id.byteLength !== GROUPV1_ID_LENGTH;
-
-      if (isInvalid) {
-        log.info(
-          'isInvalidGroupData: invalid GroupV1 message from',
-          getEnvelopeId(envelope)
-        );
-      }
-
-      return isInvalid;
-    }
+    const { groupV2 } = message;
 
     if (groupV2) {
       const { masterKey } = groupV2;
@@ -2767,45 +2953,11 @@ export default class MessageReceiver
     return false;
   }
 
-  private deriveGroupV2FromV1(groupId: Uint8Array): string {
-    if (groupId.byteLength !== GROUPV1_ID_LENGTH) {
-      throw new Error(
-        `deriveGroupV2FromV1: had id with wrong byteLength: ${groupId.byteLength}`
-      );
-    }
-    const masterKey = deriveMasterKeyFromGroupV1(groupId);
-    const data = deriveGroupFields(masterKey);
-
-    return Bytes.toBase64(data.id);
-  }
-
-  private checkGroupV1Data(message: Readonly<Proto.IDataMessage>): void {
-    const { group } = message;
-
-    if (!group) {
-      return;
-    }
-
-    if (!group.id) {
-      throw new Error('deriveGroupV1Data: had falsey id');
-    }
-
-    const { id } = group;
-    if (id.byteLength !== GROUPV1_ID_LENGTH) {
-      throw new Error(
-        `deriveGroupV1Data: had id with wrong byteLength: ${id.byteLength}`
-      );
-    }
-  }
-
   private getProcessedGroupId(
     message: ProcessedDataMessage
   ): string | undefined {
     if (message.groupV2) {
       return message.groupV2.id;
-    }
-    if (message.group && message.group.id) {
-      return message.group.id;
     }
     return undefined;
   }
@@ -2816,22 +2968,15 @@ export default class MessageReceiver
       const { id } = deriveGroupFields(message.groupV2.masterKey);
       return Bytes.toBase64(id);
     }
-    if (message.group && message.group.id) {
-      return Bytes.toBinary(message.group.id);
-    }
 
     return undefined;
   }
 
-  private getDestination(sentMessage: Proto.SyncMessage.ISent) {
+  private getDestination(sentMessage: ProcessedSent) {
     if (sentMessage.message && sentMessage.message.groupV2) {
       return `groupv2(${this.getGroupId(sentMessage.message)})`;
     }
-    if (sentMessage.message && sentMessage.message.group) {
-      strictAssert(sentMessage.message.group.id, 'group without id');
-      return `group(${this.getGroupId(sentMessage.message)})`;
-    }
-    return sentMessage.destination || sentMessage.destinationUuid;
+    return sentMessage.destinationServiceId;
   }
 
   private async handleSyncMessage(
@@ -2839,11 +2984,11 @@ export default class MessageReceiver
     syncMessage: ProcessedSyncMessage
   ): Promise<void> {
     const ourNumber = this.storage.user.getNumber();
-    const ourUuid = this.storage.user.getCheckedUuid();
+    const ourAci = this.storage.user.getCheckedAci();
 
     const fromSelfSource = envelope.source && envelope.source === ourNumber;
     const fromSelfSourceUuid =
-      envelope.sourceUuid && envelope.sourceUuid === ourUuid.toString();
+      envelope.sourceServiceId && envelope.sourceServiceId === ourAci;
     if (!fromSelfSource && !fromSelfSourceUuid) {
       throw new Error('Received sync message from another number');
     }
@@ -2853,11 +2998,12 @@ export default class MessageReceiver
     if (envelope.sourceDevice == ourDeviceId) {
       throw new Error('Received sync message from our own device');
     }
-    if (syncMessage.pniIdentity) {
-      return;
-    }
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
+
+      if (sentMessage.editMessage) {
+        return this.handleSentEditMessage(envelope, sentMessage);
+      }
 
       if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
         if (getStoriesBlocked()) {
@@ -2875,7 +3021,7 @@ export default class MessageReceiver
         );
         const ev = new StoryRecipientUpdateEvent(
           {
-            destinationUuid: envelope.destinationUuid.toString(),
+            destinationServiceId: envelope.destinationServiceId,
             timestamp: envelope.timestamp,
             storyMessageRecipients: sentMessage.storyMessageRecipients,
           },
@@ -2886,12 +3032,11 @@ export default class MessageReceiver
       }
 
       if (sentMessage.storyMessage) {
-        void this.handleStoryMessage(
+        return this.handleStoryMessage(
           envelope,
           sentMessage.storyMessage,
           sentMessage
         );
-        return;
       }
 
       if (!sentMessage || !sentMessage.message) {
@@ -2905,8 +3050,6 @@ export default class MessageReceiver
         return;
       }
 
-      this.checkGroupV1Data(sentMessage.message);
-
       strictAssert(sentMessage.timestamp, 'sent message without timestamp');
 
       log.info(
@@ -2916,6 +3059,7 @@ export default class MessageReceiver
         'from',
         getEnvelopeId(envelope)
       );
+
       return this.handleSentMessage(envelope, sentMessage);
     }
     if (syncMessage.contacts) {
@@ -2923,10 +3067,6 @@ export default class MessageReceiver
       // message processing, but we would like to fully process contact sync
       // before moving on since it updates conversation state.
       return this.handleContacts(envelope, syncMessage.contacts);
-    }
-    if (syncMessage.groups) {
-      void this.handleGroups(envelope, syncMessage.groups);
-      return;
     }
     if (syncMessage.blocked) {
       return this.handleBlocked(envelope, syncMessage.blocked);
@@ -2977,11 +3117,78 @@ export default class MessageReceiver
     if (syncMessage.callEvent) {
       return this.handleCallEvent(envelope, syncMessage.callEvent);
     }
+    if (syncMessage.callLogEvent) {
+      return this.handleCallLogEvent(envelope, syncMessage.callLogEvent);
+    }
 
     this.removeFromCache(envelope);
+    const envelopeId = getEnvelopeId(envelope);
+    const unknownFieldTags = inspectUnknownFieldTags(syncMessage).join(',');
     log.warn(
-      `handleSyncMessage/${getEnvelopeId(envelope)}: Got empty SyncMessage`
+      `handleSyncMessage/${envelopeId}: Got unknown SyncMessage (Unknown field tags: ${unknownFieldTags})`
     );
+  }
+
+  private async handleSentEditMessage(
+    envelope: UnsealedEnvelope,
+    sentMessage: ProcessedSent
+  ): Promise<void> {
+    const logId = `MessageReceiver.handleSentEditMessage(${getEnvelopeId(
+      envelope
+    )})`;
+    log.info(logId);
+
+    const { editMessage } = sentMessage;
+
+    if (!editMessage) {
+      log.warn(`${logId}: cannot edit message. No editMessage in proto`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    if (!editMessage.targetSentTimestamp) {
+      log.warn(`${logId}: cannot edit message. No targetSentTimestamp`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    if (!editMessage.dataMessage) {
+      log.warn(`${logId}: cannot edit message. No dataMessage`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    const {
+      destination,
+      destinationServiceId,
+      expirationStartTimestamp,
+      unidentifiedStatus,
+      isRecipientUpdate,
+    } = sentMessage;
+
+    const message = this.processDecrypted(envelope, editMessage.dataMessage);
+
+    const ev = new SentEvent(
+      {
+        envelopeId: envelope.id,
+        destination: dropNull(destination),
+        destinationServiceId,
+        timestamp: envelope.timestamp,
+        serverTimestamp: envelope.serverTimestamp,
+        device: envelope.sourceDevice,
+        unidentifiedStatus,
+        message: {
+          ...message,
+          editedMessageTimestamp: editMessage.targetSentTimestamp.toNumber(),
+        },
+        isRecipientUpdate: Boolean(isRecipientUpdate),
+        receivedAtCounter: envelope.receivedAtCounter,
+        receivedAtDate: envelope.receivedAtDate,
+        expirationStartTimestamp: expirationStartTimestamp?.toNumber(),
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+    return this.dispatchAndWait(getEnvelopeId(envelope), ev);
   }
 
   private async handleConfiguration(
@@ -3012,8 +3219,8 @@ export default class MessageReceiver
     const ev = new ViewOnceOpenSyncEvent(
       {
         source: dropNull(sync.sender),
-        sourceUuid: sync.senderUuid
-          ? normalizeUuid(sync.senderUuid, 'handleViewOnceOpen.senderUuid')
+        sourceAci: sync.senderAci
+          ? normalizeAci(sync.senderAci, 'handleViewOnceOpen.senderUuid')
           : undefined,
         timestamp: sync.timestamp?.toNumber(),
       },
@@ -3034,32 +3241,26 @@ export default class MessageReceiver
 
     const { groupId } = sync;
 
-    let groupIdString: string | undefined;
     let groupV2IdString: string | undefined;
-    if (groupId && groupId.byteLength > 0) {
-      if (groupId.byteLength === GROUPV1_ID_LENGTH) {
-        groupIdString = Bytes.toBinary(groupId);
-        groupV2IdString = this.deriveGroupV2FromV1(groupId);
-      } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
-        groupV2IdString = Bytes.toBase64(groupId);
-      } else {
-        this.removeFromCache(envelope);
-        log.error('Received message request with invalid groupId');
-        return undefined;
-      }
+    if (groupId && groupId.byteLength === GROUPV2_ID_LENGTH) {
+      groupV2IdString = Bytes.toBase64(groupId);
+    } else {
+      this.removeFromCache(envelope);
+      log.error('Received message request with invalid groupId');
+      return undefined;
     }
 
     const ev = new MessageRequestResponseEvent(
       {
+        envelopeId: envelope.id,
         threadE164: dropNull(sync.threadE164),
-        threadUuid: sync.threadUuid
-          ? normalizeUuid(
-              sync.threadUuid,
+        threadAci: sync.threadAci
+          ? normalizeAci(
+              sync.threadAci,
               'handleMessageRequestResponse.threadUuid'
             )
           : undefined,
         messageRequestResponseType: sync.type,
-        groupId: groupIdString,
         groupV2Id: groupV2IdString,
       },
       this.removeFromCache.bind(this, envelope)
@@ -3094,34 +3295,21 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'keySync');
 
-    if (!sync.storageService) {
+    if (!sync.storageService && !sync.master) {
       return undefined;
     }
 
     const ev = new KeysEvent(
-      sync.storageService,
+      {
+        storageServiceKey: Bytes.isNotEmpty(sync.storageService)
+          ? sync.storageService
+          : undefined,
+        masterKey: Bytes.isNotEmpty(sync.master) ? sync.master : undefined,
+      },
       this.removeFromCache.bind(this, envelope)
     );
 
     return this.dispatchAndWait(logId, ev);
-  }
-
-  // Runs on TaskType.Encrypted queue
-  private async handlePNIIdentity(
-    envelope: ProcessedEnvelope,
-    { publicKey, privateKey }: Proto.SyncMessage.IPniIdentity
-  ): Promise<void> {
-    log.info('MessageReceiver: got pni identity sync message');
-
-    logUnexpectedUrgentValue(envelope, 'pniIdentitySync');
-
-    if (!publicKey || !privateKey) {
-      log.warn('MessageReceiver: empty pni identity sync message');
-      return;
-    }
-
-    const manager = window.getAccountManager();
-    await manager.updatePNIIdentity({ privKey: privateKey, pubKey: publicKey });
   }
 
   // Runs on TaskType.Encrypted queue
@@ -3130,7 +3318,9 @@ export default class MessageReceiver
     {
       identityKeyPair,
       signedPreKey,
+      lastResortKyberPreKey,
       registrationId,
+      newE164,
     }: Proto.SyncMessage.IPniChangeNumber
   ): Promise<void> {
     log.info('MessageReceiver: got pni change number sync message');
@@ -3143,21 +3333,30 @@ export default class MessageReceiver
       return;
     }
 
+    // TDOO: DESKTOP-5652
     if (
       !Bytes.isNotEmpty(identityKeyPair) ||
       !Bytes.isNotEmpty(signedPreKey) ||
-      !isNumber(registrationId)
+      !isNumber(registrationId) ||
+      !isString(newE164)
     ) {
       log.warn('MessageReceiver: empty pni change number sync message');
       return;
     }
 
+    if (this.pniIdentityKeyCheckRequired) {
+      log.warn('MessageReceiver: canceling pni identity key check');
+    }
+    this.pniIdentityKeyCheckRequired = false;
+
     const manager = window.getAccountManager();
-    await manager.setPni(updatedPni.toString(), {
+    await manager.setPni(updatedPni, {
       identityKeyPair,
+      lastResortKyberPreKey: dropNull(lastResortKyberPreKey),
       signedPreKey,
       registrationId,
     });
+    await window.storage.user.setNumber(newE164);
   }
 
   private async handleStickerPackOperation(
@@ -3194,14 +3393,15 @@ export default class MessageReceiver
     logUnexpectedUrgentValue(envelope, 'readSync');
 
     const results = [];
-    for (const { timestamp, sender, senderUuid } of read) {
+    for (const { timestamp, sender, senderAci } of read) {
       const ev = new ReadSyncEvent(
         {
+          envelopeId: envelope.id,
           envelopeTimestamp: envelope.timestamp,
           timestamp: timestamp?.toNumber(),
           sender: dropNull(sender),
-          senderUuid: senderUuid
-            ? normalizeUuid(senderUuid, 'handleRead.senderUuid')
+          senderAci: senderAci
+            ? normalizeAci(senderAci, 'handleRead.senderAci')
             : undefined,
         },
         this.removeFromCache.bind(this, envelope)
@@ -3221,14 +3421,15 @@ export default class MessageReceiver
     logUnexpectedUrgentValue(envelope, 'viewSync');
 
     await Promise.all(
-      viewed.map(async ({ timestamp, senderE164, senderUuid }) => {
+      viewed.map(async ({ timestamp, senderE164, senderAci }) => {
         const ev = new ViewSyncEvent(
           {
+            envelopeId: envelope.id,
             envelopeTimestamp: envelope.timestamp,
             timestamp: timestamp?.toNumber(),
             senderE164: dropNull(senderE164),
-            senderUuid: senderUuid
-              ? normalizeUuid(senderUuid, 'handleViewed.senderUuid')
+            senderAci: senderAci
+              ? normalizeAci(senderAci, 'handleViewed.senderAci')
               : undefined,
           },
           this.removeFromCache.bind(this, envelope)
@@ -3244,49 +3445,16 @@ export default class MessageReceiver
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('MessageReceiver.handleCallEvent', logId);
-    const { peerUuid, callId } = callEvent;
-
-    if (!peerUuid) {
-      throw new Error('MessageReceiver.handleCallEvent: missing peerUuid');
-    }
-
-    if (!callId) {
-      throw new Error('MessageReceiver.handleCallEvent: missing callId');
-    }
 
     logUnexpectedUrgentValue(envelope, 'callEventSync');
 
-    const peerUuidStr = bytesToUuid(peerUuid);
+    const { receivedAtCounter } = envelope;
 
-    assertDev(
-      peerUuidStr != null,
-      'MessageReceiver.handleCallEvent: invalid peerUuid'
-    );
-
-    const { receivedAtCounter, timestamp } = envelope;
-
-    const wasIncoming =
-      callEvent.direction === Proto.SyncMessage.CallEvent.Direction.INCOMING;
-    const wasVideoCall =
-      callEvent.type === Proto.SyncMessage.CallEvent.Type.VIDEO_CALL;
-    const wasAccepted =
-      callEvent.event === Proto.SyncMessage.CallEvent.Event.ACCEPTED;
-    const wasDeclined =
-      callEvent.event === Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED;
-
-    const acceptedTime = wasAccepted ? timestamp : undefined;
-    const endedTime = wasDeclined ? timestamp : undefined;
+    const callEventDetails = getCallEventForProto(callEvent);
 
     const callEventSync = new CallEventSyncEvent(
       {
-        timestamp: envelope.timestamp,
-        peerUuid: peerUuidStr,
-        callId: callId.toString(),
-        wasIncoming,
-        wasVideoCall,
-        wasDeclined,
-        acceptedTime,
-        endedTime,
+        callEventDetails,
         receivedAtCounter,
       },
       this.removeFromCache.bind(this, envelope)
@@ -3296,13 +3464,56 @@ export default class MessageReceiver
     log.info('handleCallEvent: finished');
   }
 
+  private async handleCallLogEvent(
+    envelope: ProcessedEnvelope,
+    callLogEvent: Proto.SyncMessage.ICallLogEvent
+  ): Promise<void> {
+    const logId = getEnvelopeId(envelope);
+    log.info('MessageReceiver.handleCallLogEvent', logId);
+
+    logUnexpectedUrgentValue(envelope, 'callLogEventSync');
+
+    const { receivedAtCounter } = envelope;
+
+    let event: CallLogEvent;
+    if (callLogEvent.type == null) {
+      throw new Error('MessageReceiver.handleCallLogEvent: type was null');
+    } else if (
+      callLogEvent.type === Proto.SyncMessage.CallLogEvent.Type.CLEAR
+    ) {
+      event = CallLogEvent.Clear;
+    } else {
+      throw new Error(
+        `MessageReceiver.handleCallLogEvent: unknown type ${callLogEvent.type}`
+      );
+    }
+
+    if (callLogEvent.timestamp == null) {
+      throw new Error('MessageReceiver.handleCallLogEvent: timestamp was null');
+    }
+    const timestamp = callLogEvent.timestamp.toNumber();
+
+    const callLogEventSync = new CallLogEventSyncEvent(
+      {
+        event,
+        timestamp,
+        receivedAtCounter,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+
+    await this.dispatchAndWait(logId, callLogEventSync);
+
+    log.info('handleCallLogEvent: finished');
+  }
+
   private async handleContacts(
     envelope: ProcessedEnvelope,
-    contacts: Proto.SyncMessage.IContacts
+    contactSyncProto: Proto.SyncMessage.IContacts
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info(`MessageReceiver: handleContacts ${logId}`);
-    const { blob } = contacts;
+    const { blob } = contactSyncProto;
     if (!blob) {
       throw new Error('MessageReceiver.handleContacts: blob field was missing');
     }
@@ -3311,72 +3522,50 @@ export default class MessageReceiver
 
     this.removeFromCache(envelope);
 
-    const attachmentPointer = await this.handleAttachment(blob);
-    const contactBuffer = new ContactBuffer(attachmentPointer.data);
+    let attachment: AttachmentType | undefined;
+    try {
+      attachment = await this.handleAttachmentV2(blob, {
+        disableRetries: true,
+        timeout: 90 * SECOND,
+      });
 
-    const contactSync = new ContactSyncEvent(
-      Array.from(contactBuffer),
-      Boolean(contacts.complete),
-      envelope.receivedAtCounter,
-      envelope.timestamp
-    );
-    await this.dispatchAndWait(logId, contactSync);
-
-    log.info('handleContacts: finished');
-  }
-
-  private async handleGroups(
-    envelope: ProcessedEnvelope,
-    groups: Proto.SyncMessage.IGroups
-  ): Promise<void> {
-    const logId = getEnvelopeId(envelope);
-    log.info('group sync');
-    log.info(`MessageReceiver: handleGroups ${logId}`);
-    const { blob } = groups;
-
-    this.removeFromCache(envelope);
-
-    logUnexpectedUrgentValue(envelope, 'groupSync');
-
-    if (!blob) {
-      throw new Error('MessageReceiver.handleGroups: blob field was missing');
-    }
-
-    // Note: we do not return here because we don't want to block the next message on
-    //   this attachment download and a lot of processing of that attachment.
-    const attachmentPointer = await this.handleAttachment(blob);
-    const groupBuffer = new GroupBuffer(attachmentPointer.data);
-    let groupDetails = groupBuffer.next();
-    const promises = [];
-    while (groupDetails) {
-      const { id } = groupDetails;
-      strictAssert(id, 'Group details without id');
-
-      if (id.byteLength !== 16) {
-        log.error(
-          `onGroupReceived: Id was ${id} bytes, expected 16 bytes. Dropping group.`
+      const { path } = attachment;
+      if (!path) {
+        throw new Error('Failed no path field in returned attachment');
+      }
+      const absolutePath =
+        window.Signal.Migrations.getAbsoluteAttachmentPath(path);
+      if (!existsSync(absolutePath)) {
+        throw new Error(
+          'Contact sync attachment had path, but it was not found on disk'
         );
-        continue;
       }
 
-      const ev = new GroupEvent(
-        {
-          ...groupDetails,
-          id: Bytes.toBinary(id),
-        },
-        envelope.receivedAtCounter
+      let contacts: ReadonlyArray<ContactDetailsWithAvatar>;
+      try {
+        contacts = await parseContactsV2({
+          absolutePath,
+        });
+      } finally {
+        if (absolutePath) {
+          removeSync(absolutePath);
+        }
+      }
+
+      const contactSync = new ContactSyncEvent(
+        contacts,
+        Boolean(contactSyncProto.complete),
+        envelope.receivedAtCounter,
+        envelope.timestamp
       );
-      const promise = this.dispatchAndWait(logId, ev).catch(e => {
-        log.error('error processing group', e);
-      });
-      groupDetails = groupBuffer.next();
-      promises.push(promise);
+      await this.dispatchAndWait(logId, contactSync);
+
+      log.info('handleContacts: finished');
+    } finally {
+      if (attachment?.path) {
+        await window.Signal.Migrations.deleteAttachmentData(attachment.path);
+      }
     }
-
-    await Promise.all(promises);
-
-    const ev = new GroupSyncEvent();
-    return this.dispatchAndWait(logId, ev);
   }
 
   private async handleBlocked(
@@ -3386,12 +3575,14 @@ export default class MessageReceiver
     const allIdentifiers = [];
     let changed = false;
 
+    const logId = `handleBlocked(${getEnvelopeId(envelope)})`;
+
     logUnexpectedUrgentValue(envelope, 'blockSync');
 
     if (blocked.numbers) {
       const previous = this.storage.get('blocked', []);
 
-      log.info('handleBlocked: Blocking these numbers:', blocked.numbers);
+      log.info(`${logId}: Blocking these numbers:`, blocked.numbers);
       await this.storage.put('blocked', blocked.numbers);
 
       if (!areArraysMatchingSets(previous, blocked.numbers)) {
@@ -3400,57 +3591,50 @@ export default class MessageReceiver
         allIdentifiers.push(...blocked.numbers);
       }
     }
-    if (blocked.uuids) {
+    if (blocked.acis) {
       const previous = this.storage.get('blocked-uuids', []);
-      const uuids = blocked.uuids.map((uuid, index) => {
-        return normalizeUuid(uuid, `handleBlocked.uuids.${index}`);
+      const acis = blocked.acis.map((aci, index) => {
+        return normalizeAci(aci, `handleBlocked.acis.${index}`);
       });
-      log.info('handleBlocked: Blocking these uuids:', uuids);
-      await this.storage.put('blocked-uuids', uuids);
+      log.info(`${logId}: Blocking these acis:`, acis);
+      await this.storage.put('blocked-uuids', acis);
 
-      if (!areArraysMatchingSets(previous, uuids)) {
+      if (!areArraysMatchingSets(previous, acis)) {
         changed = true;
         allIdentifiers.push(...previous);
-        allIdentifiers.push(...blocked.uuids);
+        allIdentifiers.push(...blocked.acis);
       }
     }
 
     if (blocked.groupIds) {
       const previous = this.storage.get('blocked-groups', []);
-      const groupV1Ids: Array<string> = [];
       const groupIds: Array<string> = [];
 
       blocked.groupIds.forEach(groupId => {
-        if (groupId.byteLength === GROUPV1_ID_LENGTH) {
-          groupV1Ids.push(Bytes.toBinary(groupId));
-          groupIds.push(this.deriveGroupV2FromV1(groupId));
-        } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
+        if (groupId.byteLength === GROUPV2_ID_LENGTH) {
           groupIds.push(Bytes.toBase64(groupId));
         } else {
-          log.error('handleBlocked: Received invalid groupId value');
+          log.error(`${logId}: Received invalid groupId value`);
         }
       });
       log.info(
-        'handleBlocked: Blocking these groups - v2:',
-        groupIds.map(groupId => `groupv2(${groupId})`),
-        'v1:',
-        groupV1Ids.map(groupId => `group(${groupId})`)
+        `${logId}: Blocking these groups - v2:`,
+        groupIds.map(groupId => `groupv2(${groupId})`)
       );
 
-      const ids = [...groupIds, ...groupV1Ids];
-      await this.storage.put('blocked-groups', ids);
+      await this.storage.put('blocked-groups', groupIds);
 
-      if (!areArraysMatchingSets(previous, ids)) {
+      if (!areArraysMatchingSets(previous, groupIds)) {
         changed = true;
         allIdentifiers.push(...previous);
-        allIdentifiers.push(...ids);
+        allIdentifiers.push(...groupIds);
       }
     }
 
     this.removeFromCache(envelope);
 
     if (changed) {
-      log.info('handleBlocked: Block list changed, forcing re-render.');
+      log.info(`${logId}: Block list changed, forcing re-render.`);
       const uniqueIdentifiers = Array.from(new Set(allIdentifiers));
       void window.ConversationController.forceRerender(uniqueIdentifiers);
     }
@@ -3460,30 +3644,31 @@ export default class MessageReceiver
     return this.storage.blocked.isBlocked(number);
   }
 
-  private isUuidBlocked(uuid: string): boolean {
-    return this.storage.blocked.isUuidBlocked(uuid);
+  private isServiceIdBlocked(serviceId: ServiceIdString): boolean {
+    return this.storage.blocked.isServiceIdBlocked(serviceId);
   }
 
   private isGroupBlocked(groupId: string): boolean {
     return this.storage.blocked.isGroupBlocked(groupId);
   }
 
-  private async handleAttachment(
-    attachment: Proto.IAttachmentPointer
-  ): Promise<DownloadedAttachmentType> {
+  private async handleAttachmentV2(
+    attachment: Proto.IAttachmentPointer,
+    options?: { timeout?: number; disableRetries?: boolean }
+  ): Promise<AttachmentType> {
     const cleaned = processAttachment(attachment);
-    return downloadAttachment(this.server, cleaned);
+    return downloadAttachmentV2(this.server, cleaned, options);
   }
 
   private async handleEndSession(
     envelope: ProcessedEnvelope,
-    theirUuid: UUID
+    theirServiceId: ServiceIdString
   ): Promise<void> {
-    log.info(`handleEndSession: closing sessions for ${theirUuid.toString()}`);
+    log.info(`handleEndSession: closing sessions for ${theirServiceId}`);
 
     logUnexpectedUrgentValue(envelope, 'resetSession');
 
-    await this.storage.protocol.archiveAllSessions(theirUuid);
+    await this.storage.protocol.archiveAllSessions(theirServiceId);
   }
 
   private processDecrypted(

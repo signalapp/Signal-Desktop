@@ -4,8 +4,12 @@
 import type { ComponentProps, ReactElement } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import pTimeout, { TimeoutError } from 'p-timeout';
 
 import { getIntl } from '../selectors/user';
+import { getUpdatesState } from '../selectors/updates';
+import { useUpdatesActions } from '../ducks/updates';
+import { hasExpired as hasExpiredSelector } from '../selectors/expiration';
 
 import * as log from '../../logging/log';
 import type { Loadable } from '../../util/loadable';
@@ -13,6 +17,7 @@ import { LoadingState } from '../../util/loadable';
 import { assertDev } from '../../util/assert';
 import { explodePromise } from '../../util/explodePromise';
 import { missingCaseError } from '../../util/missingCaseError';
+import * as Registration from '../../util/registration';
 import {
   InstallScreen,
   InstallScreenStep,
@@ -23,6 +28,10 @@ import { HTTPError } from '../../textsecure/Errors';
 import { isRecord } from '../../util/isRecord';
 import * as Errors from '../../types/errors';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
+import OS from '../../util/os/osMain';
+import { SECOND } from '../../util/durations';
+import { BackOff } from '../../util/BackOff';
+import { drop } from '../../util/drop';
 
 type PropsType = ComponentProps<typeof InstallScreen>;
 
@@ -48,6 +57,13 @@ const INITIAL_STATE: StateType = {
   provisioningUrl: { loadingState: LoadingState.Loading },
 };
 
+const qrCodeBackOff = new BackOff([
+  10 * SECOND,
+  20 * SECOND,
+  30 * SECOND,
+  60 * SECOND,
+]);
+
 function getInstallError(err: unknown): InstallError {
   if (err instanceof HTTPError) {
     switch (err.code) {
@@ -71,10 +87,14 @@ function getInstallError(err: unknown): InstallError {
 
 export function SmartInstallScreen(): ReactElement {
   const i18n = useSelector(getIntl);
+  const updates = useSelector(getUpdatesState);
+  const { startUpdate } = useUpdatesActions();
+  const hasExpired = useSelector(hasExpiredSelector);
 
   const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());
 
   const [state, setState] = useState<StateType>(INITIAL_STATE);
+  const [retryCounter, setRetryCounter] = useState(0);
 
   const setProvisioningUrl = useCallback(
     (value: string) => {
@@ -138,7 +158,7 @@ export function SmartInstallScreen(): ReactElement {
         false,
         'Unexpected empty device name. Falling back to placeholder value'
       );
-      deviceName = i18n('Install__choose-device-name__placeholder');
+      deviceName = i18n('icu:Install__choose-device-name__placeholder');
     }
     chooseDeviceNamePromiseWrapperRef.current.resolve(deviceName);
 
@@ -147,6 +167,7 @@ export function SmartInstallScreen(): ReactElement {
 
   useEffect(() => {
     let hasCleanedUp = false;
+    const qrCodeResolution = explodePromise<void>();
 
     const accountManager = window.getAccountManager();
     assertDev(accountManager, 'Expected an account manager');
@@ -155,6 +176,7 @@ export function SmartInstallScreen(): ReactElement {
       if (hasCleanedUp) {
         return;
       }
+      qrCodeResolution.resolve();
       setProvisioningUrl(value);
     };
 
@@ -179,7 +201,7 @@ export function SmartInstallScreen(): ReactElement {
       // Delete all data from the database unless we're in the middle of a re-link.
       //   Without this, the app restarts at certain times and can cause weird things to
       //   happen, like data from a previous light import showing up after a new install.
-      const shouldRetainData = window.Signal.Util.Registration.everDone();
+      const shouldRetainData = Registration.everDone();
       if (!shouldRetainData) {
         try {
           await window.textsecure.storage.protocol.removeAllData();
@@ -198,12 +220,17 @@ export function SmartInstallScreen(): ReactElement {
       return result;
     };
 
-    void (async () => {
+    async function getQRCode(): Promise<void> {
+      const sleepError = new TimeoutError();
       try {
-        await accountManager.registerSecondDevice(
+        const qrCodePromise = accountManager.registerSecondDevice(
           updateProvisioningUrl,
           confirmNumber
         );
+        const sleepMs = qrCodeBackOff.getAndIncrement();
+        log.info(`InstallScreen/getQRCode: race to ${sleepMs}ms`);
+        await pTimeout(qrCodeResolution.promise, sleepMs, sleepError);
+        await qrCodePromise;
 
         window.IPC.removeSetupMenuItems();
       } catch (error) {
@@ -214,17 +241,36 @@ export function SmartInstallScreen(): ReactElement {
         if (hasCleanedUp) {
           return;
         }
-        setState({
-          step: InstallScreenStep.Error,
-          error: getInstallError(error),
-        });
+
+        if (qrCodeBackOff.isFull()) {
+          log.error('InstallScreen/getQRCode: too many tries');
+          setState({
+            step: InstallScreenStep.Error,
+            error: InstallError.QRCodeFailed,
+          });
+          return;
+        }
+
+        if (error === sleepError) {
+          setState({
+            step: InstallScreenStep.QrCodeNotScanned,
+            provisioningUrl: { loadingState: LoadingState.LoadFailed, error },
+          });
+        } else {
+          setState({
+            step: InstallScreenStep.Error,
+            error: getInstallError(error),
+          });
+        }
       }
-    })();
+    }
+
+    drop(getQRCode());
 
     return () => {
       hasCleanedUp = true;
     };
-  }, [setProvisioningUrl, onQrCodeScanned]);
+  }, [setProvisioningUrl, retryCounter, onQrCodeScanned]);
 
   let props: PropsType;
 
@@ -246,6 +292,15 @@ export function SmartInstallScreen(): ReactElement {
         screenSpecificProps: {
           i18n,
           provisioningUrl: state.provisioningUrl,
+          hasExpired,
+          updates,
+          currentVersion: window.getVersion(),
+          startUpdate,
+          retryGetQrCode: () => {
+            setRetryCounter(count => count + 1);
+            setState(INITIAL_STATE);
+          },
+          OS: OS.getName(),
         },
       };
       break;

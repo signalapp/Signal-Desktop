@@ -1,0 +1,148 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import './mixins.scss';
+@import './colors.scss';
+@import './fonts.scss';
+
+html {
+  height: 100%;
+  cursor: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+svg:not([fill]) {
+  fill: currentColor;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+
+  @include font-body-1;
+
+  @include light-theme() {
+    background-color: $color-white;
+    color: $color-gray-90;
+  }
+  @include dark-theme() {
+    background-color: $color-gray-95;
+    color: $color-gray-05;
+  }
+}
+
+button {
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+}
+
+button.grey {
+  border-radius: 5px;
+  border: solid 1px $color-gray-25;
+  cursor: pointer;
+  margin-block: 1em;
+  margin-inline: auto;
+  padding: 1em;
+  font-family: inherit;
+
+  @include light-theme {
+    color: $color-gray-60;
+    background: $color-gray-02;
+    box-shadow: 0 0 10px -5px $color-black-alpha-40;
+  }
+  @include dark-theme {
+    border: solid 1px $color-gray-25;
+    color: $color-gray-60;
+    background: $color-gray-02;
+    box-shadow: 0 0 10px -5px $color-white-alpha-60;
+  }
+
+  &:hover {
+    @include light-theme {
+      box-shadow: 0 0 10px -3px $color-black-alpha-60;
+    }
+    @include dark-theme {
+      box-shadow: 0 0 10px -3px $color-white-alpha-80;
+    }
+  }
+
+  &[disabled='disabled'] {
+    &,
+    &:hover {
+      opacity: 0.5;
+      box-shadow: none;
+      cursor: default;
+    }
+  }
+}
+
+a {
+  @include light-theme() {
+    color: $color-gray-90;
+  }
+  @include dark-theme() {
+    color: $color-gray-05;
+  }
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  @include light-theme() {
+    background-color: $color-white;
+  }
+
+  @include dark-theme() {
+    background-color: $color-gray-90;
+  }
+}
+
+// Overrides
+
+.EmojiPickerReact.epr-main {
+  --emoji-padding: 2px;
+
+  .epr-search,
+  .epr-emoji-category-label {
+    font-family: $inter;
+  }
+
+  button.epr-emoji {
+    padding: var(--epr-emoji-padding);
+
+    &:hover {
+      background-color: var(--epr-emoji-hover-color);
+    }
+  }
+
+  button.epr-emoji .epr-emoji-img {
+    --original-size: 64px;
+    --original-padding: 1px;
+    --original-full-size: calc(
+      var(--original-size) + 2 * var(--original-padding)
+    );
+
+    // Override
+    max-height: var(--original-size);
+    max-width: var(--original-size);
+    padding: 0;
+
+    height: var(--original-size);
+    width: var(--original-size);
+    object-fit: none;
+    object-position: calc(-1 * var(--epr-sheet-x) * var(--original-full-size))
+      calc(-1 * var(--epr-sheet-y) * var(--original-full-size));
+
+    // Sadly we can't use calc here because the values are in pixels, but the
+    // display size is 32 px, while the image size is 64px so here it goes.
+    transform: scale(calc(32 / 64));
+  }
+}

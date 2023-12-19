@@ -1,0 +1,29 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import '../../mixins.scss';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message {
+  max-width: 450px;
+  margin-bottom: 16px;
+}
+
+.call-to-action {
+  max-width: 500px;
+}
+
+.row {
+  width: 100%;
+
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-shrink: 0;
+}

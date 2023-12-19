@@ -4,7 +4,7 @@
 // The list of permissions is here:
 //   https://electronjs.org/docs/api/session#sessetpermissionrequesthandlerhandler
 
-import type { session as ElectronSession } from 'electron';
+import type { session as ElectronSession, Session } from 'electron';
 
 import type { ConfigType } from './base_config';
 
@@ -75,15 +75,13 @@ export function installPermissionsHandler({
   session,
   userConfig,
 }: {
-  session: typeof ElectronSession;
+  session: Session;
   userConfig: Pick<ConfigType, 'get'>;
 }): void {
   // Setting the permission request handler to null first forces any permissions to be
   //   requested again. Without this, revoked permissions might still be available if
   //   they've already been used successfully.
-  session.defaultSession.setPermissionRequestHandler(null);
+  session.setPermissionRequestHandler(null);
 
-  session.defaultSession.setPermissionRequestHandler(
-    _createPermissionHandler(userConfig)
-  );
+  session.setPermissionRequestHandler(_createPermissionHandler(userConfig));
 }

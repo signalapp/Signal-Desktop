@@ -50,11 +50,12 @@ export function ListView({
     [calculateRowHeight]
   );
 
-  const style = useMemo(() => {
+  const style: React.CSSProperties = useMemo(() => {
     return {
       // See `<Timeline>` for an explanation of this `any` cast.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       overflowY: scrollable ? ('overlay' as any) : 'hidden',
+      direction: 'inherit',
     };
   }, [scrollable]);
 

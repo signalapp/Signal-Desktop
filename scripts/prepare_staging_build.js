@@ -82,6 +82,7 @@ fs.writeFileSync('./package.json', JSON.stringify(packageJson, null, '  '));
 
 const productionJson = {
   updatesEnabled: true,
+  ciMode: 'benchmark',
 };
 fs.writeFileSync(
   './config/production.json',

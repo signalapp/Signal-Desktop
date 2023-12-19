@@ -5,12 +5,13 @@ import React, { useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './Slider';
 import { Slider } from './Slider';
 
 export default {
   title: 'Components/Slider',
-};
+} satisfies Meta<PropsType>;
 
 const createProps = (): PropsType => ({
   label: 'Slider Handle',

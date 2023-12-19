@@ -3,7 +3,7 @@
 
 import * as sinon from 'sinon';
 import { Job } from '../../../jobs/Job';
-import { UUID } from '../../../types/UUID';
+import { generateAci } from '../../../types/ServiceId';
 
 import { addReportSpamJob } from '../../../jobs/helpers/addReportSpamJob';
 
@@ -14,7 +14,7 @@ describe('addReportSpamJob', () => {
   const conversation = {
     id: 'convo',
     type: 'private' as const,
-    uuid: UUID.generate().toString(),
+    serviceId: generateAci(),
   };
 
   beforeEach(() => {
@@ -35,11 +35,11 @@ describe('addReportSpamJob', () => {
     };
   });
 
-  it('does nothing if the conversation lacks a UUID', async () => {
+  it('does nothing if the conversation lacks a serviceId', async () => {
     await addReportSpamJob({
       conversation: {
         ...conversation,
-        uuid: undefined,
+        serviceId: undefined,
       },
       getMessageServerGuidsForSpam,
       jobQueue,
@@ -73,7 +73,7 @@ describe('addReportSpamJob', () => {
 
     sinon.assert.calledOnce(jobQueue.add);
     sinon.assert.calledWith(jobQueue.add, {
-      uuid: conversation.uuid,
+      aci: conversation.serviceId,
       serverGuids: ['abc', 'xyz'],
       token: undefined,
     });
@@ -94,7 +94,7 @@ describe('addReportSpamJob', () => {
 
     sinon.assert.calledOnce(jobQueue.add);
     sinon.assert.calledWith(jobQueue.add, {
-      uuid: conversation.uuid,
+      aci: conversation.serviceId,
       serverGuids: ['abc', 'xyz'],
       token: 'uvw',
     });

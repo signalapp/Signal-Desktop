@@ -13,18 +13,21 @@ import './phase3-post-signal';
 import './phase4-test';
 import '../../backbone/reliable_trigger';
 
+import type { CdsLookupOptionsType } from '../../textsecure/WebAPI';
 import type { FeatureFlagType } from '../../window.d';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { start as startConversationController } from '../../ConversationController';
-import { MessageController } from '../../util/MessageController';
+import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
+import { ipcInvoke } from '../../sql/channels';
+import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen';
 
 window.addEventListener('contextmenu', e => {
   const node = e.target as Element | null;
 
   const isEditable = Boolean(
-    node?.closest('textarea, input, [contenteditable="true"]')
+    node?.closest('textarea, input, [contenteditable="plaintext-only"]')
   );
   const isLink = Boolean(node?.closest('a'));
   const isImage = Boolean(node?.closest('.Lightbox img'));
@@ -40,14 +43,16 @@ if (window.SignalContext.config.proxyUrl) {
 }
 
 window.Whisper.events = clone(window.Backbone.Events);
-MessageController.install();
+initMessageCleanup();
 startConversationController();
 
 if (!isProduction(window.SignalContext.getVersion())) {
   const SignalDebug = {
-    Data: window.Signal.Data,
+    cdsLookup: (options: CdsLookupOptionsType) =>
+      window.textsecure.server?.cdsLookup(options),
     getConversation: (id: string) => window.ConversationController.get(id),
-    getMessageById: (id: string) => window.MessageController.getById(id),
+    getMessageById: (id: string) =>
+      window.MessageCache.__DEPRECATED$getById(id),
     getReduxState: () => window.reduxStore.getState(),
     getSfuUrl: () => window.Signal.Services.calling._sfuUrl,
     getStorageItem: (name: keyof StorageAccessType) => window.storage.get(name),
@@ -64,6 +69,13 @@ if (!isProduction(window.SignalContext.getVersion())) {
     setSfuUrl: (url: string) => {
       window.Signal.Services.calling._sfuUrl = url;
     },
+    sqlCall: (name: string, ...args: ReadonlyArray<unknown>) =>
+      ipcInvoke(name, args),
+    ...(window.SignalContext.config.ciMode === 'benchmark'
+      ? {
+          benchmarkConversationOpen,
+        }
+      : {}),
   };
 
   contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
@@ -75,7 +87,7 @@ if (getEnvironment() === Environment.Test) {
   contextBridge.exposeInMainWorld('testUtilities', window.testUtilities);
 }
 
-if (process.env.SIGNAL_CI_CONFIG) {
+if (window.SignalContext.config.ciMode === 'full') {
   contextBridge.exposeInMainWorld('SignalCI', window.SignalCI);
 }
 

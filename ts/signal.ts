@@ -8,9 +8,8 @@ import * as Curve from './Curve';
 import { start as conversationControllerStart } from './ConversationController';
 import Data from './sql/Client';
 import * as Groups from './groups';
-import * as OS from './OS';
+import OS from './util/os/osMain';
 import * as RemoteConfig from './RemoteConfig';
-import * as Util from './util';
 
 // Components
 import { ConfirmationDialog } from './components/ConfirmationDialog';
@@ -19,13 +18,10 @@ import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { createApp } from './state/roots/createApp';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 
-import { createStore } from './state/createStore';
-
 // Types
 import * as TypesAttachment from './types/Attachment';
 import * as VisualAttachment from './types/VisualAttachment';
 import * as MessageType from './types/Message2';
-import { UUID } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 
@@ -43,9 +39,14 @@ import type {
 } from './types/Attachment';
 import type { MessageAttributesType, QuotedMessageType } from './model-types.d';
 import type { SignalCoreType } from './window.d';
-import type { EmbeddedContactType } from './types/EmbeddedContact';
-import type { ContactWithHydratedAvatar } from './textsecure/SendMessage';
-import type { LinkPreviewType } from './types/message/LinkPreviews';
+import type {
+  EmbeddedContactType,
+  EmbeddedContactWithHydratedAvatar,
+} from './types/EmbeddedContact';
+import type {
+  LinkPreviewType,
+  LinkPreviewWithHydratedData,
+} from './types/message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './types/Stickers';
 
 type MigrationsModuleType = {
@@ -76,13 +77,13 @@ type MigrationsModuleType = {
   ) => Promise<AttachmentWithHydratedData>;
   loadContactData: (
     contact: Array<EmbeddedContactType> | undefined
-  ) => Promise<Array<ContactWithHydratedAvatar> | undefined>;
+  ) => Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined>;
   loadMessage: (
     message: MessageAttributesType
   ) => Promise<MessageAttributesType>;
   loadPreviewData: (
     preview: Array<LinkPreviewType> | undefined
-  ) => Promise<Array<LinkPreviewType>>;
+  ) => Promise<Array<LinkPreviewWithHydratedData>>;
   loadQuoteData: (
     quote: QuotedMessageType | null | undefined
   ) => Promise<QuotedMessageType | null>;
@@ -119,6 +120,7 @@ type MigrationsModuleType = {
   writeNewDraftData: (data: Uint8Array) => Promise<string>;
   writeNewAvatarData: (data: Uint8Array) => Promise<string>;
   writeNewBadgeImageFileData: (data: Uint8Array) => Promise<string>;
+  writeNewTempData: (data: Uint8Array) => Promise<string>;
 };
 
 export function initializeMigrations({
@@ -290,6 +292,7 @@ export function initializeMigrations({
     writeNewAvatarData,
     writeNewDraftData,
     writeNewBadgeImageFileData,
+    writeNewTempData,
   };
 }
 
@@ -374,7 +377,6 @@ export const setup = (options: {
   };
 
   const State = {
-    createStore,
     Roots,
   };
 
@@ -382,7 +384,6 @@ export const setup = (options: {
     Message: MessageType,
 
     // Mostly for debugging
-    UUID,
     Address,
     QualifiedAddress,
   };
@@ -401,6 +402,5 @@ export const setup = (options: {
     Services,
     State,
     Types,
-    Util,
   };
 };

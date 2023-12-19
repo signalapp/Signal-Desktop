@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "സ്റ്റിക്കർ ആർട്ട് ക്രിയേറ്റർ"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "പുതിയ സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിക്കുക"
+  },
+  "SignIn--title" : {
+    "message" : "ഒരു സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിക്കൂ",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "Signal-ൽ ലഭ്യമായ മറ്റ് ഫീച്ചറുകൾ പോലെ തന്നെ <linkToBlog>സ്റ്റിക്കറുകളും എൻക്രിപ്റ്റ് ചെയ്തിട്ടുണ്ട്</linkToBlog>. നിങ്ങളുടെ ഇഷ്ടാനുസൃത സ്റ്റിക്കറ്റർ പായ്ക്കുകൾ സൃഷ്ടിക്കാൻ ഈ ടൂൾ ഉപയോഗിക്കുക.",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "സൈൻ ഇൻ ചെയ്യൽ കോഡ്",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "തുടങ്ങാനായി Signal ഡെസ്‌ക്ടോപ്പ് തുറക്കുക",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "ക്ഷമിക്കണം, നിങ്ങളുടെ ബ്രൗസറിന് പിന്തുണയില്ല. ഈ ലിങ്ക് Firefox-ലോ Chrome-ലോ തുറക്കുക",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "റദ്ദാക്കുക"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$മി",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "ഇമോജിയൊന്നും കണ്ടെത്താനായില്ല",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "ഇമോജി തിരയുക",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "ചർമ്മത്തിന്റെ നിറം $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "സ്മൈലികളും ആളുകളും",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "മൃഗങ്ങളും പ്രകൃതിയും",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "ഭക്ഷണവും പാനീയവും",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "യാത്രയും സ്ഥലങ്ങളും",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "പ്രവർത്തനങ്ങൾ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "വസ്തുക്കൾ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "ചിഹ്നങ്ങൾ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "പതാകകൾ",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "Signal ആർട്ട് ക്രിയേറ്റർ",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "Signal സ്റ്റിക്കർ പായ്ക്ക് ക്രിയേറ്റർ",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "Signal ലോഗോ",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "സ്റ്റിക്കർ പായ്ക്ക് ക്രിയേറ്റർ മാർഗ്ഗനിർദ്ദേശങ്ങൾ",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "ഇവിടെ ചിത്രങ്ങൾ ചേർക്കാനോ ഡ്രോപ്പ് ചെയ്യാനോ ക്ലിക്ക് ചെയ്യുക",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "ചിത്രങ്ങൾ ഇവിടെ ഡ്രോപ്പ് ചെയുക",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "സ്റ്റിക്കർ പായ്ക്ക്",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "സ്റ്റിക്കർ പായ്ക്ക്",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "റദ്ദാക്കുക",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "കോപ്പി ചെയ്യുക",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "അടുത്തത്",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "തിരികെ പോകുക",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "നിങ്ങളുടെ സ്റ്റിക്കറുകൾ ചേർക്കുക",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "ചിത്രം നീക്കം ചെയ്യുക",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "സ്റ്റിക്കർ ചേർക്കാൻ ഒരു ഫയലിൽ ക്ലിക്ക് ചെയ്യുക അല്ലെങ്കിൽ അത് വലിച്ചിടുക",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "സുതാര്യമായ പശ്ചാത്തലവും 512x512 പിക്സലുകളും ഉള്ള PNG, APNG, WebP ഫോർമാറ്റുകളിലായിരിക്കണം സ്റ്റിക്കറുകൾ. ശുപാർശ ചെയ്യുന്ന മാർജിൻ 16px ആണ്.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "മാർജിനുകൾ കാണുക",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "ഓരോ സ്റ്റിക്കറിലും ഒരു ഇമോജി ചേർക്കുക",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "നിങ്ങൾ സന്ദേശങ്ങൾ അയയ്ക്കുമ്പോൾ സ്റ്റിക്കറുകൾ നിർദ്ദേശിക്കാൻ ഇത് ഞങ്ങളെ അനുവദിക്കുന്നു.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "കുറച്ച് വിശദാംശങ്ങൾ കൂടി മാത്രം...",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "പേര്",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "നിങ്ങളുടെ സ്റ്റിക്കർ പായ്ക്കിന്‍റെ പേര്",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "സൃഷ്ടാവ്",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "നിങ്ങളുടെ സ്റ്റിക്കറുകൾ ആര് സൃഷ്ടിച്ചതായി അറിയപ്പെടണോ അവരുടെ പേര് നൽകുക",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "കവർ ചിത്രം",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "നിങ്ങളുടെ സ്റ്റിക്കർ പായ്ക്ക് പങ്കിടുമ്പോൾ കാണിക്കുന്ന ചിത്രമാണിത്",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "നിങ്ങളുടെ സ്റ്റിക്കർ പായ്ക്ക് അപ്‌ലോഡ് ചെയ്യണമെന്ന് ഉറപ്പാണോ?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "അപ്‌ലോഡ്",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ഇനി എഡിറ്റുകൾ വരുത്താനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "നിങ്ങളുടെ സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിക്കുന്നു",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "$total$-ൽ $count$ അപ്‌ലോഡ് ചെയ്തു",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "അഭിനന്ദനങ്ങൾ! നിങ്ങൾ ഒരു സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിച്ചു.",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "സ്റ്റിക്കർ ഐക്കണിലൂടെ നിങ്ങളുടെ പുതിയ സ്റ്റിക്കറുകൾ ആക്സസ് ചെയ്യുക, അല്ലെങ്കിൽ താഴെയുള്ള ലിങ്ക് ഉപയോഗിച്ച് നിങ്ങളുടെ സുഹൃത്തുക്കളുമായി പങ്കിടുക.",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "നിങ്ങൾ പൊതുവായി ആക്സസ് ചെയ്യാൻ ആഗ്രഹിക്കുന്ന ഏതെങ്കിലും ഇഷ്ടാനുസൃത സ്റ്റിക്കർ പായ്ക്കുകൾക്കായി യുആർഎല്ലുകൾ കണ്ടെത്താൻ മറ്റ് ആളുകളെ സഹായിക്കുന്നതിന് $hashtag$ എന്ന ഹാഷ് ടാഗ് ഉപയോഗിക്കുക.",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "സ്റ്റിക്കർ പായ്ക്ക് URL",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "ഇൻസ്റ്റാൾ",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "മറ്റൊരു സ്റ്റിക്കർ പായ്ക്ക് സൃഷ്ടിക്കുക",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "Signal-നായി സൃഷ്ടിച്ച ഈ പുതിയ സ്റ്റിക്കർ പായ്ക്ക് I പരിശോധിക്കുക. #makeprivacystick",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, one {1 ചിത്രം ചേർത്തു} other {{count,number} ചിത്രങ്ങൾ ചേർത്തു}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "ആനിമേറ്റ് ചെയ്‌ത ആർട്ടിന് നിലവിൽ പിന്തുണയില്ല",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "ഡ്രോപ്പ് ചെയ്ത ചിത്രം വളരെ വലുതാണ്",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "ചിത്രം പ്രോസസ്സ് ചെയ്യുന്നതിൽ പിശക്",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "ആനിമേറ്റ് ചെയ്‌ത PNG ചിത്രങ്ങൾ ചതുരത്തിലായിരിക്കണം",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "ആനിമേറ്റ് ചെയ്ത ചിത്രങ്ങൾ തുടർച്ചയായി ലൂപ്പിലായിരിക്കണം",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "ആനിമേറ്റ് ചെയ്‌ത PNG ചിത്രത്തിന്‍റെ ഡൈമെൻഷനുകൾ വളരെ വലുതാണ്",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "ആനിമേറ്റ് ചെയ്‌ത PNG ചിത്രത്തിന്‍റെ ഡൈമെൻഷനുകൾ വളരെ ചെറുതാണ്",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യുന്നതിൽ പിശക്: $message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "സെർവറിലേക്ക് കണക്റ്റ് ചെയ്യാനായില്ല: $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "കാലഹരണപ്പെട്ട ക്രെഡെൻഷ്യലുകൾ കാരണം ചിത്രങ്ങൾ അപ്‍ലോഡ് ചെയ്യാനായില്ല. Signal ഡെസ്‌ക്ടോപ്പിൽ നിന്ന് വെബ്സൈറ്റ് വീണ്ടും തുറക്കുക.",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "ലിങ്ക് പകർത്തി",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "ലൈറ്റ് തീമിൽ എന്‍റെ സ്റ്റിക്കർ",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "ഇരുണ്ട തീമിൽ എന്റെ സ്റ്റിക്കർ",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "സ്റ്റിക്കർ പായ്ക്ക് ക്രിയേറ്റർ ഉപയോഗിക്കുന്നതിന് നിങ്ങളുടെ ഫോണിലും ഡെസ്ക്ടോപ്പിലും Signal സജ്ജീകരിക്കുക",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "ഇമോജി",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "പ്രതികരണങ്ങൾ ഇഷ്ടാനുസൃതമാക്കുക",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "ഇമോജിയുടെ മറ്റൊരു പേര്",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

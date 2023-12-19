@@ -21,18 +21,22 @@ export function GroupV1DisabledActions({
       <p className="module-group-v1-disabled-actions__message">
         <Intl
           i18n={i18n}
-          id="GroupV1--Migration--disabled"
+          id="icu:GroupV1--Migration--disabled--link"
           components={{
-            learnMore: (
-              <a
-                href="https://support.signal.org/hc/articles/360007319331"
-                target="_blank"
-                rel="noreferrer"
-                className="module-group-v1-disabled-actions__message__learn-more"
-              >
-                {i18n('MessageRequests--learn-more')}
-              </a>
-            ),
+            // This is a render prop, not a component
+            // eslint-disable-next-line react/no-unstable-nested-components
+            learnMoreLink: (...parts) => {
+              return (
+                <a
+                  href="https://support.signal.org/hc/articles/360007319331"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="module-group-v1-disabled-actions__message__learn-more"
+                >
+                  {parts}
+                </a>
+              );
+            },
           }}
         />
       </p>
@@ -43,7 +47,7 @@ export function GroupV1DisabledActions({
           tabIndex={0}
           className="module-group-v1-disabled-actions__buttons__button"
         >
-          {i18n('MessageRequests--continue')}
+          {i18n('icu:MessageRequests--continue')}
         </button>
       </div>
     </div>

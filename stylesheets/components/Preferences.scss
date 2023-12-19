@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@mixin preferences-icon($light_svg, $dark_svg) {
+@mixin preferences-icon($url) {
   &::before {
     @include light-theme {
-      @include color-svg($light_svg, $color-gray-75);
+      @include color-svg($url, $color-gray-75);
     }
     @include dark-theme {
-      @include color-svg($dark_svg, $color-gray-15);
+      @include color-svg($url, $color-gray-15);
     }
   }
 }
@@ -15,6 +15,7 @@
 .Preferences {
   display: flex;
   overflow: hidden;
+  user-select: none;
   @include light-theme {
     background: $color-white;
   }
@@ -23,8 +24,8 @@
   }
 
   &__page-selector {
-    padding-top: 76px;
-    min-width: 240px;
+    padding-top: calc(24px + var(--title-bar-drag-area-height));
+    min-width: min(34%, 240px);
     @include light-theme {
       background: $color-gray-02;
     }
@@ -34,7 +35,8 @@
   }
 
   &__padding {
-    padding: 0 24px;
+    padding-block: 0;
+    padding-inline: 24px;
   }
 
   &__button {
@@ -44,7 +46,8 @@
     display: flex;
     height: 48px;
     width: 100%;
-    padding: 14px 0;
+    padding-block: 14px;
+    padding-inline: 0;
 
     &--selected {
       @include light-theme {
@@ -68,54 +71,32 @@
       content: '';
       display: block;
       height: 22px;
-      margin-left: 18px;
-      margin-right: 14px;
+      margin-inline: 18px 14px;
       width: 22px;
     }
 
     &--general {
-      @include preferences-icon(
-        '../images/icons/v2/settings-outline-16.svg',
-        '../images/icons/v2/settings-outline-16.svg'
-      );
+      @include preferences-icon('../images/icons/v3/settings/settings.svg');
     }
 
     &--appearance {
-      @include preferences-icon(
-        '../images/icons/v2/appearance-outline-24.svg',
-        '../images/icons/v2/appearance-solid-24.svg'
-      );
+      @include preferences-icon('../images/icons/v3/appearance/appearance.svg');
     }
 
     &--chats {
-      @include preferences-icon(
-        '../images/icons/v2/message-outline-24.svg',
-        '../images/icons/v2/message-solid-24.svg'
-      );
+      @include preferences-icon('../images/icons/v3/chat/chat.svg');
     }
 
     &--calls {
-      @include preferences-icon(
-        '../images/icons/v2/video-outline-24.svg',
-        '../images/icons/v2/video-solid-24.svg'
-      );
+      @include preferences-icon('../images/icons/v3/phone/phone.svg');
     }
 
     &--notifications {
-      @include preferences-icon(
-        '../images/icons/v2/bell-outline-24.svg',
-        '../images/icons/v2/bell-solid-24.svg'
-      );
+      @include preferences-icon('../images/icons/v3/bell/bell.svg');
     }
 
     &--privacy {
-      @include preferences-icon(
-        '../images/icons/v2/lock-outline-24.svg',
-        '../images/icons/v2/lock-solid-24.svg'
-      );
-      &::before {
-        -webkit-mask-size: 75%;
-      }
+      @include preferences-icon('../images/icons/v3/lock/lock.svg');
     }
   }
 
@@ -133,9 +114,18 @@
     @include font-body-1-bold;
     align-items: center;
     display: flex;
-    height: 76px;
-    padding: 42px 0 14px 0;
+    height: 48px;
+    margin-top: var(--title-bar-drag-area-height);
+    margin-bottom: 24px;
     text-align: center;
+
+    border-bottom: 1px solid $color-gray-15;
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+    @include dark-theme {
+      border-color: $color-gray-65;
+    }
 
     &--header {
       flex-grow: 1;
@@ -144,16 +134,48 @@
   }
 
   &__settings-row {
-    padding-bottom: 12px;
+    border: none;
+    padding: 0;
+
+    padding-bottom: 20px;
 
     h3 {
       @include font-body-1-bold;
       margin: 0;
       margin-bottom: 8px;
     }
+
+    &--pnp-sharing {
+      min-height: 185px;
+    }
   }
 
   &__settings-row:not(:last-child) {
+    border-bottom: 1px solid $color-gray-15;
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+    @include dark-theme {
+      border-color: $color-gray-65;
+    }
+    margin-bottom: 24px;
+  }
+
+  &__link {
+    @include button-reset;
+    padding-block: 0px 28px;
+    padding-inline: 0;
+    width: 100%;
+
+    h3 {
+      @include font-body-1;
+      font-weight: 400;
+      margin: 0;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__link:not(:last-child) {
     border-bottom: 1px solid $color-gray-15;
     @include light-theme {
       border-color: $color-gray-15;
@@ -169,11 +191,19 @@
     display: flex;
     justify-content: space-between;
     min-height: 48px;
-    padding: 4px 24px;
+    padding-block: 4px;
+    padding-inline: 24px;
+
+    &--icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-inline-end: 12px;
+    }
 
     &--key {
       flex-grow: 1;
-      padding-right: 20px;
+      padding-inline-end: 20px;
     }
 
     &--value {
@@ -182,7 +212,8 @@
 
     &--clickable {
       @include button-reset;
-      padding: 4px 24px;
+      padding-block: 4px;
+      padding-inline: 24px;
       width: 100%;
       &:hover {
         @include light-theme {
@@ -196,7 +227,8 @@
   }
 
   &__checkbox {
-    padding: 10px 24px;
+    padding-block: 10px;
+    padding-inline: 24px;
   }
 
   &__description {
@@ -232,21 +264,21 @@
     @include button-reset;
 
     display: inline-block;
-    height: 24px;
-    margin-left: 12px;
-    min-width: 24px;
+    height: 20px;
+    margin-inline-start: 12px;
+    min-width: 20px;
     vertical-align: text-bottom;
-    width: 24px;
+    width: 20px;
 
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
+        '../images/icons/v3/chevron/chevron-left.svg',
         $color-gray-90
       );
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
+        '../images/icons/v3/chevron/chevron-left.svg',
         $color-gray-02
       );
     }
@@ -254,5 +286,122 @@
 
   &__stories-off {
     min-width: 140px;
+  }
+
+  &__settings-radio__label {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    height: 40px;
+    align-items: center;
+    &:last-child {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.Preferences__LanguageIcon {
+  @include light-theme {
+    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-75);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-15);
+  }
+}
+
+.Preferences__LanguageButton {
+  @include button-reset;
+}
+
+.Preferences__LanguageModal {
+  height: 560px;
+  .module-Modal__body {
+    flex-grow: 1;
+  }
+}
+
+.Preferences__LanguageModal__Title {
+  @include font-body-1-bold;
+  margin-inline: 8px;
+}
+
+.Preferences__LanguageModal__NoResults {
+  @include font-body-1;
+  margin: 16px;
+  text-align: center;
+}
+
+.Preferences__LanguageModal__Item {
+  @include button-reset;
+  width: 100%;
+  padding-block: 2px;
+  padding-inline: 8px;
+  &:hover {
+    .Preferences__LanguageModal__Item__Inner {
+      @include light-theme {
+        background-color: $color-black-alpha-06;
+      }
+      @include dark-theme {
+        background-color: $color-white-alpha-06;
+      }
+    }
+  }
+  &:focus {
+    outline: none;
+    .Preferences__LanguageModal__Item__Inner {
+      @include keyboard-mode {
+        background-color: $color-black-alpha-06;
+        box-shadow: 0 0 0 2px $color-ultramarine;
+      }
+      @include dark-keyboard-mode {
+        background-color: $color-white-alpha-06;
+      }
+    }
+  }
+}
+
+.Preferences__LanguageModal__Item__Inner {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding-block: 5px;
+  padding-inline: 16px;
+  border-radius: 8px;
+}
+
+.Preferences__LanguageModal__Item__Label {
+  flex-grow: 1;
+}
+
+.Preferences__LanguageModal__Item__Current {
+  display: block;
+  @include font-body-1;
+}
+
+.Preferences__LanguageModal__Item__Check {
+  display: flex;
+  height: 20px;
+  width: 20px;
+  align-items: center;
+  justify-content: center;
+  background: $color-ultramarine;
+  @include rounded-corners;
+  &::after {
+    @include color-svg('../images/icons/v3/check/check.svg', $color-white);
+    content: '';
+    height: 14px;
+    width: 14px;
+  }
+}
+
+.Preferences__LanguageModal__Item__Matching {
+  display: block;
+  @include font-body-2;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
   }
 }

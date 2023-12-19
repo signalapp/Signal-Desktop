@@ -23,13 +23,15 @@ export function UsernameOnboardingModalBody({
     <div className={CLASS}>
       <div className={`${CLASS}__large-at`} />
 
-      <div className={`${CLASS}__title`}>{i18n(`icu:${CLASS}__title`)}</div>
+      <div className={`${CLASS}__title`}>
+        {i18n('icu:UsernameOnboardingModalBody__title')}
+      </div>
 
       <div className={`${CLASS}__row`}>
         <div className={`${CLASS}__row__icon ${CLASS}__row__icon--number`} />
 
         <div className={`${CLASS}__row__body`}>
-          {i18n(`icu:${CLASS}__row__number`)}
+          {i18n('icu:UsernameOnboardingModalBody__row__number')}
         </div>
       </div>
 
@@ -37,7 +39,7 @@ export function UsernameOnboardingModalBody({
         <div className={`${CLASS}__row__icon ${CLASS}__row__icon--link`} />
 
         <div className={`${CLASS}__row__body`}>
-          {i18n(`icu:${CLASS}__row__link`)}
+          {i18n('icu:UsernameOnboardingModalBody__row__link')}
         </div>
       </div>
 
@@ -45,7 +47,7 @@ export function UsernameOnboardingModalBody({
         <div className={`${CLASS}__row__icon ${CLASS}__row__icon--lock`} />
 
         <div className={`${CLASS}__row__body`}>
-          {i18n(`icu:${CLASS}__row__lock`)}
+          {i18n('icu:UsernameOnboardingModalBody__row__lock')}
         </div>
       </div>
 
@@ -56,12 +58,12 @@ export function UsernameOnboardingModalBody({
           rel="noreferrer"
           target="_blank"
         >
-          {i18n(`icu:${CLASS}__learn-more`)}
+          {i18n('icu:UsernameOnboardingModalBody__learn-more')}
         </a>
       </div>
 
       <Button className={`${CLASS}__submit`} onClick={onNext}>
-        {i18n(`icu:${CLASS}__continue`)}
+        {i18n('icu:UsernameOnboardingModalBody__continue')}
       </Button>
     </div>
   );

@@ -3,7 +3,7 @@
 
 import PQueue from 'p-queue';
 import { MINUTE } from './durations';
-import { Sound } from './Sound';
+import { Sound, SoundType } from './Sound';
 
 const ringtoneEventQueue = new PQueue({
   concurrency: 1,
@@ -21,7 +21,7 @@ class CallingTones {
     }
 
     const tone = new Sound({
-      src: 'sounds/navigation-cancel.ogg',
+      soundType: SoundType.CallingHangUp,
     });
     await tone.play();
   }
@@ -40,7 +40,7 @@ class CallingTones {
 
       this.ringtone = new Sound({
         loop: true,
-        src: 'sounds/ringtone_minimal.ogg',
+        soundType: SoundType.Ringtone,
       });
 
       await this.ringtone.play();
@@ -63,7 +63,7 @@ class CallingTones {
     }
 
     const tone = new Sound({
-      src: 'sounds/navigation_selection-complete-celebration.ogg',
+      soundType: SoundType.CallingPresenting,
     });
 
     await tone.play();

@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "સ્ટીકર આર્ટ સર્જક"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "નવું સ્ટીકર પેક બનાવો"
+  },
+  "SignIn--title" : {
+    "message" : "સ્ટીકર પેક બનાવો",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "અન્ય દરેક વસ્તુની જેમ જ Signalમાં, <linkToBlog>સ્ટીકર પણ એન્ક્રિપ્ટેડ છે</linkToBlog>. તમારા પોતાના કસ્ટમ સ્ટીકર પેક બનાવવા માટે આ ટૂલનો ઉપયોગ કરો.",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "સાઇન ઇન કોડ",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "શરૂ કરવા માટે Signal ડેસ્કટોપ ઍપ ખોલો",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "માફ કરશો, તમારું બ્રાઉઝર સપોર્ટ કરતું નથી. કૃપા કરીને આ લિંકને Firefox અથવા Chromeમાં ખોલો",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "રદ કરો"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$મિ",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "કોઈ ઇમોજી મળ્યું નથી",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "ઇમોજી શોધો",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "સ્કીન ટોન $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "સ્માઇલીઝ અને લોકો",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "પ્રાણીઓ અને કુદરત",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "ખોરાક અને પીણું",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "મુસાફરી અને સ્થળો",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "પ્રવત્તિઓ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "વસ્તુઓ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "ચિહ્નો",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "ફ્લેગ",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "Signal આર્ટ સર્જક",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "Signal સ્ટીકર પેક સર્જક",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "Signal લોગો",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "સ્ટીકર પેક સર્જક માર્ગદર્શિકા",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "અહીં ફોટા ઉમેરવા કે ડ્રોપ કરવા માટે ક્લિક કરો",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "ફોટા અહીં ડ્રોપ કરો",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "સ્ટીકર પેક",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "સ્ટીકર પેક",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "રદ કરો",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "કૉપિ કરો",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "આગળ",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "પાછળ",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "તમારા સ્ટીકર ઉમેરો",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "ફોટો દૂર કરો",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "સ્ટીકર ઉમેરવા માટે ક્લિક કરો અથવા ફાઇલ ડ્રેગ/ડ્રોપ કરો",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "પારદર્શક બૅકગ્રાઉન્ડ અને 512x512 પિક્સેલવાળા સ્ટીકર PNG, APNG અથવા WebP ફોર્મેટમાં હોવા આવશ્યક છે. ભલામણ કરેલું માર્જિન 16px છે.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "માર્જિન જુઓ",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "દરેક સ્ટીકરમાં ઇમોજી ઉમેરો",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "તમે મેસેજ કરી રહ્યા હો ત્યારે આ અમને સ્ટીકર સૂચવવાની મંજૂરી આપે છે.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "માત્ર થોડી વધુ વિગતો...",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "શીર્ષક",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "તમારા સ્ટીકર પેકને નામ આપો",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "લેખક",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "તમારા સ્ટિકરને જે નામ હેઠળ સબમિટ કરવા હોય તે નામ દાખલ કરો",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "કવર ફોટો",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "આ તે ફોટો છે જે જ્યારે તમે તમારા સ્ટીકર પેકને શેર કરશો ત્યારે દેખાશે",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "શું તમે ખરેખર તમારું સ્ટીકર પેક અપલોડ કરવા માંગો છો?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "અપલોડ કરો",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "સ્ટીકર પેક બનાવ્યા પછી તમે તેમાં ફેરફાર કરી શકશો નહીં અથવા તેને ડિલીટ કરી શકશો નહીં.",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "તમારું સ્ટીકર પેક બનાવવું",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "$total$માંથી $count$ અપલોડ થયું",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "અભિનંદન! તમે એક સ્ટીકર પેક બનાવ્યું છે.",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "સ્ટીકર આઇકન દ્વારા તમારા નવા સ્ટીકરને ઍક્સેસ કરો અથવા નીચેની લિંકનો ઉપયોગ કરીને તમારા મિત્રો સાથે શેર કરો.",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "હેશટેગ $hashtag$નો ઉપયોગ કરો જે અન્ય લોકોને કોઈ પણ કસ્ટમ સ્ટીકર પેક માટે URL શોધવા માટે મદદ કરે છે જેને તમે સાર્વજનિક રીતે સુલભ બનાવવા માંગો છો.",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "સ્ટીકર પેક URL",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "ઇન્સ્ટોલ",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "અન્ય સ્ટીકર પેક બનાવો",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "Signal માટે મેં બનાવેલ આ નવું સ્ટીકર પેક તપાસો. #પ્રાઇવસીઅકબંધરાખો",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, one {1 ફોટો ઉમેર્યો} other {{count,number} ફોટા ઉમેર્યા}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "એનિમેટેડ આર્ટ હાલમાં સપોર્ટ કરતી નથી",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "ડ્રોપ કરેલી ઇમેજ ખૂબ મોટી છે",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "ફોટા પર પ્રક્રિયા કરવામાં ભૂલ",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "એનિમેટેડ PNG ફોટા ચોરસ હોવા જોઈએ",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "એનિમેટેડ ફોટા કાયમ માટે ફરતા હોવા જોઈએ",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "એનિમેટેડ PNG ફોટાના પરિમાણો ખૂબ મોટા છે",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "એનિમેટેડ PNG ફોટાના પરિમાણો ખૂબ નાના છે",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "ફોટા અપલોડ કરવામાં ભૂલ: $message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "સર્વર સાથે કનેક્ટ કરી શકાતું નથી: $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "સમાપ્ત થઈ ગયેલ ઓળખપત્રોને કારણે ફોટો અપલોડ કરવામાં નિષ્ફળ. કૃપા કરીને Signal ડેસ્કટોપ પરથી વેબસાઇટ ફરીથી ખોલો.",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "લિંક કૉપિ કરી",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "લાઇટ થીમમાં મારું સ્ટીકર",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "ડાર્ક થીમમાં મારું સ્ટીકર",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "સ્ટીકર પેક સર્જકનો ઉપયોગ કરવા માટે કૃપા કરીને તમારા ફોન અને ડેસ્કટોપ પર Signal સેટ કરો",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "ઇમોજી",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "પ્રતિક્રિયાઓ કસ્ટમાઇઝ કરો",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "ઇમોજીનું ઉપનામ",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

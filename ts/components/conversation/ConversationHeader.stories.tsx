@@ -3,15 +3,15 @@
 
 import type { ComponentProps } from 'react';
 import React, { useContext } from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
 import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
 import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
+import type { PropsType } from './ConversationHeader';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
@@ -20,7 +20,7 @@ import { gifUrl } from '../../storybook/Fixtures';
 
 export default {
   title: 'Components/Conversation/ConversationHeader',
-};
+} satisfies Meta<PropsType>;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -32,6 +32,7 @@ type ItemsType = Array<{
 const commonProps = {
   ...getDefaultConversation(),
 
+  cannotLeaveBecauseYouAreLastAdmin: false,
   showBackButton: false,
   outgoingCallButtonStyle: OutgoingCallButtonStyle.Both,
 
@@ -39,6 +40,7 @@ const commonProps = {
 
   setDisappearingMessages: action('setDisappearingMessages'),
   destroyMessages: action('destroyMessages'),
+  leaveGroup: action('leaveGroup'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -48,6 +50,7 @@ const commonProps = {
 
   onArchive: action('onArchive'),
   onMarkUnread: action('onMarkUnread'),
+  toggleSelectMode: action('toggleSelectMode'),
   onMoveToInbox: action('onMoveToInbox'),
   pushPanelForConversation: action('pushPanelForConversation'),
   popPanelForConversation: action('popPanelForConversation'),
@@ -213,10 +216,6 @@ export function PrivateConvo(): JSX.Element {
   );
 }
 
-PrivateConvo.story = {
-  name: '1:1 conversation',
-};
-
 export function Group(): JSX.Element {
   const items: ItemsType = [
     {
@@ -299,11 +298,7 @@ export function Group(): JSX.Element {
   );
 }
 
-Group.story = {
-  name: 'In a group',
-};
-
-function NoteToSelf() {
+export function NoteToSelf(): JSX.Element {
   const items: ItemsType = [
     {
       title: 'In chat with yourself',
@@ -337,11 +332,7 @@ function NoteToSelf() {
   );
 }
 
-NoteToSelf.story = {
-  name: 'Note to Self',
-};
-
-function Unaccepted() {
+export function Unaccepted(): JSX.Element {
   const items: ItemsType = [
     {
       title: '1:1 conversation',
@@ -374,7 +365,3 @@ function Unaccepted() {
     </>
   );
 }
-
-Unaccepted.story = {
-  name: 'Unaccepted',
-};

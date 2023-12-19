@@ -4,5 +4,8 @@
 import * as RemoteConfig from '../RemoteConfig';
 
 export function isPhoneNumberSharingEnabled(): boolean {
-  return Boolean(RemoteConfig.isEnabled('desktop.internalUser'));
+  return Boolean(
+    RemoteConfig.isEnabled('desktop.internalUser') ||
+      RemoteConfig.isEnabled('desktop.pnp')
+  );
 }

@@ -11,7 +11,9 @@ import {
 import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
 import { IMAGE_GIF } from '../types/MIME';
+import { generateAci } from '../types/ServiceId';
 
+const ACI_1 = generateAci();
 const FLAGS = Proto.DataMessage.Flags;
 
 const TIMESTAMP = Date.now();
@@ -31,10 +33,6 @@ const PROCESSED_ATTACHMENT: ProcessedAttachment = {
   contentType: IMAGE_GIF,
   size: 34,
 };
-
-const GROUP_ID = new Uint8Array([0x68, 0x65, 0x79]);
-
-const DERIVED_GROUPV2_ID = '7qQUi8Wa6Jm3Rl+l63saATGeciEqokbHpP+lV3F5t9o=';
 
 describe('processDataMessage', () => {
   const check = (message: Proto.IDataMessage) =>
@@ -85,59 +83,6 @@ describe('processDataMessage', () => {
     );
   });
 
-  it('should process group context UPDATE/QUIT message', () => {
-    const { UPDATE, QUIT } = Proto.GroupContext.Type;
-
-    for (const type of [UPDATE, QUIT]) {
-      const out = check({
-        body: 'should be deleted',
-        attachments: [UNPROCESSED_ATTACHMENT],
-        group: {
-          id: GROUP_ID,
-          name: 'Group',
-          avatar: UNPROCESSED_ATTACHMENT,
-          type,
-          membersE164: ['+1'],
-        },
-      });
-
-      assert.isUndefined(out.body);
-      assert.strictEqual(out.attachments.length, 0);
-      assert.deepStrictEqual(out.group, {
-        id: 'hey',
-        name: 'Group',
-        avatar: PROCESSED_ATTACHMENT,
-        type,
-        membersE164: ['+1'],
-        derivedGroupV2Id: DERIVED_GROUPV2_ID,
-      });
-    }
-  });
-
-  it('should process group context DELIVER message', () => {
-    const out = check({
-      body: 'should not be deleted',
-      attachments: [UNPROCESSED_ATTACHMENT],
-      group: {
-        id: GROUP_ID,
-        name: 'should be deleted',
-        membersE164: ['should be deleted'],
-        type: Proto.GroupContext.Type.DELIVER,
-      },
-    });
-
-    assert.strictEqual(out.body, 'should not be deleted');
-    assert.strictEqual(out.attachments.length, 1);
-    assert.deepStrictEqual(out.group, {
-      id: 'hey',
-      type: Proto.GroupContext.Type.DELIVER,
-      membersE164: [],
-      derivedGroupV2Id: DERIVED_GROUPV2_ID,
-      avatar: undefined,
-      name: undefined,
-    });
-  });
-
   it('should process groupv2 context', () => {
     const out = check({
       groupV2: {
@@ -179,7 +124,7 @@ describe('processDataMessage', () => {
     const out = check({
       quote: {
         id: Long.fromNumber(1),
-        authorUuid: 'author',
+        authorAci: ACI_1,
         text: 'text',
         attachments: [
           {
@@ -193,7 +138,7 @@ describe('processDataMessage', () => {
 
     assert.deepStrictEqual(out.quote, {
       id: 1,
-      authorUuid: 'author',
+      authorAci: ACI_1,
       text: 'text',
       attachments: [
         {
@@ -202,7 +147,7 @@ describe('processDataMessage', () => {
           thumbnail: PROCESSED_ATTACHMENT,
         },
       ],
-      bodyRanges: [],
+      bodyRanges: undefined,
       type: 0,
     });
   });
@@ -239,13 +184,14 @@ describe('processDataMessage', () => {
       check({
         reaction: {
           emoji: '😎',
+          targetAuthorAci: ACI_1,
           targetTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {
         emoji: '😎',
         remove: false,
-        targetAuthorUuid: undefined,
+        targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
       }
     );
@@ -255,13 +201,14 @@ describe('processDataMessage', () => {
         reaction: {
           emoji: '😎',
           remove: true,
+          targetAuthorAci: ACI_1,
           targetTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {
         emoji: '😎',
         remove: true,
-        targetAuthorUuid: undefined,
+        targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
       }
     );
@@ -312,15 +259,10 @@ describe('processDataMessage', () => {
     const out = check({
       flags: FLAGS.END_SESSION,
       body: 'should be deleted',
-      group: {
-        id: GROUP_ID,
-        type: Proto.GroupContext.Type.DELIVER,
-      },
       attachments: [UNPROCESSED_ATTACHMENT],
     });
 
     assert.isUndefined(out.body);
-    assert.isUndefined(out.group);
     assert.deepStrictEqual(out.attachments, []);
   });
 

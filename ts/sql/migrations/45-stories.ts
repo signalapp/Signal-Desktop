@@ -75,6 +75,8 @@ export default function updateToSchemaVersion45(
 
       --- Update delete trigger to remove storyReads
 
+      --- Note: for future updates to this trigger, be sure to update Server.ts/removeAll()
+      ---       (it deletes and re-adds this trigger for performance)
       DROP   TRIGGER messages_on_delete;
       CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
         DELETE FROM messages_fts WHERE rowid = old.rowid;

@@ -20,6 +20,16 @@ const rules = {
   'brace-style': ['error', '1tbs', { allowSingleLine: false }],
   curly: ['error', 'all'],
 
+  // Immer support
+  'no-param-reassign': [
+    'error',
+    {
+      props: true,
+      ignorePropertyModificationsForRegex: ['^draft'],
+      ignorePropertyModificationsFor: ['acc', 'ctx', 'context'],
+    },
+  ],
+
   // Always use === and !== except when directly comparing to null
   // (which only will equal null or undefined)
   eqeqeq: ['error', 'always', { null: 'never' }],
@@ -122,7 +132,7 @@ const rules = {
 
   'react/display-name': 'error',
 
-  'react/jsx-pascal-case': ['error', {allowNamespace: true}],
+  'react/jsx-pascal-case': ['error', { allowNamespace: true }],
 
   // Allow returning values from promise executors for brevity.
   'no-promise-executor-return': 'off',
@@ -213,6 +223,16 @@ const typescriptRules = {
 
   '@typescript-eslint/consistent-type-imports': 'error',
 
+  // Future: Maybe switch to never and always use `satisfies`
+  '@typescript-eslint/consistent-type-assertions': [
+    'error',
+    {
+      assertionStyle: 'as',
+      // Future: Maybe switch to allow-as-parameter or never
+      objectLiteralTypeAssertions: 'allow',
+    },
+  ],
+
   // Already enforced by TypeScript
   'consistent-return': 'off',
 
@@ -241,8 +261,6 @@ module.exports = {
         'ts/**/*.ts',
         'ts/**/*.tsx',
         'app/**/*.ts',
-        'sticker-creator/**/*.ts',
-        'sticker-creator/**/*.tsx',
         'build/intl-linter/**/*.ts',
       ],
       parser: '@typescript-eslint/parser',
@@ -280,6 +298,12 @@ module.exports = {
       files: ['ts/state/ducks/**/*.ts'],
       rules: {
         'local-rules/type-alias-readonlydeep': 'error',
+      },
+    },
+    {
+      files: ['ts/**/*_test.{ts,tsx}'],
+      rules: {
+        'func-names': 'off',
       },
     },
   ],

@@ -11,6 +11,7 @@ import { MessageSearchResult } from '../../components/conversationList/MessageSe
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
 import { getMessageSearchResultSelector } from '../selectors/search';
+import * as log from '../../logging/log';
 
 type SmartProps = {
   id: string;
@@ -22,7 +23,8 @@ function mapStateToProps(state: StateType, ourProps: SmartProps) {
 
   const props = getMessageSearchResultSelector(state)(id);
   if (!props) {
-    throw new Error('SmartMessageSearchResult: no message was found');
+    log.error('SmartMessageSearchResult: no message was found');
+    return null;
   }
 
   return {

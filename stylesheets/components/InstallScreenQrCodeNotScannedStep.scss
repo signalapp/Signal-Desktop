@@ -38,7 +38,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 8px 38px 8px 8px;
+    margin-block: 8px;
+    margin-inline: 8px 38px;
     min-height: $size;
     min-width: $size;
     width: $size;
@@ -54,6 +55,11 @@
       color: $color-gray-60;
     }
 
+    &__link {
+      @include button-reset;
+      color: $color-ultramarine;
+    }
+
     &__code {
       height: $size;
       width: $size;
@@ -66,13 +72,14 @@
 
       &::before {
         @include color-svg(
-          '../images/icons/v2/error-outline-24.svg',
+          '../images/icons/v3/error/error-circle.svg',
           $color-accent-red
         );
         content: '';
         display: block;
         height: 22px;
-        margin: 8px auto 0 auto;
+        margin-block: 8px 0;
+        margin-inline: auto;
         width: 22px;
       }
 
@@ -103,7 +110,10 @@
     vertical-align: middle;
 
     &::before {
-      @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/plus/plus-compact.svg',
+        $color-white
+      );
       content: '';
       display: block;
       height: 12px;

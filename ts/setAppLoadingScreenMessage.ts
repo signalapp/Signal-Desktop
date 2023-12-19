@@ -26,9 +26,9 @@ export function setAppLoadingScreenMessage(
     return clear;
   }
 
-  targetString = loadingText || i18n('optimizingApplication');
+  targetString = loadingText || i18n('icu:optimizingApplication');
 
-  message.innerText = didTimeout ? targetString : i18n('loading');
+  message.innerText = didTimeout ? targetString : i18n('icu:loading');
 
   if (timeout) {
     return clear;

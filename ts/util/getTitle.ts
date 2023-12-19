@@ -19,9 +19,9 @@ export function getTitle(
   }
 
   if (isDirectConversation(attributes)) {
-    return window.i18n('unknownContact');
+    return window.i18n('icu:unknownContact');
   }
-  return window.i18n('unknownGroup');
+  return window.i18n('icu:unknownGroup');
 }
 
 export function getTitleNoDefault(
@@ -108,7 +108,7 @@ export function getSystemName(
 
 export function getNumber(
   attributes: Pick<ConversationAttributesType, 'e164' | 'type'>
-): string {
+): string | undefined {
   if (!isDirectConversation(attributes)) {
     return '';
   }
@@ -121,7 +121,7 @@ export function getNumber(
   return renderNumber(e164);
 }
 
-export function renderNumber(e164: string): string {
+export function renderNumber(e164: string): string | undefined {
   try {
     const parsedNumber = window.libphonenumberInstance.parse(e164);
     const regionCode = getRegionCodeForNumber(e164);
@@ -136,6 +136,6 @@ export function renderNumber(e164: string): string {
       window.libphonenumberFormat.INTERNATIONAL
     );
   } catch (e) {
-    return e164;
+    return undefined;
   }
 }

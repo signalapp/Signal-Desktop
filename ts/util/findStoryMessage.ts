@@ -4,64 +4,77 @@
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { SignalService as Proto } from '../protobuf';
+import type { AciString } from '../types/ServiceId';
 import * as log from '../logging/log';
-import { find } from './iterables';
+import { normalizeAci } from './normalizeAci';
+import { filter } from './iterables';
 import { getContactId } from '../messages/helpers';
 import { getTimestampFromLong } from './timestampLongUtils';
 
-export async function findStoryMessage(
+export async function findStoryMessages(
   conversationId: string,
   storyContext?: Proto.DataMessage.IStoryContext
-): Promise<MessageModel | undefined> {
+): Promise<Array<MessageModel>> {
   if (!storyContext) {
-    return;
+    return [];
   }
 
-  const { authorUuid, sentTimestamp } = storyContext;
+  const { authorAci: rawAuthorAci, sentTimestamp } = storyContext;
 
-  if (!authorUuid || !sentTimestamp) {
-    return;
+  if (!rawAuthorAci || !sentTimestamp) {
+    return [];
   }
+
+  const authorAci = normalizeAci(rawAuthorAci, 'findStoryMessage');
 
   const sentAt = getTimestampFromLong(sentTimestamp);
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
 
-  const inMemoryMessages = window.MessageController.filterBySentAt(sentAt);
-  const matchingMessage = find(inMemoryMessages, item =>
-    isStoryAMatch(
-      item.attributes,
-      conversationId,
-      ourConversationId,
-      authorUuid,
-      sentAt
+  const inMemoryMessages =
+    window.MessageCache.__DEPRECATED$filterBySentAt(sentAt);
+  const matchingMessages = [
+    ...filter(inMemoryMessages, item =>
+      isStoryAMatch(
+        item.attributes,
+        conversationId,
+        ourConversationId,
+        authorAci,
+        sentAt
+      )
+    ),
+  ];
+
+  if (matchingMessages.length > 0) {
+    return matchingMessages;
+  }
+
+  log.info('findStoryMessages: db lookup needed', sentAt);
+  const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
+  const found = messages.filter(item =>
+    isStoryAMatch(item, conversationId, ourConversationId, authorAci, sentAt)
+  );
+
+  if (found.length === 0) {
+    log.info('findStoryMessages: message not found', sentAt);
+    return [];
+  }
+
+  const result = found.map(attributes =>
+    window.MessageCache.__DEPRECATED$register(
+      attributes.id,
+      attributes,
+      'findStoryMessages'
     )
   );
-
-  if (matchingMessage) {
-    return matchingMessage;
-  }
-
-  log.info('findStoryMessage: db lookup needed', sentAt);
-  const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
-  const found = messages.find(item =>
-    isStoryAMatch(item, conversationId, ourConversationId, authorUuid, sentAt)
-  );
-
-  if (!found) {
-    log.info('findStoryMessage: message not found', sentAt);
-    return;
-  }
-
-  const message = window.MessageController.register(found.id, found);
-  return message;
+  return result;
 }
 
 function isStoryAMatch(
   message: MessageAttributesType | null | undefined,
   conversationId: string,
   ourConversationId: string,
-  authorUuid: string,
+  authorAci: AciString,
   sentTimestamp: number
 ): message is MessageAttributesType {
   if (!message) {
@@ -70,7 +83,7 @@ function isStoryAMatch(
 
   const authorConversation = window.ConversationController.lookupOrCreate({
     e164: undefined,
-    uuid: authorUuid,
+    serviceId: authorAci,
     reason: 'isStoryAMatch',
   });
 

@@ -10,7 +10,7 @@ const PLACEHOLDER_CONTACT: ConversationType = {
   id: 'placeholder-contact',
   isMe: false,
   sharedGroupNames: [],
-  title: window.i18n('unknownContact'),
+  title: window.i18n('icu:unknownContact'),
   type: 'direct',
 };
 

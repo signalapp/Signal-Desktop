@@ -67,12 +67,14 @@ export function TimelineFloatingHeader({
 
   return (
     <div
+      aria-level={5}
       className={classNames(
         'TimelineFloatingHeader',
         `TimelineFloatingHeader--${
           visible && hasRendered ? 'visible' : 'hidden'
         }`
       )}
+      role="heading"
       style={style}
     >
       <TimelineDateHeader floating i18n={i18n} timestamp={timestamp} />

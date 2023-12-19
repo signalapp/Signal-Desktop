@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-conversation-hero {
-  padding: 32px 0 28px 0;
+  padding-block: 32px 28px;
+  padding-inline: 0;
   text-align: center;
 
   &__avatar {
@@ -10,6 +11,10 @@
   }
 
   &__profile-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     @include font-title-2;
     margin-bottom: 2px;
 
@@ -24,7 +29,8 @@
 
   &__with {
     @include font-body-2;
-    margin: 0 auto;
+    margin-block: 0;
+    margin-inline: auto;
     margin-bottom: 16px;
     max-width: 500px;
 
@@ -40,7 +46,9 @@
   &__membership {
     @include font-body-2;
 
-    padding: 0 16px;
+    padding-block: 0;
+
+    padding-inline: 16px;
 
     @include light-theme {
       color: $color-gray-60;
@@ -76,18 +84,18 @@
         content: '';
         display: block;
         height: 14px;
-        margin-right: 8px;
+        margin-inline-end: 8px;
         width: 14px;
 
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/info-outline-24.svg',
+            '../images/icons/v3/info/info.svg',
             $color-gray-60
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/info-solid-24.svg',
+            '../images/icons/v3/info/info.svg',
             $color-gray-25
           );
         }
@@ -106,21 +114,15 @@
       content: '';
       display: inline-block;
       height: 16px;
-      margin-right: 8px;
+      margin-inline-end: 8px;
       vertical-align: middle;
       width: 16px;
 
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/info-outline-24.svg',
-          $color-gray-60
-        );
+        @include color-svg('../images/icons/v3/info/info.svg', $color-gray-60);
       }
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/info-solid-24.svg',
-          $color-gray-25
-        );
+        @include color-svg('../images/icons/v3/info/info.svg', $color-gray-25);
       }
     }
   }

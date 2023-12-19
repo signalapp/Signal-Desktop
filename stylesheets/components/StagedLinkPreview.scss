@@ -17,11 +17,11 @@
     flex-direction: row;
     height: 74px;
     justify-content: center;
-    margin-right: 32px;
+    margin-inline-end: 32px;
     width: 74px;
 
     &::after {
-      @include color-svg('../images/icons/v2/link-24.svg', $color-black);
+      @include color-svg('../images/icons/v3/link/link.svg', $color-black);
       content: '';
       height: 44px;
       width: 44px;
@@ -46,12 +46,12 @@
 }
 
 .module-staged-link-preview__icon-container {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 .module-staged-link-preview__content {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  margin-inline-end: 20px;
 
   &--only-url {
     justify-content: center;
@@ -100,8 +100,7 @@
     &:before {
       content: '•';
       font-size: 50%;
-      margin-left: 0.2rem;
-      margin-right: 0.2rem;
+      margin-inline: 0.2rem;
     }
   }
 }
@@ -122,27 +121,27 @@
 
   position: absolute;
   top: 0px;
-  right: 0px;
+  inset-inline-end: 0px;
 
   height: 16px;
   width: 16px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
   }
   @include keyboard-mode {
     &:focus {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-ultramarine);
+      @include color-svg('../images/icons/v3/x/x.svg', $color-ultramarine);
     }
   }
 
   @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
   }
   @include dark-keyboard-mode {
     &:focus {
       @include color-svg(
-        '../images/icons/v2/x-24.svg',
+        '../images/icons/v3/x/x.svg',
         $color-ultramarine-light
       );
     }

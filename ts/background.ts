@@ -3,11 +3,12 @@
 
 import { webFrame } from 'electron';
 import { isNumber, throttle, groupBy } from 'lodash';
-import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
+import { v4 as generateUuid } from 'uuid';
 
+import * as Registration from './util/registration';
 import MessageReceiver from './textsecure/MessageReceiver';
 import type {
   SessionResetsType,
@@ -19,11 +20,7 @@ import createTaskWithTimeout, {
   resumeTasksWithTimeout,
   reportLongRunningTasks,
 } from './textsecure/TaskWithTimeout';
-import type {
-  MessageAttributesType,
-  ConversationAttributesType,
-  ReactionAttributesType,
-} from './model-types.d';
+import type { MessageAttributesType } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
@@ -39,10 +36,8 @@ import { drop } from './util/drop';
 import { explodePromise } from './util/explodePromise';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
-import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
-import { isPnpEnabled } from './util/isPnpEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
@@ -56,7 +51,7 @@ import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
-import { optimizeFTS } from './services/ftsOptimizer';
+import { usernameIntegrity } from './services/usernameIntegrity';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -64,8 +59,10 @@ import type { ConversationModel } from './models/conversations';
 import { getContact, isIncoming } from './messages/helpers';
 import { migrateMessageData } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
-import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
-import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
+import {
+  initializeAllJobQueues,
+  shutdownAllJobQueues,
+} from './jobs/initializeAllJobQueues';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { notificationService } from './services/notifications';
@@ -80,10 +77,11 @@ import type {
   ConfigurationEvent,
   DecryptionErrorEvent,
   DeliveryEvent,
-  EnvelopeEvent,
+  EnvelopeQueuedEvent,
+  EnvelopeUnsealedEvent,
   ErrorEvent,
   FetchLatestEvent,
-  GroupEvent,
+  InvalidPlaintextEvent,
   KeysEvent,
   MessageEvent,
   MessageEventData,
@@ -102,24 +100,23 @@ import type {
 } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
-import { RotateSignedPreKeyListener } from './textsecure/RotateSignedPreKeyListener';
-import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
+import { UpdateKeysListener } from './textsecure/UpdateKeysListener';
+import { isDirectConversation } from './util/whatTypeOfConversation';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
 import type { BadgesStateType } from './state/ducks/badges';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
-import { actionCreators } from './state/actions';
-import { Deletes } from './messageModifiers/Deletes';
-import {
-  MessageReceipts,
-  MessageReceiptType,
-} from './messageModifiers/MessageReceipts';
-import { MessageRequests } from './messageModifiers/MessageRequests';
-import { Reactions } from './messageModifiers/Reactions';
-import { ReadSyncs } from './messageModifiers/ReadSyncs';
-import { ViewSyncs } from './messageModifiers/ViewSyncs';
-import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
+import * as Deletes from './messageModifiers/Deletes';
+import type { EditAttributesType } from './messageModifiers/Edits';
+import * as Edits from './messageModifiers/Edits';
+import type { ReactionAttributesType } from './messageModifiers/Reactions';
+import * as MessageReceipts from './messageModifiers/MessageReceipts';
+import * as MessageRequests from './messageModifiers/MessageRequests';
+import * as Reactions from './messageModifiers/Reactions';
+import * as ReadSyncs from './messageModifiers/ReadSyncs';
+import * as ViewSyncs from './messageModifiers/ViewSyncs';
+import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs';
 import type { DeleteAttributesType } from './messageModifiers/Deletes';
 import type { MessageReceiptAttributesType } from './messageModifiers/MessageReceipts';
 import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests';
@@ -130,26 +127,30 @@ import { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
-import * as Conversation from './types/Conversation';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
-import { onRetryRequest, onDecryptionError } from './util/handleRetry';
+import {
+  onRetryRequest,
+  onDecryptionError,
+  onInvalidPlaintextMessage,
+} from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
-import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
-import { isValidUuid, UUIDKind, UUID } from './types/UUID';
+import type { ServiceIdString } from './types/ServiceId';
+import { ServiceIdKind, isServiceIdString } from './types/ServiceId';
+import { isAciString } from './util/isAciString';
+import { normalizeAci } from './util/normalizeAci';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
 import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
 import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
 import { showToast } from './util/showToast';
-import { startInteractionMode } from './windows/startInteractionMode';
+import { startInteractionMode } from './services/InteractionMode';
 import type { MainWindowStatsType } from './windows/context';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
-import { getInitialState } from './state/getInitialState';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -158,26 +159,44 @@ import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
-import { StoryViewModeType, StoryViewTargetType } from './types/Stories';
-import { downloadOnboardingStory } from './util/downloadOnboardingStory';
-import { clearConversationDraftAttachments } from './util/clearConversationDraftAttachments';
-import { removeLinkPreview } from './services/LinkPreview';
-import { PanelType } from './types/Panels';
-import { getQuotedMessageSelector } from './state/selectors/composer';
 import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
+import { initializeRedux } from './state/initializeRedux';
 import { StartupQueue } from './util/StartupQueue';
 import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
+import { sleeper } from './util/sleeper';
+import { DAY, HOUR, MINUTE } from './util/durations';
+import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage';
+import {
+  flushMessageCounter,
+  incrementMessageCounter,
+  initializeMessageCounter,
+} from './util/incrementMessageCounter';
+import { RetryPlaceholders } from './util/retryPlaceholders';
+import { setBatchingStrategy } from './util/messageBatcher';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
+import { makeLookup } from './util/makeLookup';
+import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts';
+import { createEventHandler } from './quill/signal-clipboard/util';
+import { onCallLogEventSync } from './util/onCallLogEventSync';
+import {
+  getCallsHistoryForRedux,
+  loadCallsHistory,
+} from './services/callHistoryLoader';
+import {
+  getCallIdFromEra,
+  updateLocalGroupCallHistoryTimestamp,
+} from './util/callDisposition';
+import { deriveStorageServiceKey } from './Crypto';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
-  const HOUR = 1000 * 60 * 60;
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
 }
 
 export async function cleanupSessionResets(): Promise<void> {
   const sessionResets = window.storage.get(
     'sessionResets',
-    <SessionResetsType>{}
+    {} as SessionResetsType
   );
 
   const keys = Object.keys(sessionResets);
@@ -211,15 +230,12 @@ export async function startApp(): Promise<void> {
     storage: window.storage,
   });
 
-  await window.Signal.Util.initializeMessageCounter();
+  await initializeMessageCounter();
 
   let initialBadgesState: BadgesStateType = { byId: {} };
   async function loadInitialBadgesState(): Promise<void> {
     initialBadgesState = {
-      byId: window.Signal.Util.makeLookup(
-        await window.Signal.Data.getAllBadges(),
-        'id'
-      ),
+      byId: makeLookup(await window.Signal.Data.getAllBadges(), 'id'),
     };
   }
 
@@ -236,10 +252,6 @@ export async function startApp(): Promise<void> {
     });
     window.textsecure.server = server;
     window.textsecure.messaging = new window.textsecure.MessageSender(server);
-
-    initializeAllJobQueues({
-      server,
-    });
 
     challengeHandler = new ChallengeHandler({
       storage: window.storage,
@@ -322,8 +334,12 @@ export async function startApp(): Promise<void> {
     }
 
     messageReceiver.addEventListener(
-      'envelope',
-      queuedEventListener(onEnvelopeReceived, false)
+      'envelopeUnsealed',
+      queuedEventListener(onEnvelopeUnsealed, false)
+    );
+    messageReceiver.addEventListener(
+      'envelopeQueued',
+      queuedEventListener(onEnvelopeQueued, false)
     );
     messageReceiver.addEventListener(
       'message',
@@ -336,14 +352,6 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'contactSync',
       queuedEventListener(onContactSync)
-    );
-    messageReceiver.addEventListener(
-      'group',
-      queuedEventListener(onGroupReceived)
-    );
-    messageReceiver.addEventListener(
-      'groupSync',
-      queuedEventListener(onGroupSyncComplete)
     );
     messageReceiver.addEventListener(
       'sent',
@@ -373,6 +381,14 @@ export async function startApp(): Promise<void> {
       'decryption-error',
       queuedEventListener((event: DecryptionErrorEvent): void => {
         drop(onDecryptionErrorQueue.add(() => onDecryptionError(event)));
+      })
+    );
+    messageReceiver.addEventListener(
+      'invalid-plaintext',
+      queuedEventListener((event: InvalidPlaintextEvent): void => {
+        drop(
+          onDecryptionErrorQueue.add(() => onInvalidPlaintextMessage(event))
+        );
       })
     );
     messageReceiver.addEventListener(
@@ -415,6 +431,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'callEventSync',
       queuedEventListener(onCallEventSync, false)
+    );
+    messageReceiver.addEventListener(
+      'callLogEventSync',
+      queuedEventListener(onCallLogEventSync, false)
     );
   });
 
@@ -480,25 +500,24 @@ export async function startApp(): Promise<void> {
     timeout: durations.MINUTE * 30,
   });
   window.Whisper.deliveryReceiptQueue.pause();
-  window.Whisper.deliveryReceiptBatcher =
-    window.Signal.Util.createBatcher<Receipt>({
-      name: 'Whisper.deliveryReceiptBatcher',
-      wait: 500,
-      maxSize: 100,
-      processBatch: async deliveryReceipts => {
-        const groups = groupBy(deliveryReceipts, 'conversationId');
-        await Promise.all(
-          Object.keys(groups).map(async conversationId => {
-            await conversationJobQueue.add({
-              type: conversationQueueJobEnum.enum.Receipts,
-              conversationId,
-              receiptsType: ReceiptType.Delivery,
-              receipts: groups[conversationId],
-            });
-          })
-        );
-      },
-    });
+  window.Whisper.deliveryReceiptBatcher = createBatcher<Receipt>({
+    name: 'Whisper.deliveryReceiptBatcher',
+    wait: 500,
+    maxSize: 100,
+    processBatch: async deliveryReceipts => {
+      const groups = groupBy(deliveryReceipts, 'conversationId');
+      await Promise.all(
+        Object.keys(groups).map(async conversationId => {
+          await conversationJobQueue.add({
+            type: conversationQueueJobEnum.enum.Receipts,
+            conversationId,
+            receiptsType: ReceiptType.Delivery,
+            receipts: groups[conversationId],
+          });
+        })
+      );
+    },
+  });
 
   if (window.platform === 'darwin') {
     window.addEventListener('dblclick', (event: Event) => {
@@ -527,32 +546,24 @@ export async function startApp(): Promise<void> {
     false
   );
 
+  // Intercept clipboard copies to add our custom text/signal data
+  document.addEventListener(
+    'copy',
+    createEventHandler({ deleteSelection: false })
+  );
+  document.addEventListener(
+    'cut',
+    createEventHandler({ deleteSelection: true })
+  );
+
   startInteractionMode();
-
-  // Load these images now to ensure that they don't flicker on first use
-  window.preloadedImages = [];
-  function preload(list: ReadonlyArray<string>) {
-    for (let index = 0, max = list.length; index < max; index += 1) {
-      const image = new Image();
-      image.src = `./images/${list[index]}`;
-      window.preloadedImages.push(image);
-    }
-  }
-
-  const builtInImages = await window.IPC.getBuiltInImages();
-  preload(builtInImages);
 
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
   const { Message } = window.Signal.Types;
-  const {
-    upgradeMessageSchema,
-    writeNewAttachmentData,
-    deleteAttachmentData,
-    doesAttachmentExist,
-  } = window.Signal.Migrations;
+  const { upgradeMessageSchema } = window.Signal.Migrations;
 
   log.info('background page reloaded');
   log.info('environment:', window.getEnvironment());
@@ -564,14 +575,27 @@ export async function startApp(): Promise<void> {
 
   document.documentElement.setAttribute(
     'lang',
-    window.getResolvedMessagesLocale().split(/[-_]/)[0]
+    window.SignalContext.getResolvedMessagesLocale().split(/[-_]/)[0]
+  );
+
+  document.documentElement.setAttribute(
+    'dir',
+    window.SignalContext.getResolvedMessagesLocaleDirection()
   );
 
   KeyChangeListener.init(window.textsecure.storage.protocol);
-  window.textsecure.storage.protocol.on('removePreKey', (ourUuid: UUID) => {
-    const uuidKind = window.textsecure.storage.user.getOurUuidKind(ourUuid);
-    void window.getAccountManager().refreshPreKeys(uuidKind);
-  });
+  window.textsecure.storage.protocol.on(
+    'lowKeys',
+    throttle(
+      (ourServiceId: ServiceIdString) => {
+        const serviceIdKind =
+          window.textsecure.storage.user.getOurServiceIdKind(ourServiceId);
+        drop(window.getAccountManager().maybeUpdateKeys(serviceIdKind));
+      },
+      durations.MINUTE,
+      { trailing: true, leading: false }
+    )
+  );
 
   window.textsecure.storage.protocol.on('removeAllData', () => {
     window.reduxActions.stories.removeAllStories();
@@ -596,7 +620,7 @@ export async function startApp(): Promise<void> {
     accountManager.addEventListener('registration', () => {
       window.Whisper.events.trigger('userChanged', false);
 
-      drop(window.Signal.Util.Registration.markDone());
+      drop(Registration.markDone());
       log.info('dispatching registration event');
       window.Whisper.events.trigger('registration_done');
     });
@@ -621,10 +645,10 @@ export async function startApp(): Promise<void> {
             showConfirmationDialog({
               dialogName: 'deleteOldIndexedDBData',
               onTopOfEverything: true,
-              cancelText: window.i18n('quit'),
+              cancelText: window.i18n('icu:quit'),
               confirmStyle: 'negative',
-              message: window.i18n('deleteOldIndexedDBData'),
-              okText: window.i18n('deleteOldData'),
+              title: window.i18n('icu:deleteOldIndexedDBData'),
+              okText: window.i18n('icu:deleteOldData'),
               reject: () => reject(),
               resolve: () => resolve(),
             });
@@ -703,7 +727,12 @@ export async function startApp(): Promise<void> {
       shutdown: async () => {
         log.info('background/shutdown');
 
-        window.Signal.Util.flushMessageCounter();
+        flushMessageCounter();
+
+        // Hangup active calls
+        window.Signal.Services.calling.hangupAllCalls(
+          'background/shutdown: shutdown requested'
+        );
 
         // Stop background processing
         void AttachmentDownloads.stop();
@@ -729,6 +758,50 @@ export async function startApp(): Promise<void> {
             convo.flushDebouncedUpdates()
           )
         );
+
+        sleeper.shutdown();
+
+        const shutdownQueues = async () => {
+          log.info('background/shutdown: shutting down queues');
+          await Promise.allSettled([
+            StartupQueue.shutdown(),
+            shutdownAllJobQueues(),
+          ]);
+
+          log.info('background/shutdown: shutting down conversation queues');
+          await Promise.allSettled(
+            window.ConversationController.getAll().map(async convo => {
+              try {
+                await convo.shutdownJobQueue();
+              } catch (err) {
+                log.error(
+                  `background/shutdown: error waiting for conversation ${convo.idForLogging} job queue shutdown`,
+                  Errors.toLogFormat(err)
+                );
+              }
+            })
+          );
+
+          log.info('background/shutdown: all queues shutdown');
+        };
+
+        // wait for at most 1 minutes for startup queue and job queues to drain
+        let timeout: NodeJS.Timeout | undefined;
+        await Promise.race([
+          shutdownQueues(),
+          new Promise<void>((resolve, _) => {
+            timeout = setTimeout(() => {
+              log.warn(
+                'background/shutdown - timed out waiting for StartupQueue/JobQueues, continuing with shutdown'
+              );
+              timeout = undefined;
+              resolve();
+            }, 1 * MINUTE);
+          }),
+        ]);
+        if (timeout) {
+          clearTimeout(timeout);
+        }
 
         log.info('background/shutdown: waiting for all batchers');
 
@@ -757,6 +830,14 @@ export async function startApp(): Promise<void> {
       );
     });
 
+    window.document.body.classList.add('window-focused');
+    window.addEventListener('focus', () => {
+      window.document.body.classList.add('window-focused');
+    });
+    window.addEventListener('blur', () =>
+      window.document.body.classList.remove('window-focused')
+    );
+
     // How long since we were last running?
     const lastHeartbeat = toDayMillis(window.storage.get('lastHeartbeat', 0));
     const previousLastStartup = window.storage.get('lastStartup');
@@ -767,7 +848,7 @@ export async function startApp(): Promise<void> {
       log.warn(
         `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
       );
-      await unlinkAndDisconnect(RemoveAllConfiguration.Soft);
+      await unlinkAndDisconnect();
     }
 
     // Start heartbeat timer
@@ -794,6 +875,26 @@ export async function startApp(): Promise<void> {
           `Clearing remoteBuildExpiration. Previous value was ${remoteBuildExpiration}`
         );
         await window.storage.remove('remoteBuildExpiration');
+      }
+
+      if (window.isBeforeVersion(lastVersion, '6.25.0-alpha')) {
+        await removeStorageKeyJobQueue.add({
+          key: 'nextSignedKeyRotationTime',
+        });
+        await removeStorageKeyJobQueue.add({
+          key: 'signedKeyRotationRejected',
+        });
+      }
+
+      if (window.isBeforeVersion(lastVersion, '6.22.0-alpha')) {
+        const formattingWarningShown = window.storage.get(
+          'formattingWarningShown',
+          false
+        );
+        log.info(
+          `Clearing formattingWarningShown. Previous value was ${formattingWarningShown}`
+        );
+        await window.storage.put('formattingWarningShown', false);
       }
 
       if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
@@ -859,35 +960,30 @@ export async function startApp(): Promise<void> {
         await window.Signal.Data.removeAllProfileKeyCredentials();
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v6.38.0-beta.1')) {
+        await window.storage.remove('hasCompletedSafetyNumberOnboarding');
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v5.30.0-alpha')) {
         await deleteAllLogs();
-        window.IPC.restart();
+        window.SignalContext.restartApp();
         return;
       }
     }
 
     setAppLoadingScreenMessage(
-      window.i18n('optimizingApplication'),
+      window.i18n('icu:optimizingApplication'),
       window.i18n
     );
 
     if (newVersion) {
       await window.Signal.Data.cleanupOrphanedAttachments();
 
-      optimizeFTS();
-
-      // Don't block on the following operation
-      void window.Signal.Data.ensureFilePermissions();
+      drop(window.Signal.Data.ensureFilePermissions());
     }
 
-    try {
-      await window.Signal.Data.startInRendererProcess();
-    } catch (err) {
-      log.error('SQL failed to initialize', Errors.toLogFormat(err));
-    }
-
-    setAppLoadingScreenMessage(window.i18n('loading'), window.i18n);
+    setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);
 
     let isMigrationWithIndexComplete = false;
     let isIdleTaskProcessing = false;
@@ -944,27 +1040,13 @@ export async function startApp(): Promise<void> {
 
     void window.Signal.RemoteConfig.initRemoteConfig(server);
 
-    let retryReceiptLifespan: number | undefined;
-    try {
-      retryReceiptLifespan = parseIntOrThrow(
-        window.Signal.RemoteConfig.getValue('desktop.retryReceiptLifespan'),
-        'retryReceiptLifeSpan'
-      );
-    } catch (error) {
-      log.warn(
-        'Failed to parse integer out of desktop.retryReceiptLifespan feature flag'
-      );
-    }
-
-    const retryPlaceholders = new window.Signal.Util.RetryPlaceholders({
-      retryReceiptLifespan,
+    const retryPlaceholders = new RetryPlaceholders({
+      retryReceiptLifespan: HOUR,
     });
     window.Signal.Services.retryPlaceholders = retryPlaceholders;
 
     setInterval(async () => {
       const now = Date.now();
-      const HOUR = 1000 * 60 * 60;
-      const DAY = 24 * HOUR;
       let sentProtoMaxAge = 14 * DAY;
 
       try {
@@ -996,19 +1078,18 @@ export async function startApp(): Promise<void> {
           `retryPlaceholders/interval: Found ${expired.length} expired items`
         );
         expired.forEach(item => {
-          const { conversationId, senderUuid, sentAt } = item;
+          const { conversationId, senderAci, sentAt } = item;
           const conversation =
             window.ConversationController.get(conversationId);
           if (conversation) {
             const receivedAt = Date.now();
-            const receivedAtCounter =
-              window.Signal.Util.incrementMessageCounter();
+            const receivedAtCounter = incrementMessageCounter();
             drop(
               conversation.queueJob('addDeliveryIssue', () =>
                 conversation.addDeliveryIssue({
                   receivedAt,
                   receivedAtCounter,
-                  senderUuid,
+                  senderAci,
                   sentAt,
                 })
               )
@@ -1052,6 +1133,7 @@ export async function startApp(): Promise<void> {
         loadInitialBadgesState(),
         loadStories(),
         loadDistributionLists(),
+        loadCallsHistory(),
         window.textsecure.storage.protocol.hydrateCaches(),
         (async () => {
           mainWindowStats = await window.SignalContext.getMainWindowStats();
@@ -1059,7 +1141,6 @@ export async function startApp(): Promise<void> {
         (async () => {
           menuOptions = await window.SignalContext.getMenuOptions();
         })(),
-        downloadOnboardingStory(),
       ]);
       await window.ConversationController.checkForConflicts();
     } catch (error) {
@@ -1068,7 +1149,7 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(error)
       );
     } finally {
-      initializeRedux({ mainWindowStats, menuOptions });
+      setupAppState({ mainWindowStats, menuOptions });
       drop(start());
       window.Signal.Services.initializeNetworkObserver(
         window.reduxActions.network
@@ -1090,83 +1171,24 @@ export async function startApp(): Promise<void> {
     }
   });
 
-  function initializeRedux({
+  function setupAppState({
     mainWindowStats,
     menuOptions,
   }: {
     mainWindowStats: MainWindowStatsType;
     menuOptions: MenuOptionsType;
   }) {
-    // Here we set up a full redux store with initial state for our LeftPane Root
-    const convoCollection = window.getConversations();
-    const initialState = getInitialState({
-      badges: initialBadgesState,
+    initializeRedux({
+      callsHistory: getCallsHistoryForRedux(),
+      initialBadgesState,
       mainWindowStats,
       menuOptions,
       stories: getStoriesForRedux(),
       storyDistributionLists: getDistributionListsForRedux(),
     });
 
-    const store = window.Signal.State.createStore(initialState);
-    window.reduxStore = store;
-
-    // Binding these actions to our redux store and exposing them allows us to update
-    //   redux when things change in the backbone world.
-    window.reduxActions = {
-      accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
-      app: bindActionCreators(actionCreators.app, store.dispatch),
-      audioPlayer: bindActionCreators(
-        actionCreators.audioPlayer,
-        store.dispatch
-      ),
-      audioRecorder: bindActionCreators(
-        actionCreators.audioRecorder,
-        store.dispatch
-      ),
-      badges: bindActionCreators(actionCreators.badges, store.dispatch),
-      calling: bindActionCreators(actionCreators.calling, store.dispatch),
-      composer: bindActionCreators(actionCreators.composer, store.dispatch),
-      conversations: bindActionCreators(
-        actionCreators.conversations,
-        store.dispatch
-      ),
-      crashReports: bindActionCreators(
-        actionCreators.crashReports,
-        store.dispatch
-      ),
-      emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
-      expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
-      globalModals: bindActionCreators(
-        actionCreators.globalModals,
-        store.dispatch
-      ),
-      items: bindActionCreators(actionCreators.items, store.dispatch),
-      lightbox: bindActionCreators(actionCreators.lightbox, store.dispatch),
-      linkPreviews: bindActionCreators(
-        actionCreators.linkPreviews,
-        store.dispatch
-      ),
-      mediaGallery: bindActionCreators(
-        actionCreators.mediaGallery,
-        store.dispatch
-      ),
-      network: bindActionCreators(actionCreators.network, store.dispatch),
-      safetyNumber: bindActionCreators(
-        actionCreators.safetyNumber,
-        store.dispatch
-      ),
-      search: bindActionCreators(actionCreators.search, store.dispatch),
-      stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
-      stories: bindActionCreators(actionCreators.stories, store.dispatch),
-      storyDistributionLists: bindActionCreators(
-        actionCreators.storyDistributionLists,
-        store.dispatch
-      ),
-      toast: bindActionCreators(actionCreators.toast, store.dispatch),
-      updates: bindActionCreators(actionCreators.updates, store.dispatch),
-      user: bindActionCreators(actionCreators.user, store.dispatch),
-      username: bindActionCreators(actionCreators.username, store.dispatch),
-    };
+    // Here we set up a full redux store with initial state for our LeftPane Root
+    const convoCollection = window.getConversations();
 
     const {
       conversationAdded,
@@ -1182,30 +1204,11 @@ export async function startApp(): Promise<void> {
       onConversationClosed(id, 'removed');
       conversationRemoved(id);
     });
-
-    const addedConvoBatcher = createBatcher<ConversationModel>({
-      name: 'addedConvoBatcher',
-      processBatch(batch) {
-        batchDispatch(() => {
-          batch.forEach(conversation => {
-            conversationAdded(conversation.id, conversation.format());
-          });
-        });
-      },
-
-      // This delay ensures that the .format() call isn't synchronous as a
-      //   Backbone property is changed. Important because our _byUuid/_byE164
-      //   lookups aren't up-to-date as the change happens; just a little bit
-      //   after.
-      wait: 1,
-      maxSize: Infinity,
-    });
-
     convoCollection.on('add', conversation => {
       if (!conversation) {
         return;
       }
-      addedConvoBatcher.add(conversation);
+      conversationAdded(conversation.id, conversation.format());
     });
 
     const changedConvoBatcher = createBatcher<ConversationModel>({
@@ -1256,12 +1259,8 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.on('userChanged', (reconnect = false) => {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
-      const newACI = window.textsecure.storage.user
-        .getUuid(UUIDKind.ACI)
-        ?.toString();
-      const newPNI = window.textsecure.storage.user
-        .getUuid(UUIDKind.PNI)
-        ?.toString();
+      const newACI = window.textsecure.storage.user.getAci();
+      const newPNI = window.textsecure.storage.user.getPni();
       const ourConversation =
         window.ConversationController.getOurConversation();
 
@@ -1273,8 +1272,8 @@ export async function startApp(): Promise<void> {
         ourConversationId: ourConversation?.get('id'),
         ourDeviceId: newDeviceId,
         ourNumber: newNumber,
-        ourACI: newACI,
-        ourPNI: newPNI,
+        ourAci: newACI,
+        ourPni: newPNI,
         regionCode: window.storage.get('regionCode'),
       });
 
@@ -1288,473 +1287,11 @@ export async function startApp(): Promise<void> {
       window.reduxActions.user.userChanged({ menuOptions: options });
     });
 
-    document.addEventListener('keydown', event => {
-      const { ctrlKey, metaKey, shiftKey } = event;
-
-      const commandKey = window.platform === 'darwin' && metaKey;
-      const controlKey = window.platform !== 'darwin' && ctrlKey;
-      const commandOrCtrl = commandKey || controlKey;
-
-      const state = store.getState();
-      const selectedId = state.conversations.selectedConversationId;
-      const conversation = window.ConversationController.get(selectedId);
-
-      const key = KeyboardLayout.lookup(event);
-
-      // NAVIGATION
-
-      // Show keyboard shortcuts - handled by Electron-managed keyboard shortcuts
-      // However, on linux Ctrl+/ selects all text, so we prevent that
-      if (commandOrCtrl && key === '/') {
-        window.Events.showKeyboardShortcuts();
-
-        event.stopPropagation();
-        event.preventDefault();
-
-        return;
-      }
-
-      // Navigate by section
-      if (commandOrCtrl && !shiftKey && (key === 't' || key === 'T')) {
-        window.enterKeyboardMode();
-        const focusedElement = document.activeElement;
-
-        const targets: Array<HTMLElement | null> = [
-          document.querySelector('.module-main-header .module-avatar-button'),
-          document.querySelector(
-            '.module-left-pane__header__contents__back-button'
-          ),
-          document.querySelector('.LeftPaneSearchInput__input'),
-          document.querySelector('.module-main-header__compose-icon'),
-          document.querySelector(
-            '.module-left-pane__compose-search-form__input'
-          ),
-          document.querySelector(
-            '.module-conversation-list__item--contact-or-conversation'
-          ),
-          document.querySelector('.module-search-results'),
-          document.querySelector('.CompositionArea .ql-editor'),
-        ];
-        const focusedIndex = targets.findIndex(target => {
-          if (!target || !focusedElement) {
-            return false;
-          }
-
-          if (target === focusedElement) {
-            return true;
-          }
-
-          if (target.contains(focusedElement)) {
-            return true;
-          }
-
-          return false;
-        });
-        const lastIndex = targets.length - 1;
-
-        let index;
-        if (focusedIndex < 0 || focusedIndex >= lastIndex) {
-          index = 0;
-        } else {
-          index = focusedIndex + 1;
-        }
-
-        while (!targets[index]) {
-          index += 1;
-          if (index > lastIndex) {
-            index = 0;
-          }
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        targets[index]!.focus();
-      }
-
-      // Cancel out of keyboard shortcut screen - has first precedence
-      const isShortcutGuideModalVisible = window.reduxStore
-        ? window.reduxStore.getState().globalModals.isShortcutGuideModalVisible
-        : false;
-      if (isShortcutGuideModalVisible && key === 'Escape') {
-        window.reduxActions.globalModals.closeShortcutGuideModal();
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Escape is heavily overloaded - here we avoid clashes with other Escape handlers
-      if (key === 'Escape') {
-        // Check origin - if within a react component which handles escape, don't handle.
-        //   Why? Because React's synthetic events can cause events to be handled twice.
-        const target = document.activeElement;
-
-        // We might want to use NamedNodeMap.getNamedItem('class')
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        if (
-          target &&
-          target.attributes &&
-          (target.attributes as any).class &&
-          (target.attributes as any).class.value
-        ) {
-          const className = (target.attributes as any).class.value;
-          /* eslint-enable @typescript-eslint/no-explicit-any */
-
-          // Search box wants to handle events internally
-          if (className.includes('LeftPaneSearchInput__input')) {
-            return;
-          }
-        }
-
-        // These add listeners to document, but we'll run first
-        const confirmationModal = document.querySelector(
-          '.module-confirmation-dialog__overlay'
-        );
-        if (confirmationModal) {
-          return;
-        }
-
-        const emojiPicker = document.querySelector('.module-emoji-picker');
-        if (emojiPicker) {
-          return;
-        }
-
-        const lightBox = document.querySelector('.Lightbox');
-        if (lightBox) {
-          return;
-        }
-
-        const stickerPicker = document.querySelector('.module-sticker-picker');
-        if (stickerPicker) {
-          return;
-        }
-
-        const stickerPreview = document.querySelector(
-          '.module-sticker-manager__preview-modal__overlay'
-        );
-        if (stickerPreview) {
-          return;
-        }
-
-        const reactionViewer = document.querySelector(
-          '.module-reaction-viewer'
-        );
-        if (reactionViewer) {
-          return;
-        }
-
-        const reactionPicker = document.querySelector('.module-ReactionPicker');
-        if (reactionPicker) {
-          return;
-        }
-
-        const contactModal = document.querySelector('.module-contact-modal');
-        if (contactModal) {
-          return;
-        }
-
-        const modalHost = document.querySelector('.module-modal-host__overlay');
-        if (modalHost) {
-          return;
-        }
-      }
-
-      // Send Escape to active conversation so it can close panels
-      if (conversation && key === 'Escape') {
-        window.reduxActions.conversations.popPanelForConversation();
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Preferences - handled by Electron-managed keyboard shortcuts
-
-      // Open the top-right menu for current conversation
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'l' || key === 'L')
-      ) {
-        const button = document.querySelector(
-          '.module-ConversationHeader__button--more'
-        );
-        if (!button) {
-          return;
-        }
-
-        // Because the menu is shown at a location based on the initiating click, we need
-        //   to fake up a mouse event to get the menu to show somewhere other than (0,0).
-        const { x, y, width, height } = button.getBoundingClientRect();
-        const mouseEvent = document.createEvent('MouseEvents');
-        // Types do not match signature
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        mouseEvent.initMouseEvent(
-          'click',
-          true, // bubbles
-          false, // cancelable
-          null as any, // view
-          null as any, // detail
-          0, // screenX,
-          0, // screenY,
-          x + width / 2,
-          y + height / 2,
-          false, // ctrlKey,
-          false, // altKey,
-          false, // shiftKey,
-          false, // metaKey,
-          false as any, // button,
-          document.body
-        );
-        /* eslint-enable @typescript-eslint/no-explicit-any */
-
-        button.dispatchEvent(mouseEvent);
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Focus composer field
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 't' || key === 'T')
-      ) {
-        window.reduxActions.composer.setComposerFocus(conversation.id);
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Open all media
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'm' || key === 'M')
-      ) {
-        window.reduxActions.conversations.pushPanelForConversation({
-          type: PanelType.AllMedia,
-        });
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Open emoji picker - handled by component
-
-      // Open sticker picker - handled by component
-
-      // Begin recording voice note - handled by component
-
-      // Archive or unarchive conversation
-      if (
-        conversation &&
-        !conversation.get('isArchived') &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'a' || key === 'A')
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        window.reduxActions.conversations.onArchive(conversation.id);
-
-        // It's very likely that the act of archiving a conversation will set focus to
-        //   'none,' or the top-level body element. This resets it to the left pane.
-        if (document.activeElement === document.body) {
-          const leftPaneEl: HTMLElement | null = document.querySelector(
-            '.module-left-pane__list'
-          );
-          if (leftPaneEl) {
-            leftPaneEl.focus();
-          }
-        }
-
-        return;
-      }
-      if (
-        conversation &&
-        conversation.get('isArchived') &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'u' || key === 'U')
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        window.reduxActions.conversations.onMoveToInbox(conversation.id);
-
-        return;
-      }
-
-      // Scroll to bottom of list - handled by component
-
-      // Scroll to top of list - handled by component
-
-      // Close conversation
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'c' || key === 'C')
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        onConversationClosed(conversation.id, 'keyboard shortcut close');
-        window.reduxActions.conversations.showConversation({
-          conversationId: undefined,
-          messageId: undefined,
-        });
-
-        return;
-      }
-
-      // MESSAGES
-
-      // Show message details
-      if (
-        conversation &&
-        commandOrCtrl &&
-        !shiftKey &&
-        (key === 'd' || key === 'D')
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const { selectedMessage } = state.conversations;
-        if (!selectedMessage) {
-          return;
-        }
-
-        window.reduxActions.conversations.pushPanelForConversation({
-          type: PanelType.MessageDetails,
-          args: {
-            messageId: selectedMessage,
-          },
-        });
-        return;
-      }
-
-      // Toggle reply to message
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'r' || key === 'R')
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const { selectedMessage } = state.conversations;
-
-        const quotedMessageSelector = getQuotedMessageSelector(state);
-        const quote = quotedMessageSelector(conversation.id);
-
-        window.reduxActions.composer.setQuoteByMessageId(
-          conversation.id,
-          quote ? undefined : selectedMessage
-        );
-
-        return;
-      }
-
-      // Save attachment
-      if (
-        conversation &&
-        commandOrCtrl &&
-        !shiftKey &&
-        (key === 's' || key === 'S')
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const { selectedMessage } = state.conversations;
-
-        if (selectedMessage) {
-          window.reduxActions.conversations.saveAttachmentFromMessage(
-            selectedMessage
-          );
-          return;
-        }
-      }
-
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'd' || key === 'D')
-      ) {
-        const { selectedMessage } = state.conversations;
-
-        if (selectedMessage) {
-          event.preventDefault();
-          event.stopPropagation();
-
-          showConfirmationDialog({
-            dialogName: 'deleteMessage',
-            confirmStyle: 'negative',
-            message: window.i18n('deleteWarning'),
-            okText: window.i18n('delete'),
-            resolve: () => {
-              window.reduxActions.conversations.deleteMessage({
-                conversationId: conversation.id,
-                messageId: selectedMessage,
-              });
-            },
-          });
-
-          return;
-        }
-      }
-
-      // COMPOSER
-
-      // Create a newline in your message - handled by component
-
-      // Expand composer - handled by component
-
-      // Send in expanded composer - handled by component
-
-      // Attach file
-      // hooks/useKeyboardShorcuts useAttachFileShortcut
-
-      // Remove draft link preview
-      if (
-        conversation &&
-        commandOrCtrl &&
-        !shiftKey &&
-        (key === 'p' || key === 'P')
-      ) {
-        removeLinkPreview(conversation.id);
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      // Attach file
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'p' || key === 'P')
-      ) {
-        void clearConversationDraftAttachments(
-          conversation.id,
-          conversation.get('draftAttachments')
-        );
-
-        event.preventDefault();
-        event.stopPropagation();
-        // Commented out because this is the last item
-        // return;
-      }
-    });
+    addGlobalKeyboardShortcuts();
   }
 
   window.Whisper.events.on('setupAsNewDevice', () => {
+    window.IPC.readyForUpdates();
     window.reduxActions.app.openInstaller();
   });
 
@@ -1799,37 +1336,26 @@ export async function startApp(): Promise<void> {
   );
 
   window.Whisper.events.on('mightBeUnlinked', () => {
-    if (window.Signal.Util.Registration.everDone()) {
+    if (Registration.everDone()) {
       throttledEnqueueReconnectToWebSocket();
     }
   });
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
-    void unlinkAndDisconnect(RemoveAllConfiguration.Full);
+    void unlinkAndDisconnect();
   });
 
   async function runStorageService() {
     StorageService.enableStorageService();
-
-    if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'background/runStorageService: We are primary device; not sending key sync request'
-      );
-      return;
-    }
-
-    try {
-      await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
-    } catch (error) {
-      log.error(
-        'runStorageService: Failed to queue sync message',
-        Errors.toLogFormat(error)
-      );
-    }
   }
 
   async function start() {
     // Storage is ready because `start()` is called from `storage.onready()`
+
+    strictAssert(server !== undefined, 'start: server not initialized');
+    initializeAllJobQueues({
+      server,
+    });
 
     strictAssert(challengeHandler, 'start: challengeHandler');
     await challengeHandler.load();
@@ -1860,7 +1386,7 @@ export async function startApp(): Promise<void> {
     log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
-    if (!window.textsecure.storage.user.getUuid()) {
+    if (!window.textsecure.storage.user.getAci()) {
       log.info(
         "Expiration start timestamp cleanup: Cancelling update; we don't have our own UUID"
       );
@@ -1891,25 +1417,25 @@ export async function startApp(): Promise<void> {
         });
 
       await window.Signal.Data.saveMessages(newMessageAttributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
 
     log.info('listening for registration events');
-    window.Whisper.events.on('registration_done', () => {
+    window.Whisper.events.on('registration_done', async () => {
       log.info('handling registration event');
 
       strictAssert(server !== undefined, 'WebAPI not ready');
-      void server.authenticate(
+      await server.authenticate(
         window.textsecure.storage.user.getWebAPICredentials()
       );
 
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
       window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
-      void window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
+      drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
 
-      void connect(true);
+      drop(connect(true));
     });
 
     cancelInitializationMessage();
@@ -1933,14 +1459,15 @@ export async function startApp(): Promise<void> {
     });
 
     const isCoreDataValid = Boolean(
-      window.textsecure.storage.user.getUuid() &&
+      window.textsecure.storage.user.getAci() &&
         window.ConversationController.getOurConversation()
     );
 
-    if (isCoreDataValid && window.Signal.Util.Registration.everDone()) {
+    if (isCoreDataValid && Registration.everDone()) {
       void connect();
       window.reduxActions.app.openInbox();
     } else {
+      window.IPC.readyForUpdates();
       window.reduxActions.app.openInstaller();
     }
 
@@ -1948,27 +1475,6 @@ export async function startApp(): Promise<void> {
 
     activeWindowService.registerForActive(() => notificationService.clear());
     window.addEventListener('unload', () => notificationService.fastClear());
-
-    notificationService.on('click', (id, messageId, storyId) => {
-      window.IPC.showWindow();
-
-      if (id) {
-        if (storyId) {
-          window.reduxActions.stories.viewStory({
-            storyId,
-            storyViewMode: StoryViewModeType.Single,
-            viewTarget: StoryViewTargetType.Replies,
-          });
-        } else {
-          window.reduxActions.conversations.showConversation({
-            conversationId: id,
-            messageId,
-          });
-        }
-      } else {
-        window.reduxActions.app.openInbox();
-      }
-    });
 
     // Maybe refresh remote configuration when we become active
     activeWindowService.registerForActive(async () => {
@@ -1991,8 +1497,9 @@ export async function startApp(): Promise<void> {
     window.Signal.RemoteConfig.onChange(
       'desktop.clientExpiration',
       ({ value }) => {
-        const remoteBuildExpirationTimestamp =
-          window.Signal.Util.parseRemoteClientExpiration(value as string);
+        const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
+          value as string
+        );
         if (remoteBuildExpirationTimestamp) {
           drop(
             window.storage.put(
@@ -2001,27 +1508,6 @@ export async function startApp(): Promise<void> {
             )
           );
         }
-      }
-    );
-
-    // Listen for changes to the `desktop.messageRequests` remote configuration flag
-    const removeMessageRequestListener = window.Signal.RemoteConfig.onChange(
-      'desktop.messageRequests',
-      ({ enabled }) => {
-        if (!enabled) {
-          return;
-        }
-
-        const conversations = window.getConversations();
-        conversations.forEach(conversation => {
-          conversation.set({
-            messageCountBeforeMessageRequests:
-              conversation.get('messageCount') || 0,
-          });
-          window.Signal.Data.updateConversation(conversation.attributes);
-        });
-
-        removeMessageRequestListener();
       }
     );
 
@@ -2070,6 +1556,10 @@ export async function startApp(): Promise<void> {
       log.warn('Already online. Had a blip in online/offline status.');
       Timers.clearTimeout(disconnectTimer);
       disconnectTimer = undefined;
+
+      if (challengeHandler) {
+        drop(challengeHandler.onOnline());
+      }
       return;
     }
     if (disconnectTimer) {
@@ -2151,7 +1641,7 @@ export async function startApp(): Promise<void> {
         return;
       }
 
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         return;
       }
 
@@ -2173,10 +1663,9 @@ export async function startApp(): Promise<void> {
             'desktop.clientExpiration'
           );
           if (expiration) {
-            const remoteBuildExpirationTimestamp =
-              window.Signal.Util.parseRemoteClientExpiration(
-                expiration as string
-              );
+            const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
+              expiration as string
+            );
             if (remoteBuildExpirationTimestamp) {
               await window.storage.put(
                 'remoteBuildExpiration',
@@ -2187,31 +1676,9 @@ export async function startApp(): Promise<void> {
         } catch (error) {
           log.error(
             'connect: Error refreshing remote config:',
-            Errors.toLogFormat(error)
-          );
-        }
-
-        try {
-          const lonelyE164Conversations = window
-            .getConversations()
-            .filter(c =>
-              Boolean(
-                isDirectConversation(c.attributes) &&
-                  c.get('e164') &&
-                  !c.get('uuid') &&
-                  !c.isEverUnregistered()
-              )
-            );
-          strictAssert(window.textsecure.server, 'server must be initialized');
-          await updateConversationsWithUuidLookup({
-            conversationController: window.ConversationController,
-            conversations: lonelyE164Conversations,
-            server: window.textsecure.server,
-          });
-        } catch (error) {
-          log.error(
-            'connect: Error fetching UUIDs for lonely e164s:',
-            Errors.toLogFormat(error)
+            isNumber(error.code)
+              ? `code: ${error.code}`
+              : Errors.toLogFormat(error)
           );
         }
       }
@@ -2293,9 +1760,9 @@ export async function startApp(): Promise<void> {
 
       const deviceId = window.textsecure.storage.user.getDeviceId();
 
-      if (!window.textsecure.storage.user.getUuid()) {
+      if (!window.textsecure.storage.user.getAci()) {
         log.error('UUID not captured during registration, unlinking');
-        return unlinkAndDisconnect(RemoveAllConfiguration.Full);
+        return unlinkAndDisconnect();
       }
 
       if (connectCount === 1) {
@@ -2303,13 +1770,7 @@ export async function startApp(): Promise<void> {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
           await server.registerCapabilities({
-            announcementGroup: true,
-            giftBadges: true,
-            'gv2-3': true,
-            senderKey: true,
-            changeNumber: true,
-            stories: true,
-            pni: isPnpEnabled(),
+            pni: true,
           });
         } catch (error) {
           log.error(
@@ -2319,12 +1780,32 @@ export async function startApp(): Promise<void> {
         }
       }
 
-      if (!window.textsecure.storage.user.getUuid(UUIDKind.PNI)) {
+      if (!window.textsecure.storage.user.getPni()) {
         log.error('PNI not captured during registration, unlinking softly');
-        return unlinkAndDisconnect(RemoveAllConfiguration.Soft);
+        return unlinkAndDisconnect();
       }
 
       if (firstRun === true && deviceId !== 1) {
+        if (!window.storage.get('masterKey')) {
+          const lastSent = window.storage.get('masterKeyLastRequestTime') ?? 0;
+          const now = Date.now();
+
+          // If we last attempted sync one day in the past, or if we time
+          // traveled.
+          if (isOlderThan(lastSent, DAY) || lastSent > now) {
+            log.warn('connect: masterKey not captured, requesting sync');
+            await singleProtoJobQueue.add(
+              MessageSender.getRequestKeySyncMessage()
+            );
+            await window.storage.put('masterKeyLastRequestTime', now);
+          } else {
+            log.warn(
+              'connect: masterKey not captured, but sync requested recently.' +
+                'Not running'
+            );
+          }
+        }
+
         const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
         if (
           !hasThemeSetting &&
@@ -2369,11 +1850,10 @@ export async function startApp(): Promise<void> {
               MessageSender.getRequestConfigurationSyncMessage()
             ),
             singleProtoJobQueue.add(MessageSender.getRequestBlockSyncMessage()),
-            singleProtoJobQueue.add(MessageSender.getRequestGroupSyncMessage()),
+            runStorageService(),
             singleProtoJobQueue.add(
               MessageSender.getRequestContactSyncMessage()
             ),
-            runStorageService(),
           ]);
         } catch (error) {
           log.error(
@@ -2445,8 +1925,7 @@ export async function startApp(): Promise<void> {
         throw new Error('Expected challenge handler to be initialized');
       }
 
-      // Intentionally not awaiting
-      void challengeHandler.onOnline();
+      drop(challengeHandler.onOnline());
 
       reconnectBackOff.reset();
     } finally {
@@ -2510,10 +1989,7 @@ export async function startApp(): Promise<void> {
     window.ConversationController.onEmpty();
 
     // Start listeners here, after we get through our queue.
-    RotateSignedPreKeyListener.init(window.Whisper.events, newVersion);
-
-    // Go back to main process before processing delayed actions
-    await window.Signal.Data.goBackToMainProcess();
+    UpdateKeysListener.init(window.Whisper.events, newVersion);
 
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();
@@ -2534,7 +2010,7 @@ export async function startApp(): Promise<void> {
       log.info('App loaded - messages:', processedCount);
     }
 
-    window.Signal.Util.setBatchingStrategy(false);
+    setBatchingStrategy(false);
     StartupQueue.flush();
     await flushAttachmentDownloadQueue();
 
@@ -2556,16 +2032,7 @@ export async function startApp(): Promise<void> {
       void routineProfileRefresher.start();
     }
 
-    // Make sure we have the PNI identity
-
-    const pni = storage.user.getCheckedUuid(UUIDKind.PNI);
-    const pniIdentity = await storage.protocol.getIdentityKeyPair(pni);
-    if (!pniIdentity) {
-      log.info('Requesting PNI identity sync');
-      await singleProtoJobQueue.add(
-        MessageSender.getRequestPniIdentitySyncMessage()
-      );
-    }
+    drop(usernameIntegrity.start());
   }
 
   let initialStartupCount = 0;
@@ -2629,8 +2096,8 @@ export async function startApp(): Promise<void> {
   function onTyping(ev: TypingEvent): void {
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
-    const { typing, sender, senderUuid, senderDevice } = ev;
-    const { groupId, groupV2Id, started } = typing || {};
+    const { typing, sender, senderAci, senderDevice } = ev;
+    const { groupV2Id, started } = typing || {};
 
     // We don't do anything with incoming typing messages if the setting is disabled
     if (!window.storage.get('typingIndicators')) {
@@ -2642,18 +2109,14 @@ export async function startApp(): Promise<void> {
     const { conversation: senderConversation } =
       window.ConversationController.maybeMergeContacts({
         e164: sender,
-        aci: senderUuid,
+        aci: senderAci,
         reason: `onTyping(${typing.timestamp})`,
       });
 
     // We multiplex between GV1/GV2 groups here, but we don't kick off migrations
     if (groupV2Id) {
       conversation = window.ConversationController.get(groupV2Id);
-    }
-    if (!conversation && groupId) {
-      conversation = window.ConversationController.get(groupId);
-    }
-    if (!groupV2Id && !groupId) {
+    } else {
       conversation = senderConversation;
     }
 
@@ -2665,19 +2128,19 @@ export async function startApp(): Promise<void> {
     }
     if (!conversation) {
       log.warn(
-        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), group(${groupId}), ${sender}, ${senderUuid})`
+        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), ${sender}, ${senderAci})`
       );
       return;
     }
 
-    const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
-    const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+    const ourAci = window.textsecure.storage.user.getAci();
+    const ourPni = window.textsecure.storage.user.getPni();
 
     // We drop typing notifications in groups we're not a part of
     if (
       !isDirectConversation(conversation.attributes) &&
-      !(ourACI && conversation.hasMember(ourACI)) &&
-      !(ourPNI && conversation.hasMember(ourPNI))
+      !(ourAci && conversation.hasMember(ourAci)) &&
+      !(ourPni && conversation.hasMember(ourPni))
     ) {
       log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
@@ -2744,85 +2207,6 @@ export async function startApp(): Promise<void> {
     });
   }
 
-  async function onGroupSyncComplete(): Promise<void> {
-    log.info('onGroupSyncComplete');
-    await window.storage.put('synced_at', Date.now());
-  }
-
-  // Note: this handler is only for v1 groups received via 'group sync' messages
-  async function onGroupReceived(ev: GroupEvent): Promise<void> {
-    const details = ev.groupDetails;
-    const { id } = details;
-
-    const conversation = await window.ConversationController.getOrCreateAndWait(
-      id,
-      'group'
-    );
-    if (isGroupV2(conversation.attributes)) {
-      log.warn('Got group sync for v2 group: ', conversation.idForLogging());
-      return;
-    }
-
-    const memberConversations = details.membersE164.map(e164 =>
-      window.ConversationController.getOrCreate(e164, 'private')
-    );
-
-    const members = memberConversations.map(c => c.get('id'));
-
-    const updates: Partial<ConversationAttributesType> = {
-      name: details.name,
-      members,
-      type: 'group',
-      inbox_position: details.inboxPosition,
-    };
-
-    if (details.active) {
-      updates.left = false;
-    } else {
-      updates.left = true;
-    }
-
-    if (details.blocked) {
-      conversation.block();
-    } else {
-      conversation.unblock();
-    }
-
-    conversation.set(updates);
-
-    // Update the conversation avatar only if new avatar exists and hash differs
-    const { avatar } = details;
-    if (avatar && avatar.data) {
-      const newAttributes = await Conversation.maybeUpdateAvatar(
-        conversation.attributes,
-        avatar.data,
-        {
-          writeNewAttachmentData,
-          deleteAttachmentData,
-          doesAttachmentExist,
-        }
-      );
-      conversation.set(newAttributes);
-    }
-
-    window.Signal.Data.updateConversation(conversation.attributes);
-
-    const { expireTimer } = details;
-    const isValidExpireTimer = typeof expireTimer === 'number';
-    if (!isValidExpireTimer) {
-      return;
-    }
-
-    await conversation.updateExpirationTimer(expireTimer, {
-      // Note: because it's our conversationId, this notification will be marked read. But
-      //   setting this will make 'isSetByOther' check true.
-      source: window.ConversationController.getOurConversationId(),
-      fromSync: true,
-      receivedAt: ev.receivedAtCounter,
-      reason: 'group sync',
-    });
-  }
-
   // Received:
   async function handleMessageReceivedProfileUpdate({
     data,
@@ -2876,16 +2260,35 @@ export async function startApp(): Promise<void> {
     maxSize: Infinity,
   });
 
-  async function onEnvelopeReceived({
+  const throttledSetInboxEnvelopeTimestamp = throttle(
+    serverTimestamp => {
+      window.reduxActions.inbox.setInboxEnvelopeTimestamp(serverTimestamp);
+    },
+    100,
+    { leading: false }
+  );
+
+  async function onEnvelopeQueued({
     envelope,
-  }: EnvelopeEvent): Promise<void> {
-    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-    if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
+  }: EnvelopeQueuedEvent): Promise<void> {
+    throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
+  }
+
+  async function onEnvelopeUnsealed({
+    envelope,
+  }: EnvelopeUnsealedEvent): Promise<void> {
+    throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
+
+    const ourAci = window.textsecure.storage.user.getAci();
+    if (
+      envelope.sourceServiceId !== ourAci &&
+      isAciString(envelope.sourceServiceId)
+    ) {
       const { mergePromises, conversation } =
         window.ConversationController.maybeMergeContacts({
           e164: envelope.source,
-          aci: envelope.sourceUuid,
-          reason: `onEnvelopeReceived(${envelope.timestamp})`,
+          aci: envelope.sourceServiceId,
+          reason: `onEnvelopeUnsealed(${envelope.timestamp})`,
         });
 
       if (mergePromises.length > 0) {
@@ -2906,11 +2309,9 @@ export async function startApp(): Promise<void> {
 
     const messageDescriptor = getMessageDescriptor({
       message: data.message,
-      source: data.source,
-      sourceUuid: data.sourceUuid,
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destination: data.source,
-      destinationUuid: data.sourceUuid,
+      destinationServiceId: data.sourceAci,
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
@@ -2930,11 +2331,14 @@ export async function startApp(): Promise<void> {
       const sender = getContact(message.attributes);
       strictAssert(sender, 'MessageModel has no sender');
 
-      const uuidKind = window.textsecure.storage.user.getOurUuidKind(
-        new UUID(data.destinationUuid)
+      const serviceIdKind = window.textsecure.storage.user.getOurServiceIdKind(
+        data.destinationServiceId
       );
 
-      if (uuidKind === UUIDKind.PNI && !sender.get('shareMyPhoneNumber')) {
+      if (
+        serviceIdKind === ServiceIdKind.PNI &&
+        !sender.get('shareMyPhoneNumber')
+      ) {
         log.info(
           'onMessageReceived: setting shareMyPhoneNumber ' +
             `for ${sender.idForLogging()}`
@@ -2954,12 +2358,12 @@ export async function startApp(): Promise<void> {
 
     if (data.message.reaction) {
       strictAssert(
-        data.message.reaction.targetAuthorUuid,
-        'Reaction without targetAuthorUuid'
+        data.message.reaction.targetAuthorAci,
+        'Reaction without targetAuthorAci'
       );
-      const targetAuthorUuid = normalizeUuid(
-        data.message.reaction.targetAuthorUuid,
-        'DataMessage.Reaction.targetAuthorUuid'
+      const targetAuthorAci = normalizeAci(
+        data.message.reaction.targetAuthorAci,
+        'DataMessage.Reaction.targetAuthorAci'
       );
 
       const { reaction, timestamp } = data.message;
@@ -2974,29 +2378,30 @@ export async function startApp(): Promise<void> {
         reaction.targetTimestamp,
         'Reaction without targetTimestamp'
       );
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:reaction',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:reaction',
+        });
       strictAssert(fromConversation, 'Reaction without fromConversation');
 
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
         emoji: reaction.emoji,
         fromId: fromConversation.id,
         remove: reaction.remove,
         source: ReactionSource.FromSomeoneElse,
         storyReactionMessage: message,
-        targetAuthorUuid,
+        targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
         timestamp,
       };
-      const reactionModel = Reactions.getSingleton().add(attributes);
 
-      drop(Reactions.getSingleton().onReaction(reactionModel));
-
-      confirm();
+      drop(Reactions.onReaction(attributes));
       return;
     }
 
@@ -3009,24 +2414,55 @@ export async function startApp(): Promise<void> {
         'Delete missing targetSentTimestamp'
       );
       strictAssert(data.serverTimestamp, 'Delete missing serverTimestamp');
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:delete',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:delete',
+        });
       strictAssert(fromConversation, 'Delete missing fromConversation');
 
       const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: fromConversation.id,
+        removeFromMessageReceiverCache: confirm,
       };
-      const deleteModel = Deletes.getSingleton().add(attributes);
+      drop(Deletes.onDelete(attributes));
 
-      // Note: We do not wait for completion here
-      void Deletes.getSingleton().onDelete(deleteModel);
+      return;
+    }
 
-      confirm();
+    if (data.message.editedMessageTimestamp) {
+      const { editedMessageTimestamp } = data.message;
+
+      strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          aci: data.sourceAci,
+          e164: data.source,
+          reason: 'onMessageReceived:edit',
+        });
+      strictAssert(fromConversation, 'Edit missing fromConversation');
+
+      log.info('Queuing incoming edit for', {
+        editedMessageTimestamp,
+        sentAt: data.timestamp,
+      });
+
+      const editAttributes: EditAttributesType = {
+        envelopeId: data.envelopeId,
+        conversationId: message.attributes.conversationId,
+        fromId: fromConversation.id,
+        fromDevice: data.sourceDevice ?? 1,
+        message: copyDataMessageIntoMessage(data.message, message.attributes),
+        targetSentTimestamp: editedMessageTimestamp,
+        removeFromMessageReceiverCache: confirm,
+      };
+
+      drop(Edits.onEdit(editAttributes));
+
       return;
     }
 
@@ -3036,7 +2472,7 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    void message.handleDataMessage(data.message, event.confirm);
+    drop(message.handleDataMessage(data.message, event.confirm));
   }
 
   async function onProfileKeyUpdate({
@@ -3044,7 +2480,7 @@ export async function startApp(): Promise<void> {
     confirm,
   }: ProfileKeyUpdateEvent): Promise<void> {
     const { conversation } = window.ConversationController.maybeMergeContacts({
-      aci: data.sourceUuid,
+      aci: data.sourceAci,
       e164: data.source,
       reason: 'onProfileKeyUpdate',
     });
@@ -3057,7 +2493,7 @@ export async function startApp(): Promise<void> {
 
     log.info(
       'onProfileKeyUpdate: updating profileKey for',
-      data.sourceUuid,
+      data.sourceAci,
       data.source
     );
 
@@ -3114,13 +2550,11 @@ export async function startApp(): Promise<void> {
       unidentifiedStatus.reduce(
         (
           result: SendStateByConversationId,
-          { destinationUuid, destination, isAllowedToReplyToStory }
+          { destinationServiceId, destination, isAllowedToReplyToStory }
         ) => {
-          const conversation = window.ConversationController.lookupOrCreate({
-            uuid: destinationUuid,
-            e164: destination,
-            reason: 'createSentMessage',
-          });
+          const conversation = window.ConversationController.get(
+            destinationServiceId || destination
+          );
           if (!conversation || conversation.id === ourId) {
             return result;
           }
@@ -3146,12 +2580,12 @@ export async function startApp(): Promise<void> {
     if (unidentifiedStatus.length) {
       unidentifiedDeliveries = unidentifiedStatus
         .filter(item => Boolean(item.unidentified))
-        .map(item => item.destinationUuid || item.destination)
+        .map(item => item.destinationServiceId || item.destination)
         .filter(isNotNil);
     }
 
     const partialMessage: MessageAttributesType = {
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -3169,7 +2603,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: window.textsecure.storage.user.getNumber(),
       sourceDevice: data.device,
-      sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
+      sourceServiceId: window.textsecure.storage.user.getAci(),
       timestamp,
       type: data.message.isStory ? 'story' : 'outgoing',
       storyDistributionListId: data.storyDistributionListId,
@@ -3179,20 +2613,15 @@ export async function startApp(): Promise<void> {
     return new window.Whisper.Message(partialMessage);
   }
 
-  // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
-  //   at callsites to make sure both source and destination are populated.
+  // Works with 'sent' and 'message' data sent from MessageReceiver
   const getMessageDescriptor = ({
     message,
-    source,
-    sourceUuid,
     destination,
-    destinationUuid,
+    destinationServiceId,
   }: {
     message: ProcessedDataMessage;
-    source?: string;
-    sourceUuid?: string;
     destination?: string;
-    destinationUuid?: string;
+    destinationServiceId?: ServiceIdString;
   }): MessageDescriptor => {
     if (message.groupV2) {
       const { id } = message.groupV2;
@@ -3231,50 +2660,11 @@ export async function startApp(): Promise<void> {
         id: conversationId,
       };
     }
-    if (message.group) {
-      const { id, derivedGroupV2Id } = message.group;
-      if (!id) {
-        throw new Error('getMessageDescriptor: GroupV1 data was missing id');
-      }
-      if (!derivedGroupV2Id) {
-        log.warn(
-          'getMessageDescriptor: GroupV1 data was missing derivedGroupV2Id'
-        );
-      } else {
-        // First we check for an already-migrated GroupV2 group
-        const migratedGroup =
-          window.ConversationController.get(derivedGroupV2Id);
-        if (migratedGroup) {
-          return {
-            type: Message.GROUP,
-            id: migratedGroup.id,
-          };
-        }
-      }
 
-      // If we can't find one, we treat this as a normal GroupV1 group
-      const { conversation: fromContact } =
-        window.ConversationController.maybeMergeContacts({
-          aci: sourceUuid,
-          e164: source,
-          reason: `getMessageDescriptor(${message.timestamp}): group v1`,
-        });
-
-      const conversationId = window.ConversationController.ensureGroup(id, {
-        addedBy: fromContact.id,
-      });
-
-      return {
-        type: Message.GROUP,
-        id: conversationId,
-      };
-    }
-
-    const { conversation } = window.ConversationController.maybeMergeContacts({
-      aci: destinationUuid,
-      e164: destination,
-      reason: `getMessageDescriptor(${message.timestamp}): private`,
-    });
+    const conversation = window.ConversationController.get(
+      destinationServiceId || destination
+    );
+    strictAssert(conversation, 'Destination conversation cannot be created');
 
     return {
       type: Message.PRIVATE,
@@ -3289,15 +2679,11 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const source = window.textsecure.storage.user.getNumber();
-    const sourceUuid = window.textsecure.storage.user.getUuid()?.toString();
-    strictAssert(source && sourceUuid, 'Missing user number and uuid');
+    const sourceServiceId = window.textsecure.storage.user.getAci();
+    strictAssert(source && sourceServiceId, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
       ...data,
-
-      // 'sent' event: the sender is always us!
-      source,
-      sourceUuid,
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
@@ -3315,42 +2701,41 @@ export async function startApp(): Promise<void> {
 
     if (data.message.reaction) {
       strictAssert(
-        data.message.reaction.targetAuthorUuid,
-        'Reaction without targetAuthorUuid'
+        data.message.reaction.targetAuthorAci,
+        'Reaction without targetAuthorAci'
       );
-      const targetAuthorUuid = normalizeUuid(
-        data.message.reaction.targetAuthorUuid,
-        'DataMessage.Reaction.targetAuthorUuid'
+      const targetAuthorAci = normalizeAci(
+        data.message.reaction.targetAuthorAci,
+        'DataMessage.Reaction.targetAuthorAci'
       );
 
       const { reaction, timestamp } = data.message;
       strictAssert(
         reaction.targetTimestamp,
-        'Reaction without targetAuthorUuid'
+        'Reaction without targetAuthorAci'
       );
 
       if (!isValidReactionEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
-        event.confirm();
+        confirm();
         return;
       }
 
       log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
         emoji: reaction.emoji,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
         remove: reaction.remove,
         source: ReactionSource.FromSync,
         storyReactionMessage: message,
-        targetAuthorUuid,
+        targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
+        receivedAtDate: data.receivedAtDate,
         timestamp,
       };
-      const reactionModel = Reactions.getSingleton().add(attributes);
-
-      drop(Reactions.getSingleton().onReaction(reactionModel));
-
-      event.confirm();
+      drop(Reactions.onReaction(attributes));
       return;
     }
 
@@ -3365,14 +2750,37 @@ export async function startApp(): Promise<void> {
       log.info('Queuing sent DOE for', del.targetSentTimestamp);
 
       const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        removeFromMessageReceiverCache: confirm,
       };
-      const deleteModel = Deletes.getSingleton().add(attributes);
-      // Note: We do not wait for completion here
-      void Deletes.getSingleton().onDelete(deleteModel);
-      confirm();
+      drop(Deletes.onDelete(attributes));
+      return;
+    }
+
+    if (data.message.editedMessageTimestamp) {
+      const { editedMessageTimestamp } = data.message;
+
+      strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
+
+      log.info('Queuing sent edit for', {
+        editedMessageTimestamp,
+        sentAt: data.timestamp,
+      });
+
+      const editAttributes: EditAttributesType = {
+        envelopeId: data.envelopeId,
+        conversationId: message.attributes.conversationId,
+        fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        fromDevice: window.storage.user.getDeviceId() ?? 1,
+        message: copyDataMessageIntoMessage(data.message, message.attributes),
+        targetSentTimestamp: editedMessageTimestamp,
+        removeFromMessageReceiverCache: confirm,
+      };
+
+      drop(Edits.onEdit(editAttributes));
       return;
     }
 
@@ -3382,9 +2790,11 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    void message.handleDataMessage(data.message, event.confirm, {
-      data,
-    });
+    drop(
+      message.handleDataMessage(data.message, event.confirm, {
+        data,
+      })
+    );
   }
 
   type MessageDescriptor = {
@@ -3401,7 +2811,7 @@ export async function startApp(): Promise<void> {
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
     const partialMessage: MessageAttributesType = {
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -3415,7 +2825,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: data.source,
       sourceDevice: data.sourceDevice,
-      sourceUuid: data.sourceUuid ? UUID.cast(data.sourceUuid) : undefined,
+      sourceServiceId: data.sourceAci,
       timestamp: data.timestamp,
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
@@ -3430,9 +2840,29 @@ export async function startApp(): Promise<void> {
   ): boolean {
     if (message.groupCallUpdate) {
       if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
+        const conversationId = messageDescriptor.id;
+        const callId =
+          message.groupCallUpdate?.eraId != null
+            ? getCallIdFromEra(message.groupCallUpdate.eraId)
+            : null;
+        log.info(
+          'handleGroupCallUpdateMessage',
+          message.timestamp,
+          callId,
+          conversationId
+        );
         window.reduxActions.calling.peekNotConnectedGroupCall({
-          conversationId: messageDescriptor.id,
+          conversationId,
         });
+        if (callId != null) {
+          drop(
+            updateLocalGroupCallHistoryTimestamp(
+              conversationId,
+              callId,
+              message.timestamp
+            )
+          );
+        }
         return true;
       }
       log.warn(
@@ -3442,9 +2872,7 @@ export async function startApp(): Promise<void> {
     return false;
   }
 
-  async function unlinkAndDisconnect(
-    mode: RemoveAllConfiguration
-  ): Promise<void> {
+  async function unlinkAndDisconnect(): Promise<void> {
     window.Whisper.events.trigger('unauthorized');
 
     log.warn(
@@ -3464,7 +2892,7 @@ export async function startApp(): Promise<void> {
 
     void onEmpty();
 
-    void window.Signal.Util.Registration.remove();
+    void Registration.remove();
 
     const NUMBER_ID_KEY = 'number_id';
     const UUID_ID_KEY = 'uuid_id';
@@ -3484,15 +2912,21 @@ export async function startApp(): Promise<void> {
     );
 
     try {
-      log.info(`unlinkAndDisconnect: removing configuration, mode ${mode}`);
-      await window.textsecure.storage.protocol.removeAllConfiguration(mode);
+      log.info('unlinkAndDisconnect: removing configuration');
 
-      // This was already done in the database with removeAllConfiguration; this does it
-      //   for all the conversation models in memory.
+      // First, make changes to conversations in memory
       window.getConversations().forEach(conversation => {
-        // eslint-disable-next-line no-param-reassign
-        delete conversation.attributes.senderKeyInfo;
+        conversation.unset('senderKeyInfo');
       });
+
+      // Then make sure outstanding conversation saves are flushed
+      await window.Signal.Data.flushUpdateConversationBatcher();
+
+      // Then make sure that all previously-outstanding database saves are flushed
+      await window.Signal.Data.getItemById('manifestVersion');
+
+      // Finally, conversations in the database, and delete all config tables
+      await window.textsecure.storage.protocol.removeAllConfiguration();
 
       // These three bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
@@ -3522,6 +2956,9 @@ export async function startApp(): Promise<void> {
       }
       await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
+      // Re-hydrate items from memory; removeAllConfiguration above changed database
+      await window.storage.fetch();
+
       log.info('unlinkAndDisconnect: Successfully cleared local configuration');
     } catch (eraseError) {
       log.error(
@@ -3530,7 +2967,7 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(eraseError)
       );
     } finally {
-      await window.Signal.Util.Registration.markEverDone();
+      await Registration.markEverDone();
     }
   }
 
@@ -3542,7 +2979,7 @@ export async function startApp(): Promise<void> {
       error instanceof HTTPError &&
       (error.code === 401 || error.code === 403)
     ) {
-      void unlinkAndDisconnect(RemoveAllConfiguration.Full);
+      void unlinkAndDisconnect();
       return;
     }
 
@@ -3550,21 +2987,18 @@ export async function startApp(): Promise<void> {
   }
 
   function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent): void {
-    ev.confirm();
-
-    const { source, sourceUuid, timestamp } = ev;
+    const { source, sourceAci, timestamp } = ev;
     log.info(`view once open sync ${source} ${timestamp}`);
-    strictAssert(sourceUuid, 'ViewOnceOpen without sourceUuid');
+    strictAssert(sourceAci, 'ViewOnceOpen without sourceAci');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
     const attributes: ViewOnceOpenSyncAttributesType = {
+      removeFromMessageReceiverCache: ev.confirm,
       source,
-      sourceUuid,
+      sourceAci,
       timestamp,
     };
-    const sync = ViewOnceOpenSyncs.getSingleton().add(attributes);
-
-    void ViewOnceOpenSyncs.getSingleton().onSync(sync);
+    drop(ViewOnceOpenSyncs.onSync(attributes));
   }
 
   async function onFetchLatestSync(ev: FetchLatestEvent): Promise<void> {
@@ -3577,9 +3011,9 @@ export async function startApp(): Promise<void> {
     switch (eventType) {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
         log.info('onFetchLatestSync: fetching latest local profile');
-        const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
+        const ourAci = window.textsecure.storage.user.getAci();
         const ourE164 = window.textsecure.storage.user.getNumber();
-        await getProfile(ourUuid, ourE164);
+        await getProfile(ourAci, ourE164);
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
@@ -3599,7 +3033,17 @@ export async function startApp(): Promise<void> {
   async function onKeysSync(ev: KeysEvent) {
     ev.confirm();
 
-    const { storageServiceKey } = ev;
+    const { masterKey } = ev;
+    let { storageServiceKey } = ev;
+
+    if (masterKey == null) {
+      log.info('onKeysSync: deleting window.masterKey');
+      await window.storage.remove('masterKey');
+    } else {
+      // Override provided storageServiceKey because it is deprecated.
+      storageServiceKey = deriveStorageServiceKey(masterKey);
+      await window.storage.put('masterKey', Bytes.toBase64(masterKey));
+    }
 
     if (storageServiceKey == null) {
       log.info('onKeysSync: deleting window.storageKey');
@@ -3617,10 +3061,17 @@ export async function startApp(): Promise<void> {
         log.info(
           'onKeysSync: updated storage service key, erasing state and fetching'
         );
-        await window.storage.put('storageKey', storageServiceKeyBase64);
-        await StorageService.eraseAllStorageServiceState({
-          keepUnknownFields: true,
-        });
+        try {
+          await window.storage.put('storageKey', storageServiceKeyBase64);
+          await StorageService.eraseAllStorageServiceState({
+            keepUnknownFields: true,
+          });
+        } catch (error) {
+          log.info(
+            'onKeysSync: Failed to erase storage service data, starting sync job anyway',
+            Errors.toLogFormat(error)
+          );
+        }
       }
 
       await StorageService.runStorageServiceSyncJob();
@@ -3628,20 +3079,11 @@ export async function startApp(): Promise<void> {
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
-    ev.confirm();
-
-    const {
-      threadE164,
-      threadUuid,
-      groupId,
-      groupV2Id,
-      messageRequestResponseType,
-    } = ev;
+    const { threadE164, threadAci, groupV2Id, messageRequestResponseType } = ev;
 
     log.info('onMessageRequestResponse', {
       threadE164,
-      threadUuid,
-      groupId: `group(${groupId})`,
+      threadAci,
       groupV2Id: `groupv2(${groupV2Id})`,
       messageRequestResponseType,
     });
@@ -3651,23 +3093,24 @@ export async function startApp(): Promise<void> {
       'onMessageRequestResponse: missing type'
     );
 
+    strictAssert(ev.envelopeId, 'onMessageRequestResponse: no envelope id');
+
     const attributes: MessageRequestAttributesType = {
+      envelopeId: ev.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       threadE164,
-      threadUuid,
-      groupId,
+      threadAci,
       groupV2Id,
       type: messageRequestResponseType,
     };
-    const sync = MessageRequests.getSingleton().add(attributes);
-
-    void MessageRequests.getSingleton().onResponse(sync);
+    drop(MessageRequests.onResponse(attributes));
   }
 
   function onReadReceipt(event: Readonly<ReadEvent>): void {
     onReadOrViewReceipt({
       logTitle: 'read receipt',
       event,
-      type: MessageReceiptType.Read,
+      type: MessageReceipts.MessageReceiptType.Read,
     });
   }
 
@@ -3675,7 +3118,7 @@ export async function startApp(): Promise<void> {
     onReadOrViewReceipt({
       logTitle: 'view receipt',
       event,
-      type: MessageReceiptType.View,
+      type: MessageReceipts.MessageReceiptType.View,
     });
   }
 
@@ -3686,67 +3129,67 @@ export async function startApp(): Promise<void> {
   }: Readonly<{
     event: ReadEvent | ViewEvent;
     logTitle: string;
-    type: MessageReceiptType.Read | MessageReceiptType.View;
+    type:
+      | MessageReceipts.MessageReceiptType.Read
+      | MessageReceipts.MessageReceiptType.View;
   }>): void {
     const {
       envelopeTimestamp,
       timestamp,
       source,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       wasSentEncrypted,
     } = event.receipt;
-    const { conversation: sourceConversation } =
-      window.ConversationController.maybeMergeContacts({
-        aci: sourceUuid,
-        e164: source,
-        reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
-      });
+    const sourceConversation = window.ConversationController.lookupOrCreate({
+      serviceId: sourceServiceId,
+      e164: source,
+      reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
+    });
+    strictAssert(sourceConversation, 'Failed to create conversation');
     log.info(
       logTitle,
-      `${sourceUuid || source}.${sourceDevice}`,
+      `${sourceServiceId || source}.${sourceDevice}`,
       envelopeTimestamp,
       'for sent message',
       timestamp
     );
 
-    event.confirm();
-
     strictAssert(
-      isValidUuid(sourceUuid),
-      'onReadOrViewReceipt: Missing sourceUuid'
+      isServiceIdString(sourceServiceId),
+      'onReadOrViewReceipt: Missing sourceServiceId'
     );
     strictAssert(sourceDevice, 'onReadOrViewReceipt: Missing sourceDevice');
 
     const attributes: MessageReceiptAttributesType = {
+      envelopeId: event.receipt.envelopeId,
+      removeFromMessageReceiverCache: event.confirm,
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId: sourceConversation.id,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       type,
       wasSentEncrypted,
     };
-    const receipt = MessageReceipts.getSingleton().add(attributes);
-
-    // Note: We do not wait for completion here
-    void MessageReceipts.getSingleton().onReceipt(receipt);
+    drop(MessageReceipts.onReceipt(attributes));
   }
 
-  function onReadSync(ev: ReadSyncEvent): Promise<void> {
-    const { envelopeTimestamp, sender, senderUuid, timestamp } = ev.read;
+  async function onReadSync(ev: ReadSyncEvent): Promise<void> {
+    const { envelopeTimestamp, sender, senderAci, timestamp } = ev.read;
     const readAt = envelopeTimestamp;
-    const senderConversation = window.ConversationController.lookupOrCreate({
-      e164: sender,
-      uuid: senderUuid,
-      reason: 'onReadSync',
-    });
+    const { conversation: senderConversation } =
+      window.ConversationController.maybeMergeContacts({
+        aci: senderAci,
+        e164: sender,
+        reason: 'onReadSync',
+      });
     const senderId = senderConversation?.id;
 
     log.info(
       'read sync',
       sender,
-      senderUuid,
+      senderAci,
       envelopeTimestamp,
       senderId,
       'for message',
@@ -3754,38 +3197,36 @@ export async function startApp(): Promise<void> {
     );
 
     strictAssert(senderId, 'onReadSync missing senderId');
-    strictAssert(senderUuid, 'onReadSync missing senderUuid');
+    strictAssert(senderAci, 'onReadSync missing senderAci');
     strictAssert(timestamp, 'onReadSync missing timestamp');
 
     const attributes: ReadSyncAttributesType = {
+      envelopeId: ev.read.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       senderId,
       sender,
-      senderUuid,
+      senderAci,
       timestamp,
       readAt,
     };
-    const receipt = ReadSyncs.getSingleton().add(attributes);
 
-    receipt.on('remove', ev.confirm);
-
-    // Note: Here we wait, because we want read states to be in the database
-    //   before we move on.
-    return ReadSyncs.getSingleton().onSync(receipt);
+    await ReadSyncs.onSync(attributes);
   }
 
-  function onViewSync(ev: ViewSyncEvent): Promise<void> {
-    const { envelopeTimestamp, senderE164, senderUuid, timestamp } = ev.view;
-    const senderConversation = window.ConversationController.lookupOrCreate({
-      e164: senderE164,
-      uuid: senderUuid,
-      reason: 'onViewSync',
-    });
+  async function onViewSync(ev: ViewSyncEvent): Promise<void> {
+    const { envelopeTimestamp, senderE164, senderAci, timestamp } = ev.view;
+    const { conversation: senderConversation } =
+      window.ConversationController.maybeMergeContacts({
+        e164: senderE164,
+        aci: senderAci,
+        reason: 'onViewSync',
+      });
     const senderId = senderConversation?.id;
 
     log.info(
       'view sync',
       senderE164,
-      senderUuid,
+      senderAci,
       envelopeTimestamp,
       senderId,
       'for message',
@@ -3793,48 +3234,42 @@ export async function startApp(): Promise<void> {
     );
 
     strictAssert(senderId, 'onViewSync missing senderId');
-    strictAssert(senderUuid, 'onViewSync missing senderUuid');
+    strictAssert(senderAci, 'onViewSync missing senderAci');
     strictAssert(timestamp, 'onViewSync missing timestamp');
 
     const attributes: ViewSyncAttributesType = {
+      envelopeId: ev.view.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       senderId,
       senderE164,
-      senderUuid,
+      senderAci,
       timestamp,
       viewedAt: envelopeTimestamp,
     };
-    const receipt = ViewSyncs.getSingleton().add(attributes);
 
-    receipt.on('remove', ev.confirm);
-
-    // Note: Here we wait, because we want viewed states to be in the database
-    //   before we move on.
-    return ViewSyncs.getSingleton().onSync(receipt);
+    await ViewSyncs.onSync(attributes);
   }
 
   function onDeliveryReceipt(ev: DeliveryEvent): void {
     const { deliveryReceipt } = ev;
     const {
       envelopeTimestamp,
-      sourceUuid,
+      sourceServiceId,
       source,
       sourceDevice,
       timestamp,
       wasSentEncrypted,
     } = deliveryReceipt;
 
-    ev.confirm();
-
-    const { conversation: sourceConversation } =
-      window.ConversationController.maybeMergeContacts({
-        aci: sourceUuid,
-        e164: source,
-        reason: `onDeliveryReceipt(${envelopeTimestamp})`,
-      });
+    const sourceConversation = window.ConversationController.lookupOrCreate({
+      serviceId: sourceServiceId,
+      e164: source,
+      reason: `onDeliveryReceipt(${envelopeTimestamp})`,
+    });
 
     log.info(
       'delivery receipt from',
-      `${sourceUuid || source}.${sourceDevice}`,
+      `${sourceServiceId || source}.${sourceDevice}`,
       envelopeTimestamp,
       'for sent message',
       timestamp,
@@ -3846,24 +3281,25 @@ export async function startApp(): Promise<void> {
       'onDeliveryReceipt: missing envelopeTimestamp'
     );
     strictAssert(
-      isValidUuid(sourceUuid),
-      'onDeliveryReceipt: missing valid sourceUuid'
+      isServiceIdString(sourceServiceId),
+      'onDeliveryReceipt: missing valid sourceServiceId'
     );
     strictAssert(sourceDevice, 'onDeliveryReceipt: missing sourceDevice');
+    strictAssert(sourceConversation, 'onDeliveryReceipt: missing conversation');
 
     const attributes: MessageReceiptAttributesType = {
+      envelopeId: ev.deliveryReceipt.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
-      sourceConversationId: sourceConversation?.id,
-      sourceUuid,
+      sourceConversationId: sourceConversation.id,
+      sourceServiceId,
       sourceDevice,
-      type: MessageReceiptType.Delivery,
+      type: MessageReceipts.MessageReceiptType.Delivery,
       wasSentEncrypted,
     };
-    const receipt = MessageReceipts.getSingleton().add(attributes);
 
-    // Note: We don't wait for completion here
-    void MessageReceipts.getSingleton().onReceipt(receipt);
+    drop(MessageReceipts.onReceipt(attributes));
   }
 }
 

@@ -5,7 +5,7 @@ import React from 'react';
 import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   onClose: () => unknown;
 };
@@ -15,6 +15,6 @@ export function ToastVoiceNoteMustBeOnlyAttachment({
   onClose,
 }: PropsType): JSX.Element {
   return (
-    <Toast onClose={onClose}>{i18n('voiceNoteMustBeOnlyAttachment')}</Toast>
+    <Toast onClose={onClose}>{i18n('icu:voiceNoteMustBeOnlyAttachment')}</Toast>
   );
 }

@@ -15,19 +15,12 @@ installCallback('resetDefaultChatColor');
 installCallback('setGlobalDefaultConversationColor');
 installCallback('getDefaultConversationColor');
 installCallback('persistZoomFactor');
-installCallback('closeDB');
 
 // Getters only. These are set by the primary device
 installSetting('blockedCount', {
   setter: false,
 });
 installSetting('linkPreviewSetting', {
-  setter: false,
-});
-installSetting('phoneNumberDiscoverabilitySetting', {
-  setter: false,
-});
-installSetting('phoneNumberSharingSetting', {
   setter: false,
 });
 installSetting('readReceiptSetting', {
@@ -40,10 +33,10 @@ installSetting('typingIndicatorSetting', {
 installCallback('deleteAllMyStories');
 installCallback('isPhoneNumberSharingEnabled');
 installCallback('isPrimary');
-installCallback('shouldShowStoriesSettings');
 installCallback('syncRequest');
 
 installSetting('alwaysRelayCalls');
+installSetting('audioMessage');
 installSetting('audioNotification');
 installSetting('autoDownloadUpdate');
 installSetting('autoLaunch');
@@ -56,14 +49,18 @@ installSetting('hasStoriesDisabled');
 installSetting('hideMenuBar');
 installSetting('incomingCallNotification');
 installSetting('lastSyncTime');
+installSetting('localeOverride');
 installSetting('notificationDrawAttention');
 installSetting('notificationSetting');
 installSetting('spellCheck');
 installSetting('systemTraySetting');
 installSetting('sentMediaQualitySetting');
+installSetting('textFormatting');
 installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');
+installSetting('phoneNumberDiscoverabilitySetting');
+installSetting('phoneNumberSharingSetting');
 
 // Media Settings
 installCallback('getAvailableIODevices');

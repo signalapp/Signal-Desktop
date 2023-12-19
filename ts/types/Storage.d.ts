@@ -20,6 +20,7 @@ import type {
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
 import type { ThemeSettingType } from './StorageUIKeys';
+import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
 
@@ -35,7 +36,7 @@ export type SentMediaQualitySettingType = 'standard' | 'high';
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
 export type IdentityKeyMap = Record<
-  string,
+  ServiceIdString,
   {
     privKey: Uint8Array;
     pubKey: Uint8Array;
@@ -50,19 +51,21 @@ export type StorageAccessType = {
   'auto-download-update': boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': ReadonlyArray<string>;
-  'blocked-uuids': ReadonlyArray<string>;
+  'blocked-uuids': ReadonlyArray<ServiceIdString>;
   'call-ringtone-notification': boolean;
   'call-system-notification': boolean;
   'enter-key-sends': boolean;
   'hide-menu-bar': boolean;
-  'system-tray-setting': SystemTraySetting;
   'incoming-call-notification': boolean;
+  localeOverride: string | null;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
   'sent-media-quality': SentMediaQualitySettingType;
   'spell-check': boolean;
+  'system-tray-setting': SystemTraySetting;
   'theme-setting': ThemeSettingType;
+  audioMessage: boolean;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;
   blocked: ReadonlyArray<string>;
@@ -70,9 +73,12 @@ export type StorageAccessType = {
   customColors: CustomColorsItemType;
   device_name: string;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
+  formattingWarningShown: boolean;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
+  hasCompletedUsernameLinkOnboarding: boolean;
+  hasCompletedSafetyNumberOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean;
@@ -80,18 +86,28 @@ export type StorageAccessType = {
   lastHeartbeat: number;
   lastStartup: number;
   lastAttemptedToRefreshProfilesAt: number;
+  lastResortKeyUpdateTime: number;
+  lastResortKeyUpdateTimePNI: number;
+  masterKey: string;
+  masterKeyLastRequestTime: number;
   maxPreKeyId: number;
+  maxPreKeyIdPNI: number;
+  maxKyberPreKeyId: number;
+  maxKyberPreKeyIdPNI: number;
   number_id: string;
   password: string;
   profileKey: Uint8Array;
   regionCode: string;
-  registrationIdMap: Record<string, number>;
+  registrationIdMap: Record<ServiceIdString, number>;
   remoteBuildExpiration: number;
+  sendEditWarningShown: boolean;
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;
   signedKeyId: number;
-  signedKeyRotationRejected: number;
+  signedKeyIdPNI: number;
+  signedKeyUpdateTime: number;
+  signedKeyUpdateTimePNI: number;
   storageKey: string;
   synced_at: number;
   userAgent: string;
@@ -111,6 +127,7 @@ export type StorageAccessType = {
   // Unlike `number_id` (which also includes device id) this field is only
   // updated whenever we receive a new storage manifest
   accountE164: string;
+  textFormatting: boolean;
   typingIndicators: boolean;
   sealedSenderIndicators: boolean;
   storageFetchComplete: boolean;
@@ -125,6 +142,7 @@ export type StorageAccessType = {
   'preferred-audio-output-device': AudioDevice;
   previousAudioDeviceModule: AudioDeviceModule;
   remoteConfig: RemoteConfigType;
+  serverTimeSkew: number;
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: ReadonlyArray<GroupCredentialType>;
   lastReceivedAtCounter: number;
@@ -140,17 +158,28 @@ export type StorageAccessType = {
   paymentAddress: string;
   zoomFactor: ZoomFactorType;
   preferredLeftPaneWidth: number;
-  nextSignedKeyRotationTime: number;
+  nextScheduledUpdateKeyTime: number;
+  navTabsCollapsed: boolean;
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
+  usernameLastIntegrityCheck: number;
+  usernameCorrupted: boolean;
+  usernameLinkCorrupted: boolean;
+  usernameLinkColor: number;
+  usernameLink: {
+    entropy: Uint8Array;
+    serverId: Uint8Array;
+  };
 
   // Deprecated
+  'challenge:retry-message-ids': never;
+  nextSignedKeyRotationTime: number;
   senderCertificateWithUuid: never;
   signaling_key: never;
-  'challenge:retry-message-ids': never;
+  signedKeyRotationRejected: number;
 };
 /* eslint-enable camelcase */
 

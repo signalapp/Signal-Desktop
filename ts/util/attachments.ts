@@ -1,38 +1,19 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
-import * as log from '../logging/log';
-import { getValue } from '../RemoteConfig';
 
-import { parseIntOrThrow } from './parseIntOrThrow';
 import { scaleImageToLevel } from './scaleImageToLevel';
-import type { AttachmentType } from '../types/Attachment';
+import { dropNull } from './dropNull';
+import type {
+  AttachmentType,
+  UploadedAttachmentType,
+} from '../types/Attachment';
 import { canBeTranscoded } from '../types/Attachment';
 import type { LoggerType } from '../types/Logging';
 import * as MIME from '../types/MIME';
 import * as Errors from '../types/errors';
-
-export const KIBIBYTE = 1024;
-const MEBIBYTE = 1024 * 1024;
-const DEFAULT_MAX = 100 * MEBIBYTE;
-
-export const getMaximumAttachmentSizeInKb = (): number => {
-  try {
-    return (
-      parseIntOrThrow(
-        getValue('global.attachments.maxBytes'),
-        'preProcessAttachment/maxAttachmentSize'
-      ) / KIBIBYTE
-    );
-  } catch (error) {
-    log.warn(
-      'Failed to parse integer out of global.attachments.maxBytes feature flag'
-    );
-    return DEFAULT_MAX / KIBIBYTE;
-  }
-};
+import * as Bytes from '../Bytes';
 
 // Upgrade steps
 // NOTE: This step strips all EXIF metadata from JPEG images as
@@ -61,17 +42,28 @@ export async function autoOrientJPEG(
   // already been scaled to level, oriented, stripped of exif data, and saved
   // in high quality format. If we want to send the image in HQ we can return
   // the attachment as-is. Otherwise we'll have to further scale it down.
-  if (!attachment.data || sendHQImages) {
+  const { data, path, size } = attachment;
+
+  if (sendHQImages) {
     return attachment;
   }
+  let scaleTarget: string | Blob;
+  if (path) {
+    scaleTarget = window.Signal.Migrations.getAbsoluteAttachmentPath(path);
+  } else {
+    if (!data) {
+      return attachment;
+    }
+    scaleTarget = new Blob([data], {
+      type: attachment.contentType,
+    });
+  }
 
-  const dataBlob = new Blob([attachment.data], {
-    type: attachment.contentType,
-  });
   try {
     const { blob: xcodedDataBlob } = await scaleImageToLevel(
-      dataBlob,
+      scaleTarget,
       attachment.contentType,
+      size,
       isIncoming
     );
     const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
@@ -82,8 +74,7 @@ export async function autoOrientJPEG(
     // by potentially doubling stored image data.
     // See: https://github.com/signalapp/Signal-Desktop/issues/1589
     const xcodedAttachment = {
-      // `digest` is no longer valid for auto-oriented image data, so we discard it:
-      ...omit(attachment, 'digest'),
+      ...attachment,
       data: new Uint8Array(xcodedDataArrayBuffer),
       size: xcodedDataArrayBuffer.byteLength,
     };
@@ -98,4 +89,25 @@ export async function autoOrientJPEG(
 
     return attachment;
   }
+}
+
+export type CdnFieldsType = Pick<
+  AttachmentType,
+  'cdnId' | 'cdnKey' | 'cdnNumber' | 'key' | 'digest' | 'plaintextHash'
+>;
+
+export function copyCdnFields(
+  uploaded?: UploadedAttachmentType
+): CdnFieldsType {
+  if (!uploaded) {
+    return {};
+  }
+  return {
+    cdnId: dropNull(uploaded.cdnId)?.toString(),
+    cdnKey: uploaded.cdnKey,
+    cdnNumber: dropNull(uploaded.cdnNumber),
+    key: Bytes.toBase64(uploaded.key),
+    digest: Bytes.toBase64(uploaded.digest),
+    plaintextHash: uploaded.plaintextHash,
+  };
 }

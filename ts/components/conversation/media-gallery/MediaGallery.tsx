@@ -29,7 +29,7 @@ export type Props = {
   media: Array<MediaItemType>;
   saveAttachment: SaveAttachmentActionCreatorType;
   showLightboxWithMedia: (
-    selectedAttachmentPath: string | undefined,
+    selectedIndex: number,
     media: Array<MediaItemType>
   ) => void;
 };
@@ -53,10 +53,10 @@ function MediaSection({
     const label = (() => {
       switch (type) {
         case 'media':
-          return i18n('mediaEmptyState');
+          return i18n('icu:mediaEmptyState');
 
         case 'documents':
-          return i18n('documentsEmptyState');
+          return i18n('icu:documentsEmptyState');
 
         default:
           throw missingCaseError(type);
@@ -71,11 +71,25 @@ function MediaSection({
     const first = section.mediaItems[0];
     const { message } = first;
     const date = moment(getMessageTimestamp(message));
-    const header =
-      section.type === 'yearMonth'
-        ? date.format(MONTH_FORMAT)
-        : // eslint-disable-next-line local-rules/valid-i18n-keys
-          i18n(section.type);
+
+    function getHeader(): string {
+      switch (section.type) {
+        case 'yearMonth':
+          return date.format(MONTH_FORMAT);
+        case 'today':
+          return i18n('icu:today');
+        case 'yesterday':
+          return i18n('icu:yesterday');
+        case 'thisWeek':
+          return i18n('icu:thisWeek');
+        case 'thisMonth':
+          return i18n('icu:thisMonth');
+        default:
+          throw missingCaseError(section);
+      }
+    }
+
+    const header = getHeader();
 
     return (
       <AttachmentSection
@@ -92,7 +106,7 @@ function MediaSection({
             }
 
             case 'media': {
-              showLightboxWithMedia(event.attachment.path, media);
+              showLightboxWithMedia(event.index, media);
               break;
             }
 
@@ -133,11 +147,11 @@ export function MediaGallery({
         tabs={[
           {
             id: TabViews.Media,
-            label: i18n('media'),
+            label: i18n('icu:media'),
           },
           {
             id: TabViews.Documents,
-            label: i18n('documents'),
+            label: i18n('icu:documents'),
           },
         ]}
       >

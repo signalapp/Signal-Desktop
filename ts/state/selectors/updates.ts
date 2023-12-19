@@ -8,7 +8,7 @@ import { DialogType } from '../../types/Dialogs';
 import type { StateType } from '../reducer';
 import type { UpdatesStateType } from '../ducks/updates';
 
-const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
+export const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
   state.updates;
 
 export const isUpdateDialogVisible = createSelector(
@@ -33,10 +33,17 @@ export const isUpdateDialogVisible = createSelector(
 
 export const isUpdateDownloaded = createSelector(
   getUpdatesState,
-  ({ dialogType }) => dialogType === DialogType.Update
+  ({ dialogType }) =>
+    dialogType === DialogType.AutoUpdate ||
+    dialogType === DialogType.DownloadedUpdate
 );
 
 export const isOSUnsupported = createSelector(
   getUpdatesState,
   ({ dialogType }) => dialogType === DialogType.UnsupportedOS
+);
+
+export const getHasPendingUpdate = createSelector(
+  getUpdatesState,
+  ({ didSnooze }) => didSnooze === true
 );

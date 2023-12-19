@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -15,9 +15,12 @@ import { getIntl } from '../selectors/user';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLightboxActions } from '../ducks/lightbox';
+import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import {
   getIsViewOnce,
   getMedia,
+  getHasPrevMessage,
+  getHasNextMessage,
   getSelectedIndex,
   shouldShowLightbox,
 } from '../selectors/lightbox';
@@ -25,8 +28,14 @@ import {
 export function SmartLightbox(): JSX.Element | null {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const { saveAttachment } = useConversationsActions();
-  const { closeLightbox } = useLightboxActions();
-  const { toggleForwardMessageModal } = useGlobalModalActions();
+  const {
+    closeLightbox,
+    showLightboxForNextMessage,
+    showLightboxForPrevMessage,
+    setSelectedLightboxIndex,
+  } = useLightboxActions();
+  const { toggleForwardMessagesModal } = useGlobalModalActions();
+  const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
   const conversationSelector = useSelector<StateType, GetConversationByIdType>(
     getConversationSelector
@@ -38,7 +47,40 @@ export function SmartLightbox(): JSX.Element | null {
     StateType,
     ReadonlyArray<ReadonlyDeep<MediaItemType>>
   >(getMedia);
+  const hasPrevMessage = useSelector<StateType, boolean>(getHasPrevMessage);
+  const hasNextMessage = useSelector<StateType, boolean>(getHasNextMessage);
   const selectedIndex = useSelector<StateType, number>(getSelectedIndex);
+
+  const onPrevAttachment = useCallback(() => {
+    if (selectedIndex <= 0) {
+      if (hasPrevMessage) {
+        showLightboxForPrevMessage();
+      }
+      return;
+    }
+    setSelectedLightboxIndex(selectedIndex - 1);
+  }, [
+    showLightboxForPrevMessage,
+    selectedIndex,
+    setSelectedLightboxIndex,
+    hasPrevMessage,
+  ]);
+
+  const onNextAttachment = useCallback(() => {
+    if (selectedIndex >= media.length - 1) {
+      if (hasNextMessage) {
+        showLightboxForNextMessage();
+      }
+      return;
+    }
+    setSelectedLightboxIndex(selectedIndex + 1);
+  }, [
+    showLightboxForNextMessage,
+    media,
+    selectedIndex,
+    setSelectedLightboxIndex,
+    hasNextMessage,
+  ]);
 
   if (!isShowingLightbox) {
     return null;
@@ -53,7 +95,13 @@ export function SmartLightbox(): JSX.Element | null {
       media={media}
       saveAttachment={saveAttachment}
       selectedIndex={selectedIndex || 0}
-      toggleForwardMessageModal={toggleForwardMessageModal}
+      toggleForwardMessagesModal={toggleForwardMessagesModal}
+      onMediaPlaybackStart={pauseVoiceNotePlayer}
+      onPrevAttachment={onPrevAttachment}
+      onNextAttachment={onNextAttachment}
+      onSelectAttachment={setSelectedLightboxIndex}
+      hasNextMessage={hasNextMessage}
+      hasPrevMessage={hasPrevMessage}
     />
   );
 }

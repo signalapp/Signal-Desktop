@@ -11,7 +11,7 @@ import {
   decryptProfile,
 } from '../../Crypto';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { encryptProfileData } from '../../util/encryptProfileData';
 
 describe('encryptProfileData', () => {
@@ -26,7 +26,7 @@ describe('encryptProfileData', () => {
       familyName: 'Kid',
       firstName: 'Zombie',
       profileKey: Bytes.toBase64(keyBuffer),
-      uuid: UUID.generate().toString(),
+      serviceId: generateAci(),
 
       // To satisfy TS
       acceptedMessageRequest: true,

@@ -68,20 +68,20 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     this.searchTerm = searchTerm;
     this.uuidFetchState = uuidFetchState;
 
+    const username = getUsernameFromSearch(this.searchTerm);
+
     if (isUsernamesEnabled) {
-      this.username = getUsernameFromSearch(this.searchTerm);
+      this.username = username;
       this.isUsernameVisible =
         isUsernamesEnabled &&
-        Boolean(this.username) &&
-        this.composeContacts.every(
-          contact => contact.username !== this.username
-        );
+        Boolean(username) &&
+        this.composeContacts.every(contact => contact.username !== username);
     } else {
       this.isUsernameVisible = false;
     }
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-    if (!this.username && phoneNumber) {
+    if (!username && phoneNumber) {
       this.phoneNumber = phoneNumber;
       this.isPhoneNumberVisible = this.composeContacts.every(
         contact => contact.e164 !== phoneNumber.e164
@@ -103,12 +103,12 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         <button
           onClick={this.getBackAction({ showInbox })}
           className="module-left-pane__header__contents__back-button"
-          title={i18n('backToInbox')}
-          aria-label={i18n('backToInbox')}
+          title={i18n('icu:backToInbox')}
+          aria-label={i18n('icu:backToInbox')}
           type="button"
         />
         <div className="module-left-pane__header__contents__text">
-          {i18n('newConversation')}
+          {i18n('icu:newConversation')}
         </div>
       </div>
     );
@@ -132,7 +132,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         i18n={i18n}
         moduleClassName="module-left-pane__compose-search-form"
         onChange={onChangeComposeSearchTerm}
-        placeholder={i18n('contactSearchPlaceholder')}
+        placeholder={i18n('icu:contactSearchPlaceholder')}
         ref={focusRef}
         value={this.searchTerm}
       />
@@ -146,7 +146,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }>): ReactChild | null {
     return this.getRowCount() ? null : (
       <div className="module-left-pane__compose-no-contacts">
-        {i18n('noConversationsFound')}
+        {i18n('icu:noConversationsFound')}
       </div>
     );
   }
@@ -194,7 +194,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
 
@@ -205,6 +205,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         return {
           type: RowType.Contact,
           contact,
+          hasContextMenu: true,
         };
       }
 
@@ -215,7 +216,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'groupsHeader',
+          getHeaderText: i18n => i18n('icu:groupsHeader'),
         };
       }
 
@@ -236,7 +237,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         };
       }
 
@@ -258,7 +259,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         };
       }
 

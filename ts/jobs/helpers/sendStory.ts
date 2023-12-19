@@ -2,10 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
-import type {
-  AttachmentWithHydratedData,
-  TextAttachmentType,
-} from '../../types/Attachment';
+import type { UploadedAttachmentType } from '../../types/Attachment';
 import type { ConversationModel } from '../../models/conversations';
 import type {
   ConversationQueueJobBundle,
@@ -22,7 +19,8 @@ import {
   SendActionType,
   sendStateReducer,
 } from '../../messages/MessageSendState';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
 import type { StoryMessageRecipientsType } from '../../types/Stories';
 import dataInterface from '../../sql/Client';
@@ -38,7 +36,9 @@ import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { sendContentMessageToGroup } from '../../util/sendToGroup';
 import { distributionListToSendTarget } from '../../util/distributionListToSendTarget';
+import { uploadAttachment } from '../../util/uploadAttachment';
 import { SendMessageChallengeError } from '../../textsecure/Errors';
+import type { OutgoingTextAttachmentType } from '../../textsecure/SendMessage';
 
 export async function sendStory(
   conversation: ConversationModel,
@@ -126,6 +126,7 @@ export async function sendStory(
     }
 
     const attachments = originalMessage.get('attachments') || [];
+    const bodyRanges = originalMessage.get('bodyRanges')?.slice();
     const [attachment] = attachments;
 
     if (!attachment) {
@@ -136,15 +137,40 @@ export async function sendStory(
       return;
     }
 
-    let textAttachment: TextAttachmentType | undefined;
-    let fileAttachment: AttachmentWithHydratedData | undefined;
+    let textAttachment: OutgoingTextAttachmentType | undefined;
+    let fileAttachment: UploadedAttachmentType | undefined;
 
     if (attachment.textAttachment) {
-      textAttachment = attachment.textAttachment;
+      const localAttachment = attachment.textAttachment;
+
+      // Pacify typescript
+      if (localAttachment.preview === undefined) {
+        textAttachment = {
+          ...localAttachment,
+          preview: undefined,
+        };
+      } else {
+        const hydratedPreview = (
+          await window.Signal.Migrations.loadPreviewData([
+            localAttachment.preview,
+          ])
+        )[0];
+
+        textAttachment = {
+          ...localAttachment,
+          preview: {
+            ...hydratedPreview,
+            image:
+              hydratedPreview.image &&
+              (await uploadAttachment(hydratedPreview.image)),
+          },
+        };
+      }
     } else {
-      fileAttachment = await window.Signal.Migrations.loadAttachmentData(
-        attachment
-      );
+      const hydratedAttachment =
+        await window.Signal.Migrations.loadAttachmentData(attachment);
+
+      fileAttachment = await uploadAttachment(hydratedAttachment);
     }
 
     const groupV2 = isGroupV2(conversation.attributes)
@@ -156,6 +182,7 @@ export async function sendStory(
     // attributes inside it.
     originalStoryMessage = await messaging.getStoryMessage({
       allowsReplies: true,
+      bodyRanges,
       fileAttachment,
       groupV2,
       textAttachment,
@@ -163,33 +190,41 @@ export async function sendStory(
     });
   }
 
-  const canReplyUuids = new Set<string>();
-  const recipientsByUuid = new Map<string, Set<string>>();
+  const canReplyServiceIds = new Set<ServiceIdString>();
+  const recipientsByServiceId = new Map<
+    ServiceIdString,
+    Set<StoryDistributionIdString>
+  >();
   const sentConversationIds = new Map<string, SendState>();
-  const sentUuids = new Set<string>();
+  const sentServiceIds = new Set<ServiceIdString>();
 
   // This function is used to keep track of all the recipients so once we're
   // done with our send we can build up the storyMessageRecipients object for
   // sending in the sync message.
-  function addDistributionListToUuidSent(
-    listId: string | undefined,
-    uuid: string,
+  function addDistributionListToServiceIdSent(
+    listId: StoryDistributionIdString | undefined,
+    serviceId: ServiceIdString,
     canReply?: boolean
   ): void {
-    if (conversation.get('uuid') === uuid) {
+    if (conversation.getServiceId() === serviceId) {
       return;
     }
 
-    const distributionListIds = recipientsByUuid.get(uuid) || new Set<string>();
+    const distributionListIds =
+      recipientsByServiceId.get(serviceId) ||
+      new Set<StoryDistributionIdString>();
 
     if (listId) {
-      recipientsByUuid.set(uuid, new Set([...distributionListIds, listId]));
+      recipientsByServiceId.set(
+        serviceId,
+        new Set([...distributionListIds, listId])
+      );
     } else {
-      recipientsByUuid.set(uuid, distributionListIds);
+      recipientsByServiceId.set(serviceId, distributionListIds);
     }
 
     if (canReply) {
-      canReplyUuids.add(uuid);
+      canReplyServiceIds.add(serviceId);
     }
   }
 
@@ -246,36 +281,36 @@ export async function sendStory(
       let originalError: Error | undefined;
 
       const {
-        allRecipientIds,
-        allowedReplyByUuid,
-        pendingSendRecipientIds,
+        allRecipientServiceIds,
+        allowedReplyByServiceId,
+        pendingSendRecipientServiceIds,
         sentRecipientIds,
-        untrustedUuids,
+        untrustedServiceIds,
       } = getMessageRecipients({
         log,
         message,
       });
 
       try {
-        if (untrustedUuids.length) {
+        if (untrustedServiceIds.length) {
           window.reduxActions.conversations.conversationStoppedByMissingVerification(
             {
               conversationId: conversation.id,
               distributionId,
-              untrustedUuids,
+              untrustedServiceIds,
             }
           );
           throw new Error(
-            `${logId}: sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
+            `${logId}: sending blocked because ${untrustedServiceIds.length} conversation(s) were untrusted. Failing this attempt.`
           );
         }
 
-        if (!pendingSendRecipientIds.length) {
-          allRecipientIds.forEach(uuid =>
-            addDistributionListToUuidSent(
+        if (!pendingSendRecipientServiceIds.length) {
+          allRecipientServiceIds.forEach(serviceId =>
+            addDistributionListToServiceIdSent(
               listId,
-              uuid,
-              allowedReplyByUuid.get(uuid)
+              serviceId,
+              allowedReplyByServiceId.get(serviceId)
             )
           );
           return;
@@ -284,7 +319,7 @@ export async function sendStory(
         const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
         const sendOptions = await getSendOptionsForRecipients(
-          pendingSendRecipientIds,
+          pendingSendRecipientServiceIds,
           { story: true }
         );
 
@@ -293,6 +328,7 @@ export async function sendStory(
         );
 
         const storyMessage = new Proto.StoryMessage();
+        storyMessage.bodyRanges = originalStoryMessage.bodyRanges;
         storyMessage.profileKey = originalStoryMessage.profileKey;
         storyMessage.fileAttachment = originalStoryMessage.fileAttachment;
         storyMessage.textAttachment = originalStoryMessage.textAttachment;
@@ -304,7 +340,7 @@ export async function sendStory(
         const sendTarget = distributionList
           ? distributionListToSendTarget(
               distributionList,
-              pendingSendRecipientIds
+              pendingSendRecipientServiceIds
             )
           : conversation.toSenderKeyTarget();
 
@@ -316,7 +352,7 @@ export async function sendStory(
           contentMessage,
           isPartialSend: false,
           messageId: undefined,
-          recipients: pendingSendRecipientIds,
+          recipients: pendingSendRecipientServiceIds,
           sendOptions,
           sendTarget,
           sendType: 'story',
@@ -329,13 +365,14 @@ export async function sendStory(
         // eslint-disable-next-line no-param-reassign
         message.doNotSendSyncMessage = true;
 
-        const messageSendPromise = message.send(
-          handleMessageSend(innerPromise, {
+        const messageSendPromise = message.send({
+          promise: handleMessageSend(innerPromise, {
             messageIds: [message.id],
             sendType: 'story',
           }),
-          saveErrors
-        );
+          saveErrors,
+          targetTimestamp: message.get('timestamp'),
+        });
 
         // Because message.send swallows and processes errors, we'll await the
         // inner promise to get the SendMessageProtoError, which gives us
@@ -371,19 +408,19 @@ export async function sendStory(
             const recipient = window.ConversationController.get(
               recipientConversationId
             );
-            const uuid = recipient?.get('uuid');
-            if (!uuid) {
+            const serviceId = recipient?.getServiceId();
+            if (!serviceId) {
               return;
             }
-            sentUuids.add(uuid);
+            sentServiceIds.add(serviceId);
           }
         );
 
-        allRecipientIds.forEach(uuid => {
-          addDistributionListToUuidSent(
+        allRecipientServiceIds.forEach(serviceId => {
+          addDistributionListToServiceIdSent(
             listId,
-            uuid,
-            allowedReplyByUuid.get(uuid)
+            serviceId,
+            allowedReplyByServiceId.get(serviceId)
           );
         });
 
@@ -408,6 +445,7 @@ export async function sendStory(
                 reason:
                   'conversationJobQueue.run(' +
                   `${conversation.idForLogging()}, story, ${timestamp}/${distributionId})`,
+                silent: false,
               },
               error.data
             );
@@ -504,27 +542,27 @@ export async function sendStory(
 
       message.set('sendStateByConversationId', newSendStateByConversationId);
       return window.Signal.Data.saveMessage(message.attributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     })
   );
 
   // Remove any unsent recipients
-  recipientsByUuid.forEach((_value, uuid) => {
-    if (sentUuids.has(uuid)) {
+  recipientsByServiceId.forEach((_value, serviceId) => {
+    if (sentServiceIds.has(serviceId)) {
       return;
     }
 
-    recipientsByUuid.delete(uuid);
+    recipientsByServiceId.delete(serviceId);
   });
 
   // Build up the sync message's storyMessageRecipients and send it
   const storyMessageRecipients: StoryMessageRecipientsType = [];
-  recipientsByUuid.forEach((distributionListIds, destinationUuid) => {
+  recipientsByServiceId.forEach((distributionListIds, destinationServiceId) => {
     storyMessageRecipients.push({
-      destinationUuid,
+      destinationServiceId,
       distributionListIds: Array.from(distributionListIds),
-      isAllowedToReply: canReplyUuids.has(destinationUuid),
+      isAllowedToReply: canReplyServiceIds.has(destinationServiceId),
     });
   });
 
@@ -540,7 +578,7 @@ export async function sendStory(
     await messaging.sendSyncMessage({
       // Note: these two fields will be undefined if we're sending to a group
       destination: conversation.get('e164'),
-      destinationUuid: conversation.get('uuid'),
+      destinationServiceId: conversation.getServiceId(),
       storyMessage: originalStoryMessage,
       storyMessageRecipients,
       expirationStartTimestamp: null,
@@ -570,17 +608,17 @@ function getMessageRecipients({
   log: LoggerType;
   message: MessageModel;
 }>): {
-  allRecipientIds: Array<string>;
-  allowedReplyByUuid: Map<string, boolean>;
-  pendingSendRecipientIds: Array<string>;
+  allRecipientServiceIds: Array<ServiceIdString>;
+  allowedReplyByServiceId: Map<ServiceIdString, boolean>;
+  pendingSendRecipientServiceIds: Array<ServiceIdString>;
   sentRecipientIds: Array<string>;
-  untrustedUuids: Array<UUIDStringType>;
+  untrustedServiceIds: Array<ServiceIdString>;
 } {
-  const allRecipientIds: Array<string> = [];
-  const allowedReplyByUuid = new Map<string, boolean>();
-  const pendingSendRecipientIds: Array<string> = [];
+  const allRecipientServiceIds: Array<ServiceIdString> = [];
+  const allowedReplyByServiceId = new Map<ServiceIdString, boolean>();
+  const pendingSendRecipientServiceIds: Array<ServiceIdString> = [];
   const sentRecipientIds: Array<string> = [];
-  const untrustedUuids: Array<UUIDStringType> = [];
+  const untrustedServiceIds: Array<ServiceIdString> = [];
 
   Object.entries(message.get('sendStateByConversationId') || {}).forEach(
     ([recipientConversationId, sendState]) => {
@@ -597,14 +635,14 @@ function getMessageRecipients({
       }
 
       if (recipient.isUntrusted()) {
-        const uuid = recipient.get('uuid');
-        if (!uuid) {
+        const serviceId = recipient.getServiceId();
+        if (!serviceId) {
           log.error(
-            `stories.sendStory/getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing UUID.`
+            `stories.sendStory/getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
           );
           return;
         }
-        untrustedUuids.push(uuid);
+        untrustedServiceIds.push(serviceId);
         return;
       }
       if (recipient.isUnregistered()) {
@@ -616,11 +654,11 @@ function getMessageRecipients({
         return;
       }
 
-      allowedReplyByUuid.set(
+      allowedReplyByServiceId.set(
         recipientSendTarget,
         Boolean(sendState.isAllowedToReplyToStory)
       );
-      allRecipientIds.push(recipientSendTarget);
+      allRecipientServiceIds.push(recipientSendTarget);
 
       if (sendState.isAlreadyIncludedInAnotherDistributionList) {
         return;
@@ -631,16 +669,16 @@ function getMessageRecipients({
         return;
       }
 
-      pendingSendRecipientIds.push(recipientSendTarget);
+      pendingSendRecipientServiceIds.push(recipientSendTarget);
     }
   );
 
   return {
-    allRecipientIds,
-    allowedReplyByUuid,
-    pendingSendRecipientIds,
+    allRecipientServiceIds,
+    allowedReplyByServiceId,
+    pendingSendRecipientServiceIds,
     sentRecipientIds,
-    untrustedUuids,
+    untrustedServiceIds,
   };
 }
 
@@ -651,7 +689,7 @@ async function markMessageFailed(
   message.markFailed();
   void message.saveErrors(errors, { skipSave: true });
   await window.Signal.Data.saveMessage(message.attributes, {
-    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 }
 

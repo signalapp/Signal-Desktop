@@ -8,7 +8,7 @@ import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { getExpirationTimestamp } from '../selectors/expiration';
 import type { WidthBreakpoint } from '../../components/_util';
-import { getName as getOSName } from '../../OS';
+import OS from '../../util/os/osMain';
 
 type PropsType = Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>;
 
@@ -18,7 +18,7 @@ const mapStateToProps = (state: StateType, ownProps: PropsType) => {
     i18n: getIntl(state),
     currentVersion: window.getVersion(),
     expirationTimestamp: getExpirationTimestamp(state),
-    OS: getOSName(),
+    OS: OS.getName(),
     ...ownProps,
   };
 };

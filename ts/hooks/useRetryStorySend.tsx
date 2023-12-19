@@ -41,7 +41,7 @@ export function useRetryStorySend(
   function renderAlert(): JSX.Element | null {
     return hasSendFailedAlert ? (
       <Alert
-        body={i18n('Stories__failed-send')}
+        body={i18n('icu:Stories__failed-send')}
         i18n={i18n}
         onClose={() => setHasSendFailedAlert(false)}
       />

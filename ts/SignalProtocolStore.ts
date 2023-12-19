@@ -9,6 +9,7 @@ import { EventEmitter } from 'events';
 import {
   Direction,
   IdentityKeyPair,
+  KyberPreKeyRecord,
   PreKeyRecord,
   PrivateKey,
   PublicKey,
@@ -32,6 +33,7 @@ import type {
   IdentityKeyType,
   IdentityKeyIdType,
   KeyPairType,
+  KyberPreKeyType,
   OuterSignedPrekeyType,
   PniKeyMaterialType,
   PniSignatureMessageType,
@@ -46,20 +48,25 @@ import type {
   SignedPreKeyType,
   UnprocessedType,
   UnprocessedUpdateType,
+  CompatPreKeyType,
 } from './textsecure/Types.d';
-import type { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
-import type { UUIDStringType } from './types/UUID';
-import { UUID, UUIDKind } from './types/UUID';
+import type { ServiceIdString, PniString, AciString } from './types/ServiceId';
+import { isServiceIdString, ServiceIdKind } from './types/ServiceId';
 import type { Address } from './types/Address';
 import type { QualifiedAddressStringType } from './types/QualifiedAddress';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
-import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 import * as Errors from './types/errors';
-import MessageSender from './textsecure/SendMessage';
 import { MINUTE } from './util/durations';
+import { conversationJobQueue } from './jobs/conversationJobQueue';
+import {
+  KYBER_KEY_ID_KEY,
+  SIGNED_PRE_KEY_ID_KEY,
+} from './textsecure/AccountManager';
+import { formatGroups, groupWhile } from './util/groupWhile';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
+const LOW_KEYS_THRESHOLD = 25;
 
 const VerifiedStatus = {
   DEFAULT: 0,
@@ -92,6 +99,20 @@ function validateIdentityKey(attrs: unknown): attrs is IdentityKeyType {
   identityKeySchema.parse(attrs);
   return true;
 }
+/*
+ * Potentially hundreds of items, so we'll group together sequences,
+ * take the first 10 of the sequences, format them as ranges,
+ * and log that once.
+ * => '1-10, 12, 14-20'
+ */
+function formatKeys(keys: Array<number>): string {
+  return formatGroups(
+    groupWhile(keys.sort(), (a, b) => a + 1 === b).slice(0, 10),
+    '-',
+    ', ',
+    String
+  );
+}
 
 type HasIdType<T> = {
   id: T;
@@ -104,6 +125,7 @@ type CacheEntryType<DBType, HydratedType> =
   | { hydrated: true; fromDB: DBType; item: HydratedType };
 
 type MapFields =
+  | 'kyberPreKeys'
   | 'identityKeys'
   | 'preKeys'
   | 'senderKeys'
@@ -115,8 +137,8 @@ export type SessionTransactionOptions = Readonly<{
 }>;
 
 export type VerifyAlternateIdentityOptionsType = Readonly<{
-  aci: UUID;
-  pni: UUID;
+  aci: AciString;
+  pni: PniString;
   signature: Uint8Array;
 }>;
 
@@ -216,15 +238,20 @@ export class SignalProtocolStore extends EventEmitter {
 
   // Cached values
 
-  private ourIdentityKeys = new Map<UUIDStringType, KeyPairType>();
+  private ourIdentityKeys = new Map<ServiceIdString, KeyPairType>();
 
-  private ourRegistrationIds = new Map<UUIDStringType, number>();
+  private ourRegistrationIds = new Map<ServiceIdString, number>();
 
   private cachedPniSignatureMessage: PniSignatureMessageType | undefined;
 
   identityKeys?: Map<
     IdentityKeyIdType,
     CacheEntryType<IdentityKeyType, PublicKey>
+  >;
+
+  kyberPreKeys?: Map<
+    PreKeyIdType,
+    CacheEntryType<KyberPreKeyType, KyberPreKeyRecord>
   >;
 
   senderKeys?: Map<SenderKeyIdType, SenderKeyCacheEntry>;
@@ -241,6 +268,10 @@ export class SignalProtocolStore extends EventEmitter {
   senderKeyQueues = new Map<QualifiedAddressStringType, PQueue>();
 
   sessionQueues = new Map<SessionIdType, PQueue>();
+
+  sessionQueueJobCounter = 0;
+
+  private readonly identityQueues = new Map<ServiceIdString, PQueue>();
 
   private currentZone?: Zone;
 
@@ -263,9 +294,13 @@ export class SignalProtocolStore extends EventEmitter {
           return;
         }
 
-        for (const key of Object.keys(map.value)) {
-          const { privKey, pubKey } = map.value[key];
-          this.ourIdentityKeys.set(new UUID(key).toString(), {
+        for (const serviceId of Object.keys(map.value)) {
+          strictAssert(
+            isServiceIdString(serviceId),
+            'Invalid identity key serviceId'
+          );
+          const { privKey, pubKey } = map.value[serviceId];
+          this.ourIdentityKeys.set(serviceId, {
             privKey,
             pubKey,
           });
@@ -278,14 +313,23 @@ export class SignalProtocolStore extends EventEmitter {
           return;
         }
 
-        for (const key of Object.keys(map.value)) {
-          this.ourRegistrationIds.set(new UUID(key).toString(), map.value[key]);
+        for (const serviceId of Object.keys(map.value)) {
+          strictAssert(
+            isServiceIdString(serviceId),
+            'Invalid registration id serviceId'
+          );
+          this.ourRegistrationIds.set(serviceId, map.value[serviceId]);
         }
       })(),
       _fillCaches<string, IdentityKeyType, PublicKey>(
         this,
         'identityKeys',
         window.Signal.Data.getAllIdentityKeys()
+      ),
+      _fillCaches<string, KyberPreKeyType, KyberPreKeyRecord>(
+        this,
+        'kyberPreKeys',
+        window.Signal.Data.getAllKyberPreKeys()
       ),
       _fillCaches<string, SessionType, SessionRecord>(
         this,
@@ -310,26 +354,226 @@ export class SignalProtocolStore extends EventEmitter {
     ]);
   }
 
-  getIdentityKeyPair(ourUuid: UUID): KeyPairType | undefined {
-    return this.ourIdentityKeys.get(ourUuid.toString());
+  getIdentityKeyPair(ourServiceId: ServiceIdString): KeyPairType | undefined {
+    return this.ourIdentityKeys.get(ourServiceId);
   }
 
-  async getLocalRegistrationId(ourUuid: UUID): Promise<number | undefined> {
-    return this.ourRegistrationIds.get(ourUuid.toString());
+  async getLocalRegistrationId(
+    ourServiceId: ServiceIdString
+  ): Promise<number | undefined> {
+    return this.ourRegistrationIds.get(ourServiceId);
+  }
+
+  private _getKeyId(
+    ourServiceId: ServiceIdString,
+    keyId: number
+  ): PreKeyIdType {
+    return `${ourServiceId}:${keyId}`;
+  }
+
+  // KyberPreKeys
+
+  private _getKyberPreKeyEntry(
+    id: PreKeyIdType,
+    logContext: string
+  ):
+    | { hydrated: true; fromDB: KyberPreKeyType; item: KyberPreKeyRecord }
+    | undefined {
+    if (!this.kyberPreKeys) {
+      throw new Error(`${logContext}: this.kyberPreKeys not yet cached!`);
+    }
+
+    const entry = this.kyberPreKeys.get(id);
+    if (!entry) {
+      log.error(`${logContext}: Failed to fetch kyber prekey: ${id}`);
+      return undefined;
+    }
+
+    if (entry.hydrated) {
+      log.info(
+        `${logContext}: Successfully fetched kyber prekey (cache hit): ${id}`
+      );
+      return entry;
+    }
+
+    const item = KyberPreKeyRecord.deserialize(Buffer.from(entry.fromDB.data));
+    const newEntry = {
+      hydrated: true as const,
+      fromDB: entry.fromDB,
+      item,
+    };
+    this.kyberPreKeys.set(id, newEntry);
+
+    log.info(
+      `${logContext}: Successfully fetched kyberPreKey (cache miss): ${id}`
+    );
+    return newEntry;
+  }
+
+  async loadKyberPreKey(
+    ourServiceId: ServiceIdString,
+    keyId: number
+  ): Promise<KyberPreKeyRecord | undefined> {
+    const id: PreKeyIdType = this._getKeyId(ourServiceId, keyId);
+    const entry = this._getKyberPreKeyEntry(id, 'loadKyberPreKey');
+
+    return entry?.item;
+  }
+
+  loadKyberPreKeys(
+    ourServiceId: ServiceIdString,
+    { isLastResort }: { isLastResort: boolean }
+  ): Array<KyberPreKeyType> {
+    if (!this.kyberPreKeys) {
+      throw new Error('loadKyberPreKeys: this.kyberPreKeys not yet cached!');
+    }
+
+    if (arguments.length > 2) {
+      throw new Error('loadKyberPreKeys takes two arguments');
+    }
+
+    const entries = Array.from(this.kyberPreKeys.values());
+    return entries
+      .map(item => item.fromDB)
+      .filter(
+        item =>
+          item.ourServiceId === ourServiceId &&
+          item.isLastResort === isLastResort
+      );
+  }
+
+  async confirmKyberPreKey(
+    ourServiceId: ServiceIdString,
+    keyId: number
+  ): Promise<void> {
+    const kyberPreKeyCache = this.kyberPreKeys;
+    if (!kyberPreKeyCache) {
+      throw new Error('storeKyberPreKey: this.kyberPreKeys not yet cached!');
+    }
+
+    const id: PreKeyIdType = this._getKeyId(ourServiceId, keyId);
+    const item = kyberPreKeyCache.get(id);
+    if (!item) {
+      throw new Error(`confirmKyberPreKey: missing kyber prekey ${id}!`);
+    }
+
+    const confirmedItem = {
+      ...item,
+      fromDB: {
+        ...item.fromDB,
+        isConfirmed: true,
+      },
+    };
+
+    await window.Signal.Data.createOrUpdateKyberPreKey(confirmedItem.fromDB);
+    kyberPreKeyCache.set(id, confirmedItem);
+  }
+
+  async storeKyberPreKeys(
+    ourServiceId: ServiceIdString,
+    keys: Array<Omit<KyberPreKeyType, 'id'>>
+  ): Promise<void> {
+    const kyberPreKeyCache = this.kyberPreKeys;
+    if (!kyberPreKeyCache) {
+      throw new Error('storeKyberPreKey: this.kyberPreKeys not yet cached!');
+    }
+
+    const toSave: Array<KyberPreKeyType> = [];
+
+    keys.forEach(key => {
+      const id: PreKeyIdType = this._getKeyId(ourServiceId, key.keyId);
+      if (kyberPreKeyCache.has(id)) {
+        throw new Error(`storeKyberPreKey: kyber prekey ${id} already exists!`);
+      }
+
+      const kyberPreKey = {
+        id,
+
+        createdAt: key.createdAt,
+        data: key.data,
+        isConfirmed: key.isConfirmed,
+        isLastResort: key.isLastResort,
+        keyId: key.keyId,
+        ourServiceId,
+      };
+
+      toSave.push(kyberPreKey);
+    });
+
+    await window.Signal.Data.bulkAddKyberPreKeys(toSave);
+    toSave.forEach(kyberPreKey => {
+      kyberPreKeyCache.set(kyberPreKey.id, {
+        hydrated: false,
+        fromDB: kyberPreKey,
+      });
+    });
+  }
+
+  async maybeRemoveKyberPreKey(
+    ourServiceId: ServiceIdString,
+    keyId: number
+  ): Promise<void> {
+    const id: PreKeyIdType = this._getKeyId(ourServiceId, keyId);
+    const entry = this._getKyberPreKeyEntry(id, 'maybeRemoveKyberPreKey');
+
+    if (!entry) {
+      return;
+    }
+    if (entry.fromDB.isLastResort) {
+      log.info(
+        `maybeRemoveKyberPreKey: Not removing kyber prekey ${id}; it's a last resort key`
+      );
+      return;
+    }
+
+    await this.removeKyberPreKeys(ourServiceId, [keyId]);
+  }
+
+  async removeKyberPreKeys(
+    ourServiceId: ServiceIdString,
+    keyIds: Array<number>
+  ): Promise<void> {
+    const kyberPreKeyCache = this.kyberPreKeys;
+    if (!kyberPreKeyCache) {
+      throw new Error('removeKyberPreKeys: this.kyberPreKeys not yet cached!');
+    }
+
+    const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
+
+    log.info('removeKyberPreKeys: Removing kyber prekeys:', formatKeys(keyIds));
+    const changes = await window.Signal.Data.removeKyberPreKeyById(ids);
+    log.info(`removeKyberPreKeys: Removed ${changes} kyber prekeys`);
+    ids.forEach(id => {
+      kyberPreKeyCache.delete(id);
+    });
+
+    if (kyberPreKeyCache.size < LOW_KEYS_THRESHOLD) {
+      this.emitLowKeys(
+        ourServiceId,
+        `removeKyberPreKeys@${kyberPreKeyCache.size}`
+      );
+    }
+  }
+
+  async clearKyberPreKeyStore(): Promise<void> {
+    if (this.kyberPreKeys) {
+      this.kyberPreKeys.clear();
+    }
+    const changes = await window.Signal.Data.removeAllKyberPreKeys();
+    log.info(`clearKyberPreKeyStore: Removed ${changes} kyber prekeys`);
   }
 
   // PreKeys
 
   async loadPreKey(
-    ourUuid: UUID,
+    ourServiceId: ServiceIdString,
     keyId: number
   ): Promise<PreKeyRecord | undefined> {
     if (!this.preKeys) {
       throw new Error('loadPreKey: this.preKeys not yet cached!');
     }
 
-    const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
-
+    const id: PreKeyIdType = this._getKeyId(ourServiceId, keyId);
     const entry = this.preKeys.get(id);
     if (!entry) {
       log.error('Failed to fetch prekey:', id);
@@ -351,73 +595,104 @@ export class SignalProtocolStore extends EventEmitter {
     return item;
   }
 
-  async storePreKey(
-    ourUuid: UUID,
-    keyId: number,
-    keyPair: KeyPairType
-  ): Promise<void> {
+  loadPreKeys(ourServiceId: ServiceIdString): Array<PreKeyType> {
     if (!this.preKeys) {
+      throw new Error('loadPreKeys: this.preKeys not yet cached!');
+    }
+
+    if (arguments.length > 1) {
+      throw new Error('loadPreKeys takes one argument');
+    }
+
+    const entries = Array.from(this.preKeys.values());
+    return entries
+      .map(item => item.fromDB)
+      .filter(item => item.ourServiceId === ourServiceId);
+  }
+
+  async storePreKeys(
+    ourServiceId: ServiceIdString,
+    keys: Array<CompatPreKeyType>
+  ): Promise<void> {
+    const preKeyCache = this.preKeys;
+    if (!preKeyCache) {
       throw new Error('storePreKey: this.preKeys not yet cached!');
     }
 
-    const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
-    if (this.preKeys.has(id)) {
-      throw new Error(`storePreKey: prekey ${id} already exists!`);
-    }
+    const now = Date.now();
+    const toSave: Array<PreKeyType> = [];
+    keys.forEach(key => {
+      const id: PreKeyIdType = this._getKeyId(ourServiceId, key.keyId);
 
-    const fromDB = {
-      id,
-      keyId,
-      ourUuid: ourUuid.toString(),
-      publicKey: keyPair.pubKey,
-      privateKey: keyPair.privKey,
-    };
+      if (preKeyCache.has(id)) {
+        throw new Error(`storePreKeys: prekey ${id} already exists!`);
+      }
 
-    await window.Signal.Data.createOrUpdatePreKey(fromDB);
-    this.preKeys.set(id, {
-      hydrated: false,
-      fromDB,
+      const preKey = {
+        id,
+        keyId: key.keyId,
+        ourServiceId,
+        publicKey: key.keyPair.pubKey,
+        privateKey: key.keyPair.privKey,
+        createdAt: now,
+      };
+
+      toSave.push(preKey);
+    });
+
+    log.info(`storePreKeys: Saving ${toSave.length} prekeys`);
+    await window.Signal.Data.bulkAddPreKeys(toSave);
+    toSave.forEach(preKey => {
+      preKeyCache.set(preKey.id, {
+        hydrated: false,
+        fromDB: preKey,
+      });
     });
   }
 
-  async removePreKey(ourUuid: UUID, keyId: number): Promise<void> {
-    if (!this.preKeys) {
-      throw new Error('removePreKey: this.preKeys not yet cached!');
+  async removePreKeys(
+    ourServiceId: ServiceIdString,
+    keyIds: Array<number>
+  ): Promise<void> {
+    const preKeyCache = this.preKeys;
+    if (!preKeyCache) {
+      throw new Error('removePreKeys: this.preKeys not yet cached!');
     }
 
-    const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
+    const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
 
-    try {
-      this.emit('removePreKey', ourUuid);
-    } catch (error) {
-      log.error(
-        'removePreKey error triggering removePreKey:',
-        Errors.toLogFormat(error)
-      );
+    log.info('removePreKeys: Removing prekeys:', formatKeys(keyIds));
+
+    const changes = await window.Signal.Data.removePreKeyById(ids);
+    log.info(`removePreKeys: Removed ${changes} prekeys`);
+    ids.forEach(id => {
+      preKeyCache.delete(id);
+    });
+
+    if (preKeyCache.size < LOW_KEYS_THRESHOLD) {
+      this.emitLowKeys(ourServiceId, `removePreKeys@${preKeyCache.size}`);
     }
-
-    this.preKeys.delete(id);
-    await window.Signal.Data.removePreKeyById(id);
   }
 
   async clearPreKeyStore(): Promise<void> {
     if (this.preKeys) {
       this.preKeys.clear();
     }
-    await window.Signal.Data.removeAllPreKeys();
+    const changes = await window.Signal.Data.removeAllPreKeys();
+    log.info(`clearPreKeyStore: Removed ${changes} prekeys`);
   }
 
   // Signed PreKeys
 
   async loadSignedPreKey(
-    ourUuid: UUID,
+    ourServiceId: ServiceIdString,
     keyId: number
   ): Promise<SignedPreKeyRecord | undefined> {
     if (!this.signedPreKeys) {
       throw new Error('loadSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const id: SignedPreKeyIdType = `${ourUuid.toString()}:${keyId}`;
+    const id: SignedPreKeyIdType = `${ourServiceId}:${keyId}`;
 
     const entry = this.signedPreKeys.get(id);
     if (!entry) {
@@ -440,9 +715,9 @@ export class SignalProtocolStore extends EventEmitter {
     return item;
   }
 
-  async loadSignedPreKeys(
-    ourUuid: UUID
-  ): Promise<Array<OuterSignedPrekeyType>> {
+  loadSignedPreKeys(
+    ourServiceId: ServiceIdString
+  ): Array<OuterSignedPrekeyType> {
     if (!this.signedPreKeys) {
       throw new Error('loadSignedPreKeys: this.signedPreKeys not yet cached!');
     }
@@ -453,7 +728,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const entries = Array.from(this.signedPreKeys.values());
     return entries
-      .filter(({ fromDB }) => fromDB.ourUuid === ourUuid.toString())
+      .filter(({ fromDB }) => fromDB.ourServiceId === ourServiceId)
       .map(entry => {
         const preKey = entry.fromDB;
         return {
@@ -466,10 +741,35 @@ export class SignalProtocolStore extends EventEmitter {
       });
   }
 
-  // Note that this is also called in update scenarios, for confirming that signed prekeys
-  //   have indeed been accepted by the server.
+  async confirmSignedPreKey(
+    ourServiceId: ServiceIdString,
+    keyId: number
+  ): Promise<void> {
+    const signedPreKeyCache = this.signedPreKeys;
+    if (!signedPreKeyCache) {
+      throw new Error('storeKyberPreKey: this.signedPreKeys not yet cached!');
+    }
+
+    const id: PreKeyIdType = this._getKeyId(ourServiceId, keyId);
+    const item = signedPreKeyCache.get(id);
+    if (!item) {
+      throw new Error(`confirmSignedPreKey: missing prekey ${id}!`);
+    }
+
+    const confirmedItem = {
+      ...item,
+      fromDB: {
+        ...item.fromDB,
+        confirmed: true,
+      },
+    };
+
+    await window.Signal.Data.createOrUpdateSignedPreKey(confirmedItem.fromDB);
+    signedPreKeyCache.set(id, confirmedItem);
+  }
+
   async storeSignedPreKey(
-    ourUuid: UUID,
+    ourServiceId: ServiceIdString,
     keyId: number,
     keyPair: KeyPairType,
     confirmed?: boolean,
@@ -479,11 +779,11 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('storeSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const id: SignedPreKeyIdType = `${ourUuid.toString()}:${keyId}`;
+    const id: SignedPreKeyIdType = this._getKeyId(ourServiceId, keyId);
 
     const fromDB = {
       id,
-      ourUuid: ourUuid.toString(),
+      ourServiceId,
       keyId,
       publicKey: keyPair.pubKey,
       privateKey: keyPair.privKey,
@@ -498,21 +798,33 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
-  async removeSignedPreKey(ourUuid: UUID, keyId: number): Promise<void> {
-    if (!this.signedPreKeys) {
+  async removeSignedPreKeys(
+    ourServiceId: ServiceIdString,
+    keyIds: Array<number>
+  ): Promise<void> {
+    const signedPreKeyCache = this.signedPreKeys;
+    if (!signedPreKeyCache) {
       throw new Error('removeSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const id: SignedPreKeyIdType = `${ourUuid.toString()}:${keyId}`;
-    this.signedPreKeys.delete(id);
-    await window.Signal.Data.removeSignedPreKeyById(id);
+    const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
+
+    log.info(
+      'removeSignedPreKeys: Removing signed prekeys:',
+      formatKeys(keyIds)
+    );
+    await window.Signal.Data.removeSignedPreKeyById(ids);
+    ids.forEach(id => {
+      signedPreKeyCache.delete(id);
+    });
   }
 
   async clearSignedPreKeysStore(): Promise<void> {
     if (this.signedPreKeys) {
       this.signedPreKeys.clear();
     }
-    await window.Signal.Data.removeAllSignedPreKeys();
+    const changes = await window.Signal.Data.removeAllSignedPreKeys();
+    log.info(`clearSignedPreKeysStore: Removed ${changes} signed prekeys`);
   }
 
   // Sender Key
@@ -702,13 +1014,31 @@ export class SignalProtocolStore extends EventEmitter {
 
   async enqueueSessionJob<T>(
     qualifiedAddress: QualifiedAddress,
+    name: string,
     task: () => Promise<T>,
     zone: Zone = GLOBAL_ZONE
   ): Promise<T> {
+    this.sessionQueueJobCounter += 1;
+    const id = this.sessionQueueJobCounter;
+
+    const waitStart = Date.now();
+
     return this.withZone(zone, 'enqueueSessionJob', async () => {
       const queue = this._getSessionQueue(qualifiedAddress);
 
-      return queue.add<T>(task);
+      const waitTime = Date.now() - waitStart;
+      log.info(
+        `enqueueSessionJob(${id}): queuing task ${name}, waited ${waitTime}ms`
+      );
+      const queueStart = Date.now();
+
+      return queue.add<T>(() => {
+        const queueTime = Date.now() - queueStart;
+        log.info(
+          `enqueueSessionJob(${id}): running task ${name}, waited ${queueTime}ms`
+        );
+        return task();
+      });
     });
   }
 
@@ -729,6 +1059,39 @@ export class SignalProtocolStore extends EventEmitter {
     const freshQueue = this._createSessionQueue();
     this.sessionQueues.set(id.toString(), freshQueue);
     return freshQueue;
+  }
+
+  // Identity Queue
+
+  private _createIdentityQueue(): PQueue {
+    return new PQueue({
+      concurrency: 1,
+      timeout: MINUTE * 30,
+      throwOnTimeout: true,
+    });
+  }
+
+  private _runOnIdentityQueue<T>(
+    serviceId: ServiceIdString,
+    zone: Zone,
+    name: string,
+    body: () => Promise<T>
+  ): Promise<T> {
+    let queue: PQueue;
+
+    const cachedQueue = this.identityQueues.get(serviceId);
+    if (cachedQueue) {
+      queue = cachedQueue;
+    } else {
+      queue = this._createIdentityQueue();
+      this.identityQueues.set(serviceId, queue);
+    }
+
+    // We run the identity queue task in zone because `saveIdentity` needs to
+    // be able to archive sibling sessions on keychange. Not entering the zone
+    // now would mean that we can take locks in different order here and in
+    // MessageReceiver which will lead to a deadlock.
+    return this.withZone(zone, name, () => queue.add(body));
   }
 
   // Sessions
@@ -1012,14 +1375,14 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('_maybeMigrateSession: Unknown session version type!');
     }
 
-    const ourUuid = new UUID(session.ourUuid);
+    const { ourServiceId } = session;
 
-    const keyPair = this.getIdentityKeyPair(ourUuid);
+    const keyPair = this.getIdentityKeyPair(ourServiceId);
     if (!keyPair) {
       throw new Error('_maybeMigrateSession: No identity key for ourself!');
     }
 
-    const localRegistrationId = await this.getLocalRegistrationId(ourUuid);
+    const localRegistrationId = await this.getLocalRegistrationId(ourServiceId);
     if (!isNumber(localRegistrationId)) {
       throw new Error('_maybeMigrateSession: No registration id for ourself!');
     }
@@ -1058,10 +1421,10 @@ export class SignalProtocolStore extends EventEmitter {
       if (qualifiedAddress == null) {
         throw new Error('storeSession: qualifiedAddress was undefined/null');
       }
-      const { uuid, deviceId } = qualifiedAddress;
+      const { serviceId, deviceId } = qualifiedAddress;
 
       const conversation = window.ConversationController.lookupOrCreate({
-        uuid: uuid.toString(),
+        serviceId,
         reason: 'SignalProtocolStore.storeSession',
       });
       strictAssert(
@@ -1074,9 +1437,9 @@ export class SignalProtocolStore extends EventEmitter {
         const fromDB = {
           id,
           version: 2,
-          ourUuid: qualifiedAddress.ourUuid.toString(),
+          ourServiceId: qualifiedAddress.ourServiceId,
           conversationId: conversation.id,
-          uuid: uuid.toString(),
+          serviceId,
           deviceId,
           record: record.serialize().toString('base64'),
         };
@@ -1103,34 +1466,42 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
+  async hasSessionWith(serviceId: ServiceIdString): Promise<boolean> {
+    return this.withZone(GLOBAL_ZONE, 'hasSessionWith', async () => {
+      if (!this.sessions) {
+        throw new Error('getOpenDevices: this.sessions not yet cached!');
+      }
+
+      return this._getAllSessions().some(
+        ({ fromDB }) => fromDB.serviceId === serviceId
+      );
+    });
+  }
+
   async getOpenDevices(
-    ourUuid: UUID,
-    identifiers: ReadonlyArray<string>,
+    ourServiceId: ServiceIdString,
+    serviceIds: ReadonlyArray<ServiceIdString>,
     { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<{
     devices: Array<DeviceType>;
-    emptyIdentifiers: Array<string>;
+    emptyServiceIds: Array<ServiceIdString>;
   }> {
     return this.withZone(zone, 'getOpenDevices', async () => {
       if (!this.sessions) {
         throw new Error('getOpenDevices: this.sessions not yet cached!');
       }
-      if (identifiers.length === 0) {
-        return { devices: [], emptyIdentifiers: [] };
+      if (serviceIds.length === 0) {
+        return { devices: [], emptyServiceIds: [] };
       }
 
       try {
-        const uuidsOrIdentifiers = new Set(
-          identifiers.map(
-            identifier => UUID.lookup(identifier)?.toString() || identifier
-          )
-        );
+        const serviceIdSet = new Set(serviceIds);
 
         const allSessions = this._getAllSessions();
         const entries = allSessions.filter(
           ({ fromDB }) =>
-            fromDB.ourUuid === ourUuid.toString() &&
-            uuidsOrIdentifiers.has(fromDB.uuid)
+            fromDB.ourServiceId === ourServiceId &&
+            serviceIdSet.has(fromDB.serviceId)
         );
         const openEntries: Array<
           | undefined
@@ -1167,25 +1538,25 @@ export class SignalProtocolStore extends EventEmitter {
             }
             const { entry, record } = item;
 
-            const { uuid } = entry.fromDB;
-            uuidsOrIdentifiers.delete(uuid);
+            const { serviceId } = entry.fromDB;
+            serviceIdSet.delete(serviceId);
 
             const id = entry.fromDB.deviceId;
 
             const registrationId = record.remoteRegistrationId();
 
             return {
-              identifier: uuid,
+              serviceId,
               id,
               registrationId,
             };
           })
           .filter(isNotNil);
-        const emptyIdentifiers = Array.from(uuidsOrIdentifiers.values());
+        const emptyServiceIds = Array.from(serviceIdSet.values());
 
         return {
           devices,
-          emptyIdentifiers,
+          emptyServiceIds,
         };
       } catch (error) {
         log.error(
@@ -1198,13 +1569,13 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   async getDeviceIds({
-    ourUuid,
-    identifier,
+    ourServiceId,
+    serviceId,
   }: Readonly<{
-    ourUuid: UUID;
-    identifier: string;
+    ourServiceId: ServiceIdString;
+    serviceId: ServiceIdString;
   }>): Promise<Array<number>> {
-    const { devices } = await this.getOpenDevices(ourUuid, [identifier]);
+    const { devices } = await this.getOpenDevices(ourServiceId, [serviceId]);
     return devices.map((device: DeviceType) => device.id);
   }
 
@@ -1269,25 +1640,27 @@ export class SignalProtocolStore extends EventEmitter {
     );
   }
 
-  async removeSessionsByUUID(uuid: UUIDStringType): Promise<void> {
-    return this.withZone(GLOBAL_ZONE, 'removeSessionsByUUID', async () => {
+  async removeSessionsByServiceId(serviceId: ServiceIdString): Promise<void> {
+    return this.withZone(GLOBAL_ZONE, 'removeSessionsByServiceId', async () => {
       if (!this.sessions) {
-        throw new Error('removeSessionsByUUID: this.sessions not yet cached!');
+        throw new Error(
+          'removeSessionsByServiceId: this.sessions not yet cached!'
+        );
       }
 
-      log.info('removeSessionsByUUID: deleting sessions for', uuid);
+      log.info('removeSessionsByServiceId: deleting sessions for', serviceId);
 
       const entries = Array.from(this.sessions.values());
 
       for (let i = 0, max = entries.length; i < max; i += 1) {
         const entry = entries[i];
-        if (entry.fromDB.uuid === uuid) {
+        if (entry.fromDB.serviceId === serviceId) {
           this.sessions.delete(entry.fromDB.id);
           this.pendingSessions.delete(entry.fromDB.id);
         }
       }
 
-      await window.Signal.Data.removeSessionsByUUID(uuid);
+      await window.Signal.Data.removeSessionsByServiceId(serviceId);
     });
   }
 
@@ -1300,6 +1673,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     await this.enqueueSessionJob(
       addr,
+      `_archiveSession(${addr.toString()})`,
       async () => {
         const item = entry.hydrated
           ? entry.item
@@ -1349,12 +1723,12 @@ export class SignalProtocolStore extends EventEmitter {
         encodedAddress.toString()
       );
 
-      const { uuid, deviceId } = encodedAddress;
+      const { serviceId, deviceId } = encodedAddress;
 
       const allEntries = this._getAllSessions();
       const entries = allEntries.filter(
         entry =>
-          entry.fromDB.uuid === uuid.toString() &&
+          entry.fromDB.serviceId === serviceId &&
           entry.fromDB.deviceId !== deviceId
       );
 
@@ -1366,20 +1740,17 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
-  async archiveAllSessions(uuid: UUID): Promise<void> {
+  async archiveAllSessions(serviceId: ServiceIdString): Promise<void> {
     return this.withZone(GLOBAL_ZONE, 'archiveAllSessions', async () => {
       if (!this.sessions) {
         throw new Error('archiveAllSessions: this.sessions not yet cached!');
       }
 
-      log.info(
-        'archiveAllSessions: archiving all sessions for',
-        uuid.toString()
-      );
+      log.info('archiveAllSessions: archiving all sessions for', serviceId);
 
       const allEntries = this._getAllSessions();
       const entries = allEntries.filter(
-        entry => entry.fromDB.uuid === uuid.toString()
+        entry => entry.fromDB.serviceId === serviceId
       );
 
       await Promise.all(
@@ -1396,7 +1767,8 @@ export class SignalProtocolStore extends EventEmitter {
         this.sessions.clear();
       }
       this.pendingSessions.clear();
-      await window.Signal.Data.removeAllSessions();
+      const changes = await window.Signal.Data.removeAllSessions();
+      log.info(`clearSessionStore: Removed ${changes} sessions`);
     });
   }
 
@@ -1405,7 +1777,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const sessionResets = window.storage.get(
       'sessionResets',
-      <SessionResetsType>{}
+      {} as SessionResetsType
     );
 
     const lastReset = sessionResets[id];
@@ -1422,11 +1794,11 @@ export class SignalProtocolStore extends EventEmitter {
     await window.storage.put('sessionResets', sessionResets);
 
     try {
-      const { uuid } = qualifiedAddress;
+      const { serviceId } = qualifiedAddress;
 
       // First, fetch this conversation
       const conversation = window.ConversationController.lookupOrCreate({
-        uuid: uuid.toString(),
+        serviceId,
         reason: 'SignalProtocolStore.lightSessionReset',
       });
       assertDev(conversation, `lightSessionReset/${id}: missing conversation`);
@@ -1437,13 +1809,13 @@ export class SignalProtocolStore extends EventEmitter {
       await this.archiveSession(qualifiedAddress);
 
       // Enqueue a null message with newly-created session
-      await singleProtoJobQueue.add(
-        MessageSender.getNullMessage({
-          uuid: uuid.toString(),
-        })
-      );
+      await conversationJobQueue.add({
+        type: 'NullMessage',
+        conversationId: conversation.id,
+        idForTracking: id,
+      });
     } catch (error) {
-      // If we failed to do the session reset, then we'll allow another attempt sooner
+      // If we failed to queue the session reset, then we'll allow another attempt sooner
       //   than one hour from now.
       delete sessionResets[id];
       await window.storage.put('sessionResets', sessionResets);
@@ -1457,15 +1829,13 @@ export class SignalProtocolStore extends EventEmitter {
 
   // Identity Keys
 
-  getIdentityRecord(uuid: UUID): IdentityKeyType | undefined {
+  getIdentityRecord(serviceId: ServiceIdString): IdentityKeyType | undefined {
     if (!this.identityKeys) {
       throw new Error('getIdentityRecord: this.identityKeys not yet cached!');
     }
 
-    const id = uuid.toString();
-
     try {
-      const entry = this.identityKeys.get(id);
+      const entry = this.identityKeys.get(serviceId);
       if (!entry) {
         return undefined;
       }
@@ -1473,14 +1843,14 @@ export class SignalProtocolStore extends EventEmitter {
       return entry.fromDB;
     } catch (e) {
       log.error(
-        `getIdentityRecord: Failed to get identity record for identifier ${id}`
+        `getIdentityRecord: Failed to get identity record for serviceId ${serviceId}`
       );
       return undefined;
     }
   }
 
   async getOrMigrateIdentityRecord(
-    uuid: UUID
+    serviceId: ServiceIdString
   ): Promise<IdentityKeyType | undefined> {
     if (!this.identityKeys) {
       throw new Error(
@@ -1488,12 +1858,12 @@ export class SignalProtocolStore extends EventEmitter {
       );
     }
 
-    const result = this.getIdentityRecord(uuid);
+    const result = this.getIdentityRecord(serviceId);
     if (result) {
       return result;
     }
 
-    const newId = uuid.toString();
+    const newId = serviceId;
     const conversation = window.ConversationController.get(newId);
     if (!conversation) {
       return undefined;
@@ -1518,7 +1888,13 @@ export class SignalProtocolStore extends EventEmitter {
     await this._saveIdentityKey(newRecord);
 
     this.identityKeys.delete(record.fromDB.id);
-    await window.Signal.Data.removeIdentityKeyById(record.fromDB.id);
+    const changes = await window.Signal.Data.removeIdentityKeyById(
+      record.fromDB.id
+    );
+
+    log.info(
+      `getOrMigrateIdentityRecord: Removed ${changes} old identity keys for ${record.fromDB.id}`
+    );
 
     return newRecord;
   }
@@ -1536,12 +1912,12 @@ export class SignalProtocolStore extends EventEmitter {
     if (encodedAddress == null) {
       throw new Error('isTrustedIdentity: encodedAddress was undefined/null');
     }
-    const isOurIdentifier = window.textsecure.storage.user.isOurUuid(
-      encodedAddress.uuid
+    const isOurIdentifier = window.textsecure.storage.user.isOurServiceId(
+      encodedAddress.serviceId
     );
 
     const identityRecord = await this.getOrMigrateIdentityRecord(
-      encodedAddress.uuid
+      encodedAddress.serviceId
     );
 
     if (isOurIdentifier) {
@@ -1557,7 +1933,7 @@ export class SignalProtocolStore extends EventEmitter {
     switch (direction) {
       case Direction.Sending:
         return this.isTrustedForSending(
-          encodedAddress.uuid,
+          encodedAddress.serviceId,
           publicKey,
           identityRecord
         );
@@ -1570,14 +1946,14 @@ export class SignalProtocolStore extends EventEmitter {
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L233
   isTrustedForSending(
-    uuid: UUID,
+    serviceId: ServiceIdString,
     publicKey: Uint8Array,
     identityRecord?: IdentityKeyType
   ): boolean {
     if (!identityRecord) {
       // To track key changes across session switches, we save an old identity key on the
       //   conversation.
-      const conversation = window.ConversationController.get(uuid.toString());
+      const conversation = window.ConversationController.get(serviceId);
       const previousIdentityKeyBase64 = conversation?.get(
         'previousIdentityKey'
       );
@@ -1620,11 +1996,13 @@ export class SignalProtocolStore extends EventEmitter {
     return true;
   }
 
-  async loadIdentityKey(uuid: UUID): Promise<Uint8Array | undefined> {
-    if (uuid == null) {
-      throw new Error('loadIdentityKey: uuid was undefined/null');
+  async loadIdentityKey(
+    serviceId: ServiceIdString
+  ): Promise<Uint8Array | undefined> {
+    if (serviceId == null) {
+      throw new Error('loadIdentityKey: serviceId was undefined/null');
     }
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+    const identityRecord = await this.getOrMigrateIdentityRecord(serviceId);
 
     if (identityRecord) {
       return identityRecord.publicKey;
@@ -1633,12 +2011,14 @@ export class SignalProtocolStore extends EventEmitter {
     return undefined;
   }
 
-  async getFingerprint(uuid: UUID): Promise<string | undefined> {
-    if (uuid == null) {
-      throw new Error('loadIdentityKey: uuid was undefined/null');
+  async getFingerprint(
+    serviceId: ServiceIdString
+  ): Promise<string | undefined> {
+    if (serviceId == null) {
+      throw new Error('loadIdentityKey: serviceId was undefined/null');
     }
 
-    const pubKey = await this.loadIdentityKey(uuid);
+    const pubKey = await this.loadIdentityKey(serviceId);
 
     if (!pubKey) {
       return;
@@ -1669,7 +2049,7 @@ export class SignalProtocolStore extends EventEmitter {
     encodedAddress: Address,
     publicKey: Uint8Array,
     nonblockingApproval = false,
-    { zone }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<boolean> {
     if (!this.identityKeys) {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
@@ -1687,94 +2067,110 @@ export class SignalProtocolStore extends EventEmitter {
       nonblockingApproval = false;
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(
-      encodedAddress.uuid
-    );
+    return this._runOnIdentityQueue(
+      encodedAddress.serviceId,
+      zone,
+      'saveIdentity',
+      async () => {
+        const identityRecord = await this.getOrMigrateIdentityRecord(
+          encodedAddress.serviceId
+        );
 
-    const id = encodedAddress.uuid.toString();
+        const id = encodedAddress.serviceId;
+        const logId = `saveIdentity(${id})`;
 
-    if (!identityRecord || !identityRecord.publicKey) {
-      // Lookup failed, or the current key was removed, so save this one.
-      log.info('saveIdentity: Saving new identity...');
-      await this._saveIdentityKey({
-        id,
-        publicKey,
-        firstUse: true,
-        timestamp: Date.now(),
-        verified: VerifiedStatus.DEFAULT,
-        nonblockingApproval,
-      });
+        if (!identityRecord || !identityRecord.publicKey) {
+          // Lookup failed, or the current key was removed, so save this one.
+          log.info(`${logId}: Saving new identity...`);
+          await this._saveIdentityKey({
+            id,
+            publicKey,
+            firstUse: true,
+            timestamp: Date.now(),
+            verified: VerifiedStatus.DEFAULT,
+            nonblockingApproval,
+          });
 
-      this.checkPreviousKey(encodedAddress.uuid, publicKey, 'saveIdentity');
+          this.checkPreviousKey(
+            encodedAddress.serviceId,
+            publicKey,
+            'saveIdentity'
+          );
 
-      return false;
-    }
+          return false;
+        }
 
-    const identityKeyChanged = !constantTimeEqual(
-      identityRecord.publicKey,
-      publicKey
-    );
+        const identityKeyChanged = !constantTimeEqual(
+          identityRecord.publicKey,
+          publicKey
+        );
 
-    if (identityKeyChanged) {
-      const isOurIdentifier = window.textsecure.storage.user.isOurUuid(
-        encodedAddress.uuid
-      );
+        if (identityKeyChanged) {
+          const isOurIdentifier = window.textsecure.storage.user.isOurServiceId(
+            encodedAddress.serviceId
+          );
 
-      if (isOurIdentifier && identityKeyChanged) {
-        log.warn('saveIdentity: ignoring identity for ourselves');
+          if (isOurIdentifier && identityKeyChanged) {
+            log.warn(`${logId}: ignoring identity for ourselves`);
+            return false;
+          }
+
+          log.info(`${logId}: Replacing existing identity...`);
+          const previousStatus = identityRecord.verified;
+          let verifiedStatus;
+          if (
+            previousStatus === VerifiedStatus.VERIFIED ||
+            previousStatus === VerifiedStatus.UNVERIFIED
+          ) {
+            verifiedStatus = VerifiedStatus.UNVERIFIED;
+          } else {
+            verifiedStatus = VerifiedStatus.DEFAULT;
+          }
+
+          await this._saveIdentityKey({
+            id,
+            publicKey,
+            firstUse: false,
+            timestamp: Date.now(),
+            verified: verifiedStatus,
+            nonblockingApproval,
+          });
+
+          // See `addKeyChange` in `ts/models/conversations.ts` for sender key info
+          // update caused by this.
+          try {
+            this.emit(
+              'keychange',
+              encodedAddress.serviceId,
+              'saveIdentity - change'
+            );
+          } catch (error) {
+            log.error(
+              `${logId}: error triggering keychange:`,
+              Errors.toLogFormat(error)
+            );
+          }
+
+          // Pass the zone to facilitate transactional session use in
+          // MessageReceiver.ts
+          await this.archiveSiblingSessions(encodedAddress, {
+            zone,
+          });
+
+          return true;
+        }
+        if (this.isNonBlockingApprovalRequired(identityRecord)) {
+          log.info(`${logId}: Setting approval status...`);
+
+          identityRecord.nonblockingApproval = nonblockingApproval;
+          await this._saveIdentityKey(identityRecord);
+
+          return false;
+        }
+
         return false;
       }
-
-      log.info('saveIdentity: Replacing existing identity...');
-      const previousStatus = identityRecord.verified;
-      let verifiedStatus;
-      if (
-        previousStatus === VerifiedStatus.VERIFIED ||
-        previousStatus === VerifiedStatus.UNVERIFIED
-      ) {
-        verifiedStatus = VerifiedStatus.UNVERIFIED;
-      } else {
-        verifiedStatus = VerifiedStatus.DEFAULT;
-      }
-
-      await this._saveIdentityKey({
-        id,
-        publicKey,
-        firstUse: false,
-        timestamp: Date.now(),
-        verified: verifiedStatus,
-        nonblockingApproval,
-      });
-
-      // See `addKeyChange` in `ts/models/conversations.ts` for sender key info
-      // update caused by this.
-      try {
-        this.emit('keychange', encodedAddress.uuid, 'saveIdentity - change');
-      } catch (error) {
-        log.error(
-          'saveIdentity: error triggering keychange:',
-          Errors.toLogFormat(error)
-        );
-      }
-
-      // Pass the zone to facilitate transactional session use in
-      // MessageReceiver.ts
-      await this.archiveSiblingSessions(encodedAddress, {
-        zone,
-      });
-
-      return true;
-    }
-    if (this.isNonBlockingApprovalRequired(identityRecord)) {
-      log.info('saveIdentity: Setting approval status...');
-
-      identityRecord.nonblockingApproval = nonblockingApproval;
-      await this._saveIdentityKey(identityRecord);
-
-      return false;
-    }
-
-    return false;
+    );
   }
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L257
@@ -1789,19 +2185,36 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   async saveIdentityWithAttributes(
-    uuid: UUID,
+    serviceId: ServiceIdString,
     attributes: Partial<IdentityKeyType>
   ): Promise<void> {
-    if (uuid == null) {
-      throw new Error('saveIdentityWithAttributes: uuid was undefined/null');
+    return this._runOnIdentityQueue(
+      serviceId,
+      GLOBAL_ZONE,
+      'saveIdentityWithAttributes',
+      async () => {
+        return this.saveIdentityWithAttributesOnQueue(serviceId, attributes);
+      }
+    );
+  }
+
+  private async saveIdentityWithAttributesOnQueue(
+    serviceId: ServiceIdString,
+    attributes: Partial<IdentityKeyType>
+  ): Promise<void> {
+    if (serviceId == null) {
+      throw new Error(
+        'saveIdentityWithAttributes: serviceId was undefined/null'
+      );
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
-    const id = uuid.toString();
+    const identityRecord = await this.getOrMigrateIdentityRecord(serviceId);
+    const id = serviceId;
 
     // When saving a PNI identity - don't create a separate conversation
-    const uuidKind = window.textsecure.storage.user.getOurUuidKind(uuid);
-    if (uuidKind !== UUIDKind.PNI) {
+    const serviceIdKind =
+      window.textsecure.storage.user.getOurServiceIdKind(serviceId);
+    if (serviceIdKind !== ServiceIdKind.PNI) {
       window.ConversationController.getOrCreate(id, 'private');
     }
 
@@ -1816,61 +2229,78 @@ export class SignalProtocolStore extends EventEmitter {
     }
   }
 
-  async setApproval(uuid: UUID, nonblockingApproval: boolean): Promise<void> {
-    if (uuid == null) {
-      throw new Error('setApproval: uuid was undefined/null');
+  async setApproval(
+    serviceId: ServiceIdString,
+    nonblockingApproval: boolean
+  ): Promise<void> {
+    if (serviceId == null) {
+      throw new Error('setApproval: serviceId was undefined/null');
     }
     if (typeof nonblockingApproval !== 'boolean') {
       throw new Error('setApproval: Invalid approval status');
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+    return this._runOnIdentityQueue(
+      serviceId,
+      GLOBAL_ZONE,
+      'setApproval',
+      async () => {
+        const identityRecord = await this.getOrMigrateIdentityRecord(serviceId);
 
-    if (!identityRecord) {
-      throw new Error(`setApproval: No identity record for ${uuid}`);
-    }
+        if (!identityRecord) {
+          throw new Error(`setApproval: No identity record for ${serviceId}`);
+        }
 
-    identityRecord.nonblockingApproval = nonblockingApproval;
-    await this._saveIdentityKey(identityRecord);
+        identityRecord.nonblockingApproval = nonblockingApproval;
+        await this._saveIdentityKey(identityRecord);
+      }
+    );
   }
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L215
   // and https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/verify/VerifyDisplayFragment.java#L544
   async setVerified(
-    uuid: UUID,
+    serviceId: ServiceIdString,
     verifiedStatus: number,
     extra: SetVerifiedExtra = {}
   ): Promise<void> {
-    if (uuid == null) {
-      throw new Error('setVerified: uuid was undefined/null');
+    if (serviceId == null) {
+      throw new Error('setVerified: serviceId was undefined/null');
     }
     if (!validateVerifiedStatus(verifiedStatus)) {
       throw new Error('setVerified: Invalid verified status');
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+    return this._runOnIdentityQueue(
+      serviceId,
+      GLOBAL_ZONE,
+      'setVerified',
+      async () => {
+        const identityRecord = await this.getOrMigrateIdentityRecord(serviceId);
 
-    if (!identityRecord) {
-      throw new Error(`setVerified: No identity record for ${uuid.toString()}`);
-    }
+        if (!identityRecord) {
+          throw new Error(`setVerified: No identity record for ${serviceId}`);
+        }
 
-    if (validateIdentityKey(identityRecord)) {
-      await this._saveIdentityKey({
-        ...identityRecord,
-        ...extra,
-        verified: verifiedStatus,
-      });
-    }
+        if (validateIdentityKey(identityRecord)) {
+          await this._saveIdentityKey({
+            ...identityRecord,
+            ...extra,
+            verified: verifiedStatus,
+          });
+        }
+      }
+    );
   }
 
-  async getVerified(uuid: UUID): Promise<number> {
-    if (uuid == null) {
-      throw new Error('getVerified: uuid was undefined/null');
+  async getVerified(serviceId: ServiceIdString): Promise<number> {
+    if (serviceId == null) {
+      throw new Error('getVerified: serviceId was undefined/null');
     }
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+    const identityRecord = await this.getOrMigrateIdentityRecord(serviceId);
     if (!identityRecord) {
-      throw new Error(`getVerified: No identity record for ${uuid}`);
+      throw new Error(`getVerified: No identity record for ${serviceId}`);
     }
 
     const verifiedStatus = identityRecord.verified;
@@ -1885,8 +2315,12 @@ export class SignalProtocolStore extends EventEmitter {
   //   conversation. Whenever we get a new identity key for that contact, we need to
   //   check it against that saved key - no need to pop a key change warning if it is
   //   the same!
-  checkPreviousKey(uuid: UUID, publicKey: Uint8Array, context: string): void {
-    const conversation = window.ConversationController.get(uuid.toString());
+  checkPreviousKey(
+    serviceId: ServiceIdString,
+    publicKey: Uint8Array,
+    context: string
+  ): void {
+    const conversation = window.ConversationController.get(serviceId);
     const previousIdentityKeyBase64 = conversation?.get('previousIdentityKey');
     if (conversation && previousIdentityKeyBase64) {
       const previousIdentityKey = Bytes.fromBase64(previousIdentityKeyBase64);
@@ -1895,7 +2329,7 @@ export class SignalProtocolStore extends EventEmitter {
         if (!constantTimeEqual(previousIdentityKey, publicKey)) {
           this.emit(
             'keychange',
-            uuid,
+            serviceId,
             `${context} - previousIdentityKey check`
           );
         }
@@ -1914,7 +2348,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   // See https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/IdentityDatabase.java#L184
   async updateIdentityAfterSync(
-    uuid: UUID,
+    serviceId: ServiceIdString,
     verifiedStatus: number,
     publicKey: Uint8Array
   ): Promise<boolean> {
@@ -1923,64 +2357,82 @@ export class SignalProtocolStore extends EventEmitter {
       `Invalid verified status: ${verifiedStatus}`
     );
 
-    const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
-    const hadEntry = identityRecord !== undefined;
-    const keyMatches = Boolean(
-      identityRecord?.publicKey &&
-        constantTimeEqual(publicKey, identityRecord.publicKey)
-    );
-    const statusMatches =
-      keyMatches && verifiedStatus === identityRecord?.verified;
-
-    if (!keyMatches || !statusMatches) {
-      await this.saveIdentityWithAttributes(uuid, {
-        publicKey,
-        verified: verifiedStatus,
-        firstUse: !hadEntry,
-        timestamp: Date.now(),
-        nonblockingApproval: true,
-      });
-    }
-    if (!hadEntry) {
-      this.checkPreviousKey(uuid, publicKey, 'updateIdentityAfterSync');
-    } else if (hadEntry && !keyMatches) {
-      try {
-        this.emit('keychange', uuid, 'updateIdentityAfterSync - change');
-      } catch (error) {
-        log.error(
-          'updateIdentityAfterSync: error triggering keychange:',
-          Errors.toLogFormat(error)
+    return this._runOnIdentityQueue(
+      serviceId,
+      GLOBAL_ZONE,
+      'updateIdentityAfterSync',
+      async () => {
+        const identityRecord = await this.getOrMigrateIdentityRecord(serviceId);
+        const hadEntry = identityRecord !== undefined;
+        const keyMatches = Boolean(
+          identityRecord?.publicKey &&
+            constantTimeEqual(publicKey, identityRecord.publicKey)
         );
-      }
-    }
+        const statusMatches =
+          keyMatches && verifiedStatus === identityRecord?.verified;
 
-    // See: https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
-    if (
-      verifiedStatus === VerifiedStatus.VERIFIED &&
-      (!hadEntry || identityRecord?.verified !== VerifiedStatus.VERIFIED)
-    ) {
-      // Needs a notification.
-      return true;
-    }
-    if (
-      verifiedStatus !== VerifiedStatus.VERIFIED &&
-      hadEntry &&
-      identityRecord?.verified === VerifiedStatus.VERIFIED
-    ) {
-      // Needs a notification.
-      return true;
-    }
-    return false;
+        if (!keyMatches || !statusMatches) {
+          await this.saveIdentityWithAttributesOnQueue(serviceId, {
+            publicKey,
+            verified: verifiedStatus,
+            firstUse: !hadEntry,
+            timestamp: Date.now(),
+            nonblockingApproval: true,
+          });
+        }
+        if (!hadEntry) {
+          this.checkPreviousKey(
+            serviceId,
+            publicKey,
+            'updateIdentityAfterSync'
+          );
+        } else if (hadEntry && !keyMatches) {
+          try {
+            this.emit(
+              'keychange',
+              serviceId,
+              'updateIdentityAfterSync - change'
+            );
+          } catch (error) {
+            log.error(
+              'updateIdentityAfterSync: error triggering keychange:',
+              Errors.toLogFormat(error)
+            );
+          }
+        }
+
+        // See: https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
+        if (
+          verifiedStatus === VerifiedStatus.VERIFIED &&
+          (!hadEntry || identityRecord?.verified !== VerifiedStatus.VERIFIED)
+        ) {
+          // Needs a notification.
+          return true;
+        }
+        if (
+          verifiedStatus !== VerifiedStatus.VERIFIED &&
+          hadEntry &&
+          identityRecord?.verified === VerifiedStatus.VERIFIED
+        ) {
+          // Needs a notification.
+          return true;
+        }
+        return false;
+      }
+    );
   }
 
-  isUntrusted(uuid: UUID, timestampThreshold = TIMESTAMP_THRESHOLD): boolean {
-    if (uuid == null) {
-      throw new Error('isUntrusted: uuid was undefined/null');
+  isUntrusted(
+    serviceId: ServiceIdString,
+    timestampThreshold = TIMESTAMP_THRESHOLD
+  ): boolean {
+    if (serviceId == null) {
+      throw new Error('isUntrusted: serviceId was undefined/null');
     }
 
-    const identityRecord = this.getIdentityRecord(uuid);
+    const identityRecord = this.getIdentityRecord(serviceId);
     if (!identityRecord) {
-      throw new Error(`isUntrusted: No identity record for ${uuid.toString()}`);
+      throw new Error(`isUntrusted: No identity record for ${serviceId}`);
     }
 
     if (
@@ -1994,15 +2446,15 @@ export class SignalProtocolStore extends EventEmitter {
     return false;
   }
 
-  async removeIdentityKey(uuid: UUID): Promise<void> {
+  async removeIdentityKey(serviceId: ServiceIdString): Promise<void> {
     if (!this.identityKeys) {
       throw new Error('removeIdentityKey: this.identityKeys not yet cached!');
     }
 
-    const id = uuid.toString();
+    const id = serviceId;
     this.identityKeys.delete(id);
-    await window.Signal.Data.removeIdentityKeyById(id);
-    await this.removeSessionsByUUID(id);
+    await window.Signal.Data.removeIdentityKeyById(serviceId);
+    await this.removeSessionsByServiceId(serviceId);
   }
 
   // Not yet processed messages - for resiliency
@@ -2100,16 +2552,16 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
-  async removeOurOldPni(oldPni: UUID): Promise<void> {
+  async removeOurOldPni(oldPni: PniString): Promise<void> {
     const { storage } = window;
 
     log.info(`SignalProtocolStore.removeOurOldPni(${oldPni})`);
 
     // Update caches
-    this.ourIdentityKeys.delete(oldPni.toString());
-    this.ourRegistrationIds.delete(oldPni.toString());
+    this.ourIdentityKeys.delete(oldPni);
+    this.ourRegistrationIds.delete(oldPni);
 
-    const preKeyPrefix = `${oldPni.toString()}:`;
+    const preKeyPrefix = `${oldPni}:`;
     if (this.preKeys) {
       for (const key of this.preKeys.keys()) {
         if (key.startsWith(preKeyPrefix)) {
@@ -2124,31 +2576,41 @@ export class SignalProtocolStore extends EventEmitter {
         }
       }
     }
+    if (this.kyberPreKeys) {
+      for (const key of this.kyberPreKeys.keys()) {
+        if (key.startsWith(preKeyPrefix)) {
+          this.kyberPreKeys.delete(key);
+        }
+      }
+    }
 
     // Update database
     await Promise.all([
       storage.put(
         'identityKeyMap',
-        omit(storage.get('identityKeyMap') || {}, oldPni.toString())
+        omit(storage.get('identityKeyMap') || {}, oldPni)
       ),
       storage.put(
         'registrationIdMap',
-        omit(storage.get('registrationIdMap') || {}, oldPni.toString())
+        omit(storage.get('registrationIdMap') || {}, oldPni)
       ),
-      window.Signal.Data.removePreKeysByUuid(oldPni.toString()),
-      window.Signal.Data.removeSignedPreKeysByUuid(oldPni.toString()),
+      window.Signal.Data.removePreKeysByServiceId(oldPni),
+      window.Signal.Data.removeSignedPreKeysByServiceId(oldPni),
+      window.Signal.Data.removeKyberPreKeysByServiceId(oldPni),
     ]);
   }
 
   async updateOurPniKeyMaterial(
-    pni: UUID,
+    pni: PniString,
     {
       identityKeyPair: identityBytes,
+      lastResortKyberPreKey: lastResortKyberPreKeyBytes,
       signedPreKey: signedPreKeyBytes,
       registrationId,
     }: PniKeyMaterialType
   ): Promise<void> {
-    log.info(`SignalProtocolStore.updateOurPniKeyMaterial(${pni})`);
+    const logId = `SignalProtocolStore.updateOurPniKeyMaterial(${pni})`;
+    log.info(`${logId}: starting...`);
 
     const identityKeyPair = IdentityKeyPair.deserialize(
       Buffer.from(identityBytes)
@@ -2156,6 +2618,9 @@ export class SignalProtocolStore extends EventEmitter {
     const signedPreKey = SignedPreKeyRecord.deserialize(
       Buffer.from(signedPreKeyBytes)
     );
+    const lastResortKyberPreKey = lastResortKyberPreKeyBytes
+      ? KyberPreKeyRecord.deserialize(Buffer.from(lastResortKyberPreKeyBytes))
+      : undefined;
 
     const { storage } = window;
 
@@ -2163,25 +2628,30 @@ export class SignalProtocolStore extends EventEmitter {
     const pniPrivateKey = identityKeyPair.privateKey.serialize();
 
     // Update caches
-    this.ourIdentityKeys.set(pni.toString(), {
+    this.ourIdentityKeys.set(pni, {
       pubKey: pniPublicKey,
       privKey: pniPrivateKey,
     });
-    this.ourRegistrationIds.set(pni.toString(), registrationId);
+    this.ourRegistrationIds.set(pni, registrationId);
 
     // Update database
     await Promise.all([
       storage.put('identityKeyMap', {
         ...(storage.get('identityKeyMap') || {}),
-        [pni.toString()]: {
+        [pni]: {
           pubKey: pniPublicKey,
           privKey: pniPrivateKey,
         },
       }),
       storage.put('registrationIdMap', {
         ...(storage.get('registrationIdMap') || {}),
-        [pni.toString()]: registrationId,
+        [pni]: registrationId,
       }),
+      async () => {
+        const newId = signedPreKey.id() + 1;
+        log.warn(`${logId}: Updating next signed pre key id to ${newId}`);
+        await storage.put(SIGNED_PRE_KEY_ID_KEY[ServiceIdKind.PNI], newId);
+      },
       this.storeSignedPreKey(
         pni,
         signedPreKey.id(),
@@ -2192,6 +2662,26 @@ export class SignalProtocolStore extends EventEmitter {
         true,
         signedPreKey.timestamp()
       ),
+      async () => {
+        if (!lastResortKyberPreKey) {
+          return;
+        }
+        const newId = lastResortKyberPreKey.id() + 1;
+        log.warn(`${logId}: Updating next kyber pre key id to ${newId}`);
+        await storage.put(KYBER_KEY_ID_KEY[ServiceIdKind.PNI], newId);
+      },
+      lastResortKyberPreKeyBytes && lastResortKyberPreKey
+        ? this.storeKyberPreKeys(pni, [
+            {
+              createdAt: lastResortKyberPreKey.timestamp(),
+              data: lastResortKyberPreKeyBytes,
+              isConfirmed: true,
+              isLastResort: true,
+              keyId: lastResortKyberPreKey.id(),
+              ourServiceId: pni,
+            },
+          ])
+        : undefined,
     ]);
   }
 
@@ -2208,8 +2698,8 @@ export class SignalProtocolStore extends EventEmitter {
     this.emit('removeAllData');
   }
 
-  async removeAllConfiguration(mode: RemoveAllConfiguration): Promise<void> {
-    await window.Signal.Data.removeAllConfiguration(mode);
+  async removeAllConfiguration(): Promise<void> {
+    await window.Signal.Data.removeAllConfiguration();
     await this.hydrateCaches();
 
     window.storage.reset();
@@ -2217,19 +2707,19 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   signAlternateIdentity(): PniSignatureMessageType | undefined {
-    const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
-    const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
-    if (!ourPNI) {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const ourPni = window.textsecure.storage.user.getPni();
+    if (!ourPni) {
       log.error('signAlternateIdentity: No local pni');
       return undefined;
     }
 
-    if (this.cachedPniSignatureMessage?.pni === ourPNI.toString()) {
+    if (this.cachedPniSignatureMessage?.pni === ourPni) {
       return this.cachedPniSignatureMessage;
     }
 
-    const aciKeyPair = this.getIdentityKeyPair(ourACI);
-    const pniKeyPair = this.getIdentityKeyPair(ourPNI);
+    const aciKeyPair = this.getIdentityKeyPair(ourAci);
+    const pniKeyPair = this.getIdentityKeyPair(ourPni);
     if (!aciKeyPair) {
       log.error('signAlternateIdentity: No local ACI key pair');
       return undefined;
@@ -2245,7 +2735,7 @@ export class SignalProtocolStore extends EventEmitter {
     );
     const aciPubKey = PublicKey.deserialize(Buffer.from(aciKeyPair.pubKey));
     this.cachedPniSignatureMessage = {
-      pni: ourPNI.toString(),
+      pni: ourPni,
       signature: pniIdentity.signAlternateIdentity(aciPubKey),
     };
 
@@ -2291,18 +2781,29 @@ export class SignalProtocolStore extends EventEmitter {
 
     return Array.from(union.values());
   }
+
+  private emitLowKeys(ourServiceId: ServiceIdString, source: string) {
+    const logId = `SignalProtocolStore.emitLowKeys/${source}:`;
+    try {
+      log.info(`${logId}: Emitting event`);
+      this.emit('lowKeys', ourServiceId);
+    } catch (error) {
+      log.error(`${logId}: Error thrown from emit`, Errors.toLogFormat(error));
+    }
+  }
+
   //
   // EventEmitter types
   //
 
   public override on(
-    name: 'removePreKey',
-    handler: (ourUuid: UUID) => unknown
+    name: 'lowKeys',
+    handler: (ourServiceId: ServiceIdString) => unknown
   ): this;
 
   public override on(
     name: 'keychange',
-    handler: (theirUuid: UUID, reason: string) => unknown
+    handler: (theirServiceId: ServiceIdString, reason: string) => unknown
   ): this;
 
   public override on(name: 'removeAllData', handler: () => unknown): this;
@@ -2315,11 +2816,11 @@ export class SignalProtocolStore extends EventEmitter {
     return super.on(eventName, listener);
   }
 
-  public override emit(name: 'removePreKey', ourUuid: UUID): boolean;
+  public override emit(name: 'lowKeys', ourServiceid: ServiceIdString): boolean;
 
   public override emit(
     name: 'keychange',
-    theirUuid: UUID,
+    theirServiceId: ServiceIdString,
     reason: string
   ): boolean;
 

@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "Uzlīmju mākslas izveides programma"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "Izveidot jaunu uzlīmju komplektu"
+  },
+  "SignIn--title" : {
+    "message" : "Izveidot uzlīmju komplektu",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "Tāpat kā viss cits vietnē Signal, <linkToBlog>arī uzlīmes ir šifrētas</linkToBlog>. Izmantojiet šo rīku, lai izveidotu savus pielāgotus uzlīmju komplektus.",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "Pieteikšanās kods",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "Atveriet Signal Desktop versiju, lai sāktu",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "Diemžēl jūsu pārlūks netiek atbalstīts. Atveriet šo saiti Firefox vai Chrome pārlūkā",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "Atcelt"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$min",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "Neviena emocijzīme netika atrasta",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "Meklēt emocijzīmes",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "Apdares tonis $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "Smaidiņi; Cilvēki",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "Dzīvnieki un Daba",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "Ēdieni un dzērieni",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "Ceļojumi un vietas",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "Aktivitātes",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "Objekti",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "Simboli",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "Karogi",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "Signal mākslas izveides programma",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "Signal uzlīmju komplekta izveides programma",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "Signal logotips",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "Uzlīmju komplekta izveides programmas vadlīnijas",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "Noklikšķiniet, lai šeit pievienotu vai nomestu attēlus",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "Nomest attēlus šeit",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "Uzlīmju komplekts",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "Uzlīmju komplekts",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "Atcelt",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "Kopēt",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "Tālāk",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "Atpakaļ",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "Pievienot uzlīmes",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "Noņemt attēlu",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "Noklikšķiniet vai velciet/nometiet failu, lai pievienotu uzlīmi",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "Uzlīmēm jābūt PNG, APNG vai WebP formātā ar caurspīdīgu fonu un 512x512 pikseļiem. Ieteicamā piemale ir 16px.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "Skatīt piemales",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "Pievienot emocijzīmi katrai uzlīmei",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "Tādējādi ziņapmaiņas laikā mēs varam ieteikt uzlīmes.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "Vēl tikai dažas lietas…",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "Virsraksts",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "Nosauciet savu uzlīmju komplektu",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "Autors",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "Apakšā ievadiet vārdu, lai iesniegtu savas uzlīmes",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "Titulattēls",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "Šis ir attēls, kas tiks parādīts, kopīgojot uzlīmes",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "Vai tiešām vēlaties augšupielādēt savu uzlīmju komplektu?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "Augšupielādēt",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "Pēc uzlīmju komplekta izveides vairs nevarēs veikt labojumus vai dzēst.",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "Uzlīmju komplekta izveide",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "Augšupielādēti $count$ no $total$",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "Apsveicam! Jūs izveidojāt uzlīmju komplektu.",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "Piekļūstiet savām jaunajām uzlīmēm, izmantojot uzlīmju ikonu, vai kopīgojiet uzlīmes ar draugiem, izmantojot zemāk esošo saiti.",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "Izmantojiet atsauces birku $hashtag$, lai palīdzētu citiem cilvēkiem atrast URL visiem pielāgotajiem uzlīmju komplektiem, kurus vēlaties padarīt publiski pieejamus.",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "Uzlīmju komplekta URL",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "Instalēt",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "Izveidot citu uzlīmju komplektu",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "Apskatiet šo jauno Signal paredzēto uzlīmju komplektu, ko es izveidoju. #izveideprivātiuzlīme",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, zero {Pievienoti {count,number} attēli} one {Pievienots 1 attēls} other {Pievienoti {count,number} attēli}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "Animēta māksla šobrīd netiek atbalstīta",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "Nomestais attēls ir pārāk liels",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "Attēla apstrādes kļūda",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "Animētiem PNG attēliem jābūt kvadrāta formā",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "Animētiem attēliem cikliski jāatkārtojas",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "Animēta PNG attēla izmēri ir pārāk lieli",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "Animēta PNG attēla izmēri ir pārāk mazi",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "Augšupielādējot attēlu, radās kļūda:$message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "Neizdevās pieslēgties serverim: $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "Neizdevās augšupielādēt attēlus, jo beidzās akreditācijas datu derīguma termiņš. Lūdzu, vēlreiz atveriet vietni no Signal Desktop versijas.",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "Saite nokopēta",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "Mana uzlīme gaišajā dizainā",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "Mana uzlīme tumšajā dizainā",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "Lai izmantotu uzlīmju komplekta veidotāju, iestatiet Signal savā tālrunī un datorā",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "Emocijzīme",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "Pielāgot emociju izpausmes",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "Emocijzīmes aizstājvārds",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

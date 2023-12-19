@@ -9,12 +9,26 @@
     input {
       height: 18px;
       width: 18px;
+
+      @include mouse-mode {
+        &:focus,
+        &:active {
+          outline: none;
+        }
+      }
+
+      @include keyboard-mode {
+        &:focus,
+        &:active {
+          outline: 1px solid $color-ultramarine;
+        }
+      }
     }
   }
 
   &__checkbox {
     height: 18px;
-    margin-right: 20px;
+    margin-inline-end: 20px;
     width: 18px;
   }
 

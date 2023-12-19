@@ -1,0 +1,128 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import '../../colors.scss';
+@import '../../mixins.scss';
+@import '../../fonts.scss';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  margin-bottom: 18px;
+  max-width: 448px;
+  width: 100%;
+}
+
+.cover-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 18px;
+  position: relative;
+}
+
+.label {
+  user-select: none;
+  font-size: 13px;
+  font-family: $inter;
+  font-weight: 500;
+  margin: 0;
+
+  @include light-theme() {
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    color: $color-white;
+  }
+}
+
+.cover-image {
+  width: 178px;
+  height: 178px;
+
+  &[data-art-type='emoji'] {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+.cover-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+
+  overflow: hidden;
+  width: 178px;
+  height: 178px;
+
+  border: {
+    radius: 4px;
+    style: solid;
+    width: 1px;
+  }
+
+  @include light-theme() {
+    border-color: $color-gray-60;
+  }
+
+  @include dark-theme() {
+    border-color: $color-gray-25;
+  }
+
+  &[data-drag-active='true'] {
+    @include light-theme() {
+      border-color: $color-ultramarine;
+    }
+
+    @include dark-theme() {
+      border-color: $color-ultramarine-light;
+    }
+  }
+}
+
+.edit-button {
+  position: absolute;
+  top: 6px;
+  inset-inline-end: 6px;
+  content: '';
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+
+  @include light-theme() {
+    background-color: $color-gray-05;
+  }
+
+  @include dark-theme() {
+    background-color: $color-gray-75;
+  }
+
+  &::after {
+    display: block;
+    position: absolute;
+    content: '';
+    width: 24px;
+    height: 24px;
+    top: 5px;
+    inset-inline-start: 5px;
+    mask-image: url(/src/assets/icons/compose-outline-24.svg);
+    mask-size: 22px;
+    -webkit-mask-image: url(/src/assets/icons/compose-outline-24.svg);
+    -webkit-mask-size: 22px;
+
+    @include light-theme() {
+      background: $color-black;
+    }
+
+    @include dark-theme() {
+      background: $color-white-alpha-75;
+    }
+  }
+}

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
+import type { Meta } from '@storybook/react';
 import { UnsupportedOSDialog } from './UnsupportedOSDialog';
 import type { PropsType } from './UnsupportedOSDialog';
 import { setupI18n } from '../util/setupI18n';
@@ -57,7 +57,7 @@ const permutations: ReadonlyArray<{
 
 export default {
   title: 'Components/UnsupportedOSDialog',
-};
+} satisfies Meta<PropsType>;
 
 export function Iterations(): JSX.Element {
   return (

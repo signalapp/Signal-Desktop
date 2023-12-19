@@ -17,6 +17,7 @@ import { themeClassName } from '../../util/theme';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { useRefMerger } from '../../hooks/useRefMerger';
+import { UserText } from '../UserText';
 
 export type OwnProps = {
   readonly className?: string;
@@ -35,6 +36,7 @@ export type OwnProps = {
     stickerId: number,
     url: string
   ) => unknown;
+  readonly onPickTimeSticker?: (style: 'analog' | 'digital') => unknown;
   readonly showIntroduction?: boolean;
   readonly clearShowIntroduction: () => unknown;
   readonly showPickerHint: boolean;
@@ -51,6 +53,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
   clearInstalledStickerPack,
   onClickAddPack,
   onPickSticker,
+  onPickTimeSticker,
   recentStickers,
   onOpenStateChanged,
   receivedPacks,
@@ -109,6 +112,14 @@ export const StickerButton = React.memo(function StickerButtonInner({
       onPickSticker(packId, stickerId, url);
     },
     [setOpen, onPickSticker]
+  );
+
+  const handlePickTimeSticker = React.useCallback(
+    (style: 'analog' | 'digital') => {
+      setOpen(false);
+      onPickTimeSticker?.(style);
+    },
+    [setOpen, onPickTimeSticker]
   );
 
   const handleClose = React.useCallback(() => {
@@ -191,7 +202,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
         return;
       }
 
-      if (commandOrCtrl && shiftKey && (key === 's' || key === 'S')) {
+      if (commandOrCtrl && shiftKey && (key === 'g' || key === 'G')) {
         event.stopPropagation();
         event.preventDefault();
 
@@ -244,7 +255,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
               },
               className
             )}
-            aria-label={i18n('stickers--StickerPicker--Open')}
+            aria-label={i18n('icu:stickers--StickerPicker--Open')}
           />
         )}
       </Reference>
@@ -274,7 +285,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
                 )}
                 <span className="module-sticker-button__tooltip__text">
                   <span className="module-sticker-button__tooltip__text__title">
-                    {installedPack.title}
+                    <UserText text={installedPack.title} />
                   </span>{' '}
                   installed
                 </span>
@@ -308,14 +319,16 @@ export const StickerButton = React.memo(function StickerButtonInner({
                 <img
                   className="module-sticker-button__tooltip--introduction__image"
                   srcSet="images/sticker_splash@1x.png 1x, images/sticker_splash@2x.png 2x"
-                  alt={i18n('stickers--StickerManager--Introduction--Image')}
+                  alt={i18n(
+                    'icu:stickers--StickerManager--Introduction--Image'
+                  )}
                 />
                 <div className="module-sticker-button__tooltip--introduction__meta">
                   <div className="module-sticker-button__tooltip--introduction__meta__title">
-                    {i18n('stickers--StickerManager--Introduction--Title')}
+                    {i18n('icu:stickers--StickerManager--Introduction--Title')}
                   </div>
                   <div className="module-sticker-button__tooltip--introduction__meta__subtitle">
-                    {i18n('stickers--StickerManager--Introduction--Body')}
+                    {i18n('icu:stickers--StickerManager--Introduction--Body')}
                   </div>
                 </div>
                 <div className="module-sticker-button__tooltip--introduction__close">
@@ -323,7 +336,7 @@ export const StickerButton = React.memo(function StickerButtonInner({
                     type="button"
                     className="module-sticker-button__tooltip--introduction__close__button"
                     onClick={handleClearIntroduction}
-                    aria-label={i18n('close')}
+                    aria-label={i18n('icu:close')}
                   />
                 </div>
                 <div
@@ -355,6 +368,9 @@ export const StickerButton = React.memo(function StickerButtonInner({
                       onClickAddPack ? handleClickAddPack : undefined
                     }
                     onPickSticker={handlePickSticker}
+                    onPickTimeSticker={
+                      onPickTimeSticker ? handlePickTimeSticker : undefined
+                    }
                     recentStickers={recentStickers}
                     showPickerHint={showPickerHint}
                   />

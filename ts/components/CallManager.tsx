@@ -15,6 +15,7 @@ import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import type {
   ActiveCallType,
+  CallViewMode,
   GroupCallVideoRequest,
   PresentedSource,
 } from '../types/Calling';
@@ -32,6 +33,8 @@ import type {
   CancelCallType,
   DeclineCallType,
   KeyChangeOkType,
+  SendGroupCallRaiseHandType,
+  SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -41,6 +44,9 @@ import type {
 } from '../state/ducks/calling';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+import { CallingToastProvider } from './CallingToast';
+import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
+import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -48,6 +54,7 @@ export type PropsType = {
   activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
   cancelCall: (_: CancelCallType) => void;
+  changeCallView: (mode: CallViewMode) => void;
   closeNeedPermissionScreen: () => void;
   getGroupCallVideoFrameSource: (
     conversationId: string,
@@ -69,6 +76,9 @@ export type PropsType = {
       };
   keyChangeOk: (_: KeyChangeOkType) => void;
   renderDeviceSelection: () => JSX.Element;
+  renderReactionPicker: (
+    props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
   renderSafetyNumberViewer: (props: SafetyNumberProps) => JSX.Element;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
@@ -77,11 +87,18 @@ export type PropsType = {
   bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
   i18n: LocalizerType;
-  isGroupCallOutboundRingEnabled: boolean;
+  isGroupCallRaiseHandEnabled: boolean;
+  isGroupCallReactionsEnabled: boolean;
   me: ConversationType;
-  notifyForCall: (title: string, isVideoCall: boolean) => unknown;
+  notifyForCall: (
+    conversationId: string,
+    title: string,
+    isVideoCall: boolean
+  ) => unknown;
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
+  sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
+  sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setIsCallActive: (_: boolean) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
@@ -98,9 +115,9 @@ export type PropsType = {
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
-  toggleSpeakerView: () => void;
   isConversationTooBigToRing: boolean;
-};
+  pauseVoiceNotePlayer: () => void;
+} & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
 type ActiveCallManagerPropsType = PropsType & {
   activeCall: ActiveCallType;
@@ -110,10 +127,12 @@ function ActiveCallManager({
   activeCall,
   availableCameras,
   cancelCall,
+  changeCallView,
   closeNeedPermissionScreen,
   hangUpActiveCall,
   i18n,
-  isGroupCallOutboundRingEnabled,
+  isGroupCallRaiseHandEnabled,
+  isGroupCallReactionsEnabled,
   keyChangeOk,
   getGroupCallVideoFrameSource,
   getPreferredBadge,
@@ -121,7 +140,11 @@ function ActiveCallManager({
   me,
   openSystemPreferencesAction,
   renderDeviceSelection,
+  renderEmojiPicker,
+  renderReactionPicker,
   renderSafetyNumberViewer,
+  sendGroupCallRaiseHand,
+  sendGroupCallReaction,
   setGroupCallVideoRequest,
   setLocalAudio,
   setLocalPreview,
@@ -137,13 +160,12 @@ function ActiveCallManager({
   togglePip,
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
-  toggleSpeakerView,
+  pauseVoiceNotePlayer,
 }: ActiveCallManagerPropsType): JSX.Element {
   const {
     conversation,
     hasLocalAudio,
     hasLocalVideo,
-    joinedAt,
     peekedParticipants,
     pip,
     presentingSourcesAvailable,
@@ -157,6 +179,9 @@ function ActiveCallManager({
   }, [cancelCall, conversation.id]);
 
   const joinActiveCall = useCallback(() => {
+    // pause any voice note playback
+    pauseVoiceNotePlayer();
+
     startCall({
       callMode: activeCall.callMode,
       conversationId: conversation.id,
@@ -169,6 +194,7 @@ function ActiveCallManager({
     conversation.id,
     hasLocalAudio,
     hasLocalVideo,
+    pauseVoiceNotePlayer,
   ]);
 
   const getGroupCallVideoFrameSourceForActiveCall = useCallback(
@@ -243,7 +269,6 @@ function ActiveCallManager({
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
           isGroupCall={activeCall.callMode === CallMode.Group}
-          isGroupCallOutboundRingEnabled={isGroupCallOutboundRingEnabled}
           isCallFull={isCallFull}
           isConversationTooBigToRing={isConvoTooBigToRing}
           me={me}
@@ -264,7 +289,7 @@ function ActiveCallManager({
           <CallingParticipantsList
             i18n={i18n}
             onClose={toggleParticipants}
-            ourUuid={me.uuid}
+            ourServiceId={me.serviceId}
             participants={peekedParticipants}
           />
         ) : null}
@@ -312,14 +337,20 @@ function ActiveCallManager({
     <>
       <CallScreen
         activeCall={activeCall}
+        changeCallView={changeCallView}
         getPresentingSources={getPresentingSources}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         groupMembers={groupMembers}
         hangUpActiveCall={hangUpActiveCall}
         i18n={i18n}
-        joinedAt={joinedAt}
+        isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
+        isGroupCallReactionsEnabled={isGroupCallReactionsEnabled}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
+        renderEmojiPicker={renderEmojiPicker}
+        renderReactionPicker={renderReactionPicker}
+        sendGroupCallRaiseHand={sendGroupCallRaiseHand}
+        sendGroupCallReaction={sendGroupCallReaction}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
@@ -335,7 +366,6 @@ function ActiveCallManager({
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSettings={toggleSettings}
-        toggleSpeakerView={toggleSpeakerView}
       />
       {presentingSourcesAvailable && presentingSourcesAvailable.length ? (
         <CallingSelectPresentingSourcesModal
@@ -349,14 +379,14 @@ function ActiveCallManager({
         <CallingParticipantsList
           i18n={i18n}
           onClose={toggleParticipants}
-          ourUuid={me.uuid}
+          ourServiceId={me.serviceId}
           participants={groupCallParticipantsForParticipantsList}
         />
       ) : null}
       {activeCall.callMode === CallMode.Group &&
       activeCall.conversationsWithSafetyNumberChanges.length ? (
         <SafetyNumberChangeDialog
-          confirmText={i18n('continueCall')}
+          confirmText={i18n('icu:continueCall')}
           contacts={[
             {
               story: undefined,
@@ -431,7 +461,11 @@ export function CallManager(props: PropsType): JSX.Element | null {
   if (activeCall) {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
     //   figure that out, so we pass it in again.
-    return <ActiveCallManager {...props} activeCall={activeCall} />;
+    return (
+      <CallingToastProvider i18n={props.i18n}>
+        <ActiveCallManager {...props} activeCall={activeCall} />
+      </CallingToastProvider>
+    );
   }
 
   // In the future, we may want to show the incoming call bar when a call is active.

@@ -36,7 +36,7 @@ export function ChatSessionRefreshedNotification(
 
     const baseUrl =
       'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed';
-    const locale = window.getResolvedMessagesLocale();
+    const locale = window.SignalContext.getResolvedMessagesLocale();
     const supportLocale = mapToSupportLocale(locale);
     const url = baseUrl.replace('LOCALE', supportLocale);
 
@@ -46,14 +46,14 @@ export function ChatSessionRefreshedNotification(
   return (
     <>
       <SystemMessage
-        contents={i18n('ChatRefresh--notification')}
+        contents={i18n('icu:ChatRefresh--notification')}
         button={
           <Button
             onClick={openDialog}
             size={ButtonSize.Small}
             variant={ButtonVariant.SystemMessage}
           >
-            {i18n('ChatRefresh--learnMore')}
+            {i18n('icu:ChatRefresh--learnMore')}
           </Button>
         }
         icon="session-refresh"

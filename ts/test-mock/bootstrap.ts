@@ -6,12 +6,20 @@ import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
 import createDebug from 'debug';
+import pTimeout from 'p-timeout';
+import normalizePath from 'normalize-path';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
-import { Server, UUIDKind, loadCertificates } from '@signalapp/mock-server';
+import {
+  Server,
+  ServiceIdKind,
+  loadCertificates,
+} from '@signalapp/mock-server';
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
+import { drop } from '../util/drop';
 import { App } from './playwright';
+import { CONTACT_COUNT } from './benchmarks/fixtures';
 
 export { App };
 
@@ -33,6 +41,10 @@ const CONTACT_FIRST_NAMES = [
   'Alice',
   'Bob',
   'Charlie',
+  'Danielle',
+  'Elaine',
+  'Frankie',
+  'Grandma',
   'Paul',
   'Steve',
   'William',
@@ -44,13 +56,37 @@ const CONTACT_LAST_NAMES = [
   'Miller',
   'Davis',
   'Lopez',
-  'Gonazales',
+  'Gonzales',
+  'Singh',
+  'Baker',
+  'Farmer',
+];
+
+const CONTACT_SUFFIXES = [
+  'Sr.',
+  'Jr.',
+  'the 3rd',
+  'the 4th',
+  'the 5th',
+  'the 6th',
+  'the 7th',
+  'the 8th',
+  'the 9th',
+  'the 10th',
 ];
 
 const CONTACT_NAMES = new Array<string>();
 for (const firstName of CONTACT_FIRST_NAMES) {
   for (const lastName of CONTACT_LAST_NAMES) {
     CONTACT_NAMES.push(`${firstName} ${lastName}`);
+  }
+}
+
+for (const suffix of CONTACT_SUFFIXES) {
+  for (const firstName of CONTACT_FIRST_NAMES) {
+    for (const lastName of CONTACT_LAST_NAMES) {
+      CONTACT_NAMES.push(`${firstName} ${lastName}, ${suffix}`);
+    }
   }
 }
 
@@ -63,6 +99,7 @@ export type BootstrapOptions = Readonly<{
   linkedDevices?: number;
   contactCount?: number;
   contactsWithoutProfileKey?: number;
+  unknownContactCount?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
 }>;
@@ -73,6 +110,7 @@ type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
     linkedDevices: number;
     contactCount: number;
     contactsWithoutProfileKey: number;
+    unknownContactCount: number;
     contactNames: ReadonlyArray<string>;
   }>;
 
@@ -107,10 +145,12 @@ export class Bootstrap {
   private readonly options: BootstrapInternalOptions;
   private privContacts?: ReadonlyArray<PrimaryDevice>;
   private privContactsWithoutProfileKey?: ReadonlyArray<PrimaryDevice>;
+  private privUnknownContacts?: ReadonlyArray<PrimaryDevice>;
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
   private timestamp: number = Date.now() - durations.WEEK;
+  private lastApp?: App;
 
   constructor(options: BootstrapOptions = {}) {
     this.server = new Server({
@@ -120,18 +160,21 @@ export class Bootstrap {
 
     this.options = {
       linkedDevices: 5,
-      contactCount: MAX_CONTACTS,
+      contactCount: CONTACT_COUNT,
       contactsWithoutProfileKey: 0,
+      unknownContactCount: 0,
       contactNames: CONTACT_NAMES,
       benchmark: false,
 
       ...options,
     };
 
-    assert(
-      this.options.contactCount + this.options.contactsWithoutProfileKey <=
-        this.options.contactNames.length
-    );
+    const totalContactCount =
+      this.options.contactCount +
+      this.options.contactsWithoutProfileKey +
+      this.options.unknownContactCount;
+    assert(totalContactCount <= this.options.contactNames.length);
+    assert(totalContactCount <= MAX_CONTACTS);
   }
 
   public async init(): Promise<void> {
@@ -142,29 +185,36 @@ export class Bootstrap {
     const { port } = this.server.address();
     debug('started server on port=%d', port);
 
-    const contactNames = this.options.contactNames.slice(
-      0,
-      this.options.contactCount + this.options.contactsWithoutProfileKey
-    );
+    const totalContactCount =
+      this.options.contactCount +
+      this.options.contactsWithoutProfileKey +
+      this.options.unknownContactCount;
 
     const allContacts = await Promise.all(
-      contactNames.map(async profileName => {
-        const primary = await this.server.createPrimaryDevice({
-          profileName,
-        });
+      this.options.contactNames
+        .slice(0, totalContactCount)
+        .map(async profileName => {
+          const primary = await this.server.createPrimaryDevice({
+            profileName,
+          });
 
-        for (let i = 0; i < this.options.linkedDevices; i += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          await this.server.createSecondaryDevice(primary);
-        }
+          for (let i = 0; i < this.options.linkedDevices; i += 1) {
+            // eslint-disable-next-line no-await-in-loop
+            await this.server.createSecondaryDevice(primary);
+          }
 
-        return primary;
-      })
+          return primary;
+        })
     );
 
-    this.privContacts = allContacts.slice(0, this.options.contactCount);
-    this.privContactsWithoutProfileKey = allContacts.slice(
-      this.contacts.length
+    this.privContacts = allContacts.splice(0, this.options.contactCount);
+    this.privContactsWithoutProfileKey = allContacts.splice(
+      0,
+      this.options.contactsWithoutProfileKey
+    );
+    this.privUnknownContacts = allContacts.splice(
+      0,
+      this.options.unknownContactCount
     );
 
     this.privPhone = await this.server.createPrimaryDevice({
@@ -176,6 +226,13 @@ export class Bootstrap {
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
 
     debug('setting storage path=%j', this.storagePath);
+  }
+
+  public static benchmark(
+    fn: (bootstrap: Bootstrap) => Promise<void>,
+    timeout = 5 * durations.MINUTE
+  ): void {
+    drop(Bootstrap.runBenchmark(fn, timeout));
   }
 
   public get logsDir(): string {
@@ -191,10 +248,13 @@ export class Bootstrap {
     debug('tearing down');
 
     await Promise.race([
-      this.storagePath
-        ? fs.rm(this.storagePath, { recursive: true })
-        : Promise.resolve(),
-      this.server.close(),
+      Promise.all([
+        this.storagePath
+          ? fs.rm(this.storagePath, { recursive: true })
+          : Promise.resolve(),
+        this.server.close(),
+        this.lastApp?.close(),
+      ]),
       new Promise(resolve => setTimeout(resolve, CLOSE_TIMEOUT).unref()),
     ]);
   }
@@ -218,12 +278,12 @@ export class Bootstrap {
     const desktopKey = await this.desktop.popSingleUseKey();
     await this.phone.addSingleUseKey(this.desktop, desktopKey);
 
-    for (const contact of this.contacts) {
-      for (const uuidKind of [UUIDKind.ACI, UUIDKind.PNI]) {
+    for (const contact of this.allContacts) {
+      for (const serviceIdKind of [ServiceIdKind.ACI, ServiceIdKind.PNI]) {
         // eslint-disable-next-line no-await-in-loop
-        const contactKey = await this.desktop.popSingleUseKey(uuidKind);
+        const contactKey = await this.desktop.popSingleUseKey(serviceIdKind);
         // eslint-disable-next-line no-await-in-loop
-        await contact.addSingleUseKey(this.desktop, contactKey, uuidKind);
+        await contact.addSingleUseKey(this.desktop, contactKey, serviceIdKind);
       }
     }
 
@@ -251,14 +311,44 @@ export class Bootstrap {
     debug('starting the app');
 
     const { port } = this.server.address();
+    const config = await this.generateConfig(port);
 
-    const app = new App({
-      main: ELECTRON,
-      args: [CI_SCRIPT],
-      config: await this.generateConfig(port),
-    });
+    let startAttempts = 0;
+    const MAX_ATTEMPTS = 5;
+    let app: App | undefined;
+    while (!app) {
+      startAttempts += 1;
+      if (startAttempts > MAX_ATTEMPTS) {
+        throw new Error(
+          `App failed to start after ${MAX_ATTEMPTS} times, giving up`
+        );
+      }
+      const startedApp = new App({
+        main: ELECTRON,
+        args: [CI_SCRIPT],
+        config,
+      });
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await startedApp.start();
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `Failed to start the app, attempt ${startAttempts}, retrying`,
+          error
+        );
+        continue;
+      }
 
-    await app.start();
+      this.lastApp = startedApp;
+      startedApp.on('close', () => {
+        if (this.lastApp === startedApp) {
+          this.lastApp = undefined;
+        }
+      });
+
+      app = startedApp;
+    }
 
     return app;
   }
@@ -269,7 +359,20 @@ export class Bootstrap {
     return result;
   }
 
-  public async saveLogs(app?: App): Promise<void> {
+  public async maybeSaveLogs(
+    test?: Mocha.Test,
+    app: App | undefined = this.lastApp
+  ): Promise<void> {
+    const { FORCE_ARTIFACT_SAVE } = process.env;
+    if (test?.state !== 'passed' || FORCE_ARTIFACT_SAVE) {
+      await this.saveLogs(app, test?.fullTitle());
+    }
+  }
+
+  public async saveLogs(
+    app: App | undefined = this.lastApp,
+    pathPrefix?: string
+  ): Promise<void> {
     const { ARTIFACTS_DIR } = process.env;
     if (!ARTIFACTS_DIR) {
       // eslint-disable-next-line no-console
@@ -279,7 +382,12 @@ export class Bootstrap {
 
     await fs.mkdir(ARTIFACTS_DIR, { recursive: true });
 
-    const outDir = await fs.mkdtemp(path.join(ARTIFACTS_DIR, 'logs-'));
+    const normalizedPrefix = pathPrefix
+      ? `-${normalizePath(pathPrefix.replace(/[^a-z]+/gi, '-'))}-`
+      : '';
+    const outDir = await fs.mkdtemp(
+      path.join(ARTIFACTS_DIR, `logs-${normalizedPrefix}`)
+    );
 
     // eslint-disable-next-line no-console
     console.error(`Saving logs to ${outDir}`);
@@ -287,6 +395,12 @@ export class Bootstrap {
     const { logsDir } = this;
     await fs.rename(logsDir, outDir);
 
+    const page = await app?.getWindow();
+    if (process.env.TRACING) {
+      await page
+        ?.context()
+        .tracing.stop({ path: path.join(outDir, 'trace.zip') });
+    }
     if (app) {
       const window = await app.getWindow();
       const screenshot = await window.screenshot();
@@ -329,10 +443,48 @@ export class Bootstrap {
     );
     return this.privContactsWithoutProfileKey;
   }
+  public get unknownContacts(): ReadonlyArray<PrimaryDevice> {
+    assert(
+      this.privUnknownContacts,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+    return this.privUnknownContacts;
+  }
+
+  public get allContacts(): ReadonlyArray<PrimaryDevice> {
+    return [
+      ...this.contacts,
+      ...this.contactsWithoutProfileKey,
+      ...this.unknownContacts,
+    ];
+  }
 
   //
   // Private
   //
+
+  private static async runBenchmark(
+    fn: (bootstrap: Bootstrap) => Promise<void>,
+    timeout: number
+  ): Promise<void> {
+    const bootstrap = new Bootstrap({
+      benchmark: true,
+    });
+
+    await bootstrap.init();
+
+    try {
+      await pTimeout(fn(bootstrap), timeout);
+      if (process.env.FORCE_ARTIFACT_SAVE) {
+        await bootstrap.saveLogs();
+      }
+    } catch (error) {
+      await bootstrap.saveLogs();
+      throw error;
+    } finally {
+      await bootstrap.teardown();
+    }
+  }
 
   private async generateConfig(port: number): Promise<string> {
     const url = `https://127.0.0.1:${port}`;
@@ -340,7 +492,7 @@ export class Bootstrap {
       ...(await loadCertificates()),
 
       forcePreloadBundle: this.options.benchmark,
-      enableCI: true,
+      ciMode: 'full',
 
       buildExpiration: Date.now() + durations.MONTH,
       storagePath: this.storagePath,

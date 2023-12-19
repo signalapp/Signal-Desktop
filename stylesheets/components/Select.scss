@@ -14,8 +14,7 @@
     min-width: 124px;
     outline: 0;
     padding: 10px;
-    padding-left: 12px;
-    padding-right: 32px;
+    padding-inline: 12px 32px;
     text-overflow: ellipsis;
     width: 100%;
 
@@ -29,29 +28,32 @@
       &:focus {
         border: 3px solid $color-ultramarine;
         line-height: 14px;
-        padding-left: 10px;
+        padding-inline-start: 10px;
       }
     }
   }
 
   &::after {
-    border: 2px solid $color-gray-60;
-    border-radius: 2px;
-    border-right: 0;
-    border-top: 0;
     content: ' ';
     display: block;
-    height: 10px;
+    height: 16px;
     pointer-events: none;
     position: absolute;
-    right: 15px;
-    top: 14px;
-    transform-origin: center;
-    transform: rotate(-45deg);
-    width: 10px;
+    inset-inline-end: 8px;
+    top: 11px;
+    width: 16px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/dropdown/dropdown-compact-light.svg',
+        $color-gray-60
+      );
+    }
 
     @include dark-theme {
-      border-color: $color-gray-15;
+      @include color-svg(
+        '../images/icons/v3/dropdown/dropdown-compact-light.svg',
+        $color-gray-15
+      );
     }
   }
 }

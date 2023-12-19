@@ -12,6 +12,7 @@ export type PropsType = {
   contactNameColor?: ContactNameColorType;
   firstName?: string;
   isSignalConversation?: boolean;
+  isMe?: boolean;
   module?: string;
   preferFirstName?: boolean;
   title: string;
@@ -21,6 +22,7 @@ export function ContactName({
   contactNameColor,
   firstName,
   isSignalConversation,
+  isMe,
   module,
   preferFirstName,
   title,
@@ -43,8 +45,8 @@ export function ContactName({
       dir="auto"
     >
       <Emojify text={text} />
-      {isSignalConversation && (
-        <span className="StoryListItem__signal-official" />
+      {(isSignalConversation || isMe) && (
+        <span className="ContactModal__official-badge" />
       )}
     </span>
   );

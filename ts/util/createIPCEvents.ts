@@ -4,7 +4,6 @@
 import { webFrame } from 'electron';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
-import { getStoriesAvailable } from './stories';
 
 import type { ZoomFactorType } from '../types/Storage.d';
 import type {
@@ -19,7 +18,9 @@ import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { parseSystemTraySetting } from '../types/SystemTraySetting';
 
 import type { ConversationType } from '../state/ducks/conversations';
+import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
+import { resolveUsernameByLinkBase64 } from '../services/username';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
@@ -28,17 +29,18 @@ import { renderClearingDataView } from '../shims/renderClearingDataView';
 import * as universalExpireTimer from './universalExpireTimer';
 import { PhoneNumberDiscoverability } from './phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
-import { assertDev } from './assert';
+import { strictAssert, assertDev } from './assert';
 import * as durations from './durations';
 import type { DurationInSeconds } from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
-import {
-  parseE164FromSignalDotMeHash,
-  parseUsernameFromSignalDotMeHash,
-} from './sgnlHref';
-import { lookupConversationWithoutUuid } from './lookupConversationWithoutUuid';
+import * as Registration from './registration';
+import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId';
 import * as log from '../logging/log';
 import { deleteAllMyStories } from './deleteAllMyStories';
+import type { NotificationClickData } from '../services/notifications';
+import { StoryViewModeType, StoryViewTargetType } from '../types/Stories';
+import { isValidE164 } from './isValidE164';
+import { fromWebSafeBase64 } from './webSafeBase64';
 
 type SentMediaQualityType = 'standard' | 'high';
 type ThemeType = 'light' | 'dark' | 'system';
@@ -47,6 +49,7 @@ type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 export type IPCEventsValuesType = {
   alwaysRelayCalls: boolean | undefined;
   audioNotification: boolean | undefined;
+  audioMessage: boolean;
   autoDownloadUpdate: boolean;
   autoLaunch: boolean;
   callRingtoneNotification: boolean;
@@ -57,6 +60,7 @@ export type IPCEventsValuesType = {
   hideMenuBar: boolean | undefined;
   incomingCallNotification: boolean;
   lastSyncTime: number | undefined;
+  localeOverride: string | null;
   notificationDrawAttention: boolean;
   notificationSetting: NotificationSettingType;
   preferredAudioInputDevice: AudioDevice | undefined;
@@ -65,6 +69,7 @@ export type IPCEventsValuesType = {
   sentMediaQualitySetting: SentMediaQualityType;
   spellCheck: boolean;
   systemTraySetting: SystemTraySetting;
+  textFormatting: boolean;
   themeSetting: ThemeType;
   universalExpireTimer: DurationInSeconds;
   zoomFactor: ZoomFactorType;
@@ -86,6 +91,7 @@ export type IPCEventsValuesType = {
 };
 
 export type IPCEventsCallbacksType = {
+  openArtCreator(): Promise<void>;
   getAvailableIODevices(): Promise<{
     availableCameras: Array<
       Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -95,11 +101,14 @@ export type IPCEventsCallbacksType = {
   }>;
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
+  authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => void;
   deleteAllData: () => Promise<void>;
   deleteAllMyStories: () => Promise<void>;
-  closeDB: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
+  getMediaAccessStatus: (
+    mediaType: 'screen' | 'microphone' | 'camera'
+  ) => Promise<string | unknown>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
   isPhoneNumberSharingEnabled: () => boolean;
   isPrimary: () => boolean;
@@ -108,9 +117,13 @@ export type IPCEventsCallbacksType = {
   removeDarkOverlay: () => void;
   resetAllChatColors: () => void;
   resetDefaultChatColor: () => void;
-  showConversationViaSignalDotMe: (hash: string) => Promise<void>;
+  showConversationViaNotification: (data: NotificationClickData) => void;
+  showConversationViaSignalDotMe: (
+    kind: string,
+    value: string
+  ) => Promise<void>;
   showKeyboardShortcuts: () => void;
-  showGroupViaLink: (x: string) => Promise<void>;
+  showGroupViaLink: (value: string) => Promise<void>;
   showReleaseNotes: () => void;
   showStickerPack: (packId: string, key: string) => void;
   shutdown: () => Promise<void>;
@@ -121,7 +134,6 @@ export type IPCEventsCallbacksType = {
     color: ConversationColorType,
     customColor?: { id: string; value: CustomColorType }
   ) => void;
-  shouldShowStoriesSettings: () => boolean;
   getDefaultConversationColor: () => DefaultConversationColorType;
   persistZoomFactor: (factor: number) => Promise<void>;
 };
@@ -137,8 +149,6 @@ type ValuesWithSetters = Omit<
   | 'blockedCount'
   | 'defaultConversationColor'
   | 'linkPreviewSetting'
-  | 'phoneNumberDiscoverabilitySetting'
-  | 'phoneNumberSharingSetting'
   | 'readReceiptSetting'
   | 'typingIndicatorSetting'
   | 'deviceName'
@@ -178,12 +188,49 @@ export type IPCEventsType = IPCEventsGettersType &
 export function createIPCEvents(
   overrideEvents: Partial<IPCEventsType> = {}
 ): IPCEventsType {
+  const setPhoneNumberDiscoverabilitySetting = async (
+    newValue: PhoneNumberDiscoverability
+  ): Promise<void> => {
+    strictAssert(window.textsecure.server, 'WebAPI must be available');
+    await window.storage.put('phoneNumberDiscoverability', newValue);
+    await window.textsecure.server.setPhoneNumberDiscoverability(
+      newValue === PhoneNumberDiscoverability.Discoverable
+    );
+    const account = window.ConversationController.getOurConversationOrThrow();
+    account.captureChange('phoneNumberDiscoverability');
+  };
+
   return {
+    openArtCreator: async () => {
+      const auth = await window.textsecure.server?.getArtAuth();
+      if (!auth) {
+        return;
+      }
+
+      window.openArtCreator(auth);
+    },
+
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
     getZoomFactor: () => window.storage.get('zoomFactor', 1),
     setZoomFactor: async (zoomFactor: ZoomFactorType) => {
       webFrame.setZoomFactor(zoomFactor);
+    },
+
+    setPhoneNumberDiscoverabilitySetting,
+    setPhoneNumberSharingSetting: async (newValue: PhoneNumberSharingMode) => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      const promises = new Array<Promise<void>>();
+      promises.push(window.storage.put('phoneNumberSharingMode', newValue));
+      if (newValue === PhoneNumberSharingMode.Everybody) {
+        promises.push(
+          setPhoneNumberDiscoverabilitySetting(
+            PhoneNumberDiscoverability.Discoverable
+          )
+        );
+      }
+      account.captureChange('phoneNumberSharingMode');
+      await Promise.all(promises);
     },
 
     getHasStoriesDisabled: () =>
@@ -203,6 +250,8 @@ export function createIPCEvents(
     },
     setStoryViewReceiptsEnabled: async (value: boolean) => {
       await window.storage.put('storyViewReceiptsEnabled', value);
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('storyViewReceiptsEnabled');
     },
 
     getPreferredAudioInputDevice: () =>
@@ -268,7 +317,7 @@ export function createIPCEvents(
       };
     },
     getBlockedCount: () =>
-      window.storage.blocked.getBlockedUuids().length +
+      window.storage.blocked.getBlockedServiceIds().length +
       window.storage.blocked.getBlockedGroups().length,
     getDefaultConversationColor: () =>
       window.storage.get(
@@ -321,6 +370,12 @@ export function createIPCEvents(
       return promise;
     },
 
+    getLocaleOverride: () => {
+      return window.storage.get('localeOverride') ?? null;
+    },
+    setLocaleOverride: async (locale: string | null) => {
+      await window.storage.put('localeOverride', locale);
+    },
     getNotificationSetting: () =>
       window.storage.get('notification-setting', 'message'),
     setNotificationSetting: (value: 'message' | 'name' | 'count' | 'off') =>
@@ -329,6 +384,8 @@ export function createIPCEvents(
       window.storage.get('notification-draw-attention', false),
     setNotificationDrawAttention: value =>
       window.storage.put('notification-draw-attention', value),
+    getAudioMessage: () => window.storage.get('audioMessage', false),
+    setAudioMessage: value => window.storage.put('audioMessage', value),
     getAudioNotification: () => window.storage.get('audio-notification'),
     setAudioNotification: value =>
       window.storage.put('audio-notification', value),
@@ -359,6 +416,8 @@ export function createIPCEvents(
     setSpellCheck: value => window.storage.put('spell-check', value),
     getEnterKeySends: () => window.storage.get('enter-key-sends', true),
     setEnterKeySends: value => window.storage.put('enter-key-sends', value),
+    getTextFormatting: () => window.storage.get('textFormatting', true),
+    setTextFormatting: value => window.storage.put('textFormatting', value),
 
     getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
     setAlwaysRelayCalls: value =>
@@ -371,7 +430,6 @@ export function createIPCEvents(
 
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-    shouldShowStoriesSettings: () => getStoriesAvailable(),
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {
         const FIVE_MINUTES = 5 * durations.MINUTE;
@@ -414,6 +472,14 @@ export function createIPCEvents(
       });
       document.body.prepend(newOverlay);
     },
+    authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => {
+      // We can get these events even if the user has never linked this instance.
+      if (!Registration.everDone()) {
+        log.warn('authorizeArtCreator: Not registered, returning early');
+        return;
+      }
+      window.reduxActions.globalModals.showAuthorizeArtCreator(data);
+    },
     removeDarkOverlay: () => {
       const elems = document.querySelectorAll('.dark-overlay');
 
@@ -425,44 +491,61 @@ export function createIPCEvents(
       window.reduxActions.globalModals.showShortcutGuideModal(),
 
     deleteAllData: async () => {
-      await window.Signal.Data.goBackToMainProcess();
-
       renderClearingDataView();
-    },
-
-    closeDB: async () => {
-      await window.Signal.Data.goBackToMainProcess();
     },
 
     showStickerPack: (packId, key) => {
       // We can get these events even if the user has never linked this instance.
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         log.warn('showStickerPack: Not registered, returning early');
         return;
       }
       window.reduxActions.globalModals.showStickerPackPreview(packId, key);
     },
-    showGroupViaLink: async hash => {
+    showGroupViaLink: async value => {
       // We can get these events even if the user has never linked this instance.
-      if (!window.Signal.Util.Registration.everDone()) {
+      if (!Registration.everDone()) {
         log.warn('showGroupViaLink: Not registered, returning early');
         return;
       }
       try {
-        await window.Signal.Groups.joinViaLink(hash);
+        await window.Signal.Groups.joinViaLink(value);
       } catch (error) {
         log.error(
           'showGroupViaLink: Ran into an error!',
           Errors.toLogFormat(error)
         );
         window.reduxActions.globalModals.showErrorModal({
-          title: window.i18n('GroupV2--join--general-join-failure--title'),
-          description: window.i18n('GroupV2--join--general-join-failure'),
+          title: window.i18n('icu:GroupV2--join--general-join-failure--title'),
+          description: window.i18n('icu:GroupV2--join--general-join-failure'),
         });
       }
     },
-    async showConversationViaSignalDotMe(hash: string) {
-      if (!window.Signal.Util.Registration.everDone()) {
+
+    showConversationViaNotification({
+      conversationId,
+      messageId,
+      storyId,
+    }: NotificationClickData) {
+      if (conversationId) {
+        if (storyId) {
+          window.reduxActions.stories.viewStory({
+            storyId,
+            storyViewMode: StoryViewModeType.Single,
+            viewTarget: StoryViewTargetType.Replies,
+          });
+        } else {
+          window.reduxActions.conversations.showConversation({
+            conversationId,
+            messageId: messageId ?? undefined,
+          });
+        }
+      } else {
+        window.reduxActions.app.openInbox();
+      }
+    },
+    async showConversationViaSignalDotMe(kind: string, value: string) {
+      if (!Registration.everDone()) {
         log.info(
           'showConversationViaSignalDotMe: Not registered, returning early'
         );
@@ -471,40 +554,35 @@ export function createIPCEvents(
 
       const { showUserNotFoundModal } = window.reduxActions.globalModals;
 
-      const maybeE164 = parseE164FromSignalDotMeHash(hash);
-      if (maybeE164) {
-        const convoId = await lookupConversationWithoutUuid({
-          type: 'e164',
-          e164: maybeE164,
-          phoneNumber: maybeE164,
-          showUserNotFoundModal,
-          setIsFetchingUUID: noop,
-        });
-        if (convoId) {
-          window.reduxActions.conversations.showConversation({
-            conversationId: convoId,
+      let conversationId: string | undefined;
+
+      if (kind === 'phoneNumber') {
+        if (isValidE164(value, true)) {
+          conversationId = await lookupConversationWithoutServiceId({
+            type: 'e164',
+            e164: value,
+            phoneNumber: value,
+            showUserNotFoundModal,
+            setIsFetchingUUID: noop,
           });
-          return;
         }
-        // We will show not found modal on error
-        return;
+      } else if (kind === 'encryptedUsername') {
+        const usernameBase64 = fromWebSafeBase64(value);
+        const username = await resolveUsernameByLinkBase64(usernameBase64);
+        if (username != null) {
+          conversationId = await lookupConversationWithoutServiceId({
+            type: 'username',
+            username,
+            showUserNotFoundModal,
+            setIsFetchingUUID: noop,
+          });
+        }
       }
 
-      const maybeUsername = parseUsernameFromSignalDotMeHash(hash);
-      if (maybeUsername) {
-        const convoId = await lookupConversationWithoutUuid({
-          type: 'username',
-          username: maybeUsername,
-          showUserNotFoundModal,
-          setIsFetchingUUID: noop,
+      if (conversationId != null) {
+        window.reduxActions.conversations.showConversation({
+          conversationId,
         });
-        if (convoId) {
-          window.reduxActions.conversations.showConversation({
-            conversationId: convoId,
-          });
-          return;
-        }
-        // We will show not found modal on error
         return;
       }
 
@@ -529,6 +607,11 @@ export function createIPCEvents(
       showWhatsNewModal();
     },
 
+    getMediaAccessStatus: async (
+      mediaType: 'screen' | 'microphone' | 'camera'
+    ) => {
+      return window.IPC.getMediaAccessStatus(mediaType);
+    },
     getMediaPermissions: window.IPC.getMediaPermissions,
     getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
 
@@ -541,6 +624,6 @@ export function createIPCEvents(
 
 function showUnknownSgnlLinkModal(): void {
   window.reduxActions.globalModals.showErrorModal({
-    description: window.i18n('unknown-sgnl-link'),
+    description: window.i18n('icu:unknown-sgnl-link'),
   });
 }

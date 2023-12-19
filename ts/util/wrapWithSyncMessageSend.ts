@@ -44,7 +44,7 @@ export async function wrapWithSyncMessageSend({
   } catch (thrown) {
     if (thrown instanceof SendMessageProtoError) {
       didSuccessfullySendOne = Boolean(
-        thrown.successfulIdentifiers && thrown.successfulIdentifiers.length > 0
+        thrown.successfulServiceIds && thrown.successfulServiceIds.length > 0
       );
       error = thrown;
     }
@@ -77,7 +77,7 @@ export async function wrapWithSyncMessageSend({
       await handleMessageSend(
         sender.sendSyncMessage({
           destination: conversation.get('e164'),
-          destinationUuid: conversation.get('uuid'),
+          destinationServiceId: conversation.getServiceId(),
           encodedDataMessage: dataMessage,
           expirationStartTimestamp: null,
           options,

@@ -3,7 +3,8 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './DisappearingTimeDialog';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -12,7 +13,7 @@ import { EXPIRE_TIMERS } from '../test-both/util/expireTimers';
 
 export default {
   title: 'Components/DisappearingTimeDialog',
-};
+} satisfies Meta<PropsType>;
 
 const i18n = setupI18n('en', enMessages);
 

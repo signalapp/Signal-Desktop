@@ -8,9 +8,11 @@ import { useChain, useSpring, useSpringRef } from '@react-spring/web';
 export type ModalConfigType = {
   opacity: number;
   transform?: string;
+  marginTop?: string;
 };
 
 enum ModalState {
+  Opening = 'Opening',
   Open = 'Open',
   Closing = 'Closing',
   Closed = 'Closed',
@@ -31,19 +33,22 @@ export function useAnimated(
   modalStyles: SpringValues<ModalConfigType>;
   overlayStyles: SpringValues<ModalConfigType>;
 } {
-  const [state, setState] = useState(ModalState.Open);
-  const isOpen = state === ModalState.Open;
+  const [state, setState] = useState(ModalState.Opening);
+  const shouldShowModal =
+    state === ModalState.Open || state === ModalState.Opening;
   const isClosed = state === ModalState.Closed;
 
   const modalRef = useSpringRef();
 
   const modalStyles = useSpring({
-    from: getFrom(isOpen),
-    to: getTo(isOpen),
+    from: getFrom(shouldShowModal),
+    to: getTo(shouldShowModal),
     onRest: () => {
       if (state === ModalState.Closing) {
         setState(ModalState.Closed);
         onClose();
+      } else if (state === ModalState.Opening) {
+        setState(ModalState.Open);
       }
     },
     config: {
@@ -59,7 +64,7 @@ export function useAnimated(
 
   const overlayStyles = useSpring({
     from: { opacity: 0 },
-    to: { opacity: isOpen ? 1 : 0 },
+    to: { opacity: shouldShowModal ? 1 : 0 },
     config: {
       clamp: true,
       friction: 22,
@@ -68,7 +73,7 @@ export function useAnimated(
     ref: overlayRef,
   });
 
-  useChain(isOpen ? [overlayRef, modalRef] : [modalRef, overlayRef]);
+  useChain(shouldShowModal ? [overlayRef, modalRef] : [modalRef, overlayRef]);
   const close = useCallback(() => {
     setState(currentState => {
       if (currentState === ModalState.Open) {

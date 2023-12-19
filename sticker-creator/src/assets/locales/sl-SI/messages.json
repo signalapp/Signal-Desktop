@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "Ustvarjalnik nalepk"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "Ustvari nov paket nalepk"
+  },
+  "SignIn--title" : {
+    "message" : "Ustvari paket nalepk",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "Kot vse ostalo pri Signalu, so tudi <linkToBlog>nalepke šifrirane</linkToBlog>. Uporabite to orodje, da ustvarite lastne pakete nalepk po meri.",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "Koda za prijavo",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "Odprite Signal Desktop, da začnete",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "Oprostite, vaš brskalnik ni podprt. Odprite to povezavo v Firefoxu ali Chromu",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "Prekliči"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$ min",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "Najden ni bil noben emoji",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "Poišči emoji",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "Odtenek kože $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "Smeški in ljudje",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "Živali in narava",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "Hrana in pijača",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "Potovanja in kraji",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "Dejavnosti",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "Objekti",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "Simboli",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "Zastave",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "Signalov ustvarjalnik umetnosti",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "Signalov ustvarjalnik paketov nalepk",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "Signalov logotip",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "Smernice za uporabo ustvarjalnika paketov nalepk",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "Za dodajanje slik kliknite ali povlecite sem",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "Spustite slike tukaj",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "Paket nalepk",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "Paket nalepk",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "Prekliči",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "Kopiraj",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "Naprej",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "Nazaj",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "Dodajte svoje nalepke",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "Odstrani sliko",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "Za dodajanje nalepke kliknite ali povlecite/spustite datoteko",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "Nalepke morajo biti v formatu PNG, AONG ali WebP, s prosojnim ozadjem in velikosti 512 x 512 pikslov. Priporočen rob je 16 px.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "Ogled robov",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "Vsaki nalepki dodajte emoji",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "To nam omogoča, da vam med tipkanjem priporočamo nalepke.",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "Samo še nekaj malenkosti ...",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "Naslov",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "Poimenujte svoj paket nalepk",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "Avtor",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "Vnesite ime, pod katerim želite oddati svoje nalepke",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "Naslovna slika",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "Ta slika bo prikazana, ko boste delili svoj paket nalepk z drugimi",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "Ste prepričani, da želite naložiti svoj paket nalepk?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "Naloži",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "Ko je paket nalepk enkrat ustvarjen, ga ni več mogoče popravljati oziroma izbrisati.",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "Ustvarjanje vašega paketa nalepk",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "$count$ od $total$ naloženih",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "Čestitamo! Ustvarili ste paket nalepk.",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "Dostopajte do svojega paketa nalepk preko ikone ali pa ga delite s prijatelji prek spodnje povezave.",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "Da bi ljudje lažje našli URL naslove s paketi nalepk, za katere želite, da so na voljo javnosti, uporabljajte ključnik $hashtag$.",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "URL paketa nalepk",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "Namesti",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "Ustvari nov paket nalepk",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "Poglej si moj novi paket nalepk za Signal! #makeprivacystick",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, one {Dodana je 1 slika} two {Dodani sta {count,number} sliki} few {Dodane so {count,number} slike} other {Dodanih je {count,number} slik}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "Animacija trenutno ni podprta",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "Spuščena slika je prevelika",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "Napaka pri obdelavi slike",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "Animirane PNG slike morajo biti kvadratne oblike",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "Animirane slike se morajo vrteti v neskončnost",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "Animirana PNG slika je prevelika",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "Animirana PNG slika je premajhna",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "Napaka pri nalaganju slik: $message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "Ni mogoče vzpostaviti povezave s strežnikom: $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "Nalaganje slik ni uspelo zaradi pretečenih poverilnic. Znova odprite spletno stran iz aplikacije Signal Desktop.",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "Povezava je kopirana",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "Moja nalepka v svetlem načinu",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "Moja nalepka v temnem načinu",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "Če želite uporabljati ustvarjalnik paketov nalepk, povežite aplikacijo Signal na svojem telefonu s tisto na računalniku",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "Emoji",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "Prilagodi odzive",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "Emoji vzdevek",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

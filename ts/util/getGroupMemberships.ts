@@ -7,7 +7,7 @@ import type {
   GroupV2RequestingMembership,
 } from '../components/conversation/conversation-details/PendingInvites';
 import type { ConversationType } from '../state/ducks/conversations';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import { isConversationUnregistered } from './isConversationUnregistered';
 
 export type GroupMemberships = {
@@ -27,11 +27,13 @@ export const getGroupMemberships = (
       'memberships' | 'pendingApprovalMemberships' | 'pendingMemberships'
     >
   >,
-  getConversationByUuid: (uuid: UUIDStringType) => undefined | ConversationType
+  getConversationByServiceId: (
+    serviceId: ServiceIdString
+  ) => undefined | ConversationType
 ): GroupMemberships => ({
   memberships: memberships.reduce(
     (result: ReadonlyArray<GroupV2Membership>, membership) => {
-      const member = getConversationByUuid(membership.uuid);
+      const member = getConversationByServiceId(membership.aci);
       if (!member) {
         return result;
       }
@@ -41,7 +43,7 @@ export const getGroupMemberships = (
   ),
   pendingApprovalMemberships: pendingApprovalMemberships.reduce(
     (result: ReadonlyArray<GroupV2RequestingMembership>, membership) => {
-      const member = getConversationByUuid(membership.uuid);
+      const member = getConversationByServiceId(membership.aci);
       if (!member || isConversationUnregistered(member)) {
         return result;
       }
@@ -51,7 +53,7 @@ export const getGroupMemberships = (
   ),
   pendingMemberships: pendingMemberships.reduce(
     (result: ReadonlyArray<GroupV2PendingMembership>, membership) => {
-      const member = getConversationByUuid(membership.uuid);
+      const member = getConversationByServiceId(membership.serviceId);
       if (!member || isConversationUnregistered(member)) {
         return result;
       }

@@ -2,44 +2,38 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer as ipc } from 'electron';
-import fs from 'fs-extra';
-import pify from 'pify';
 import PQueue from 'p-queue';
+import { batch } from 'react-redux';
 
-import {
-  compact,
-  fromPairs,
-  groupBy,
-  isFunction,
-  isTypedArray,
-  last,
-  map,
-  omit,
-  toPairs,
-} from 'lodash';
+import { has, get, groupBy, isTypedArray, last, map, omit } from 'lodash';
 
 import { deleteExternalFiles } from '../types/Conversation';
 import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
 import * as Bytes from '../Bytes';
 import { createBatcher } from '../util/batcher';
-import { explodePromise } from '../util/explodePromise';
-import { assertDev, softAssert, strictAssert } from '../util/assert';
+import { assertDev, softAssert } from '../util/assert';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec';
 import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
 import { cleanDataForIpc } from './cleanDataForIpc';
-import type { UUIDStringType } from '../types/UUID';
+import type { AciString, ServiceIdString } from '../types/ServiceId';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
-import { isValidUuid } from '../types/UUID';
+import { isValidUuid } from '../util/isValidUuid';
 import * as Errors from '../types/errors';
 
 import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
-import { cleanupMessage } from '../util/cleanup';
+import {
+  cleanupMessage,
+  cleanupMessageFromMemory,
+  deleteMessageData,
+} from '../util/cleanup';
 import { drop } from '../util/drop';
+import { ipcInvoke, doShutdown } from './channels';
 
 import type {
+  AdjacentMessagesByConversationOptionsType,
   AllItemsType,
   AttachmentDownloadJobType,
   ClientInterface,
@@ -47,6 +41,7 @@ import type {
   ClientSearchResultMessageType,
   ConversationType,
   GetConversationRangeCenteredOnMessageResultType,
+  GetRecentStoryRepliesOptionsType,
   IdentityKeyIdType,
   IdentityKeyType,
   StoredIdentityKeyType,
@@ -63,17 +58,15 @@ import type {
   SignedPreKeyIdType,
   SignedPreKeyType,
   StoredSignedPreKeyType,
+  KyberPreKeyType,
+  StoredKyberPreKeyType,
 } from './Interface';
-import Server from './Server';
-import { isCorruptionError } from './errors';
 import { MINUTE } from '../util/durations';
 import { getMessageIdForLogging } from '../util/idForLogging';
+import type { MessageAttributesType } from '../model-types';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { generateSnippetAroundMention } from '../util/search';
 
-const getRealPath = pify(fs.realpath);
-
-const MIN_TRACE_DURATION = 10;
-
-const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
 const ERASE_STICKERS_KEY = 'erase-stickers';
@@ -82,97 +75,16 @@ const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 const ENSURE_FILE_PERMISSIONS = 'ensure-file-permissions';
 
-enum RendererState {
-  InMain = 'InMain',
-  Opening = 'Opening',
-  InRenderer = 'InRenderer',
-  Closing = 'Closing',
-}
-
-let activeJobCount = 0;
-let resolveShutdown: (() => void) | undefined;
-let shutdownPromise: Promise<void> | null = null;
-
-let state = RendererState.InMain;
-const startupQueries = new Map<string, number>();
-
-async function startInRendererProcess(isTesting = false): Promise<void> {
-  strictAssert(
-    state === RendererState.InMain,
-    `startInRendererProcess: expected ${state} to be ${RendererState.InMain}`
-  );
-
-  log.info('data.startInRendererProcess: switching to renderer process');
-  state = RendererState.Opening;
-
-  if (!isTesting) {
-    await ipc.invoke('database-ready');
-  }
-
-  const configDir = await getRealPath(ipc.sendSync('get-user-data-path'));
-  const key = ipc.sendSync('user-config-key');
-
-  await Server.initializeRenderer({ configDir, key });
-
-  log.info('data.startInRendererProcess: switched to renderer process');
-
-  state = RendererState.InRenderer;
-}
-
-async function goBackToMainProcess(): Promise<void> {
-  if (state === RendererState.InMain) {
-    log.info('goBackToMainProcess: Already in the main process');
-    return;
-  }
-
-  strictAssert(
-    state === RendererState.InRenderer,
-    `goBackToMainProcess: expected ${state} to be ${RendererState.InRenderer}`
-  );
-
-  // We don't need to wait for pending queries since they are synchronous.
-  log.info('data.goBackToMainProcess: switching to main process');
-  const closePromise = channels.close();
-
-  // It should be the last query we run in renderer process
-  state = RendererState.Closing;
-  await closePromise;
-  state = RendererState.InMain;
-
-  // Print query statistics for whole startup
-  const entries = Array.from(startupQueries.entries());
-  startupQueries.clear();
-
-  // Sort by decreasing duration
-  entries
-    .sort((a, b) => b[1] - a[1])
-    .filter(([_, duration]) => duration > MIN_TRACE_DURATION)
-    .forEach(([query, duration]) => {
-      log.info(`startup query: ${query} ${duration}ms`);
-    });
-
-  log.info('data.goBackToMainProcess: switched to main process');
-}
-
-const channelsAsUnknown = fromPairs(
-  compact(
-    map(toPairs(Server), ([name, value]: [string, unknown]) => {
-      if (isFunction(value)) {
-        return [name, makeChannel(name)];
-      }
-
-      return null;
-    })
-  )
-) as unknown;
-
-const channels: ServerInterface = channelsAsUnknown as ServerInterface;
-
 const exclusiveInterface: ClientExclusiveInterface = {
   createOrUpdateIdentityKey,
   getIdentityKeyById,
   bulkAddIdentityKeys,
   getAllIdentityKeys,
+
+  createOrUpdateKyberPreKey,
+  getKyberPreKeyById,
+  bulkAddKyberPreKeys,
+  getAllKyberPreKeys,
 
   createOrUpdatePreKey,
   getPreKeyById,
@@ -192,13 +104,15 @@ const exclusiveInterface: ClientExclusiveInterface = {
   removeConversation,
 
   searchMessages,
-  searchMessagesInConversation,
 
+  getRecentStoryReplies,
   getOlderMessagesByConversation,
   getConversationRangeCenteredOnMessage,
   getNewerMessagesByConversation,
 
   // Client-side only
+
+  flushUpdateConversationBatcher,
 
   shutdown,
   removeAllMessagesInConversation,
@@ -206,28 +120,52 @@ const exclusiveInterface: ClientExclusiveInterface = {
   removeOtherData,
   cleanupOrphanedAttachments,
   ensureFilePermissions,
-
-  // Client-side only, and test-only
-
-  startInRendererProcess,
-  goBackToMainProcess,
 };
 
-// Because we can't force this module to conform to an interface, we narrow our exports
-//   to this one default export, which does conform to the interface.
-// Note: In Javascript, you need to access the .default property when requiring it
-// https://github.com/microsoft/TypeScript/issues/420
-const dataInterface: ClientInterface = {
-  ...channels,
-  ...exclusiveInterface,
+type ClientOverridesType = ClientExclusiveInterface &
+  Pick<
+    ServerInterface,
+    | 'removeMessage'
+    | 'removeMessages'
+    | 'saveAttachmentDownloadJob'
+    | 'saveMessage'
+    | 'saveMessages'
+    | 'updateConversations'
+  >;
 
-  // Overrides
-  updateConversations,
+const channels: ServerInterface = new Proxy({} as ServerInterface, {
+  get(_target, name) {
+    return async (...args: ReadonlyArray<unknown>) =>
+      ipcInvoke(String(name), args);
+  },
+});
+
+const clientExclusiveOverrides: ClientOverridesType = {
+  ...exclusiveInterface,
+  removeMessage,
+  removeMessages,
+  saveAttachmentDownloadJob,
   saveMessage,
   saveMessages,
-  removeMessage,
-  saveAttachmentDownloadJob,
+  updateConversations,
 };
+
+const dataInterface: ClientInterface = new Proxy(
+  {
+    ...clientExclusiveOverrides,
+  } as ClientInterface,
+  {
+    get(target, name) {
+      return async (...args: ReadonlyArray<unknown>) => {
+        if (has(target, name)) {
+          return get(target, name)(...args);
+        }
+
+        return get(channels, name)(...args);
+      };
+    },
+  }
+);
 
 export default dataInterface;
 
@@ -250,7 +188,7 @@ export function _cleanMessageData(data: MessageType): MessageType {
   // Ensure that all messages have the received_at set properly
   if (!data.received_at) {
     assertDev(false, 'received_at was not set on the message');
-    result.received_at = window.Signal.Util.incrementMessageCounter();
+    result.received_at = incrementMessageCounter();
   }
   if (data.attachments) {
     const logId = getMessageIdForLogging(data);
@@ -262,98 +200,34 @@ export function _cleanMessageData(data: MessageType): MessageType {
         return omit(attachment, ['data']);
       }
 
+      if (attachment.screenshotData) {
+        assertDev(
+          false,
+          `_cleanMessageData/${logId}: Attachment ${index} had screenshotData field; deleting`
+        );
+        return omit(attachment, ['screenshotData']);
+      }
+
+      if (attachment.screenshot?.data) {
+        assertDev(
+          false,
+          `_cleanMessageData/${logId}: Attachment ${index} had screenshot.data field; deleting`
+        );
+        return omit(attachment, ['screenshot.data']);
+      }
+
+      if (attachment.thumbnail?.data) {
+        assertDev(
+          false,
+          `_cleanMessageData/${logId}: Attachment ${index} had thumbnail.data field; deleting`
+        );
+        return omit(attachment, ['thumbnail.data']);
+      }
+
       return attachment;
     });
   }
   return _cleanData(omit(result, ['dataMessage']));
-}
-
-async function doShutdown() {
-  log.info(
-    `data.shutdown: shutdown requested. ${activeJobCount} jobs outstanding`
-  );
-
-  if (shutdownPromise) {
-    return shutdownPromise;
-  }
-
-  // No outstanding jobs, return immediately
-  if (activeJobCount === 0) {
-    return;
-  }
-
-  ({ promise: shutdownPromise, resolve: resolveShutdown } =
-    explodePromise<void>());
-
-  try {
-    await shutdownPromise;
-  } finally {
-    log.info('data.shutdown: process complete');
-  }
-}
-
-function makeChannel(fnName: string) {
-  return async (...args: ReadonlyArray<unknown>) => {
-    // During startup we want to avoid the high overhead of IPC so we utilize
-    // the db that exists in the renderer process to be able to boot up quickly
-    // once the app is running we switch back to the main process to avoid the
-    // UI from locking up whenever we do costly db operations.
-    if (state === RendererState.InRenderer) {
-      const serverFnName = fnName as keyof ServerInterface;
-      const serverFn = Server[serverFnName] as (
-        ...fnArgs: ReadonlyArray<unknown>
-      ) => unknown;
-      const start = Date.now();
-
-      try {
-        // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
-        return await serverFn(...args);
-      } catch (error) {
-        if (isCorruptionError(error)) {
-          log.error(
-            'Detected sql corruption in renderer process. ' +
-              `Restarting the application immediately. Error: ${error.message}`
-          );
-          ipc?.send('database-error', error.stack);
-        }
-        log.error(
-          `Renderer SQL channel job (${fnName}) error ${error.message}`
-        );
-        throw error;
-      } finally {
-        const duration = Date.now() - start;
-
-        startupQueries.set(
-          serverFnName,
-          (startupQueries.get(serverFnName) || 0) + duration
-        );
-
-        if (duration > MIN_TRACE_DURATION) {
-          log.info(
-            `Renderer SQL channel job (${fnName}) completed in ${duration}ms`
-          );
-        }
-      }
-    }
-
-    if (shutdownPromise && fnName !== 'close') {
-      throw new Error(
-        `Rejecting SQL channel job (${fnName}); application is shutting down`
-      );
-    }
-
-    activeJobCount += 1;
-    return createTaskWithTimeout(async () => {
-      try {
-        return await ipc.invoke(SQL_CHANNEL_KEY, fnName, ...args);
-      } finally {
-        activeJobCount -= 1;
-        if (activeJobCount === 0) {
-          resolveShutdown?.();
-        }
-      }
-    }, `SQL channel call (${fnName})`)();
-  };
 }
 
 function specToBytes<Input, Output>(
@@ -412,6 +286,37 @@ async function getAllIdentityKeys(): Promise<Array<IdentityKeyType>> {
   const keys = await channels.getAllIdentityKeys();
 
   return keys.map(key => specToBytes(IDENTITY_KEY_SPEC, key));
+}
+
+// Kyber Pre Keys
+
+const KYBER_PRE_KEY_SPEC = ['data'];
+async function createOrUpdateKyberPreKey(data: KyberPreKeyType): Promise<void> {
+  const updated: StoredKyberPreKeyType = specFromBytes(
+    KYBER_PRE_KEY_SPEC,
+    data
+  );
+  await channels.createOrUpdateKyberPreKey(updated);
+}
+async function getKyberPreKeyById(
+  id: PreKeyIdType
+): Promise<KyberPreKeyType | undefined> {
+  const data = await channels.getPreKeyById(id);
+
+  return specToBytes(KYBER_PRE_KEY_SPEC, data);
+}
+async function bulkAddKyberPreKeys(
+  array: Array<KyberPreKeyType>
+): Promise<void> {
+  const updated: Array<StoredKyberPreKeyType> = map(array, data =>
+    specFromBytes(KYBER_PRE_KEY_SPEC, data)
+  );
+  await channels.bulkAddKyberPreKeys(updated);
+}
+async function getAllKyberPreKeys(): Promise<Array<KyberPreKeyType>> {
+  const keys = await channels.getAllKyberPreKeys();
+
+  return keys.map(key => specToBytes(KYBER_PRE_KEY_SPEC, key));
 }
 
 // Pre Keys
@@ -483,6 +388,7 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   subscriberId: ['value'],
+  usernameLink: ['value.entropy', 'value.serverId'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: ItemType<K>
@@ -507,7 +413,12 @@ async function getItemById<K extends ItemKeyType>(
   const spec = ITEM_SPECS[id];
   const data = await channels.getItemById(id);
 
-  return spec ? specToBytes(spec, data) : (data as unknown as ItemType<K>);
+  try {
+    return spec ? specToBytes(spec, data) : (data as unknown as ItemType<K>);
+  } catch (error) {
+    log.warn(`getItemById(${id}): Failed to parse item from spec`, error);
+    return undefined;
+  }
 }
 async function getAllItems(): Promise<AllItemsType> {
   const items = await channels.getAllItems();
@@ -520,11 +431,15 @@ async function getAllItems(): Promise<AllItemsType> {
 
     const keys = ITEM_SPECS[key];
 
-    const deserializedValue = keys
-      ? (specToBytes(keys, { value }) as ItemType<typeof key>).value
-      : value;
+    try {
+      const deserializedValue = keys
+        ? (specToBytes(keys, { value }) as ItemType<typeof key>).value
+        : value;
 
-    result[key] = deserializedValue;
+      result[key] = deserializedValue;
+    } catch (error) {
+      log.warn(`getAllItems(${id}): Failed to parse item from spec`, error);
+    }
   }
 
   return result;
@@ -552,6 +467,9 @@ const updateConversationBatcher = createBatcher<ConversationType>({
 
 function updateConversation(data: ConversationType): void {
   updateConversationBatcher.add(data);
+}
+async function flushUpdateConversationBatcher(): Promise<void> {
+  await updateConversationBatcher.flushAndWait();
 }
 
 async function updateConversations(
@@ -581,36 +499,48 @@ async function removeConversation(id: string): Promise<void> {
 function handleSearchMessageJSON(
   messages: Array<ServerSearchResultMessageType>
 ): Array<ClientSearchResultMessageType> {
-  return messages.map(message => ({
-    json: message.json,
+  return messages.map<ClientSearchResultMessageType>(message => {
+    const parsedMessage = JSON.parse(message.json);
+    assertDev(
+      message.ftsSnippet ?? typeof message.mentionStart === 'number',
+      'Neither ftsSnippet nor matching mention returned from message search'
+    );
+    const snippet =
+      message.ftsSnippet ??
+      generateSnippetAroundMention({
+        body: parsedMessage.body,
+        mentionStart: message.mentionStart ?? 0,
+        mentionLength: message.mentionLength ?? 1,
+      });
 
-    // Empty array is a default value. `message.json` has the real field
-    bodyRanges: [],
+    return {
+      json: message.json,
 
-    ...JSON.parse(message.json),
-    snippet: message.snippet,
-  }));
+      // Empty array is a default value. `message.json` has the real field
+      bodyRanges: [],
+      ...parsedMessage,
+      snippet,
+    };
+  });
 }
 
-async function searchMessages(
-  query: string,
-  { limit }: { limit?: number } = {}
-): Promise<Array<ClientSearchResultMessageType>> {
-  const messages = await channels.searchMessages(query, { limit });
-
-  return handleSearchMessageJSON(messages);
-}
-
-async function searchMessagesInConversation(
-  query: string,
-  conversationId: string,
-  { limit }: { limit?: number } = {}
-): Promise<Array<ClientSearchResultMessageType>> {
-  const messages = await channels.searchMessagesInConversation(
+async function searchMessages({
+  query,
+  options,
+  contactServiceIdsMatchingQuery,
+  conversationId,
+}: {
+  query: string;
+  options?: { limit?: number };
+  contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
+  conversationId?: string;
+}): Promise<Array<ClientSearchResultMessageType>> {
+  const messages = await channels.searchMessages({
     query,
     conversationId,
-    { limit }
-  );
+    options,
+    contactServiceIdsMatchingQuery,
+  });
 
   return handleSearchMessageJSON(messages);
 }
@@ -622,7 +552,7 @@ async function saveMessage(
   options: {
     jobToInsert?: Readonly<StoredJob>;
     forceSave?: boolean;
-    ourUuid: UUIDStringType;
+    ourAci: AciString;
   }
 ): Promise<string> {
   const id = await channels.saveMessage(_cleanMessageData(data), {
@@ -640,7 +570,7 @@ async function saveMessage(
 
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
-  options: { forceSave?: boolean; ourUuid: UUIDStringType }
+  options: { forceSave?: boolean; ourAci: AciString }
 ): Promise<void> {
   await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
@@ -662,6 +592,35 @@ async function removeMessage(id: string): Promise<void> {
   }
 }
 
+async function _cleanupMessages(
+  messages: ReadonlyArray<MessageAttributesType>
+): Promise<void> {
+  // First, remove messages from memory, so we can batch the updates in redux
+  batch(() => {
+    messages.forEach(message => cleanupMessageFromMemory(message));
+  });
+
+  // Then, handle any asynchronous actions (e.g. deleting data from disk)
+  const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
+  drop(
+    queue.addAll(
+      messages.map(
+        (message: MessageAttributesType) => async () =>
+          deleteMessageData(message)
+      )
+    )
+  );
+  await queue.onIdle();
+}
+
+async function removeMessages(
+  messageIds: ReadonlyArray<string>
+): Promise<void> {
+  const messages = await channels.getMessagesById(messageIds);
+  await _cleanupMessages(messages);
+  await channels.removeMessages(messageIds);
+}
+
 function handleMessageJSON(
   messages: Array<MessageTypeUnhydrated>
 ): Array<MessageType> {
@@ -669,77 +628,33 @@ function handleMessageJSON(
 }
 
 async function getNewerMessagesByConversation(
-  conversationId: string,
-  {
-    includeStoryReplies,
-    limit = 100,
-    receivedAt = 0,
-    sentAt = 0,
-    storyId,
-  }: {
-    includeStoryReplies: boolean;
-    limit?: number;
-    receivedAt?: number;
-    sentAt?: number;
-    storyId: UUIDStringType | undefined;
-  }
+  options: AdjacentMessagesByConversationOptionsType
 ): Promise<Array<MessageType>> {
-  const messages = await channels.getNewerMessagesByConversation(
-    conversationId,
-    {
-      includeStoryReplies,
-      limit,
-      receivedAt,
-      sentAt,
-      storyId,
-    }
-  );
+  const messages = await channels.getNewerMessagesByConversation(options);
+
+  return handleMessageJSON(messages);
+}
+
+async function getRecentStoryReplies(
+  storyId: string,
+  options?: GetRecentStoryRepliesOptionsType
+): Promise<Array<MessageType>> {
+  const messages = await channels.getRecentStoryReplies(storyId, options);
 
   return handleMessageJSON(messages);
 }
 
 async function getOlderMessagesByConversation(
-  conversationId: string,
-  {
-    includeStoryReplies,
-    limit = 100,
-    messageId,
-    receivedAt = Number.MAX_VALUE,
-    sentAt = Number.MAX_VALUE,
-    storyId,
-  }: {
-    includeStoryReplies: boolean;
-    limit?: number;
-    messageId?: string;
-    receivedAt?: number;
-    sentAt?: number;
-    storyId: string | undefined;
-  }
+  options: AdjacentMessagesByConversationOptionsType
 ): Promise<Array<MessageType>> {
-  const messages = await channels.getOlderMessagesByConversation(
-    conversationId,
-    {
-      includeStoryReplies,
-      limit,
-      receivedAt,
-      sentAt,
-      messageId,
-      storyId,
-    }
-  );
+  const messages = await channels.getOlderMessagesByConversation(options);
 
   return handleMessageJSON(messages);
 }
 
-async function getConversationRangeCenteredOnMessage(options: {
-  conversationId: string;
-  includeStoryReplies: boolean;
-  limit?: number;
-  messageId: string;
-  receivedAt: number;
-  sentAt?: number;
-  storyId: UUIDStringType | undefined;
-}): Promise<GetConversationRangeCenteredOnMessageResultType<MessageType>> {
+async function getConversationRangeCenteredOnMessage(
+  options: AdjacentMessagesByConversationOptionsType
+): Promise<GetConversationRangeCenteredOnMessageResultType<MessageType>> {
   const result = await channels.getConversationRangeCenteredOnMessage(options);
 
   return {
@@ -766,7 +681,8 @@ async function removeAllMessagesInConversation(
     // Yes, we really want the await in the loop. We're deleting a chunk at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    messages = await getOlderMessagesByConversation(conversationId, {
+    messages = await getOlderMessagesByConversation({
+      conversationId,
       limit: chunkSize,
       includeStoryReplies: true,
       storyId: undefined,
@@ -779,18 +695,8 @@ async function removeAllMessagesInConversation(
     const ids = messages.map(message => message.id);
 
     log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
-    // Note: It's very important that these models are fully hydrated because
-    //   we need to delete all associated on-disk files along with the database delete.
-    const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
-    drop(
-      queue.addAll(
-        messages.map(
-          (message: MessageType) => async () => cleanupMessage(message)
-        )
-      )
-    );
     // eslint-disable-next-line no-await-in-loop
-    await queue.onIdle();
+    await _cleanupMessages(messages);
 
     log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
     // eslint-disable-next-line no-await-in-loop

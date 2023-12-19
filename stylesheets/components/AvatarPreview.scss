@@ -42,8 +42,7 @@
   }
 
   &__group {
-    -webkit-mask: url('../images/icons/v2/group-outline-24.svg') no-repeat
-      center;
+    -webkit-mask: url('../images/icons/v3/group/group.svg') no-repeat center;
     -webkit-mask-size: 70%;
     height: 100%;
     width: 100%;
@@ -59,14 +58,11 @@
     height: 28px;
     justify-content: center;
     position: absolute;
-    right: -7px;
+    inset-inline-end: -7px;
     width: 28px;
 
     &::after {
-      @include color-svg(
-        '../images/icons/v2/camera-outline-24.svg',
-        $color-black
-      );
+      @include color-svg('../images/icons/v3/camera/camera.svg', $color-black);
       content: '';
       display: block;
       height: 16px;
@@ -84,15 +80,15 @@
     height: 24px;
     justify-content: center;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 0;
     width: 24px;
 
     &:after {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+      @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-75);
       content: '';
-      height: 14px;
-      width: 14px;
+      height: 16px;
+      width: 16px;
     }
   }
 }

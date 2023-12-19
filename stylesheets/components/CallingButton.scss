@@ -3,56 +3,62 @@
 
 .CallingButton {
   @mixin icon($path) {
-    @include color-svg($path, $color-white, $mask-origin: padding-box);
-    height: 24px;
-    width: 24px;
+    @include color-svg($path, $color-white);
+    height: 20px;
+    width: 20px;
+    border: none;
   }
 
   &__icon {
     align-items: center;
-    border-radius: 52px;
+    border-radius: 40px;
     border: none;
     display: flex;
-    height: 52px;
+    height: 36px;
     justify-content: center;
     outline: none;
-    width: 52px;
-    margin-left: 6px;
-    margin-right: 6px;
+    width: 36px;
+
+    @include keyboard-mode {
+      &:focus {
+        outline-offset: 1px;
+        outline: 2px solid $color-ultramarine;
+      }
+    }
 
     @mixin calling-button-icon($icon, $background-color, $icon-color) {
       background-color: $background-color;
 
       div {
         @include color-svg($icon, $icon-color);
-        height: 24px;
-        width: 24px;
+        height: 22px;
+        width: 22px;
       }
     }
 
-    @mixin calling-button-icon-on($icon) {
-      @include calling-button-icon($icon, $color-white, $color-gray-75);
+    @mixin calling-button-icon-highlighted($icon) {
+      @include calling-button-icon($icon, $color-gray-15, $color-gray-90);
     }
 
-    @mixin calling-button-icon-off($icon) {
-      @include calling-button-icon($icon, $color-white-alpha-40, $color-white);
+    @mixin calling-button-icon-regular($icon) {
+      @include calling-button-icon($icon, $color-gray-60, $color-gray-15);
       backdrop-filter: blur(10px);
     }
 
     @mixin calling-button-icon-disabled($icon) {
-      @include calling-button-icon($icon, $color-gray-45, $color-white);
-      opacity: 0.2;
+      @include calling-button-icon($icon, $color-gray-60, $color-gray-15);
+      opacity: 0.4;
     }
 
-    // If the on/off states seem backwards, it's because this button reflects "is audio
-    //   muted?", not "is audio on?".
     &--audio {
-      $icon: '../images/icons/v2/mic-off-solid-28.svg';
+      $icon: '../images/icons/v3/mic/mic-slash-fill-light.svg';
       &--on {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-regular(
+          '../images/icons/v3/mic/mic-fill-light.svg'
+        );
       }
       &--off {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
@@ -60,12 +66,14 @@
     }
 
     &--video {
-      $icon: '../images/icons/v2/video-solid-28.svg';
+      $icon: '../images/icons/v3/video/video-slash-fill-light.svg';
       &--on {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-regular(
+          '../images/icons/v3/video/video-fill-light.svg'
+        );
       }
       &--off {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
@@ -74,19 +82,21 @@
 
     &--hangup {
       @include calling-button-icon(
-        '../images/icons/v2/phone-down-28.svg',
+        '../images/icons/v3/phone/phone-down-fill-light.svg',
         $color-accent-red,
         $color-white
       );
     }
 
     &--ring {
-      $icon: '../images/icons/v2/ring-28.svg';
+      $icon: '../images/icons/v3/bell/bell-slash-fill.svg';
       &--on {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-regular(
+          '../images/icons/v3/bell/bell-ring-fill-light.svg'
+        );
       }
       &--off {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
@@ -94,79 +104,36 @@
     }
 
     &--presenting {
-      $icon: '../images/icons/v2/share-screen-26.svg';
+      $icon: '../images/icons/v3/share_screen/share_screen-fill-light.svg';
       &--on {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--off {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-regular($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
       }
     }
-  }
 
-  &__participants {
-    @include icon('../images/icons/v2/group-solid-24.svg');
-    display: inline-block;
-
-    &--container {
-      @include button-reset;
-      border: none;
-      color: $color-white;
-    }
-
-    &--shown {
-      background-color: $color-gray-75;
-      border-radius: 16px;
-      padding: 6px 8px;
-      padding-bottom: 2px;
-      margin-top: -6px;
-      margin-right: -8px;
-    }
-
-    &--count {
-      @include font-body-2-bold;
-      margin-left: 5px;
-      vertical-align: top;
+    &--more-options {
+      @include calling-button-icon-regular('../images/icons/v3/more/more.svg');
     }
   }
 
-  &__settings {
-    @include icon('../images/icons/v2/settings-solid-16.svg');
-  }
-
-  &__grid-view {
-    @include icon('../images/icons/v2/grid-view-solid-24.svg');
-  }
-
-  &__speaker-view {
-    @include icon('../images/icons/v2/speaker-view-solid-24.svg');
-  }
-
-  &__pip {
-    @include icon('../images/icons/v2/pip-minimize-24.svg');
-  }
-
-  &__cancel {
-    @include icon('../images/icons/v2/x-24.svg');
-  }
-
-  &__container {
+  &__button-container {
     display: inline-flex;
     flex-direction: column;
-    margin-left: 6px;
-    margin-right: 6px;
     max-width: 64px;
+    margin-inline: 10px;
 
-    transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+    transition: margin-inline-start 0.3s ease-out, opacity 0.3s ease-out;
     @media (prefers-reduced-motion) {
       transition: none;
     }
 
     &--hidden {
-      margin-left: -100px;
+      margin-inline-start: -100px;
       opacity: 0;
       pointer-events: none;
 
@@ -178,12 +145,41 @@
     }
   }
 
-  &__label {
-    @include font-subtitle;
-    margin-top: 8px;
-    text-align: center;
-    color: $color-white;
-    @include calling-text-shadow;
-    user-select: none;
+  &__tooltip {
+    background-color: $color-gray-80;
+    color: $color-gray-15;
+    font-size: 13px;
+    outline: 1px solid $color-gray-62;
+    padding-block: 5px;
+    padding-inline: 12px;
+    filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
+    pointer-events: none;
+  }
+
+  &__tooltip .module-tooltip-arrow::before {
+    position: absolute;
+    content: '';
+    border-style: solid;
+    border-width: 7px;
+  }
+
+  &__tooltip[data-placement='bottom'] .module-tooltip-arrow::before {
+    border-color: transparent transparent $color-gray-62 transparent;
+    margin-block-start: -14px;
+    margin-inline-start: -7px;
+  }
+
+  &__tooltip[data-placement='bottom'] .module-tooltip-arrow::after {
+    border-bottom-color: $color-gray-80 !important;
+  }
+
+  &__tooltip[data-placement='top'] .module-tooltip-arrow::before {
+    border-color: $color-gray-62 transparent transparent transparent;
+    margin-block-start: 0;
+    margin-inline-start: -7px;
+  }
+
+  &__tooltip[data-placement='top'] .module-tooltip-arrow::after {
+    border-top-color: $color-gray-80 !important;
   }
 }

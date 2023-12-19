@@ -16,8 +16,13 @@ import { useLightboxActions } from '../ducks/lightbox';
 import { useStoriesActions } from '../ducks/stories';
 import { useCallingActions } from '../ducks/calling';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
-import { getSelectedMessage } from '../selectors/conversations';
+import {
+  getIntl,
+  getInteractionMode,
+  getTheme,
+  getPlatform,
+} from '../selectors/user';
+import { getTargetedMessage } from '../selectors/conversations';
 import { getTimelineItem } from '../selectors/timeline';
 import {
   areMessagesInSameGroup,
@@ -67,13 +72,14 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
+  const platform = useSelector(getPlatform);
   const item = useProxySelector(getTimelineItem, messageId);
   const previousItem = useProxySelector(getTimelineItem, previousMessageId);
   const nextItem = useProxySelector(getTimelineItem, nextMessageId);
 
-  const selectedMessage = useSelector(getSelectedMessage);
-  const isSelected = Boolean(
-    selectedMessage && messageId === selectedMessage.id
+  const targetedMessage = useSelector(getTargetedMessage);
+  const isTargeted = Boolean(
+    targetedMessage && messageId === targetedMessage.id
   );
 
   const isNextItemCallingNotification = nextItem?.type === 'callHistory';
@@ -105,22 +111,24 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
 
   const {
     blockGroupLinkRequests,
-    clearSelectedMessage,
-    deleteMessage,
-    deleteMessageForEveryone,
+    clearTargetedMessage: clearSelectedMessage,
     doubleCheckMissingQuoteReference,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     messageExpanded,
     openGiftBadge,
     pushPanelForConversation,
+    copyMessageText,
     retryDeleteForEveryone,
     retryMessageSend,
     saveAttachment,
-    selectMessage,
+    targetMessage,
+    toggleSelectMessage,
+    setMessageToEdit,
     showConversation,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
+    showSpoiler,
     startConversation,
   } = useConversationsActions();
 
@@ -129,7 +137,9 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
 
   const {
     showContactModal,
-    toggleForwardMessageModal,
+    showEditHistoryModal,
+    toggleDeleteMessagesModal,
+    toggleForwardMessagesModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
 
@@ -139,7 +149,11 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
 
   const { viewStory } = useStoriesActions();
 
-  const { returnToActiveCall, startCallingLobby } = useCallingActions();
+  const {
+    onOutgoingAudioCallInConversation,
+    onOutgoingVideoCallInConversation,
+    returnToActiveCall,
+  } = useCallingActions();
 
   return (
     <TimelineItem
@@ -150,7 +164,7 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       conversationId={conversationId}
       getPreferredBadge={getPreferredBadge}
       isNextItemCallingNotification={isNextItemCallingNotification}
-      isSelected={isSelected}
+      isTargeted={isTargeted}
       renderAudioAttachment={renderAudioAttachment}
       renderContact={renderContact}
       renderEmojiPicker={renderEmojiPicker}
@@ -160,14 +174,14 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       shouldCollapseBelow={shouldCollapseBelow}
       shouldHideMetadata={shouldHideMetadata}
       shouldRenderDateHeader={shouldRenderDateHeader}
+      showEditHistoryModal={showEditHistoryModal}
       i18n={i18n}
       interactionMode={interactionMode}
       theme={theme}
+      platform={platform}
       blockGroupLinkRequests={blockGroupLinkRequests}
       checkForAccount={checkForAccount}
-      clearSelectedMessage={clearSelectedMessage}
-      deleteMessage={deleteMessage}
-      deleteMessageForEveryone={deleteMessageForEveryone}
+      clearTargetedMessage={clearSelectedMessage}
       doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       markAttachmentAsCorrupted={markAttachmentAsCorrupted}
@@ -175,24 +189,30 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       openGiftBadge={openGiftBadge}
       pushPanelForConversation={pushPanelForConversation}
       reactToMessage={reactToMessage}
+      copyMessageText={copyMessageText}
+      onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
+      onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       retryDeleteForEveryone={retryDeleteForEveryone}
       retryMessageSend={retryMessageSend}
       returnToActiveCall={returnToActiveCall}
       saveAttachment={saveAttachment}
       scrollToQuotedMessage={scrollToQuotedMessage}
-      selectMessage={selectMessage}
+      targetMessage={targetMessage}
       setQuoteByMessageId={setQuoteByMessageId}
+      setMessageToEdit={setMessageToEdit}
       showContactModal={showContactModal}
       showConversation={showConversation}
       showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
       showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
       showLightbox={showLightbox}
       showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
-      startCallingLobby={startCallingLobby}
+      showSpoiler={showSpoiler}
       startConversation={startConversation}
-      toggleForwardMessageModal={toggleForwardMessageModal}
+      toggleDeleteMessagesModal={toggleDeleteMessagesModal}
+      toggleForwardMessagesModal={toggleForwardMessagesModal}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       viewStory={viewStory}
+      toggleSelectMessage={toggleSelectMessage}
     />
   );
 }

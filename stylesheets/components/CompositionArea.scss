@@ -4,13 +4,12 @@
 .CompositionArea {
   position: relative;
   min-height: 42px;
-  padding: 10px 0 10px 0;
+  padding-block: 10px;
+  padding-inline: 0;
 
   &__placeholder {
     flex-grow: 1;
-    margin: {
-      bottom: 6px;
-    }
+    margin-bottom: 6px;
   }
 
   &__row {
@@ -22,7 +21,8 @@
       justify-content: center;
     }
     &--padded {
-      padding: 0 12px;
+      padding-block: 0;
+      padding-inline: 12px;
     }
     &--control-row {
       margin-top: 12px;
@@ -34,7 +34,8 @@
   }
 
   &__button-cell {
-    margin: 0 6px;
+    margin-block: 0;
+    margin-inline: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,13 +43,48 @@
     flex-shrink: 0;
 
     &:first-child {
-      margin-left: 12px;
+      margin-inline-start: 12px;
     }
 
     &:last-child {
-      margin-right: 12px;
+      margin-inline-end: 12px;
     }
   }
+
+  &__button-edit {
+    margin-bottom: 4px;
+  }
+
+  &__edit-button {
+    @include button-reset;
+    @include rounded-corners;
+    align-items: center;
+    background-color: $color-gray-45;
+    display: flex;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
+
+    &::before {
+      content: '';
+      height: 20px;
+      width: 20px;
+    }
+
+    &--discard {
+      &::before {
+        @include color-svg('../images/icons/v3/x/x.svg', $color-white);
+      }
+    }
+    &--accept {
+      background-color: $color-ultramarine;
+      margin-inline-start: 16px;
+      &::before {
+        @include color-svg('../images/icons/v3/check/check.svg', $color-white);
+      }
+    }
+  }
+
   &__send-button {
     display: flex;
     justify-content: center;
@@ -60,15 +96,20 @@
     &::after {
       display: block;
       content: '';
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
-      @include color-svg('../images/icons/v2/send-24.svg', $color-ultramarine);
+      @include color-svg(
+        '../images/icons/v3/send/send-fill.svg',
+        $color-ultramarine
+      );
     }
   }
   &__input {
     flex-grow: 1;
-    margin: 0 6px;
+    position: relative;
+    margin-block: 0;
+    margin-inline: 6px;
 
     &--large {
       margin: 0;
@@ -82,7 +123,7 @@
     width: $width;
     height: $height;
     position: absolute;
-    left: calc(50% - $width / 2);
+    inset-inline-start: calc(50% - $width / 2);
 
     // 6px coming from padding-top of .module-composition-input__input__scroller
     top: calc(0px - $height / 2 - 6px);
@@ -112,7 +153,7 @@
 
       @include light-theme() {
         @include color-svg(
-          '../images/icons/v2/expand-up-20.svg',
+          '../images/icons/v3/chevron/chevron-shallow-up.svg',
           $color-gray-45,
           false
         );
@@ -120,7 +161,7 @@
 
       @include dark-theme() {
         @include color-svg(
-          '../images/icons/v2/expand-up-20.svg',
+          '../images/icons/v3/chevron/chevron-shallow-up.svg',
           $color-gray-45,
           false
         );
@@ -129,7 +170,7 @@
       &--large-active {
         @include light-theme() {
           @include color-svg(
-            '../images/icons/v2/collapse-down-20.svg',
+            '../images/icons/v3/chevron/chevron-shallow-down.svg',
             $color-gray-45,
             false
           );
@@ -137,7 +178,7 @@
 
         @include dark-theme() {
           @include color-svg(
-            '../images/icons/v2/collapse-down-20.svg',
+            '../images/icons/v3/chevron/chevron-shallow-down.svg',
             $color-gray-45,
             false
           );
@@ -155,7 +196,8 @@
     align-items: center;
 
     // Note the margin in &__placeholder above
-    padding: 14px 16px 18px 16px;
+    padding-block: 14px 18px;
+    padding-inline: 16px;
 
     &:not(.module-composition-area--pending) {
       @include light-theme {
@@ -168,7 +210,8 @@
 
     &__title {
       @include font-body-2-bold;
-      margin: 0 0 2px 0;
+      margin-block: 0 2px;
+      margin-inline: 0;
 
       @include light-theme {
         color: $color-gray-60;
@@ -215,14 +258,20 @@
     &:before {
       content: '';
       display: inline-block;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-75);
+        @include color-svg(
+          '../images/icons/v3/attach/attach.svg',
+          $color-gray-75
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-15);
+        @include color-svg(
+          '../images/icons/v3/attach/attach.svg',
+          $color-gray-15
+        );
       }
     }
   }

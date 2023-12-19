@@ -2,45 +2,28 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
-import { boolean, number } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './ExpireTimer';
 import { ExpireTimer } from './ExpireTimer';
 
 export default {
   title: 'Components/Conversation/ExpireTimer',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   direction: overrideProps.direction || 'outgoing',
-  expirationLength: number(
-    'expirationLength',
-    overrideProps.expirationLength || 30 * 1000
-  ),
-  expirationTimestamp: number(
-    'expirationTimestamp',
-    overrideProps.expirationTimestamp || Date.now() + 30 * 1000
-  ),
-  withImageNoCaption: boolean(
-    'withImageNoCaption',
-    overrideProps.withImageNoCaption || false
-  ),
-  withSticker: boolean('withSticker', overrideProps.withSticker || false),
-  withTapToViewExpired: boolean(
-    'withTapToViewExpired',
-    overrideProps.withTapToViewExpired || false
-  ),
+  expirationLength: overrideProps.expirationLength || 30 * 1000,
+  expirationTimestamp:
+    overrideProps.expirationTimestamp || Date.now() + 30 * 1000,
+  withImageNoCaption: overrideProps.withImageNoCaption || false,
+  withSticker: overrideProps.withSticker || false,
+  withTapToViewExpired: overrideProps.withTapToViewExpired || false,
 });
 
 export const _30Seconds = (): JSX.Element => {
   const props = createProps();
 
   return <ExpireTimer {...props} />;
-};
-
-_30Seconds.story = {
-  name: '30 seconds',
 };
 
 export const _2Minutes = (): JSX.Element => {
@@ -51,10 +34,6 @@ export const _2Minutes = (): JSX.Element => {
   });
 
   return <ExpireTimer {...props} />;
-};
-
-_2Minutes.story = {
-  name: '2 minutes',
 };
 
 export function InProgress(): JSX.Element {

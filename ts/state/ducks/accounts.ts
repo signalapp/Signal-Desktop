@@ -9,8 +9,8 @@ import * as log from '../../logging/log';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
-import type { UUIDStringType } from '../../types/UUID';
-import { getUuidsForE164s } from '../../util/getUuidsForE164s';
+import type { ServiceIdString } from '../../types/ServiceId';
+import { getServiceIdsForE164s } from '../../util/getServiceIdsForE164s';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
@@ -18,7 +18,7 @@ import type { NoopActionType } from './noop';
 // State
 
 export type AccountsStateType = ReadonlyDeep<{
-  accounts: Record<string, UUIDStringType | undefined>;
+  accounts: Record<string, ServiceIdString | undefined>;
 }>;
 
 // Actions
@@ -27,7 +27,7 @@ type AccountUpdateActionType = ReadonlyDeep<{
   type: 'accounts/UPDATE';
   payload: {
     phoneNumber: string;
-    uuid?: UUIDStringType;
+    serviceId?: ServiceIdString;
   };
 }>;
 
@@ -62,15 +62,15 @@ function checkForAccount(
     }
 
     const conversation = window.ConversationController.get(phoneNumber);
-    if (conversation && conversation.get('uuid')) {
+    if (conversation && conversation.getServiceId()) {
       log.info(`checkForAccount: found ${phoneNumber} in existing contacts`);
-      const uuid = conversation.get('uuid');
+      const serviceId = conversation.getServiceId();
 
       dispatch({
         type: 'accounts/UPDATE',
         payload: {
           phoneNumber,
-          uuid,
+          serviceId,
         },
       });
       return;
@@ -89,12 +89,14 @@ function checkForAccount(
       return;
     }
 
-    let uuid: UUIDStringType | undefined;
+    let serviceId: ServiceIdString | undefined;
 
     log.info(`checkForAccount: looking ${phoneNumber} up on server`);
     try {
-      const uuidLookup = await getUuidsForE164s(server, [phoneNumber]);
-      const maybePair = uuidLookup.get(phoneNumber);
+      const serviceIdLookup = await getServiceIdsForE164s(server, [
+        phoneNumber,
+      ]);
+      const maybePair = serviceIdLookup.get(phoneNumber);
 
       if (maybePair) {
         const { conversation: maybeMerged } =
@@ -104,7 +106,7 @@ function checkForAccount(
             e164: phoneNumber,
             reason: 'checkForAccount',
           });
-        uuid = maybeMerged.get('uuid');
+        serviceId = maybeMerged.getServiceId();
       }
     } catch (error) {
       log.error('checkForAccount:', Errors.toLogFormat(error));
@@ -114,7 +116,7 @@ function checkForAccount(
       type: 'accounts/UPDATE',
       payload: {
         phoneNumber,
-        uuid,
+        serviceId,
       },
     });
   };
@@ -138,13 +140,13 @@ export function reducer(
 
   if (action.type === 'accounts/UPDATE') {
     const { payload } = action;
-    const { phoneNumber, uuid } = payload;
+    const { phoneNumber, serviceId } = payload;
 
     return {
       ...state,
       accounts: {
         ...state.accounts,
-        [phoneNumber]: uuid,
+        [phoneNumber]: serviceId,
       },
     };
   }

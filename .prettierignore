@@ -3,7 +3,6 @@
 
 # Generated files
 app/**/*.js
-sticker-creator/**/*.js
 config/local-*.json
 config/local.json
 dist/**
@@ -19,7 +18,8 @@ ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
 ts/util/lint/exceptions.json
-sticker-creator/dist/**
+storybook-static
+build/locale-display-names.json
 
 # Third-party files
 node_modules/**
@@ -32,6 +32,9 @@ js/WebAudioRecorderMp3.js
 /images/
 /fixtures/
 
+# Version control
+**/.git
+
 # Github workflows
 .github/**
 
@@ -43,3 +46,7 @@ js/WebAudioRecorderMp3.js
 stylesheets/_intlTelInput.scss
 
 preload.bundle.*
+bundles/**
+
+# Sticker Creator has its own prettier config
+sticker-creator/**

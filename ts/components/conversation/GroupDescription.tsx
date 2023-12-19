@@ -62,7 +62,7 @@ export function GroupDescription({
           }}
           type="button"
         >
-          {i18n('GroupDescription__read-more')}
+          {i18n('icu:GroupDescription__read-more')}
         </button>
       )}
     </>

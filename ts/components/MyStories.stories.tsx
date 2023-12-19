@@ -1,13 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, ReactFramework, Story } from '@storybook/react';
+import type { Meta, ReactRenderer, StoryFn } from '@storybook/react';
 import type { PlayFunction } from '@storybook/csf';
 import React from 'react';
-import { expect } from '@storybook/jest';
+import { expect, jest } from '@storybook/jest';
 import { v4 as uuid } from 'uuid';
 import { within, userEvent } from '@storybook/testing-library';
 
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStories';
 import enMessages from '../../_locales/en/messages.json';
 import { MY_STORY_ID } from '../types/Stories';
@@ -24,50 +25,32 @@ export default {
   title: 'Components/MyStories',
   component: MyStories,
   argTypes: {
-    i18n: {
-      defaultValue: i18n,
-    },
-    onBack: {
-      action: true,
-    },
-    onDelete: {
-      action: true,
-    },
-    onForward: {
-      action: true,
-    },
-    onSave: {
-      action: true,
-    },
-    ourConversationId: {
-      defaultValue: getDefaultConversation().id,
-    },
     hasViewReceiptSetting: {
       control: 'boolean',
-      defaultValue: false,
     },
-    queueStoryDownload: {
-      action: true,
-    },
-    retryMessageSend: {
-      action: true,
-    },
-    viewStory: { action: true },
   },
-} as Meta;
+  args: {
+    i18n,
+    onBack: jest.fn(action('onBack')),
+    onDelete: action('onDelete'),
+    onForward: jest.fn(action('onForward')),
+    onSave: jest.fn(action('onSave')),
+    hasViewReceiptSetting: false,
+    queueStoryDownload: action('queueStoryDownload'),
+    retryMessageSend: action('retryMessageSend'),
+    viewStory: action('viewStory'),
+  },
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <MyStories {...args} />;
+const Template: StoryFn<PropsType> = args => <MyStories {...args} />;
 
 export const NoStories = Template.bind({});
 NoStories.args = {
   myStories: [],
 };
-NoStories.story = {
-  name: 'No Stories',
-};
 
-const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
+const interactionTest: PlayFunction<ReactRenderer, PropsType> = async ({
   args,
   canvasElement,
 }) => {
@@ -76,7 +59,7 @@ const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
   await userEvent.click(btnDownload);
   await expect(args.onSave).toHaveBeenCalled();
 
-  const [btnBack] = canvas.getAllByLabelText('Back');
+  const btnBack = canvas.getByText('Back');
   await userEvent.click(btnBack);
   await expect(args.onBack).toHaveBeenCalled();
 
@@ -94,9 +77,6 @@ SingleListStories.args = {
   myStories: [getFakeMyStory(MY_STORY_ID)],
 };
 SingleListStories.play = interactionTest;
-SingleListStories.story = {
-  name: 'One distribution list',
-};
 
 export const MultiListStories = Template.bind({});
 MultiListStories.args = {
@@ -107,9 +87,6 @@ MultiListStories.args = {
   ],
 };
 MultiListStories.play = interactionTest;
-MultiListStories.story = {
-  name: 'Multiple distribution lists',
-};
 
 export const FailedSentStory = Template.bind({});
 {

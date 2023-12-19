@@ -24,7 +24,7 @@ export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
   pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
-  isAboutToSearchInAConversation: boolean;
+  isAboutToSearch: boolean;
   startSearchCounter: number;
   searchDisabled: boolean;
   searchTerm: string;
@@ -38,7 +38,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
   private readonly pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
 
-  private readonly isAboutToSearchInAConversation: boolean;
+  private readonly isAboutToSearch: boolean;
 
   private readonly startSearchCounter: number;
 
@@ -52,7 +52,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     conversations,
     archivedConversations,
     pinnedConversations,
-    isAboutToSearchInAConversation,
+    isAboutToSearch,
     startSearchCounter,
     searchDisabled,
     searchTerm,
@@ -63,7 +63,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     this.conversations = conversations;
     this.archivedConversations = archivedConversations;
     this.pinnedConversations = pinnedConversations;
-    this.isAboutToSearchInAConversation = isAboutToSearchInAConversation;
+    this.isAboutToSearch = isAboutToSearch;
     this.startSearchCounter = startSearchCounter;
     this.searchDisabled = searchDisabled;
     this.searchTerm = searchTerm;
@@ -124,7 +124,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
               components={{
                 composeIcon: (
                   <span>
-                    <strong>{i18n('composeIcon')}</strong>
+                    <strong>{i18n('icu:composeIcon')}</strong>
                     <span className="module-left-pane__empty--composer_icon">
                       <i className="module-left-pane__empty--composer_icon--icon" />
                     </span>
@@ -150,12 +150,12 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
         case 0:
           return {
             type: RowType.Header,
-            i18nKey: 'LeftPane--pinned',
+            getHeaderText: i18n => i18n('icu:LeftPane--pinned'),
           };
         case pinnedConversations.length + 1:
           return {
             type: RowType.Header,
-            i18nKey: 'LeftPane--chats',
+            getHeaderText: i18n => i18n('icu:LeftPane--chats'),
           };
         case pinnedConversations.length + conversations.length + 2:
           if (archivedConversationsCount) {
@@ -245,7 +245,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       !this.conversations.length &&
       !this.pinnedConversations.length &&
       !this.archivedConversations.length;
-    return hasNoConversations || this.isAboutToSearchInAConversation;
+    return hasNoConversations || this.isAboutToSearch;
   }
 
   shouldRecomputeRowHeights(old: Readonly<LeftPaneInboxPropsType>): boolean {
@@ -267,7 +267,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
   getConversationAndMessageInDirection(
     toFind: Readonly<ToFindType>,
     selectedConversationId: undefined | string,
-    _selectedMessageId: unknown
+    _targetedMessageId: unknown
   ): undefined | { conversationId: string } {
     return getConversationInDirection(
       [...this.pinnedConversations, ...this.conversations],

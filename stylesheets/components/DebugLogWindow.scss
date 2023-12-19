@@ -30,7 +30,7 @@
     }
 
     &__text {
-      font-family: Monaco, Consolas, 'Courier New', Courier, monospace;
+      font-family: $monospace;
       font-size: 12px;
       margin: 0;
       user-select: none;
@@ -59,14 +59,15 @@
     margin-top: 16px;
 
     .module-Button {
-      margin-left: 8px;
+      margin-inline-start: 8px;
     }
   }
 
   &__link {
     border-radius: 4px;
     height: 36px;
-    padding: 0 10px;
+    padding-block: 0;
+    padding-inline: 10px;
     width: 100%;
 
     @include light-theme {

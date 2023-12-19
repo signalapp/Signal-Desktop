@@ -27,11 +27,7 @@ export const getSelectedIndex = createSelector(
       return 0;
     }
 
-    const index = state.media.findIndex(
-      item => item.attachment.path === state.selectedAttachmentPath
-    );
-
-    return index > 0 ? index : 0;
+    return state.selectedIndex ?? 0;
   }
 );
 
@@ -39,4 +35,14 @@ export const getMedia = createSelector(
   getLightboxState,
   (state): ReadonlyArray<ReadonlyDeep<MediaItemType>> =>
     state.isShowingLightbox ? state.media : []
+);
+
+export const getHasPrevMessage = createSelector(
+  getLightboxState,
+  (state): boolean => state.isShowingLightbox && state.hasPrevMessage
+);
+
+export const getHasNextMessage = createSelector(
+  getLightboxState,
+  (state): boolean => state.isShowingLightbox && state.hasNextMessage
 );

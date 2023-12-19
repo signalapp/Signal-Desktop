@@ -3,34 +3,43 @@
 
 import { assert } from 'chai';
 
-import type { SetMessageAudioAction } from '../../../state/ducks/audioPlayer';
-import type { SelectedConversationChangedActionType } from '../../../state/ducks/conversations';
+import type { TargetedConversationChangedActionType } from '../../../state/ducks/conversations';
 import {
-  SELECTED_CONVERSATION_CHANGED,
+  TARGETED_CONVERSATION_CHANGED,
   actions as conversationsActions,
 } from '../../../state/ducks/conversations';
 import { noopAction } from '../../../state/ducks/noop';
 
 import type { StateType } from '../../../state/reducer';
 import { reducer as rootReducer } from '../../../state/reducer';
+import { actions, AudioPlayerContent } from '../../../state/ducks/audioPlayer';
+import type { VoiceNoteAndConsecutiveForPlayback } from '../../../state/selectors/audioPlayer';
 
 const { messageDeleted, messageChanged } = conversationsActions;
 
 const MESSAGE_ID = 'message-id';
 
-// can't use the actual action since it's a ThunkAction
-const setMessageAudio = (
-  id: string,
-  context: string
-): SetMessageAudioAction => ({
-  type: 'audioPlayer/SET_MESSAGE_AUDIO',
-  payload: {
-    id,
-    context,
+function voiceNoteDataForMessage(
+  messageId: string
+): VoiceNoteAndConsecutiveForPlayback {
+  return {
+    conversationId: 'convo',
+    voiceNote: {
+      id: messageId,
+      type: 'outgoing',
+      timestamp: 0,
+      url: undefined,
+      source: undefined,
+      sourceServiceId: undefined,
+      messageIdForLogging: messageId,
+      isPlayed: false,
+    },
+    consecutiveVoiceNotes: [],
+    previousMessageId: undefined,
+    nextMessageTimestamp: undefined,
     playbackRate: 1,
-    duration: 100,
-  },
-});
+  };
+}
 
 describe('both/state/ducks/audioPlayer', () => {
   const getEmptyRootState = (): StateType => {
@@ -39,37 +48,73 @@ describe('both/state/ducks/audioPlayer', () => {
 
   const getInitializedState = (): StateType => {
     const state = getEmptyRootState();
-    const updated = rootReducer(state, setMessageAudio(MESSAGE_ID, 'context'));
+    const updated = rootReducer(
+      state,
+      actions.loadVoiceNoteAudio({
+        voiceNoteData: voiceNoteDataForMessage(MESSAGE_ID),
+        position: 0,
+        context: 'context',
+        ourConversationId: 'convo',
+        playbackRate: 1,
+      })
+    );
 
-    assert.strictEqual(updated.audioPlayer.active?.id, MESSAGE_ID);
-    assert.strictEqual(updated.audioPlayer.active?.context, 'context');
+    const content = updated.audioPlayer.active?.content;
+
+    assert.isTrue(content && AudioPlayerContent.isVoiceNote(content));
+
+    if (content && AudioPlayerContent.isVoiceNote(content)) {
+      assert.strictEqual(content.current.id, MESSAGE_ID);
+      assert.strictEqual(content.context, 'context');
+    }
 
     return updated;
   };
 
-  describe('setActiveAudioID', () => {
-    it("updates `activeAudioID` in the audioPlayer's state", () => {
+  describe('loadMessageAudio', () => {
+    it("updates `active` in the audioPlayer's state", () => {
       const state = getEmptyRootState();
       assert.strictEqual(state.audioPlayer.active, undefined);
 
-      const updated = rootReducer(state, setMessageAudio('test', 'context'));
-      assert.strictEqual(updated.audioPlayer.active?.id, 'test');
-      assert.strictEqual(updated.audioPlayer.active?.context, 'context');
+      const updated = rootReducer(
+        state,
+        actions.loadVoiceNoteAudio({
+          voiceNoteData: voiceNoteDataForMessage('test'),
+          position: 0,
+          context: 'context',
+          ourConversationId: 'convo',
+          playbackRate: 1,
+        })
+      );
+
+      const content = updated.audioPlayer.active?.content;
+      assert.isTrue(content && AudioPlayerContent.isVoiceNote(content));
+
+      if (content && AudioPlayerContent.isVoiceNote(content)) {
+        assert.strictEqual(content.current.id, 'test');
+        assert.strictEqual(content.context, 'context');
+      }
     });
   });
 
-  it('resets activeAudioID when changing the conversation', () => {
+  it('active is not changed when changing the conversation', () => {
     const state = getInitializedState();
 
-    const updated = rootReducer(state, <SelectedConversationChangedActionType>{
-      type: SELECTED_CONVERSATION_CHANGED,
-      payload: { id: 'any' },
-    });
+    const action: TargetedConversationChangedActionType = {
+      type: TARGETED_CONVERSATION_CHANGED,
+      payload: { conversationId: 'any' },
+    };
+    const updated = rootReducer(state, action);
 
-    assert.strictEqual(updated.audioPlayer.active, undefined);
+    const content = updated.audioPlayer.active?.content;
+    assert.isTrue(content && AudioPlayerContent.isVoiceNote(content));
+
+    if (content && AudioPlayerContent.isVoiceNote(content)) {
+      assert.strictEqual(content.current.id, MESSAGE_ID);
+    }
   });
 
-  it('resets activeAudioID when message was deleted', () => {
+  it('resets active.content when message was deleted', () => {
     const state = getInitializedState();
 
     const updated = rootReducer(
@@ -77,10 +122,10 @@ describe('both/state/ducks/audioPlayer', () => {
       messageDeleted(MESSAGE_ID, 'conversation-id')
     );
 
-    assert.strictEqual(updated.audioPlayer.active, undefined);
+    assert.strictEqual(updated.audioPlayer.active?.content, undefined);
   });
 
-  it('resets activeAudioID when message was erased', () => {
+  it('resets active.content when message is DOE', () => {
     const state = getInitializedState();
 
     const updated = rootReducer(
@@ -97,6 +142,6 @@ describe('both/state/ducks/audioPlayer', () => {
       })
     );
 
-    assert.strictEqual(updated.audioPlayer.active, undefined);
+    assert.strictEqual(updated.audioPlayer.active?.content, undefined);
   });
 });

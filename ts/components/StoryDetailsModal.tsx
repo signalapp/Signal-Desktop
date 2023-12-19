@@ -37,32 +37,35 @@ export type PropsType = {
 
 const contactSortCollator = new window.Intl.Collator();
 
-function getI18nKey(sendStatus: SendStatus | undefined): string {
+function getSendStatusLabel(
+  sendStatus: SendStatus | undefined,
+  i18n: LocalizerType
+): string {
   if (sendStatus === SendStatus.Failed) {
-    return 'MessageDetailsHeader--Failed';
+    return i18n('icu:MessageDetailsHeader--Failed');
   }
 
   if (sendStatus === SendStatus.Viewed) {
-    return 'MessageDetailsHeader--Viewed';
+    return i18n('icu:MessageDetailsHeader--Viewed');
   }
 
   if (sendStatus === SendStatus.Read) {
-    return 'MessageDetailsHeader--Read';
+    return i18n('icu:MessageDetailsHeader--Read');
   }
 
   if (sendStatus === SendStatus.Delivered) {
-    return 'MessageDetailsHeader--Delivered';
+    return i18n('icu:MessageDetailsHeader--Delivered');
   }
 
   if (sendStatus === SendStatus.Sent) {
-    return 'MessageDetailsHeader--Sent';
+    return i18n('icu:MessageDetailsHeader--Sent');
   }
 
   if (sendStatus === SendStatus.Pending) {
-    return 'MessageDetailsHeader--Pending';
+    return i18n('icu:MessageDetailsHeader--Pending');
   }
 
-  return 'from';
+  return i18n('icu:from');
 }
 
 export function StoryDetailsModal({
@@ -105,17 +108,19 @@ export function StoryDetailsModal({
             return null;
           }
 
-          const i18nKey = getI18nKey(sendStatus);
+          const sendStatusLabel = getSendStatusLabel(sendStatus, i18n);
 
           const sortedContacts = [...contacts].sort((a, b) =>
             contactSortCollator.compare(a.recipient.title, b.recipient.title)
           );
 
           return (
-            <div key={i18nKey} className="StoryDetailsModal__contact-group">
+            <div
+              key={sendStatusLabel}
+              className="StoryDetailsModal__contact-group"
+            >
               <div className="StoryDetailsModal__contact-group__header">
-                {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-                {i18n(i18nKey)}
+                {sendStatusLabel}
               </div>
               {sortedContacts.map(status => {
                 const contact = status.recipient;
@@ -162,7 +167,7 @@ export function StoryDetailsModal({
       <div className="StoryDetailsModal__contact-container">
         <div className="StoryDetailsModal__contact-group">
           <div className="StoryDetailsModal__contact-group__header">
-            {i18n('sent')}
+            {i18n('icu:sent')}
           </div>
           <div className="StoryDetailsModal__contact">
             <Avatar
@@ -203,7 +208,7 @@ export function StoryDetailsModal({
   const menuOptions = [
     {
       icon: 'StoryDetailsModal__copy-icon',
-      label: i18n('StoryDetailsModal__copy-timestamp'),
+      label: i18n('icu:StoryDetailsModal__copy-timestamp'),
       onClick: () => {
         void window.navigator.clipboard.writeText(String(timestamp));
       },
@@ -213,7 +218,7 @@ export function StoryDetailsModal({
   if (isInternalUser && attachment) {
     menuOptions.push({
       icon: 'StoryDetailsModal__download-icon',
-      label: i18n('StoryDetailsModal__download-attachment'),
+      label: i18n('icu:StoryDetailsModal__download-attachment'),
       onClick: () => {
         saveAttachment(attachment);
       },
@@ -243,27 +248,31 @@ export function StoryDetailsModal({
           <div>
             <Intl
               i18n={i18n}
-              id="StoryDetailsModal__sent-time"
-              components={[
-                <Time
-                  className="StoryDetailsModal__debugger__button__text"
-                  timestamp={timestamp}
-                >
-                  {formatDateTimeLong(i18n, timestamp)}
-                </Time>,
-              ]}
+              id="icu:StoryDetailsModal__sent-time"
+              components={{
+                time: (
+                  <Time
+                    className="StoryDetailsModal__debugger__button__text"
+                    timestamp={timestamp}
+                  >
+                    {formatDateTimeLong(i18n, timestamp)}
+                  </Time>
+                ),
+              }}
             />
           </div>
           {attachment && (
             <div>
               <Intl
                 i18n={i18n}
-                id="StoryDetailsModal__file-size"
-                components={[
-                  <span className="StoryDetailsModal__debugger__button__text">
-                    {formatFileSize(attachment.size)}
-                  </span>,
-                ]}
+                id="icu:StoryDetailsModal__file-size"
+                components={{
+                  size: (
+                    <span className="StoryDetailsModal__debugger__button__text">
+                      {formatFileSize(attachment.size)}
+                    </span>
+                  ),
+                }}
               />
             </div>
           )}
@@ -271,14 +280,16 @@ export function StoryDetailsModal({
             <div>
               <Intl
                 i18n={i18n}
-                id="StoryDetailsModal__disappears-in"
-                components={[
-                  <span className="StoryDetailsModal__debugger__button__text">
-                    {formatRelativeTime(i18n, timeRemaining, {
-                      largest: 2,
-                    })}
-                  </span>,
-                ]}
+                id="icu:StoryDetailsModal__disappears-in"
+                components={{
+                  countdown: (
+                    <span className="StoryDetailsModal__debugger__button__text">
+                      {formatRelativeTime(i18n, timeRemaining, {
+                        largest: 2,
+                      })}
+                    </span>
+                  ),
+                }}
               />
             </div>
           )}

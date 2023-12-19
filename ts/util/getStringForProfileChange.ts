@@ -20,12 +20,12 @@ export function getStringForProfileChange(
 ): string {
   if (change.type === 'name') {
     return changedContact.name
-      ? i18n('contactChangedProfileName', {
+      ? i18n('icu:contactChangedProfileName', {
           sender: changedContact.title,
           oldProfile: change.oldName,
           newProfile: change.newName,
         })
-      : i18n('changedProfileName', {
+      : i18n('icu:changedProfileName', {
           oldProfile: change.oldName,
           newProfile: change.newName,
         });

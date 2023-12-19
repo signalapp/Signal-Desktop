@@ -3,17 +3,26 @@
 
 import { noop } from 'lodash';
 
+function isAbortError(error: unknown) {
+  return error instanceof DOMException && error.name === 'AbortError';
+}
+
 /**
  * Wrapper around a global HTMLAudioElement that can update the
  * source and callbacks without requiring removeEventListener
  */
 class GlobalMessageAudio {
   #audio: HTMLAudioElement = new Audio();
+  #url: string | undefined;
+
+  // true immediately after play() is called, even if still loading
+  #playing = false;
 
   #onLoadedMetadata = noop;
   #onTimeUpdate = noop;
   #onEnded = noop;
   #onDurationChange = noop;
+  #onError = noop;
 
   constructor() {
     // callbacks must be wrapped by function (not attached directly)
@@ -29,36 +38,49 @@ class GlobalMessageAudio {
   }
 
   load({
-    src,
+    url,
+    playbackRate,
     onLoadedMetadata,
     onTimeUpdate,
     onDurationChange,
     onEnded,
+    onError,
   }: {
-    src: string;
+    url: string;
+    playbackRate: number;
     onLoadedMetadata: () => void;
     onTimeUpdate: () => void;
     onDurationChange: () => void;
     onEnded: () => void;
+    onError: (error: unknown) => void;
   }) {
-    this.#audio.pause();
-    this.#audio.currentTime = 0;
+    this.#url = url;
 
     // update callbacks
     this.#onLoadedMetadata = onLoadedMetadata;
     this.#onTimeUpdate = onTimeUpdate;
     this.#onDurationChange = onDurationChange;
     this.#onEnded = onEnded;
+    this.#onError = onError;
 
-    this.#audio.src = src;
+    // changing src resets the playback rate
+    this.#audio.src = this.#url;
+    this.#audio.playbackRate = playbackRate;
   }
 
-  play(): Promise<void> {
-    return this.#audio.play();
+  play(): void {
+    this.#playing = true;
+    this.#audio.play().catch(error => {
+      // If `audio.pause()` is called before `audio.play()` resolves
+      if (!isAbortError(error)) {
+        this.#onError(error);
+      }
+    });
   }
 
   pause(): void {
     this.#audio.pause();
+    this.#playing = false;
   }
 
   get playbackRate() {
@@ -69,8 +91,20 @@ class GlobalMessageAudio {
     this.#audio.playbackRate = rate;
   }
 
-  get duration() {
-    return this.#audio.duration;
+  get playing() {
+    return this.#playing;
+  }
+
+  get url() {
+    return this.#url;
+  }
+
+  get duration(): number | undefined {
+    // the underlying Audio element can return NaN if the audio hasn't loaded
+    // we filter out 0 or NaN as they are not useful values downstream
+    return Number.isNaN(this.#audio.duration) || this.#audio.duration === 0
+      ? undefined
+      : this.#audio.duration;
   }
 
   get currentTime() {

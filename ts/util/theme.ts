@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { missingCaseError } from './missingCaseError';
+import { ThemeType } from '../types/Util';
 
 export enum Theme {
   Light,
@@ -13,6 +14,17 @@ export function themeClassName(theme: Theme): string {
     case Theme.Light:
       return 'light-theme';
     case Theme.Dark:
+      return 'dark-theme';
+    default:
+      throw missingCaseError(theme);
+  }
+}
+
+export function themeClassName2(theme: ThemeType): string {
+  switch (theme) {
+    case ThemeType.light:
+      return 'light-theme';
+    case ThemeType.dark:
       return 'dark-theme';
     default:
       throw missingCaseError(theme);

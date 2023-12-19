@@ -4,10 +4,10 @@
 import React from 'react';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 import { Avatar, AvatarSize } from '../Avatar';
-import { Emojify } from '../conversation/Emojify';
 import { ListTile } from '../ListTile';
+import { UserText } from '../UserText';
 
 export enum DisabledReason {
   AlreadyMember = 'already-member',
@@ -21,7 +21,7 @@ export type GroupListItemConversationType = Pick<
   disabledReason: DisabledReason | undefined;
   membersCount: number;
   memberships: ReadonlyArray<{
-    uuid: UUIDStringType;
+    aci: AciString;
     isAdmin: boolean;
   }>;
 };
@@ -40,13 +40,13 @@ export function GroupListItem({
   let messageText: string;
   switch (group.disabledReason) {
     case DisabledReason.AlreadyMember:
-      messageText = i18n('GroupListItem__message-already-member');
+      messageText = i18n('icu:GroupListItem__message-already-member');
       break;
     case DisabledReason.Pending:
-      messageText = i18n('GroupListItem__message-pending');
+      messageText = i18n('icu:GroupListItem__message-pending');
       break;
     default:
-      messageText = i18n('GroupListItem__message-default', {
+      messageText = i18n('icu:GroupListItem__message-default', {
         count: group.membersCount,
       });
   }
@@ -66,8 +66,8 @@ export function GroupListItem({
           badge={undefined}
         />
       }
-      title={<Emojify text={group.title} />}
-      subtitle={<Emojify text={messageText} />}
+      title={<UserText text={group.title} />}
+      subtitle={<UserText text={messageText} />}
       onClick={() => onSelectGroup(group.id)}
     />
   );

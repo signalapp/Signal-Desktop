@@ -13,6 +13,7 @@ import {
 import { strictAssert } from '../util/assert';
 import { isRecord } from '../util/isRecord';
 
+import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 
@@ -34,7 +35,7 @@ export class ViewOnceOpenJobQueue extends JobQueue<ViewOnceOpenJobData> {
       timestamp,
     }: Readonly<{ data: ViewOnceOpenJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
-  ): Promise<void> {
+  ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
     await runSyncJob({
       attempt,
       log,
@@ -43,6 +44,8 @@ export class ViewOnceOpenJobQueue extends JobQueue<ViewOnceOpenJobData> {
       timestamp,
       type: SyncTypeList.ViewOnceOpen,
     });
+
+    return undefined;
   }
 }
 

@@ -3,26 +3,27 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci, generatePni } from '../../types/ServiceId';
+import type { ServiceIdString, AciString } from '../../types/ServiceId';
 import enMessages from '../../../_locales/en/messages.json';
 import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
 import type { SmartContactRendererType } from '../../groupChange';
+import type { PropsType } from './GroupV2Change';
 import { GroupV2Change } from './GroupV2Change';
 import type { FullJSXType } from '../Intl';
 
 const i18n = setupI18n('en', enMessages);
 
-const OUR_ACI = UUID.generate().toString();
-const OUR_PNI = UUID.generate().toString();
-const CONTACT_A = UUID.generate().toString();
-const CONTACT_B = UUID.generate().toString();
-const CONTACT_C = UUID.generate().toString();
-const ADMIN_A = UUID.generate().toString();
-const INVITEE_A = UUID.generate().toString();
+const OUR_ACI = generateAci();
+const OUR_PNI = generatePni();
+const CONTACT_A = generateAci();
+const CONTACT_B = generateAci();
+const CONTACT_C = generateAci();
+const ADMIN_A = generateAci();
+const INVITEE_A = generateAci();
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
@@ -44,10 +45,10 @@ const renderChange = (
     areWeAdmin = true,
   }: {
     groupMemberships?: ReadonlyArray<{
-      uuid: UUIDStringType;
+      aci: AciString;
       isAdmin: boolean;
     }>;
-    groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
+    groupBannedMemberships?: ReadonlyArray<ServiceIdString>;
     groupName?: string;
     areWeAdmin?: boolean;
   } = {}
@@ -61,15 +62,15 @@ const renderChange = (
     groupMemberships={groupMemberships}
     groupName={groupName}
     i18n={i18n}
-    ourACI={OUR_ACI}
-    ourPNI={OUR_PNI}
+    ourAci={OUR_ACI}
+    ourPni={OUR_PNI}
     renderContact={renderContact}
   />
 );
 
 export default {
   title: 'Components/Conversation/GroupV2Change',
-};
+} satisfies Meta<PropsType>;
 
 export function Multiple(): JSX.Element {
   return (
@@ -92,11 +93,7 @@ export function Multiple(): JSX.Element {
           },
           {
             type: 'member-add',
-            uuid: OUR_ACI,
-          },
-          {
-            type: 'member-add',
-            uuid: OUR_PNI,
+            aci: OUR_ACI,
           },
           {
             type: 'description',
@@ -104,7 +101,7 @@ export function Multiple(): JSX.Element {
           },
           {
             type: 'member-privilege',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -317,10 +314,6 @@ export function AccessAttributes(): JSX.Element {
   );
 }
 
-AccessAttributes.story = {
-  name: 'Access (Attributes)',
-};
-
 export function AccessMembers(): JSX.Element {
   return (
     <>
@@ -379,10 +372,6 @@ export function AccessMembers(): JSX.Element {
     </>
   );
 }
-
-AccessMembers.story = {
-  name: 'Access (Members)',
-};
 
 export function AccessInviteLink(): JSX.Element {
   return (
@@ -443,10 +432,6 @@ export function AccessInviteLink(): JSX.Element {
   );
 }
 
-AccessInviteLink.story = {
-  name: 'Access (Invite Link)',
-};
-
 export function MemberAdd(): JSX.Element {
   return (
     <>
@@ -455,7 +440,7 @@ export function MemberAdd(): JSX.Element {
         details: [
           {
             type: 'member-add',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -464,7 +449,7 @@ export function MemberAdd(): JSX.Element {
         details: [
           {
             type: 'member-add',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -472,7 +457,7 @@ export function MemberAdd(): JSX.Element {
         details: [
           {
             type: 'member-add',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -481,7 +466,7 @@ export function MemberAdd(): JSX.Element {
         details: [
           {
             type: 'member-add',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -490,7 +475,7 @@ export function MemberAdd(): JSX.Element {
         details: [
           {
             type: 'member-add',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -498,7 +483,7 @@ export function MemberAdd(): JSX.Element {
         details: [
           {
             type: 'member-add',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -515,7 +500,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             inviter: CONTACT_B,
           },
         ],
@@ -524,7 +509,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             inviter: CONTACT_A,
           },
         ],
@@ -535,7 +520,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             inviter: CONTACT_B,
           },
         ],
@@ -545,7 +530,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: CONTACT_B,
+            aci: CONTACT_B,
             inviter: CONTACT_C,
           },
         ],
@@ -554,7 +539,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             inviter: CONTACT_B,
           },
         ],
@@ -565,7 +550,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             inviter: CONTACT_A,
           },
         ],
@@ -575,7 +560,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -584,7 +569,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             inviter: OUR_ACI,
           },
         ],
@@ -594,7 +579,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             inviter: CONTACT_B,
           },
         ],
@@ -604,7 +589,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -614,7 +599,7 @@ export function MemberAddFromInvited(): JSX.Element {
         details: [
           {
             type: 'member-add-from-invite',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             inviter: CONTACT_B,
           },
         ],
@@ -622,10 +607,6 @@ export function MemberAddFromInvited(): JSX.Element {
     </>
   );
 }
-
-MemberAddFromInvited.story = {
-  name: 'Member Add (from invited)',
-};
 
 export function MemberAddFromLink(): JSX.Element {
   return (
@@ -635,7 +616,7 @@ export function MemberAddFromLink(): JSX.Element {
         details: [
           {
             type: 'member-add-from-link',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -644,7 +625,7 @@ export function MemberAddFromLink(): JSX.Element {
         details: [
           {
             type: 'member-add-from-link',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -652,17 +633,13 @@ export function MemberAddFromLink(): JSX.Element {
         details: [
           {
             type: 'member-add-from-link',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
     </>
   );
 }
-
-MemberAddFromLink.story = {
-  name: 'Member Add (from link)',
-};
 
 export function MemberAddFromAdminApproval(): JSX.Element {
   return (
@@ -672,7 +649,7 @@ export function MemberAddFromAdminApproval(): JSX.Element {
         details: [
           {
             type: 'member-add-from-admin-approval',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -680,7 +657,7 @@ export function MemberAddFromAdminApproval(): JSX.Element {
         details: [
           {
             type: 'member-add-from-admin-approval',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -689,7 +666,7 @@ export function MemberAddFromAdminApproval(): JSX.Element {
         details: [
           {
             type: 'member-add-from-admin-approval',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -698,7 +675,7 @@ export function MemberAddFromAdminApproval(): JSX.Element {
         details: [
           {
             type: 'member-add-from-admin-approval',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -706,17 +683,13 @@ export function MemberAddFromAdminApproval(): JSX.Element {
         details: [
           {
             type: 'member-add-from-admin-approval',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
     </>
   );
 }
-
-MemberAddFromAdminApproval.story = {
-  name: 'Member Add (from admin approval)',
-};
 
 export function MemberRemove(): JSX.Element {
   return (
@@ -726,7 +699,7 @@ export function MemberRemove(): JSX.Element {
         details: [
           {
             type: 'member-remove',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -735,7 +708,7 @@ export function MemberRemove(): JSX.Element {
         details: [
           {
             type: 'member-remove',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -743,7 +716,7 @@ export function MemberRemove(): JSX.Element {
         details: [
           {
             type: 'member-remove',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -752,7 +725,7 @@ export function MemberRemove(): JSX.Element {
         details: [
           {
             type: 'member-remove',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -761,7 +734,7 @@ export function MemberRemove(): JSX.Element {
         details: [
           {
             type: 'member-remove',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -770,7 +743,7 @@ export function MemberRemove(): JSX.Element {
         details: [
           {
             type: 'member-remove',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -778,7 +751,7 @@ export function MemberRemove(): JSX.Element {
         details: [
           {
             type: 'member-remove',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
@@ -794,7 +767,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -803,7 +776,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -813,7 +786,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -823,7 +796,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -832,7 +805,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             newPrivilege: RoleEnum.ADMINISTRATOR,
           },
         ],
@@ -842,7 +815,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             newPrivilege: RoleEnum.DEFAULT,
           },
         ],
@@ -851,7 +824,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
             newPrivilege: RoleEnum.DEFAULT,
           },
         ],
@@ -861,7 +834,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             newPrivilege: RoleEnum.DEFAULT,
           },
         ],
@@ -871,7 +844,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             newPrivilege: RoleEnum.DEFAULT,
           },
         ],
@@ -880,7 +853,7 @@ export function MemberPrivilege(): JSX.Element {
         details: [
           {
             type: 'member-privilege',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             newPrivilege: RoleEnum.DEFAULT,
           },
         ],
@@ -897,7 +870,7 @@ export function PendingAddOne(): JSX.Element {
         details: [
           {
             type: 'pending-add-one',
-            uuid: OUR_ACI,
+            serviceId: OUR_ACI,
           },
         ],
       })}
@@ -905,7 +878,7 @@ export function PendingAddOne(): JSX.Element {
         details: [
           {
             type: 'pending-add-one',
-            uuid: OUR_ACI,
+            serviceId: OUR_ACI,
           },
         ],
       })}
@@ -914,7 +887,7 @@ export function PendingAddOne(): JSX.Element {
         details: [
           {
             type: 'pending-add-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
           },
         ],
       })}
@@ -923,7 +896,7 @@ export function PendingAddOne(): JSX.Element {
         details: [
           {
             type: 'pending-add-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
           },
         ],
       })}
@@ -931,17 +904,13 @@ export function PendingAddOne(): JSX.Element {
         details: [
           {
             type: 'pending-add-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
           },
         ],
       })}
     </>
   );
 }
-
-PendingAddOne.story = {
-  name: 'Pending Add - one',
-};
 
 export function PendingAddMany(): JSX.Element {
   return (
@@ -976,10 +945,6 @@ export function PendingAddMany(): JSX.Element {
   );
 }
 
-PendingAddMany.story = {
-  name: 'Pending Add - many',
-};
-
 export function PendingRemoveOne(): JSX.Element {
   return (
     <>
@@ -988,7 +953,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: OUR_ACI,
           },
         ],
@@ -998,7 +963,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: OUR_ACI,
           },
         ],
@@ -1008,7 +973,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: OUR_ACI,
           },
         ],
@@ -1017,7 +982,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: OUR_ACI,
           },
         ],
@@ -1027,7 +992,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
           },
         ],
       })}
@@ -1036,7 +1001,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: CONTACT_B,
           },
         ],
@@ -1047,7 +1012,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: OUR_ACI,
+            serviceId: OUR_ACI,
             inviter: CONTACT_B,
           },
         ],
@@ -1057,7 +1022,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: CONTACT_B,
+            serviceId: CONTACT_B,
             inviter: CONTACT_A,
           },
         ],
@@ -1068,7 +1033,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: CONTACT_B,
           },
         ],
@@ -1078,7 +1043,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: CONTACT_B,
           },
         ],
@@ -1087,7 +1052,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
             inviter: CONTACT_B,
           },
         ],
@@ -1098,7 +1063,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
           },
         ],
       })}
@@ -1107,7 +1072,7 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
           },
         ],
       })}
@@ -1115,17 +1080,13 @@ export function PendingRemoveOne(): JSX.Element {
         details: [
           {
             type: 'pending-remove-one',
-            uuid: INVITEE_A,
+            serviceId: INVITEE_A,
           },
         ],
       })}
     </>
   );
 }
-
-PendingRemoveOne.story = {
-  name: 'Pending Remove - one',
-};
 
 export function PendingRemoveMany(): JSX.Element {
   return (
@@ -1219,10 +1180,6 @@ export function PendingRemoveMany(): JSX.Element {
   );
 }
 
-PendingRemoveMany.story = {
-  name: 'Pending Remove - many',
-};
-
 export function AdminApprovalAdd(): JSX.Element {
   return (
     <>
@@ -1230,7 +1187,7 @@ export function AdminApprovalAdd(): JSX.Element {
         details: [
           {
             type: 'admin-approval-add-one',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -1238,17 +1195,13 @@ export function AdminApprovalAdd(): JSX.Element {
         details: [
           {
             type: 'admin-approval-add-one',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
     </>
   );
 }
-
-AdminApprovalAdd.story = {
-  name: 'Admin Approval (Add)',
-};
 
 export function AdminApprovalRemove(): JSX.Element {
   return (
@@ -1258,7 +1211,7 @@ export function AdminApprovalRemove(): JSX.Element {
         details: [
           {
             type: 'admin-approval-remove-one',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -1266,7 +1219,7 @@ export function AdminApprovalRemove(): JSX.Element {
         details: [
           {
             type: 'admin-approval-remove-one',
-            uuid: OUR_ACI,
+            aci: OUR_ACI,
           },
         ],
       })}
@@ -1275,17 +1228,13 @@ export function AdminApprovalRemove(): JSX.Element {
         details: [
           {
             type: 'admin-approval-remove-one',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
           },
         ],
       })}
     </>
   );
 }
-
-AdminApprovalRemove.story = {
-  name: 'Admin Approval (Remove)',
-};
 
 export function AdminApprovalBounce(): JSX.Element {
   return (
@@ -1298,14 +1247,14 @@ export function AdminApprovalBounce(): JSX.Element {
           details: [
             {
               type: 'admin-approval-bounce',
-              uuid: CONTACT_A,
+              aci: CONTACT_A,
               times: 1,
               isApprovalPending: false,
             },
           ],
         },
         {
-          groupMemberships: [{ uuid: CONTACT_C, isAdmin: false }],
+          groupMemberships: [{ aci: CONTACT_C, isAdmin: false }],
           groupBannedMemberships: [CONTACT_B],
         }
       )}
@@ -1315,14 +1264,14 @@ export function AdminApprovalBounce(): JSX.Element {
           details: [
             {
               type: 'admin-approval-bounce',
-              uuid: CONTACT_A,
+              aci: CONTACT_A,
               times: 1,
               isApprovalPending: false,
             },
           ],
         },
         {
-          groupMemberships: [{ uuid: CONTACT_C, isAdmin: false }],
+          groupMemberships: [{ aci: CONTACT_C, isAdmin: false }],
           groupBannedMemberships: [CONTACT_B],
         }
       )}
@@ -1330,7 +1279,7 @@ export function AdminApprovalBounce(): JSX.Element {
         details: [
           {
             type: 'admin-approval-bounce',
-            uuid: CONTACT_A,
+            aci: CONTACT_A,
             times: 1,
             isApprovalPending: false,
           },
@@ -1344,7 +1293,7 @@ export function AdminApprovalBounce(): JSX.Element {
           details: [
             {
               type: 'admin-approval-bounce',
-              uuid: CONTACT_A,
+              aci: CONTACT_A,
               times: 1,
               isApprovalPending: false,
             },
@@ -1360,13 +1309,13 @@ export function AdminApprovalBounce(): JSX.Element {
           details: [
             {
               type: 'admin-approval-bounce',
-              uuid: CONTACT_A,
+              aci: CONTACT_A,
               times: 1,
               isApprovalPending: false,
             },
           ],
         },
-        { groupMemberships: [{ uuid: CONTACT_A, isAdmin: false }] }
+        { groupMemberships: [{ aci: CONTACT_A, isAdmin: false }] }
       )}
       Would show button, but user is already banned:
       {renderChange(
@@ -1375,7 +1324,7 @@ export function AdminApprovalBounce(): JSX.Element {
           details: [
             {
               type: 'admin-approval-bounce',
-              uuid: CONTACT_A,
+              aci: CONTACT_A,
               times: 1,
               isApprovalPending: false,
             },
@@ -1387,10 +1336,6 @@ export function AdminApprovalBounce(): JSX.Element {
     </>
   );
 }
-
-AdminApprovalBounce.story = {
-  name: 'Admin Approval (Bounce)',
-};
 
 export function GroupLinkAdd(): JSX.Element {
   return (
@@ -1451,10 +1396,6 @@ export function GroupLinkAdd(): JSX.Element {
   );
 }
 
-GroupLinkAdd.story = {
-  name: 'Group Link (Add)',
-};
-
 export function GroupLinkReset(): JSX.Element {
   return (
     <>
@@ -1485,10 +1426,6 @@ export function GroupLinkReset(): JSX.Element {
   );
 }
 
-GroupLinkReset.story = {
-  name: 'Group Link (Reset)',
-};
-
 export function GroupLinkRemove(): JSX.Element {
   return (
     <>
@@ -1518,10 +1455,6 @@ export function GroupLinkRemove(): JSX.Element {
     </>
   );
 }
-
-GroupLinkRemove.story = {
-  name: 'Group Link (Remove)',
-};
 
 export function DescriptionRemove(): JSX.Element {
   return (
@@ -1555,10 +1488,6 @@ export function DescriptionRemove(): JSX.Element {
     </>
   );
 }
-
-DescriptionRemove.story = {
-  name: 'Description (Remove)',
-};
 
 export function DescriptionChange(): JSX.Element {
   return (
@@ -1604,10 +1533,6 @@ export function DescriptionChange(): JSX.Element {
     </>
   );
 }
-
-DescriptionChange.story = {
-  name: 'Description (Change)',
-};
 
 export function AnnouncementGroupChange(): JSX.Element {
   return (
@@ -1667,10 +1592,6 @@ export function AnnouncementGroupChange(): JSX.Element {
     </>
   );
 }
-
-AnnouncementGroupChange.story = {
-  name: 'Announcement Group (Change)',
-};
 
 export function Summary(): JSX.Element {
   return (

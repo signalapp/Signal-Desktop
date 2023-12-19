@@ -2,15 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { refreshRemoteConfig } from '../../RemoteConfig';
-import type { WebAPIType } from '../../textsecure/WebAPI';
-import type { UnwrapPromise } from '../../types/Util';
+import type {
+  WebAPIType,
+  RemoteConfigResponseType,
+} from '../../textsecure/WebAPI';
+import { SECOND } from '../../util/durations';
 
 export async function updateRemoteConfig(
-  newConfig: UnwrapPromise<ReturnType<WebAPIType['getConfig']>>
+  newConfig: RemoteConfigResponseType['config']
 ): Promise<void> {
   const fakeServer = {
     async getConfig() {
-      return newConfig;
+      return { config: newConfig, serverEpochTime: Date.now() / SECOND };
     },
   } as Partial<WebAPIType> as unknown as WebAPIType;
 

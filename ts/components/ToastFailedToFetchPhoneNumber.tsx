@@ -16,7 +16,7 @@ export function ToastFailedToFetchPhoneNumber({
 }: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose} style={{ maxWidth: '280px' }}>
-      {i18n('Toast--failed-to-fetch-phone-number')}
+      {i18n('icu:Toast--failed-to-fetch-phone-number')}
     </Toast>
   );
 }

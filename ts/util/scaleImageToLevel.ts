@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { LoadImageResult } from 'blueimp-load-image';
 import loadImage from 'blueimp-load-image';
 
 import type { MIMEType } from '../types/MIME';
@@ -108,23 +109,24 @@ async function getCanvasBlobAsJPEG(
 }
 
 export async function scaleImageToLevel(
-  fileOrBlobOrURL: File | Blob,
+  fileOrBlobOrURL: File | Blob | string,
   contentType: MIMEType,
+  size: number,
   sendAsHighQuality?: boolean
 ): Promise<{
   blob: Blob;
   contentType: MIMEType;
 }> {
-  let image: HTMLCanvasElement;
+  let data: LoadImageResult;
   try {
-    const data = await loadImage(fileOrBlobOrURL, {
+    data = await loadImage(fileOrBlobOrURL, {
       canvas: true,
       orientation: true,
+      meta: true, // Check if we need to strip EXIF data
     });
     if (!(data.image instanceof HTMLCanvasElement)) {
       throw new Error('image not a canvas');
     }
-    ({ image } = data);
   } catch (cause) {
     const error = new Error('scaleImageToLevel: Failed to process image', {
       cause,
@@ -135,11 +137,16 @@ export async function scaleImageToLevel(
   const level = sendAsHighQuality
     ? MediaQualityLevels.Three
     : getMediaQualityLevel();
-  const { maxDimensions, quality, size, thresholdSize } =
-    MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
+  const {
+    maxDimensions,
+    quality,
+    size: targetSize,
+    thresholdSize,
+  } = MEDIA_QUALITY_LEVEL_DATA.get(level) || DEFAULT_LEVEL_DATA;
 
-  if (fileOrBlobOrURL.size <= thresholdSize) {
-    const blob = await canvasToBlob(image, contentType);
+  if (size <= thresholdSize) {
+    // Always encode through canvas as a temporary fix for a library bug
+    const blob: Blob = await canvasToBlob(data.image, contentType);
     return {
       blob,
       contentType,
@@ -154,8 +161,12 @@ export async function scaleImageToLevel(
 
     // We need these operations to be in serial
     // eslint-disable-next-line no-await-in-loop
-    const blob = await getCanvasBlobAsJPEG(image, scalableDimensions, quality);
-    if (blob.size <= size) {
+    const blob = await getCanvasBlobAsJPEG(
+      data.image,
+      scalableDimensions,
+      quality
+    );
+    if (blob.size <= targetSize) {
       return {
         blob,
         contentType: IMAGE_JPEG,
@@ -163,7 +174,7 @@ export async function scaleImageToLevel(
     }
   }
 
-  const blob = await getCanvasBlobAsJPEG(image, MIN_DIMENSIONS, quality);
+  const blob = await getCanvasBlobAsJPEG(data.image, MIN_DIMENSIONS, quality);
   return {
     blob,
     contentType: IMAGE_JPEG,

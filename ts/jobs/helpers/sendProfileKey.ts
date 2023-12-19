@@ -32,6 +32,7 @@ import {
   UnregisteredUserError,
 } from '../../textsecure/Errors';
 import { shouldSendToConversation } from './shouldSendToConversation';
+import { sendToGroup } from '../../util/sendToGroup';
 
 export function canAllErrorsBeIgnored(
   conversation: ConversationAttributesType,
@@ -123,7 +124,7 @@ export async function sendProfileKey(
     });
     sendPromise = messaging.sendIndividualProto({
       contentHint,
-      identifier: conversation.getSendTarget(),
+      serviceId: conversation.getSendTarget(),
       options: sendOptions,
       proto,
       timestamp,
@@ -134,8 +135,8 @@ export async function sendProfileKey(
       log.error('No revision provided, but conversation is GroupV2');
     }
 
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-    if (!conversation.hasMember(ourUuid)) {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    if (!conversation.hasMember(ourAci)) {
       log.info(
         `We are not part of group ${conversation.idForLogging()}; refusing to send`
       );
@@ -147,11 +148,10 @@ export async function sendProfileKey(
       groupV2Info.revision = revision;
     }
 
-    sendPromise = window.Signal.Util.sendToGroup({
+    sendPromise = sendToGroup({
       contentHint,
       groupSendOptions: {
         flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
-        groupV1: conversation.getGroupV1Info(),
         groupV2: groupV2Info,
         profileKey,
         timestamp,

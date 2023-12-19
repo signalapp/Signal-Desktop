@@ -3,10 +3,9 @@
 
 import * as React from 'react';
 import { times } from 'lodash';
-
 import { action } from '@storybook/addon-actions';
-
-import { UUID } from '../../../types/UUID';
+import type { Meta } from '@storybook/react';
+import { generateAci } from '../../../types/ServiceId';
 import { StorySendMode } from '../../../types/Stories';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
@@ -21,7 +20,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ConversationDetails/PendingInvites',
-};
+} satisfies Meta<PropsType>;
 
 const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
   i === 0
@@ -45,7 +44,7 @@ const conversation: ConversationType = {
   storySendMode: StorySendMode.IfActive,
 };
 
-const OUR_UUID = UUID.generate().toString();
+const OUR_UUID = generateAci();
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   approvePendingMembershipFromGroupV2: action(
@@ -54,7 +53,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   conversation,
   getPreferredBadge: () => undefined,
   i18n,
-  ourUuid: OUR_UUID,
+  ourAci: OUR_UUID,
   pendingApprovalMemberships: times(5, () => ({
     member: getDefaultConversation(),
   })),
@@ -68,7 +67,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     ...times(8, () => ({
       member: getDefaultConversation(),
       metadata: {
-        addedByUserId: UUID.generate().toString(),
+        addedByUserId: generateAci(),
       },
     })),
   ],
@@ -90,7 +89,3 @@ export function WithBadges(): JSX.Element {
 
   return <PendingInvites {...props} />;
 }
-
-WithBadges.story = {
-  name: 'With badges',
-};

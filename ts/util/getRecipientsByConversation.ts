@@ -5,7 +5,6 @@ import type { ConversationAttributesType } from '../model-types';
 import type { RecipientsByConversation } from '../state/ducks/stories';
 
 import { getConversationMembers } from './getConversationMembers';
-import { UUID } from '../types/UUID';
 import { isNotNil } from './isNotNil';
 
 export function getRecipientsByConversation(
@@ -15,10 +14,8 @@ export function getRecipientsByConversation(
 
   conversations.forEach(attributes => {
     recipientsByConversation[attributes.id] = {
-      uuids: getConversationMembers(attributes)
-        .map(member =>
-          member.uuid ? UUID.checkedLookup(member.uuid).toString() : undefined
-        )
+      serviceIds: getConversationMembers(attributes)
+        .map(member => member.serviceId)
         .filter(isNotNil),
     };
   });

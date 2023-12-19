@@ -21,7 +21,7 @@ export function GroupV2PendingApprovalActions({
   return (
     <div className="module-group-v2-pending-approval-actions">
       <p className="module-group-v2-pending-approval-actions__message">
-        {i18n('GroupV2--join--requested')}
+        {i18n('icu:GroupV2--join--requested')}
       </p>
       <div className="module-group-v2-pending-approval-actions__buttons">
         <button
@@ -30,24 +30,24 @@ export function GroupV2PendingApprovalActions({
           tabIndex={0}
           className="module-group-v2-pending-approval-actions__buttons__button"
         >
-          {i18n('GroupV2--join--cancel-request-to-join')}
+          {i18n('icu:GroupV2--join--cancel-request-to-join')}
         </button>
       </div>
       {isConfirming ? (
         <ConfirmationDialog
           actions={[
             {
-              text: i18n('GroupV2--join--cancel-request-to-join--yes'),
+              text: i18n('icu:GroupV2--join--cancel-request-to-join--yes'),
               style: 'negative',
               action: () => cancelJoinRequest(conversationId),
             },
           ]}
-          cancelText={i18n('GroupV2--join--cancel-request-to-join--no')}
+          cancelText={i18n('icu:GroupV2--join--cancel-request-to-join--no')}
           dialogName="GroupV2CancelRequestToJoin"
           i18n={i18n}
           onClose={() => setIsConfirming(false)}
         >
-          {i18n('GroupV2--join--cancel-request-to-join--confirmation')}
+          {i18n('icu:GroupV2--join--cancel-request-to-join--confirmation')}
         </ConfirmationDialog>
       ) : undefined}
     </div>

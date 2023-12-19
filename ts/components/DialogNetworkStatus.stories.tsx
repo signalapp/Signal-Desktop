@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './DialogNetworkStatus';
 import { DialogNetworkStatus } from './DialogNetworkStatus';
 import { SocketStatus } from '../types/SocketStatus';
@@ -27,7 +28,7 @@ const defaultProps = {
 
 export default {
   title: 'Components/DialogNetworkStatus',
-};
+} satisfies Meta<PropsType>;
 
 export function KnobsPlayground(args: PropsType): JSX.Element {
   /*
@@ -68,10 +69,6 @@ export function ConnectingWide(): JSX.Element {
   );
 }
 
-ConnectingWide.story = {
-  name: 'Connecting Wide',
-};
-
 export function ClosingWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -83,10 +80,6 @@ export function ClosingWide(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-ClosingWide.story = {
-  name: 'Closing Wide',
-};
 
 export function ClosedWide(): JSX.Element {
   return (
@@ -100,10 +93,6 @@ export function ClosedWide(): JSX.Element {
   );
 }
 
-ClosedWide.story = {
-  name: 'Closed Wide',
-};
-
 export function OfflineWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -115,10 +104,6 @@ export function OfflineWide(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-OfflineWide.story = {
-  name: 'Offline Wide',
-};
 
 export function ConnectingNarrow(): JSX.Element {
   return (
@@ -132,10 +117,6 @@ export function ConnectingNarrow(): JSX.Element {
   );
 }
 
-ConnectingNarrow.story = {
-  name: 'Connecting Narrow',
-};
-
 export function ClosingNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -147,10 +128,6 @@ export function ClosingNarrow(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-ClosingNarrow.story = {
-  name: 'Closing Narrow',
-};
 
 export function ClosedNarrow(): JSX.Element {
   return (
@@ -164,10 +141,6 @@ export function ClosedNarrow(): JSX.Element {
   );
 }
 
-ClosedNarrow.story = {
-  name: 'Closed Narrow',
-};
-
 export function OfflineNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -179,7 +152,3 @@ export function OfflineNarrow(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-OfflineNarrow.story = {
-  name: 'Offline Narrow',
-};

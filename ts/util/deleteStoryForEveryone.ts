@@ -7,6 +7,8 @@ import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import type { StoryDataType } from '../state/ducks/stories';
 import * as Errors from '../types/errors';
 import type { StoryMessageRecipientsType } from '../types/Stories';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString } from '../types/ServiceId';
 import * as log from '../logging/log';
 import { DAY } from './durations';
 import { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
@@ -17,7 +19,7 @@ import {
 import { onStoryRecipientUpdate } from './onStoryRecipientUpdate';
 import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage';
 import { isGroupV2 } from './whatTypeOfConversation';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { strictAssert } from './assert';
 import { repeat, zipObject } from './iterables';
 import { isOlderThan } from './timestamp';
@@ -44,7 +46,7 @@ export async function deleteStoryForEveryone(
   }
 
   const logId = `deleteStoryForEveryone(${story.messageId})`;
-  const message = await getMessageById(story.messageId);
+  const message = await __DEPRECATED$getMessageById(story.messageId);
   if (!message) {
     throw new Error('Story not found');
   }
@@ -55,9 +57,9 @@ export async function deleteStoryForEveryone(
 
   const conversationIds = new Set(Object.keys(story.sendStateByConversationId));
   const newStoryRecipients = new Map<
-    string,
+    ServiceIdString,
     {
-      distributionListIds: Set<string>;
+      distributionListIds: Set<StoryDistributionIdString>;
       isAllowedToReply: boolean;
     }
   >();
@@ -69,7 +71,7 @@ export async function deleteStoryForEveryone(
   conversationIds.delete(ourConversation.id);
 
   // `updatedStoryRecipients` is used to build `storyMessageRecipients` for
-  // a sync message. Put all affected destinationUuids early on so that if
+  // a sync message. Put all affected destinationServiceIds early on so that if
   // there are no other distribution lists for them - we'd still include an
   // empty list.
   Object.entries(story.sendStateByConversationId).forEach(
@@ -78,14 +80,14 @@ export async function deleteStoryForEveryone(
         return;
       }
 
-      const destinationUuid =
-        window.ConversationController.get(recipientId)?.get('uuid');
+      const destinationServiceId =
+        window.ConversationController.get(recipientId)?.getServiceId();
 
-      if (!destinationUuid) {
+      if (!destinationServiceId) {
         return;
       }
 
-      newStoryRecipients.set(destinationUuid, {
+      newStoryRecipients.set(destinationServiceId, {
         distributionListIds: new Set(),
         isAllowedToReply: sendState.isAllowedToReplyToStory !== false,
       });
@@ -115,10 +117,10 @@ export async function deleteStoryForEveryone(
         return;
       }
 
-      const destinationUuid =
-        window.ConversationController.get(conversationId)?.get('uuid');
+      const destinationServiceId =
+        window.ConversationController.get(conversationId)?.getServiceId();
 
-      if (!destinationUuid) {
+      if (!destinationServiceId) {
         return;
       }
 
@@ -134,7 +136,7 @@ export async function deleteStoryForEveryone(
 
       // Build complete list of new story recipients (not counting ones that
       // are in the deleted story).
-      let recipient = newStoryRecipients.get(destinationUuid);
+      let recipient = newStoryRecipients.get(destinationServiceId);
       if (!recipient) {
         const isAllowedToReply =
           sendStateByConversationId[conversationId].isAllowedToReplyToStory;
@@ -143,7 +145,7 @@ export async function deleteStoryForEveryone(
           isAllowedToReply: isAllowedToReply !== false,
         };
 
-        newStoryRecipients.set(destinationUuid, recipient);
+        newStoryRecipients.set(destinationServiceId, recipient);
       }
 
       recipient.distributionListIds.add(item.storyDistributionListId);
@@ -156,17 +158,17 @@ export async function deleteStoryForEveryone(
 
   const newStoryMessageRecipients: StoryMessageRecipientsType = [];
 
-  newStoryRecipients.forEach((recipientData, destinationUuid) => {
+  newStoryRecipients.forEach((recipientData, destinationServiceId) => {
     newStoryMessageRecipients.push({
-      destinationUuid,
+      destinationServiceId,
       distributionListIds: Array.from(recipientData.distributionListIds),
       isAllowedToReply: recipientData.isAllowedToReply,
     });
   });
 
-  const destinationUuid = ourConversation
-    .getCheckedUuid('deleteStoryForEveryone')
-    .toString();
+  const destinationServiceId = ourConversation.getCheckedServiceId(
+    'deleteStoryForEveryone'
+  );
 
   log.info(`${logId}: sending DOE to ${conversationIds.size} conversations`);
 
@@ -190,7 +192,7 @@ export async function deleteStoryForEveryone(
 
       await window.Signal.Data.saveMessage(message.attributes, {
         jobToInsert,
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     });
   } catch (error) {
@@ -206,7 +208,7 @@ export async function deleteStoryForEveryone(
   // Emulate message for Desktop (this will call deleteForEveryone())
   const ev = new StoryRecipientUpdateEvent(
     {
-      destinationUuid,
+      destinationServiceId,
       timestamp: story.timestamp,
       storyMessageRecipients: newStoryMessageRecipients,
     },

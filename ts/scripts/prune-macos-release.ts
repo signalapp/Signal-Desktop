@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import fs from 'fs/promises';
+import { pathExists } from 'fs-extra';
 import path from 'path';
 import rimraf from 'rimraf';
 import type { AfterPackContext } from 'electron-builder';
@@ -28,7 +29,13 @@ export async function afterPack({
   const versionsDir = path.join(frameworkDir, 'Versions');
   const currentVersion = path.join(versionsDir, 'Current');
 
-  const subFolders = await fs.readdir(currentVersion);
+  let subFolders: Array<string>;
+  if (await pathExists(currentVersion)) {
+    subFolders = await fs.readdir(currentVersion);
+  } else {
+    console.error(`${currentVersion} not found`);
+    subFolders = [];
+  }
   for (const folder of subFolders) {
     const sourcePath = path.join(currentVersion, folder);
     const targetPath = path.join(frameworkDir, folder);

@@ -16,7 +16,7 @@ import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 //   DESKTOP-2844.
 export const MAX_DEVICE_NAME_LENGTH = 50;
 
-type PropsType = {
+export type PropsType = {
   deviceName: string;
   i18n: LocalizerType;
   onSubmit: () => void;
@@ -56,27 +56,31 @@ export function InstallScreenChoosingDeviceNameStep({
 
       <div className="module-InstallScreenChoosingDeviceNameStep__contents">
         <div className="module-InstallScreenChoosingDeviceNameStep__header">
-          <h1>{i18n('chooseDeviceName')}</h1>
-          <h2>{i18n('Install__choose-device-name__description')}</h2>
+          <label htmlFor="deviceName">
+            <h1>{i18n('icu:chooseDeviceName')}</h1>
+          </label>
+          <h2>{i18n('icu:Install__choose-device-name__description')}</h2>
         </div>
         <div className="module-InstallScreenChoosingDeviceNameStep__inputs">
           <input
             className="module-InstallScreenChoosingDeviceNameStep__input"
+            id="deviceName"
             maxLength={MAX_DEVICE_NAME_LENGTH}
             onChange={event => {
               setDeviceName(event.target.value);
             }}
-            placeholder={i18n('Install__choose-device-name__placeholder')}
+            placeholder={i18n('icu:Install__choose-device-name__placeholder')}
             ref={focusRef}
             spellCheck={false}
             value={deviceName}
+            dir="auto"
           />
           <Button
             disabled={!canSubmit}
             variant={ButtonVariant.Primary}
             type="submit"
           >
-            {i18n('finishLinkingPhone')}
+            {i18n('icu:finishLinkingPhone')}
           </Button>
         </div>
       </div>

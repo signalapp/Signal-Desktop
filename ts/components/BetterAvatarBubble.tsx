@@ -48,7 +48,7 @@ export function BetterAvatarBubble({
     >
       {onDelete && (
         <button
-          aria-label={i18n('delete')}
+          aria-label={i18n('icu:delete')}
           className="BetterAvatarBubble__delete"
           onClick={onDelete}
           tabIndex={-1}

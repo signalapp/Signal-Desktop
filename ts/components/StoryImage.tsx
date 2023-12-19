@@ -21,6 +21,8 @@ import {
 } from '../types/Attachment';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { isVideoTypeSupported } from '../util/GoogleChrome';
+import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 export type PropsType = {
   readonly attachment?: AttachmentType;
@@ -35,6 +37,7 @@ export type PropsType = {
   readonly moduleClassName?: string;
   readonly queueStoryDownload: (storyId: string) => unknown;
   readonly storyId: string;
+  readonly onMediaPlaybackStart: () => void;
 };
 
 export function StoryImage({
@@ -50,6 +53,7 @@ export function StoryImage({
   moduleClassName,
   queueStoryDownload,
   storyId,
+  onMediaPlaybackStart,
 }: PropsType): JSX.Element | null {
   const shouldDownloadAttachment =
     (!isDownloaded(attachment) && !isDownloading(attachment)) ||
@@ -72,9 +76,15 @@ export function StoryImage({
     if (isPaused) {
       videoRef.current.pause();
     } else {
-      void videoRef.current.play();
+      onMediaPlaybackStart();
+      void videoRef.current.play().catch(error => {
+        log.error(
+          'StoryImage: Failed to play video',
+          Errors.toLogFormat(error)
+        );
+      });
     }
-  }, [isPaused]);
+  }, [isPaused, onMediaPlaybackStart]);
 
   useEffect(() => {
     setHasImgError(false);
@@ -144,7 +154,7 @@ export function StoryImage({
   if (isPending) {
     overlay = (
       <div className="StoryImage__overlay-container">
-        <div className="StoryImage__spinner-bubble" title={i18n('loading')}>
+        <div className="StoryImage__spinner-bubble" title={i18n('icu:loading')}>
           <Spinner moduleClassName="StoryImage__spinner" svgSize="small" />
         </div>
       </div>
@@ -153,9 +163,15 @@ export function StoryImage({
     let content = <div className="StoryImage__error" />;
     if (!isThumbnail) {
       if (isMe) {
-        content = <>{i18n('StoryImage__error--you')}</>;
+        content = <>{i18n('icu:StoryImage__error--you')}</>;
       } else {
-        content = <>{i18n('StoryImage__error2', [firstName])}</>;
+        content = (
+          <>
+            {i18n('icu:StoryImage__error2', {
+              name: firstName,
+            })}
+          </>
+        );
       }
     }
 

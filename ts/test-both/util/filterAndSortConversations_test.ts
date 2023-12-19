@@ -4,16 +4,19 @@
 import { assert } from 'chai';
 import { getDefaultConversation } from '../helpers/getDefaultConversation';
 
-import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
+import {
+  filterAndSortConversationsAlphabetically,
+  filterAndSortConversationsByRecent,
+} from '../../util/filterAndSortConversations';
 
-describe('filterAndSortConversationsByRecent', () => {
+describe('filterAndSortConversations', () => {
   const conversations = [
     getDefaultConversation({
       title: '+16505551234',
       activeAt: 1,
     }),
     getDefaultConversation({
-      title: 'Abraham Lincoln',
+      title: 'The Abraham Lincoln Club',
       activeAt: 4,
     }),
     getDefaultConversation({
@@ -33,19 +36,47 @@ describe('filterAndSortConversationsByRecent', () => {
     }),
   ];
 
-  it('sorts by recency when no search term is provided', () => {
+  it('filterAndSortConversationsByRecent sorts by recency when no search term is provided', () => {
     const titles = filterAndSortConversationsByRecent(
       conversations,
       '',
       'US'
     ).map(contact => contact.title);
-    assert.sameMembers(titles, [
-      '+16505551234',
-      'George Washington',
+    assert.sameOrderedMembers(titles, [
+      'The Abraham Lincoln Club',
       'Boxing Club',
-      'Abraham Lincoln',
+      'George Washington',
+      '+16505551234',
       'Not recent',
       'A long long long title ending with burrito',
+    ]);
+  });
+
+  it('filterAndSortConversationsAlphabetically sorts by title when no search term is provided', () => {
+    const titles = filterAndSortConversationsAlphabetically(
+      conversations,
+      '',
+      'US'
+    ).map(contact => contact.title);
+    assert.sameOrderedMembers(titles, [
+      'A long long long title ending with burrito',
+      'Boxing Club',
+      'George Washington',
+      'Not recent',
+      'The Abraham Lincoln Club',
+      '+16505551234',
+    ]);
+  });
+
+  it('filterAndSortConversationsAlphabetically sorts by title when a search term is provided', () => {
+    const titles = filterAndSortConversationsAlphabetically(
+      conversations,
+      'club',
+      'US'
+    ).map(contact => contact.title);
+    assert.sameOrderedMembers(titles, [
+      'Boxing Club',
+      'The Abraham Lincoln Club',
     ]);
   });
 

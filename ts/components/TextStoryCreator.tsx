@@ -116,14 +116,14 @@ function getBgButtonAriaLabel(
   textBackground: TextBackground
 ): string {
   if (textBackground === TextBackground.Background) {
-    return i18n('StoryCreator__text-bg--background');
+    return i18n('icu:StoryCreator__text-bg--background');
   }
 
   if (textBackground === TextBackground.Inverse) {
-    return i18n('StoryCreator__text-bg--inverse');
+    return i18n('icu:StoryCreator__text-bg--inverse');
   }
 
-  return i18n('StoryCreator__text-bg--none');
+  return i18n('icu:StoryCreator__text-bg--none');
 }
 
 export function TextStoryCreator({
@@ -365,31 +365,31 @@ export function TextStoryCreator({
                 menuOptions={[
                   {
                     icon: 'StoryCreator__icon--font-regular',
-                    label: i18n('StoryCreator__text--regular'),
+                    label: i18n('icu:StoryCreator__text--regular'),
                     onClick: () => setTextStyle(TextStyle.Regular),
                     value: TextStyle.Regular,
                   },
                   {
                     icon: 'StoryCreator__icon--font-bold',
-                    label: i18n('StoryCreator__text--bold'),
+                    label: i18n('icu:StoryCreator__text--bold'),
                     onClick: () => setTextStyle(TextStyle.Bold),
                     value: TextStyle.Bold,
                   },
                   {
                     icon: 'StoryCreator__icon--font-serif',
-                    label: i18n('StoryCreator__text--serif'),
+                    label: i18n('icu:StoryCreator__text--serif'),
                     onClick: () => setTextStyle(TextStyle.Serif),
                     value: TextStyle.Serif,
                   },
                   {
                     icon: 'StoryCreator__icon--font-script',
-                    label: i18n('StoryCreator__text--script'),
+                    label: i18n('icu:StoryCreator__text--script'),
                     onClick: () => setTextStyle(TextStyle.Script),
                     value: TextStyle.Script,
                   },
                   {
                     icon: 'StoryCreator__icon--font-condensed',
-                    label: i18n('StoryCreator__text--condensed'),
+                    label: i18n('icu:StoryCreator__text--condensed'),
                     onClick: () => setTextStyle(TextStyle.Condensed),
                     value: TextStyle.Condensed,
                   },
@@ -460,11 +460,11 @@ export function TextStoryCreator({
               theme={Theme.Dark}
               variant={ButtonVariant.Secondary}
             >
-              {i18n('discard')}
+              {i18n('icu:discard')}
             </Button>
             <div className="StoryCreator__controls">
               <button
-                aria-label={i18n('StoryCreator__story-bg')}
+                aria-label={i18n('icu:StoryCreator__story-bg')}
                 className={classNames({
                   StoryCreator__control: true,
                   'StoryCreator__control--bg': true,
@@ -494,7 +494,7 @@ export function TextStoryCreator({
                     BackgroundStyle,
                     (bg, backgroundValue) => (
                       <button
-                        aria-label={i18n('StoryCreator__story-bg')}
+                        aria-label={i18n('icu:StoryCreator__story-bg')}
                         className={classNames({
                           StoryCreator__bg: true,
                           'StoryCreator__bg--selected':
@@ -517,7 +517,7 @@ export function TextStoryCreator({
                 </div>
               )}
               <button
-                aria-label={i18n('StoryCreator__control--text')}
+                aria-label={i18n('icu:StoryCreator__control--text')}
                 className={classNames({
                   StoryCreator__control: true,
                   'StoryCreator__control--text': true,
@@ -529,7 +529,7 @@ export function TextStoryCreator({
                 type="button"
               />
               <button
-                aria-label={i18n('StoryCreator__control--link')}
+                aria-label={i18n('icu:StoryCreator__control--link')}
                 className="StoryCreator__control StoryCreator__control--link"
                 onClick={() =>
                   setIsLinkPreviewInputShowing(!isLinkPreviewInputShowing)
@@ -556,7 +556,9 @@ export function TextStoryCreator({
                     i18n={i18n}
                     moduleClassName="StoryCreator__link-preview-input"
                     onChange={setLinkPreviewInputValue}
-                    placeholder={i18n('StoryCreator__link-preview-placeholder')}
+                    placeholder={i18n(
+                      'icu:StoryCreator__link-preview-placeholder'
+                    )}
                     ref={el => el?.focus()}
                     value={linkPreviewInputValue}
                   />
@@ -579,13 +581,13 @@ export function TextStoryCreator({
                           theme={Theme.Dark}
                           variant={ButtonVariant.Primary}
                         >
-                          {i18n('StoryCreator__add-link')}
+                          {i18n('icu:StoryCreator__add-link')}
                         </Button>
                       </>
                     ) : (
                       <div className="StoryCreator__link-preview-empty">
                         <div className="StoryCreator__link-preview-empty__icon" />
-                        {i18n('StoryCreator__link-preview-empty')}
+                        {i18n('icu:StoryCreator__link-preview-empty')}
                       </div>
                     )}
                   </div>
@@ -601,7 +603,7 @@ export function TextStoryCreator({
               {isSending ? (
                 <Spinner svgSize="small" />
               ) : (
-                i18n('StoryCreator__next')
+                i18n('icu:StoryCreator__next')
               )}
             </Button>
           </div>

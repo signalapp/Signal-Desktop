@@ -4,6 +4,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingSelectPresentingSourcesModal';
 import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
 
@@ -55,7 +56,7 @@ const createProps = (): PropsType => ({
 
 export default {
   title: 'Components/CallingSelectPresentingSourcesModal',
-};
+} satisfies Meta<PropsType>;
 
 export function Modal(): JSX.Element {
   return <CallingSelectPresentingSourcesModal {...createProps()} />;

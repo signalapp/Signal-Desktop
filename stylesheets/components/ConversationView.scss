@@ -9,10 +9,21 @@
   &__pane {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow: initial;
+    height: calc(100% - #{$header-height} - var(--title-bar-drag-area-height));
+    inset-inline-start: 0;
+    overflow-y: overlay;
     position: absolute;
+    top: calc(#{$header-height} + var(--title-bar-drag-area-height));
     width: 100%;
+    z-index: $z-index-base;
+
+    @include light-theme() {
+      background-color: $color-white;
+    }
+
+    @include dark-theme() {
+      background-color: $color-gray-95;
+    }
   }
 
   &__timeline {
@@ -21,6 +32,7 @@
       margin: 0;
       max-width: 100%;
       position: relative;
+      z-index: 0;
     }
 
     -webkit-padding-start: 0px;
@@ -35,12 +47,19 @@
   }
 
   &__composition-area {
+    position: relative;
+    z-index: 1;
+
     // We need to use the wrapper because the conversation view calculates the height of all
     //   things in the composition area. A margin on an inner div won't be included in that
     //   height calculation.
     .quote-wrapper,
     .preview-wrapper {
-      margin: 0 16px 10px 16px;
+      margin-block: 0 10px;
+      margin-inline: 16px;
     }
+  }
+
+  &__header {
   }
 }

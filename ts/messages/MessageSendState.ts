@@ -39,6 +39,11 @@ export const parseMessageSendStatus = makeEnumParser(
   SendStatus.Pending
 );
 
+export const UNDELIVERED_SEND_STATUSES = [
+  SendStatus.Pending,
+  SendStatus.Failed,
+];
+
 const STATUS_NUMBERS: Record<SendStatus, number> = {
   [SendStatus.Failed]: 0,
   [SendStatus.Pending]: 1,

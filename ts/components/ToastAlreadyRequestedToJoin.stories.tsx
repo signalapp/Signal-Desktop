@@ -3,6 +3,8 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './ToastAlreadyRequestedToJoin';
 import { ToastAlreadyRequestedToJoin } from './ToastAlreadyRequestedToJoin';
 
 import { setupI18n } from '../util/setupI18n';
@@ -17,12 +19,8 @@ const defaultProps = {
 
 export default {
   title: 'Components/ToastAlreadyRequestedToJoin',
-};
+} satisfies Meta<PropsType>;
 
 export const _ToastAlreadyRequestedToJoin = (): JSX.Element => (
   <ToastAlreadyRequestedToJoin {...defaultProps} />
 );
-
-_ToastAlreadyRequestedToJoin.story = {
-  name: 'ToastAlreadyRequestedToJoin',
-};

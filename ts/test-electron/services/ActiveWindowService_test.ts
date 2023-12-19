@@ -5,16 +5,16 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { EventEmitter } from 'events';
 
-import { ActiveWindowService } from '../../services/ActiveWindowService';
+import { getActiveWindowService } from '../../services/ActiveWindowService';
 
 describe('ActiveWindowService', () => {
   const fakeIpcEvent = {};
 
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     this.clock = sinon.useFakeTimers({ now: 1000 });
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.clock.restore();
   });
 
@@ -23,26 +23,26 @@ describe('ActiveWindowService', () => {
   }
 
   it('is inactive at the start', () => {
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), new EventEmitter());
+    const service = getActiveWindowService(
+      createFakeDocument(),
+      new EventEmitter()
+    );
 
     assert.isFalse(service.isActive());
   });
 
   it('becomes active after focusing', () => {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
     assert.isTrue(service.isActive());
   });
 
-  it('becomes inactive after 15 seconds without interaction', function test() {
+  it('becomes inactive after 15 seconds without interaction', function (this: Mocha.Context) {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
@@ -58,11 +58,10 @@ describe('ActiveWindowService', () => {
 
   ['click', 'keydown', 'mousedown', 'mousemove', 'touchstart', 'wheel'].forEach(
     (eventName: string) => {
-      it(`is inactive even in the face of ${eventName} events if unfocused`, function test() {
+      it(`is inactive even in the face of ${eventName} events if unfocused`, function (this: Mocha.Context) {
         const fakeDocument = createFakeDocument();
         const fakeIpc = new EventEmitter();
-        const service = new ActiveWindowService();
-        service.initialize(fakeDocument, fakeIpc);
+        const service = getActiveWindowService(fakeDocument, fakeIpc);
 
         fakeIpc.emit('set-window-focus', fakeIpcEvent, false);
 
@@ -70,11 +69,10 @@ describe('ActiveWindowService', () => {
         assert.isFalse(service.isActive());
       });
 
-      it(`stays active if focused and receiving ${eventName} events`, function test() {
+      it(`stays active if focused and receiving ${eventName} events`, function (this: Mocha.Context) {
         const fakeDocument = createFakeDocument();
         const fakeIpc = new EventEmitter();
-        const service = new ActiveWindowService();
-        service.initialize(fakeDocument, fakeIpc);
+        const service = getActiveWindowService(fakeDocument, fakeIpc);
 
         fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
@@ -94,8 +92,7 @@ describe('ActiveWindowService', () => {
 
   it('calls callbacks when going from unfocused to focused', () => {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     const callback = sinon.stub();
     service.registerForActive(callback);
@@ -105,11 +102,10 @@ describe('ActiveWindowService', () => {
     sinon.assert.calledOnce(callback);
   });
 
-  it('calls callbacks when receiving a click event after being focused', function test() {
+  it('calls callbacks when receiving a click event after being focused', function (this: Mocha.Context) {
     const fakeDocument = createFakeDocument();
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(fakeDocument, fakeIpc);
+    const service = getActiveWindowService(fakeDocument, fakeIpc);
 
     fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
 
@@ -123,10 +119,9 @@ describe('ActiveWindowService', () => {
     sinon.assert.calledOnce(callback);
   });
 
-  it('only calls callbacks every 5 seconds; it is throttled', function test() {
+  it('only calls callbacks every 5 seconds; it is throttled', function (this: Mocha.Context) {
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(createFakeDocument(), fakeIpc);
+    const service = getActiveWindowService(createFakeDocument(), fakeIpc);
 
     const callback = sinon.stub();
     service.registerForActive(callback);
@@ -150,8 +145,7 @@ describe('ActiveWindowService', () => {
   it('can remove callbacks', () => {
     const fakeDocument = createFakeDocument();
     const fakeIpc = new EventEmitter();
-    const service = new ActiveWindowService();
-    service.initialize(fakeDocument, fakeIpc);
+    const service = getActiveWindowService(fakeDocument, fakeIpc);
 
     const callback = sinon.stub();
     service.registerForActive(callback);

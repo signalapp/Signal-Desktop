@@ -1,0 +1,335 @@
+{
+  "smartling" : {
+    "placeholder_format_custom" : "(\\$.+?\\$)",
+    "string_format_paths" : "icu: [*/messageformat]",
+    "translate_paths" : [
+    {
+      "path" : "*/messageformat",
+      "key" : "{*}/messageformat",
+      "instruction" : "*/description"
+    },
+
+    {
+      "key" : "{*}/message",
+      "path" : "*/message",
+      "instruction" : "*/description"
+    }]
+  },
+  "index--title" : {
+    "message" : "ឧបករណ៍បង្កើតសិល្បៈស្ទីគ័រ"
+  },
+  "index--create-sticker-pack" : {
+    "message" : "បង្កើតកញ្ចប់ស្ទីគ័រថ្មី"
+  },
+  "SignIn--title" : {
+    "message" : "បង្កើតកញ្ចប់ស្ទីគ័រ",
+    "description" : "A title of SignIn page"
+  },
+  "icu:SignIn--body" : {
+    "messageformat" : "ដូចអ្វីៗផ្សេងទៀតនៅក្នុង Signal ដែរ <linkToBlog>ស្ទីគ័រក៏ត្រូវបានអ៊ីនគ្រីបផងដែរ។</linkToBlog>។ ប្រើឧបករណ៍នេះដើម្បីបង្កើតកញ្ចប់ស្ទីគ័រផ្ទាល់ខ្លួនរបស់អ្នក។",
+    "description" : "A body of SignIn page"
+  },
+  "SignIn--qr" : {
+    "message" : "កូដសម្រាប់ចូល",
+    "description" : "An alt text of QR code displayed on sign in page"
+  },
+  "SignIn--link" : {
+    "message" : "បើក Signal Desktop ដើម្បីចាប់ផ្តើម",
+    "description" : "A link text for signing into the website using Signal Desktop client"
+  },
+  "UnsupportedBrowser--description" : {
+    "message" : "សូមអភ័យទោស កម្មវិធីរុករករបស់អ្នកមិនអាចប្រើបានទេ។ សូមបើកតំណនេះនៅក្នុង Firefox ឬ Chrome",
+    "description" : "A text displayed when user's browser is not supported"
+  },
+  "cancel" : {
+    "message" : "បោះបង់"
+  },
+  "minutesAgo" : {
+    "message" : "$minutes$ នាទី",
+    "description" : "Contracted form of 'X minutes ago' which works both for singular and plural"
+  },
+  "EmojiPicker--empty" : {
+    "message" : "រកមិនឃើញរូបអារម្មណ៍ទេ",
+    "description" : "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder" : {
+    "message" : "ស្វែងរករូបអារម្មណ៍",
+    "description" : "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone" : {
+    "message" : "ពណ៌ស្បែក $tone$",
+    "description" : "Shown as a tooltip over the emoji tone buttons."
+  },
+  "EmojiPicker--category--smileys_people" : {
+    "message" : "រូបមុខញញឹម និងមនុស្ស",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--animals_nature" : {
+    "message" : "សត្វ និងធម្មជាតិ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--food_drink" : {
+    "message" : "អាហារ និងភេសជ្ជៈ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--travel_places" : {
+    "message" : "ការធ្វើដំណើរ និងទីកន្លែង",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--activities" : {
+    "message" : "សកម្មភាព",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--objects" : {
+    "message" : "វត្ថុ",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--symbols" : {
+    "message" : "សញ្ញា",
+    "description" : "Name of the emoji picker category."
+  },
+  "EmojiPicker--category--flags" : {
+    "message" : "ទង់",
+    "description" : "Name of the emoji picker category."
+  },
+  "ArtCreator--title" : {
+    "message" : "ឧបករណ៍បង្កើតសិល្បៈ Signal",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--sticker" : {
+    "message" : "ឧបករណ៍បង្កើតកញ្ចប់ស្ទីគ័រ Signal",
+    "description" : "The title of the Sticker Pack Creator window"
+  },
+  "StickerCreator--title--icon" : {
+    "message" : "និមិត្តសញ្ញា Signal",
+    "description" : "An alt text of signal logo"
+  },
+  "StickerCreator--guidelines" : {
+    "message" : "គោលការណ៍ណែនាំអំពីឧបករណ៍បង្កើតកញ្ចប់ស្ទីគ័រ",
+    "description" : "The title of the Sticker Pack Guidelines link"
+  },
+  "StickerCreator--DropZone--staticText" : {
+    "message" : "ចុចដើម្បីបញ្ចូល ឬទម្លាក់រូបភាពនៅទីនេះ",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is no active drag"
+  },
+  "StickerCreator--DropZone--activeText" : {
+    "message" : "ទម្លាក់រូបភាពនៅទីនេះ",
+    "description" : "Text which appears on the Sticker Creator drop zone when there is an active drag"
+  },
+  "StickerCreator--Preview--title--sticker" : {
+    "message" : "កញ្ចប់ស្ទីកគ័រ",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--Preview--title--emoji" : {
+    "message" : "កញ្ចប់ស្ទីកគ័រ",
+    "description" : "The 'title' of the sticker pack preview 'modal'"
+  },
+  "StickerCreator--ConfirmDialog--cancel" : {
+    "message" : "បោះបង់",
+    "description" : "The default text for the confirm dialog cancel button"
+  },
+  "StickerCreator--CopyText--button" : {
+    "message" : "ចម្លង",
+    "description" : "The text which appears on the copy button for the sticker creator share screen"
+  },
+  "StickerCreator--ShareButtons--facebook" : {
+    "message" : "Facebook",
+    "description" : "Title for Facebook button"
+  },
+  "StickerCreator--ShareButtons--twitter" : {
+    "message" : "Twitter",
+    "description" : "Title for Twitter button"
+  },
+  "StickerCreator--ShareButtons--pinterest" : {
+    "message" : "Pinterest",
+    "description" : "Title for Pinterest button"
+  },
+  "StickerCreator--ShareButtons--whatsapp" : {
+    "message" : "WhatsApp",
+    "description" : "Title for WhatsApp button"
+  },
+  "StickerCreator--AppStage--next" : {
+    "message" : "បន្ទាប់",
+    "description" : "Default text for the next button on all stages of the sticker creator"
+  },
+  "StickerCreator--AppStage--prev" : {
+    "message" : "ត្រឡប់ក្រោយ",
+    "description" : "Default text for the previous button on all stages of the sticker creator"
+  },
+  "icu:StickerCreator--DropStage--title--sticker" : {
+    "messageformat" : "បញ្ចូលស្ទីកគ័ររបស់អ្នក",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--removeSticker" : {
+    "message" : "ដករូបភាពចេញ",
+    "description" : "Label for the X button used to remove a staged image"
+  },
+  "StickerCreator--DropStage--dragDrop--sticker" : {
+    "message" : "ចុច ឬអូស/ទម្លាក់ឯកសារ ដើម្បីបញ្ចូលស្ទីគ័រ",
+    "description" : "Shown on the + section of the file addition stage of sticker pack creation"
+  },
+  "StickerCreator--DropStage--help--sticker" : {
+    "message" : "ស្ទីគ័រត្រូវតែមានទម្រង់ជា PNG, APNG ឬ WebP ដែលមានផ្ទៃខាងក្រោយច្បាស់ ហើយមានទំហំ 512x512 ភីកស៊ែល។ គួរតែមានរឹម 16px។",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--showMargins" : {
+    "message" : "មើលរឹម",
+    "description" : "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--title--sticker" : {
+    "message" : "បញ្ចូលរូបអារម្មណ៍ទៅស្ទីកគ័រនីមួយៗ",
+    "description" : "Title for the drop stage of the sticker creator"
+  },
+  "StickerCreator--EmojiStage--help--sticker" : {
+    "message" : "វាអាចឲ្យយើងណែនាំស្ទីកគ័រទៅអ្នកបាន ពេលអ្នកកំពុងផ្ញើសារ។",
+    "description" : "Help text for the drop stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--title" : {
+    "message" : "គ្រាន់តែព័ត៌មានលម្អិតបន្តិចទៀតប៉ុណ្ណោះ…",
+    "description" : "Title for the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title" : {
+    "message" : "ចំណងជើង",
+    "description" : "Label for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--title-placeholder" : {
+    "message" : "ដាក់ឈ្មោះកញ្ចប់ស្ទីគ័ររបស់អ្នក",
+    "description" : "Placeholder for the title input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author" : {
+    "message" : "អ្នកនិពន្ធ",
+    "description" : "Label for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--author-placeholder" : {
+    "message" : "បញ្ចូលឈ្មោះដើម្បីដាក់បញ្ជូនស្ទីគ័ររបស់អ្នក",
+    "description" : "Placeholder for the author input of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover" : {
+    "message" : "រូបភាពក្រប",
+    "description" : "Label for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--Field--cover--help--sticker" : {
+    "message" : "នេះគឺជារូបភាពដែលនឹងត្រូវបង្ហាញនៅពេលអ្នកចែករំលែកកញ្ចប់ស្ទីកគ័ររបស់អ្នក",
+    "description" : "Help text for the cover image picker of the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--title--sticker" : {
+    "message" : "តើអ្នកប្រាកដជាចង់បង្ហោះកញ្ចប់ស្ទីកគ័ររបស់អ្នកឬ?",
+    "description" : "Title for the confirm dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--confirm" : {
+    "message" : "បង្ហោះ",
+    "description" : "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--MetaStage--ConfirmDialog--text--sticker" : {
+    "message" : "អ្នកនឹងមិនអាចធ្វើការកែ ឬលុបបានទៀតទេ បន្ទាប់ពីបង្កើតកញ្ចប់ស្ទីកគ័ររួច។",
+    "description" : "The text inside the confirmation dialog on the meta stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage--title--sticker" : {
+    "message" : "កំពុងបង្កើតកញ្ចប់ស្ទីកគ័ររបស់អ្នក",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--UploadStage-uploaded" : {
+    "message" : "បានបង្ហោះ $count$ ក្នុងចំណោម $total$",
+    "description" : "Title for the upload stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--title" : {
+    "message" : "អបអរសាទរ! អ្នកបានបង្កើតកញ្ចប់ស្ទីកគ័រមួយ។",
+    "description" : "Title for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--help" : {
+    "message" : "ចូលប្រើស្ទីកគ័រថ្មីរបស់អ្នក តាមរយៈរូបតំណាងស្ទីកគ័រ ឬចែករំលែកជាមួយមិត្តភក្តិរបស់អ្នក ដោយប្រើប្រាស់តំណខាងក្រោម។",
+    "description" : "Help text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--callToAction" : {
+    "message" : "ប្រើប្រាស់ hashtag $hashtag$ ដើម្បីជួយអ្នកដទៃស្វែងរកតំណសម្រាប់កញ្ចប់ស្ទីកគ័រណាមួយ ដែលអ្នកចង់ដាក់ឱ្យប្រើប្រាស់ជាសាធារណៈ។",
+    "description" : "Call to action text for the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--copyTitle" : {
+    "message" : "តំណកញ្ចប់ស្ទីកគ័រ",
+    "description" : "Title for the copy button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--install" : {
+    "message" : "ដំឡើង",
+    "description" : "Text for the primary button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--createAnother" : {
+    "message" : "បង្កើតកញ្ចប់ស្ទីកគ័រមួយផ្សេងទៀត",
+    "description" : "Text for the create another sticker pack button on the share stage of the sticker creator"
+  },
+  "StickerCreator--ShareStage--socialMessage" : {
+    "message" : "ឆែកមើលកញ្ចប់ស្ទីកគ័រថ្មីនេះដែលខ្ញុំបានបង្កើតសម្រាប់ Signal។ #makeprivacystick",
+    "description" : "Text which is shared to social media platforms for sticker packs"
+  },
+  "icu:StickerCreator--Toasts--imagesAdded" : {
+    "messageformat" : "{count, plural, other {បានបញ្ចូល {count,number} រូបភាព}}",
+    "description" : "Text for the toast when images are added to the sticker creator"
+  },
+  "StickerCreator--Toasts--animated" : {
+    "message" : "បច្ចុប្បន្ននេះ សិល្បៈបែបជីវចលមិនអាចប្រើបានទេ",
+    "description" : "Text for the toast when an image that is animated was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--tooLarge" : {
+    "message" : "រូបភាពដែលបានទម្លាក់ធំពេក",
+    "description" : "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing" : {
+    "message" : "បញ្ហាដំណើរការរូបភាព",
+    "description" : "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare" : {
+    "message" : "រូបភាព PNG ដែលមានចលនាត្រូវតែមានរាងការ៉េ",
+    "description" : "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever" : {
+    "message" : "រូបភាពដែលមានចលនាត្រូវតែរង្វិលជុំជារៀងរហូត",
+    "description" : "Text for the toast when an image in the art creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge" : {
+    "message" : "វិមាត្ររូបភាព PNG ដែលមានចលនាធំពេក",
+    "description" : "Text for the toast when an APNG image in the art creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall" : {
+    "message" : "វិមាត្ររូបភាព PNG ដែលមានចលនាតូចពេក",
+    "description" : "Text for the toast when an APNG image in the art creator is too small"
+  },
+  "StickerCreator--Toasts--errorUploading" : {
+    "message" : "មានបញ្ហាក្នុងការបង្ហោះរូបភាព៖ $message$",
+    "description" : "Text for the toast when a art pack cannot be uploaded"
+  },
+  "StickerCreator--Toasts--errorSigningIn" : {
+    "message" : "មិនអាចភ្ជាប់ទៅម៉ាស៊ីនមេ៖ $message$",
+    "description" : "Text for the toast displayed when connection to the server cannot be established."
+  },
+  "StickerCreator--Toasts--expired-credenitals" : {
+    "message" : "មិនអាចបង្ហោះរូបភាពបានដោយសារព័ត៌មានបញ្ជាក់អត្តសញ្ញាណផុតកំណត់។ សូមបើកគេហទំព័រឡើងវិញពី Signal Desktop ម្តងទៀត។",
+    "description" : "Text for the toast when a art pack cannot be uploaded due to expired credentials"
+  },
+  "StickerCreator--Toasts--linkedCopied" : {
+    "message" : "បានចម្លងតំណ",
+    "description" : "Text for the toast when a link for sharing is copied from the Sticker Creator"
+  },
+  "StickerCreator--StickerPreview--light" : {
+    "message" : "ស្ទីកគ័ររបស់ខ្ញុំក្នុងផ្ទៃពណ៌ភ្លឺ",
+    "description" : "Text for the sticker preview for the light theme"
+  },
+  "StickerCreator--StickerPreview--dark" : {
+    "message" : "ស្ទីកគ័ររបស់ខ្ញុំក្នុងផ្ទៃពណ៌ងងឹត",
+    "description" : "Text for the sticker preview for the dark theme"
+  },
+  "StickerCreator--Authentication--error" : {
+    "message" : "សូមរៀបចំ Signal នៅលើទូរសព្ទរបស់អ្នក និងកុំព្យូទ័រ ដើម្បីប្រើប្រាស់ឧបករណ៍បង្កើតកញ្ចប់ស្ទីកគ័រ",
+    "description" : "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "EmojiButton__label" : {
+    "message" : "រូបអារម្មណ៍",
+    "description" : "Label for emoji button"
+  },
+  "CustomizingPreferredReactions__title" : {
+    "message" : "កំណត់រូបប្រតិកម្មតាមបំណង",
+    "description" : "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+  },
+  "ArtFrame--emoji-name-placeholder" : {
+    "message" : "ឈ្មោះរូបអារម្មណ៍",
+    "description" : "Shown as a placeholder of input below the emoji image to let user select the lowercase alias to be used for the emoji."
+  }
+}

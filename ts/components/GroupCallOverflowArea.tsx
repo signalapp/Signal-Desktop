@@ -13,27 +13,33 @@ const OVERFLOW_SCROLLED_TO_EDGE_THRESHOLD = 20;
 const OVERFLOW_SCROLL_BUTTON_RATIO = 0.75;
 
 // This should be an integer, as sub-pixel widths can cause performance issues.
-export const OVERFLOW_PARTICIPANT_WIDTH = 140;
+export const OVERFLOW_PARTICIPANT_WIDTH = 107;
 
-type PropsType = {
+export type PropsType = {
   getFrameBuffer: () => Buffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  isCallReconnecting: boolean;
+  onClickRaisedHand?: () => void;
   onParticipantVisibilityChanged: (
     demuxId: number,
     isVisible: boolean
   ) => unknown;
   overflowedParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
+  remoteParticipantsCount: number;
 };
 
 export function GroupCallOverflowArea({
   getFrameBuffer,
   getGroupCallVideoFrameSource,
   i18n,
+  isCallReconnecting,
+  onClickRaisedHand,
   onParticipantVisibilityChanged,
   overflowedParticipants,
   remoteAudioLevels,
+  remoteParticipantsCount,
 }: PropsType): JSX.Element | null {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
@@ -117,12 +123,16 @@ export function GroupCallOverflowArea({
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             i18n={i18n}
             audioLevel={remoteAudioLevels.get(remoteParticipant.demuxId) ?? 0}
+            onClickRaisedHand={onClickRaisedHand}
             onVisibilityChanged={onParticipantVisibilityChanged}
             width={OVERFLOW_PARTICIPANT_WIDTH}
             height={Math.floor(
               OVERFLOW_PARTICIPANT_WIDTH / remoteParticipant.videoAspectRatio
             )}
             remoteParticipant={remoteParticipant}
+            remoteParticipantsCount={remoteParticipantsCount}
+            isActiveSpeakerInSpeakerView={false}
+            isCallReconnecting={isCallReconnecting}
           />
         ))}
       </div>
@@ -173,9 +183,11 @@ function OverflowAreaScrollMarker({
         type="button"
         className={`${baseClassName}__button`}
         onClick={onClick}
-        aria-label={i18n(
-          `calling__overflow__scroll-${placement === 'top' ? 'up' : 'down'}`
-        )}
+        aria-label={
+          placement === 'top'
+            ? i18n('icu:calling__overflow__scroll-up')
+            : i18n('icu:calling__overflow__scroll-down')
+        }
       />
     </div>
   );

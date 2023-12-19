@@ -11,7 +11,8 @@
   &__popper {
     @extend %module-composition-popper;
     margin: 0;
-    padding: 6px 2px;
+    padding-block: 6px;
+    padding-inline: 0px;
     width: auto;
 
     &--single-item {
@@ -36,34 +37,50 @@
     }
 
     align-items: center;
-    border-radius: 6px;
     display: flex;
     justify-content: space-between;
-    padding: 6px;
     min-width: 150px;
     width: 100%;
 
     &--container {
       display: flex;
+      align-items: center;
+      padding-block: 7px;
+      padding-inline: 12px;
+      &--with-selection {
+        padding-inline-start: 8px;
+        padding-inline-end: 24px;
+        &::before {
+          content: '';
+          width: 16px;
+          height: 16px;
+          margin-inline-end: 8px;
+        }
+      }
+      &--selected::before {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/check/check.svg',
+            $color-black
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/check/check.svg',
+            $color-white
+          );
+        }
+      }
     }
 
     &--icon {
       height: 16px;
-      margin-right: 8px;
+      margin-inline-end: 8px;
       width: 16px;
     }
 
-    &--selected {
-      height: 12px;
-      margin: 0 6px;
-      width: 16px;
-
-      @include light-theme {
-        @include color-svg('../images/icons/v2/check-24.svg', $color-black);
-      }
-      @include dark-theme {
-        @include color-svg('../images/icons/v2/check-24.svg', $color-white);
-      }
+    &--container--with-selection &--icon {
+      margin-inline-end: 12px;
     }
 
     &--title {
@@ -88,18 +105,15 @@
     &:focus,
     &:active {
       @include keyboard-mode {
-        border-radius: 6px;
         box-shadow: 0 0 1px 1px $color-ultramarine;
         outline: none;
       }
     }
   }
-
-  &__popper--single-item &__option {
-    padding: 12px 6px;
+  &__popper--single-item &__option--container {
+    padding-block: 12px;
   }
-
-  &__divider {
+  &__popper--single-item &__divider {
     border-style: solid;
     border-width: 0 0 1px 0;
     margin-top: 2px;

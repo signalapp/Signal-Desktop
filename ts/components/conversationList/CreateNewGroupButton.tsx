@@ -15,7 +15,7 @@ type PropsType = {
 
 export const CreateNewGroupButton: FunctionComponent<PropsType> = React.memo(
   function CreateNewGroupButton({ i18n, onClick }) {
-    const title = i18n('createNewGroupButton');
+    const title = i18n('icu:createNewGroupButton');
 
     return (
       <ListTile

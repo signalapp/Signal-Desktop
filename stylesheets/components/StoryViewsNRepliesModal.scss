@@ -1,41 +1,40 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-$tabs-height: 28px;
-$tabs-margin-bottom: 16px;
-$footer-height: 36px;
-
 .StoryViewsNRepliesModal {
   min-width: 320px;
+  min-height: min(400px, 80vh);
+  max-height: 80vh;
   overflow: hidden;
 
   &--group {
     display: flex;
     flex-direction: column;
     flex: 1;
-    // explicit height prevents height:auto
-    // while allowing flex to actually size it
-    height: 0;
 
     .StoryViewsNRepliesModal__replies {
-      // at least 400px tall
-      // but if screen is small, allow it to shrink further
-      // 75% - (header + header bottom margin + footer)
-      min-height: min(
-        calc(75vh - ($tabs-height + $tabs-margin-bottom + $footer-height)),
-        400px
-      );
+      flex: 1;
+      overflow: auto;
     }
   }
 
   &__body {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    overflow: hidden; // override modal's overflow: auto
+  }
+
+  &__body_inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
 
   &__replies {
     flex: 1;
-    margin: 0 -16px;
+    margin-block: 0;
+    margin-inline: -16px;
     max-height: 75vh;
     overflow-y: overlay;
 
@@ -45,7 +44,8 @@ $footer-height: 36px;
       display: flex;
       flex: 1;
       justify-content: center;
-      padding: 80px 0;
+      padding-block: 80px;
+      padding-inline: 0;
       user-select: none;
     }
   }
@@ -67,21 +67,19 @@ $footer-height: 36px;
 
   &__emoji-button {
     height: 24px;
-    margin-left: 10px;
+    margin-inline-start: 10px;
     width: 24px;
 
     &::after {
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/emoji-smiley-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-white);
       }
     }
   }
 
   &__not-a-member {
-    margin: 24px 4px 8px 4px;
+    margin-block: 24px 8px;
+    margin-inline: 4px;
     font-size: 12px;
     text-align: center;
     color: $color-gray-25;
@@ -118,11 +116,12 @@ $footer-height: 36px;
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin: 8px 0;
+    margin-block: 8px;
+    margin-inline: 0;
 
     &--name {
       @include font-body-2;
-      margin-left: 12px;
+      margin-inline-start: 12px;
     }
 
     &--timestamp {
@@ -143,7 +142,7 @@ $footer-height: 36px;
     &--timestamp {
       @include font-subtitle;
       color: $color-gray-25;
-      margin-left: 6px;
+      margin-inline-start: 6px;
     }
   }
 
@@ -151,22 +150,24 @@ $footer-height: 36px;
     align-items: center;
     display: flex;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding-block: 12px;
+    padding-inline: 16px;
 
     &--container {
       display: flex;
     }
 
     &--body {
-      margin-left: 20px;
+      margin-inline-start: 20px;
     }
   }
 
   &__message-bubble {
     background: $color-gray-75;
     border-radius: 18px;
-    margin-left: 8px;
-    padding: 7px 12px;
+    margin-inline-start: 8px;
+    padding-block: 7px;
+    padding-inline: 12px;
 
     &--doe {
       background: none;
@@ -176,8 +177,9 @@ $footer-height: 36px;
 
   &__quote {
     &__container {
-      margin: 8px 0;
-      margin-right: 38px;
+      margin-block: 8px;
+      margin-inline: 0;
+      margin-inline-end: 38px;
     }
 
     &--outgoing-ultramarine {
@@ -229,12 +231,13 @@ $footer-height: 36px;
   }
 
   &__copy-icon {
-    @include color-svg('../images/icons/v2/copy-outline-24.svg', $color-white);
+    @include color-svg('../images/icons/v3/copy/copy.svg', $color-white);
   }
 
   &__read-receipts-off {
     color: $color-gray-25;
-    margin: 160px 16px;
+    margin-block: 160px;
+    margin-inline: 16px;
   }
 
   .module-ReactionPickerPicker {
@@ -254,13 +257,15 @@ $footer-height: 36px;
 .Tabs.StoryViewsNRepliesModal__tabs {
   border-bottom: none;
   justify-content: center;
-  margin-bottom: $tabs-margin-bottom;
+  margin-bottom: 16px;
 }
 
 .Tabs__tab.StoryViewsNRepliesModal__tabs__tab {
   @include font-body-1-bold;
-  padding: 4px 12px;
-  margin: 0 12px;
+  padding-block: 4px;
+  padding-inline: 12px;
+  margin-block: 0;
+  margin-inline: 12px;
 }
 
 .Tabs__tab--selected.StoryViewsNRepliesModal__tabs__tab--selected {

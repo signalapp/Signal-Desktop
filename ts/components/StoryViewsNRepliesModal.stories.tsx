@@ -1,19 +1,21 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
+import { v4 as generateUuid } from 'uuid';
 
 import { useArgs } from '@storybook/addons';
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
-import { UUID } from '../types/UUID';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { StoryViewTargetType } from '../types/Stories';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -21,48 +23,35 @@ export default {
   title: 'Components/StoryViewsNRepliesModal',
   component: StoryViewsNRepliesModal,
   argTypes: {
-    authorTitle: {
-      defaultValue: getDefaultConversation().title,
-    },
-    canReply: {
-      defaultValue: true,
-    },
-    getPreferredBadge: { action: true },
     hasViewReceiptSetting: {
       control: 'boolean',
-      defaultValue: true,
     },
     hasViewsCapability: {
       control: 'boolean',
-      defaultValue: false,
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
-    onClose: { action: true },
-    onSetSkinTone: { action: true },
-    onReact: { action: true },
-    onReply: { action: true },
-    onTextTooLong: { action: true },
-    onUseEmoji: { action: true },
-    preferredReactionEmoji: {
-      defaultValue: ['❤️', '👍', '👎', '😂', '😮', '😢'],
-    },
-    renderEmojiPicker: { action: true },
-    replies: {
-      defaultValue: [],
-    },
-    views: {
-      defaultValue: [],
-    },
-    viewTarget: {
-      defaultValue: StoryViewTargetType.Views,
-    },
-    onChangeViewTarget: {
-      action: true,
     },
   },
-} as Meta;
+  args: {
+    authorTitle: getDefaultConversation().title,
+    canReply: true,
+    getPreferredBadge: () => undefined,
+    hasViewReceiptSetting: true,
+    hasViewsCapability: false,
+    i18n,
+    platform: 'darwin',
+    onClose: action('onClose'),
+    onSetSkinTone: action('onSetSkinTone'),
+    onReact: action('onReact'),
+    onReply: action('onReply'),
+    onTextTooLong: action('onTextTooLong'),
+    onUseEmoji: action('onUseEmoji'),
+    preferredReactionEmoji: DEFAULT_PREFERRED_REACTION_EMOJI,
+    renderEmojiPicker: () => <>EmojiPicker</>,
+    replies: [],
+    views: [],
+    viewTarget: StoryViewTargetType.Views,
+    onChangeViewTarget: action('onChangeViewTarget'),
+  },
+} satisfies Meta<PropsType>;
 
 function getViewsAndReplies() {
   const p1 = getDefaultConversation();
@@ -107,34 +96,34 @@ function getViewsAndReplies() {
       author: p2,
       body: 'So cute ❤️',
       conversationId: p2.id,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       timestamp: Date.now() - 24 * durations.MINUTE,
     },
     {
       author: p3,
       body: "That's awesome",
       conversationId: p3.id,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       timestamp: Date.now() - 13 * durations.MINUTE,
     },
     {
       author: p3,
       body: 'Very awesome',
       conversationId: p3.id,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       timestamp: Date.now() - 13 * durations.MINUTE,
     },
     {
       author: p3,
       body: 'Did I mention how awesome this is?',
       conversationId: p3.id,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       timestamp: Date.now() - 12 * durations.MINUTE,
     },
     {
       author: p4,
       conversationId: p4.id,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       reactionEmoji: '❤️',
       timestamp: Date.now() - 5 * durations.MINUTE,
     },
@@ -142,7 +131,7 @@ function getViewsAndReplies() {
       author: p6,
       body: 'Thanks everyone!',
       conversationId: p6.id,
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       sendStateByConversationId: {
         [p1.id]: {
           status: SendStatus.Pending,
@@ -159,7 +148,7 @@ function getViewsAndReplies() {
 }
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => {
+const Template: StoryFn<PropsType> = args => {
   const [, updateArgs] = useArgs();
 
   function onChangeViewTarget(viewTarget: StoryViewTargetType) {

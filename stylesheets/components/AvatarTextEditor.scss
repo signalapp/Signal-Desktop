@@ -9,15 +9,13 @@
     outline: none;
     padding: 0;
     text-align: center;
-    text-transform: uppercase;
     transition: font-size 30ms linear;
     width: 100%;
   }
 
   &__measure {
-    left: -9999;
+    inset-inline-start: -9999;
     position: fixed;
-    text-transform: uppercase;
     top: -9999;
     touch-action: none;
     visibility: hidden;

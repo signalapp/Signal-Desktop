@@ -4,7 +4,7 @@
 import type { Database } from '@signalapp/better-sqlite3';
 
 import type { LoggerType } from '../../types/Logging';
-import { isValidUuid } from '../../types/UUID';
+import { isValidUuid } from '../../util/isValidUuid';
 import { assertSync } from '../../util/assert';
 import Helpers from '../../textsecure/Helpers';
 import { createOrUpdate, getById, removeById } from '../util';

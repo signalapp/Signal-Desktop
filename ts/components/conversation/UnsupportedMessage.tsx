@@ -30,40 +30,59 @@ type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
+function UnsupportedMessageContents({ canProcessNow, contact, i18n }: Props) {
+  const { isMe } = contact;
+  const contactName = (
+    <span key="external-1" className="module-unsupported-message__contact">
+      <ContactName
+        title={contact.title}
+        module="module-unsupported-message__contact"
+      />
+    </span>
+  );
+  if (isMe) {
+    if (canProcessNow) {
+      return (
+        <Intl
+          id="icu:Message--unsupported-message-ask-to-resend"
+          components={{ contact: contactName }}
+          i18n={i18n}
+        />
+      );
+    }
+    return <Intl id="icu:Message--from-me-unsupported-message" i18n={i18n} />;
+  }
+  if (canProcessNow) {
+    return (
+      <Intl
+        id="icu:Message--from-me-unsupported-message-ask-to-resend"
+        i18n={i18n}
+      />
+    );
+  }
+  return (
+    <Intl
+      id="icu:Message--unsupported-message"
+      i18n={i18n}
+      components={{
+        contact: contactName,
+      }}
+    />
+  );
+}
+
 export function UnsupportedMessage({
   canProcessNow,
   contact,
   i18n,
 }: Props): JSX.Element {
-  const { isMe } = contact;
-
-  const otherStringId = canProcessNow
-    ? 'Message--unsupported-message-ask-to-resend'
-    : 'Message--unsupported-message';
-  const meStringId = canProcessNow
-    ? 'Message--from-me-unsupported-message-ask-to-resend'
-    : 'Message--from-me-unsupported-message';
-  const stringId = isMe ? meStringId : otherStringId;
-  const icon = canProcessNow ? 'unsupported--can-process' : 'unsupported';
-
   return (
     <SystemMessage
-      icon={icon}
+      icon={canProcessNow ? 'unsupported--can-process' : 'unsupported'}
       contents={
-        // eslint-disable-next-line local-rules/valid-i18n-keys
-        <Intl
-          id={stringId}
-          components={[
-            <span
-              key="external-1"
-              className="module-unsupported-message__contact"
-            >
-              <ContactName
-                title={contact.title}
-                module="module-unsupported-message__contact"
-              />
-            </span>,
-          ]}
+        <UnsupportedMessageContents
+          canProcessNow={canProcessNow}
+          contact={contact}
           i18n={i18n}
         />
       }
@@ -77,7 +96,7 @@ export function UnsupportedMessage({
               size={ButtonSize.Small}
               variant={ButtonVariant.SystemMessage}
             >
-              {i18n('Message--update-signal')}
+              {i18n('icu:Message--update-signal')}
             </Button>
           </div>
         )

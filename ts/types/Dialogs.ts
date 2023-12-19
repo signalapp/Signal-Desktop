@@ -3,7 +3,7 @@
 
 export enum DialogType {
   None = 'None',
-  Update = 'Update',
+  AutoUpdate = 'AutoUpdate',
   Cannot_Update = 'Cannot_Update',
   Cannot_Update_Require_Manual = 'Cannot_Update_Require_Manual',
   UnsupportedOS = 'UnsupportedOS',
@@ -11,4 +11,5 @@ export enum DialogType {
   DownloadReady = 'DownloadReady',
   FullDownloadReady = 'FullDownloadReady',
   Downloading = 'Downloading',
+  DownloadedUpdate = 'DownloadedUpdate',
 }

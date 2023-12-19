@@ -1,0 +1,86 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import '../../mixins.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.scroll {
+  composes: grow;
+  display: flex;
+  flex-direction: column;
+
+  overflow: auto;
+}
+
+.no-scroll {
+  composes: grow;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-block: 0;
+  padding-inline: 64px;
+
+  @include small-screen() {
+    padding-block: 0;
+    padding-inline: 32px;
+  }
+}
+
+.no-message {
+  composes: main;
+}
+
+.empty {
+  composes: main;
+}
+
+.footer {
+  margin-block: 16px;
+  margin-inline: 64px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @include small-screen() {
+    margin-block: 16px;
+    margin-inline: 32px;
+  }
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.button {
+  margin-inline-start: 12px;
+}
+
+.toaster {
+  position: fixed;
+  bottom: 16px;
+  inset-inline-start: 50%;
+  &:dir(ltr) {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translate(-50%, 0px);
+  }
+  &:dir(rtl) {
+    // stylelint-disable-next-line declaration-property-value-disallowed-list
+    transform: translate(50%, 0px);
+  }
+}

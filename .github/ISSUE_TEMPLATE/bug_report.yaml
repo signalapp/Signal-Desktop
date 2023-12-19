@@ -1,0 +1,115 @@
+name: 🛠️ Bug report
+description: Create a report about a technical issue
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Our bug tracker is ONLY for bugs. It is not for feature requests, questions, or comments.
+
+        Please try these locations if you have a question or comment:
+        
+          https://community.signalusers.org/
+          http://support.signal.org/
+          support@signal.org
+        
+        Please fill out this template with all the information you have. We can't do much without
+        both the logs and a detailed description of what you've encountered. Please do your best!
+  - type: checkboxes
+    id: supported-version-and-no-duplicates
+    attributes:
+      label: "Using a supported version?"
+      description: "Search issues here: https://github.com/signalapp/Signal-Desktop/issues"
+      options:
+        - label: I have searched searched open and closed issues for duplicates.
+          required: true
+        - label: I am using Signal-Desktop as provided by the Signal team, not a 3rd-party package.
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        If you're using a 3rd-party package, please report it to them first.
+        For Flatpak: https://github.com/flathub/org.signal.Signal/issues
+        For Snap: https://github.com/snapcrafters/signal-desktop/issues
+        For Arch Linux: https://aur.archlinux.org/packages/signal-desktop-beta/
+        etc.
+  - type: textarea
+    id: description-of-bug
+    attributes:
+      label: Overall summary
+      description: A clear and concise description of what the problem is that made you submit this report.
+      placeholder:
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: List the steps to reproduce the issue you are encountering.
+      placeholder: |
+        1. Go to any chat.
+        2. Do thing A.
+        3. Do thing B.
+        4. Things look off because...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected result
+      description: Describe in detail what the correct behavior should be.
+      placeholder:
+    validations:
+      required: true
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: Actual result
+      description: Describe the details of the buggy behavior. Please include all error messages!
+      placeholder:
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: "How to take screenshots on all Operating Systems: https://www.take-a-screenshot.org/"
+      placeholder: You can drag and drop images into this text box.
+    validations:
+      required: false
+  - type: input
+    id: signal-version
+    attributes:
+      label: Signal version
+      description: You can see Signal's version number on the About screen (available from the File, Help, or Signal menu depending on your OS)
+      placeholder:
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: "Instructions for finding your OS version are here: http://whatsmyos.com/"
+      placeholder: Windows 11
+    validations:
+      required: true
+  - type: input
+    id: primary-device
+    attributes:
+      label: Version of Signal on your phone
+      description: "Android: Settings->Help,  iOS: Settings->General->About"
+      placeholder:
+    validations:
+      required: false
+  - type: textarea
+    id: debug-log
+    attributes:
+      label: Link to debug log
+      description: |
+        Immediately after the bug has happened, submit a debug log via View->Debug Log, then copy that URL here.
+        In most cases, a log from your other devices is also useful:
+          Android: https://support.signal.org/hc/en-us/articles/360007318591#android_debug
+          iOS: https://support.signal.org/hc/en-us/articles/360007318591#ios_debug
+      placeholder:
+    validations:
+      required: false

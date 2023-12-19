@@ -14,21 +14,17 @@ export function isConversationAccepted(
   conversationAttrs: ConversationAttributesType,
   { ignoreEmptyConvo = false } = {}
 ): boolean {
-  const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
-    'desktop.messageRequests'
-  );
-
-  if (!messageRequestsEnabled) {
-    return true;
-  }
-
   if (isMe(conversationAttrs)) {
     return true;
   }
 
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
-  const { messageRequestResponseType } = conversationAttrs;
+  const { messageRequestResponseType, removalStage } = conversationAttrs;
+  if (removalStage !== undefined) {
+    return false;
+  }
+
   if (messageRequestResponseType === messageRequestEnum.ACCEPT) {
     return true;
   }

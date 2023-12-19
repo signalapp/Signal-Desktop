@@ -6,10 +6,13 @@ import React, { useCallback, useState } from 'react';
 
 import { ButtonVariant } from '../Button';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { BaseConversationListItem } from './BaseConversationListItem';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
+import { ListTile } from '../ListTile';
+import { Avatar, AvatarSize } from '../Avatar';
+import { Spinner } from '../Spinner';
 
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import type { LocalizerType } from '../../types/Util';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 import { AvatarColors } from '../../types/Colors';
@@ -22,7 +25,7 @@ type PropsData = {
 type PropsHousekeeping = {
   i18n: LocalizerType;
   showConversation: ShowConversationType;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 export type Props = PropsData & PropsHousekeeping;
 
@@ -31,7 +34,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
     i18n,
     phoneNumber,
     isFetching,
-    lookupConversationWithoutUuid,
+    lookupConversationWithoutServiceId,
     showUserNotFoundModal,
     setIsFetchingUUID,
     showConversation,
@@ -46,7 +49,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       if (isFetching) {
         return;
       }
-      const conversationId = await lookupConversationWithoutUuid({
+      const conversationId = await lookupConversationWithoutServiceId({
         showUserNotFoundModal,
         setIsFetchingUUID,
 
@@ -60,7 +63,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       }
     }, [
       showConversation,
-      lookupConversationWithoutUuid,
+      lookupConversationWithoutServiceId,
       showUserNotFoundModal,
       setIsFetchingUUID,
       setIsModalVisible,
@@ -73,12 +76,12 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       modal = (
         <ConfirmationDialog
           dialogName="StartNewConversation.invalidPhoneNumber"
-          cancelText={i18n('ok')}
+          cancelText={i18n('icu:ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}
           onClose={() => setIsModalVisible(false)}
         >
-          {i18n('startConversation--phone-number-not-valid', {
+          {i18n('icu:startConversation--phone-number-not-valid', {
             phoneNumber: phoneNumber.userInput,
           })}
         </ConfirmationDialog>
@@ -87,19 +90,33 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
 
     return (
       <>
-        <BaseConversationListItem
-          acceptedMessageRequest={false}
-          color={AvatarColors[0]}
-          conversationType="direct"
-          headerName={phoneNumber.userInput}
-          i18n={i18n}
-          isMe={false}
-          isSelected={false}
-          onClick={boundOnClick}
-          phoneNumber={phoneNumber.userInput}
-          shouldShowSpinner={isFetching}
-          sharedGroupNames={[]}
+        <ListTile
+          leading={
+            <Avatar
+              acceptedMessageRequest={false}
+              color={AvatarColors[0]}
+              conversationType="direct"
+              searchResult
+              i18n={i18n}
+              isMe={false}
+              title={phoneNumber.userInput}
+              size={AvatarSize.THIRTY_TWO}
+              badge={undefined}
+              sharedGroupNames={[]}
+            />
+          }
           title={phoneNumber.userInput}
+          onClick={boundOnClick}
+          trailing={
+            isFetching ? (
+              <Spinner
+                size="20px"
+                svgSize="small"
+                moduleClassName={SPINNER_CLASS_NAME}
+                direction="on-progress-dialog"
+              />
+            ) : undefined
+          }
         />
         {modal}
       </>

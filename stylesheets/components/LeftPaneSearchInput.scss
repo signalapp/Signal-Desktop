@@ -3,20 +3,21 @@
 
 .LeftPaneSearchInput {
   &__input--with-children.module-SearchInput__input--with-children {
-    padding-left: 50px;
+    padding-inline-start: 50px;
   }
 
   &__in-conversation-pill {
     @include button-reset;
     @include rounded-corners;
     align-items: center;
-    bottom: 3px;
+    bottom: 4px;
     display: flex;
     flex-direction: row;
-    left: 3px;
-    padding: 0 3px 0 0;
+    inset-inline-start: 3px;
+    padding-block: 0;
+    padding-inline: 0 3px;
     position: absolute;
-    top: 5px;
+    top: 4px;
 
     @include light-theme {
       background-color: $color-gray-25;
@@ -27,14 +28,14 @@
 
     &__x-button {
       height: 16px;
-      margin-left: 2px;
+      margin-inline-start: 2px;
       width: 16px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
       }
 
       @include light-theme {

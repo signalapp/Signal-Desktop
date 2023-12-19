@@ -1,0 +1,14 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.facade {
+  background: rgba(0, 0, 0, 0.33);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset-inline-start: 0;
+  top: 0;
+}

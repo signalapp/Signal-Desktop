@@ -26,10 +26,12 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
   storageUrl: config.storageUrl,
   updatesUrl: config.updatesUrl,
   resourcesUrl: config.resourcesUrl,
+  artCreatorUrl: config.artCreatorUrl,
   directoryConfig: config.directoryConfig,
   cdnUrlObject: {
     0: config.cdnUrl0,
     2: config.cdnUrl2,
+    3: config.cdnUrl3,
   },
   certificateAuthority: config.certificateAuthority,
   contentProxyUrl: config.contentProxyUrl,
@@ -43,15 +45,19 @@ window.libphonenumberFormat = PhoneNumberFormat;
 window.React = React;
 window.ReactDOM = ReactDOM;
 
-const { resolvedTranslationsLocale, preferredSystemLocales } = config;
-moment.updateLocale(resolvedTranslationsLocale, {
+const { resolvedTranslationsLocale, preferredSystemLocales, localeOverride } =
+  config;
+
+moment.updateLocale(localeOverride ?? resolvedTranslationsLocale, {
   relativeTime: {
-    s: window.i18n('timestamp_s'),
-    m: window.i18n('timestamp_m'),
-    h: window.i18n('timestamp_h'),
+    s: window.i18n('icu:timestamp_s'),
+    m: window.i18n('icu:timestamp_m'),
+    h: window.i18n('icu:timestamp_h'),
   },
 });
-moment.locale(preferredSystemLocales);
+moment.locale(
+  localeOverride != null ? [localeOverride] : preferredSystemLocales
+);
 
 const userDataPath = SignalContext.getPath('userData');
 window.BasePaths = {

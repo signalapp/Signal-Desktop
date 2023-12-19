@@ -4,9 +4,8 @@
 import * as React from 'react';
 import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { text, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
 import enMessages from '../../../_locales/en/messages.json';
@@ -19,7 +18,6 @@ import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext
 import { ConversationHero } from './ConversationHero';
 import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { getRandomColor } from '../../test-both/helpers/getRandomColor';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';
@@ -33,7 +31,9 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/Timeline',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line
 const noop = () => {};
@@ -47,8 +47,10 @@ function mockMessageTimelineItem(
     data: {
       id,
       author: getDefaultConversation({}),
+      canCopy: true,
       canDeleteForEveryone: false,
       canDownload: true,
+      canEditMessage: true,
       canReact: true,
       canReply: true,
       canRetry: true,
@@ -61,6 +63,9 @@ function mockMessageTimelineItem(
       text: 'Hello there from the new world!',
       isBlocked: false,
       isMessageRequestAccepted: true,
+      isSelected: false,
+      isSelectMode: false,
+      isSpoilerExpanded: {},
       previews: [],
       readStatus: ReadStatus.Read,
       canRetryDeleteForEveryone: true,
@@ -262,24 +267,26 @@ const actions = () => ({
   ),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),
   checkForAccount: action('checkForAccount'),
-  clearInvitedUuidsForNewlyCreatedGroup: action(
-    'clearInvitedUuidsForNewlyCreatedGroup'
+  clearInvitedServiceIdsForNewlyCreatedGroup: action(
+    'clearInvitedServiceIdsForNewlyCreatedGroup'
   ),
   setIsNearBottom: action('setIsNearBottom'),
   loadOlderMessages: action('loadOlderMessages'),
   loadNewerMessages: action('loadNewerMessages'),
   loadNewestMessages: action('loadNewestMessages'),
   markMessageRead: action('markMessageRead'),
-  selectMessage: action('selectMessage'),
-  clearSelectedMessage: action('clearSelectedMessage'),
+  toggleSelectMessage: action('toggleSelectMessage'),
+  targetMessage: action('targetMessage'),
+  scrollToOldestUnreadMention: action('scrollToOldestUnreadMention'),
+  clearTargetedMessage: action('clearTargetedMessage'),
   updateSharedGroups: action('updateSharedGroups'),
 
   reactToMessage: action('reactToMessage'),
+  setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
+  copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
-  deleteMessage: action('deleteMessage'),
-  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   saveAttachment: action('saveAttachment'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactDetail: action('showContactDetail'),
@@ -288,6 +295,7 @@ const actions = () => ({
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   messageExpanded: action('messageExpanded'),
+  showSpoiler: action('showSpoiler'),
   showLightbox: action('showLightbox'),
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
@@ -300,11 +308,17 @@ const actions = () => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
-  toggleForwardMessageModal: action('toggleForwardMessageModal'),
+  toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
+  toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
 
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
-  startCallingLobby: action('startCallingLobby'),
+  onOutgoingAudioCallInConversation: action(
+    'onOutgoingAudioCallInConversation'
+  ),
+  onOutgoingVideoCallInConversation: action(
+    'onOutgoingVideoCallInConversation'
+  ),
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
 
@@ -320,6 +334,8 @@ const actions = () => ({
   peekGroupCallIfItHasMembers: action('peekGroupCallIfItHasMembers'),
 
   viewStory: action('viewStory'),
+
+  onReplyToMessage: action('onReplyToMessage'),
 });
 
 const renderItem = ({
@@ -334,22 +350,23 @@ const renderItem = ({
   <TimelineItem
     getPreferredBadge={() => undefined}
     id=""
-    isSelected={false}
-    renderEmojiPicker={() => <div />}
-    renderReactionPicker={() => <div />}
-    item={items[messageId]}
+    isTargeted={false}
     i18n={i18n}
     interactionMode="keyboard"
     isNextItemCallingNotification={false}
     theme={ThemeType.light}
+    platform="darwin"
     containerElementRef={containerElementRef}
     containerWidthBreakpoint={containerWidthBreakpoint}
     conversationId=""
+    item={items[messageId]}
+    renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     renderContact={() => '*ContactName*'}
+    renderEmojiPicker={() => <div />}
+    renderReactionPicker={() => <div />}
     renderUniversalTimerNotification={() => (
       <div>*UniversalTimerNotification*</div>
     )}
-    renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     shouldCollapseAbove={false}
     shouldCollapseBelow={false}
     shouldHideMetadata={false}
@@ -389,12 +406,11 @@ const renderContactSpoofingReviewDialog = (
   return <ContactSpoofingReviewDialog {...props} {...sharedProps} />;
 };
 
-const getAbout = () => text('about', '👍 Free to chat');
-const getTitle = () => text('name', 'Cayce Bollard');
-const getProfileName = () => text('profileName', 'Cayce Bollard (profile)');
-const getAvatarPath = () =>
-  text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
-const getPhoneNumber = () => text('phoneNumber', '+1 (808) 555-1234');
+const getAbout = () => '👍 Free to chat';
+const getTitle = () => 'Cayce Bollard';
+const getProfileName = () => 'Cayce Bollard (profile)';
+const getAvatarPath = () => '/fixtures/kitten-4-112-112.jpg';
+const getPhoneNumber = () => '+1 (808) 555-1234';
 
 const renderHeroRow = () => {
   function Wrapper() {
@@ -424,17 +440,20 @@ const renderHeroRow = () => {
 };
 const renderTypingBubble = () => (
   <TypingBubble
-    acceptedMessageRequest
-    badge={undefined}
-    color={getRandomColor()}
+    typingContactIdTimestamps={{ [getDefaultConversation().id]: Date.now() }}
+    lastItemAuthorId="123"
+    lastItemTimestamp={undefined}
+    conversationId="123"
     conversationType="direct"
-    phoneNumber="+18005552222"
+    getConversation={() => getDefaultConversation()}
+    getPreferredBadge={() => undefined}
+    showContactModal={action('showContactModal')}
     i18n={i18n}
-    isMe={false}
-    title="title"
     theme={ThemeType.light}
-    sharedGroupNames={[]}
   />
+);
+const renderMiniPlayer = () => (
+  <div>If active, this is where smart mini player would be</div>
 );
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
@@ -444,21 +463,17 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: React.useContext(StorybookThemeContext),
 
   getTimestampForMessage: Date.now,
-  haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
-  haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
+  haveNewest: overrideProps.haveNewest ?? false,
+  haveOldest: overrideProps.haveOldest ?? false,
   isConversationSelected: true,
-  isIncomingMessageRequest: boolean(
-    'isIncomingMessageRequest',
-    overrideProps.isIncomingMessageRequest === true
-  ),
-  items: overrideProps.items || Object.keys(items),
+  isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
+  items: overrideProps.items ?? Object.keys(items),
   messageChangeCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
-  totalUnseen: number('totalUnseen', overrideProps.totalUnseen || 0),
-  oldestUnseenIndex:
-    number('oldestUnseenIndex', overrideProps.oldestUnseenIndex || 0) ||
-    undefined,
+  shouldShowMiniPlayer: Boolean(overrideProps.shouldShowMiniPlayer),
+  totalUnseen: overrideProps.totalUnseen ?? 0,
+  oldestUnseenIndex: overrideProps.oldestUnseenIndex ?? 0,
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
   warning: overrideProps.warning,
@@ -466,6 +481,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   id: uuid(),
   renderItem,
   renderHeroRow,
+  renderMiniPlayer,
   renderTypingBubble,
   renderContactSpoofingReviewDialog,
   isSomeoneTyping: overrideProps.isSomeoneTyping || false,
@@ -479,10 +495,6 @@ export function OldestAndNewest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-OldestAndNewest.story = {
-  name: 'Oldest and Newest',
-};
-
 export function WithActiveMessageRequest(): JSX.Element {
   const props = useProps({
     isIncomingMessageRequest: true,
@@ -490,10 +502,6 @@ export function WithActiveMessageRequest(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-WithActiveMessageRequest.story = {
-  name: 'With active message request',
-};
 
 export function WithoutNewestMessage(): JSX.Element {
   const props = useProps({
@@ -512,10 +520,6 @@ export function WithoutNewestMessageActiveMessageRequest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithoutNewestMessageActiveMessageRequest.story = {
-  name: 'Without newest message, active message request',
-};
-
 export function WithoutOldestMessage(): JSX.Element {
   const props = useProps({
     haveOldest: false,
@@ -533,10 +537,6 @@ export function EmptyJustHero(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-EmptyJustHero.story = {
-  name: 'Empty (just hero)',
-};
-
 export function LastSeen(): JSX.Element {
   const props = useProps({
     oldestUnseenIndex: 13,
@@ -553,10 +553,6 @@ export function TargetIndexToTop(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-TargetIndexToTop.story = {
-  name: 'Target Index to Top',
-};
 
 export function TypingIndicator(): JSX.Element {
   const props = useProps({ isSomeoneTyping: true });
@@ -581,10 +577,6 @@ export function WithInvitedContactsForANewlyCreatedGroup(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithInvitedContactsForANewlyCreatedGroup.story = {
-  name: 'With invited contacts for a newly-created group',
-};
-
 export function WithSameNameInDirectConversationWarning(): JSX.Element {
   const props = useProps({
     warning: {
@@ -596,10 +588,6 @@ export function WithSameNameInDirectConversationWarning(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-WithSameNameInDirectConversationWarning.story = {
-  name: 'With "same name in direct conversation" warning',
-};
 
 export function WithSameNameInGroupConversationWarning(): JSX.Element {
   const props = useProps({
@@ -617,6 +605,11 @@ export function WithSameNameInGroupConversationWarning(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithSameNameInGroupConversationWarning.story = {
-  name: 'With "same name in group conversation" warning',
-};
+export function WithJustMiniPlayer(): JSX.Element {
+  const props = useProps({
+    shouldShowMiniPlayer: true,
+    items: [],
+  });
+
+  return <Timeline {...props} />;
+}

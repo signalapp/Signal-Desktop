@@ -28,25 +28,19 @@
 
   &__copy-icon {
     @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/copy-outline-24.svg',
-        $color-white
-      );
+      @include color-svg('../images/icons/v3/copy/copy.svg', $color-white);
     }
     @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/copy-outline-24.svg',
-        $color-black
-      );
+      @include color-svg('../images/icons/v3/copy/copy.svg', $color-black);
     }
   }
 
   &__download-icon {
     @include dark-theme {
-      @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/save/save.svg', $color-white);
     }
     @include light-theme {
-      @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-black);
+      @include color-svg('../images/icons/v3/save/save.svg', $color-black);
     }
   }
 
@@ -60,7 +54,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 24px;
-    padding: 10px 0;
+    padding-block: 10px;
+    padding-inline: 0;
     user-select: none;
 
     &:first-child {
@@ -70,7 +65,8 @@
 
   &__contact {
     margin-bottom: 8px;
-    padding: 8px 0;
+    padding-block: 8px;
+    padding-inline: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -78,7 +74,7 @@
     &__text {
       @include font-body-1;
       flex-grow: 1;
-      margin-left: 10px;
+      margin-inline-start: 10px;
     }
 
     &:last-child {
@@ -87,6 +83,6 @@
   }
 
   &__status-timestamp {
-    margin-left: 6px;
+    margin-inline-start: 6px;
   }
 }

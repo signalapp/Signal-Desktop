@@ -26,7 +26,7 @@ export function ErrorModal(props: PropsType): JSX.Element {
 
   const footer = (
     <Button onClick={onClose} ref={focusRef} variant={ButtonVariant.Secondary}>
-      {i18n('Confirmation--confirm')}
+      {i18n('icu:Confirmation--confirm')}
     </Button>
   );
 
@@ -35,11 +35,11 @@ export function ErrorModal(props: PropsType): JSX.Element {
       modalName="ErrorModal"
       i18n={i18n}
       onClose={onClose}
-      title={title || i18n('ErrorModal--title')}
+      title={title || i18n('icu:ErrorModal--title')}
       modalFooter={footer}
     >
       <div className="module-error-modal__description">
-        {description || i18n('ErrorModal--description')}
+        {description || i18n('icu:ErrorModal--description')}
       </div>
     </Modal>
   );

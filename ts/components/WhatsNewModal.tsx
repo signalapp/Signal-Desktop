@@ -1,15 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 import moment from 'moment';
 
 import { Modal } from './Modal';
-import type { IntlComponentsType } from './Intl';
 import { Intl } from './Intl';
-import { Emojify } from './conversation/Emojify';
-import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   hideWhatsNewModal: () => unknown;
@@ -19,57 +17,86 @@ export type PropsType = {
 type ReleaseNotesType = {
   date: Date;
   version: string;
-  features: Array<{ key: string; components: IntlComponentsType }>;
+  features: Array<JSX.Element>;
 };
 
-const renderText: RenderTextCallbackType = ({ key, text }) => (
-  <Emojify key={key} text={text} />
-);
-
-const releaseNotes: ReleaseNotesType = {
-  date: new Date(window.getBuildCreation?.() || Date.now()),
-  version: window.getVersion?.(),
-  features: [
-    {
-      key: 'WhatsNew__bugfixes--5',
-      components: undefined,
-    },
-  ],
-};
+// Exported so it doesn't get marked unused
+export function ExternalLink(props: {
+  href: string;
+  children: ReactNode;
+}): JSX.Element {
+  return (
+    <a href={props.href} target="_blank" rel="noreferrer">
+      {props.children}
+    </a>
+  );
+}
 
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
 }: PropsType): JSX.Element {
-  let contentNode: ReactChild;
+  let contentNode: ReactNode;
+
+  const releaseNotes: ReleaseNotesType = {
+    date: new Date(window.getBuildCreation?.() || Date.now()),
+    version: window.getVersion?.(),
+    features: [
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.43--0" />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.43--1"
+        components={{
+          linkToGithub1: (
+            <ExternalLink href="https://github.com/MahdiNazemi">
+              @MahdiNazemi
+            </ExternalLink>
+          ),
+        }}
+      />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.43--2"
+        components={{
+          linkToGithub1: (
+            <ExternalLink href="https://github.com/Shrinks99">
+              @Shrinks99
+            </ExternalLink>
+          ),
+        }}
+      />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.43--3"
+        components={{
+          linkToGithub1: (
+            <ExternalLink href="https://github.com/NetSysFire">
+              @NetSysFire
+            </ExternalLink>
+          ),
+          linkToGithub2: (
+            <ExternalLink href="https://github.com/timjamello">
+              @timjamello
+            </ExternalLink>
+          ),
+          linkToGithub3: (
+            <ExternalLink href="https://github.com/u32i64">
+              @u32i64
+            </ExternalLink>
+          ),
+        }}
+      />,
+    ],
+  };
 
   if (releaseNotes.features.length === 1) {
-    const { key, components } = releaseNotes.features[0];
-    contentNode = (
-      <p>
-        {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-        <Intl
-          i18n={i18n}
-          id={key}
-          renderText={renderText}
-          components={components}
-        />
-      </p>
-    );
+    contentNode = <p>{releaseNotes.features[0]}</p>;
   } else {
     contentNode = (
       <ul>
-        {releaseNotes.features.map(({ key, components }) => (
-          <li key={key}>
-            {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-            <Intl
-              i18n={i18n}
-              id={key}
-              renderText={renderText}
-              components={components}
-            />
-          </li>
-        ))}
+        {releaseNotes.features.map(element => {
+          return <li key={element.props.id}>{element}</li>;
+        })}
       </ul>
     );
   }
@@ -80,7 +107,7 @@ export function WhatsNewModal({
       hasXButton
       i18n={i18n}
       onClose={hideWhatsNewModal}
-      title={i18n('WhatsNew__modal-title')}
+      title={i18n('icu:WhatsNew__modal-title')}
     >
       <>
         <span>

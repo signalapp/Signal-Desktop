@@ -10,12 +10,12 @@ import { StoriesSettingsModal } from '../../components/StoriesSettingsModal';
 import {
   getAllSignalConnections,
   getCandidateContactsForNewGroup,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getGroupStories,
   getMe,
 } from '../selectors/conversations';
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getHasStoryViewReceiptSetting } from '../selectors/items';
 import { useGlobalModalActions } from '../ducks/globalModals';
@@ -24,7 +24,7 @@ import { useStoriesActions } from '../ducks/stories';
 import { useConversationsActions } from '../ducks/conversations';
 
 export function SmartStoriesSettingsModal(): JSX.Element | null {
-  const { toggleStoriesView, setStoriesDisabled } = useStoriesActions();
+  const { setStoriesDisabled } = useStoriesActions();
   const { hideStoriesSettings, toggleSignalConnectionsModal } =
     useGlobalModalActions();
   const {
@@ -48,7 +48,10 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
   const distributionLists = useSelector(getDistributionListsWithMembers);
   const groupStories = useSelector(getGroupStories);
 
-  const getConversationByUuid = useSelector(getConversationByUuidSelector);
+  const getConversationByServiceId = useSelector(
+    getConversationByServiceIdSelector
+  );
+  const theme = useSelector(getTheme);
 
   return (
     <StoriesSettingsModal
@@ -60,7 +63,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       me={me}
-      getConversationByUuid={getConversationByUuid}
+      getConversationByServiceId={getConversationByServiceId}
       onDeleteList={deleteDistributionList}
       toggleGroupsForStorySend={toggleGroupsForStorySend}
       onDistributionListCreated={createDistributionList}
@@ -70,8 +73,8 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
       onViewersUpdated={updateStoryViewers}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       storyViewReceiptsEnabled={storyViewReceiptsEnabled}
+      theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-      toggleStoriesView={toggleStoriesView}
       setStoriesDisabled={setStoriesDisabled}
     />
   );

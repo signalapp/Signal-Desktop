@@ -3,20 +3,22 @@
 
 import * as React from 'react';
 import { times } from 'lodash';
-import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+import { v4 as generateUuid } from 'uuid';
 
+import type { Meta } from '@storybook/react';
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PropsType } from './CallingLobby';
-import { CallingLobby } from './CallingLobby';
+import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby';
 import { setupI18n } from '../util/setupI18n';
-import { UUID } from '../types/UUID';
+import { generateAci } from '../types/ServiceId';
 import enMessages from '../../_locales/en/messages.json';
 import {
   getDefaultConversation,
-  getDefaultConversationWithUuid,
+  getDefaultConversationWithServiceId,
 } from '../test-both/helpers/getDefaultConversation';
+import { CallingToastProvider } from './CallingToast';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -31,10 +33,7 @@ const camera = {
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
-  const isGroupCall = boolean(
-    'isGroupCall',
-    overrideProps.isGroupCall || false
-  );
+  const isGroupCall = overrideProps.isGroupCall ?? false;
   const conversation = isGroupCall
     ? getDefaultConversation({
         title: 'Tahoe Trip',
@@ -48,51 +47,51 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     groupMembers:
       overrideProps.groupMembers ||
       (isGroupCall ? times(3, () => getDefaultConversation()) : undefined),
-    hasLocalAudio: boolean(
-      'hasLocalAudio',
-      overrideProps.hasLocalAudio ?? true
-    ),
-    hasLocalVideo: boolean(
-      'hasLocalVideo',
-      overrideProps.hasLocalVideo ?? false
-    ),
+    hasLocalAudio: overrideProps.hasLocalAudio ?? true,
+    hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     i18n,
     isGroupCall,
-    isGroupCallOutboundRingEnabled: true,
     isConversationTooBigToRing: false,
-    isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
+    isCallFull: overrideProps.isCallFull ?? false,
     me:
       overrideProps.me ||
       getDefaultConversation({
         color: AvatarColors[0],
-        id: UUID.generate().toString(),
-        uuid: UUID.generate().toString(),
+        id: generateUuid(),
+        serviceId: generateAci(),
       }),
     onCallCanceled: action('on-call-canceled'),
     onJoinCall: action('on-join-call'),
-    outgoingRing: boolean('outgoingRing', Boolean(overrideProps.outgoingRing)),
+    outgoingRing: overrideProps.outgoingRing ?? false,
     peekedParticipants: overrideProps.peekedParticipants || [],
     setLocalAudio: action('set-local-audio'),
     setLocalPreview: action('set-local-preview'),
     setLocalVideo: action('set-local-video'),
     setOutgoingRing: action('set-outgoing-ring'),
-    showParticipantsList: boolean(
-      'showParticipantsList',
-      Boolean(overrideProps.showParticipantsList)
-    ),
+    showParticipantsList: overrideProps.showParticipantsList ?? false,
     toggleParticipants: action('toggle-participants'),
     toggleSettings: action('toggle-settings'),
   };
 };
 
+function CallingLobby(props: ReturnType<typeof createProps>) {
+  return (
+    <CallingToastProvider i18n={i18n}>
+      <UnwrappedCallingLobby {...props} />
+    </CallingToastProvider>
+  );
+}
+
 const fakePeekedParticipant = (conversationProps: Partial<ConversationType>) =>
-  getDefaultConversationWithUuid({
+  getDefaultConversationWithServiceId({
     ...conversationProps,
   });
 
 export default {
   title: 'Components/CallingLobby',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 export function Default(): JSX.Element {
   const props = createProps();
@@ -106,26 +105,18 @@ export function NoCameraNoAvatar(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-NoCameraNoAvatar.story = {
-  name: 'No Camera, no avatar',
-};
-
 export function NoCameraLocalAvatar(): JSX.Element {
   const props = createProps({
     availableCameras: [],
     me: getDefaultConversation({
       avatarPath: '/fixtures/kitten-4-112-112.jpg',
       color: AvatarColors[0],
-      id: UUID.generate().toString(),
-      uuid: UUID.generate().toString(),
+      id: generateUuid(),
+      serviceId: generateAci(),
     }),
   });
   return <CallingLobby {...props} />;
 }
-
-NoCameraLocalAvatar.story = {
-  name: 'No Camera, local avatar',
-};
 
 export function LocalVideo(): JSX.Element {
   const props = createProps({
@@ -141,20 +132,12 @@ export function InitiallyMuted(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-InitiallyMuted.story = {
-  name: 'Initially muted',
-};
-
-export function GroupCall0PeekedParticipants(): JSX.Element {
+export function GroupCallWithNoPeekedParticipants(): JSX.Element {
   const props = createProps({ isGroupCall: true, peekedParticipants: [] });
   return <CallingLobby {...props} />;
 }
 
-GroupCall0PeekedParticipants.story = {
-  name: 'Group Call - 0 peeked participants',
-};
-
-export function GroupCall1PeekedParticipant(): JSX.Element {
+export function GroupCallWith1PeekedParticipant(): JSX.Element {
   const props = createProps({
     isGroupCall: true,
     peekedParticipants: [{ title: 'Sam' }].map(fakePeekedParticipant),
@@ -162,28 +145,20 @@ export function GroupCall1PeekedParticipant(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-GroupCall1PeekedParticipant.story = {
-  name: 'Group Call - 1 peeked participant',
-};
-
-export function GroupCall1PeekedParticipantSelf(): JSX.Element {
-  const uuid = UUID.generate().toString();
+export function GroupCallWith1PeekedParticipantSelf(): JSX.Element {
+  const serviceId = generateAci();
   const props = createProps({
     isGroupCall: true,
     me: getDefaultConversation({
-      id: UUID.generate().toString(),
-      uuid,
+      id: generateUuid(),
+      serviceId,
     }),
-    peekedParticipants: [fakePeekedParticipant({ title: 'Ash', uuid })],
+    peekedParticipants: [fakePeekedParticipant({ title: 'Ash', serviceId })],
   });
   return <CallingLobby {...props} />;
 }
 
-GroupCall1PeekedParticipantSelf.story = {
-  name: 'Group Call - 1 peeked participant (self)',
-};
-
-export function GroupCall4PeekedParticipants(): JSX.Element {
+export function GroupCallWith4PeekedParticipants(): JSX.Element {
   const props = createProps({
     isGroupCall: true,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
@@ -193,11 +168,7 @@ export function GroupCall4PeekedParticipants(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-GroupCall4PeekedParticipants.story = {
-  name: 'Group Call - 4 peeked participants',
-};
-
-export function GroupCall4PeekedParticipantsParticipantsList(): JSX.Element {
+export function GroupCallWith4PeekedParticipantsParticipantsList(): JSX.Element {
   const props = createProps({
     isGroupCall: true,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
@@ -208,11 +179,7 @@ export function GroupCall4PeekedParticipantsParticipantsList(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-GroupCall4PeekedParticipantsParticipantsList.story = {
-  name: 'Group Call - 4 peeked participants (participants list)',
-};
-
-export function GroupCallCallFull(): JSX.Element {
+export function GroupCallWithCallFull(): JSX.Element {
   const props = createProps({
     isGroupCall: true,
     isCallFull: true,
@@ -223,18 +190,10 @@ export function GroupCallCallFull(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-GroupCallCallFull.story = {
-  name: 'Group Call - call full',
-};
-
-export function GroupCall0PeekedParticipantsBigGroup(): JSX.Element {
+export function GroupCallWith0PeekedParticipantsBigGroup(): JSX.Element {
   const props = createProps({
     isGroupCall: true,
     groupMembers: times(100, () => getDefaultConversation()),
   });
   return <CallingLobby {...props} />;
 }
-
-GroupCall0PeekedParticipantsBigGroup.story = {
-  name: 'Group Call - 0 peeked participants, big group',
-};

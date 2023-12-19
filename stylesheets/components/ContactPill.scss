@@ -2,44 +2,62 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-ContactPill {
-  @include rounded-corners;
   align-items: center;
   display: inline-flex;
   user-select: none;
   overflow: hidden;
+  padding-block: 4px;
+  padding-inline: 8px;
+  border-radius: 6px;
 
   @include light-theme {
+    background: $color-black-alpha-08;
     color: $color-gray-90;
-    background: $color-gray-05;
   }
   @include dark-theme {
-    color: $color-gray-02;
-    background: $color-gray-75;
+    background: $color-white-alpha-12;
+    color: $color-gray-05;
+  }
+
+  @include keyboard-mode {
+    &:focus-within {
+      @include light-theme {
+        background: $color-gray-45;
+        color: $color-white;
+      }
+
+      @include dark-theme {
+        background: $color-gray-25;
+        color: $color-gray-90;
+      }
+    }
   }
 
   &__contact-name {
     @include font-body-2;
-    padding: 0 6px;
+    padding-block: 0;
+    padding-inline: 6px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
 
   &__remove {
-    $icon: '../images/icons/v2/x-24.svg';
+    $icon: '../images/icons/v3/x/x-compact-light.svg';
 
     @include button-reset;
     height: 100%;
     display: flex;
-    width: 28px;
+    width: 16px;
+    height: 16px;
     justify-content: center;
     align-items: center;
-    padding: 0 6px 0 4px;
+    padding: 0;
 
     &::before {
       content: '';
-      width: 12px;
-      height: 12px;
+      width: 100%;
+      height: 100%;
       display: block;
 
       @include light-theme {
@@ -52,19 +70,15 @@
 
     @include keyboard-mode {
       &:focus {
-        background: $color-gray-15;
-
         &::before {
-          @include color-svg($icon, $color-ultramarine);
+          @include color-svg($icon, $color-white);
         }
       }
     }
     @include dark-keyboard-mode {
       &:focus {
-        background: $color-gray-65;
-
         &::before {
-          @include color-svg($icon, $color-ultramarine-light);
+          @include color-svg($icon, $color-gray-90);
         }
       }
     }

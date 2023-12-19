@@ -46,7 +46,7 @@ const { Partial, Full } = (Root as any).fromJSON({
   },
 }).nested.test;
 
-describe('Proto#__unknownFields', () => {
+describe('Proto#$unknownFields', () => {
   it('should encode and decode with unknown fields', () => {
     const full = Full.encode({
       a: 'hello',
@@ -58,20 +58,20 @@ describe('Proto#__unknownFields', () => {
     const partial = Partial.decode(full);
     assert.strictEqual(partial.a, 'hello');
     assert.strictEqual(partial.c, 42);
-    assert.strictEqual(partial.__unknownFields.length, 2);
+    assert.strictEqual(partial.$unknownFields.length, 2);
     assert.strictEqual(
-      Buffer.from(partial.__unknownFields[0]).toString('hex'),
+      Buffer.from(partial.$unknownFields[0]).toString('hex'),
       '1001'
     );
     assert.strictEqual(
-      Buffer.from(partial.__unknownFields[1]).toString('hex'),
+      Buffer.from(partial.$unknownFields[1]).toString('hex'),
       '22046f686169'
     );
 
     const encoded = Partial.encode({
       a: partial.a,
       c: partial.c,
-      __unknownFields: partial.__unknownFields,
+      $unknownFields: partial.$unknownFields,
     }).finish();
     const decoded = Full.decode(encoded);
 
@@ -83,7 +83,7 @@ describe('Proto#__unknownFields', () => {
     const concat = Partial.encode({
       a: partial.a,
       c: partial.c,
-      __unknownFields: [Buffer.concat(partial.__unknownFields)],
+      $unknownFields: [Buffer.concat(partial.$unknownFields)],
     }).finish();
     const decodedConcat = Full.decode(concat);
 

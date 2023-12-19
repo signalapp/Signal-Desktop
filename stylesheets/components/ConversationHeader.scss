@@ -12,10 +12,10 @@
 
     &::before {
       content: '';
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
       display: block;
-      margin-right: $margin-right;
+      margin-inline-end: $margin-right;
 
       @include light-theme {
         @include color-svg($icon, $color-gray-60);
@@ -26,13 +26,21 @@
     }
   }
 
-  --button-spacing: 24px;
+  --button-spacing: 12px;
 
   &.module-ConversationHeader--narrow {
-    --button-spacing: 16px;
+    --button-spacing: 4px;
   }
 
-  -webkit-app-region: var(--draggable-app-region);
+  @include draggable-region;
+  // In Electron v23+, clicking on a `drag` region in an unfocused window may not
+  // propagate clicks to no-drag elements that have a higher CSS order; this avoids that
+  // scenario for interactive elements (e.g. IncomingCallBar) which overlap the
+  // conversation header.
+  @at-root body:not(.window-focused) & {
+    -webkit-app-region: no-drag;
+  }
+
   padding-top: var(--title-bar-drag-area-height);
   display: flex;
   flex-direction: row;
@@ -48,54 +56,6 @@
     background-color: $color-gray-95;
   }
 
-  &__back-icon {
-    $transition: 250ms ease-out;
-
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    margin-left: -24px;
-    vertical-align: text-bottom;
-    border: none;
-    opacity: 0;
-    transition: margin-left $transition, opacity $transition;
-
-    &:disabled {
-      cursor: default;
-    }
-
-    &--show {
-      opacity: 1;
-      margin-right: 6px;
-      margin-left: 12px;
-    }
-
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
-        $color-gray-90
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
-        $color-gray-02
-      );
-    }
-
-    @include keyboard-mode {
-      &:focus {
-        background-color: $color-ultramarine;
-      }
-    }
-    @include dark-keyboard-mode {
-      &:focus {
-        background-color: $color-ultramarine-light;
-      }
-    }
-  }
-
   &__header {
     $padding: 4px 12px;
 
@@ -103,12 +63,11 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    margin-left: 4px;
-    margin-right: var(--button-spacing);
+    margin-inline: 4px var(--button-spacing);
     padding: $padding;
     overflow: hidden;
     min-width: 0;
-    transition: margin-right 200ms ease-out;
+    transition: margin-inline-end 200ms ease-out;
 
     &--clickable {
       @include button-reset;
@@ -117,10 +76,9 @@
       -webkit-app-region: no-drag;
 
       // These are clobbered by button-reset:
-      margin-left: 4px;
-      margin-right: var(--button-spacing);
+      margin-inline: 4px var(--button-spacing);
       padding: $padding;
-      padding-left: 0;
+      padding-inline-start: 0;
 
       @include keyboard-mode {
         &:focus {
@@ -136,7 +94,7 @@
 
     &__avatar {
       min-width: 32px;
-      margin-right: 12px;
+      margin-inline-end: 12px;
       padding-top: 4px;
       padding-bottom: 4px;
     }
@@ -148,6 +106,8 @@
 
       &__title {
         @include font-body-1-bold;
+        display: flex;
+        align-items: center;
 
         white-space: nowrap;
         overflow: hidden;
@@ -155,7 +115,7 @@
         user-select: none;
 
         &__in-contacts-icon {
-          margin-left: 4px;
+          margin-inline-start: 4px;
         }
       }
 
@@ -171,12 +131,12 @@
         }
 
         &__expiration {
-          @include icon-element('../images/icons/v2/timer-outline-24.svg');
-          margin-right: 12px;
+          @include icon-element('../images/icons/v3/timer/timer-compact.svg');
+          margin-inline-end: 12px;
         }
 
         &__verified {
-          @include icon-element('../images/icons/v2/check-24.svg');
+          @include icon-element('../images/icons/v3/check/check-compact.svg');
         }
       }
     }
@@ -193,20 +153,15 @@
     border: 2px solid transparent;
     display: flex;
     height: $icon-size;
-    margin-right: var(--button-spacing);
+    margin-inline-end: var(--button-spacing);
     min-width: $icon-size;
-    opacity: 0;
     padding: 2px;
-    transition: margin-right 200ms ease-out, opacity 200ms ease-out,
+    transition: margin-inline-end 200ms ease-out, opacity 200ms ease-out,
       background 100ms ease-out;
     width: $icon-size;
 
     &:disabled {
       cursor: default;
-    }
-
-    &--show {
-      opacity: 1;
     }
 
     &--show-disabled {
@@ -270,19 +225,20 @@
     }
 
     &--video {
-      @include normal-button('../images/icons/v2/video-outline-24.svg', 24px);
+      @include normal-button('../images/icons/v3/video/video.svg', 20px);
     }
 
     &--audio {
-      @include normal-button('../images/icons/v2/phone-outline-24.svg', 24px);
+      @include normal-button('../images/icons/v3/phone/phone.svg', 20px);
     }
 
     &--search {
-      @include normal-button('../images/icons/v2/search-24.svg', 24px);
+      @include normal-button('../images/icons/v3/search/search.svg', 20px);
     }
 
     &--more {
-      @include normal-button('../images/icons/v2/chevron-down-20.svg', 20px);
+      @include normal-button('../images/icons/v3/more/more.svg', 20px);
+      margin-inline-end: 16px;
     }
 
     &--join-call {
@@ -296,23 +252,25 @@
       display: flex;
       outline: none;
       overflow: hidden;
-      padding: 5px 18px;
+      padding-block: 5px;
+      padding-inline: 10px;
       text-overflow: ellipsis;
       white-space: nowrap;
       user-select: none;
       width: auto;
+      height: 28px;
 
       &:before {
-        $icon-size: 24px;
+        $icon-size: 16px;
 
         @include color-svg(
-          '../images/icons/v2/video-solid-24.svg',
+          '../images/icons/v3/video/video-compact-fill.svg',
           $color-white
         );
         content: '';
         display: block;
         height: $icon-size;
-        margin-right: 5px;
+        margin-inline-end: 4px;
         min-width: $icon-size;
         width: $icon-size;
       }
@@ -326,11 +284,11 @@
   }
 
   &__disappearing-timer__item {
-    padding-left: 25px;
+    padding-inline-start: 25px;
 
     &--active {
-      padding-left: 0px;
-      @include icon-element('../images/icons/v2/check-24.svg', 12px);
+      padding-inline-start: 0px;
+      @include icon-element('../images/icons/v3/check/check-compact.svg', 12px);
     }
   }
 }

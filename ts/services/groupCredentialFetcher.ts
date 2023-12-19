@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { last, sortBy } from 'lodash';
+import { first, last, sortBy } from 'lodash';
 import { AuthCredentialWithPniResponse } from '@signalapp/libsignal-client/zkgroup';
 
 import { getClientZkAuthOperations } from '../util/zkgroup';
@@ -12,7 +12,8 @@ import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
 import { toDayMillis } from '../util/timestamp';
-import { UUIDKind } from '../types/UUID';
+import { toTaggedPni } from '../types/ServiceId';
+import { toPniObject, toAciObject } from '../util/ServiceId';
 import * as log from '../logging/log';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
@@ -108,7 +109,9 @@ export function getCheckedCredentialsForToday(
   );
   if (todayIndex < 0) {
     throw new Error(
-      'getCredentialsForToday: Cannot find credentials for today'
+      'getCredentialsForToday: Cannot find credentials for today. ' +
+        `First: ${first(data)?.redemptionTime}, ` +
+        `last: ${last(data)?.redemptionTime}`
     );
   }
 
@@ -121,14 +124,14 @@ export function getCheckedCredentialsForToday(
 export async function maybeFetchNewCredentials(): Promise<void> {
   const logId = 'maybeFetchNewCredentials';
 
-  const aci = window.textsecure.storage.user.getUuid(UUIDKind.ACI)?.toString();
+  const aci = window.textsecure.storage.user.getAci();
   if (!aci) {
     log.info(`${logId}: no ACI, returning early`);
     return;
   }
 
-  const previous: CredentialsDataType | undefined =
-    window.storage.get('groupCredentials');
+  const previous: CredentialsDataType =
+    window.storage.get('groupCredentials') ?? [];
   const requestDates = getDatesForRequest(previous);
   if (!requestDates) {
     log.info(`${logId}: no new credentials needed`);
@@ -151,22 +154,27 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     serverPublicParamsBase64
   );
 
-  const { pni, credentials: rawCredentials } = await server.getGroupCredentials(
-    { startDayInMs, endDayInMs }
+  // Received credentials depend on us knowing up-to-date PNI. Use the latest
+  //   value from the server and log error on mismatch.
+  const { pni: untaggedPni, credentials: rawCredentials } =
+    await server.getGroupCredentials({ startDayInMs, endDayInMs });
+  strictAssert(
+    untaggedPni,
+    'Server must give pni along with group credentials'
   );
-  strictAssert(pni, 'Server must give pni along with group credentials');
+  const pni = toTaggedPni(untaggedPni);
 
-  const localPni = window.storage.user.getUuid(UUIDKind.PNI);
-  if (pni !== localPni?.toString()) {
+  const localPni = window.storage.user.getPni();
+  if (pni !== localPni) {
     log.error(`${logId}: local PNI ${localPni}, does not match remote ${pni}`);
   }
 
   const newCredentials = sortCredentials(rawCredentials).map(
     (item: GroupCredentialType) => {
       const authCredential =
-        clientZKAuthOperations.receiveAuthCredentialWithPni(
-          aci,
-          pni,
+        clientZKAuthOperations.receiveAuthCredentialWithPniAsServiceId(
+          toAciObject(aci),
+          toPniObject(pni),
           item.redemptionTime,
           new AuthCredentialWithPniResponse(
             Buffer.from(item.credential, 'base64')
@@ -189,23 +197,36 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     : [];
   const finalCredentials = [...previousCleaned, ...newCredentials];
 
-  log.info(`${logId}: Saving new credentials...`);
+  log.info(
+    `${logId}: saving ${newCredentials.length} new credentials, ` +
+      `cleaning up ${previous.length - previousCleaned.length} old ` +
+      `credentials, haveToday=${haveToday(finalCredentials)}`
+  );
+
   // Note: we don't wait for this to finish
   await window.storage.put('groupCredentials', finalCredentials);
   log.info(`${logId}: Save complete.`);
 }
 
+function haveToday(
+  data: CredentialsDataType,
+  today = toDayMillis(Date.now())
+): boolean {
+  return data?.some(({ redemptionTime }) => redemptionTime === today);
+}
+
 export function getDatesForRequest(
-  data?: CredentialsDataType
+  data: CredentialsDataType
 ): RequestDatesType | undefined {
   const today = toDayMillis(Date.now());
   const sixDaysOut = today + 6 * durations.DAY;
 
-  const haveToday = data?.some(
-    ({ redemptionTime }) => redemptionTime === today
-  );
   const lastCredential = last(data);
-  if (!haveToday || !lastCredential || lastCredential.redemptionTime < today) {
+  if (
+    !haveToday(data, today) ||
+    !lastCredential ||
+    lastCredential.redemptionTime < today
+  ) {
     return {
       startDayInMs: today,
       endDayInMs: sixDaysOut,

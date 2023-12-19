@@ -20,13 +20,19 @@ import { initializeAttachmentMetadata } from './message/initializeAttachmentMeta
 
 import type * as MIME from './MIME';
 import type { LoggerType } from './Logging';
-import type { EmbeddedContactType } from './EmbeddedContact';
+import type {
+  EmbeddedContactType,
+  EmbeddedContactWithHydratedAvatar,
+} from './EmbeddedContact';
 
 import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
-import type { LinkPreviewType } from './message/LinkPreviews';
+import type {
+  LinkPreviewType,
+  LinkPreviewWithHydratedData,
+} from './message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './Stickers';
 
 export { hasExpiration } from './Message';
@@ -587,10 +593,18 @@ export const processNewAttachment = async (
       isIncoming: true,
     }
   );
-  const onDiskAttachment = await migrateDataToFileSystem(rotatedAttachment, {
-    writeNewAttachmentData,
-    logger,
-  });
+
+  let onDiskAttachment = rotatedAttachment;
+
+  // If we rotated the attachment, then `data` will be the actual bytes of the attachment,
+  //   in memory. We want that updated attachment to go back to disk.
+  if (rotatedAttachment.data) {
+    onDiskAttachment = await migrateDataToFileSystem(rotatedAttachment, {
+      writeNewAttachmentData,
+      logger,
+    });
+  }
+
   const finalAttachment = await captureDimensionsAndScreenshot(
     onDiskAttachment,
     {
@@ -714,28 +728,33 @@ export const loadContactData = (
   loadAttachmentData: LoadAttachmentType
 ): ((
   contact: Array<EmbeddedContactType> | undefined
-) => Promise<Array<EmbeddedContactType> | undefined>) => {
+) => Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadContactData: loadAttachmentData is required');
   }
 
   return async (
     contact: Array<EmbeddedContactType> | undefined
-  ): Promise<Array<EmbeddedContactType> | undefined> => {
+  ): Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined> => {
     if (!contact) {
       return undefined;
     }
 
     return Promise.all(
       contact.map(
-        async (item: EmbeddedContactType): Promise<EmbeddedContactType> => {
+        async (
+          item: EmbeddedContactType
+        ): Promise<EmbeddedContactWithHydratedAvatar> => {
           if (
             !item ||
             !item.avatar ||
             !item.avatar.avatar ||
             !item.avatar.avatar.path
           ) {
-            return item;
+            return {
+              ...item,
+              avatar: undefined,
+            };
           }
 
           return {
@@ -758,7 +777,7 @@ export const loadPreviewData = (
   loadAttachmentData: LoadAttachmentType
 ): ((
   preview: Array<LinkPreviewType> | undefined
-) => Promise<Array<LinkPreviewType>>) => {
+) => Promise<Array<LinkPreviewWithHydratedData>>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadPreviewData: loadAttachmentData is required');
   }
@@ -769,16 +788,22 @@ export const loadPreviewData = (
     }
 
     return Promise.all(
-      preview.map(async item => {
-        if (!item.image) {
-          return item;
-        }
+      preview.map(
+        async (item: LinkPreviewType): Promise<LinkPreviewWithHydratedData> => {
+          if (!item.image) {
+            return {
+              ...item,
+              // Pacify typescript
+              image: undefined,
+            };
+          }
 
-        return {
-          ...item,
-          image: await loadAttachmentData(item.image),
-        };
-      })
+          return {
+            ...item,
+            image: await loadAttachmentData(item.image),
+          };
+        }
+      )
     );
   };
 };
@@ -824,7 +849,8 @@ export const deleteAllExternalFiles = ({
   }
 
   return async (message: MessageAttributesType) => {
-    const { attachments, quote, contact, preview, sticker } = message;
+    const { attachments, editHistory, quote, contact, preview, sticker } =
+      message;
 
     if (attachments && attachments.length) {
       await Promise.all(attachments.map(deleteAttachmentData));
@@ -858,15 +884,7 @@ export const deleteAllExternalFiles = ({
     }
 
     if (preview && preview.length) {
-      await Promise.all(
-        preview.map(async item => {
-          const { image } = item;
-
-          if (image && image.path) {
-            await deleteOnDisk(image.path);
-          }
-        })
-      );
+      await deletePreviews(preview, deleteOnDisk);
     }
 
     if (sticker && sticker.data && sticker.data.path) {
@@ -876,8 +894,41 @@ export const deleteAllExternalFiles = ({
         await deleteOnDisk(sticker.data.thumbnail.path);
       }
     }
+
+    if (editHistory && editHistory.length) {
+      await editHistory.map(edit => {
+        if (!edit.attachments || !edit.attachments.length) {
+          return;
+        }
+        return Promise.all(edit.attachments.map(deleteAttachmentData));
+      });
+      await editHistory.map(edit => deletePreviews(edit.preview, deleteOnDisk));
+    }
   };
 };
+
+async function deletePreviews(
+  preview: MessageAttributesType['preview'],
+  deleteOnDisk: (path: string) => Promise<void>
+): Promise<Array<void>> {
+  if (!preview) {
+    return [];
+  }
+
+  return Promise.all(
+    preview.map(async item => {
+      const { image } = item;
+
+      if (image && image.path) {
+        await deleteOnDisk(image.path);
+      }
+
+      if (image?.thumbnail?.path) {
+        await deleteOnDisk(image.thumbnail.path);
+      }
+    })
+  );
+}
 
 //      createAttachmentDataWriter :: (RelativePath -> IO Unit)
 //                                    Message ->

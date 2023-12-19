@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { times } from 'lodash';
 import { updateRemoteConfig } from '../helpers/RemoteConfigStub';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 
@@ -12,7 +12,7 @@ const CONFIG_KEY = 'global.calling.maxGroupCallRingSize';
 
 describe('isConversationTooBigToRing', () => {
   const fakeMemberships = (count: number) =>
-    times(count, () => ({ uuid: UUID.generate().toString(), isAdmin: false }));
+    times(count, () => ({ aci: generateAci(), isAdmin: false }));
 
   it('returns false if there are no memberships (i.e., for a direct conversation)', () => {
     assert.isFalse(isConversationTooBigToRing({}));

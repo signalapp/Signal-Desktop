@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import URL from 'url';
-import ProxyAgent from 'proxy-agent';
 import type { RequestInit } from 'node-fetch';
 import { Response, Headers } from 'node-fetch';
 import type { connection as WebSocket } from 'websocket';
@@ -14,6 +13,7 @@ import { strictAssert } from '../util/assert';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import * as durations from '../util/durations';
 import { sleep } from '../util/sleep';
+import { createProxyAgent } from '../util/createProxyAgent';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
@@ -34,6 +34,7 @@ const JITTER = 5 * durations.SECOND;
 
 export type SocketManagerOptions = Readonly<{
   url: string;
+  artCreatorUrl: string;
   certificateAuthority: string;
   version: string;
   proxyUrl?: string;
@@ -67,7 +68,7 @@ export class SocketManager extends EventListener {
 
   private credentials?: WebAPICredentials;
 
-  private readonly proxyAgent?: ReturnType<typeof ProxyAgent>;
+  private readonly proxyAgent?: ReturnType<typeof createProxyAgent>;
 
   private status = SocketStatus.CLOSED;
 
@@ -83,7 +84,7 @@ export class SocketManager extends EventListener {
     super();
 
     if (options.proxyUrl) {
-      this.proxyAgent = new ProxyAgent(options.proxyUrl);
+      this.proxyAgent = createProxyAgent(options.proxyUrl);
     }
 
     this.hasStoriesDisabled = options.hasStoriesDisabled;
@@ -141,6 +142,7 @@ export class SocketManager extends EventListener {
       path: '/v1/websocket/',
       query: { login: username, password },
       resourceOptions: {
+        name: 'authenticated',
         keepalive: { path: '/v1/keepalive' },
         handleRequest: (req: IncomingWebSocketRequest): void => {
           this.queueOrHandleRequest(req);
@@ -223,7 +225,9 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    log.info('SocketManager: connected authenticated socket');
+    log.info(
+      `SocketManager: connected authenticated socket (localPort: ${authenticated.localPort})`
+    );
 
     window.logAuthenticatedConnect?.();
     this.backOff.reset();
@@ -268,10 +272,32 @@ export class SocketManager extends EventListener {
       name: 'provisioning',
       path: '/v1/websocket/provisioning/',
       resourceOptions: {
+        name: 'provisioning',
         handleRequest: (req: IncomingWebSocketRequest): void => {
           handler.handleRequest(req);
         },
         keepalive: { path: '/v1/keepalive/provisioning' },
+      },
+    }).getResult();
+  }
+
+  // Creates new WebSocket for Art Creator provisioning
+  public async connectExternalSocket({
+    url,
+    extraHeaders,
+  }: {
+    url: string;
+    extraHeaders?: Record<string, string>;
+  }): Promise<WebSocket> {
+    return connectWebSocket({
+      name: 'art-creator-provisioning',
+      url,
+      version: this.options.version,
+      proxyAgent: this.proxyAgent,
+      extraHeaders,
+
+      createResource(socket: WebSocket): WebSocket {
+        return socket;
       },
     }).getResult();
   }
@@ -461,6 +487,7 @@ export class SocketManager extends EventListener {
       name: 'unauthenticated',
       path: '/v1/websocket/',
       resourceOptions: {
+        name: 'unauthenticated',
         keepalive: { path: '/v1/keepalive' },
       },
     });
@@ -478,7 +505,9 @@ export class SocketManager extends EventListener {
       throw error;
     }
 
-    log.info('SocketManager: connected unauthenticated socket');
+    log.info(
+      `SocketManager: connected unauthenticated socket (localPort: ${unauthenticated.localPort})`
+    );
 
     unauthenticated.addEventListener('close', ({ code, reason }): void => {
       if (this.unauthenticated !== process) {

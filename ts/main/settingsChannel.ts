@@ -19,6 +19,7 @@ const EPHEMERAL_NAME_MAP = new Map([
   ['spellCheck', 'spell-check'],
   ['systemTraySetting', 'system-tray-setting'],
   ['themeSetting', 'theme-setting'],
+  ['localeOverride', 'localeOverride'],
 ]);
 
 type ResponseQueueEntry = Readonly<{
@@ -62,13 +63,10 @@ export class SettingsChannel extends EventEmitter {
     this.installCallback('isPrimary');
     this.installCallback('syncRequest');
     this.installCallback('isPhoneNumberSharingEnabled');
-    this.installCallback('shouldShowStoriesSettings');
 
     // Getters only. These are set by the primary device
     this.installSetting('blockedCount', { setter: false });
     this.installSetting('linkPreviewSetting', { setter: false });
-    this.installSetting('phoneNumberDiscoverabilitySetting', { setter: false });
-    this.installSetting('phoneNumberSharingSetting', { setter: false });
     this.installSetting('readReceiptSetting', { setter: false });
     this.installSetting('typingIndicatorSetting', { setter: false });
 
@@ -80,8 +78,12 @@ export class SettingsChannel extends EventEmitter {
       isEphemeral: true,
     });
 
+    this.installSetting('localeOverride', {
+      isEphemeral: true,
+    });
     this.installSetting('notificationSetting');
     this.installSetting('notificationDrawAttention');
+    this.installSetting('audioMessage');
     this.installSetting('audioNotification');
     this.installSetting('countMutedConversations');
 
@@ -90,6 +92,7 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('spellCheck', {
       isEphemeral: true,
     });
+    this.installSetting('textFormatting');
 
     this.installSetting('autoDownloadUpdate');
     this.installSetting('autoLaunch');
@@ -110,7 +113,10 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('hasStoriesDisabled');
     this.installSetting('zoomFactor');
 
-    installPermissionsHandler({ session, userConfig });
+    this.installSetting('phoneNumberDiscoverabilitySetting');
+    this.installSetting('phoneNumberSharingSetting');
+
+    installPermissionsHandler({ session: session.defaultSession, userConfig });
 
     // These ones are different because its single source of truth is userConfig,
     // not IndexedDB
@@ -124,13 +130,19 @@ export class SettingsChannel extends EventEmitter {
       userConfig.set('mediaPermissions', value);
 
       // We reinstall permissions handler to ensure that a revoked permission takes effect
-      installPermissionsHandler({ session, userConfig });
+      installPermissionsHandler({
+        session: session.defaultSession,
+        userConfig,
+      });
     });
     ipc.handle('settings:set:mediaCameraPermissions', (_event, value) => {
       userConfig.set('mediaCameraPermissions', value);
 
       // We reinstall permissions handler to ensure that a revoked permission takes effect
-      installPermissionsHandler({ session, userConfig });
+      installPermissionsHandler({
+        session: session.defaultSession,
+        userConfig,
+      });
     });
 
     ipc.on('settings:response', (_event, seq, error, value) => {

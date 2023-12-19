@@ -7,7 +7,7 @@ import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -17,15 +17,12 @@ describe('storage service', function needsName() {
     ({ bootstrap, app } = await initStorage());
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
 
-    if (this.currentTest?.state !== 'passed') {
-      await bootstrap.saveLogs(app);
-    }
-
+    await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
   });
@@ -36,8 +33,8 @@ describe('storage service', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
-    const conversationStack = window.locator('.conversation-stack');
+    const leftPane = window.locator('#LeftPane');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('archiving contact');
     {
@@ -52,7 +49,7 @@ describe('storage service', function needsName() {
       });
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
         .waitFor({ state: 'hidden' });
 
       await leftPane
@@ -77,7 +74,7 @@ describe('storage service', function needsName() {
       });
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
         .waitFor();
 
       await leftPane
@@ -92,7 +89,7 @@ describe('storage service', function needsName() {
       const state = await phone.expectStorageState('consistency check');
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
         .click();
 
       const moreButton = conversationStack.locator(
@@ -100,7 +97,7 @@ describe('storage service', function needsName() {
       );
       await moreButton.click();
 
-      const archiveButton = conversationStack.locator(
+      const archiveButton = window.locator(
         '.react-contextmenu-item >> "Archive"'
       );
       await archiveButton.click();

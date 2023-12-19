@@ -30,28 +30,73 @@
 
     &--name {
       &::after {
-        -webkit-mask: url(../images/icons/v2/profile-outline-20.svg) no-repeat
-          center;
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/person/person.svg',
+            $color-gray-75
+          );
+        }
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/person/person.svg',
+            $color-gray-15
+          );
+        }
       }
     }
 
     &--username {
       &::after {
-        -webkit-mask: url(../images/icons/v2/at-24.svg) no-repeat center;
+        @include light-theme {
+          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-75);
+        }
+
+        @include dark-theme {
+          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-15);
+        }
+      }
+    }
+
+    &--username-link {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/qr_code/qr_code.svg',
+            $color-gray-75
+          );
+        }
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/qr_code/qr_code.svg',
+            $color-gray-15
+          );
+        }
       }
     }
 
     &--bio {
       &::after {
-        -webkit-mask: url(../images/icons/v2/compose-outline-24.svg) no-repeat
-          center;
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/edit/edit.svg',
+            $color-gray-75
+          );
+        }
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/edit/edit.svg',
+            $color-gray-15
+          );
+        }
       }
     }
   }
 
   &__row {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline: 0;
   }
 
   &__divider {
@@ -69,7 +114,8 @@
 
   &__info {
     @include font-body-2;
-    margin: 16px 0;
+    margin-block: 16px;
+    margin-inline: 0;
 
     @include light-theme {
       color: $color-gray-60;
@@ -92,13 +138,13 @@
 
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-down-20.svg',
+          '../images/icons/v3/chevron/chevron-down.svg',
           $color-white
         );
       }
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-down-20.svg',
+          '../images/icons/v3/chevron/chevron-down.svg',
           $color-black
         );
       }
@@ -106,41 +152,148 @@
 
     &__copy-icon {
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/copy-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/copy/copy.svg', $color-white);
       }
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/copy-outline-24.svg',
-          $color-black
-        );
+        @include color-svg('../images/icons/v3/copy/copy.svg', $color-black);
       }
     }
 
     &__copy-link-icon {
       @include dark-theme {
-        @include color-svg('../images/icons/v2/link-24.svg', $color-white);
+        @include color-svg('../images/icons/v3/link/link.svg', $color-white);
       }
       @include light-theme {
-        @include color-svg('../images/icons/v2/link-24.svg', $color-black);
+        @include color-svg('../images/icons/v3/link/link.svg', $color-black);
       }
     }
 
     &__trash-icon {
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/trash-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/trash/trash.svg', $color-white);
       }
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/trash-outline-24.svg',
-          $color-black
-        );
+        @include color-svg('../images/icons/v3/trash/trash.svg', $color-black);
       }
     }
+  }
+
+  &__error-icon {
+    -webkit-mask-size: 100%;
+    display: block;
+    height: 24px;
+    width: 24px;
+    margin: 4px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/error/error-circle.svg',
+        $color-accent-red
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/error/error-circle.svg',
+        $color-accent-red
+      );
+    }
+  }
+
+  &__username-link {
+    &__tooltip {
+      padding: 12px;
+
+      &__container {
+        display: flex;
+        flex-direction: row;
+      }
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+        margin-block-start: 4px;
+        margin-inline: 4px 12px;
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/share/share.svg',
+            $color-white
+          );
+        }
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/share/share.svg',
+            $color-black
+          );
+        }
+      }
+
+      &__content {
+        text-align: start;
+
+        h3 {
+          @include font-body-2-bold;
+          margin: 0;
+        }
+
+        p {
+          max-width: 240px;
+          margin: 0;
+        }
+      }
+
+      &__close {
+        @include button-reset;
+        @include button-focus-outline;
+
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        margin: 0;
+
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-45);
+      }
+    }
+  }
+
+  &__reset-username-modal__ModalHost__width-container {
+    max-width: 438px;
+
+    .module-Modal__button-footer {
+      justify-content: space-between;
+    }
+  }
+}
+
+.ProfileEditor__Title {
+  @include font-title-1;
+  text-align: center;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-block: 0 4px;
+  margin-inline: 0;
+  @include light-theme() {
+    color: $color-gray-90;
+  }
+  @include dark-theme() {
+    color: $color-gray-05;
+  }
+}
+
+.ProfileEditor__PhoneNumber {
+  @include font-body-2;
+  text-align: center;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-block: 0 14px;
+  margin-inline: 0;
+  @include light-theme() {
+    color: $color-black;
+  }
+  @include dark-theme() {
+    color: $color-white;
   }
 }

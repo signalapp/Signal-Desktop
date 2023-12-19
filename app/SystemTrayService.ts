@@ -117,6 +117,10 @@ export class SystemTrayService {
     this.isQuitting = true;
   }
 
+  isVisible(): boolean {
+    return this.tray !== undefined;
+  }
+
   private render(): void {
     if (this.isEnabled && this.browserWindow) {
       this.renderEnabled();
@@ -155,7 +159,7 @@ export class SystemTrayService {
           id: 'toggleWindowVisibility',
           ...(browserWindow?.isVisible()
             ? {
-                label: this.i18n('hide'),
+                label: this.i18n('icu:hide'),
                 click: () => {
                   log.info(
                     'System tray service: hiding the window from the context menu'
@@ -167,21 +171,21 @@ export class SystemTrayService {
                 },
               }
             : {
-                label: this.i18n('show'),
+                label: this.i18n('icu:show'),
                 click: () => {
                   log.info(
                     'System tray service: showing the window from the context menu'
                   );
                   if (this.browserWindow) {
                     this.browserWindow.show();
-                    forceOnTop(this.browserWindow);
+                    focusAndForceToTop(this.browserWindow);
                   }
                 },
               }),
         },
         {
           id: 'quit',
-          label: this.i18n('quit'),
+          label: this.i18n('icu:quit'),
           click: () => {
             log.info(
               'System tray service: quitting the app from the context menu'
@@ -223,11 +227,11 @@ export class SystemTrayService {
         browserWindow.hide();
       } else {
         browserWindow.show();
-        forceOnTop(browserWindow);
+        focusAndForceToTop(browserWindow);
       }
     });
 
-    result.setToolTip(this.i18n('signalDesktop'));
+    result.setToolTip(this.i18n('icu:signalDesktop'));
 
     return result;
   }
@@ -247,6 +251,7 @@ function getIcon(unreadCount: number) {
     case 'darwin':
       iconSize = '16';
       break;
+    case 'linux':
     case 'win32':
       iconSize = '32';
       break;
@@ -269,7 +274,7 @@ function getDefaultIcon(): NativeImage {
   return defaultIcon;
 }
 
-function forceOnTop(browserWindow: BrowserWindow) {
+export function focusAndForceToTop(browserWindow: BrowserWindow): void {
   // On some versions of GNOME the window may not be on top when restored.
   // This trick should fix it.
   // Thanks to: https://github.com/Enrico204/Whatsapp-Desktop/commit/6b0dc86b64e481b455f8fce9b4d797e86d000dc1

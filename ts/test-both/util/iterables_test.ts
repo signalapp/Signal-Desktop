@@ -59,7 +59,7 @@ describe('iterable utilities', () => {
       );
       assert.isTrue(
         isIterable(
-          (function* generators() {
+          (function* () {
             yield 123;
           })()
         )

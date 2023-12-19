@@ -5,8 +5,10 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import type { PropsType } from './AddGroupMemberErrorDialog';
 import {
   AddGroupMemberErrorDialog,
   AddGroupMemberErrorDialogMode,
@@ -16,24 +18,22 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/AddGroupMemberErrorDialog',
-};
+} satisfies Meta<PropsType>;
 
 const defaultProps = {
   i18n,
   onClose: action('onClose'),
 };
 
-export const _MaximumGroupSize = (): JSX.Element => (
-  <AddGroupMemberErrorDialog
-    {...defaultProps}
-    mode={AddGroupMemberErrorDialogMode.MaximumGroupSize}
-    maximumNumberOfContacts={123}
-  />
-);
-
-_MaximumGroupSize.story = {
-  name: 'Maximum group size',
-};
+export function MaximumGroupSize(): JSX.Element {
+  return (
+    <AddGroupMemberErrorDialog
+      {...defaultProps}
+      mode={AddGroupMemberErrorDialogMode.MaximumGroupSize}
+      maximumNumberOfContacts={123}
+    />
+  );
+}
 
 export function MaximumRecommendedGroupSize(): JSX.Element {
   return (
@@ -44,7 +44,3 @@ export function MaximumRecommendedGroupSize(): JSX.Element {
     />
   );
 }
-
-MaximumRecommendedGroupSize.story = {
-  name: 'Maximum recommended group size',
-};

@@ -63,9 +63,10 @@ export function useTabs(options: TabsOptionsType): TabsProps {
   }
 
   const tabsHeaderElement = (
-    <div className={getClassName('')}>
+    <div className={getClassName('')} data-supertab>
       {options.tabs.map(({ id, label }) => (
         <div
+          aria-selected={selectedTab === id}
           className={classNames(
             getClassName('__tab'),
             selectedTab === id && getClassName('__tab--selected')

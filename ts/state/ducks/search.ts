@@ -6,7 +6,6 @@ import { debounce, omit, reject } from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
-import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
 import type {
   ClientSearchResultMessageType,
@@ -14,15 +13,19 @@ import type {
 } from '../../sql/Interface';
 import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
+import { isNotNil } from '../../util/isNotNil';
+import type { ServiceIdString } from '../../types/ServiceId';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type {
   ConversationType,
   ConversationUnloadedActionType,
   MessageDeletedActionType,
-  MessageType,
   RemoveAllConversationsActionType,
-  SelectedConversationChangedActionType,
+  TargetedConversationChangedActionType,
   ShowArchivedConversationsActionType,
+  MessageType,
 } from './conversations';
 import { getQuery, getSearchConversation } from '../selectors/search';
 import { getAllConversations } from '../selectors/conversations';
@@ -34,13 +37,14 @@ import {
 import { strictAssert } from '../../util/assert';
 import {
   CONVERSATION_UNLOADED,
-  SELECTED_CONVERSATION_CHANGED,
+  TARGETED_CONVERSATION_CHANGED,
 } from './conversations';
+import { removeDiacritics } from '../../util/removeDiacritics';
+import * as log from '../../logging/log';
+import { searchConversationTitles } from '../../util/searchConversationTitles';
+import { isDirectConversation } from '../../util/whatTypeOfConversation';
 
-const {
-  searchMessages: dataSearchMessages,
-  searchMessagesInConversation,
-}: ClientInterface = dataInterface;
+const { searchMessages: dataSearchMessages }: ClientInterface = dataInterface;
 
 // State
 
@@ -57,13 +61,14 @@ export type MessageSearchResultLookupType = ReadonlyDeep<{
 export type SearchStateType = ReadonlyDeep<{
   startSearchCounter: number;
   searchConversationId?: string;
+  globalSearch?: boolean;
   contactIds: Array<string>;
   conversationIds: Array<string>;
   query: string;
   messageIds: Array<string>;
   // We do store message data to pass through the selector
   messageLookup: MessageSearchResultLookupType;
-  selectedMessage?: string;
+  targetedMessage?: string;
   // Loading state
   discussionsLoading: boolean;
   messagesLoading: boolean;
@@ -94,7 +99,7 @@ type UpdateSearchTermActionType = ReadonlyDeep<{
 }>;
 type StartSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_START';
-  payload: null;
+  payload: { globalSearch: boolean };
 }>;
 type ClearSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_CLEAR';
@@ -119,7 +124,7 @@ export type SearchActionType = ReadonlyDeep<
   | SearchInConversationActionType
   | MessageDeletedActionType
   | RemoveAllConversationsActionType
-  | SelectedConversationChangedActionType
+  | TargetedConversationChangedActionType
   | ShowArchivedConversationsActionType
   | ConversationUnloadedActionType
 >;
@@ -134,10 +139,14 @@ export const actions = {
   updateSearchTerm,
 };
 
+export const useSearchActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
+
 function startSearch(): StartSearchActionType {
   return {
     type: 'SEARCH_START',
-    payload: null,
+    payload: { globalSearch: true },
   };
 }
 function clearSearch(): ClearSearchActionType {
@@ -177,11 +186,13 @@ function updateSearchTerm(
       'updateSearchTerm our conversation is missing'
     );
 
+    const i18n = getIntl(state);
+
     doSearch({
       dispatch,
       allConversations: getAllConversations(state),
       regionCode: getRegionCode(state),
-      noteToSelf: getIntl(state)('noteToSelf').toLowerCase(),
+      noteToSelf: i18n('icu:noteToSelf').toLowerCase(),
       ourConversationId,
       query: getQuery(state),
       searchConversationId: getSearchConversation(state)?.id,
@@ -216,11 +227,33 @@ const doSearch = debounce(
       return;
     }
 
+    // Limit the number of contacts to something reasonable
+    const MAX_MATCHING_CONTACTS = 100;
+
     void (async () => {
+      const segmenter = new Intl.Segmenter([], { granularity: 'word' });
+      const queryWords = [...segmenter.segment(query)]
+        .filter(word => word.isWordLike)
+        .map(word => word.segment);
+      const contactServiceIdsMatchingQuery = searchConversationTitles(
+        allConversations,
+        queryWords
+      )
+        .filter(conversation => isDirectConversation(conversation))
+        .map(conversation => conversation.serviceId)
+        .filter(isNotNil)
+        .slice(0, MAX_MATCHING_CONTACTS);
+
+      const messages = await queryMessages({
+        query,
+        searchConversationId,
+        contactServiceIdsMatchingQuery,
+      });
+
       dispatch({
         type: 'SEARCH_MESSAGES_RESULTS_FULFILLED',
         payload: {
-          messages: await queryMessages(query, searchConversationId),
+          messages,
           query,
         },
       });
@@ -250,21 +283,32 @@ const doSearch = debounce(
   200
 );
 
-async function queryMessages(
-  query: string,
-  searchConversationId?: string
-): Promise<Array<ClientSearchResultMessageType>> {
+async function queryMessages({
+  query,
+  searchConversationId,
+  contactServiceIdsMatchingQuery,
+}: {
+  query: string;
+  searchConversationId?: string;
+  contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
+}): Promise<Array<ClientSearchResultMessageType>> {
   try {
-    const normalized = cleanSearchTerm(query);
-    if (normalized.length === 0) {
+    if (query.length === 0) {
       return [];
     }
 
     if (searchConversationId) {
-      return searchMessagesInConversation(normalized, searchConversationId);
+      return dataSearchMessages({
+        query,
+        conversationId: searchConversationId,
+        contactServiceIdsMatchingQuery,
+      });
     }
 
-    return dataSearchMessages(normalized);
+    return dataSearchMessages({
+      query,
+      contactServiceIdsMatchingQuery,
+    });
   } catch (e) {
     return [];
   }
@@ -285,8 +329,20 @@ async function queryConversationsAndContacts(
   const { ourConversationId, noteToSelf, regionCode, allConversations } =
     options;
 
+  const normalizedQuery = removeDiacritics(query);
+
+  const visibleConversations = allConversations.filter(
+    ({ activeAt, removalStage }) => {
+      return activeAt != null || removalStage == null;
+    }
+  );
+
   const searchResults: Array<ConversationType> =
-    filterAndSortConversationsByRecent(allConversations, query, regionCode);
+    filterAndSortConversationsByRecent(
+      visibleConversations,
+      normalizedQuery,
+      regionCode
+    );
 
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];
@@ -334,6 +390,7 @@ export function reducer(
   action: Readonly<SearchActionType>
 ): SearchStateType {
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
+    log.info('search: show archived conversations, clearing message lookup');
     return getEmptyState();
   }
 
@@ -341,11 +398,14 @@ export function reducer(
     return {
       ...state,
       searchConversationId: undefined,
+      globalSearch: true,
       startSearchCounter: state.startSearchCounter + 1,
     };
   }
 
   if (action.type === 'SEARCH_CLEAR') {
+    log.info('search: cleared, clearing message lookup');
+
     return {
       ...getEmptyState(),
       startSearchCounter: state.startSearchCounter,
@@ -386,6 +446,8 @@ export function reducer(
       };
     }
 
+    log.info('search: searching in new conversation, clearing message lookup');
+
     return {
       ...getEmptyState(),
       searchConversationId,
@@ -394,6 +456,8 @@ export function reducer(
   }
   if (action.type === 'CLEAR_CONVERSATION_SEARCH') {
     const { searchConversationId } = state;
+
+    log.info('search: cleared conversation search, clearing message lookup');
 
     return {
       ...getEmptyState(),
@@ -407,8 +471,11 @@ export function reducer(
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
+      log.info('search: query mismatch, ignoring message results');
       return state;
     }
+
+    log.info('search: got new messages, updating message lookup');
 
     const messageIds = messages.map(message => message.id);
 
@@ -427,6 +494,7 @@ export function reducer(
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
+      log.info('search: query mismatch, ignoring message results');
       return state;
     }
 
@@ -442,18 +510,21 @@ export function reducer(
     return getEmptyState();
   }
 
-  if (action.type === SELECTED_CONVERSATION_CHANGED) {
+  if (action.type === TARGETED_CONVERSATION_CHANGED) {
     const { payload } = action;
     const { conversationId, messageId } = payload;
     const { searchConversationId } = state;
 
     if (searchConversationId && searchConversationId !== conversationId) {
+      log.info(
+        'search: targeted conversation changed, clearing message lookup'
+      );
       return getEmptyState();
     }
 
     return {
       ...state,
-      selectedMessage: messageId,
+      targetedMessage: messageId,
     };
   }
 
@@ -463,6 +534,9 @@ export function reducer(
     const { searchConversationId } = state;
 
     if (searchConversationId && searchConversationId === conversationId) {
+      log.info(
+        'search: searched conversation unloaded, clearing message lookup'
+      );
       return getEmptyState();
     }
 
@@ -477,6 +551,8 @@ export function reducer(
 
     const { payload } = action;
     const { id } = payload;
+
+    log.info('search: message deleted, removing from message lookup');
 
     return {
       ...state,

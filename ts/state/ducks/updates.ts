@@ -3,6 +3,8 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 import * as updateIpc from '../../shims/updateIpc';
 import { DialogType } from '../../types/Dialogs';
 import { DAY } from '../../util/durations';
@@ -139,6 +141,10 @@ export const actions = {
   snoozeUpdate,
   startUpdate,
 };
+
+export const useUpdatesActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 // Reducer
 

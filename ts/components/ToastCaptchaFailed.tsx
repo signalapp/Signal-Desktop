@@ -5,11 +5,11 @@ import React from 'react';
 import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   onClose: () => unknown;
 };
 
 export function ToastCaptchaFailed({ i18n, onClose }: PropsType): JSX.Element {
-  return <Toast onClose={onClose}>{i18n('verificationFailed')}</Toast>;
+  return <Toast onClose={onClose}>{i18n('icu:verificationFailed')}</Toast>;
 }

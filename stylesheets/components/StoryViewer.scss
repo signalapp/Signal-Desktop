@@ -5,7 +5,7 @@
   &__overlay {
     background-size: contain;
     height: 100%;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     top: 0;
     width: 100%;
@@ -20,7 +20,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
     top: 0;
     width: 100%;
@@ -31,10 +31,12 @@
     @include button-reset;
     @include modal-close-button;
     @include light-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
     }
+    width: 20px;
+    height: 20px;
     top: var(--title-bar-drag-area-height);
-    right: 28px;
+    inset-inline-end: 28px;
     z-index: $z-index-above-above-base;
   }
 
@@ -54,12 +56,11 @@
   }
 
   &__meta {
+    @include position-absolute-center-x;
     bottom: 0;
-    left: 50%;
     min-width: 284px;
-    padding: 0 16px;
-    position: absolute;
-    transform: translateX(-50%);
+    padding-block: 0;
+    padding-inline: 16px;
     width: clamp(0vh, 56.25vh, 100vw);
     z-index: $z-index-story-meta;
 
@@ -71,30 +72,30 @@
 
       &::before {
         @include color-svg(
-          '../images/icons/v2/stories-solid-16.svg',
+          '../images/icons/v3/stories/stories-fill-compact.svg',
           $color-white-alpha-80
         );
         content: '';
         display: block;
         height: 14px;
-        margin-right: 6px;
+        margin-inline-end: 6px;
         width: 14px;
       }
     }
 
     &--group-avatar {
-      margin-left: -8px;
+      margin-inline-start: -8px;
     }
 
     &--title-container {
-      padding-left: 8px;
+      padding-inline-start: 8px;
     }
 
     &--title {
       @include font-body-1-bold;
       color: $color-white;
       display: inline;
-      margin-right: 8px;
+      margin-inline-end: 8px;
     }
 
     &--timestamp {
@@ -122,14 +123,15 @@
   &__caption {
     @include font-body-1;
     color: $color-white;
-    padding: 4px 0;
+    padding-block: 4px;
+    padding-inline: 0;
     margin-bottom: 24px;
 
     &__overlay {
       @include button-reset;
       background: $color-black-alpha-60;
       height: 100%;
-      left: 0;
+      inset-inline-start: 0;
       position: absolute;
       top: 0;
       width: 100%;
@@ -153,10 +155,10 @@
         content: '';
         display: block;
         height: 18px;
-        margin-right: 12px;
+        margin-inline-end: 12px;
         width: 18px;
         @include color-svg(
-          '../images/icons/v2/error-outline-24.svg',
+          '../images/icons/v3/error/error-circle.svg',
           $color-accent-red
         );
       }
@@ -179,26 +181,28 @@
       &::before {
         content: '';
         height: 20px;
-        margin-right: 12px;
+        margin-inline-end: 12px;
         width: 20px;
-        @include color-svg(
-          '../images/icons/v2/reply-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/reply/reply.svg', $color-white);
       }
     }
 
-    &__chevron::after {
-      content: '';
-      display: inline-block;
-      height: 20px;
-      margin-left: 6px;
-      vertical-align: middle;
-      width: 12px;
-      @include color-svg(
-        '../images/icons/v2/chevron-right-20.svg',
-        $color-white
-      );
+    &__chevron {
+      display: flex;
+      align-items: center;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        height: 16px;
+        margin-inline-start: 4px;
+        vertical-align: middle;
+        width: 16px;
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-right.svg',
+          $color-white
+        );
+      }
     }
   }
 
@@ -210,7 +214,7 @@
     width: 24px;
 
     &::after {
-      @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/more/more.svg', $color-white);
       content: '';
       height: 20px;
       width: 20px;
@@ -226,9 +230,10 @@
   &__mute {
     @include button-reset;
     height: 20px;
-    margin: 0 24px;
+    margin-block: 0;
+    margin-inline: 24px;
     width: 20px;
-    @include color-svg('../images/icons/v2/sound-on.svg', $color-white);
+    @include color-svg('../images/icons/v3/speaker/speaker.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -240,7 +245,7 @@
     @include button-reset;
     height: 20px;
     width: 20px;
-    @include color-svg('../images/icons/v2/pause_solid_20.svg', $color-white);
+    @include color-svg('../images/icons/v3/pause/pause.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -252,7 +257,7 @@
     @include button-reset;
     height: 20px;
     width: 20px;
-    @include color-svg('../images/icons/v2/play_solid_20.svg', $color-white);
+    @include color-svg('../images/icons/v3/play/play-fill.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -263,9 +268,13 @@
   &__unmute {
     @include button-reset;
     height: 20px;
-    margin: 0 24px;
+    margin-block: 0;
+    margin-inline: 24px;
     width: 20px;
-    @include color-svg('../images/icons/v2/sound-off.svg', $color-white);
+    @include color-svg(
+      '../images/icons/v3/speaker/speaker-slash.svg',
+      $color-white
+    );
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -276,9 +285,13 @@
   &__soundless {
     @include button-reset;
     height: 20px;
-    margin: 0 24px;
+    margin-block: 0;
+    margin-inline: 24px;
     width: 20px;
-    @include color-svg('../images/icons/v2/sound-none.svg', $color-white);
+    @include color-svg(
+      '../images/icons/v3/speaker/speaker-x.svg',
+      $color-white
+    );
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -293,7 +306,8 @@
       background: $color-white-alpha-40;
       border-radius: 2px;
       height: 2px;
-      margin: 12px 1px 0 1px;
+      margin-block: 12px 0;
+      margin-inline: 1px;
       overflow: hidden;
       width: 100%;
     }
@@ -302,7 +316,14 @@
       background: $color-white;
       border-radius: 2px;
       height: 100%;
-      transform: translateX(-100%);
+      &:dir(ltr) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(-100%);
+      }
+      &:dir(rtl) {
+        // stylelint-disable-next-line declaration-property-value-disallowed-list
+        transform: translateX(100%);
+      }
     }
   }
 
@@ -324,20 +345,20 @@
 
     &::before {
       content: '';
-      height: 24px;
+      height: 28px;
       opacity: 0;
-      width: 24px;
+      width: 28px;
       transition: opacity 200ms ease-in-out;
     }
 
     &--left {
       justify-content: flex-start;
-      left: 0;
+      inset-inline-start: 0;
 
       &::before {
-        margin-left: 24px;
+        margin-inline-start: 16px;
         @include color-svg(
-          '../images/icons/v2/arrow-left-32.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $color-white
         );
       }
@@ -345,12 +366,12 @@
 
     &--right {
       justify-content: flex-end;
-      right: 0;
+      inset-inline-end: 0;
 
       &::before {
-        margin-right: 24px;
+        margin-inline-end: 16px;
         @include color-svg(
-          '../images/icons/v2/arrow-right-32.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $color-white
         );
       }
@@ -384,8 +405,7 @@
     display: flex;
 
     &__spinner__container {
-      margin-left: 0;
-      margin-right: 12px;
+      margin-inline: 0 12px;
     }
   }
 }

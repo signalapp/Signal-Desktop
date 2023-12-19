@@ -8,7 +8,8 @@ button.ListTile {
 .ListTile {
   display: flex;
   align-items: center;
-  padding: 6px 14px;
+  padding-block: 6px;
+  padding-inline: 14px;
   user-select: none;
 
   // use a transparent border to inset the background
@@ -24,7 +25,8 @@ button.ListTile {
   text-align: inherit;
 
   &--variant-panelrow {
-    padding: 8px 16px;
+    padding-block: 8px;
+    padding-inline: 16px;
   }
 
   &__content {
@@ -32,10 +34,6 @@ button.ListTile {
     display: flex;
     flex-direction: column;
     font-family: $inter;
-
-    .ListTile[aria-disabled='true'] & {
-      opacity: 0.5;
-    }
   }
 
   &__title {
@@ -78,15 +76,17 @@ button.ListTile {
   }
 
   &__leading {
-    margin-right: 12px;
+    margin-inline-end: 12px;
   }
   &__trailing {
-    margin-left: 12px;
+    margin-inline-start: 12px;
   }
 
   &--clickable {
     cursor: pointer;
-    &:hover:not([aria-disabled='true']) {
+
+    &:hover:not([aria-disabled='true'], [aria-selected='true']),
+    &:focus:not([aria-disabled='true'], [aria-selected='true']) {
       @include light-theme {
         background-color: $color-black-alpha-06;
       }

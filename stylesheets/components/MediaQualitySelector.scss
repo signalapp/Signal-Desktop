@@ -4,7 +4,8 @@
 .MediaQualitySelector {
   &__popper {
     @extend %module-composition-popper;
-    padding: 12px 16px;
+    padding-block: 12px;
+    padding-inline: 16px;
     width: auto;
   }
 
@@ -34,14 +35,20 @@
       content: '';
       display: block;
       flex-shrink: 0;
-      height: 24px;
-      width: 24px;
+      height: 20px;
+      width: 20px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/sq-24.svg', $color-gray-75);
+        @include color-svg(
+          '../images/icons/v3/quality/quality-standard.svg',
+          $color-gray-75
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/sq-24.svg', $color-gray-15);
+        @include color-svg(
+          '../images/icons/v3/quality/quality-standard.svg',
+          $color-gray-15
+        );
       }
     }
 
@@ -49,13 +56,13 @@
       &::after {
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/hq-outline-24.svg',
+            '../images/icons/v3/quality/quality-high.svg',
             $color-gray-75
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/hq-solid-24.svg',
+            '../images/icons/v3/quality/quality-high.svg',
             $color-gray-15
           );
         }
@@ -82,17 +89,22 @@
     border-radius: 6px;
     display: flex;
     height: 42px;
-    margin: 2px 0;
+    margin-block: 2px;
+    margin-inline: 0;
     min-width: 200px;
 
     &--checkmark {
       height: 12px;
-      margin: 0 6px;
+      margin-block: 0;
+      margin-inline: 6px;
       width: 16px;
     }
 
     &--selected {
-      @include color-svg('../images/icons/v2/check-24.svg', $color-ultramarine);
+      @include color-svg(
+        '../images/icons/v3/check/check-compact.svg',
+        $color-ultramarine
+      );
     }
 
     &--title {

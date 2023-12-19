@@ -29,7 +29,7 @@ export async function writeProfile(
   if (!model) {
     return;
   }
-  await getProfile(model.get('uuid'), model.get('e164'));
+  await getProfile(model.getServiceId(), model.get('e164'));
 
   // Encrypt the profile data, update profile, and if needed upload the avatar
   const {

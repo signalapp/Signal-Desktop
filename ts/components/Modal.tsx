@@ -3,8 +3,6 @@
 
 import type { ReactElement, ReactNode } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import type { ContentRect, MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
@@ -16,8 +14,13 @@ import { assertDev } from '../util/assert';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { useAnimated } from '../hooks/useAnimated';
 import { useHasWrapped } from '../hooks/useHasWrapped';
-import { useRefMerger } from '../hooks/useRefMerger';
 import * as log from '../logging/log';
+import {
+  isOverflowing,
+  isScrolled,
+  isScrolledToBottom,
+  useScrollObserver,
+} from '../hooks/useSizeObserver';
 
 type PropsType = {
   children: ReactNode;
@@ -27,6 +30,7 @@ type PropsType = {
   hasFooterDivider?: boolean;
   i18n: LocalizerType;
   modalFooter?: JSX.Element;
+  modalHeaderChildren?: ReactNode;
   moduleClassName?: string;
   onBackButtonClick?: () => unknown;
   onClose?: () => void;
@@ -36,6 +40,7 @@ type PropsType = {
 };
 
 export type ModalPropsType = PropsType & {
+  noTransform?: boolean;
   noMouseClose?: boolean;
   theme?: Theme;
 };
@@ -48,6 +53,7 @@ export function Modal({
   hasXButton,
   i18n,
   modalFooter,
+  modalHeaderChildren,
   moduleClassName,
   noMouseClose,
   onBackButtonClick,
@@ -57,15 +63,31 @@ export function Modal({
   useFocusTrap,
   hasHeaderDivider = false,
   hasFooterDivider = false,
+  noTransform = false,
   padded = true,
 }: Readonly<ModalPropsType>): JSX.Element | null {
-  const { close, isClosed, modalStyles, overlayStyles } = useAnimated(onClose, {
-    getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
-    getTo: isOpen =>
-      isOpen
-        ? { opacity: 1, transform: 'translateY(0px)' }
-        : { opacity: 0, transform: 'translateY(48px)' },
-  });
+  const { close, isClosed, modalStyles, overlayStyles } = useAnimated(
+    onClose,
+
+    // `background-position: fixed` cannot properly detect the viewport when
+    // the parent element has `transform: translate*`. Even though it requires
+    // layout recalculation - use `margin-top` if asked by the embedder.
+    noTransform
+      ? {
+          getFrom: () => ({ opacity: 0, marginTop: '48px' }),
+          getTo: isOpen =>
+            isOpen
+              ? { opacity: 1, marginTop: '0px' }
+              : { opacity: 0, marginTop: '48px' },
+        }
+      : {
+          getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
+          getTo: isOpen =>
+            isOpen
+              ? { opacity: 1, transform: 'translateY(0px)' }
+              : { opacity: 0, transform: 'translateY(48px)' },
+        }
+  );
 
   useEffect(() => {
     if (!isClosed) {
@@ -91,6 +113,7 @@ export function Modal({
       moduleClassName={moduleClassName}
       noMouseClose={noMouseClose}
       onClose={close}
+      onEscape={onBackButtonClick}
       overlayStyles={overlayStyles}
       theme={theme}
       useFocusTrap={useFocusTrap}
@@ -101,6 +124,7 @@ export function Modal({
           hasXButton={hasXButton}
           i18n={i18n}
           modalFooter={modalFooter}
+          modalHeaderChildren={modalHeaderChildren}
           moduleClassName={moduleClassName}
           onBackButtonClick={onBackButtonClick}
           onClose={close}
@@ -141,6 +165,7 @@ export function ModalPage({
   hasXButton,
   i18n,
   modalFooter,
+  modalHeaderChildren,
   moduleClassName,
   onBackButtonClick,
   onClose,
@@ -151,24 +176,23 @@ export function ModalPage({
 }: ModalPageProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const refMerger = useRefMerger();
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const bodyInnerRef = useRef<HTMLDivElement>(null);
 
-  const bodyRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
 
-  const hasHeader = Boolean(hasXButton || title || onBackButtonClick);
+  const hasHeader = Boolean(
+    hasXButton || title || modalHeaderChildren || onBackButtonClick
+  );
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
-  function handleResize({ scroll }: ContentRect) {
-    const modalNode = modalRef?.current;
-    if (!modalNode) {
-      return;
-    }
-    if (scroll) {
-      setHasOverflow(scroll.height > modalNode.clientHeight);
-    }
-  }
+  useScrollObserver(bodyRef, bodyInnerRef, scroll => {
+    setScrolled(isScrolled(scroll));
+    setScrolledToBottom(isScrolledToBottom(scroll));
+    setHasOverflow(isOverflowing(scroll));
+  });
 
   return (
     <>
@@ -198,59 +222,55 @@ export function ModalPage({
                 : null
             )}
           >
-            {onBackButtonClick && (
-              <button
-                aria-label={i18n('back')}
-                className={getClassName('__back-button')}
-                onClick={onBackButtonClick}
-                tabIndex={0}
-                type="button"
-              />
-            )}
-            {title && (
-              <h1
-                className={classNames(
-                  getClassName('__title'),
-                  hasXButton ? getClassName('__title--with-x-button') : null
-                )}
-              >
-                {title}
-              </h1>
-            )}
-            {hasXButton && !title && (
-              <div className={getClassName('__title')} />
-            )}
-            {hasXButton && (
-              <button
-                aria-label={i18n('close')}
-                className={getClassName('__close-button')}
-                onClick={onClose}
-                tabIndex={0}
-                type="button"
-              />
-            )}
+            <div className={getClassName('__headerTitle')}>
+              {onBackButtonClick && (
+                <button
+                  aria-label={i18n('icu:back')}
+                  className={getClassName('__back-button')}
+                  onClick={onBackButtonClick}
+                  tabIndex={0}
+                  type="button"
+                />
+              )}
+              {title && (
+                <h1
+                  className={classNames(
+                    getClassName('__title'),
+                    hasXButton ? getClassName('__title--with-x-button') : null
+                  )}
+                >
+                  {title}
+                </h1>
+              )}
+              {hasXButton && !title && (
+                <div className={getClassName('__title')} />
+              )}
+              {hasXButton && (
+                <button
+                  aria-label={i18n('icu:close')}
+                  className={getClassName('__close-button')}
+                  onClick={onClose}
+                  tabIndex={0}
+                  type="button"
+                />
+              )}
+            </div>
+            {modalHeaderChildren}
           </div>
         )}
-        <Measure scroll onResize={handleResize}>
-          {({ measureRef }: MeasuredComponentProps) => (
-            <div
-              className={classNames(
-                getClassName('__body'),
-                scrolled ? getClassName('__body--scrolled') : null,
-                hasOverflow || scrolled
-                  ? getClassName('__body--overflow')
-                  : null
-              )}
-              onScroll={() => {
-                const scrollTop = bodyRef.current?.scrollTop || 0;
-                setScrolled(scrollTop > 2);
-              }}
-              ref={refMerger(measureRef, bodyRef)}
-            >
-              {children}
-            </div>
+        <div
+          className={classNames(
+            getClassName('__body'),
+            scrolled ? getClassName('__body--scrolled') : null,
+            scrolledToBottom ? getClassName('__body--scrolledToBottom') : null,
+            hasOverflow || scrolled ? getClassName('__body--overflow') : null
           )}
-        </Measure>
+          ref={bodyRef}
+        >
+          <div ref={bodyInnerRef} className={getClassName('__body_inner')}>
+            {children}
+          </div>
+        </div>
         {modalFooter && <Modal.ButtonFooter>{modalFooter}</Modal.ButtonFooter>}
       </div>
     </>

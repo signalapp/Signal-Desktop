@@ -18,12 +18,18 @@ export function WhatsNewLink(props: PropsType): JSX.Element {
   return (
     <Intl
       i18n={i18n}
-      id="whatsNew"
-      components={[
-        <button className="WhatsNew" type="button" onClick={showWhatsNewModal}>
-          {i18n('viewReleaseNotes')}
-        </button>,
-      ]}
+      id="icu:whatsNew"
+      components={{
+        whatsNew: (
+          <button
+            className="WhatsNew"
+            type="button"
+            onClick={showWhatsNewModal}
+          >
+            {i18n('icu:viewReleaseNotes')}
+          </button>
+        ),
+      }}
     />
   );
 }

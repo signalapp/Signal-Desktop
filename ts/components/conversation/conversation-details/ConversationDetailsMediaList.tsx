@@ -19,7 +19,7 @@ export type Props = {
   loadRecentMediaItems: (id: string, limit: number) => void;
   showAllMedia: () => void;
   showLightboxWithMedia: (
-    selectedAttachmentPath: string | undefined,
+    selectedIndex: number,
     media: ReadonlyArray<ReadonlyDeep<MediaItemType>>
   ) => void;
 };
@@ -55,10 +55,10 @@ export function ConversationDetailsMediaList({
           onClick={showAllMedia}
           type="button"
         >
-          {i18n('ConversationDetailsMediaList--show-all')}
+          {i18n('icu:ConversationDetailsMediaList--show-all')}
         </button>
       }
-      title={i18n('ConversationDetailsMediaList--shared-media')}
+      title={i18n('icu:ConversationDetailsMediaList--shared-media')}
     >
       <div className={bem('root')}>
         {mediaItems.slice(0, MEDIA_ITEM_LIMIT).map(mediaItem => (
@@ -66,9 +66,7 @@ export function ConversationDetailsMediaList({
             key={`${mediaItem.message.id}-${mediaItem.index}`}
             mediaItem={mediaItem}
             i18n={i18n}
-            onClick={() =>
-              showLightboxWithMedia(mediaItem.attachment.path, mediaItems)
-            }
+            onClick={() => showLightboxWithMedia(mediaItem.index, mediaItems)}
           />
         ))}
       </div>

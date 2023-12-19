@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { PropsType } from './GroupV2Permissions';
@@ -16,7 +15,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ConversationDetails/GroupV2Permissions',
-};
+} satisfies Meta<PropsType>;
 
 const conversation: ConversationType = getDefaultConversation({
   id: '',
@@ -58,10 +57,6 @@ export function NotAdmin(): JSX.Element {
   );
 }
 
-NotAdmin.story = {
-  name: 'Not admin',
-};
-
 export function AdminButNotAnnouncementReady(): JSX.Element {
   return (
     <GroupV2Permissions
@@ -73,10 +68,6 @@ export function AdminButNotAnnouncementReady(): JSX.Element {
     />
   );
 }
-
-AdminButNotAnnouncementReady.story = {
-  name: 'Admin but not announcement ready',
-};
 
 export function AdminNotAnnouncementReadyButItWasOn(): JSX.Element {
   return (
@@ -90,7 +81,3 @@ export function AdminNotAnnouncementReadyButItWasOn(): JSX.Element {
     />
   );
 }
-
-AdminNotAnnouncementReadyButItWasOn.story = {
-  name: 'Admin, not announcement ready, but it was on',
-};

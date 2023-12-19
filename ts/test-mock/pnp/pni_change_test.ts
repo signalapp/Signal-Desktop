@@ -2,18 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { UUIDKind, StorageState, Proto } from '@signalapp/mock-server';
+import { ServiceIdKind, StorageState, Proto } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
+import { generatePni, toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { UUID } from '../../types/UUID';
 
 export const debug = createDebug('mock:test:pni-change');
 
-describe('pnp/PNI Change', function needsName() {
+// Note that all tests also generate an PhoneNumberDiscovery notification, also known as a
+// Session Switchover Event (SSE). See for reference:
+// https://github.com/signalapp/Signal-Android-Private/blob/df83c941804512c613a1010b7d8e5ce4f0aec71c/app/src/androidTest/java/org/thoughtcrime/securesms/database/RecipientTableTest_getAndPossiblyMerge.kt#L266-L270
+describe('pnp/PNI Change', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -46,42 +49,41 @@ describe('pnp/PNI Change', function needsName() {
       {
         whitelisted: true,
         serviceE164: contactA.device.number,
-        identityKey: contactA.getPublicKey(UUIDKind.PNI).serialize(),
-        pni: contactA.device.getUUIDByKind(UUIDKind.PNI),
+        identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
+        pni: toUntaggedPni(contactA.device.pni),
         givenName: 'ContactA',
       },
-      UUIDKind.PNI
+      ServiceIdKind.PNI
     );
 
     // Just to make PNI Contact visible in the left pane
-    state = state.pin(contactA, UUIDKind.PNI);
+    state = state.pin(contactA, ServiceIdKind.PNI);
 
     await phone.setStorageState(state);
 
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
-    if (this.currentTest?.state !== 'passed') {
-      await bootstrap.saveLogs(app);
-    }
-
+  afterEach(async function (this: Mocha.Context) {
+    await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
   });
 
-  it('shows no identity change if identity key is the same', async () => {
+  it('shows phone number change if identity key is the same, learned via storage service', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
 
     debug('Open conversation with contactA');
     {
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       await leftPane
         .locator(
-          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
+          `[data-testid="${contactA.device.getServiceIdByKind(
+            ServiceIdKind.PNI
+          )}"]`
         )
         .click();
 
@@ -101,12 +103,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -130,15 +127,14 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Update pni on contactA via storage service');
     {
-      const updatedUuid = UUID.generate().toString();
+      const updatedPni = generatePni();
 
       const state = await phone.expectStorageState('consistency check');
       const updated = await phone.setStorageState(
         state
           .removeRecord(
             item =>
-              item.record.contact?.serviceUuid ===
-              contactA.device.getUUIDByKind(UUIDKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
           )
           .addContact(
             contactA,
@@ -146,11 +142,10 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              serviceUuid: updatedUuid,
-              pni: updatedUuid,
-              identityKey: contactA.getPublicKey(UUIDKind.PNI).serialize(),
+              pni: toUntaggedPni(updatedPni),
+              identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
             },
-            UUIDKind.PNI
+            ServiceIdKind.PNI
           )
       );
 
@@ -169,131 +164,29 @@ describe('pnp/PNI Change', function needsName() {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 1, 'message count');
 
-      // No notifications - PNI changed, but identity key is the same
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
-    }
-  });
-
-  it('shows identity change if identity key has changed', async () => {
-    const { desktop, phone } = bootstrap;
-
-    const window = await app.getWindow();
-
-    debug('Open conversation with contactA');
-    {
-      const leftPane = window.locator('.left-pane-wrapper');
-
-      await leftPane
-        .locator(
-          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
-        )
-        .click();
-
-      await window.locator('.module-conversation-hero').waitFor();
-    }
-
-    debug('Verify starting state');
-    {
-      // No messages
-      const messages = window.locator('.module-message__text');
-      assert.strictEqual(await messages.count(), 0, 'message count');
-
-      // No notifications
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
-    }
-
-    debug('Send message to contactA');
-    {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
-
-      await compositionInput.type('message to contactA');
-      await compositionInput.press('Enter');
-    }
-
-    debug('Wait for the message to contactA');
-    {
-      const { source, body } = await contactA.waitForMessage();
-
-      assert.strictEqual(
-        source,
-        desktop,
-        'first message must have valid source'
-      );
-      assert.strictEqual(
-        body,
-        'message to contactA',
-        'message must have correct body'
-      );
-    }
-
-    debug('Switch e164 to contactB via storage service');
-    {
-      const state = await phone.expectStorageState('consistency check');
-      const updated = await phone.setStorageState(
-        state
-          .removeRecord(
-            item =>
-              item.record.contact?.serviceUuid ===
-              contactA.device.getUUIDByKind(UUIDKind.PNI)
-          )
-          .addContact(
-            contactB,
-            {
-              identityState: Proto.ContactRecord.IdentityState.DEFAULT,
-              whitelisted: true,
-              serviceE164: contactA.device.number,
-              pni: contactB.device.getUUIDByKind(UUIDKind.PNI),
-
-              // Key change - different identity key
-              identityKey: contactB.publicKey.serialize(),
-            },
-            UUIDKind.PNI
-          )
-      );
-
-      const updatedStorageVersion = updated.version;
-
-      await phone.sendFetchStorage({
-        timestamp: bootstrap.getTimestamp(),
-      });
-
-      await app.waitForManifestVersion(updatedStorageVersion);
-    }
-
-    debug('Verify final state');
-    {
-      // One sent message
-      const messages = window.locator('.module-message__text');
-      assert.strictEqual(await messages.count(), 1, 'message count');
-
-      // One notification - the safety number change
+      // Only a PhoneNumberDiscovery notification
       const notifications = window.locator('.SystemMessage');
       assert.strictEqual(await notifications.count(), 1, 'notification count');
 
       const first = await notifications.first();
-      assert.match(await first.innerText(), /Safety Number has changed/);
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
     }
   });
 
-  it('shows identity change when sending to contact', async () => {
+  it('shows identity and phone number change if identity key has changed', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
 
     debug('Open conversation with contactA');
     {
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       await leftPane
         .locator(
-          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
+          `[data-testid="${contactA.device.getServiceIdByKind(
+            ServiceIdKind.PNI
+          )}"]`
         )
         .click();
 
@@ -313,12 +206,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -347,8 +235,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.serviceUuid ===
-              contactA.device.getUUIDByKind(UUIDKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
           )
           .addContact(
             contactB,
@@ -356,11 +243,117 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              pni: contactB.device.getUUIDByKind(UUIDKind.PNI),
+              pni: toUntaggedPni(contactB.device.pni),
+
+              // Key change - different identity key
+              identityKey: contactB.publicKey.serialize(),
+            },
+            ServiceIdKind.PNI
+          )
+      );
+
+      const updatedStorageVersion = updated.version;
+
+      await phone.sendFetchStorage({
+        timestamp: bootstrap.getTimestamp(),
+      });
+
+      await app.waitForManifestVersion(updatedStorageVersion);
+    }
+
+    debug('Verify final state');
+    {
+      // One sent message
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 1, 'message count');
+
+      // Two notifications - the safety number change and PhoneNumberDiscovery
+      const notifications = window.locator('.SystemMessage');
+      assert.strictEqual(await notifications.count(), 2, 'notification count');
+
+      const first = await notifications.first();
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
+
+      const second = await notifications.nth(1);
+      assert.match(await second.innerText(), /Safety Number has changed/);
+    }
+  });
+
+  it('shows identity and phone number change on send to contact when e165 has changed owners', async () => {
+    const { desktop, phone } = bootstrap;
+
+    const window = await app.getWindow();
+
+    debug('Open conversation with contactA');
+    {
+      const leftPane = window.locator('#LeftPane');
+
+      await leftPane
+        .locator(
+          `[data-testid="${contactA.device.getServiceIdByKind(
+            ServiceIdKind.PNI
+          )}"]`
+        )
+        .click();
+
+      await window.locator('.module-conversation-hero').waitFor();
+    }
+
+    debug('Verify starting state');
+    {
+      // No messages
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 0, 'message count');
+
+      // No notifications
+      const notifications = window.locator('.SystemMessage');
+      assert.strictEqual(await notifications.count(), 0, 'notification count');
+    }
+
+    debug('Send message to contactA');
+    {
+      const compositionInput = await app.waitForEnabledComposer();
+
+      await compositionInput.type('message to contactA');
+      await compositionInput.press('Enter');
+    }
+
+    debug('Wait for the message to contactA');
+    {
+      const { source, body } = await contactA.waitForMessage();
+
+      assert.strictEqual(
+        source,
+        desktop,
+        'first message must have valid source'
+      );
+      assert.strictEqual(
+        body,
+        'message to contactA',
+        'message must have correct body'
+      );
+    }
+
+    debug('Switch e164 to contactB via storage service');
+    {
+      const state = await phone.expectStorageState('consistency check');
+      const updated = await phone.setStorageState(
+        state
+          .removeRecord(
+            item =>
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
+          )
+          .addContact(
+            contactB,
+            {
+              identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+              whitelisted: true,
+              serviceE164: contactA.device.number,
+              pni: toUntaggedPni(contactB.device.pni),
 
               // Note: No identityKey key provided here!
             },
-            UUIDKind.PNI
+            ServiceIdKind.PNI
           )
       );
 
@@ -375,12 +368,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactB');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactB');
       await compositionInput.press('Enter');
@@ -415,27 +403,32 @@ describe('pnp/PNI Change', function needsName() {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 2, 'message count');
 
-      // One notification - the safety number change
+      // Two notifications - the safety number change and PhoneNumberDiscovery
       const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notification count');
+      assert.strictEqual(await notifications.count(), 2, 'notification count');
 
       const first = await notifications.first();
-      assert.match(await first.innerText(), /Safety Number has changed/);
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
+
+      const second = await notifications.nth(1);
+      assert.match(await second.innerText(), /Safety Number has changed/);
     }
   });
 
-  it('Sends with no warning when key is the same', async () => {
+  it('Get phone number change warning when e164 leaves contact then goes back to same contact', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
 
     debug('Open conversation with contactA');
     {
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       await leftPane
         .locator(
-          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
+          `[data-testid="${contactA.device.getServiceIdByKind(
+            ServiceIdKind.PNI
+          )}"]`
         )
         .click();
 
@@ -455,12 +448,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -489,8 +477,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.serviceUuid ===
-              contactA.device.getUUIDByKind(UUIDKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
           )
           .addContact(
             contactB,
@@ -498,11 +485,11 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              pni: contactB.device.getUUIDByKind(UUIDKind.PNI),
+              pni: toUntaggedPni(contactB.device.pni),
 
               // Note: No identityKey key provided here!
             },
-            UUIDKind.PNI
+            ServiceIdKind.PNI
           )
       );
 
@@ -522,8 +509,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.serviceUuid ===
-              contactB.device.getUUIDByKind(UUIDKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactB.device.pni)
           )
           .addContact(
             contactB,
@@ -531,9 +517,9 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              pni: contactA.device.getUUIDByKind(UUIDKind.PNI),
+              pni: toUntaggedPni(contactA.device.pni),
             },
-            UUIDKind.PNI
+            ServiceIdKind.PNI
           )
       );
 
@@ -548,12 +534,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Send message to contactA');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('second message to contactA');
       await compositionInput.press('Enter');
@@ -581,9 +562,12 @@ describe('pnp/PNI Change', function needsName() {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 2, 'message count');
 
-      // No notifications - the key is the same
+      // Only a PhoneNumberDiscovery notification
       const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      assert.strictEqual(await notifications.count(), 1, 'notification count');
+
+      const first = await notifications.first();
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
     }
   });
 });

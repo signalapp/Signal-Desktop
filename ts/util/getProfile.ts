@@ -3,10 +3,14 @@
 
 import * as log from '../logging/log';
 import { profileService } from '../services/profiles';
+import type { ServiceIdString } from '../types/ServiceId';
 
-export async function getProfile(uuid?: string, e164?: string): Promise<void> {
+export async function getProfile(
+  serviceId?: ServiceIdString,
+  e164?: string
+): Promise<void> {
   const c = window.ConversationController.lookupOrCreate({
-    uuid,
+    serviceId,
     e164,
     reason: 'getProfile',
   });

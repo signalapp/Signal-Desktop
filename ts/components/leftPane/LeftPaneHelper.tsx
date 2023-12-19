@@ -128,7 +128,7 @@ export abstract class LeftPaneHelper<T> {
   abstract getConversationAndMessageInDirection(
     toFind: Readonly<ToFindType>,
     selectedConversationId: undefined | string,
-    selectedMessageId: undefined | string
+    targetedMessageId: undefined | string
   ): undefined | { conversationId: string; messageId?: string };
 
   abstract shouldRecomputeRowHeights(old: Readonly<T>): boolean;

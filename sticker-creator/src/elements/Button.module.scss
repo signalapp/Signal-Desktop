@@ -1,0 +1,123 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import '../mixins.scss';
+@import '../colors.scss';
+@import '../fonts.scss';
+
+.base {
+  border: none;
+  min-width: 80px;
+  height: 36px;
+  padding-block: 0;
+  padding-inline: 25px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: $inter;
+  font-weight: normal;
+  font-size: 14px;
+  white-space: nowrap;
+
+  @include light-theme() {
+    background-color: $color-gray-05;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background-color: $color-gray-65;
+    color: $color-gray-05;
+  }
+
+  &:hover {
+    @include light-theme() {
+      background-color: mix($color-black, $color-gray-05, 15%);
+    }
+
+    @include dark-theme() {
+      background-color: mix($color-white, $color-gray-65, 15%);
+    }
+  }
+
+  &:active {
+    @include light-theme() {
+      background-color: mix($color-black, $color-gray-05, 25%);
+    }
+    @include dark-theme() {
+      background-color: mix($color-white, $color-gray-65, 25%);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.4;
+  }
+}
+
+.primary {
+  composes: base;
+  background-color: $color-ultramarine;
+
+  @include light-theme() {
+    color: $color-white;
+  }
+
+  @include dark-theme() {
+    color: $color-white;
+  }
+
+  &:hover {
+    @include light-theme() {
+      background-color: mix($color-black, $color-ultramarine, 15%);
+    }
+
+    @include dark-theme() {
+      background-color: mix($color-white, $color-ultramarine, 15%);
+    }
+  }
+
+  &:active {
+    @include light-theme() {
+      background-color: mix($color-black, $color-ultramarine, 25%);
+    }
+    @include dark-theme() {
+      background-color: mix($color-white, $color-ultramarine, 25%);
+    }
+  }
+}
+
+.pill {
+  composes: base;
+  height: 28px;
+  border-radius: 15px;
+  padding-block: 0;
+  padding-inline: 17px;
+
+  @include light-theme() {
+    color: $color-gray-90;
+    border: 1px solid $color-gray-90;
+    background: transparent;
+  }
+
+  @include dark-theme() {
+    color: $color-white;
+    border: 1px solid $color-white;
+    background: transparent;
+  }
+}
+
+.pill-primary {
+  composes: pill;
+
+  @include light-theme() {
+    border: none;
+    background-color: $color-ultramarine;
+    color: $color-white;
+  }
+
+  @include dark-theme() {
+    border: none;
+    background-color: $color-ultramarine-light;
+    color: $color-white;
+  }
+}

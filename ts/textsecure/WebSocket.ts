@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type ProxyAgent from 'proxy-agent';
 import { client as WebSocketClient } from 'websocket';
 import type { connection as WebSocket } from 'websocket';
 
@@ -10,12 +9,15 @@ import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
+import type { createProxyAgent } from '../util/createProxyAgent';
+import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import * as log from '../logging/log';
 import * as Timers from '../Timers';
 import { ConnectTimeoutError, HTTPError } from './Errors';
 import { handleStatusCode, translateError } from './Utils';
 
 const TEN_SECONDS = 10 * durations.SECOND;
+const KEEPALIVE_INTERVAL_MS = TEN_SECONDS;
 
 export type IResource = {
   close(code: number, reason: string): void;
@@ -24,9 +26,9 @@ export type IResource = {
 export type ConnectOptionsType<Resource extends IResource> = Readonly<{
   name: string;
   url: string;
-  certificateAuthority: string;
+  certificateAuthority?: string;
   version: string;
-  proxyAgent?: ReturnType<typeof ProxyAgent>;
+  proxyAgent?: ReturnType<typeof createProxyAgent>;
   timeout?: number;
   extraHeaders?: Record<string, string>;
 
@@ -54,7 +56,7 @@ export function connect<Resource extends IResource>({
   const client = new WebSocketClient({
     tlsOptions: {
       ca: certificateAuthority,
-      agent: proxyAgent,
+      agent: proxyAgent ?? createHTTPSAgent(),
     },
     maxReceivedFrameSize: 0x210000,
   });
@@ -74,6 +76,8 @@ export function connect<Resource extends IResource>({
   let resource: Resource | undefined;
   client.on('connect', socket => {
     Timers.clearTimeout(timer);
+
+    socket.socket.setKeepAlive(true, KEEPALIVE_INTERVAL_MS);
 
     resource = createResource(socket);
     resolve(resource);
@@ -100,17 +104,16 @@ export function connect<Resource extends IResource>({
     reject(translatedError);
   });
 
-  client.on('connectFailed', e => {
+  client.on('connectFailed', originalErr => {
     Timers.clearTimeout(timer);
 
-    reject(
-      new HTTPError('connectResource: connectFailed', {
-        code: -1,
-        headers: {},
-        response: e.toString(),
-        stack,
-      })
-    );
+    const err = new HTTPError('connectResource: connectFailed', {
+      code: -1,
+      headers: {},
+      stack,
+      cause: originalErr,
+    });
+    reject(err);
   });
 
   return new AbortableProcess<Resource>(

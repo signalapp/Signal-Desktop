@@ -3,17 +3,20 @@
 
 .module-EditConversationAttributesModal {
   .module-AvatarInput {
-    margin: 24px 0 24px 0;
+    margin-block: 24px;
+    margin-inline: 0;
   }
 
   &__error-message {
     @include font-body-1;
-    margin: 16px 0;
+    margin-block: 16px;
+    margin-inline: 0;
   }
 
   &__description-warning {
     @include font-subtitle;
     color: $color-gray-45;
-    margin: 0 16px;
+    margin-block: 0;
+    margin-inline: 16px;
   }
 }

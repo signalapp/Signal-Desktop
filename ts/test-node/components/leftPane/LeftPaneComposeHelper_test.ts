@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { RowType } from '../../../components/ConversationList';
+import { RowType, _testHeaderText } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 import {
   getDefaultConversation,
@@ -88,7 +88,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
-          searchTerm: 'someone',
+          searchTerm: 'someone.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -102,7 +102,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
-          searchTerm: 'someone',
+          searchTerm: 'someone.54321',
           isUsernamesEnabled: false,
           uuidFetchState: {},
         }).getRowCount(),
@@ -116,7 +116,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'foobar',
+          searchTerm: 'foobar.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -127,7 +127,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'foobar',
+          searchTerm: 'foobar.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -138,7 +138,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [getDefaultGroupListItem()],
           regionCode: 'US',
-          searchTerm: 'foobar',
+          searchTerm: 'foobar.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -166,7 +166,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'someone',
+          searchTerm: 'someone.02',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -223,17 +223,16 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(0), {
         type: RowType.CreateNewGroup,
       });
-      assert.deepEqual(helper.getRow(1), {
-        type: RowType.Header,
-        i18nKey: 'contactsHeader',
-      });
+      assert.deepEqual(_testHeaderText(helper.getRow(1)), 'icu:contactsHeader');
       assert.deepEqual(helper.getRow(2), {
         type: RowType.Contact,
         contact: composeContacts[0],
+        hasContextMenu: true,
       });
       assert.deepEqual(helper.getRow(3), {
         type: RowType.Contact,
         contact: composeContacts[1],
+        hasContextMenu: true,
       });
     });
 
@@ -258,23 +257,18 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(0), {
         type: RowType.CreateNewGroup,
       });
-
-      assert.deepEqual(helper.getRow(1), {
-        type: RowType.Header,
-        i18nKey: 'contactsHeader',
-      });
+      assert.deepEqual(_testHeaderText(helper.getRow(1)), 'icu:contactsHeader');
       assert.deepEqual(helper.getRow(2), {
         type: RowType.Contact,
         contact: composeContacts[0],
+        hasContextMenu: true,
       });
       assert.deepEqual(helper.getRow(3), {
         type: RowType.Contact,
         contact: composeContacts[1],
+        hasContextMenu: true,
       });
-      assert.deepEqual(helper.getRow(4), {
-        type: RowType.Header,
-        i18nKey: 'groupsHeader',
-      });
+      assert.deepEqual(_testHeaderText(helper.getRow(4)), 'icu:groupsHeader');
       assert.deepEqual(helper.getRow(5), {
         type: RowType.SelectSingleGroup,
         group: composeGroups[0],
@@ -316,10 +310,12 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Contact,
         contact: composeContacts[0],
+        hasContextMenu: true,
       });
       assert.deepEqual(helper.getRow(2), {
         type: RowType.Contact,
         contact: composeContacts[1],
+        hasContextMenu: true,
       });
     });
 
@@ -333,10 +329,10 @@ describe('LeftPaneComposeHelper', () => {
         uuidFetchState: {},
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'findByPhoneNumberHeader',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'icu:findByPhoneNumberHeader'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.StartNewConversation,
         phoneNumber: {
@@ -350,7 +346,7 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns just a "find by username" header if no results', () => {
-      const username = 'someone';
+      const username = 'someone.02';
 
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
@@ -363,10 +359,10 @@ describe('LeftPaneComposeHelper', () => {
         },
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'findByUsernameHeader',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'icu:findByUsernameHeader'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.UsernameSearchResult,
         username,
@@ -389,22 +385,21 @@ describe('LeftPaneComposeHelper', () => {
         uuidFetchState: {},
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'contactsHeader',
-      });
+      assert.deepEqual(_testHeaderText(helper.getRow(0)), 'icu:contactsHeader');
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Contact,
         contact: composeContacts[0],
+        hasContextMenu: true,
       });
       assert.deepEqual(helper.getRow(2), {
         type: RowType.Contact,
         contact: composeContacts[1],
+        hasContextMenu: true,
       });
-      assert.deepEqual(helper.getRow(3), {
-        type: RowType.Header,
-        i18nKey: 'findByPhoneNumberHeader',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(3)),
+        'icu:findByPhoneNumberHeader'
+      );
       assert.deepEqual(helper.getRow(4), {
         type: RowType.StartNewConversation,
         phoneNumber: {

@@ -24,6 +24,7 @@ const excludedFilesRegexp = RegExp(
   [
     '^release/',
     '^preload.bundle.js(LICENSE.txt|map)?',
+    '^bundles/',
     '^storybook-static/',
 
     // Non-distributed files
@@ -60,7 +61,6 @@ const excludedFilesRegexp = RegExp(
     '^js/curve/',
     '^js/util_worker.js',
     '^libtextsecure/test/test.js',
-    '^sticker-creator/dist/bundle.js',
     '^test/test.js',
     '^ts/workers/heicConverter.bundle.js',
     '^ts/sql/mainWorker.bundle.js',
@@ -77,25 +77,25 @@ const excludedFilesRegexp = RegExp(
     '^.github/.+',
 
     // Modules we trust
+    '^node_modules/@react-aria/.+',
+    '^node_modules/@react-stately/.+',
     '^node_modules/@signalapp/libsignal-client/.+',
     '^node_modules/core-js-pure/.+',
     '^node_modules/core-js/.+',
     '^node_modules/fbjs/.+',
     '^node_modules/lodash/.+',
     '^node_modules/react/.+',
+    '^node_modules/react-aria-components/.+',
     '^node_modules/react-contextmenu/.+',
     '^node_modules/react-dom/.+',
-    '^node_modules/react-dropzone/.+',
     '^node_modules/react-hot-loader/.+',
     '^node_modules/react-icon-base/.+',
     '^node_modules/react-input-autosize/.+',
-    '^node_modules/react-measure/.+',
     '^node_modules/react-popper/.+',
     '^node_modules/react-redux/.+',
     '^node_modules/react-router/.+',
     '^node_modules/react-router-dom/.+',
     '^node_modules/react-select/.+',
-    '^node_modules/react-sortable-hoc/.+',
     '^node_modules/react-transition-group/.+',
     '^node_modules/react-virtualized/.+',
     '^node_modules/reactcss/.+',
@@ -103,6 +103,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/snyk-resolve-deps/.+',
     '^node_modules/snyk-try-require/.+',
     '^node_modules/@snyk/.+',
+    '^node_modules/use-sync-external-store/.+',
 
     // Submodules we trust
     '^node_modules/react-color/.+/(?:core-js|fbjs|lodash)/.+',
@@ -174,7 +175,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/express/.+',
     '^node_modules/fast-glob/.+',
     '^node_modules/file-entry-cache/.+',
-    '^node_modules/file-loader/.+',
     '^node_modules/file-system-cache/.+', // Currently only used in storybook
     '^node_modules/finalhandler/.+',
     '^node_modules/flat-cache/.+',
@@ -300,6 +300,7 @@ const excludedFilesRegexp = RegExp(
 
     // Used by Storybook
     '^node_modules/@emotion/.+',
+    '^node_modules/@pmmmwh/react-refresh-webpack-plugin/.+',
     '^node_modules/@storybook/.+',
     '^node_modules/cosmiconfig/.+',
     '^node_modules/create-emotion/.+',
@@ -337,6 +338,9 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/webpack-hot-middleware/.+',
     '^node_modules/webpack-merge/.+',
     '^node_modules/webpack/.+',
+
+    // Sticker Creator
+    '^sticker-creator/.+',
   ].join('|')
 );
 

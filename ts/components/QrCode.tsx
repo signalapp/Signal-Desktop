@@ -9,10 +9,10 @@ import { getEnvironment, Environment } from '../environment';
 const AUTODETECT_TYPE_NUMBER = 0;
 const ERROR_CORRECTION_LEVEL = 'L';
 
-type PropsType = Readonly<{
+export type PropsType = Readonly<{
   alt: string;
   className?: string;
-  data: string;
+  data: string | Uint8Array;
 }>;
 
 export function QrCode(props: PropsType): ReactElement {
@@ -35,6 +35,9 @@ export function QrCode(props: PropsType): ReactElement {
   // scanning it. (By the time you read this comment Android may have a similar feature.)
   const onDoubleClick = () => {
     if (getEnvironment() === Environment.Production) {
+      return;
+    }
+    if (data instanceof Uint8Array) {
       return;
     }
 

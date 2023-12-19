@@ -2,31 +2,25 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-import { boolean } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './ContactDetail';
 import { ContactDetail } from './ContactDetail';
 import { AddressType, ContactFormType } from '../../types/EmbeddedContact';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { IMAGE_GIF } from '../../types/MIME';
-
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ContactDetail',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contact: overrideProps.contact || {},
-  hasSignalAccount: boolean(
-    'hasSignalAccount',
-    overrideProps.hasSignalAccount || false
-  ),
+  hasSignalAccount: overrideProps.hasSignalAccount || false,
   i18n,
   onSendMessage: action('onSendMessage'),
 });
@@ -196,10 +190,6 @@ export function GivenFamilyName(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-GivenFamilyName.story = {
-  name: 'Given + Family Name',
-};
-
 export function FamilyName(): JSX.Element {
   const props = createProps({
     contact: {
@@ -236,17 +226,9 @@ export function EmptyWithAccount(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-EmptyWithAccount.story = {
-  name: 'Empty with Account',
-};
-
 export function EmptyWithoutAccount(): JSX.Element {
   const props = createProps({
     hasSignalAccount: false,
   });
   return <ContactDetail {...props} />;
 }
-
-EmptyWithoutAccount.story = {
-  name: 'Empty without Account',
-};

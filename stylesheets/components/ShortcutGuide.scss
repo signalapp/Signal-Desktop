@@ -1,0 +1,174 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-shortcut-guide {
+  border-radius: 4px;
+  padding: 16px;
+
+  max-height: calc(var(--window-height) - 40px);
+  max-width: 600px;
+  margin-inline: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  @include popper-shadow;
+
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    background-color: $color-gray-75;
+
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-75;
+    }
+  }
+}
+
+.module-shortcut-guide__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.module-shortcut-guide__header-text {
+  @include font-title-2;
+
+  flex-grow: 1;
+}
+.module-shortcut-guide__header-close {
+  @include button-reset;
+
+  height: 24px;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-05);
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      @include color-svg('../images/icons/v3/x/x.svg', $color-ultramarine);
+    }
+    @include dark-keyboard-mode {
+      @include color-svg(
+        '../images/icons/v3/x/x.svg',
+        $color-ultramarine-light
+      );
+    }
+  }
+}
+
+.module-shortcut-guide__section-header {
+  @include font-body-1-bold;
+
+  margin-bottom: 8px;
+}
+
+.module-shortcut-guide__scroll-container {
+  outline: none;
+  overflow-y: scroll;
+}
+
+.module-shortcut-guide__section {
+  &:not(:last-child) {
+    margin-bottom: 25px;
+  }
+}
+
+.module-shortcut-guide__shortcut {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  break-inside: avoid;
+
+  padding-inline-start: 4px;
+  min-height: 40px;
+  outline: none;
+
+  &:focus {
+    @include keyboard-mode {
+      background-color: $color-gray-05;
+    }
+    @include dark-keyboard-mode {
+      background-color: $color-gray-90;
+    }
+  }
+
+  @include light-theme {
+    border-bottom: 1px solid $color-gray-05;
+  }
+  @include dark-theme {
+    border-bottom: 1px solid $color-gray-90;
+  }
+}
+
+.module-shortcut-guide__shortcut__description {
+  flex-grow: 1;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.module-shortcut-guide__shortcut__key-container {
+  margin-bottom: 4px;
+}
+.module-shortcut-guide__shortcut__key-inner-container {
+  text-align: end;
+  margin-top: 4px;
+  margin-inline-end: 4px;
+  white-space: nowrap;
+}
+
+.module-shortcut-guide__shortcut__key {
+  display: inline-block;
+
+  border-radius: 2px;
+  padding: 3px;
+  padding-inline: 8px;
+  margin-inline-start: 4px;
+
+  height: 30px;
+  text-align: center;
+
+  @include light-theme {
+    border: 1px solid $color-gray-15;
+  }
+  @include dark-theme {
+    border: 1px solid $color-gray-90;
+  }
+}
+
+.module-shortcut-guide__shortcut__key--square {
+  width: 30px;
+  padding-inline: 0px;
+}
+
+// Module: Shortcut Guide Modal
+
+.module-shortcut-guide-modal {
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  bottom: 0;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background-color: $color-black-alpha-40;
+  z-index: $z-index-above-context-menu;
+}
+
+.module-shortcut-guide-container {
+  flex-grow: 1;
+  overflow: hidden;
+}

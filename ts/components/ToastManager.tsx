@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType, ReplacementValuesType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
 import { missingCaseError } from '../util/missingCaseError';
+import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
 
 export type PropsType = {
@@ -14,10 +15,7 @@ export type PropsType = {
   openFileInFolder: (target: string) => unknown;
   OS: string;
   onUndoArchive: (conversaetionId: string) => unknown;
-  toast?: {
-    toastType: ToastType;
-    parameters?: ReplacementValuesType;
-  };
+  toast?: AnyToast;
 };
 
 const SHORT_TIMEOUT = 3 * SECOND;
@@ -39,10 +37,9 @@ export function ToastManager({
   if (toastType === ToastType.AddingUserToGroup) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
-        {i18n(
-          'AddUserToAnotherGroupModal__toast--adding-user-to-group',
-          toast.parameters
-        )}
+        {i18n('icu:AddUserToAnotherGroupModal__toast--adding-user-to-group', {
+          contact: toast.parameters.contact,
+        })}
       </Toast>
     );
   }
@@ -50,7 +47,7 @@ export function ToastManager({
   if (toastType === ToastType.AlreadyGroupMember) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('GroupV2--join--already-in-group')}
+        {i18n('icu:GroupV2--join--already-in-group')}
       </Toast>
     );
   }
@@ -58,23 +55,47 @@ export function ToastManager({
   if (toastType === ToastType.AlreadyRequestedToJoin) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('GroupV2--join--already-awaiting-approval')}
+        {i18n('icu:GroupV2--join--already-awaiting-approval')}
       </Toast>
     );
   }
 
   if (toastType === ToastType.Blocked) {
-    return <Toast onClose={hideToast}>{i18n('unblockToSend')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:unblockToSend')}</Toast>;
   }
 
   if (toastType === ToastType.BlockedGroup) {
-    return <Toast onClose={hideToast}>{i18n('unblockGroupToSend')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:unblockGroupToSend')}</Toast>;
+  }
+
+  if (toastType === ToastType.CallHistoryCleared) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:CallsTab__ToastCallHistoryCleared')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CannotEditMessage) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:ToastManager__CannotEditMessage_24')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CannotForwardEmptyMessage) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage')}
+      </Toast>
+    );
   }
 
   if (toastType === ToastType.CannotMixMultiAndNonMultiAttachments) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('cannotSelectPhotosAndVideosAlongWithFiles')}
+        {i18n('icu:cannotSelectPhotosAndVideosAlongWithFiles')}
       </Toast>
     );
   }
@@ -98,7 +119,7 @@ export function ToastManager({
   if (toastType === ToastType.CannotStartGroupCall) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('GroupV2--cannot-start-group-call', toast.parameters)}
+        {i18n('icu:GroupV2--cannot-start-group-call')}
       </Toast>
     );
   }
@@ -108,35 +129,45 @@ export function ToastManager({
       <Toast
         onClose={hideToast}
         toastAction={{
-          label: i18n('conversationArchivedUndo'),
+          label: i18n('icu:conversationArchivedUndo'),
           onClick: () => {
-            if (toast.parameters && 'conversationId' in toast.parameters) {
-              onUndoArchive(String(toast.parameters.conversationId));
-            }
+            onUndoArchive(String(toast.parameters.conversationId));
           },
         }}
       >
-        {i18n('conversationArchived')}
+        {i18n('icu:conversationArchived')}
       </Toast>
     );
   }
 
   if (toastType === ToastType.ConversationMarkedUnread) {
     return (
-      <Toast onClose={hideToast}>{i18n('conversationMarkedUnread')}</Toast>
+      <Toast onClose={hideToast}>{i18n('icu:conversationMarkedUnread')}</Toast>
+    );
+  }
+
+  if (toastType === ToastType.ConversationRemoved) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Toast--ConversationRemoved', {
+          title: toast.parameters.title,
+        })}
+      </Toast>
     );
   }
 
   if (toastType === ToastType.ConversationUnarchived) {
     return (
-      <Toast onClose={hideToast}>{i18n('conversationReturnedToInbox')}</Toast>
+      <Toast onClose={hideToast}>
+        {i18n('icu:conversationReturnedToInbox')}
+      </Toast>
     );
   }
 
   if (toastType === ToastType.CopiedUsername) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>
-        {i18n('ProfileEditor--username--copied-username')}
+        {i18n('icu:ProfileEditor--username--copied-username')}
       </Toast>
     );
   }
@@ -144,17 +175,19 @@ export function ToastManager({
   if (toastType === ToastType.CopiedUsernameLink) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>
-        {i18n('ProfileEditor--username--copied-username-link')}
+        {i18n('icu:ProfileEditor--username--copied-username-link')}
       </Toast>
     );
   }
 
   if (toastType === ToastType.DangerousFileType) {
-    return <Toast onClose={hideToast}>{i18n('dangerousFileType')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:dangerousFileType')}</Toast>;
   }
 
   if (toastType === ToastType.DeleteForEveryoneFailed) {
-    return <Toast onClose={hideToast}>{i18n('deleteForEveryoneFailed')}</Toast>;
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:deleteForEveryoneFailed')}</Toast>
+    );
   }
 
   if (toastType === ToastType.Error) {
@@ -163,23 +196,23 @@ export function ToastManager({
         autoDismissDisabled
         onClose={hideToast}
         toastAction={{
-          label: i18n('Toast--error--action'),
+          label: i18n('icu:Toast--error--action'),
           onClick: () => window.IPC.showDebugLog(),
         }}
       >
-        {i18n('Toast--error')}
+        {i18n('icu:Toast--error')}
       </Toast>
     );
   }
 
   if (toastType === ToastType.Expired) {
-    return <Toast onClose={hideToast}>{i18n('expiredWarning')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:expiredWarning')}</Toast>;
   }
 
   if (toastType === ToastType.FailedToDeleteUsername) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('ProfileEditor--username--delete-general-error')}
+        {i18n('icu:ProfileEditor--username--delete-general-error')}
       </Toast>
     );
   }
@@ -189,15 +222,13 @@ export function ToastManager({
       <Toast
         onClose={hideToast}
         toastAction={{
-          label: i18n('attachmentSavedShow'),
+          label: i18n('icu:attachmentSavedShow'),
           onClick: () => {
-            if (toast.parameters && 'fullPath' in toast.parameters) {
-              openFileInFolder(String(toast.parameters.fullPath));
-            }
+            openFileInFolder(toast.parameters.fullPath);
           },
         }}
       >
-        {i18n('attachmentSaved')}
+        {i18n('icu:attachmentSaved')}
       </Toast>
     );
   }
@@ -205,43 +236,50 @@ export function ToastManager({
   if (toastType === ToastType.FileSize) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:fileSizeWarning', toast?.parameters)}
+        {i18n('icu:fileSizeWarning', {
+          limit: toast.parameters.limit,
+          units: toast.parameters.units,
+        })}
       </Toast>
     );
   }
 
   if (toastType === ToastType.InvalidConversation) {
-    return <Toast onClose={hideToast}>{i18n('invalidConversation')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:invalidConversation')}</Toast>;
   }
 
   if (toastType === ToastType.LeftGroup) {
-    return <Toast onClose={hideToast}>{i18n('youLeftTheGroup')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:youLeftTheGroup')}</Toast>;
   }
 
   if (toastType === ToastType.MaxAttachments) {
-    return <Toast onClose={hideToast}>{i18n('maximumAttachments')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:maximumAttachments')}</Toast>;
   }
 
   if (toastType === ToastType.MessageBodyTooLong) {
-    return <Toast onClose={hideToast}>{i18n('messageBodyTooLong')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:messageBodyTooLong')}</Toast>;
   }
 
   if (toastType === ToastType.OriginalMessageNotFound) {
-    return <Toast onClose={hideToast}>{i18n('originalMessageNotFound')}</Toast>;
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:originalMessageNotFound')}</Toast>
+    );
   }
 
   if (toastType === ToastType.PinnedConversationsFull) {
-    return <Toast onClose={hideToast}>{i18n('pinnedConversationsFull')}</Toast>;
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:pinnedConversationsFull')}</Toast>
+    );
   }
 
   if (toastType === ToastType.ReactionFailed) {
-    return <Toast onClose={hideToast}>{i18n('Reactions--error')}</Toast>;
+    return <Toast onClose={hideToast}>{i18n('icu:Reactions--error')}</Toast>;
   }
 
   if (toastType === ToastType.ReportedSpamAndBlocked) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('MessageRequests--block-and-report-spam-success-toast')}
+        {i18n('icu:MessageRequests--block-and-report-spam-success-toast')}
       </Toast>
     );
   }
@@ -249,7 +287,7 @@ export function ToastManager({
   if (toastType === ToastType.StoryMuted) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
-        {i18n('Stories__toast--hasNoSound')}
+        {i18n('icu:Stories__toast--hasNoSound')}
       </Toast>
     );
   }
@@ -257,7 +295,7 @@ export function ToastManager({
   if (toastType === ToastType.StoryReact) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
-        {i18n('Stories__toast--sending-reaction')}
+        {i18n('icu:Stories__toast--sending-reaction')}
       </Toast>
     );
   }
@@ -265,7 +303,7 @@ export function ToastManager({
   if (toastType === ToastType.StoryReply) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
-        {i18n('Stories__toast--sending-reply')}
+        {i18n('icu:Stories__toast--sending-reply')}
       </Toast>
     );
   }
@@ -273,15 +311,7 @@ export function ToastManager({
   if (toastType === ToastType.StoryVideoError) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('StoryCreator__error--video-error')}
-      </Toast>
-    );
-  }
-
-  if (toastType === ToastType.StoryVideoTooLong) {
-    return (
-      <Toast onClose={hideToast}>
-        {i18n('StoryCreator__error--video-too-long')}
+        {i18n('icu:StoryCreator__error--video-error')}
       </Toast>
     );
   }
@@ -289,7 +319,7 @@ export function ToastManager({
   if (toastType === ToastType.StoryVideoUnsupported) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('StoryCreator__error--video-unsupported')}
+        {i18n('icu:StoryCreator__error--video-unsupported')}
       </Toast>
     );
   }
@@ -297,7 +327,7 @@ export function ToastManager({
   if (toastType === ToastType.TapToViewExpiredIncoming) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('Message--tap-to-view--incoming--expired-toast')}
+        {i18n('icu:Message--tap-to-view--incoming--expired-toast')}
       </Toast>
     );
   }
@@ -305,19 +335,40 @@ export function ToastManager({
   if (toastType === ToastType.TapToViewExpiredOutgoing) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('Message--tap-to-view--outgoing--expired-toast')}
+        {i18n('icu:Message--tap-to-view--outgoing--expired-toast')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.TooManyMessagesToDeleteForEveryone) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n(
+          'icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone',
+          { count: toast.parameters.count }
+        )}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.TooManyMessagesToForward) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:SelectModeActions__toast--TooManyMessagesToForward')}
       </Toast>
     );
   }
 
   if (toastType === ToastType.UnableToLoadAttachment) {
-    return <Toast onClose={hideToast}>{i18n('unableToLoadAttachment')}</Toast>;
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:unableToLoadAttachment')}</Toast>
+    );
   }
 
   if (toastType === ToastType.UnsupportedMultiAttachment) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('cannotSelectMultipleFileAttachments')}
+        {i18n('icu:cannotSelectMultipleFileAttachments')}
       </Toast>
     );
   }
@@ -333,10 +384,10 @@ export function ToastManager({
   if (toastType === ToastType.UserAddedToGroup) {
     return (
       <Toast onClose={hideToast}>
-        {i18n(
-          'AddUserToAnotherGroupModal__toast--user-added-to-group',
-          toast.parameters
-        )}
+        {i18n('icu:AddUserToAnotherGroupModal__toast--user-added-to-group', {
+          contact: toast.parameters.contact,
+          group: toast.parameters.group,
+        })}
       </Toast>
     );
   }

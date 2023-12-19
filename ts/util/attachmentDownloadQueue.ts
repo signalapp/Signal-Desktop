@@ -11,9 +11,18 @@ const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
 
 let isEnabled = true;
 let attachmentDownloadQueue: Array<MessageModel> | undefined = [];
+const queueEmptyCallbacks: Set<() => void> = new Set();
 
 export function shouldUseAttachmentDownloadQueue(): boolean {
   return isEnabled;
+}
+
+export function isAttachmentDownloadQueueEmpty(): boolean {
+  return !(attachmentDownloadQueue ?? []).length;
+}
+
+export function registerQueueEmptyCallback(callback: () => void): void {
+  queueEmptyCallbacks.add(callback);
 }
 
 export function addToAttachmentDownloadQueue(
@@ -67,8 +76,10 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
     }
   });
   await window.Signal.Data.saveMessages(messagesToSave, {
-    ourUuid: window.storage.user.getCheckedUuid().toString(),
+    ourAci: window.storage.user.getCheckedAci(),
   });
 
   attachmentDownloadQueue = undefined;
+  queueEmptyCallbacks.forEach(callback => callback());
+  queueEmptyCallbacks.clear();
 }

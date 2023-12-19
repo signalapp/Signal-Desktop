@@ -11,7 +11,11 @@ export { Location };
 
 export type Context = {
   messageId: string;
-  report(message: string, location: Location | void): void;
+  report(
+    message: string,
+    location: Location | void,
+    locationOffset?: number
+  ): void;
 };
 
 export type RuleFactory = {
@@ -27,7 +31,7 @@ export function rule(id: string, ruleFactory: RuleFactory): Rule {
   return {
     id,
     run(elements, context) {
-      traverse(elements, ruleFactory(context));
+      traverse(null, elements, ruleFactory(context));
     },
   };
 }

@@ -21,7 +21,8 @@ span.emoji {
 span.emoji-sizer {
   line-height: 0.81em;
   font-size: 1em;
-  margin: -2px 0;
+  margin-block: -2px;
+  margin-inline: 0;
 }
 
 span.emoji-outer {
@@ -46,8 +47,7 @@ span.emoji-inner {
 img.emoji {
   height: 1.4em;
   margin-bottom: -5px;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-inline: 2px;
   vertical-align: baseline;
   width: 1.4em;
 }
@@ -71,6 +71,10 @@ img.emoji.extra-large {
 img.emoji.max {
   width: 56px;
   height: 56px;
+}
+
+img.emoji--invisible {
+  visibility: hidden;
 }
 
 // we need these, or we'll make conversation items too big in the left-nav

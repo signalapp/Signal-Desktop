@@ -13,11 +13,13 @@ import { createPortal } from 'react-dom';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../../components/Avatar';
 import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { MemberRepository } from '../memberRepository';
+import type { MemberType, MemberRepository } from '../memberRepository';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { matchBlotTextPartitions } from '../util';
+import type { MentionBlotValue } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { sameWidthModifier } from '../../util/popperUtil';
+import { UserText } from '../../components/UserText';
 
 export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -28,10 +30,10 @@ export type MentionCompletionOptions = {
   theme: ThemeType;
 };
 
-const MENTION_REGEX = /(?:^|\W)@([-+\w]*)$/;
+const MENTION_REGEX = /(?:^|\W)@([-+\p{L}\p{M}\p{N}]*)$/u;
 
 export class MentionCompletion {
-  results: ReadonlyArray<ConversationType>;
+  results: ReadonlyArray<MemberType>;
 
   index: number;
 
@@ -105,7 +107,7 @@ export class MentionCompletion {
     this.clearResults();
   }
 
-  possiblyShowMemberResults(): ReadonlyArray<ConversationType> {
+  possiblyShowMemberResults(): ReadonlyArray<MemberType> {
     const range = this.quill.getSelection();
 
     if (range) {
@@ -120,7 +122,7 @@ export class MentionCompletion {
       if (leftTokenTextMatch) {
         const [, leftTokenText] = leftTokenTextMatch;
 
-        let results: ReadonlyArray<ConversationType> = [];
+        let results: ReadonlyArray<MemberType> = [];
 
         const memberRepository = this.options.memberRepositoryRef.current;
 
@@ -183,16 +185,36 @@ export class MentionCompletion {
     }
   }
 
+  getAttributesForInsert(index: number): Record<string, unknown> {
+    const character = index > 0 ? index - 1 : 0;
+    const contents = this.quill.getContents(character, 1);
+    return contents.ops.reduce(
+      (acc, op) => ({ acc, ...op.attributes }),
+      {} as Record<string, unknown>
+    );
+  }
+
   insertMention(
-    mention: ConversationType,
+    member: MemberType,
     index: number,
     range: number,
     withTrailingSpace = false
   ): void {
-    const delta = new Delta().retain(index).delete(range).insert({ mention });
+    // The mention + space we add won't be formatted unless we manually provide attributes
+    const attributes = this.getAttributesForInsert(range - 1);
+
+    const mention: MentionBlotValue = {
+      aci: member.aci,
+      title: member.title,
+    };
+
+    const delta = new Delta()
+      .retain(index)
+      .delete(range)
+      .insert({ mention }, attributes);
 
     if (withTrailingSpace) {
-      this.quill.updateContents(delta.insert(' '), 'user');
+      this.quill.updateContents(delta.insert(' ', attributes), 'user');
       this.quill.setSelection(index + 2, 0, 'user');
     } else {
       this.quill.updateContents(delta, 'user');
@@ -245,7 +267,7 @@ export class MentionCompletion {
               {memberResults.map((member, index) => (
                 <button
                   type="button"
-                  key={member.uuid}
+                  key={member.aci}
                   id={`mention-result--${member.name}`}
                   role="option button"
                   aria-selected={memberResultsIndex === index}
@@ -274,7 +296,7 @@ export class MentionCompletion {
                     unblurredAvatarPath={member.unblurredAvatarPath}
                   />
                   <div className="module-composition-input__suggestions__title">
-                    {member.title}
+                    <UserText text={member.title} />
                   </div>
                 </button>
               ))}

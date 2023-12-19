@@ -3,8 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
@@ -13,12 +12,18 @@ import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import type { PropsType } from './MessageSearchResult';
 import { MessageSearchResult } from './MessageSearchResult';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { BodyRange } from '../../types/BodyRange';
+import { generateAci } from '../../types/ServiceId';
+
+const SERVICE_ID_1 = generateAci();
+const SERVICE_ID_2 = generateAci();
+const SERVICE_ID_3 = generateAci();
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/MessageSearchResult',
-};
+} satisfies Meta<PropsType>;
 
 const someone = getDefaultConversation({
   title: 'Some Person',
@@ -43,21 +48,15 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   id: '',
   conversationId: '',
   sentAt: Date.now() - 24 * 60 * 1000,
-  snippet: text(
-    'snippet',
-    overrideProps.snippet || "What's <<left>>going<<right>> on?"
-  ),
-  body: text('body', overrideProps.body || "What's going on?"),
+  snippet: overrideProps.snippet || "What's <<left>>going<<right>> on?",
+  body: overrideProps.body || "What's going on?",
   bodyRanges: overrideProps.bodyRanges || [],
   from: overrideProps.from as PropsType['from'],
   to: overrideProps.to as PropsType['to'],
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
-  isSelected: boolean('isSelected', overrideProps.isSelected || false),
+  isSelected: overrideProps.isSelected || false,
   showConversation: action('showConversation'),
-  isSearchingInConversation: boolean(
-    'isSearchingInConversation',
-    overrideProps.isSearchingInConversation || false
-  ),
+  isSearchingInConversation: overrideProps.isSearchingInConversation || false,
   theme: React.useContext(StorybookThemeContext),
 });
 
@@ -85,10 +84,6 @@ export function SenderHasABadge(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-SenderHasABadge.story = {
-  name: 'Sender has a badge',
-};
 
 export function Selected(): JSX.Element {
   const props = useProps({
@@ -119,10 +114,6 @@ export function SearchingInConversation(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-SearchingInConversation.story = {
-  name: 'Searching in Conversation',
-};
-
 export function FromYouToYourself(): JSX.Element {
   const props = useProps({
     from: me,
@@ -131,10 +122,6 @@ export function FromYouToYourself(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-FromYouToYourself.story = {
-  name: 'From You to Yourself',
-};
 
 export function FromYouToGroup(): JSX.Element {
   const props = useProps({
@@ -145,10 +132,6 @@ export function FromYouToGroup(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-FromYouToGroup.story = {
-  name: 'From You to Group',
-};
-
 export function FromSomeoneToGroup(): JSX.Element {
   const props = useProps({
     from: someone,
@@ -157,10 +140,6 @@ export function FromSomeoneToGroup(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-FromSomeoneToGroup.story = {
-  name: 'From Someone to Group',
-};
 
 export function LongSearchResult(): JSX.Element {
   const snippets = [
@@ -194,24 +173,20 @@ export function EmptyShouldBeInvalid(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-EmptyShouldBeInvalid.story = {
-  name: 'Empty (should be invalid)',
-};
-
 export function Mention(): JSX.Element {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -220,15 +195,11 @@ export function Mention(): JSX.Element {
     from: someone,
     to: me,
     snippet:
-      '...forget hair dry diary years no <<left>>results<<right>> \uFFFC <<left>>elephant<<right>> sorry umbrella potato igloo kangaroo home Georgia...',
+      '<<truncation>>forget hair dry diary years no <<left>>results<<right>> \uFFFC <<left>>elephant<<right>> sorry umbrella potato igloo kangaroo home Georgia<<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
 }
-
-Mention.story = {
-  name: '@mention',
-};
 
 export function MentionRegexp(): JSX.Element {
   const props = useProps({
@@ -236,7 +207,7 @@ export function MentionRegexp(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'RegExp',
         conversationID: 'x',
         start: 0,
@@ -245,15 +216,11 @@ export function MentionRegexp(): JSX.Element {
     from: someone,
     to: me,
     snippet:
-      '\uFFFC This is a (long) /text/ ^$ that is ... <<left>>specially<<right>> **crafted** to (test) our regexp escaping mechanism...',
+      '\uFFFC This is a (long) /text/ ^$ that is ... <<left>>specially<<right>> **crafted** to (test) our regexp escaping mechanism<<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
 }
-
-MentionRegexp.story = {
-  name: '@mention regexp',
-};
 
 export function MentionNoMatches(): JSX.Element {
   const props = useProps({
@@ -261,7 +228,7 @@ export function MentionNoMatches(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Neo',
         conversationID: 'x',
         start: 0,
@@ -275,24 +242,20 @@ export function MentionNoMatches(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-MentionNoMatches.story = {
-  name: '@mention no-matches',
-};
-
 export const _MentionNoMatches = (): JSX.Element => {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -301,30 +264,26 @@ export const _MentionNoMatches = (): JSX.Element => {
     from: someone,
     to: me,
     snippet:
-      '...forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia...',
+      '<<truncation>>forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia<<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
 };
 
-_MentionNoMatches.story = {
-  name: '@mention no-matches',
-};
-
 export function DoubleMention(): JSX.Element {
   const props = useProps({
-    body: 'Hey \uFFFC \uFFFC test',
+    body: 'Hey \uFFFC \uFFFC --- test! Two mentions!',
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '9eb2eb65-992a-4909-a2a5-18c56bd7648f',
+        mentionAci: SERVICE_ID_2,
         replacementText: 'Alice',
         conversationID: 'x',
         start: 4,
       },
       {
         length: 1,
-        mentionUuid: '755ec61b-1590-48da-b003-3e57b2b54448',
+        mentionAci: SERVICE_ID_1,
         replacementText: 'Bob',
         conversationID: 'x',
         start: 6,
@@ -332,12 +291,46 @@ export function DoubleMention(): JSX.Element {
     ],
     from: someone,
     to: me,
-    snippet: '<<left>>Hey<<right>> \uFFFC \uFFFC <<left>>test<<right>>',
+    snippet: '<<left>>Hey<<right>> \uFFFC \uFFFC --- test! <<truncation>>',
   });
 
   return <MessageSearchResult {...props} />;
 }
 
-DoubleMention.story = {
-  name: 'Double @mention',
-};
+export function WithFormatting(): JSX.Element {
+  const props = useProps({
+    body: "We're playing with formatting in fun ways like you do!",
+    bodyRanges: [
+      {
+        // Overlaps just start
+        start: 0,
+        length: 19,
+        style: BodyRange.Style.BOLD,
+      },
+      {
+        // Contains snippet entirely
+        start: 0,
+        length: 54,
+        style: BodyRange.Style.ITALIC,
+      },
+      {
+        // Contained by snippet
+        start: 19,
+        length: 10,
+        style: BodyRange.Style.MONOSPACE,
+      },
+      {
+        // Overlaps just end
+        start: 29,
+        length: 25,
+        style: BodyRange.Style.STRIKETHROUGH,
+      },
+    ],
+    from: someone,
+    to: me,
+    snippet:
+      '<<truncation>>playing with formatting in <<left>>fun<<right>> ways<<truncation>>',
+  });
+
+  return <MessageSearchResult {...props} />;
+}

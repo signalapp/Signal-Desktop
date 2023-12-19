@@ -4,7 +4,6 @@
 import type { ConversationAttributesType } from '../model-types.d';
 
 import { makeEnumParser } from './enum';
-import { isInSystemContacts } from './isInSystemContacts';
 import { missingCaseError } from './missingCaseError';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 
@@ -35,7 +34,6 @@ export const shouldSharePhoneNumberWith = (
     case PhoneNumberSharingMode.Everybody:
       return true;
     case PhoneNumberSharingMode.ContactsOnly:
-      return isInSystemContacts(conversation);
     case PhoneNumberSharingMode.Nobody:
       return false;
     default:

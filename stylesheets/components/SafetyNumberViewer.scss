@@ -2,84 +2,89 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-SafetyNumberViewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  gap: 20px;
+  padding-top: 16px;
+  padding-inline: 10px;
 
-  &__icon {
-    height: 1.25em;
-    width: 1.25em;
-    vertical-align: text-bottom;
-    display: inline-block;
+  a {
+    text-decoration: none;
   }
 
-  &__icon--verified {
-    display: inline-block;
-    height: 1.25em;
-    margin-right: 4px;
-    vertical-align: text-bottom;
-    width: 1.25em;
-
-    @include light-theme {
-      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #121212;
-    }
-
-    @include dark-theme {
-      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #f6f6f6;
-    }
+  &__card-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
-  &__icon--shield {
-    display: inline-block;
-    height: 1.25em;
-    margin-right: 4px;
-    vertical-align: text-bottom;
-    width: 1.25em;
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    max-width: 248px;
 
-    @include light-theme {
-      -webkit-mask: url('../images/icons/v2/safety-number-outline-24.svg')
-        no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #121212;
-    }
-
-    @include dark-theme {
-      -webkit-mask: url('../images/icons/v2/safety-number-solid-24.svg')
-        no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #f6f6f6;
-    }
-  }
-
-  &__number {
-    border-radius: 8px;
-    font-family: monospace;
-    height: 100px;
-    margin: 24px auto;
     padding: 24px;
-    width: 240px;
+    border-radius: 12px;
 
+    background-color: $color-borage-blue;
+
+    &__qr {
+      width: 120px;
+      height: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      background: $color-white;
+    }
+
+    &__number {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      color: $color-white;
+
+      font-family: $monospace;
+      margin-block: 0 4px;
+
+      @include keyboard-mode {
+        &:focus {
+          box-shadow: 0 0 0 3px $color-ultramarine;
+        }
+      }
+    }
+  }
+
+  &__help {
+    @include font-subtitle;
     @include light-theme {
-      background-color: $color-gray-02;
+      color: $color-gray-60;
     }
+
     @include dark-theme {
-      background-color: $color-gray-90;
+      color: $color-gray-25;
     }
+
+    margin-top: 4px;
   }
 
   &__verification-status {
-    margin: 30px 0 10px;
+    margin-block: 30px 10px;
+    margin-inline: 0;
     text-align: center;
   }
 
-  &__buttons {
-    text-align: right;
+  &__button {
+    margin-block: 0 16px;
   }
 
-  &__button {
-    margin-top: 30px;
+  &__buttons {
+    text-align: end;
   }
 
   &__modal.module-Modal {

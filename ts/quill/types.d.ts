@@ -4,6 +4,7 @@
 import type UpdatedDelta from 'quill-delta';
 import type { MentionCompletion } from './mentions/completion';
 import type { EmojiCompletion } from './emoji/completion';
+import type { FormattingMenu } from './formatting/menu';
 
 declare module 'react-quill' {
   // `react-quill` uses a different but compatible version of Delta
@@ -21,12 +22,27 @@ declare module 'quill' {
   interface UpdatedKey {
     key: string | number;
     shiftKey?: boolean;
+    shortKey?: boolean;
   }
+
+  export type AttributeMap = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
+  };
+  export type Matcher = (
+    node: HTMLElement,
+    delta: UpdatedDelta,
+    attributes: AttributeMap
+  ) => UpdatedDelta;
 
   export type UpdatedTextChangeHandler = (
     delta: UpdatedDelta,
     oldContents: UpdatedDelta,
     source: Sources
+  ) => void;
+
+  export type UpdatedEditorChangeHandler = (
+    eventName: 'text-change' | 'selection-change'
   ) => void;
 
   interface LeafBlot {
@@ -44,6 +60,7 @@ declare module 'quill' {
 
   interface ClipboardStatic {
     convert(html: string): UpdatedDelta;
+    matchers: Array<unknown>;
   }
 
   interface SelectionStatic {
@@ -61,21 +78,30 @@ declare module 'quill' {
       eventName: 'text-change',
       handler: UpdatedTextChangeHandler
     ): EventEmitter;
+    on(
+      eventName: 'editor-change',
+      handler: UpdatedEditorChangeHandler
+    ): EventEmitter;
 
-    getModule(module: 'history'): HistoryStatic;
     getModule(module: 'clipboard'): ClipboardStatic;
-    getModule(module: 'mentionCompletion'): MentionCompletion;
     getModule(module: 'emojiCompletion'): EmojiCompletion;
+    getModule(module: 'formattingMenu'): FormattingMenu;
+    getModule(module: 'history'): HistoryStatic;
+    getModule(module: 'mentionCompletion'): MentionCompletion;
     getModule(module: string): unknown;
 
     selection: SelectionStatic;
+    options: Record<string, unknown>;
   }
+
+  export type KeyboardContext = {
+    format: Record<string, unknown>;
+  };
 
   interface KeyboardStatic {
     addBinding(
       key: UpdatedKey,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (range: RangeStatic, context: any) => void
+      callback: (range: RangeStatic, context: KeyboardContext) => void
     ): void;
     // in-code reference missing in @types
     bindings: Record<string | number, Array<unknown>>;

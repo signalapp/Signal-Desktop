@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -19,110 +19,87 @@ export type Props = {
   i18n: LocalizerType;
 };
 
-type State = {
-  imageBroken: boolean;
-};
+function MediaGridItemContent(props: Props) {
+  const { mediaItem, i18n } = props;
+  const { attachment, contentType } = mediaItem;
 
-export class MediaGridItem extends React.Component<Props, State> {
-  private readonly onImageErrorBound: () => void;
+  const [imageBroken, setImageBroken] = useState(false);
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      imageBroken: false,
-    };
-
-    this.onImageErrorBound = this.onImageError.bind(this);
-  }
-
-  public onImageError(): void {
+  const handleImageError = useCallback(() => {
     log.info(
       'MediaGridItem: Image failed to load; failing over to placeholder'
     );
-    this.setState({
-      imageBroken: true,
-    });
+    setImageBroken(true);
+  }, []);
+
+  if (!attachment) {
+    return null;
   }
 
-  public renderContent(): JSX.Element | null {
-    const { mediaItem, i18n } = this.props;
-    const { imageBroken } = this.state;
-    const { attachment, contentType } = mediaItem;
-
-    if (!attachment) {
-      return null;
-    }
-
-    if (contentType && isImageTypeSupported(contentType)) {
-      if (imageBroken || !mediaItem.thumbnailObjectUrl) {
-        return (
-          <div
-            className={classNames(
-              'module-media-grid-item__icon',
-              'module-media-grid-item__icon-image'
-            )}
-          />
-        );
-      }
-
+  if (contentType && isImageTypeSupported(contentType)) {
+    if (imageBroken || !mediaItem.thumbnailObjectUrl) {
       return (
-        <img
-          alt={i18n('lightboxImageAlt')}
-          className="module-media-grid-item__image"
-          src={mediaItem.thumbnailObjectUrl}
-          onError={this.onImageErrorBound}
+        <div
+          className={classNames(
+            'module-media-grid-item__icon',
+            'module-media-grid-item__icon-image'
+          )}
         />
-      );
-    }
-    if (contentType && isVideoTypeSupported(contentType)) {
-      if (imageBroken || !mediaItem.thumbnailObjectUrl) {
-        return (
-          <div
-            className={classNames(
-              'module-media-grid-item__icon',
-              'module-media-grid-item__icon-video'
-            )}
-          />
-        );
-      }
-
-      return (
-        <div className="module-media-grid-item__image-container">
-          <img
-            alt={i18n('lightboxImageAlt')}
-            className="module-media-grid-item__image"
-            src={mediaItem.thumbnailObjectUrl}
-            onError={this.onImageErrorBound}
-          />
-          <div className="module-media-grid-item__circle-overlay">
-            <div className="module-media-grid-item__play-overlay" />
-          </div>
-        </div>
       );
     }
 
     return (
-      <div
-        className={classNames(
-          'module-media-grid-item__icon',
-          'module-media-grid-item__icon-generic'
-        )}
+      <img
+        alt={i18n('icu:lightboxImageAlt')}
+        className="module-media-grid-item__image"
+        src={mediaItem.thumbnailObjectUrl}
+        onError={handleImageError}
       />
     );
   }
 
-  public override render(): JSX.Element {
-    const { onClick } = this.props;
+  if (contentType && isVideoTypeSupported(contentType)) {
+    if (imageBroken || !mediaItem.thumbnailObjectUrl) {
+      return (
+        <div
+          className={classNames(
+            'module-media-grid-item__icon',
+            'module-media-grid-item__icon-video'
+          )}
+        />
+      );
+    }
 
     return (
-      <button
-        type="button"
-        className="module-media-grid-item"
-        onClick={onClick}
-      >
-        {this.renderContent()}
-      </button>
+      <div className="module-media-grid-item__image-container">
+        <img
+          alt={i18n('icu:lightboxImageAlt')}
+          className="module-media-grid-item__image"
+          src={mediaItem.thumbnailObjectUrl}
+          onError={handleImageError}
+        />
+        <div className="module-media-grid-item__circle-overlay">
+          <div className="module-media-grid-item__play-overlay" />
+        </div>
+      </div>
     );
   }
+
+  return (
+    <div
+      className={classNames(
+        'module-media-grid-item__icon',
+        'module-media-grid-item__icon-generic'
+      )}
+    />
+  );
+}
+
+export function MediaGridItem(props: Props): JSX.Element {
+  const { onClick } = props;
+  return (
+    <button type="button" className="module-media-grid-item" onClick={onClick}>
+      <MediaGridItemContent {...props} />
+    </button>
+  );
 }

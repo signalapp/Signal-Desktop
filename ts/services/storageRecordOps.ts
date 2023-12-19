@@ -4,20 +4,16 @@
 import { isEqual, isNumber } from 'lodash';
 import Long from 'long';
 
-import {
-  uuidToBytes,
-  bytesToUuid,
-  deriveMasterKeyFromGroupV1,
-} from '../Crypto';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
 import {
   deriveGroupFields,
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
 } from '../groups';
-import { assertDev } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
-import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
 import { isNotNil } from '../util/isNotNil';
 import {
@@ -28,6 +24,7 @@ import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
 } from '../util/phoneNumberDiscoverability';
+import { isPnpCapable } from '../util/isPnpCapable';
 import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
 import type { ConversationModel } from '../models/conversations';
 import {
@@ -42,11 +39,22 @@ import {
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
 import { DurationInSeconds } from '../util/durations';
-import { isValidUuid, UUID, UUIDKind } from '../types/UUID';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
-import type { UUIDStringType } from '../types/UUID';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString } from '../types/ServiceId';
+import {
+  normalizeServiceId,
+  normalizePni,
+  ServiceIdKind,
+  isUntaggedPniString,
+  toUntaggedPni,
+  toTaggedPni,
+} from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
+import { isAciString } from '../util/isAciString';
 import * as Stickers from '../types/Stickers';
 import type {
   StoryDistributionWithMembersType,
@@ -56,6 +64,8 @@ import dataInterface from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import * as RemoteConfig from '../RemoteConfig';
 import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
+import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
+import { drop } from '../util/drop';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -116,11 +126,11 @@ function addUnknownFields(
   conversation: ConversationModel,
   details: Array<string>
 ): void {
-  if (record.__unknownFields) {
+  if (record.$unknownFields) {
     details.push('adding unknown fields');
     conversation.set({
       storageUnknownFields: Bytes.toBase64(
-        Bytes.concatenate(record.__unknownFields)
+        Bytes.concatenate(record.$unknownFields)
       ),
     });
   } else if (conversation.get('storageUnknownFields')) {
@@ -142,7 +152,7 @@ function applyUnknownFields(
       conversation.idForLogging()
     );
     // eslint-disable-next-line no-param-reassign
-    record.__unknownFields = [Bytes.fromBase64(storageUnknownFields)];
+    record.$unknownFields = [Bytes.fromBase64(storageUnknownFields)];
   }
 }
 
@@ -150,9 +160,9 @@ export async function toContactRecord(
   conversation: ConversationModel
 ): Promise<Proto.ContactRecord> {
   const contactRecord = new Proto.ContactRecord();
-  const uuid = conversation.getUuid();
-  if (uuid) {
-    contactRecord.serviceUuid = uuid.toString();
+  const aci = conversation.getAci();
+  if (aci) {
+    contactRecord.aci = aci;
   }
   const e164 = conversation.get('e164');
   if (e164) {
@@ -163,17 +173,18 @@ export async function toContactRecord(
   if (username && canHaveUsername(conversation.attributes, ourID)) {
     contactRecord.username = username;
   }
-  const pni = conversation.get('pni');
+  const pni = conversation.getPni();
   if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
-    contactRecord.pni = pni;
+    contactRecord.pni = toUntaggedPni(pni);
   }
   const profileKey = conversation.get('profileKey');
   if (profileKey) {
     contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
   }
 
-  const identityKey = uuid
-    ? await window.textsecure.storage.protocol.loadIdentityKey(uuid)
+  const serviceId = aci ?? pni;
+  const identityKey = serviceId
+    ? await window.textsecure.storage.protocol.loadIdentityKey(serviceId)
     : undefined;
   if (identityKey) {
     contactRecord.identityKey = identityKey;
@@ -203,6 +214,7 @@ export async function toContactRecord(
     contactRecord.systemNickname = systemNickname;
   }
   contactRecord.blocked = conversation.isBlocked();
+  contactRecord.hidden = conversation.get('removalStage') !== undefined;
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
   contactRecord.archived = Boolean(conversation.get('isArchived'));
   contactRecord.markedUnread = Boolean(conversation.get('markedUnread'));
@@ -269,7 +281,10 @@ export function toAccountRecord(
   }
 
   const accountE164 = window.storage.get('accountE164');
-  if (accountE164 !== undefined) {
+  // Once account becomes PNP capable - we want to stop populating this field
+  // because it is deprecated in PNP world and we don't want to cause storage
+  // service thrashing.
+  if (accountE164 !== undefined && !isPnpCapable()) {
     accountRecord.e164 = accountE164;
   }
 
@@ -296,9 +311,6 @@ export function toAccountRecord(
         PHONE_NUMBER_SHARING_MODE_ENUM.EVERYBODY;
       break;
     case PhoneNumberSharingMode.ContactsOnly:
-      accountRecord.phoneNumberSharingMode =
-        PHONE_NUMBER_SHARING_MODE_ENUM.CONTACTS_ONLY;
-      break;
     case PhoneNumberSharingMode.Nobody:
       accountRecord.phoneNumberSharingMode =
         PHONE_NUMBER_SHARING_MODE_ENUM.NOBODY;
@@ -333,7 +345,7 @@ export function toAccountRecord(
         if (pinnedConversation.get('type') === 'private') {
           pinnedConversationRecord.identifier = 'contact';
           pinnedConversationRecord.contact = {
-            uuid: pinnedConversation.get('uuid'),
+            serviceId: pinnedConversation.getServiceId(),
             e164: pinnedConversation.get('e164'),
           };
         } else if (isGroupV1(pinnedConversation.attributes)) {
@@ -421,6 +433,20 @@ export function toAccountRecord(
     accountRecord.storyViewReceiptsEnabled = Proto.OptionalBool.UNSET;
   }
 
+  // Username link
+  {
+    const color = window.storage.get('usernameLinkColor');
+    const linkData = window.storage.get('usernameLink');
+
+    if (linkData?.entropy.length && linkData?.serverId.length) {
+      accountRecord.usernameLink = {
+        color,
+        entropy: linkData.entropy,
+        serverId: linkData.serverId,
+      };
+    }
+  }
+
   applyUnknownFields(accountRecord, conversation);
 
   return accountRecord;
@@ -501,10 +527,11 @@ export function toStoryDistributionListRecord(
   storyDistributionListRecord.isBlockList = Boolean(
     storyDistributionList.isBlockList
   );
-  storyDistributionListRecord.recipientUuids = storyDistributionList.members;
+  storyDistributionListRecord.recipientServiceIds =
+    storyDistributionList.members;
 
   if (storyDistributionList.storageUnknownFields) {
-    storyDistributionListRecord.__unknownFields = [
+    storyDistributionListRecord.$unknownFields = [
       storyDistributionList.storageUnknownFields,
     ];
   }
@@ -531,7 +558,7 @@ export function toStickerPackRecord(
   }
 
   if (stickerPack.storageUnknownFields) {
-    stickerPackRecord.__unknownFields = [stickerPack.storageUnknownFields];
+    stickerPackRecord.$unknownFields = [stickerPack.storageUnknownFields];
   }
 
   return stickerPackRecord;
@@ -625,12 +652,8 @@ function doRecordsConflict(
     // false, empty string, or 0 for these records we do not count them as
     // conflicting.
     if (
-      // eslint-disable-next-line eqeqeq
-      remoteValue === null &&
-      (localValue === false ||
-        localValue === '' ||
-        localValue === 0 ||
-        (Long.isLong(localValue) && localValue.toNumber() === 0))
+      (!remoteValue || (Long.isLong(remoteValue) && remoteValue.isZero())) &&
+      (!localValue || (Long.isLong(localValue) && localValue.isZero()))
     ) {
       continue;
     }
@@ -953,46 +976,55 @@ export async function mergeContactRecord(
   const contactRecord = {
     ...originalContactRecord,
 
-    serviceUuid: originalContactRecord.serviceUuid
-      ? normalizeUuid(
-          originalContactRecord.serviceUuid,
-          'ContactRecord.serviceUuid'
-        )
+    aci: originalContactRecord.aci
+      ? normalizeAci(originalContactRecord.aci, 'ContactRecord.aci')
       : undefined,
+    pni:
+      originalContactRecord.pni &&
+      isUntaggedPniString(originalContactRecord.pni)
+        ? normalizePni(
+            toTaggedPni(originalContactRecord.pni),
+            'ContactRecord.pni'
+          )
+        : undefined,
   };
 
   const isPniSupported = RemoteConfig.isEnabled('desktop.pnp');
 
   const e164 = dropNull(contactRecord.serviceE164);
-  const uuid = dropNull(contactRecord.serviceUuid);
+  const { aci } = contactRecord;
   const pni = isPniSupported ? dropNull(contactRecord.pni) : undefined;
+  const serviceId = aci || pni;
 
   // All contacts must have UUID
-  if (!uuid) {
+  if (!serviceId) {
     return { hasConflict: false, shouldDrop: true, details: ['no uuid'] };
   }
 
-  if (!isValidUuid(uuid)) {
-    return { hasConflict: false, shouldDrop: true, details: ['invalid uuid'] };
+  // Contacts should not have PNI as ACI
+  if (aci && !isAciString(aci)) {
+    return { hasConflict: false, shouldDrop: true, details: ['invalid aci'] };
   }
 
-  if (window.storage.user.getOurUuidKind(new UUID(uuid)) !== UUIDKind.Unknown) {
+  if (
+    window.storage.user.getOurServiceIdKind(serviceId) !== ServiceIdKind.Unknown
+  ) {
     return { hasConflict: false, shouldDrop: true, details: ['our own uuid'] };
   }
 
   const { conversation } = window.ConversationController.maybeMergeContacts({
-    aci: uuid,
+    aci,
     e164,
     pni,
     reason: 'mergeContactRecord',
   });
 
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
-  if (conversation.get('uuid') !== uuid) {
+  if (conversation.getServiceId() !== serviceId) {
     log.warn(
       `mergeContactRecord: ${conversation.idForLogging()} ` +
         `with storageId ${conversation.get('storageID')} ` +
-        `had uuid that didn't match provided uuid ${uuid}`
+        `had serviceId that didn't match provided serviceId ${serviceId}`
     );
     return {
       hasConflict: false,
@@ -1043,11 +1075,16 @@ export async function mergeContactRecord(
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
   if (contactRecord.identityKey) {
     const verified = await conversation.safeGetVerified();
-    const newVerified = fromRecordVerified(contactRecord.identityState ?? 0);
+    let { identityState } = contactRecord;
+    if (identityState == null) {
+      details.push('identity state was null, reverting to default state');
+      identityState = Proto.ContactRecord.IdentityState.DEFAULT;
+    }
+    const newVerified = fromRecordVerified(identityState);
 
     const needsNotification =
       await window.textsecure.storage.protocol.updateIdentityAfterSync(
-        new UUID(uuid),
+        serviceId,
         newVerified,
         contactRecord.identityKey
       );
@@ -1085,6 +1122,18 @@ export async function mergeContactRecord(
     storageID,
     storageVersion,
   });
+
+  if (contactRecord.hidden) {
+    await conversation.removeContact({
+      viaStorageServiceSync: true,
+      shouldSave: false,
+    });
+  } else {
+    await conversation.restoreContact({
+      viaStorageServiceSync: true,
+      shouldSave: false,
+    });
+  }
 
   conversation.setMuteExpiration(
     getTimestampFromLong(contactRecord.mutedUntilTimestamp),
@@ -1156,6 +1205,7 @@ export async function mergeAccountRecord(
     storiesDisabled,
     storyViewReceiptsEnabled,
     username,
+    usernameLink,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
@@ -1187,9 +1237,13 @@ export async function mergeAccountRecord(
     await window.storage.put('primarySendsSms', primarySendsSms);
   }
 
-  if (typeof accountE164 === 'string' && accountE164) {
+  // Store AccountRecord.e164 in an auxiliary field that isn't used for any
+  // other purpose in the app. This is required only while we are deprecating
+  // the AccountRecord.e164.
+  if (typeof accountE164 === 'string') {
     await window.storage.put('accountE164', accountE164);
-    await window.storage.user.setNumber(accountE164);
+  } else {
+    await window.storage.remove('accountE164');
   }
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
@@ -1222,8 +1276,6 @@ export async function mergeAccountRecord(
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
       break;
     case PHONE_NUMBER_SHARING_MODE_ENUM.CONTACTS_ONLY:
-      phoneNumberSharingModeToStore = PhoneNumberSharingMode.ContactsOnly;
-      break;
     case PHONE_NUMBER_SHARING_MODE_ENUM.NOBODY:
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Nobody;
       break;
@@ -1289,14 +1341,19 @@ export async function mergeAccountRecord(
         let conversation: ConversationModel | undefined;
 
         if (contact) {
-          if (!contact.uuid && !contact.e164) {
+          if (!contact.serviceId && !contact.e164) {
             log.error(
-              'storageService.mergeAccountRecord: No uuid or e164 on contact'
+              'storageService.mergeAccountRecord: No serviceId or e164 on contact'
             );
             return undefined;
           }
           conversation = window.ConversationController.lookupOrCreate({
-            uuid: contact.uuid,
+            serviceId: contact.serviceId
+              ? normalizeServiceId(
+                  contact.serviceId,
+                  'AccountRecord.pin.serviceId'
+                )
+              : undefined,
             e164: contact.e164,
             reason: 'storageService.mergeAccountRecord',
           });
@@ -1379,7 +1436,9 @@ export async function mergeAccountRecord(
       hasViewedOnboardingStoryBool
     );
     if (hasViewedOnboardingStoryBool) {
-      void findAndDeleteOnboardingStoryIfExists();
+      drop(findAndDeleteOnboardingStoryIfExists());
+    } else {
+      drop(downloadOnboardingStory());
     }
   }
   {
@@ -1410,6 +1469,33 @@ export async function mergeAccountRecord(
       break;
   }
 
+  if (usernameLink?.entropy?.length && usernameLink?.serverId?.length) {
+    const oldLink = window.storage.get('usernameLink');
+    if (
+      window.storage.get('usernameLinkCorrupted') &&
+      (!oldLink ||
+        !Bytes.areEqual(usernameLink.entropy, oldLink.entropy) ||
+        !Bytes.areEqual(usernameLink.serverId, oldLink.serverId))
+    ) {
+      details.push('clearing username link corruption');
+      await window.storage.remove('usernameLinkCorrupted');
+    }
+
+    await Promise.all([
+      usernameLink.color &&
+        window.storage.put('usernameLinkColor', usernameLink.color),
+      window.storage.put('usernameLink', {
+        entropy: usernameLink.entropy,
+        serverId: usernameLink.serverId,
+      }),
+    ]);
+  } else {
+    await Promise.all([
+      window.storage.remove('usernameLinkColor'),
+      window.storage.remove('usernameLink'),
+    ]);
+  }
+
   const ourID = window.ConversationController.getOurConversationId();
 
   if (!ourID) {
@@ -1425,6 +1511,14 @@ export async function mergeAccountRecord(
 
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
+
+  if (
+    window.storage.get('usernameCorrupted') &&
+    username !== conversation.get('username')
+  ) {
+    details.push('clearing username corruption');
+    await window.storage.remove('usernameCorrupted');
+  }
 
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
@@ -1483,22 +1577,26 @@ export async function mergeStoryDistributionListRecord(
     storyDistributionListRecord.identifier
   );
 
-  const listId = isMyStory
-    ? MY_STORY_ID
-    : bytesToUuid(storyDistributionListRecord.identifier);
-
-  if (!listId) {
-    throw new Error('Could not parse distribution list id');
+  let listId: StoryDistributionIdString;
+  if (isMyStory) {
+    listId = MY_STORY_ID;
+  } else {
+    const uuid = bytesToUuid(storyDistributionListRecord.identifier);
+    strictAssert(uuid, 'mergeStoryDistributionListRecord: no distribution id');
+    listId = normalizeStoryDistributionId(
+      uuid,
+      'mergeStoryDistributionListRecord'
+    );
   }
 
   const localStoryDistributionList =
     await dataInterface.getStoryDistributionWithMembers(listId);
 
-  const remoteListMembers: Array<UUIDStringType> = (
-    storyDistributionListRecord.recipientUuids || []
-  ).map(UUID.cast);
+  const remoteListMembers: Array<ServiceIdString> = (
+    storyDistributionListRecord.recipientServiceIds || []
+  ).map(id => normalizeServiceId(id, 'mergeStoryDistributionListRecord'));
 
-  if (storyDistributionListRecord.__unknownFields) {
+  if (storyDistributionListRecord.$unknownFields) {
     details.push('adding unknown fields');
   }
 
@@ -1517,8 +1615,8 @@ export async function mergeStoryDistributionListRecord(
 
     storageID,
     storageVersion,
-    storageUnknownFields: storyDistributionListRecord.__unknownFields
-      ? Bytes.concatenate(storyDistributionListRecord.__unknownFields)
+    storageUnknownFields: storyDistributionListRecord.$unknownFields
+      ? Bytes.concatenate(storyDistributionListRecord.$unknownFields)
       : null,
     storageNeedsSync: Boolean(localStoryDistributionList?.storageNeedsSync),
   };
@@ -1544,7 +1642,7 @@ export async function mergeStoryDistributionListRecord(
   const oldStorageVersion = localStoryDistributionList.storageVersion;
 
   const needsToClearUnknownFields =
-    !storyDistributionListRecord.__unknownFields &&
+    !storyDistributionListRecord.$unknownFields &&
     localStoryDistributionList.storageUnknownFields;
 
   if (needsToClearUnknownFields) {
@@ -1565,44 +1663,30 @@ export async function mergeStoryDistributionListRecord(
   );
 
   const localMembersListSet = new Set(localStoryDistributionList.members);
-  const toAdd: Array<UUIDStringType> = remoteListMembers.filter(
-    uuid => !localMembersListSet.has(uuid)
+  const toAdd: Array<ServiceIdString> = remoteListMembers.filter(
+    serviceId => !localMembersListSet.has(serviceId)
   );
 
   const remoteMemberListSet = new Set(remoteListMembers);
-  const toRemove: Array<UUIDStringType> =
+  const toRemove: Array<ServiceIdString> =
     localStoryDistributionList.members.filter(
-      uuid => !remoteMemberListSet.has(uuid)
+      serviceId => !remoteMemberListSet.has(serviceId)
     );
 
-  const needsUpdate = Boolean(
-    needsToClearUnknownFields || hasConflict || toAdd.length || toRemove.length
-  );
-
-  if (!needsUpdate) {
-    return {
-      details: [...details, ...conflictDetails],
-      hasConflict,
-      oldStorageID,
-      oldStorageVersion,
-    };
-  }
-
-  if (needsUpdate) {
-    await dataInterface.modifyStoryDistributionWithMembers(storyDistribution, {
-      toAdd,
-      toRemove,
-    });
-    window.reduxActions.storyDistributionLists.modifyDistributionList({
-      allowsReplies: Boolean(storyDistribution.allowsReplies),
-      deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
-      id: storyDistribution.id,
-      isBlockList: Boolean(storyDistribution.isBlockList),
-      membersToAdd: toAdd,
-      membersToRemove: toRemove,
-      name: storyDistribution.name,
-    });
-  }
+  details.push('updated');
+  await dataInterface.modifyStoryDistributionWithMembers(storyDistribution, {
+    toAdd,
+    toRemove,
+  });
+  window.reduxActions.storyDistributionLists.modifyDistributionList({
+    allowsReplies: Boolean(storyDistribution.allowsReplies),
+    deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
+    id: storyDistribution.id,
+    isBlockList: Boolean(storyDistribution.isBlockList),
+    membersToAdd: toAdd,
+    membersToRemove: toRemove,
+    name: storyDistribution.name,
+  });
 
   return {
     details: [...details, ...conflictDetails],
@@ -1626,11 +1710,11 @@ export async function mergeStickerPackRecord(
 
   const localStickerPack = await dataInterface.getStickerPackInfo(id);
 
-  if (stickerPackRecord.__unknownFields) {
+  if (stickerPackRecord.$unknownFields) {
     details.push('adding unknown fields');
   }
-  const storageUnknownFields = stickerPackRecord.__unknownFields
-    ? Bytes.concatenate(stickerPackRecord.__unknownFields)
+  const storageUnknownFields = stickerPackRecord.$unknownFields
+    ? Bytes.concatenate(stickerPackRecord.$unknownFields)
     : null;
 
   let stickerPack: StickerPackInfoType;

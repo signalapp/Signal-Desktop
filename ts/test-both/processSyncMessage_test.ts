@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import getGuid from 'uuid/v4';
+import { generateAci } from '../types/ServiceId';
 
 import { processSyncMessage } from '../textsecure/processSyncMessage';
 
 describe('processSyncMessage', () => {
-  it('should normalize UUIDs in sent', () => {
-    const destinationUuid = getGuid();
+  const destinationServiceId = generateAci();
 
+  it('should normalize UUIDs in sent', () => {
     const out = processSyncMessage({
       sent: {
-        destinationUuid: destinationUuid.toUpperCase(),
+        destinationServiceId: destinationServiceId.toUpperCase(),
 
         unidentifiedStatus: [
           {
-            destinationUuid: destinationUuid.toUpperCase(),
+            destinationServiceId: destinationServiceId.toUpperCase(),
           },
         ],
       },
@@ -24,11 +24,12 @@ describe('processSyncMessage', () => {
 
     assert.deepStrictEqual(out, {
       sent: {
-        destinationUuid,
+        destinationServiceId,
 
+        storyMessageRecipients: undefined,
         unidentifiedStatus: [
           {
-            destinationUuid,
+            destinationServiceId,
           },
         ],
       },

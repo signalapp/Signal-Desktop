@@ -3,19 +3,28 @@
 
 // Fonts
 
-@mixin font-family {
-  font-family: $inter;
+@mixin localized-fonts {
   /* Japanese */
   &:lang(ja) {
-    font-family: 'SF Pro JP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3',
-      メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial,
-      sans-serif;
+    font-family: Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic',
+      'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo,
+      'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   /* Farsi (Persian) */
   &:lang(fa) {
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
-      Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
+    font-family: 'Vazirmatn', -apple-system, system-ui, BlinkMacSystemFont,
+      'Segoe UI', Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
   }
+}
+
+@mixin font-family {
+  font-family: $inter;
+  @include localized-fonts;
+}
+
+@mixin time-fonts {
+  font-family: Hatsuishi, $inter;
+  @include localized-fonts;
 }
 
 @mixin font-title-1 {
@@ -32,6 +41,14 @@
   font-size: 20px;
   line-height: 26px;
   letter-spacing: -0.34px;
+}
+
+@mixin font-title-medium {
+  @include font-family;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: -0.25px;
 }
 
 @mixin font-body-1 {
@@ -84,6 +101,10 @@
   line-height: 16px;
   letter-spacing: 0;
 }
+@mixin font-subtitle-bold {
+  @include font-subtitle;
+  font-weight: 600;
+}
 
 @mixin font-caption {
   @include font-family;
@@ -114,6 +135,13 @@
 }
 
 @mixin dark-theme() {
+  .dark-theme & {
+    @content;
+  }
+}
+
+@mixin any-theme {
+  &,
   .dark-theme & {
     @content;
   }
@@ -180,6 +208,66 @@
 
 // Icons
 
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return (
+      str-slice($string, 1, $index - 1) + $replace +
+        str-replace(
+          str-slice($string, $index + str-length($search)),
+          $search,
+          $replace
+        )
+    );
+  }
+
+  @return $string;
+}
+
+$rtl-icon-map: (
+  'chevron-left-16.svg': 'chevron-right-16.svg',
+  'chevron-right-16.svg': 'chevron-left-16.svg',
+
+  'chevron-left-20.svg': 'chevron-right-20.svg',
+  'chevron-right-20.svg': 'chevron-left-20.svg',
+
+  'chevron-left-24.svg': 'chevron-right-24.svg',
+  'chevron-right-24.svg': 'chevron-left-24.svg',
+
+  'arrow-left-32.svg': 'arrow-right-32.svg',
+  'arrow-right-32.svg': 'arrow-left-32.svg',
+
+  // v3 icons
+  'chevron-left.svg': 'chevron-right.svg',
+  'chevron-right.svg': 'chevron-left.svg',
+  'chevron-shallow-left.svg': 'chevron-shallow-right.svg',
+  'chevron-shallow-right.svg': 'chevron-shallow-left.svg',
+  'chevron-left-compact-bold.svg': 'chevron-right-compact-bold.svg',
+  'chevron-right-compact-bold.svg': 'chevron-left-compact-bold.svg',
+  'arrow-left.svg': 'arrow-right.svg',
+  'arrow-right.svg': 'arrow-left.svg',
+
+  // Ignored cases:
+  'phone-right-outline-24.svg': '',
+  'phone-right-solid-24.svg': '',
+);
+
+@function get-rtl-svg($svg) {
+  @each $ltr, $rtl in $rtl-icon-map {
+    @if str-index($svg, $ltr) {
+      @if $rtl == '' {
+        @return $ltr;
+      }
+      @return str-replace($svg, $ltr, $rtl);
+    }
+  }
+  @if str-index($svg, 'left') or str-index($svg, 'right') {
+    @error "Missing RTL icon for #{$svg}";
+  }
+  @return false;
+}
+
 @mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
   -webkit-mask: url($svg) no-repeat center;
   @if $stretch {
@@ -191,6 +279,12 @@
   background-color: $color;
   @media (forced-colors: active) {
     background-color: WindowText;
+  }
+  $rtl-svg: get-rtl-svg($svg);
+  @if $rtl-svg {
+    :dir(rtl) & {
+      -webkit-mask: url($rtl-svg) no-repeat center;
+    }
   }
 }
 
@@ -250,10 +344,10 @@
   @include button-reset;
 
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 18px;
-  height: 18px;
+  top: 4px;
+  inset-inline-end: 4px;
+  width: 16px;
+  height: 16px;
   z-index: $z-index-above-base;
 }
 
@@ -505,7 +599,8 @@
 
 @mixin button-small {
   @include rounded-corners;
-  padding: 7px 14px;
+  padding-block: 7px;
+  padding-inline: 14px;
 }
 
 // Modals
@@ -513,7 +608,8 @@
 @mixin modal-reset {
   @include popper-shadow();
   border-radius: 8px;
-  margin: 0 auto;
+  margin-block: 0;
+  margin-inline: auto;
   max-height: 100%;
   max-width: 360px;
   padding: 16px;
@@ -537,18 +633,18 @@
   @include button-reset;
 
   position: absolute;
-  right: 12px;
+  inset-inline-end: 12px;
   top: 12px;
 
   height: 24px;
   width: 24px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
   }
 
   @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
   }
 
   &:focus {
@@ -564,13 +660,13 @@
 @mixin color-bubble($bubble-size) {
   background-clip: content-box;
   border-color: transparent;
-  border-radius: $bubble-size + 12px;
+  border-radius: $bubble-size;
   border-style: solid;
   border-width: 4px;
   cursor: pointer;
-  height: $bubble-size + 12px;
+  height: $bubble-size;
   padding: 2px;
-  width: $bubble-size + 12px;
+  width: $bubble-size;
 
   @each $color, $value in $conversation-colors {
     &--#{$color} {
@@ -637,7 +733,8 @@
 
 @mixin normal-input {
   @include font-body-1;
-  padding: 8px 12px;
+  padding-block: 8px;
+  padding-inline: 12px;
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
@@ -717,5 +814,72 @@
   }
   @include dark-theme {
     background: $color-gray-80;
+  }
+}
+
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@mixin disabled {
+  &:is(:disabled, [aria-disabled='true']) {
+    @content;
+  }
+}
+
+@mixin not-disabled {
+  &:not(:disabled):not([aria-disabled='true']) {
+    @content;
+  }
+}
+
+@mixin position-absolute-center {
+  position: absolute;
+  top: 50%;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  left: 50%;
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  transform: translate(-50%, -50%);
+}
+
+@mixin position-absolute-center-x {
+  position: absolute;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  left: 50%;
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  transform: translateX(-50%);
+}
+
+@mixin position-absolute-center-y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin NavTabs__Scroller {
+  padding-bottom: 8px;
+  @include scrollbar;
+  &::-webkit-scrollbar-thumb {
+    @include light-theme {
+      border-color: $color-gray-04;
+    }
+    @include dark-theme {
+      border-color: $color-gray-80;
+    }
+  }
+}
+
+@mixin draggable-region {
+  -webkit-app-region: drag;
+  body.context-menu-open & {
+    -webkit-app-region: no-drag;
   }
 }

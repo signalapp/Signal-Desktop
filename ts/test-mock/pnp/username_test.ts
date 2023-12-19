@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
+import { usernames } from '@signalapp/libsignal-client';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
@@ -11,6 +12,8 @@ import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import { bufferToUuid } from '../helpers';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 export const debug = createDebug('mock:test:username');
 
@@ -20,7 +23,7 @@ const USERNAME = 'signalapp.55';
 const NICKNAME = 'signalapp';
 const CARL_USERNAME = 'carl.84';
 
-describe('pnp/username', function needsName() {
+describe('pnp/username', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -61,7 +64,7 @@ describe('pnp/username', function needsName() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -71,11 +74,8 @@ describe('pnp/username', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
-    if (this.currentTest?.state !== 'passed') {
-      await bootstrap.saveLogs(app);
-    }
-
+  afterEach(async function (this: Mocha.Context) {
+    await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
   });
@@ -86,12 +86,12 @@ describe('pnp/username', function needsName() {
       const { phone } = bootstrap;
 
       const window = await app.getWindow();
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       debug('find username in the left pane');
       await leftPane
         .locator(
-          `[data-testid="${usernameContact.device.uuid}"] >> "${USERNAME}"`
+          `[data-testid="${usernameContact.device.aci}"] >> "${USERNAME}"`
         )
         .waitFor();
 
@@ -116,7 +116,7 @@ describe('pnp/username', function needsName() {
       debug('find profile name in the left pane');
       await leftPane
         .locator(
-          `[data-testid="${usernameContact.device.uuid}"] >> ` +
+          `[data-testid="${usernameContact.device.aci}"] >> ` +
             `"${usernameContact.profileName}"`
         )
         .waitFor();
@@ -135,16 +135,10 @@ describe('pnp/username', function needsName() {
           'only one record must be removed'
         );
 
-        assert.strictEqual(
-          added[0].contact?.serviceUuid,
-          usernameContact.device.uuid
-        );
+        assert.strictEqual(added[0].contact?.aci, usernameContact.device.aci);
         assert.strictEqual(added[0].contact?.username, '');
 
-        assert.strictEqual(
-          removed[0].contact?.serviceUuid,
-          usernameContact.device.uuid
-        );
+        assert.strictEqual(removed[0].contact?.aci, usernameContact.device.aci);
         assert.strictEqual(removed[0].contact?.username, USERNAME);
       }
     });
@@ -156,14 +150,7 @@ describe('pnp/username', function needsName() {
     const window = await app.getWindow();
 
     debug('opening avatar context menu');
-    await window
-      .locator('.module-main-header .module-Avatar__contents')
-      .click();
-
-    debug('opening profile editor');
-    await window
-      .locator('.module-avatar-popup .module-avatar-popup__profile')
-      .click();
+    await window.getByRole('button', { name: 'Profile' }).click();
 
     debug('opening username editor');
     const profileEditor = window.locator('.ProfileEditor');
@@ -198,7 +185,7 @@ describe('pnp/username', function needsName() {
         .waitFor();
 
       const uuid = await server.lookupByUsername(username);
-      assert.strictEqual(uuid, phone.device.uuid);
+      assert.strictEqual(uuid, phone.device.aci);
 
       const newState = await phone.waitForStorageState({
         after: state,
@@ -209,6 +196,29 @@ describe('pnp/username', function needsName() {
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
       assert.strictEqual(added[0]?.account?.username, username);
+      const usernameLink = added[0]?.account?.usernameLink;
+      if (!usernameLink) {
+        throw new Error('No username link in AccountRecord');
+      }
+      if (!usernameLink.entropy) {
+        throw new Error('No username link entropy in AccountRecord');
+      }
+      if (!usernameLink.serverId) {
+        throw new Error('No username link serverId in AccountRecord');
+      }
+
+      const linkUuid = bufferToUuid(Buffer.from(usernameLink.serverId));
+
+      const encryptedLink = await server.lookupByUsernameLink(linkUuid);
+      if (!encryptedLink) {
+        throw new Error('Could not find link on the sever');
+      }
+
+      const linkUsername = usernames.decryptUsernameLink({
+        entropy: Buffer.from(usernameLink.entropy),
+        encryptedUsername: encryptedLink,
+      });
+      assert.strictEqual(linkUsername, username);
 
       state = newState;
     }
@@ -236,7 +246,17 @@ describe('pnp/username', function needsName() {
       assert.strictEqual(added.length, 1, 'only one record must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
-      assert.strictEqual(added[0]?.account?.username, '');
+      assert.strictEqual(added[0]?.account?.username, '', 'clears username');
+      assert.strictEqual(
+        added[0]?.account?.usernameLink?.entropy?.length ?? 0,
+        0,
+        'clears usernameLink.entropy'
+      );
+      assert.strictEqual(
+        added[0]?.account?.usernameLink?.serverId?.length ?? 0,
+        0,
+        'clears usernameLink.serverId'
+      );
 
       state = newState;
     }
@@ -250,27 +270,79 @@ describe('pnp/username', function needsName() {
       profileName: 'Carl',
     });
 
-    await server.setUsername(carl.device.uuid, CARL_USERNAME);
+    await server.setUsername(carl.device.aci, CARL_USERNAME);
 
     const window = await app.getWindow();
 
     debug('entering username into search field');
-    await window.locator('button[aria-label="New conversation"]').click();
+    await window.getByRole('button', { name: 'New chat' }).click();
 
     const searchInput = window.locator('.module-SearchInput__container input');
-    await searchInput.type(`@${CARL_USERNAME}`);
+    await searchInput.type(CARL_USERNAME);
 
     debug('starting lookup');
-    await window.locator(`button >> "${CARL_USERNAME}"`).click();
+    await window.locator(`div.ListTile >> "${CARL_USERNAME}"`).click();
 
     debug('sending a message');
     {
-      const composeArea = window.locator(
-        '.composition-area-wrapper, .conversation .ConversationView'
-      );
-      const compositionInput = composeArea.locator(
-        '[data-testid=CompositionInput]'
-      );
+      const compositionInput = await app.waitForEnabledComposer();
+
+      await compositionInput.type('Hello Carl');
+      await compositionInput.press('Enter');
+
+      const { body, source } = await carl.waitForMessage();
+      assert.strictEqual(body, 'Hello Carl');
+      assert.strictEqual(source, desktop);
+    }
+  });
+
+  it('looks up contacts by username link', async () => {
+    const { desktop, phone, server } = bootstrap;
+
+    debug('creating a contact with username link');
+    const carl = await server.createPrimaryDevice({
+      profileName: 'Devin',
+    });
+
+    await server.setUsername(carl.device.aci, CARL_USERNAME);
+    const { entropy, serverId } = await server.setUsernameLink(
+      carl.device.aci,
+      CARL_USERNAME
+    );
+
+    const linkUrl = contactByEncryptedUsernameRoute
+      .toWebUrl({
+        encryptedUsername: Buffer.concat([
+          entropy,
+          uuidToBytes(serverId),
+        ]).toString('base64'),
+      })
+      .toString();
+
+    debug('sending link to Note to Self');
+    await phone.sendText(desktop, linkUrl, {
+      withProfileKey: true,
+    });
+
+    const window = await app.getWindow();
+
+    debug('opening note to self');
+    const leftPane = window.locator('#LeftPane');
+    await leftPane.locator(`[data-testid="${desktop.aci}"]`).click();
+
+    debug('clicking link');
+    await window.locator('.module-message__text a').click({
+      noWaitAfter: true,
+    });
+
+    debug('waiting for conversation to open');
+    await window
+      .locator(`.module-conversation-hero >> "${CARL_USERNAME}"`)
+      .waitFor();
+
+    debug('sending a message');
+    {
+      const compositionInput = await app.waitForEnabledComposer();
 
       await compositionInput.type('Hello Carl');
       await compositionInput.press('Enter');

@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Fuse from 'fuse.js';
+import type Fuse from 'fuse.js';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 import { WEEK } from './durations';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
+import { countConversationUnreadStats, hasUnread } from './countUnreadStats';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -44,12 +46,8 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
       weight: 0.5,
     },
   ],
+  getFn: fuseGetFnRemoveDiacritics,
 };
-
-const cachedIndices = new WeakMap<
-  ReadonlyArray<ConversationType>,
-  Fuse<ConversationType>
->();
 
 type CommandRunnerType = (
   conversations: ReadonlyArray<ConversationType>,
@@ -58,8 +56,12 @@ type CommandRunnerType = (
 
 const COMMANDS = new Map<string, CommandRunnerType>();
 
-COMMANDS.set('uuidEndsWith', (conversations, query) => {
-  return conversations.filter(convo => convo.uuid?.endsWith(query));
+COMMANDS.set('serviceIdEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.serviceId?.endsWith(query));
+});
+
+COMMANDS.set('pniEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.pni?.endsWith(query));
 });
 
 COMMANDS.set('idEndsWith', (conversations, query) => {
@@ -74,6 +76,16 @@ COMMANDS.set('groupIdEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.groupId?.endsWith(query));
 });
 
+COMMANDS.set('unread', conversations => {
+  const includeMuted =
+    window.storage.get('badge-count-muted-conversations') || false;
+  return conversations.filter(conversation => {
+    return hasUnread(
+      countConversationUnreadStats(conversation, { includeMuted })
+    );
+  });
+});
+
 // See https://fusejs.io/examples.html#extended-search for
 // extended search documentation.
 function searchConversations(
@@ -81,7 +93,7 @@ function searchConversations(
   searchTerm: string,
   regionCode: string | undefined
 ): ReadonlyArray<Pick<Fuse.FuseResult<ConversationType>, 'item' | 'score'>> {
-  const maybeCommand = searchTerm.match(/^!([^\s]+):(.*)$/);
+  const maybeCommand = searchTerm.match(/^!([^\s:]+)(?::(.*))?$/);
   if (maybeCommand) {
     const [, commandName, query] = maybeCommand;
 
@@ -93,6 +105,10 @@ function searchConversations(
 
   const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
 
+  const currentConversations = conversations.filter(conversation => {
+    return !conversation.left;
+  });
+
   // Escape the search term
   let extendedSearchTerm = searchTerm;
 
@@ -101,11 +117,7 @@ function searchConversations(
     extendedSearchTerm += ` | ${phoneNumber.e164}`;
   }
 
-  let index = cachedIndices.get(conversations);
-  if (!index) {
-    index = new Fuse<ConversationType>(conversations, FUSE_OPTIONS);
-    cachedIndices.set(conversations, index);
-  }
+  const index = getCachedFuseIndex(currentConversations, FUSE_OPTIONS);
 
   return index.search(extendedSearchTerm);
 }
@@ -149,4 +161,41 @@ export function filterAndSortConversationsByRecent(
 
     return a.activeAt && !b.activeAt ? -1 : 1;
   });
+}
+
+function startsWithLetter(title: string) {
+  // Uses \p, the unicode character class escape, to check if a the first character is a
+  // letter
+  return /^\p{Letter}/u.test(title);
+}
+
+function sortAlphabetically(a: ConversationType, b: ConversationType) {
+  // Sort alphabetically with conversations starting with a letter first (and phone
+  // numbers last)
+  const aStartsWithLetter = startsWithLetter(a.title);
+  const bStartsWithLetter = startsWithLetter(b.title);
+  if (aStartsWithLetter && !bStartsWithLetter) {
+    return -1;
+  }
+  if (!aStartsWithLetter && bStartsWithLetter) {
+    return 1;
+  }
+  return a.title.localeCompare(b.title);
+}
+
+export function filterAndSortConversationsAlphabetically(
+  conversations: ReadonlyArray<ConversationType>,
+  searchTerm: string,
+  regionCode: string | undefined
+): Array<ConversationType> {
+  if (searchTerm.length) {
+    const withoutUnknown = conversations.filter(item => item.titleNoDefault);
+
+    return searchConversations(withoutUnknown, searchTerm, regionCode)
+      .slice()
+      .map(result => result.item)
+      .sort(sortAlphabetically);
+  }
+
+  return conversations.concat().sort(sortAlphabetically);
 }

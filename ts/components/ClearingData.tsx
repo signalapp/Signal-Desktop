@@ -20,7 +20,7 @@ export function ClearingData({ deleteAllData, i18n }: PropsType): JSX.Element {
         <div className="inner">
           <div className="step-body">
             <span className="banner-icon delete" />
-            <div className="header">{i18n('deleteAllDataProgress')}</div>
+            <div className="header">{i18n('icu:deleteAllDataProgress')}</div>
           </div>
           <div className="progress">
             <div className="bar-container">

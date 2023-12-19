@@ -32,7 +32,9 @@ describe('clearTimeoutIfNecessary', () => {
     const fn = sinon.fake();
     const timeout = setTimeout(fn, 123);
 
-    clearTimeoutIfNecessary(timeout);
+    clearTimeoutIfNecessary(
+      timeout as unknown as ReturnType<typeof setTimeout>
+    );
 
     await clock.tickAsync(9999);
     sinon.assert.notCalled(fn);
@@ -43,7 +45,9 @@ describe('clearTimeoutIfNecessary', () => {
     const fn = sinon.fake();
     const interval = setInterval(fn, 123);
 
-    clearTimeoutIfNecessary(interval);
+    clearTimeoutIfNecessary(
+      interval as unknown as ReturnType<typeof setTimeout>
+    );
 
     await clock.tickAsync(9999);
     sinon.assert.notCalled(fn);

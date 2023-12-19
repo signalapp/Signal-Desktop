@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .ChatColorPicker {
-  $bubble-size: 40px;
+  $bubble-size: 52px;
 
   &__container {
     max-width: 748px;
-    margin: 0 auto;
+    margin-block: 0;
+    margin-inline: auto;
 
     hr {
       @include light-theme {
@@ -19,13 +20,18 @@
     }
   }
 
+  &__modal__body.module-Modal__body {
+    overflow-x: hidden;
+  }
+
   &__bubbles {
     align-items: center;
     display: grid;
     grid-gap: 24px;
     grid-template-columns: repeat(auto-fit, $bubble-size);
     justify-content: center;
-    margin: 20px 0;
+    margin-block: 20px;
+    margin-inline: 0;
   }
 
   &__bubble {
@@ -53,10 +59,7 @@
         display: block;
         height: 24px;
         width: 24px;
-        @include color-svg(
-          '../images/icons/v2/more-horiz-24.svg',
-          $color-gray-05
-        );
+        @include color-svg('../images/icons/v3/more/more.svg', $color-gray-05);
       }
     }
 
@@ -66,7 +69,7 @@
   }
 
   &__add-icon {
-    @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-90);
+    @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-90);
     display: block;
     height: 24px;
     width: 24px;

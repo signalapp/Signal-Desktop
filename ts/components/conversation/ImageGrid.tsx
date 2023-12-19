@@ -75,13 +75,16 @@ function getCurves({
     curveTopRight = CurveType.Normal;
   }
 
-  if (shouldCollapseBelow && direction === 'incoming') {
+  if (withContentBelow) {
+    curveBottomLeft = CurveType.None;
+    curveBottomRight = CurveType.None;
+  } else if (shouldCollapseBelow && direction === 'incoming') {
     curveBottomLeft = CurveType.Tiny;
     curveBottomRight = CurveType.None;
   } else if (shouldCollapseBelow && direction === 'outgoing') {
     curveBottomLeft = CurveType.None;
     curveBottomRight = CurveType.Tiny;
-  } else if (!withContentBelow) {
+  } else {
     curveBottomLeft = CurveType.Normal;
     curveBottomRight = CurveType.Normal;
   }

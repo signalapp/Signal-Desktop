@@ -1,0 +1,138 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@import '../mixins.scss';
+@import '../colors.scss';
+@import '../fonts.scss';
+
+@mixin background() {
+  @include light-theme() {
+    background: $color-white;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-75;
+  }
+}
+
+.container {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  max-width: 440px;
+  height: 360px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  @include background();
+}
+
+.title-bar {
+  height: 36px;
+  padding-block: 9px;
+  padding-inline: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font: {
+    family: $inter;
+    size: 14px;
+    weight: 500;
+  }
+  line-height: 18px;
+
+  @include background();
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.scroller {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-block: 0;
+  padding-inline: 12px 16px;
+  overflow: auto;
+  justify-items: center;
+
+  @include small-screen() {
+    gap: 4px;
+  }
+}
+
+.art {
+  width: 96px;
+  height: 96px;
+}
+
+.meta {
+  padding-block: 18px;
+  padding-inline: 16px;
+  display: flex;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-60;
+  }
+}
+
+.meta-text {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.text {
+  font-family: $inter;
+}
+
+.meta-title {
+  composes: text;
+  line-height: 20px;
+  font: {
+    size: 14px;
+    weight: 600;
+  }
+
+  @include light-theme {
+    color: $color-gray-95;
+  }
+
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.meta-author {
+  composes: text;
+  line-height: 18px;
+  font: {
+    size: 13px;
+    weight: 400;
+  }
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}

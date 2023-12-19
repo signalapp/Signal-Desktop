@@ -2,23 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .MediaEditor {
-  $tools-height: 44px;
-
   background: $color-gray-95;
   display: flex;
   flex-direction: column;
   width: var(--window-width);
   height: var(--window-height);
-  left: 0;
+  inset-inline-start: 0;
   top: var(--titlebar-height);
   position: absolute;
   user-select: none;
+  -webkit-app-region: no-drag;
+
   z-index: $z-index-popup-overlay;
 
   &__container {
     display: flex;
     flex: 1;
-    padding: 22px 60px;
+    padding-block: 64px;
+    padding-inline: 64px;
     padding-bottom: 0;
     overflow: hidden;
   }
@@ -44,22 +45,26 @@
   &__control {
     @include button-reset;
     align-items: center;
-    border-radius: 32px;
+    border-radius: 20px;
     display: inline-flex;
     height: 32px;
     justify-content: center;
-    margin: 0 15px;
+    margin-block: 0;
+    margin-inline: 20px;
     opacity: 1;
     width: 32px;
 
     &::after {
       content: ' ';
-      height: 24px;
-      width: 24px;
+      height: 20px;
+      width: 20px;
     }
 
     &--crop::after {
-      @include color-svg('../images/icons/v2/crop-24.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/crop/crop-rotate.svg',
+        $color-white
+      );
     }
 
     &--pen::after {
@@ -68,16 +73,16 @@
 
     &--redo {
       &::after {
-        @include color-svg('../images/icons/v2/redo-24.svg', $color-white);
+        @include color-svg('../images/icons/v3/redo/redo.svg', $color-white);
       }
       &:disabled::after {
-        @include color-svg('../images/icons/v2/redo-24.svg', $color-gray-45);
+        @include color-svg('../images/icons/v3/redo/redo.svg', $color-gray-45);
       }
     }
 
     &--sticker.module-sticker-button__button::after {
       @include color-svg(
-        '../images/icons/v2/sticker-smiley-24.svg',
+        '../images/icons/v3/sticker/sticker-smiley.svg',
         $color-white
       );
     }
@@ -88,10 +93,10 @@
 
     &--undo {
       &::after {
-        @include color-svg('../images/icons/v2/undo-24.svg', $color-white);
+        @include color-svg('../images/icons/v3/undo/undo.svg', $color-white);
       }
       &:disabled::after {
-        @include color-svg('../images/icons/v2/undo-24.svg', $color-gray-45);
+        @include color-svg('../images/icons/v3/undo/undo.svg', $color-gray-45);
       }
     }
 
@@ -112,13 +117,18 @@
     }
   }
 
-  &__toolbar {
+  &__tools {
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 22px;
     width: 100%;
+
+    &--input {
+      margin-inline: 24px;
+      width: 400px;
+    }
 
     &--buttons {
       align-items: center;
@@ -127,21 +137,16 @@
       width: 100%;
     }
 
-    &--space {
-      height: $tools-height;
-      margin-bottom: 22px;
-    }
-
     &__caption {
-      height: $tools-height;
-      margin-bottom: 22px;
+      height: 44px;
 
       &__add-caption-button {
         @include button-reset;
-        border-radius: 9999px;
+        @include rounded-corners;
         background: $color-gray-90;
         color: $color-gray-15;
-        padding: 8px 15px;
+        padding-block: 8px;
+        padding-inline: 15px;
         border: none;
 
         & > span {
@@ -154,33 +159,65 @@
     }
   }
 
-  &__controls {
+  &__tools-row-1 {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    height: 28px;
+    justify-content: center;
+    margin-bottom: 24px;
+    max-width: 596px;
+  }
+
+  &__tools-row-2 {
+    align-items: center;
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
     justify-content: center;
     max-width: 596px;
+    min-height: 36px;
   }
 
-  &__tools {
+  &__toolbar__crop {
+    align-items: center;
+    color: $color-white;
+    display: flex;
+    height: 36px;
+    justify-content: center;
+    padding-block: 14px;
+    padding-inline: 12px;
+    margin-inline: 16px;
+
+    &__button {
+      @include button-reset;
+      display: flex;
+      margin-block: 0;
+      margin-inline: 20px;
+    }
+  }
+
+  &__toolbar {
     align-items: center;
     background-color: $color-gray-90;
     border-radius: 10px;
     color: $color-white;
     display: flex;
-    height: $tools-height;
+    height: 36px;
     justify-content: center;
-    margin-bottom: 22px;
-    padding: 14px 12px;
+    padding-block: 14px;
+    padding-inline: 12px;
+    margin-inline: 16px;
+    min-width: 418px;
 
     &__tool,
     &__tool__button {
-      margin-right: 14px;
+      margin-inline-start: 14px;
     }
 
     &__button {
       @mixin icon($icon) {
-        @include color-svg('../images/icons/v2/#{$icon}', $color-white);
+        @include color-svg('../images/icons/#{$icon}', $color-white);
         opacity: 1;
         height: 20px;
         width: 20px;
@@ -193,104 +230,158 @@
 
       @include button-reset;
       display: flex;
-      margin: 0 8px;
+      margin-block: 0;
+      margin-inline: 8px;
       padding: 8px;
 
-      &--words {
-        height: auto;
-        width: auto;
-        padding: 0 6px;
-      }
-
       &--draw-pen__button {
-        @include icon('pen-20.svg');
+        @include icon('v3/brush/brush-pen-compact.svg');
       }
       &--draw-highlighter__button {
-        @include icon('pen-highlighter-20.svg');
+        @include icon('v3/brush/brush-highlighter-compact.svg');
       }
       &--width-thin__button {
-        @include icon('pen-light-20.svg');
+        @include icon('v3/brush_size/brush_size-thin-compact.svg');
       }
       &--width-regular__button {
-        @include icon('pen-regular-20.svg');
+        @include icon('v3/brush_size/brush_size-regular-compact.svg');
       }
       &--width-medium__button {
-        @include icon('pen-medium-20.svg');
+        @include icon('v3/brush_size/brush_size-medium-compact.svg');
       }
       &--width-heavy__button {
-        @include icon('pen-heavy-20.svg');
+        @include icon('v3/brush_size/brush_size-heavy-compact.svg');
       }
       &--text-regular__button {
-        @include icon('text-regular-20.svg');
+        @include icon('v3/text/text-square-compact.svg');
       }
       &--text-highlight__button {
-        @include icon('text-highlight-20.svg');
+        @include icon('v3/text/text-square-fill-compact.svg');
       }
       &--text-outline__button {
-        @include icon('text-outline-20.svg');
+        @include icon('v3/text/text-outline-compact.svg');
       }
       &--rotate {
-        @include icon('rotate-outline-24.svg');
+        @include icon('v2/rotate-outline-24.svg');
       }
       &--flip {
-        @include icon('flip-outline-24.svg');
+        @include icon('v2/flip-outline-24.svg');
       }
       &--crop-locked {
-        @include icon('crop-lock-24.svg');
+        @include icon('v3/crop/crop-lock.svg');
       }
       &--crop-unlocked {
-        @include icon('crop-unlock-24.svg');
+        @include icon('v3/crop/crop-unlock.svg');
       }
     }
   }
 
   &__icon {
     &--draw-pen {
-      @include color-svg('../images/icons/v2/pen-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush/brush-pen-compact.svg',
+        $color-white
+      );
     }
 
     &--draw-highlighter {
       @include color-svg(
-        '../images/icons/v2/pen-highlighter-20.svg',
+        '../images/icons/v3/brush/brush-highlighter-compact.svg',
         $color-white
       );
     }
 
     &--text-regular {
       @include color-svg(
-        '../images/icons/v2/text-regular-20.svg',
+        '../images/icons/v3/text/text-square-compact.svg',
         $color-white
       );
     }
 
     &--text-highlight {
       @include color-svg(
-        '../images/icons/v2/text-highlight-20.svg',
+        '../images/icons/v3/text/text-square-fill-compact.svg',
         $color-white
       );
     }
 
     &--text-outline {
       @include color-svg(
-        '../images/icons/v2/text-outline-20.svg',
+        '../images/icons/v3/text/text-outline-compact.svg',
         $color-white
       );
     }
 
     &--width-thin {
-      @include color-svg('../images/icons/v2/pen-light-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-thin-compact.svg',
+        $color-white
+      );
     }
 
     &--width-regular {
-      @include color-svg('../images/icons/v2/pen-regular-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-regular-compact.svg',
+        $color-white
+      );
     }
 
     &--width-medium {
-      @include color-svg('../images/icons/v2/pen-medium-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-medium-compact.svg',
+        $color-white
+      );
     }
 
     &--width-heavy {
-      @include color-svg('../images/icons/v2/pen-heavy-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-heavy-compact.svg',
+        $color-white
+      );
+    }
+  }
+
+  &__history-buttons {
+    inset-inline-start: 24px;
+    position: absolute;
+    top: 40px;
+  }
+
+  &__close {
+    @include button-reset;
+
+    border-radius: 4px;
+    height: 20px;
+    position: absolute;
+    inset-inline-end: 24px;
+    top: 40px;
+    width: 20px;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
+  }
+
+  &__crop-preset {
+    @include button-reset;
+    color: $color-white;
+    height: 28px;
+    margin-inline: 12px;
+    padding-block: 5px;
+    padding-inline: 12px;
+
+    &--selected {
+      @include rounded-corners;
+      background: $color-gray-80;
     }
   }
 }

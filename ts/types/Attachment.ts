@@ -27,6 +27,8 @@ import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { MessageStatusType } from '../components/conversation/Message';
+import { strictAssert } from '../util/assert';
+import type { SignalService as Proto } from '../protobuf';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -35,12 +37,17 @@ const MIN_HEIGHT = 50;
 
 // Used for display
 
+export class AttachmentSizeError extends Error {}
+
 export type AttachmentType = {
   error?: boolean;
   blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
+  digest?: string;
   fileName?: string;
+  plaintextHash?: string;
+  uploadTimestamp?: number;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
@@ -68,19 +75,28 @@ export type AttachmentType = {
   cdnNumber?: number;
   cdnId?: string;
   cdnKey?: string;
+  key?: string;
   data?: Uint8Array;
   textAttachment?: TextAttachmentType;
+  wasTooBig?: boolean;
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
 
   /** Legacy field, used long ago for migrating attachments to disk. */
   schemaVersion?: number;
-
-  /** Removed once we download the attachment */
-  digest?: string;
-  key?: string;
 };
+
+export type UploadedAttachmentType = Proto.IAttachmentPointer &
+  Readonly<{
+    // Required fields
+    cdnKey: string;
+    key: Uint8Array;
+    size: number;
+    digest: Uint8Array;
+    contentType: string;
+    plaintextHash: string;
+  }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {
   data: Uint8Array;
@@ -117,7 +133,6 @@ export type BaseAttachmentDraftType = {
   blurHash?: string;
   contentType: MIME.MIMEType;
   screenshotContentType?: string;
-  screenshotSize?: number;
   size: number;
   flags?: number;
 };
@@ -187,6 +202,7 @@ export async function migrateDataToFileSystem(
   const { data } = attachment;
   const attachmentHasData = !isUndefined(data);
   const shouldSkipSchemaUpgrade = !attachmentHasData;
+
   if (shouldSkipSchemaUpgrade) {
     return attachment;
   }
@@ -846,9 +862,9 @@ export function getAlt(
   i18n: LocalizerType
 ): string {
   if (isVideoAttachment(attachment)) {
-    return i18n('videoAttachmentAlt');
+    return i18n('icu:videoAttachmentAlt');
   }
-  return i18n('imageAttachmentAlt');
+  return i18n('icu:imageAttachmentAlt');
 }
 
 // Migration-related attachment stuff
@@ -982,6 +998,8 @@ export const getFileExtension = (
   switch (attachment.contentType) {
     case 'video/quicktime':
       return 'mov';
+    case 'audio/mpeg':
+      return 'mp3';
     default:
       return attachment.contentType.split('/')[1];
   }
@@ -995,7 +1013,12 @@ export const defaultBlurHash = (theme: ThemeType = ThemeType.light): string => {
 };
 
 export const canBeDownloaded = (
-  attachment: Pick<AttachmentType, 'key' | 'digest'>
+  attachment: Pick<AttachmentType, 'digest' | 'key' | 'wasTooBig'>
 ): boolean => {
-  return Boolean(attachment.key && attachment.digest);
+  return Boolean(attachment.digest && attachment.key && !attachment.wasTooBig);
 };
+
+export function getAttachmentSignature(attachment: AttachmentType): string {
+  strictAssert(attachment.digest, 'attachment missing digest');
+  return attachment.digest;
+}

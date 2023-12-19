@@ -2,25 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .SignalConnectionsModal {
-  color: $color-gray-05;
-
   &__icon {
     @include color-svg(
-      '../images/icons/v2/signal-connections.svg',
+      '../images/icons/v3/connections/connections-display.svg',
       $color-ultramarine-light
     );
     display: block;
     height: 69px;
-    margin: 0 auto;
+    margin-block: 0;
+    margin-inline: auto;
     margin-bottom: 24px;
     width: 75px;
   }
 
   &__list {
-    margin: 16px 0;
+    margin-block: 16px;
+    margin-inline: 0;
 
     li {
-      margin: 8px 0;
+      margin-block: 8px;
+      margin-inline: 0;
     }
   }
 

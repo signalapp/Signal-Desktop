@@ -3,7 +3,12 @@
 
 /* eslint-disable react/jsx-pascal-case */
 
-import type { ReactNode, RefObject } from 'react';
+import type {
+  DetailedHTMLProps,
+  HTMLAttributes,
+  ReactNode,
+  RefObject,
+} from 'react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
@@ -67,11 +72,8 @@ import { getIncrement } from '../../util/timer';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { missingCaseError } from '../../util/missingCaseError';
-import type {
-  HydratedBodyRangesType,
-  LocalizerType,
-  ThemeType,
-} from '../../types/Util';
+import type { HydratedBodyRangesType } from '../../types/BodyRange';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import type {
@@ -82,20 +84,22 @@ import type {
 import { createRefMerger } from '../../util/refMerger';
 import { emojiToData, getEmojiCount, hasNonEmojiText } from '../emoji/lib';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { PaymentEventKind } from '../../types/Payment';
+import { isPaymentNotificationEvent } from '../../types/Payment';
 import type { AnyPaymentEvent } from '../../types/Payment';
-import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
+import { RenderLocation } from './MessageTextRenderer';
+import { UserText } from '../UserText';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
+const GUESS_METADATA_WIDTH_EDITED_SIZE = 40;
 const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
   delivered: 24,
   error: 24,
@@ -113,8 +117,7 @@ const GROUP_AVATAR_SIZE = AvatarSize.TWENTY_EIGHT;
 const STICKER_SIZE = 200;
 const GIF_SIZE = 300;
 // Note: this needs to match the animation time
-const SELECTED_TIMEOUT = 1200;
-const THREE_HOURS = 3 * 60 * 60 * 1000;
+const TARGETED_TIMEOUT = 1200;
 const SENT_STATUSES = new Set<MessageStatusType>([
   'delivered',
   'read',
@@ -136,6 +139,13 @@ export enum TextDirection {
   Default = 'Default',
   None = 'None',
 }
+
+const TextDirectionToDirAttribute = {
+  [TextDirection.LeftToRight]: 'ltr',
+  [TextDirection.RightToLeft]: 'rtl',
+  [TextDirection.Default]: 'auto',
+  [TextDirection.None]: 'auto',
+};
 
 export const MessageStatuses = [
   'delivered',
@@ -182,6 +192,7 @@ export enum GiftBadgeStates {
   Opened = 'Opened',
   Redeemed = 'Redeemed',
 }
+
 export type GiftBadgeType = {
   expiration: number;
   id: string | undefined;
@@ -201,11 +212,16 @@ export type PropsData = {
   text?: string;
   textDirection: TextDirection;
   textAttachment?: AttachmentType;
+  isEditedMessage?: boolean;
   isSticker?: boolean;
-  isSelected?: boolean;
-  isSelectedCounter?: number;
+  isTargeted?: boolean;
+  isTargetedCounter?: number;
+  isSelected: boolean;
+  isSelectMode: boolean;
+  isSpoilerExpanded?: Record<number, boolean>;
   direction: DirectionType;
   timestamp: number;
+  receivedAtMS?: number;
   status?: MessageStatusType;
   contact?: EmbeddedContactType;
   author: Pick<
@@ -269,6 +285,7 @@ export type PropsData = {
   reactions?: ReactionViewerProps['reactions'];
 
   deletedForEveryone?: boolean;
+  attachmentDroppedDueToSize?: boolean;
 
   canDeleteForEveryone: boolean;
   isBlocked: boolean;
@@ -288,6 +305,7 @@ export type PropsHousekeeping = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
+  platform: string;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
@@ -297,16 +315,18 @@ export type PropsHousekeeping = {
 };
 
 export type PropsActions = {
-  clearSelectedMessage: () => unknown;
+  clearTargetedMessage: () => unknown;
   doubleCheckMissingQuoteReference: (messageId: string) => unknown;
   messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (phoneNumber: string) => unknown;
 
-  startConversation: (e164: string, uuid: UUIDStringType) => void;
+  startConversation: (e164: string, serviceId: ServiceIdString) => void;
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
+  retryMessageSend: (messageId: string) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
+  showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 
   kickOffAttachmentDownload: (options: {
     attachment: AttachmentType;
@@ -328,11 +348,15 @@ export type PropsActions = {
     conversationId: string;
     sentAt: number;
   }) => void;
-  selectMessage?: (messageId: string, conversationId: string) => unknown;
+  targetMessage?: (messageId: string, conversationId: string) => unknown;
 
+  showEditHistoryModal?: (id: string) => unknown;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
   viewStory: ViewStoryActionCreatorType;
+
+  onToggleSelect: (selected: boolean, shift: boolean) => void;
+  onReplyToMessage: () => void;
 };
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
@@ -344,8 +368,8 @@ type State = {
   expired: boolean;
   imageBroken: boolean;
 
-  isSelected?: boolean;
-  prevSelectedCounter?: number;
+  isTargeted?: boolean;
+  prevTargetedCounter?: number;
 
   reactionViewerRoot: HTMLDivElement | null;
   reactionViewerOutsideClickDestructor?: () => void;
@@ -364,6 +388,12 @@ export class Message extends React.PureComponent<Props, State> {
   public reactionsContainerRef: React.RefObject<HTMLDivElement> =
     React.createRef();
 
+  private hasSelectedTextRef: React.MutableRefObject<boolean> = {
+    current: false,
+  };
+
+  private metadataRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   public reactionsContainerRefMerger = createRefMerger();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
@@ -372,7 +402,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public expiredTimeout: NodeJS.Timeout | undefined;
 
-  public selectedTimeout: NodeJS.Timeout | undefined;
+  public targetedTimeout: NodeJS.Timeout | undefined;
 
   public deleteForEveryoneTimeout: NodeJS.Timeout | undefined;
 
@@ -386,8 +416,8 @@ export class Message extends React.PureComponent<Props, State> {
       expired: false,
       imageBroken: false,
 
-      isSelected: props.isSelected,
-      prevSelectedCounter: props.isSelectedCounter,
+      isTargeted: props.isTargeted,
+      prevTargetedCounter: props.isTargetedCounter,
 
       reactionViewerRoot: null,
 
@@ -400,22 +430,22 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public static getDerivedStateFromProps(props: Props, state: State): State {
-    if (!props.isSelected) {
+    if (!props.isTargeted) {
       return {
         ...state,
-        isSelected: false,
-        prevSelectedCounter: 0,
+        isTargeted: false,
+        prevTargetedCounter: 0,
       };
     }
 
     if (
-      props.isSelected &&
-      props.isSelectedCounter !== state.prevSelectedCounter
+      props.isTargeted &&
+      props.isTargetedCounter !== state.prevTargetedCounter
     ) {
       return {
         ...state,
-        isSelected: props.isSelected,
-        prevSelectedCounter: props.isSelectedCounter,
+        isTargeted: props.isTargeted,
+        prevTargetedCounter: props.isTargetedCounter,
       };
     }
 
@@ -428,10 +458,10 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public handleFocus = (): void => {
-    const { interactionMode, isSelected } = this.props;
+    const { interactionMode, isTargeted } = this.props;
 
-    if (interactionMode === 'keyboard' && !isSelected) {
-      this.setSelected();
+    if (interactionMode === 'keyboard' && !isTargeted) {
+      this.setTargeted();
     }
   };
 
@@ -445,11 +475,11 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public setSelected = (): void => {
-    const { id, conversationId, selectMessage } = this.props;
+  public setTargeted = (): void => {
+    const { id, conversationId, targetMessage } = this.props;
 
-    if (selectMessage) {
-      selectMessage(id, conversationId);
+    if (targetMessage) {
+      targetMessage(id, conversationId);
     }
   };
 
@@ -465,12 +495,12 @@ export class Message extends React.PureComponent<Props, State> {
     const { conversationId } = this.props;
     window.ConversationController?.onConvoMessageMount(conversationId);
 
-    this.startSelectedTimer();
+    this.startTargetedTimer();
     this.startDeleteForEveryoneTimerIfApplicable();
     this.startGiftBadgeInterval();
 
-    const { isSelected } = this.props;
-    if (isSelected) {
+    const { isTargeted } = this.props;
+    if (isTargeted) {
       this.setFocus();
     }
 
@@ -487,27 +517,30 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const { contact, checkForAccount } = this.props;
-    if (contact && contact.firstNumber && !contact.uuid) {
+    if (contact && contact.firstNumber && !contact.serviceId) {
       checkForAccount(contact.firstNumber);
     }
+
+    document.addEventListener('selectionchange', this.handleSelectionChange);
   }
 
   public override componentWillUnmount(): void {
-    clearTimeoutIfNecessary(this.selectedTimeout);
+    clearTimeoutIfNecessary(this.targetedTimeout);
     clearTimeoutIfNecessary(this.expirationCheckInterval);
     clearTimeoutIfNecessary(this.expiredTimeout);
     clearTimeoutIfNecessary(this.deleteForEveryoneTimeout);
     clearTimeoutIfNecessary(this.giftBadgeInterval);
     this.toggleReactionViewer(true);
+    document.removeEventListener('selectionchange', this.handleSelectionChange);
   }
 
   public override componentDidUpdate(prevProps: Readonly<Props>): void {
-    const { isSelected, status, timestamp } = this.props;
+    const { isTargeted, status, timestamp } = this.props;
 
-    this.startSelectedTimer();
+    this.startTargetedTimer();
     this.startDeleteForEveryoneTimerIfApplicable();
 
-    if (!prevProps.isSelected && isSelected) {
+    if (!prevProps.isTargeted && isTargeted) {
       this.setFocus();
     }
 
@@ -534,6 +567,7 @@ export class Message extends React.PureComponent<Props, State> {
   private getMetadataPlacement(
     {
       attachments,
+      attachmentDroppedDueToSize,
       deletedForEveryone,
       direction,
       expirationLength,
@@ -543,11 +577,8 @@ export class Message extends React.PureComponent<Props, State> {
       shouldHideMetadata,
       status,
       text,
-      textDirection,
     }: Readonly<Props> = this.props
   ): MetadataPlacement {
-    const isRTL = textDirection === TextDirection.RightToLeft;
-
     if (
       !expirationLength &&
       !expirationTimestamp &&
@@ -558,7 +589,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge) {
-      const description = i18n(`icu:message--donation--unopened--${direction}`);
+      const description =
+        direction === 'incoming'
+          ? i18n('icu:message--donation--unopened--incoming')
+          : i18n('icu:message--donation--unopened--outgoing');
       const isDescriptionRTL = getDirection(description) === 'rtl';
 
       if (giftBadge.state === GiftBadgeStates.Unopened && !isDescriptionRTL) {
@@ -568,17 +602,17 @@ export class Message extends React.PureComponent<Props, State> {
       return MetadataPlacement.Bottom;
     }
 
-    if (!text && !deletedForEveryone) {
+    if (!text && !deletedForEveryone && !attachmentDroppedDueToSize) {
       return isAudio(attachments)
         ? MetadataPlacement.RenderedByMessageAudioComponent
         : MetadataPlacement.Bottom;
     }
 
-    if (this.canRenderStickerLikeEmoji()) {
-      return MetadataPlacement.Bottom;
+    if (!text && attachmentDroppedDueToSize) {
+      return MetadataPlacement.InlineWithText;
     }
 
-    if (isRTL) {
+    if (this.canRenderStickerLikeEmoji()) {
       return MetadataPlacement.Bottom;
     }
 
@@ -594,9 +628,13 @@ export class Message extends React.PureComponent<Props, State> {
    * because it can reduce layout jumpiness.
    */
   private guessMetadataWidth(): number {
-    const { direction, expirationLength, status } = this.props;
+    const { direction, expirationLength, status, isEditedMessage } = this.props;
 
     let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
+
+    if (isEditedMessage) {
+      result += GUESS_METADATA_WIDTH_EDITED_SIZE;
+    }
 
     const hasExpireTimer = Boolean(expirationLength);
     if (hasExpireTimer) {
@@ -610,20 +648,20 @@ export class Message extends React.PureComponent<Props, State> {
     return result;
   }
 
-  public startSelectedTimer(): void {
-    const { clearSelectedMessage, interactionMode } = this.props;
-    const { isSelected } = this.state;
+  public startTargetedTimer(): void {
+    const { clearTargetedMessage, interactionMode } = this.props;
+    const { isTargeted } = this.state;
 
-    if (interactionMode === 'keyboard' || !isSelected) {
+    if (interactionMode === 'keyboard' || !isTargeted) {
       return;
     }
 
-    if (!this.selectedTimeout) {
-      this.selectedTimeout = setTimeout(() => {
-        this.selectedTimeout = undefined;
-        this.setState({ isSelected: false });
-        clearSelectedMessage();
-      }, SELECTED_TIMEOUT);
+    if (!this.targetedTimeout) {
+      this.targetedTimeout = setTimeout(() => {
+        this.targetedTimeout = undefined;
+        this.setState({ isTargeted: false });
+        clearTargetedMessage();
+      }, TARGETED_TIMEOUT);
     }
   }
 
@@ -647,7 +685,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   private getTimeRemainingForDeleteForEveryone(): number {
     const { timestamp } = this.props;
-    return Math.max(timestamp - Date.now() + THREE_HOURS, 0);
+    return Math.max(timestamp - Date.now() + DAY, 0);
   }
 
   private startDeleteForEveryoneTimerIfApplicable(): void {
@@ -709,8 +747,14 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   private canRenderStickerLikeEmoji(): boolean {
-    const { text, quote, storyReplyContext, attachments, previews } =
-      this.props;
+    const {
+      attachments,
+      bodyRanges,
+      previews,
+      quote,
+      storyReplyContext,
+      text,
+    } = this.props;
 
     return Boolean(
       text &&
@@ -719,6 +763,7 @@ export class Message extends React.PureComponent<Props, State> {
         !quote &&
         !storyReplyContext &&
         (!attachments || !attachments.length) &&
+        (!bodyRanges || !bodyRanges.length) &&
         (!previews || !previews.length)
     );
   }
@@ -729,6 +774,13 @@ export class Message extends React.PureComponent<Props, State> {
       //   sure we have enough room.
       metadataWidth: Math.max(metadataWidth, newMetadataWidth),
     }));
+  };
+
+  private handleSelectionChange = () => {
+    const selection = document.getSelection();
+    if (selection != null && !selection.isCollapsed) {
+      this.hasSelectedTextRef.current = true;
+    }
   };
 
   private renderMetadata(): ReactNode {
@@ -751,15 +803,19 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const {
+      attachmentDroppedDueToSize,
       deletedForEveryone,
       direction,
       expirationLength,
       expirationTimestamp,
       i18n,
       id,
+      isEditedMessage,
       isSticker,
       isTapToViewExpired,
+      retryMessageSend,
       pushPanelForConversation,
+      showEditHistoryModal,
       status,
       text,
       textAttachment,
@@ -774,15 +830,22 @@ export class Message extends React.PureComponent<Props, State> {
         direction={direction}
         expirationLength={expirationLength}
         expirationTimestamp={expirationTimestamp}
-        hasText={Boolean(text)}
+        hasText={Boolean(text || attachmentDroppedDueToSize)}
         i18n={i18n}
         id={id}
+        isEditedMessage={isEditedMessage}
         isInline={isInline}
+        isOutlineOnlyBubble={
+          deletedForEveryone || (attachmentDroppedDueToSize && !text)
+        }
         isShowingImage={this.isShowingImage()}
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
         onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
         pushPanelForConversation={pushPanelForConversation}
+        ref={this.metadataRef}
+        retryMessageSend={retryMessageSend}
+        showEditHistoryModal={showEditHistoryModal}
         status={status}
         textPending={textAttachment?.pending}
         timestamp={timestamp}
@@ -816,7 +879,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div className={moduleName}>
         <ContactName
           contactNameColor={contactNameColor}
-          title={author.isMe ? i18n('you') : author.title}
+          title={author.isMe ? i18n('icu:you') : author.title}
           module={moduleName}
         />
       </div>
@@ -826,6 +889,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderAttachment(): JSX.Element | null {
     const {
       attachments,
+      attachmentDroppedDueToSize,
       conversationId,
       direction,
       expirationLength,
@@ -860,7 +924,7 @@ export class Message extends React.PureComponent<Props, State> {
     const firstAttachment = attachments[0];
 
     // For attachments which aren't full-frame
-    const withContentBelow = Boolean(text);
+    const withContentBelow = Boolean(text || attachmentDroppedDueToSize);
     const withContentAbove = Boolean(quote) || this.shouldRenderAuthor();
     const displayImage = canDisplayImage(attachments);
 
@@ -1136,7 +1200,7 @@ export class Message extends React.PureComponent<Props, State> {
             onClick={onPreviewImageClick}
           />
         ) : null}
-        <div className="module-message__link-preview__content">
+        <div dir="auto" className="module-message__link-preview__content">
           {first.image &&
           first.domain &&
           previewHasImage &&
@@ -1151,7 +1215,9 @@ export class Message extends React.PureComponent<Props, State> {
                 curveBottomRight={CurveType.Tiny}
                 curveTopRight={CurveType.Tiny}
                 curveTopLeft={CurveType.Tiny}
-                alt={i18n('previewThumbnail', [first.domain])}
+                alt={i18n('icu:previewThumbnail', {
+                  domain: first.domain,
+                })}
                 height={72}
                 width={72}
                 url={first.image.url}
@@ -1220,6 +1286,62 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  public renderAttachmentTooBig(): JSX.Element | null {
+    const {
+      attachments,
+      attachmentDroppedDueToSize,
+      direction,
+      i18n,
+      quote,
+      shouldCollapseAbove,
+      shouldCollapseBelow,
+      text,
+    } = this.props;
+    const { metadataWidth } = this.state;
+
+    if (!attachmentDroppedDueToSize) {
+      return null;
+    }
+
+    const labelText = attachments?.length
+      ? i18n('icu:message--attachmentTooBig--multiple')
+      : i18n('icu:message--attachmentTooBig--one');
+
+    const isContentAbove = quote || attachments?.length;
+    const isContentBelow = Boolean(text);
+    const willCollapseAbove = shouldCollapseAbove && !isContentAbove;
+    const willCollapseBelow = shouldCollapseBelow && !isContentBelow;
+
+    const maybeSpacer = text
+      ? undefined
+      : this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
+          <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
+        );
+
+    return (
+      <div
+        className={classNames(
+          'module-message__attachment-too-big',
+          isContentAbove
+            ? 'module-message__attachment-too-big--content-above'
+            : null,
+          isContentBelow
+            ? 'module-message__attachment-too-big--content-below'
+            : null,
+          willCollapseAbove
+            ? `module-message__attachment-too-big--collapse-above--${direction}`
+            : null,
+          willCollapseBelow
+            ? `module-message__attachment-too-big--collapse-below--${direction}`
+            : null
+        )}
+      >
+        {labelText}
+        {maybeSpacer}
+      </div>
+    );
+  }
+
   public renderGiftBadge(): JSX.Element | null {
     const { conversationTitle, direction, getPreferredBadge, giftBadge, i18n } =
       this.props;
@@ -1229,8 +1351,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (giftBadge.state === GiftBadgeStates.Unopened) {
-      const description = i18n(`icu:message--donation--unopened--${direction}`);
-      const isRTL = getDirection(description) === 'rtl';
+      const description =
+        direction === 'incoming'
+          ? i18n('icu:message--donation--unopened--incoming')
+          : i18n('icu:message--donation--unopened--outgoing');
       const { metadataWidth } = this.state;
 
       return (
@@ -1270,7 +1394,6 @@ export class Message extends React.PureComponent<Props, State> {
                 'module-message__text',
                 `module-message__text--${direction}`
               )}
-              dir={isRTL ? 'rtl' : undefined}
             >
               {description}
               {this.getMetadataPlacement() ===
@@ -1414,7 +1537,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationColor,
       i18n,
     } = this.props;
-    if (payment == null || payment.kind !== PaymentEventKind.Notification) {
+    if (payment == null || !isPaymentNotificationEvent(payment)) {
       return null;
     }
 
@@ -1440,7 +1563,7 @@ export class Message extends React.PureComponent<Props, State> {
         </p>
         {payment.note != null && (
           <p className="module-payment-notification__note">
-            <Emojify text={payment.note} />
+            <UserText text={payment.note} />
           </p>
         )}
       </div>
@@ -1525,7 +1648,9 @@ export class Message extends React.PureComponent<Props, State> {
       <>
         {storyReplyContext.emoji && (
           <div className="module-message__quote-story-reaction-header">
-            {i18n('Quote__story-reaction', [storyReplyContext.authorTitle])}
+            {i18n('icu:Quote__story-reaction', {
+              name: storyReplyContext.authorTitle,
+            })}
           </div>
         )}
         <Quote
@@ -1579,7 +1704,7 @@ export class Message extends React.PureComponent<Props, State> {
       this.getMetadataPlacement() !== MetadataPlacement.NotRendered;
 
     const otherContent =
-      (contact && contact.firstNumber && contact.uuid) || withCaption;
+      (contact && contact.firstNumber && contact.serviceId) || withCaption;
     const tabIndex = otherContent ? 0 : -1;
 
     return (
@@ -1589,10 +1714,10 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         onClick={() => {
           const signalAccount =
-            contact.firstNumber && contact.uuid
+            contact.firstNumber && contact.serviceId
               ? {
                   phoneNumber: contact.firstNumber,
-                  uuid: contact.uuid,
+                  serviceId: contact.serviceId,
                 }
               : undefined;
 
@@ -1620,8 +1745,8 @@ export class Message extends React.PureComponent<Props, State> {
     if (!contact) {
       return null;
     }
-    const { firstNumber, uuid } = contact;
-    if (!firstNumber || !uuid) {
+    const { firstNumber, serviceId } = contact;
+    if (!firstNumber || !serviceId) {
       return null;
     }
 
@@ -1631,7 +1756,7 @@ export class Message extends React.PureComponent<Props, State> {
         onClick={e => {
           e.preventDefault();
           e.stopPropagation();
-          startConversation(firstNumber, uuid);
+          startConversation(firstNumber, serviceId);
         }}
         className={classNames(
           'module-message__send-message-button',
@@ -1641,7 +1766,7 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__send-message-button--no-bottom-right-curve'
         )}
       >
-        {i18n('sendMessageToContact')}
+        {i18n('icu:sendMessageToContact')}
       </button>
     );
   }
@@ -1700,6 +1825,19 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  private getContents(): string | undefined {
+    const { deletedForEveryone, direction, i18n, status, text } = this.props;
+
+    if (deletedForEveryone) {
+      return i18n('icu:message--deletedForEveryone');
+    }
+    if (direction === 'incoming' && status === 'error') {
+      return i18n('icu:incomingError');
+    }
+
+    return text;
+  }
+
   public renderText(): JSX.Element | null {
     const {
       bodyRanges,
@@ -1708,30 +1846,32 @@ export class Message extends React.PureComponent<Props, State> {
       displayLimit,
       i18n,
       id,
+      isSpoilerExpanded,
       kickOffAttachmentDownload,
       messageExpanded,
+      payment,
       showConversation,
+      showSpoiler,
       status,
-      text,
+
       textAttachment,
-      textDirection,
     } = this.props;
     const { metadataWidth } = this.state;
-    const isRTL = textDirection === TextDirection.RightToLeft;
 
-    // eslint-disable-next-line no-nested-ternary
-    const contents = deletedForEveryone
-      ? i18n('message--deletedForEveryone')
-      : direction === 'incoming' && status === 'error'
-      ? i18n('incomingError')
-      : text;
+    const contents = this.getContents();
 
     if (!contents) {
       return null;
     }
 
+    // Payment notifications are rendered in renderPayment, but they may have additional
+    // text in message.body for backwards-compatibility that we don't want to render
+    if (payment && isPaymentNotificationEvent(payment)) {
+      return null;
+    }
+
     return (
-      <div
+      <div // eslint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
@@ -1742,7 +1882,18 @@ export class Message extends React.PureComponent<Props, State> {
             ? 'module-message__text--delete-for-everyone'
             : null
         )}
-        dir={isRTL ? 'rtl' : undefined}
+        onClick={e => {
+          // Prevent metadata from being selected on triple clicks.
+          const clickCount = e.detail;
+          const range = window.getSelection()?.getRangeAt(0);
+          if (
+            clickCount === 3 &&
+            this.metadataRef.current &&
+            range?.intersectsNode(this.metadataRef.current)
+          ) {
+            range.setEndBefore(this.metadataRef.current);
+          }
+        }}
         onDoubleClick={(event: React.MouseEvent) => {
           // Prevent double-click interefering with interactions _inside_
           // the bubble.
@@ -1756,6 +1907,7 @@ export class Message extends React.PureComponent<Props, State> {
           displayLimit={displayLimit}
           i18n={i18n}
           id={id}
+          isSpoilerExpanded={isSpoilerExpanded || {}}
           kickOffBodyDownload={() => {
             if (!textAttachment) {
               return;
@@ -1767,13 +1919,14 @@ export class Message extends React.PureComponent<Props, State> {
           }}
           messageExpanded={messageExpanded}
           showConversation={showConversation}
+          renderLocation={RenderLocation.Timeline}
+          onExpandSpoiler={data => showSpoiler(id, data)}
           text={contents || ''}
           textAttachment={textAttachment}
         />
-        {!isRTL &&
-          this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
-            <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
-          )}
+        {this.getMetadataPlacement() === MetadataPlacement.InlineWithText && (
+          <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
+        )}
       </div>
     );
   }
@@ -1907,26 +2060,23 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError,
     } = this.props;
 
-    const incomingString = isTapToViewExpired
-      ? i18n('Message--tap-to-view-expired')
-      : i18n(
-          `Message--tap-to-view--incoming${
-            isVideo(attachments) ? '-video' : ''
-          }`
-        );
-    const outgoingString = i18n('Message--tap-to-view--outgoing');
     const isDownloadPending = this.isAttachmentPending();
-
     if (isDownloadPending) {
       return;
     }
-
-    // eslint-disable-next-line no-nested-ternary
-    return isTapToViewError
-      ? i18n('incomingError')
-      : direction === 'outgoing'
-      ? outgoingString
-      : incomingString;
+    if (isTapToViewError) {
+      return i18n('icu:incomingError');
+    }
+    if (direction === 'outgoing') {
+      return i18n('icu:Message--tap-to-view--outgoing');
+    }
+    if (isTapToViewExpired) {
+      return i18n('icu:Message--tap-to-view-expired');
+    }
+    if (isVideo(attachments)) {
+      return i18n('icu:Message--tap-to-view--incoming-video');
+    }
+    return i18n('icu:Message--tap-to-view--incoming');
   }
 
   public renderTapToView(): JSX.Element {
@@ -2061,11 +2211,33 @@ export class Message extends React.PureComponent<Props, State> {
       ['desc', 'desc']
     );
     // Take the first three groups for rendering
-    const toRender = take(ordered, 3).map(res => ({
-      emoji: res[0].emoji,
-      count: res.length,
-      isMe: res.some(re => Boolean(re.from.isMe)),
-    }));
+    const toRender = take(ordered, 3).map(res => {
+      const isMe = res.some(re => Boolean(re.from.isMe));
+      const count = res.length;
+      const { emoji } = res[0];
+
+      let label: string;
+      if (isMe) {
+        label = i18n('icu:Message__reaction-emoji-label--you', { emoji });
+      } else if (count === 1) {
+        label = i18n('icu:Message__reaction-emoji-label--single', {
+          title: res[0].from.title,
+          emoji,
+        });
+      } else {
+        label = i18n('icu:Message__reaction-emoji-label--many', {
+          count,
+          emoji,
+        });
+      }
+
+      return {
+        count,
+        emoji,
+        isMe,
+        label,
+      };
+    });
     const someNotRendered = ordered.length > 3;
     // We only drop two here because the third emoji would be replaced by the
     // more button
@@ -2097,6 +2269,9 @@ export class Message extends React.PureComponent<Props, State> {
                   ? 'module-message__reactions--outgoing'
                   : 'module-message__reactions--incoming'
               )}
+              onDoubleClick={ev => {
+                ev.stopPropagation();
+              }}
             >
               {toRender.map((re, i) => {
                 const isLast = i === toRender.length - 1;
@@ -2105,6 +2280,7 @@ export class Message extends React.PureComponent<Props, State> {
 
                 return (
                   <button
+                    aria-label={re.label}
                     type="button"
                     // eslint-disable-next-line react/no-array-index-key
                     key={`${re.emoji}-${i}`}
@@ -2196,7 +2372,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderContents(): JSX.Element | null {
-    const { giftBadge, isTapToView, deletedForEveryone } = this.props;
+    const { deletedForEveryone, giftBadge, isTapToView } = this.props;
 
     if (deletedForEveryone) {
       return (
@@ -2226,6 +2402,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderStoryReplyContext()}
         {this.renderAttachment()}
         {this.renderPreview()}
+        {this.renderAttachmentTooBig()}
         {this.renderPayment()}
         {this.renderEmbeddedContact()}
         {this.renderText()}
@@ -2362,8 +2539,8 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    if (contact && contact.firstNumber && contact.uuid) {
-      startConversation(contact.firstNumber, contact.uuid);
+    if (contact && contact.firstNumber && contact.serviceId) {
+      startConversation(contact.firstNumber, contact.serviceId);
 
       event.preventDefault();
       event.stopPropagation();
@@ -2372,10 +2549,10 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (contact) {
       const signalAccount =
-        contact.firstNumber && contact.uuid
+        contact.firstNumber && contact.serviceId
           ? {
               phoneNumber: contact.firstNumber,
-              uuid: contact.uuid,
+              serviceId: contact.serviceId,
             }
           : undefined;
       pushPanelForConversation({
@@ -2434,11 +2611,13 @@ export class Message extends React.PureComponent<Props, State> {
   public renderContainer(): JSX.Element {
     const {
       attachments,
+      attachmentDroppedDueToSize,
       conversationColor,
       customColor,
       deletedForEveryone,
       direction,
       giftBadge,
+      id,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -2446,8 +2625,9 @@ export class Message extends React.PureComponent<Props, State> {
       onContextMenu,
       onKeyDown,
       text,
+      textDirection,
     } = this.props;
-    const { isSelected } = this.state;
+    const { isTargeted } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
 
@@ -2459,7 +2639,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     // If it's a mostly-normal gray incoming text box, we don't want to darken it as much
     const lighterSelect =
-      isSelected &&
+      isTargeted &&
       direction === 'incoming' &&
       !isStickerLike &&
       (text || (!isVideo(attachments) && !isImage(attachments)));
@@ -2467,8 +2647,8 @@ export class Message extends React.PureComponent<Props, State> {
     const containerClassnames = classNames(
       'module-message__container',
       isGIF(attachments) ? 'module-message__container--gif' : null,
-      isSelected ? 'module-message__container--selected' : null,
-      lighterSelect ? 'module-message__container--selected-lighter' : null,
+      isTargeted ? 'module-message__container--targeted' : null,
+      lighterSelect ? 'module-message__container--targeted-lighter' : null,
       !isStickerLike ? `module-message__container--${direction}` : null,
       isEmojiOnly ? 'module-message__container--emoji' : null,
       isTapToView ? 'module-message__container--with-tap-to-view' : null,
@@ -2495,7 +2675,12 @@ export class Message extends React.PureComponent<Props, State> {
     const containerStyles = {
       width: shouldUseWidth ? width : undefined,
     };
-    if (!isStickerLike && !deletedForEveryone && direction === 'outgoing') {
+    if (
+      !isStickerLike &&
+      !deletedForEveryone &&
+      !(attachmentDroppedDueToSize && !text) &&
+      direction === 'outgoing'
+    ) {
       Object.assign(containerStyles, getCustomColorStyle(customColor));
     }
 
@@ -2503,6 +2688,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div className="module-message__container-outer">
         <div
           className={containerClassnames}
+          id={`message-accessibility-contents:${id}`}
           style={containerStyles}
           onContextMenu={onContextMenu}
           role="row"
@@ -2515,25 +2701,54 @@ export class Message extends React.PureComponent<Props, State> {
           tabIndex={-1}
         >
           {this.renderAuthor()}
-          {this.renderContents()}
+          <div dir={TextDirectionToDirAttribute[textDirection]}>
+            {this.renderContents()}
+          </div>
         </div>
         {this.renderReactions(direction === 'outgoing')}
       </div>
     );
   }
 
+  renderAltAccessibilityTree(): JSX.Element {
+    const { id, i18n, author } = this.props;
+    return (
+      <span className="module-message__alt-accessibility-tree">
+        <span id={`message-accessibility-label:${id}`}>
+          {author.isMe
+            ? i18n('icu:messageAccessibilityLabel--outgoing')
+            : i18n('icu:messageAccessibilityLabel--incoming', {
+                author: author.title,
+              })}
+        </span>
+
+        <span id={`message-accessibility-description:${id}`}>
+          {this.renderText()}
+        </span>
+      </span>
+    );
+  }
+
   public override render(): JSX.Element | null {
     const {
+      id,
       attachments,
       direction,
+      i18n,
       isSticker,
+      isSelected,
+      isSelectMode,
       onKeyDown,
+      platform,
       renderMenu,
       shouldCollapseAbove,
       shouldCollapseBelow,
       timestamp,
+      onToggleSelect,
+      onReplyToMessage,
     } = this.props;
-    const { expired, expiring, isSelected, imageBroken } = this.state;
+    const isMacOS = platform === 'darwin';
+    const { expired, expiring, isTargeted, imageBroken } = this.state;
 
     if (expired) {
       return null;
@@ -2543,29 +2758,111 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    let wrapperProps: DetailedHTMLProps<
+      HTMLAttributes<HTMLDivElement>,
+      HTMLDivElement
+    >;
+
+    if (isSelectMode) {
+      wrapperProps = {
+        role: 'checkbox',
+        'aria-checked': isSelected,
+        'aria-labelledby': `message-accessibility-label:${id}`,
+        'aria-describedby': `message-accessibility-description:${id}`,
+        tabIndex: 0,
+        onClick: event => {
+          event.preventDefault();
+          onToggleSelect(!isSelected, event.shiftKey);
+        },
+        onKeyDown: event => {
+          if (event.code === 'Space') {
+            event.preventDefault();
+            onToggleSelect(!isSelected, event.shiftKey);
+          }
+        },
+      };
+    } else {
+      wrapperProps = {
+        onMouseDown: () => {
+          this.hasSelectedTextRef.current = false;
+        },
+        // We use `onClickCapture` here and preven default/stop propagation to
+        // prevent other click handlers from firing.
+        onClickCapture: event => {
+          if (isMacOS ? event.metaKey : event.ctrlKey) {
+            if (this.hasSelectedTextRef.current) {
+              return;
+            }
+
+            const target = event.target as HTMLElement;
+            const link = target.closest('a[href], [role=link]');
+
+            if (event.currentTarget.contains(link)) {
+              return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+            onToggleSelect(true, false);
+          }
+        },
+        onDoubleClick: event => {
+          event.stopPropagation();
+          event.preventDefault();
+          if (!isSelectMode) {
+            onReplyToMessage();
+          }
+        },
+      };
+    }
+
     return (
       <div
+        aria-labelledby={`message-accessibility-contents:${id}`}
+        aria-roledescription={i18n('icu:Message__role-description')}
         className={classNames(
-          'module-message',
-          `module-message--${direction}`,
-          shouldCollapseAbove && 'module-message--collapsed-above',
-          shouldCollapseBelow && 'module-message--collapsed-below',
-          isSelected ? 'module-message--selected' : null,
-          expiring ? 'module-message--expired' : null
+          'module-message__wrapper',
+          isSelectMode && 'module-message__wrapper--select-mode',
+          isSelected && 'module-message__wrapper--selected'
         )}
-        data-testid={timestamp}
-        tabIndex={0}
-        // We need to have a role because screenreaders need to be able to focus here to
-        //   read the message, but we can't be a button; that would break inner buttons.
-        role="row"
-        onKeyDown={onKeyDown}
-        onFocus={this.handleFocus}
-        ref={this.focusRef}
+        role="article"
+        {...wrapperProps}
       >
-        {this.renderError()}
-        {this.renderAvatar()}
-        {this.renderContainer()}
-        {renderMenu?.()}
+        {isSelectMode && (
+          <>
+            <span
+              role="presentation"
+              className="module-message__select-checkbox"
+            />
+            {this.renderAltAccessibilityTree()}
+          </>
+        )}
+        <div
+          className={classNames(
+            'module-message',
+            `module-message--${direction}`,
+            shouldCollapseAbove && 'module-message--collapsed-above',
+            shouldCollapseBelow && 'module-message--collapsed-below',
+            isTargeted ? 'module-message--targeted' : null,
+            expiring ? 'module-message--expired' : null
+          )}
+          data-testid={timestamp}
+          tabIndex={0}
+          // We need to have a role because screenreaders need to be able to focus here to
+          //   read the message, but we can't be a button; that would break inner buttons.
+          role="row"
+          onKeyDown={onKeyDown}
+          onFocus={this.handleFocus}
+          ref={this.focusRef}
+          // @ts-expect-error -- React/TS doesn't know about inert
+          // eslint-disable-next-line react/no-unknown-property
+          inert={isSelectMode ? '' : undefined}
+        >
+          {this.renderError()}
+          {this.renderAvatar()}
+          {this.renderContainer()}
+          {renderMenu?.()}
+        </div>
       </div>
     );
   }

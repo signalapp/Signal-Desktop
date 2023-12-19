@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { RowType } from '../../../components/ConversationList';
+import { RowType, _testHeaderText } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
@@ -14,7 +14,7 @@ describe('LeftPaneInboxHelper', () => {
   const defaultProps: LeftPaneInboxPropsType = {
     archivedConversations: [],
     conversations: [],
-    isAboutToSearchInAConversation: false,
+    isAboutToSearch: false,
     pinnedConversations: [],
     searchConversation: undefined,
     searchDisabled: false,
@@ -339,10 +339,10 @@ describe('LeftPaneInboxHelper', () => {
         pinnedConversations,
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'LeftPane--pinned',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'icu:LeftPane--pinned'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Conversation,
         conversation: pinnedConversations[0],
@@ -351,10 +351,10 @@ describe('LeftPaneInboxHelper', () => {
         type: RowType.Conversation,
         conversation: pinnedConversations[1],
       });
-      assert.deepEqual(helper.getRow(3), {
-        type: RowType.Header,
-        i18nKey: 'LeftPane--chats',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(3)),
+        'icu:LeftPane--chats'
+      );
       assert.deepEqual(helper.getRow(4), {
         type: RowType.Conversation,
         conversation: conversations[0],
@@ -388,10 +388,10 @@ describe('LeftPaneInboxHelper', () => {
         archivedConversations: [getDefaultConversation()],
       });
 
-      assert.deepEqual(helper.getRow(0), {
-        type: RowType.Header,
-        i18nKey: 'LeftPane--pinned',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(0)),
+        'icu:LeftPane--pinned'
+      );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.Conversation,
         conversation: pinnedConversations[0],
@@ -400,10 +400,10 @@ describe('LeftPaneInboxHelper', () => {
         type: RowType.Conversation,
         conversation: pinnedConversations[1],
       });
-      assert.deepEqual(helper.getRow(3), {
-        type: RowType.Header,
-        i18nKey: 'LeftPane--chats',
-      });
+      assert.deepEqual(
+        _testHeaderText(helper.getRow(3)),
+        'icu:LeftPane--chats'
+      );
       assert.deepEqual(helper.getRow(4), {
         type: RowType.Conversation,
         conversation: conversations[0],
@@ -616,7 +616,7 @@ describe('LeftPaneInboxHelper', () => {
     it("returns true if we're about to search in a conversation", () => {
       const helper = new LeftPaneInboxHelper({
         ...defaultProps,
-        isAboutToSearchInAConversation: true,
+        isAboutToSearch: true,
       });
 
       assert.isTrue(helper.requiresFullWidth());

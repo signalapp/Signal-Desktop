@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupV1MigrationDialog';
 import { GroupV1MigrationDialog } from './GroupV1MigrationDialog';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -48,15 +49,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/GroupV1MigrationDialog',
-};
+} satisfies Meta<PropsType>;
 
 export function NotYetMigratedBasic(): JSX.Element {
   return <GroupV1MigrationDialog {...createProps()} />;
 }
-
-NotYetMigratedBasic.story = {
-  name: 'Not yet migrated, basic',
-};
 
 export function MigratedBasic(): JSX.Element {
   return (
@@ -67,10 +64,6 @@ export function MigratedBasic(): JSX.Element {
     />
   );
 }
-
-MigratedBasic.story = {
-  name: 'Migrated, basic',
-};
 
 export function MigratedYouAreInvited(): JSX.Element {
   return (
@@ -83,10 +76,6 @@ export function MigratedYouAreInvited(): JSX.Element {
   );
 }
 
-MigratedYouAreInvited.story = {
-  name: 'Migrated, you are invited',
-};
-
 export function NotYetMigratedMultipleDroppedAndInvitedMembers(): JSX.Element {
   return (
     <GroupV1MigrationDialog
@@ -97,10 +86,6 @@ export function NotYetMigratedMultipleDroppedAndInvitedMembers(): JSX.Element {
     />
   );
 }
-
-NotYetMigratedMultipleDroppedAndInvitedMembers.story = {
-  name: 'Not yet migrated, multiple dropped and invited members',
-};
 
 export function NotYetMigratedNoMembers(): JSX.Element {
   return (
@@ -113,10 +98,6 @@ export function NotYetMigratedNoMembers(): JSX.Element {
   );
 }
 
-NotYetMigratedNoMembers.story = {
-  name: 'Not yet migrated, no members',
-};
-
 export function NotYetMigratedJustDroppedMember(): JSX.Element {
   return (
     <GroupV1MigrationDialog
@@ -126,7 +107,3 @@ export function NotYetMigratedJustDroppedMember(): JSX.Element {
     />
   );
 }
-
-NotYetMigratedJustDroppedMember.story = {
-  name: 'Not yet migrated, just dropped member',
-};

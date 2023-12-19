@@ -5,16 +5,16 @@ import type { ConversationModel } from '../../models/conversations';
 import type { LoggerType } from '../../types/Logging';
 import { getRecipients } from '../../util/getRecipients';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
-import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
 
 export function shouldSendToConversation(
   conversation: ConversationModel,
   log: LoggerType
 ): boolean {
   const recipients = getRecipients(conversation.attributes);
-  const untrustedUuids = getUntrustedConversationUuids(recipients);
+  const untrustedServiceIds = getUntrustedConversationServiceIds(recipients);
 
-  if (untrustedUuids.length) {
+  if (untrustedServiceIds.length) {
     log.info(
       `conversation ${conversation.idForLogging()} has untrusted recipients; refusing to send`
     );

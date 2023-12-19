@@ -14,19 +14,25 @@ import { deepEqual } from 'assert';
 import type { Rule } from './utils/rule';
 
 import icuPrefix from './rules/icuPrefix';
+import wrapEmoji from './rules/wrapEmoji';
 import onePlural from './rules/onePlural';
 import noLegacyVariables from './rules/noLegacyVariables';
 import noNestedChoice from './rules/noNestedChoice';
 import noOffset from './rules/noOffset';
+import noOneChoice from './rules/noOneChoice';
 import noOrdinal from './rules/noOrdinal';
+import pluralPound from './rules/pluralPound';
 
 const RULES = [
   icuPrefix,
+  wrapEmoji,
   noLegacyVariables,
   noNestedChoice,
   noOffset,
+  noOneChoice,
   noOrdinal,
   onePlural,
+  pluralPound,
 ];
 
 type Test = {
@@ -36,28 +42,55 @@ type Test = {
 
 const tests: Record<string, Test> = {
   'icu:err1': {
-    messageformat: '{a, plural, other {a}} {b, plural, other {b}}',
+    messageformat:
+      '{a, plural, one {a} other {as}} {b, plural, one {b} other {bs}}',
     expectErrors: ['onePlural'],
   },
   'icu:err2': {
-    messageformat: '{a, plural, other {{b, plural, other {b}}}}',
+    messageformat:
+      '{a, plural, one {a} other {{b, plural, one {b} other {bs}}}}',
     expectErrors: ['noNestedChoice', 'onePlural'],
   },
   'icu:err3': {
-    messageformat: '{a, select, other {{b, select, other {b}}}}',
+    messageformat:
+      '{a, select, one {a} other {{b, select, one {b} other {bs}}}}',
     expectErrors: ['noNestedChoice'],
   },
   'icu:err4': {
-    messageformat: '{a, plural, offset:1 other {a}}',
+    messageformat: '{a, plural, offset:1 one {a} other {as}}',
     expectErrors: ['noOffset'],
   },
+  'icu:noOneChoice:1': {
+    messageformat: '{a, plural, other {a}}',
+    expectErrors: ['noOneChoice'],
+  },
   'icu:err5': {
-    messageformat: '{a, selectordinal, other {a}}',
+    messageformat: '{a, selectordinal, one {a} other {as}}',
     expectErrors: ['noOrdinal'],
   },
   'icu:err6': {
     messageformat: '$a$',
     expectErrors: ['noLegacyVariables'],
+  },
+  'icu:wrapEmoji:1': {
+    messageformat: '👩',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:2': {
+    messageformat: '<emojify>👩 extra</emojify>',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:3': {
+    messageformat: '<emojify>👩👩</emojify>',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:4': {
+    messageformat: '<emojify>{emoji}</emojify>',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:5': {
+    messageformat: '<emojify>👩</emojify>',
+    expectErrors: [],
   },
 };
 
@@ -65,6 +98,7 @@ type Report = {
   id: string;
   message: string;
   location: Location | void;
+  locationOffset: number;
 };
 
 function lintMessage(
@@ -76,8 +110,8 @@ function lintMessage(
   for (const rule of rules) {
     rule.run(elements, {
       messageId,
-      report(message, location) {
-        reports.push({ id: rule.id, message, location });
+      report(message, location, locationOffset = 0) {
+        reports.push({ id: rule.id, message, location, locationOffset });
       },
     });
   }
@@ -151,11 +185,13 @@ async function lintMessages() {
         const line =
           icuMesssageLiteral.loc.start.line + (report.location.start.line - 1);
         const column =
-          icuMesssageLiteral.loc.start.column + report.location.start.column;
+          icuMesssageLiteral.loc.start.column +
+          report.location.start.column +
+          report.locationOffset;
         loc = `:${line}:${column}`;
       } else if (icuMesssageLiteral.loc != null) {
         const { line, column } = icuMesssageLiteral.loc.start;
-        loc = `:${line}:${column}`;
+        loc = `:${line}:${column + report.locationOffset}`;
       }
 
       // eslint-disable-next-line no-console

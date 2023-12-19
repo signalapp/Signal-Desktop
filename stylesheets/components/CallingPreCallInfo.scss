@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-CallingPreCallInfo {
+  margin-block-start: 15px;
   text-align: center;
   user-select: none;
 
@@ -26,4 +27,9 @@
     @include font-body-1;
     margin-top: 8px;
   }
+}
+
+.module-CallingPreCallInfo-spacer {
+  flex-basis: 64px;
+  margin-block-start: 25px;
 }

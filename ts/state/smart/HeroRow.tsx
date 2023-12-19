@@ -9,7 +9,7 @@ import { ConversationHero } from '../../components/conversation/ConversationHero
 import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
-import { getHasStoriesSelector } from '../selectors/stories';
+import { getHasStoriesSelector } from '../selectors/stories2';
 import { isSignalConversation } from '../../util/isSignalConversation';
 
 type ExternalProps = {

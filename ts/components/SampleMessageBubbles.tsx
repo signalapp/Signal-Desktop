@@ -79,7 +79,7 @@ export function SampleMessageBubbles({
         color={color}
         direction={includeAnotherBubble ? 'outgoing' : 'incoming'}
         i18n={i18n}
-        text={i18n('ChatColorPicker__sampleBubble1')}
+        text={i18n('icu:ChatColorPicker__sampleBubble1')}
         timestampDeltaFromNow={A_FEW_DAYS_AGO}
         status="read"
         style={firstBubbleStyle}
@@ -92,7 +92,7 @@ export function SampleMessageBubbles({
           <SampleMessage
             direction="incoming"
             i18n={i18n}
-            text={i18n('ChatColorPicker__sampleBubble2')}
+            text={i18n('icu:ChatColorPicker__sampleBubble2')}
             timestampDeltaFromNow={A_FEW_DAYS_AGO / 2}
             status="read"
           />
@@ -104,7 +104,7 @@ export function SampleMessageBubbles({
         color={color}
         direction="outgoing"
         i18n={i18n}
-        text={i18n('ChatColorPicker__sampleBubble3')}
+        text={i18n('icu:ChatColorPicker__sampleBubble3')}
         timestampDeltaFromNow={0}
         status="delivered"
         style={backgroundStyle}

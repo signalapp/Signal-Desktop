@@ -16,13 +16,15 @@ import { emojiToImage } from '../emoji/lib';
 // ts/components/emoji/Emoji.tsx
 // ts/quill/emoji/blot.tsx
 function getImageTag({
+  isInvisible,
+  key,
   match,
   sizeClass,
-  key,
 }: {
+  isInvisible?: boolean;
+  key: string | number;
   match: string;
   sizeClass?: SizeClassType;
-  key: string | number;
 }): JSX.Element | string {
   const img = emojiToImage(match);
 
@@ -35,40 +37,47 @@ function getImageTag({
       key={key}
       src={img}
       aria-label={match}
-      className={classNames('emoji', sizeClass)}
+      className={classNames(
+        'emoji',
+        sizeClass,
+        isInvisible ? 'emoji--invisible' : null
+      )}
       alt={match}
     />
   );
 }
 
 export type Props = {
-  text: string;
+  /** When behind a spoiler, this emoji needs to be visibility: hidden */
+  isInvisible?: boolean;
   /** A class name to be added to the generated emoji images */
   sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallbackType;
+  text: string;
 };
 
 const defaultRenderNonEmoji: RenderTextCallbackType = ({ text }) => text;
 
-export class Emojify extends React.Component<Props> {
-  public override render(): null | Array<JSX.Element | string | null> {
-    const {
-      text,
-      sizeClass,
-      renderNonEmoji = defaultRenderNonEmoji,
-    } = this.props;
+export function Emojify({
+  isInvisible,
+  renderNonEmoji = defaultRenderNonEmoji,
+  sizeClass,
+  text,
+}: Props): JSX.Element {
+  return (
+    <>
+      {splitByEmoji(text).map(({ type, value: match }, index) => {
+        if (type === 'emoji') {
+          return getImageTag({ isInvisible, match, sizeClass, key: index });
+        }
 
-    return splitByEmoji(text).map(({ type, value: match }, index) => {
-      if (type === 'emoji') {
-        return getImageTag({ match, sizeClass, key: index });
-      }
+        if (type === 'text') {
+          return renderNonEmoji({ text: match, key: index });
+        }
 
-      if (type === 'text') {
-        return renderNonEmoji({ text: match, key: index });
-      }
-
-      throw missingCaseError(type);
-    });
-  }
+        throw missingCaseError(type);
+      })}
+    </>
+  );
 }

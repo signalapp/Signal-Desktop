@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { noop } from 'lodash';
+import noop from 'lodash/noop';
 import type { LogFunction } from '../types/Logging';
 import { LogLevel } from '../types/Logging';
 

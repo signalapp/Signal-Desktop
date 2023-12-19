@@ -1,9 +1,13 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-$inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
-  'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
-  'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
+// Note: Add language-specific fallbacks in @localized-fonts mixin
+$inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
+  'Segoe UI', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Note: This font-family is checked for in matchMonospace, to support paste scenarios
+$monospace: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo,
+  Consolas, monospace;
 
 // -- V3 Colors
 
@@ -24,6 +28,7 @@ $color-gray-60: #5e5e5e;
 $color-gray-62: #545454;
 $color-gray-65: #4a4a4a;
 $color-gray-75: #3b3b3b;
+$color-gray-78: #343434;
 $color-gray-80: #2e2e2e;
 $color-gray-90: #1b1b1b;
 $color-gray-95: #121212;
@@ -32,6 +37,7 @@ $color-black: #000000;
 $color-white-alpha-06: rgba($color-white, 0.06);
 $color-white-alpha-08: rgba($color-white, 0.08);
 $color-white-alpha-12: rgba($color-white, 0.12);
+$color-white-alpha-16: rgba($color-white, 0.16);
 $color-white-alpha-20: rgba($color-white, 0.2);
 $color-white-alpha-40: rgba($color-white, 0.4);
 $color-white-alpha-60: rgba($color-white, 0.6);
@@ -42,6 +48,8 @@ $color-white-alpha-90: rgba($color-white, 0.9);
 $color-black-alpha-05: rgba($color-black, 0.05);
 $color-black-alpha-06: rgba($color-black, 0.06);
 $color-black-alpha-08: rgba($color-black, 0.08);
+// Equivalent to gray-05 on a white background
+$color-black-alpha-085: rgba($color-black, 0.085);
 $color-black-alpha-12: rgba($color-black, 0.12);
 $color-black-alpha-16: rgba($color-black, 0.16);
 $color-black-alpha-20: rgba($color-black, 0.2);
@@ -60,6 +68,7 @@ $color-ultramarine-dark: #1851b4;
 $color-ultramarine-icon: #3a76f0;
 $color-ultramarine-light: #6191f3;
 $color-ultramarine-dawn: #406ec9;
+$color-ultramarine-pastel: #abc4f8;
 $color-ultramarine: #2c6bed;
 
 // Flat colors
@@ -76,6 +85,8 @@ $color-violet: #9932c8;
 $color-plum: #aa377a;
 $color-taupe: #8f616a;
 $color-steel: #71717f;
+$color-bright-gray: #ebeae8;
+$color-borage-blue: #506ecd;
 
 // Gradient colors
 
@@ -226,7 +237,7 @@ $conversation-colors-gradient: (
   'tangerine': $color-tangerine,
 );
 
-// Used for the safety number change warning banner
+// Used for safety number change warning banner, progress bars and toasts
 $color-ios-blue-tint: #b0c8f9;
 
 // -- Non-V3 colors
@@ -246,7 +257,7 @@ $header-height: 52px;
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 
-$calling-background-color: $color-gray-95;
+$calling-background-color: $color-gray-90;
 
 // General
 
@@ -268,8 +279,19 @@ $z-index-window-controls: 10000;
 $z-index-story-meta: 3;
 $z-index-scroll-down-button: 10;
 $z-index-stories: 98;
-$z-index-calling: 100;
-$z-index-modal-host: 101;
-$z-index-above-popup: 101;
-$z-index-calling-pip: 103;
+$z-index-calling-container: 100;
+$z-index-calling: 101;
+$z-index-modal-host: 102;
+$z-index-above-popup: 103;
+$z-index-calling-pip: 104;
 $z-index-above-context-menu: 126;
+
+// global navTabs
+$NavTabs__width: 80px;
+// These values are 'block' specific to coordinate with the NavSidebar__Header
+$NavTabs__Item__blockPadding: 2px;
+$NavTabs__Toggle__blockPadding: 8px;
+$NavTabs__ItemButton__blockPadding: 10px;
+$CallControls__height: 80px;
+$CallControls__max-width: 600px;
+$CallControls__initial-width: 440px;

@@ -1,22 +1,22 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 import { ListTile } from './ListTile';
 import type { Props } from './ListTile';
-import { Emojify } from './conversation/Emojify';
 import { CircleCheckbox } from './CircleCheckbox';
+import { UserText } from './UserText';
 
 export default {
   title: 'Components/ListTile',
   component: ListTile,
-};
+} satisfies Meta<Props>;
 
 const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam feugiat quam vitae semper facilisis. Praesent eu efficitur dui. Donec semper mattis nisl non hendrerit.';
 
-function TemplateList(width: number): Story<Props> {
+function TemplateList(width: number): StoryFn<Props> {
   // eslint-disable-next-line react/display-name
   return args => {
     return (
@@ -45,15 +45,15 @@ function TemplateList(width: number): Story<Props> {
         <ListTile {...args} subtitle="Disabled" disabled />
         <ListTile
           {...args}
-          title={<Emojify text="Emoji in title 📞" />}
+          title={<UserText text="Emoji in title 📞" />}
           subtitle="Clickable"
           clickable
         />
         <ListTile
           {...args}
-          title={<Emojify text="With a LOT of emoji 🚗" />}
+          title={<UserText text="With a LOT of emoji 🚗" />}
           subtitle={
-            <Emojify text="😂, 😃, 🧘🏻‍♂️, 🌍, 🌦️, 🍞, 🚗, 📞, 🎉, ❤️, 🍆, 🍑 and 🏁" />
+            <UserText text="😂, 😃, 🧘🏻‍♂️, 🌍, 🌦️, 🍞, 🚗, 📞, 🎉, ❤️, 🍆, 🍑 and 🏁" />
           }
         />
         <ListTile
@@ -90,7 +90,7 @@ const circleAvatar = (
 export const Item = TemplateList(400).bind({});
 Item.args = {
   leading: circleAvatar,
-  title: <Emojify text="Some user" />,
+  title: <UserText text="Some user" />,
   subtitle: 'Hello my friend',
   clickable: true,
 };

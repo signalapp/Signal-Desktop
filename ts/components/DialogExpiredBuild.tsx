@@ -25,10 +25,10 @@ export function DialogExpiredBuild({
       onClick={() => {
         openLinkInWebBrowser('https://signal.org/download/');
       }}
-      clickLabel={i18n('upgrade')}
+      clickLabel={i18n('icu:upgrade')}
       hasAction
     >
-      {i18n('expiredWarning')}{' '}
+      {i18n('icu:expiredWarning')}{' '}
     </LeftPaneDialog>
   );
 }

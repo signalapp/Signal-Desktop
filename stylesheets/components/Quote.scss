@@ -4,12 +4,9 @@
 .module-quote {
   &__container {
     .module-message & {
-      margin: {
-        left: -6px;
-        right: -6px;
-        top: 3px;
-        bottom: 5px;
-      }
+      margin-inline: -4px;
+      margin-top: 0px;
+      margin-bottom: 8px;
     }
   }
 
@@ -17,15 +14,12 @@
   width: 100%;
 
   position: relative;
-  border-radius: 4px;
+  border-radius: 8px 8px 4px 4px;
 
   display: flex;
   flex-direction: row;
   align-items: stretch;
   overflow: hidden;
-
-  border-left-width: 4px;
-  border-left-style: solid;
 
   @include keyboard-mode {
     &:focus {
@@ -36,7 +30,7 @@
   &__reaction-emoji {
     bottom: 5px;
     position: absolute;
-    right: 25px;
+    inset-inline-end: 25px;
     z-index: $z-index-base;
 
     img.emoji {
@@ -47,7 +41,7 @@
     &--story-unavailable {
       align-items: flex-end;
       display: flex;
-      margin-left: 32px;
+      margin-inline-start: 32px;
       padding-bottom: 7px;
     }
   }
@@ -63,8 +57,11 @@
 }
 
 .module-quote--outgoing {
-  border-left-color: $color-steel;
   background-color: $color-steel;
+
+  .module-quote__primary {
+    border-inline-start-color: $color-steel;
+  }
 
   // To preserve contrast
   @include keyboard-mode {
@@ -77,7 +74,10 @@
 @each $color, $value in $conversation-colors {
   .module-quote--incoming-#{$color} {
     background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $value;
+
+    .module-quote__primary {
+      border-inline-start-color: $value;
+    }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
@@ -86,21 +86,29 @@
 
   .module-quote--outgoing-#{$color} {
     background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $color-white;
+
+    .module-quote__primary {
+      border-inline-start-color: $color-white;
+    }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
-      border-left-color: $color-white;
+      border-inline-start-color: $color-white;
     }
   }
 
   .module-quote--compose-#{$color} {
     background-color: scale-color($value, $lightness: 60%);
-    border-left-color: $value;
+
+    .module-quote__primary {
+      border-inline-start-color: $value;
+    }
 
     @include dark-theme {
       background-color: scale-color($value, $lightness: -40%);
-      border-left-color: $color-white;
+      .module-quote__primary {
+        border-inline-start-color: $color-white;
+      }
     }
   }
 }
@@ -114,7 +122,10 @@
 @each $color, $value in $conversation-colors-gradient {
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color} {
-    border-left-color: map-get($value, 'start');
+    .module-quote__primary,
+    &.module-quote__reference-warning {
+      border-inline-start-color: map-get($value, 'start');
+    }
   }
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color},
@@ -122,10 +133,11 @@
     background-attachment: fixed;
     @include light-theme {
       background-image: linear-gradient(
-        map-get($value, 'deg'),
-        scale-color(map-get($value, 'start'), $lightness: 60%),
-        scale-color(map-get($value, 'end'), $lightness: 60%)
-      );
+          map-get($value, 'deg'),
+          scale-color(map-get($value, 'start'), $lightness: 60%),
+          scale-color(map-get($value, 'end'), $lightness: 60%)
+        ),
+        linear-gradient(red, blue);
     }
     @include dark-theme {
       background-image: linear-gradient(
@@ -136,19 +148,23 @@
     }
   }
   .module-quote--outgoing-#{$color} {
-    border-left-color: $color-white;
+    .module-quote__primary,
+    &.module-quote__reference-warning {
+      border-inline-start-color: $color-white;
+    }
   }
 }
 
 .module-quote__primary {
   flex-grow: 1;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-inline: 8px;
   padding-top: 7px;
   padding-bottom: 7px;
 
   // To leave room for image thumbnail
   min-height: 54px;
+  border-style: solid;
+  border-width: 0 0 0 4px;
 }
 
 .module-quote__primary__author {
@@ -234,7 +250,7 @@
 .module-quote__close-container {
   position: absolute;
   top: 4px;
-  right: 4px;
+  inset-inline-end: 4px;
   height: 16px;
   width: 16px;
 
@@ -255,13 +271,9 @@
   width: 14px;
   height: 14px;
 
-  position: absolute;
-  left: 50%;
-  top: 50%;
+  @include position-absolute-center;
 
-  transform: translate(-50%, -50%);
-
-  @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+  @include color-svg('../images/icons/v3/x/x.svg', $color-white);
 }
 
 .module-quote__icon-container {
@@ -288,9 +300,8 @@
 .module-quote__icon-container__inner {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline: 0;
   bottom: 0;
-  left: 0;
 
   text-align: center;
   display: flex;
@@ -315,20 +326,20 @@
 }
 
 .module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', $color-ultramarine);
+  @include color-svg('../images/icons/v3/file/file.svg', $color-ultramarine);
 }
 .module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', $color-ultramarine);
-}
-.module-quote__icon-container__icon--microphone {
   @include color-svg(
-    '../images/icons/v2/mic-outline-24.svg',
+    '../images/icons/v3/photo/photo-square.svg',
     $color-ultramarine
   );
 }
+.module-quote__icon-container__icon--microphone {
+  @include color-svg('../images/icons/v3/mic/mic.svg', $color-ultramarine);
+}
 .module-quote__icon-container__icon--play {
   @include color-svg(
-    '../images/icons/v2/play-solid-24.svg',
+    '../images/icons/v3/play/play-fill.svg',
     $color-ultramarine
   );
 }
@@ -336,7 +347,10 @@
   @include color-svg('../images/movie.svg', $color-ultramarine);
 }
 .module-quote__icon-container__icon--view-once {
-  @include color-svg('../images/icons/v2/view-once-24.svg', $color-ultramarine);
+  @include color-svg(
+    '../images/icons/v3/view_once/view_once.svg',
+    $color-ultramarine
+  );
 }
 
 .module-quote__generic-file {
@@ -350,8 +364,7 @@
   background-repeat: no-repeat;
   height: 28px;
   width: 36px;
-  margin-left: -4px;
-  margin-right: -6px;
+  margin-inline: -4px -6px;
   margin-bottom: 5px;
 }
 .module-quote__generic-file__text {
@@ -385,10 +398,9 @@
 
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  border-left-style: solid;
+  border-inline-start-style: solid;
   border-left-width: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-inline: 8px;
 }
 
 .module-quote__reference-warning__icon {
@@ -396,26 +408,38 @@
   width: 16px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-90
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-05
+    );
   }
 }
 
 .module-quote__reference-warning__icon--incoming {
   @include light-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-90
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-05
+    );
   }
 }
 
 .module-quote__reference-warning__text {
   @include font-caption;
 
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   @include light-theme {
     color: $color-gray-90;
@@ -428,5 +452,25 @@
 .module-quote__reference-warning__text--incoming {
   @include dark-theme {
     color: $color-gray-05;
+  }
+}
+
+.module-message {
+  .module-message__author + .module-quote__container {
+    margin-top: 3px;
+    .module-quote {
+      border-radius: 4px 4px 4px 4px;
+    }
+  }
+}
+
+.module-message--incoming.module-message--collapsed-above {
+  .module-quote {
+    border-top-left-radius: 4px;
+  }
+}
+.module-message--outgoing.module-message--collapsed-above {
+  .module-quote {
+    border-top-right-radius: 4px;
   }
 }

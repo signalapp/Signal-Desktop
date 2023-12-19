@@ -3,8 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, select } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import type { Props } from './ShortcutGuide';
@@ -14,23 +13,13 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/ShortcutGuide',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   close: action('close'),
-  hasInstalledStickers: boolean(
-    'hasInstalledStickers',
-    overrideProps.hasInstalledStickers || false
-  ),
-  platform: select(
-    'platform',
-    {
-      macOS: 'darwin',
-      other: 'other',
-    },
-    overrideProps.platform || 'other'
-  ),
+  hasInstalledStickers: overrideProps.hasInstalledStickers === true || false,
+  platform: overrideProps.platform || 'other',
 });
 
 export function Default(): JSX.Element {

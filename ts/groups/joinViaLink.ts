@@ -13,7 +13,6 @@ import * as log from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { SignalService as Proto } from '../protobuf';
 import { ToastType } from '../types/Toast';
-import { UUIDKind } from '../types/UUID';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -30,25 +29,26 @@ import { isAccessControlEnabled } from './util';
 import { isGroupV1 } from '../util/whatTypeOfConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { sleep } from '../util/sleep';
+import { dropNull } from '../util/dropNull';
 
-export async function joinViaLink(hash: string): Promise<void> {
+export async function joinViaLink(value: string): Promise<void> {
   let inviteLinkPassword: string;
   let masterKey: string;
   try {
-    ({ inviteLinkPassword, masterKey } = parseGroupLink(hash));
+    ({ inviteLinkPassword, masterKey } = parseGroupLink(value));
   } catch (error: unknown) {
     const errorString = Errors.toLogFormat(error);
     log.error(`joinViaLink: Failed to parse group link ${errorString}`);
 
     if (error instanceof Error && error.name === LINK_VERSION_ERROR) {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--unknown-link-version'),
-        title: window.i18n('GroupV2--join--unknown-link-version--title'),
+        description: window.i18n('icu:GroupV2--join--unknown-link-version'),
+        title: window.i18n('icu:GroupV2--join--unknown-link-version--title'),
       });
     } else {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--invalid-link'),
-        title: window.i18n('GroupV2--join--invalid-link--title'),
+        description: window.i18n('icu:GroupV2--join--invalid-link'),
+        title: window.i18n('icu:GroupV2--join--invalid-link--title'),
       });
     }
     return;
@@ -63,16 +63,18 @@ export async function joinViaLink(hash: string): Promise<void> {
   const existingConversation =
     window.ConversationController.get(id) ||
     window.ConversationController.getByDerivedGroupV2Id(id);
-  const ourUuid = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-  if (existingConversation && existingConversation.hasMember(ourUuid)) {
+  if (existingConversation && existingConversation.hasMember(ourAci)) {
     log.warn(
       `joinViaLink/${logId}: Already a member of group, opening conversation`
     );
     window.reduxActions.conversations.showConversation({
       conversationId: existingConversation.id,
     });
-    window.reduxActions.toast.showToast(ToastType.AlreadyGroupMember);
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.AlreadyGroupMember,
+    });
     return;
   }
 
@@ -98,30 +100,30 @@ export async function joinViaLink(hash: string): Promise<void> {
       error.responseHeaders['x-signal-forbidden-reason']
     ) {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--link-forbidden'),
-        title: window.i18n('GroupV2--join--link-forbidden--title'),
+        description: window.i18n('icu:GroupV2--join--link-forbidden'),
+        title: window.i18n('icu:GroupV2--join--link-forbidden--title'),
       });
     } else if (error instanceof HTTPError && error.code === 403) {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--link-revoked'),
-        title: window.i18n('GroupV2--join--link-revoked--title'),
+        description: window.i18n('icu:GroupV2--join--link-revoked'),
+        title: window.i18n('icu:GroupV2--join--link-revoked--title'),
       });
     } else {
       window.reduxActions.globalModals.showErrorModal({
-        description: window.i18n('GroupV2--join--general-join-failure'),
-        title: window.i18n('GroupV2--join--general-join-failure--title'),
+        description: window.i18n('icu:GroupV2--join--general-join-failure'),
+        title: window.i18n('icu:GroupV2--join--general-join-failure--title'),
       });
     }
     return;
   }
 
-  if (!isAccessControlEnabled(result.addFromInviteLink)) {
+  if (!isAccessControlEnabled(dropNull(result.addFromInviteLink))) {
     log.error(
       `joinViaLink/${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );
     window.reduxActions.globalModals.showErrorModal({
-      description: window.i18n('GroupV2--join--link-revoked'),
-      title: window.i18n('GroupV2--join--link-revoked--title'),
+      description: window.i18n('icu:GroupV2--join--link-revoked'),
+      title: window.i18n('icu:GroupV2--join--link-revoked--title'),
     });
     return;
   }
@@ -137,17 +139,17 @@ export async function joinViaLink(hash: string): Promise<void> {
     result.addFromInviteLink ===
     Proto.AccessControl.AccessRequired.ADMINISTRATOR;
   const title =
-    decryptGroupTitle(result.title, secretParams) ||
-    window.i18n('unknownGroup');
+    decryptGroupTitle(dropNull(result.title), secretParams) ||
+    window.i18n('icu:unknownGroup');
   const groupDescription = decryptGroupDescription(
-    result.descriptionBytes,
+    dropNull(result.descriptionBytes),
     secretParams
   );
 
   if (
     approvalRequired &&
     existingConversation &&
-    existingConversation.isMemberAwaitingApproval(ourUuid)
+    existingConversation.isMemberAwaitingApproval(ourAci)
   ) {
     log.warn(
       `joinViaLink/${logId}: Already awaiting approval, opening conversation`
@@ -166,7 +168,9 @@ export async function joinViaLink(hash: string): Promise<void> {
       conversationId: existingConversation.id,
     });
 
-    window.reduxActions.toast.showToast(ToastType.AlreadyRequestedToJoin);
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.AlreadyRequestedToJoin,
+    });
     return;
   }
 
@@ -242,9 +246,9 @@ export async function joinViaLink(hash: string): Promise<void> {
           //   via some other process. If so, just open that conversation.
           if (
             targetConversation &&
-            (targetConversation.hasMember(ourUuid) ||
+            (targetConversation.hasMember(ourAci) ||
               (approvalRequired &&
-                targetConversation.isMemberAwaitingApproval(ourUuid)))
+                targetConversation.isMemberAwaitingApproval(ourAci)))
           ) {
             log.warn(
               `joinViaLink/${logId}: User is part of group on second check, opening conversation`
@@ -311,8 +315,9 @@ export async function joinViaLink(hash: string): Promise<void> {
                     : undefined,
                 description: groupDescription,
                 groupInviteLinkPassword: inviteLinkPassword,
+                left: true,
                 name: title,
-                revision: result.version,
+                revision: dropNull(result.version),
                 temporaryMemberCount: memberCount,
                 timestamp,
               });

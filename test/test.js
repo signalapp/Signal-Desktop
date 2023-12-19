@@ -1,8 +1,6 @@
 // Copyright 2014 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Whisper, _, Backbone */
-
 /*
  * global helpers for tests
  */
@@ -18,31 +16,21 @@ function deleteIndexedDB() {
   });
 }
 
+window.Events = {
+  getThemeSetting: () => 'light',
+};
+
 /* Delete the database before running any tests */
 before(async () => {
-  window.Signal.Util.MessageController.install();
-
+  await window.testUtilities.initialize();
   await deleteIndexedDB();
-  try {
-    window.SignalContext.log.info('Initializing SQL in renderer');
-    const isTesting = true;
-    await window.Signal.Data.startInRenderer(isTesting);
-    window.SignalContext.log.info('SQL initialized in renderer');
-  } catch (err) {
-    window.SignalContext.log.error(
-      'SQL failed to initialize',
-      err && err.stack ? err.stack : err
-    );
-  }
-  await window.Signal.Util.initializeMessageCounter();
   await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });
 
-window.textsecure.storage.protocol = window.getSignalProtocolStore();
-
 window.testUtilities.prepareTests();
 delete window.testUtilities.prepareTests;
+window.textsecure.storage.protocol = window.getSignalProtocolStore();
 
 !(function () {
   const passed = [];
@@ -70,3 +58,6 @@ delete window.testUtilities.prepareTests;
 
   mocha.run();
 })();
+
+window.getPreferredSystemLocales = () => ['en'];
+window.getLocaleOverride = () => null;

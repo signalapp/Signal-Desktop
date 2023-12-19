@@ -23,8 +23,7 @@
     border-radius: 4px;
     cursor: pointer;
     display: inline-block;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-inline: 4px;
     border: 1px solid transparent;
 
     @include light-theme {
@@ -52,6 +51,10 @@
 
     &--outgoing {
       background-color: $color-black-alpha-40;
+    }
+
+    &--invisible {
+      visibility: hidden;
     }
   }
 

@@ -41,45 +41,46 @@ export type Props = PropsData & PropsHousekeeping;
 export function TimerNotification(props: Props): JSX.Element {
   const { disabled, i18n, title, type } = props;
 
-  let changeKey: string;
   let timespan: string;
-  if (props.disabled) {
-    changeKey = 'disabledDisappearingMessages';
+  if (disabled) {
     timespan = ''; // Set to the empty string to satisfy types
   } else {
-    changeKey = 'theyChangedTheTimer';
     timespan = expirationTimer.format(i18n, props.expireTimer);
   }
+
+  const name = <ContactName key="external-1" title={title} />;
 
   let message: ReactNode;
   switch (type) {
     case 'fromOther':
-      message = (
-        // eslint-disable-next-line local-rules/valid-i18n-keys
+      message = disabled ? (
         <Intl
           i18n={i18n}
-          id={changeKey}
-          components={{
-            name: <ContactName key="external-1" title={title} />,
-            time: timespan,
-          }}
+          id="icu:disabledDisappearingMessages"
+          components={{ name }}
+        />
+      ) : (
+        <Intl
+          i18n={i18n}
+          id="icu:theyChangedTheTimer"
+          components={{ name, time: timespan }}
         />
       );
       break;
     case 'fromMe':
       message = disabled
-        ? i18n('youDisabledDisappearingMessages')
-        : i18n('youChangedTheTimer', [timespan]);
+        ? i18n('icu:youDisabledDisappearingMessages')
+        : i18n('icu:youChangedTheTimer', { time: timespan });
       break;
     case 'fromSync':
       message = disabled
-        ? i18n('disappearingMessagesDisabled')
-        : i18n('timerSetOnSync', [timespan]);
+        ? i18n('icu:disappearingMessagesDisabled')
+        : i18n('icu:timerSetOnSync', { time: timespan });
       break;
     case 'fromMember':
       message = disabled
-        ? i18n('disappearingMessagesDisabledByMember')
-        : i18n('timerSetByMember', [timespan]);
+        ? i18n('icu:disappearingMessagesDisabledByMember')
+        : i18n('icu:timerSetByMember', { time: timespan });
       break;
     default:
       log.warn('TimerNotification: unsupported type provided:', type);

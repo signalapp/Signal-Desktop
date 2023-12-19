@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 
 import type { Props } from './Intl';
@@ -14,43 +14,44 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'Components/Intl',
   component: Intl,
-} as Meta;
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   id: overrideProps.id || '',
   components: overrideProps.components,
-  renderText: overrideProps.renderText,
 });
 
 // eslint-disable-next-line max-len
 // eslint-disable-next-line react/function-component-definition, local-rules/valid-i18n-keys
-const Template: Story<Props> = args => <Intl {...args} />;
+const Template: StoryFn<Props> = args => <Intl {...args} />;
 
 export const NoReplacements = Template.bind({});
 NoReplacements.args = createProps({
-  id: 'deleteAndRestart',
+  id: 'icu:deleteAndRestart',
 });
 
 export const SingleStringReplacement = Template.bind({});
 SingleStringReplacement.args = createProps({
-  id: 'leftTheGroup',
-  components: ['Theodora'],
+  id: 'icu:leftTheGroup',
+  components: { name: 'Theodora' },
 });
 
 export const SingleTagReplacement = Template.bind({});
 SingleTagReplacement.args = createProps({
-  id: 'leftTheGroup',
-  components: [
-    <button type="button" key="a-button">
-      Theodora
-    </button>,
-  ],
+  id: 'icu:leftTheGroup',
+  components: {
+    name: (
+      <button type="button" key="a-button">
+        Theodora
+      </button>
+    ),
+  },
 });
 
 export const MultipleStringReplacement = Template.bind({});
 MultipleStringReplacement.args = createProps({
-  id: 'changedRightAfterVerify',
+  id: 'icu:changedRightAfterVerify',
   components: {
     name1: 'Fred',
     name2: 'The Fredster',
@@ -59,19 +60,22 @@ MultipleStringReplacement.args = createProps({
 
 export const MultipleTagReplacement = Template.bind({});
 MultipleTagReplacement.args = createProps({
-  id: 'changedRightAfterVerify',
+  id: 'icu:changedRightAfterVerify',
   components: {
     name1: <b>Fred</b>,
     name2: <b>The Fredster</b>,
   },
 });
 
-export const CustomRender = Template.bind({});
-CustomRender.args = createProps({
-  id: 'deleteAndRestart',
-  renderText: ({ text: theText, key }) => (
-    <div style={{ backgroundColor: 'purple', color: 'orange' }} key={key}>
-      {theText}
-    </div>
-  ),
-});
+export function Emoji(): JSX.Element {
+  const customI18n = setupI18n('en', {
+    'icu:emoji': {
+      messageformat: '<emojify>👋</emojify> Hello, world!',
+    },
+  });
+
+  return (
+    // eslint-disable-next-line local-rules/valid-i18n-keys
+    <Intl i18n={customI18n} id="icu:emoji" />
+  );
+}

@@ -4,17 +4,16 @@
 .module-InstallScreenErrorStep {
   @include install-screen;
   flex-direction: column;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-inline: 2rem;
   text-align: center;
 
   &__buttons {
     margin-top: 1rem;
 
     .module-Button {
-      margin-left: 1rem;
+      margin-inline-start: 1rem;
       &:first-child {
-        margin-left: 0;
+        margin-inline-start: 0;
       }
     }
   }

@@ -27,7 +27,8 @@
     border-radius: 4px;
     display: flex;
     justify-content: center;
-    padding: 3px 0;
+    padding-block: 3px;
+    padding-inline: 0;
 
     &[disabled] {
       visibility: hidden;
@@ -62,13 +63,13 @@
     &--previous::before {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $light-color
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $dark-color
         );
       }
@@ -77,13 +78,13 @@
     &--next::before {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-right-24.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $light-color
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-right-24.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $dark-color
         );
       }
@@ -93,7 +94,8 @@
   &__main {
     flex-grow: 1;
     text-align: center;
-    padding: 24px 10px;
+    padding-block: 24px;
+    padding-inline: 10px;
   }
 
   &__name {

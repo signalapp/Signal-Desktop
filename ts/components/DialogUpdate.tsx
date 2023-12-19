@@ -7,6 +7,7 @@ import formatFileSize from 'filesize';
 import { isBeta } from '../util/version';
 import { DialogType } from '../types/Dialogs';
 import type { LocalizerType } from '../types/Util';
+import { PRODUCTION_DOWNLOAD_URL, BETA_DOWNLOAD_URL } from '../types/support';
 import { Intl } from './Intl';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';
@@ -23,9 +24,6 @@ export type PropsType = {
   version?: string;
   currentVersion: string;
 };
-
-const PRODUCTION_DOWNLOAD_URL = 'https://signal.org/download/';
-const BETA_DOWNLOAD_URL = 'https://support.signal.org/beta';
 
 export function DialogUpdate({
   containerWidthBreakpoint,
@@ -47,7 +45,7 @@ export function DialogUpdate({
       <LeftPaneDialog
         containerWidthBreakpoint={containerWidthBreakpoint}
         type="warning"
-        title={i18n('cannotUpdate')}
+        title={i18n('icu:cannotUpdate')}
       >
         <span>
           <Intl
@@ -59,7 +57,7 @@ export function DialogUpdate({
                   onClick={startUpdate}
                   type="button"
                 >
-                  {i18n('autoUpdateRetry')}
+                  {i18n('icu:autoUpdateRetry')}
                 </button>
               ),
               url: (
@@ -79,12 +77,12 @@ export function DialogUpdate({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  {i18n('autoUpdateContactSupport')}
+                  {i18n('icu:autoUpdateContactSupport')}
                 </a>
               ),
             }}
             i18n={i18n}
-            id="cannotUpdateDetail"
+            id="icu:cannotUpdateDetail"
           />
         </span>
       </LeftPaneDialog>
@@ -99,7 +97,7 @@ export function DialogUpdate({
       <LeftPaneDialog
         containerWidthBreakpoint={containerWidthBreakpoint}
         type="warning"
-        title={i18n('cannotUpdate')}
+        title={i18n('icu:cannotUpdate')}
       >
         <span>
           <Intl
@@ -121,12 +119,12 @@ export function DialogUpdate({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  {i18n('autoUpdateContactSupport')}
+                  {i18n('icu:autoUpdateContactSupport')}
                 </a>
               ),
             }}
             i18n={i18n}
-            id="cannotUpdateRequireManualDetail"
+            id="icu:cannotUpdateRequireManualDetail"
           />
         </span>
       </LeftPaneDialog>
@@ -136,11 +134,11 @@ export function DialogUpdate({
   if (dialogType === DialogType.MacOS_Read_Only) {
     return (
       <LeftPaneDialog
-        closeLabel={i18n('close')}
+        closeLabel={i18n('icu:close')}
         containerWidthBreakpoint={containerWidthBreakpoint}
         hasXButton
         onClose={dismissDialog}
-        title={i18n('cannotUpdate')}
+        title={i18n('icu:cannotUpdate')}
         type="warning"
       >
         <span>
@@ -150,7 +148,7 @@ export function DialogUpdate({
               folder: <strong key="folder">/Applications</strong>,
             }}
             i18n={i18n}
-            id="readOnlyVolume"
+            id="icu:readOnlyVolume"
           />
         </span>
       </LeftPaneDialog>
@@ -162,19 +160,10 @@ export function DialogUpdate({
     return null;
   }
 
-  let title = i18n('autoUpdateNewVersionTitle');
-
-  if (
-    downloadSize &&
-    (dialogType === DialogType.DownloadReady ||
-      dialogType === DialogType.FullDownloadReady ||
-      dialogType === DialogType.Downloading)
-  ) {
-    title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
-  }
-
   const versionTitle = version
-    ? i18n('DialogUpdate--version-available', [version])
+    ? i18n('icu:DialogUpdate--version-available', {
+        version,
+      })
     : undefined;
 
   if (dialogType === DialogType.Downloading) {
@@ -186,7 +175,7 @@ export function DialogUpdate({
       <LeftPaneDialog
         containerWidthBreakpoint={containerWidthBreakpoint}
         icon="update"
-        title={title}
+        title={i18n('icu:DialogUpdate__downloading')}
         hoverText={versionTitle}
       >
         <div className="LeftPaneDialog__progress--container">
@@ -199,15 +188,25 @@ export function DialogUpdate({
     );
   }
 
-  let clickLabel: string;
+  let title = i18n('icu:autoUpdateNewVersionTitle');
+
+  if (
+    downloadSize &&
+    (dialogType === DialogType.DownloadReady ||
+      dialogType === DialogType.FullDownloadReady)
+  ) {
+    title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
+  }
+
+  let clickLabel = i18n('icu:autoUpdateNewVersionMessage');
   let type: 'warning' | undefined;
   if (dialogType === DialogType.DownloadReady) {
-    clickLabel = i18n('downloadNewVersionMessage');
+    clickLabel = i18n('icu:downloadNewVersionMessage');
   } else if (dialogType === DialogType.FullDownloadReady) {
-    clickLabel = i18n('downloadFullNewVersionMessage');
+    clickLabel = i18n('icu:downloadFullNewVersionMessage');
     type = 'warning';
-  } else {
-    clickLabel = i18n('autoUpdateNewVersionMessage');
+  } else if (dialogType === DialogType.DownloadedUpdate) {
+    title = i18n('icu:DialogUpdate__downloaded');
   }
 
   return (
@@ -222,7 +221,7 @@ export function DialogUpdate({
       clickLabel={clickLabel}
       hasXButton
       onClose={snoozeUpdate}
-      closeLabel={i18n('autoUpdateIgnoreButtonLabel')}
+      closeLabel={i18n('icu:autoUpdateIgnoreButtonLabel')}
     />
   );
 }

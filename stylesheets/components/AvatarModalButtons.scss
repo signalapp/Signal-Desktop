@@ -4,9 +4,9 @@
 .AvatarModalButtons {
   bottom: 0;
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
 
   .module-Button {
-    margin-left: 12px;
+    margin-inline-start: 12px;
   }
 }

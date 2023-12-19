@@ -5,38 +5,32 @@ import { get, throttle } from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as log from './logging/log';
-import type { UUIDStringType } from './types/UUID';
+import type { AciString } from './types/ServiceId';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
+import { SECOND, HOUR } from './util/durations';
 import * as Bytes from './Bytes';
-import { hash, uuidToBytes } from './Crypto';
+import { uuidToBytes } from './util/uuidToBytes';
+import { dropNull } from './util/dropNull';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
-  | 'desktop.announcementGroup'
-  | 'desktop.calling.audioLevelForSpeaking'
+  | 'cds.disableCompatibilityMode'
+  | 'desktop.calling.sendScreenShare1800'
   | 'desktop.cdsi.returnAcisWithoutUaks'
   | 'desktop.clientExpiration'
-  | 'desktop.groupCallOutboundRing2'
-  | 'desktop.groupCallOutboundRing2.beta'
+  | 'desktop.groupMultiTypingIndicators'
   | 'desktop.internalUser'
-  | 'desktop.mandatoryProfileSharing'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
-  | 'desktop.messageRequests'
   | 'desktop.pnp'
-  | 'desktop.retryReceiptLifespan'
+  | 'desktop.pnp.accountE164Deprecation'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.senderKey.retry'
-  | 'desktop.senderKey.send'
   | 'desktop.senderKeyMaxAge'
-  | 'desktop.sendSenderKey3'
-  | 'desktop.showUserBadges.beta'
-  | 'desktop.showUserBadges2'
-  | 'desktop.stories2'
-  | 'desktop.stories2.beta'
   | 'desktop.usernames'
   | 'global.attachments.maxBytes'
+  | 'global.attachments.maxReceiveBytes'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
@@ -47,7 +41,7 @@ type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
   enabledAt?: number;
-  value?: unknown;
+  value?: string;
 };
 export type ConfigMapType = {
   [key in ConfigKeyType]?: ConfigValueType;
@@ -82,7 +76,15 @@ export const refreshRemoteConfig = async (
   server: WebAPIType
 ): Promise<void> => {
   const now = Date.now();
-  const newConfig = await server.getConfig();
+  const { config: newConfig, serverEpochTime } = await server.getConfig();
+  const serverTimeSkew = serverEpochTime * SECOND - now;
+
+  if (Math.abs(serverTimeSkew) > HOUR) {
+    log.warn(
+      'Remote Config: sever clock skew detected. ' +
+        `Server time ${serverEpochTime * SECOND}, local time ${now}`
+    );
+  }
 
   // Process new configuration in light of the old configuration
   // The old configuration is not set as the initial value in reduce because
@@ -90,7 +92,11 @@ export const refreshRemoteConfig = async (
   const oldConfig = config;
   config = newConfig.reduce((acc, { name, enabled, value }) => {
     const previouslyEnabled: boolean = get(oldConfig, [name, 'enabled'], false);
-    const previousValue: unknown = get(oldConfig, [name, 'value'], undefined);
+    const previousValue: string | undefined = get(
+      oldConfig,
+      [name, 'value'],
+      undefined
+    );
     // If a flag was previously not enabled and is now enabled,
     // record the time it was enabled
     const enabledAt: number | undefined =
@@ -100,7 +106,7 @@ export const refreshRemoteConfig = async (
       name: name as ConfigKeyType,
       enabled,
       enabledAt,
-      value,
+      value: dropNull(value),
     };
 
     const hasChanged =
@@ -123,6 +129,7 @@ export const refreshRemoteConfig = async (
   }, {});
 
   await window.storage.put('remoteConfig', config);
+  await window.storage.put('serverTimeSkew', serverTimeSkew);
 };
 
 export const maybeRefreshRemoteConfig = throttle(
@@ -144,18 +151,18 @@ export function getValue(name: ConfigKeyType): string | undefined {
 export function isBucketValueEnabled(
   name: ConfigKeyType,
   e164: string | undefined,
-  uuid: UUIDStringType | undefined
+  aci: AciString | undefined
 ): boolean {
-  return innerIsBucketValueEnabled(name, getValue(name), e164, uuid);
+  return innerIsBucketValueEnabled(name, getValue(name), e164, aci);
 }
 
 export function innerIsBucketValueEnabled(
   name: ConfigKeyType,
   flagValue: unknown,
   e164: string | undefined,
-  uuid: UUIDStringType | undefined
+  aci: AciString | undefined
 ): boolean {
-  if (e164 == null || uuid == null) {
+  if (e164 == null || aci == null) {
     return false;
   }
 
@@ -173,7 +180,7 @@ export function innerIsBucketValueEnabled(
     return false;
   }
 
-  const bucketValue = getBucketValue(uuid, name);
+  const bucketValue = getBucketValue(aci, name);
   return bucketValue < remoteConfigValue;
 }
 
@@ -212,13 +219,15 @@ export function getCountryCodeValue(
   return wildcard;
 }
 
-export function getBucketValue(uuid: UUIDStringType, flagName: string): number {
+export function getBucketValue(aci: AciString, flagName: string): number {
   const hashInput = Bytes.concatenate([
     Bytes.fromString(`${flagName}.`),
-    uuidToBytes(uuid),
+    uuidToBytes(aci),
   ]);
-  const hashResult = hash(HashType.size256, hashInput);
-  const buffer = Buffer.from(hashResult.slice(0, 8));
+  const hashResult = window.SignalContext.crypto.hash(
+    HashType.size256,
+    hashInput
+  );
 
-  return Number(buffer.readBigUint64BE() % 1_000_000n);
+  return Number(Bytes.readBigUint64BE(hashResult.slice(0, 8)) % 1_000_000n);
 }

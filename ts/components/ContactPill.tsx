@@ -42,7 +42,7 @@ export function ContactPill({
   unblurredAvatarPath,
   onClickRemove,
 }: PropsType): JSX.Element {
-  const removeLabel = i18n('ContactPill--remove');
+  const removeLabel = i18n('icu:ContactPill--remove');
 
   return (
     <div className="module-ContactPill">
@@ -59,7 +59,7 @@ export function ContactPill({
         profileName={profileName}
         title={title}
         sharedGroupNames={sharedGroupNames}
-        size={AvatarSize.TWENTY_EIGHT}
+        size={AvatarSize.TWENTY}
         unblurredAvatarPath={unblurredAvatarPath}
       />
       <ContactName

@@ -19,13 +19,14 @@ import type { ConversationType } from '../ducks/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getMessages,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getConversationMessagesSelector,
   getConversationSelector,
   getConversationsByTitleSelector,
   getInvitedContactsForNewlyCreatedGroup,
-  getSelectedMessage,
+  getTargetedMessage,
 } from '../selectors/conversations';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer';
 
 import { SmartTimelineItem } from './TimelineItem';
 import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
@@ -46,6 +47,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 import type { WidthBreakpoint } from '../../components/_util';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { SmartMiniPlayer } from './MiniPlayer';
 
 type ExternalProps = {
   id: string;
@@ -93,8 +95,11 @@ function renderContactSpoofingReviewDialog(
 function renderHeroRow(id: string): JSX.Element {
   return <SmartHeroRow id={id} />;
 }
-function renderTypingBubble(id: string): JSX.Element {
-  return <SmartTypingBubble id={id} />;
+function renderMiniPlayer(options: { shouldFlow: boolean }): JSX.Element {
+  return <SmartMiniPlayer {...options} />;
+}
+function renderTypingBubble(conversationId: string): JSX.Element {
+  return <SmartTypingBubble conversationId={conversationId} />;
 }
 
 const getWarning = (
@@ -134,11 +139,12 @@ const getWarning = (
         return undefined;
       }
 
-      const getConversationByUuid = getConversationByUuidSelector(state);
+      const getConversationByServiceId =
+        getConversationByServiceIdSelector(state);
 
       const { memberships } = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       );
       const groupNameCollisions = getCollisionsFromMemberships(memberships);
       const hasGroupMembersWithSameName = !isEmpty(groupNameCollisions);
@@ -169,7 +175,7 @@ const getContactSpoofingReview = (
   }
 
   const conversationSelector = getConversationSelector(state);
-  const getConversationByUuid = getConversationByUuidSelector(state);
+  const getConversationByServiceId = getConversationByServiceIdSelector(state);
 
   const currentConversation = conversationSelector(selectedConversationId);
 
@@ -189,7 +195,7 @@ const getContactSpoofingReview = (
       );
       const { memberships } = getGroupMemberships(
         currentConversation,
-        getConversationByUuid
+        getConversationByServiceId
       );
       const groupNameCollisions = getCollisionsFromMemberships(memberships);
 
@@ -222,24 +228,35 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const conversation = getConversationSelector(state)(id);
 
   const conversationMessages = getConversationMessagesSelector(state)(id);
-  const selectedMessage = getSelectedMessage(state);
+  const targetedMessage = getTargetedMessage(state);
 
   const getTimestampForMessage = (messageId: string): undefined | number =>
     getMessages(state)[messageId]?.timestamp;
 
+  const shouldShowMiniPlayer = Boolean(selectAudioPlayerActive(state));
+
   return {
     id,
-    ...pick(conversation, ['unreadCount', 'isGroupV1AndDisabled']),
+    ...pick(conversation, [
+      'unreadCount',
+      'unreadMentionsCount',
+      'isGroupV1AndDisabled',
+      'typingContactIdTimestamps',
+    ]),
     isConversationSelected: state.conversations.selectedConversationId === id,
     isIncomingMessageRequest: Boolean(
-      conversation.messageRequestsEnabled &&
-        !conversation.acceptedMessageRequest
+      !conversation.acceptedMessageRequest &&
+        conversation.removalStage !== 'justNotification'
     ),
-    isSomeoneTyping: Boolean(conversation.typingContactId),
+    isSomeoneTyping: Boolean(
+      Object.keys(conversation.typingContactIdTimestamps ?? {}).length > 0
+    ),
     ...conversationMessages,
+
     invitedContactsForNewlyCreatedGroup:
       getInvitedContactsForNewlyCreatedGroup(state),
-    selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
+    targetedMessageId: targetedMessage ? targetedMessage.id : undefined,
+    shouldShowMiniPlayer,
 
     warning: getWarning(conversation, state),
     contactSpoofingReview: getContactSpoofingReview(id, state),
@@ -248,9 +265,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     theme: getTheme(state),
-    renderItem,
+
     renderContactSpoofingReviewDialog,
     renderHeroRow,
+    renderItem,
+    renderMiniPlayer,
     renderTypingBubble,
   };
 };

@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
 import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { Avatar, AvatarSize } from './Avatar';
@@ -16,7 +16,6 @@ import { StoryViewTargetType, HasStories } from '../types/Stories';
 
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
-import { ThemeType } from '../types/Util';
 import { getAvatarColor } from '../types/Colors';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
@@ -28,7 +27,9 @@ export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
+  onMediaPlaybackStart: () => void;
   story: StoryViewType;
+  theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
@@ -44,6 +45,7 @@ function StoryListItemAvatar({
   profileName,
   sharedGroupNames,
   title,
+  theme,
 }: Pick<
   ConversationType,
   | 'acceptedMessageRequest'
@@ -58,6 +60,7 @@ function StoryListItemAvatar({
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isMe?: boolean;
+  theme: ThemeType;
 }): JSX.Element {
   return (
     <Avatar
@@ -72,7 +75,7 @@ function StoryListItemAvatar({
       sharedGroupNames={sharedGroupNames}
       size={AvatarSize.FORTY_EIGHT}
       storyRing={avatarStoryRing}
-      theme={ThemeType.dark}
+      theme={theme}
       title={title}
     />
   );
@@ -88,8 +91,10 @@ export function StoryListItem({
   isHidden,
   onGoToConversation,
   onHideStory,
+  onMediaPlaybackStart,
   queueStoryDownload,
   story,
+  theme,
   viewUserStories,
 }: PropsType): JSX.Element {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
@@ -98,7 +103,7 @@ export function StoryListItem({
 
   const { firstName, title } = sender;
 
-  const isSignalOfficial = sender.uuid === SIGNAL_ACI;
+  const isSignalOfficial = sender.serviceId === SIGNAL_ACI;
 
   let avatarStoryRing: HasStories | undefined;
   if (attachment) {
@@ -116,8 +121,8 @@ export function StoryListItem({
     {
       icon: 'StoryListItem__icon--hide',
       label: isHidden
-        ? i18n('StoryListItem__unhide')
-        : i18n('StoryListItem__hide'),
+        ? i18n('icu:StoryListItem__unhide')
+        : i18n('icu:StoryListItem__hide'),
       onClick: () => {
         if (isHidden) {
           onHideStory(conversationId);
@@ -131,7 +136,7 @@ export function StoryListItem({
   if (!isSignalOfficial) {
     menuOptions.push({
       icon: 'StoryListItem__icon--info',
-      label: i18n('StoryListItem__info'),
+      label: i18n('icu:StoryListItem__info'),
       onClick: () =>
         viewUserStories({
           conversationId,
@@ -141,7 +146,7 @@ export function StoryListItem({
 
     menuOptions.push({
       icon: 'StoryListItem__icon--chat',
-      label: i18n('StoryListItem__go-to-chat'),
+      label: i18n('icu:StoryListItem__go-to-chat'),
       onClick: () => onGoToConversation(conversationId),
     });
   }
@@ -149,7 +154,7 @@ export function StoryListItem({
   return (
     <>
       <ContextMenu
-        aria-label={i18n('StoryListItem__label')}
+        aria-label={i18n('icu:StoryListItem__label')}
         i18n={i18n}
         menuOptions={menuOptions}
         moduleClassName={classNames('StoryListItem', {
@@ -165,13 +170,14 @@ export function StoryListItem({
           avatarStoryRing={avatarStoryRing}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+          theme={theme}
           {...(group || sender)}
         />
         <div className="StoryListItem__info">
           <div className="StoryListItem__info--title">
             {group ? group.title : title}
             {isSignalOfficial && (
-              <span className="StoryListItem__signal-official" />
+              <span className="ContactModal__official-badge" />
             )}
           </div>
           {!isSignalOfficial && (
@@ -195,6 +201,7 @@ export function StoryListItem({
             moduleClassName="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={story.messageId}
+            onMediaPlaybackStart={onMediaPlaybackStart}
           />
         </div>
       </ContextMenu>
@@ -205,7 +212,7 @@ export function StoryListItem({
             {
               action: () => onHideStory(conversationId),
               style: 'affirmative',
-              text: i18n('StoryListItem__hide-modal--confirm'),
+              text: i18n('icu:StoryListItem__hide-modal--confirm'),
             },
           ]}
           i18n={i18n}
@@ -213,7 +220,9 @@ export function StoryListItem({
             setHasConfirmHideStory(false);
           }}
         >
-          {i18n('StoryListItem__hide-modal--body', [String(firstName)])}
+          {i18n('icu:StoryListItem__hide-modal--body', {
+            name: String(firstName),
+          })}
         </ConfirmationDialog>
       )}
     </>

@@ -68,12 +68,12 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
         <button
           onClick={this.getBackAction({ showInbox })}
           className="module-left-pane__header__contents__back-button"
-          title={i18n('backToInbox')}
-          aria-label={i18n('backToInbox')}
+          title={i18n('icu:backToInbox')}
+          aria-label={i18n('icu:backToInbox')}
           type="button"
         />
         <div className="module-left-pane__header__contents__text">
-          {i18n('archivedConversations')}
+          {i18n('icu:archivedConversations')}
         </div>
       </div>
     );
@@ -124,8 +124,8 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     return (
       <div className="module-left-pane__archive-helper-text">
         {this.getRowCount() > 0
-          ? i18n('archiveHelperText')
-          : i18n('noArchivedConversations')}
+          ? i18n('icu:archiveHelperText')
+          : i18n('icu:noArchivedConversations')}
       </div>
     );
   }
@@ -183,13 +183,13 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   getConversationAndMessageInDirection(
     toFind: Readonly<ToFindType>,
     selectedConversationId: undefined | string,
-    selectedMessageId: unknown
+    targetedMessageId: unknown
   ): undefined | { conversationId: string } {
     if (this.searchHelper) {
       return this.searchHelper.getConversationAndMessageInDirection(
         toFind,
         selectedConversationId,
-        selectedMessageId
+        targetedMessageId
       );
     }
 

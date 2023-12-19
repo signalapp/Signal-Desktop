@@ -3,50 +3,31 @@
 
 .module-SearchInput {
   &__container {
-    margin: {
-      left: 16px;
-      right: 16px;
-      bottom: 8px;
-    }
     position: relative;
+    flex: 1 0 0;
+    margin-inline: 16px;
+    margin-bottom: 8px;
   }
 
   &__icon {
     height: 16px;
-    left: 8px;
+    inset-inline-start: 8px;
     pointer-events: none;
     position: absolute;
     top: 6px;
     width: 16px;
 
     @include light-theme {
-      @include color-svg('../images/icons/v2/search-16.svg', $color-gray-45);
+      @include color-svg(
+        '../images/icons/v3/search/search-compact-light.svg',
+        $color-gray-45
+      );
     }
     @include dark-theme {
-      @include color-svg('../images/icons/v2/search-16.svg', $color-gray-25);
-    }
-  }
-
-  &__input {
-    background: transparent;
-    border: none;
-    padding-left: 16px;
-    width: 100%;
-
-    &:placeholder {
-      color: $color-gray-45;
-    }
-
-    @include light-theme {
-      color: $color-black;
-    }
-
-    @include dark-theme {
-      color: $color-gray-05;
-    }
-
-    &:focus {
-      outline: none;
+      @include color-svg(
+        '../images/icons/v3/search/search-compact-light.svg',
+        $color-gray-25
+      );
     }
   }
 
@@ -55,12 +36,11 @@
     border: solid 1px transparent;
     border-radius: 8px;
     height: 28px;
-    padding-left: 30px;
-    padding-right: 5px;
+    padding-inline: 30px 5px;
     width: 100%;
 
     @include light-theme {
-      background-color: $color-black-alpha-08;
+      background-color: $color-black-alpha-06;
       color: $color-gray-90;
 
       &:placeholder {
@@ -84,22 +64,22 @@
     }
 
     &--with-text {
-      padding-right: 30px;
+      padding-inline-end: 30px;
     }
   }
 
   &__cancel {
-    height: 18px;
+    height: 16px;
     position: absolute;
-    right: 8px;
-    top: 5px;
-    width: 18px;
+    inset-inline-end: 8px;
+    top: 6px;
+    width: 16px;
 
     @include light-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+      @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-60);
     }
     @include dark-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+      @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-25);
     }
   }
 }

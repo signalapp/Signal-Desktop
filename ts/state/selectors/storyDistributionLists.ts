@@ -31,6 +31,8 @@ export const getDistributionListsWithMembers = createSelector(
   ): Array<StoryDistributionListWithMembersDataType> =>
     distributionLists.map(list => ({
       ...list,
-      members: list.memberUuids.map(uuid => conversationSelector(uuid)),
+      members: list.memberServiceIds.map(serviceId =>
+        conversationSelector(serviceId)
+      ),
     }))
 );

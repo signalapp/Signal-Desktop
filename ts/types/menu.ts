@@ -15,6 +15,7 @@ export type MenuOptionsType = Readonly<{
 
 export type MenuActionsType = Readonly<{
   forceUpdate: () => unknown;
+  openArtCreator: () => unknown;
   openContactUs: () => unknown;
   openForums: () => unknown;
   openJoinTheBeta: () => unknown;
@@ -26,7 +27,6 @@ export type MenuActionsType = Readonly<{
   showDebugLog: () => unknown;
   showKeyboardShortcuts: () => unknown;
   showSettings: () => unknown;
-  showStickerCreator: () => unknown;
   showWindow: () => unknown;
 }>;
 

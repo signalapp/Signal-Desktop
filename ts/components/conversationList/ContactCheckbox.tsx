@@ -38,7 +38,7 @@ export type PropsDataType = {
   | 'title'
   | 'type'
   | 'unblurredAvatarPath'
-  | 'uuid'
+  | 'serviceId'
 >;
 
 type PropsHousekeepingType = {
@@ -76,16 +76,18 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     const disabled = Boolean(disabledReason);
 
     const headerName = isMe ? (
-      <span className={HEADER_CONTACT_NAME_CLASS_NAME}>
-        {i18n('noteToSelf')}
-      </span>
+      <ContactName
+        module={HEADER_CONTACT_NAME_CLASS_NAME}
+        title={i18n('icu:noteToSelf')}
+        isMe={isMe}
+      />
     ) : (
       <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
     );
 
     let messageText: undefined | string | JSX.Element;
     if (disabledReason === ContactCheckboxDisabledReason.AlreadyAdded) {
-      messageText = i18n('alreadyAMember');
+      messageText = i18n('icu:alreadyAMember');
     } else if (about) {
       messageText = <About className="" text={about} />;
     }

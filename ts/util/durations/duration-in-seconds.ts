@@ -34,5 +34,6 @@ export namespace DurationInSeconds {
   export const HOUR = DurationInSeconds.fromHours(1);
   export const MINUTE = DurationInSeconds.fromMinutes(1);
   export const DAY = DurationInSeconds.fromDays(1);
+  export const WEEK = DurationInSeconds.fromWeeks(1);
 }
 /* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare */

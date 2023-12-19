@@ -21,7 +21,9 @@ export function CallingScreenSharingController({
   return (
     <div className="module-CallingScreenSharingController">
       <div className="module-CallingScreenSharingController__text">
-        {i18n('calling__presenting--info', [presentedSourceName])}
+        {i18n('icu:calling__presenting--info', {
+          window: presentedSourceName,
+        })}
       </div>
       <div className="module-CallingScreenSharingController__buttons">
         <Button
@@ -29,10 +31,10 @@ export function CallingScreenSharingController({
           onClick={onStopSharing}
           variant={ButtonVariant.Destructive}
         >
-          {i18n('calling__presenting--stop')}
+          {i18n('icu:calling__presenting--stop')}
         </Button>
         <button
-          aria-label={i18n('close')}
+          aria-label={i18n('icu:close')}
           className="module-CallingScreenSharingController__close"
           onClick={onCloseController}
           type="button"

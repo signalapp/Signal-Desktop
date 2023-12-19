@@ -3,8 +3,6 @@
 
 import { join, relative, normalize } from 'path';
 import fastGlob from 'fast-glob';
-import glob from 'glob';
-import pify from 'pify';
 import fse from 'fs-extra';
 import { map, isString } from 'lodash';
 import normalizePath from 'normalize-path';
@@ -110,16 +108,6 @@ export const getAllDraftAttachments = async (
   const pattern = normalizePath(join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
-};
-
-export const getBuiltInImages = async (): Promise<ReadonlyArray<string>> => {
-  const dir = join(__dirname, '../images');
-  const pattern = join(dir, '**', '*.svg');
-
-  // Note: we cannot use fast-glob here because, inside of .asar files, readdir will not
-  //   honor the withFileTypes flag: https://github.com/electron/electron/issues/19074
-  const files = await pify(glob)(pattern, { nodir: true });
   return map(files, file => relative(dir, file));
 };
 

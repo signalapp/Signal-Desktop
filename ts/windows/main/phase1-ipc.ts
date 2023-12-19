@@ -7,14 +7,20 @@ import { mapValues } from 'lodash';
 
 import type { IPCType } from '../../window.d';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback';
-import { UUIDKind } from '../../types/UUID';
+import { getSignalConnections } from '../../util/getSignalConnections';
 import { ThemeType } from '../../types/Util';
 import { getEnvironment, Environment } from '../../environment';
 import { SignalContext } from '../context';
 import * as log from '../../logging/log';
+import { formatCountForLogging } from '../../logging/formatCountForLogging';
 import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
+import { drop } from '../../util/drop';
+import type {
+  NotificationClickData,
+  WindowsNotificationData,
+} from '../../services/notifications';
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;
@@ -38,8 +44,6 @@ window.RETRY_DELAY = false;
 
 window.platform = process.platform;
 window.getTitle = () => title;
-window.getResolvedMessagesLocale = () => config.resolvedTranslationsLocale;
-window.getPreferredSystemLocales = () => config.preferredSystemLocales;
 window.getEnvironment = getEnvironment;
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
@@ -67,6 +71,10 @@ if (config.theme === 'light') {
 
 const IPC: IPCType = {
   addSetupMenuItems: () => ipc.send('add-setup-menu-items'),
+  clearAllWindowsNotifications: async () => {
+    log.info('show window');
+    return ipc.invoke('windows-notifications:clear-all');
+  },
   closeAbout: () => ipc.send('close-about'),
   crashReports: {
     getCount: () => ipc.invoke('crash-reports:get-count'),
@@ -78,17 +86,8 @@ const IPC: IPCType = {
     ipc.send('draw-attention');
   },
   getAutoLaunch: () => ipc.invoke('get-auto-launch'),
-  getBuiltInImages: () =>
-    new Promise((resolve, reject) => {
-      ipc.once('get-success-built-in-images', (_event, error, value) => {
-        if (error) {
-          return reject(new Error(error));
-        }
-
-        return resolve(value);
-      });
-      ipc.send('get-built-in-images');
-    }),
+  getMediaAccessStatus: mediaType =>
+    ipc.invoke('get-media-access-status', mediaType),
   getMediaPermissions: () => ipc.invoke('settings:get:mediaPermissions'),
   getMediaCameraPermissions: () =>
     ipc.invoke('settings:get:mediaCameraPermissions'),
@@ -100,13 +99,9 @@ const IPC: IPCType = {
     }),
   readyForUpdates: () => ipc.send('ready-for-updates'),
   removeSetupMenuItems: () => ipc.send('remove-setup-menu-items'),
-  restart: () => {
-    log.info('restart');
-    ipc.send('restart');
-  },
   setAutoHideMenuBar: autoHide => ipc.send('set-auto-hide-menu-bar', autoHide),
   setAutoLaunch: value => ipc.invoke('set-auto-launch', value),
-  setBadgeCount: count => ipc.send('set-badge-count', count),
+  setBadge: badge => ipc.send('set-badge', badge),
   setMenuBarVisibility: visibility =>
     ipc.send('set-menu-bar-visibility', visibility),
   showDebugLog: () => {
@@ -119,6 +114,9 @@ const IPC: IPCType = {
   showWindow: () => {
     log.info('show window');
     ipc.send('show-window');
+  },
+  showWindowsNotification: async (data: WindowsNotificationData) => {
+    return ipc.invoke('windows-notifications:show', data);
   },
   shutdown: () => {
     log.info('shutdown');
@@ -171,7 +169,7 @@ window.logAuthenticatedConnect = () => {
 window.open = () => null;
 
 // Playwright uses `eval` for `.evaluate()` API
-if (!config.enableCI && config.environment !== 'test') {
+if (config.ciMode !== 'full' && config.environment !== 'test') {
   // eslint-disable-next-line no-eval, no-multi-assign
   window.eval = global.eval = () => null;
 }
@@ -191,8 +189,8 @@ ipc.on('additional-log-data-request', async event => {
     statistics = {};
   }
 
-  const ourUuid = window.textsecure.storage.user.getUuid();
-  const ourPni = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+  const ourAci = window.textsecure.storage.user.getAci();
+  const ourPni = window.textsecure.storage.user.getPni();
 
   event.sender.send('additional-log-data-response', {
     capabilities: ourCapabilities || {},
@@ -201,12 +199,17 @@ ipc.on('additional-log-data-request', async event => {
       const valueString = value && value !== 'TRUE' ? ` ${value}` : '';
       return `${enableString}${valueString}`;
     }),
-    statistics,
+    statistics: {
+      ...statistics,
+      signalConnectionCount: formatCountForLogging(
+        getSignalConnections().length
+      ),
+    },
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
       e164: window.textsecure.storage.user.getNumber(),
-      uuid: ourUuid && ourUuid.toString(),
-      pni: ourPni && ourPni.toString(),
+      uuid: ourAci,
+      pni: ourPni,
       conversationId: ourConversation && ourConversation.id,
     },
   });
@@ -282,28 +285,65 @@ ipc.on('delete-all-data', async () => {
 });
 
 ipc.on('show-sticker-pack', (_event, info) => {
-  const { packId, packKey } = info;
-  const { showStickerPack } = window.Events;
-  if (showStickerPack) {
-    showStickerPack(packId, packKey);
-  }
+  window.Events.showStickerPack?.(info.packId, info.packKey);
 });
 
 ipc.on('show-group-via-link', (_event, info) => {
-  const { hash } = info;
-  const { showGroupViaLink } = window.Events;
-  if (showGroupViaLink) {
-    void showGroupViaLink(hash);
-  }
+  strictAssert(typeof info.value === 'string', 'Got an invalid value over IPC');
+  drop(window.Events.showGroupViaLink?.(info.value));
 });
 
+ipc.on('open-art-creator', () => {
+  drop(window.Events.openArtCreator());
+});
+
+window.openArtCreator = ({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}) => {
+  return ipc.invoke('open-art-creator', { username, password });
+};
+
+ipc.on('authorize-art-creator', (_event, info) => {
+  window.Events.authorizeArtCreator?.(info);
+});
+
+ipc.on('start-call-lobby', (_event, { conversationId }) => {
+  window.IPC.showWindow();
+  window.reduxActions?.calling?.startCallingLobby({
+    conversationId,
+    isVideoCall: true,
+  });
+});
+
+ipc.on('show-window', () => {
+  window.IPC.showWindow();
+});
+
+ipc.on('set-is-presenting', () => {
+  window.reduxActions?.calling?.setPresenting();
+});
+
+ipc.on(
+  'show-conversation-via-notification',
+  (_event, data: NotificationClickData) => {
+    const { showConversationViaNotification } = window.Events;
+    if (showConversationViaNotification) {
+      void showConversationViaNotification(data);
+    }
+  }
+);
 ipc.on('show-conversation-via-signal.me', (_event, info) => {
-  const { hash } = info;
-  strictAssert(typeof hash === 'string', 'Got an invalid hash over IPC');
+  const { kind, value } = info;
+  strictAssert(typeof kind === 'string', 'Got an invalid kind over IPC');
+  strictAssert(typeof value === 'string', 'Got an invalid value over IPC');
 
   const { showConversationViaSignalDotMe } = window.Events;
   if (showConversationViaSignalDotMe) {
-    void showConversationViaSignalDotMe(hash);
+    void showConversationViaSignalDotMe(kind, value);
   }
 });
 

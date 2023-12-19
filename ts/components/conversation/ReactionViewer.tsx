@@ -202,7 +202,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
               >
                 {isAll ? (
                   <span className="module-reaction-viewer__header__button__all">
-                    {i18n('ReactionsViewer--all')}&thinsp;&middot;&thinsp;
+                    {i18n('icu:ReactionsViewer--all')}&thinsp;&middot;&thinsp;
                     {count}
                   </span>
                 ) : (
@@ -242,7 +242,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
               </div>
               <div className="module-reaction-viewer__body__row__name">
                 {from.isMe ? (
-                  i18n('you')
+                  i18n('icu:you')
                 ) : (
                   <ContactName
                     module="module-reaction-viewer__body__row__name__contact-name"

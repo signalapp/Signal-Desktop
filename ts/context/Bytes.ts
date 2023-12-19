@@ -67,4 +67,9 @@ export class Bytes {
 
     return Buffer.compare(a, b) === 0;
   }
+
+  public readBigUint64BE(value: Uint8Array): bigint {
+    const buffer = Buffer.from(value);
+    return buffer.readBigUint64BE();
+  }
 }

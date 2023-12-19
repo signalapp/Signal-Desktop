@@ -1,25 +1,30 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import type { ExplodePromiseResultType } from '../util/explodePromise';
-import type { UUIDStringType } from '../types/UUID';
-import { UUID } from '../types/UUID';
+
+export type SingleServePromiseIdString = string & { __single_serve: never };
 
 // This module provides single serve promises in a pub/sub manner.
 // One example usage is if you're calling a redux action creator but need to
 // await some result within it, you may pass in this promise and access it in
 // other parts of the app via its referencing UUID.
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const promises = new Map<UUIDStringType, ExplodePromiseResultType<any>>();
+const promises = new Map<
+  SingleServePromiseIdString,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ExplodePromiseResultType<any>
+>();
 
 export function set<T>(
   explodedPromise: ExplodePromiseResultType<T>
-): UUIDStringType {
-  let uuid = UUID.generate().toString();
+): SingleServePromiseIdString {
+  let uuid = generateUuid() as SingleServePromiseIdString;
 
   while (promises.has(uuid)) {
-    uuid = UUID.generate().toString();
+    uuid = generateUuid() as SingleServePromiseIdString;
   }
 
   promises.set(uuid, {
@@ -38,7 +43,7 @@ export function set<T>(
 }
 
 export function get<T>(
-  uuid: UUIDStringType
+  uuid: SingleServePromiseIdString
 ): ExplodePromiseResultType<T> | undefined {
   return promises.get(uuid);
 }

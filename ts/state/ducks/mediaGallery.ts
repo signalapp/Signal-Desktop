@@ -82,7 +82,7 @@ function loadMediaItems(
     const DEFAULT_MEDIA_FETCH_COUNT = 50;
     const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
 
     const rawMedia = await dataInterface.getMessagesWithVisualMediaAttachments(
       conversationId,
@@ -101,24 +101,26 @@ function loadMediaItems(
     await Promise.all(
       rawMedia.map(async message => {
         const { schemaVersion } = message;
-        const model = window.MessageController.register(message.id, message);
+        const model = window.MessageCache.__DEPRECATED$register(
+          message.id,
+          message,
+          'loadMediaItems'
+        );
 
         if (schemaVersion && schemaVersion < VERSION_NEEDED_FOR_DISPLAY) {
           const upgradedMsgAttributes = await upgradeMessageSchema(message);
           model.set(upgradedMsgAttributes);
 
-          await dataInterface.saveMessage(upgradedMsgAttributes, { ourUuid });
+          await dataInterface.saveMessage(upgradedMsgAttributes, { ourAci });
         }
       })
     );
 
+    let index = 0;
     const media: Array<MediaType> = rawMedia
       .flatMap(message => {
         return (message.attachments || []).map(
-          (
-            attachment: AttachmentType,
-            index: number
-          ): MediaType | undefined => {
+          (attachment: AttachmentType): MediaType | undefined => {
             if (
               !attachment.path ||
               !attachment.thumbnail ||
@@ -129,7 +131,7 @@ function loadMediaItems(
             }
 
             const { thumbnail } = attachment;
-            return {
+            const result = {
               path: attachment.path,
               objectURL: getAbsoluteAttachmentPath(attachment.path),
               thumbnailObjectUrl: thumbnail?.path
@@ -142,7 +144,7 @@ function loadMediaItems(
                 attachments: message.attachments || [],
                 conversationId:
                   window.ConversationController.lookupOrCreate({
-                    uuid: message.sourceUuid,
+                    serviceId: message.sourceServiceId,
                     e164: message.source,
                     reason: 'conversation_view.showAllMedia',
                   })?.id || message.conversationId,
@@ -152,6 +154,10 @@ function loadMediaItems(
                 sent_at: message.sent_at,
               },
             };
+
+            index += 1;
+
+            return result;
           }
         );
       })

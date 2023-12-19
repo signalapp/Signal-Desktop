@@ -13,12 +13,12 @@ import type {
   ConversationColorType,
   CustomColorType,
 } from '../../types/Colors';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
-import { isBeta } from '../../util/version';
 import { DurationInSeconds } from '../../util/durations';
-import { getUserNumber, getUserACI } from './user';
+import * as Bytes from '../../Bytes';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -47,25 +47,30 @@ export const getUniversalExpireTimer = createSelector(
     DurationInSeconds.fromSeconds(state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0)
 );
 
-const isRemoteConfigFlagEnabled = (
+export const isRemoteConfigFlagEnabled = (
   config: Readonly<ConfigMapType>,
   key: ConfigKeyType
 ): boolean => Boolean(config[key]?.enabled);
 
 // See isBucketValueEnabled in RemoteConfig.ts
-const isRemoteConfigBucketEnabled = (
+export const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
   e164: string | undefined,
-  uuid: UUIDStringType | undefined
+  aci: AciString | undefined
 ): boolean => {
   const flagValue = config[name]?.value;
-  return innerIsBucketValueEnabled(name, flagValue, e164, uuid);
+  return innerIsBucketValueEnabled(name, flagValue, e164, aci);
 };
 
-const getRemoteConfig = createSelector(
+export const getRemoteConfig = createSelector(
   getItems,
   (state: ItemsStateType): ConfigMapType => state.remoteConfig || {}
+);
+
+export const getServerTimeSkew = createSelector(
+  getItems,
+  (state: ItemsStateType): number => state.serverTimeSkew || 0
 );
 
 export const getUsernamesEnabled = createSelector(
@@ -80,6 +85,47 @@ export const getHasCompletedUsernameOnboarding = createSelector(
     Boolean(state.hasCompletedUsernameOnboarding)
 );
 
+export const getHasCompletedUsernameLinkOnboarding = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.hasCompletedUsernameLinkOnboarding)
+);
+
+export const getUsernameCorrupted = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.usernameCorrupted)
+);
+
+export const getUsernameLinkCorrupted = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.usernameLinkCorrupted)
+);
+
+export const getUsernameLinkColor = createSelector(
+  getItems,
+  (state: ItemsStateType): number | undefined => state.usernameLinkColor
+);
+
+export const getUsernameLink = createSelector(
+  getItems,
+  ({ usernameLink }: ItemsStateType): string | undefined => {
+    if (!usernameLink) {
+      return undefined;
+    }
+    const { entropy, serverId } = usernameLink;
+
+    if (!entropy.length || !serverId.length) {
+      return undefined;
+    }
+
+    const content = Bytes.concatenate([entropy, serverId]);
+
+    return contactByEncryptedUsernameRoute
+      .toWebUrl({ encryptedUsername: Bytes.toBase64(content) })
+      .toString();
+  }
+);
+
 export const isInternalUser = createSelector(
   getRemoteConfig,
   (remoteConfig: ConfigMapType): boolean => {
@@ -90,38 +136,7 @@ export const isInternalUser = createSelector(
 // Note: ts/util/stories is the other place this check is done
 export const getStoriesEnabled = createSelector(
   getItems,
-  getRemoteConfig,
-  getUserNumber,
-  getUserACI,
-  (
-    state: ItemsStateType,
-    remoteConfig: ConfigMapType,
-    e164: string | undefined,
-    aci: UUIDStringType | undefined
-  ): boolean => {
-    if (state.hasStoriesDisabled) {
-      return false;
-    }
-
-    if (
-      isRemoteConfigBucketEnabled(remoteConfig, 'desktop.stories2', e164, aci)
-    ) {
-      return true;
-    }
-
-    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser')) {
-      return true;
-    }
-
-    if (
-      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories2.beta') &&
-      isBeta(window.getVersion())
-    ) {
-      return true;
-    }
-
-    return false;
-  }
+  (state: ItemsStateType): boolean => !state.hasStoriesDisabled
 );
 
 export const getDefaultConversationColor = createSelector(
@@ -208,4 +223,14 @@ export const getAutoDownloadUpdate = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>
     Boolean(state['auto-download-update'] ?? true)
+);
+
+export const getTextFormattingEnabled = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)
+);
+
+export const getNavTabsCollapsed = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
 );

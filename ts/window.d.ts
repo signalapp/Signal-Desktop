@@ -7,13 +7,9 @@ import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
 import type PQueue from 'p-queue/dist';
 import type { assert } from 'chai';
-
 import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
-import type * as Util from './util';
-import type {
-  ConversationModelCollectionType,
-  MessageModelCollectionType,
-} from './model-types.d';
+
+import type { ConversationModelCollectionType } from './model-types.d';
 import type { textsecure } from './textsecure';
 import type { Storage } from './textsecure/Storage';
 import type {
@@ -28,13 +24,12 @@ import type * as Groups from './groups';
 import type * as Crypto from './Crypto';
 import type * as Curve from './Curve';
 import type * as RemoteConfig from './RemoteConfig';
-import type * as OS from './OS';
+import type { OSType } from './util/os/shared';
 import type { getEnvironment } from './environment';
 import type { LocalizerType, ThemeType } from './types/Util';
 import type { Receipt } from './types/Receipt';
 import type { ConversationController } from './ConversationController';
 import type { ReduxActions } from './state/types';
-import type { createStore } from './state/createStore';
 import type { createApp } from './state/roots/createApp';
 import type Data from './sql/Client';
 import type { MessageModel } from './models/messages';
@@ -44,10 +39,9 @@ import type { ConfirmationDialog } from './components/ConfirmationDialog';
 import type { SignalProtocolStore } from './SignalProtocolStore';
 import type { SocketStatus } from './types/SocketStatus';
 import type SyncRequest from './textsecure/SyncRequest';
-import type { MessageController } from './util/MessageController';
+import type { MessageCache } from './services/MessageCache';
 import type { StateType } from './state/reducer';
 import type { SystemTraySetting } from './types/SystemTraySetting';
-import type { UUID } from './types/UUID';
 import type { Address } from './types/Address';
 import type { QualifiedAddress } from './types/QualifiedAddress';
 import type { CIType } from './CI';
@@ -55,11 +49,15 @@ import type { IPCEventsType } from './util/createIPCEvents';
 import type { SignalContextType } from './windows/context';
 import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
+import type { RetryPlaceholders } from './util/retryPlaceholders';
+import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences';
+import type { WindowsNotificationData } from './services/notifications';
 
 export { Long } from 'long';
 
 export type IPCType = {
   addSetupMenuItems: () => void;
+  clearAllWindowsNotifications: () => Promise<void>;
   closeAbout: () => void;
   crashReports: {
     getCount: () => Promise<number>;
@@ -68,16 +66,17 @@ export type IPCType = {
   };
   drawAttention: () => void;
   getAutoLaunch: () => Promise<boolean>;
-  getBuiltInImages: () => Promise<Array<string>>;
+  getMediaAccessStatus: (
+    mediaType: 'screen' | 'microphone' | 'camera'
+  ) => Promise<string | undefined>;
   getMediaCameraPermissions: () => Promise<boolean>;
   getMediaPermissions: () => Promise<boolean>;
   logAppLoadedEvent?: (options: { processedCount?: number }) => void;
   readyForUpdates: () => void;
   removeSetupMenuItems: () => unknown;
-  restart: () => void;
   setAutoHideMenuBar: (value: boolean) => void;
   setAutoLaunch: (value: boolean) => Promise<void>;
-  setBadgeCount: (count: number) => void;
+  setBadge: (badge: number | 'marked-unread') => void;
   setMenuBarVisibility: (value: boolean) => void;
   showDebugLog: () => void;
   showPermissionsPopup: (
@@ -86,6 +85,7 @@ export type IPCType = {
   ) => Promise<void>;
   showSettings: () => void;
   showWindow: () => void;
+  showWindowsNotification: (data: WindowsNotificationData) => Promise<void>;
   shutdown: () => void;
   titleBarDoubleClick: () => void;
   updateSystemTraySetting: (value: SystemTraySetting) => void;
@@ -101,35 +101,67 @@ export type FeatureFlagType = {
   GV2_MIGRATION_DISABLE_INVITE: boolean;
 };
 
+type AboutWindowPropsType = {
+  arch: string;
+  environmentText: string;
+  platform: string;
+};
+
+type DebugLogWindowPropsType = {
+  downloadLog: (text: string) => unknown;
+  fetchLogs: () => Promise<string>;
+  uploadLogs: (text: string) => Promise<string>;
+};
+
+type PermissionsWindowPropsType = {
+  forCamera: boolean;
+  forCalling: boolean;
+  onAccept: () => void;
+  onClose: () => void;
+};
+
+type ScreenShareWindowPropsType = {
+  onStopSharing: () => void;
+  presentedSourceName: string;
+};
+
+type SettingsOnRenderCallbackType = (props: PreferencesPropsType) => void;
+
+type SettingsWindowPropsType = {
+  onRender: (callback: SettingsOnRenderCallbackType) => void;
+};
+
 export type SignalCoreType = {
+  AboutWindowProps?: AboutWindowPropsType;
   Crypto: typeof Crypto;
   Curve: typeof Curve;
   Data: typeof Data;
+  DebugLogWindowProps?: DebugLogWindowPropsType;
   Groups: typeof Groups;
+  PermissionsWindowProps?: PermissionsWindowPropsType;
   RemoteConfig: typeof RemoteConfig;
+  ScreenShareWindowProps?: ScreenShareWindowPropsType;
   Services: {
     calling: CallingClass;
     initializeGroupCredentialFetcher: () => Promise<void>;
     initializeNetworkObserver: (network: ReduxActions['network']) => void;
     initializeUpdateListener: (updates: ReduxActions['updates']) => void;
-    retryPlaceholders?: Util.RetryPlaceholders;
+    retryPlaceholders?: RetryPlaceholders;
     lightSessionResetQueue?: PQueue;
     storage: typeof StorageService;
   };
+  SettingsWindowProps?: SettingsWindowPropsType;
   Migrations: ReturnType<typeof initializeMigrations>;
   Types: {
     Message: typeof Message2;
-    UUID: typeof UUID;
     Address: typeof Address;
     QualifiedAddress: typeof QualifiedAddress;
   };
-  Util: typeof Util;
   Components: {
     ConfirmationDialog: typeof ConfirmationDialog;
   };
-  OS: typeof OS;
+  OS: OSType;
   State: {
-    createStore: typeof createStore;
     Roots: {
       createApp: typeof createApp;
     };
@@ -148,6 +180,7 @@ declare global {
     localeMessages: { [key: string]: { message: string } };
 
     isBehindProxy: () => boolean;
+    openArtCreator: (opts: { username: string; password: string }) => void;
 
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
@@ -159,8 +192,6 @@ declare global {
     getEnvironment: typeof getEnvironment;
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
-    getResolvedMessagesLocale: () => string;
-    getPreferredSystemLocales: () => Array<string>;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => SocketStatus;
@@ -201,7 +232,7 @@ declare global {
     ConversationController: ConversationController;
     Events: IPCEventsType;
     FontFace: typeof FontFace;
-    MessageController: MessageController;
+    MessageCache: MessageCache;
     SignalProtocolStore: typeof SignalProtocolStore;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
@@ -243,6 +274,8 @@ declare global {
     RETRY_DELAY: boolean;
     assert: typeof assert;
     testUtilities: {
+      debug: (info: unknown) => void;
+      initialize: () => Promise<void>;
       onComplete: (info: unknown) => void;
       prepareTests: () => void;
     };
@@ -272,7 +305,6 @@ export type WhisperType = {
   Conversation: typeof ConversationModel;
   ConversationCollection: typeof ConversationModelCollectionType;
   Message: typeof MessageModel;
-  MessageCollection: typeof MessageModelCollectionType;
 
   deliveryReceiptQueue: PQueue;
   deliveryReceiptBatcher: BatcherType<Receipt>;

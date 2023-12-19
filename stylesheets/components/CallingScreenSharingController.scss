@@ -5,12 +5,12 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: 4px 16px;
-  -webkit-app-region: drag;
+  padding-block: 4px;
+  padding-inline: 16px;
+  @include draggable-region;
 
   &__text {
     @include font-body-2;
-    color: $color-gray-05;
     overflow: hidden;
     text-overflow: ellipsis;
     user-select: none;
@@ -25,15 +25,15 @@
   &__buttons {
     align-items: center;
     display: flex;
-    margin-left: 6px;
+    margin-inline-start: 6px;
     -webkit-app-region: no-drag;
   }
 
   &__close {
     @include button-reset;
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
     cursor: pointer;
-    margin-left: 12px;
+    margin-inline-start: 12px;
     height: 20px;
     width: 20px;
   }

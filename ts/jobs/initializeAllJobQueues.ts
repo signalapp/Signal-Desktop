@@ -37,3 +37,15 @@ export function initializeAllJobQueues({
   drop(removeStorageKeyJobQueue.streamJobs());
   drop(reportSpamJobQueue.streamJobs());
 }
+
+export async function shutdownAllJobQueues(): Promise<void> {
+  await Promise.allSettled([
+    conversationJobQueue.shutdown(),
+    singleProtoJobQueue.shutdown(),
+    readSyncJobQueue.shutdown(),
+    viewSyncJobQueue.shutdown(),
+    viewOnceOpenJobQueue.shutdown(),
+    removeStorageKeyJobQueue.shutdown(),
+    reportSpamJobQueue.shutdown(),
+  ]);
+}

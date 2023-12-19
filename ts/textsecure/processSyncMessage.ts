@@ -1,29 +1,27 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { SignalService as Proto } from '../protobuf';
-import { normalizeUuid } from '../util/normalizeUuid';
-import type {
-  ProcessedUnidentifiedDeliveryStatus,
-  ProcessedSent,
-  ProcessedSyncMessage,
-} from './Types.d';
+import type { SignalService as Proto } from '../protobuf';
+import type { ServiceIdString } from '../types/ServiceId';
+import { normalizeServiceId } from '../types/ServiceId';
+import type { ProcessedSent, ProcessedSyncMessage } from './Types.d';
 
-import UnidentifiedDeliveryStatus = Proto.SyncMessage.Sent.IUnidentifiedDeliveryStatus;
+type ProtoServiceId = Readonly<{
+  destinationServiceId?: string | null;
+}>;
 
-function processUnidentifiedDeliveryStatus(
-  status: UnidentifiedDeliveryStatus
-): ProcessedUnidentifiedDeliveryStatus {
-  const { destinationUuid } = status;
+function processProtoWithDestinationServiceId<Input extends ProtoServiceId>(
+  input: Input
+): Omit<Input, keyof ProtoServiceId> & {
+  destinationServiceId?: ServiceIdString;
+} {
+  const { destinationServiceId, ...remaining } = input;
 
   return {
-    ...status,
+    ...remaining,
 
-    destinationUuid: destinationUuid
-      ? normalizeUuid(
-          destinationUuid,
-          'syncMessage.sent.unidentifiedStatus.destinationUuid'
-        )
+    destinationServiceId: destinationServiceId
+      ? normalizeServiceId(destinationServiceId, 'processSyncMessage')
       : undefined,
   };
 }
@@ -35,17 +33,24 @@ function processSent(
     return undefined;
   }
 
-  const { destinationUuid, unidentifiedStatus } = sent;
+  const {
+    destinationServiceId,
+    unidentifiedStatus,
+    storyMessageRecipients,
+    ...remaining
+  } = sent;
 
   return {
-    ...sent,
+    ...remaining,
 
-    destinationUuid: destinationUuid
-      ? normalizeUuid(destinationUuid, 'syncMessage.sent.destinationUuid')
+    destinationServiceId: destinationServiceId
+      ? normalizeServiceId(destinationServiceId, 'processSent')
       : undefined,
-
     unidentifiedStatus: unidentifiedStatus
-      ? unidentifiedStatus.map(processUnidentifiedDeliveryStatus)
+      ? unidentifiedStatus.map(processProtoWithDestinationServiceId)
+      : undefined,
+    storyMessageRecipients: storyMessageRecipients
+      ? storyMessageRecipients.map(processProtoWithDestinationServiceId)
       : undefined,
   };
 }

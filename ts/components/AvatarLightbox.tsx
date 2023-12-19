@@ -33,7 +33,12 @@ export function AvatarLightbox({
       isViewOnce
       media={[]}
       saveAttachment={noop}
-      toggleForwardMessageModal={noop}
+      toggleForwardMessagesModal={noop}
+      onMediaPlaybackStart={noop}
+      onNextAttachment={noop}
+      onPrevAttachment={noop}
+      onSelectAttachment={noop}
+      selectedIndex={0}
     >
       <AvatarPreview
         avatarColor={avatarColor}

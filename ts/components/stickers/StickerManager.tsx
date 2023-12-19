@@ -93,11 +93,11 @@ export const StickerManager = React.memo(function StickerManagerInner({
           tabs={[
             {
               id: TabViews.Available,
-              label: i18n('stickers--StickerManager--Available'),
+              label: i18n('icu:stickers--StickerManager--Available'),
             },
             {
               id: TabViews.Installed,
-              label: i18n('stickers--StickerManager--InstalledPacks'),
+              label: i18n('icu:stickers--StickerManager--InstalledPacks'),
             },
           ]}
         >
@@ -106,7 +106,7 @@ export const StickerManager = React.memo(function StickerManagerInner({
               {selectedTab === TabViews.Available && (
                 <>
                   <h2 className="module-sticker-manager__text module-sticker-manager__text--heading">
-                    {i18n('stickers--StickerManager--BlessedPacks')}
+                    {i18n('icu:stickers--StickerManager--BlessedPacks')}
                   </h2>
                   {blessedPacks.length > 0 ? (
                     blessedPacks.map(pack => (
@@ -121,12 +121,14 @@ export const StickerManager = React.memo(function StickerManagerInner({
                     ))
                   ) : (
                     <div className="module-sticker-manager__empty">
-                      {i18n('stickers--StickerManager--BlessedPacks--Empty')}
+                      {i18n(
+                        'icu:stickers--StickerManager--BlessedPacks--Empty'
+                      )}
                     </div>
                   )}
 
                   <h2 className="module-sticker-manager__text module-sticker-manager__text--heading">
-                    {i18n('stickers--StickerManager--ReceivedPacks')}
+                    {i18n('icu:stickers--StickerManager--ReceivedPacks')}
                   </h2>
                   {receivedPacks.length > 0 ? (
                     receivedPacks.map(pack => (
@@ -141,7 +143,9 @@ export const StickerManager = React.memo(function StickerManagerInner({
                     ))
                   ) : (
                     <div className="module-sticker-manager__empty">
-                      {i18n('stickers--StickerManager--ReceivedPacks--Empty')}
+                      {i18n(
+                        'icu:stickers--StickerManager--ReceivedPacks--Empty'
+                      )}
                     </div>
                   )}
                 </>
@@ -160,7 +164,9 @@ export const StickerManager = React.memo(function StickerManagerInner({
                   ))
                 ) : (
                   <div className="module-sticker-manager__empty">
-                    {i18n('stickers--StickerManager--InstalledPacks--Empty')}
+                    {i18n(
+                      'icu:stickers--StickerManager--InstalledPacks--Empty'
+                    )}
                   </div>
                 ))}
             </>

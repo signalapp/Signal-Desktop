@@ -15,26 +15,38 @@ import { Spinner } from '../Spinner';
 import { QrCode } from '../QrCode';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
+import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
+import type { UpdatesStateType } from '../../state/ducks/updates';
+import { Environment, getEnvironment } from '../../environment';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
 
-type PropsType = {
+export type PropsType = Readonly<{
   i18n: LocalizerType;
   provisioningUrl: Loadable<string>;
-};
-
-const QR_CODE_FAILED_LINK =
-  'https://support.signal.org/hc/articles/360007320451#desktop_multiple_device';
+  hasExpired?: boolean;
+  updates: UpdatesStateType;
+  currentVersion: string;
+  OS: string;
+  retryGetQrCode: () => void;
+  startUpdate: () => void;
+}>;
 
 const getQrCodeClassName = getClassNamesFor(
   'module-InstallScreenQrCodeNotScannedStep__qr-code'
 );
 
 export function InstallScreenQrCodeNotScannedStep({
+  currentVersion,
+  hasExpired,
   i18n,
+  OS,
   provisioningUrl,
+  retryGetQrCode,
+  startUpdate,
+  updates,
 }: Readonly<PropsType>): ReactElement {
   return (
     <div className="module-InstallScreenQrCodeNotScannedStep">
@@ -42,30 +54,44 @@ export function InstallScreenQrCodeNotScannedStep({
 
       <InstallScreenSignalLogo />
 
+      {hasExpired && (
+        <InstallScreenUpdateDialog
+          i18n={i18n}
+          {...updates}
+          startUpdate={startUpdate}
+          currentVersion={currentVersion}
+          OS={OS}
+        />
+      )}
+
       <div className="module-InstallScreenQrCodeNotScannedStep__contents">
-        <InstallScreenQrCode i18n={i18n} {...provisioningUrl} />
+        <InstallScreenQrCode
+          i18n={i18n}
+          {...provisioningUrl}
+          retryGetQrCode={retryGetQrCode}
+        />
         <div className="module-InstallScreenQrCodeNotScannedStep__instructions">
-          <h1>{i18n('Install__scan-this-code')}</h1>
+          <h1>{i18n('icu:Install__scan-this-code')}</h1>
           <ol>
-            <li>{i18n('Install__instructions__1')}</li>
+            <li>{i18n('icu:Install__instructions__1')}</li>
             <li>
               <Intl
                 i18n={i18n}
-                id="Install__instructions__2"
+                id="icu:Install__instructions__2"
                 components={{
                   settings: (
                     <strong>
-                      {i18n('Install__instructions__2__settings')}
+                      {i18n('icu:Install__instructions__2__settings')}
                     </strong>
                   ),
-                  linkedDevices: <strong>{i18n('linkedDevices')}</strong>,
+                  linkedDevices: <strong>{i18n('icu:linkedDevices')}</strong>,
                 }}
               />
             </li>
             <li>
               <Intl
                 i18n={i18n}
-                id="Install__instructions__3"
+                id="icu:Install__instructions__3"
                 components={{
                   plusButton: (
                     <div
@@ -73,14 +99,18 @@ export function InstallScreenQrCodeNotScannedStep({
                       aria-label="+"
                     />
                   ),
-                  linkNewDevice: <strong>{i18n('linkNewDevice')}</strong>,
+                  linkNewDevice: <strong>{i18n('icu:linkNewDevice')}</strong>,
                 }}
               />
             </li>
           </ol>
-          <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
-            {i18n('Install__support-link')}
-          </a>
+          {getEnvironment() !== Environment.Staging ? (
+            <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
+              {i18n('icu:Install__support-link')}
+            </a>
+          ) : (
+            'THIS IS A STAGING DESKTOP'
+          )}
         </div>
       </div>
     </div>
@@ -88,7 +118,7 @@ export function InstallScreenQrCodeNotScannedStep({
 }
 
 function InstallScreenQrCode(
-  props: Loadable<string> & { i18n: LocalizerType }
+  props: Loadable<string> & { i18n: LocalizerType; retryGetQrCode: () => void }
 ): ReactElement {
   const { i18n } = props;
 
@@ -102,11 +132,24 @@ function InstallScreenQrCode(
         <span className={classNames(getQrCodeClassName('__error-message'))}>
           <Intl
             i18n={i18n}
-            id="icu:Install__qr-failed"
+            id="icu:Install__qr-failed-load"
             components={{
               // eslint-disable-next-line react/no-unstable-nested-components
-              learnMoreLink: children => (
-                <a href={QR_CODE_FAILED_LINK}>{children}</a>
+              retry: children => (
+                <button
+                  className={getQrCodeClassName('__link')}
+                  onClick={props.retryGetQrCode}
+                  onKeyDown={ev => {
+                    if (ev.key === 'Enter') {
+                      props.retryGetQrCode();
+                      ev.preventDefault();
+                      ev.stopPropagation();
+                    }
+                  }}
+                  type="button"
+                >
+                  {children}
+                </button>
               ),
             }}
           />
@@ -116,7 +159,7 @@ function InstallScreenQrCode(
     case LoadingState.Loaded:
       contents = (
         <QrCode
-          alt={i18n('Install__scan-this-code')}
+          alt={i18n('icu:Install__scan-this-code')}
           className={getQrCodeClassName('__code')}
           data={props.value}
         />

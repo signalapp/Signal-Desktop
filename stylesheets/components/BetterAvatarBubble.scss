@@ -51,10 +51,7 @@
       display: block;
       height: 24px;
       width: 24px;
-      @include color-svg(
-        '../images/icons/v2/compose-outline-24.svg',
-        $color-white
-      );
+      @include color-svg('../images/icons/v3/edit/edit.svg', $color-white);
     }
   }
 
@@ -69,11 +66,11 @@
     justify-content: center;
     position: absolute;
     top: 0;
-    right: 0;
+    inset-inline-end: 0;
     width: 20px;
 
     &:after {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+      @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-75);
       content: '';
       height: 10px;
       width: 10px;

@@ -10,7 +10,8 @@ import { ErrorModal } from '../../components/ErrorModal';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
 import { SmartContactModal } from './ContactModal';
-import { SmartForwardMessageModal } from './ForwardMessageModal';
+import { SmartEditHistoryMessagesModal } from './EditHistoryMessagesModal';
+import { SmartForwardMessagesModal } from './ForwardMessagesModal';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
 import { SmartSendAnywayDialog } from './SendAnywayDialog';
@@ -20,6 +21,11 @@ import { SmartStoriesSettingsModal } from './StoriesSettingsModal';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { SmartDeleteMessagesModal } from './DeleteMessagesModal';
+
+function renderEditHistoryMessagesModal(): JSX.Element {
+  return <SmartEditHistoryMessagesModal />;
+}
 
 function renderProfileEditor(): JSX.Element {
   return <SmartProfileEditorModal />;
@@ -29,8 +35,12 @@ function renderContactModal(): JSX.Element {
   return <SmartContactModal />;
 }
 
-function renderForwardMessageModal(): JSX.Element {
-  return <SmartForwardMessageModal />;
+function renderDeleteMessagesModal(): JSX.Element {
+  return <SmartDeleteMessagesModal />;
+}
+
+function renderForwardMessagesModal(): JSX.Element {
+  return <SmartForwardMessagesModal />;
 }
 
 function renderStoriesSettings(): JSX.Element {
@@ -54,9 +64,14 @@ export function SmartGlobalModalContainer(): JSX.Element {
 
   const {
     addUserToAnotherGroupModalContactId,
+    authArtCreatorData,
     contactModalState,
+    deleteMessagesProps,
+    editHistoryMessages,
     errorModalProps,
-    forwardMessageProps,
+    formattingWarningData,
+    forwardMessagesProps,
+    isAuthorizingArtCreator,
     isProfileEditorVisible,
     isShortcutGuideModalVisible,
     isSignalConnectionsVisible,
@@ -64,6 +79,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     isWhatsNewVisible,
     safetyNumberChangedBlockingData,
     safetyNumberModalContactId,
+    sendEditWarningData,
     stickerPackPreviewId,
     userNotFoundModalState,
   } = useSelector<StateType, GlobalModalsStateType>(
@@ -71,9 +87,13 @@ export function SmartGlobalModalContainer(): JSX.Element {
   );
 
   const {
+    cancelAuthorizeArtCreator,
     closeErrorModal,
-    hideWhatsNewModal,
+    confirmAuthorizeArtCreator,
     hideUserNotFoundModal,
+    hideWhatsNewModal,
+    showFormattingWarningModal,
+    showSendEditWarningModal,
     toggleSignalConnectionsModal,
   } = useGlobalModalActions();
 
@@ -116,8 +136,11 @@ export function SmartGlobalModalContainer(): JSX.Element {
     <GlobalModalContainer
       addUserToAnotherGroupModalContactId={addUserToAnotherGroupModalContactId}
       contactModalState={contactModalState}
+      editHistoryMessages={editHistoryMessages}
       errorModalProps={errorModalProps}
-      forwardMessageProps={forwardMessageProps}
+      deleteMessagesProps={deleteMessagesProps}
+      formattingWarningData={formattingWarningData}
+      forwardMessagesProps={forwardMessagesProps}
       hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
       hideUserNotFoundModal={hideUserNotFoundModal}
       hideWhatsNewModal={hideWhatsNewModal}
@@ -129,8 +152,10 @@ export function SmartGlobalModalContainer(): JSX.Element {
       isWhatsNewVisible={isWhatsNewVisible}
       renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
       renderContactModal={renderContactModal}
+      renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}
       renderErrorModal={renderErrorModal}
-      renderForwardMessageModal={renderForwardMessageModal}
+      renderDeleteMessagesModal={renderDeleteMessagesModal}
+      renderForwardMessagesModal={renderForwardMessagesModal}
       renderProfileEditor={renderProfileEditor}
       renderSafetyNumber={renderSafetyNumber}
       renderSendAnywayDialog={renderSendAnywayDialog}
@@ -139,10 +164,17 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderStoriesSettings={renderStoriesSettings}
       safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
       safetyNumberModalContactId={safetyNumberModalContactId}
+      sendEditWarningData={sendEditWarningData}
+      showFormattingWarningModal={showFormattingWarningModal}
+      showSendEditWarningModal={showSendEditWarningModal}
       stickerPackPreviewId={stickerPackPreviewId}
       theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
       userNotFoundModalState={userNotFoundModalState}
+      isAuthorizingArtCreator={isAuthorizingArtCreator}
+      authArtCreatorData={authArtCreatorData}
+      cancelAuthorizeArtCreator={cancelAuthorizeArtCreator}
+      confirmAuthorizeArtCreator={confirmAuthorizeArtCreator}
     />
   );
 }

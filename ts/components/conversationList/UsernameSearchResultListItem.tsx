@@ -3,10 +3,13 @@
 
 import React, { useCallback } from 'react';
 
-import { BaseConversationListItem } from './BaseConversationListItem';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem';
+import { ListTile } from '../ListTile';
+import { Avatar, AvatarSize } from '../Avatar';
+import { Spinner } from '../Spinner';
 
 import type { LocalizerType } from '../../types/Util';
-import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 
 type PropsData = {
@@ -17,14 +20,14 @@ type PropsData = {
 type PropsHousekeeping = {
   i18n: LocalizerType;
   showConversation: ShowConversationType;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 export type Props = PropsData & PropsHousekeeping;
 
 export function UsernameSearchResultListItem({
   i18n,
   isFetchingUsername,
-  lookupConversationWithoutUuid,
+  lookupConversationWithoutServiceId,
   username,
   showUserNotFoundModal,
   setIsFetchingUUID,
@@ -34,7 +37,7 @@ export function UsernameSearchResultListItem({
     if (isFetchingUsername) {
       return;
     }
-    const conversationId = await lookupConversationWithoutUuid({
+    const conversationId = await lookupConversationWithoutServiceId({
       showUserNotFoundModal,
       setIsFetchingUUID,
 
@@ -47,7 +50,7 @@ export function UsernameSearchResultListItem({
     }
   }, [
     isFetchingUsername,
-    lookupConversationWithoutUuid,
+    lookupConversationWithoutServiceId,
     setIsFetchingUUID,
     showConversation,
     showUserNotFoundModal,
@@ -55,18 +58,32 @@ export function UsernameSearchResultListItem({
   ]);
 
   return (
-    <BaseConversationListItem
-      acceptedMessageRequest={false}
-      conversationType="direct"
-      headerName={username}
-      i18n={i18n}
-      isMe={false}
-      isSelected={false}
-      isUsernameSearchResult
-      shouldShowSpinner={isFetchingUsername}
-      onClick={boundOnClick}
-      sharedGroupNames={[]}
+    <ListTile
+      leading={
+        <Avatar
+          acceptedMessageRequest={false}
+          conversationType="direct"
+          searchResult
+          i18n={i18n}
+          isMe={false}
+          title={username}
+          size={AvatarSize.THIRTY_TWO}
+          badge={undefined}
+          sharedGroupNames={[]}
+        />
+      }
       title={username}
+      onClick={boundOnClick}
+      trailing={
+        isFetchingUsername ? (
+          <Spinner
+            size="20px"
+            svgSize="small"
+            moduleClassName={SPINNER_CLASS_NAME}
+            direction="on-progress-dialog"
+          />
+        ) : undefined
+      }
     />
   );
 }

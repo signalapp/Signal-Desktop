@@ -10,7 +10,7 @@ import * as Errors from '../ts/types/errors';
 import { isProduction } from '../ts/util/version';
 import { upload as uploadDebugLog } from '../ts/logging/uploadDebugLog';
 import { SignalService as Proto } from '../ts/protobuf';
-import * as OS from '../ts/OS';
+import OS from '../ts/util/os/osMain';
 
 async function getPendingDumps(): Promise<ReadonlyArray<string>> {
   const crashDumpsPath = await realpath(app.getPath('crashDumps'));
@@ -46,11 +46,11 @@ async function eraseDumps(
   );
 }
 
-export async function setup(getLogger: () => LoggerType): Promise<void> {
-  const isEnabled = !isProduction(app.getVersion());
+export function setup(getLogger: () => LoggerType, forceEnable = false): void {
+  const isEnabled = !isProduction(app.getVersion()) || forceEnable;
 
   if (isEnabled) {
-    getLogger().info('crashReporter: enabled');
+    getLogger().info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);
     crashReporter.start({ uploadToServer: false });
   }
 
@@ -117,7 +117,7 @@ export async function setup(getLogger: () => LoggerType): Promise<void> {
         prefix: 'desktop-crash-',
       });
 
-      logger.info('crashReports: upload complete');
+      logger.info(`crashReports: upload complete, ${url}`);
       clipboard.writeText(url);
     } finally {
       await eraseDumps(logger, pendingDumps);

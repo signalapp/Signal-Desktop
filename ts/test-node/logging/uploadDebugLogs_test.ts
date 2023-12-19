@@ -15,7 +15,7 @@ import * as logger from '../../logging/log';
 const gzip: (_: zlib.InputType) => Promise<Buffer> = util.promisify(zlib.gzip);
 
 describe('upload', () => {
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     this.sandbox = sinon.createSandbox();
 
     this.sandbox.stub(process, 'platform').get(() => 'freebsd');
@@ -35,11 +35,11 @@ describe('upload', () => {
     this.fakePost.resolves({ statusCode: 204 });
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
   });
 
-  it('makes a request to get the S3 bucket, then uploads it there', async function test() {
+  it('makes a request to get the S3 bucket, then uploads it there', async function (this: Mocha.Context) {
     assert.strictEqual(
       await upload({ content: 'hello world', appVersion: '1.2.3', logger }),
       'https://debuglogs.org/abc123.gz'
@@ -75,7 +75,7 @@ describe('upload', () => {
     });
   });
 
-  it("rejects if we can't get a token", async function test() {
+  it("rejects if we can't get a token", async function (this: Mocha.Context) {
     this.fakeGet.rejects(new Error('HTTP request failure'));
 
     let err: unknown;
@@ -87,7 +87,7 @@ describe('upload', () => {
     assert.instanceOf(err, Error);
   });
 
-  it('rejects with an invalid token body', async function test() {
+  it('rejects with an invalid token body', async function (this: Mocha.Context) {
     const bodies = [
       null,
       {},
@@ -114,7 +114,7 @@ describe('upload', () => {
     }
   });
 
-  it("rejects if the upload doesn't return a 204", async function test() {
+  it("rejects if the upload doesn't return a 204", async function (this: Mocha.Context) {
     this.fakePost.resolves({ statusCode: 400 });
 
     let err: unknown;

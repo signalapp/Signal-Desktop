@@ -14,11 +14,11 @@ export function getConversationTitleForPanelType(
   }
 
   if (panelType === PanelType.AllMedia) {
-    return i18n('allMedia');
+    return i18n('icu:allMedia');
   }
 
   if (panelType === PanelType.ChatColorEditor) {
-    return i18n('ChatColorPicker__menu-title');
+    return i18n('icu:ChatColorPicker__menu-title');
   }
 
   if (panelType === PanelType.ContactDetails) {
@@ -30,19 +30,19 @@ export function getConversationTitleForPanelType(
   }
 
   if (panelType === PanelType.GroupInvites) {
-    return i18n('ConversationDetails--requests-and-invites');
+    return i18n('icu:ConversationDetails--requests-and-invites');
   }
 
   if (panelType === PanelType.GroupLinkManagement) {
-    return i18n('ConversationDetails--group-link');
+    return i18n('icu:ConversationDetails--group-link');
   }
 
   if (panelType === PanelType.GroupPermissions) {
-    return i18n('permissions');
+    return i18n('icu:permissions');
   }
 
   if (panelType === PanelType.NotificationSettings) {
-    return i18n('ConversationDetails--notifications');
+    return i18n('icu:ConversationDetails--notifications');
   }
 
   if (panelType === PanelType.StickerManager) {

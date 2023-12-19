@@ -5,4 +5,32 @@
   display: flex;
   flex-direction: row;
   height: 100%;
+
+  &__conversation-stack {
+    flex-grow: 1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__no-conversation-open {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+  }
+
+  .__conversation {
+    @include light-theme {
+      background-color: $color-white;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-95;
+    }
+  }
 }

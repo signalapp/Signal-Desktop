@@ -3,12 +3,13 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './Button';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 
 export default {
   title: 'Components/Button',
-};
+} satisfies Meta<PropsType>;
 
 export function KitchenSink(): JSX.Element {
   return (
@@ -44,10 +45,6 @@ export function KitchenSink(): JSX.Element {
   );
 }
 
-KitchenSink.story = {
-  name: 'Kitchen sink',
-};
-
 export function AriaLabel(): JSX.Element {
   return (
     <Button
@@ -58,10 +55,6 @@ export function AriaLabel(): JSX.Element {
   );
 }
 
-AriaLabel.story = {
-  name: 'aria-label',
-};
-
 export function CustomStyles(): JSX.Element {
   return (
     <Button onClick={action('onClick')} style={{ transform: 'rotate(5deg)' }}>
@@ -69,7 +62,3 @@ export function CustomStyles(): JSX.Element {
     </Button>
   );
 }
-
-CustomStyles.story = {
-  name: 'Custom styles',
-};

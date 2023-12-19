@@ -1,13 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, webFrame } from 'electron';
+import { MinimalSignalContext } from '../minimalContext';
 
-import { SignalContext } from '../context';
+import type { PropsPreloadType } from '../../components/Preferences';
+import OS from '../../util/os/osPreload';
 import * as Settings from '../../types/Settings';
-import { Preferences } from '../../components/Preferences';
 import {
   SystemTraySetting,
   parseSystemTraySetting,
@@ -16,12 +15,12 @@ import {
 import { awaitObject } from '../../util/awaitObject';
 import { DurationInSeconds } from '../../util/durations';
 import { createSetting, createCallback } from '../../util/preload';
-import { startInteractionMode } from '../startInteractionMode';
 
 function doneRendering() {
   ipcRenderer.send('settings-done-rendering');
 }
 
+const settingMessageAudio = createSetting('audioMessage');
 const settingAudioNotification = createSetting('audioNotification');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
 const settingAutoLaunch = createSetting('autoLaunch');
@@ -43,10 +42,12 @@ const settingNotificationDrawAttention = createSetting(
 );
 const settingNotificationSetting = createSetting('notificationSetting');
 const settingRelayCalls = createSetting('alwaysRelayCalls');
-const settingSpellCheck = createSetting('spellCheck');
 const settingSentMediaQuality = createSetting('sentMediaQualitySetting');
+const settingSpellCheck = createSetting('spellCheck');
+const settingTextFormatting = createSetting('textFormatting');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
+const settingLocaleOverride = createSetting('localeOverride');
 
 const settingLastSyncTime = createSetting('lastSyncTime');
 
@@ -59,12 +60,9 @@ const settingLinkPreview = createSetting('linkPreviewSetting', {
   setter: false,
 });
 const settingPhoneNumberDiscoverability = createSetting(
-  'phoneNumberDiscoverabilitySetting',
-  { setter: false }
+  'phoneNumberDiscoverabilitySetting'
 );
-const settingPhoneNumberSharing = createSetting('phoneNumberSharingSetting', {
-  setter: false,
-});
+const settingPhoneNumberSharing = createSetting('phoneNumberSharingSetting');
 const settingReadReceipts = createSetting('readReceiptSetting', {
   setter: false,
 });
@@ -85,9 +83,6 @@ const ipcGetCustomColors = createCallback('getCustomColors');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
 const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
-const ipcShouldShowStoriesSettings = createCallback(
-  'shouldShowStoriesSettings'
-);
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 
 // ChatColorPicker redux hookups
@@ -130,9 +125,18 @@ function getSystemTraySettingValues(systemTraySetting: SystemTraySetting): {
   };
 }
 
-const renderPreferences = async () => {
-  startInteractionMode();
+let renderInBrowser = (_props: PropsPreloadType): void => {
+  throw new Error('render is not defined');
+};
 
+function attachRenderCallback<Value>(f: (value: Value) => Promise<Value>) {
+  return async (value: Value) => {
+    await f(value);
+    void renderPreferences();
+  };
+}
+
+async function renderPreferences() {
   const {
     blockedCount,
     deviceName,
@@ -148,11 +152,13 @@ const renderPreferences = async () => {
     hasLinkPreviews,
     hasMediaCameraPermissions,
     hasMediaPermissions,
+    hasMessageAudio,
     hasNotificationAttention,
     hasReadReceipts,
     hasRelayCalls,
     hasSpellCheck,
     hasStoriesDisabled,
+    hasTextFormatting,
     hasTypingIndicators,
     isPhoneNumberSharingSupported,
     lastSyncTime,
@@ -161,6 +167,7 @@ const renderPreferences = async () => {
     selectedMicrophone,
     selectedSpeaker,
     sentMediaQualitySetting,
+    localeOverride,
     systemTraySetting,
     themeSetting,
     universalExpireTimer,
@@ -172,7 +179,6 @@ const renderPreferences = async () => {
     customColors,
     defaultConversationColor,
     isSyncNotSupported,
-    shouldShowStoriesSettings,
   } = await awaitObject({
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
@@ -188,11 +194,13 @@ const renderPreferences = async () => {
     hasLinkPreviews: settingLinkPreview.getValue(),
     hasMediaCameraPermissions: settingMediaCameraPermissions.getValue(),
     hasMediaPermissions: settingMediaPermissions.getValue(),
+    hasMessageAudio: settingMessageAudio.getValue(),
     hasNotificationAttention: settingNotificationDrawAttention.getValue(),
     hasReadReceipts: settingReadReceipts.getValue(),
     hasRelayCalls: settingRelayCalls.getValue(),
     hasSpellCheck: settingSpellCheck.getValue(),
     hasStoriesDisabled: settingHasStoriesDisabled.getValue(),
+    hasTextFormatting: settingTextFormatting.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
     isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
@@ -201,6 +209,7 @@ const renderPreferences = async () => {
     selectedMicrophone: settingAudioInput.getValue(),
     selectedSpeaker: settingAudioOutput.getValue(),
     sentMediaQualitySetting: settingSentMediaQuality.getValue(),
+    localeOverride: settingLocaleOverride.getValue(),
     systemTraySetting: settingSystemTraySetting.getValue(),
     themeSetting: settingTheme.getValue(),
     universalExpireTimer: settingUniversalExpireTimer.getValue(),
@@ -213,7 +222,6 @@ const renderPreferences = async () => {
     customColors: ipcGetCustomColors(),
     defaultConversationColor: ipcGetDefaultConversationColor(),
     isSyncNotSupported: ipcIsSyncNotSupported(),
-    shouldShowStoriesSettings: ipcShouldShowStoriesSettings(),
   });
 
   const { availableCameras, availableMicrophones, availableSpeakers } =
@@ -222,13 +230,19 @@ const renderPreferences = async () => {
   const { hasMinimizeToAndStartInSystemTray, hasMinimizeToSystemTray } =
     getSystemTraySettingValues(systemTraySetting);
 
-  const onUniversalExpireTimerChange = reRender(
+  const onUniversalExpireTimerChange = attachRenderCallback(
     settingUniversalExpireTimer.setValue
   );
+
+  const availableLocales = MinimalSignalContext.getI18nAvailableLocales();
+  const resolvedLocale = MinimalSignalContext.getI18nLocale();
+  const preferredSystemLocales =
+    MinimalSignalContext.getPreferredSystemLocales();
 
   const props = {
     // Settings
     availableCameras,
+    availableLocales,
     availableMicrophones,
     availableSpeakers,
     blockedCount,
@@ -247,6 +261,7 @@ const renderPreferences = async () => {
     hasLinkPreviews,
     hasMediaCameraPermissions,
     hasMediaPermissions,
+    hasMessageAudio,
     hasMinimizeToAndStartInSystemTray,
     hasMinimizeToSystemTray,
     hasNotificationAttention,
@@ -255,9 +270,13 @@ const renderPreferences = async () => {
     hasRelayCalls,
     hasSpellCheck,
     hasStoriesDisabled,
+    hasTextFormatting,
     hasTypingIndicators,
     lastSyncTime,
+    localeOverride,
     notificationContent,
+    preferredSystemLocales,
+    resolvedLocale,
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
@@ -270,133 +289,166 @@ const renderPreferences = async () => {
 
     // Actions and other props
     addCustomColor: ipcAddCustomColor,
-    closeSettings: () => SignalContext.executeMenuRole('close'),
+    closeSettings: () => MinimalSignalContext.executeMenuRole('close'),
     doDeleteAllData: () => ipcRenderer.send('delete-all-data'),
     doneRendering,
     editCustomColor: ipcEditCustomColor,
     getConversationsWithCustomColor: ipcGetConversationsWithCustomColor,
     initialSpellCheckSetting:
-      SignalContext.config.appStartInitialSpellcheckSetting,
+      MinimalSignalContext.config.appStartInitialSpellcheckSetting,
     makeSyncRequest: ipcMakeSyncRequest,
     removeCustomColor: ipcRemoveCustomColor,
     removeCustomColorOnConversations: ipcRemoveCustomColorOnConversations,
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
-    shouldShowStoriesSettings,
 
     // Limited support features
-    isAudioNotificationsSupported: Settings.isAudioNotificationSupported(),
-    isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(),
-    isAutoLaunchSupported: Settings.isAutoLaunchSupported(),
-    isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
-    isNotificationAttentionSupported: Settings.isDrawAttentionSupported(),
+    isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(OS),
+    isAutoLaunchSupported: Settings.isAutoLaunchSupported(OS),
+    isHideMenuBarSupported: Settings.isHideMenuBarSupported(OS),
+    isNotificationAttentionSupported: Settings.isDrawAttentionSupported(OS),
     isPhoneNumberSharingSupported,
     isSyncSupported: !isSyncNotSupported,
     isSystemTraySupported: Settings.isSystemTraySupported(
-      SignalContext.getVersion()
+      OS,
+      MinimalSignalContext.getVersion()
     ),
     isMinimizeToAndStartInSystemTraySupported:
       Settings.isMinimizeToAndStartInSystemTraySupported(
-        SignalContext.getVersion()
+        OS,
+        MinimalSignalContext.getVersion()
       ),
 
     // Change handlers
-    onAudioNotificationsChange: reRender(settingAudioNotification.setValue),
-    onAutoDownloadUpdateChange: reRender(settingAutoDownloadUpdate.setValue),
-    onAutoLaunchChange: reRender(settingAutoLaunch.setValue),
-    onCallNotificationsChange: reRender(settingCallSystemNotification.setValue),
-    onCallRingtoneNotificationChange: reRender(
+    onAudioNotificationsChange: attachRenderCallback(
+      settingAudioNotification.setValue
+    ),
+    onAutoDownloadUpdateChange: attachRenderCallback(
+      settingAutoDownloadUpdate.setValue
+    ),
+    onAutoLaunchChange: attachRenderCallback(settingAutoLaunch.setValue),
+    onCallNotificationsChange: attachRenderCallback(
+      settingCallSystemNotification.setValue
+    ),
+    onCallRingtoneNotificationChange: attachRenderCallback(
       settingCallRingtoneNotification.setValue
     ),
-    onCountMutedConversationsChange: reRender(
+    onCountMutedConversationsChange: attachRenderCallback(
       settingCountMutedConversations.setValue
     ),
     onEnterKeySendsChange: reRender(settingEnterKeySends.setValue),
-    onHasStoriesDisabledChanged: reRender(async (value: boolean) => {
-      await settingHasStoriesDisabled.setValue(value);
-      if (!value) {
-        void ipcDeleteAllMyStories();
+    onHasStoriesDisabledChanged: attachRenderCallback(
+      async (value: boolean) => {
+        await settingHasStoriesDisabled.setValue(value);
+        if (!value) {
+          void ipcDeleteAllMyStories();
+        }
+        return value;
       }
-      return value;
-    }),
-    onHideMenuBarChange: reRender(settingHideMenuBar.setValue),
-    onIncomingCallNotificationsChange: reRender(
+    ),
+    onHideMenuBarChange: attachRenderCallback(settingHideMenuBar.setValue),
+    onIncomingCallNotificationsChange: attachRenderCallback(
       settingIncomingCallNotification.setValue
     ),
-    onLastSyncTimeChange: reRender(settingLastSyncTime.setValue),
-    onMediaCameraPermissionsChange: reRender(
+    onLastSyncTimeChange: attachRenderCallback(settingLastSyncTime.setValue),
+    onLocaleChange: async (locale: string | null) => {
+      await settingLocaleOverride.setValue(locale);
+      MinimalSignalContext.restartApp();
+    },
+    onMediaCameraPermissionsChange: attachRenderCallback(
       settingMediaCameraPermissions.setValue
     ),
-    onMinimizeToAndStartInSystemTrayChange: reRender(async (value: boolean) => {
-      await settingSystemTraySetting.setValue(
-        value
-          ? SystemTraySetting.MinimizeToAndStartInSystemTray
-          : SystemTraySetting.MinimizeToSystemTray
-      );
-      return value;
-    }),
-    onMinimizeToSystemTrayChange: reRender(async (value: boolean) => {
-      await settingSystemTraySetting.setValue(
-        value
-          ? SystemTraySetting.MinimizeToSystemTray
-          : SystemTraySetting.DoNotUseSystemTray
-      );
-      return value;
-    }),
-    onMediaPermissionsChange: reRender(settingMediaPermissions.setValue),
-    onNotificationAttentionChange: reRender(
+    onMessageAudioChange: attachRenderCallback(settingMessageAudio.setValue),
+    onMinimizeToAndStartInSystemTrayChange: attachRenderCallback(
+      async (value: boolean) => {
+        await settingSystemTraySetting.setValue(
+          value
+            ? SystemTraySetting.MinimizeToAndStartInSystemTray
+            : SystemTraySetting.MinimizeToSystemTray
+        );
+        return value;
+      }
+    ),
+    onMinimizeToSystemTrayChange: attachRenderCallback(
+      async (value: boolean) => {
+        await settingSystemTraySetting.setValue(
+          value
+            ? SystemTraySetting.MinimizeToSystemTray
+            : SystemTraySetting.DoNotUseSystemTray
+        );
+        return value;
+      }
+    ),
+    onMediaPermissionsChange: attachRenderCallback(
+      settingMediaPermissions.setValue
+    ),
+    onNotificationAttentionChange: attachRenderCallback(
       settingNotificationDrawAttention.setValue
     ),
-    onNotificationContentChange: reRender(settingNotificationSetting.setValue),
-    onNotificationsChange: reRender(async (value: boolean) => {
+    onNotificationContentChange: attachRenderCallback(
+      settingNotificationSetting.setValue
+    ),
+    onNotificationsChange: attachRenderCallback(async (value: boolean) => {
       await settingNotificationSetting.setValue(
         value ? DEFAULT_NOTIFICATION_SETTING : 'off'
       );
       return value;
     }),
-    onRelayCallsChange: reRender(settingRelayCalls.setValue),
-    onSelectedCameraChange: reRender(settingVideoInput.setValue),
-    onSelectedMicrophoneChange: reRender(settingAudioInput.setValue),
-    onSelectedSpeakerChange: reRender(settingAudioOutput.setValue),
-    onSentMediaQualityChange: reRender(settingSentMediaQuality.setValue),
-    onSpellCheckChange: reRender(settingSpellCheck.setValue),
-    onThemeChange: reRender(settingTheme.setValue),
+    onRelayCallsChange: attachRenderCallback(settingRelayCalls.setValue),
+    onSelectedCameraChange: attachRenderCallback(settingVideoInput.setValue),
+    onSelectedMicrophoneChange: attachRenderCallback(
+      settingAudioInput.setValue
+    ),
+    onSelectedSpeakerChange: attachRenderCallback(settingAudioOutput.setValue),
+    onSentMediaQualityChange: attachRenderCallback(
+      settingSentMediaQuality.setValue
+    ),
+    onSpellCheckChange: attachRenderCallback(settingSpellCheck.setValue),
+    onTextFormattingChange: attachRenderCallback(
+      settingTextFormatting.setValue
+    ),
+    onThemeChange: attachRenderCallback(settingTheme.setValue),
     onUniversalExpireTimerChange: (newValue: number): Promise<void> => {
       return onUniversalExpireTimerChange(
         DurationInSeconds.fromSeconds(newValue)
       );
     },
 
+    onWhoCanFindMeChange: attachRenderCallback(
+      settingPhoneNumberDiscoverability.setValue
+    ),
+    onWhoCanSeeMeChange: attachRenderCallback(
+      settingPhoneNumberSharing.setValue
+    ),
+
     // Zoom factor change doesn't require immediate rerender since it will:
     // 1. Update the zoom factor in the main window
     // 2. Trigger `preferred-size-changed` in the main process
     // 3. Finally result in `window.storage` update which will cause the
     //    rerender.
-    onZoomFactorChange: settingZoomFactor.setValue,
+    onZoomFactorChange: (value: number) => {
+      // Update Settings window zoom factor to match the selected value.
+      webFrame.setZoomFactor(value);
+      return settingZoomFactor.setValue(value);
+    },
 
-    i18n: SignalContext.i18n,
-
-    hasCustomTitleBar: SignalContext.OS.hasCustomTitleBar(),
-    executeMenuRole: SignalContext.executeMenuRole,
+    hasCustomTitleBar: MinimalSignalContext.OS.hasCustomTitleBar(),
+    executeMenuRole: MinimalSignalContext.executeMenuRole,
   };
 
-  function reRender<Value>(f: (value: Value) => Promise<Value>) {
-    return async (value: Value) => {
-      await f(value);
-      void renderPreferences();
-    };
-  }
-
-  ReactDOM.render(
-    React.createElement(Preferences, props),
-    document.getElementById('app')
-  );
-};
+  renderInBrowser(props);
+}
 
 ipcRenderer.on('preferences-changed', () => renderPreferences());
 
-contextBridge.exposeInMainWorld('SignalContext', {
-  ...SignalContext,
-  renderWindow: renderPreferences,
-});
+const Signal = {
+  SettingsWindowProps: {
+    onRender: (renderer: (_props: PropsPreloadType) => void) => {
+      renderInBrowser = renderer;
+      void renderPreferences();
+    },
+  },
+};
+contextBridge.exposeInMainWorld('Signal', Signal);
+contextBridge.exposeInMainWorld('SignalContext', MinimalSignalContext);

@@ -6,6 +6,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { Props } from './ConversationDetails';
@@ -14,15 +15,22 @@ import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembe
 import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { makeFakeLookupConversationWithoutUuid } from '../../../test-both/helpers/fakeLookupConversationWithoutUuid';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-both/helpers/fakeLookupConversationWithoutServiceId';
 import { ThemeType } from '../../../types/Util';
 import { DurationInSeconds } from '../../../util/durations';
+import { NavTab } from '../../../state/ducks/nav';
+import { CallMode } from '../../../types/Calling';
+import {
+  CallDirection,
+  CallType,
+  DirectCallStatus,
+} from '../../../types/CallDisposition';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ConversationDetails/ConversationDetails',
-};
+} satisfies Meta<Props>;
 
 const conversation: ConversationType = getDefaultConversation({
   id: '',
@@ -79,6 +87,7 @@ const createProps = (
     metadata: {},
     member: getDefaultConversation(),
   })),
+  selectedNavTab: NavTab.Chats,
   setDisappearingMessages: action('setDisappearingMessages'),
   showContactModal: action('showContactModal'),
   pushPanelForConversation: action('pushPanelForConversation'),
@@ -112,7 +121,8 @@ const createProps = (
         getPreferredBadge={() => undefined}
         theme={ThemeType.light}
         i18n={i18n}
-        lookupConversationWithoutUuid={makeFakeLookupConversationWithoutUuid()}
+        lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}
+        ourUsername={undefined}
         showUserNotFoundModal={action('showUserNotFoundModal')}
         isUsernamesEnabled
       />
@@ -137,10 +147,6 @@ export function AsAdmin(): JSX.Element {
   return <ConversationDetails {...props} isAdmin />;
 }
 
-AsAdmin.story = {
-  name: 'as Admin',
-};
-
 export function AsLastAdmin(): JSX.Element {
   const props = createProps();
 
@@ -157,10 +163,6 @@ export function AsLastAdmin(): JSX.Element {
     />
   );
 }
-
-AsLastAdmin.story = {
-  name: 'as last admin',
-};
 
 export function AsOnlyAdmin(): JSX.Element {
   const props = createProps();
@@ -181,10 +183,6 @@ export function AsOnlyAdmin(): JSX.Element {
   );
 }
 
-AsOnlyAdmin.story = {
-  name: 'as only admin',
-};
-
 export function GroupEditable(): JSX.Element {
   const props = createProps();
 
@@ -197,10 +195,6 @@ export function GroupEditableWithCustomDisappearingTimeout(): JSX.Element {
   return <ConversationDetails {...props} canEditGroupInfo />;
 }
 
-GroupEditableWithCustomDisappearingTimeout.story = {
-  name: 'Group Editable with custom disappearing timeout',
-};
-
 export function GroupLinksOn(): JSX.Element {
   const props = createProps(true);
 
@@ -211,6 +205,31 @@ export const _11 = (): JSX.Element => (
   <ConversationDetails {...createProps()} isGroup={false} />
 );
 
-_11.story = {
-  name: '1:1',
-};
+function mins(n: number) {
+  return DurationInSeconds.toMillis(DurationInSeconds.fromMinutes(n));
+}
+
+export function WithCallHistoryGroup(): JSX.Element {
+  const props = createProps();
+
+  return (
+    <ConversationDetails
+      {...props}
+      callHistoryGroup={{
+        peerId: props.conversation?.serviceId ?? '',
+        mode: CallMode.Direct,
+        type: CallType.Video,
+        direction: CallDirection.Incoming,
+        status: DirectCallStatus.Accepted,
+        timestamp: Date.now(),
+        children: [
+          { callId: '123', timestamp: Date.now() },
+          { callId: '122', timestamp: Date.now() - mins(30) },
+          { callId: '121', timestamp: Date.now() - mins(45) },
+          { callId: '121', timestamp: Date.now() - mins(60) },
+        ],
+      }}
+      selectedNavTab={NavTab.Calls}
+    />
+  );
+}

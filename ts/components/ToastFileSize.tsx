@@ -6,11 +6,11 @@ import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
 export type ToastPropsType = {
-  limit: string;
+  limit: number;
   units: string;
 };
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   onClose: () => unknown;
 } & ToastPropsType;

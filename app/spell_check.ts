@@ -3,44 +3,93 @@
 
 import type { BrowserWindow } from 'electron';
 import { Menu, clipboard, nativeImage } from 'electron';
-import { uniq } from 'lodash';
 import { fileURLToPath } from 'url';
+import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import { maybeParseUrl } from '../ts/util/url';
-import type { LocaleType } from './locale';
 
 import type { MenuListType } from '../ts/types/menu';
+import type { LocalizerType } from '../ts/types/Util';
+import { strictAssert } from '../ts/util/assert';
+import type { LoggerType } from '../ts/types/Logging';
+
+export const FAKE_DEFAULT_LOCALE = 'en-x-ignore'; // -x- is an extension space for attaching other metadata to the locale
+
+strictAssert(
+  new Intl.Locale(FAKE_DEFAULT_LOCALE).toString() === FAKE_DEFAULT_LOCALE,
+  "Ensure Intl doesn't change our fake locale ever"
+);
 
 export function getLanguages(
-  userLocale: string,
-  availableLocales: ReadonlyArray<string>
+  preferredSystemLocales: ReadonlyArray<string>,
+  availableLocales: ReadonlyArray<string>,
+  defaultLocale: string
 ): Array<string> {
-  // First attempt to find the exact locale
-  const candidateLocales = uniq([userLocale, userLocale]).filter(l =>
-    availableLocales.includes(l)
-  );
-  if (candidateLocales.length > 0) {
-    return candidateLocales;
+  const matchedLocales = [];
+
+  preferredSystemLocales.forEach(preferredSystemLocale => {
+    const matchedLocale = LocaleMatcher.match(
+      [preferredSystemLocale],
+      availableLocales as Array<string>, // bad types
+      // We don't want to fallback to the default locale right away in case we might
+      // match some other locales first.
+      //
+      // However, we do want to match the default locale in case the user's locales
+      // actually matches it.
+      //
+      // This fake locale allows us to reliably filter it out within the loop.
+      FAKE_DEFAULT_LOCALE,
+      { algorithm: 'best fit' }
+    );
+    if (matchedLocale !== FAKE_DEFAULT_LOCALE) {
+      matchedLocales.push(matchedLocale);
+    }
+  });
+
+  if (matchedLocales.length === 0) {
+    matchedLocales.push(defaultLocale);
   }
 
-  // If no languages were found then return all locales that start with the base
-  const baseLocale = userLocale.split('-')[0];
-  return uniq(availableLocales.filter(l => l.startsWith(baseLocale)));
+  return matchedLocales;
 }
 
 export const setup = (
   browserWindow: BrowserWindow,
-  { name: userLocale, i18n }: LocaleType
+  preferredSystemLocales: ReadonlyArray<string>,
+  localeOverride: string | null,
+  i18n: LocalizerType,
+  logger: LoggerType
 ): void => {
   const { session } = browserWindow.webContents;
+
+  session.on('spellcheck-dictionary-download-begin', (_event, lang) => {
+    logger.info('spellcheck: dictionary download begin:', lang);
+  });
+  session.on('spellcheck-dictionary-download-failure', (_event, lang) => {
+    logger.error('spellcheck: dictionary download failure:', lang);
+  });
+  session.on('spellcheck-dictionary-download-success', (_event, lang) => {
+    logger.info('spellcheck: dictionary download success:', lang);
+  });
+  session.on('spellcheck-dictionary-initialized', (_event, lang) => {
+    logger.info('spellcheck: dictionary initialized:', lang);
+  });
+
+  // Locale override should be combined with other preferences rather than
+  // replace them entirely.
+  const combinedLocales =
+    localeOverride != null
+      ? [localeOverride, ...preferredSystemLocales]
+      : preferredSystemLocales;
+
   const availableLocales = session.availableSpellCheckerLanguages;
-  const languages = getLanguages(userLocale, availableLocales);
-  console.log(`spellcheck: user locale: ${userLocale}`);
+  const languages = getLanguages(combinedLocales, availableLocales, 'en');
+  console.log('spellcheck: user locales:', combinedLocales);
   console.log(
-    'spellcheck: available spellchecker languages: ',
+    'spellcheck: available spellchecker languages:',
     availableLocales
   );
-  console.log('spellcheck: setting languages to: ', languages);
+  console.log('spellcheck: setting languages to:', languages);
   session.setSpellCheckerLanguages(languages);
 
   browserWindow.webContents.on('context-menu', (_event, params) => {
@@ -68,7 +117,7 @@ export const setup = (
           );
         } else {
           template.push({
-            label: i18n('contextMenuNoSuggestions'),
+            label: i18n('icu:contextMenuNoSuggestions'),
             enabled: false,
           });
         }
@@ -77,18 +126,18 @@ export const setup = (
 
       if (params.isEditable) {
         if (editFlags.canUndo) {
-          template.push({ label: i18n('editMenuUndo'), role: 'undo' });
+          template.push({ label: i18n('icu:editMenuUndo'), role: 'undo' });
         }
         // This is only ever `true` if undo was triggered via the context menu
         // (not ctrl/cmd+z)
         if (editFlags.canRedo) {
-          template.push({ label: i18n('editMenuRedo'), role: 'redo' });
+          template.push({ label: i18n('icu:editMenuRedo'), role: 'redo' });
         }
         if (editFlags.canUndo || editFlags.canRedo) {
           template.push({ type: 'separator' });
         }
         if (editFlags.canCut) {
-          template.push({ label: i18n('editMenuCut'), role: 'cut' });
+          template.push({ label: i18n('icu:editMenuCut'), role: 'cut' });
         }
       }
 
@@ -100,8 +149,15 @@ export const setup = (
           click = () => {
             clipboard.writeText(params.linkURL);
           };
-          label = i18n('contextMenuCopyLink');
+          label = i18n('icu:contextMenuCopyLink');
         } else if (isImage) {
+          const urlIsViewOnce =
+            params.srcURL?.includes('/temp/') ||
+            params.srcURL?.includes('\\temp\\');
+          if (urlIsViewOnce) {
+            return;
+          }
+
           click = () => {
             const parsedSrcUrl = maybeParseUrl(params.srcURL);
             if (!parsedSrcUrl || parsedSrcUrl.protocol !== 'file:') {
@@ -113,9 +169,9 @@ export const setup = (
             );
             clipboard.writeImage(image);
           };
-          label = i18n('contextMenuCopyImage');
+          label = i18n('icu:contextMenuCopyImage');
         } else {
-          label = i18n('editMenuCopy');
+          label = i18n('icu:editMenuCopy');
         }
 
         template.push({
@@ -126,12 +182,12 @@ export const setup = (
       }
 
       if (editFlags.canPaste && !isImage) {
-        template.push({ label: i18n('editMenuPaste'), role: 'paste' });
+        template.push({ label: i18n('icu:editMenuPaste'), role: 'paste' });
       }
 
       if (editFlags.canPaste && !isImage) {
         template.push({
-          label: i18n('editMenuPasteAndMatchStyle'),
+          label: i18n('icu:editMenuPasteAndMatchStyle'),
           role: 'pasteAndMatchStyle',
         });
       }
@@ -140,7 +196,7 @@ export const setup = (
       // results in all the UI being selected
       if (editFlags.canSelectAll && params.isEditable) {
         template.push({
-          label: i18n('editMenuSelectAll'),
+          label: i18n('icu:editMenuSelectAll'),
           role: 'selectAll',
         });
       }

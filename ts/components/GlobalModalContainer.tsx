@@ -3,16 +3,24 @@
 
 import React from 'react';
 import type {
+  AuthorizeArtCreatorDataType,
   ContactModalStateType,
-  ForwardMessagePropsType,
-  UserNotFoundModalStateType,
+  DeleteMessagesPropsType,
+  EditHistoryMessagesType,
+  FormattingWarningDataType,
+  ForwardMessagesPropsType,
   SafetyNumberChangedBlockingDataType,
+  SendEditWarningDataType,
+  UserNotFoundModalStateType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType, ThemeType } from '../types/Util';
+import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { FormattingWarningModal } from './FormattingWarningModal';
+import { SendEditWarningModal } from './SendEditWarningModal';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
@@ -27,21 +35,37 @@ export type PropsType = {
   // ContactModal
   contactModalState: ContactModalStateType | undefined;
   renderContactModal: () => JSX.Element;
+  // EditHistoryMessagesModal
+  editHistoryMessages: EditHistoryMessagesType | undefined;
+  renderEditHistoryMessagesModal: () => JSX.Element;
   // ErrorModal
   errorModalProps: { description?: string; title?: string } | undefined;
   renderErrorModal: (opts: {
     description?: string;
     title?: string;
   }) => JSX.Element;
+  // DeleteMessageModal
+  deleteMessagesProps: DeleteMessagesPropsType | undefined;
+  renderDeleteMessagesModal: () => JSX.Element;
+  // FormattingWarningModal
+  showFormattingWarningModal: (
+    explodedPromise: ExplodePromiseResultType<boolean> | undefined
+  ) => void;
+  formattingWarningData: FormattingWarningDataType | undefined;
   // ForwardMessageModal
-  forwardMessageProps: ForwardMessagePropsType | undefined;
-  renderForwardMessageModal: () => JSX.Element;
+  forwardMessagesProps: ForwardMessagesPropsType | undefined;
+  renderForwardMessagesModal: () => JSX.Element;
   // ProfileEditor
   isProfileEditorVisible: boolean;
   renderProfileEditor: () => JSX.Element;
   // SafetyNumberModal
   safetyNumberModalContactId: string | undefined;
   renderSafetyNumber: () => JSX.Element;
+  // SendEditWarningModal
+  showSendEditWarningModal: (
+    explodedPromise: ExplodePromiseResultType<boolean> | undefined
+  ) => void;
+  sendEditWarningData: SendEditWarningDataType | undefined;
   // ShortcutGuideModal
   isShortcutGuideModalVisible: boolean;
   renderShortcutGuideModal: () => JSX.Element;
@@ -66,6 +90,11 @@ export type PropsType = {
   // WhatsNewModal
   isWhatsNewVisible: boolean;
   hideWhatsNewModal: () => unknown;
+  // AuthArtCreatorModal
+  authArtCreatorData?: AuthorizeArtCreatorDataType;
+  isAuthorizingArtCreator?: boolean;
+  cancelAuthorizeArtCreator: () => unknown;
+  confirmAuthorizeArtCreator: () => unknown;
 };
 
 export function GlobalModalContainer({
@@ -76,18 +105,30 @@ export function GlobalModalContainer({
   // ContactModal
   contactModalState,
   renderContactModal,
+  // EditHistoryMessages
+  editHistoryMessages,
+  renderEditHistoryMessagesModal,
   // ErrorModal
   errorModalProps,
   renderErrorModal,
+  // DeleteMessageModal
+  deleteMessagesProps,
+  renderDeleteMessagesModal,
+  // FormattingWarningModal
+  showFormattingWarningModal,
+  formattingWarningData,
   // ForwardMessageModal
-  forwardMessageProps,
-  renderForwardMessageModal,
+  forwardMessagesProps,
+  renderForwardMessagesModal,
   // ProfileEditor
   isProfileEditorVisible,
   renderProfileEditor,
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
+  // SendEditWarningDataType
+  showSendEditWarningModal,
+  sendEditWarningData,
   // ShortcutGuideModal
   isShortcutGuideModalVisible,
   renderShortcutGuideModal,
@@ -110,6 +151,11 @@ export function GlobalModalContainer({
   // WhatsNewModal
   hideWhatsNewModal,
   isWhatsNewVisible,
+  // AuthArtCreatorModal
+  authArtCreatorData,
+  isAuthorizingArtCreator,
+  cancelAuthorizeArtCreator,
+  confirmAuthorizeArtCreator,
 }: PropsType): JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 1. Errors
@@ -136,12 +182,54 @@ export function GlobalModalContainer({
     return renderContactModal();
   }
 
-  if (forwardMessageProps) {
-    return renderForwardMessageModal();
+  if (editHistoryMessages) {
+    return renderEditHistoryMessagesModal();
+  }
+
+  if (deleteMessagesProps) {
+    return renderDeleteMessagesModal();
+  }
+
+  if (formattingWarningData) {
+    const { resolve } = formattingWarningData.explodedPromise;
+    return (
+      <FormattingWarningModal
+        i18n={i18n}
+        onSendAnyway={() => {
+          showFormattingWarningModal(undefined);
+          resolve(true);
+        }}
+        onCancel={() => {
+          showFormattingWarningModal(undefined);
+          resolve(false);
+        }}
+      />
+    );
+  }
+
+  if (forwardMessagesProps) {
+    return renderForwardMessagesModal();
   }
 
   if (isProfileEditorVisible) {
     return renderProfileEditor();
+  }
+
+  if (sendEditWarningData) {
+    const { resolve } = sendEditWarningData.explodedPromise;
+    return (
+      <SendEditWarningModal
+        i18n={i18n}
+        onSendAnyway={() => {
+          showSendEditWarningModal(undefined);
+          resolve(true);
+        }}
+        onCancel={() => {
+          showSendEditWarningModal(undefined);
+          resolve(false);
+        }}
+      />
+    );
   }
 
   if (isShortcutGuideModalVisible) {
@@ -176,11 +264,11 @@ export function GlobalModalContainer({
   if (userNotFoundModalState) {
     let content: string;
     if (userNotFoundModalState.type === 'phoneNumber') {
-      content = i18n('startConversation--phone-number-not-found', {
+      content = i18n('icu:startConversation--phone-number-not-found', {
         phoneNumber: userNotFoundModalState.phoneNumber,
       });
     } else if (userNotFoundModalState.type === 'username') {
-      content = i18n('startConversation--username-not-found', {
+      content = i18n('icu:startConversation--username-not-found', {
         atUsername: userNotFoundModalState.username,
       });
     } else {
@@ -190,12 +278,35 @@ export function GlobalModalContainer({
     return (
       <ConfirmationDialog
         dialogName="GlobalModalContainer.userNotFound"
-        cancelText={i18n('ok')}
+        cancelText={i18n('icu:ok')}
         cancelButtonVariant={ButtonVariant.Secondary}
         i18n={i18n}
         onClose={hideUserNotFoundModal}
       >
         {content}
+      </ConfirmationDialog>
+    );
+  }
+
+  if (authArtCreatorData) {
+    return (
+      <ConfirmationDialog
+        dialogName="GlobalModalContainer.authArtCreator"
+        cancelText={i18n('icu:AuthArtCreator--dialog--dismiss')}
+        cancelButtonVariant={ButtonVariant.Secondary}
+        i18n={i18n}
+        isSpinning={isAuthorizingArtCreator}
+        onClose={cancelAuthorizeArtCreator}
+        actions={[
+          {
+            text: i18n('icu:AuthArtCreator--dialog--confirm'),
+            style: 'affirmative',
+            action: confirmAuthorizeArtCreator,
+            autoClose: false,
+          },
+        ]}
+      >
+        {i18n('icu:AuthArtCreator--dialog--message')}
       </ConfirmationDialog>
     );
   }

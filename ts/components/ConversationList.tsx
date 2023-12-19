@@ -12,9 +12,9 @@ import { assertDev } from '../util/assert';
 import type { ParsedE164Type } from '../util/libphonenumberInstance';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
-import { getConversationListWidthBreakpoint } from './_util';
+import { getNavSidebarWidthBreakpoint } from './_util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../state/ducks/conversations';
 
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
@@ -64,6 +64,7 @@ type ContactRowType = {
   type: RowType.Contact;
   contact: ContactListItemPropsType;
   isClickable?: boolean;
+  hasContextMenu?: boolean;
 };
 
 type ContactCheckboxRowType = {
@@ -103,8 +104,16 @@ type MessageRowType = {
 
 type HeaderRowType = {
   type: RowType.Header;
-  i18nKey: string;
+  getHeaderText: (i18n: LocalizerType) => string;
 };
+
+// Exported for tests across multiple files
+export function _testHeaderText(row: Row | void): string | null {
+  if (row?.type === RowType.Header) {
+    return row.getHeaderText(((key: string) => key) as LocalizerType);
+  }
+  return null;
+}
 
 type SearchResultsLoadingFakeHeaderType = {
   type: RowType.SearchResultsLoadingFakeHeader;
@@ -167,16 +176,20 @@ export type PropsType = {
   i18n: LocalizerType;
   theme: ThemeType;
 
+  blockConversation: (conversationId: string) => void;
   onClickArchiveButton: () => void;
   onClickContactCheckbox: (
     conversationId: string,
     disabledReason: undefined | ContactCheckboxDisabledReason
   ) => void;
   onSelectConversation: (conversationId: string, messageId?: string) => void;
+  onOutgoingAudioCallInConversation: (conversationId: string) => void;
+  onOutgoingVideoCallInConversation: (conversationId: string) => void;
+  removeConversation: (conversationId: string) => void;
   renderMessageSearchResult?: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
   showConversation: ShowConversationType;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 const NORMAL_ROW_HEIGHT = 76;
 const SELECT_ROW_HEIGHT = 52;
@@ -187,9 +200,13 @@ export function ConversationList({
   getPreferredBadge,
   getRow,
   i18n,
+  blockConversation,
   onClickArchiveButton,
   onClickContactCheckbox,
   onSelectConversation,
+  onOutgoingAudioCallInConversation,
+  onOutgoingVideoCallInConversation,
+  removeConversation,
   renderMessageSearchResult,
   rowCount,
   scrollBehavior = ScrollBehavior.Default,
@@ -197,7 +214,7 @@ export function ConversationList({
   scrollable = true,
   shouldRecomputeRowHeights,
   showChooseGroupMembers,
-  lookupConversationWithoutUuid,
+  lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   setIsFetchingUUID,
   showConversation,
@@ -239,14 +256,14 @@ export function ConversationList({
         case RowType.ArchiveButton:
           result = (
             <button
-              aria-label={i18n('archivedConversations')}
+              aria-label={i18n('icu:archivedConversations')}
               className="module-conversation-list__item--archive-button"
               onClick={onClickArchiveButton}
               type="button"
             >
               <div className="module-conversation-list__item--archive-button__icon" />
               <span className="module-conversation-list__item--archive-button__text">
-                {i18n('archivedConversations')}
+                {i18n('icu:archivedConversations')}
               </span>
               <span className="module-conversation-list__item--archive-button__archived-count">
                 {row.archivedConversationsCount}
@@ -258,7 +275,7 @@ export function ConversationList({
           result = undefined;
           break;
         case RowType.Contact: {
-          const { isClickable = true } = row;
+          const { isClickable = true, hasContextMenu = false } = row;
           result = (
             <ContactListItem
               {...row.contact}
@@ -266,6 +283,15 @@ export function ConversationList({
               onClick={isClickable ? onSelectConversation : undefined}
               i18n={i18n}
               theme={theme}
+              hasContextMenu={hasContextMenu}
+              onAudioCall={
+                isClickable ? onOutgoingAudioCallInConversation : undefined
+              }
+              onVideoCall={
+                isClickable ? onOutgoingVideoCallInConversation : undefined
+              }
+              onBlock={isClickable ? blockConversation : undefined}
+              onRemove={isClickable ? removeConversation : undefined}
             />
           );
           break;
@@ -287,7 +313,9 @@ export function ConversationList({
           result = (
             <PhoneNumberCheckboxComponent
               phoneNumber={row.phoneNumber}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               toggleConversationInChooseMembers={conversationId =>
@@ -304,7 +332,9 @@ export function ConversationList({
           result = (
             <UsernameCheckboxComponent
               username={row.username}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               toggleConversationInChooseMembers={conversationId =>
@@ -335,35 +365,34 @@ export function ConversationList({
             'muteExpiresAt',
             'phoneNumber',
             'profileName',
+            'removalStage',
             'sharedGroupNames',
             'shouldShowDraft',
             'title',
             'type',
-            'typingContactId',
+            'typingContactIdTimestamps',
             'unblurredAvatarPath',
             'unreadCount',
-            'uuid',
+            'unreadMentionsCount',
+            'serviceId',
           ]);
           const { badges, title, unreadCount, lastMessage } = itemProps;
           result = (
-            <div
-              aria-label={i18n('ConversationList__aria-label', {
+            <ConversationListItem
+              {...itemProps}
+              buttonAriaLabel={i18n('icu:ConversationList__aria-label', {
                 lastMessage:
                   get(lastMessage, 'text') ||
-                  i18n('ConversationList__last-message-undefined'),
+                  i18n('icu:ConversationList__last-message-undefined'),
                 title,
-                unreadCount: String(unreadCount),
+                unreadCount,
               })}
-            >
-              <ConversationListItem
-                {...itemProps}
-                key={key}
-                badge={getPreferredBadge(badges)}
-                onClick={onSelectConversation}
-                i18n={i18n}
-                theme={theme}
-              />
-            </div>
+              key={key}
+              badge={getPreferredBadge(badges)}
+              onClick={onSelectConversation}
+              i18n={i18n}
+              theme={theme}
+            />
           );
           break;
         }
@@ -375,18 +404,18 @@ export function ConversationList({
             />
           );
           break;
-        case RowType.Header:
+        case RowType.Header: {
+          const headerText = row.getHeaderText(i18n);
           result = (
             <div
               className="module-conversation-list__item--header"
-              // eslint-disable-next-line local-rules/valid-i18n-keys
-              aria-label={i18n(row.i18nKey)}
+              aria-label={headerText}
             >
-              {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-              {i18n(row.i18nKey)}
+              {headerText}
             </div>
           );
           break;
+        }
         case RowType.MessageSearchResult:
           result = <>{renderMessageSearchResult?.(row.messageId)}</>;
           break;
@@ -411,7 +440,9 @@ export function ConversationList({
               i18n={i18n}
               phoneNumber={row.phoneNumber}
               isFetching={row.isFetching}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               showConversation={showConversation}
@@ -424,7 +455,9 @@ export function ConversationList({
               i18n={i18n}
               username={row.username}
               isFetchingUsername={row.isFetchingUsername}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               showConversation={showConversation}
@@ -444,30 +477,31 @@ export function ConversationList({
       );
     },
     [
+      blockConversation,
       getPreferredBadge,
       getRow,
       i18n,
+      lookupConversationWithoutServiceId,
       onClickArchiveButton,
       onClickContactCheckbox,
+      onOutgoingAudioCallInConversation,
+      onOutgoingVideoCallInConversation,
       onSelectConversation,
-      lookupConversationWithoutUuid,
-      showUserNotFoundModal,
-      setIsFetchingUUID,
+      removeConversation,
       renderMessageSearchResult,
+      setIsFetchingUUID,
       showChooseGroupMembers,
       showConversation,
+      showUserNotFoundModal,
       theme,
     ]
   );
 
-  // Though `width` and `height` are required properties, we want to be careful in case
-  //   the caller sends bogus data. Notably, react-measure's types seem to be inaccurate.
-  const { width = 0, height = 0 } = dimensions || {};
-  if (!width || !height) {
+  if (dimensions == null) {
     return null;
   }
 
-  const widthBreakpoint = getConversationListWidthBreakpoint(width);
+  const widthBreakpoint = getNavSidebarWidthBreakpoint(dimensions.width);
 
   return (
     <ListView
@@ -475,8 +509,8 @@ export function ConversationList({
         'module-conversation-list',
         `module-conversation-list--width-${widthBreakpoint}`
       )}
-      width={width}
-      height={height}
+      width={dimensions.width}
+      height={dimensions.height}
       rowCount={rowCount}
       calculateRowHeight={calculateRowHeight}
       rowRenderer={renderRow}

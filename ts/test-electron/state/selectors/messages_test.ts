@@ -100,7 +100,7 @@ describe('state/selectors/messages', () => {
     it('returns false for messages that were are too old to delete', () => {
       const message = {
         type: 'outgoing' as const,
-        sent_at: Date.now() - moment.duration(4, 'hours').asMilliseconds(),
+        sent_at: Date.now() - moment.duration(25, 'hours').asMilliseconds(),
         sendStateByConversationId: {
           [ourConversationId]: {
             status: SendStatus.Read,

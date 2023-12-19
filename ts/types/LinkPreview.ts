@@ -8,11 +8,10 @@ import LinkifyIt from 'linkify-it';
 import { maybeParseUrl } from '../util/url';
 import { replaceEmojiWithSpaces } from '../util/emoji';
 
-import type { AttachmentType } from './Attachment';
+import type { AttachmentWithHydratedData } from './Attachment';
+import { artAddStickersRoute, groupInvitesRoute } from '../util/signalRoutes';
 
-export type LinkPreviewImage = AttachmentType & {
-  data: Uint8Array;
-};
+export type LinkPreviewImage = AttachmentWithHydratedData;
 
 export type LinkPreviewResult = {
   title: string | null;
@@ -50,9 +49,33 @@ export function shouldPreviewHref(href: string): boolean {
   return Boolean(
     url &&
       url.protocol === 'https:' &&
-      url.hostname !== 'debuglogs.org' &&
+      !isDomainExcluded(url) &&
       !isLinkSneaky(href)
   );
+}
+
+const EXCLUDED_DOMAINS = [
+  'debuglogs.org',
+  'example',
+  'example.com',
+  'example.net',
+  'example.org',
+  'invalid',
+  'localhost',
+  'onion',
+  'test',
+];
+
+function isDomainExcluded(url: URL): boolean {
+  for (const excludedDomain of EXCLUDED_DOMAINS) {
+    if (
+      url.hostname.endsWith(`.${excludedDomain}`) ||
+      url.hostname === excludedDomain
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 const DIRECTIONAL_OVERRIDES = /[\u202c\u202d\u202e]/;
@@ -68,19 +91,18 @@ export function shouldLinkifyMessage(
   if (DIRECTIONAL_OVERRIDES.test(message)) {
     return false;
   }
-  if (UNICODE_DRAWING.test(message)) {
-    return false;
-  }
 
   return true;
 }
 
 export function isStickerPack(link = ''): boolean {
-  return link.startsWith('https://signal.art/addstickers/');
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && artAddStickersRoute.isMatch(url);
 }
 
 export function isGroupLink(link = ''): boolean {
-  return link.startsWith('https://signal.group/');
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && groupInvitesRoute.isMatch(url);
 }
 
 export function findLinks(text: string, caretLocation?: number): Array<string> {
@@ -162,6 +184,10 @@ export function isLinkSneaky(href: string): boolean {
   // This helps users avoid extremely long links (which could be hiding something
   //   sketchy) and also sidesteps the performance implications of extremely long hrefs.
   if (href.length > MAX_HREF_LENGTH) {
+    return true;
+  }
+
+  if (UNICODE_DRAWING.test(href)) {
     return true;
   }
 

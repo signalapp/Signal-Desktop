@@ -9,11 +9,15 @@
     display: flex;
     height: 96px;
     min-height: 96px;
-    padding: 0 10px;
+    padding-block: 0;
+    padding-inline: 10px;
     width: 100%;
 
-    @include keyboard-mode {
-      &:focus {
+    &:focus {
+      @include keyboard-mode {
+        background: $color-gray-15;
+      }
+      @include dark-keyboard-mode {
         background: $color-gray-65;
       }
     }
@@ -22,7 +26,12 @@
     // that has not been closed yet (active)
     &:hover,
     &--active {
-      background: $color-gray-65;
+      @include light-theme {
+        background: $color-gray-15;
+      }
+      @include dark-theme {
+        background: $color-gray-65;
+      }
     }
   }
 
@@ -55,21 +64,30 @@
     flex-direction: column;
     flex: 1;
     justify-content: center;
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-inline: 12px;
 
     &--title {
       @include font-body-1-bold;
-      color: $color-gray-05;
       display: flex;
       align-items: center;
+      @include light-theme {
+        color: $color-black;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+      }
     }
 
     &--timestamp,
     &--sending,
     &--send_failed {
       @include font-body-2;
-      color: $color-gray-25;
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+      }
     }
 
     &--send_failed {
@@ -81,9 +99,9 @@
         flex-shrink: 0;
         height: 12px;
         width: 12px;
-        margin-right: 8px;
+        margin-inline-end: 8px;
         @include color-svg(
-          '../images/icons/v2/error-outline-12.svg',
+          '../images/icons/v3/error/error-circle.svg',
           $color-accent-red
         );
       }
@@ -92,20 +110,20 @@
     &--replies {
       &--others {
         @include color-svg(
-          '../images/icons/v2/messages-solid-20.svg',
+          '../images/icons/v3/thread/thread-fill-compact.svg',
           $color-gray-25
         );
-        height: 20px;
-        width: 20px;
+        height: 16px;
+        width: 16px;
       }
 
       &--self {
         @include color-svg(
-          '../images/icons/v2/reply-solid-24.svg',
+          '../images/icons/v3/reply/reply-fill-compact.svg',
           $color-gray-25
         );
-        height: 20px;
-        width: 20px;
+        height: 16px;
+        width: 16px;
       }
     }
   }
@@ -125,7 +143,7 @@
       display: flex;
       height: 72px;
       justify-content: center;
-      left: 0;
+      inset-inline-start: 0;
       overflow: hidden;
       position: absolute;
       top: 0;
@@ -147,45 +165,44 @@
     }
   }
 
+  @mixin StoryListItem__Icon($path) {
+    @include light-theme {
+      @include color-svg($path, $color-black);
+    }
+    @include dark-theme {
+      @include color-svg($path, $color-white);
+    }
+  }
+
   &__icon {
     &--chat {
-      @include color-svg('../images/icons/v2/open-24.svg', $color-white);
+      @include StoryListItem__Icon('../images/icons/v3/open/open-compact.svg');
     }
 
     &--delete {
-      @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
-        $color-white
+      @include StoryListItem__Icon(
+        '../images/icons/v3/trash/trash-compact.svg'
       );
     }
 
     &--hide {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+      @include StoryListItem__Icon('../images/icons/v3/x/x-circle-compact.svg');
     }
 
     &--info {
-      @include color-svg(
-        '../images/icons/v2/info-outline-24.svg',
-        $color-white
-      );
+      @include StoryListItem__Icon('../images/icons/v3/info/info-compact.svg');
     }
   }
 
   &__chevron::after {
     content: '';
     display: inline-block;
-    height: 20px;
-    margin-left: 6px;
-    vertical-align: middle;
-    width: 12px;
-    @include color-svg('../images/icons/v2/chevron-right-20.svg', $color-white);
-  }
-
-  &__signal-official {
-    background: url('../images/icons/v2/official-20.svg') no-repeat center;
-    display: inline-block;
     height: 16px;
-    margin-left: 6px;
+    margin-inline-start: 2px;
+    vertical-align: middle;
     width: 16px;
+    @include StoryListItem__Icon(
+      '../images/icons/v3/chevron/chevron-right-compact-bold.svg'
+    );
   }
 }

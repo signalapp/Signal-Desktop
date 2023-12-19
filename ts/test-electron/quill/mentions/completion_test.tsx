@@ -11,11 +11,13 @@ import type { MutableRefObject } from 'react';
 import type { MentionCompletionOptions } from '../../../quill/mentions/completion';
 import { MentionCompletion } from '../../../quill/mentions/completion';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { MemberRepository } from '../../../quill/memberRepository';
+import { MemberRepository, _toMembers } from '../../../quill/memberRepository';
+import type { MemberType } from '../../../quill/memberRepository';
 import { ThemeType } from '../../../types/Util';
-import { getDefaultConversationWithUuid } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../../../test-both/helpers/getDefaultConversation';
+import { setupI18n } from '../../../util/setupI18n';
 
-const me: ConversationType = getDefaultConversationWithUuid({
+const me: ConversationType = getDefaultConversationWithServiceId({
   id: '666777',
   title: 'Fred Savage',
   firstName: 'Fred',
@@ -27,8 +29,8 @@ const me: ConversationType = getDefaultConversationWithUuid({
   isMe: true,
 });
 
-const members: Array<ConversationType> = [
-  getDefaultConversationWithUuid({
+const conversations: Array<ConversationType> = [
+  getDefaultConversationWithServiceId({
     id: '555444',
     title: 'Mahershala Ali',
     firstName: 'Mahershala',
@@ -38,7 +40,7 @@ const members: Array<ConversationType> = [
     markedUnread: false,
     areWeAdmin: false,
   }),
-  getDefaultConversationWithUuid({
+  getDefaultConversationWithServiceId({
     id: '333222',
     title: 'Shia LaBeouf',
     firstName: 'Shia',
@@ -48,8 +50,20 @@ const members: Array<ConversationType> = [
     markedUnread: false,
     areWeAdmin: false,
   }),
+  getDefaultConversationWithServiceId({
+    areWeAdmin: false,
+    firstName: 'Zoë',
+    id: '999977',
+    lastUpdated: Date.now(),
+    markedUnread: false,
+    profileName: 'Zoë A',
+    title: 'Zoë Aurélien',
+    type: 'direct',
+  }),
   me,
 ];
+
+const members = _toMembers(conversations);
 
 describe('MentionCompletion', () => {
   let mockQuill: Omit<
@@ -60,18 +74,14 @@ describe('MentionCompletion', () => {
   };
   let mentionCompletion: MentionCompletion;
 
-  beforeEach(function beforeEach() {
+  beforeEach(() => {
     const memberRepositoryRef: MutableRefObject<MemberRepository> = {
-      current: new MemberRepository(members),
+      current: new MemberRepository(conversations),
     };
 
     const options: MentionCompletionOptions = {
       getPreferredBadge: () => undefined,
-      i18n: Object.assign(sinon.stub(), {
-        getLocale: sinon.stub(),
-        getIntl: sinon.stub(),
-        isLegacyFormat: sinon.stub(),
-      }),
+      i18n: setupI18n('en', {}),
       me,
       memberRepositoryRef,
       setMentionPickerElement: sinon.stub(),
@@ -99,7 +109,7 @@ describe('MentionCompletion', () => {
   describe('onTextChange', () => {
     let possiblyShowMemberResultsStub: sinon.SinonStub<
       [],
-      ReadonlyArray<ConversationType>
+      ReadonlyArray<MemberType>
     >;
 
     beforeEach(() => {
@@ -152,7 +162,7 @@ describe('MentionCompletion', () => {
   describe('completeMention', () => {
     describe('given a completable mention', () => {
       let insertMentionStub: SinonStub<
-        [ConversationType, number, number, (boolean | undefined)?],
+        [MemberType, number, number, (boolean | undefined)?],
         void
       >;
 
@@ -224,7 +234,7 @@ describe('MentionCompletion', () => {
         const text = '@Sh';
         const index = text.length;
 
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           mockQuill.getSelection?.returns({ index });
 
           const blot = {
@@ -247,6 +257,23 @@ describe('MentionCompletion', () => {
           assert.equal(distanceFromCursor, 0);
           assert.equal(adjustCursorAfterBy, 3);
           assert.equal(withTrailingSpace, true);
+        });
+      });
+
+      describe('diacritics', () => {
+        it('finds a member with diacritics using non-diacritic chars', () => {
+          const text = '@zoe';
+          const index = text.length;
+          mockQuill.getSelection?.returns({ index });
+          const blot = {
+            text,
+          };
+          mockQuill.getLeaf?.returns([blot, index]);
+          mentionCompletion.completeMention(2);
+
+          const [member] = insertMentionStub.getCall(0).args;
+
+          assert.equal(member, members[2]);
         });
       });
     });

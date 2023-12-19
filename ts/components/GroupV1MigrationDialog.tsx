@@ -7,6 +7,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { GroupDialog } from './GroupDialog';
 import { sortByTitle } from '../util/sortByTitle';
+import { missingCaseError } from '../util/missingCaseError';
 
 export type DataPropsType = {
   conversationId: string;
@@ -65,13 +66,11 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
     }
 
     const title = hasMigrated
-      ? i18n('GroupV1--Migration--info--title')
-      : i18n('GroupV1--Migration--migrate--title');
+      ? i18n('icu:GroupV1--Migration--info--title')
+      : i18n('icu:GroupV1--Migration--migrate--title');
     const keepHistory = hasMigrated
-      ? i18n('GroupV1--Migration--info--keep-history')
-      : i18n('GroupV1--Migration--migrate--keep-history');
-    const migrationKey = hasMigrated ? 'after' : 'before';
-    const droppedMembersKey = `GroupV1--Migration--info--removed--${migrationKey}`;
+      ? i18n('icu:GroupV1--Migration--info--keep-history')
+      : i18n('icu:GroupV1--Migration--migrate--keep-history');
 
     let primaryButtonText: string;
     let onClickPrimaryButton: () => void;
@@ -82,13 +81,13 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
           onClickSecondaryButton: () => void;
         };
     if (hasMigrated) {
-      primaryButtonText = i18n('Confirmation--confirm');
+      primaryButtonText = i18n('icu:Confirmation--confirm');
       onClickPrimaryButton = closeHandler;
     } else {
-      primaryButtonText = i18n('GroupV1--Migration--migrate');
+      primaryButtonText = i18n('icu:GroupV1--Migration--migrate');
       onClickPrimaryButton = migrateHandler;
       secondaryButtonProps = {
-        secondaryButtonText: i18n('cancel'),
+        secondaryButtonText: i18n('icu:cancel'),
         onClickSecondaryButton: closeHandler,
       };
     }
@@ -103,12 +102,12 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
         {...secondaryButtonProps}
       >
         <GroupDialog.Paragraph>
-          {i18n('GroupV1--Migration--info--summary')}
+          {i18n('icu:GroupV1--Migration--info--summary')}
         </GroupDialog.Paragraph>
         <GroupDialog.Paragraph>{keepHistory}</GroupDialog.Paragraph>
         {areWeInvited ? (
           <GroupDialog.Paragraph>
-            {i18n('GroupV1--Migration--info--invited--you')}
+            {i18n('icu:GroupV1--Migration--info--invited--you')}
           </GroupDialog.Paragraph>
         ) : (
           <>
@@ -116,14 +115,16 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
               getPreferredBadge,
               i18n,
               members: invitedMembers,
-              prefix: 'GroupV1--Migration--info--invited',
+              hasMigrated,
+              kind: 'invited',
               theme,
             })}
             {renderMembers({
               getPreferredBadge,
               i18n,
               members: droppedMembers,
-              prefix: droppedMembersKey,
+              hasMigrated,
+              kind: 'dropped',
               theme,
             })}
           </>
@@ -136,26 +137,49 @@ function renderMembers({
   getPreferredBadge,
   i18n,
   members,
-  prefix,
+  hasMigrated,
+  kind,
   theme,
 }: Readonly<{
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   members: Array<ConversationType>;
-  prefix: string;
+  hasMigrated: boolean;
+  kind: 'invited' | 'dropped';
   theme: ThemeType;
 }>): React.ReactNode {
   if (!members.length) {
     return null;
   }
 
-  const postfix = members.length === 1 ? '--one' : '--many';
-  const key = `${prefix}${postfix}`;
+  let text: string;
+  switch (kind) {
+    case 'invited':
+      text =
+        members.length === 1
+          ? i18n('icu:GroupV1--Migration--info--invited--one')
+          : i18n('icu:GroupV1--Migration--info--invited--many');
+      break;
+    case 'dropped':
+      if (hasMigrated) {
+        text =
+          members.length === 1
+            ? i18n('icu:GroupV1--Migration--info--removed--before--one')
+            : i18n('icu:GroupV1--Migration--info--removed--before--many');
+      } else {
+        text =
+          members.length === 1
+            ? i18n('icu:GroupV1--Migration--info--removed--after--one')
+            : i18n('icu:GroupV1--Migration--info--removed--after--many');
+      }
+      break;
+    default:
+      throw missingCaseError(kind);
+  }
 
   return (
     <>
-      {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
-      <GroupDialog.Paragraph>{i18n(key)}</GroupDialog.Paragraph>
+      <GroupDialog.Paragraph>{text}</GroupDialog.Paragraph>
       <GroupDialog.Contacts
         contacts={sortByTitle(members)}
         getPreferredBadge={getPreferredBadge}

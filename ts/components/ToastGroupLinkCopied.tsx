@@ -5,7 +5,7 @@ import React from 'react';
 import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   onClose: () => unknown;
 };
@@ -15,6 +15,8 @@ export function ToastGroupLinkCopied({
   onClose,
 }: PropsType): JSX.Element {
   return (
-    <Toast onClose={onClose}>{i18n('GroupLinkManagement--clipboard')}</Toast>
+    <Toast onClose={onClose}>
+      {i18n('icu:GroupLinkManagement--clipboard')}
+    </Toast>
   );
 }

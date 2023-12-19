@@ -1,29 +1,18 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { contextBridge, ipcRenderer } from 'electron';
+import { MinimalSignalContext } from '../minimalContext';
 
-import { SignalContext } from '../context';
-import { CallingScreenSharingController } from '../../components/CallingScreenSharingController';
+const params = new URLSearchParams(document.location.search);
 
-contextBridge.exposeInMainWorld('SignalContext', SignalContext);
-
-function renderScreenSharingController(presentedSourceName: string): void {
-  ReactDOM.render(
-    React.createElement(CallingScreenSharingController, {
-      platform: process.platform,
-      executeMenuRole: SignalContext.executeMenuRole,
-      i18n: SignalContext.i18n,
-      onCloseController: () => SignalContext.executeMenuRole('close'),
-      onStopSharing: () => ipcRenderer.send('stop-screen-share'),
-      presentedSourceName,
-    }),
-    document.getElementById('app')
-  );
-}
-
-ipcRenderer.once('render-screen-sharing-controller', (_, name: string) => {
-  renderScreenSharingController(name);
-});
+const Signal = {
+  ScreenShareWindowProps: {
+    onStopSharing: () => {
+      ipcRenderer.send('stop-screen-share');
+    },
+    presentedSourceName: params.get('sourceName'),
+  },
+};
+contextBridge.exposeInMainWorld('Signal', Signal);
+contextBridge.exposeInMainWorld('SignalContext', MinimalSignalContext);

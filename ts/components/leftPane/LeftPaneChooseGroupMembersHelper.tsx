@@ -35,6 +35,7 @@ export type LeftPaneChooseGroupMembersPropsType = {
   isShowingRecommendedGroupSizeModal: boolean;
   isShowingMaximumGroupSizeModal: boolean;
   isUsernamesEnabled: boolean;
+  ourUsername: string | undefined;
   searchTerm: string;
   regionCode: string | undefined;
   selectedContacts: Array<ConversationType>;
@@ -74,6 +75,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     isUsernamesEnabled,
     groupSizeRecommendedLimit,
     groupSizeHardLimit,
+    ourUsername,
     searchTerm,
     regionCode,
     selectedContacts,
@@ -91,13 +93,14 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       isShowingRecommendedGroupSizeModal;
     this.searchTerm = searchTerm;
 
-    if (isUsernamesEnabled) {
-      const username = getUsernameFromSearch(searchTerm);
-      const isVisible = this.candidateContacts.every(
-        contact => contact.username !== username
-      );
+    const username = getUsernameFromSearch(searchTerm);
+    const isUsernameVisible =
+      username !== undefined &&
+      username !== ourUsername &&
+      this.candidateContacts.every(contact => contact.username !== username);
 
-      if (isVisible) {
+    if (isUsernamesEnabled) {
+      if (isUsernameVisible) {
         this.username = username;
       }
 
@@ -109,7 +112,11 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     }
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-    if (!this.username && phoneNumber) {
+    if (
+      !isUsernameVisible &&
+      (ourUsername === undefined || username !== ourUsername) &&
+      phoneNumber
+    ) {
       this.isPhoneNumberChecked =
         phoneNumber.isValid &&
         selectedContacts.some(contact => contact.e164 === phoneNumber.e164);
@@ -137,7 +144,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     i18n: LocalizerType;
     startComposing: () => void;
   }>): ReactChild {
-    const backButtonLabel = i18n('chooseGroupMembers__back-button');
+    const backButtonLabel = i18n('icu:chooseGroupMembers__back-button');
 
     return (
       <div className="module-left-pane__header__contents">
@@ -149,7 +156,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
           type="button"
         />
         <div className="module-left-pane__header__contents__text">
-          {i18n('chooseGroupMembers__title')}
+          {i18n('icu:chooseGroupMembers__title')}
         </div>
       </div>
     );
@@ -177,7 +184,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
         i18n={i18n}
         moduleClassName="module-left-pane__compose-search-form"
         onChange={onChangeComposeSearchTerm}
-        placeholder={i18n('contactSearchPlaceholder')}
+        placeholder={i18n('icu:contactSearchPlaceholder')}
         ref={focusRef}
         value={this.searchTerm}
       />
@@ -242,7 +249,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
 
         {this.getRowCount() ? null : (
           <div className="module-left-pane__compose-no-contacts">
-            {i18n('noContactsFound')}
+            {i18n('icu:noContactsFound')}
           </div>
         )}
 
@@ -264,8 +271,8 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
         onClick={startSettingGroupMetadata}
       >
         {this.selectedContacts.length
-          ? i18n('chooseGroupMembers__next')
-          : i18n('chooseGroupMembers__skip')}
+          ? i18n('icu:chooseGroupMembers__next')
+          : i18n('icu:chooseGroupMembers__skip')}
       </Button>
     );
   }
@@ -314,7 +321,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
 
@@ -342,7 +349,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         };
       }
       if (virtualRowIndex === 1) {
@@ -363,7 +370,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       if (virtualRowIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         };
       }
       if (virtualRowIndex === 1) {

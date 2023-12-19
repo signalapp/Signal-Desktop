@@ -3,7 +3,7 @@
 
 import { debounce, omit } from 'lodash';
 
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
 import type {
   LinkPreviewImage,
   LinkPreviewResult,
@@ -237,7 +237,9 @@ export async function addLinkPreview(
   }
 }
 
-export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
+export function getLinkPreviewForSend(
+  message: string
+): Array<LinkPreviewWithHydratedData> {
   // Don't generate link previews if user has turned them off
   if (!window.storage.get('linkPreviews', false)) {
     return [];
@@ -260,8 +262,8 @@ export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
 }
 
 export function sanitizeLinkPreview(
-  item: LinkPreviewResult | LinkPreviewType
-): LinkPreviewType {
+  item: LinkPreviewResult | LinkPreviewWithHydratedData
+): LinkPreviewWithHydratedData {
   if (item.image) {
     // We eliminate the ObjectURL here, unneeded for send or save
     return {
@@ -318,7 +320,7 @@ async function getPreview(
 
   let image;
   if (imageHref && LinkPreview.shouldPreviewHref(imageHref)) {
-    let objectUrl: void | string;
+    let objectUrl: undefined | string;
     try {
       const fullSizeImage = await messaging.fetchLinkPreviewImage(
         imageHref,
@@ -516,14 +518,13 @@ async function getGroupPreview(
   }
 
   const title =
-    window.Signal.Groups.decryptGroupTitle(result.title, secretParams) ||
-    window.i18n('unknownGroup');
-  const description =
-    result.memberCount === 1 || result.memberCount === undefined
-      ? window.i18n('GroupV2--join--member-count--single')
-      : window.i18n('GroupV2--join--member-count--multiple', {
-          count: result.memberCount.toString(),
-        });
+    window.Signal.Groups.decryptGroupTitle(
+      dropNull(result.title),
+      secretParams
+    ) || window.i18n('icu:unknownGroup');
+  const description = window.i18n('icu:GroupV2--join--group-metadata--full', {
+    memberCount: result?.memberCount ?? 0,
+  });
   let image: undefined | LinkPreviewImage;
 
   if (result.avatar) {

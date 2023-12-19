@@ -12,7 +12,7 @@ import * as Bytes from '../Bytes';
 
 import { isPathInside } from '../util/isPathInside';
 import { writeWindowsZoneIdentifier } from '../util/windowsZoneIdentifier';
-import { isWindows } from '../OS';
+import OS from '../util/os/osMain';
 
 export * from '../../app/attachments';
 
@@ -26,6 +26,9 @@ try {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies
   xattr = require('fs-xattr');
 } catch (e) {
+  if (process.platform === 'darwin') {
+    throw e;
+  }
   window.SignalContext.log?.info('x-attr dependency did not load successfully');
 }
 
@@ -226,7 +229,7 @@ async function writeWithAttributes(
     const attrValue = `${type};${timestamp};${appName};${guid}`;
 
     await xattr.set(target, 'com.apple.quarantine', attrValue);
-  } else if (isWindows()) {
+  } else if (OS.isWindows()) {
     // This operation may fail (see the function's comments), which is not a show-stopper.
     try {
       await writeWindowsZoneIdentifier(target);

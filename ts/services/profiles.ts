@@ -3,13 +3,14 @@
 
 import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup';
 import PQueue from 'p-queue';
+import { isNumber } from 'lodash';
 
 import type { ConversationModel } from '../models/conversations';
 import type {
   GetProfileOptionsType,
   GetProfileUnauthOptionsType,
 } from '../textsecure/WebAPI';
-import type { UUID } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
@@ -80,7 +81,7 @@ export class ProfileService {
       );
     }
 
-    if (window.ConversationController.isSignalConversation(conversationId)) {
+    if (window.ConversationController.isSignalConversationId(conversationId)) {
       return;
     }
 
@@ -138,6 +139,12 @@ export class ProfileService {
         if (delta > 30 * SECOND) {
           log.warn(
             `ProfileServices.get: Job for ${conversation.idForLogging()} finished ${delta}ms after queue`
+          );
+        }
+        const remainingItems = this.jobQueue.size;
+        if (remainingItems && remainingItems % 10 === 0) {
+          log.info(
+            `ProfileServices.get: ${remainingItems} jobs remaining in the queue`
           );
         }
       }
@@ -223,8 +230,8 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   );
 
   const userLanguages = getUserLanguages(
-    window.getPreferredSystemLocales(),
-    window.getResolvedMessagesLocale()
+    window.SignalContext.getPreferredSystemLocales(),
+    window.SignalContext.getResolvedMessagesLocale()
   );
 
   let profile;
@@ -233,7 +240,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
 
   const profileKey = c.get('profileKey');
   const profileKeyVersion = c.deriveProfileKeyVersion();
-  const uuid = c.getCheckedUuid('getProfile');
+  const serviceId = c.getCheckedServiceId('getProfile');
   const lastProfile = c.get('lastProfile');
 
   let profileCredentialRequestContext:
@@ -267,7 +274,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
         context: profileCredentialRequestContext,
       } = generateProfileKeyCredentialRequest(
         clientZkProfileCipher,
-        uuid.toString(),
+        serviceId,
         profileKey
       ));
 
@@ -303,7 +310,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   try {
     if (getProfileOptions.accessKey) {
       try {
-        profile = await messaging.getProfile(uuid, getProfileOptions);
+        profile = await messaging.getProfile(serviceId, getProfileOptions);
       } catch (error) {
         if (!(error instanceof HTTPError)) {
           throw error;
@@ -331,7 +338,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
         // We won't get the credential, but lets either fetch:
         // - a versioned profile using last known profileKeyVersion
         // - some basic profile information (capabilities, badges, etc).
-        profile = await messaging.getProfile(uuid, getProfileOptions);
+        profile = await messaging.getProfile(serviceId, getProfileOptions);
       } catch (error) {
         if (error instanceof HTTPError && error.code === 404) {
           log.info(`getProfile: failed to find a profile for ${idForLogging}`);
@@ -347,7 +354,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
     }
 
     if (profile.identityKey) {
-      await updateIdentityKey(profile.identityKey, uuid);
+      await updateIdentityKey(profile.identityKey, serviceId);
     }
 
     // Update accessKey to prevent race conditions. Since we run asynchronous
@@ -496,7 +503,9 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
         log.warn(
           'getProfile failure:',
           idForLogging,
-          Errors.toLogFormat(error)
+          isNumber(error.code)
+            ? `code: ${error.code}`
+            : Errors.toLogFormat(error)
         );
         return;
     }
@@ -571,7 +580,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
 
 export async function updateIdentityKey(
   identityKey: string,
-  uuid: UUID
+  serviceId: ServiceIdString
 ): Promise<void> {
   if (!identityKey) {
     return;
@@ -579,16 +588,17 @@ export async function updateIdentityKey(
 
   const identityKeyBytes = Bytes.fromBase64(identityKey);
   const changed = await window.textsecure.storage.protocol.saveIdentity(
-    new Address(uuid, 1),
+    new Address(serviceId, 1),
     identityKeyBytes,
     false
   );
   if (changed) {
+    log.info(`updateIdentityKey(${serviceId}): changed`);
     // save identity will close all sessions except for .1, so we
     // must close that one manually.
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
     await window.textsecure.storage.protocol.archiveSession(
-      new QualifiedAddress(ourUuid, new Address(uuid, 1))
+      new QualifiedAddress(ourAci, new Address(serviceId, 1))
     );
   }
 }

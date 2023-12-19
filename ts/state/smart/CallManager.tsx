@@ -12,12 +12,18 @@ import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
-import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
+import { isGroupCallRaiseHandEnabled } from '../../util/isGroupCallRaiseHandEnabled';
+import { isGroupCallReactionsEnabled } from '../../util/isGroupCallReactionsEnabled';
 import type {
+  ActiveCallBaseType,
   ActiveCallType,
+  ActiveDirectCallType,
+  ActiveGroupCallType,
+  ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
-import type { UUIDStringType } from '../../types/UUID';
+import { isAciString } from '../../util/isAciString';
+import type { AciString } from '../../types/ServiceId';
 import { CallMode, CallState } from '../../types/Calling';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -32,11 +38,15 @@ import {
 import {
   FALLBACK_NOTIFICATION_TITLE,
   NotificationSetting,
+  NotificationType,
   notificationService,
 } from '../../services/notifications';
 import * as log from '../../logging/log';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
+import { strictAssert } from '../../util/assert';
+import { renderEmojiPicker } from './renderEmojiPicker';
+import { renderReactionPicker } from './renderReactionPicker';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -50,6 +60,7 @@ const getGroupCallVideoFrameSource =
   callingService.getGroupCallVideoFrameSource.bind(callingService);
 
 async function notifyForCall(
+  conversationId: string,
   title: string,
   isVideoCall: boolean
 ): Promise<void> {
@@ -78,18 +89,23 @@ async function notifyForCall(
       break;
   }
 
+  const conversation = window.ConversationController.get(conversationId);
+  strictAssert(conversation, 'notifyForCall: conversation not found');
+
+  const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
+
   notificationService.notify({
+    conversationId,
     title: notificationTitle,
-    icon: isVideoCall
-      ? 'images/icons/v2/video-solid-24.svg'
-      : 'images/icons/v2/phone-right-solid-24.svg',
-    message: window.i18n(
-      isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
-    ),
-    onNotificationClick: () => {
-      window.IPC.showWindow();
-    },
-    silent: false,
+    iconPath: absolutePath,
+    iconUrl: url,
+    message: isVideoCall
+      ? window.i18n('icu:incomingVideoCall')
+      : window.i18n('icu:incomingAudioCall'),
+    sentAt: 0,
+    // The ringtone plays so we don't need sound for the notification
+    silent: true,
+    type: NotificationType.IncomingCall,
   });
 }
 
@@ -119,22 +135,23 @@ const mapStateToActiveCallProp = (
     return undefined;
   }
 
-  const conversationSelectorByUuid = memoize<
-    (uuid: UUIDStringType) => undefined | ConversationType
-  >(uuid => {
-    const convoForUuid = window.ConversationController.lookupOrCreate({
-      uuid,
+  const conversationSelectorByAci = memoize<
+    (aci: AciString) => undefined | ConversationType
+  >(aci => {
+    const convoForAci = window.ConversationController.lookupOrCreate({
+      serviceId: aci,
       reason: 'CallManager.mapStateToActiveCallProp',
     });
-    return convoForUuid ? conversationSelector(convoForUuid.id) : undefined;
+    return convoForAci ? conversationSelector(convoForAci.id) : undefined;
   });
 
-  const baseResult = {
+  const baseResult: ActiveCallBaseType = {
     conversation,
     hasLocalAudio: activeCallState.hasLocalAudio,
     hasLocalVideo: activeCallState.hasLocalVideo,
     localAudioLevel: activeCallState.localAudioLevel,
     viewMode: activeCallState.viewMode,
+    viewModeBeforePresentation: activeCallState.viewModeBeforePresentation,
     joinedAt: activeCallState.joinedAt,
     outgoingRing: activeCallState.outgoingRing,
     pip: activeCallState.pip,
@@ -145,6 +162,7 @@ const mapStateToActiveCallProp = (
       activeCallState.showNeedsScreenRecordingPermissionsWarning
     ),
     showParticipantsList: activeCallState.showParticipantsList,
+    reactions: activeCallState.reactions,
   };
 
   switch (call.callMode) {
@@ -157,6 +175,11 @@ const mapStateToActiveCallProp = (
         return;
       }
 
+      strictAssert(
+        isAciString(conversation.serviceId),
+        'Conversation must have aci'
+      );
+
       return {
         ...baseResult,
         callEndedReason: call.callEndedReason,
@@ -168,15 +191,18 @@ const mapStateToActiveCallProp = (
             hasRemoteVideo: Boolean(call.hasRemoteVideo),
             presenting: Boolean(call.isSharingScreen),
             title: conversation.title,
-            uuid: conversation.uuid,
+            serviceId: conversation.serviceId,
           },
         ],
-      };
+      } satisfies ActiveDirectCallType;
     case CallMode.Group: {
       const conversationsWithSafetyNumberChanges: Array<ConversationType> = [];
       const groupMembers: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
       const peekedParticipants: Array<ConversationType> = [];
+      const conversationsByDemuxId: ConversationsByDemuxIdType = new Map();
+      const { localDemuxId } = call;
+      const raisedHands: Set<number> = new Set(call.raisedHands ?? []);
 
       const { memberships = [] } = conversation;
 
@@ -186,14 +212,14 @@ const mapStateToActiveCallProp = (
         peekInfo = {
           deviceCount: 0,
           maxDevices: Infinity,
-          uuids: [],
+          acis: [],
         },
       } = call;
 
       for (let i = 0; i < memberships.length; i += 1) {
-        const { uuid } = memberships[i];
+        const { aci } = memberships[i];
 
-        const member = conversationSelector(uuid);
+        const member = conversationSelector(aci);
         if (!member) {
           log.error('Group member has no corresponding conversation');
           continue;
@@ -205,8 +231,8 @@ const mapStateToActiveCallProp = (
       for (let i = 0; i < call.remoteParticipants.length; i += 1) {
         const remoteParticipant = call.remoteParticipants[i];
 
-        const remoteConversation = conversationSelectorByUuid(
-          remoteParticipant.uuid
+        const remoteConversation = conversationSelectorByAci(
+          remoteParticipant.aci
         );
         if (!remoteConversation) {
           log.error('Remote participant has no corresponding conversation');
@@ -215,24 +241,41 @@ const mapStateToActiveCallProp = (
 
         remoteParticipants.push({
           ...remoteConversation,
+          aci: remoteParticipant.aci,
           demuxId: remoteParticipant.demuxId,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,
+          isHandRaised: raisedHands.has(remoteParticipant.demuxId),
           presenting: remoteParticipant.presenting,
           sharingScreen: remoteParticipant.sharingScreen,
           speakerTime: remoteParticipant.speakerTime,
           videoAspectRatio: remoteParticipant.videoAspectRatio,
         });
+        conversationsByDemuxId.set(
+          remoteParticipant.demuxId,
+          remoteConversation
+        );
       }
+
+      if (localDemuxId !== undefined) {
+        conversationsByDemuxId.set(localDemuxId, getMe(state));
+      }
+
+      // Filter raisedHands to ensure valid demuxIds.
+      raisedHands.forEach(demuxId => {
+        if (!conversationsByDemuxId.has(demuxId)) {
+          raisedHands.delete(demuxId);
+        }
+      });
 
       for (
         let i = 0;
-        i < activeCallState.safetyNumberChangedUuids.length;
+        i < activeCallState.safetyNumberChangedAcis.length;
         i += 1
       ) {
-        const uuid = activeCallState.safetyNumberChangedUuids[i];
+        const aci = activeCallState.safetyNumberChangedAcis[i];
 
-        const remoteConversation = conversationSelectorByUuid(uuid);
+        const remoteConversation = conversationSelectorByAci(aci);
         if (!remoteConversation) {
           log.error('Remote participant has no corresponding conversation');
           continue;
@@ -241,12 +284,11 @@ const mapStateToActiveCallProp = (
         conversationsWithSafetyNumberChanges.push(remoteConversation);
       }
 
-      for (let i = 0; i < peekInfo.uuids.length; i += 1) {
-        const peekedParticipantUuid = peekInfo.uuids[i];
+      for (let i = 0; i < peekInfo.acis.length; i += 1) {
+        const peekedParticipantAci = peekInfo.acis[i];
 
-        const peekedConversation = conversationSelectorByUuid(
-          peekedParticipantUuid
-        );
+        const peekedConversation =
+          conversationSelectorByAci(peekedParticipantAci);
         if (!peekedConversation) {
           log.error('Remote participant has no corresponding conversation');
           continue;
@@ -260,15 +302,18 @@ const mapStateToActiveCallProp = (
         callMode: CallMode.Group,
         connectionState: call.connectionState,
         conversationsWithSafetyNumberChanges,
+        conversationsByDemuxId,
         deviceCount: peekInfo.deviceCount,
         groupMembers,
         isConversationTooBigToRing: isConversationTooBigToRing(conversation),
         joinState: call.joinState,
+        localDemuxId,
         maxDevices: peekInfo.maxDevices,
         peekedParticipants,
+        raisedHands,
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
-      };
+      } satisfies ActiveGroupCallType;
     }
     default:
       throw missingCaseError(call);
@@ -295,13 +340,13 @@ const mapStateToIncomingCallProp = (state: StateType) => {
         isVideoCall: call.isVideoCall,
       };
     case CallMode.Group: {
-      if (!call.ringerUuid) {
+      if (!call.ringerAci) {
         log.error('The incoming group call has no ring state');
         return undefined;
       }
 
       const conversationSelector = getConversationSelector(state);
-      const ringer = conversationSelector(call.ringerUuid);
+      const ringer = conversationSelector(call.ringerAci);
       const otherMembersRung = (conversation.sortedGroupMembers ?? []).filter(
         c => c.id !== ringer.id && !c.isMe
       );
@@ -329,12 +374,15 @@ const mapStateToProps = (state: StateType) => {
     getGroupCallVideoFrameSource,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
-    isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
+    isGroupCallRaiseHandEnabled: isGroupCallRaiseHandEnabled(),
+    isGroupCallReactionsEnabled: isGroupCallReactionsEnabled(),
     incomingCall,
     me: getMe(state),
     notifyForCall,
     playRingtone,
     stopRingtone,
+    renderEmojiPicker,
+    renderReactionPicker,
     renderDeviceSelection,
     renderSafetyNumberViewer,
     theme: getTheme(state),

@@ -3,78 +3,68 @@
 
 import { PublicKey, Fingerprint } from '@signalapp/libsignal-client';
 import type { ConversationType } from '../state/ducks/conversations';
-import { UUID } from '../types/UUID';
 
 import { assertDev } from './assert';
+import { uuidToBytes } from './uuidToBytes';
 import * as log from '../logging/log';
+import type { SafetyNumberType } from '../types/safetyNumber';
+import { isAciString } from './isAciString';
 
-export async function generateSecurityNumber(
-  ourNumber: string,
-  ourKey: Uint8Array,
-  theirNumber: string,
-  theirKey: Uint8Array
-): Promise<string> {
-  const ourNumberBuf = Buffer.from(ourNumber);
-  const ourKeyObj = PublicKey.deserialize(Buffer.from(ourKey));
-  const theirNumberBuf = Buffer.from(theirNumber);
-  const theirKeyObj = PublicKey.deserialize(Buffer.from(theirKey));
+const ITERATION_COUNT = 5200;
+const SERVICE_ID_VERSION = 2;
 
-  const fingerprint = Fingerprint.new(
-    5200,
-    2,
-    ourNumberBuf,
-    ourKeyObj,
-    theirNumberBuf,
-    theirKeyObj
-  );
+// Number of digits in a safety number block
+const BLOCK_SIZE = 5;
 
-  const fingerprintString = fingerprint.displayableFingerprint().toString();
-  return Promise.resolve(fingerprintString);
-}
-
-export async function generateSecurityNumberBlock(
+export async function generateSafetyNumber(
   contact: ConversationType
-): Promise<Array<string>> {
+): Promise<SafetyNumberType> {
+  const logId = `generateSafetyNumbers(${contact.id})`;
+  log.info(`${logId}: starting`);
+
   const { storage } = window.textsecure;
-  const ourNumber = storage.user.getNumber();
-  const ourUuid = storage.user.getCheckedUuid();
+  const ourAci = storage.user.getCheckedAci();
 
-  const us = storage.protocol.getIdentityRecord(ourUuid);
-  const ourKey = us ? us.publicKey : null;
+  const us = storage.protocol.getIdentityRecord(ourAci);
+  const ourKeyBuffer = us ? us.publicKey : null;
 
-  const theirUuid = UUID.lookup(contact.id);
-  const them = theirUuid
-    ? await storage.protocol.getOrMigrateIdentityRecord(theirUuid)
+  const theirAci = isAciString(contact.serviceId)
+    ? contact.serviceId
     : undefined;
-  const theirKey = them?.publicKey;
+  const them = theirAci
+    ? await storage.protocol.getOrMigrateIdentityRecord(theirAci)
+    : undefined;
+  const theirKeyBuffer = them?.publicKey;
 
-  if (!ourKey) {
+  if (!ourKeyBuffer) {
     throw new Error('Could not load our key');
   }
 
-  if (!theirKey) {
+  if (!theirKeyBuffer) {
     throw new Error('Could not load their key');
   }
 
-  if (!contact.e164) {
-    log.error(
-      'generateSecurityNumberBlock: Attempted to generate security number for contact with no e164'
-    );
-    return [];
-  }
+  const ourKey = PublicKey.deserialize(Buffer.from(ourKeyBuffer));
+  const theirKey = PublicKey.deserialize(Buffer.from(theirKeyBuffer));
 
-  assertDev(ourNumber, 'Should have our number');
-  const securityNumber = await generateSecurityNumber(
-    ourNumber,
+  assertDev(theirAci, 'Should have their serviceId');
+  const fingerprint = Fingerprint.new(
+    ITERATION_COUNT,
+    SERVICE_ID_VERSION,
+    Buffer.from(uuidToBytes(ourAci)),
     ourKey,
-    contact.e164,
+    Buffer.from(uuidToBytes(theirAci)),
     theirKey
   );
 
-  const chunks = [];
-  for (let i = 0; i < securityNumber.length; i += 5) {
-    chunks.push(securityNumber.substring(i, i + 5));
+  const securityNumber = fingerprint.displayableFingerprint().toString();
+
+  const numberBlocks = [];
+  for (let i = 0; i < securityNumber.length; i += BLOCK_SIZE) {
+    numberBlocks.push(securityNumber.substring(i, i + BLOCK_SIZE));
   }
 
-  return chunks;
+  const qrData = fingerprint.scannableFingerprint().toBuffer();
+
+  return { numberBlocks, qrData };
 }

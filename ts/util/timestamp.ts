@@ -4,10 +4,8 @@
 import type { Moment } from 'moment';
 import moment from 'moment';
 import type { LocalizerType } from '../types/Util';
-import * as log from '../logging/log';
 import { DAY, HOUR, MINUTE, MONTH, WEEK } from './durations';
-
-const MAX_FORMAT_STRING_LENGTH = 50;
+import { formatTimestamp } from './formatTimestamp';
 
 type RawTimestamp = Readonly<number | Date | Moment>;
 
@@ -40,23 +38,6 @@ export const isToday = (rawTimestamp: RawTimestamp): boolean =>
 const isYesterday = (rawTimestamp: RawTimestamp): boolean =>
   isSameDay(rawTimestamp, moment().subtract(1, 'day'));
 
-// This sanitization is probably unnecessary, but we do it just in case someone translates
-//   a super long format string and causes performance issues.
-function sanitizeFormatString(
-  rawFormatString: string,
-  fallback: string
-): string {
-  if (rawFormatString.length > MAX_FORMAT_STRING_LENGTH) {
-    log.error(
-      `Format string ${JSON.stringify(
-        rawFormatString
-      )} is too long. Falling back to ${fallback}`
-    );
-    return fallback;
-  }
-  return rawFormatString;
-}
-
 export function formatDateTimeShort(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp
@@ -73,31 +54,95 @@ export function formatDateTimeShort(
   const m = moment(timestamp);
 
   if (diff < WEEK && m.isSame(now, 'month')) {
-    return m.format('ddd');
+    return formatTimestamp(timestamp, { weekday: 'short' });
   }
 
   if (m.isSame(now, 'year')) {
-    return m.format(i18n('timestampFormat_M') || 'MMM D');
+    return formatTimestamp(timestamp, {
+      day: 'numeric',
+      month: 'short',
+    });
   }
 
-  return m.format('ll');
+  return formatTimestamp(timestamp, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+export function formatDateTimeForAttachment(
+  i18n: LocalizerType,
+  rawTimestamp: RawTimestamp
+): string {
+  const timestamp = rawTimestamp.valueOf();
+
+  const now = Date.now();
+  const diff = now - timestamp;
+
+  if (diff < HOUR || isToday(timestamp)) {
+    return formatTime(i18n, rawTimestamp, now);
+  }
+
+  const m = moment(timestamp);
+
+  if (diff < WEEK && m.isSame(now, 'month')) {
+    return formatTimestamp(timestamp, {
+      weekday: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+    });
+  }
+
+  if (m.isSame(now, 'year')) {
+    return formatTimestamp(timestamp, {
+      day: 'numeric',
+      month: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+    });
+  }
+
+  return formatTimestamp(timestamp, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  });
 }
 
 export function formatDateTimeLong(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp
 ): string {
-  let rawFormatString: string;
-  if (isToday(rawTimestamp)) {
-    rawFormatString = i18n('timestampFormat__long__today');
-  } else if (isYesterday(rawTimestamp)) {
-    rawFormatString = i18n('timestampFormat__long__yesterday');
-  } else {
-    rawFormatString = 'lll';
-  }
-  const formatString = sanitizeFormatString(rawFormatString, 'lll');
+  const timestamp = rawTimestamp.valueOf();
 
-  return moment(rawTimestamp).format(formatString);
+  if (isToday(rawTimestamp)) {
+    return i18n('icu:timestampFormat__long--today', {
+      time: formatTimestamp(timestamp, {
+        hour: 'numeric',
+        minute: 'numeric',
+      }),
+    });
+  }
+
+  if (isYesterday(rawTimestamp)) {
+    return i18n('icu:timestampFormat__long--yesterday', {
+      time: formatTimestamp(timestamp, {
+        hour: 'numeric',
+        minute: 'numeric',
+      }),
+    });
+  }
+
+  return formatTimestamp(timestamp, {
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
 export function formatTime(
@@ -110,18 +155,22 @@ export function formatTime(
   const diff = now.valueOf() - timestamp;
 
   if (diff < MINUTE) {
-    return i18n('justNow');
+    return i18n('icu:justNow');
   }
 
   if (diff < HOUR) {
-    return i18n('minutesAgo', [Math.floor(diff / MINUTE).toString()]);
+    return i18n('icu:minutesAgo', {
+      minutes: Math.floor(diff / MINUTE),
+    });
   }
 
   if (isRelativeTime) {
-    return i18n('hoursAgo', [Math.floor(diff / HOUR).toString()]);
+    return i18n('icu:hoursAgo', {
+      hours: Math.floor(diff / HOUR),
+    });
   }
 
-  return new Date(timestamp).toLocaleTimeString([], {
+  return formatTimestamp(timestamp, {
     hour: 'numeric',
     minute: '2-digit',
   });
@@ -132,20 +181,28 @@ export function formatDate(
   rawTimestamp: RawTimestamp
 ): string {
   if (isToday(rawTimestamp)) {
-    return i18n('today');
+    return i18n('icu:today');
   }
 
   if (isYesterday(rawTimestamp)) {
-    return i18n('yesterday');
+    return i18n('icu:yesterday');
   }
 
   const m = moment(rawTimestamp);
 
-  const rawFormatString =
-    Math.abs(m.diff(Date.now())) < 6 * MONTH
-      ? i18n('TimelineDateHeader--date-in-last-6-months')
-      : i18n('TimelineDateHeader--date-older-than-6-months');
-  const formatString = sanitizeFormatString(rawFormatString, 'LL');
+  const timestamp = rawTimestamp.valueOf();
 
-  return m.format(formatString);
+  if (Math.abs(m.diff(Date.now())) < 6 * MONTH) {
+    return formatTimestamp(timestamp, {
+      day: 'numeric',
+      month: 'short',
+      weekday: 'short',
+    });
+  }
+
+  return formatTimestamp(timestamp, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
 }

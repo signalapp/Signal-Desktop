@@ -3,8 +3,7 @@
 
 .module-message-detail {
   max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
   padding: 20px;
   outline: none;
 }
@@ -40,25 +39,14 @@
   }
 }
 
-.module-message-detail__contact-container {
-  border-top: 1px solid $color-gray-15;
-  margin-top: 36px;
-
-  @include light-theme {
-    border-top-color: $color-gray-15;
-  }
-  @include dark-theme {
-    border-top-color: $color-gray-75;
-  }
-}
-
 .module-message-detail__contact-group__header {
   @include font-body-1-bold;
   align-items: center;
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
-  padding: 10px 0;
+  padding-block: 10px;
+  padding-inline: 0;
   user-select: none;
 
   &:first-child {
@@ -76,7 +64,7 @@
       display: block;
       flex-shrink: 0;
       height: 12px;
-      margin-left: 10px;
+      margin-inline-start: 10px;
     }
   }
 
@@ -84,13 +72,13 @@
     width: 12px;
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/error-outline-12.svg',
+        '../images/icons/v3/error/error-circle-compact.svg',
         $color-accent-red
       );
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/error-solid-12.svg',
+        '../images/icons/v3/error/error-circle-compact.svg',
         $color-accent-red
       );
     }
@@ -109,29 +97,38 @@
   &--Read:after {
     // Viewed and read deliberately have the same icon.
     width: 18px;
-    @include normal-icon('../images/read.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-read.svg'
+    );
   }
 
   &--Delivered:after {
     width: 18px;
-    @include normal-icon('../images/double-check.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-delivered.svg'
+    );
   }
 
   &--Sent:after {
     width: 12px;
-    @include normal-icon('../images/check-circle-outline.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-sent.svg'
+    );
   }
 
   &--Pending:after {
     width: 12px;
     animation: rotate 4s linear infinite;
-    @include normal-icon('../images/sending.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-sending.svg'
+    );
   }
 }
 
 .module-message-detail__contact {
   margin-bottom: 8px;
-  padding: 8px 0;
+  padding-block: 8px;
+  padding-inline: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -144,7 +141,7 @@
 .module-message-detail__contact__text {
   @include font-body-1;
   flex-grow: 1;
-  margin-left: 10px;
+  margin-inline-start: 10px;
 }
 
 .module-message-detail__contact__error {
@@ -153,7 +150,7 @@
 }
 
 .module-message-detail__contact__unidentified-delivery-icon {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   width: 18px;
   height: 18px;
@@ -174,7 +171,7 @@
 }
 
 .module-message-detail__contact__error-buttons {
-  text-align: right;
+  text-align: end;
 }
 
 .module-message-detail__contact__show-safety-number {
@@ -193,7 +190,7 @@
 }
 .module-message-detail__contact__send-anyway {
   @include button-reset;
-  margin-left: 5px;
+  margin-inline-start: 5px;
   margin-top: 5px;
   padding: 4px;
   border-radius: 4px;
@@ -203,5 +200,5 @@
 }
 
 .module-message-detail__status-timestamp {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 }

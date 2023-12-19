@@ -20,6 +20,7 @@
 
   &--floating {
     @include timeline-floating-header-node;
-    padding: 5px 10px;
+    padding-block: 5px;
+    padding-inline: 10px;
   }
 }

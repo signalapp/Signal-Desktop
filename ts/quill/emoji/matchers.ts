@@ -2,34 +2,56 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Delta from 'quill-delta';
+import type { Matcher, AttributeMap } from 'quill';
+
 import { insertEmojiOps } from '../util';
 
-export const matchEmojiImage = (node: Element): Delta => {
-  if (node.classList.contains('emoji')) {
-    const emoji = node.getAttribute('title');
-    return new Delta().insert({ emoji });
+export const matchEmojiImage: Matcher = (
+  node: Element,
+  delta: Delta,
+  attributes: AttributeMap
+): Delta => {
+  if (
+    node.classList.contains('emoji') ||
+    node.classList.contains('module-emoji__image--16px')
+  ) {
+    const emoji = node.getAttribute('aria-label');
+    return new Delta().insert({ emoji }, attributes);
   }
-  return new Delta();
+  return delta;
 };
 
-export const matchEmojiBlot = (node: HTMLElement, delta: Delta): Delta => {
+export const matchEmojiBlot: Matcher = (
+  node: HTMLElement,
+  delta: Delta,
+  attributes: AttributeMap
+): Delta => {
   if (node.classList.contains('emoji-blot')) {
     const { emoji } = node.dataset;
-    return new Delta().insert({ emoji });
+    return new Delta().insert({ emoji }, attributes);
   }
   return delta;
 };
 
-export const matchReactEmoji = (node: HTMLElement, delta: Delta): Delta => {
-  if (node.classList.contains('module-emoji')) {
-    const emoji = node.innerText.trim();
-    return new Delta().insert({ emoji });
+export const matchEmojiText: Matcher = (
+  node: HTMLElement,
+  _delta: Delta,
+  attributes: AttributeMap
+): Delta => {
+  if (!('data' in node)) {
+    return new Delta();
   }
-  return delta;
-};
 
-export const matchEmojiText = (node: Text): Delta => {
-  const nodeAsInsert = { insert: node.data };
+  const { data } = node;
+  if (!data || typeof data !== 'string') {
+    return new Delta();
+  }
 
-  return new Delta(insertEmojiOps([nodeAsInsert]));
+  if (data.replace(/(\n|\r\n)/g, '') === '') {
+    return new Delta();
+  }
+
+  const nodeAsInsert = { insert: data, attributes };
+
+  return new Delta(insertEmojiOps([nodeAsInsert], attributes));
 };

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, RefObject } from 'react';
-import React from 'react';
+import React, { memo } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 
@@ -50,6 +50,9 @@ import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEv
 import { PaymentEventNotification } from './PaymentEventNotification';
 import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification';
 import { ConversationMergeNotification } from './ConversationMergeNotification';
+import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification';
+import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
+import { SystemMessage } from './SystemMessage';
 import type { FullJSXType } from '../Intl';
 import { TimelineMessage } from './TimelineMessage';
 
@@ -79,6 +82,10 @@ type TimerNotificationType = {
 };
 type UniversalTimerNotificationType = {
   type: 'universalTimerNotification';
+  data: null;
+};
+type ContactRemovedNotificationType = {
+  type: 'contactRemovedNotification';
   data: null;
 };
 type ChangeNumberNotificationType = {
@@ -117,6 +124,10 @@ type ConversationMergeNotificationType = {
   type: 'conversationMerge';
   data: ConversationMergeNotificationPropsType;
 };
+type PhoneNumberDiscoveryNotificationType = {
+  type: 'phoneNumberDiscovery';
+  data: PhoneNumberDiscoveryNotificationPropsType;
+};
 type PaymentEventType = {
   type: 'paymentEvent';
   data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
@@ -132,11 +143,13 @@ export type TimelineItemType = (
   | GroupV1MigrationType
   | GroupV2ChangeType
   | MessageType
+  | PhoneNumberDiscoveryNotificationType
   | ProfileChangeNotificationType
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
   | TimerNotificationType
   | UniversalTimerNotificationType
+  | ContactRemovedNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType
   | PaymentEventType
@@ -148,9 +161,10 @@ type PropsLocalType = {
   item?: TimelineItemType;
   id: string;
   isNextItemCallingNotification: boolean;
-  isSelected: boolean;
-  selectMessage: (messageId: string, conversationId: string) => unknown;
+  isTargeted: boolean;
+  targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
+  platform: string;
   renderContact: SmartContactRendererType<FullJSXType>;
   renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
@@ -177,191 +191,209 @@ export type PropsType = PropsLocalType &
     | 'shouldHideMetadata'
   >;
 
-export class TimelineItem extends React.PureComponent<PropsType> {
-  public override render(): JSX.Element | null {
-    const {
-      containerElementRef,
-      conversationId,
-      getPreferredBadge,
-      i18n,
-      id,
-      isNextItemCallingNotification,
-      isSelected,
-      item,
-      renderUniversalTimerNotification,
-      returnToActiveCall,
-      selectMessage,
-      shouldCollapseAbove,
-      shouldCollapseBelow,
-      shouldHideMetadata,
-      shouldRenderDateHeader,
-      startCallingLobby,
-      theme,
-      ...reducedProps
-    } = this.props;
+export const TimelineItem = memo(function TimelineItem({
+  containerElementRef,
+  conversationId,
+  getPreferredBadge,
+  i18n,
+  id,
+  isNextItemCallingNotification,
+  isTargeted,
+  item,
+  onOutgoingAudioCallInConversation,
+  onOutgoingVideoCallInConversation,
+  platform,
+  renderUniversalTimerNotification,
+  returnToActiveCall,
+  targetMessage,
+  setMessageToEdit,
+  shouldCollapseAbove,
+  shouldCollapseBelow,
+  shouldHideMetadata,
+  shouldRenderDateHeader,
+  theme,
+  ...reducedProps
+}: PropsType): JSX.Element | null {
+  if (!item) {
+    // This can happen under normal conditions.
+    //
+    // `<Timeline>` and `<TimelineItem>` are connected to Redux separately. If a
+    //   timeline item is removed from Redux, `<TimelineItem>` might re-render before
+    //   `<Timeline>` does, which means we'll try to render nothing. This should resolve
+    //   itself quickly, as soon as `<Timeline>` re-renders.
+    return null;
+  }
 
-    if (!item) {
-      // This can happen under normal conditions.
-      //
-      // `<Timeline>` and `<TimelineItem>` are connected to Redux separately. If a
-      //   timeline item is removed from Redux, `<TimelineItem>` might re-render before
-      //   `<Timeline>` does, which means we'll try to render nothing. This should resolve
-      //   itself quickly, as soon as `<Timeline>` re-renders.
-      return null;
-    }
+  let itemContents: ReactChild;
+  if (item.type === 'message') {
+    itemContents = (
+      <TimelineMessage
+        {...reducedProps}
+        {...item.data}
+        isTargeted={isTargeted}
+        targetMessage={targetMessage}
+        setMessageToEdit={setMessageToEdit}
+        shouldCollapseAbove={shouldCollapseAbove}
+        shouldCollapseBelow={shouldCollapseBelow}
+        shouldHideMetadata={shouldHideMetadata}
+        containerElementRef={containerElementRef}
+        getPreferredBadge={getPreferredBadge}
+        platform={platform}
+        i18n={i18n}
+        theme={theme}
+      />
+    );
+  } else {
+    let notification;
 
-    let itemContents: ReactChild;
-    if (item.type === 'message') {
-      itemContents = (
-        <TimelineMessage
+    if (item.type === 'unsupportedMessage') {
+      notification = (
+        <UnsupportedMessage {...reducedProps} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'callHistory') {
+      notification = (
+        <CallingNotification
+          id={id}
+          conversationId={conversationId}
+          i18n={i18n}
+          isNextItemCallingNotification={isNextItemCallingNotification}
+          onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
+          onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+          toggleDeleteMessagesModal={reducedProps.toggleDeleteMessagesModal}
+          returnToActiveCall={returnToActiveCall}
+          {...item.data}
+        />
+      );
+    } else if (item.type === 'chatSessionRefreshed') {
+      notification = (
+        <ChatSessionRefreshedNotification {...reducedProps} i18n={i18n} />
+      );
+    } else if (item.type === 'deliveryIssue') {
+      notification = (
+        <DeliveryIssueNotification
+          {...item.data}
+          {...reducedProps}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'timerNotification') {
+      notification = (
+        <TimerNotification {...reducedProps} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'universalTimerNotification') {
+      notification = renderUniversalTimerNotification();
+    } else if (item.type === 'contactRemovedNotification') {
+      notification = (
+        <SystemMessage
+          icon="info"
+          contents={i18n('icu:ContactRemovedNotification__text')}
+        />
+      );
+    } else if (item.type === 'changeNumberNotification') {
+      notification = (
+        <ChangeNumberNotification
           {...reducedProps}
           {...item.data}
-          isSelected={isSelected}
-          selectMessage={selectMessage}
-          shouldCollapseAbove={shouldCollapseAbove}
-          shouldCollapseBelow={shouldCollapseBelow}
-          shouldHideMetadata={shouldHideMetadata}
-          containerElementRef={containerElementRef}
-          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+        />
+      );
+    } else if (item.type === 'safetyNumberNotification') {
+      notification = (
+        <SafetyNumberNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'verificationNotification') {
+      notification = (
+        <VerificationNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'groupNotification') {
+      notification = (
+        <GroupNotification {...reducedProps} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'groupV2Change') {
+      notification = (
+        <GroupV2Change {...reducedProps} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'groupV1Migration') {
+      notification = (
+        <GroupV1Migration
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+          getPreferredBadge={getPreferredBadge}
           theme={theme}
         />
       );
+    } else if (item.type === 'conversationMerge') {
+      notification = (
+        <ConversationMergeNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'phoneNumberDiscovery') {
+      notification = (
+        <PhoneNumberDiscoveryNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'resetSessionNotification') {
+      notification = <ResetSessionNotification {...reducedProps} i18n={i18n} />;
+    } else if (item.type === 'profileChange') {
+      notification = (
+        <ProfileChangeNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'paymentEvent') {
+      notification = (
+        <PaymentEventNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
     } else {
-      let notification;
-
-      if (item.type === 'unsupportedMessage') {
-        notification = (
-          <UnsupportedMessage {...reducedProps} {...item.data} i18n={i18n} />
-        );
-      } else if (item.type === 'callHistory') {
-        notification = (
-          <CallingNotification
-            conversationId={conversationId}
-            i18n={i18n}
-            isNextItemCallingNotification={isNextItemCallingNotification}
-            returnToActiveCall={returnToActiveCall}
-            startCallingLobby={startCallingLobby}
-            {...item.data}
-          />
-        );
-      } else if (item.type === 'chatSessionRefreshed') {
-        notification = (
-          <ChatSessionRefreshedNotification {...reducedProps} i18n={i18n} />
-        );
-      } else if (item.type === 'deliveryIssue') {
-        notification = (
-          <DeliveryIssueNotification
-            {...item.data}
-            {...reducedProps}
-            i18n={i18n}
-          />
-        );
-      } else if (item.type === 'timerNotification') {
-        notification = (
-          <TimerNotification {...reducedProps} {...item.data} i18n={i18n} />
-        );
-      } else if (item.type === 'universalTimerNotification') {
-        notification = renderUniversalTimerNotification();
-      } else if (item.type === 'changeNumberNotification') {
-        notification = (
-          <ChangeNumberNotification
-            {...reducedProps}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
-      } else if (item.type === 'safetyNumberNotification') {
-        notification = (
-          <SafetyNumberNotification
-            {...reducedProps}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
-      } else if (item.type === 'verificationNotification') {
-        notification = (
-          <VerificationNotification
-            {...reducedProps}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
-      } else if (item.type === 'groupNotification') {
-        notification = (
-          <GroupNotification {...reducedProps} {...item.data} i18n={i18n} />
-        );
-      } else if (item.type === 'groupV2Change') {
-        notification = (
-          <GroupV2Change {...reducedProps} {...item.data} i18n={i18n} />
-        );
-      } else if (item.type === 'groupV1Migration') {
-        notification = (
-          <GroupV1Migration
-            {...reducedProps}
-            {...item.data}
-            i18n={i18n}
-            getPreferredBadge={getPreferredBadge}
-            theme={theme}
-          />
-        );
-      } else if (item.type === 'conversationMerge') {
-        notification = (
-          <ConversationMergeNotification
-            {...reducedProps}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
-      } else if (item.type === 'resetSessionNotification') {
-        notification = (
-          <ResetSessionNotification {...reducedProps} i18n={i18n} />
-        );
-      } else if (item.type === 'profileChange') {
-        notification = (
-          <ProfileChangeNotification
-            {...reducedProps}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
-      } else if (item.type === 'paymentEvent') {
-        notification = (
-          <PaymentEventNotification
-            {...reducedProps}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
-      } else {
-        // Weird, yes, but the idea is to get a compile error when we aren't comprehensive
-        //   with our if/else checks above, but also log out the type we don't understand
-        //   if we encounter it at runtime.
-        const unknownItem: never = item;
-        const asItem = unknownItem as TimelineItemType;
-        throw new Error(`TimelineItem: Unknown type: ${asItem.type}`);
-      }
-
-      itemContents = (
-        <InlineNotificationWrapper
-          id={id}
-          conversationId={conversationId}
-          isSelected={isSelected}
-          selectMessage={selectMessage}
-        >
-          {notification}
-        </InlineNotificationWrapper>
-      );
+      // Weird, yes, but the idea is to get a compile error when we aren't comprehensive
+      //   with our if/else checks above, but also log out the type we don't understand
+      //   if we encounter it at runtime.
+      const unknownItem: never = item;
+      const asItem = unknownItem as TimelineItemType;
+      throw new Error(`TimelineItem: Unknown type: ${asItem.type}`);
     }
 
-    if (shouldRenderDateHeader) {
-      return (
-        <>
-          <TimelineDateHeader i18n={i18n} timestamp={item.timestamp} />
-          {itemContents}
-        </>
-      );
-    }
-    return itemContents;
+    itemContents = (
+      <InlineNotificationWrapper
+        id={id}
+        conversationId={conversationId}
+        isTargeted={isTargeted}
+        targetMessage={targetMessage}
+      >
+        {notification}
+      </InlineNotificationWrapper>
+    );
   }
-}
+
+  if (shouldRenderDateHeader) {
+    return (
+      <>
+        <TimelineDateHeader i18n={i18n} timestamp={item.timestamp} />
+        {itemContents}
+      </>
+    );
+  }
+
+  return itemContents;
+});

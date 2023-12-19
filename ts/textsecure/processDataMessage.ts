@@ -10,12 +10,10 @@ import { dropNull, shallowDropNull } from '../util/dropNull';
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields } from '../groups';
 import * as Bytes from '../Bytes';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 
 import type {
   ProcessedAttachment,
   ProcessedDataMessage,
-  ProcessedGroupContext,
   ProcessedGroupV2Context,
   ProcessedQuote,
   ProcessedContact,
@@ -25,12 +23,14 @@ import type {
   ProcessedDelete,
   ProcessedGiftBadge,
 } from './Types.d';
-import { WarnOnlyError } from './Errors';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME';
 import { SECOND, DurationInSeconds } from '../util/durations';
 import type { AnyPaymentEvent } from '../types/Payment';
 import { PaymentEventKind } from '../types/Payment';
+import { filterAndClean } from '../types/BodyRange';
+import { isAciString } from '../util/isAciString';
+import { normalizeAci } from '../util/normalizeAci';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -68,39 +68,6 @@ export function processAttachment(
     key: key ? Bytes.toBase64(key) : undefined,
     size,
   };
-}
-
-function processGroupContext(
-  group?: Proto.IGroupContext | null
-): ProcessedGroupContext | undefined {
-  if (!group) {
-    return undefined;
-  }
-
-  strictAssert(group.id, 'group context without id');
-  strictAssert(group.type != null, 'group context without type');
-
-  const masterKey = deriveMasterKeyFromGroupV1(group.id);
-  const data = deriveGroupFields(masterKey);
-
-  const derivedGroupV2Id = Bytes.toBase64(data.id);
-
-  const result: ProcessedGroupContext = {
-    id: Bytes.toBinary(group.id),
-    type: group.type,
-    name: dropNull(group.name),
-    membersE164: group.membersE164 ?? [],
-    avatar: processAttachment(group.avatar),
-    derivedGroupV2Id,
-  };
-
-  if (result.type === Proto.GroupContext.Type.DELIVER) {
-    result.name = undefined;
-    result.membersE164 = [];
-    result.avatar = undefined;
-  }
-
-  return result;
 }
 
 export function processGroupV2Context(
@@ -164,9 +131,14 @@ export function processQuote(
     return undefined;
   }
 
+  const { authorAci } = quote;
+  if (!isAciString(authorAci)) {
+    throw new Error('quote.authorAci is not an ACI string');
+  }
+
   return {
     id: quote.id?.toNumber(),
-    authorUuid: dropNull(quote.authorUuid),
+    authorAci: normalizeAci(authorAci, 'Quote.authorAci'),
     text: dropNull(quote.text),
     attachments: (quote.attachments ?? []).map(attachment => {
       return {
@@ -175,7 +147,7 @@ export function processQuote(
         thumbnail: processAttachment(attachment.thumbnail),
       };
     }),
-    bodyRanges: quote.bodyRanges ?? [],
+    bodyRanges: filterAndClean(quote.bodyRanges),
     type: quote.type || Proto.DataMessage.Quote.Type.NORMAL,
   };
 }
@@ -255,10 +227,15 @@ export function processReaction(
     return undefined;
   }
 
+  const { targetAuthorAci } = reaction;
+  if (!isAciString(targetAuthorAci)) {
+    throw new Error('reaction.targetAuthorAci is not an ACI string');
+  }
+
   return {
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
-    targetAuthorUuid: dropNull(reaction.targetAuthorUuid),
+    targetAuthorAci: normalizeAci(targetAuthorAci, 'Reaction.targetAuthorAci'),
     targetTimestamp: reaction.targetTimestamp?.toNumber(),
   };
 }
@@ -330,7 +307,6 @@ export function processDataMessage(
     attachments: (message.attachments ?? []).map(
       (attachment: Proto.IAttachmentPointer) => processAttachment(attachment)
     ),
-    group: processGroupContext(message.group),
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,
     expireTimer: DurationInSeconds.fromSeconds(message.expireTimer ?? 0),
@@ -348,7 +324,7 @@ export function processDataMessage(
     isViewOnce: Boolean(message.isViewOnce),
     reaction: processReaction(message.reaction),
     delete: processDelete(message.delete),
-    bodyRanges: message.bodyRanges ?? [],
+    bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: dropNull(message.storyContext),
     giftBadge: processGiftBadge(message.giftBadge),
@@ -374,7 +350,6 @@ export function processDataMessage(
   if (isEndSession) {
     result.body = undefined;
     result.attachments = [];
-    result.group = undefined;
     return result;
   }
 
@@ -386,27 +361,6 @@ export function processDataMessage(
     result.attachments = [];
   } else if (result.flags !== 0) {
     throw new Error(`Unknown flags in message: ${result.flags}`);
-  }
-
-  if (result.group) {
-    switch (result.group.type) {
-      case Proto.GroupContext.Type.UPDATE:
-        result.body = undefined;
-        result.attachments = [];
-        break;
-      case Proto.GroupContext.Type.QUIT:
-        result.body = undefined;
-        result.attachments = [];
-        break;
-      case Proto.GroupContext.Type.DELIVER:
-        // Cleaned up in `processGroupContext`
-        break;
-      default: {
-        throw new WarnOnlyError(
-          `Unknown group message type: ${result.group.type}`
-        );
-      }
-    }
   }
 
   const attachmentCount = result.attachments.length;

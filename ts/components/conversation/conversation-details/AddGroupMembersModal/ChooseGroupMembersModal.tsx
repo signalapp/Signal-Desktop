@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable local-rules/valid-i18n-keys */
-
 import React, {
   useEffect,
   useMemo,
@@ -10,9 +8,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import { noop, omit } from 'lodash';
-import type { MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
+import { omit } from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
@@ -21,7 +17,7 @@ import { strictAssert, assertDev } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
-import type { LookupConversationWithoutUuidActionsType } from '../../../../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
 import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
 import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
@@ -49,6 +45,7 @@ import { SearchInput } from '../../../SearchInput';
 import { ListView } from '../../../ListView';
 import { UsernameCheckbox } from '../../../conversationList/UsernameCheckbox';
 import { PhoneNumberCheckbox } from '../../../conversationList/PhoneNumberCheckbox';
+import { SizeObserver } from '../../../../hooks/useSizeObserver';
 
 export type StatePropsType = {
   regionCode: string | undefined;
@@ -58,6 +55,7 @@ export type StatePropsType = {
   i18n: LocalizerType;
   theme: ThemeType;
   maxGroupSize: number;
+  ourUsername: string | undefined;
   searchTerm: string;
   selectedContacts: ReadonlyArray<ConversationType>;
 
@@ -68,13 +66,13 @@ export type StatePropsType = {
   toggleSelectedContact: (conversationId: string) => void;
   isUsernamesEnabled: boolean;
 } & Pick<
-  LookupConversationWithoutUuidActionsType,
-  'lookupConversationWithoutUuid'
+  LookupConversationWithoutServiceIdActionsType,
+  'lookupConversationWithoutServiceId'
 >;
 
 type ActionPropsType = Omit<
-  LookupConversationWithoutUuidActionsType,
-  'setIsFetchingUUID' | 'lookupConversationWithoutUuid'
+  LookupConversationWithoutServiceIdActionsType,
+  'setIsFetchingUUID' | 'lookupConversationWithoutServiceId'
 >;
 
 type PropsType = StatePropsType & ActionPropsType;
@@ -88,23 +86,25 @@ export function ChooseGroupMembersModal({
   i18n,
   maxGroupSize,
   onClose,
+  ourUsername,
   removeSelectedContact,
   searchTerm,
   selectedContacts,
   setSearchTerm,
   theme,
   toggleSelectedContact,
-  lookupConversationWithoutUuid,
+  lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   isUsernamesEnabled,
 }: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
 
+  const parsedUsername = getUsernameFromSearch(searchTerm);
   let username: string | undefined;
   let isUsernameChecked = false;
   let isUsernameVisible = false;
   if (isUsernamesEnabled) {
-    username = getUsernameFromSearch(searchTerm);
+    username = parsedUsername;
 
     isUsernameChecked = selectedContacts.some(
       contact => contact.username === username
@@ -112,11 +112,12 @@ export function ChooseGroupMembersModal({
 
     isUsernameVisible =
       Boolean(username) &&
+      username !== ourUsername &&
       candidateContacts.every(contact => contact.username !== username);
   }
 
   let phoneNumber: ParsedE164Type | undefined;
-  if (!username) {
+  if (!parsedUsername) {
     phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
   }
 
@@ -212,7 +213,8 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'contactsHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
 
@@ -250,7 +252,8 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByPhoneNumberHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         };
       }
       if (virtualIndex === 1) {
@@ -268,7 +271,8 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          i18nKey: 'findByUsernameHeader',
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         };
       }
       if (virtualIndex === 1) {
@@ -307,16 +311,18 @@ export function ChooseGroupMembersModal({
 
     let item;
     switch (row?.type) {
-      case RowType.Header:
+      case RowType.Header: {
+        const headerText = row.getHeaderText(i18n);
         item = (
           <div
             className="module-conversation-list__item--header"
-            aria-label={i18n(row.i18nKey)}
+            aria-label={headerText}
           >
-            {i18n(row.i18nKey)}
+            {headerText}
           </div>
         );
         break;
+      }
       case RowType.ContactCheckbox:
         item = (
           <ContactCheckbox
@@ -326,6 +332,7 @@ export function ChooseGroupMembersModal({
             onClick={handleContactClick}
             isChecked={row.isChecked}
             badge={undefined}
+            disabledReason={row.disabledReason}
           />
         );
         break;
@@ -340,9 +347,11 @@ export function ChooseGroupMembersModal({
             toggleConversationInChooseMembers={conversationId =>
               handleContactClick(conversationId, undefined)
             }
-            showUserNotFoundModal={noop}
+            showUserNotFoundModal={showUserNotFoundModal}
             setIsFetchingUUID={setIsFetchingUUID}
-            lookupConversationWithoutUuid={() => Promise.resolve(undefined)}
+            lookupConversationWithoutServiceId={
+              lookupConversationWithoutServiceId
+            }
           />
         );
         break;
@@ -350,7 +359,9 @@ export function ChooseGroupMembersModal({
         item = (
           <PhoneNumberCheckbox
             phoneNumber={row.phoneNumber}
-            lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+            lookupConversationWithoutServiceId={
+              lookupConversationWithoutServiceId
+            }
             showUserNotFoundModal={showUserNotFoundModal}
             setIsFetchingUUID={setIsFetchingUUID}
             toggleConversationInChooseMembers={conversationId =>
@@ -380,7 +391,7 @@ export function ChooseGroupMembersModal({
     >
       <div className="module-AddGroupMembersModal module-AddGroupMembersModal--choose-members">
         <button
-          aria-label={i18n('close')}
+          aria-label={i18n('icu:close')}
           className="module-AddGroupMembersModal__close-button"
           type="button"
           onClick={() => {
@@ -388,11 +399,11 @@ export function ChooseGroupMembersModal({
           }}
         />
         <h1 className="module-AddGroupMembersModal__header">
-          {i18n('AddGroupMembersModal--title')}
+          {i18n('icu:AddGroupMembersModal--title')}
         </h1>
         <SearchInput
           i18n={i18n}
-          placeholder={i18n('contactSearchPlaceholder')}
+          placeholder={i18n('icu:contactSearchPlaceholder')}
           onChange={event => {
             setSearchTerm(event.target.value);
           }}
@@ -428,16 +439,8 @@ export function ChooseGroupMembersModal({
           </ContactPills>
         )}
         {rowCount ? (
-          <Measure bounds>
-            {({ contentRect, measureRef }: MeasuredComponentProps) => {
-              // Though `width` and `height` are required properties, we want to be
-              // careful in case the caller sends bogus data. Notably, react-measure's
-              // types seem to be inaccurate.
-              const { width = 100, height = 100 } = contentRect.bounds || {};
-              if (!width || !height) {
-                return null;
-              }
-
+          <SizeObserver>
+            {(ref, size) => {
               // We disable this ESLint rule because we're capturing a bubbled keydown
               //   event. See [this note in the jsx-a11y docs][0].
               //
@@ -446,50 +449,52 @@ export function ChooseGroupMembersModal({
               return (
                 <div
                   className="module-AddGroupMembersModal__list-wrapper"
-                  ref={measureRef}
+                  ref={ref}
                   onKeyDown={event => {
                     if (event.key === 'Enter') {
                       inputRef.current?.focus();
                     }
                   }}
                 >
-                  <ListView
-                    width={width}
-                    height={height}
-                    rowCount={rowCount}
-                    calculateRowHeight={index => {
-                      const row = getRow(index);
-                      if (!row) {
-                        assertDev(false, `Expected a row at index ${index}`);
-                        return 52;
-                      }
-
-                      switch (row.type) {
-                        case RowType.Header:
-                          return 40;
-                        default:
+                  {size != null && (
+                    <ListView
+                      width={size.width}
+                      height={size.height}
+                      rowCount={rowCount}
+                      calculateRowHeight={index => {
+                        const row = getRow(index);
+                        if (!row) {
+                          assertDev(false, `Expected a row at index ${index}`);
                           return 52;
-                      }
-                    }}
-                    rowRenderer={renderItem}
-                  />
+                        }
+
+                        switch (row.type) {
+                          case RowType.Header:
+                            return 40;
+                          default:
+                            return 52;
+                        }
+                      }}
+                      rowRenderer={renderItem}
+                    />
+                  )}
                 </div>
               );
               /* eslint-enable jsx-a11y/no-static-element-interactions */
             }}
-          </Measure>
+          </SizeObserver>
         ) : (
           <div className="module-AddGroupMembersModal__no-candidate-contacts">
-            {i18n('noContactsFound')}
+            {i18n('icu:noContactsFound')}
           </div>
         )}
         <div className="module-AddGroupMembersModal__button-container">
           <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('cancel')}
+            {i18n('icu:cancel')}
           </Button>
 
           <Button disabled={!canContinue} onClick={confirmAdds}>
-            {i18n('AddGroupMembersModal--continue-to-confirm')}
+            {i18n('icu:AddGroupMembersModal--continue-to-confirm')}
           </Button>
         </div>
       </div>

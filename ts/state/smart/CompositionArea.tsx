@@ -1,23 +1,41 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import React from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
+
 import { mapDispatchToProps } from '../actions';
 import type { Props as ComponentPropsType } from '../../components/CompositionArea';
 import { CompositionArea } from '../../components/CompositionArea';
 import type { StateType } from '../reducer';
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+} from '../../types/BodyRange';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { dropNull } from '../../util/dropNull';
 import { imageToBlurHash } from '../../util/imageToBlurHash';
 
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { selectRecentEmojis } from '../selectors/emojis';
-import { getIntl, getTheme, getUserConversationId } from '../selectors/user';
-import { getEmojiSkinTone } from '../selectors/items';
+import {
+  getIntl,
+  getPlatform,
+  getTheme,
+  getUserConversationId,
+} from '../selectors/user';
+import {
+  getDefaultConversationColor,
+  getEmojiSkinTone,
+  getTextFormattingEnabled,
+} from '../selectors/items';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
+  getHasPanelOpen,
+  getLastEditableMessageId,
+  getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { getPropsForQuote } from '../selectors/message';
@@ -31,6 +49,11 @@ import {
 } from '../selectors/stickers';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { getComposerStateForConversationIdSelector } from '../selectors/composer';
+import type { SmartCompositionRecordingProps } from './CompositionRecording';
+import { SmartCompositionRecording } from './CompositionRecording';
+import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft';
+import { SmartCompositionRecordingDraft } from './CompositionRecordingDraft';
+import { hydrateRanges } from '../../types/BodyRange';
 
 type ExternalProps = {
   id: string;
@@ -40,6 +63,9 @@ export type CompositionAreaPropsType = ExternalProps & ComponentPropsType;
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id } = props;
+  const platform = getPlatform(state);
+
+  const shouldHidePopovers = getHasPanelOpen(state);
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(id);
@@ -47,8 +73,13 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     throw new Error(`Conversation id ${id} not found!`);
   }
 
-  const { announcementsOnly, areWeAdmin, draftText, draftBodyRanges } =
-    conversation;
+  const {
+    announcementsOnly,
+    areWeAdmin,
+    draftEditMessage,
+    draftText,
+    draftBodyRanges,
+  } = conversation;
 
   const receivedPacks = getReceivedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
@@ -71,6 +102,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const composerStateForConversationIdSelector =
     getComposerStateForConversationIdSelector(state);
 
+  const composerState = composerStateForConversationIdSelector(id);
   const {
     attachments: draftAttachments,
     focusCounter,
@@ -78,21 +110,48 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     linkPreviewLoading,
     linkPreviewResult,
     messageCompositionId,
-    quotedMessage,
+    sendCounter,
     shouldSendHighQualityAttachments,
-  } = composerStateForConversationIdSelector(id);
+  } = composerState;
+
+  let { quotedMessage } = composerState;
+  if (!quotedMessage && draftEditMessage?.quote) {
+    quotedMessage = {
+      conversationId: id,
+      quote: draftEditMessage.quote,
+    };
+  }
 
   const recentEmojis = selectRecentEmojis(state);
+
+  const selectedMessageIds = getSelectedMessageIds(state);
+
+  const isFormattingEnabled = getTextFormattingEnabled(state);
+
+  const lastEditableMessageId = getLastEditableMessageId(state);
+
+  const convertDraftBodyRangesIntoHydrated = (
+    bodyRanges: DraftBodyRanges | undefined
+  ): HydratedBodyRangesType | undefined => {
+    return hydrateRanges(bodyRanges, conversationSelector);
+  };
 
   return {
     // Base
     conversationId: id,
+    draftEditMessage,
     focusCounter,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isDisabled,
+    isFormattingEnabled,
+    lastEditableMessageId,
     messageCompositionId,
+    platform,
+    sendCounter,
+    shouldHidePopovers,
     theme: getTheme(state),
+    convertDraftBodyRangesIntoHydrated,
 
     // AudioCapture
     errorDialogAudioRecorderType:
@@ -116,8 +175,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       ? getPropsForQuote(quotedMessage, {
           conversationSelector,
           ourConversationId: getUserConversationId(state),
+          defaultConversationColor: getDefaultConversationColor(state),
         })
       : undefined,
+    quotedMessageAuthorAci: quotedMessage?.quote?.authorAci,
+    quotedMessageSentAt: quotedMessage?.quote?.id,
     // Emojis
     recentEmojis,
     skinTone: getEmojiSkinTone(state),
@@ -144,7 +206,20 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     groupAdmins: getGroupAdminsSelector(state)(conversation.id),
 
     draftText: dropNull(draftText),
-    draftBodyRanges,
+    draftBodyRanges: hydrateRanges(draftBodyRanges, conversationSelector),
+    renderSmartCompositionRecording: (
+      recProps: SmartCompositionRecordingProps
+    ) => {
+      return <SmartCompositionRecording {...recProps} />;
+    },
+    renderSmartCompositionRecordingDraft: (
+      draftProps: SmartCompositionRecordingDraftProps
+    ) => {
+      return <SmartCompositionRecordingDraft {...draftProps} />;
+    },
+
+    // Select Mode
+    selectedMessageIds,
   };
 };
 

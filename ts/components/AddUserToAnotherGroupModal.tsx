@@ -3,16 +3,10 @@
 
 import { pick } from 'lodash';
 import React, { useCallback } from 'react';
-import type { MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations';
-import type {
-  LocalizerType,
-  ReplacementValuesType,
-  ThemeType,
-} from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { ToastType } from '../types/Toast';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -26,11 +20,13 @@ import { SearchInput } from './SearchInput';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { ListView } from './ListView';
 import { ListTile } from './ListTile';
+import type { ShowToastAction } from '../state/ducks/toast';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 type OwnProps = {
   i18n: LocalizerType;
   theme: ThemeType;
-  contact: Pick<ConversationType, 'id' | 'title' | 'uuid'>;
+  contact: Pick<ConversationType, 'id' | 'title' | 'serviceId' | 'pni'>;
   candidateConversations: ReadonlyArray<ConversationType>;
   regionCode: string | undefined;
 };
@@ -45,7 +41,7 @@ type DispatchProps = {
       onFailure?: () => unknown;
     }
   ) => void;
-  showToast: (toastType: ToastType, parameters?: ReplacementValuesType) => void;
+  showToast: ShowToastAction;
 };
 
 export type Props = OwnProps & DispatchProps;
@@ -123,11 +119,12 @@ export function AddUserToAnotherGroupModal({
 
       let disabledReason;
 
-      if (memberships.some(c => c.uuid === contact.uuid)) {
+      if (memberships.some(c => c.aci === contact.serviceId)) {
         disabledReason = DisabledReason.AlreadyMember;
       } else if (
-        pendingApprovalMemberships.some(c => c.uuid === contact.uuid) ||
-        pendingMemberships.some(c => c.uuid === contact.uuid)
+        pendingApprovalMemberships.some(c => c.aci === contact.serviceId) ||
+        pendingMemberships.some(c => c.serviceId === contact.serviceId) ||
+        pendingMemberships.some(c => c.serviceId === contact.pni)
       ) {
         disabledReason = DisabledReason.Pending;
       }
@@ -171,45 +168,38 @@ export function AddUserToAnotherGroupModal({
           hasXButton
           i18n={i18n}
           onClose={toggleAddUserToAnotherGroupModal}
-          title={i18n('AddUserToAnotherGroupModal__title')}
+          title={i18n('icu:AddUserToAnotherGroupModal__title')}
           moduleClassName="AddUserToAnotherGroupModal"
           padded={false}
         >
           <div className="AddUserToAnotherGroupModal__main-body">
             <SearchInput
               i18n={i18n}
-              placeholder={i18n('contactSearchPlaceholder')}
+              placeholder={i18n('icu:contactSearchPlaceholder')}
               onChange={handleSearchInputChange}
               ref={inputRef}
               value={searchTerm}
             />
-
-            <Measure bounds>
-              {({ contentRect, measureRef }: MeasuredComponentProps) => {
-                // Though `width` and `height` are required properties, we want to be
-                // careful in case the caller sends bogus data. Notably, react-measure's
-                // types seem to be inaccurate.
-                const { width = 100, height = 100 } = contentRect.bounds || {};
-                if (!width || !height) {
-                  return null;
-                }
-
+            <SizeObserver>
+              {(ref, size) => {
                 return (
                   <div
                     className="AddUserToAnotherGroupModal__list-wrapper"
-                    ref={measureRef}
+                    ref={ref}
                   >
-                    <ListView
-                      width={width}
-                      height={height}
-                      rowCount={filteredConversations.length}
-                      calculateRowHeight={handleCalculateRowHeight}
-                      rowRenderer={renderGroupListItem}
-                    />
+                    {size != null && (
+                      <ListView
+                        width={size.width}
+                        height={size.height}
+                        rowCount={filteredConversations.length}
+                        calculateRowHeight={handleCalculateRowHeight}
+                        rowRenderer={renderGroupListItem}
+                      />
+                    )}
                   </div>
                 );
               }}
-            </Measure>
+            </SizeObserver>
           </div>
         </Modal>
       )}
@@ -217,22 +207,28 @@ export function AddUserToAnotherGroupModal({
       {selectedGroupId && selectedGroup && (
         <ConfirmationDialog
           dialogName="AddUserToAnotherGroupModal__confirm"
-          title={i18n('AddUserToAnotherGroupModal__confirm-title')}
+          title={i18n('icu:AddUserToAnotherGroupModal__confirm-title')}
           i18n={i18n}
           onClose={() => setSelectedGroupId(undefined)}
           actions={[
             {
-              text: i18n('AddUserToAnotherGroupModal__confirm-add'),
+              text: i18n('icu:AddUserToAnotherGroupModal__confirm-add'),
               style: 'affirmative',
               action: () => {
-                showToast(ToastType.AddingUserToGroup, {
-                  contact: contact.title,
+                showToast({
+                  toastType: ToastType.AddingUserToGroup,
+                  parameters: {
+                    contact: contact.title,
+                  },
                 });
                 addMembersToGroup(selectedGroupId, [contact.id], {
                   onSuccess: () =>
-                    showToast(ToastType.UserAddedToGroup, {
-                      contact: contact.title,
-                      group: selectedGroup.title,
+                    showToast({
+                      toastType: ToastType.UserAddedToGroup,
+                      parameters: {
+                        contact: contact.title,
+                        group: selectedGroup.title,
+                      },
                     }),
                 });
                 toggleAddUserToAnotherGroupModal(undefined);
@@ -240,7 +236,7 @@ export function AddUserToAnotherGroupModal({
             },
           ]}
         >
-          {i18n('AddUserToAnotherGroupModal__confirm-message', {
+          {i18n('icu:AddUserToAnotherGroupModal__confirm-message', {
             contact: contact.title,
             group: selectedGroup.title,
           })}
