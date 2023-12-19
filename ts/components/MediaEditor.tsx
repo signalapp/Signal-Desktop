@@ -912,7 +912,7 @@ export function MediaEditor({
             onClick={() => setCropPreset(CropPreset.Freeform)}
             type="button"
           >
-            Freeform
+            {i18n('icu:MediaEditor__crop-preset--freeform')}
           </button>
           <button
             className={classNames(
@@ -925,7 +925,7 @@ export function MediaEditor({
             onClick={() => setCropPreset(CropPreset.Square)}
             type="button"
           >
-            Square
+            {i18n('icu:MediaEditor__crop-preset--square')}
           </button>
           <button
             className={classNames(
@@ -938,7 +938,7 @@ export function MediaEditor({
             onClick={() => setCropPreset(CropPreset.Vertical)}
             type="button"
           >
-            9:16
+            {i18n('icu:MediaEditor__crop-preset--9-16')}
           </button>
         </div>
         <div className="MediaEditor__tools-row-2">
