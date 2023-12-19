@@ -19,7 +19,7 @@ import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { DisappearingMessages } from '../session/disappearing_messages';
-import { DisappearingMessageUpdate } from '../session/disappearing_messages/types';
+import { ReadyToDisappearMsgUpdate } from '../session/disappearing_messages/types';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
@@ -547,10 +547,19 @@ export async function innerHandleSwarmContentMessage({
     if (content.dataExtractionNotification) {
       perfStart(`handleDataExtractionNotification-${envelope.id}`);
 
+      // DataExtractionNotification uses the expiration setting of our side of the 1o1 conversation. whatever we get in the contentMessage
+      const expirationTimer = senderConversationModel.getExpireTimer();
+
+      const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+        senderConversationModel,
+        expirationTimer,
+        senderConversationModel.getExpirationMode()
+      );
+
       await handleDataExtractionNotification(
         envelope,
         content.dataExtractionNotification as SignalService.DataExtractionNotification,
-        expireUpdate || null
+        { expirationTimer, expirationType, messageExpirationFromRetrieve }
       );
       perfEnd(
         `handleDataExtractionNotification-${envelope.id}`,
@@ -838,7 +847,7 @@ async function handleMessageRequestResponse(
 export async function handleDataExtractionNotification(
   envelope: EnvelopePlus,
   dataNotificationMessage: SignalService.DataExtractionNotification,
-  expireUpdate: DisappearingMessageUpdate | null
+  expireUpdate: ReadyToDisappearMsgUpdate
 ): Promise<void> {
   // we currently don't care about the timestamp included in the field itself, just the timestamp of the envelope
   const { type, timestamp: referencedAttachment } = dataNotificationMessage;
@@ -871,6 +880,7 @@ export async function handleDataExtractionNotification(
       source,
     },
   });
+
   created = DisappearingMessages.getMessageReadyToDisappear(
     convo,
     created,

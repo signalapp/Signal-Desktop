@@ -34,3 +34,8 @@ export type DisappearingMessageUpdate = {
   isDisappearingMessagesV2Released?: boolean;
   messageExpirationFromRetrieve: number | null;
 };
+
+export type ReadyToDisappearMsgUpdate = Pick<
+  DisappearingMessageUpdate,
+  'expirationType' | 'expirationTimer' | 'messageExpirationFromRetrieve'
+>;

@@ -417,6 +417,8 @@ async function createOfferAndSendIt(recipient: string) {
         type: SignalService.CallMessage.Type.OFFER,
         sdps: [overridenSdps],
         uuid: currentCallUUID,
+        expirationType: null, // Note: CallMessages are expiring based on the recipient's side expiration setting
+        expireTimer: null,
       });
 
       window.log.info(`sending '${offer.type}'' with callUUID: ${currentCallUUID}`);
@@ -503,6 +505,8 @@ export async function USER_callRecipient(recipient: string) {
     timestamp: now,
     type: SignalService.CallMessage.Type.PRE_OFFER,
     uuid: currentCallUUID,
+    expirationType: null, // Note: CallMessages are expiring based on the recipient's side expiration setting
+    expireTimer: null,
   });
 
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
@@ -527,7 +531,7 @@ export async function USER_callRecipient(recipient: string) {
     if (
       expirationMode === 'legacy' ||
       expirationMode === 'deleteAfterSend' ||
-      expirationMode === 'deleteAfterRead' // we are the one iniating the call, so that message is already read
+      expirationMode === 'deleteAfterRead' // we are the one initiaing the call, so that message is already read
     ) {
       expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
@@ -537,6 +541,7 @@ export async function USER_callRecipient(recipient: string) {
     }
   }
 
+  // Locally, that message must expire
   await calledConvo?.addSingleOutgoingMessage({
     callNotificationType: 'started-call',
     sent_at: now,
@@ -610,6 +615,8 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     sdpMids: validCandidates.map(c => c.sdpMid),
     sdps: validCandidates.map(c => c.candidate),
     uuid: currentCallUUID,
+    expirationType: null, // Note: CallMessages are expiring based on the recipient's side expiration setting
+    expireTimer: null,
   });
 
   window.log.info(
@@ -957,6 +964,8 @@ export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUI
     type: SignalService.CallMessage.Type.END_CALL,
     timestamp: Date.now(),
     uuid: forcedUUID,
+    expirationType: null, // Note: CallMessages are expiring based on the recipient's side expiration setting
+    expireTimer: null,
   });
   await sendCallMessageAndSync(rejectCallMessage, fromSender);
 
@@ -980,6 +989,8 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
       type: SignalService.CallMessage.Type.END_CALL,
       timestamp: Date.now(),
       uuid: aboutCallUUID,
+      expirationType: null, // Note: CallMessages are expiring based on the recipient's side expiration setting
+      expireTimer: null,
     });
     // sync the reject event so our other devices remove the popup too
     await sendCallMessageAndSync(endCallMessage, fromSender);
@@ -1022,6 +1033,8 @@ export async function USER_hangup(fromSender: string) {
     type: SignalService.CallMessage.Type.END_CALL,
     timestamp: Date.now(),
     uuid: currentCallUUID,
+    expirationType: null, // Note: CallMessages are expiring based on the recipient's side expiration setting
+    expireTimer: null,
   });
   void getMessageQueue().sendToPubKeyNonDurably({
     pubkey: PubKey.cast(fromSender),
@@ -1098,6 +1111,8 @@ async function buildAnswerAndSendIt(sender: string) {
       type: SignalService.CallMessage.Type.ANSWER,
       sdps: [answerSdp],
       uuid: currentCallUUID,
+      expirationType: null, // Note: CallMessages are expiring based on the recipient's side expiration setting
+      expireTimer: null,
     });
 
     window.log.info('sending ANSWER MESSAGE and sync');
@@ -1271,6 +1286,8 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     incomingCallConversation.set('active_at', GetNetworkTime.getNowWithNetworkOffset());
     await incomingCallConversation.unhideIfNeeded(false);
   }
+
+  // Note: Missed call messages are expiring with our side of the conversation settings.
 
   const expirationMode = incomingCallConversation.getExpirationMode();
   const expireTimer = incomingCallConversation.getExpireTimer() || 0;

@@ -21,6 +21,7 @@ import {
   DisappearingMessageMode,
   DisappearingMessageType,
   DisappearingMessageUpdate,
+  ReadyToDisappearMsgUpdate,
 } from './types';
 
 async function destroyMessagesAndUpdateRedux(
@@ -303,17 +304,15 @@ async function checkForExpireUpdateInContentMessage(
   convoToUpdate: ConversationModel,
   messageExpirationFromRetrieve: number | null
 ): Promise<DisappearingMessageUpdate | undefined> {
-  const dataMessage = content.dataMessage as SignalService.DataMessage;
+  const dataMessage = content.dataMessage as SignalService.DataMessage | undefined;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
 
   const couldBeLegacyContentMessage = couldBeLegacyDisappearingMessageContent(content);
-  const isLegacyDataMessage = checkIsLegacyDisappearingDataMessage(
-    couldBeLegacyContentMessage,
-    dataMessage as SignalService.DataMessage
-  );
+  const isLegacyDataMessage =
+    dataMessage && checkIsLegacyDisappearingDataMessage(couldBeLegacyContentMessage, dataMessage);
   const hasExpirationUpdateFlags =
-    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+    dataMessage?.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
   const isLegacyConversationSettingMessage = isDisappearingMessagesV2Released
     ? (isLegacyDataMessage || couldBeLegacyContentMessage) && hasExpirationUpdateFlags
@@ -428,7 +427,7 @@ function getMessageReadyToDisappear(
   conversationModel: ConversationModel,
   messageModel: MessageModel,
   messageFlags: number,
-  expireUpdate?: DisappearingMessageUpdate
+  expireUpdate?: ReadyToDisappearMsgUpdate
 ) {
   if (conversationModel.isPublic()) {
     throw Error(

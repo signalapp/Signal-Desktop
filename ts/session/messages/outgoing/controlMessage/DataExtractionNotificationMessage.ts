@@ -2,7 +2,6 @@ import { getMessageQueue } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
 import { getConversationController } from '../../../conversations';
-import { DisappearingMessages } from '../../../disappearing_messages';
 import { PubKey } from '../../../types';
 import { UserUtils } from '../../../utils';
 import { ExpirableMessage, ExpirableMessageParams } from '../ExpirableMessage';
@@ -55,18 +54,12 @@ export const sendDataExtractionNotification = async (
     return;
   }
 
-  const expireTimer = convo.getExpireTimer();
-  const expirationType = DisappearingMessages.changeToDisappearingMessageType(
-    convo,
-    expireTimer,
-    convo.getExpirationMode()
-  );
-
+  // DataExtractionNotification are expiring with the recipient, so don't include ours
   const dataExtractionNotificationMessage = new DataExtractionNotificationMessage({
     referencedAttachmentTimestamp,
     timestamp: Date.now(),
-    expirationType,
-    expireTimer,
+    expirationType: null,
+    expireTimer: null,
   });
 
   const pubkey = PubKey.cast(conversationId);
