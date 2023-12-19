@@ -33,6 +33,7 @@ import * as Errors from '../types/errors';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { GroupV2MemberType } from '../model-types.d';
 import type { ReactionType } from '../types/Reactions';
+import { ReactionReadStatus } from '../types/Reactions';
 import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString, AciString } from '../types/ServiceId';
@@ -274,6 +275,7 @@ const dataInterface: ServerInterface = {
   getUnreadByConversationAndMarkRead,
   getUnreadReactionsAndMarkRead,
   markReactionAsRead,
+  getReactionByTimestamp,
   addReaction,
   removeReactionFromConversation,
   _getAllReactions,
@@ -2537,15 +2539,32 @@ async function markReactionAsRead(
   })();
 }
 
-async function addReaction({
-  conversationId,
-  emoji,
-  fromId,
-  messageId,
-  messageReceivedAt,
-  targetAuthorAci,
-  targetTimestamp,
-}: ReactionType): Promise<void> {
+async function getReactionByTimestamp(
+  fromId: string,
+  timestamp: number
+): Promise<ReactionType | undefined> {
+  const db = getReadonlyInstance();
+  const [query, params] = sql`
+    SELECT * FROM reactions
+    WHERE fromId IS ${fromId} AND timestamp IS ${timestamp}
+  `;
+
+  return db.prepare(query).get(params);
+}
+
+async function addReaction(
+  {
+    conversationId,
+    emoji,
+    fromId,
+    messageId,
+    messageReceivedAt,
+    targetAuthorAci,
+    targetTimestamp,
+    timestamp,
+  }: ReactionType,
+  { readStatus }: { readStatus: ReactionReadStatus }
+): Promise<void> {
   const db = await getWritableInstance();
   await db
     .prepare(
@@ -2557,6 +2576,7 @@ async function addReaction({
       messageReceivedAt,
       targetAuthorAci,
       targetTimestamp,
+      timestamp,
       unread
     ) VALUES (
       $conversationId,
@@ -2566,6 +2586,7 @@ async function addReaction({
       $messageReceivedAt,
       $targetAuthorAci,
       $targetTimestamp,
+      $timestamp,
       $unread
     );`
     )
@@ -2577,7 +2598,8 @@ async function addReaction({
       messageReceivedAt,
       targetAuthorAci,
       targetTimestamp,
-      unread: 1,
+      timestamp,
+      unread: readStatus === ReactionReadStatus.Unread ? 1 : 0,
     });
 }
 

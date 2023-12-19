@@ -105,6 +105,28 @@ const processReceiptBatcher = createWaitBatcher({
         // eslint-disable-next-line no-await-in-loop
         await window.Signal.Data.getMessagesBySentAt(sentAt);
 
+      if (messagesMatchingTimestamp.length === 0) {
+        // eslint-disable-next-line no-await-in-loop
+        const reaction = await window.Signal.Data.getReactionByTimestamp(
+          window.ConversationController.getOurConversationIdOrThrow(),
+          sentAt
+        );
+
+        if (reaction) {
+          for (const receipt of receiptsForMessageSentAt) {
+            log.info(
+              'MesageReceipts.processReceiptBatcher: Got receipt for reaction',
+              receipt.messageSentAt,
+              receipt.type,
+              receipt.sourceConversationId,
+              receipt.sourceServiceId
+            );
+            remove(receipt);
+          }
+          continue;
+        }
+      }
+
       for (const receipt of receiptsForMessageSentAt) {
         const targetMessage = getTargetMessage({
           sourceConversationId: receipt.sourceConversationId,
