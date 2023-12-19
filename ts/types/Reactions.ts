@@ -11,4 +11,10 @@ export type ReactionType = Readonly<{
   messageReceivedAt: number;
   targetAuthorAci: AciString;
   targetTimestamp: number;
+  timestamp: number;
 }>;
+
+export enum ReactionReadStatus {
+  Unread = 'Unread',
+  Read = 'Read',
+}

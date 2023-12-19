@@ -72,10 +72,11 @@ import { updateToSchemaVersion930 } from './930-fts5-secure-delete';
 import { updateToSchemaVersion940 } from './940-fts5-revert';
 import { updateToSchemaVersion950 } from './950-fts5-secure-delete';
 import { updateToSchemaVersion960 } from './960-untag-pni';
+import { updateToSchemaVersion970 } from './970-fts5-optimize';
 import {
   version as MAX_VERSION,
-  updateToSchemaVersion970,
-} from './970-fts5-optimize';
+  updateToSchemaVersion980,
+} from './980-reaction-timestamp';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2015,6 +2016,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion950,
   updateToSchemaVersion960,
   updateToSchemaVersion970,
+  updateToSchemaVersion980,
 ];
 
 export class DBVersionFromFutureError extends Error {

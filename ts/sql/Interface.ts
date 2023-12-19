@@ -7,7 +7,7 @@ import type {
   SenderKeyInfoType,
 } from '../model-types.d';
 import type { StoredJob } from '../jobs/types';
-import type { ReactionType } from '../types/Reactions';
+import type { ReactionType, ReactionReadStatus } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
@@ -586,7 +586,16 @@ export type DataInterface = {
     targetAuthorServiceId: ServiceIdString;
     targetTimestamp: number;
   }) => Promise<void>;
-  addReaction: (reactionObj: ReactionType) => Promise<void>;
+  getReactionByTimestamp: (
+    fromId: string,
+    timestamp: number
+  ) => Promise<ReactionType | undefined>;
+  addReaction: (
+    reactionObj: ReactionType,
+    options: {
+      readStatus: ReactionReadStatus;
+    }
+  ) => Promise<void>;
   _getAllReactions: () => Promise<Array<ReactionType>>;
   _removeAllReactions: () => Promise<void>;
   getMessageBySender: (options: {

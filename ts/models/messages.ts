@@ -42,6 +42,7 @@ import { getUserLanguages } from '../util/userLanguages';
 import { copyCdnFields } from '../util/attachments';
 
 import type { ReactionType } from '../types/Reactions';
+import { ReactionReadStatus } from '../types/Reactions';
 import type { ServiceIdString } from '../types/ServiceId';
 import { normalizeServiceId } from '../types/ServiceId';
 import { isAciString } from '../util/isAciString';
@@ -2591,13 +2592,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             );
           }
           this.set({ reactions });
-
-          await window.Signal.Data.removeReactionFromConversation({
-            emoji: reaction.emoji,
-            fromId: reaction.fromId,
-            targetAuthorServiceId: reaction.targetAuthorAci,
-            targetTimestamp: reaction.targetTimestamp,
-          });
         } else {
           log.info(
             'handleReaction: adding reaction for message',
@@ -2624,8 +2618,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           if (isOutgoing(this.attributes) && isFromSomeoneElse) {
             void conversation.notify(this, reaction);
           }
+        }
+      }
 
-          await window.Signal.Data.addReaction({
+      if (reaction.remove) {
+        await window.Signal.Data.removeReactionFromConversation({
+          emoji: reaction.emoji,
+          fromId: reaction.fromId,
+          targetAuthorServiceId: reaction.targetAuthorAci,
+          targetTimestamp: reaction.targetTimestamp,
+        });
+      } else {
+        await window.Signal.Data.addReaction(
+          {
             conversationId: this.get('conversationId'),
             emoji: reaction.emoji,
             fromId: reaction.fromId,
@@ -2633,8 +2638,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             messageReceivedAt: this.get('received_at'),
             targetAuthorAci: reaction.targetAuthorAci,
             targetTimestamp: reaction.targetTimestamp,
-          });
-        }
+            timestamp: reaction.timestamp,
+          },
+          {
+            readStatus: isFromThisDevice
+              ? ReactionReadStatus.Read
+              : ReactionReadStatus.Unread,
+          }
+        );
       }
 
       const currentLength = (this.get('reactions') || []).length;
