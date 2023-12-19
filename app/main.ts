@@ -1174,7 +1174,8 @@ async function readyForUpdates() {
       canRunSilently: () => {
         return (
           systemTrayService?.isVisible() === true &&
-          mainWindow?.isVisible() === false
+          mainWindow?.isVisible() !== true &&
+          mainWindow?.webContents?.getBackgroundThrottling() !== false
         );
       },
     });
