@@ -118,6 +118,17 @@ export function TextPending(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
+export function MessageTooLong(): JSX.Element {
+  const props = createProps({
+    text: 'Check out https://www.signal.org',
+    textAttachment: {
+      wasTooBig: true,
+    },
+  });
+
+  return <MessageBody {...props} />;
+}
+
 export function Mention(): JSX.Element {
   const props = createProps({
     bodyRanges: [

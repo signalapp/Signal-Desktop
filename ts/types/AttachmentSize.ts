@@ -43,6 +43,22 @@ export const getMaximumIncomingAttachmentSizeInKb = (
   }
 };
 
+export const getMaximumIncomingTextAttachmentSizeInKb = (
+  getValue: typeof RemoteConfig.getValue
+): number => {
+  try {
+    return (
+      parseIntOrThrow(
+        getValue('global.textAttachmentLimitBytes'),
+        'getMaximumIncomingTextAttachmentSizeInKb'
+      ) / KIBIBYTE
+    );
+  } catch (_error) {
+    // TODO: DESKTOP-6314. We're not gonna log until the new flag is fully deployed
+    return KIBIBYTE * 5;
+  }
+};
+
 export function getRenderDetailsForLimit(limitKb: number): {
   limit: number;
   units: string;

@@ -35,7 +35,8 @@ export type ConfigKeyType =
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
   | 'global.nicknames.max'
-  | 'global.nicknames.min';
+  | 'global.nicknames.min'
+  | 'global.textAttachmentLimitBytes';
 
 type ConfigValueType = {
   name: ConfigKeyType;
