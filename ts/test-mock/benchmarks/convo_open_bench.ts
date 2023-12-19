@@ -7,9 +7,11 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 
 import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures';
 import { stats } from '../../util/benchmark/stats';
+import { sleep } from '../../util/sleep';
 
 const CONVERSATION_SIZE = 1000; // messages
 const DELAY = 50; // milliseconds
+const WAIT_FOR_MESSAGES_TO_BE_PROCESSED = 5000; // milliseconds
 
 Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const app = await bootstrap.link();
@@ -88,5 +90,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     console.log('stats info=%j', { delta: stats(deltaList, [99, 99.8]) });
   };
 
-  await Promise.all([sendQueue(), measure()]);
+  await sendQueue();
+  await sleep(WAIT_FOR_MESSAGES_TO_BE_PROCESSED);
+  await measure();
 });
