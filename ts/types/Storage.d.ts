@@ -49,6 +49,7 @@ export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;
   'auto-download-update': boolean;
+  autoConvertEmoji: boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': ReadonlyArray<string>;
   'blocked-uuids': ReadonlyArray<ServiceIdString>;

@@ -22,6 +22,7 @@ function doneRendering() {
 
 const settingMessageAudio = createSetting('audioMessage');
 const settingAudioNotification = createSetting('audioNotification');
+const settingAutoConvertEmoji = createSetting('autoConvertEmoji');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
 const settingAutoLaunch = createSetting('autoLaunch');
 const settingCallRingtoneNotification = createSetting(
@@ -140,6 +141,7 @@ async function renderPreferences() {
     blockedCount,
     deviceName,
     hasAudioNotifications,
+    hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
@@ -181,6 +183,7 @@ async function renderPreferences() {
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
     hasAudioNotifications: settingAudioNotification.getValue(),
+    hasAutoConvertEmoji: settingAutoConvertEmoji.getValue(),
     hasAutoDownloadUpdate: settingAutoDownloadUpdate.getValue(),
     hasAutoLaunch: settingAutoLaunch.getValue(),
     hasCallNotifications: settingCallSystemNotification.getValue(),
@@ -247,6 +250,7 @@ async function renderPreferences() {
     defaultConversationColor,
     deviceName,
     hasAudioNotifications,
+    hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
@@ -319,6 +323,9 @@ async function renderPreferences() {
     // Change handlers
     onAudioNotificationsChange: attachRenderCallback(
       settingAudioNotification.setValue
+    ),
+    onAutoConvertEmojiChange: attachRenderCallback(
+      settingAutoConvertEmoji.setValue
     ),
     onAutoDownloadUpdateChange: attachRenderCallback(
       settingAutoDownloadUpdate.setValue

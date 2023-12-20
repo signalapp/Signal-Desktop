@@ -247,7 +247,12 @@ export class EmojiCompletion {
   ): void {
     const emoji = convertShortName(emojiData.short_name, this.options.skinTone);
 
-    const delta = new Delta().retain(index).delete(range).insert({ emoji });
+    const delta = new Delta()
+      .retain(index)
+      .delete(range)
+      .insert({
+        emoji: { value: emoji },
+      });
 
     if (withTrailingSpace) {
       // The extra space we add won't be formatted unless we manually provide attributes

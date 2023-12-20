@@ -59,12 +59,12 @@ describe('getDeltaToRemoveStaleMentions', () => {
       const originalOps = [
         {
           insert: {
-            emoji: '😂',
+            emoji: { value: '😂' },
           },
         },
         {
           insert: {
-            emoji: '🍋',
+            emoji: { value: '🍋' },
           },
         },
       ];
@@ -312,7 +312,7 @@ describe('getTextAndRangesFromOps', () => {
       const ops = [
         {
           insert: {
-            emoji: '😂',
+            emoji: { value: '😂' },
           },
         },
         {
@@ -579,7 +579,7 @@ describe('getDeltaToRestartMention', () => {
       const originalOps = [
         {
           insert: {
-            emoji: '😂',
+            emoji: { value: '😂' },
           },
         },
         {

@@ -5,6 +5,7 @@ import React, { forwardRef, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { getClassNamesFor } from '../util/getClassNamesFor';
+import { Emojify } from './conversation/Emojify';
 
 export type PropsType = {
   checked?: boolean;
@@ -61,7 +62,9 @@ export const Checkbox = forwardRef(function CheckboxInner(
     <div>
       <label htmlFor={id}>
         <div>{label}</div>
-        <div className={getClassName('__description')}>{description}</div>
+        <div className={getClassName('__description')}>
+          <Emojify text={description ?? ''} />
+        </div>
       </label>
     </div>
   );

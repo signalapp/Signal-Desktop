@@ -5727,6 +5727,14 @@
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced",
     "description": "Title for advanced settings"
