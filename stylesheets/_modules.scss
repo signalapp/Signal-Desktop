@@ -4438,7 +4438,10 @@ button.module-image__border-overlay:focus {
   flex-direction: column;
   height: var(--window-height);
   justify-content: center;
-  position: relative;
+  position: fixed;
+  top: 0;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  left: 0;
   width: 100%;
 
   &__text {

@@ -9,7 +9,7 @@ import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import type { ConversationType } from '../state/ducks/conversations';
 
-type Props = {
+export type Props = {
   conversation: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
