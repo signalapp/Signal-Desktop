@@ -15,6 +15,7 @@ import {
 } from '../interactions/conversations/unsendingInteractions';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
@@ -556,11 +557,19 @@ export async function innerHandleSwarmContentMessage({
         senderConversationModel.getExpirationMode()
       );
 
-      await handleDataExtractionNotification(
+      await handleDataExtractionNotification({
         envelope,
-        content.dataExtractionNotification as SignalService.DataExtractionNotification,
-        { expirationTimer, expirationType, messageExpirationFromRetrieve }
-      );
+        dataExtractionNotification: content.dataExtractionNotification as SignalService.DataExtractionNotification,
+        expireUpdate: {
+          expirationTimer,
+          expirationType,
+          messageExpirationFromRetrieve:
+            expirationType === 'unknown'
+              ? null
+              : GetNetworkTime.getNowWithNetworkOffset() + expirationTimer * 1000,
+        },
+        messageHash,
+      });
       perfEnd(
         `handleDataExtractionNotification-${envelope.id}`,
         'handleDataExtractionNotification'
@@ -844,13 +853,20 @@ async function handleMessageRequestResponse(
  *
  * We drop them if the convo is not a 1o1 conversation.
  */
-export async function handleDataExtractionNotification(
-  envelope: EnvelopePlus,
-  dataNotificationMessage: SignalService.DataExtractionNotification,
-  expireUpdate: ReadyToDisappearMsgUpdate
-): Promise<void> {
+
+export async function handleDataExtractionNotification({
+  envelope,
+  expireUpdate,
+  messageHash,
+  dataExtractionNotification,
+}: {
+  envelope: EnvelopePlus;
+  dataExtractionNotification: SignalService.DataExtractionNotification;
+  expireUpdate: ReadyToDisappearMsgUpdate;
+  messageHash: string;
+}): Promise<void> {
   // we currently don't care about the timestamp included in the field itself, just the timestamp of the envelope
-  const { type, timestamp: referencedAttachment } = dataNotificationMessage;
+  const { type, timestamp: referencedAttachment } = dataExtractionNotification;
 
   const { source, timestamp } = envelope;
   await removeFromCache(envelope);
@@ -873,6 +889,7 @@ export async function handleDataExtractionNotification(
 
   let created = await convo.addSingleIncomingMessage({
     source,
+    messageHash,
     sent_at: envelopeTimestamp,
     dataExtractionNotification: {
       type,
@@ -888,5 +905,6 @@ export async function handleDataExtractionNotification(
     expireUpdate || undefined
   );
   await created.commit();
+  await convo.commit();
   convo.updateLastMessage();
 }

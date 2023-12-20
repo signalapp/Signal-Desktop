@@ -1113,6 +1113,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     const toBeAddedAttributes: MessageAttributesOptionals = {
+      unread: READ_MESSAGE_STATE.unread, // an incoming is by default unread, unless  messageAttributes or markAttributesAsReadIfNeeded marks it as read
       ...messageAttributes,
       conversationId: this.id,
       type: 'incoming',
