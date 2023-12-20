@@ -37,6 +37,7 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
+import type { ServiceIdString } from '../types/ServiceId';
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import {
@@ -997,6 +998,10 @@ type CallingReactionsToastsType = {
 
 function useReactionsToast(props: CallingReactionsToastsType): void {
   const { reactions, conversationsByDemuxId, localDemuxId, i18n } = props;
+  const ourServiceId: ServiceIdString | undefined = localDemuxId
+    ? conversationsByDemuxId.get(localDemuxId)?.serviceId
+    : undefined;
+
   const [previousReactions, setPreviousReactions] = React.useState<
     ActiveCallReactionsType | undefined
   >(undefined);
@@ -1012,6 +1017,7 @@ function useReactionsToast(props: CallingReactionsToastsType): void {
     }
 
     reactions.forEach(({ timestamp, demuxId, value }) => {
+      const conversation = conversationsByDemuxId.get(demuxId);
       showToast({
         key: `reactions-${timestamp}-${demuxId}`,
         onlyShowOnce: true,
@@ -1019,9 +1025,10 @@ function useReactionsToast(props: CallingReactionsToastsType): void {
         content: (
           <span className="CallingReactionsToasts__reaction">
             <Emoji size={28} emoji={value} />
-            {demuxId === localDemuxId
+            {demuxId === localDemuxId ||
+            (ourServiceId && conversation?.serviceId === ourServiceId)
               ? i18n('icu:CallingReactions--me')
-              : conversationsByDemuxId.get(demuxId)?.title}
+              : conversation?.title}
           </span>
         ),
       });
@@ -1033,6 +1040,7 @@ function useReactionsToast(props: CallingReactionsToastsType): void {
     conversationsByDemuxId,
     localDemuxId,
     i18n,
+    ourServiceId,
   ]);
 }
 
