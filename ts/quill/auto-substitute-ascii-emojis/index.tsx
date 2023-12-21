@@ -22,6 +22,7 @@ const emojiMap: Record<string, string> = {
   ':-p': 'stuck_out_tongue',
   ":'(": 'cry',
   ':-\\': 'confused',
+  ':-|': 'neutral_face',
   ';-)': 'wink',
   '(Y)': '+1',
   '(N)': '-1',
