@@ -83,6 +83,8 @@ export function CallingPip({
   switchFromPresentationView,
   togglePip,
 }: PropsType): JSX.Element {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
+
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
   const localVideoRef = React.useRef(null);
 
@@ -131,11 +133,11 @@ export function CallingPip({
       const snapCandidates: Array<SnapCandidate> = [
         {
           mode: PositionMode.SnapToLeft,
-          distanceToEdge: offsetX,
+          distanceToEdge: isRTL ? innerWidth - (offsetX + PIP_WIDTH) : offsetX,
         },
         {
           mode: PositionMode.SnapToRight,
-          distanceToEdge: innerWidth - (offsetX + PIP_WIDTH),
+          distanceToEdge: isRTL ? offsetX : innerWidth - (offsetX + PIP_WIDTH),
         },
         {
           mode: PositionMode.SnapToTop,
@@ -165,14 +167,14 @@ export function CallingPip({
         case PositionMode.SnapToBottom:
           setPositionState({
             mode: snapTo.mode,
-            offsetX,
+            offsetX: isRTL ? innerWidth - (offsetX + PIP_WIDTH) : offsetX,
           });
           break;
         default:
           throw missingCaseError(snapTo.mode);
       }
     }
-  }, [positionState, setPositionState]);
+  }, [isRTL, positionState, setPositionState]);
 
   React.useEffect(() => {
     if (positionState.mode === PositionMode.BeingDragged) {
@@ -209,7 +211,11 @@ export function CallingPip({
     switch (positionState.mode) {
       case PositionMode.BeingDragged:
         return [
-          positionState.mouseX - positionState.dragOffsetX,
+          isRTL
+            ? windowWidth -
+              positionState.mouseX -
+              (PIP_WIDTH - positionState.dragOffsetX)
+            : positionState.mouseX - positionState.dragOffsetX,
           positionState.mouseY - positionState.dragOffsetY,
         ];
       case PositionMode.SnapToLeft:
@@ -247,7 +253,8 @@ export function CallingPip({
       default:
         throw missingCaseError(positionState);
     }
-  }, [windowWidth, windowHeight, positionState]);
+  }, [isRTL, windowWidth, windowHeight, positionState]);
+  const localizedTranslateX = isRTL ? -translateX : translateX;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -258,6 +265,7 @@ export function CallingPip({
         if (!node) {
           return;
         }
+
         const rect = node.getBoundingClientRect();
         const dragOffsetX = ev.clientX - rect.left;
         const dragOffsetY = ev.clientY - rect.top;
@@ -276,7 +284,7 @@ export function CallingPip({
           positionState.mode === PositionMode.BeingDragged
             ? '-webkit-grabbing'
             : '-webkit-grab',
-        transform: `translate3d(${translateX}px,calc(${translateY}px - var(--titlebar-height)), 0)`,
+        transform: `translate3d(${localizedTranslateX}px,calc(${translateY}px - var(--titlebar-height)), 0)`,
         transition:
           positionState.mode === PositionMode.BeingDragged
             ? 'none'
