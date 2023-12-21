@@ -130,14 +130,24 @@ export function CallingPip({
       const offsetX = mouseX - dragOffsetX;
       const offsetY = mouseY - dragOffsetY;
 
+      let distanceToLeftEdge: number;
+      let distanceToRightEdge: number;
+      if (isRTL) {
+        distanceToLeftEdge = innerWidth - (offsetX + PIP_WIDTH);
+        distanceToRightEdge = offsetX;
+      } else {
+        distanceToLeftEdge = offsetX;
+        distanceToRightEdge = innerWidth - (offsetX + PIP_WIDTH);
+      }
+
       const snapCandidates: Array<SnapCandidate> = [
         {
           mode: PositionMode.SnapToLeft,
-          distanceToEdge: isRTL ? innerWidth - (offsetX + PIP_WIDTH) : offsetX,
+          distanceToEdge: distanceToLeftEdge,
         },
         {
           mode: PositionMode.SnapToRight,
-          distanceToEdge: isRTL ? offsetX : innerWidth - (offsetX + PIP_WIDTH),
+          distanceToEdge: distanceToRightEdge,
         },
         {
           mode: PositionMode.SnapToTop,
