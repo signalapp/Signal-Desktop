@@ -14,7 +14,6 @@ installCallback('resetAllChatColors');
 installCallback('resetDefaultChatColor');
 installCallback('setGlobalDefaultConversationColor');
 installCallback('getDefaultConversationColor');
-installCallback('persistZoomFactor');
 
 // Getters only. These are set by the primary device
 installSetting('blockedCount', {

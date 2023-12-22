@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { webFrame } from 'electron';
 import { isNumber, throttle, groupBy } from 'lodash';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
@@ -819,14 +818,13 @@ export async function startApp(): Promise<void> {
       },
     });
 
-    const zoomFactor = window.Events.getZoomFactor();
-    webFrame.setZoomFactor(zoomFactor);
+    const zoomFactor = await window.Events.getZoomFactor();
     document.body.style.setProperty('--zoom-factor', zoomFactor.toString());
 
-    window.addEventListener('resize', () => {
+    window.Events.onZoomFactorChange(newZoomFactor => {
       document.body.style.setProperty(
         '--zoom-factor',
-        webFrame.getZoomFactor().toString()
+        newZoomFactor.toString()
       );
     });
 

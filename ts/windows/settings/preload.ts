@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { contextBridge, ipcRenderer, webFrame } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import { MinimalSignalContext } from '../minimalContext';
 
 import type { PropsPreloadType } from '../../components/Preferences';
@@ -416,16 +416,8 @@ async function renderPreferences() {
     onWhoCanSeeMeChange: attachRenderCallback(
       settingPhoneNumberSharing.setValue
     ),
-
-    // Zoom factor change doesn't require immediate rerender since it will:
-    // 1. Update the zoom factor in the main window
-    // 2. Trigger `preferred-size-changed` in the main process
-    // 3. Finally result in `window.storage` update which will cause the
-    //    rerender.
-    onZoomFactorChange: (value: number) => {
-      // Update Settings window zoom factor to match the selected value.
-      webFrame.setZoomFactor(value);
-      return settingZoomFactor.setValue(value);
+    onZoomFactorChange: (zoomFactorValue: number) => {
+      ipcRenderer.send('setZoomFactor', zoomFactorValue);
     },
 
     hasCustomTitleBar: MinimalSignalContext.OS.hasCustomTitleBar(),
@@ -435,7 +427,8 @@ async function renderPreferences() {
   renderInBrowser(props);
 }
 
-ipcRenderer.on('preferences-changed', () => renderPreferences());
+ipcRenderer.on('preferences-changed', renderPreferences);
+ipcRenderer.on('zoomFactorChanged', renderPreferences);
 
 const Signal = {
   SettingsWindowProps: {

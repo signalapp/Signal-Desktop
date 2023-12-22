@@ -28,6 +28,9 @@ export type MenuActionsType = Readonly<{
   showKeyboardShortcuts: () => unknown;
   showSettings: () => unknown;
   showWindow: () => unknown;
+  zoomIn: () => unknown;
+  zoomOut: () => unknown;
+  zoomReset: () => unknown;
 }>;
 
 export type MenuActionType = keyof MenuActionsType;
