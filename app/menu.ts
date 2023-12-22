@@ -38,6 +38,9 @@ export const createTemplate = (
     showKeyboardShortcuts,
     showSettings,
     openArtCreator,
+    zoomIn,
+    zoomOut,
+    zoomReset,
   } = options;
 
   const template: MenuListType = [
@@ -106,17 +109,19 @@ export const createTemplate = (
       label: i18n('icu:mainMenuView'),
       submenu: [
         {
-          role: 'resetZoom',
+          accelerator: 'CmdOrCtrl+0',
           label: i18n('icu:viewMenuResetZoom'),
+          click: zoomReset,
         },
         {
           accelerator: 'CmdOrCtrl+=',
-          role: 'zoomIn',
           label: i18n('icu:viewMenuZoomIn'),
+          click: zoomIn,
         },
         {
-          role: 'zoomOut',
+          accelerator: 'CmdOrCtrl+-',
           label: i18n('icu:viewMenuZoomOut'),
+          click: zoomOut,
         },
         {
           type: 'separator',

@@ -117,6 +117,7 @@ import { HourCyclePreference } from '../ts/types/I18N';
 import { DBVersionFromFutureError } from '../ts/sql/migrations';
 import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
 import { parseSignalRoute } from '../ts/util/signalRoutes';
+import { ZoomFactorService } from '../ts/services/ZoomFactorService';
 
 const STICKER_CREATOR_PARTITION = 'sticker-creator';
 
@@ -200,6 +201,7 @@ const defaultWebPrefs = {
     'CSSPseudoDir', // status=experimental, needed for RTL (ex: :dir(rtl))
     'CSSLogical', // status=experimental, needed for RTL (ex: margin-inline-start)
   ].join(','),
+  enablePreferredSizeMode: true,
 };
 
 const DISABLE_GPU =
@@ -394,6 +396,22 @@ async function getLocaleOverrideSetting(): Promise<string | null> {
   return slowValue;
 }
 
+const zoomFactorService = new ZoomFactorService({
+  async getZoomFactorSetting() {
+    const item = await sql.sqlCall('getItemById', 'zoomFactor');
+    if (typeof item?.value !== 'number') {
+      return null;
+    }
+    return item.value;
+  },
+  async setZoomFactorSetting(zoomFactor) {
+    await sql.sqlCall('createOrUpdateItem', {
+      id: 'zoomFactor',
+      value: zoomFactor,
+    });
+  },
+});
+
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
   sql,
@@ -523,7 +541,7 @@ async function handleUrl(rawTarget: string) {
   }
 }
 
-function handleCommonWindowEvents(
+async function handleCommonWindowEvents(
   window: BrowserWindow,
   titleBarOverlay: TitleBarOverlayOptions | false = false
 ) {
@@ -557,54 +575,7 @@ function handleCommonWindowEvents(
   const focusInterval = setInterval(setWindowFocus, 10000);
   window.on('closed', () => clearInterval(focusInterval));
 
-  // Works only for mainWindow and settings because they have `enablePreferredSizeMode`
-  let lastZoomFactor = window.webContents.getZoomFactor();
-  const onZoomChanged = () => {
-    if (
-      window.isDestroyed() ||
-      !window.webContents ||
-      window.webContents.isDestroyed()
-    ) {
-      return;
-    }
-
-    const zoomFactor = window.webContents.getZoomFactor();
-    if (lastZoomFactor === zoomFactor) {
-      return;
-    }
-
-    lastZoomFactor = zoomFactor;
-    if (!mainWindow) {
-      return;
-    }
-
-    if (window === mainWindow) {
-      drop(
-        settingsChannel?.invokeCallbackInMainWindow('persistZoomFactor', [
-          zoomFactor,
-        ])
-      );
-    } else {
-      mainWindow.webContents.setZoomFactor(zoomFactor);
-    }
-  };
-  window.on('show', () => {
-    // Install handler here after we init zoomFactor otherwise an initial
-    // preferred-size-changed event emits with an undesired zoomFactor.
-    window.webContents.on('preferred-size-changed', onZoomChanged);
-  });
-
-  // Workaround to apply zoomFactor because webPreferences does not handle it
-  // https://github.com/electron/electron/issues/10572
-  // But main window emits ready-to-show before window.Events is available
-  // so set main window zoom in background.ts
-  if (window !== mainWindow) {
-    window.once('ready-to-show', async () => {
-      const zoomFactor =
-        (await settingsChannel?.getSettingFromMainWindow('zoomFactor')) ?? 1;
-      window.webContents.setZoomFactor(zoomFactor);
-    });
-  }
+  await zoomFactorService.syncWindow(window);
 
   nativeThemeNotifier.addWindow(window);
 
@@ -788,7 +759,6 @@ async function createWindow() {
       ),
       spellcheck: await getSpellCheckSetting(),
       backgroundThrottling: true,
-      enablePreferredSizeMode: true,
       disableBlinkFeatures: 'Accelerated2dCanvas,AcceleratedSmallCanvases',
     },
     icon: windowIcon,
@@ -917,7 +887,7 @@ async function createWindow() {
     mainWindow.webContents.openDevTools();
   }
 
-  handleCommonWindowEvents(mainWindow, titleBarOverlay);
+  await handleCommonWindowEvents(mainWindow, titleBarOverlay);
 
   // App dock icon bounce
   bounce.init(mainWindow);
@@ -1293,7 +1263,7 @@ async function showScreenShareWindow(sourceName: string) {
 
   screenShareWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(screenShareWindow);
+  await handleCommonWindowEvents(screenShareWindow);
 
   screenShareWindow.on('closed', () => {
     screenShareWindow = undefined;
@@ -1343,7 +1313,7 @@ async function showAbout() {
 
   aboutWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(aboutWindow, titleBarOverlay);
+  await handleCommonWindowEvents(aboutWindow, titleBarOverlay);
 
   aboutWindow.on('closed', () => {
     aboutWindow = undefined;
@@ -1389,13 +1359,12 @@ async function showSettingsWindow() {
       contextIsolation: true,
       preload: join(__dirname, '../bundles/settings/preload.js'),
       nativeWindowOpen: true,
-      enablePreferredSizeMode: true,
     },
   };
 
   settingsWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(settingsWindow, titleBarOverlay);
+  await handleCommonWindowEvents(settingsWindow, titleBarOverlay);
 
   settingsWindow.on('closed', () => {
     settingsWindow = undefined;
@@ -1490,7 +1459,7 @@ async function showDebugLogWindow() {
 
   debugLogWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(debugLogWindow, titleBarOverlay);
+  await handleCommonWindowEvents(debugLogWindow, titleBarOverlay);
 
   debugLogWindow.on('closed', () => {
     debugLogWindow = undefined;
@@ -1550,7 +1519,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
 
     permissionsPopupWindow = new BrowserWindow(options);
 
-    handleCommonWindowEvents(permissionsPopupWindow);
+    await handleCommonWindowEvents(permissionsPopupWindow);
 
     permissionsPopupWindow.on('closed', () => {
       removeDarkOverlay();
@@ -2122,6 +2091,9 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     showKeyboardShortcuts,
     showSettings: showSettingsWindow,
     showWindow,
+    zoomIn,
+    zoomOut,
+    zoomReset,
 
     // overrides
     ...options,
@@ -2815,16 +2787,6 @@ ipc.handle('executeMenuRole', async ({ sender }, untypedRole) => {
       sender.toggleDevTools();
       break;
 
-    case 'resetZoom':
-      sender.setZoomLevel(0);
-      break;
-    case 'zoomIn':
-      sender.setZoomLevel(sender.getZoomLevel() + 1);
-      break;
-    case 'zoomOut':
-      sender.setZoomLevel(sender.getZoomLevel() - 1);
-      break;
-
     case 'togglefullscreen':
       senderWindow?.setFullScreen(!senderWindow?.isFullScreen());
       break;
@@ -2862,6 +2824,18 @@ ipc.handle('getMenuOptions', async () => {
   };
 });
 
+async function zoomIn() {
+  await zoomFactorService.zoomIn();
+}
+
+async function zoomOut() {
+  await zoomFactorService.zoomOut();
+}
+
+async function zoomReset() {
+  await zoomFactorService.zoomReset();
+}
+
 ipc.handle('executeMenuAction', async (_event, action: MenuActionType) => {
   if (action === 'forceUpdate') {
     drop(forceUpdate());
@@ -2891,6 +2865,12 @@ ipc.handle('executeMenuAction', async (_event, action: MenuActionType) => {
     drop(showSettingsWindow());
   } else if (action === 'showWindow') {
     showWindow();
+  } else if (action === 'zoomIn') {
+    drop(zoomIn());
+  } else if (action === 'zoomOut') {
+    drop(zoomOut());
+  } else if (action === 'zoomReset') {
+    drop(zoomReset());
   } else {
     throw missingCaseError(action);
   }
@@ -2940,7 +2920,7 @@ async function showStickerCreatorWindow() {
 
   stickerCreatorWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(stickerCreatorWindow);
+  await handleCommonWindowEvents(stickerCreatorWindow);
 
   stickerCreatorWindow.once('ready-to-show', () => {
     stickerCreatorWindow?.show();

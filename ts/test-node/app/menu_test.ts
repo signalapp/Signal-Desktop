@@ -25,6 +25,9 @@ const showDebugLog = stub();
 const showKeyboardShortcuts = stub();
 const showSettings = stub();
 const showWindow = stub();
+const zoomIn = stub();
+const zoomOut = stub();
+const zoomReset = stub();
 
 const getExpectedEditMenu = (
   includeSpeech: boolean
@@ -58,9 +61,9 @@ const getExpectedEditMenu = (
 const getExpectedViewMenu = (): MenuItemConstructorOptions => ({
   label: '&View',
   submenu: [
-    { label: 'Actual Size', role: 'resetZoom' },
-    { accelerator: 'CmdOrCtrl+=', label: 'Zoom In', role: 'zoomIn' },
-    { label: 'Zoom Out', role: 'zoomOut' },
+    { accelerator: 'CmdOrCtrl+0', label: 'Actual Size', click: zoomReset },
+    { accelerator: 'CmdOrCtrl+=', label: 'Zoom In', click: zoomIn },
+    { accelerator: 'CmdOrCtrl+-', label: 'Zoom Out', click: zoomOut },
     { type: 'separator' },
     { label: 'Toggle Full Screen', role: 'togglefullscreen' },
     { type: 'separator' },
@@ -227,6 +230,9 @@ describe('createTemplate', () => {
     showKeyboardShortcuts,
     showSettings,
     showWindow,
+    zoomIn,
+    zoomOut,
+    zoomReset,
   };
 
   PLATFORMS.forEach(({ label, platform, expectedDefault }) => {

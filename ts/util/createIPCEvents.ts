@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { webFrame } from 'electron';
+import { ipcRenderer } from 'electron';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
 
@@ -135,13 +135,16 @@ export type IPCEventsCallbacksType = {
     customColor?: { id: string; value: CustomColorType }
   ) => void;
   getDefaultConversationColor: () => DefaultConversationColorType;
-  persistZoomFactor: (factor: number) => Promise<void>;
 };
 
 type ValuesWithGetters = Omit<
   IPCEventsValuesType,
+  // Async
+  | 'zoomFactor'
   // Optional
-  'mediaPermissions' | 'mediaCameraPermissions' | 'autoLaunch'
+  | 'mediaPermissions'
+  | 'mediaCameraPermissions'
+  | 'autoLaunch'
 >;
 
 type ValuesWithSetters = Omit<
@@ -167,6 +170,11 @@ export type IPCEventSetterType<Key extends keyof IPCEventsValuesType> =
 export type IPCEventsGettersType = {
   [Key in keyof ValuesWithGetters as IPCEventGetterType<Key>]: () => ValuesWithGetters[Key];
 } & {
+  // Async
+  getZoomFactor: () => Promise<ZoomFactorType>;
+  // Events
+  onZoomFactorChange: (callback: (zoomFactor: ZoomFactorType) => void) => void;
+  // Optional
   getMediaPermissions?: () => Promise<boolean>;
   getMediaCameraPermissions?: () => Promise<boolean>;
   getAutoLaunch?: () => Promise<boolean>;
@@ -212,9 +220,16 @@ export function createIPCEvents(
 
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
-    getZoomFactor: () => window.storage.get('zoomFactor', 1),
-    setZoomFactor: async (zoomFactor: ZoomFactorType) => {
-      webFrame.setZoomFactor(zoomFactor);
+    getZoomFactor: () => {
+      return ipcRenderer.invoke('getZoomFactor');
+    },
+    setZoomFactor: async zoomFactor => {
+      ipcRenderer.send('setZoomFactor', zoomFactor);
+    },
+    onZoomFactorChange: callback => {
+      ipcRenderer.on('zoomFactorChanged', (_event, zoomFactor) => {
+        callback(zoomFactor);
+      });
     },
 
     setPhoneNumberDiscoverabilitySetting,
@@ -614,9 +629,6 @@ export function createIPCEvents(
     },
     getMediaPermissions: window.IPC.getMediaPermissions,
     getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
-
-    persistZoomFactor: zoomFactor =>
-      window.storage.put('zoomFactor', zoomFactor),
 
     ...overrideEvents,
   };

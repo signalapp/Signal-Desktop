@@ -238,6 +238,9 @@ export function TitleBarContainer(props: PropsType): JSX.Element {
         showKeyboardShortcuts: () => executeMenuAction('showKeyboardShortcuts'),
         showSettings: () => executeMenuAction('showSettings'),
         showWindow: () => executeMenuAction('showWindow'),
+        zoomIn: () => executeMenuAction('zoomIn'),
+        zoomOut: () => executeMenuAction('zoomOut'),
+        zoomReset: () => executeMenuAction('zoomReset'),
       },
       i18n
     );
