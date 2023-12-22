@@ -107,10 +107,9 @@ export class VisibleMessage extends ExpirableMessage {
   }
 
   public contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      ...super.contentProto(),
-      dataMessage: this.dataProto(),
-    });
+    const content = super.contentProto();
+    content.dataMessage = this.dataProto();
+    return content;
   }
 
   public dataProto(): SignalService.DataMessage {

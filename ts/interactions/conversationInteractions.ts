@@ -102,10 +102,7 @@ export async function unblockConvoById(conversationId: string) {
 /**
  * marks the conversation's approval fields, sends messageRequestResponse, syncs to linked devices
  */
-export const approveConvoAndSendResponse = async (
-  conversationId: string,
-  syncToDevices: boolean = true
-) => {
+export const approveConvoAndSendResponse = async (conversationId: string) => {
   const convoToApprove = getConversationController().get(conversationId);
 
   if (!convoToApprove) {
@@ -117,11 +114,6 @@ export const approveConvoAndSendResponse = async (
 
   await convoToApprove.commit();
   await convoToApprove.sendMessageRequestResponse();
-
-  // Conversation was not approved before so a sync is needed
-  if (syncToDevices) {
-    await forceSyncConfigurationNowIfNeeded();
-  }
 };
 
 export async function declineConversationWithoutConfirm({

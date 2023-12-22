@@ -273,6 +273,58 @@ function changeToDisappearingMessageType(
 
 // TODO legacy messages support will be removed in a future release
 /**
+ * Forces a private DaS to be a DaR.
+ * This should only be used for DataExtractionNotification and CallMessages (the ones saved to the DB) currently.
+ * Note: this can only be called for private conversations, excluding ourselves as it throws otherwise (this wouldn't be right)
+ * */
+function forcedDeleteAfterReadMsgSetting(
+  convo: ConversationModel
+): { expirationType: Exclude<DisappearingMessageType, 'deleteAfterSend'>; expireTimer: number } {
+  if (convo.isMe() || !convo.isPrivate()) {
+    throw new Error(
+      'forcedDeleteAfterReadMsgSetting can only be called with a private chat (excluding ourselves)'
+    );
+  }
+  const expirationMode = convo.getExpirationMode();
+  const expireTimer = convo.getExpireTimer();
+  if (expirationMode === 'off' || expirationMode === 'legacy' || expireTimer <= 0) {
+    return { expirationType: 'unknown', expireTimer: 0 };
+  }
+
+  return {
+    expirationType: expirationMode === 'deleteAfterSend' ? 'deleteAfterRead' : expirationMode,
+    expireTimer,
+  };
+}
+
+// TODO legacy messages support will be removed in a future release
+/**
+ * Forces a private DaR to be a DaS.
+ * This should only be used for the outgoing CallMessages that we keep locally only (not synced, just the "you started a call" notification)
+ * Note: this can only be called for private conversations, excluding ourselves as it throws otherwise (this wouldn't be right)
+ * */
+function forcedDeleteAfterSendMsgSetting(
+  convo: ConversationModel
+): { expirationType: Exclude<DisappearingMessageType, 'deleteAfterRead'>; expireTimer: number } {
+  if (convo.isMe() || !convo.isPrivate()) {
+    throw new Error(
+      'forcedDeleteAfterSendMsgSetting can only be called with a private chat (excluding ourselves)'
+    );
+  }
+  const expirationMode = convo.getExpirationMode();
+  const expireTimer = convo.getExpireTimer();
+  if (expirationMode === 'off' || expirationMode === 'legacy' || expireTimer <= 0) {
+    return { expirationType: 'unknown', expireTimer: 0 };
+  }
+
+  return {
+    expirationType: expirationMode === 'deleteAfterRead' ? 'deleteAfterSend' : expirationMode,
+    expireTimer,
+  };
+}
+
+// TODO legacy messages support will be removed in a future release
+/**
  * Converts DisappearingMessageType to DisappearingMessageConversationModeType
  *
  * NOTE Used for the UI
@@ -509,7 +561,6 @@ function getMessageReadyToDisappear(
     messageExpirationFromRetrieve &&
     messageExpirationFromRetrieve > 0
   ) {
-
     const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
     const expires_at = messageExpirationFromRetrieve;
     messageModel.set({
@@ -633,6 +684,8 @@ export const DisappearingMessages = {
   setExpirationStartTimestamp,
   changeToDisappearingMessageType,
   changeToDisappearingConversationMode,
+  forcedDeleteAfterReadMsgSetting,
+  forcedDeleteAfterSendMsgSetting,
   checkForExpireUpdateInContentMessage,
   checkForExpiringOutgoingMessage,
   getMessageReadyToDisappear,

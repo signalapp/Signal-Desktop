@@ -15,7 +15,6 @@ import {
 } from '../interactions/conversations/unsendingInteractions';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
@@ -548,26 +547,10 @@ export async function innerHandleSwarmContentMessage({
     if (content.dataExtractionNotification) {
       perfStart(`handleDataExtractionNotification-${envelope.id}`);
 
-      // DataExtractionNotification uses the expiration setting of our side of the 1o1 conversation. whatever we get in the contentMessage
-      const expirationTimer = senderConversationModel.getExpireTimer();
-
-      const expirationType = DisappearingMessages.changeToDisappearingMessageType(
-        senderConversationModel,
-        expirationTimer,
-        senderConversationModel.getExpirationMode()
-      );
-
       await handleDataExtractionNotification({
         envelope,
         dataExtractionNotification: content.dataExtractionNotification as SignalService.DataExtractionNotification,
-        expireUpdate: {
-          expirationTimer,
-          expirationType,
-          messageExpirationFromRetrieve:
-            expirationType === 'unknown'
-              ? null
-              : GetNetworkTime.getNowWithNetworkOffset() + expirationTimer * 1000,
-        },
+        expireUpdate,
         messageHash,
       });
       perfEnd(
@@ -580,7 +563,10 @@ export async function innerHandleSwarmContentMessage({
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
     }
     if (content.callMessage) {
-      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
+      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage, {
+        expireDetails: expireUpdate,
+        messageHash,
+      });
     }
     if (content.messageRequestResponse) {
       await handleMessageRequestResponse(
@@ -862,7 +848,7 @@ export async function handleDataExtractionNotification({
 }: {
   envelope: EnvelopePlus;
   dataExtractionNotification: SignalService.DataExtractionNotification;
-  expireUpdate: ReadyToDisappearMsgUpdate;
+  expireUpdate: ReadyToDisappearMsgUpdate | undefined;
   messageHash: string;
 }): Promise<void> {
   // we currently don't care about the timestamp included in the field itself, just the timestamp of the envelope

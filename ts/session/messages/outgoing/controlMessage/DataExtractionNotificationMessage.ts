@@ -2,6 +2,7 @@ import { getMessageQueue } from '../../..';
 import { SignalService } from '../../../../protobuf';
 import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
 import { getConversationController } from '../../../conversations';
+import { DisappearingMessages } from '../../../disappearing_messages';
 import { PubKey } from '../../../types';
 import { UserUtils } from '../../../utils';
 import { ExpirableMessage, ExpirableMessageParams } from '../ExpirableMessage';
@@ -23,15 +24,15 @@ export class DataExtractionNotificationMessage extends ExpirableMessage {
   }
 
   public contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      dataExtractionNotification: this.dataExtractionProto(),
-    });
+    const content = super.contentProto();
+    content.dataExtractionNotification = this.dataExtractionProto();
+    return content;
   }
 
   protected dataExtractionProto(): SignalService.DataExtractionNotification {
     const ACTION_ENUM = SignalService.DataExtractionNotification.Type;
 
-    const action = ACTION_ENUM.MEDIA_SAVED; // we cannot know when user screenshots, so it can only be a media saved
+    const action = ACTION_ENUM.MEDIA_SAVED; // we cannot know when user screenshots, so it can only be a media saved on desktop
 
     return new SignalService.DataExtractionNotification({
       type: action,
@@ -53,13 +54,17 @@ export const sendDataExtractionNotification = async (
     window.log.warn('Not sending saving attachment notification for', attachmentSender);
     return;
   }
-
-  // DataExtractionNotification are expiring with the recipient, so don't include ours
+  const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
+    convo
+  );
+  // DataExtractionNotification are expiring with a forced DaR timer if a DaS is set.
+  // It's because we want the DataExtractionNotification to stay in the swarm as much as possible,
+  // but also expire on the recipient's side (and synced) once read.
   const dataExtractionNotificationMessage = new DataExtractionNotificationMessage({
     referencedAttachmentTimestamp,
     timestamp: Date.now(),
-    expirationType: null,
-    expireTimer: null,
+    expirationType,
+    expireTimer,
   });
 
   const pubkey = PubKey.cast(conversationId);

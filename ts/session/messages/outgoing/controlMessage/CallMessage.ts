@@ -40,9 +40,9 @@ export class CallMessage extends ExpirableMessage {
   }
 
   public contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      callMessage: this.dataCallProto(),
-    });
+    const content = super.contentProto();
+    content.callMessage = this.dataCallProto();
+    return content;
   }
 
   public ttl() {

@@ -70,7 +70,7 @@ const handleAcceptConversationRequest = async (convoId: string) => {
   await convo.setIsApproved(true, false);
   await convo.commit();
   await convo.addOutgoingApprovalMessage(Date.now());
-  await approveConvoAndSendResponse(convoId, true);
+  await approveConvoAndSendResponse(convoId);
 };
 
 export const ConversationMessageRequestButtons = () => {
