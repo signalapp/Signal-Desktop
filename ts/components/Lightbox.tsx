@@ -26,6 +26,7 @@ import { isGIF } from '../types/Attachment';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { usePrevious } from '../hooks/usePrevious';
 import { arrow } from '../util/keyboard';
+import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts';
 
 export type PropsType = {
   children?: ReactNode;
@@ -160,21 +161,24 @@ export function Lightbox({
     setVideoTime(videoElement.currentTime);
   }, [setVideoTime, videoElement]);
 
-  const handleSave = (
-    event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    if (isViewOnce) {
-      return;
-    }
+  const handleSave = useCallback(
+    (
+      event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      if (isViewOnce) {
+        return;
+      }
 
-    event.stopPropagation();
-    event.preventDefault();
+      event.stopPropagation();
+      event.preventDefault();
 
-    const mediaItem = media[selectedIndex];
-    const { attachment, message, index } = mediaItem;
+      const mediaItem = media[selectedIndex];
+      const { attachment, message, index } = mediaItem;
 
-    saveAttachment(attachment, message.sent_at, index + 1);
-  };
+      saveAttachment(attachment, message.sent_at, index + 1);
+    },
+    [isViewOnce, media, saveAttachment, selectedIndex]
+  );
 
   const handleForward = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -193,8 +197,6 @@ export function Lightbox({
 
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      const isMacOS = (window.platform === 'darwin');
-
       switch (event.key) {
         case 'Escape': {
           closeLightbox();
@@ -214,8 +216,8 @@ export function Lightbox({
           break;
 
         case 's':
-          if (isMacOS ? event.metaKey : event.ctrlKey) {
-              handleSave(event);
+          if (isCmdOrCtrl(event)) {
+            handleSave(event);
           }
           break;
 
