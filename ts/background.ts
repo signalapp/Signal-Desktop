@@ -2260,7 +2260,7 @@ export async function startApp(): Promise<void> {
     maxSize: Infinity,
   });
 
-  const throttledSetInboxEnvelopeTimestamp = throttle(
+  const _throttledSetInboxEnvelopeTimestamp = throttle(
     serverTimestamp => {
       window.reduxActions.inbox.setInboxEnvelopeTimestamp(serverTimestamp);
     },
@@ -2268,16 +2268,24 @@ export async function startApp(): Promise<void> {
     { leading: false }
   );
 
+  function setInboxEnvelopeTimestamp(timestamp: number): void {
+    // This timestamp is only used in the loading screen UI. If the app has loaded, let's
+    // not set it to avoid unnecessary renders
+    if (!window.reduxStore.getState().app.hasInitialLoadCompleted) {
+      _throttledSetInboxEnvelopeTimestamp(timestamp);
+    }
+  }
+
   async function onEnvelopeQueued({
     envelope,
   }: EnvelopeQueuedEvent): Promise<void> {
-    throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
+    setInboxEnvelopeTimestamp(envelope.serverTimestamp);
   }
 
   async function onEnvelopeUnsealed({
     envelope,
   }: EnvelopeUnsealedEvent): Promise<void> {
-    throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
+    setInboxEnvelopeTimestamp(envelope.serverTimestamp);
 
     const ourAci = window.textsecure.storage.user.getAci();
     if (
