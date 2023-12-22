@@ -14,7 +14,7 @@ import type { ContextMenuTriggerType } from '../components/conversation/MessageC
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 
-function isCmdOrCtrl(ev: KeyboardEvent): boolean {
+export function isCmdOrCtrl(ev: KeyboardEvent): boolean {
   const { ctrlKey, metaKey } = ev;
   const commandKey = get(window, 'platform') === 'darwin' && metaKey;
   const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
