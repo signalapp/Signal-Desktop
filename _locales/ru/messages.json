@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked invitations to the group for {count,number} person invited by {memberName}.} other {{adminName} revoked invitations to the group for {count,number} people invited by {memberName}.}}",
+    "messageformat": "{count, plural, one {{adminName} отозвал(-а) приглашение в группу для {count,number} человека, который был приглашён {memberName}.} few {{adminName} отозвал(-а) приглашения в группу для {count,number} человек, которые были приглашены {memberName}.} many {{adminName} отозвал(-а) приглашения в группу для {count,number} человек, которые были приглашены {memberName}.} other {{adminName} отозвал(-а) приглашения в группу для {count,number} человека, которые были приглашены {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {

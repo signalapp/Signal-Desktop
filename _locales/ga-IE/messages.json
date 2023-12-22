@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Scrios sonraí na haipe",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Scriosfar gach sonra san aip leis sin; bainfear na teachtaireachtaí uile agus faisnéis an chuntais atá sábháilte inti.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Scrios na sonraí",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Scrios na sonraí agus na teachtaireachtaí uile ón leagan seo de Dheasc Signal? Beidh tú in ann an deasc sin a athnascadh am ar bith, ach ní aisghabhfar do theachtaireachtaí. Ní scriosfar do chuntas Signal ná sonraí ar do ghuthán nó ar aon ghléas eile atá nasctha.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{remainingCount, plural, one {Member of {group1}, {group2}, {group3} and {remainingCount,number} more} other {Member of {group1}, {group2}, {group3} and {remainingCount,number} more}}",
+    "messageformat": "{remainingCount, plural, one {Ball de na grúpaí seo a leanas, {group1}, {group2} agus {group3}, agus de {remainingCount,number} ghrúpa amháin eile} two {Ball de na grúpaí seo a leanas, {group1}, {group2} agus {group3}, agus de {remainingCount,number} ghrúpa eile} few {Ball de na grúpaí seo a leanas, {group1}, {group2} agus {group3}, agus de {remainingCount,number} ghrúpa eile} many {Ball de na grúpaí seo a leanas, {group1}, {group2} agus {group3}, agus de {remainingCount,number} ngrúpa eile} other {Ball de na grúpaí seo a leanas, {group1}, {group2} agus {group3}, agus de {remainingCount,number} grúpa eile}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName}, and {overflowCount,number} more raised a hand.} other {{name}, {otherName}, and {overflowCount,number} more raised a hand.}}",
+    "messageformat": "{overflowCount, plural, one {D'ardaigh {name}, {otherName} agus {overflowCount,number} duine amháin eile a lámh.} two {D'ardaigh {name}, {otherName} agus {overflowCount,number} dhuine eile a lámh.} few {D'ardaigh {name}, {otherName} agus {overflowCount,number} dhuine eile a lámh.} many {D'ardaigh {name}, {otherName} agus {overflowCount,number} nduine eile a lámh.} other {D'ardaigh {name}, {otherName} agus {overflowCount,number} duine eile a lámh.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked invitations to the group for {count,number} person invited by {memberName}.} other {{adminName} revoked invitations to the group for {count,number} people invited by {memberName}.}}",
+    "messageformat": "{count, plural, one {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} duine amháin chun dul isteach sa ghrúpa.} two {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} duine chun dul isteach sa ghrúpa.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, one {{count,number} member was removed from the group.} other {{count,number} members were removed from the group.}}",
+    "messageformat": "{count, plural, one {Baineadh {count,number} bhall amháin den ghrúpa.} two {Baineadh {count,number} bhall den ghrúpa.} few {Baineadh {count,number} bhall den ghrúpa.} many {Baineadh {count,number} mball den ghrúpa.} other {Baineadh {count,number} ball den ghrúpa.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Buíochas le {linkToGithub1} agus le {linkToGithub2} as a gcabhair leis an eisiúint seo."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Anois is féidir leat deaschliceáil ar aon imeacht glao agus é a scriosadh ó chomhrá."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Rinneadh an cló réamhshocraithe don Pheirsis a nuashonrú go Vazirmatn le hinléiteacht a fheabhsú nuair a roghnaítear an teanga sin (Socruithe Signal > Taispeáint > Teanga). Le buíochas, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Tá cuma measartha nua ar na táscairí luas athsheanma i nglórphoist. Le buíochas, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Ba mhaith linn buíochas a ghabháil freisin le {linkToGithub1}, le {linkToGithub2} agus le {linkToGithub3} as an méid a chuir siad leis an eisiúint seo."
   }
 }

@@ -5305,7 +5305,7 @@
     "description": "Tab label for selecting solid colors"
   },
   "icu:CustomColorEditor__gradient": {
-    "messageformat": "שיפוע",
+    "messageformat": "גרדיאנט",
     "description": "Tab label for selecting a gradient"
   },
   "icu:CustomColorEditor__hue": {

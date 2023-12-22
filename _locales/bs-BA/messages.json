@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Izbrišite podatke aplikacije",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Na ovaj način će se obrisati svi podaci u aplikaciji i uklonit će se sve poruke i spremljene informacije o računu.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Izbriši podatke",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Izbrisati sve podatke i poruke iz ove verzije Signal Desktopa? Uvijek možete ponovo povezati ovu radnu površinu, ali vaše poruke se neće vratiti. Vaš Signal račun i podaci na vašem telefonu ili drugim povezanim uređajima neće biti izbrisani.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{remainingCount, plural, one {Member of {group1}, {group2}, {group3} and {remainingCount,number} more} other {Member of {group1}, {group2}, {group3} and {remainingCount,number} more}}",
+    "messageformat": "{remainingCount, plural, one {Član grupa {group1}, {group2}, {group3} i još {remainingCount,number}} few {Član grupa {group1}, {group2}, {group3} i još{remainingCount,number}} many {Član grupa {group1}, {group2}, {group3} i još{remainingCount,number}} other {Član grupa {group1}, {group2}, {group3} i još{remainingCount,number}}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName}, and {overflowCount,number} more raised a hand.} other {{name}, {otherName}, and {overflowCount,number} more raised a hand.}}",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName}, i još {overflowCount,number} su podigli ruku.} few {{name}, {otherName}, i još {overflowCount,number} su podigli ruku.} many {{name}, {otherName}, i još {overflowCount,number} su podigli ruku.} other {{name}, {otherName}, i još {overflowCount,number} su podigli ruku.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked invitations to the group for {count,number} person invited by {memberName}.} other {{adminName} revoked invitations to the group for {count,number} people invited by {memberName}.}}",
+    "messageformat": "{count, plural, one {{adminName} je povukao/la pozivnice u grupu za korisnike (njih {count,number}) koje je pozvao/la {memberName}.} few {{adminName} je povukao/la pozivnice u grupu za korisnike (njih {count,number}) koje je pozvao/la {memberName}.} many {{adminName} je povukao/la pozivnice u grupu za korisnike (njih {count,number}) koje je pozvao/la {memberName}.} other {{adminName} je povukao/la pozivnice u grupu za korisnike (njih {count,number}) koje je pozvao/la {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, one {{count,number} member was removed from the group.} other {{count,number} members were removed from the group.}}",
+    "messageformat": "{count, plural, one {{count,number} član je uklonjen iz grupe.} few {{count,number} člana su uklonjena iz grupe.} many {{count,number} članova je uklonjeno iz grupe.} other {{count,number} članova je uklonjeno iz grupe.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Hvala {linkToGithub1} i {linkToGithub2} na pomoći oko ovog izdanja."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Sada možete desnom tipkom miša kliknuti bilo koji događaj poziva i izbrisati ga iz chata."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Zadani font za perzijski je ažuriran na Vazirmatn kako bi se poboljšala čitljivost kada je taj jezik odabran (Postavke signala > Izgled > Jezik). Hvala, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Indikatori brzine reprodukcije u glasovnim porukama imaju noviji izgled. Hvala {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Također bismo željeli zahvaliti {linkToGithub1}, {linkToGithub2} i {linkToGithub3} za njihov doprinos ovom izdanju."
   }
 }

@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked invitations to the group for {count,number} person invited by {memberName}.} other {{adminName} revoked invitations to the group for {count,number} people invited by {memberName}.}}",
+    "messageformat": "{count, plural, one {{adminName} återkallade inbjudning till gruppen för {count,number} person inbjuden av {memberName}.} other {{adminName} återkallade inbjudningar till gruppen för {count,number} personer inbjudna av {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, one {{count,number} member was removed from the group.} other {{count,number} members were removed from the group.}}",
+    "messageformat": "{count, plural, one {{count,number} medlem togs bort från gruppen.} other {{count,number} medlemmar togs bort från gruppen.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {

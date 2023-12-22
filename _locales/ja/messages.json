@@ -5737,7 +5737,7 @@
     "description": "Label for blocked contacts setting"
   },
   "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, other {{num,number}件}}",
+    "messageformat": "{num, plural, other {{num,number}人}}",
     "description": "Number of contacts blocked plural"
   },
   "icu:Preferences__privacy--description": {

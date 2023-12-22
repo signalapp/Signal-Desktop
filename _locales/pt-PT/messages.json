@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Eliminar dados da aplicação",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Isto limpará todos os dados da aplicação, removendo todas as mensagens e os dados guardados da sua conta.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Eliminar dados",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Eliminar todos os dados e mensagens desta versão do Signal Desktop? Pode sempre voltar a conectar este desktop, mas as suas mensagens não serão restauradas. A sua conta Signal e os dados no seu telemóvel ou outros dispositivos conectados não serão eliminados.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{remainingCount, plural, one {Member of {group1}, {group2}, {group3} and {remainingCount,number} more} other {Member of {group1}, {group2}, {group3} and {remainingCount,number} more}}",
+    "messageformat": "{remainingCount, plural, one {Membro de {group1}, {group2}, {group3} e de mais {remainingCount,number}} other {Membro de {group1}, {group2}, {group3} e de mais {remainingCount,number}}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName}, and {overflowCount,number} more raised a hand.} other {{name}, {otherName}, and {overflowCount,number} more raised a hand.}}",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} e mais {overflowCount,number} levantaram a mão.} other {{name}, {otherName} e mais {overflowCount,number} levantaram a mão.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked invitations to the group for {count,number} person invited by {memberName}.} other {{adminName} revoked invitations to the group for {count,number} people invited by {memberName}.}}",
+    "messageformat": "{count, plural, one {{adminName} revogou o convite para {count,number} pessoa convidada por {memberName} entrar para o grupo.} other {{adminName} revogou os convites para {count,number} pessoas convidadas por {memberName} entrarem para o grupo.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, one {{count,number} member was removed from the group.} other {{count,number} members were removed from the group.}}",
+    "messageformat": "{count, plural, one {{count,number} membro foi removido do grupo.} other {{count,number} membros foram removidos do grupo.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Obrigado a {linkToGithub1} e {linkToGithub2} pela ajuda nesta versão."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Agora pode clicar com o botão direito em qualquer evento de chamada e eliminá-lo de um chat."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "A fonte predefinida para persa foi atualizada para Vazirmatn para melhorar a legibilidade quando esse idioma é selecionado (Definições do Signal > Aparência > Idioma). Obrigado, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Os indicadores de velocidade de reprodução nas mensagens de voz têm um aspeto ligeiramente novo. Obrigado, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Gostaríamos também de agradecer {linkToGithub1}, {linkToGithub2} e {linkToGithub3} pelas suas contribuições para esta versão."
   }
 }

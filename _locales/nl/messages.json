@@ -4077,15 +4077,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--other--other": {
-    "messageformat": "{adderName} voegde {addeeName} toe.",
+    "messageformat": "{adderName} heeft {addeeName} toegevoegd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--other--you": {
-    "messageformat": "Je voegde {memberName} toe.",
+    "messageformat": "Je hebt {memberName} toegevoegd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--other--unknown": {
-    "messageformat": "Een groepslid voegde {memberName} toe.",
+    "messageformat": "Een groepslid heeft {memberName} toegevoegd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--you--other": {
@@ -7030,7 +7030,7 @@
     "messageformat": "Maak van een gemiste oproep iets onmisbaars. Je kunt nu met de rechtermuisknop op een oproepgebeurtenis klikken en deze uit een chat verwijderen."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "Bij Perzisch als taalkeuze (Signal-instellingen > Voorkeuren > Uiterlijk > Taal) is het standaardlettertype bijgewerkt naar Vazirmatn voor betere leesbaarheid. Bedankt {linkToGithub1}!"
+    "messageformat": "Bij Perzisch als taalkeuze (Signal-instellingen > Uiterlijk > Taal) is het standaardlettertype bijgewerkt naar Vazirmatn voor betere leesbaarheid. Bedankt {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
     "messageformat": "De indicatoren voor de afspeelsnelheid van audioberichten hebben een nieuw uiterlijk. Bedankt {linkToGithub1}!"
