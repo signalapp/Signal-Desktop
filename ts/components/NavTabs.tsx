@@ -96,7 +96,7 @@ function NavTabsItem({
         content={label}
         theme={Theme.Dark}
         direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
-        delay={600}
+        showDelay={600}
       >
         <span className="NavTabs__ItemButton">
           <span className="NavTabs__ItemContent">
@@ -158,7 +158,7 @@ export function NavTabsToggle({
         content={label}
         theme={Theme.Dark}
         direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
-        delay={600}
+        showDelay={600}
       >
         <span className="NavTabs__ItemButton">
           <span className="NavTabs__ItemContent">
@@ -328,7 +328,7 @@ export function NavTabs({
                     content={i18n('icu:NavTabs__ItemLabel--Settings')}
                     theme={Theme.Dark}
                     direction={TooltipPlacement.Right}
-                    delay={600}
+                    showDelay={600}
                   >
                     <span className="NavTabs__ItemButton" ref={ref}>
                       <span className="NavTabs__ItemContent">
@@ -366,7 +366,7 @@ export function NavTabs({
               content={i18n('icu:NavTabs__ItemLabel--Profile')}
               theme={Theme.Dark}
               direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
-              delay={600}
+              showDelay={600}
             >
               <span className="NavTabs__ItemButton">
                 <span className="NavTabs__ItemContent">
