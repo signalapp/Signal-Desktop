@@ -89,11 +89,12 @@ export type PropsType = {
   sticky?: boolean;
   theme?: Theme;
   wrapperClassName?: string;
-  delay?: number;
+  showDelay?: number;
+  hideDelay?: number;
 };
 
 let GLOBAL_EXIT_TIMER: NodeJS.Timeout | undefined;
-let GLOBAL_TOOLTIP_DISABLE_DELAY = false;
+let GLOBAL_TOOLTIP_DISABLE_SHOW_DELAY = false;
 
 export function Tooltip({
   children,
@@ -104,12 +105,16 @@ export function Tooltip({
   theme,
   popperModifiers = [],
   wrapperClassName,
-  delay,
+  showDelay = 0,
+  hideDelay = 0,
 }: PropsType): JSX.Element {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>();
+  const hideDelayTimeoutRef = useRef<NodeJS.Timeout | undefined>();
+  const popperDelayTimeoutRef = useRef<NodeJS.Timeout | undefined>();
   const [active, setActive] = React.useState(false);
+  const [popperHovering, setPopperHovering] = React.useState(false);
 
-  const showTooltip = active || Boolean(sticky);
+  const showTooltip = active || popperHovering || Boolean(sticky);
 
   const tooltipThemeClassName = theme
     ? `module-tooltip--${themeClassName(theme)}`
@@ -119,39 +124,55 @@ export function Tooltip({
     // Don't accept updates that aren't valid anymore
     clearTimeout(GLOBAL_EXIT_TIMER);
     clearTimeout(timeoutRef.current);
+    clearTimeout(hideDelayTimeoutRef.current);
 
-    // We can skip past all of this if there's no delay
-    if (delay != null) {
+    if (hovering) {
       // If we're now hovering, and delays haven't been disabled globally
       // we should start the timer to show the tooltip
-      if (hovering && !GLOBAL_TOOLTIP_DISABLE_DELAY) {
+      if (!GLOBAL_TOOLTIP_DISABLE_SHOW_DELAY) {
         timeoutRef.current = setTimeout(() => {
           setActive(true);
           // Since we have shown a tooltip we can now disable these delays
           // globally.
-          GLOBAL_TOOLTIP_DISABLE_DELAY = true;
-        }, delay);
-        return;
+          GLOBAL_TOOLTIP_DISABLE_SHOW_DELAY = true;
+        }, showDelay);
+      } else {
+        setActive(true);
       }
 
-      if (!hovering) {
-        // If we're not hovering, we should hide the tooltip immediately
+      return;
+    }
+
+    if (!hovering) {
+      // If we're not hovering, we should hide the tooltip based
+      // on the hide delay.
+      hideDelayTimeoutRef.current = setTimeout(() => {
         setActive(false);
+        clearTimeout(hideDelayTimeoutRef.current);
 
         // If we've disabled delays globally, we need to start a timer to undo
         // that after some time has passed.
-        if (GLOBAL_TOOLTIP_DISABLE_DELAY) {
+        if (GLOBAL_TOOLTIP_DISABLE_SHOW_DELAY) {
           GLOBAL_EXIT_TIMER = setTimeout(() => {
-            GLOBAL_TOOLTIP_DISABLE_DELAY = false;
+            GLOBAL_TOOLTIP_DISABLE_SHOW_DELAY = false;
 
-            // We're always going to use 300 here so that a tooltip with a really
-            // long delay doesn't affect all of the others
+            // We're always going to use 300 here so that a tooltip with a
+            // really long delay doesn't affect all of the others
           }, 300);
         }
-        return;
-      }
+      }, hideDelay);
     }
-    setActive(hovering);
+  }
+
+  function onPopperMouseEnter() {
+    setPopperHovering(true);
+  }
+
+  function onPopperMouseLeave() {
+    popperDelayTimeoutRef.current = setTimeout(() => {
+      setPopperHovering(false);
+      clearTimeout(popperDelayTimeoutRef.current);
+    }, hideDelay);
   }
 
   return (
@@ -174,6 +195,8 @@ export function Tooltip({
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
             <div
+              onMouseEnter={onPopperMouseEnter}
+              onMouseLeave={onPopperMouseLeave}
               className={classNames(
                 'module-tooltip',
                 tooltipThemeClassName,
