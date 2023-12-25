@@ -3591,6 +3591,20 @@
     "updated": "2023-08-10T00:23:35.320Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/Tooltip.tsx",
+    "line": "  const hideDelayTimeoutRef = useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-12-25T10:53:31.583Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Tooltip.tsx",
+    "line": "  const popperDelayTimeoutRef = useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-12-25T10:53:31.583Z"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
