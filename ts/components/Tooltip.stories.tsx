@@ -16,6 +16,8 @@ export default {
       options: Object.values(TooltipPlacement),
     },
     sticky: { control: { type: 'boolean' } },
+    showDelay: { control: { type: 'number' } },
+    hideDelay: { control: { type: 'number' } },
     theme: {
       control: { type: 'select' },
       options: Object.keys(Theme),
@@ -26,6 +28,8 @@ export default {
     content: 'Hello World',
     direction: TooltipPlacement.Top,
     sticky: false,
+    showDelay: 0,
+    hideDelay: 0,
   },
 } satisfies Meta<PropsType>;
 
@@ -78,6 +82,30 @@ export function Left(args: PropsType): JSX.Element {
 export function Sticky(args: PropsType): JSX.Element {
   return (
     <Tooltip {...args} sticky>
+      {Trigger}
+    </Tooltip>
+  );
+}
+
+export function ShowDelay(args: PropsType): JSX.Element {
+  return (
+    <Tooltip {...args} showDelay={250}>
+      {Trigger}
+    </Tooltip>
+  );
+}
+
+export function HideDelay(args: PropsType): JSX.Element {
+  return (
+    <Tooltip {...args} hideDelay={250}>
+      {Trigger}
+    </Tooltip>
+  );
+}
+
+export function ShowHideDelay(args: PropsType): JSX.Element {
+  return (
+    <Tooltip {...args} showDelay={250} hideDelay={250}>
       {Trigger}
     </Tooltip>
   );
