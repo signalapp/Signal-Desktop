@@ -205,8 +205,7 @@
           content: '';
           display: block;
           height: 11px;
-          /* stylelint-disable-next-line liberty/use-logical-spec */
-          left: 7px;
+          inset-inline-start: 7px;
           position: absolute;
           top: 3px;
           transform: rotate(45deg);
