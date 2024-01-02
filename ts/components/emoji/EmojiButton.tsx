@@ -122,9 +122,9 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
       const commandOrCtrl = commandKey || controlKey;
       const key = KeyboardLayout.lookup(event);
 
-      // We don't want to open up if the conversation has any panels open
-      const panels = document.querySelectorAll('.conversation .panel');
-      if (panels && panels.length > 1) {
+      // We don't want to open up if the current conversation panel is hidden
+      const parentPanel = buttonRef.current?.closest('.ConversationPanel');
+      if (parentPanel?.classList.contains('ConversationPanel__hidden')) {
         return;
       }
 
