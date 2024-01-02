@@ -210,6 +210,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     phoneNumber: getNumber(attributes),
     profileName: getProfileName(attributes),
     profileSharing: attributes.profileSharing,
+    notSharingPhoneNumber: attributes.notSharingPhoneNumber,
     publicParams: attributes.publicParams,
     secretParams: attributes.secretParams,
     shouldShowDraft,

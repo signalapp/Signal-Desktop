@@ -2,13 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as Errors from '../types/errors';
+import { getConversation } from '../util/getConversation';
 import { DAY } from '../util/durations';
 import { drop } from '../util/drop';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { checkForUsername } from '../util/lookupConversationWithoutServiceId';
 import { storageJobQueue } from '../util/JobQueue';
+import { getProfile } from '../util/getProfile';
+import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import * as log from '../logging/log';
 import { resolveUsernameByLink } from './username';
+import { runStorageServiceSyncJob } from './storage';
+import { writeProfile } from './writeProfile';
 
 const CHECK_INTERVAL = DAY;
 
@@ -59,6 +64,11 @@ class UsernameIntegrityService {
   }
 
   private async check(): Promise<void> {
+    await this.checkUsername();
+    await this.checkPhoneNumberSharing();
+  }
+
+  private async checkUsername(): Promise<void> {
     const me = window.ConversationController.getOurConversationOrThrow();
     const username = me.get('username');
     const aci = me.getAci();
@@ -99,6 +109,51 @@ class UsernameIntegrityService {
     if (!failed) {
       log.info('usernameIntegrity: check pass');
     }
+  }
+
+  private async checkPhoneNumberSharing(): Promise<void> {
+    const me = window.ConversationController.getOurConversationOrThrow();
+
+    await getProfile(me.getServiceId(), me.get('e164'));
+
+    {
+      const localValue = isSharingPhoneNumberWithEverybody();
+      const remoteValue = !me.get('notSharingPhoneNumber');
+      if (localValue === remoteValue) {
+        return;
+      }
+
+      log.warn(
+        'usernameIntegrity: phone number sharing mode conflict, running ' +
+          `storage service sync (local: ${localValue}, remote: ${remoteValue})`
+      );
+
+      runStorageServiceSyncJob();
+    }
+
+    window.Whisper.events.once('storageService:syncComplete', () => {
+      const localValue = isSharingPhoneNumberWithEverybody();
+      const remoteValue = !me.get('notSharingPhoneNumber');
+      if (localValue === remoteValue) {
+        log.info(
+          'usernameIntegrity: phone number sharing mode conflict resolved by ' +
+            'storage service sync'
+        );
+        return;
+      }
+
+      log.warn(
+        'usernameIntegrity: phone number sharing mode conflict not resolved, ' +
+          'updating profile'
+      );
+
+      drop(
+        writeProfile(getConversation(me), {
+          oldAvatar: undefined,
+          newAvatar: undefined,
+        })
+      );
+    });
   }
 }
 

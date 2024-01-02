@@ -11,6 +11,7 @@ import {
   getSourceServiceId,
 } from '../messages/helpers';
 import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation';
+import { getE164 } from './getE164';
 
 export function getMessageIdForLogging(
   message: Pick<
@@ -29,8 +30,8 @@ export function getConversationIdForLogging(
   conversation: ConversationAttributesType
 ): string {
   if (isDirectConversation(conversation)) {
-    const { serviceId, pni, e164, id } = conversation;
-    return `${serviceId || pni || e164} (${id})`;
+    const { serviceId, pni, id } = conversation;
+    return `${serviceId || pni || getE164(conversation)} (${id})`;
   }
   if (isGroupV2(conversation)) {
     return `groupv2(${conversation.groupId})`;

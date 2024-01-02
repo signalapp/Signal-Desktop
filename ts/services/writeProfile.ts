@@ -18,9 +18,9 @@ export async function writeProfile(
   conversation: ConversationType,
   avatar: AvatarUpdateType
 ): Promise<void> {
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error('messaging is not available!');
+  const { server } = window.textsecure;
+  if (!server) {
+    throw new Error('server is not available!');
   }
 
   // Before we write anything we request the user's profile so that we can
@@ -50,7 +50,7 @@ export async function writeProfile(
     conversation,
     avatar
   );
-  const avatarRequestHeaders = await messaging.putProfile(profileData);
+  const avatarRequestHeaders = await server.putProfile(profileData);
 
   // Upload the avatar if provided
   // delete existing files on disk if avatar has been removed
@@ -68,7 +68,7 @@ export async function writeProfile(
     log.info('writeProfile: not updating avatar');
   } else if (avatarRequestHeaders && encryptedAvatarData && newAvatar) {
     log.info('writeProfile: uploading new avatar');
-    const avatarUrl = await messaging.uploadAvatar(
+    const avatarUrl = await server.uploadAvatar(
       avatarRequestHeaders,
       encryptedAvatarData
     );

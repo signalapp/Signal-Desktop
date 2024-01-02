@@ -8,6 +8,7 @@ import type {
 import { combineNames } from './combineNames';
 import { getRegionCodeForNumber } from './libphonenumberUtil';
 import { isDirectConversation } from './whatTypeOfConversation';
+import { getE164 } from './getE164';
 
 export function getTitle(
   attributes: ConversationRenderInfoType,
@@ -107,13 +108,16 @@ export function getSystemName(
 }
 
 export function getNumber(
-  attributes: Pick<ConversationAttributesType, 'e164' | 'type'>
+  attributes: Pick<
+    ConversationAttributesType,
+    'e164' | 'type' | 'notSharingPhoneNumber'
+  >
 ): string | undefined {
   if (!isDirectConversation(attributes)) {
     return '';
   }
 
-  const { e164 } = attributes;
+  const e164 = getE164(attributes);
   if (!e164) {
     return '';
   }
