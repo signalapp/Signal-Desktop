@@ -21,6 +21,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
 import { resolveUsernameByLinkBase64 } from '../services/username';
+import { writeProfile } from '../services/writeProfile';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
@@ -41,6 +42,7 @@ import type { NotificationClickData } from '../services/notifications';
 import { StoryViewModeType, StoryViewTargetType } from '../types/Stories';
 import { isValidE164 } from './isValidE164';
 import { fromWebSafeBase64 } from './webSafeBase64';
+import { getConversation } from './getConversation';
 
 type SentMediaQualityType = 'standard' | 'high';
 type ThemeType = 'light' | 'dark' | 'system';
@@ -235,6 +237,14 @@ export function createIPCEvents(
     setPhoneNumberDiscoverabilitySetting,
     setPhoneNumberSharingSetting: async (newValue: PhoneNumberSharingMode) => {
       const account = window.ConversationController.getOurConversationOrThrow();
+
+      // writeProfile fetches the latest profile first so do it before updating
+      // local data to prevent triggering a conflict.
+      await writeProfile(getConversation(account), {
+        oldAvatar: undefined,
+        newAvatar: undefined,
+      });
+
       const promises = new Array<Promise<void>>();
       promises.push(window.storage.put('phoneNumberSharingMode', newValue));
       if (newValue === PhoneNumberSharingMode.Everybody) {

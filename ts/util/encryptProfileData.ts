@@ -12,6 +12,7 @@ import {
 } from '../Crypto';
 import type { AvatarUpdateType } from '../types/Avatar';
 import { deriveProfileKeyCommitment, deriveProfileKeyVersion } from './zkgroup';
+import { isSharingPhoneNumberWithEverybody } from './phoneNumberSharingMode';
 
 export async function encryptProfileData(
   conversation: ConversationType,
@@ -56,6 +57,11 @@ export async function encryptProfileData(
       )
     : null;
 
+  const encryptedPhoneNumberSharing = encryptProfile(
+    new Uint8Array([isSharingPhoneNumberWithEverybody() ? 1 : 0]),
+    keyBuffer
+  );
+
   const encryptedAvatarData = newAvatar
     ? encryptProfile(newAvatar, keyBuffer)
     : undefined;
@@ -72,6 +78,7 @@ export async function encryptProfileData(
     avatar: Boolean(newAvatar),
     sameAvatar,
     commitment: deriveProfileKeyCommitment(profileKey, serviceId),
+    phoneNumberSharing: Bytes.toBase64(encryptedPhoneNumberSharing),
   };
 
   return [profileData, encryptedAvatarData];

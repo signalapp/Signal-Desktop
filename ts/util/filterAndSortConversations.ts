@@ -8,6 +8,7 @@ import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 import { WEEK } from './durations';
 import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
 import { countConversationUnreadStats, hasUnread } from './countUnreadStats';
+import { getE164 } from './getE164';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -46,7 +47,13 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
       weight: 0.5,
     },
   ],
-  getFn: fuseGetFnRemoveDiacritics,
+  getFn: (convo, path) => {
+    if (path === 'e164' || (path.length === 1 && path[0] === 'e164')) {
+      return getE164(convo) ?? '';
+    }
+
+    return fuseGetFnRemoveDiacritics(convo, path);
+  },
 };
 
 type CommandRunnerType = (

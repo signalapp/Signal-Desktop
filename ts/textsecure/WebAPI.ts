@@ -674,6 +674,7 @@ export type ProfileRequestDataType = {
   commitment: string;
   name: string;
   paymentAddress: string | null;
+  phoneNumberSharing: string | null;
   version: string;
 };
 
@@ -706,6 +707,7 @@ export type ProfileType = Readonly<{
   about?: string;
   aboutEmoji?: string;
   avatar?: string;
+  phoneNumberSharing?: string;
   unidentifiedAccess?: string;
   unrestrictedUnidentifiedAccess?: string;
   uuid?: string;

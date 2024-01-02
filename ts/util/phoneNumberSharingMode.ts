@@ -19,13 +19,7 @@ export const parsePhoneNumberSharingMode = makeEnumParser(
   PhoneNumberSharingMode.Everybody
 );
 
-export const shouldSharePhoneNumberWith = (
-  conversation: ConversationAttributesType
-): boolean => {
-  if (!isDirectConversation(conversation) || isMe(conversation)) {
-    return false;
-  }
-
+export const isSharingPhoneNumberWithEverybody = (): boolean => {
   const phoneNumberSharingMode = parsePhoneNumberSharingMode(
     window.storage.get('phoneNumberSharingMode')
   );
@@ -39,4 +33,14 @@ export const shouldSharePhoneNumberWith = (
     default:
       throw missingCaseError(phoneNumberSharingMode);
   }
+};
+
+export const shouldSharePhoneNumberWith = (
+  conversation: ConversationAttributesType
+): boolean => {
+  if (!isDirectConversation(conversation) || isMe(conversation)) {
+    return false;
+  }
+
+  return isSharingPhoneNumberWithEverybody();
 };

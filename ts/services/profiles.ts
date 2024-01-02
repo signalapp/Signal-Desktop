@@ -427,6 +427,24 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
       c.unset('aboutEmoji');
     }
 
+    if (profile.phoneNumberSharing) {
+      if (decryptionKey) {
+        const decrypted = decryptProfile(
+          Bytes.fromBase64(profile.phoneNumberSharing),
+          decryptionKey
+        );
+
+        // It should be one byte, but be conservative about it and only
+        // set `notSharingPhoneNumber` to `true` in all cases except [0x01].
+        c.set(
+          'notSharingPhoneNumber',
+          decrypted.length !== 1 || decrypted[0] !== 1
+        );
+      }
+    } else {
+      c.unset('notSharingPhoneNumber');
+    }
+
     if (profile.paymentAddress && isMe(c.attributes)) {
       await window.storage.put('paymentAddress', profile.paymentAddress);
     }

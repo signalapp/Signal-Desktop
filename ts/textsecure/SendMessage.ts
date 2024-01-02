@@ -34,9 +34,7 @@ import type {
   GetProfileUnauthOptionsType,
   GroupCredentialsType,
   GroupLogResponseType,
-  ProfileRequestDataType,
   ProxiedRequestOptionsType,
-  UploadAvatarHeadersType,
   WebAPIType,
 } from './WebAPI';
 import createTaskWithTimeout from './TaskWithTimeout';
@@ -2231,18 +2229,5 @@ export default class MessageSender {
     challengeResponse: Readonly<ChallengeType>
   ): Promise<void> {
     return this.server.sendChallengeResponse(challengeResponse);
-  }
-
-  async putProfile(
-    jsonData: Readonly<ProfileRequestDataType>
-  ): Promise<UploadAvatarHeadersType | undefined> {
-    return this.server.putProfile(jsonData);
-  }
-
-  async uploadAvatar(
-    requestHeaders: Readonly<UploadAvatarHeadersType>,
-    avatarData: Readonly<Uint8Array>
-  ): Promise<string> {
-    return this.server.uploadAvatar(requestHeaders, avatarData);
   }
 }
