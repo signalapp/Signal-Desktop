@@ -5,7 +5,6 @@ import moment from 'moment';
 import {
   isNumber,
   padStart,
-  isTypedArray,
   isFunction,
   isUndefined,
   isString,
@@ -184,42 +183,6 @@ export type ThumbnailType = Pick<
   // Only used when quote needed to make an in-memory thumbnail
   objectUrl?: string;
 };
-
-export async function migrateDataToFileSystem(
-  attachment: AttachmentType,
-  {
-    writeNewAttachmentData,
-    logger,
-  }: {
-    writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
-    logger: LoggerType;
-  }
-): Promise<AttachmentType> {
-  if (!isFunction(writeNewAttachmentData)) {
-    throw new TypeError("'writeNewAttachmentData' must be a function");
-  }
-
-  const { data } = attachment;
-  const attachmentHasData = !isUndefined(data);
-  const shouldSkipSchemaUpgrade = !attachmentHasData;
-
-  if (shouldSkipSchemaUpgrade) {
-    return attachment;
-  }
-
-  // This attachment was already broken by a roundtrip to the database - repair it now
-  if (!isTypedArray(data)) {
-    logger.warn(
-      'migrateDataToFileSystem: Attachment had non-array `data` field; deleting.'
-    );
-    return omit({ ...attachment }, ['data']);
-  }
-
-  const path = await writeNewAttachmentData(data);
-
-  const attachmentWithoutData = omit({ ...attachment, path }, ['data']);
-  return attachmentWithoutData;
-}
 
 // // Incoming message attachment fields
 // {

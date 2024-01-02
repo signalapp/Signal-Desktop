@@ -30,8 +30,11 @@ import {
   getAttachmentSizeBucket,
   getRandomBytes,
   getZeroes,
+  sha256,
 } from './Crypto';
 import { Environment } from './environment';
+import type { AttachmentType } from './types/Attachment';
+import type { ContextType } from './types/Message2';
 
 // This file was split from ts/Crypto.ts because it pulls things in from node, and
 //   too many things pull in Crypto.ts, so it broke storybook.
@@ -805,4 +808,58 @@ class AddMacTransform extends Transform {
 
     done();
   }
+}
+
+// Called during message schema migration. New messages downloaded should have
+// plaintextHash added automatically during decryption / writing to file system.
+export async function addPlaintextHashToAttachment(
+  attachment: AttachmentType,
+  { getAbsoluteAttachmentPath }: ContextType
+): Promise<AttachmentType> {
+  if (!attachment.path) {
+    return attachment;
+  }
+
+  const plaintextHash = await getPlaintextHashForAttachmentOnDisk(
+    getAbsoluteAttachmentPath(attachment.path)
+  );
+
+  if (!plaintextHash) {
+    log.error('addPlaintextHashToAttachment: Failed to generate hash');
+    return attachment;
+  }
+
+  return {
+    ...attachment,
+    plaintextHash,
+  };
+}
+
+async function getPlaintextHashForAttachmentOnDisk(
+  absolutePath: string
+): Promise<string | undefined> {
+  const readStream = createReadStream(absolutePath);
+  const hash = createHash(HashType.size256);
+  try {
+    await pipeline(readStream, hash);
+    const plaintextHash = hash.digest();
+    if (!plaintextHash) {
+      log.error(
+        'addPlaintextHashToAttachment: no hash generated from file; is the file empty?'
+      );
+      return;
+    }
+    return Buffer.from(plaintextHash).toString('hex');
+  } catch (error) {
+    log.error('addPlaintextHashToAttachment: error during file read', error);
+    return undefined;
+  } finally {
+    readStream.close();
+  }
+}
+
+export function getPlaintextHashForInMemoryAttachment(
+  data: Uint8Array
+): string {
+  return Buffer.from(sha256(data)).toString('hex');
 }
