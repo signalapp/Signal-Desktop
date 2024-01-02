@@ -20,7 +20,6 @@ import { Flex } from '../basic/Flex';
 import { TextWithChildren } from '../basic/Text';
 import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
 // eslint-disable-next-line import/order
-import { pick } from 'lodash';
 import { ConversationInteraction } from '../../interactions';
 import { getConversationController } from '../../session/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
@@ -105,12 +104,8 @@ function useAreSameThanOurSide(
 const FollowSettingsButton = (props: PropsForExpirationTimer) => {
   const v2Released = ReleasedFeatures.isUserConfigFeatureReleasedCached();
   const isPrivateAndFriend = useSelectedIsPrivateFriend();
-  const click = useFollowSettingsButtonClick(
-    pick(props, ['disabled', 'expirationMode', 'timespanText', 'timespanSeconds'])
-  );
-  const areSameThanOurs = useAreSameThanOurSide(
-    pick(props, ['disabled', 'expirationMode', 'timespanSeconds'])
-  );
+  const click = useFollowSettingsButtonClick(props);
+  const areSameThanOurs = useAreSameThanOurSide(props);
 
   if (!v2Released || !isPrivateAndFriend) {
     return null;
@@ -119,7 +114,8 @@ const FollowSettingsButton = (props: PropsForExpirationTimer) => {
     props.type === 'fromMe' ||
     props.type === 'fromSync' ||
     props.pubkey === UserUtils.getOurPubKeyStrFromCache() ||
-    areSameThanOurs
+    areSameThanOurs ||
+    props.expirationMode === 'legacy' // we cannot follow settings with legacy mode
   ) {
     return null;
   }
