@@ -9,7 +9,6 @@ import { autoOrientJPEG } from '../util/attachments';
 import {
   captureDimensionsAndScreenshot,
   hasData,
-  migrateDataToFileSystem,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
@@ -34,6 +33,8 @@ import type {
   LinkPreviewWithHydratedData,
 } from './message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './Stickers';
+import { addPlaintextHashToAttachment } from '../AttachmentCrypto';
+import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
 
 export { hasExpiration } from './Message';
 
@@ -118,6 +119,8 @@ export type ContextWithMessageType = ContextType & {
 //     attachment filenames
 // Version 10
 //   - Preview: A new type of attachment can be included in a message.
+// Version 11
+//   - Attachments: add sha256 plaintextHash
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -438,6 +441,11 @@ const toVersion10 = _withSchemaVersion({
   },
 });
 
+const toVersion11 = _withSchemaVersion({
+  schemaVersion: 11,
+  upgrade: _mapAttachments(addPlaintextHashToAttachment),
+});
+
 const VERSIONS = [
   toVersion0,
   toVersion1,
@@ -450,6 +458,7 @@ const VERSIONS = [
   toVersion8,
   toVersion9,
   toVersion10,
+  toVersion11,
 ];
 export const CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 

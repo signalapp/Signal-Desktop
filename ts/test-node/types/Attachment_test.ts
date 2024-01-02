@@ -11,6 +11,7 @@ import * as logger from '../../logging/log';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { DAY } from '../../util/durations';
+import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem';
 
 describe('Attachment', () => {
   describe('getFileExtension', () => {
@@ -420,6 +421,8 @@ describe('Attachment', () => {
         contentType: MIME.IMAGE_JPEG,
         path: 'abc/abcdefgh123456789',
         fileName: 'foo.jpg',
+        plaintextHash:
+          '9dac71e94805b04964a99011d74da584301362712570e98354d535c3cd3fdfca',
         size: 1111,
       };
 
@@ -429,7 +432,7 @@ describe('Attachment', () => {
         return 'abc/abcdefgh123456789';
       };
 
-      const actual = await Attachment.migrateDataToFileSystem(input, {
+      const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,
         logger,
       });
@@ -451,7 +454,7 @@ describe('Attachment', () => {
 
       const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
 
-      const actual = await Attachment.migrateDataToFileSystem(input, {
+      const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,
         logger,
       });
@@ -469,7 +472,7 @@ describe('Attachment', () => {
 
       const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
 
-      const actual = await Attachment.migrateDataToFileSystem(input, {
+      const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,
         logger,
       });

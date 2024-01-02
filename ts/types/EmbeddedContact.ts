@@ -15,11 +15,11 @@ import type {
   AttachmentType,
   AttachmentWithHydratedData,
   UploadedAttachmentType,
-  migrateDataToFileSystem,
 } from './Attachment';
 import { toLogFormat } from './errors';
 import type { LoggerType } from './Logging';
 import type { ServiceIdString } from './ServiceId';
+import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
 
 type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;

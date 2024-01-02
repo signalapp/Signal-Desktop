@@ -376,6 +376,8 @@ describe('Message', () => {
             path: 'abc/abcdefg',
             fileName: 'test\uFFFDfig.exe',
             size: 1111,
+            plaintextHash:
+              'f191b44995ef464dbf1943bc686008c08e95dab78cbdfe7bb5e257a8214d5b15',
           },
         ],
         hasAttachments: 1,
