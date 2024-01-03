@@ -29,7 +29,7 @@ export function SmartDeleteMessagesModal(): JSX.Element | null {
   });
 
   const canDeleteForEveryone = useSelector((state: StateType) => {
-    return canDeleteMessagesForEveryone(state, messageIds);
+    return canDeleteMessagesForEveryone(state, { messageIds, isMe });
   });
   const lastSelectedMessage = useSelector((state: StateType) => {
     return state.conversations.lastSelectedMessage;
