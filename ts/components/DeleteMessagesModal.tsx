@@ -41,7 +41,7 @@ export default function DeleteMessagesModal({
       : i18n('icu:DeleteMessagesModal--deleteForMe'),
   });
 
-  if (canDeleteForEveryone || isMe) {
+  if (canDeleteForEveryone) {
     const tooManyMessages = messageCount > MAX_DELETE_FOR_EVERYONE;
     actions.push({
       'aria-disabled': tooManyMessages,
