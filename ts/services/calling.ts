@@ -752,7 +752,8 @@ export class CallingClass {
                 );
                 const callEvent = getCallEventDetails(
                   callDetails,
-                  localCallEvent
+                  localCallEvent,
+                  'RingRTC.onLocalDeviceStateChanged'
                 );
                 drop(updateCallHistoryFromLocalEvent(callEvent, null));
               }
@@ -1757,12 +1758,16 @@ export class CallingClass {
       const callDetails = getCallDetailsFromEndedDirectCall(
         callId.toString(),
         peerId,
-        peerId, // Incoming call
+        remoteUserId, // Incoming call
         wasVideoCall,
         envelope.timestamp
       );
       const localCallEvent = LocalCallEvent.Missed;
-      const callEvent = getCallEventDetails(callDetails, localCallEvent);
+      const callEvent = getCallEventDetails(
+        callDetails,
+        localCallEvent,
+        'CallingClass.handleCallingMessage'
+      );
       await updateCallHistoryFromLocalEvent(
         callEvent,
         envelope.receivedAtCounter
@@ -2016,7 +2021,8 @@ export class CallingClass {
       });
       const callEvent = getCallEventDetails(
         callDetails,
-        shouldRing ? LocalCallEvent.Ringing : LocalCallEvent.Started
+        shouldRing ? LocalCallEvent.Ringing : LocalCallEvent.Started,
+        'CallingClass.handleGroupCallRingUpdate'
       );
       await updateCallHistoryFromLocalEvent(callEvent, null);
     }
@@ -2108,7 +2114,11 @@ export class CallingClass {
         const localCallEvent = LocalCallEvent.Missed;
         const peerId = getPeerIdFromConversation(conversation.attributes);
         const callDetails = getCallDetailsFromDirectCall(peerId, call);
-        const callEvent = getCallEventDetails(callDetails, localCallEvent);
+        const callEvent = getCallEventDetails(
+          callDetails,
+          localCallEvent,
+          'CallingClass.handleIncomingCall'
+        );
         await updateCallHistoryFromLocalEvent(callEvent, null);
 
         return false;
@@ -2161,7 +2171,11 @@ export class CallingClass {
     );
     const localCallEvent =
       getLocalCallEventFromCallEndedReason(callEndedReason);
-    const callEvent = getCallEventDetails(callDetails, localCallEvent);
+    const callEvent = getCallEventDetails(
+      callDetails,
+      localCallEvent,
+      'CallingClass.handleAutoEndedIncomingCallRequest'
+    );
     await updateCallHistoryFromLocalEvent(callEvent, receivedAtCounter ?? null);
   }
 
@@ -2191,7 +2205,11 @@ export class CallingClass {
       if (localCallEvent != null) {
         const peerId = getPeerIdFromConversation(conversation.attributes);
         const callDetails = getCallDetailsFromDirectCall(peerId, call);
-        const callEvent = getCallEventDetails(callDetails, localCallEvent);
+        const callEvent = getCallEventDetails(
+          callDetails,
+          localCallEvent,
+          'call.handleStateChanged'
+        );
         await updateCallHistoryFromLocalEvent(callEvent, null);
       }
 
@@ -2397,7 +2415,11 @@ export class CallingClass {
           peerId,
           groupCallMeta
         );
-        const callEvent = getCallEventDetails(callDetails, localCallEvent);
+        const callEvent = getCallEventDetails(
+          callDetails,
+          localCallEvent,
+          'CallingClass.updateCallHistoryForGroupCall'
+        );
         await updateCallHistoryFromLocalEvent(callEvent, null);
       }
     }

@@ -3450,7 +3450,10 @@ export default class MessageReceiver
 
     const { receivedAtCounter } = envelope;
 
-    const callEventDetails = getCallEventForProto(callEvent);
+    const callEventDetails = getCallEventForProto(
+      callEvent,
+      'MessageReceiver.handleCallEvent'
+    );
 
     const callEventSync = new CallEventSyncEvent(
       {
