@@ -65,14 +65,25 @@ import type { ConversationModel } from '../models/conversations';
 // -----
 
 export function formatCallEvent(callEvent: CallEventDetails): string {
-  const { callId, peerId, direction, event, type, mode, timestamp } = callEvent;
-  return `CallEvent (${callId}, ${peerId}, ${mode}, ${event}, ${direction}, ${type}, ${mode}, ${timestamp})`;
+  const {
+    callId,
+    peerId,
+    direction,
+    event,
+    eventSource,
+    type,
+    mode,
+    ringerId,
+    timestamp,
+  } = callEvent;
+  const peerIdLog = mode === CallMode.Group ? `groupv2(${peerId})` : peerId;
+  return `CallEvent (${callId}, ${peerIdLog}, ${mode}, ${event}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId}, ${eventSource})`;
 }
 
 export function formatCallHistory(callHistory: CallHistoryDetails): string {
-  const { callId, peerId, direction, status, type, mode, timestamp } =
+  const { callId, peerId, direction, status, type, mode, timestamp, ringerId } =
     callHistory;
-  return `CallHistory (${callId}, ${peerId}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp})`;
+  return `CallHistory (${callId}, ${peerId}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId})`;
 }
 
 export function formatCallHistoryGroup(
@@ -162,7 +173,8 @@ export function convertJoinState(joinState: JoinState): GroupCallJoinState {
 // ----------------------
 
 export function getCallEventForProto(
-  callEventProto: Proto.SyncMessage.ICallEvent
+  callEventProto: Proto.SyncMessage.ICallEvent,
+  eventSource: string
 ): CallEventDetails {
   const callEvent = callEventNormalizeSchema.parse(callEventProto);
   const { callId, peerId, timestamp } = callEvent;
@@ -218,6 +230,7 @@ export function getCallEventForProto(
     direction,
     timestamp,
     event,
+    eventSource,
   });
 }
 
@@ -459,9 +472,10 @@ export function getCallDetailsFromGroupCallMeta(
 
 export function getCallEventDetails(
   callDetails: CallDetails,
-  event: LocalCallEvent
+  event: LocalCallEvent,
+  eventSource: string
 ): CallEventDetails {
-  return callEventDetailsSchema.parse({ ...callDetails, event });
+  return callEventDetailsSchema.parse({ ...callDetails, event, eventSource });
 }
 
 // transitions

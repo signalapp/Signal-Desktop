@@ -79,6 +79,7 @@ export type CallDetails = Readonly<{
 export type CallEventDetails = CallDetails &
   Readonly<{
     event: CallEvent;
+    eventSource: string;
   }>;
 
 export type CallHistoryDetails = CallDetails &
@@ -145,6 +146,7 @@ export const callDetailsSchema = z.object({
 
 export const callEventDetailsSchema = callDetailsSchema.extend({
   event: callEventSchema,
+  eventSource: z.string(),
 }) satisfies z.ZodType<CallEventDetails>;
 
 export const callHistoryDetailsSchema = callDetailsSchema.extend({
