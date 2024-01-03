@@ -56,7 +56,7 @@ import * as Bytes from '../../Bytes';
 import {
   getPropForTimestamp,
   getTargetOfThisEditTimestamp,
-  setPropForTimestamp,
+  getChangesForPropAtTimestamp,
 } from '../../util/editHelpers';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 
@@ -115,7 +115,7 @@ export async function sendNormalMessage(
   // The timestamp identifying the target of this edit; could be the original timestamp
   //   or the most recent edit prior to this one
   const targetOfThisEditTimestamp = getTargetOfThisEditTimestamp({
-    message,
+    message: message.attributes,
     targetTimestamp,
   });
 
@@ -486,7 +486,7 @@ function getMessageRecipients({
   const sendStateByConversationId =
     getPropForTimestamp({
       log,
-      message,
+      message: message.attributes,
       prop: 'sendStateByConversationId',
       targetTimestamp,
     }) || {};
@@ -579,7 +579,7 @@ async function getMessageSendData({
   // Figure out if we need to upload message body as an attachment.
   let body = getPropForTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'body',
     targetTimestamp,
   });
@@ -603,7 +603,7 @@ async function getMessageSendData({
   const preUploadAttachments =
     getPropForTimestamp({
       log,
-      message,
+      message: message.attributes,
       prop: 'attachments',
       targetTimestamp,
     }) || [];
@@ -677,7 +677,7 @@ async function getMessageSendData({
     expireTimer: message.get('expireTimer'),
     bodyRanges: getPropForTimestamp({
       log,
-      message,
+      message: message.attributes,
       prop: 'bodyRanges',
       targetTimestamp,
     }),
@@ -720,7 +720,7 @@ async function uploadSingleAttachment({
   const logId = `uploadSingleAttachment(${message.idForLogging()}`;
   const oldAttachments = getPropForTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'attachments',
     targetTimestamp,
   });
@@ -742,13 +742,16 @@ async function uploadSingleAttachment({
     ...copyCdnFields(uploaded),
   };
 
-  setPropForTimestamp({
+  const attributesToUpdate = getChangesForPropAtTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'attachments',
     targetTimestamp,
     value: newAttachments,
   });
+  if (attributesToUpdate) {
+    message.set(attributesToUpdate);
+  }
 
   return uploaded;
 }
@@ -772,7 +775,7 @@ async function uploadMessageQuote({
   //   sends are failing, let's not add the complication of a cache.
   const startingQuote = getPropForTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'quote',
     targetTimestamp,
   });
@@ -808,7 +811,7 @@ async function uploadMessageQuote({
   const logId = `uploadMessageQuote(${message.idForLogging()}`;
   const oldQuote = getPropForTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'quote',
     targetTimestamp,
   });
@@ -842,13 +845,16 @@ async function uploadMessageQuote({
       };
     }),
   };
-  setPropForTimestamp({
+  const attributesToUpdate = getChangesForPropAtTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'quote',
     targetTimestamp,
     value: newQuote,
   });
+  if (attributesToUpdate) {
+    message.set(attributesToUpdate);
+  }
 
   return {
     isGiftBadge: loadedQuote.isGiftBadge,
@@ -879,7 +885,7 @@ async function uploadMessagePreviews({
   // attachments.
   const startingPreview = getPropForTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'preview',
     targetTimestamp,
   });
@@ -919,7 +925,7 @@ async function uploadMessagePreviews({
   const logId = `uploadMessagePreviews(${message.idForLogging()}`;
   const oldPreview = getPropForTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'preview',
     targetTimestamp,
   });
@@ -945,13 +951,16 @@ async function uploadMessagePreviews({
     };
   });
 
-  setPropForTimestamp({
+  const attributesToUpdate = getChangesForPropAtTimestamp({
     log,
-    message,
+    message: message.attributes,
     prop: 'preview',
     targetTimestamp,
     value: newPreview,
   });
+  if (attributesToUpdate) {
+    message.set(attributesToUpdate);
+  }
 
   return uploadedPreviews;
 }
@@ -1119,7 +1128,7 @@ function didSendToEveryone({
   const sendStateByConversationId =
     getPropForTimestamp({
       log,
-      message,
+      message: message.attributes,
       prop: 'sendStateByConversationId',
       targetTimestamp,
     }) || {};

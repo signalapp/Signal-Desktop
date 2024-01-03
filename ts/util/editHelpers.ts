@@ -7,8 +7,6 @@ import { strictAssert } from './assert';
 
 import type { EditHistoryType, MessageAttributesType } from '../model-types';
 import type { LoggerType } from '../types/Logging';
-import { getMessageIdForLogging } from './idForLogging';
-import type { MessageModel } from '../models/messages';
 
 // The tricky bit for this function is if we are on our second+ attempt to send a given
 //   edit, we're still sending that edit.
@@ -16,11 +14,13 @@ export function getTargetOfThisEditTimestamp({
   message,
   targetTimestamp,
 }: {
-  message: MessageModel;
+  message: MessageAttributesType;
   targetTimestamp: number;
 }): number {
-  const originalTimestamp = message.get('timestamp');
-  const editHistory = message.get('editHistory') || [];
+  const { timestamp: originalTimestamp, editHistory } = message;
+  if (!editHistory) {
+    return originalTimestamp;
+  }
 
   const sentItems = editHistory.filter(item => {
     return item.timestamp <= targetTimestamp;
@@ -52,18 +52,13 @@ export function getPropForTimestamp<T extends keyof EditHistoryType>({
   targetTimestamp,
 }: {
   log: LoggerType;
-  message: MessageModel | MessageAttributesType;
+  message: MessageAttributesType;
   prop: T;
   targetTimestamp: number;
 }): EditHistoryType[T] {
-  const attributes =
-    message instanceof window.Whisper.Message ? message.attributes : message;
+  const logId = `getPropForTimestamp(${targetTimestamp}})`;
 
-  const logId = `getPropForTimestamp(${getMessageIdForLogging(
-    attributes
-  )}, target=${targetTimestamp}})`;
-
-  const { editHistory } = attributes;
+  const { editHistory } = message;
   const targetEdit = editHistory?.find(
     item => item.timestamp === targetTimestamp
   );
@@ -71,13 +66,13 @@ export function getPropForTimestamp<T extends keyof EditHistoryType>({
     if (editHistory) {
       log.warn(`${logId}: No edit found, using top-level data`);
     }
-    return attributes[prop];
+    return message[prop];
   }
 
   return targetEdit[prop];
 }
 
-export function setPropForTimestamp<T extends keyof EditHistoryType>({
+export function getChangesForPropAtTimestamp<T extends keyof EditHistoryType>({
   log,
   message,
   prop,
@@ -85,48 +80,58 @@ export function setPropForTimestamp<T extends keyof EditHistoryType>({
   value,
 }: {
   log: LoggerType;
-  message: MessageModel;
+  message: MessageAttributesType;
   prop: T;
   targetTimestamp: number;
   value: EditHistoryType[T];
-}): void {
-  const logId = `setPropForTimestamp(${message.idForLogging()}, target=${targetTimestamp}})`;
+}): Partial<MessageAttributesType> | undefined {
+  const logId = `getChangesForPropAtTimestamp(${targetTimestamp})`;
 
-  const editHistory = message.get('editHistory');
-  const targetEditIndex = editHistory?.findIndex(
-    item => item.timestamp === targetTimestamp
-  );
-  const targetEdit =
-    editHistory && isNumber(targetEditIndex)
+  const { editHistory } = message;
+  let partialProps: Partial<MessageAttributesType> | undefined;
+
+  if (editHistory) {
+    const targetEditIndex = editHistory.findIndex(
+      item => item.timestamp === targetTimestamp
+    );
+    const targetEdit = isNumber(targetEditIndex)
       ? editHistory[targetEditIndex]
       : undefined;
 
-  if (!targetEdit) {
-    if (editHistory) {
-      log.warn(`${logId}: No edit found, updating top-level data`);
+    if (!targetEdit) {
+      if (editHistory) {
+        log.warn(`${logId}: No edit found, updating top-level data`);
+      }
+      return {
+        [prop]: value,
+      };
     }
-    message.set({
-      [prop]: value,
-    });
-    return;
+
+    strictAssert(
+      isNumber(targetEditIndex),
+      'Got targetEdit, but no targetEditIndex'
+    );
+
+    const newEditHistory = [...editHistory];
+    newEditHistory[targetEditIndex] = { ...targetEdit, [prop]: value };
+
+    partialProps = {
+      editHistory: newEditHistory,
+    };
   }
-
-  strictAssert(editHistory, 'Got targetEdit, but no editHistory');
-  strictAssert(
-    isNumber(targetEditIndex),
-    'Got targetEdit, but no targetEditIndex'
-  );
-
-  const newEditHistory = [...editHistory];
-  newEditHistory[targetEditIndex] = { ...targetEdit, [prop]: value };
-
-  message.set('editHistory', newEditHistory);
 
   // We always edit the top-level attribute if this is the most recent send
-  const editMessageTimestamp = message.get('editMessageTimestamp');
-  if (!editMessageTimestamp || editMessageTimestamp === targetTimestamp) {
-    message.set({
+  const { editMessageTimestamp } = message;
+  if (
+    !editHistory ||
+    !editMessageTimestamp ||
+    editMessageTimestamp === targetTimestamp
+  ) {
+    partialProps = {
+      ...partialProps,
       [prop]: value,
-    });
+    };
   }
+
+  return partialProps;
 }
