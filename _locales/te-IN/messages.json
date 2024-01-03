@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {{first}, {second} మరియు {others,number} ఇతర ఈ కాల్‌లో ఉన్నాయి} other {{first}, {second}, మరియు {others,number} ఇతరులు ఈ కాల్‌లో ఉన్నారు}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Signal {first}, {second}, మరియు {others,number} ఇతరవాటిని రింగ్ చేస్తుంది.} other {Signal {first}, {second}, మరియు {others,number} ఇతరాలను రింగ్ చేస్తుంది.}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {{first}, {second}, మరియు {others,number} ఇతరులు నోటిఫై చేయబడతారు} other {{first}, {second}, మరియు {others,number} ఇతరులు నోటిఫై చేయబడతారు}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "అప్లికేషన్ డేటాను తొలగించండి",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "అన్ని సందేశాలు మరియు భద్రపరచబడిన ఖాతా సమాచారమును తొలగిస్తూ, ఇది అప్లికేషన్‌లోని డేటా అంతటినీ తొలగిస్తుంది.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "డేటాను తొలగించండి",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Signal డెస్క్‌టాప్ యొక్క ఈ వెర్షన్ నుండి మొత్తం డేటా మరియు సందేశాలను తొలగించేదా? మీరు ఎల్లప్పుడూ ఈ డెస్క్‌టాప్‌ను మళ్ళీ లింక్ చేయవచ్చు, కానీ మీ సందేశాలు రీస్టోర్ కావు. మీ ఫోన్ లేదా ఇతర లింక్ చేయబడిన పరికరాలలో మీ Signal ఖాతా మరియు డేటా తొలగించబడవు.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {{group1}, {group2}, {group3} మరియు {remainingCount,number} మరో గ్రూపు సభ్యుడు} other {{group1}, {group2}, {group3} మరియు మరిన్నింటి{remainingCount,number} గ్రూపులలో సభ్యుడు}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName}, మరియు {overflowCount,number} మరో వ్యక్తి చేయి పైకెత్తారు.} other {{name}, {otherName}, మరియు {overflowCount,number} మరింత మంది చేయి పైకెత్తారు.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {ఈ సందేశానికి {max,number} సవరణ మాత్రమే వర్తింపచేయవచ్చు.} other {ఈ సందేశానికి {max,number} సవరణలు మాత్రమే వర్తింపచేయవచ్చు.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {{memberName} 1 వ్యక్తిని గ్రూపుకు ఆహ్వానించారు.} other {{count,number} మంది వ్యక్తులను {memberName} గ్రూపుకు ఆహ్వానించారు.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {గ్రూపుకు 1 వ్యక్తి ఆహ్వానించబడ్డాడు.} other {గ్రూపుకు {count,number} మంది వ్యక్తులు ఆహ్వానించబడ్డారు.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {{memberName} ద్వారా ఆహ్వానించబడిన {count,number} వ్యక్తి కొరకు {adminName} గ్రూపుకు ఆహ్వానమును ఉపసంహరించుకున్నారు.} other {{memberName} ద్వారా ఆహ్వానించబడిన {count,number} మంది కొరకు {adminName} గ్రూపుకు ఆహ్వానాలను ఉపసంహరించుకున్నారు.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {గ్రూపు నుండి {count,number} సభ్యుడు తొలగించబడినారు.} other {గ్రూపు నుండి {count,number} మంది సభ్యులు తొలగించబడినారు.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number}ఎంచుకోబడింది} other {{count,number} ఎంచుకోబడింది}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {{num,number} వ్యక్తులు మినహాయించబడ్డారు} other {{num,number} మంది వ్యక్తులు మినహాయించబడ్డారు}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "ఈ విడుదలకు వారు చేసిన సహాయానికి {linkToGithub1} మరియు {linkToGithub2}కు మా కృతజ్ఞతలు."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "మిస్డ్ కాల్‌ను మిస్ అవ్వనిదిగా మార్చండి. ఇప్పుడు మీరు ఏదైనా కాల్ ఈవెంట్‌పై కుడి-క్లిక్ చేసి, దానిని చాట్ నుండి తొలగించవచ్చు."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "పర్షియన్ కోసం డిఫాల్ట్ ఫాంట్, ఆ భాషను ఎంచుకున్నప్పుడు (Signal సెట్టింగ్‌లు > స్వరూపం > భాష) చదివేందుకు వీలుగా మెరుగుపరచడానికి అది Vazirmatnకి అప్‌డేట్ చేయబడింది. ధన్యవాదాలు, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "స్వర సందేశాలలోని ప్లేబ్యాక్ స్పీడ్ ఇండికేటర్‌లు కొంచెం కొత్త రూపాన్ని కలిగి ఉంటాయి. ప్రదేశాన్ని X సూచిస్తుంది. ధన్యవాదాలు, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "ఈ విడుదలకు సహకరించినందుకు మేము {linkToGithub1}, {linkToGithub2}, మరియు {linkToGithub3} కు కూడా ధన్యవాదాలు తెలియజేయాలని అనుకుంటున్నాము."
   }
 }
