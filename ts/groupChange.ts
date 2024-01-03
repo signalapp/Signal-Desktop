@@ -773,10 +773,8 @@ export function renderChangeDetail<T>(
       );
     }
 
-    // We default to the user canceling their request, because it is far more likely that
-    //   if an admin does the denial, we'll get a change event from them.
     return i18n(
-      'icu:GroupV2--admin-approval-remove-one--other--own',
+      'icu:GroupV2--admin-approval-remove-one--other--unknown',
 
       { joinerName: renderContact(aci) }
     );
