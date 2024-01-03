@@ -4355,6 +4355,10 @@
     "messageformat": "{adminName} denied a request to join the group from {joinerName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "A request to join the group from {joinerName} was denied.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} requested and cancelled their request to join via the group link",
     "description": "Shown in timeline or conversation preview when v2 group changes"
