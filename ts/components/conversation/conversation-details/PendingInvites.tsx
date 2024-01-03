@@ -339,7 +339,11 @@ function MembersPendingAdminApproval({
               {...membership.member}
             />
           }
-          label={membership.member.title}
+          label={
+            <span className="ConversationDetails__MemberName">
+              {membership.member.title}
+            </span>
+          }
           actions={
             conversation.areWeAdmin ? (
               <>
@@ -443,7 +447,11 @@ function MembersPendingProfileKey({
                   {...membership.member}
                 />
               }
-              label={membership.member.title}
+              label={
+                <span className="ConversationDetails__MemberName">
+                  {membership.member.title}
+                </span>
+              }
               actions={
                 conversation.areWeAdmin ? (
                   <ConversationDetailsIcon

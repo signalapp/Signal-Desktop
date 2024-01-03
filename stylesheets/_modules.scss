@@ -2323,6 +2323,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   max-width: 750px;
   margin-block: 0;
   margin-inline: auto;
+  user-select: none;
 
   @at-root .conversation #{&} {
     overflow-y: auto;
