@@ -15,9 +15,15 @@ import * as MIME from '../types/MIME';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
 
-// Upgrade steps
-// NOTE: This step strips all EXIF metadata from JPEG images as
-// part of re-encoding the image:
+// Upgrade steps NOTE: This step strips all EXIF metadata from JPEG images as part of
+// re-encoding the image:
+
+// When sending an image:
+// 1. During composition, images are passed through handleImageAttachment. If needed, this
+//    scales them down to high-quality (level 3).
+// 2. Draft images are then written to disk as a draft image (so there is a `path`)
+// 3. On send, the message schema is upgraded, triggering this function
+
 export async function autoOrientJPEG(
   attachment: AttachmentType,
   { logger }: { logger: LoggerType },
@@ -36,7 +42,6 @@ export async function autoOrientJPEG(
   if (!canBeTranscoded(attachment)) {
     return attachment;
   }
-
   // If we haven't downloaded the attachment yet, we won't have the data.
   // All images go through handleImageAttachment before being sent and thus have
   // already been scaled to level, oriented, stripped of exif data, and saved
@@ -48,15 +53,15 @@ export async function autoOrientJPEG(
     return attachment;
   }
   let scaleTarget: string | Blob;
-  if (path) {
-    scaleTarget = window.Signal.Migrations.getAbsoluteAttachmentPath(path);
-  } else {
-    if (!data) {
-      return attachment;
-    }
+  if (data) {
     scaleTarget = new Blob([data], {
       type: attachment.contentType,
     });
+  } else {
+    if (!path) {
+      return attachment;
+    }
+    scaleTarget = window.Signal.Migrations.getAbsoluteAttachmentPath(path);
   }
 
   try {
