@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {Sila {first}, {second}, at {others,number} other ay nasa call na ito} other {Sila {first}, {second}, at {others,number} others ay nasa call na ito}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Tatawagan ng Signal sila {first}, {second}, at {others,number} other} other {Tatawagan ng Signal sila {first}, {second}, at {others,number} others}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {SIla {first}, {second}, at {others,number} other ay ino-notify} other {Sila {first}, {second}, at {others,number} others ay ino-notify}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Burahin ang application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Buburahin nito ang lahat ng data sa application, kasama ang lahat ng messages at naka-save na account information.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Burahin ang data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Gusto mo bang burahin ang lahat ng data at messages mula sa version na ito ng Signal Desktop? Pwede mong palaging i-relink ang desktop na ito, pero hindi na maibabalik ang messages mo. Hindi mabubura ang iyong Signal account at data nito sa phone mo o ibang linked devices.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {Member ng {group1}, {group2}, {group3}, at {remainingCount,number} pa} other {Member ng {group1}, {group2}, {group3}, at {remainingCount,number} pang iba}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {Nagtaas ng kamay sila {name}, {otherName}, at {overflowCount,number} pa.} other {Nagtaas ng kamay sila {name}, {otherName}, at {overflowCount,number} pang iba.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {{max,number} beses lang pwedeng i-edit ang message na 'to.} other {{max,number} beses lang pwedeng i-edit ang message na 'to.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {Nag-invite si {memberName} ng 1 tao sa group.} other {Nag-invite si {memberName} ng {count,number} tao sa group.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {In-invite ang 1 tao sa group.} other {In-invite ang {count,number} tao sa group.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {Binawi ni {adminName} ang group invitations ng {count,number} taong inimbita ni {memberName}.} other {Binawi ni {adminName} ang group invitations ng {count,number} taong inimbita ni {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {{count,number} member ang natanggal mula sa group.} other {{count,number} members ang natanggal mula sa group.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number} selected} other {{count,number} selected}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {{num,number} person excluded} other {{num,number} people excluded}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Maraming salamat kanila {linkToGithub1} at {linkToGithub2} sa pagtulong nila sa release na ito."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Ngayon, pwede mo nang i-right click ang anumang call event at burahin ito mula sa chat."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Ang default font para sa Persian ay updated na sa Vazirmatn para ma-improve ang readability kapag ito ang napiling wika (Signal Settings > Appearance > Language). Maraming salamat, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Ang playback speed indicators sa voice messages ay may bagong itsura. Maraming salamat, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Gusto naming pasalamatan din ang {linkToGithub1}, {linkToGithub2}, at {linkToGithub3} sa kanilang kontribusyon sa release na ito."
   }
 }

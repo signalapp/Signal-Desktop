@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {{first}- ഉം, {second} - ഉം പിന്നെ {others,number} - ഉം ഈ കോളിലുണ്ട്} other {{first} - ഉം, {second} - ഉം പിന്നെ {others,number} ആളുകളും ഈ കോളിലുണ്ട്}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Signal {first}, {second} നെയും മറ്റ് {others,number} പേരെയും വിളിക്കും} other {Signal {first}, {second} നെയും മറ്റ് {others,number} പേരെയും വിളിക്കും}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {{first}, {second} യെയും മറ്റ് {others,number} പേരെയും അറിയിക്കും} other {{first}, {second} യെയും മറ്റ് {others,number} പേരെയും അറിയിക്കും}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "ആപ്പ് ഡാറ്റ ഇല്ലാതാക്കുക",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "ഇത് ആപ്ലിക്കേഷനിലെ എല്ലാ ഡാറ്റയും മായ്‌ക്കുക-യും എല്ലാ സന്ദേശങ്ങളും സംരക്ഷിച്ച അക്കൗണ്ട് വിവരങ്ങളും നീക്കം ചെയ്യുകയും ചെയ്യും.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "ഡാറ്റ ഇല്ലാതാക്കുക",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Signal Desktop-ന്റെ ഈ പതിപ്പിൽ നിന്ന് എല്ലാ ഡാറ്റയും സന്ദേശങ്ങളും ഇല്ലാതാക്കണോ? നിങ്ങൾക്ക് എല്ലായ്‌പ്പോഴും ഈ ഡെസ്‌ക്‌ടോപ്പ് വീണ്ടും ലിങ്ക് ചെയ്യാം, എന്നാൽ നിങ്ങളുടെ സന്ദേശങ്ങൾ പുനഃസ്ഥാപിക്കില്ല. നിങ്ങളുടെ ഫോണിലെയോ മറ്റ് ലിങ്ക് ചെയ്‌തിരിക്കുന്ന ഉപകരണങ്ങളിലെയോ നിങ്ങളുടെ Signal അക്കൗണ്ടും ഡാറ്റയും ഇല്ലാതാക്കില്ല.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {{group1}, {group2}, {group3} എന്നിവയിലെയും മറ്റ് {remainingCount,number} -ലെയും അംഗം} other {{group1}, {group2}, {group3} എന്നിവയിലെയും മറ്റ് {remainingCount,number} -ലെയും അംഗം}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName}, എന്നിവരും മറ്റ് {overflowCount,number} ആളും കൈ ഉയർത്തി.} other {{name}, {otherName}, എന്നിവരും മറ്റ് {overflowCount,number} പേരും കൈ ഉയർത്തി.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {ഈ സന്ദേശത്തിന് {max,number} എഡിറ്റ് മാത്രമെ വരുത്താനാകൂ.} other {ഈ സന്ദേശത്തിന് {max,number} എഡിറ്റുകൾ മാത്രമെ വരുത്താനാകൂ.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {{memberName} 1 ആളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.} other {{memberName} {count,number} ആളുകളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {1 ആളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.} other {{count,number} ആളുകളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {{memberName} ക്ഷണിച്ച {count,number} ആൾക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ {adminName} റദ്ദാക്കി.} other {{memberName} ക്ഷണിച്ച {count,number} പേർക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ {adminName} റദ്ദാക്കി.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {{count,number} അംഗത്തെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു.} other {{count,number} അംഗങ്ങളെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number} തിരഞ്ഞെടുത്തു} other {{count,number} തിരഞ്ഞെടുത്തു}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {{num,number} ആളെ ഒഴിവാക്കി} other {{num,number} പേരെ ഒഴിവാക്കി}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "ഈ റിലീസുമായി ബന്ധപ്പെട്ട സഹായത്തിന് {linkToGithub1} , {linkToGithub2} എന്നിവർക്ക് നന്ദി."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "മിസ്‌ഡ് കോളിനെ, കാണാതെ പോകാത്തതാക്കി മാറ്റൂ. ഇപ്പോൾ നിങ്ങൾക്ക് ഏത് കോൾ ഇവന്റിലും റൈറ്റ് ക്ലിക്ക് ചെയ്ത് അത് ചാറ്റിൽ നിന്ന് ഇല്ലാതാക്കാം."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "പേർഷ്യൻ ഭാഷ തിരഞ്ഞെടുക്കുമ്പോൾ വായനാക്ഷമത മെച്ചപ്പെടുത്തുന്നതിനായി അതിന്റെ ഡിഫോൾട്ട് ഫോണ്ട് Vazirmatn-ലേക്ക് അപ്ഡേറ്റ് ചെയ്തിട്ടുണ്ട് (Signal ക്രമീകരണങ്ങൾ > ദൃശ്യമാകുന്ന രീതി > ഭാഷ). നന്ദി, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "വോയ്‌സ് സന്ദേശങ്ങളിലെ പ്ലേബാക്ക് സ്പീഡ് ഇൻഡിക്കേറ്ററുകൾക്ക് പുതുരൂപം വന്നിരിക്കുന്നു. സ്പോട്ടിനെ X എന്ന് അടയാളപ്പെടുത്തുന്നു. നന്ദി, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "ഈ റിലീസുമായി ബന്ധപ്പെട്ട സംഭാവനകൾക്ക് {linkToGithub1}, {linkToGithub2}, {linkToGithub3} എന്നിവരോട് ഞങ്ങൾ നന്ദി അറിയിക്കുന്നു."
   }
 }

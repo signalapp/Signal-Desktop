@@ -421,7 +421,7 @@
     "description": "Shown in a context menu for a contact, allows the user to remove the contact from the contact list"
   },
   "icu:ContactListItem__menu__block": {
-    "messageformat": "Persoon blokkeren",
+    "messageformat": "Blokkeren",
     "description": "Shown in a context menu for a contact, allows the user to block the contact"
   },
   "icu:ContactListItem__remove--title": {
@@ -585,7 +585,7 @@
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "icu:membersNeedingVerification": {
-    "messageformat": "Je veiligheidsnummers met deze groepsleden zijn veranderd sinds de laatste verificatie. Klik op een groepslid om je nieuwe veiligheidsnummer met hem te bekijken.",
+    "messageformat": "Je veiligheidsnummers met deze groepsleden zijn veranderd sinds de laatste verificatie. Klik op een groepslid om je nieuwe veiligheidsnummer met hen te bekijken.",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
@@ -1491,7 +1491,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat hij of zij iets naar je probeerde te verzenden in een één-op-één-gesprek of in een groepsgesprek.",
+    "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat deze persoon iets naar je probeerde te verzenden in een één-op-één-gesprek of in een groepsgesprek.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "icu:DeliveryIssue--summary--group": {
@@ -1499,7 +1499,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:ChangeNumber--notification": {
-    "messageformat": "{sender} heeft zijn of haar telefoonnummer gewijzigd",
+    "messageformat": "{sender} heeft diens telefoonnummer gewijzigd",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {{first}, {second} en {others,number} ander zijn in deze groepsoproep aanwezig} other {{first}, {second} en {others,number} anderen zijn in deze groepsoproep aanwezig}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Signal zal {first}, {second} en {others,number} ander bellen} other {Signal zal {first}, {second} en {others,number} anderen bellen}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {{first}, {second} en {others,number} ander krijgen hier een melding van} other {{first}, {second}en {others,number} anderen krijgen hier een melding van}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1890,11 +1890,11 @@
     "description": "Toast that appears when someone stops presenting"
   },
   "icu:calling__presenting--person-ongoing": {
-    "messageformat": "{name} laat zijn of haar scherm zien",
+    "messageformat": "{name} laat een scherm zien",
     "description": "Title of call when someone is presenting"
   },
   "icu:calling__presenting--person-stopped": {
-    "messageformat": "{name} laat niet langer zijn of haar scherm zien",
+    "messageformat": "{name} laat niet langer het scherm zien",
     "description": "Toast that appears when someone stops presenting"
   },
   "icu:calling__presenting--permission-title": {
@@ -1930,7 +1930,7 @@
     "description": "Description of the always relay calls setting"
   },
   "icu:alwaysRelayCallsDetail": {
-    "messageformat": "Om te voorkomen dat je gesprekspartner je IP-adres kan achterhalen worden Signal-oproepen met niet-contactpersonen altijd omgeleid via de Signal-server. Door deze optie in te schakelen wordt dat ook gedaan voor Signal-oproepen met contacten die wel in je contactenlijst staan. Dit leidt echter tot een verminderde geluids- en videokwaliteit.",
+    "messageformat": "Leid alle oproepen om via de Signal-servers zodat je contacten je IP-adres niet kunnen achterhalen. Als je dit inschakelt, zal de gesprekskwaliteit verminderen.",
     "description": "Details describing the always relay calls setting"
   },
   "icu:permissions": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Applicatiegegevens wissen",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Hiermee worden alle gegevens in de applicatie gewist, evenals alle berichten en opgeslagen accountinformatie.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Gegevens wissen",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je kunt dit apparaat altijd opnieuw koppelen, maar je berichten worden niet hersteld. Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -2232,11 +2232,11 @@
     "description": "Description for incoming calls setting"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} heeft zijn of haar profielnaam van “{oldProfile}” naar “{newProfile}” gewijzigd.",
+    "messageformat": "{sender} heeft diens profielnaam van “{oldProfile}” naar “{newProfile}” gewijzigd.",
     "description": "Description for incoming calls setting"
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} heeft zijn of haar profielnaam naar “{newProfile}” gewijzigd.",
+    "messageformat": "{oldProfile} heeft diens profielnaam naar “{newProfile}” gewijzigd.",
     "description": "Shown when a contact not in your address book changes their profile name"
   },
   "icu:SafetyNumberModal__title": {
@@ -3301,15 +3301,15 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Wil je berichten van {name} ontvangen en sta je toe dat hij of zij je profielnaam en -foto kan zien? Als je leesbevestigingen hebt ingeschakeld kan hij of zij die nog niet zien totdat je de uitnodiging hebt aanvaard.",
+    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Als je leesbevestigingen hebt ingeschakeld kan hij of zij die nog niet zien totdat je de uitnodiging hebt aanvaard.",
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Wil je {name} jou een bericht laten sturen en je naam en foto met hen delen? Je hebt deze persoon in het verleden verwijderd.",
+    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Je hebt deze persoon in het verleden verwijderd.",
     "description": "Shown as the message for a message request in a hidden conversation"
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "Wil je berichten van {name} ontvangen en sta je toe dat diegene je profielnaam en -foto kan zien? Totdat je diegene hebt gedeblokkeerd, zul je geen berichten of oproepen ontvangen en kan dit contact veranderingen in je profiel niet zien.",
+    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Totdat je deze persoon hebt gedeblokkeerd, zul je geen berichten ontvangen.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "icu:MessageRequests--message-group": {
@@ -3317,11 +3317,11 @@
     "description": "Shown as the message for a message request in a group"
   },
   "icu:MessageRequests--message-group-blocked": {
-    "messageformat": "Wil je weer berichten van deze groep ontvangen en sta je toe dat alle leden van de groep je profielnaam en -foto kunnen zien? Totdat je de groep hebt gedeblokkeerd, zul je geen berichten of oproepen ontvangen en kunnen leden van deze groep veranderingen van je profiel niet zien.",
+    "messageformat": "Wil je weer berichten van deze groep ontvangen en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Totdat je de groep hebt gedeblokkeerd, zul je geen berichten of oproepen ontvangen en kunnen leden van deze groep veranderingen van je profiel niet zien.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "icu:MessageRequests--block": {
-    "messageformat": "Persoon blokkeren",
+    "messageformat": "Blokkeren",
     "description": "Shown as a button to let the user block a message request"
   },
   "icu:MessageRequests--unblock": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {Lid van {group1}, {group2}, {group3} en {remainingCount,number} andere groep} other {Lid van {group1}, {group2}, {group3} en {remainingCount,number} andere groepen}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} en {overflowCount,number} steken hun hand op.} other {{name}, {otherName} en {overflowCount,number} steken hun hand op.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {Dit bericht kan slechts {max,number} keer bewerkt worden.} other {Dit bericht kan slechts {max,number} keren bewerkt worden.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4077,15 +4077,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--other--other": {
-    "messageformat": "{adderName} voegde {addeeName} toe.",
+    "messageformat": "{adderName} heeft {addeeName} toegevoegd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--other--you": {
-    "messageformat": "Je voegde {memberName} toe.",
+    "messageformat": "Je hebt {memberName} toegevoegd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--other--unknown": {
-    "messageformat": "Een groepslid voegde {memberName} toe.",
+    "messageformat": "Een groepslid heeft {memberName} toegevoegd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--you--other": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {{memberName} heeft {count,number} persoon uitgenodigd om lid te worden van de groep.} other {{memberName} heeft {count,number} personen uitgenodigd om lid te worden van de groep.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {{count,number} persoon is uitgenodigd om lid te worden van de groep.} other {{count,number} personen zijn uitgenodigd om lid te worden van de groep.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4253,11 +4253,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-own--to-you": {
-    "messageformat": "{inviterName} heeft zijn of haar uitnodiging om lid te worden van een groep welke aan jou was verstuurd ingetrokken.",
+    "messageformat": "{inviterName} heeft de uitnodiging aan jou om lid te worden van een groep ingetrokken.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-own--unknown": {
-    "messageformat": "{inviterName} heeft zijn of haar uitnodiging aan één persoon ingetrokken.",
+    "messageformat": "{inviterName} heeft de uitnodiging aan één persoon ingetrokken.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--one--unknown": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {{adminName} heeft de uitnodiging voor de groep ingetrokken voor {count,number} persoon die was uitgenodigd door {memberName}.} other {{adminName} heeft de uitnodiging voor de groep ingetrokken voor {count,number} personen die waren uitgenodigd door {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4505,7 +4505,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--invited--one": {
-    "messageformat": "Dit groepslid zal opnieuw een uitnodiging ontvangen om tot de groep toe te treden en hij of zij zal geen berichten ontvangen zolang hij of zij de uitnodiging geaccepteerd heeft:",
+    "messageformat": "Dit groepslid zal opnieuw een uitnodiging ontvangen om tot de groep toe te treden en deze persoon zal geen berichten ontvangen totdat die de uitnodiging heeft geaccepteerd:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {{count,number} lid is uit de groep verwijderd.} other {{count,number} leden zijn uit de groep verwijderd.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4749,7 +4749,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "icu:ConversationDetailsActions--block-group-modal-confirm": {
-    "messageformat": "Persoon blokkeren",
+    "messageformat": "Blokkeren",
     "description": "This is the modal button to confirm blocking a group"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-content": {
@@ -4857,7 +4857,7 @@
     "description": "This is the modal content when confirming denying a group request to join"
   },
   "icu:PendingRequests--deny-for--with-link": {
-    "messageformat": "Wil je het lidmaatschapverzoek van “{name}” afwijzen? Als je dit doet dan kan hij of zij niet opnieuw via de groepslink verzoeken om lid te worden van de groep.",
+    "messageformat": "Wil je het lidmaatschapverzoek van “{name}” afwijzen? Als je dit doet dan kan deze persoon niet opnieuw via de groepslink verzoeken om lid te worden van de groep.",
     "description": "This is the modal content when confirming denying a group request to join"
   },
   "icu:PendingInvites--invites": {
@@ -4905,7 +4905,7 @@
     "description": "Information shown below the pending admin approval list"
   },
   "icu:PendingInvites--info": {
-    "messageformat": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te aanvaarden, dan zullen op dat moment zijn of haar profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet aanvaard hebben zullen ze nog geen groepsberichten ontvangen.",
+    "messageformat": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te aanvaarden, dan zullen op dat moment diens profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet aanvaard hebben zullen ze nog geen groepsberichten ontvangen.",
     "description": "Information shown below the invite list"
   },
   "icu:PendingRequests--block--button": {
@@ -4917,7 +4917,7 @@
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "icu:PendingRequests--block--contents": {
-    "messageformat": "{name} zal niet langer via de groepslink lid kunnen worden van deze groep en ook niet kunnen verzoeken om lid te worden van de groep. Hij of zij kan dan nog wel lid worden via een uitnodiging.",
+    "messageformat": "{name} zal niet langer via de groepslink lid kunnen worden van deze groep en ook niet kunnen verzoeken om lid te worden van de groep. Deze persoon kan dan nog wel lid worden via een uitnodiging.",
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "icu:PendingRequests--block--confirm": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number} geselecteerd} other {{count,number} geselecteerd}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -5017,7 +5017,7 @@
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "Hij of zij is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat hij of zij de uitnodiging aanvaard.",
+    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging aanvaard.",
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5181,7 +5181,7 @@
     "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "Heeft recent zijn of haar profielnaam gewijzigd van “{oldName}” naar “{newName}”",
+    "messageformat": "Heeft recent diens profielnaam gewijzigd van “{oldName}” naar “{newName}”",
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
@@ -5193,7 +5193,7 @@
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "icu:RemoveGroupMemberConfirmation__description__with-link": {
-    "messageformat": "Wil je “{name}” uit de groep verwijderen? Als je dit doet kan hij of zij niet opnieuw lid te worden van de groep via de groepslink.",
+    "messageformat": "Wil je “{name}” uit de groep verwijderen? Als je dit doet kan deze persoon niet opnieuw lid te worden van de groep via de groepslink.",
     "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "icu:CaptchaDialog__title": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {Voor {num,number} persoon verborgen} other {Voor {num,number} personen verborgen}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Dank aan {linkToGithub1} en {linkToGithub2} voor hun hulp bij deze release."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Maak van een gemiste oproep iets onmisbaars. Je kunt nu met de rechtermuisknop op een oproepgebeurtenis klikken en deze uit een chat verwijderen."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Bij Perzisch als taalkeuze (Signal-instellingen > Uiterlijk > Taal) is het standaardlettertype bijgewerkt naar Vazirmatn voor betere leesbaarheid. Bedankt {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "De indicatoren voor de afspeelsnelheid van audioberichten hebben een nieuw uiterlijk. Bedankt {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "We willen ook graag {linkToGithub1}, {linkToGithub2} en {linkToGithub3} bedanken voor hun bijdragen aan deze release."
   }
 }

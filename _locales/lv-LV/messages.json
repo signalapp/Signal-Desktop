@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, zero {{first}, {second} un {others,number} citi piedalās šajā zvanā} one {{first}, {second} un {others,number} cits piedalās šajā zvanā} other {{first}, {second} un {others,number} citi piedalās šajā zvanā}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, zero {Signal zvanīs {first}, {second}, un {others,number} citiem} one {Signal zvanīs {first}, {second}, un {others,number} citam} other {Signal zvanīs {first}, {second} un {others,number} citiem}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, zero {{first}, {second}, un {others,number} citiem tiks nosūtīti paziņojumi} one {{first}, {second}, un {others,number} citam tiks nosūtīti paziņojumi} other {{first}, {second}, un {others,number} citiem tiks nosūtīti paziņojumi}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Lietotnes datu dzēšana",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Veicot šo darbību, tiks dzēsti visi lietotnes dati, tostarp visas ziņas un saglabātā konta informācija.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Dzēst datus",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Vai dzēst visus datus un ziņas no šīs Signal Desktop versijas? Jebkurā brīdī varat atkārtoti piesaistīt Signal šim datoram, taču ziņas netiks atjaunotas. Jūsu Signal konts un dati tālrunī vai citās piesaistītās ierīcēs netiks dzēsti.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, zero {{group1}, {group2}, {group3} un vēl {remainingCount,number} citu grupu biedrs} one {{group1}, {group2}, {group3} un vēl {remainingCount,number} citas grupas biedrs} other {{group1}, {group2}, {group3} un vēl {remainingCount,number} citu grupu biedrs}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, zero {{name}, {otherName} un vēl {overflowCount,number} citi pacēla roku.} one {{name}, {otherName} un vēl {overflowCount,number} cits pacēla roku.} other {{name}, {otherName} un vēl {overflowCount,number} citi pacēla roku.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, zero {Šo ziņu var rediģēt tikai {max,number} reizes.} one {Šo ziņu var rediģēt tikai {max,number} reizi.} other {Šo ziņu var rediģēt tikai {max,number} reizes.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, zero {{memberName} uzaicināja {count,number} cilvēkus pievienoties grupai.} one {{memberName} uzaicināja 1 personu pievienoties grupai.} other {{memberName} uzaicināja {count,number} cilvēkus pievienoties grupai.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, zero {{count,number} cilvēki tika uzaicināti pievienoties šai grupai.} one {1 persona tika uzaicināta pievienoties šai grupai.} other {{count,number} cilvēki tika uzaicināti pievienoties šai grupai.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, zero {{adminName} atsauca {count,number} uzaicinājumus pievienoties šai grupai, kurus nosūtīja {memberName}.} one {{adminName} atsauca {count,number} uzaicinājumu pievienoties šai grupai, kuru nosūtīja {memberName}.} other {{adminName} atsauca {count,number} uzaicinājumus pievienoties šai grupai, kurus nosūtīja {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, zero {No šīs grupas tika noņemti {count,number} dalībnieki.} one {No šīs grupas tika noņemts {count,number} dalībnieks.} other {No šīs grupas tika noņemti {count,number} dalībnieki.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, zero {{count,number} atlasītas} one {{count,number} atlasīta} other {{count,number} atlasītas}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, zero {{num,number} neiekļautas personas} one {{num,number} neiekļauta persona} other {{num,number} neiekļautas personas}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Paldies {linkToGithub1} un {linkToGithub2} par palīdzību šīs versijas izstrādē."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Vairs nekādu lieku atgādinājumu par neatbildētiem zvaniem. Tagad no sarunām varat dzēst jebkuru zvanu paziņojumu, noklikšķinot uz tā ar labo peles taustiņu."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Lai uzlabotu lasāmību persiešu valodā, kad tā ir atlasīta, tās noklusējuma fonts tika atjaunināts uz Vazirmatn (Signal iestatījumi > Izskats > Valoda). Paldies, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Atskaņošanas ātruma indikatori balss ziņām tagad izskatās nedaudz citādi. Orientieris — simbols X. Paldies, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Vēlamies pateikties arī {linkToGithub1}, {linkToGithub2} un {linkToGithub3} par ieguldījumu šīs versijas izstrādē."
   }
 }

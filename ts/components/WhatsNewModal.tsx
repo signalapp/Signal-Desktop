@@ -49,9 +49,7 @@ export function WhatsNewModal({
         id="icu:WhatsNew__v6.44--2"
         components={{
           linkToGithub1: (
-            <ExternalLink href="https://github.com/0o001">
-              @0o001
-            </ExternalLink>
+            <ExternalLink href="https://github.com/0o001">@0o001</ExternalLink>
           ),
           linkToGithub2: (
             <ExternalLink href="https://github.com/hackerbirds">

@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {{first}, {second} a {others,number} další se účastní tohoto hovoru} few {{first}, {second} a {others,number} další se účastní tohoto hovoru} many {{first}, {second} a {others,number} dalších se účastní tohoto hovoru} other {{first}, {second} a {others,number} dalších se účastní tohoto hovoru}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Signal zavolá {first} , {second} a {others,number} dalšímu} few {Signal zavolá uživatelům {first}, {second} a {others,number} dalším} many {Signal zavolá uživatelům {first}, {second} a {others,number} dalším} other {Signal zavolá uživatelům {first}, {second} a {others,number} dalším}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {{first}, {second} a {others,number} další dostanou oznámení} few {{first}, {second} a {others,number} další dostanou oznámení} many {{first}, {second} a {others,number} dalších dostanou oznámení} other {{first}, {second} a {others,number} dalších dostanou oznámení}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Odstranění dat aplikace",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Tím smažete všechna data v aplikaci, odstraníte všechny zprávy a uložené informace o účtu.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Odstranit data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Odstranit všechna data a zprávy z této verze aplikace Signal Desktop? Tuto verzi aplikace Signal Desktop můžete kdykoli znovu propojit, ale zprávy se již neobnoví. Váš účet Signal a data v telefonu nebo jiných propojených zařízení se nesmažou.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {Člen skupin {group1}, {group2}, {group3} a {remainingCount,number} další} few {Člen skupin {group1}, {group2}, {group3} a {remainingCount,number} dalších} many {Člen skupin {group1}, {group2}, {group3} a {remainingCount,number} dalších} other {Člen skupin {group1}, {group2}, {group3} a {remainingCount,number} dalších}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} a další {overflowCount,number} mají zvednutou ruku.} few {{name}, {otherName} a další {overflowCount,number} mají zvednutou ruku.} many {{name}, {otherName} a další {overflowCount,number} mají zvednutou ruku.} other {{name}, {otherName} a dalších {overflowCount,number} mají zvednutou ruku.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {Na tuto zprávu lze použít pouze {max,number} úpravu.} few {Na tuto zprávu lze použít pouze {max,number} úpravy.} many {Na tuto zprávu lze použít pouze {max,number} úprav.} other {Na tuto zprávu lze použít pouze {max,number} úprav.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {{memberName} pozval/a {count,number} osobu do skupiny.} few {{memberName} pozval/a {count,number} osoby do skupiny.} many {{memberName} pozval/a {count,number} osob do skupiny.} other {{memberName} pozval/a {count,number} osob do skupiny.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {{count,number} osoba byla pozvána do skupiny.} few {{count,number} osoby byly pozvány do skupiny.} many {{count,number} osob bylo pozváno do skupiny.} other {{count,number} osob bylo pozváno do skupiny.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {{adminName} zrušil/a pozvání do skupiny pro {count,number} osobu, kterou pozval uživatel {memberName}.} few {{adminName} zrušil/a pozvání do skupiny pro {count,number} osoby, které pozval uživatel {memberName}.} many {{adminName} zrušil/a pozvání do skupiny pro {count,number} osoby, které pozval uživatel {memberName}.} other {{adminName} zrušil/a pozvání do skupiny pro {count,number} osob, které pozval uživatel {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {{count,number} člen bylo ze skupiny odebrán.} few {{count,number} členové byli ze skupiny odebráni.} many {{count,number} člena bylo ze skupiny odebráno.} other {{count,number} členů bylo ze skupiny odebráno.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number} vybrán} few {{count,number} vybráno} many {{count,number} vybráno} other {{count,number} vybráno}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {{num,number} člověk vyloučen} few {{num,number} lidi vyloučeni} many {{num,number} lidí vyloučeno} other {{num,number} lidí vyloučeno}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Děkujeme {linkToGithub1} a {linkToGithub2} za pomoc s tímto vydáním."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Teď můžete pravým tlačítkem myši kliknout na jakýkoli hovor a z chatu ho smazat."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Výchozí písmo pro perštinu bylo změněno na Vazirmatn, aby byl text v tomto jazyce lépe čitelný (Nastavení aplikace Signal > Vzhled > Jazyk). Díky, uživateli {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Ukazatele rychlosti přehrávání v hlasových zprávách mají mírně pozměněný vzhled. Díky, uživateli {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Rádi bychom také poděkovali {linkToGithub1}, {linkToGithub2} a {linkToGithub3} za jejich přispění k tomuto vydání."
   }
 }

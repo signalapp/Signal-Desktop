@@ -1806,7 +1806,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others are in this call",
+    "messageformat": "{others, plural, one {Οι {first}, {second} και {others,number} ακόμα είναι στην κλήση} other {Οι {first}, {second} και {others,number} ακόμα είναι στην κλήση}}",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1822,7 +1822,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others, plural, other {#}} others",
+    "messageformat": "{others, plural, one {Το Signal θα καλέσει με κουδούνισμα τους {first}, {second} και {others,number} ακόμα} other {Το Signal θα καλέσει τους {first}, {second} και {others,number} ακόμα}}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1838,7 +1838,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others, plural, other {#}} others will be notified",
+    "messageformat": "{others, plural, one {Οι {first}, {second} και {others,number} ακόμα θα ειδοποιηθούν} other {Οι {first}, {second} και {others,number} ακόμα θα ειδοποιηθούν}}",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
@@ -1978,15 +1978,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Delete application data",
+    "messageformat": "Διαγραφή δεδομένων εφαρμογής",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
+    "messageformat": "Θα διαγραφούν όλα τα δεδομένα της εφαρμογής, καθώς και όλα τα μηνύματα και τα αποθηκευμένα στοιχεία λογαριασμού.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Delete data",
+    "messageformat": "Διαγραφή δεδομένων",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1994,7 +1994,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
+    "messageformat": "Να διαγραφούν όλα τα δεδομένα και τα μηνύματα από αυτή την έκδοση Signal για υπολογιστή; Μπορείς πάντα να επανασυνδέσεις τον υπολογιστή, αλλά δεν θα μπορείς να επαναφέρεις τα μηνύματά σου. Ο λογαριασμός σου στο Signal, τα δεδομένα στο τηλέφωνό σου ή σε άλλες συνδεδεμένες συσκευές δεν θα διαγραφούν.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -3429,7 +3429,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, other {#}} more",
+    "messageformat": "{remainingCount, plural, one {Μέλος στις ομάδες {group1}, {group2}, {group3} και {remainingCount,number} ακόμα} other {Μέλος στις ομάδες {group1}, {group2}, {group3} και {remainingCount,number} ακόμα}}",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "icu:ConversationHero--membership-added": {
@@ -3609,7 +3609,7 @@
     "description": "Shown in a call when 2 persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{name}, {otherName}, and {overflowCount, plural, other {#}} more raised a hand.",
+    "messageformat": "{overflowCount, plural, one {Οι χρήστες {name}, {otherName} και {overflowCount,number} ακόμη σήκωσαν το χέρι τους.} other {Οι χρήστες {name}, {otherName} και {overflowCount,number} ακόμη σήκωσαν το χέρι τους.}}",
     "description": "Shown in a call when 3 or more persons raise their hands."
   },
   "icu:CallControls__RaiseHands--open-queue": {
@@ -3793,7 +3793,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "Only {max, plural, other {#}} edits can be applied to this message.",
+    "messageformat": "{max, plural, one {Μόνο ο/η {max,number} μπορεί να επεξεργαστεί αυτό το μήνυμα.} other {Μόνο οι {max,number} μπορούν να επεξεργαστούν αυτό το μήνυμα.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4217,7 +4217,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, other {#}} people to the group.",
+    "messageformat": "{count, plural, one {Ο/Η {memberName} προσκάλεσε {count,number} άτομο στην ομάδα.} other {Ο/Η {memberName} προσκάλεσε {count,number} άτομα στην ομάδα.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
@@ -4225,7 +4225,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {{count,number} άτομο προσκλήθηκε στην ομάδα.} other {{count,number} άτομα προσκλήθηκαν στην ομάδα.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4301,7 +4301,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, other {#}} people invited by {memberName}.",
+    "messageformat": "{count, plural, one {Ο/Η {adminName} ανακάλεσε την πρόσκληση {count,number} ατόμου στην ομάδα, που προσκλήθηκε από τον/την {memberName}.} other {Ο/Η {adminName} ανακάλεσε την πρόσκληση {count,number} ατόμων στην ομάδα, που προσκλήθηκαν από τον/την {memberName}.}}",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
@@ -4541,7 +4541,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, plural, other {#}} members were removed from the group.",
+    "messageformat": "{count, plural, one {{count,number} μέλος αφαιρέθηκε από την ομάδα.} other {{count,number} μέλη αφαιρέθηκαν από την ομάδα.}}",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4929,7 +4929,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, plural, other {#}} selected",
+    "messageformat": "{count, plural, one {{count,number} επιλεγμένο} other {{count,number} επιλεγμένα}}",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -6337,7 +6337,7 @@
     "description": "Input label to create a block list"
   },
   "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {#}} people excluded",
+    "messageformat": "{num, plural, one {{num,number} αποκλεισμένο άτομο} other {{num,number} αποκλεισμένα άτομα}}",
     "description": "Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
@@ -7027,15 +7027,15 @@
     "messageformat": "Ευχαριστούμε τους χρήστες {linkToGithub1} και {linkToGithub2} για τη βοήθειά τους με αυτή την έκδοση."
   },
   "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
+    "messageformat": "Τώρα μπορείς να κάνεις δεξί κλικ σε οποιαδήποτε εκδήλωση κλήσης και να τη διαγράψεις από μια συνομιλία."
   },
   "icu:WhatsNew__v6.43--1": {
-    "messageformat": "The default font for Persian has been updated to Vazirmatn to improve readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub1}!"
+    "messageformat": "Η γραμματοσειρά προεπιλογής για τα περσικά ενημερώθηκε σε Vazirmatn για να βελτιωθεί η αναγνωσιμότητα με την επιλογή αυτής της γλώσσας (Ρυθμίσεις Signal > Εμφάνιση > Γλώσσα). Ευχαριστούμε, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--2": {
-    "messageformat": "The playback speed indicators in voice messages have a slightly new look. X marks the spot. Thanks, {linkToGithub1}!"
+    "messageformat": "Οι ενδείξεις ταχύτητας αναπαραγωγής σε ηχητικά μηνύματα έχουν ελαφρώς νέα εμφάνιση. Ευχαριστούμε, {linkToGithub1}!"
   },
   "icu:WhatsNew__v6.43--3": {
-    "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+    "messageformat": "Θέλουμε επίσης να ευχαριστήσουμε τα εξής προφίλ: {linkToGithub1}, {linkToGithub2} και {linkToGithub3} για τη συνεισφορά τους σε αυτή την έκδοση."
   }
 }
