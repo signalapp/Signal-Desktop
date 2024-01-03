@@ -42,46 +42,35 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.43--0" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.44--0" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.44--1" />,
       <Intl
         i18n={i18n}
-        id="icu:WhatsNew__v6.43--1"
+        id="icu:WhatsNew__v6.44--2"
         components={{
           linkToGithub1: (
-            <ExternalLink href="https://github.com/MahdiNazemi">
-              @MahdiNazemi
-            </ExternalLink>
-          ),
-        }}
-      />,
-      <Intl
-        i18n={i18n}
-        id="icu:WhatsNew__v6.43--2"
-        components={{
-          linkToGithub1: (
-            <ExternalLink href="https://github.com/Shrinks99">
-              @Shrinks99
-            </ExternalLink>
-          ),
-        }}
-      />,
-      <Intl
-        i18n={i18n}
-        id="icu:WhatsNew__v6.43--3"
-        components={{
-          linkToGithub1: (
-            <ExternalLink href="https://github.com/NetSysFire">
-              @NetSysFire
+            <ExternalLink href="https://github.com/0o001">
+              @0o001
             </ExternalLink>
           ),
           linkToGithub2: (
-            <ExternalLink href="https://github.com/timjamello">
-              @timjamello
+            <ExternalLink href="https://github.com/hackerbirds">
+              @hackerbirds
             </ExternalLink>
           ),
           linkToGithub3: (
-            <ExternalLink href="https://github.com/u32i64">
-              @u32i64
+            <ExternalLink href="https://github.com/rschiang">
+              @rschiang
+            </ExternalLink>
+          ),
+          linkToGithub4: (
+            <ExternalLink href="https://github.com/vijithassar">
+              @vijithassar
+            </ExternalLink>
+          ),
+          linkToGithub5: (
+            <ExternalLink href="https://github.com/yaslama">
+              @yaslama
             </ExternalLink>
           ),
         }}

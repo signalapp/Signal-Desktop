@@ -7039,12 +7039,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "We fixed a bug that displayed quoted replies to videos as though they were quoted replies to photos, even though every video is really just a sequence of photos if you think about it."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their help with this release."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Turn a missed call into something that won't be missed. Now you can right-click on any call event and delete it from a chat."
   },
@@ -7056,5 +7050,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "We would also like to thank {linkToGithub1}, {linkToGithub2}, and {linkToGithub3} for their contributions to this release."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "If resolving a few small bugs counts as a New Year’s resolution, then 2024 is off to a fantastic start."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Region-neutral font fallback logic improves how CJK characters are displayed across different locales."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Thanks to {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, and {linkToGithub5} for their contributions to this release!"
   }
 }
