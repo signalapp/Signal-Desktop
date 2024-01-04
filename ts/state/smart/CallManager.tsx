@@ -5,6 +5,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { memoize } from 'lodash';
 import { mapDispatchToProps } from '../actions';
+import type {
+  DirectIncomingCall,
+  GroupIncomingCall,
+} from '../../components/CallManager';
 import { CallManager } from '../../components/CallManager';
 import { calling as callingService } from '../../services/calling';
 import { getIntl, getTheme } from '../selectors/user';
@@ -320,29 +324,33 @@ const mapStateToActiveCallProp = (
   }
 };
 
-const mapStateToIncomingCallProp = (state: StateType) => {
+const mapStateToIncomingCallProp = (
+  state: StateType
+): DirectIncomingCall | GroupIncomingCall | null => {
   const call = getIncomingCall(state);
   if (!call) {
-    return undefined;
+    return null;
   }
 
   const conversation = getConversationSelector(state)(call.conversationId);
   if (!conversation) {
     log.error('The incoming call has no corresponding conversation');
-    return undefined;
+    return null;
   }
 
   switch (call.callMode) {
     case CallMode.Direct:
       return {
         callMode: CallMode.Direct as const,
+        callState: call.callState,
+        callEndedReason: call.callEndedReason,
         conversation,
         isVideoCall: call.isVideoCall,
       };
     case CallMode.Group: {
       if (!call.ringerAci) {
         log.error('The incoming group call has no ring state');
-        return undefined;
+        return null;
       }
 
       const conversationSelector = getConversationSelector(state);
@@ -353,9 +361,12 @@ const mapStateToIncomingCallProp = (state: StateType) => {
 
       return {
         callMode: CallMode.Group as const,
+        connectionState: call.connectionState,
+        joinState: call.joinState,
         conversation,
         otherMembersRung,
         ringer,
+        remoteParticipants: call.remoteParticipants,
       };
     }
     default:

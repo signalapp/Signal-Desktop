@@ -32,6 +32,7 @@ import type {
   AcceptCallType,
   CancelCallType,
   DeclineCallType,
+  GroupCallParticipantInfoType,
   KeyChangeOkType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
@@ -47,8 +48,27 @@ import { missingCaseError } from '../util/missingCaseError';
 import { CallingToastProvider } from './CallingToast';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
+import * as log from '../logging/log';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
+
+export type DirectIncomingCall = Readonly<{
+  callMode: CallMode.Direct;
+  callState?: CallState;
+  callEndedReason?: CallEndedReason;
+  conversation: ConversationType;
+  isVideoCall: boolean;
+}>;
+
+export type GroupIncomingCall = Readonly<{
+  callMode: CallMode.Group;
+  connectionState: GroupCallConnectionState;
+  joinState: GroupCallJoinState;
+  conversation: ConversationType;
+  otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
+  ringer: Pick<ConversationType, 'firstName' | 'title'>;
+  remoteParticipants: Array<GroupCallParticipantInfoType>;
+}>;
 
 export type PropsType = {
   activeCall?: ActiveCallType;
@@ -62,18 +82,7 @@ export type PropsType = {
   ) => VideoFrameSource;
   getPreferredBadge: PreferredBadgeSelectorType;
   getPresentingSources: () => void;
-  incomingCall?:
-    | {
-        callMode: CallMode.Direct;
-        conversation: ConversationType;
-        isVideoCall: boolean;
-      }
-    | {
-        callMode: CallMode.Group;
-        conversation: ConversationType;
-        otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
-        ringer: Pick<ConversationType, 'firstName' | 'title'>;
-      };
+  incomingCall: DirectIncomingCall | GroupIncomingCall | null;
   keyChangeOk: (_: KeyChangeOkType) => void;
   renderDeviceSelection: () => JSX.Element;
   renderReactionPicker: (
@@ -431,8 +440,10 @@ export function CallManager(props: PropsType): JSX.Element | null {
   const shouldRing = getShouldRing(props);
   useEffect(() => {
     if (shouldRing) {
+      log.info('CallManager: Playing ringtone');
       playRingtone();
       return () => {
+        log.info('CallManager: Stopping ringtone');
         stopRingtone();
       };
     }
@@ -486,6 +497,31 @@ export function CallManager(props: PropsType): JSX.Element | null {
   return null;
 }
 
+function isRinging(callState: CallState | undefined): boolean {
+  return callState === CallState.Prering || callState === CallState.Ringing;
+}
+
+function isConnected(connectionState: GroupCallConnectionState): boolean {
+  return (
+    connectionState === GroupCallConnectionState.Connecting ||
+    connectionState === GroupCallConnectionState.Connected
+  );
+}
+
+function isJoined(joinState: GroupCallJoinState): boolean {
+  return joinState !== GroupCallJoinState.NotJoined;
+}
+
+function hasRemoteParticipants(
+  remoteParticipants: Array<GroupCallParticipantInfoType>
+): boolean {
+  return remoteParticipants.length > 0;
+}
+
+function isLonelyGroup(conversation: ConversationType): boolean {
+  return (conversation.sortedGroupMembers?.length ?? 0) < 2;
+}
+
 function getShouldRing({
   activeCall,
   incomingCall,
@@ -493,35 +529,54 @@ function getShouldRing({
 }: Readonly<
   Pick<PropsType, 'activeCall' | 'incomingCall' | 'isConversationTooBigToRing'>
 >): boolean {
-  if (incomingCall) {
+  if (incomingCall != null) {
     // don't ring a large group
     if (isConversationTooBigToRing) {
       return false;
     }
 
-    return !activeCall;
+    if (activeCall != null) {
+      return false;
+    }
+
+    if (incomingCall.callMode === CallMode.Direct) {
+      return (
+        isRinging(incomingCall.callState) &&
+        incomingCall.callEndedReason == null
+      );
+    }
+
+    if (incomingCall.callMode === CallMode.Group) {
+      return (
+        !isConnected(incomingCall.connectionState) &&
+        !isJoined(incomingCall.joinState) &&
+        !isLonelyGroup(incomingCall.conversation)
+      );
+    }
+
+    throw missingCaseError(incomingCall);
   }
 
-  if (!activeCall) {
-    return false;
-  }
-
-  switch (activeCall.callMode) {
-    case CallMode.Direct:
+  if (activeCall != null) {
+    if (activeCall.callMode === CallMode.Direct) {
       return (
         activeCall.callState === CallState.Prering ||
         activeCall.callState === CallState.Ringing
       );
-    case CallMode.Group:
+    }
+
+    if (activeCall.callMode === CallMode.Group) {
       return (
         activeCall.outgoingRing &&
-        (activeCall.connectionState === GroupCallConnectionState.Connecting ||
-          activeCall.connectionState === GroupCallConnectionState.Connected) &&
-        activeCall.joinState !== GroupCallJoinState.NotJoined &&
-        !activeCall.remoteParticipants.length &&
-        (activeCall.conversation.sortedGroupMembers || []).length >= 2
+        isConnected(activeCall.connectionState) &&
+        isJoined(activeCall.joinState) &&
+        !hasRemoteParticipants(activeCall.remoteParticipants) &&
+        !isLonelyGroup(activeCall.conversation)
       );
-    default:
-      throw missingCaseError(activeCall);
+    }
+
+    throw missingCaseError(activeCall);
   }
+
+  return false;
 }

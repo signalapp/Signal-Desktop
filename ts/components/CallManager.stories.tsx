@@ -73,6 +73,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up-active-call'),
   i18n,
+  incomingCall: null,
   isGroupCallRaiseHandEnabled: true,
   isGroupCallReactionsEnabled: true,
   keyChangeOk: action('key-change-ok'),
@@ -189,6 +190,8 @@ export function RingingGroupCall(): JSX.Element {
       {...createProps({
         incomingCall: {
           callMode: CallMode.Group as const,
+          connectionState: GroupCallConnectionState.NotConnected,
+          joinState: GroupCallJoinState.NotJoined,
           conversation: {
             ...getConversation(),
             type: 'group',
@@ -201,6 +204,7 @@ export function RingingGroupCall(): JSX.Element {
             { firstName: 'Summer', title: 'Summer Smith' },
           ],
           ringer: { firstName: 'Rick', title: 'Rick Sanchez' },
+          remoteParticipants: [],
         },
       })}
     />
