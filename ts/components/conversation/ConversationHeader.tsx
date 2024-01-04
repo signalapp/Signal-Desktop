@@ -57,6 +57,7 @@ export type PropsDataType = {
   isMissingMandatoryProfileSharing?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
   isSMSOnly?: boolean;
+  isSelectMode: boolean;
   isSignalConversation?: boolean;
   theme: ThemeType;
 } & Pick<
@@ -287,10 +288,14 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   private renderMoreButton(triggerId: string): ReactNode {
-    const { i18n } = this.props;
+    const { i18n, isSelectMode } = this.props;
 
     return (
-      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
+      <ContextMenuTrigger
+        id={triggerId}
+        ref={this.menuTriggerRef}
+        disable={isSelectMode}
+      >
         <button
           type="button"
           onClick={this.showMenuBound}
@@ -299,6 +304,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             'module-ConversationHeader__button--more'
           )}
           aria-label={i18n('icu:moreInfo')}
+          disabled={isSelectMode}
         />
       </ContextMenuTrigger>
     );
@@ -339,6 +345,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onArchive,
       onMarkUnread,
       toggleSelectMode,
+      isSelectMode,
       onMoveToInbox,
       pushPanelForConversation,
       setDisappearingMessages,
@@ -346,6 +353,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       setPinned,
       type,
     } = this.props;
+
+    if (isSelectMode) {
+      return null;
+    }
+
     const isRTL = i18n.getLocaleDirection() === 'rtl';
 
     const muteOptions = getMuteOptions(muteExpiresAt, i18n);

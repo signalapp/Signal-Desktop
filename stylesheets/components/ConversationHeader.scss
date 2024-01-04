@@ -162,39 +162,42 @@
 
     &:disabled {
       cursor: default;
+      opacity: 0.5;
     }
 
     &--show-disabled {
       opacity: 0.5;
     }
 
-    @include light-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-02;
+    &:not(:disabled) {
+      @include light-theme {
+        &:hover,
+        &:focus {
+          background: $color-gray-02;
+        }
+        &:active {
+          background: $color-gray-05;
+        }
       }
-      &:active {
-        background: $color-gray-05;
+      @include dark-theme {
+        &:hover,
+        &:focus {
+          background: $color-gray-80;
+        }
+        &:active {
+          background: $color-gray-75;
+        }
       }
-    }
-    @include dark-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-80;
-      }
-      &:active {
-        background: $color-gray-75;
-      }
-    }
 
-    @include keyboard-mode {
-      &:focus {
-        border-color: $color-ultramarine;
+      @include keyboard-mode {
+        &:focus {
+          border-color: $color-ultramarine;
+        }
       }
-    }
-    @include dark-keyboard-mode {
-      &:focus {
-        border-color: $color-ultramarine-light;
+      @include dark-keyboard-mode {
+        &:focus {
+          border-color: $color-ultramarine-light;
+        }
       }
     }
 

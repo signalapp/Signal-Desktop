@@ -35,6 +35,7 @@ const commonProps = {
   cannotLeaveBecauseYouAreLastAdmin: false,
   showBackButton: false,
   outgoingCallButtonStyle: OutgoingCallButtonStyle.Both,
+  isSelectMode: false,
 
   i18n,
 
