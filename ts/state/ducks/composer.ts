@@ -11,10 +11,12 @@ import type {
   AddLinkPreviewActionType,
   RemoveLinkPreviewActionType,
 } from './linkPreviews';
-import type {
-  AttachmentType,
-  AttachmentDraftType,
-  InMemoryAttachmentDraftType,
+import {
+  type AttachmentType,
+  type AttachmentDraftType,
+  type InMemoryAttachmentDraftType,
+  isVideoAttachment,
+  isImageAttachment,
 } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
@@ -60,7 +62,7 @@ import { getRecipientsByConversation } from '../../util/getRecipientsByConversat
 import { processAttachment } from '../../util/processAttachment';
 import { hasDraftAttachments } from '../../util/hasDraftAttachments';
 import { isFileDangerous } from '../../util/isFileDangerous';
-import { isImage, isVideo, stringToMIMEType } from '../../types/MIME';
+import { stringToMIMEType } from '../../types/MIME';
 import { isNotNil } from '../../util/isNotNil';
 import { replaceIndex } from '../../util/replaceIndex';
 import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftData';
@@ -91,6 +93,10 @@ import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedM
 import { maybeBlockSendForFormattingModal } from '../../util/maybeBlockSendForFormattingModal';
 import { maybeBlockSendForEditWarningModal } from '../../util/maybeBlockSendForEditWarningModal';
 import { Sound, SoundType } from '../../util/Sound';
+import {
+  isImageTypeSupported,
+  isVideoTypeSupported,
+} from '../../util/GoogleChrome';
 
 // State
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -1147,9 +1153,7 @@ function preProcessAttachment(
 
   const haveNonImageOrVideo = draftAttachments.some(
     (attachment: AttachmentDraftType) => {
-      return (
-        !isImage(attachment.contentType) && !isVideo(attachment.contentType)
-      );
+      return !isImageAttachment(attachment) && !isVideoAttachment(attachment);
     }
   );
   // You can't add another attachment if you already have a non-image staged
@@ -1158,7 +1162,8 @@ function preProcessAttachment(
   }
 
   const fileType = stringToMIMEType(file.type);
-  const imageOrVideo = isImage(fileType) || isVideo(fileType);
+  const imageOrVideo =
+    isImageTypeSupported(fileType) || isVideoTypeSupported(fileType);
 
   // You can't add a non-image attachment if you already have attachments staged
   if (!imageOrVideo && draftAttachments.length > 0) {
