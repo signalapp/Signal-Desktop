@@ -15,6 +15,7 @@ import {
   getConversationByServiceIdSelector,
   getConversationSelector,
   getHasPanelOpen,
+  getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { CallMode } from '../../types/Calling';
@@ -123,6 +124,9 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
   const cannotLeaveBecauseYouAreLastAdmin =
     getCannotLeaveBecauseYouAreLastAdmin(groupMemberships.memberships, isAdmin);
 
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
+  const isSelectMode = selectedMessageIds != null;
+
   return (
     <ConversationHeader
       {...pick(conversation, [
@@ -175,6 +179,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
       setMuteExpiration={setMuteExpiration}
       setPinned={setPinned}
       theme={theme}
+      isSelectMode={isSelectMode}
       toggleSelectMode={toggleSelectMode}
       viewUserStories={viewUserStories}
     />
