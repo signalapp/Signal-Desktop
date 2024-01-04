@@ -73,6 +73,7 @@ describe('Message', () => {
       writeNewAttachmentData: async (_data: Uint8Array) =>
         'fake-attachment-path',
       writeNewStickerData: async (_data: Uint8Array) => 'fake-sticker-path',
+      deleteOnDisk: async (_path: string) => undefined,
       ...props,
     };
   }

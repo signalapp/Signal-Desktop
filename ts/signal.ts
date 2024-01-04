@@ -247,6 +247,7 @@ export function initializeMigrations({
         getImageDimensions,
         makeImageThumbnail,
         makeVideoScreenshot,
+        deleteOnDisk,
         logger,
       }),
     processNewSticker: (stickerData: Uint8Array) =>
@@ -282,6 +283,7 @@ export function initializeMigrations({
         maxVersion,
         getAbsoluteStickerPath,
         writeNewStickerData,
+        deleteOnDisk,
       });
     },
     writeMessageAttachments: MessageType.createAttachmentDataWriter({

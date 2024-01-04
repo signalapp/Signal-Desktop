@@ -71,6 +71,7 @@ export type ContextType = {
   revokeObjectUrl: (objectUrl: string) => void;
   writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
   writeNewStickerData: (data: Uint8Array) => Promise<string>;
+  deleteOnDisk: (path: string) => Promise<void>;
 };
 
 type WriteExistingAttachmentDataType = (
@@ -370,7 +371,26 @@ const toVersion0 = async (
 ) => initializeSchemaVersion({ message, logger: context.logger });
 const toVersion1 = _withSchemaVersion({
   schemaVersion: 1,
-  upgrade: _mapAttachments(autoOrientJPEG),
+  upgrade: _mapAttachments(
+    async (
+      attachment: AttachmentType,
+      context,
+      options
+    ): Promise<AttachmentType> => {
+      const { deleteOnDisk } = context;
+      const rotatedAttachment = await autoOrientJPEG(
+        attachment,
+        context,
+        options
+      );
+
+      if (attachment.path) {
+        await deleteOnDisk(attachment.path);
+      }
+
+      return rotatedAttachment;
+    }
+  ),
 });
 const toVersion2 = _withSchemaVersion({
   schemaVersion: 2,
@@ -470,6 +490,7 @@ export const upgradeSchema = async (
     makeImageThumbnail,
     makeVideoScreenshot,
     writeNewStickerData,
+    deleteOnDisk,
     logger,
     maxVersion = CURRENT_SCHEMA_VERSION,
   }: ContextType
@@ -507,6 +528,9 @@ export const upgradeSchema = async (
   if (!isFunction(writeNewStickerData)) {
     throw new TypeError('context.writeNewStickerData is required');
   }
+  if (!isFunction(deleteOnDisk)) {
+    throw new TypeError('context.deleteOnDisk is required');
+  }
 
   let message = rawMessage;
   for (let index = 0, max = VERSIONS.length; index < max; index += 1) {
@@ -530,6 +554,7 @@ export const upgradeSchema = async (
       getAbsoluteStickerPath,
       getRegionCode,
       writeNewStickerData,
+      deleteOnDisk,
     });
   }
 
@@ -548,6 +573,7 @@ export const processNewAttachment = async (
     getImageDimensions,
     makeImageThumbnail,
     makeVideoScreenshot,
+    deleteOnDisk,
     logger,
   }: Pick<
     ContextType,
@@ -559,6 +585,7 @@ export const processNewAttachment = async (
     | 'makeImageThumbnail'
     | 'makeVideoScreenshot'
     | 'logger'
+    | 'deleteOnDisk'
   >
 ): Promise<AttachmentType> => {
   if (!isFunction(writeNewAttachmentData)) {
@@ -603,6 +630,10 @@ export const processNewAttachment = async (
       writeNewAttachmentData,
       logger,
     });
+
+    if (attachment.path) {
+      await deleteOnDisk(attachment.path);
+    }
   }
 
   const finalAttachment = await captureDimensionsAndScreenshot(
