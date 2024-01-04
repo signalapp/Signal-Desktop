@@ -40,7 +40,6 @@ import {
 import { uniqBy, noop } from 'lodash';
 
 import Long from 'long';
-import * as RemoteConfig from '../RemoteConfig';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
@@ -1431,20 +1430,13 @@ export class CallingClass {
     this.videoCapturer.disable();
     if (source) {
       this.hadLocalVideoBeforePresenting = hasLocalVideo;
-      const options = {
+      this.videoCapturer.enableCaptureAndSend(call, {
         // 15fps is much nicer but takes up a lot more CPU.
         maxFramerate: 5,
-        maxHeight: 1080,
-        maxWidth: 1920,
+        maxHeight: 1800,
+        maxWidth: 2880,
         screenShareSourceId: source.id,
-      };
-
-      if (RemoteConfig.isEnabled('desktop.calling.sendScreenShare1800')) {
-        options.maxWidth = 2880;
-        options.maxHeight = 1800;
-      }
-
-      this.videoCapturer.enableCaptureAndSend(call, options);
+      });
       this.setOutgoingVideo(conversationId, true);
     } else {
       this.setOutgoingVideo(
