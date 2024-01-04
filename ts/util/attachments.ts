@@ -78,10 +78,14 @@ export async function autoOrientJPEG(
     // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
     // by potentially doubling stored image data.
     // See: https://github.com/signalapp/Signal-Desktop/issues/1589
+    // We also clear out the attachment path because we're changing
+    // the attachment data so it no longer matches the old path.
+    // Path and data should always be in agreement.
     const xcodedAttachment = {
       ...attachment,
       data: new Uint8Array(xcodedDataArrayBuffer),
       size: xcodedDataArrayBuffer.byteLength,
+      path: undefined,
     };
 
     return xcodedAttachment;
