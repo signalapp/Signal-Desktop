@@ -3986,10 +3986,10 @@
     ws "^8.4.2"
     zod "^3.20.2"
 
-"@signalapp/ringrtc@2.34.5":
-  version "2.34.5"
-  resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.34.5.tgz#33855d02845b0e8b476d7b611774127215966512"
-  integrity sha512-ORR3LI8Jn4MGosxa45cqjFyoggaOnJASa3rPx8FghfymWW+VClRYgh14jEouJpNwB6u9rviKOWyz7bF19uxn7w==
+"@signalapp/ringrtc@2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.35.0.tgz#ca9c5fd660fa370720b85f784fc287acbbc6e68f"
+  integrity sha512-PXy+Io24UhGJQYivayVwIwgAT4A1g88JDxvzz5PNddlpHmSSRoBnH57fcZ1ElHTkqrcNb+V4Tch6SAuYupucow==
   dependencies:
     https-proxy-agent "7.0.1"
     tar "^6.1.0"

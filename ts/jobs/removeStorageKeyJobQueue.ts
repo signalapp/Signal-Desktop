@@ -11,6 +11,7 @@ import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 const removeStorageKeyJobDataSchema = z.object({
   key: z.enum([
     'challenge:retry-message-ids',
+    'previousAudioDeviceModule',
     'nextSignedKeyRotationTime',
     'senderCertificateWithUuid',
     'signedKeyRotationRejected',

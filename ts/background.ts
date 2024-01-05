@@ -875,6 +875,12 @@ export async function startApp(): Promise<void> {
         await window.storage.remove('remoteBuildExpiration');
       }
 
+      if (window.isBeforeVersion(lastVersion, '6.45.0-alpha')) {
+        await removeStorageKeyJobQueue.add({
+          key: 'previousAudioDeviceModule',
+        });
+      }
+
       if (window.isBeforeVersion(lastVersion, '6.25.0-alpha')) {
         await removeStorageKeyJobQueue.add({
           key: 'nextSignedKeyRotationTime',

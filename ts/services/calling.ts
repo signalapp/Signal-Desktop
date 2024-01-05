@@ -61,11 +61,6 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import {
-  AudioDeviceModule,
-  getAudioDeviceModule,
-  parseAudioDeviceModule,
-} from '../calling/audioDeviceModule';
-import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
 } from '../calling/findBestMatchingDevice';
@@ -316,10 +311,6 @@ export class CallingClass {
 
   private lastMediaDeviceSettings?: MediaDeviceSettings;
 
-  private previousAudioDeviceModule?: AudioDeviceModule;
-
-  private currentAudioDeviceModule?: AudioDeviceModule;
-
   private deviceReselectionTimer?: NodeJS.Timeout;
 
   private callsByConversation: { [conversationId: string]: Call | GroupCall };
@@ -345,20 +336,7 @@ export class CallingClass {
 
     this._sfuUrl = sfuUrl;
 
-    this.previousAudioDeviceModule = parseAudioDeviceModule(
-      window.storage.get('previousAudioDeviceModule')
-    );
-    this.currentAudioDeviceModule = getAudioDeviceModule();
-    drop(
-      window.storage.put(
-        'previousAudioDeviceModule',
-        this.currentAudioDeviceModule
-      )
-    );
-
     RingRTC.setConfig({
-      use_new_audio_device_module:
-        this.currentAudioDeviceModule === AudioDeviceModule.WindowsAdm2,
       field_trials: undefined,
     });
 
@@ -1594,13 +1572,6 @@ export class CallingClass {
   }
 
   async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
-    const { previousAudioDeviceModule, currentAudioDeviceModule } = this;
-    if (!previousAudioDeviceModule || !currentAudioDeviceModule) {
-      throw new Error(
-        'Calling#getMediaDeviceSettings cannot be called before audio device settings are set'
-      );
-    }
-
     const { availableCameras, availableMicrophones, availableSpeakers } =
       await this.getAvailableIODevices();
 
@@ -1608,8 +1579,6 @@ export class CallingClass {
     const selectedMicIndex = findBestMatchingAudioDeviceIndex({
       available: availableMicrophones,
       preferred: preferredMicrophone,
-      previousAudioDeviceModule,
-      currentAudioDeviceModule,
     });
     const selectedMicrophone =
       selectedMicIndex !== undefined
@@ -1620,8 +1589,6 @@ export class CallingClass {
     const selectedSpeakerIndex = findBestMatchingAudioDeviceIndex({
       available: availableSpeakers,
       preferred: preferredSpeaker,
-      previousAudioDeviceModule,
-      currentAudioDeviceModule,
     });
     const selectedSpeaker =
       selectedSpeakerIndex !== undefined

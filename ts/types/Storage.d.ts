@@ -140,7 +140,6 @@ export type StorageAccessType = {
   'preferred-video-input-device': string;
   'preferred-audio-input-device': AudioDevice;
   'preferred-audio-output-device': AudioDevice;
-  previousAudioDeviceModule: AudioDeviceModule;
   remoteConfig: RemoteConfigType;
   serverTimeSkew: number;
   unidentifiedDeliveryIndicators: boolean;
@@ -177,6 +176,7 @@ export type StorageAccessType = {
   // Deprecated
   'challenge:retry-message-ids': never;
   nextSignedKeyRotationTime: number;
+  previousAudioDeviceModule: AudioDeviceModule;
   senderCertificateWithUuid: never;
   signaling_key: never;
   signedKeyRotationRejected: number;
