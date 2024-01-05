@@ -2373,7 +2373,6 @@ export function initialize({
     };
 
     type JSONKeysType = {
-      identityKey: string;
       preKeys?: Array<JSONPreKeyType>;
       pqPreKeys?: Array<JSONKyberPreKeyType>;
       pqLastResortPreKey?: JSONKyberPreKeyType;
@@ -2412,7 +2411,6 @@ export function initialize({
       }
 
       const keys: JSONKeysType = {
-        identityKey: Bytes.toBase64(genKeys.identityKey),
         preKeys,
         pqPreKeys,
         pqLastResortPreKey: serializeSignedPreKey(genKeys.pqLastResortPreKey),
