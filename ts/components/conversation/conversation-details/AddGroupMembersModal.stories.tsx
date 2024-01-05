@@ -64,6 +64,7 @@ const createProps = (
         )}
         regionCode="US"
         getPreferredBadge={() => undefined}
+        ourE164={undefined}
         ourUsername={undefined}
         theme={ThemeType.light}
         i18n={i18n}

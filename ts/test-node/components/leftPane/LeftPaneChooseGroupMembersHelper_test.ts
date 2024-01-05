@@ -17,6 +17,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     isShowingRecommendedGroupSizeModal: false,
     isShowingMaximumGroupSizeModal: false,
     isUsernamesEnabled: true,
+    ourE164: undefined,
     ourUsername: undefined,
     groupSizeRecommendedLimit: 22,
     groupSizeHardLimit: 33,

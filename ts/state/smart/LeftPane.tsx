@@ -180,6 +180,7 @@ const getModeSpecificProps = (
           OneTimeModalState.Showing,
         isShowingMaximumGroupSizeModal:
           getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
+        ourE164: getMe(state).e164,
         ourUsername: getMe(state).username,
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),

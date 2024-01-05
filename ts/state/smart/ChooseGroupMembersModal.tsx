@@ -55,6 +55,7 @@ const mapStateToProps = (
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     theme: getTheme(state),
+    ourE164: getMe(state).e164,
     ourUsername: getMe(state).username,
     selectedContacts,
     lookupConversationWithoutServiceId,
