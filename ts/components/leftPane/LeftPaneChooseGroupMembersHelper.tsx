@@ -35,6 +35,7 @@ export type LeftPaneChooseGroupMembersPropsType = {
   isShowingRecommendedGroupSizeModal: boolean;
   isShowingMaximumGroupSizeModal: boolean;
   isUsernamesEnabled: boolean;
+  ourE164: string | undefined;
   ourUsername: string | undefined;
   searchTerm: string;
   regionCode: string | undefined;
@@ -75,6 +76,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     isUsernamesEnabled,
     groupSizeRecommendedLimit,
     groupSizeHardLimit,
+    ourE164,
     ourUsername,
     searchTerm,
     regionCode,
@@ -117,13 +119,14 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       (ourUsername === undefined || username !== ourUsername) &&
       phoneNumber
     ) {
+      const { e164 } = phoneNumber;
       this.isPhoneNumberChecked =
         phoneNumber.isValid &&
-        selectedContacts.some(contact => contact.e164 === phoneNumber.e164);
+        selectedContacts.some(contact => contact.e164 === e164);
 
-      const isVisible = this.candidateContacts.every(
-        contact => contact.e164 !== phoneNumber.e164
-      );
+      const isVisible =
+        e164 !== ourE164 &&
+        this.candidateContacts.every(contact => contact.e164 !== e164);
       if (isVisible) {
         this.phoneNumber = phoneNumber;
       }

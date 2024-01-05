@@ -55,6 +55,7 @@ export type StatePropsType = {
   i18n: LocalizerType;
   theme: ThemeType;
   maxGroupSize: number;
+  ourE164: string | undefined;
   ourUsername: string | undefined;
   searchTerm: string;
   selectedContacts: ReadonlyArray<ConversationType>;
@@ -86,6 +87,7 @@ export function ChooseGroupMembersModal({
   i18n,
   maxGroupSize,
   onClose,
+  ourE164,
   ourUsername,
   removeSelectedContact,
   searchTerm,
@@ -129,9 +131,9 @@ export function ChooseGroupMembersModal({
       phoneNumber.isValid &&
       selectedContacts.some(contact => contact.e164 === e164);
 
-    isPhoneNumberVisible = candidateContacts.every(
-      contact => contact.e164 !== e164
-    );
+    isPhoneNumberVisible =
+      e164 !== ourE164 &&
+      candidateContacts.every(contact => contact.e164 !== e164);
   }
 
   const inputRef = useRef<null | HTMLInputElement>(null);

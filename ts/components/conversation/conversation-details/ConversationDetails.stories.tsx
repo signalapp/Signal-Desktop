@@ -122,6 +122,7 @@ const createProps = (
         theme={ThemeType.light}
         i18n={i18n}
         lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}
+        ourE164={undefined}
         ourUsername={undefined}
         showUserNotFoundModal={action('showUserNotFoundModal')}
         isUsernamesEnabled
