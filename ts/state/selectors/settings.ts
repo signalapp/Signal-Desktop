@@ -11,6 +11,12 @@ const getHasDeviceOutdatedSyncing = (state: StateType) =>
 const getHasBlindedMsgRequestsEnabled = (state: StateType) =>
   state.settings.settingsBools[SettingsKey.hasBlindedMsgRequestsEnabled];
 
+const getHasFollowSystemThemeEnabled = (state: StateType) =>
+  state.settings.settingsBools[SettingsKey.hasFollowSystemThemeEnabled];
+
+const getHasShiftSendEnabled = (state: StateType) =>
+  state.settings.settingsBools[SettingsKey.hasShiftSendEnabled];
+
 export const useHasLinkPreviewEnabled = () => {
   const value = useSelector(getLinkPreviewEnabled);
   return Boolean(value);
@@ -23,5 +29,16 @@ export const useHasDeviceOutdatedSyncing = () => {
 
 export const useHasBlindedMsgRequestsEnabled = () => {
   const value = useSelector(getHasBlindedMsgRequestsEnabled);
+  return Boolean(value);
+};
+
+export const useHasFollowSystemThemeEnabled = () => {
+  const value = useSelector(getHasFollowSystemThemeEnabled);
+  return Boolean(value);
+};
+
+export const useHasEnterSendEnabled = () => {
+  const value = useSelector(getHasShiftSendEnabled);
+
   return Boolean(value);
 };

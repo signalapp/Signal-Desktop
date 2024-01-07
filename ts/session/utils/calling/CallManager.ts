@@ -145,16 +145,17 @@ const iceServersFullArray = [
     username: 'session202111',
     credential: '053c268164bc7bd7',
   },
-  {
-    urls: 'turn:fenrir.getsession.org',
-    username: 'session202111',
-    credential: '053c268164bc7bd7',
-  },
-  {
-    urls: 'turn:frigg.getsession.org',
-    username: 'session202111',
-    credential: '053c268164bc7bd7',
-  },
+  // excluding those two (fenrir & frigg) as they are TCP only for now
+  // {
+  //   urls: 'turn:fenrir.getsession.org',
+  //   username: 'session202111',
+  //   credential: '053c268164bc7bd7',
+  // },
+  // {
+  //   urls: 'turn:frigg.getsession.org',
+  //   username: 'session202111',
+  //   credential: '053c268164bc7bd7',
+  // },
   {
     urls: 'turn:angus.getsession.org',
     username: 'session202111',

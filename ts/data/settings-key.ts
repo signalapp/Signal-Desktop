@@ -1,7 +1,7 @@
 const settingsReadReceipt = 'read-receipt-setting';
 const settingsTypingIndicator = 'typing-indicators-setting';
 const settingsAutoUpdate = 'auto-update';
-
+const hasShiftSendEnabled = 'hasShiftSendEnabled';
 const settingsMenuBar = 'hide-menu-bar';
 const settingsSpellCheck = 'spell-check';
 const settingsLinkPreview = 'link-preview-setting';
@@ -14,6 +14,7 @@ const someDeviceOutdatedSyncing = 'someDeviceOutdatedSyncing';
 const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
 const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
+const hasFollowSystemThemeEnabled = 'hasFollowSystemThemeEnabled';
 
 // user config tracking timestamps (to discard incoming messages which would make a change we reverted in the last config message we merged)
 const latestUserProfileEnvelopeTimestamp = 'latestUserProfileEnvelopeTimestamp';
@@ -24,6 +25,7 @@ export const SettingsKey = {
   settingsReadReceipt,
   settingsTypingIndicator,
   settingsAutoUpdate,
+  hasShiftSendEnabled,
   settingsMenuBar,
   settingsSpellCheck,
   settingsLinkPreview,
@@ -39,6 +41,7 @@ export const SettingsKey = {
   latestUserProfileEnvelopeTimestamp,
   latestUserGroupEnvelopeTimestamp,
   latestUserContactsEnvelopeTimestamp,
+  hasFollowSystemThemeEnabled,
 } as const;
 
 export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';

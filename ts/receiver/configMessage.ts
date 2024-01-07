@@ -24,6 +24,7 @@ import { PubKey } from '../session/types';
 import { StringUtils, UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob'; // eslint-disable-next-line import/no-unresolved, import/extensions
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
@@ -40,8 +41,8 @@ import {
   isSignInByLinking,
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob';
+
+// eslint-disable-next-line import/no-unresolved
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,

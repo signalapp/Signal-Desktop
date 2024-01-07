@@ -18,13 +18,13 @@ import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { DisappearingMessageUpdate } from '../session/disappearing_messages/types';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage } from '../util/storage';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import { DisappearingMessageUpdate } from '../session/disappearing_messages/types';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import { getSettingsKeyFromLibsessionWrapper } from './configMessage';
 import { ECKeyPair, HexKeyPair } from './keypairs';
