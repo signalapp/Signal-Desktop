@@ -238,10 +238,8 @@ function protoToCallingMessage({
   offer,
   answer,
   iceCandidates,
-  legacyHangup,
   busy,
   hangup,
-  supportsMultiRing,
   destinationDeviceId,
   opaque,
 }: Proto.ICallingMessage): CallingMessage {
@@ -273,14 +271,6 @@ function protoToCallingMessage({
         ? new AnswerMessage(answer.callId, Buffer.from(answer.opaque))
         : undefined,
     iceCandidates: newIceCandidates.length > 0 ? newIceCandidates : undefined,
-    legacyHangup:
-      legacyHangup && legacyHangup.callId
-        ? new HangupMessage(
-            legacyHangup.callId,
-            dropNull(legacyHangup.type) as number,
-            legacyHangup.deviceId || 0
-          )
-        : undefined,
     busy: busy && busy.callId ? new BusyMessage(busy.callId) : undefined,
     hangup:
       hangup && hangup.callId
@@ -290,7 +280,6 @@ function protoToCallingMessage({
             hangup.deviceId || 0
           )
         : undefined,
-    supportsMultiRing: dropNull(supportsMultiRing),
     destinationDeviceId: dropNull(destinationDeviceId),
     opaque: opaque
       ? {
