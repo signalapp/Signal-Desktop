@@ -78,7 +78,7 @@ function useFollowSettingsButtonClick(
             props.timespanSeconds ?? undefined
           );
         },
-        showExitIcon: true,
+        showExitIcon: false,
         onClickClose: onExit,
       })
     );

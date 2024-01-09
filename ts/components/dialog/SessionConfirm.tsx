@@ -1,6 +1,7 @@
-import { shell } from 'electron';
 import { Dispatch } from '@reduxjs/toolkit';
+import { shell } from 'electron';
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { MessageInteraction } from '../../interactions';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -9,6 +10,15 @@ import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
+
+const StyledSubText = styled(SessionHtmlRenderer)<{ textLength: number }>`
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  max-width: ${props =>
+    props.textLength > 90
+      ? '60ch'
+      : '33ch'}; // this is ugly, but we want the dialog description to have multiple lines when a short text is displayed
+`;
 
 export interface SessionConfirmDialogProps {
   message?: string;
@@ -64,8 +74,6 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
   const cancelText = props.cancelText || window.i18n('cancel');
   const showHeader = !!props.title;
 
-  const messageSubText = messageSub ? 'session-confirm-main-message' : undefined;
-
   const onClickOkHandler = async () => {
     if (onClickOk) {
       setIsLoading(true);
@@ -101,7 +109,6 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
 
     window.inboxStore?.dispatch(updateConfirmModal(null));
   };
-
   return (
     <SessionWrapperModal
       title={title}
@@ -119,7 +126,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
           </>
         )}
 
-        <SessionHtmlRenderer tag="span" className={messageSubText} html={message} />
+        <StyledSubText tag="span" textLength={message.length} html={message} />
         <SessionHtmlRenderer tag="span" className="session-confirm-sub-message" html={messageSub} />
 
         <SessionSpinner loading={isLoading} />

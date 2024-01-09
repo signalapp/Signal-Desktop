@@ -141,7 +141,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--button-path-connecting-color': COLORS.PATH.CONNECTING,
   '--button-path-error-color': COLORS.PATH.ERROR,
 
-  '--modal-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.3)`,
+  '--modal-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.6)`,
   '--modal-drop-shadow': `0px 0px 10px rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`,
 
   '--lightbox-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`,
