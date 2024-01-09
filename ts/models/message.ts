@@ -756,6 +756,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
    * Also returns the uploaded ids to include in the message post so that those attachments are linked to that message.
    */
   public async uploadData() {
+    const start = Date.now();
     const finalAttachments = await Promise.all(
       (this.get('attachments') || []).map(loadAttachmentData)
     );
@@ -816,7 +817,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       attachments[0].flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
     }
 
-    window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
+    window.log.info(
+      `Upload of message data for message ${this.idForLogging()} is finished in ${Date.now() -
+        start}ms.`
+    );
     return {
       body,
       attachments,

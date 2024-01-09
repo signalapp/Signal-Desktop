@@ -191,7 +191,7 @@
   "confirm": "Confirm",
   "followSetting": "Follow Setting",
   "followSettingDisabled": "Messages you send will no longer disappear. Are you sure you want to turn off disappearing messages?",
-  "followSettingTimeAndType": "Set your messages to disappear $time$ after they have been $type$?",
+  "followSettingTimeAndType": "Set your messages to disappear <b>$time$</b> after they have been <b>$type$</b>?",
   "youChangedTheTimer": "<b>You</b> have set messages to disappear <b>$time$</b> after they have been <b>$mode$</b>",
   "youChangedTheTimerLegacy": "<b>You</b> set the disappearing message timer to <b>$time$</b>",
   "theyChangedTheTimer": "<b>$name$</b> has set messages to disappear <b>$time$</b> after they have been <b>$mode$</b>",
