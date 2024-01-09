@@ -52,6 +52,7 @@ export type ContextType = {
     height: number;
   }>;
   getRegionCode: () => string | undefined;
+  keepOnDisk?: boolean;
   logger: LoggerType;
   makeImageThumbnail: (params: {
     size: number;
@@ -380,14 +381,19 @@ const toVersion1 = _withSchemaVersion({
       context,
       options
     ): Promise<AttachmentType> => {
-      const { deleteOnDisk } = context;
+      const { deleteOnDisk, keepOnDisk } = context;
       const rotatedAttachment = await autoOrientJPEG(
         attachment,
         context,
         options
       );
 
-      if (attachment.path) {
+      if (
+        !keepOnDisk &&
+        attachment !== rotatedAttachment &&
+        rotatedAttachment.data &&
+        attachment.path
+      ) {
         await deleteOnDisk(attachment.path);
       }
 
@@ -500,6 +506,7 @@ export const upgradeSchema = async (
     makeVideoScreenshot,
     writeNewStickerData,
     deleteOnDisk,
+    keepOnDisk,
     logger,
     maxVersion = CURRENT_SCHEMA_VERSION,
   }: ContextType
@@ -559,6 +566,7 @@ export const upgradeSchema = async (
       getImageDimensions,
       makeImageThumbnail,
       makeVideoScreenshot,
+      keepOnDisk,
       logger,
       getAbsoluteStickerPath,
       getRegionCode,
@@ -640,7 +648,7 @@ export const processNewAttachment = async (
       logger,
     });
 
-    if (attachment.path) {
+    if (rotatedAttachment !== attachment && attachment.path) {
       await deleteOnDisk(attachment.path);
     }
   }

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageModel } from '../models/messages';
-import * as log from '../logging/log';
 import { getEnvironment, Environment } from '../environment';
 
 export function getMessageModelLogger(model: MessageModel): MessageModel {
@@ -36,8 +35,6 @@ export function getMessageModelLogger(model: MessageModel): MessageModel {
       }
 
       // Disallowed set of methods & attributes
-
-      log.warn(`MessageModelLogger: model.${property}`, new Error().stack);
 
       if (typeof target[property] === 'function') {
         return target[property].bind(target);
