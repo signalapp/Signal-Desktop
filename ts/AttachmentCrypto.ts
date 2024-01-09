@@ -41,6 +41,7 @@ import type { ContextType } from './types/Message2';
 
 export const IV_LENGTH = 16;
 export const KEY_LENGTH = 32;
+export const DIGEST_LENGTH = 32;
 export const ATTACHMENT_MAC_LENGTH = 32;
 
 export type EncryptedAttachmentV2 = {
@@ -128,12 +129,20 @@ export async function encryptAttachmentV2({
   }
 
   const { digest: plaintextHash } = plaintextHashTransform;
-  if (!plaintextHash || !plaintextHash.byteLength) {
+  if (
+    !plaintextHash ||
+    !plaintextHash.byteLength ||
+    plaintextHash.byteLength !== DIGEST_LENGTH
+  ) {
     throw new Error(`${logId}: Failed to generate plaintext hash!`);
   }
 
   const { digest: ourDigest } = digestTransform;
-  if (!ourDigest || !ourDigest.byteLength) {
+  if (
+    !ourDigest ||
+    !ourDigest.byteLength ||
+    ourDigest.byteLength !== DIGEST_LENGTH
+  ) {
     throw new Error(`${logId}: Failed to generate ourDigest!`);
   }
 
@@ -221,10 +230,18 @@ export async function decryptAttachmentV2({
 
   const { ourMac } = macTransform;
   const { theirMac } = coreDecryptionTransform;
-  if (!ourMac || !ourMac.byteLength) {
+  if (
+    !ourMac ||
+    !ourMac.byteLength ||
+    ourMac.byteLength !== ATTACHMENT_MAC_LENGTH
+  ) {
     throw new Error(`${logId}: Failed to generate ourMac!`);
   }
-  if (!theirMac || !theirMac.byteLength) {
+  if (
+    !theirMac ||
+    !theirMac.byteLength ||
+    theirMac.byteLength !== ATTACHMENT_MAC_LENGTH
+  ) {
     throw new Error(`${logId}: Failed to find theirMac!`);
   }
   if (!constantTimeEqual(ourMac, theirMac)) {
@@ -232,8 +249,19 @@ export async function decryptAttachmentV2({
   }
 
   const { digest: ourDigest } = digestTransform;
-  if (!ourDigest || !ourDigest.byteLength) {
+  if (
+    !ourDigest ||
+    !ourDigest.byteLength ||
+    ourDigest.byteLength !== DIGEST_LENGTH
+  ) {
     throw new Error(`${logId}: Failed to generate ourDigest!`);
+  }
+  if (
+    !theirDigest ||
+    !theirDigest.byteLength ||
+    theirDigest.byteLength !== DIGEST_LENGTH
+  ) {
+    throw new Error(`${logId}: Failed to find theirDigest!`);
   }
   if (!constantTimeEqual(ourDigest, theirDigest)) {
     throw new Error(`${logId}: Bad digest`);
