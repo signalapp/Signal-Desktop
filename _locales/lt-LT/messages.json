@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Pridėti žinutę",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Žinutė",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Atlikta",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Pridėti į grupę",
@@ -2892,6 +2892,10 @@
     "messageformat": "Skaityti daugiau",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Žinutė per ilga, kad būtų rodoma daugiau",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} išsiuntė jums žinutę, kurios nepavyksta apdoroti ar parodyti, nes žinutė naudoja naująją Signal ypatybę."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} atmetė naudotojo {joinerName} prašymą prisijungti prie grupės.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Naudotojo {joinerName} prašymas prisijungti prie grupės buvo atmestas.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Pridėti žinutę",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Laisva forma",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Kvadratas",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Mano istorijos",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Ištaisėme klaidą, kylančią rodant cituotus atsakymus į vaizdo įrašus. Atsakymai buvo rodomi kaip atsakymai į nuotraukas (jei gerai pagalvoti, juk vaizdo įrašas ir yra tiesiog nuotraukų seka)."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Dėkojame {linkToGithub1} ir {linkToGithub2} už pagalbą dirbant ties šia versija."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Dabar galite dešiniuoju pelės mygtuku spustelėti bet kurį skambučio įvykį ir ištrinti jį iš pokalbio."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Taip pat norime padėkoti {linkToGithub1}, {linkToGithub2} ir {linkToGithub3} už jų indėlį kuriant šią versiją."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Jei kelių klaidų ištaisymą galime laikyti pažadu 2024-iesiems, metus pradėjome puikiai."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Pataisėme kinų, japonų ir korėjiečių kalbų simbolių rodymą skirtingose vietovėse."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Dėkojame {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} ir {linkToGithub5} už jų indėlį kuriant šią versiją!"
   }
 }

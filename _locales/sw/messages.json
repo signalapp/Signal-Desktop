@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Ongeza ujumbe",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Ujumbe",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Imekamilika",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Ongeza kwenye kikundi",
@@ -2892,6 +2892,10 @@
     "messageformat": "Soma zaidi",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Ujumbe ni mrefu sana, hauwezi kuonyeshwa zaidi",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} amekutumia ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu unatumia kipengele mpya cha Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} amekataa ombi la kujiunga na kikundi lililotumwa na {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Ombi la kujiunga na kikundi kutoka kwa {joinerName} limekataliwa.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Ongeza ujumbe",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Stori Zangu",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Tulirekebisha hitilafu iliyoonyesha majibu yaliyonukuliwa kwa video kana kwamba zilinukuliwa majibu ya picha, ingawa ukifikiria, kiuhalisia kila video ni msururu wa picha."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Shukrani kwa {linkToGithub1} na {linkToGithub2} kwa msaada wao kwenye toleo hili."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Geuza simu ulioikosa kuwa kitu ambacho hautakikosa. Sasa unaweza kubofya kulia kwenye tukio lolote la simu na kulifuta kutoka kwenye gumzo."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Pia tungependa kushukuru {linkToGithub1}, {linkToGithub2}, na {linkToGithub3} kwa michango yao kwenye toleo hili."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Kama kutatua hitilafu ndogo ndogo kunachukuliwa kama Malengo ya Mwaka Mpya, basi 2024 imeanza vizuri."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Hati zisizoonyesha eneo limeboresha namna hati za CJK zainavyoonekana kwenye lugha tofauti."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Asante kwa {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, na {linkToGithub5} kwa michango yao kwenye toleo hili!"
   }
 }

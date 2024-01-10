@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "বার্তা যোগ করুন",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "মেসেজ পাঠান",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "শেষ",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "গ্রুপে যোগ করো",
@@ -2892,6 +2892,10 @@
     "messageformat": "আরও পড়ুন",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "মেসেজটি খুবই বড়, তাই এর বেশি দেখানো যাচ্ছে না",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} একটি বার্তা প্রেরণ করেছে যা এখানে প্রক্রিয়া করা বা প্রদর্শিত করা যাচ্ছে না  কারণ এটি একটি নতুন Signal বৈশিষ্ট্য ব্যবহার করেছে।"
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} {joinerName}-এর থেকে গ্রুপটিতে যোগদান করার একটি অনুরোধ বাতিল করেছেন।",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "গ্রুপটিতে যোগদানের জন্য {joinerName}-এর অনুরোধ প্রত্যাখ্যান করা হয়েছে।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "বার্তা যোগ করুন",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "ফ্রিফর্ম",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "স্কয়ার",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "আমার স্টোরি",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "ভিডিওতে উদ্ধৃত উত্তর প্রদর্শন করার সময় দেখা দেয় এমন একটি ব্যাগ আমরা সংশোধন করেছি।"
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "এই রিলিজে সাহায্যের জন্য {linkToGithub1} এবং {linkToGithub2}-কে ধন্যবাদ।"
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "এখন আপনি যেকোনো কলে রাইট-ক্লিক করে চ্যাট থেকে মুছে ফেলতে পারবেন।"
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "আমরা এই রিলিজে অবদান রাখার সুবাদে {linkToGithub1}, {linkToGithub2}, ও {linkToGithub3}-কে ধন্যবাদ জানাতে চাই।"
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "আমরা কিছু ছোট বাগ সংশোধন করেছি।"
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "বিভিন্ন অঞ্চলজুড়ে চীনা, জাপানি ও কোরিয়ান অক্ষর কীভাবে প্রদর্শিত হয় তা উন্নত করা হয়েছে।"
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "{linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, এবং {linkToGithub5}-কে এই রিলিজে তাদের অবদানের জন্য ধন্যবাদ!"
   }
 }

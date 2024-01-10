@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "შეტყობინების დამატება",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "მიწერა",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "შესრულებულია",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ჯგუფში დამატება",
@@ -2892,6 +2892,10 @@
     "messageformat": "წაიკითე მეტი",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "შეტყობინება ძალიან გრძელია მეტის საჩვენებლად",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} -მა გამოგიგზავნა შეტყობინება, რომლის დამუშავება ან ჩვენება შეუძლებელია, რადგან ის Signal-ის ახალ ფუნქციას იყენებს."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} -მა {joinerName} -ის ჯგუფში გაწევრიანების მოთხოვნა უარყო.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName}-ის ჯგუფში გაწევრიანების მოთხოვნა უარყოფილია.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "შეტყობინების დამატება",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "თავისუფალი ფორმა",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "კვადრატი",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "ჩემი Stories-ები",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "ჩვენ გამოვასწორეთ ვიდეოზე ციტირებული პასუხების ჩვენებისას არსებული ხარვეზი."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "მადლობა {linkToGithub1}-ს და {linkToGithub2} ამ გამოშვებაში მათი დახმარებისთვის."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "ახლა უკვე შეგიძლია მაუსის მარჯვენა ღილაკით ნებისმიერი ზარის ღონისძიებაზე დააწკაპუნო და იგი ჩატიდან წაშალო."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "ასევე გვსურს, მადლობა გადავუხადოთ {linkToGithub1}-ს, {linkToGithub2}-ს და {linkToGithub3}-ს ამ გამოშვებაში შეტანილი წვლილისთვის."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "რამდენიმე პატარა ხარვეზი გამოვასწორეთ."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "გავაუმჯობესეთ ჩინური, იაპონური და კორეული სიმბოლოების ჩვენება სხვადასხვა ადგილებში."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "მადლობა {linkToGithub1}-ს, {linkToGithub2}-ს, {linkToGithub3}-ს, {linkToGithub4}-სა და {linkToGithub5}-ს ამ გამოშვებაში შეტანილი წვლილისთვის!"
   }
 }

@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "संदेश जोडा",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "संदेश",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "ठीक",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "गटात जोडा",
@@ -2892,6 +2892,10 @@
     "messageformat": "आणखी वाचा",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "अधिक प्रदर्शित करण्यासाठी संदेश फार मोठा आहे",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} ने आपल्याला एक संदेश पाठविला आहे जो प्रक्रिया केला किंवा दाखविला जाऊ शकत नाही कारण तो एक नवीन Signal वैशिष्ट्य वापरतो."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName}ने {joinerName}कडून गटात सामील होण्याची विनंतीला नकार दिला.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} कडील गटात सामील होण्याची विनंती नाकारली गेली होती.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "संदेश जोडा",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "फ्रिफॉर्म",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "चौकोन",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "माझ्या स्टोरीज",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "आम्ही व्हिडीओला उद्धृत केलेल्या प्रत्त्युत्तरांना ते फोटोना प्रत्त्युत्तर म्हणून उद्धृत केले जात असलेले दाखवणाऱ्या दोषाला दुरूस्त केले आहे, अगदी आपण विचार केल्यास, प्रत्येक व्हिडीओ हा फोटोची मालिकाच असतो."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "{linkToGithub1} आणि {linkToGithub2} यांचे या रिलिझ साठी त्यांनी केलेल्या मदती साठी आभार."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "मिस्ड कॉलला अशामध्ये बदला ज्याने तो मिस होणार नाही. आता आपण कोणत्याही कॉल इव्हेंटवर उजवे क्लिक करून, त्याला चॅटमधून हटवू शकता."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "या रिलीझच्या योगदानासाठी आम्ही {linkToGithub1}, {linkToGithub2}, आणि {linkToGithub3} यांचे देखील आभार मानू इच्छितो."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "नवीन वर्षाचा संकल्प म्हणून जर काही लहान दोषांचे निराकरण करणे ठरवल्यास, 2024 ची सुरूवात अद्भूत झाली आहे."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "विविध भाषांमध्ये CJK वर्ण कसे प्रदर्शित केले जावेत याचे प्रदेश-तटस्थ फॉन्ट फॉलबॅक लॉजिक सुधारले."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "{linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, आणि {linkToGithub5} यांचे त्यांच्या या रिलिझ मधील योगदानाबद्दल आभार!"
   }
 }

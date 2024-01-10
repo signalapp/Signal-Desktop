@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "ਸੁਨੇਹਾ ਜੋੜੋ",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "ਸੁਨੇਹਾ",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "ਮੁਕੰਮਲ",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ਕਿਸੇ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
@@ -2892,6 +2892,10 @@
     "messageformat": "ਹੋਰ ਪੜ੍ਹੋ",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "ਹੋਰ ਦਿਖਾਉਣ ਦੇ ਲਈ ਸੁਨੇਹਾ ਬਹੁਤ ਲੰਬਾ ਹੈ",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} ਨੇ ਤੁਹਾਨੂੰ ਇੱਕ ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਿਸ ਨੂੰ ਪ੍ਰੋਸੈਸ ਜਾਂ ਡਿਸਪਲੇ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਇਹ Signal ਦੀ ਇੱਕ ਨਵੀਂ ਵਿਸ਼ੇਸ਼ਤਾ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।"
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName}ਨੇ {joinerName} ਦੀ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਨੂੰ ਨਾਮਨਜ਼ੂਰ ਕਰ ਦਿੱਤਾ।",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} ਤੋਂ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਮਨਜ਼ੂਰ ਕਰ ਲਈ ਗਈ ਹੈ।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "ਸੁਨੇਹਾ ਜੋੜੋ",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "ਮੇਰੀਆਂ ਸਟੋਰੀਆਂ",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "ਵੀਡੀਓ 'ਤੇ ਆਏ ਕਿਓਟ ਕੀਤੇ ਜਵਾਬ ਪ੍ਰਦਰਸ਼ਿਤ ਕਰਨ ਲਈ ਅਸੀਂ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ।"
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "ਇਸ ਰੀਲੀਜ਼ ਵਿੱਚ ਮਦਦ ਲਈ {linkToGithub1} ਅਤੇ {linkToGithub2} ਦਾ ਬਹੁਤ-ਬਹੁਤ ਧੰਨਵਾਦ।"
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "ਹੁਣ ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਕਾਲ ਇਵੈਂਟ 'ਤੇ ਸੱਜਾ-ਕਲਿੱਕ ਕਰਕੇ ਉਸਨੂੰ ਚੈਟ ਵਿੱਚੋਂ ਮਿਟਾ ਸਕਦੇ ਹੋ।"
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "ਅਸੀਂ ਇਸ ਰੀਲੀਜ਼ ਵਿੱਚ ਯੋਗਦਾਨ ਲਈ {linkToGithub1}, {linkToGithub2}, ਅਤੇ {linkToGithub3} ਦਾ ਵੀ ਧੰਨਵਾਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹਾਂ।"
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "ਜੇਕਰ ਕੁਝ ਛੋਟੀਆਂ-ਮੋਟੀਆਂ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "ਵੱਖ-ਵੱਖ ਸਥਾਨਾਂ 'ਤੇ ਚੀਨੀ, ਜਾਪਾਨੀ ਅਤੇ ਕੋਰੀਅਨ ਭਾਸ਼ਾ ਦੇ ਅੱਖਰਾਂ ਨੂੰ ਦਿਖਾਉਣ ਦੇ ਤਰੀਕੇ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤਾ ਗਿਆ ਹੈ।"
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "ਅਸੀਂ ਇਸ ਰੀਲੀਜ਼ ਵਿੱਚ ਯੋਗਦਾਨ ਲਈ {linkToGithub1}, {linkToGithub2},{linkToGithub3}, {linkToGithub4} ਅਤੇ {linkToGithub5} ਦਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ!"
   }
 }

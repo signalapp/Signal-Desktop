@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "စာ",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "ပြီးပါပြီ",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "အဖွဲ့တစ်ဖွဲ့ထဲသို့ ထည့်မယ်",
@@ -2892,6 +2892,10 @@
     "messageformat": "ပိုမိုဖတ်ရှုရန်",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "မက်ဆေ့ချ်သည် ပို၍ပြသရန် ရှည်လွန်းသည်",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "စီမံလုပ်ဆောင်ခြင်း သို့မဟုတ် ပြသခြင်း မပြုလုပ်နိုင်သော မက်ဆေ့ချ်တစ်စောင်ကို {contact} က သင့်ထံ ပို့ထားသည်၊ အကြောင်းမှာ Signal လုပ်ဆောင်ချက်အသစ်ကို သုံးသောကြောင့် ဖြစ်ပါသည်။"
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} သည် {joinerName} ထံမှ အဖွဲ့တွင် ပါဝင်ရန် တောင်းဆိုချက်ကို ငြင်းပယ်ခဲ့ပါသည်။",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} မှ အဖွဲ့သို့ဝင်ရန် တောင်းဆိုချက်သည် ငြင်းဆိုခံခဲ့ရပါသည်။",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "စတုရန်း",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "ကျွန်ုပ်၏ စတိုရီများ",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "ဗီဒီယိုများအား အကိုးအကားဖြင့် အကြောင်းပြန်မှုများကို ပြသသောအခါ ဖြစ်ပေါ်သည့် ချို့ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "ဤထုတ်ဝေမှုအတွက် ကူညီပေးသောကြောင့် {linkToGithub1} နှင့် {linkToGithub2} ကို ကျေးဇူးတင်ပါသည်။"
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "ယခုအခါ မည်သည့်ကောလ်ဖော်ပြချက်ကိုမဆို ညာဘက်ကလစ်နှိပ်ပြီး ချက်(တ်)ထဲမှ ဖျက်နိုင်ပါပြီ။"
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "ဤထုတ်ဝေမှုတွင် ပံ့ပိုးပါဝင်ခဲ့သည့်အတွက် {linkToGithub1}၊ {linkToGithub2} နှင့် {linkToGithub3} တို့ကိုလည်း ကျေးဇူးတင်လိုပါသည်။"
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "အသေးစားချို့ယွင်းချက် အနည်းငယ်ကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "ကွဲပြားသောဒေသများတွင် တရုတ်၊ ဂျပန်နှင့် ကိုရီးယား အက္ခရာများအား ပြသပုံကို ပိုမိုကောင်းမွန်အောင် လုပ်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "ဤထုတ်ဝေမှုတွင် ပံ့ပိုးပါဝင်ခဲ့သည့်အတွက် {linkToGithub1}၊ {linkToGithub2}၊ {linkToGithub3}၊ {linkToGithub4} နှင့် {linkToGithub5} တို့ကို ကျေးဇူးတင်ပါသည်။"
   }
 }

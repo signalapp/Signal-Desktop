@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Dodaj sporočilo",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Sporočilo",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "OK",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Dodaj v skupino",
@@ -2892,6 +2892,10 @@
     "messageformat": "Preberi več",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Sporočilo je predolgo, da bi prikazali več",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "Uporabnik {contact} vam je poslal sporočilo, ki ne more biti procesirano oziroma prikazano, ker vsebuje novo funkcijo aplikacije Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "Član_ica {adminName} je zavrnil_a prošnjo uporabnika_ce {joinerName}za pridružitev skupini.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Prošnja osebe {joinerName} za pridružitev skupini je bila zavrnjena.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Dodaj sporočilo",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Prosta oblika",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Kvadrat",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Moje zgodbe",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Odpravili smo napako, ki je prikazovala citirane odgovore na videoposnetke, kot da bi bili citirani odgovori na fotografije, čeprav je vsak videoposnetek v resnici le zaporedje fotografij, če dobro pomislite."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Hvala {linkToGithub1} in {linkToGithub2} za pomoč pri tej izdaji."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Spremenite neodgovorjeni klic v nekaj, česar ne boste pogrešali. Zdaj lahko z desno miškino tipko kliknete katerikoli dogodek klica in ga izbrišete iz klepeta."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Prav tako bi se radi zahvalili {linkToGithub1}, {linkToGithub2} in {linkToGithub3} za njihove prispevke k tej izdaji."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Če razrešitev nekaj majhnih napak šteje kot novoletna zaobljuba, potem se je leto 2024 fantastično začelo."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Izboljšan prikaz kitajskih, japonskih in korejskih znakov v različnih jezikih."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Hvala {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} in {linkToGithub5} za njihove prispevke k tej izdaji!"
   }
 }

@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Gehitu mezu bat",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Mezua",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Eginda",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Gehitu taldera",
@@ -2892,6 +2892,10 @@
     "messageformat": "Irakurri gehiago",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Mezua luzeegia da, eta ezin da gehiago erakutsi",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact}erabiltzaileak prozesatu edo erakusti ezin daitekeen mezu bat bidali dizu; arrazoia zera da:  mezuak Signal-en ezagarri berria erabiltzen du."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} erabiltzaileak taldean sartzeko {joinerName} erabiltzailearen eskaera ukatu du.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} erabiltzaileak taldean sartzeko egindako eskaera ukatua izan da.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Gehitu mezu bat",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Forma askea",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Karratua",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Nire istorioak",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Bideoetako erantzunak aipaturiko argazkietako erantzunak balira bezala bistaratzen zituen akats bat konpondu dugu, nahiz eta bideoak argazki-sekuentzia bat besterik ez diren."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Eskerrik asko, {linkToGithub1} eta {linkToGithub2}, bertsio honetan emandako laguntzarengatik."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Orain, edozein dei-gertaeratan eskuineko botoiarekin klik egin, eta txatetik ezaba dezakezu."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Halaber, eskerrak eman nahi dizkiegu {linkToGithub1}, {linkToGithub2} eta {linkToGithub3} erabiltzaileei, bertsio honetan egindako ekarpenengatik."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Akats txiki pare bat konpontzea Urteberriko helburu gisa kontuan hartu ahal bada, 2024 primeran hasi da."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Eskualde-ezarpen ezberdinetan karaktere txinatar, japoniar eta korearrak bistaratzeko modua hobetu da."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Gora zuek, {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} eta {linkToGithub5}, kaleratze honetan egindako ekarpenengatik!"
   }
 }

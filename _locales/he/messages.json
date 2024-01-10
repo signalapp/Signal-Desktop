@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "הוסף הודעה",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "הודעה",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "סיים",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "הוסף אל קבוצה",
@@ -2892,6 +2892,10 @@
     "messageformat": "קרא עוד",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "הודעה ארוכה מכדי להציג עוד",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} שלח לך הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין חדש של Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} דחה/דחתה בקשה להצטרף אל קבוצה מאת {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "בקשה להצטרף אל הקבוצה מאת {joinerName} נדחתה.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "הוסף הודעה",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "צורה חופשית",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "ריבוע",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "הסטוריז שלי",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "תיקנו באג שקרה בזמן הצגת תשובות מצוטטות לסרטונים."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "תודה ל{linkToGithub1} ול{linkToGithub2} על העזרה עם הגרסה הזו."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "עכשיו אפשר לעשות קליק ימני על כל אירוע שיחה ולמחוק אותו מהצ׳אט."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "אנחנו רוצים להודות גם ל{linkToGithub1}, {linkToGithub2}, ו{linkToGithub3} על התרומות שלהם לגרסה הזו."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "לכבוד תחילתה של שנת 2024, תיקנו כמה באגים קטנים."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "שיפרנו את התצוגה של תווים בסינית, ביפנית ובקוריאנית במיקומים שונים."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "תודה ל-{linkToGithub1}, ל-{linkToGithub2}, ל-{linkToGithub3}, ל-{linkToGithub4}, ול-{linkToGithub5} על התרומות שלהם לגרסה הזו!"
   }
 }

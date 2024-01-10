@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Pievienojiet ziņu",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Ziņa",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Darīts",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Pievienot grupai",
@@ -2892,6 +2892,10 @@
     "messageformat": "Lasīt vairāk",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Ziņa ir pārāk gara, lai to attēlotu pilnībā",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact}nosūtīja jums ziņu, kuru nevar apstrādāt vai parādīt, jo tajā izmantota jauna Signal funkcija."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} noraidīja {joinerName} pieprasījumu pievienoties šai grupai.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} pieprasījums pievienoties šai grupai tika noraidīts.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Pievienojiet ziņu",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Brīva forma",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Kvadrāts",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Mani stāsti",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Mēs novērsām kļūdu, kas lika citētām atbildēm uz videoklipiem parādīties tā, it kā tās būtu citētas atbildes uz fotoattēliem, kaut gan, ja tā labi padomā, videoklipi nav nekas cits kā secīgi fotoattēli."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Paldies {linkToGithub1} un {linkToGithub2} par palīdzību šīs versijas izstrādē."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Vairs nekādu lieku atgādinājumu par neatbildētiem zvaniem. Tagad no sarunām varat dzēst jebkuru zvanu paziņojumu, noklikšķinot uz tā ar labo peles taustiņu."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Vēlamies pateikties arī {linkToGithub1}, {linkToGithub2} un {linkToGithub3} par ieguldījumu šīs versijas izstrādē."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Ja dažu mazu kļūdiņu izlabošanu var uzskatīt par Jaungada apņemšanos, tad 2024. gads ir iesācies brīnišķīgi."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Ir uzlabots veids, kā tiek parādītas ķīniešu, japāņu un korejiešu rakstzīmes dažādās atrašanās vietās."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Paldies {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} un {linkToGithub5} par ieguldījumu šīs versijas izstrādē!"
   }
 }

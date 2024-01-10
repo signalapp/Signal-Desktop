@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "ഒരു സന്ദേശം ചേര്‍ക്കുക",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "സന്ദേശം",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "ചെയ്‌തു",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക",
@@ -2892,6 +2892,10 @@
     "messageformat": "കൂടുതൽ വായിക്കുക",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "കൂടുതൽ കാണിക്കാനാകുന്നതിലും നീണ്ടതാണ് സന്ദേശം",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "പുതിയ Signal ഫീച്ചർ ഉപയോഗിക്കുന്നതിനാൽ പ്രോസസ്സ് ചെയ്യാൻ കഴിയാത്തതോ പ്രദർശിപ്പിക്കാൻ കഴിയാത്തതോ ആയ ഒരു സന്ദേശം {contact} നിങ്ങൾക്ക് അയച്ചു."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{joinerName}-യിൽ നിന്ന് ഗ്രൂപ്പിൽ ചേരാനുള്ള അഭ്യർത്ഥന {adminName}നിഷേധിച്ചു.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "ഗ്രൂപ്പിൽ ചേരാനുള്ള {joinerName}-യുടെ അഭ്യർത്ഥന നിരസിച്ചു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "ഒരു സന്ദേശം ചേര്‍ക്കുക",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "ഫ്രീഫോം",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "സ്ക്വയർ",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "എന്റെ സ്റ്റോറികൾ",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "ഓരോ വീഡിയോയും ഫോട്ടോകളുടെ ഒരു ശ്രേണി മാത്രമാണെങ്കിലും, ഫോട്ടോകൾക്കുള്ള ക്വാട്ട് ചെയ്ത മറുപടികൾ എന്ന മട്ടിൽ വീഡിയോകൾക്കുള്ള ക്വാട്ട് ചെയ്ത മറുപടികൾ പ്രദർശിപ്പിക്കുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "ഈ റിലീസുമായി ബന്ധപ്പെട്ട സഹായത്തിന് {linkToGithub1} , {linkToGithub2} എന്നിവർക്ക് നന്ദി."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "മിസ്‌ഡ് കോളിനെ, കാണാതെ പോകാത്തതാക്കി മാറ്റൂ. ഇപ്പോൾ നിങ്ങൾക്ക് ഏത് കോൾ ഇവന്റിലും റൈറ്റ് ക്ലിക്ക് ചെയ്ത് അത് ചാറ്റിൽ നിന്ന് ഇല്ലാതാക്കാം."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "ഈ റിലീസുമായി ബന്ധപ്പെട്ട സംഭാവനകൾക്ക് {linkToGithub1}, {linkToGithub2}, {linkToGithub3} എന്നിവരോട് ഞങ്ങൾ നന്ദി അറിയിക്കുന്നു."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "ഏതാനും ചെറിയ ബഗുകൾ പരിഹരിക്കുന്നത് ഒരു പുതുവത്സര തീരുമാനമായി കണക്കാക്കുന്നുവെങ്കിൽ, 2024 ഒരു മികച്ച തുടക്കമാണ്."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "റീജിയൺ-ന്യൂട്രൽ ഫോണ്ട് ഫാൾബാക്ക് ലോജിക്, വിവിധ ഭാഷകളിൽ CJK പ്രതീകങ്ങൾ എങ്ങനെ പ്രദർശിപ്പിക്കുന്നുവെന്നത് മെച്ചപ്പെടുത്തുന്നു."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "ഈ റിലീസിൽ നൽകിയ സംഭാവനകൾക്ക് {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, {linkToGithub5} എന്നിവർക്ക് നന്ദി!"
   }
 }

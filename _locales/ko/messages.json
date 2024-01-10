@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "메시지 추가",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "메시지",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "확인",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "그룹에 추가",
@@ -2892,6 +2892,10 @@
     "messageformat": "더 읽기",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "메시지가 너무 길어 더 표시할 수 없습니다.",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} 님이 처리하거나 표시할 수 없는 메시지를 보냈습니다. 이는 메시지에서 새로운 Signal 기능을 사용하기 때문입니다."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName}가 {joinerName}의 그룹 참가 요청을 거절했습니다.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} 님의 그룹 참가 요청이 거절되었습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "메시지 추가",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "자유형",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "정사각형",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "내 스토리",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "영상에 대한 인용 회신을 표시할 때 발생하던 버그를 수정했습니다."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "이번 릴리스에 도움을 준 {linkToGithub1} 님과 {linkToGithub2} 님께 감사를 표합니다."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "이제 통화 기록을 마우스 오른쪽 단추로 클릭하여 채팅에서 삭제할 수 있습니다."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "이번 릴리스에 기여해 주신 {linkToGithub1} 님과 {linkToGithub2} 님, {linkToGithub3} 님에게도 감사를 표합니다."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "몇 가지 사소한 버그를 수정했습니다."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "서로 다른 로캘에서 중국어, 일본어, 한국어 문자가 표시되는 방식을 개선했습니다."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "이번 릴리스에 기여해 주신 {linkToGithub1} 님, {linkToGithub2} 님, {linkToGithub3} 님, {linkToGithub4} 님, {linkToGithub5} 님께 감사를 표합니다!"
   }
 }

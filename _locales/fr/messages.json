@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Ajouter un message",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Légende",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Terminé",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Ajouter à un groupe",
@@ -1339,7 +1339,7 @@
     "description": "Label for the time a message was received"
   },
   "icu:sendMessage": {
-    "messageformat": "Légende",
+    "messageformat": "Saisir un message",
     "description": "Placeholder text in the message entry field"
   },
   "icu:groupMembers": {
@@ -2892,6 +2892,10 @@
     "messageformat": "Lire la suite",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Message rogné car trop long",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} vous a envoyé un message qui ne peut être ni traité ni affiché, car il utilise une nouvelle fonction de Signal."
   },
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName} a refusé une demande de {joinerName} de se joindre au groupe.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Une demande de {joinerName} de se joindre au groupe a été refusée.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} a demandé et annulé sa demande à se joindre au groupe grâce au lien du groupe",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -4617,7 +4625,7 @@
     "description": "Description for counting muted conversations in badge setting"
   },
   "icu:ContactModal--message": {
-    "messageformat": "Légende",
+    "messageformat": "Envoyer un message",
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "icu:ContactModal--rm-admin": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Ajouter un message",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Carré",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Mes Stories",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Nous avons corrigé un bug qui affichait des réponses à des vidéos comme s'il s'agissait de réponses à des photos. (Même si, quand on y pense, une vidéo est en fait une série de photos montées les unes à la suite des autres.)"
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Merci {linkToGithub1} et {linkToGithub2} pour leur aide dans le lancement de cette version."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Transformez un appel manqué en quelque chose qui ne vous manquera pas. Vous pouvez désormais cliquer droit sur n’importe quel évènement impliquant un appel et le supprimer d’une conversation."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Nous tenons également à remercier {linkToGithub1}, {linkToGithub2} et {linkToGithub3} pour avoir contribué au lancement de cette version."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Si corriger de petits bugs pouvait faire partie des bonnes résolutions à prendre en début d’année, 2024 commence fort !"
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "L’ajustement des polices en fonction des régions permet d’améliorer l’affichage des caractères CJC dans les différentes localités."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Nous tenons à remercier {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} et {linkToGithub5} pour avoir contribué au lancement de cette version !"
   }
 }

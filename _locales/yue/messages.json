@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "寫返句訊息",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "訊息",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "完成",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "加入去一個谷度",
@@ -2892,6 +2892,10 @@
     "messageformat": "睇晒全文",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "訊息太長，顯示唔到更多",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} 傳送咗一個訊息俾你。呢個訊息用咗 Signal 嘅全新功能，所以冇辦法處理或者顯示出嚟。"
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} 拒絕咗 {joinerName} 加入群組嘅請求。",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} 加入呢個谷嘅請求已被拒。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "寫返句訊息",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "自由格式",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "方形",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "我嘅限時動態",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "我哋修正咗一個喺顯示影片嘅引用回覆時出現嘅錯誤。"
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "今次嘅版本更新全靠 {linkToGithub1} 同 {linkToGithub2} 幫手，唔該晒！"
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "而家，你可以喺聊天度用滑鼠右掣㩒一下任何通話事件，然後將佢刪除。"
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "我哋仲想多謝 {linkToGithub1}、{linkToGithub2} 同 {linkToGithub3} 對今次版本更新嘅貢獻。"
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "如果修正錯誤都算係新年目標，咁我哋 2024 年都算開咗個靚頭，解決咗幾個小錯誤，"
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "改進咗中文、日文同韓文字元喺唔同語言嘅顯示方式。"
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "多謝 {linkToGithub1}、{linkToGithub2}、{linkToGithub3}、{linkToGithub4} 同 {linkToGithub5} 對今次版本更新嘅貢獻！"
   }
 }

@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Tambah pesan",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Pesan",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Selesai",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Tambahkan ke grup",
@@ -2892,6 +2892,10 @@
     "messageformat": "Baca lebih lanjut",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Pesan terlalu panjang untuk ditampilkan selengkapnya",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} mengirimkan Anda pesan yang tidak dapat diproses atau ditampilkan karena menggunakan fitur baru Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} menolak permintaan bergabung ke grup dari {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Permintaan bergabung ke grup dari {joinerName} telah ditolak.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Tambah pesan",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Bentuk bebas",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Persegi",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Cerita Saya",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Kami memperbaiki bug yang terjadi saat menampilkan balasan kutipan untuk video."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Terima kasih kepada {linkToGithub1} dan {linkToGithub2} atas bantuan mereka dalam rilis kali ini."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Sekarang Anda bisa klik kanan pada panggilan mana pun dan menghapusnya dari obrolan."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Kami juga ingin ucapkan terima kasih kepada {linkToGithub1}, {linkToGithub2}, dan {linkToGithub3} atas kontribusinya pada rilis kali ini."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Kami memperbaiki beberapa bug kecil."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Menyempurnakan tampilan bahasa Mandarin, Jepang, dan Korea di berbagai wilayah."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Terima kasih untuk {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, dan {linkToGithub5} atas kontribusinya pada rilis ini!"
   }
 }

@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Aggiungi un messaggio",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Messaggio",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Fatto",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Aggiungi a un gruppo",
@@ -2892,6 +2892,10 @@
     "messageformat": "Leggi tutto",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Messaggio troppo lungo per mostrarlo tutto",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} ti ha inviato un messaggio che non può essere elaborato o visualizzato perché utilizza una nuova funzione di Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} ha rifiutato una richiesta di unirsi al gruppo da {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Una richiesta di unirsi al gruppo da {joinerName} è stata rifiutata.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Aggiungi un messaggio",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Mano libera",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Quadrato",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Le mie Storie",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Abbiamo risolto un bug che mostrava i messaggi di risposta ai video come messaggi di risposta alle foto, una cosa un po' strana… ma ora è tutto risolto!"
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Grazie a {linkToGithub1} e {linkToGithub2} per il loro contributo in questo aggiornamento!"
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "A volte è meglio rimuovere le chiamate perse. Da ora puoi cliccare con il tasto destro su qualsiasi chiamata per eliminarla dalla chat."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Vorremmo anche ringraziare {linkToGithub1}, {linkToGithub2} e {linkToGithub3} per il loro contributo a questo aggiornamento!"
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Se risolvere dei bug conta come buon proposito per il nuovo anno, allora il nostro 2024 non poteva iniziare meglio!"
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Da ora i caratteri CJK (cinesi, giapponesi e coreani) verranno mostrati in modo più chiaro all'interno dell'app."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Grazie a {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} e {linkToGithub5} per il loro contributo a questo aggiornamento!"
   }
 }

@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Добавьте сообщение",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Сообщение",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Готово",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Добавить в группу",
@@ -2892,6 +2892,10 @@
     "messageformat": "Читать далее",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Сообщение слишком длинное для отображения",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} отправил(-a) вам сообщение, которое не может быть обработано или отображено, поскольку оно использует новую функцию Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} отклонил(-а) запрос на присоединение к группе от {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Запрос на присоединение к группе от {joinerName} был отклонён.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Добавьте сообщение",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Квадратное",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Мои истории",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Мы исправили ошибку, из-за которой цитируемые ответы на видео отображались как цитируемые ответы на фото. Несмотря на то, что на самом деле каждое видео – это просто ряд фото в определённой последовательности, если вдуматься."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Спасибо {linkToGithub1} и {linkToGithub2} за помощь в работе над этим релизом."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Превратите пропущенный звонок в то, что больше не будет пропущено. Теперь вы можете щёлкнуть правой кнопкой мыши на любом звонке и удалить его из чата."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Мы также хотим поблагодарить {linkToGithub1}, {linkToGithub2} и {linkToGithub3} за их вклад в создание этого релиза."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Если устранение нескольких мелких ошибок считается новогодним желанием, то 2024 год начинается просто замечательно."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Мы улучшили отображение китайских, японских и корейских иероглифов в разных регионах."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Спасибо {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} и {linkToGithub5} за вклад в создание этого релиза!"
   }
 }

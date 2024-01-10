@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "கூட்டு ஒரு செய்தி",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "செய்தி",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "முடிந்தது",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ஒரு குழுவில் சேர்க்கவும்",
@@ -2892,6 +2892,10 @@
     "messageformat": "மேலும் படிக்க",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "மெசேஜ் மிக நீளமாக உள்ளதால், மேலும் காட்ட இயலாது",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} உங்களுக்கு ஒரு செய்தியை அனுப்பியது, இது புதிய Signal அம்சத்தைப் பயன்படுத்துவதால் செயலாக்கவோ அல்லது காட்டவோ முடியாது."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName}  கோரிக்கையை மறுத்தார் சேர தி குழு இருந்து {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "குழுவில் சேர ஒரு கோரிக்கை {joinerName} மறுக்கப்பட்டது.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "கூட்டு ஒரு செய்தி",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "சதுரம்",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "எனது ஸ்டோரீஸ்",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "வீடியோக்களுக்கு மேற்கோளிடப்பட்ட பதில்களைக் காண்பிக்கும் போது வரும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "இந்த வெளியீட்டில் உதவிய {linkToGithub1} மற்றும் {linkToGithub2} ஆகியோருக்கு நன்றி."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "தவறவிட்ட அழைப்பை தவறவிடாத ஒன்றாக மாற்றலாம். இப்போது நீங்கள் எந்த அழைப்பு நிகழ்விலும் ரைட் கிளிக் செய்து அதை சாட்டிலிருந்து நீக்கலாம்."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "இந்த வெளியீட்டில் பங்களித்த {linkToGithub1}, {linkToGithub2}, மற்றும் {linkToGithub3} ஆகியோருக்கும் நன்றி தெரிவிக்க விரும்புகிறோம்."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "சில சிறிய பிழைகளைத் தீர்ப்பது புத்தாண்டு உறுதி மொழியாகக் கருதப்பட்டால், 2024 ஒரு அற்புதமான தொடக்கமாக இருக்கப் போகிறது."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "சீன, ஜப்பானிய மற்றும் கொரிய எழுத்துக்கள் வெவ்வேறு இடங்களில் எவ்வாறு காட்டப்படுகின்றன என்பதை மேம்படுத்தவும்."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "இந்த வெளியீட்டிற்குப் பங்களித்த {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, மற்றும் {linkToGithub5} ஆகியவற்றுக்கு நன்றி!"
   }
 }

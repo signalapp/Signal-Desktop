@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Přidat zprávu",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Zpráva",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Hotovo",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Přidat do skupiny",
@@ -2892,6 +2892,10 @@
     "messageformat": "Číst dál",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Zpráva je příliš dlouhá na to, aby bylo možné zobrazit více",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} vám poslal/a zprávu, kterou nelze zpracovat ani zobrazit, protože používá novou funkci Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} zamítl/a žádost o připojení ke skupině od {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Požadavek na připojení ke skupině od {joinerName} byl zamítnut.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Přidat zprávu",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Volný formát",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Čtverec",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Moje příběhy",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Opravili jsme chybu při zobrazování citovaných odpovědí na videa."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Děkujeme {linkToGithub1} a {linkToGithub2} za pomoc s tímto vydáním."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Teď můžete pravým tlačítkem myši kliknout na jakýkoli hovor a z chatu ho smazat."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "Rádi bychom také poděkovali {linkToGithub1}, {linkToGithub2} a {linkToGithub3} za jejich přispění k tomuto vydání."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Opravili jsme pár drobných chyb."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Vylepšili jsme způsob zobrazování čínských, japonských a korejských znaků v různých jazycích."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Děkujeme uživatelům {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} a {linkToGithub5} za jejich přispění k tomuto vydání!"
   }
 }

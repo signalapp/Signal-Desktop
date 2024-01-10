@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Añadir mensaje",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Mensaje",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Hecho",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Añadir a un grupo",
@@ -2892,6 +2892,10 @@
     "messageformat": "Leer más",
     "description": "When a message is too long this is the affordance to expand the message"
   },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Mensaje demasiado largo para mostrar más",
+    "description": "When an incoming message is too long, and we refused to download it"
+  },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} te ha enviado un mensaje que no se puede procesar o mostrar ya que usa una característica nueva de Signal."
   },
@@ -4350,6 +4354,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} ha rechazado la solicitud de {joinerName} para unirse al grupo.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Se ha rechazado la solicitud de {joinerName} para unirse al grupo.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -6064,6 +6072,18 @@
     "messageformat": "Añadir mensaje",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Forma libre",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Cuadrado",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
+  },
   "icu:MyStories__title": {
     "messageformat": "Mis historias",
     "description": "Title for the my stories list"
@@ -7020,12 +7040,6 @@
     "messageformat": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Hemos arreglado un error que se producía al mostrar las respuestas citadas en los vídeos."
-  },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Gracias a {linkToGithub1} y {linkToGithub2} por su ayuda con estas novedades."
-  },
   "icu:WhatsNew__v6.43--0": {
     "messageformat": "Ahora puedes hacer clic con el botón derecho sobre cualquier llamada del registro para borrarla del chat."
   },
@@ -7037,5 +7051,14 @@
   },
   "icu:WhatsNew__v6.43--3": {
     "messageformat": "También nos gustaría agradecerles a {linkToGithub1}, {linkToGithub2} y {linkToGithub3} sus contribuciones a esta versión."
+  },
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Hemos arreglado un par de pequeños errores."
+  },
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Hemos mejorado la forma en que se muestran los caracteres chinos, japoneses y coreanos en distintas configuraciones regionales."
+  },
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "¡Gracias a {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} y {linkToGithub5} por sus contribuciones a esta versión!"
   }
 }
