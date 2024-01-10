@@ -1,14 +1,19 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import pTimeout from 'p-timeout';
+
 import * as Errors from '../types/errors';
 import { getConversation } from '../util/getConversation';
-import { DAY } from '../util/durations';
+import { MINUTE, DAY } from '../util/durations';
 import { drop } from '../util/drop';
+import { explodePromise } from '../util/explodePromise';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { checkForUsername } from '../util/lookupConversationWithoutServiceId';
 import { storageJobQueue } from '../util/JobQueue';
+import { getAbsoluteProfileAvatarPath } from '../util/avatarUtils';
 import { getProfile } from '../util/getProfile';
+import { imagePathToBytes } from '../util/imagePathToBytes';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import * as log from '../logging/log';
 import { resolveUsernameByLink } from './username';
@@ -16,6 +21,8 @@ import { runStorageServiceSyncJob } from './storage';
 import { writeProfile } from './writeProfile';
 
 const CHECK_INTERVAL = DAY;
+
+const STORAGE_SERVICE_TIMEOUT = 30 * MINUTE;
 
 class UsernameIntegrityService {
   private isStarted = false;
@@ -131,7 +138,21 @@ class UsernameIntegrityService {
       runStorageServiceSyncJob();
     }
 
-    window.Whisper.events.once('storageService:syncComplete', () => {
+    // Since we already run on storage service job queue - don't await the
+    // promise below (otherwise deadlock will happen).
+    drop(this.fixProfile());
+  }
+
+  private async fixProfile(): Promise<void> {
+    const { promise: once, resolve } = explodePromise<void>();
+
+    window.Whisper.events.once('storageService:syncComplete', () => resolve());
+
+    await pTimeout(once, STORAGE_SERVICE_TIMEOUT);
+
+    const me = window.ConversationController.getOurConversationOrThrow();
+
+    {
       const localValue = isSharingPhoneNumberWithEverybody();
       const remoteValue = !me.get('notSharingPhoneNumber');
       if (localValue === remoteValue) {
@@ -141,19 +162,31 @@ class UsernameIntegrityService {
         );
         return;
       }
+    }
 
-      log.warn(
-        'usernameIntegrity: phone number sharing mode conflict not resolved, ' +
-          'updating profile'
-      );
+    log.warn(
+      'usernameIntegrity: phone number sharing mode conflict not resolved, ' +
+        'updating profile'
+    );
 
-      drop(
-        writeProfile(getConversation(me), {
-          oldAvatar: undefined,
-          newAvatar: undefined,
-        })
-      );
+    const profileAvatarPath = getAbsoluteProfileAvatarPath(me.attributes);
+
+    let avatarBuffer: Uint8Array | undefined;
+    if (profileAvatarPath) {
+      try {
+        avatarBuffer = await imagePathToBytes(profileAvatarPath);
+      } catch (error) {
+        log.error('usernameIntegrity: local avatar not found, aborting');
+        return;
+      }
+    }
+
+    await writeProfile(getConversation(me), {
+      oldAvatar: avatarBuffer,
+      newAvatar: avatarBuffer,
     });
+
+    log.warn('usernameIntegrity: updated profile');
   }
 }
 
