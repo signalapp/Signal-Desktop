@@ -2996,6 +2996,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const burstRegionRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-12-21T11:13:56.623Z",
+    "reasonDetail": "Calling reactions bursts"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallingLobby.tsx",
     "line": "  const localVideoRef = React.useRef<null | HTMLVideoElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -3957,5 +3965,53 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurst.tsx",
+    "line": "  const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "For hiding call reaction bursts after timeouts."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurst.tsx",
+    "line": "  const shownBursts = useRef<Set<string>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "Keep track of shown reaction bursts."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurst.tsx",
+    "line": "  const burstsShown = useRef<Set<string>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "In wrapping function, track bursts so we can hide on unmount."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurstEmoji.tsx",
+    "line": "  const containerRef = React.useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "For determining position of container for animations."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const reactionsShown = useRef<",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "Recent reactions shown for reactions burst"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const burstsShown = useRef<Map<string, number>>(new Map());",
+    "reasonCategory": "sageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "Recent bursts shown for burst behavior like throttling."
   }
 ]

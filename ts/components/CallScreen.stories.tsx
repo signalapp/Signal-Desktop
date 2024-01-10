@@ -645,7 +645,7 @@ export function GroupCallReactions(): JSX.Element {
 }
 
 export function GroupCallReactionsSpam(): JSX.Element {
-  const remoteParticipants = allRemoteParticipants.slice(0, 5);
+  const remoteParticipants = allRemoteParticipants.slice(0, 3);
   const [props] = React.useState(
     createProps({
       callMode: CallMode.Group,
@@ -662,7 +662,7 @@ export function GroupCallReactionsSpam(): JSX.Element {
   return <CallScreen {...props} activeCall={activeCall} />;
 }
 
-export function GroupCallReactionsBurstInOrder(): JSX.Element {
+export function GroupCallReactionsManyInOrder(): JSX.Element {
   const timestamp = Date.now();
   const remoteParticipants = allRemoteParticipants.slice(0, 5);
   const reactions = remoteParticipants.map((participant, i) => {
