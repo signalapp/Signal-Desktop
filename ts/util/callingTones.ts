@@ -14,6 +14,19 @@ const ringtoneEventQueue = new PQueue({
 class CallingTones {
   private ringtone?: Sound;
 
+  async handRaised() {
+    const canPlayTone = window.Events.getCallRingtoneNotification();
+    if (!canPlayTone) {
+      return;
+    }
+
+    const tone = new Sound({
+      soundType: SoundType.CallingHandRaised,
+    });
+
+    await tone.play();
+  }
+
   async playEndCall(): Promise<void> {
     const canPlayTone = window.Events.getCallRingtoneNotification();
     if (!canPlayTone) {
