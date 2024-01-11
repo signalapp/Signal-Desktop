@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "បន្ថែមសារមួយ",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "សារ",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "បញ្ចប់",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "បន្ថែមទៅក្រុមមួយ",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "សារនៅក្នុងការជជែកនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍នេះ។ អ្នកនៅតែអាចស្វែងរកការជជែកនេះបាន បន្ទាប់ពីអ្នកលុបសារហើយ។",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "អានបន្ថែម",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "សារវែងពេកពិបាកបង្ហាញបន្ថែម",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} បានផ្ញើសារមួយ ដែលមិនអាចដំណើរការ ឬបង្ហាញ ព្រោះវាប្រើប្រាស់មុខងារថ្មីរបស់ Signal។"
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName} បានបដិសេធការស្នើសុំចូលរួមក្រុមពី {joinerName}។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "សំណើចូលរួមក្រុមពី {joinerName} ត្រូវបានបដិសេធ។",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} បានស្នើសុំ និងបោះបង់សំណើរបស់ពួកគេដើម្បីចូលរួមតាមរយៈតំណក្រុម។",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "ដើម្បីផ្លាស់ប្តូរការកំណត់នេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ការជជែក",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "កម្រិតខ្ពស់",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "បន្ថែមសារមួយ",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "រឿងរ៉ាវរបស់ខ្ញុំ",
@@ -7020,22 +7048,25 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "យើងបានដោះស្រាយបញ្ហាមួយដែលបង្ហាញការឆ្លើយតបចំពោះសារដកស្រង់ទៅវីដេអូ ប្រៀបដូចពួកវាគឺជាការឆ្លើយតបចំពោះសារដកស្រង់ទៅរូបថត ទោះបីជាគ្រប់វីដេអូទាំងអស់គ្រាន់តែលំដាប់លំដោយនៃរូបថតក៏ដោយ បើអ្នកគិតមើលទៅ។"
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "ប្រសិនបើការដោះស្រាយបញ្ហាតូចៗមួយចំនួនត្រូវបានរាប់ជាគោលដៅសម្រាប់ឆ្នាំថ្មី នោះឆ្នាំ 2024 គឺជាការចាប់ផ្តើមមួយដ៏អស្ចារ្យ។"
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "សូមអរគុណដល់ {linkToGithub1} និង {linkToGithub2} ដែលបានជួយដល់ការចេញផ្សាយនេះ។"
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "ការជ្រើសរើសនូវជម្រើសពុម្ពអក្សរដែលសមស្របសម្រាប់តំបន់ធ្វើឱ្យតួអក្សរ CJK កាន់តែងាយស្រួលមើលសម្រាប់មូលដ្ឋានផ្សេងៗគ្នា។"
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "ធ្វើឱ្យការហៅដែលខកមិនបានទទួល ទៅជាអ្វីដែលឈប់ខកខានទៀត។ ឥឡូវនេះ អ្នកអាចចុចត្រង់ម៉ៅខាងស្ដាំនៅលើព្រឹត្តិការណ៍ហៅណាមួយ ហើយលុបវាចេញពីការជជែក។"
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "សូមអរគុណដល់ {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} និង {linkToGithub5} ចំពោះការរួមចំណែករបស់ពួកគេដល់ការចេញផ្សាយនេះ!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "ពុម្ពអក្សរលំនាំដើមសម្រាប់ភាសាពែរ្សត្រូវបានធ្វើបច្ចុប្បន្នភាពទៅជា Vazirmatn ដើម្បីឱ្យកាន់តែងាយស្រួលអាន នៅពេលដែលភាសានោះត្រូវបានជ្រើសរើស (ការកំណត់ Signal > រូបរាង > ភាសា)។ អរគុណ {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "សញ្ញាបង្ហាញល្បឿនចាក់សាថ្មីនៅក្នុងសារជាសំឡេងមានរូបរាងថ្មីបន្តិច។ X សម្គាល់កន្លែង។ អរគុណ {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "យើងក៏សូមថ្លែងអំណរគុណផងដែរដល់ {linkToGithub1}, {linkToGithub2} និង {linkToGithub3} ដែលបានរួមចំណែកចំពោះការចេញផ្សាយនេះ។"
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }

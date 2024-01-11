@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Adaugă un mesaj",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Mesaj",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Gata",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Adaugă la un grup",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Mesajele din această conversație vor fi șterse de pe acest dispozitiv. Poți căuta în continuare acest chat, după ce ștergi mesajele.",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "Citește mai mult",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Mesaj prea lung pentru a fi afișat mai mult",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} v-a trimis un mesaj ce nu poate fi procesat sau afișat deoarece folosește o nouă funcționalitate Signal."
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName} a refuzat o cerere de a se alătura grupului de la {joinerName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "O solicitare de aderare la grup de la {joinerName} a fost respinsă.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} a solicitat și apoi a anulat solicitarea de alăturare folosind linkul grupului",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "Pentru a modifica această setare, deschide aplicația Signal pe dispozitivul tău mobil și mergi la Setări > Conversații",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "Avansat",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "Adaugă un mesaj",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "Poveștile Mele",
@@ -7020,22 +7048,25 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Am remediat o eroare care afișa răspunsuri citate la videoclipuri ca și cum ar fi răspunsuri citate la fotografii, chiar dacă fiecare videoclip este de fapt doar o secvență de fotografii într-un fel."
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Dacă rezolvarea câtorva erori mici este considerată o rezoluție de Anul Nou, atunci 2024 a început fantastic."
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Mulțumiri, {linkToGithub1} și {linkToGithub2}, pentru ajutorul acordat la această versiune."
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Logica fonturilor de rezervă și care nu ține cont de regiuni, îmbunătățește modul în care sunt afișate caracterele CJK în diferite zone."
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Transformă un apel pierdut în ceva ce nu va fi ratat. Acum poți face clic dreapta pe orice eveniment de apel și îl poți șterge dintr-un chat."
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Mulțumim lui {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} și {linkToGithub5} pentru contribuțiile lor la această versiune!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "Fontul implicit pentru persană a fost actualizat la Vazirmatn pentru a îmbunătăți lizibilitatea atunci când acea limbă este selectată (Setări semnal > Aspect > Limbă). Mulțumesc, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "Indicatorii de viteză de redare din mesajele vocale au un aspect puțin nou. X marchează locul. Mulțumesc, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "De asemenea, am dori să mulțumim {linkToGithub1}, {linkToGithub2} și {linkToGithub3} pentru contribuțiile lor la această versiune."
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }

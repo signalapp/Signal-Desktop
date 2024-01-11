@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Добави съобщение",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Съобщение",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Готово",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Добави към група",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Съобщенията в този чат ще бъдат изтрити от това устройство. Пак ще можете да търсите този чат, след като изтриете съобщенията.",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "Прочети повече",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Съобщението е твърде дълго за показване на повече",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} Ви изпрати съобщение, което не може да бъде обработено или показано, тъй като използва нова функция на Signal."
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName} отхвърли заявка за присъединяване към групата от {joinerName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "A request to join the group from {joinerName} was denied.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} заяви и отмени заявката си за присъединяване чрез линка на групата",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "За да промените тази настройка, отворете приложението Signal на мобилното си устройство и отидете в „Настройки > Чатове“",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "Допълнителни",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "Добави съобщение",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "Моите истории",
@@ -7020,22 +7048,25 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Коригирахме бъг при показването на цитирани отговори на видеоклипове."
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Поправихме няколко малки бъга."
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Благодарим на {linkToGithub1} и {linkToGithub2} за помощта им с тази версия."
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Подобрихме начина на показване на китайски, японски и корейски символи в различните локали."
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Вече можете да кликнете с десния бутон върху което и да било събитие за повикване и да го изтриете от чата."
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Благодарим на {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} и {linkToGithub5} за техния принос към тази версия!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "Шрифтът по подразбиране за персийски е актуализиран на Vazirmatn, за да подобри четливостта, когато този език е избран (Настройки на Signal > Външен вид > Език). Благодарим, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "Индикаторите за скорост на възпроизвеждане в гласовите съобщения имат малко по-различен нов вид. Благодарим, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "Бихме искали също така да благодарим на {linkToGithub1}, {linkToGithub2} и {linkToGithub3} за техния принос към тази версия."
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }

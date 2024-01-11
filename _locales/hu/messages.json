@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Szöveg hozzáadása",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Üzenet",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Befejezés",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Hozzáadás egy csoporthoz",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Az ebben a csevegésben lévő üzenetek törlődnek erről az eszközről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre.",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "További információk",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Az üzenet túl hosszú a továbbiak megjelenítéshez",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} olyan Signal újdonságot tartalmazó üzenetet küldött, melyet a Signal jelenlegi verziójával nem lehet feldolgozni vagy megjeleníteni."
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName} elutasította {joinerName} csatlakozási igényét a csoporthoz.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} csoport csatlakozási igénye elutasításra került.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} csatlakozási kérést küldött a csoporthivatkozás segítségével, majd visszavonta",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "A beállítás módosításához nyisd meg a Signalt a telefonodon, és navigálj a Beállítások > Csevegések menüpontba",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "Haladó",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "Szöveg hozzáadása",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Szabad alakzat",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Négyzet",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "Történeteim",
@@ -7020,22 +7048,25 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Kijavítottunk egy hibát a videókra adott idézett válaszok megjelenítésénél."
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Kijavítottunk néhány apró hibát."
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Köszönjük {linkToGithub1} és {linkToGithub2} segítségét a kiadással kapcsolatban."
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Kijavítottuk a kínai, japán és koreai karakterek megjelenítését a különböző nyelveken."
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Mostantól jobb gombbal bármelyik híváseseményre rákattinthatsz, és törölheted azt a csevegésből."
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Köszönet {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} és {linkToGithub5} felhasználóinknak a kiadáshoz való hozzájárulásukért!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "A perzsa alapértelmezett betűtípusa Vazirmatn-ra lett frissítve, hogy javítsa az olvashatóságot az adott nyelv kiválasztása esetén (Signal-beállítások > Megjelenés > Nyelv). Köszi, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "A hangüzenetek lejátszási sebességjelzői kissé új megjelenést kaptak. Köszi, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "Szeretnénk továbbá köszönetet mondani {linkToGithub1}, {linkToGithub2} és {linkToGithub3} felhasználóknak a kiadáshoz való hozzájárulásukért!"
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }
