@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "新增訊息",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "訊息",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "完成",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "新增至群組",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "此聊天中的訊息將從此裝置上刪除。 刪除訊息後，你仍可搜尋此聊天。",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "閱讀更多",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "訊息太長，無法顯示更多內容",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} 傳送了一則無法處理或顯示的訊息，因為它使用了新的 Signal 功能。"
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName}拒絕了來自{joinerName} 加入該群組的請求。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} 加入群組的請求未通過。",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} 透過群組連結請求並取消了他們的加入請求",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "要變更此設定，請在你的行動裝置上開啟 Signal 應用程式並前往設定 > 聊天",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "進階",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "新增訊息",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "自由格式",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "正方形",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "我的限時動態",
@@ -7020,22 +7048,25 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "我們修正了一個錯誤，這錯誤會將對影片的引用回覆顯示為像是對相片的引用回覆，雖然仔細一想，每段影片其實也只是一系列相片。"
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "我們解決了一些小錯誤，這正是我們的新年目標之一，讓 2024 年有一個美妙的開始。"
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "感謝 {linkToGithub1} 和 {linkToGithub2} 對此發行版本的幫助。"
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "改進中文、日文和韓文字元在不同語言環境中的顯示方式。"
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "現在，你可以按右鍵單擊任何通話事件並從聊天中刪除它。"
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "感謝 {linkToGithub1}、{linkToGithub2}、{linkToGithub3}、{linkToGithub4} 和 {linkToGithub5} 他們對此發行版本的貢獻！"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "波斯語的預設字體已更新為 Vazirmatn，以提高選擇該語言時的可讀性（Signal 設定 > 外觀 > 語言）。{linkToGithub1}，謝謝你！"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "語音訊息中播放速度指示器的外觀略有變化。{linkToGithub1}，謝謝你！"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "我們還要感謝 {linkToGithub1}、{linkToGithub2} 和 {linkToGithub3} 他們對此發行版本的貢獻。"
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }

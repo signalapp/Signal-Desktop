@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "ಮೆಸೇಜ್ ಸೇರಿಸಿ",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "ಸಂದೇಶ",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "ಮುಗಿದಿದೆ",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "ಈ ಸಾಧನದಿಂದ ಈ ಚಾಟ್‌ನಲ್ಲಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿದ ನಂತರವೂ ಈ ಚಾಟ್‌ ಅನ್ನು ನೀವು ಹುಡುಕಬಹುದು.",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "ಇನ್ನಷ್ಟು ಓದಿ",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "ಇನ್ನಷ್ಟು ಪ್ರದರ್ಶಿಸಲು ಮೆಸೇಜ್ ತುಂಬಾ ಉದ್ದವಾಗಿದೆ",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "ಹೊಸ Signal ವೈಶಿಷ್ಟ್ಯವನ್ನು ಬಳಸುವುದರಿಂದ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಅಥವಾ ಪ್ರದರ್ಶಿಸಲು ಸಾಧ್ಯವಾಗದ ಸಂದೇಶವನ್ನು {contact} ನಿಮಗೆ ಕಳುಹಿಸಿದ್ದಾರೆ."
@@ -4352,6 +4356,10 @@
     "messageformat": "{joinerName} ಇಂದ ಗ್ರೂಪ್ ಸೇರುವ ವಿನಂತಿಯನ್ನು {adminName} ನಿರಾಕರಿಸಿದ್ದಾರೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} ಅವರು ಗುಂಪನ್ನು ಸೇರಲು ಮಾಡಿದ ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} ಅವರು ಗ್ರೂಪ್ ಲಿಂಕ್ ಮೂಲಕ ಸೇರಲು ವಿನಂತಿಸಿದ್ದಾರೆ ಮತ್ತು ತಮ್ಮ ವಿನಂತಿಯನ್ನು ರದ್ದುಗೊಳಿಸಿದ್ದಾರೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "ಈ ಸೆಟ್ಟಿಂಗ್ ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಚಾಟ್‌ಗಳು ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "ಸುಧಾರಿತ",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "ಮೆಸೇಜ್ ಸೇರಿಸಿ",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "ನನ್ನ ಸ್ಟೋರೀಸ್",
@@ -7020,22 +7048,25 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "ವೀಡಿಯೊಗಳಿಗೆ ಉಲ್ಲೇಖಿಸಿದ ಪ್ರತ್ಯುತ್ತರಗಳನ್ನು ಫೋಟೋಗಳಿಗೆ ಉಲ್ಲೇಖಿಸಿದ ಪ್ರತ್ಯುತ್ತರಗಳಂತೆ ಪ್ರದರ್ಶಿಸುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ, ಆದರೂ ನೀವು ಅದರ ಬಗ್ಗೆ ಯೋಚಿಸಿದರೆ ಪ್ರತಿ ವೀಡಿಯೊವು ನಿಜವಾಗಿಯೂ ಫೋಟೋಗಳ ಅನುಕ್ರಮಣಿಕೆ ಆಗಿದೆ."
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "ಕೆಲವು ಸಣ್ಣ ದೋಷಗಳನ್ನು ಪರಿಹರಿಸುವುದು ಹೊಸ ವರ್ಷದ ರೆಸಲ್ಯೂಶನ್ ಎಂದು ಪರಿಗಣಿಸಿದರೆ, 2024 ಅದ್ಭುತ ಆರಂಭವಾಗಿದೆ."
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "ಈ ಆವೃತ್ತಿಗೆ ಸಹಾಯ ಮಾಡಿದ್ದಕ್ಕಾಗಿ {linkToGithub1} ಮತ್ತು {linkToGithub2} ಅವರಿಗೆ ಧನ್ಯವಾದಗಳು."
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "ವಿವಿಧ ಸ್ಥಳಗಳಲ್ಲಿ CJK ಅಕ್ಷರಗಳನ್ನು ಹೇಗೆ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ ಎಂಬುದನ್ನು ಪ್ರದೇಶ-ತಟಸ್ಥ ಫಾಂಟ್ ಫಾಲ್‌ಬ್ಯಾಕ್ ಲಾಜಿಕ್ ಸುಧಾರಿಸುತ್ತದೆ."
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "ಮಿಸ್ಡ್ ಕಾಲ್ ಅನ್ನು ಮಿಸ್ ಆಗದಂತೆ ಪರಿವರ್ತಿಸಿ. ನೀವೀಗ ಯಾವುದೇ ಕರೆ ಈವೆಂಟ್ ಮೇಲೆ ಬಲ ಕ್ಲಿಕ್ ಮಾಡಿ ಅದನ್ನು ಚಾಟ್‌ನಿಂದ ಅಳಿಸಬಹುದು."
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "ಈ ಆವೃತ್ತಿಗೆ ತಮ್ಮ ಕೊಡುಗೆಗಳಿಗಾಗಿ {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, ಮತ್ತು {linkToGithub5} ಅವರಿಗೆ ಧನ್ಯವಾದಗಳು!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "ಪರ್ಷಿಯನ್ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿದಾಗ ಓದುವಿಕೆಯನ್ನು ಸುಧಾರಿಸಲು ಆ ಭಾಷೆಯ ಡೀಫಾಲ್ಟ್ ಫಾಂಟ್ ಅನ್ನು Vazirmatn ಗೆ ನವೀಕರಿಸಲಾಗಿದೆ (Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ರೂಪ > ಭಾಷೆ). ಧನ್ಯವಾದಗಳು, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "ಧ್ವನಿ ಮೆಸೇಜ್‌ಗಳಲ್ಲಿನ ಪ್ಲೇಬ್ಯಾಕ್ ವೇಗ ಸೂಚಕಗಳು ಸ್ವಲ್ಪ ಹೊಸ ನೋಟವನ್ನು ಹೊಂದಿವೆ. X ಸ್ಥಾನವನ್ನು ಗುರುತಿಸುತ್ತದೆ. ಧನ್ಯವಾದಗಳು, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "ಈ ಆವೃತ್ತಿಗೆ ನೀಡಿದ ಕೊಡುಗೆಗಳಿಗಾಗಿ ನಾವು {linkToGithub1}, {linkToGithub2}, ಮತ್ತು {linkToGithub3} ಅವರಿಗೆ ಧನ್ಯವಾದ ಹೇಳಲು ಬಯಸುತ್ತೇವೆ."
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }

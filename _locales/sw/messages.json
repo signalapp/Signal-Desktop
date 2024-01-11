@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Ongeza ujumbe",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Ujumbe",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Imekamilika",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Ongeza kwenye kikundi",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Jumbe kwenye gumzo hili zitafutwa kutoka kwenye kifaa hiki. Bado unaweza kutafuta gumzo hili baada ya kufuta jumbe.",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "Soma zaidi",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Ujumbe ni mrefu sana, hauwezi kuonyeshwa zaidi",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} amekutumia ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu unatumia kipengele mpya cha Signal."
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName} amekataa ombi la kujiunga na kikundi lililotumwa na {joinerName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "Ombi la kujiunga na kikundi kutoka kwa {joinerName} limekataliwa.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} aliomba na kughairisha ombi lake la kujiunga kupitia kiungo cha kikundi",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "Ili kubadili mpangilio huu, fungua programu ya Signal kwenye kifaa chako cha mkononi nenda kwenye Mipangilio > Gumzo",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "ya juu",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "Ongeza ujumbe",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "Stori Zangu",
@@ -7020,22 +7048,25 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Tulirekebisha hitilafu iliyoonyesha majibu yaliyonukuliwa kwa video kana kwamba zilinukuliwa majibu ya picha, ingawa ukifikiria, kiuhalisia kila video ni msururu wa picha."
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Kama kutatua hitilafu ndogo ndogo kunachukuliwa kama Malengo ya Mwaka Mpya, basi 2024 imeanza vizuri."
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Shukrani kwa {linkToGithub1} na {linkToGithub2} kwa msaada wao kwenye toleo hili."
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Hati zisizoonyesha eneo limeboresha namna hati za CJK zainavyoonekana kwenye lugha tofauti."
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Geuza simu ulioikosa kuwa kitu ambacho hautakikosa. Sasa unaweza kubofya kulia kwenye tukio lolote la simu na kulifuta kutoka kwenye gumzo."
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Asante kwa {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, na {linkToGithub5} kwa michango yao kwenye toleo hili!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "Hati chaguo msingi ya Persian imesasishwa kuwa ya Vazirmatn ili kuboresha usomaji pale lugha hiyo inapochaguliwa (Mipangilio ya Signal > Muonekano > Lugha). Asante, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "Viashiria vya kasi vya kusikiliza sauti kwenye jumbe za sauti vina muonekano mpya kidogo. X inatia alama. Asante, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "Pia tungependa kushukuru {linkToGithub1}, {linkToGithub2}, na {linkToGithub3} kwa michango yao kwenye toleo hili."
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }

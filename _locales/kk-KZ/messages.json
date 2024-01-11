@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "Хат қосу",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "Хабарлама",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "Дайын",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Топқа қосу",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "Осы чаттағы хаттар бұл құрылғыдан жойылады. Хаттарды жойған соң да, бұл чатты іздеп табуыңызға болады.",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "Толығырақ",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Хат өте ұзын, жалғасын көрсету мүмкін емес",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} сізге жіберген хаты өңделмейді немесе көрсетілмейді, себебі жаңа Signal функциясын пайдаланады."
@@ -4352,6 +4356,10 @@
     "messageformat": "{adminName} {joinerName} жіберген топқа қосылуға өтінішті қабылдамады.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "A request to join the group from {joinerName} was denied.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} топ сілтемесі арқылы топқа қосылуға өтініш жіберді және бас тартты",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "Осы параметрді өзгерту үшін мобильдік құрылғыңызда Signal қолданбасын ашыңыз және \"Параметрлер > Чаттар\" бөліміне өтіңіз",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "Озық",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "Хат қосу",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "Менің стористерім",
@@ -7020,22 +7048,25 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "Видеоларға жауап ретінде жіберілген хаттар фотосуреттерге жауап ретінде жіберілген хаттармен бірдей болып кететін ақау түзетілді, дегенмен шын мәнінде әрбір видео – фотосуреттер тізбегі."
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "Егер бірнеше болмашы ақауды түзету Жаңа жылдық шешім деп есептелсе, 2024 жыл керемет басталайын деп тұр."
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "Осы шығарылым үшін {linkToGithub1} және {linkToGithub2} деген кісілерге алғысымыз шексіз."
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "Аймаққа қарамайтын резервтік қаріп логикасы қытай, жапон және кәріс тілдеріндегі әріптерді кез келген тілдегі интерфейсте көрсетілуін жақсартады."
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "Көтере алмай қалған қоңырауды енді еш уақытта өткізіп алмайтындай етіңіз. Енді кез келген қоңырауды тінтуірдің оң жақ түймесімен басып, чаттан жоюға болады."
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "Осы шығарылымды жасауға ат салысқан {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} және {linkToGithub5} деген кісілерге алғыс айтамыз!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "Парсы тілінің әдепкі қарпі Vazirmatn болып өзгертілді, соның арқасында енді парсы тіліндегі мәтінді оқу оңай бола түспек (Signal параметрлері > Көрініс > Тіл). Рақмет, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "Дауыстық хаттардағы ойнату жылдамдығының индикаторлары аздап өзгерді. Ол жер X деп белгіленген. Рақмет, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "Осы шығарылым үшін ат салысқан {linkToGithub1}, {linkToGithub2} және {linkToGithub3} деген кісілерге алғыс білдіреміз."
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }

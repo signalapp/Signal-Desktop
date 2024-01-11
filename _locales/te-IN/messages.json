@@ -18,15 +18,15 @@
   },
   "icu:AddCaptionModal__title": {
     "messageformat": "ఒక సందేశాన్ని జోడించండి",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
     "messageformat": "సందేశం",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
     "messageformat": "పూర్తి",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "సమూహంకి కలపండి",
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "ఈ పరికరం నుండి ఈ చాట్‌లోని సందేశాలు తొలగించబడతాయి. మీరు సందేశాలను తొలగించిన తర్వాత కూడా మీరు ఇంకా ఈ చాట్ కోసం శోధించవచ్చు.",
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2891,6 +2891,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "మరింత చదవండి",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "మరింత ప్రదర్శించేందుకు సందేశం మరీ పెద్దదిగా ఉంది",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} మీకు క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది."
@@ -4352,6 +4356,10 @@
     "messageformat": "{joinerName} నుండి గుంపులో చేరమని ఒక అభ్యర్థనను {adminName} ఖండించారు.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "{joinerName} నుండి సమూహంలో చేరాలని అభ్యర్థన తిరస్కరించబడింది.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} అభ్యర్ధించారు మరియు గ్రూపు లింక్ ద్వారా చేరాలనే వారి అభ్యర్ధనను రద్దు చేశారు",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5724,6 +5732,14 @@
     "messageformat": "ఈ సెట్టింగ్ మార్చడానికి, మీ మొబైల్ పరికరంపై Signal యాప్ తెరవండి మరియు సెట్టింగ్‌లు > చాట్‌లకు వెళ్ళండి.",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to 🙂",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "ఆధునిక",
     "description": "Title for advanced settings"
@@ -6063,6 +6079,18 @@
   "icu:MediaEditor__caption-button": {
     "messageformat": "ఒక సందేశాన్ని జోడించండి",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
+  },
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "నా కథలు",
@@ -7020,22 +7048,25 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.42--0": {
-    "messageformat": "వీడియోలకు కోట్ చేసిన ప్రత్యుత్తరాలను ప్రదర్శిస్తున్నప్పుడు మేము బగ్‌ను పరిష్కరించాము."
+  "icu:WhatsNew__v6.44--0": {
+    "messageformat": "మేము కొన్ని చిన్న బగ్‌లను పరిష్కరించాము."
   },
-  "icu:WhatsNew__v6.42--1": {
-    "messageformat": "ఈ విడుదలకు వారు చేసిన సహాయానికి {linkToGithub1} మరియు {linkToGithub2}కు మా కృతజ్ఞతలు."
+  "icu:WhatsNew__v6.44--1": {
+    "messageformat": "వివిధ ప్రాంతాలలో చైనీస్, జపనీస్ మరియు కొరియన్ అక్షరాలు ఎలా ప్రదర్శించబడతాయో మెరుగుపరచండి."
   },
-  "icu:WhatsNew__v6.43--0": {
-    "messageformat": "మిస్డ్ కాల్‌ను మిస్ అవ్వనిదిగా మార్చండి. ఇప్పుడు మీరు ఏదైనా కాల్ ఈవెంట్‌పై కుడి-క్లిక్ చేసి, దానిని చాట్ నుండి తొలగించవచ్చు."
+  "icu:WhatsNew__v6.44--2": {
+    "messageformat": "ఈ విడుదల కోసం సహకారం అందించిన {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} మరియు {linkToGithub5} కు ధన్యవాదాలు!"
   },
-  "icu:WhatsNew__v6.43--1": {
-    "messageformat": "పర్షియన్ కోసం డిఫాల్ట్ ఫాంట్, ఆ భాషను ఎంచుకున్నప్పుడు (Signal సెట్టింగ్‌లు > స్వరూపం > భాష) చదివేందుకు వీలుగా మెరుగుపరచడానికి అది Vazirmatnకి అప్‌డేట్ చేయబడింది. ధన్యవాదాలు, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--0": {
+    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
-  "icu:WhatsNew__v6.43--2": {
-    "messageformat": "స్వర సందేశాలలోని ప్లేబ్యాక్ స్పీడ్ ఇండికేటర్‌లు కొంచెం కొత్త రూపాన్ని కలిగి ఉంటాయి. ప్రదేశాన్ని X సూచిస్తుంది. ధన్యవాదాలు, {linkToGithub1}!"
+  "icu:WhatsNew__v6.45--1": {
+    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
   },
-  "icu:WhatsNew__v6.43--3": {
-    "messageformat": "ఈ విడుదలకు సహకరించినందుకు మేము {linkToGithub1}, {linkToGithub2}, మరియు {linkToGithub3} కు కూడా ధన్యవాదాలు తెలియజేయాలని అనుకుంటున్నాము."
+  "icu:WhatsNew__v6.45--2": {
+    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+  },
+  "icu:WhatsNew__v6.45--3": {
+    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
   }
 }
