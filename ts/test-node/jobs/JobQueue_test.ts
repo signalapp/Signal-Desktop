@@ -838,7 +838,7 @@ describe('JobQueue', () => {
   });
 
   describe('add', () => {
-    it('rejects if the job queue has not started streaming', async () => {
+    it('adds even if the job queue has not started streaming', async () => {
       const fakeStore = {
         insert: sinon.stub().resolves(),
         delete: sinon.stub().resolves(),
@@ -861,7 +861,7 @@ describe('JobQueue', () => {
         maxAttempts: 99,
       });
 
-      await assert.isRejected(noopQueue.add(undefined));
+      await noopQueue.add(undefined);
 
       sinon.assert.notCalled(fakeStore.stream as sinon.SinonStub);
     });
