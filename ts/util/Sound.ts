@@ -6,6 +6,7 @@ import { missingCaseError } from './missingCaseError';
 
 export enum SoundType {
   CallingHangUp,
+  CallingHandRaised,
   CallingPresenting,
   Pop,
   Ringtone,
@@ -103,6 +104,10 @@ export class Sound {
   }
 
   static getSrc(soundStyle: SoundType): string {
+    if (soundStyle === SoundType.CallingHandRaised) {
+      return 'sounds/notification_simple-01.ogg';
+    }
+
     if (soundStyle === SoundType.CallingHangUp) {
       return 'sounds/navigation-cancel.ogg';
     }
