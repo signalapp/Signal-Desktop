@@ -180,6 +180,7 @@ export function LeftPaneDialog({
       <Tooltip
         content={message}
         direction={TooltipPlacement.Right}
+        hideDelay={100}
         className={classNames(
           TOOLTIP_CLASS_NAME,
           type && `${TOOLTIP_CLASS_NAME}--${type}`

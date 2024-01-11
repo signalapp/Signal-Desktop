@@ -459,7 +459,7 @@ export function CallsList({
           direction={TooltipPlacement.Bottom}
           content={i18n('icu:CallsList__ToggleFilterByMissedLabel')}
           theme={Theme.Dark}
-          delay={600}
+          showDelay={600}
         >
           <button
             className={classNames('CallsList__ToggleFilterByMissed', {
