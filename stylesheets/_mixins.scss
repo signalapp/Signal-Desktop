@@ -15,6 +15,11 @@
     font-family: 'Vazirmatn', -apple-system, system-ui, BlinkMacSystemFont,
       'Segoe UI', Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
   }
+  /* Urdu */
+  &:lang(ur) {
+    font-family: 'Noto Nastaliq Urdu', Gulzar, 'Jameel Noori Nastaleeq',
+      'Faiz Lahori Nastaleeq', 'Urdu Typesetting', Helvetica, Arial, sans-serif;
+  }
 }
 
 @mixin font-family {
