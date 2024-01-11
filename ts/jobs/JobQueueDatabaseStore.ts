@@ -35,20 +35,21 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     );
 
     const initialFetchPromise = this.initialFetchPromises.get(job.queueType);
-    if (!initialFetchPromise) {
-      throw new Error(
-        `JobQueueDatabaseStore tried to add job for queue ${JSON.stringify(
-          job.queueType
-        )} but streaming had not yet started`
+    if (initialFetchPromise) {
+      await initialFetchPromise;
+    } else {
+      log.warn(
+        `JobQueueDatabaseStore: added job for queue "${job.queueType}" but streaming has not yet started (shouldPersist=${shouldPersist})`
       );
     }
-    await initialFetchPromise;
 
     if (shouldPersist) {
       await this.db.insertJob(formatJobForInsert(job));
     }
 
-    this.getQueue(job.queueType).add(job);
+    if (initialFetchPromise) {
+      this.getQueue(job.queueType).add(job);
+    }
   }
 
   async delete(id: string): Promise<void> {

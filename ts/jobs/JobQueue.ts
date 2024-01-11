@@ -167,13 +167,13 @@ export abstract class JobQueue<T> {
     data: Readonly<T>,
     insert?: (job: ParsedJob<T>) => Promise<void>
   ): Promise<Job<T>> {
+    const job = this.createJob(data);
+
     if (!this.started) {
-      throw new Error(
-        `${this.logPrefix} has not started streaming. Make sure to call streamJobs().`
+      log.warn(
+        `${this.logPrefix} This queue has not started streaming, adding job ${job.id} to database only.`
       );
     }
-
-    const job = this.createJob(data);
 
     if (insert) {
       await insert(job);

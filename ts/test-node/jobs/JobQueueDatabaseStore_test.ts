@@ -25,22 +25,23 @@ describe('JobQueueDatabaseStore', () => {
   });
 
   describe('insert', () => {
-    it("fails if streaming hasn't started yet", async () => {
+    it("adds jobs to database even if streaming hasn't started yet", async () => {
       const store = new JobQueueDatabaseStore(fakeDatabase);
 
-      let error: unknown;
-      try {
-        await store.insert({
-          id: 'abc',
-          timestamp: 1234,
-          queueType: 'test queue',
-          data: { hi: 5 },
-        });
-      } catch (err: unknown) {
-        error = err;
-      }
+      await store.insert({
+        id: 'abc',
+        timestamp: 1234,
+        queueType: 'test queue',
+        data: { hi: 5 },
+      });
 
-      assert.instanceOf(error, Error);
+      sinon.assert.calledOnce(fakeDatabase.insertJob);
+      sinon.assert.calledWithMatch(fakeDatabase.insertJob, {
+        id: 'abc',
+        timestamp: 1234,
+        queueType: 'test queue',
+        data: { hi: 5 },
+      });
     });
 
     it('adds jobs to the database', async () => {
@@ -152,6 +153,26 @@ describe('JobQueueDatabaseStore', () => {
 
       sinon.assert.calledOnce(fakeDatabase.insertJob);
       assert.deepEqual(events, ['loaded jobs', 'insert']);
+    });
+
+    it("adds jobs if we haven't started streaming at all", async () => {
+      const events: Array<string> = [];
+
+      fakeDatabase.insertJob.callsFake(() => {
+        events.push('insert');
+      });
+
+      const store = new JobQueueDatabaseStore(fakeDatabase);
+
+      await store.insert({
+        id: 'abc',
+        timestamp: 1234,
+        queueType: 'test queue',
+        data: { hi: 5 },
+      });
+
+      sinon.assert.calledOnce(fakeDatabase.insertJob);
+      assert.deepEqual(events, ['insert']);
     });
   });
 
