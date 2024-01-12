@@ -3100,16 +3100,15 @@ export class ConversationModel extends window.Backbone
       lastMessage
     );
 
-    const shouldBeUnseen = !options.local && !verified;
     const timestamp = Date.now();
     const message: MessageAttributesType = {
       id: generateGuid(),
       conversationId: this.id,
       local: Boolean(options.local),
-      readStatus: shouldBeUnseen ? ReadStatus.Unread : ReadStatus.Read,
+      readStatus: ReadStatus.Read,
       received_at_ms: timestamp,
       received_at: incrementMessageCounter(),
-      seenStatus: shouldBeUnseen ? SeenStatus.Unseen : SeenStatus.Unseen,
+      seenStatus: options.local ? SeenStatus.Seen : SeenStatus.Unseen,
       sent_at: lastMessage,
       timestamp,
       type: 'verified-change',
@@ -3128,7 +3127,7 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
-    void this.updateUnread();
+    drop(this.updateUnread());
 
     const serviceId = this.getServiceId();
     if (isDirectConversation(this.attributes) && serviceId) {
