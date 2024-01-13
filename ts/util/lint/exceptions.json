@@ -3069,9 +3069,16 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CallingToastManager.tsx",
-    "line": "  const raisedHandsInLastShownToastRef = useRef<Set<number>>(new Set());",
+    "line": "  const toastLastShownAt = useRef<number>(0);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-12-05T22:11:41.559Z"
+    "updated": "2024-01-12T18:56:18.138Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingToastManager.tsx",
+    "line": "  const handsForLastShownToast = useRef<Set<number>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-12T18:56:18.138Z"
   },
   {
     "rule": "React-useRef",

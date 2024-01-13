@@ -32,6 +32,7 @@ export type CallingToastType = {
   content: JSX.Element | string;
   autoClose: boolean;
   dismissable?: boolean;
+  lifetime?: number;
 } & (
   | {
       // key must be provided if the toast is 'only-show-once'
@@ -161,7 +162,7 @@ export function CallingToastProvider({
         }
 
         if (toast.autoClose) {
-          startTimer(key, lifetime);
+          startTimer(key, toast.lifetime ?? lifetime);
           nonPersistentToasts.unshift({ ...toast, key });
         } else {
           persistentToasts.unshift({ ...toast, key });
