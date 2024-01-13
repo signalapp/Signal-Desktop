@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { isEqual, noop } from 'lodash';
+import { isEqual, noop, sortBy } from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
@@ -520,7 +520,10 @@ export function CallScreen({
 
   const renderRaisedHandsToast = React.useCallback(
     (hands: Array<number>) => {
-      const names = hands.map(demuxId =>
+      // Sort "You" to the front.
+      const names = sortBy(hands, demuxId =>
+        demuxId === localDemuxId ? 0 : 1
+      ).map(demuxId =>
         demuxId === localDemuxId
           ? i18n('icu:you')
           : conversationsByDemuxId.get(demuxId)?.title
