@@ -5,8 +5,6 @@ import React, { useEffect } from 'react';
 import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
 
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
-import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { AnyToast } from '../types/Toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import type { LocalizerType } from '../types/Util';
@@ -15,7 +13,6 @@ import { ThemeType } from '../types/Util';
 import { AppViewType } from '../state/ducks/app';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
-import { TitleBarContainer } from './TitleBarContainer';
 import { ToastManager } from './ToastManager';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useReducedMotion } from '../hooks/useReducedMotion';
@@ -42,18 +39,12 @@ type PropsType = {
   theme: ThemeType;
   isMaximized: boolean;
   isFullScreen: boolean;
-  menuOptions: MenuOptionsType;
   onUndoArchive: (conversationId: string) => unknown;
   openFileInFolder: (target: string) => unknown;
-  hasCustomTitleBar: boolean;
   OS: string;
   osClassName: string;
-  hideMenuBar: boolean;
 
-  executeMenuRole: ExecuteMenuRoleType;
-  executeMenuAction: (action: MenuActionType) => void;
   hideToast: () => unknown;
-  titleBarDoubleClick: () => void;
   toast?: AnyToast;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
@@ -62,16 +53,11 @@ type PropsType = {
 
 export function App({
   appView,
-  executeMenuAction,
-  executeMenuRole,
-  hasCustomTitleBar,
   hasSelectedStoryData,
-  hideMenuBar,
   hideToast,
   i18n,
   isFullScreen,
   isMaximized,
-  menuOptions,
   onUndoArchive,
   openFileInFolder,
   openInbox,
@@ -85,7 +71,6 @@ export function App({
   renderStoryViewer,
   requestVerification,
   theme,
-  titleBarDoubleClick,
   toast,
   viewStory,
 }: PropsType): JSX.Element {
@@ -128,10 +113,6 @@ export function App({
   }, [osClassName]);
 
   useEffect(() => {
-    document.body.classList.toggle('os-has-custom-titlebar', hasCustomTitleBar);
-  }, [hasCustomTitleBar]);
-
-  useEffect(() => {
     document.body.classList.toggle('full-screen', isFullScreen);
     document.body.classList.toggle('maximized', isMaximized);
   }, [isFullScreen, isMaximized]);
@@ -150,41 +131,27 @@ export function App({
   }, [prefersReducedMotion]);
 
   return (
-    <TitleBarContainer
-      theme={theme}
-      isMaximized={isMaximized}
-      isFullScreen={isFullScreen}
-      hasCustomTitleBar={hasCustomTitleBar}
-      executeMenuRole={executeMenuRole}
-      titleBarDoubleClick={titleBarDoubleClick}
-      hasMenu
-      hideMenuBar={hideMenuBar}
-      i18n={i18n}
-      menuOptions={menuOptions}
-      executeMenuAction={executeMenuAction}
+    <div
+      className={classNames({
+        App: true,
+        'light-theme': theme === ThemeType.light,
+        'dark-theme': theme === ThemeType.dark,
+      })}
     >
-      <div
-        className={classNames({
-          App: true,
-          'light-theme': theme === ThemeType.light,
-          'dark-theme': theme === ThemeType.dark,
-        })}
-      >
-        {contents}
-        <ToastManager
-          OS={OS}
-          hideToast={hideToast}
-          i18n={i18n}
-          onUndoArchive={onUndoArchive}
-          openFileInFolder={openFileInFolder}
-          toast={toast}
-        />
-        {renderGlobalModalContainer()}
-        {renderCallManager()}
-        {renderLightbox()}
-        {hasSelectedStoryData &&
-          renderStoryViewer(() => viewStory({ closeViewer: true }))}
-      </div>
-    </TitleBarContainer>
+      {contents}
+      <ToastManager
+        OS={OS}
+        hideToast={hideToast}
+        i18n={i18n}
+        onUndoArchive={onUndoArchive}
+        openFileInFolder={openFileInFolder}
+        toast={toast}
+      />
+      {renderGlobalModalContainer()}
+      {renderCallManager()}
+      {renderLightbox()}
+      {hasSelectedStoryData &&
+        renderStoryViewer(() => viewStory({ closeViewer: true }))}
+    </div>
   );
 }

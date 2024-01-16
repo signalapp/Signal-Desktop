@@ -130,7 +130,7 @@
 .CallControls__MoreOptionsMenu {
   display: flex;
   flex-direction: column;
-  max-height: calc(var(--window-height) - 155px);
+  max-height: calc(100vh - 155px);
   font-size: 13px;
   filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
   pointer-events: auto;
@@ -138,7 +138,7 @@
 
 .CallControls__MoreOptionsMenu .module-emoji-picker {
   margin-bottom: auto;
-  max-width: calc(var(--window-width) / 2 + 20px);
+  max-width: calc(100vw / 2 + 20px);
 }
 
 .CallControls__MoreOptionsMenu

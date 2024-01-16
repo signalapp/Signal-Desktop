@@ -5,7 +5,7 @@ import { ipcRenderer } from 'electron';
 import type { MenuItemConstructorOptions } from 'electron';
 import { usernames } from '@signalapp/libsignal-client';
 
-import type { MenuOptionsType, MenuActionType } from '../types/menu';
+import type { MenuOptionsType } from '../types/menu';
 import type { IPCEventsValuesType } from '../util/createIPCEvents';
 import type { LocalizerType } from '../types/Util';
 import type { LoggerType } from '../types/Logging';
@@ -37,7 +37,6 @@ export type MainWindowStatsType = Readonly<{
 export type MinimalSignalContextType = {
   activeWindowService: ActiveWindowServiceType;
   config: RendererConfigType;
-  executeMenuAction: (action: MenuActionType) => Promise<void>;
   executeMenuRole: (role: MenuItemConstructorOptions['role']) => Promise<void>;
   getAppInstance: () => string | undefined;
   getEnvironment: () => string;
@@ -62,7 +61,6 @@ export type MinimalSignalContextType = {
     waitForChange: () => Promise<void>;
   };
   OS: {
-    hasCustomTitleBar: () => boolean;
     getClassName: () => string;
     platform: string;
     release: string;

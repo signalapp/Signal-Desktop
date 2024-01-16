@@ -3586,7 +3586,7 @@ button.module-image__border-overlay:focus {
   // - size themselves in relation to viewport (position: fixed)
   &__modal-container {
     position: fixed;
-    top: var(--titlebar-height);
+    top: 0;
     inset-inline-start: 0;
     z-index: $z-index-calling-container;
   }
@@ -3596,12 +3596,12 @@ button.module-image__border-overlay:focus {
     background-color: $calling-background-color;
     display: flex;
     flex-direction: column;
-    height: var(--window-height);
+    height: 100vh;
     justify-content: center;
     position: fixed;
     /* stylelint-disable-next-line liberty/use-logical-spec */
     left: 0;
-    top: var(--titlebar-height);
+    top: 0;
     width: 100%;
     z-index: $z-index-calling;
   }
@@ -3728,7 +3728,7 @@ button.module-image__border-overlay:focus {
 
   &__remote-video-disabled {
     background-color: $color-gray-95;
-    height: var(--window-height);
+    height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -4299,8 +4299,8 @@ button.module-image__border-overlay:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: var(--window-width);
-    height: var(--window-height);
+    width: 100vw;
+    height: 100vh;
     justify-content: flex-end;
     inset-inline-start: 0;
     z-index: $z-index-calling;
@@ -4437,7 +4437,7 @@ button.module-image__border-overlay:focus {
   color: $color-gray-05;
   display: flex;
   flex-direction: column;
-  height: var(--window-height);
+  height: 100vh;
   justify-content: center;
   position: fixed;
   top: 0;
@@ -6777,10 +6777,10 @@ button.module-image__border-overlay:focus {
 
 .module-modal-host__overlay {
   background: $color-black-alpha-40;
-  width: var(--window-width);
-  height: var(--window-height);
-  inset-inline-start: var(--window-border);
-  top: var(--titlebar-height);
+  width: 100vw;
+  height: 100vh;
+  inset-inline-start: 0;
+  top: 0;
   position: fixed;
   z-index: $z-index-modal-host;
 }
@@ -6788,10 +6788,10 @@ button.module-image__border-overlay:focus {
 .module-modal-host__overlay-container {
   display: flex;
   flex-direction: row;
-  width: var(--window-width);
-  height: var(--window-height);
-  inset-inline-start: var(--window-border);
-  top: var(--titlebar-height);
+  width: 100vw;
+  height: 100vh;
+  inset-inline-start: 0;
+  top: 0;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -6937,10 +6937,10 @@ button.module-image__border-overlay:focus {
 .module-progress-dialog__overlay {
   background: $color-black-alpha-40;
   position: fixed;
-  inset-inline-start: var(--window-border);
-  top: var(--titlebar-height);
-  width: var(--window-width);
-  height: var(--window-height);
+  inset-inline-start: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

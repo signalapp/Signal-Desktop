@@ -31,7 +31,6 @@ import {
 } from 'electron';
 import type {
   MenuItemConstructorOptions,
-  TitleBarOverlayOptions,
   LoginItemSettingsOptions,
 } from 'electron';
 import { z } from 'zod';
@@ -95,7 +94,6 @@ import { MainSQL } from '../ts/sql/main';
 import * as sqlChannels from './sql_channel';
 import * as windowState from './window_state';
 import type { CreateTemplateOptionsType } from './menu';
-import type { MenuActionType } from '../ts/types/menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import OS from '../ts/util/os/osMain';
@@ -541,10 +539,7 @@ async function handleUrl(rawTarget: string) {
   }
 }
 
-async function handleCommonWindowEvents(
-  window: BrowserWindow,
-  titleBarOverlay: TitleBarOverlayOptions | false = false
-) {
+async function handleCommonWindowEvents(window: BrowserWindow) {
   window.webContents.on('will-navigate', (event, rawTarget) => {
     event.preventDefault();
 
@@ -578,23 +573,6 @@ async function handleCommonWindowEvents(
   await zoomFactorService.syncWindow(window);
 
   nativeThemeNotifier.addWindow(window);
-
-  if (titleBarOverlay) {
-    const onThemeChange = async () => {
-      try {
-        const newOverlay = await getTitleBarOverlay();
-        if (!newOverlay) {
-          return;
-        }
-        window.setTitleBarOverlay(newOverlay);
-      } catch (error) {
-        console.error('onThemeChange error', error);
-      }
-    };
-
-    nativeTheme.on('updated', onThemeChange);
-    settingsChannel?.on('change:themeSetting', onThemeChange);
-  }
 }
 
 const DEFAULT_WIDTH = ciMode ? 1024 : 800;
@@ -654,45 +632,11 @@ if (OS.isWindows()) {
 //   - Windows < 10 (7, 8)
 //   - macOS (but no custom titlebar is displayed, see
 //     `--title-bar-drag-area-height` in `stylesheets/_titlebar.scss`
-const mainTitleBarStyle =
-  (OS.isMacOS() || OS.hasCustomTitleBar()) &&
-  !isTestEnvironment(getEnvironment())
-    ? ('hidden' as const)
-    : ('default' as const);
-
-const nonMainTitleBarStyle = OS.hasCustomTitleBar()
+const mainTitleBarStyle = OS.isMacOS()
   ? ('hidden' as const)
   : ('default' as const);
 
-async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
-  if (!OS.hasCustomTitleBar()) {
-    return false;
-  }
-
-  const theme = await getResolvedThemeSetting();
-
-  let color: string;
-  let symbolColor: string;
-  if (theme === 'light') {
-    color = '#e8e8e8';
-    symbolColor = '#1b1b1b';
-  } else if (theme === 'dark') {
-    // $color-gray-80
-    color = '#2e2e2e';
-    // $color-gray-05
-    symbolColor = '#e9e9e9';
-  } else {
-    throw missingCaseError(theme);
-  }
-
-  return {
-    color,
-    symbolColor,
-
-    // Should match `--titlebar-height` in stylesheets/_titlebar.scss
-    height: 28 - 1,
-  };
-}
+const nonMainTitleBarStyle = 'default' as const;
 
 async function safeLoadURL(window: BrowserWindow, url: string): Promise<void> {
   let wasDestroyed = false;
@@ -731,8 +675,6 @@ async function createWindow() {
   const usePreloadBundle =
     !isTestEnvironment(getEnvironment()) || forcePreloadBundle;
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     show: false,
     width: DEFAULT_WIDTH,
@@ -741,7 +683,6 @@ async function createWindow() {
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
     titleBarStyle: mainTitleBarStyle,
-    titleBarOverlay,
     backgroundColor: isTestEnvironment(getEnvironment())
       ? '#ffffff' // Tests should always be rendered on a white background
       : await getBackgroundColor(),
@@ -887,7 +828,7 @@ async function createWindow() {
     mainWindow.webContents.openDevTools();
   }
 
-  await handleCommonWindowEvents(mainWindow, titleBarOverlay);
+  await handleCommonWindowEvents(mainWindow);
 
   // App dock icon bounce
   bounce.init(mainWindow);
@@ -1288,15 +1229,12 @@ async function showAbout() {
     return;
   }
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const options = {
     width: 500,
     height: 500,
     resizable: false,
     title: getResolvedMessagesLocale().i18n('icu:aboutSignalDesktop'),
     titleBarStyle: nonMainTitleBarStyle,
-    titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),
     show: false,
@@ -1313,7 +1251,7 @@ async function showAbout() {
 
   aboutWindow = new BrowserWindow(options);
 
-  await handleCommonWindowEvents(aboutWindow, titleBarOverlay);
+  await handleCommonWindowEvents(aboutWindow);
 
   aboutWindow.on('closed', () => {
     aboutWindow = undefined;
@@ -1338,8 +1276,6 @@ async function showSettingsWindow() {
     return;
   }
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const options = {
     width: 700,
     height: 700,
@@ -1347,7 +1283,6 @@ async function showSettingsWindow() {
     resizable: false,
     title: getResolvedMessagesLocale().i18n('icu:signalDesktopPreferences'),
     titleBarStyle: mainTitleBarStyle,
-    titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),
     show: false,
@@ -1364,7 +1299,7 @@ async function showSettingsWindow() {
 
   settingsWindow = new BrowserWindow(options);
 
-  await handleCommonWindowEvents(settingsWindow, titleBarOverlay);
+  await handleCommonWindowEvents(settingsWindow);
 
   settingsWindow.on('closed', () => {
     settingsWindow = undefined;
@@ -1434,15 +1369,12 @@ async function showDebugLogWindow() {
     }
   }
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const options: Electron.BrowserWindowConstructorOptions = {
     width: 700,
     height: 500,
     resizable: false,
     title: getResolvedMessagesLocale().i18n('icu:debugLog'),
     titleBarStyle: nonMainTitleBarStyle,
-    titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),
     show: false,
@@ -1459,7 +1391,7 @@ async function showDebugLogWindow() {
 
   debugLogWindow = new BrowserWindow(options);
 
-  await handleCommonWindowEvents(debugLogWindow, titleBarOverlay);
+  await handleCommonWindowEvents(debugLogWindow);
 
   debugLogWindow.on('closed', () => {
     debugLogWindow = undefined;
@@ -2505,12 +2437,6 @@ ipc.on('locale-display-names', event => {
 });
 
 // TODO DESKTOP-5241
-ipc.on('OS.getHasCustomTitleBar', event => {
-  // eslint-disable-next-line no-param-reassign
-  event.returnValue = OS.hasCustomTitleBar();
-});
-
-// TODO DESKTOP-5241
 ipc.on('OS.getClassName', event => {
   // eslint-disable-next-line no-param-reassign
   event.returnValue = OS.getClassName();
@@ -2835,46 +2761,6 @@ async function zoomOut() {
 async function zoomReset() {
   await zoomFactorService.zoomReset();
 }
-
-ipc.handle('executeMenuAction', async (_event, action: MenuActionType) => {
-  if (action === 'forceUpdate') {
-    drop(forceUpdate());
-  } else if (action === 'openArtCreator') {
-    drop(openArtCreator());
-  } else if (action === 'openContactUs') {
-    openContactUs();
-  } else if (action === 'openForums') {
-    openForums();
-  } else if (action === 'openJoinTheBeta') {
-    openJoinTheBeta();
-  } else if (action === 'openReleaseNotes') {
-    openReleaseNotes();
-  } else if (action === 'openSupportPage') {
-    openSupportPage();
-  } else if (action === 'setupAsNewDevice') {
-    setupAsNewDevice();
-  } else if (action === 'setupAsStandalone') {
-    setupAsStandalone();
-  } else if (action === 'showAbout') {
-    drop(showAbout());
-  } else if (action === 'showDebugLog') {
-    drop(showDebugLogWindow());
-  } else if (action === 'showKeyboardShortcuts') {
-    showKeyboardShortcuts();
-  } else if (action === 'showSettings') {
-    drop(showSettingsWindow());
-  } else if (action === 'showWindow') {
-    showWindow();
-  } else if (action === 'zoomIn') {
-    drop(zoomIn());
-  } else if (action === 'zoomOut') {
-    drop(zoomOut());
-  } else if (action === 'zoomReset') {
-    drop(zoomReset());
-  } else {
-    throw missingCaseError(action);
-  }
-});
 
 ipc.handle(
   'net.resolveHost',

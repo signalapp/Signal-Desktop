@@ -13,8 +13,6 @@ strictAssert(DebugLogWindowProps, 'window values not provided');
 
 render(
   <DebugLogWindow
-    hasCustomTitleBar={window.SignalContext.OS.hasCustomTitleBar()}
-    executeMenuRole={window.SignalContext.executeMenuRole}
     closeWindow={() => window.SignalContext.executeMenuRole('close')}
     downloadLog={DebugLogWindowProps.downloadLog}
     i18n={i18n}

@@ -35,7 +35,6 @@ if (getEnvironment() === Environment.Production) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
   process.env.SIGNAL_ENABLE_HTTP = '';
   process.env.SIGNAL_CI_CONFIG = '';
-  process.env.CUSTOM_TITLEBAR = '';
 }
 
 // We load config after we've made our modifications to NODE_ENV

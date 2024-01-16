@@ -3,9 +3,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import type { MenuItemConstructorOptions } from 'electron';
 
-import type { MenuActionType } from '../../types/menu';
 import type { VerificationTransport } from '../../types/VerificationTransport';
 import { App } from '../../components/App';
 import OS from '../../util/os/osMain';
@@ -44,7 +42,6 @@ const mapStateToProps = (state: StateType) => {
     isMaximized: getIsMainWindowMaximized(state),
     isFullScreen: getIsMainWindowFullScreen(state),
     menuOptions: getMenuOptions(state),
-    hasCustomTitleBar: window.SignalContext.OS.hasCustomTitleBar(),
     OS: OS.getName(),
     osClassName: OS.getClassName(),
     hideMenuBar: getHideMenuBar(state),
@@ -83,15 +80,6 @@ const mapStateToProps = (state: StateType) => {
     },
     theme: getTheme(state),
 
-    executeMenuRole: (role: MenuItemConstructorOptions['role']): void => {
-      void window.SignalContext.executeMenuRole(role);
-    },
-    executeMenuAction: (action: MenuActionType): void => {
-      void window.SignalContext.executeMenuAction(action);
-    },
-    titleBarDoubleClick: (): void => {
-      window.IPC.titleBarDoubleClick();
-    },
     toast: state.toast.toast,
   };
 };

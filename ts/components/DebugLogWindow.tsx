@@ -4,20 +4,17 @@
 import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import copyText from 'copy-text-to-clipboard';
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import type { LocalizerType } from '../types/Util';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
-import { TitleBarContainer } from './TitleBarContainer';
 import { ToastDebugLogError } from './ToastDebugLogError';
 import { ToastLinkCopied } from './ToastLinkCopied';
 import { ToastLoadingFullLogs } from './ToastLoadingFullLogs';
 import { createSupportUrl } from '../util/createSupportUrl';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
-import { useTheme } from '../hooks/useTheme';
 
 enum LoadState {
   NotStarted,
@@ -32,8 +29,6 @@ export type PropsType = {
   i18n: LocalizerType;
   fetchLogs: () => Promise<string>;
   uploadLogs: (logs: string) => Promise<string>;
-  hasCustomTitleBar: boolean;
-  executeMenuRole: ExecuteMenuRoleType;
 };
 
 enum ToastType {
@@ -48,8 +43,6 @@ export function DebugLogWindow({
   i18n,
   fetchLogs,
   uploadLogs,
-  hasCustomTitleBar,
-  executeMenuRole,
 }: PropsType): JSX.Element {
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
   const [logText, setLogText] = useState<string | undefined>();
@@ -58,8 +51,6 @@ export function DebugLogWindow({
     i18n('icu:loading')
   );
   const [toastType, setToastType] = useState<ToastType | undefined>();
-
-  const theme = useTheme();
 
   useEscapeHandling(closeWindow);
 
@@ -144,41 +135,35 @@ export function DebugLogWindow({
     });
 
     return (
-      <TitleBarContainer
-        hasCustomTitleBar={hasCustomTitleBar}
-        theme={theme}
-        executeMenuRole={executeMenuRole}
-      >
-        <div className="DebugLogWindow">
-          <div>
-            <div className="DebugLogWindow__title">
-              {i18n('icu:debugLogSuccess')}
-            </div>
-            <p className="DebugLogWindow__subtitle">
-              {i18n('icu:debugLogSuccessNextSteps')}
-            </p>
+      <div className="DebugLogWindow">
+        <div>
+          <div className="DebugLogWindow__title">
+            {i18n('icu:debugLogSuccess')}
           </div>
-          <div className="DebugLogWindow__container">
-            <input
-              className="DebugLogWindow__link"
-              readOnly
-              type="text"
-              dir="auto"
-              value={publicLogURL}
-            />
-          </div>
-          <div className="DebugLogWindow__footer">
-            <Button
-              onClick={() => openLinkInWebBrowser(supportURL)}
-              variant={ButtonVariant.Secondary}
-            >
-              {i18n('icu:reportIssue')}
-            </Button>
-            <Button onClick={copyLog}>{i18n('icu:debugLogCopy')}</Button>
-          </div>
-          {toastElement}
+          <p className="DebugLogWindow__subtitle">
+            {i18n('icu:debugLogSuccessNextSteps')}
+          </p>
         </div>
-      </TitleBarContainer>
+        <div className="DebugLogWindow__container">
+          <input
+            className="DebugLogWindow__link"
+            readOnly
+            type="text"
+            dir="auto"
+            value={publicLogURL}
+          />
+        </div>
+        <div className="DebugLogWindow__footer">
+          <Button
+            onClick={() => openLinkInWebBrowser(supportURL)}
+            variant={ButtonVariant.Secondary}
+          >
+            {i18n('icu:reportIssue')}
+          </Button>
+          <Button onClick={copyLog}>{i18n('icu:debugLogCopy')}</Button>
+        </div>
+        {toastElement}
+      </div>
     );
   }
 
@@ -188,49 +173,43 @@ export function DebugLogWindow({
     loadState === LoadState.Started || loadState === LoadState.Submitting;
 
   return (
-    <TitleBarContainer
-      hasCustomTitleBar={hasCustomTitleBar}
-      theme={theme}
-      executeMenuRole={executeMenuRole}
-    >
-      <div className="DebugLogWindow">
-        <div>
-          <div className="DebugLogWindow__title">
-            {i18n('icu:submitDebugLog')}
-          </div>
-          <p className="DebugLogWindow__subtitle">
-            {i18n('icu:debugLogExplanation')}
-          </p>
+    <div className="DebugLogWindow">
+      <div>
+        <div className="DebugLogWindow__title">
+          {i18n('icu:submitDebugLog')}
         </div>
-        {isLoading ? (
-          <div className="DebugLogWindow__container">
-            <Spinner svgSize="normal" />
-          </div>
-        ) : (
-          <div className="DebugLogWindow__scroll_area">
-            <pre className="DebugLogWindow__scroll_area__text">
-              {textAreaValue}
-            </pre>
-          </div>
-        )}
-        <div className="DebugLogWindow__footer">
-          <Button
-            disabled={!canSave}
-            onClick={() => {
-              if (logText) {
-                downloadLog(logText);
-              }
-            }}
-            variant={ButtonVariant.Secondary}
-          >
-            {i18n('icu:debugLogSave')}
-          </Button>
-          <Button disabled={!canSubmit} onClick={handleSubmit}>
-            {i18n('icu:submit')}
-          </Button>
-        </div>
-        {toastElement}
+        <p className="DebugLogWindow__subtitle">
+          {i18n('icu:debugLogExplanation')}
+        </p>
       </div>
-    </TitleBarContainer>
+      {isLoading ? (
+        <div className="DebugLogWindow__container">
+          <Spinner svgSize="normal" />
+        </div>
+      ) : (
+        <div className="DebugLogWindow__scroll_area">
+          <pre className="DebugLogWindow__scroll_area__text">
+            {textAreaValue}
+          </pre>
+        </div>
+      )}
+      <div className="DebugLogWindow__footer">
+        <Button
+          disabled={!canSave}
+          onClick={() => {
+            if (logText) {
+              downloadLog(logText);
+            }
+          }}
+          variant={ButtonVariant.Secondary}
+        >
+          {i18n('icu:debugLogSave')}
+        </Button>
+        <Button disabled={!canSubmit} onClick={handleSubmit}>
+          {i18n('icu:submit')}
+        </Button>
+      </div>
+      {toastElement}
+    </div>
   );
 }

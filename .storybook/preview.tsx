@@ -7,7 +7,6 @@ import React from 'react';
 
 import 'sanitize.css';
 import '../stylesheets/manifest.scss';
-import '../node_modules/@indutny/frameless-titlebar/dist/styles.css';
 
 import * as styles from './styles.scss';
 import messages from '../_locales/en/messages.json';
@@ -97,7 +96,6 @@ window.SignalContext = {
     waitForChange: () => new Promise(noop),
   },
   OS: {
-    hasCustomTitleBar: () => false,
     getClassName: () => '',
     platform: '',
     release: '',

@@ -13,22 +13,4 @@ body {
   &.os-macos:not(.full-screen) {
     --title-bar-drag-area-height: calc(28px / var(--zoom-factor));
   }
-
-  --window-height: 100vh;
-  --window-width: 100vw;
-  --unscaled-window-border: 0px;
-  --window-border: calc(var(--unscaled-window-border) / var(--zoom-factor));
-  --titlebar-height: 0px;
-
-  &.os-has-custom-titlebar {
-    &:not(.maximized) {
-      --unscaled-window-border: 1px;
-    }
-
-    --titlebar-height: calc(28px / var(--zoom-factor));
-    --window-width: calc(100vw - 2 * var(--window-border));
-    --window-height: calc(
-      100vh - var(--titlebar-height) - var(--window-border)
-    );
-  }
 }

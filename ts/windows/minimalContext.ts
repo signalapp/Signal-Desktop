@@ -4,7 +4,7 @@
 import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
-import type { MenuOptionsType, MenuActionType } from '../types/menu';
+import type { MenuOptionsType } from '../types/menu';
 import type { MainWindowStatsType, MinimalSignalContextType } from './context';
 import { activeWindowService } from '../context/activeWindowService';
 import { config } from '../context/config';
@@ -14,13 +14,9 @@ import { environment } from '../context/environment';
 import { localeDisplayNames, localeMessages } from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
 
-const hasCustomTitleBar = ipcRenderer.sendSync('OS.getHasCustomTitleBar');
 export const MinimalSignalContext: MinimalSignalContextType = {
   activeWindowService,
   config,
-  async executeMenuAction(action: MenuActionType): Promise<void> {
-    return ipcRenderer.invoke('executeMenuAction', action);
-  },
   async executeMenuRole(
     role: MenuItemConstructorOptions['role']
   ): Promise<void> {
@@ -55,7 +51,6 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   restartApp: () => ipcRenderer.send('restart'),
   OS: {
     getClassName: () => ipcRenderer.sendSync('OS.getClassName'),
-    hasCustomTitleBar: () => hasCustomTitleBar,
     platform: process.platform,
     release: config.osRelease,
   },

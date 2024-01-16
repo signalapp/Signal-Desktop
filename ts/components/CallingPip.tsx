@@ -294,7 +294,7 @@ export function CallingPip({
           positionState.mode === PositionMode.BeingDragged
             ? '-webkit-grabbing'
             : '-webkit-grab',
-        transform: `translate3d(${localizedTranslateX}px,calc(${translateY}px - var(--titlebar-height)), 0)`,
+        transform: `translate3d(${localizedTranslateX}px,calc(${translateY}px), 0)`,
         transition:
           positionState.mode === PositionMode.BeingDragged
             ? 'none'

@@ -22,7 +22,6 @@ function createIsPlatform(
 export type OSType = {
   getClassName: () => string;
   getName: () => string;
-  hasCustomTitleBar: () => boolean;
   isLinux: (minVersion?: string) => boolean;
   isMacOS: (minVersion?: string) => boolean;
   isWindows: (minVersion?: string) => boolean;
@@ -32,10 +31,6 @@ export function getOSFunctions(osRelease: string): OSType {
   const isMacOS = createIsPlatform('darwin', osRelease);
   const isLinux = createIsPlatform('linux', osRelease);
   const isWindows = createIsPlatform('win32', osRelease);
-
-  // Windows 10 and above
-  const hasCustomTitleBar = (): boolean =>
-    isWindows('10.0.0') || Boolean(process.env.CUSTOM_TITLEBAR);
 
   const getName = (): string => {
     if (isMacOS()) {
@@ -60,7 +55,6 @@ export function getOSFunctions(osRelease: string): OSType {
   return {
     getClassName,
     getName,
-    hasCustomTitleBar,
     isLinux,
     isMacOS,
     isWindows,

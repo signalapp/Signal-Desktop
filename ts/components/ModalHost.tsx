@@ -127,12 +127,10 @@ export const ModalHost = React.memo(function ModalHostInner({
                 }
 
                 // Exemptions:
-                // - TitleBar should always receive clicks.
                 // - Quill suggestions since they are placed in the document.body
                 // - Calling module (and pip) are always above everything else
                 const exemptParent = target.closest(
-                  '.TitleBarContainer__title, ' +
-                    '.module-composition-input__suggestions, ' +
+                  '.module-composition-input__suggestions, ' +
                     '.module-composition-input__format-menu, ' +
                     '.module-calling__modal-container'
                 );

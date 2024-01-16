@@ -31,7 +31,6 @@ SettingsWindowProps.onRender(
     doDeleteAllData,
     doneRendering,
     editCustomColor,
-    executeMenuRole,
     getConversationsWithCustomColor,
     hasAudioNotifications,
     hasAutoConvertEmoji,
@@ -40,7 +39,6 @@ SettingsWindowProps.onRender(
     hasCallNotifications,
     hasCallRingtoneNotification,
     hasCountMutedConversations,
-    hasCustomTitleBar,
     hasHideMenuBar,
     hasIncomingCallNotifications,
     hasLinkPreviews,
@@ -134,7 +132,6 @@ SettingsWindowProps.onRender(
         doDeleteAllData={doDeleteAllData}
         doneRendering={doneRendering}
         editCustomColor={editCustomColor}
-        executeMenuRole={executeMenuRole}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
@@ -143,7 +140,6 @@ SettingsWindowProps.onRender(
         hasCallNotifications={hasCallNotifications}
         hasCallRingtoneNotification={hasCallRingtoneNotification}
         hasCountMutedConversations={hasCountMutedConversations}
-        hasCustomTitleBar={hasCustomTitleBar}
         hasHideMenuBar={hasHideMenuBar}
         hasIncomingCallNotifications={hasIncomingCallNotifications}
         hasLinkPreviews={hasLinkPreviews}

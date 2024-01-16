@@ -426,9 +426,6 @@ async function renderPreferences() {
     onZoomFactorChange: (zoomFactorValue: number) => {
       ipcRenderer.send('setZoomFactor', zoomFactorValue);
     },
-
-    hasCustomTitleBar: MinimalSignalContext.OS.hasCustomTitleBar(),
-    executeMenuRole: MinimalSignalContext.executeMenuRole,
   };
 
   renderInBrowser(props);

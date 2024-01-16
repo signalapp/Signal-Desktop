@@ -33,7 +33,6 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util';
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
 
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
@@ -48,7 +47,6 @@ import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { Select } from './Select';
 import { Spinner } from './Spinner';
-import { TitleBarContainer } from './TitleBarContainer';
 import { getCustomColorStyle } from '../util/getCustomColorStyle';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
@@ -58,7 +56,6 @@ import {
 import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useUniqueId } from '../hooks/useUniqueId';
-import { useTheme } from '../hooks/useTheme';
 import { focusableSelectors } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
@@ -116,7 +113,6 @@ export type PropsDataType = {
   resolvedLocale: string;
 
   // Other props
-  hasCustomTitleBar: boolean;
   initialSpellCheckSetting: boolean;
 
   // Limited support features
@@ -141,7 +137,6 @@ type PropsFunctionType = {
   doDeleteAllData: () => unknown;
   doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
-  executeMenuRole: ExecuteMenuRoleType;
   getConversationsWithCustomColor: (
     colorId: string
   ) => Promise<Array<ConversationType>>;
@@ -256,7 +251,6 @@ export function Preferences({
   doDeleteAllData,
   doneRendering,
   editCustomColor,
-  executeMenuRole,
   getConversationsWithCustomColor,
   hasAudioNotifications,
   hasAutoConvertEmoji,
@@ -291,7 +285,6 @@ export function Preferences({
   isSyncSupported,
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
-  hasCustomTitleBar,
   lastSyncTime,
   makeSyncRequest,
   notificationContent,
@@ -364,7 +357,6 @@ export function Preferences({
     string | null
   >(localeOverride);
   const [languageSearchInput, setLanguageSearchInput] = useState('');
-  const theme = useTheme();
 
   function closeLanguageDialog() {
     setLanguageDialog(null);
@@ -1502,11 +1494,7 @@ export function Preferences({
   }
 
   return (
-    <TitleBarContainer
-      hasCustomTitleBar={hasCustomTitleBar}
-      theme={theme}
-      executeMenuRole={executeMenuRole}
-    >
+    <>
       <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <div className="Preferences__page-selector">
@@ -1584,7 +1572,7 @@ export function Preferences({
           {settings}
         </div>
       </div>
-    </TitleBarContainer>
+    </>
   );
 }
 
