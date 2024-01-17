@@ -16,5 +16,9 @@ export function findRetryAfterTimeFromError(err: unknown): number {
     }
   }
 
+  if (Array.isArray(rawValue)) {
+    return parseRetryAfterWithDefault(rawValue[0]);
+  }
+
   return parseRetryAfterWithDefault(rawValue);
 }

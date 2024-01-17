@@ -16,16 +16,12 @@ function appendStack(newError: Error, originalError: Error) {
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
 }
 
-export type HTTPErrorHeadersType = {
-  [name: string]: string | ReadonlyArray<string>;
-};
-
 export class HTTPError extends Error {
   public override readonly name = 'HTTPError';
 
   public readonly code: number;
 
-  public readonly responseHeaders: HTTPErrorHeadersType;
+  public readonly responseHeaders: HeaderListType;
 
   public readonly response: unknown;
 
@@ -33,7 +29,7 @@ export class HTTPError extends Error {
     message: string,
     options: {
       code: number;
-      headers: HTTPErrorHeadersType;
+      headers: HeaderListType;
       response?: unknown;
       stack?: string;
       cause?: unknown;
