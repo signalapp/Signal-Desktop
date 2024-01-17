@@ -73,7 +73,7 @@ function renderAvatar(
 ): JSX.Element {
   return (
     <div className="module-ongoing-call__remote-video-disabled">
-      <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+      <CallBackgroundBlur avatarPath={avatarPath}>
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
           avatarPath={avatarPath}

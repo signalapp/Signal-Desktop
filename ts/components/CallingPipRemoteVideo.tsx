@@ -48,7 +48,7 @@ function NoVideo({
 
   return (
     <div className="module-calling-pip__video--remote">
-      <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+      <CallBackgroundBlur avatarPath={avatarPath}>
         <div className="module-calling-pip__video--avatar">
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}

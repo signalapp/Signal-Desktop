@@ -3818,6 +3818,7 @@ button.module-image__border-overlay:focus {
     &__overflow {
       flex: 0 0 auto;
       position: relative;
+      margin-block-start: calc(60px + var(--title-bar-drag-area-height));
       margin-inline-end: 16px;
 
       &__inner {
@@ -3838,6 +3839,11 @@ button.module-image__border-overlay:focus {
       & .module-ongoing-call__group-call-remote-participant {
         width: 100%;
         margin-bottom: 1rem;
+
+        &__footer {
+          padding-block: 0 10px;
+          padding-inline: 10px;
+        }
       }
 
       &__scroll-marker {
@@ -3892,7 +3898,7 @@ button.module-image__border-overlay:focus {
           );
 
           #{$scroll-marker-selector}__button {
-            margin-block-start: 60px;
+            margin-block-start: 16px;
             transform: rotate(180deg);
           }
         }
@@ -3947,6 +3953,8 @@ button.module-image__border-overlay:focus {
   }
 
   &__group-call-remote-participant {
+    container-type: size;
+
     display: flex;
     justify-content: center;
     position: relative;
@@ -3959,6 +3967,16 @@ button.module-image__border-overlay:focus {
 
     @media (prefers-reduced-motion) {
       transition: none;
+    }
+
+    $group-call-remote-participant-footer-padding-medium: 12px;
+    $group-call-remote-participant-footer-padding-large: 16px;
+
+    @container (min-width: 180px) or (min-height: 180px) {
+      .module-ongoing-call__group-call-remote-participant__footer {
+        padding-block: 0 $group-call-remote-participant-footer-padding-large;
+        padding-inline: $group-call-remote-participant-footer-padding-large;
+      }
     }
 
     &:after {
@@ -3992,6 +4010,10 @@ button.module-image__border-overlay:focus {
       }
     }
 
+    &-background.module-calling__background--no-avatar {
+      background-color: $color-gray-78;
+    }
+
     &__blocked {
       @include color-svg('../images/icons/v3/block/block.svg', $color-white);
       height: 24px;
@@ -4022,8 +4044,8 @@ button.module-image__border-overlay:focus {
       position: absolute;
       bottom: 0;
       height: 60px;
-      padding-block: 0 16px;
-      padding-inline: 16px;
+      padding-block: 0 $group-call-remote-participant-footer-padding-medium;
+      padding-inline: $group-call-remote-participant-footer-padding-medium;
       user-select: none;
       width: 100%;
       z-index: $z-index-above-base;
@@ -4215,6 +4237,10 @@ button.module-image__border-overlay:focus {
       .module-Avatar img {
         -webkit-user-drag: none;
         -webkit-user-select: none;
+      }
+
+      .module-calling__background--no-avatar {
+        background: transparent;
       }
     }
 
