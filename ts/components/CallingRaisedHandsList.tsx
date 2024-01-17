@@ -114,20 +114,18 @@ export function CallingRaisedHandsList({
                   />
                 )}
               </div>
-              <div className="module-calling-participants-list__status">
-                {localHandRaised &&
-                  ourServiceId &&
-                  participant.serviceId === ourServiceId && (
-                    <button
-                      className="CallingRaisedHandsList__LowerMyHandLink"
-                      type="button"
-                      onClick={onLowerMyHand}
-                    >
-                      {i18n('icu:CallControls__RaiseHands--lower')}
-                    </button>
-                  )}
-                <div className="CallingRaisedHandsList__NameHandIcon" />
-              </div>
+              {localHandRaised &&
+                ourServiceId &&
+                participant.serviceId === ourServiceId && (
+                  <button
+                    className="CallingRaisedHandsList__LowerMyHandLink"
+                    type="button"
+                    onClick={onLowerMyHand}
+                  >
+                    {i18n('icu:CallControls__RaiseHands--lower')}
+                  </button>
+                )}
+              <div className="module-calling-participants-list__status-icon CallingRaisedHandsList__NameHandIcon" />
             </li>
           ))}
         </ul>

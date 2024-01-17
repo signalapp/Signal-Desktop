@@ -324,6 +324,14 @@ function ActiveCallManager({
     );
   }
 
+  let isHandRaised = false;
+  if (activeCall.callMode === CallMode.Group) {
+    const { raisedHands, localDemuxId } = activeCall;
+    if (localDemuxId) {
+      isHandRaised = raisedHands.has(localDemuxId);
+    }
+  }
+
   const groupCallParticipantsForParticipantsList =
     activeCall.callMode === CallMode.Group
       ? [
@@ -337,6 +345,7 @@ function ActiveCallManager({
             ...me,
             hasRemoteAudio: hasLocalAudio,
             hasRemoteVideo: hasLocalVideo,
+            isHandRaised,
             presenting: Boolean(activeCall.presentingSource),
           },
         ]
