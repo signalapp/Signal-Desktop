@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "همۀ پیام‌های این گفتگو از این دستگاه حذف خواهد شد. بعد از حذف پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -2906,7 +2906,7 @@
     "messageformat": "پیامی که دریافت کرده‌اید قابل نمایش یا قابل پردازش نیست چون که به یک ویژگی جدید سیگنال نیاز دارد."
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
-    "messageformat": "حالا که از یک نسخه‌ی به‌روز سیگنال استفاده می‌کنید می‌توانید از %@ بخواهید که این پیام را دوباره برایتان بفرستد."
+    "messageformat": "حالا که از یک نسخه‌ی به‌روز سیگنال استفاده می‌کنید می‌توانید از بخواهید که این پیام را دوباره برایتان بفرستد."
   },
   "icu:Message--update-signal": {
     "messageformat": "به‌روزرسانی سیگنال",
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "تبدیل شکلک‌های تایپی به ایموجی",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "مثلاً :-) به 🙂 تبدیل خواهد شد",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "از {linkToGithub1}، {linkToGithub2}، {linkToGithub3}، {linkToGithub4} و {linkToGithub5} بابت کمک‌هایشان به این نسخۀ جدید متشکریم!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "حالا می‌توانید شکلک‌ها را به دلخواهتان به ایموجی تبدیل کنید. اگر می‌خواهید هر وقت :-) تایپ می‌کنید به <emojify>🙂</emojify> تبدیل شود، می‌توانید این قابلیت را در بخش «گفتگوها» در تنظیمات سیگنال دسکتاپ خود فعال کنید."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "میانبر صفحه‌کلیدی جدید (Ctrl+s/Cmd+s) کمک می‌کند تا تصاویر و ویدیوها را به سرعت از نمایشگر رسانه ذخیره کنید."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "همچنین بیشینۀ وضوح اشتراک صفحه‌نمایش در جریان تماس تصویری سیگنال را هم افزایش دادیم."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "با تشکر از {linkToGithub1} و {linkToGithub2} بابت کمک‌هایشان به این نسخۀ جدید!"
   }
 }

@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "כל ההודעות בצ׳אט הזה יימחקו ממכשיר זה. עדיין תהיה לך אפשרות לחפש את הצ׳אט הזה אחרי מחיקת ההודעות.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "המרת אמוטיקונים מוקלדים לאימוג׳ים",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "למשל, :-) יומר ל–🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "תודה ל-{linkToGithub1}, ל-{linkToGithub2}, ל-{linkToGithub3}, ל-{linkToGithub4}, ול-{linkToGithub5} על התרומות שלהם לגרסה הזו!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "עכשיו אפשר להפוך אמוטיקונים לאימוג׳ים במהלך ההקלדה (״:-)״ &gt; ״<emojify>🙂</emojify>״). כדאי לחפש את הפיצ׳ר החדש הזה באזור ״צ׳אטים״ בהגדרות Signal לשולחן העבודה."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "קיצור מקשים חדש (Ctrl+s/Cmd+s) עוזר לך לשמור במהירות תמונות וסרטונים מנגן המדיה."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "גם הגדלנו את הרזולוציה המקסימלית לשיתוף מסך במהלך שיחות וידאו של Signal."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "תודה ל{linkToGithub1} ול{linkToGithub2} על התרומות לגרסה הזו!"
   }
 }

@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "此聊天中的訊息將從此裝置上刪除。刪除訊息後，你仍可搜尋此聊天。",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "將打出的表情字符轉換為表情符號",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "例如 :-) 將轉換為 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "感謝 {linkToGithub1}、{linkToGithub2}、{linkToGithub3}、{linkToGithub4} 和 {linkToGithub5} 他們對此發行版本的貢獻！"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "現在，你可以選擇將表情字符轉換為表情符號。如果你想在每次輸入「:-)」時轉為「<emojify>🙂</emojify>」，可以在 Signal 桌面設定的「聊天」部分中啟用此功能。"
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "新的鍵盤快速鍵（Ctrl+S/cmd+s）可幫助你快速儲存媒體檢視器中的圖片和影片。"
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "我們還在 Signal 視訊通話期間提高了螢幕共享的最大解析度。"
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "感謝 {linkToGithub1} 和 {linkToGithub2} 對此發行版本的貢獻！"
   }
 }

@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Sve poruke iz ovog razgovora bit će izbrisane s ovog uređaja. I dalje možete pretražiti ovaj razgovor nakon što izbrišete poruke.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Pretvori tipkane emotikone u emoji",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "Npr. :-) pretvorit će se u 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "Zahvaljujemo korisnicima {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} i {linkToGithub5} za doprinos ovom ažuriranju!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Sada možete po želji pretvoriti tipkane emotikone u emoji (:-) → <emojify>🙂</emojify>). Ovu značajku možete omogućiti u postavkama Signala za Desktop, u odjeljku &quot;Razgovori&quot;."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Novi prečac za tipkovnice Ctrl+s/Cmd+s omogućuje brzo spremanje slika i videozapisa iz preglednika medija."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Također smo povećali maksimalnu rezoluciju prilikom dijeljenja zaslona tijekom Signal videopoziva."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Zahvaljujemo korisnicima {linkToGithub1} i {linkToGithub2} za njihov doprinos ovom ažuriranju!"
   }
 }

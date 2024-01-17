@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "ဤချက်(တ်)မှ မက်ဆေ့ချ်များအားလုံးကို ယခုစက်မှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "စာရိုက်ထားသော ရုပ်ပြောင်များကို အီမိုဂျီအဖြစ် ပြောင်းရန်",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "ဥပမာ :-) ကို 🙂 ဟု ပြောင်းခြင်း",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "ဤထုတ်ဝေမှုတွင် ပံ့ပိုးပါဝင်ခဲ့သည့်အတွက် {linkToGithub1}၊ {linkToGithub2}၊ {linkToGithub3}၊ {linkToGithub4} နှင့် {linkToGithub5} တို့ကို ကျေးဇူးတင်ပါသည်။"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "ယခုအခါ (“:-)” → “<emojify>🙂</emojify>” အဖြစ် စာရိုက်လိုက်လျှင် ပြောင်းသကဲ့သို့ ရုပ်ပြောင်များကို အီမိုဂျီအဖြစ် ပြောင်းရန် ရွေးချယ်နိုင်ပါပြီ။ သင်၏ Signal Desktop ဆက်တင်ထဲရှိ &quot;ချက်(တ်)&quot; ကဏ္ဍတွင် ဤအင်္ဂါရပ်အသစ်ကို ရှာကြည့်ပါ။"
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "ကီးဘုတ် ရှော့(တ်)ကတ်အသစ် (Ctrl+s/Cmd+s) သည် မီဒီယာကြည့်ရှုမှုမှ ဓာတ်ပုံနှင့် ဗီဒီယိုများကို လျင်မြန်စွာ သိမ်းဆည်းနိုင်စေရန် ကူညီပေးပါသည်။"
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Signal ဗီဒီယိုကောလ်များအတွင်း မျက်နှာပြင်ဝေမျှမှုအတွက် အမြင့်ဆုံး ပုံအရည်အသွေးကို ကျွန်ုပ်တို့ တိုးမြှင့်ထားပါသည်။"
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "ဤထုတ်ဝေမှုတွင် ပံ့ပိုးပါဝင်ခဲ့သည့်အတွက် {linkToGithub1} နှင့် {linkToGithub2} တို့ကို ကျေးဇူးတင်ပါသည်။"
   }
 }

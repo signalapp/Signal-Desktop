@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Све поруке у овом ћаскању ће бити избрисане са овог уређаја. И даље можете да тражите ово ћаскање након што избришете поруке.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Претвори откуцане емотиконе у емоџије",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "На пример, :-) биће претворено у 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "Хвала {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} и {linkToGithub5} на вашим доприносима овом издању!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Сада можете опционо да претворите емотиконе у емоџије. Ако желите да се појави „<emojify>🙂</emojify>“ када год унесете „:-)“, можете активирати ту функцију у одељку „Ћаскања“ у подешавањима вашег Signal Desktop-а."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Помоћу нове пречице на тастатури (Ctrl+s/Cmd+s) можете брзо да сачувате слике и видео записе из приказивача медија."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Управо смо повећали максималну резолуцију за дељење екрана током видео позива преко Signal-а."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Хвала {linkToGithub1} и {linkToGithub2} на вашим доприносима овом издању!"
   }
 }

@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "या चॅट्समधील सर्व संदेश या डिव्हाइस वरून हटवले जातील. आपण संदेश हटवल्यानंतर देखील अद्याप हे चॅट्स शोधू शकता.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -4129,7 +4129,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add-from-admin-approval--other--unknown": {
-    "messageformat": "%{joinerName}कडून गटात सामील होण्याची विनंती मंजूर झाली आहे.",
+    "messageformat": "{joinerName}कडून गटात सामील होण्याची विनंती मंजूर झाली आहे.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-remove--other--other": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "टाइप केलेल्या इमोटिकॉनना इमोजीमध्ये रूपांतरीत करा",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "उदाहरपणार्थ, :-) हे 🙂 मध्ये रूपांतरित केले जाईल",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "{linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, आणि {linkToGithub5} यांचे त्यांच्या या रिलिझ मधील योगदानाबद्दल आभार!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "आता आपण वैकल्पिकरित्या इमोटिकॉनना इमोजीमध्ये रूपांतरीत करू शकाल. जेव्हा केव्हा आपण “:-)” टाइप कराल तेव्हा आपणाला “<emojify>🙂</emojify>” हवे असेल, तेव्हा आपण आपल्या Signla डेस्कटॉपच्या सेटिंग्जच्या “चॅट्स” मध्ये हे वैशिष्ट्य सक्षम करू शकता."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "एक नवीन कीबोर्ड शॉर्टकट (Ctrl+s/Cmd+s) आपणाला मिडीया व्ह्युअरमधून जलदगतीने चित्रे आणि व्हिडिओ जतन करण्यास मदत करतो."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "हे खूप वाईट आहे की आम्ही आधीच गेल्या अद्यतनासाठी प्रकाशन नोट्समध्ये नवीन वर्षाच्या रिझोल्युशन विनोद केला आहे, कारण आम्ही Signal व्हिडिओ कॉल्सदरम्यान स्क्रिन शेअरींगसाठी फक्त कमाल रिझोल्युशन वाढवले आहे. आमचा नवीन संकल्प 2025 पर्यंत कोणतेही रिझोल्यूशनच्या समस्या टाळणे हा आहे."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "या रिलीज साठी {linkToGithub1} आणि {linkToGithub2} यांच्या योगदानाबद्दल त्यांचे आभार!"
   }
 }

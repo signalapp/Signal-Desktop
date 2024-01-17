@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "이 대화의 모든 메시지가 기기에서 삭제됩니다. 메시지를 삭제한 후에도 이 대화를 계속 검색할 수 있습니다.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "글로 입력한 이모티콘을 이모지로 변환",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "예를 들어 :-) 기호를 입력하면 🙂 이모지로 변환됨",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "이번 릴리스에 기여해 주신 {linkToGithub1} 님, {linkToGithub2} 님, {linkToGithub3} 님, {linkToGithub4} 님, {linkToGithub5} 님께 감사를 표합니다!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "이제 원하는 경우 글자를 입력할 때 이모티콘을 이모지로 변환할 수 있습니다(“:-)” → “<emojify>🙂</emojify>”). Signal 데스크톱 설정의 '대화' 섹션에서 이 새로운 기능을 활성화하세요."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "새 키보드 바로 가기(Ctrl+s/Cmd+s)를 사용하여 미디어 뷰어에서 빠르게 사진과 동영상을 저장하세요."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "또한 Signal 화상 통화 중 공유할 수 있는 최대 해상도를 높였습니다."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "이번 릴리스에 기여해 주신 {linkToGithub1} 님과 {linkToGithub2} 님께 감사를 표합니다!"
   }
 }

@@ -149,7 +149,7 @@
     "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuWindow": {
-    "messageformat": "%Tetingkap",
+    "messageformat": "&Tetingkap",
     "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuHelp": {
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Semua mesej dalam sembang ini akan dipadamkan daripada peranti ini. Anda masih boleh mencari sembang ini selepas anda memadamkan mesej.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Tukar emotikon yang ditaip kepada emoji",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "Sebagai contoh, :-) akan ditukar kepada 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "Terima kasih kepada {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} dan {linkToGithub5} atas sumbangan mereka kepada keluaran ini!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Kini anda boleh menukar emotikon kepada emoji semasa anda menaip (&quot;:-)&quot; → “<emojify>🙂</emojify>”). Cari ciri baharu ini dalam seksyen &quot;Sembang&quot; pada tetapan Signal Desktop anda."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Pintasan papan kekunci baharu (Ctrl+s/Cmd+s) membantu anda menyimpan gambar dan video dengan cepat daripada pemapar media."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Kami juga meningkatkan resolusi maksimum untuk perkongsian skrin semasa panggilan video Signal."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Terima kasih kepada {linkToGithub1} dan {linkToGithub2} atas sumbangan mereka kepada keluaran ini!"
   }
 }

@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Пораките во овој разговор ќе бидат избришани од овој уред. Ќе можете да го пронајдате овој разговор и откако ќе ги избришете пораките.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Претворете ги искуцаните емотикони во емоџи",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "На пример, :-) ќе се претвори во 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "Благодарност до {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} и {linkToGithub5} за нивните придонеси во оваа верзија!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Сега можете и емотиконите да ги претворите во емоџи додека куцате („:-)“ → „<emojify>🙂</emojify>”). Побарајте ја оваа нова функција во делот „Разговори“ од поставувањата на Signal Desktop."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Со помош на новата кратенка на тастатура (Ctrl+s/Cmd+s) можете брзо да зачувате слики и видеа од прегледувачот на медиумски датотеки."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Исто така ја зголемивме максималната резолуција на споделување на екран во текот на Signal видео повици."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Благодарност до {linkToGithub1} и {linkToGithub2} за нивните придонеси во оваа верзија!"
   }
 }

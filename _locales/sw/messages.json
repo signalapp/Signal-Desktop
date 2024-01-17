@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Jumbe zote kwenye gumzo hili zitafutwa kutoka kwenye kifaa hiki. Bado unaweza kutafuta gumzo hili baada ya kufuta jumbe.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Badili emoticons zilizoandikwa kuwa emoji",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "Kwa mfano, :-) itabadilika kuwa 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "Asante kwa {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, na {linkToGithub5} kwa michango yao kwenye toleo hili!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Sasa unaweza kuchagua kubadili emoticons kuwa emoji. Kama unataka &quot;<emojify>🙂</emojify>&quot; kila unapochapa &quot;:-)&quot;, unaweza kuwasha kipengele hiki kwenye sehemu ya &quot;Gumzo&quot; ya mipangilio yako ya Signal Desktop."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Njia mkato mpya ya kibodi (Ctrl+s/Cmd+s) inakusaidia kuhifadhi picha na video kwa haraka kutoka kwenye kitazamaji cha media."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Kwa bahati mbaya tayari tulishatoa utani kuhusu maazimio ya Mwaka Mpya kwenye maelezo ya toleo jipya katika sasisho la mwisho, maana umeongeza ukubwa wa picha kwa ajili ya kushiriki skrini wakati wa simu za video za Signal. Azimio letu jipya ni kuepuka utani kuhusu ukubwa wa picha kwa mwaka 2025."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Shukrani kwa {linkToGithub1} na {linkToGithub2} kwa michango yao katika toleo hili!"
   }
 }

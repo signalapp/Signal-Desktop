@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš šio įrenginio. Net kai ištrinsite žinutes, vis tiek galėsite ieškoti šio pokalbio.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Konvertuoti tekstinius jaustukus į paveikslėlius",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "Pavyzdžiui, :-) bus konvertuotas į 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "Dėkojame {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} ir {linkToGithub5} už jų indėlį kuriant šią versiją!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Nuo šiol rašydami galite paversti tekstinius jaustukus paveikslėliais. Jei norite „<emojify>🙂</emojify>“, kai įrašote „:-)“, šios naujos funkcijos ieškokite savo „Signal Desktop“ nustatymų skiltyje „Pokalbiai“."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Su naująja komanda (Ctrl+s / Cmd+s) greitai išsaugosite nuotraukas ir vaizdo įrašus iš įrašų žiūryklės."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Be to, padidinome maksimalią ekrano dalijimosi raišką „Signal“ vaizdo skambučiuose."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Dėkojame {linkToGithub1} ir {linkToGithub2} už jų indėlį kuriant šią versiją!"
   }
 }

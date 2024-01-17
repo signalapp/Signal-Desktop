@@ -605,7 +605,7 @@
     "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "{count, plural, one {ਤੁਹਾਡੇ {count,number} ਕਨੈਕਸ਼ਨ ਨੇ ਸ਼ਾਇਦ Signal ਨੂੰ ਦੁਆਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ ਜਾਂ ਆਪਣੇ ਡਿਵਾਈਸਾਂ ਨੂੰ ਬਦਲਿਆ ਹੈ। ਜੇ ਤੁਸੀਂ ਚਾਹੋ ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਤੋਂ ਪਹਿਲਾਂ ਉਹਨਾਂ ਦੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕਦੇ ਹੋ।} other {ਤੁਹਾਡੇ {count,number} ਕਨੈਕਸ਼ਨਾਂ ਨੇ ਸ਼ਾਇਦ Signal ਨੂੰ ਦੁਆਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ ਜਾਂ ਆਪਣੇ ਡਿਵਾਈਸਾਂ ਨੂੰ ਬਦਲਿਆ ਹੈ। ਜੇ ਤੁਸੀਂ ਚਾਹੋ ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਤੋਂ ਪਹਿਲਾਂ ਉਹਨਾਂ ਦੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕਦੇ ਹੋ।}}",
+    "messageformat": "{count, plural, one {ਤੁਹਾਡੇ {count,number} ਕਨੈਕਸ਼ਨ ਨੇ ਸ਼ਾਇਦ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ ਜਾਂ ਆਪਣੇ ਡਿਵਾਈਸਾਂ ਨੂੰ ਬਦਲਿਆ ਹੈ। ਜੇ ਤੁਸੀਂ ਚਾਹੋ ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਤੋਂ ਪਹਿਲਾਂ ਉਹਨਾਂ ਦੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕਦੇ ਹੋ।} other {ਤੁਹਾਡੇ {count,number} ਕਨੈਕਸ਼ਨਾਂ ਨੇ ਸ਼ਾਇਦ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ ਜਾਂ ਆਪਣੇ ਡਿਵਾਈਸਾਂ ਨੂੰ ਬਦਲਿਆ ਹੈ। ਜੇ ਤੁਸੀਂ ਚਾਹੋ ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਤੋਂ ਪਹਿਲਾਂ ਉਹਨਾਂ ਦੇ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕਦੇ ਹੋ।}}",
     "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
   },
   "icu:safetyNumberChangeDialog__post-review": {
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "ਇਸ ਚੈਟ ਵਿਚਲੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਸੁਨੇਹੇ ਮਿਟਾਉਣ ਤੋਂ ਬਾਅਦ ਵੀ ਤੁਸੀਂ ਇਸ ਚੈਟ ਦੀ ਖੋਜ ਕਰ ਸਕਦੇ ਹੋ।",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "ਟਾਈਪ ਕੀਤੇ ਇਮੋਟੀਕੋਨ ਨੂੰ ਇਮੋਜੀ ਵਿੱਚ ਬਦਲੋ",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "ਉਦਾਹਰਨ ਦੇ ਲਈ, :-) ਨੂੰ 🙂 ਵਿੱਚ ਬਦਲਿਆ ਜਾਵੇਗਾ",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "ਅਸੀਂ ਇਸ ਰੀਲੀਜ਼ ਵਿੱਚ ਯੋਗਦਾਨ ਲਈ {linkToGithub1}, {linkToGithub2},{linkToGithub3}, {linkToGithub4} ਅਤੇ {linkToGithub5} ਦਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "ਹੁਣ ਜੇ ਤੁਸੀਂ ਚਾਹੋ ਤਾਂ ਟਾਈਪ ਕਰਦੇ ਹੋਏ ਇਮੋਟੀਕੋਨ ਨੂੰ ਇਮੋਜੀ ਵਿੱਚ (“:-)” → “<emojify>🙂</emojify>”) ਬਦਲ ਸਕਦੇ ਹੋ। ਤੁਸੀਂ Signal Desktop ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਦੇ &quot;ਚੈਟ&quot; ਭਾਗ ਵਿੱਚ ਇਸ ਨਵੇਂ ਫੀਚਰ ਨੂੰ ਲੱਭ ਸਕਦੇ ਹੋ।"
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "ਇੱਕ ਨਵਾਂ ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ (Ctrl+s/Cmd+s) ਤੁਹਾਨੂੰ ਮੀਡੀਆ ਵਿਊਅਰ ਤੋਂ ਵੀਡੀਓ ਅਤੇ ਤਸਵੀਰਾਂ ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਸੁਰੱਖਿਅਤ ਕਰਨ ਦੀ ਸਹੂਲਤ ਦਿੰਦਾ ਹੈ।"
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "ਅਸੀਂ Signal ਦੀਆਂ ਵੀਡੀਓ ਕਾਲਾਂ ਦੌਰਾਨ ਸਕ੍ਰੀਨ ਸ਼ੇਅਰਿੰਗ ਲਈ ਅਧਿਕਤਮ ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਨੂੰ ਵੀ ਵਧਾ ਦਿੱਤਾ ਹੈ।"
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "ਅਸੀਂ ਇਸ ਰੀਲੀਜ਼ ਵਿੱਚ ਯੋਗਦਾਨ ਦੇਣ ਲਈ {linkToGithub1} ਅਤੇ {linkToGithub2} ਦਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ!"
   }
 }

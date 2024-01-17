@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "ستُحذَف رسائل هذه المحادثة من هذا الجهاز. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "تحويل الرموز التعبيرية المكتوبة إلى وجوه تعبيرية",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "مثلاً، سَيتم تحويل :-) إلى 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "نشكر {linkToGithub1} و {linkToGithub2} و {linkToGithub3} و {linkToGithub4} و{linkToGithub5} على مساهماتهم في هذا الإصدار!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "يُمكنك الآن اختيار تحويل الرموز التعبيرية إلى وجوه تعبيرية عند كتابة (“:-)” → “<emojify>🙂</emojify>”). ابحث عن هذه الميزة الجديدة في قسم &quot;الدردشات&quot; في إعدادات سيجنال Desktop."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "يُساعدك اختصار لوحة المفاتيح (Ctrl+s/Cmd+s) على حفظ صور وفيديوهات بسرعة من عارض الوسائط."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "من المُؤسف أننا قمنا بالفعل بإطلاق نكتة حول قرار العام الجديد في ملاحظات الإصدار الخاصة بالتحديث الأخير، لأننا قمنا للتو بزيادة الحد الأقصى للدقة لمُشاركة الشاشة أثناء مكالمات فيديو سيجنال. قرارنا الجديد هو تجنب أي تلاعب في الدقة حتى عام 2025."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "شكرًا لـ {linkToGithub1} و{linkToGithub2} على مُساهماتهم في هذا الإصدار!"
   }
 }

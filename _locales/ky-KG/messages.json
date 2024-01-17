@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Ушул маектеги бардык билдирүүлөр бул түзмөктөн өчүрүлөт. Билдирүүлөрдү өчүргөндөн кийин ушул маекти таба аласыз.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -5733,11 +5733,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Терилген эмотикондорду быйтыкчаларга айландыруу",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "Мисалы, :-) деген эмотикон ушундай быйтыкчага 🙂 айланат",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -7058,15 +7058,15 @@
     "messageformat": "{linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} жана {linkToGithub5} ушул чыгарылышка кошкон салымы үчүн терең ыраазычылык!"
   },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Эми кааласаңыз эмотикондорду быйтыкчаларга айландыра аласыз. “:-)” деп терилген нерсени мындай быйтыкчага “<emojify>🙂</emojify>” айландыргыңыз келсе, бул функцияны Signal Desktop параметрлериңиздеги &quot;Маектер&quot; бөлүмүнөн иштетиңиз."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Жаңы баскычтардын айкалышы (Ctrl+s/Cmd+s) аркылуу медиа көргүчтөгү сүрөттөр менен видеолорду оңой сактай аласыз."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Signal'дын видео чалуулары учурунда колдонулуп жаткан экрандын дааналыгын жогорулатып койдук. 2025-жылга чейин жаңы дааналыкта мүчүлүштүктөр болбойт."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "{linkToGithub1} жана {linkToGithub2} ушул чыгарылышка кошкон салымы үчүн терең ыраазычылык!"
   }
 }
