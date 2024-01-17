@@ -2981,18 +2981,16 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.tsx",
-    "line": "  const moreOptionsMenuRef = React.useRef<null | HTMLDivElement>(null);",
+    "line": "  const reactButtonRef = React.useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-11-14T23:29:51.425Z",
-    "reasonDetail": "Used to detect clicks outside of the Calling More Options button menu"
+    "updated": "2024-01-16T22:59:06.336Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.tsx",
-    "line": "  const moreOptionsButtonRef = React.useRef<null | HTMLDivElement>(null);",
+    "line": "  const reactionPickerContainerRef = React.useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-11-14T23:29:51.425Z",
-    "reasonDetail": "Used to detect clicks outside of the Calling More Options button menu and ensures clicking the button does not re-open the menu."
+    "updated": "2024-01-16T22:59:06.336Z"
   },
   {
     "rule": "React-useRef",

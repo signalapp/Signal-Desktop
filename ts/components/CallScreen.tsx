@@ -72,7 +72,6 @@ import {
   useCallingToasts,
 } from './CallingToast';
 import { Spinner } from './Spinner';
-import { handleOutsideClick } from '../util/handleOutsideClick';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
 import { Emoji } from './emoji/Emoji';
@@ -250,12 +249,12 @@ export function CallScreen({
     hangUpActiveCall('button click');
   }, [hangUpActiveCall]);
 
-  const moreOptionsMenuRef = React.useRef<null | HTMLDivElement>(null);
-  const moreOptionsButtonRef = React.useRef<null | HTMLDivElement>(null);
+  const reactButtonRef = React.useRef<null | HTMLDivElement>(null);
   const reactionPickerRef = React.useRef<null | HTMLDivElement>(null);
-  const [showMoreOptions, setShowMoreOptions] = useState(false);
-  const toggleMoreOptions = useCallback(() => {
-    setShowMoreOptions(prevValue => !prevValue);
+  const reactionPickerContainerRef = React.useRef<null | HTMLDivElement>(null);
+  const [showReactionPicker, setShowReactionPicker] = useState(false);
+  const toggleReactionPicker = useCallback(() => {
+    setShowReactionPicker(prevValue => !prevValue);
   }, []);
 
   const [showRaisedHandsList, setShowRaisedHandsList] = useState(false);
@@ -285,14 +284,19 @@ export function CallScreen({
   }, [setLocalPreview, setRendererCanvas]);
 
   useEffect(() => {
-    if (!showControls || showMoreOptions || stickyControls || controlsHover) {
+    if (
+      !showControls ||
+      showReactionPicker ||
+      stickyControls ||
+      controlsHover
+    ) {
       return noop;
     }
     const timer = setTimeout(() => {
       setShowControls(false);
     }, 5000);
     return clearTimeout.bind(null, timer);
-  }, [showControls, showMoreOptions, stickyControls, controlsHover]);
+  }, [showControls, showReactionPicker, stickyControls, controlsHover]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
@@ -320,22 +324,6 @@ export function CallScreen({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [toggleAudio, toggleVideo]);
-
-  useEffect(() => {
-    if (!showMoreOptions) {
-      return noop;
-    }
-    return handleOutsideClick(
-      () => {
-        setShowMoreOptions(false);
-        return true;
-      },
-      {
-        containerElements: [moreOptionsButtonRef, moreOptionsMenuRef],
-        name: 'CallScreen.moreOptions',
-      }
-    );
-  }, [showMoreOptions]);
 
   useScreenSharingStoppedToast({ activeCall, i18n });
   useViewModeChangedToast({ activeCall, i18n });
@@ -468,8 +456,6 @@ export function CallScreen({
   });
 
   const isGroupCall = activeCall.callMode === CallMode.Group;
-  const isMoreOptionsButtonEnabled =
-    isGroupCall && (isGroupCallRaiseHandEnabled || isGroupCallReactionsEnabled);
 
   let presentingButtonType: CallingButtonType;
   if (presentingSource) {
@@ -517,6 +503,17 @@ export function CallScreen({
       sendGroupCallRaiseHand,
     ]
   );
+
+  let raiseHandButtonType: CallingButtonType | undefined;
+  let reactButtonType: CallingButtonType | undefined;
+  if (isGroupCall) {
+    raiseHandButtonType = localHandRaised
+      ? CallingButtonType.RAISE_HAND_ON
+      : CallingButtonType.RAISE_HAND_OFF;
+    reactButtonType = showReactionPicker
+      ? CallingButtonType.REACT_ON
+      : CallingButtonType.REACT_OFF;
+  }
 
   const renderRaisedHandsToast = React.useCallback(
     (hands: Array<number>) => {
@@ -793,8 +790,27 @@ export function CallScreen({
         renderRaisedHandsToast={renderRaisedHandsToast}
         i18n={i18n}
       />
+      {/* We render the local preview first and set the footer flex direction to row-reverse
+      to ensure the preview is visible at low viewport widths. */}
       <div className="module-ongoing-call__footer">
-        <div className="module-calling__spacer CallControls__OuterSpacer" />
+        {localPreviewNode ? (
+          <div className="module-ongoing-call__footer__local-preview module-ongoing-call__footer__local-preview--active">
+            {localPreviewNode}
+            {!isSendingVideo && (
+              <div className="CallingStatusIndicator CallingStatusIndicator--Video" />
+            )}
+            <CallingAudioIndicator
+              hasAudio={hasLocalAudio}
+              audioLevel={localAudioLevel}
+              shouldShowSpeaking={isSpeaking}
+            />
+            {syncedLocalHandRaised && (
+              <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+            )}
+          </div>
+        ) : (
+          <div className="module-ongoing-call__footer__local-preview" />
+        )}
         <div
           className={classNames(
             'CallControls',
@@ -807,53 +823,28 @@ export function CallScreen({
             <div className="CallControls__Status">{callStatus}</div>
           </div>
 
-          {showMoreOptions && (
-            <div className="CallControls__MoreOptionsContainer">
-              <div
-                className="CallControls__MoreOptionsMenu"
-                ref={moreOptionsMenuRef}
-              >
-                {isGroupCallReactionsEnabled &&
-                  renderReactionPicker({
-                    ref: reactionPickerRef,
-                    onClose: () => setShowMoreOptions(false),
-                    onPick: emoji => {
-                      setShowMoreOptions(false);
-                      sendGroupCallReaction({
-                        conversationId: conversation.id,
-                        value: emoji,
-                      });
-                    },
-                    renderEmojiPicker,
-                  })}
-                {isGroupCallRaiseHandEnabled && (
-                  <button
-                    className="CallControls__MenuItemRaiseHand"
-                    onClick={() => {
-                      setShowMoreOptions(false);
-                      toggleRaiseHand();
-                    }}
-                    type="button"
-                  >
-                    <span className="CallControls__MenuItemRaiseHandIcon" />
-                    {localHandRaised
-                      ? i18n('icu:CallControls__MenuItemRaiseHand--lower')
-                      : i18n('icu:CallControls__MenuItemRaiseHand')}
-                  </button>
-                )}
-              </div>
+          {showReactionPicker && (
+            <div
+              className="CallControls__ReactionPickerContainer"
+              ref={reactionPickerContainerRef}
+            >
+              {isGroupCallReactionsEnabled &&
+                renderReactionPicker({
+                  ref: reactionPickerRef,
+                  onClose: () => setShowReactionPicker(false),
+                  onPick: emoji => {
+                    setShowReactionPicker(false);
+                    sendGroupCallReaction({
+                      conversationId: conversation.id,
+                      value: emoji,
+                    });
+                  },
+                  renderEmojiPicker,
+                })}
             </div>
           )}
 
           <div className="CallControls__ButtonContainer">
-            <CallingButton
-              buttonType={presentingButtonType}
-              i18n={i18n}
-              onMouseEnter={onControlsMouseEnter}
-              onMouseLeave={onControlsMouseLeave}
-              onClick={togglePresenting}
-              tooltipDirection={TooltipPlacement.Top}
-            />
             <CallingButton
               buttonType={videoButtonType}
               i18n={i18n}
@@ -870,23 +861,38 @@ export function CallScreen({
               onClick={toggleAudio}
               tooltipDirection={TooltipPlacement.Top}
             />
-            {isMoreOptionsButtonEnabled && (
+            <CallingButton
+              buttonType={presentingButtonType}
+              i18n={i18n}
+              onMouseEnter={onControlsMouseEnter}
+              onMouseLeave={onControlsMouseLeave}
+              onClick={togglePresenting}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+            {isGroupCallRaiseHandEnabled && raiseHandButtonType && (
+              <CallingButton
+                buttonType={raiseHandButtonType}
+                i18n={i18n}
+                onMouseEnter={onControlsMouseEnter}
+                onMouseLeave={onControlsMouseLeave}
+                onClick={() => toggleRaiseHand()}
+                tooltipDirection={TooltipPlacement.Top}
+              />
+            )}
+            {isGroupCallReactionsEnabled && reactButtonType && (
               <div
-                className={classNames(
-                  'CallControls__MoreOptionsButtonContainer',
-                  {
-                    'CallControls__MoreOptionsButtonContainer--menu-shown':
-                      showMoreOptions,
-                  }
-                )}
-                ref={moreOptionsButtonRef}
+                className={classNames('CallControls__ReactButtonContainer', {
+                  'CallControls__ReactButtonContainer--menu-shown':
+                    showReactionPicker,
+                })}
+                ref={reactButtonRef}
               >
                 <CallingButton
-                  buttonType={CallingButtonType.MORE_OPTIONS}
+                  buttonType={reactButtonType}
                   i18n={i18n}
                   onMouseEnter={onControlsMouseEnter}
                   onMouseLeave={onControlsMouseLeave}
-                  onClick={toggleMoreOptions}
+                  onClick={toggleReactionPicker}
                   tooltipDirection={TooltipPlacement.Top}
                 />
               </div>
@@ -908,24 +914,7 @@ export function CallScreen({
             </Button>
           </div>
         </div>
-        {localPreviewNode ? (
-          <div className="module-ongoing-call__footer__local-preview module-ongoing-call__footer__local-preview--active">
-            {localPreviewNode}
-            {!isSendingVideo && (
-              <div className="CallingStatusIndicator CallingStatusIndicator--Video" />
-            )}
-            <CallingAudioIndicator
-              hasAudio={hasLocalAudio}
-              audioLevel={localAudioLevel}
-              shouldShowSpeaking={isSpeaking}
-            />
-            {syncedLocalHandRaised && (
-              <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
-            )}
-          </div>
-        ) : (
-          <div className="module-ongoing-call__footer__local-preview" />
-        )}
+        <div className="module-calling__spacer CallControls__OuterSpacer" />
       </div>
     </div>
   );

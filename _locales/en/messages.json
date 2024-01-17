@@ -1748,6 +1748,10 @@
     "messageformat": "Stop presenting",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
+  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Group is too large to ring the participants.",
     "description": "Button tooltip label when you can't ring because the group is too large"

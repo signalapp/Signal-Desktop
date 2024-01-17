@@ -16,6 +16,10 @@ export enum CallingButtonType {
   PRESENTING_DISABLED = 'PRESENTING_DISABLED',
   PRESENTING_OFF = 'PRESENTING_OFF',
   PRESENTING_ON = 'PRESENTING_ON',
+  RAISE_HAND_OFF = 'RAISE_HAND_OFF',
+  RAISE_HAND_ON = 'RAISE_HAND_ON',
+  REACT_OFF = 'REACT_OFF',
+  REACT_ON = 'REACT_ON',
   RING_DISABLED = 'RING_DISABLED',
   RING_OFF = 'RING_OFF',
   RING_ON = 'RING_ON',
@@ -75,6 +79,17 @@ export function CallingButton({
     tooltipContent = i18n(
       'icu:calling__button--ring__disabled-because-group-is-too-large'
     );
+  } else if (buttonType === CallingButtonType.REACT_OFF) {
+    classNameSuffix = 'react--off';
+    tooltipContent = i18n('icu:calling__button--react');
+  } else if (buttonType === CallingButtonType.REACT_ON) {
+    classNameSuffix = 'react--on';
+  } else if (buttonType === CallingButtonType.RAISE_HAND_OFF) {
+    classNameSuffix = 'raise-hand--off';
+    tooltipContent = i18n('icu:CallControls__MenuItemRaiseHand');
+  } else if (buttonType === CallingButtonType.RAISE_HAND_ON) {
+    classNameSuffix = 'raise-hand--on';
+    tooltipContent = i18n('icu:CallControls__MenuItemRaiseHand--lower');
   } else if (buttonType === CallingButtonType.RING_OFF) {
     classNameSuffix = 'ring--off';
     tooltipContent = i18n('icu:CallingButton--ring-on');
