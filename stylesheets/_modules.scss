@@ -4335,10 +4335,10 @@ button.module-image__border-overlay:focus {
     @include font-body-1;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin-block: 2px;
-    padding-block: 5px;
-    padding-inline: 10px;
+    padding-block: 8px;
+    padding-inline-start: 10px;
+    padding-inline-end: 2px;
     list-style-type: none;
     border-radius: 6px;
     &:hover {
@@ -4348,8 +4348,9 @@ button.module-image__border-overlay:focus {
 
   &__avatar-and-name {
     display: flex;
+    flex-grow: 1;
+    min-width: 0;
     align-items: center;
-    max-width: 172px;
   }
 
   &__name {
@@ -4387,12 +4388,19 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__status {
+  &__status-icon {
     display: flex;
-    flex-basis: 64px;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: end;
+    flex: none;
+    margin-inline: 8px;
+    height: 16px;
+    width: 16px;
+  }
+
+  &__hand-raised {
+    @include color-svg(
+      '../images/icons/v3/raise_hand/raise_hand-light.svg',
+      $color-white
+    );
   }
 
   &__muted {
@@ -4401,10 +4409,6 @@ button.module-image__border-overlay:focus {
         '../images/icons/v3/video/video-slash-compact-light.svg',
         $color-white
       );
-      display: inline-block;
-      margin-inline-start: 16px;
-      height: 16px;
-      width: 16px;
     }
 
     &--audio {
@@ -4412,10 +4416,6 @@ button.module-image__border-overlay:focus {
         '../images/icons/v3/mic/mic-slash-compact-light.svg',
         $color-white
       );
-      display: inline-block;
-      margin-inline-start: 16px;
-      height: 16px;
-      width: 16px;
     }
   }
 
@@ -4424,10 +4424,6 @@ button.module-image__border-overlay:focus {
       '../images/icons/v3/share_screen/share_screen-fill-light.svg',
       $color-white
     );
-    display: inline-block;
-    margin-inline-start: 16px;
-    height: 16px;
-    width: 16px;
   }
 }
 

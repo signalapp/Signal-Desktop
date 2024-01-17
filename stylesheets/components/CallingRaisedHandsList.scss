@@ -71,10 +71,6 @@
   );
 }
 
-.CallingRaisedHandsList__AvatarAndName {
-  max-width: 205px;
-}
-
 .CallingRaisedHandsList__NameHandIcon {
   display: inline-block;
   $icon-size: 16px;
@@ -90,7 +86,8 @@
 
 .CallingRaisedHandsList__LowerMyHandLink {
   @include button-reset;
-  margin-inline-end: 24px;
+  display: flex;
+  margin-inline-end: 16px;
   font-size: 13px;
   font-weight: 500;
   color: $color-ultramarine-pastel;

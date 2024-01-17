@@ -6,6 +6,7 @@
 import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
+import classNames from 'classnames';
 
 import { Avatar, AvatarSize } from './Avatar';
 import { ContactName } from './conversation/ContactName';
@@ -20,6 +21,7 @@ import { ModalContainerContext } from './ModalHost';
 type ParticipantType = ConversationType & {
   hasRemoteAudio?: boolean;
   hasRemoteVideo?: boolean;
+  isHandRaised?: boolean;
   presenting?: boolean;
 };
 
@@ -146,17 +148,29 @@ export const CallingParticipantsList = React.memo(
                         </>
                       )}
                     </div>
-                    <div className="module-calling-participants-list__status">
-                      {participant.hasRemoteVideo === false ? (
-                        <span className="module-calling-participants-list__muted--video" />
-                      ) : null}
-                      {participant.presenting ? (
-                        <span className="module-calling-participants-list__presenting" />
-                      ) : null}
-                      {participant.hasRemoteAudio === false ? (
-                        <span className="module-calling-participants-list__muted--audio" />
-                      ) : null}
-                    </div>
+                    <span
+                      className={classNames(
+                        'module-calling-participants-list__status-icon',
+                        participant.isHandRaised &&
+                          'module-calling-participants-list__hand-raised'
+                      )}
+                    />
+                    <span
+                      className={classNames(
+                        'module-calling-participants-list__status-icon',
+                        participant.presenting &&
+                          'module-calling-participants-list__presenting',
+                        !participant.hasRemoteVideo &&
+                          'module-calling-participants-list__muted--video'
+                      )}
+                    />
+                    <span
+                      className={classNames(
+                        'module-calling-participants-list__status-icon',
+                        !participant.hasRemoteAudio &&
+                          'module-calling-participants-list__muted--audio'
+                      )}
+                    />
                   </li>
                 )
               )}
