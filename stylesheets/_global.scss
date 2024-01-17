@@ -38,6 +38,32 @@ body {
   -webkit-user-modify: read-write-plaintext-only;
 }
 
+// This is a bugfix for browsers that implement dir="auto" wrong.
+//
+// Spec: https://html.spec.whatwg.org/multipage/dom.html#the-dir-attribute
+// > 2. If result is null, then return the parent directionality of element.
+//
+// Chrome is defaulting to ltr all the time, which breaks cursors on empty
+// inputs, textareas, and contenteditable elements.
+[dir='auto'] {
+  &:is(
+    input[value=""],
+    input:not([value]),
+    :not(input):empty,
+    /* Fix for https://developer.mozilla.org/en-US/docs/Web/CSS/:empty#browser_compatibility */
+    :has(> br:only-child)
+  ) {
+    :dir(ltr) > & {
+      /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+      direction: ltr;
+    }
+    :dir(rtl) > & {
+      /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+      direction: rtl;
+    }
+  }
+}
+
 ::-webkit-scrollbar {
   // For vertical scrollbars
   width: 9px;
