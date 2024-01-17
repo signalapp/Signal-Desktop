@@ -766,6 +766,7 @@ export type CdsLookupOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
   acisAndAccessKeys?: ReadonlyArray<{ aci: AciString; accessKey: string }>;
   returnAcisWithoutUaks?: boolean;
+  useLibsignal?: boolean;
 }>;
 
 type GetProfileCommonOptionsType = Readonly<
@@ -3485,11 +3486,13 @@ export function initialize({
       e164s,
       acisAndAccessKeys = [],
       returnAcisWithoutUaks,
+      useLibsignal,
     }: CdsLookupOptionsType): Promise<CDSResponseType> {
       return cds.request({
         e164s,
         acisAndAccessKeys,
         returnAcisWithoutUaks,
+        useLibsignal,
       });
     }
 

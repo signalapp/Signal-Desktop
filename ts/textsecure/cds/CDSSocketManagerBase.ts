@@ -1,6 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { RateLimitedError as NetRateLimitedError } from '@signalapp/libsignal-client';
+import {
+  Net,
+  ErrorCode as LibSignalErrorCode,
+  LibSignalErrorBase,
+} from '@signalapp/libsignal-client';
 import type { connection as WebSocket } from 'websocket';
 import pTimeout from 'p-timeout';
 
@@ -19,6 +25,7 @@ import type {
 } from './Types.d';
 import { RateLimitedError } from './RateLimitedError';
 import { connect as connectWebSocket } from '../WebSocket';
+import { Environment, getEnvironment } from '../../environment';
 
 const REQUEST_TIMEOUT = 10 * SECOND;
 
@@ -47,6 +54,16 @@ export abstract class CDSSocketManagerBase<
       await sleep(delay);
     }
 
+    if (options.useLibsignal) {
+      return this.requestViaLibsignal(options);
+    }
+    return this.requestViaNativeSocket(options);
+  }
+
+  private async requestViaNativeSocket(
+    options: CDSRequestOptionsType
+  ): Promise<CDSResponseType> {
+    const log = this.logger;
     const auth = await this.getAuth();
 
     log.info('CDSSocketManager: connecting socket');
@@ -82,6 +99,59 @@ export abstract class CDSSocketManagerBase<
     } finally {
       log.info('CDSSocketManager: closing socket');
       void socket.close(3000, 'Normal');
+    }
+  }
+
+  private async requestViaLibsignal(
+    options: CDSRequestOptionsType
+  ): Promise<CDSResponseType> {
+    const log = this.logger;
+    const {
+      acisAndAccessKeys,
+      e164s,
+      timeout = REQUEST_TIMEOUT,
+      returnAcisWithoutUaks = false,
+    } = options;
+    const auth = await this.getAuth();
+
+    log.info('CDSSocketManager: making request via libsignal');
+    const net = new Net.Net(this.libsignalNetEnvironment());
+    try {
+      log.info('CDSSocketManager: starting lookup request');
+      const response = await net.cdsiLookup(auth, {
+        acisAndAccessKeys,
+        e164s,
+        timeout,
+        returnAcisWithoutUaks,
+      });
+
+      log.info('CDSSocketManager: lookup request finished');
+      return response as CDSResponseType;
+    } catch (error) {
+      if (
+        error instanceof LibSignalErrorBase &&
+        error.code === LibSignalErrorCode.RateLimitedError
+      ) {
+        const retryError = error as NetRateLimitedError;
+        this.retryAfter = Math.max(
+          this.retryAfter ?? Date.now(),
+          Date.now() + retryError.retryAfterSecs * durations.SECOND
+        );
+      }
+      throw error;
+    }
+  }
+
+  private libsignalNetEnvironment(): Net.Environment {
+    const env = getEnvironment();
+    switch (env) {
+      case Environment.Production:
+        return Net.Environment.Production;
+      case Environment.Development:
+      case Environment.Test:
+      case Environment.Staging:
+      default:
+        return Net.Environment.Staging;
     }
   }
 
