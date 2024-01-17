@@ -9079,10 +9079,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@27.2.0:
-  version "27.2.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-27.2.0.tgz#d5bdc006768a6de87dcd077f617d6085a1c69641"
-  integrity sha512-no/iMICVLI/5G0IqgKFbB89HDN88DWwKeRO+dPfJPkpJISdEX8Cx/sMEOFuuRa4VNInNe5CKCqRWExK5z3AdcQ==
+electron@27.2.3:
+  version "27.2.3"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-27.2.3.tgz#ef8c7a33175bb9fc91ae5508c560aea719b49232"
+  integrity sha512-AbDL5WhoyN56Nb6Ox26eFNXo3PcoxPQGUfBMBT8WXY19uD8kI+l6XF8mI09ezMejo3JjKu4kh3zZUPcgskzIng==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"
