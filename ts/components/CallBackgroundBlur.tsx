@@ -3,28 +3,23 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import type { AvatarColorType } from '../types/Colors';
 
 export type PropsType = {
   avatarPath?: string;
   children?: React.ReactNode;
   className?: string;
-  color?: AvatarColorType;
 };
 
 export function CallBackgroundBlur({
   avatarPath,
   children,
   className,
-  color,
 }: PropsType): JSX.Element {
   return (
     <div
       className={classNames(
         'module-calling__background',
-        {
-          [`module-background-color__${color || 'default'}`]: !avatarPath,
-        },
+        !avatarPath && 'module-calling__background--no-avatar',
         className
       )}
     >

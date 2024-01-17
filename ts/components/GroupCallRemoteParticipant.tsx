@@ -250,7 +250,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       const shorterDimension = Math.min(width, height);
 
       if (shorterDimension >= 180) {
-        avatarSize = AvatarSize.EIGHTY;
+        avatarSize = AvatarSize.NINETY_SIX;
       } else {
         avatarSize = AvatarSize.FORTY_EIGHT;
       }
@@ -373,7 +373,10 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             />
           )}
           {!hasVideoToShow && (
-            <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+            <CallBackgroundBlur
+              avatarPath={avatarPath}
+              className="module-ongoing-call__group-call-remote-participant-background"
+            >
               {isBlocked ? (
                 <>
                   <i className="module-ongoing-call__group-call-remote-participant__blocked" />

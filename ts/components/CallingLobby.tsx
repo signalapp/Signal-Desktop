@@ -240,7 +240,6 @@ export function CallingLobby({
           <CallBackgroundBlur
             className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-off"
             avatarPath={me.avatarPath}
-            color={me.color}
           />
         )}
 
