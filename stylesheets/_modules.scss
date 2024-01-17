@@ -4114,6 +4114,7 @@ button.module-image__border-overlay:focus {
   &__footer {
     bottom: 0;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     width: 100%;
     z-index: $z-index-above-base;

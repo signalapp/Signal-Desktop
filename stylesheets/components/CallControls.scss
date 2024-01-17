@@ -110,7 +110,7 @@
   margin-block: -5px;
 }
 
-.CallControls__MoreOptionsButtonContainer--menu-shown .module-tooltip {
+.CallControls__ReactButtonContainer--menu-shown .module-tooltip {
   opacity: 0;
 }
 
@@ -120,14 +120,12 @@
   flex-basis: calc($local-preview-width + 16px);
 }
 
-.CallControls__MoreOptionsContainer {
+.CallControls__ReactionPickerContainer {
   position: absolute;
-  inset-inline-start: min(48%, 40vw);
+  inset-inline-start: min(44%, 32vw);
   inset-block-end: 70px;
   z-index: $z-index-toast;
-}
 
-.CallControls__MoreOptionsMenu {
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 155px);
@@ -136,48 +134,13 @@
   pointer-events: auto;
 }
 
-.CallControls__MoreOptionsMenu .module-emoji-picker {
+.CallControls__ReactionPickerContainer .module-emoji-picker {
   margin-bottom: auto;
   max-width: calc(100vw / 2 + 20px);
 }
 
-.CallControls__MoreOptionsMenu
-  .module-emoji-picker
-  + .CallControls__MenuItemRaiseHand {
-  display: none;
-}
-
-.CallControls__MoreOptionsMenu .module-ReactionPickerPicker {
+.CallControls__ReactionPickerContainer .module-ReactionPickerPicker {
   @media (prefers-reduced-motion: no-preference) {
     animation-duration: 200ms;
   }
-}
-
-.CallControls__MenuItemRaiseHand {
-  @include button-reset;
-  display: flex;
-  min-width: 290px;
-  padding-block: 12px;
-  padding-inline: 12px;
-  margin-block-start: 8px;
-  border-radius: 10px;
-  align-items: center;
-  text-align: start;
-  background-color: $color-gray-75;
-  color: $color-white;
-  filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
-}
-
-.CallControls__MenuItemRaiseHand:hover {
-  background-color: $color-gray-65;
-}
-
-.CallControls__MenuItemRaiseHandIcon {
-  @include color-svg(
-    '../images/icons/v3/raise_hand/raise_hand-light.svg',
-    $color-gray-15
-  );
-  height: 16px;
-  width: 16px;
-  margin-inline: 2px 12px;
 }
