@@ -297,6 +297,10 @@
     &:last-child {
       margin-bottom: 8px;
     }
+
+    &--readonly {
+      opacity: 0.4;
+    }
   }
 }
 

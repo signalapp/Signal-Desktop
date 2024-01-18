@@ -1,0 +1,41 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.AutoSizeInput {
+  &__input {
+    @include font-body-1;
+
+    background: inherit;
+    border: none;
+    resize: none;
+    padding: 0;
+    min-width: 20px;
+    width: 20px;
+
+    &:placeholder {
+      color: $color-gray-45;
+    }
+
+    @include light-theme {
+      color: $color-black;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &--sizer {
+      visibility: hidden;
+      position: absolute;
+      inset-inline-start: 0;
+      top: 0;
+      width: auto;
+
+      z-index: $z-index-negative;
+    }
+  }
+}

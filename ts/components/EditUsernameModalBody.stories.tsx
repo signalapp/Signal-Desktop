@@ -66,6 +66,7 @@ export default {
     i18n,
     onClose: action('onClose'),
     setUsernameReservationError: action('setUsernameReservationError'),
+    clearUsernameReservation: action('clearUsernameReservation'),
     reserveUsername: action('reserveUsername'),
     confirmUsername: action('confirmUsername'),
   },

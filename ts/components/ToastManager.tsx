@@ -392,5 +392,11 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.WhoCanFindMeReadOnly) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:WhoCanFindMeReadOnlyToast')}</Toast>
+    );
+  }
+
   throw missingCaseError(toastType);
 }

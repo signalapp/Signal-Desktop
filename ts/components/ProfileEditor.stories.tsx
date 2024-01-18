@@ -100,6 +100,7 @@ function renderEditUsernameModalBody(props: {
       state={UsernameReservationState.Open}
       error={undefined}
       setUsernameReservationError={action('setUsernameReservationError')}
+      clearUsernameReservation={action('clearUsernameReservation')}
       reserveUsername={action('reserveUsername')}
       confirmUsername={action('confirmUsername')}
       {...props}

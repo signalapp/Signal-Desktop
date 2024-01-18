@@ -828,6 +828,7 @@ export type ReserveUsernameOptionsType = Readonly<{
 
 export type ReplaceUsernameLinkOptionsType = Readonly<{
   encryptedUsername: Uint8Array;
+  keepLinkHandle: boolean;
 }>;
 
 export type ConfirmUsernameOptionsType = Readonly<{
@@ -2036,6 +2037,7 @@ export function initialize({
 
     async function replaceUsernameLink({
       encryptedUsername,
+      keepLinkHandle,
     }: ReplaceUsernameLinkOptionsType): Promise<ReplaceUsernameLinkResultType> {
       return replaceUsernameLinkResultZod.parse(
         await _ajax({
@@ -2046,6 +2048,7 @@ export function initialize({
             usernameLinkEncryptedValue: toWebSafeBase64(
               Bytes.toBase64(encryptedUsername)
             ),
+            keepLinkHandle,
           },
         })
       );

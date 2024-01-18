@@ -40,4 +40,7 @@ export enum UsernameReservationError {
   UsernameNotAvailable = 'UsernameNotAvailable',
   General = 'General',
   ConflictOrGone = 'ConflictOrGone',
+  NotEnoughDiscriminator = 'NotEnoughDiscriminator',
+  AllZeroDiscriminator = 'AllZeroDiscriminator',
+  LeadingZeroDiscriminator = 'LeadingZeroDiscriminator',
 }
