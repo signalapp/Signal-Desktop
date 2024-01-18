@@ -165,14 +165,14 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('waiting for generated discriminator');
     const discriminator = profileEditor.locator(
-      '.EditUsernameModalBody__discriminator:not(:empty)'
+      '.EditUsernameModalBody__discriminator__input[value]'
     );
     await discriminator.waitFor();
 
-    const discriminatorValue = await discriminator.innerText();
-    assert.match(discriminatorValue, /^\.\d+$/);
+    const discriminatorValue = await discriminator.inputValue();
+    assert.match(discriminatorValue, /^\d+$/);
 
-    const username = `${NICKNAME}${discriminatorValue}`;
+    const username = `${NICKNAME}.${discriminatorValue}`;
 
     debug('saving username');
     let state = await phone.expectStorageState('consistency check');

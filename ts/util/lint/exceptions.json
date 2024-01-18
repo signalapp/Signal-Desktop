@@ -2921,6 +2921,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/AutoSizeInput.tsx",
+    "line": "  const hiddenRef = useRef<HTMLSpanElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-11T16:58:57.146Z",
+    "reasonDetail": "Needs access to a hidden span element to get its width"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarTextEditor.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -2954,6 +2962,46 @@
     "line": "  const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurst.tsx",
+    "line": "  const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "For hiding call reaction bursts after timeouts."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurst.tsx",
+    "line": "  const burstsShown = useRef<Set<string>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "In wrapping function, track bursts so we can hide on unmount."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurst.tsx",
+    "line": "  const shownBursts = useRef<Set<string>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "Keep track of shown reaction bursts."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallReactionBurstEmoji.tsx",
+    "line": "  const containerRef = React.useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "For determining position of container for animations."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const burstsShown = useRef<Map<string, number>>(new Map());",
+    "reasonCategory": "sageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "Recent bursts shown for burst behavior like throttling."
   },
   {
     "rule": "React-useRef",
@@ -2999,6 +3047,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2023-12-21T11:13:56.623Z",
     "reasonDetail": "Calling reactions bursts"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const reactionsShown = useRef<",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-06T00:59:20.678Z",
+    "reasonDetail": "Recent reactions shown for reactions burst"
   },
   {
     "rule": "React-useRef",
@@ -3604,6 +3660,13 @@
     "updated": "2023-08-10T00:23:35.320Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/CallingNotification.tsx",
+    "line": "    const menuTriggerRef = React.useRef<ContextMenuTriggerType | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-12-08T20:28:57.595Z"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
@@ -3687,13 +3750,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-20T21:30:08.430Z",
     "reasonDetail": "Doesn't touch the DOM."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/CallingNotification.tsx",
-    "line": "    const menuTriggerRef = React.useRef<ContextMenuTriggerType | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-12-08T20:28:57.595Z"
   },
   {
     "rule": "React-useRef",
@@ -3970,53 +4026,5 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurst.tsx",
-    "line": "  const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-01-06T00:59:20.678Z",
-    "reasonDetail": "For hiding call reaction bursts after timeouts."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurst.tsx",
-    "line": "  const shownBursts = useRef<Set<string>>(new Set());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-01-06T00:59:20.678Z",
-    "reasonDetail": "Keep track of shown reaction bursts."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurst.tsx",
-    "line": "  const burstsShown = useRef<Set<string>>(new Set());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-01-06T00:59:20.678Z",
-    "reasonDetail": "In wrapping function, track bursts so we can hide on unmount."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallReactionBurstEmoji.tsx",
-    "line": "  const containerRef = React.useRef<HTMLDivElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-01-06T00:59:20.678Z",
-    "reasonDetail": "For determining position of container for animations."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
-    "line": "  const reactionsShown = useRef<",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-01-06T00:59:20.678Z",
-    "reasonDetail": "Recent reactions shown for reactions burst"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
-    "line": "  const burstsShown = useRef<Map<string, number>>(new Map());",
-    "reasonCategory": "sageTrusted",
-    "updated": "2024-01-06T00:59:20.678Z",
-    "reasonDetail": "Recent bursts shown for burst behavior like throttling."
   }
 ]

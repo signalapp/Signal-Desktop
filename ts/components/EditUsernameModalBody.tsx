@@ -7,12 +7,14 @@ import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
 import type { UsernameReservationType } from '../types/Username';
 import { missingCaseError } from '../util/missingCaseError';
-import { getNickname, getDiscriminator } from '../types/Username';
+import { getNickname, getDiscriminator, isCaseChange } from '../types/Username';
 import {
   UsernameReservationState,
   UsernameReservationError,
 } from '../state/ducks/usernameEnums';
+import type { ReserveUsernameOptionsType } from '../state/ducks/username';
 
+import { AutoSizeInput } from './AutoSizeInput';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { Input } from './Input';
 import { Spinner } from './Spinner';
@@ -33,7 +35,8 @@ export type ActionPropsDataType = Readonly<{
   setUsernameReservationError(
     error: UsernameReservationError | undefined
   ): void;
-  reserveUsername(nickname: string | undefined): void;
+  clearUsernameReservation(): void;
+  reserveUsername(optiona: ReserveUsernameOptionsType): void;
   confirmUsername(): void;
 }>;
 
@@ -45,6 +48,14 @@ export type PropsType = PropsDataType &
   ActionPropsDataType &
   ExternalPropsDataType;
 
+enum UpdateState {
+  Original = 'Original',
+  Nickname = 'Nickname',
+  Discriminator = 'Discriminator',
+}
+
+const DISCRIMINATOR_MAX_LENGTH = 19;
+
 export function EditUsernameModalBody({
   i18n,
   currentUsername,
@@ -54,6 +65,7 @@ export function EditUsernameModalBody({
   maxNickname,
   reservation,
   setUsernameReservationError,
+  clearUsernameReservation,
   error,
   state,
   onClose,
@@ -66,36 +78,75 @@ export function EditUsernameModalBody({
     return getNickname(currentUsername);
   }, [currentUsername]);
 
-  const isReserving = state === UsernameReservationState.Reserving;
-  const isConfirming = state === UsernameReservationState.Confirming;
-  const canSave = !isReserving && !isConfirming && reservation !== undefined;
+  const currentDiscriminator =
+    currentUsername === undefined
+      ? undefined
+      : getDiscriminator(currentUsername);
 
-  const [hasEverChanged, setHasEverChanged] = useState(false);
+  const [updateState, setUpdateState] = useState(UpdateState.Original);
   const [nickname, setNickname] = useState(currentNickname);
   const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
   const [isConfirmingSave, setIsConfirmingSave] = useState(false);
+
+  const [customDiscriminator, setCustomDiscriminator] = useState<
+    string | undefined
+  >(undefined);
+
+  const discriminator = useMemo(() => {
+    // Always give preference to user-selected custom discriminator.
+    if (
+      customDiscriminator !== undefined ||
+      updateState === UpdateState.Discriminator
+    ) {
+      return customDiscriminator;
+    }
+
+    if (reservation !== undefined) {
+      // New discriminator from reservation
+      return getDiscriminator(reservation.username);
+    }
+
+    return currentDiscriminator;
+  }, [reservation, updateState, currentDiscriminator, customDiscriminator]);
+
+  // Disallow non-numeric discriminator
+  const updateCustomDiscriminator = useCallback((newValue: string): void => {
+    const digits = newValue.replace(/[^\d]+/g, '');
+    setUpdateState(UpdateState.Discriminator);
+    setCustomDiscriminator(digits);
+  }, []);
+
+  // When we change nickname with previously erased discriminator - reset the
+  // discriminator state.
+  useEffect(() => {
+    if (customDiscriminator !== '' || !reservation) {
+      return;
+    }
+    setCustomDiscriminator(undefined);
+  }, [customDiscriminator, reservation]);
+
+  // Clear reservation if user erases the nickname
+  useEffect(() => {
+    if (updateState === UpdateState.Nickname && !nickname) {
+      clearUsernameReservation();
+    }
+  }, [clearUsernameReservation, nickname, updateState]);
+
+  const isReserving = state === UsernameReservationState.Reserving;
+  const isConfirming = state === UsernameReservationState.Confirming;
+  const canSave =
+    !isReserving &&
+    !isConfirming &&
+    (reservation !== undefined || customDiscriminator);
+  const isDiscriminatorVisible =
+    Boolean(nickname || customDiscriminator) &&
+    (discriminator || updateState === UpdateState.Discriminator);
 
   useEffect(() => {
     if (state === UsernameReservationState.Closed) {
       onClose();
     }
   }, [state, onClose]);
-
-  const discriminator = useMemo(() => {
-    if (reservation !== undefined) {
-      // New discriminator
-      return getDiscriminator(reservation.username);
-    }
-
-    // User never changed the nickname - return discriminator from the current
-    // username.
-    if (!hasEverChanged && currentUsername) {
-      return getDiscriminator(currentUsername);
-    }
-
-    // No reservation, different nickname - no discriminator
-    return undefined;
-  }, [reservation, hasEverChanged, currentUsername]);
 
   const errorString = useMemo(() => {
     if (!error) {
@@ -120,6 +171,17 @@ export function EditUsernameModalBody({
     if (error === UsernameReservationError.UsernameNotAvailable) {
       return i18n('icu:ProfileEditor--username--unavailable');
     }
+    if (error === UsernameReservationError.NotEnoughDiscriminator) {
+      return i18n('icu:ProfileEditor--username--check-discriminator-min');
+    }
+    if (error === UsernameReservationError.AllZeroDiscriminator) {
+      return i18n('icu:ProfileEditor--username--check-discriminator-all-zero');
+    }
+    if (error === UsernameReservationError.LeadingZeroDiscriminator) {
+      return i18n(
+        'icu:ProfileEditor--username--check-discriminator-leading-zero'
+      );
+    }
     // Displayed through confirmation modal below
     if (
       error === UsernameReservationError.General ||
@@ -132,25 +194,45 @@ export function EditUsernameModalBody({
 
   useEffect(() => {
     // Initial effect run
-    if (!hasEverChanged) {
+    if (updateState === UpdateState.Original) {
       return;
     }
 
-    reserveUsername(nickname);
-  }, [hasEverChanged, nickname, reserveUsername]);
+    // Sanity-check, we should never get here.
+    if (!nickname) {
+      return;
+    }
+
+    // User just erased discriminator
+    if (updateState === UpdateState.Discriminator && !customDiscriminator) {
+      return;
+    }
+
+    if (isConfirming) {
+      return;
+    }
+
+    reserveUsername({ nickname, customDiscriminator });
+  }, [
+    updateState,
+    nickname,
+    reserveUsername,
+    isConfirming,
+    customDiscriminator,
+  ]);
 
   const onChange = useCallback((newNickname: string) => {
-    setHasEverChanged(true);
+    setUpdateState(UpdateState.Nickname);
     setNickname(newNickname);
   }, []);
 
   const onSave = useCallback(() => {
-    if (!currentUsername) {
+    if (!currentUsername || (reservation && isCaseChange(reservation))) {
       confirmUsername();
     } else {
       setIsConfirmingSave(true);
     }
-  }, [confirmUsername, currentUsername]);
+  }, [confirmUsername, currentUsername, reservation]);
 
   const onCancelSave = useCallback(() => {
     setIsConfirmingSave(false);
@@ -172,7 +254,7 @@ export function EditUsernameModalBody({
 
   let title = i18n('icu:ProfileEditor--username--title');
   if (nickname && discriminator) {
-    title = `${nickname}${discriminator}`;
+    title = `${nickname}.${discriminator}`;
   }
 
   const learnMoreTitle = (
@@ -201,14 +283,20 @@ export function EditUsernameModalBody({
         value={nickname}
       >
         {isReserving && <Spinner size="16px" svgSize="small" />}
-        {discriminator && (
+        {isDiscriminatorVisible ? (
           <>
             <div className="EditUsernameModalBody__divider" />
-            <div className="EditUsernameModalBody__discriminator">
-              {discriminator}
-            </div>
+            <AutoSizeInput
+              moduleClassName="EditUsernameModalBody__discriminator"
+              disableSpellcheck
+              disabled={isConfirming}
+              value={discriminator}
+              onChange={updateCustomDiscriminator}
+              placeholder="00"
+              maxLength={DISCRIMINATOR_MAX_LENGTH}
+            />
           </>
-        )}
+        ) : null}
       </Input>
 
       {errorString && (
@@ -289,7 +377,7 @@ export function EditUsernameModalBody({
           i18n={i18n}
           onClose={() => {
             if (nickname) {
-              reserveUsername(nickname);
+              reserveUsername({ nickname, customDiscriminator });
             }
           }}
         >

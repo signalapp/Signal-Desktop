@@ -63,8 +63,8 @@
     }
   }
 
-  &__discriminator {
-    user-select: none;
+  &__discriminator__input {
+    text-align: end;
   }
 
   &__error {

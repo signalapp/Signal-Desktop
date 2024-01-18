@@ -53,6 +53,7 @@ const SET_USERNAME_EDIT_STATE = 'username/SET_USERNAME_EDIT_STATE';
 const OPEN_USERNAME_RESERVATION_MODAL = 'username/OPEN_RESERVATION_MODAL';
 const CLOSE_USERNAME_RESERVATION_MODAL = 'username/CLOSE_RESERVATION_MODAL';
 const SET_USERNAME_RESERVATION_ERROR = 'username/SET_RESERVATION_ERROR';
+const CLEAR_USERNAME_RESERVATION = 'username/CLEAR_RESERVATION';
 const RESERVE_USERNAME = 'username/RESERVE_USERNAME';
 const CONFIRM_USERNAME = 'username/CONFIRM_USERNAME';
 const DELETE_USERNAME = 'username/DELETE_USERNAME';
@@ -80,6 +81,10 @@ type SetUsernameReservationErrorActionType = ReadonlyDeep<{
   };
 }>;
 
+type ClearUsernameReservation = ReadonlyDeep<{
+  type: typeof CLEAR_USERNAME_RESERVATION;
+}>;
+
 type ReserveUsernameActionType = ReadonlyDeep<
   PromiseAction<
     typeof RESERVE_USERNAME,
@@ -102,6 +107,7 @@ export type UsernameActionType = ReadonlyDeep<
   | OpenUsernameReservationModalActionType
   | CloseUsernameReservationModalActionType
   | SetUsernameReservationErrorActionType
+  | ClearUsernameReservation
   | ReserveUsernameActionType
   | ConfirmUsernameActionType
   | DeleteUsernameActionType
@@ -113,6 +119,7 @@ export const actions = {
   openUsernameReservationModal,
   closeUsernameReservationModal,
   setUsernameReservationError,
+  clearUsernameReservation,
   reserveUsername,
   confirmUsername,
   deleteUsername,
@@ -152,20 +159,27 @@ export function setUsernameReservationError(
   };
 }
 
+export function clearUsernameReservation(): ClearUsernameReservation {
+  return {
+    type: CLEAR_USERNAME_RESERVATION,
+  };
+}
+
 const INPUT_DELAY_MS = 500;
 
 export type ReserveUsernameOptionsType = ReadonlyDeep<{
+  nickname: string;
+  customDiscriminator?: string;
   doReserveUsername?: typeof usernameServices.reserveUsername;
   delay?: number;
 }>;
 
-export function reserveUsername(
-  nickname: string,
-  {
-    doReserveUsername = usernameServices.reserveUsername,
-    delay = INPUT_DELAY_MS,
-  }: ReserveUsernameOptionsType = {}
-): ThunkAction<
+export function reserveUsername({
+  nickname,
+  customDiscriminator,
+  doReserveUsername = usernameServices.reserveUsername,
+  delay = INPUT_DELAY_MS,
+}: ReserveUsernameOptionsType): ThunkAction<
   void,
   RootStateType,
   unknown,
@@ -192,6 +206,7 @@ export function reserveUsername(
       return doReserveUsername({
         previousUsername: username,
         nickname,
+        customDiscriminator,
         abortSignal,
       });
     };
@@ -387,6 +402,17 @@ export function reducer(
     };
   }
 
+  if (action.type === CLEAR_USERNAME_RESERVATION) {
+    return {
+      ...state,
+      usernameReservation: {
+        ...usernameReservation,
+        error: undefined,
+        reservation: undefined,
+      },
+    };
+  }
+
   if (action.type === 'username/RESERVE_USERNAME_PENDING') {
     usernameReservation.abortController?.abort();
 
@@ -394,6 +420,8 @@ export function reducer(
     return {
       ...state,
       usernameReservation: {
+        ...usernameReservation,
+        error: undefined,
         state: UsernameReservationState.Reserving,
         abortController: meta.abortController,
       },
@@ -433,6 +461,12 @@ export function reducer(
         stateError = UsernameReservationError.CheckStartingCharacter;
       } else if (error === ReserveUsernameError.CheckCharacters) {
         stateError = UsernameReservationError.CheckCharacters;
+      } else if (error === ReserveUsernameError.NotEnoughDiscriminator) {
+        stateError = UsernameReservationError.NotEnoughDiscriminator;
+      } else if (error === ReserveUsernameError.AllZeroDiscriminator) {
+        stateError = UsernameReservationError.AllZeroDiscriminator;
+      } else if (error === ReserveUsernameError.LeadingZeroDiscriminator) {
+        stateError = UsernameReservationError.LeadingZeroDiscriminator;
       } else {
         throw missingCaseError(error);
       }

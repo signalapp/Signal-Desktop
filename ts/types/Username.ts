@@ -16,6 +16,9 @@ export enum ReserveUsernameError {
   TooManyCharacters = 'TooManyCharacters',
   CheckStartingCharacter = 'CheckStartingCharacter',
   CheckCharacters = 'CheckCharacters',
+  NotEnoughDiscriminator = 'NotEnoughDiscriminator',
+  AllZeroDiscriminator = 'AllZeroDiscriminator',
+  LeadingZeroDiscriminator = 'LeadingZeroDiscriminator',
 }
 
 export enum ConfirmUsernameResult {
@@ -41,11 +44,18 @@ export function getNickname(username: string): string | undefined {
   return match[1];
 }
 
-export function getDiscriminator(username: string): string {
-  const match = username.match(/(\..*)$/);
+export function getDiscriminator(username: string): string | undefined {
+  const match = username.match(/\.([0-9]*)$/);
   if (!match) {
-    return '';
+    return undefined;
   }
 
   return match[1];
+}
+
+export function isCaseChange({
+  previousUsername,
+  username,
+}: UsernameReservationType): boolean {
+  return previousUsername?.toLowerCase() === username.toLowerCase();
 }
