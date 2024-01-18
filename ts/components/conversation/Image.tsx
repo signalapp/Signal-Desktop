@@ -1,6 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { CSSProperties } from 'react';
 import React, { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
@@ -91,11 +92,11 @@ export function Image({
 
   const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 
-  const curveStyles = {
-    borderTopLeftRadius: curveTopLeft || CurveType.None,
-    borderTopRightRadius: curveTopRight || CurveType.None,
-    borderBottomLeftRadius: curveBottomLeft || CurveType.None,
-    borderBottomRightRadius: curveBottomRight || CurveType.None,
+  const curveStyles: CSSProperties = {
+    borderStartStartRadius: curveTopLeft || CurveType.None,
+    borderStartEndRadius: curveTopRight || CurveType.None,
+    borderEndStartRadius: curveBottomLeft || CurveType.None,
+    borderEndEndRadius: curveBottomRight || CurveType.None,
   };
 
   const canClick = useMemo(() => {
