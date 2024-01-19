@@ -369,6 +369,8 @@ export function GroupCallYourHandRaised(): JSX.Element {
   );
 }
 
+const PARTICIPANT_EMOJIS = ['❤️', '🤔', '✨', '😂', '🦄'] as const;
+
 // We generate these upfront so that the list is stable when you move the slider.
 const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   aci: generateAci(),
@@ -381,7 +383,13 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   videoAspectRatio: Math.random() < 0.7 ? 1.3 : Math.random() * 0.4 + 0.6,
   ...getDefaultConversationWithServiceId({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
-    title: `Participant ${index + 1}`,
+    title: `Participant ${
+      (index - 2) % 4 === 0
+        ? PARTICIPANT_EMOJIS[
+            Math.floor((index - 2) / 4) % PARTICIPANT_EMOJIS.length
+          ]
+        : ''
+    } ${index + 1}`,
   }),
 }));
 
