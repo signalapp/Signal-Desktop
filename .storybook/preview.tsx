@@ -48,6 +48,17 @@ export const globalTypes = {
       showName: true,
     },
   },
+  direction: {
+    name: 'Direction',
+    description: 'Direction of text',
+    defaultValue: 'auto',
+    toolbar: {
+      dynamicTitle: true,
+      icon: 'circlehollow',
+      items: ['auto', 'ltr', 'rtl'],
+      showName: true,
+    },
+  },
 };
 
 const mockStore: Store<StateType> = createStore(
@@ -120,10 +131,11 @@ window.ConversationController.isSignalConversationId = () => false;
 window.ConversationController.onConvoMessageMount = noop;
 window.reduxStore = mockStore;
 
-const withModeAndThemeProvider = (Story, context) => {
+const withGlobalTypesProvider = (Story, context) => {
   const theme =
     context.globals.theme === 'light' ? ThemeType.light : ThemeType.dark;
   const mode = context.globals.mode;
+  const direction = context.globals.direction ?? 'auto';
 
   // Adding it to the body as well so that we can cover modals and other
   // components that are rendered outside of this decorator container
@@ -146,7 +158,7 @@ const withModeAndThemeProvider = (Story, context) => {
   document.body.classList.add('page-is-visible');
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} dir={direction}>
       <StorybookThemeContext.Provider value={theme}>
         <Story {...context} />
       </StorybookThemeContext.Provider>
@@ -173,7 +185,7 @@ function withScrollLockProvider(Story, context) {
 }
 
 export const decorators = [
-  withModeAndThemeProvider,
+  withGlobalTypesProvider,
   withMockStoreProvider,
   withScrollLockProvider,
 ];
