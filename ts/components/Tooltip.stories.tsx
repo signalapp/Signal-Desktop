@@ -27,16 +27,31 @@ export default {
     direction: TooltipPlacement.Top,
     sticky: false,
   },
+  decorators: [
+    (Story): JSX.Element => {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <Story />
+        </div>
+      );
+    },
+  ],
 } satisfies Meta<PropsType>;
 
 const Trigger = (
   <span
     style={{
       display: 'inline-block',
-      marginTop: 200,
-      marginBottom: 200,
-      marginInlineStart: 200,
-      marginInlineEnd: 200,
+      background: '#eee',
+      padding: 20,
+      borderRadius: 4,
     }}
   >
     Trigger

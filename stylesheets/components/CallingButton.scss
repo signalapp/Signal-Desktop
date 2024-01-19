@@ -185,8 +185,9 @@
 
   &__tooltip[data-placement='bottom'] .module-tooltip-arrow::before {
     border-color: transparent transparent $color-gray-62 transparent;
-    margin-block-start: -14px;
-    margin-inline-start: -7px;
+    margin-top: -14px;
+    /* stylelint-disable-next-line liberty/use-logical-spec */
+    margin-left: -7px;
   }
 
   &__tooltip[data-placement='bottom'] .module-tooltip-arrow::after {
@@ -195,8 +196,9 @@
 
   &__tooltip[data-placement='top'] .module-tooltip-arrow::before {
     border-color: $color-gray-62 transparent transparent transparent;
-    margin-block-start: 0;
-    margin-inline-start: -7px;
+    margin-top: 0;
+    /* stylelint-disable-next-line liberty/use-logical-spec */
+    margin-left: -7px;
   }
 
   &__tooltip[data-placement='top'] .module-tooltip-arrow::after {

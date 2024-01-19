@@ -7057,6 +7057,8 @@ button.module-image__border-overlay:focus {
 
   .module-tooltip-arrow {
     position: absolute;
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+    direction: ltr;
   }
 
   .module-tooltip-arrow::after {

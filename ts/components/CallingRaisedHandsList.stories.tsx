@@ -6,8 +6,14 @@ import { times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingRaisedHandsList';
-import { CallingRaisedHandsList } from './CallingRaisedHandsList';
+import type {
+  CallingRaisedHandsListButtonPropsType,
+  PropsType,
+} from './CallingRaisedHandsList';
+import {
+  CallingRaisedHandsList,
+  CallingRaisedHandsListButton,
+} from './CallingRaisedHandsList';
 import type { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
@@ -57,6 +63,15 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   raisedHands: overrideProps.raisedHands || new Set<number>(),
 });
 
+const createPropsForButton = (
+  overrideProps: Partial<CallingRaisedHandsListButtonPropsType> = {}
+): CallingRaisedHandsListButtonPropsType => ({
+  i18n,
+  syncedLocalHandRaised: overrideProps.syncedLocalHandRaised || false,
+  raisedHandsCount: overrideProps.raisedHandsCount || 1,
+  onClick: action('on-click'),
+});
+
 export default {
   title: 'Components/CallingRaisedHandsList',
 } satisfies Meta<PropsType>;
@@ -94,4 +109,28 @@ export function Many(): JSX.Element {
     raisedHands: new Set([...conversationsByDemuxId.keys()]),
   });
   return <CallingRaisedHandsList {...props} />;
+}
+
+export function Button(): JSX.Element {
+  const props = createPropsForButton();
+  return <CallingRaisedHandsListButton {...props} />;
+}
+
+export function ButtonChanging(): JSX.Element {
+  const initialProps = createPropsForButton();
+
+  const [props, setProps] = React.useState(initialProps);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      const raisedHandsCount = Math.floor(4 * Math.random());
+      setProps(prevProps => ({
+        ...prevProps,
+        raisedHandsCount,
+        syncedLocalHandRaised: Boolean(raisedHandsCount && Math.random() > 0.5),
+      }));
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <CallingRaisedHandsListButton {...props} />;
 }

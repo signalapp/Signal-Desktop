@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { animated, useSpring } from '@react-spring/web';
 
 import { Avatar, AvatarSize } from './Avatar';
 import { ContactName } from './conversation/ContactName';
@@ -11,6 +12,7 @@ import type { LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import { ModalHost } from './ModalHost';
 import * as log from '../logging/log';
+import { usePrevious } from '../hooks/usePrevious';
 
 export type PropsType = {
   readonly i18n: LocalizerType;
@@ -131,5 +133,126 @@ export function CallingRaisedHandsList({
         </ul>
       </div>
     </ModalHost>
+  );
+}
+
+const BUTTON_OPACITY_SPRING_CONFIG = {
+  mass: 1,
+  tension: 210,
+  friction: 20,
+  precision: 0.01,
+  clamp: true,
+} as const;
+
+const BUTTON_SCALE_SPRING_CONFIG = {
+  mass: 1.5,
+  tension: 230,
+  friction: 8,
+  precision: 0.02,
+  velocity: 0.0025,
+} as const;
+
+export type CallingRaisedHandsListButtonPropsType = {
+  i18n: LocalizerType;
+  raisedHandsCount: number;
+  syncedLocalHandRaised: boolean;
+  onClick: () => void;
+};
+
+export function CallingRaisedHandsListButton({
+  i18n,
+  syncedLocalHandRaised,
+  raisedHandsCount,
+  onClick,
+}: CallingRaisedHandsListButtonPropsType): JSX.Element | null {
+  const [isVisible, setIsVisible] = React.useState(raisedHandsCount > 0);
+
+  const [opacitySpringProps, opacitySpringApi] = useSpring(
+    {
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+      config: BUTTON_OPACITY_SPRING_CONFIG,
+    },
+    []
+  );
+  const [scaleSpringProps, scaleSpringApi] = useSpring(
+    {
+      from: { scale: 0.9 },
+      to: { scale: 1 },
+      config: BUTTON_SCALE_SPRING_CONFIG,
+    },
+    []
+  );
+
+  const prevRaisedHandsCount = usePrevious(raisedHandsCount, raisedHandsCount);
+  const prevSyncedLocalHandRaised = usePrevious(
+    syncedLocalHandRaised,
+    syncedLocalHandRaised
+  );
+
+  const onRestAfterAnimateOut = React.useCallback(() => {
+    if (!raisedHandsCount) {
+      setIsVisible(false);
+    }
+  }, [raisedHandsCount]);
+
+  React.useEffect(() => {
+    if (raisedHandsCount > prevRaisedHandsCount) {
+      setIsVisible(true);
+      opacitySpringApi.stop();
+      opacitySpringApi.start({ opacity: 1 });
+      scaleSpringApi.stop();
+      scaleSpringApi.start({
+        from: { scale: 0.99 },
+        to: { scale: 1 },
+        config: { velocity: 0.0025 },
+      });
+    } else if (raisedHandsCount === 0) {
+      opacitySpringApi.stop();
+      opacitySpringApi.start({
+        to: { opacity: 0 },
+        onRest: () => onRestAfterAnimateOut,
+      });
+    }
+  }, [
+    raisedHandsCount,
+    prevRaisedHandsCount,
+    opacitySpringApi,
+    scaleSpringApi,
+    onRestAfterAnimateOut,
+    setIsVisible,
+  ]);
+
+  if (!isVisible) {
+    return null;
+  }
+
+  // When the last hands are lowered, maintain the last count while fading out to prevent
+  // abrupt label changes.
+  let shownSyncedLocalHandRaised: boolean = syncedLocalHandRaised;
+  let shownRaisedHandsCount: number = raisedHandsCount;
+  if (raisedHandsCount === 0 && prevRaisedHandsCount) {
+    shownRaisedHandsCount = prevRaisedHandsCount;
+    shownSyncedLocalHandRaised = prevSyncedLocalHandRaised;
+  }
+
+  return (
+    <animated.button
+      className="CallingRaisedHandsList__Button"
+      onClick={onClick}
+      style={{ ...opacitySpringProps, ...scaleSpringProps }}
+      type="button"
+    >
+      <span className="CallingRaisedHandsList__ButtonIcon" />
+      {shownSyncedLocalHandRaised ? (
+        <>
+          {i18n('icu:you')}
+          {shownRaisedHandsCount > 1 &&
+            ` + ${String(shownRaisedHandsCount - 1)}`}
+        </>
+      ) : (
+        shownRaisedHandsCount
+      )}
+    </animated.button>
   );
 }

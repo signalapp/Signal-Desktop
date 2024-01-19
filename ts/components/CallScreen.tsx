@@ -75,7 +75,10 @@ import { Spinner } from './Spinner';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
 import { Emoji } from './emoji/Emoji';
-import { CallingRaisedHandsList } from './CallingRaisedHandsList';
+import {
+  CallingRaisedHandsList,
+  CallingRaisedHandsListButton,
+} from './CallingRaisedHandsList';
 import type { CallReactionBurstType } from './CallReactionBurst';
 import {
   CallReactionBurstProvider,
@@ -744,24 +747,15 @@ export function CallScreen({
       )}
       {remoteParticipantsElement}
       {lonelyInCallNode}
-      {raisedHands && raisedHandsCount > 0 && (
+      {raisedHands && (
         <>
-          <button
-            className="CallingRaisedHandsList__Button"
+          <CallingRaisedHandsListButton
+            i18n={i18n}
+            syncedLocalHandRaised={syncedLocalHandRaised}
+            raisedHandsCount={raisedHandsCount}
             onClick={toggleRaisedHandsList}
-            type="button"
-          >
-            <span className="CallingRaisedHandsList__ButtonIcon" />
-            {syncedLocalHandRaised ? (
-              <>
-                {i18n('icu:you')}
-                {raisedHandsCount > 1 && ` + ${String(raisedHandsCount - 1)}`}
-              </>
-            ) : (
-              raisedHandsCount
-            )}
-          </button>
-          {showRaisedHandsList && (
+          />
+          {showRaisedHandsList && raisedHandsCount > 0 && (
             <CallingRaisedHandsList
               i18n={i18n}
               onClose={() => setShowRaisedHandsList(false)}
