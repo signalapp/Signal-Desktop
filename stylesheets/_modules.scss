@@ -3922,6 +3922,20 @@ button.module-image__border-overlay:focus {
         opacity: 1;
       }
     }
+
+    .module-ongoing-call__group-call-remote-participant {
+      // Only apply container-type: size to grid/overflow column to prevent size collapse
+      // for implicitly sized participants (PiP)
+      container-type: size;
+      $group-call-remote-participant-footer-padding-large: 16px;
+
+      @container (min-width: 180px) or (min-height: 180px) {
+        .module-ongoing-call__group-call-remote-participant__footer {
+          padding-block: 0 $group-call-remote-participant-footer-padding-large;
+          padding-inline: $group-call-remote-participant-footer-padding-large;
+        }
+      }
+    }
   }
 
   &__group-call--pagination-tile {
@@ -3953,8 +3967,6 @@ button.module-image__border-overlay:focus {
   }
 
   &__group-call-remote-participant {
-    container-type: size;
-
     display: flex;
     justify-content: center;
     position: relative;
@@ -3970,14 +3982,6 @@ button.module-image__border-overlay:focus {
     }
 
     $group-call-remote-participant-footer-padding-medium: 12px;
-    $group-call-remote-participant-footer-padding-large: 16px;
-
-    @container (min-width: 180px) or (min-height: 180px) {
-      .module-ongoing-call__group-call-remote-participant__footer {
-        padding-block: 0 $group-call-remote-participant-footer-padding-large;
-        padding-inline: $group-call-remote-participant-footer-padding-large;
-      }
-    }
 
     &:after {
       content: '';
