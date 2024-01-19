@@ -3813,6 +3813,26 @@ button.module-image__border-overlay:focus {
         display: block;
         visibility: visible;
       }
+
+      .module-ongoing-call__group-call-remote-participant {
+        // Only apply container-type: size to grid column to prevent size collapse
+        // for implicitly sized participants (PiP)
+        container-type: size;
+
+        @container (min-width: 180px) or (min-height: 180px) {
+          .module-ongoing-call__group-call-remote-participant__footer {
+            padding-block: 0 14px;
+            padding-inline: 16px;
+          }
+        }
+
+        &--hand-raised {
+          .module-ongoing-call__group-call-remote-participant__footer {
+            padding-block: 0 8px;
+            padding-inline: 8px;
+          }
+        }
+      }
     }
 
     &__overflow {
@@ -3841,8 +3861,15 @@ button.module-image__border-overlay:focus {
         margin-bottom: 1rem;
 
         &__footer {
-          padding-block: 0 10px;
+          padding-block: 0 8px;
           padding-inline: 10px;
+        }
+
+        &--hand-raised {
+          .module-ongoing-call__group-call-remote-participant__footer {
+            padding-block: 0 6px;
+            padding-inline: 6px;
+          }
         }
       }
 
@@ -3922,20 +3949,6 @@ button.module-image__border-overlay:focus {
         opacity: 1;
       }
     }
-
-    .module-ongoing-call__group-call-remote-participant {
-      // Only apply container-type: size to grid/overflow column to prevent size collapse
-      // for implicitly sized participants (PiP)
-      container-type: size;
-      $group-call-remote-participant-footer-padding-large: 16px;
-
-      @container (min-width: 180px) or (min-height: 180px) {
-        .module-ongoing-call__group-call-remote-participant__footer {
-          padding-block: 0 $group-call-remote-participant-footer-padding-large;
-          padding-inline: $group-call-remote-participant-footer-padding-large;
-        }
-      }
-    }
   }
 
   &__group-call--pagination-tile {
@@ -3980,8 +3993,6 @@ button.module-image__border-overlay:focus {
     @media (prefers-reduced-motion) {
       transition: none;
     }
-
-    $group-call-remote-participant-footer-padding-medium: 12px;
 
     &:after {
       content: '';
@@ -4048,8 +4059,8 @@ button.module-image__border-overlay:focus {
       position: absolute;
       bottom: 0;
       height: 60px;
-      padding-block: 0 $group-call-remote-participant-footer-padding-medium;
-      padding-inline: $group-call-remote-participant-footer-padding-medium;
+      padding-block: 0 10px;
+      padding-inline: 12px;
       user-select: none;
       width: 100%;
       z-index: $z-index-above-base;
@@ -4065,7 +4076,7 @@ button.module-image__border-overlay:focus {
       &__contact-name {
         flex-grow: 1;
         font-size: 13px;
-        line-height: 13px;
+        line-height: 18px;
         color: $color-white;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -4081,8 +4092,6 @@ button.module-image__border-overlay:focus {
 
     &--hand-raised &__footer {
       background: transparent;
-      padding-block: 0 8px;
-      padding-inline: 8px;
     }
 
     &--hand-raised &__info {
