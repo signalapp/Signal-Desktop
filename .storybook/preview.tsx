@@ -155,8 +155,10 @@ const withGlobalTypesProvider = (Story, context) => {
 
   document.body.classList.add('page-is-visible');
 
+  document.documentElement.setAttribute('dir', direction);
+
   return (
-    <div className={styles.container} dir={direction}>
+    <div className={styles.container}>
       <StorybookThemeContext.Provider value={theme}>
         <Story {...context} />
       </StorybookThemeContext.Provider>
