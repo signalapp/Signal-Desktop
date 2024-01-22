@@ -89,7 +89,7 @@
     }
 
     &--raise-hand {
-      $icon: '../images/icons/v3/raise_hand/raise_hand-light.svg';
+      $icon: '../images/icons/v3/raise_hand/raise_hand-fill-light.svg';
       &--on {
         @include calling-button-icon-highlighted($icon);
       }
@@ -99,7 +99,7 @@
     }
 
     &--react {
-      $icon: '../images/icons/v3/heart/heart-plus.svg';
+      $icon: '../images/icons/v3/heart/heart-plus-fill.svg';
       &--on {
         @include calling-button-icon-highlighted($icon);
       }
