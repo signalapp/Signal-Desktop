@@ -202,7 +202,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return (
       this.isExpirationTimerUpdate() ||
       this.isDataExtractionNotification() ||
-      this.isMessageRequestResponse ||
+      this.isMessageRequestResponse() ||
       this.isGroupUpdate()
     );
   }
