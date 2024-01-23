@@ -8,7 +8,7 @@ const StyledFromContainer = styled.div`
   display: flex;
   gap: var(--margins-lg);
   align-items: center;
-  padding: var(--margins-xs);
+  padding: var(--margins-xs) var(--margins-xs) var(--margins-xs) 0;
 `;
 const StyledAuthorNamesContainer = styled.div`
   display: flex;

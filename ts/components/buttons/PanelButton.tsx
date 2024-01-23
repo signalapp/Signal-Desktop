@@ -10,7 +10,7 @@ export const StyledContent = styled.div<{ disabled: boolean }>`
   color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
 `;
 
-export const StyledText = styled.span`
+export const StyledText = styled.span<{ color?: string }>`
   font-size: var(--font-size-md);
   font-weight: 500;
   white-space: nowrap;
@@ -19,6 +19,7 @@ export const StyledText = styled.span`
   width: 100%;
   /* TODO needs RTL support */
   text-align: left;
+  ${props => props.color && `color: ${props.color};`}
 `;
 
 export const PanelLabel = styled.p`
