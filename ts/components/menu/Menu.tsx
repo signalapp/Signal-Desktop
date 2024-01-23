@@ -49,10 +49,10 @@ import {
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
 import { getIsMessageSection } from '../../state/selectors/section';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
-import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 
 /** Menu items standardized */
 
@@ -487,7 +487,7 @@ export const AcceptMsgRequestMenuItem = () => {
         onClick={async () => {
           await convo.setDidApproveMe(true);
           await convo.addOutgoingApprovalMessage(Date.now());
-          await approveConvoAndSendResponse(convoId, true);
+          await approveConvoAndSendResponse(convoId);
         }}
       >
         {window.i18n('accept')}

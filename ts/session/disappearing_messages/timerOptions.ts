@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 
@@ -65,11 +66,20 @@ const VALUES: Array<number> = timerOptionsDurations.map(t => {
   return t.seconds;
 });
 
+const filterOutDebugValues = (option: number) => {
+  // process.env.NODE_APP_INSTANCE is empty when the app is packaged, and not empty when starting from start-prod or start-dev
+  const isPackaged = isEmpty(process.env.NODE_APP_INSTANCE);
+  if (isPackaged) {
+    return option > 60; // when packaged, filter out options with less than 60s
+  }
+  return true;
+};
+
 const DELETE_AFTER_READ = VALUES.filter(option => {
   return (
-    option === 10 || // 10 seconds (for development or qa)
-    option === 30 || // 30 seconds (for development or qa)
-    option === 60 || // 1 minute (for testing)
+    option === 10 || // 10 seconds: filtered out when app is packaged with filterOutDebugValues
+    option === 30 || // 30 seconds: filtered out when app is packaged with filterOutDebugValues
+    option === 60 || // 1 minute  : filtered out when app is packaged with filterOutDebugValues
     option === 300 || // 5 minutes
     option === 3600 || // 1 hour
     option === 43200 || // 12 hours
@@ -77,36 +87,32 @@ const DELETE_AFTER_READ = VALUES.filter(option => {
     option === 604800 || // 1 week
     option === 1209600 // 2 weeks
   );
-});
+}).filter(filterOutDebugValues);
 
 const DELETE_AFTER_SEND = VALUES.filter(option => {
   return (
-    option === 10 || // 10 seconds (for development or qa)
-    option === 30 || // 30 seconds (for development or qa)
-    option === 60 || // 1 minute (for testing)
+    option === 10 || // 10 seconds: filtered out when app is packaged with filterOutDebugValues
+    option === 30 || // 30 seconds: filtered out when app is packaged with filterOutDebugValues
+    option === 60 || // 1 minute  : filtered out when app is packaged with filterOutDebugValues
     option === 43200 || // 12 hours
     option === 86400 || // 1 day
     option === 604800 || // 1 week
     option === 1209600 // 2 weeks
   );
-});
+}).filter(filterOutDebugValues);
 
 // TODO legacy messages support will be removed in a future release
 const DELETE_LEGACY = VALUES.filter(option => {
   return (
-    option === 5 || // 5 seconds
-    option === 10 || // 10 seconds
-    option === 30 || // 30 seconds
-    option === 60 || // 1 minute
-    option === 300 || // 5 minutes
-    option === 1800 || // 30 minutes
-    option === 3600 || // 1 hour
-    option === 21600 || // 6 hours
+    option === 10 || // 10 seconds: filtered out when app is packaged with filterOutDebugValues
+    option === 30 || // 30 seconds: filtered out when app is packaged with filterOutDebugValues
+    option === 60 || // 1 minute  : filtered out when app is packaged with filterOutDebugValues
     option === 43200 || // 12 hours
     option === 86400 || // 1 day
-    option === 604800 // 1 week
+    option === 604800 || // 1 week
+    option === 1209600 // 2 weeks
   );
-});
+}).filter(filterOutDebugValues);
 
 const DEFAULT_OPTIONS = {
   DELETE_AFTER_READ: 43200, // 12 hours

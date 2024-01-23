@@ -8,6 +8,10 @@ runs:
       with:
         node-version-file: '.nvmrc'
 
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
       uses: actions/cache@v3

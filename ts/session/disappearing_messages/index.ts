@@ -1,19 +1,19 @@
-import { throttle, uniq } from 'lodash';
+import { isEmpty, isNumber, throttle, uniq } from 'lodash';
 import { messagesExpired } from '../../state/ducks/conversations';
 import { initWallClockListener } from '../../util/wallClockListener';
 
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
+import { READ_MESSAGE_STATE } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
 import { SignalService } from '../../protobuf';
 import { ReleasedFeatures } from '../../util/releaseFeature';
-import { expireMessageOnSnode } from '../apis/snode_api/expireRequest';
+import { ExpiringDetails, expireMessagesOnSnode } from '../apis/snode_api/expireRequest';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { getConversationController } from '../conversations';
 import { isValidUnixTimestamp } from '../utils/Timestamps';
 import {
   checkIsLegacyDisappearingDataMessage,
-  checkShouldDisappearButIsntMessage,
   couldBeLegacyDisappearingMessageContent,
 } from './legacy';
 import {
@@ -21,6 +21,7 @@ import {
   DisappearingMessageMode,
   DisappearingMessageType,
   DisappearingMessageUpdate,
+  ReadyToDisappearMsgUpdate,
 } from './types';
 
 async function destroyMessagesAndUpdateRedux(
@@ -40,6 +41,8 @@ async function destroyMessagesAndUpdateRedux(
     // Delete any attachments
     for (let i = 0; i < messageIds.length; i++) {
       /* eslint-disable no-await-in-loop */
+      // TODO make this use getMessagesById and not getMessageById
+
       const message = await Data.getMessageById(messageIds[i]);
       await message?.cleanup();
       /* eslint-enable no-await-in-loop */
@@ -65,6 +68,7 @@ async function destroyExpiredMessages() {
   try {
     window.log.info('destroyExpiredMessages: Loading messages...');
     const messages = await Data.getExpiredMessages();
+    window.log.debug('destroyExpiredMessages: count:', messages.length);
 
     const messagesExpiredDetails: Array<{
       conversationKey: string;
@@ -77,10 +81,23 @@ async function destroyExpiredMessages() {
     messages.forEach(expired => {
       window.log.info('Message expired', {
         sentAt: expired.get('sent_at'),
+        hash: expired.getMessageHash(),
       });
     });
 
     await destroyMessagesAndUpdateRedux(messagesExpiredDetails);
+    const convosToRefresh = uniq(messagesExpiredDetails.map(m => m.conversationKey));
+    window.log.info('destroyExpiredMessages: convosToRefresh:', convosToRefresh);
+    await Promise.all(
+      convosToRefresh.map(async c => {
+        getConversationController()
+          .get(c)
+          ?.updateLastMessage();
+        return getConversationController()
+          .get(c)
+          ?.refreshInMemoryDetails();
+      })
+    );
   } catch (error) {
     window.log.error(
       'destroyExpiredMessages: Error deleting expired messages',
@@ -103,11 +120,16 @@ async function checkExpiringMessages() {
   }
 
   const expiresAt = next.getExpiresAt();
-  if (!expiresAt) {
+  if (!expiresAt || !isNumber(expiresAt)) {
     return;
   }
-  window.log.info('next message expires', new Date(expiresAt).toISOString());
-  window.log.info('next message expires in ', (expiresAt - Date.now()) / 1000);
+
+  const ms = expiresAt - Date.now();
+  window.log.info(
+    `message with hash:${next.getMessageHash()} expires in ${ms}ms, or ${Math.floor(
+      ms / 1000
+    )}s, or ${Math.floor(ms / (3600 * 1000))}h`
+  );
 
   let wait = expiresAt - Date.now();
 
@@ -251,6 +273,58 @@ function changeToDisappearingMessageType(
 
 // TODO legacy messages support will be removed in a future release
 /**
+ * Forces a private DaS to be a DaR.
+ * This should only be used for DataExtractionNotification and CallMessages (the ones saved to the DB) currently.
+ * Note: this can only be called for private conversations, excluding ourselves as it throws otherwise (this wouldn't be right)
+ * */
+function forcedDeleteAfterReadMsgSetting(
+  convo: ConversationModel
+): { expirationType: Exclude<DisappearingMessageType, 'deleteAfterSend'>; expireTimer: number } {
+  if (convo.isMe() || !convo.isPrivate()) {
+    throw new Error(
+      'forcedDeleteAfterReadMsgSetting can only be called with a private chat (excluding ourselves)'
+    );
+  }
+  const expirationMode = convo.getExpirationMode();
+  const expireTimer = convo.getExpireTimer();
+  if (expirationMode === 'off' || expirationMode === 'legacy' || expireTimer <= 0) {
+    return { expirationType: 'unknown', expireTimer: 0 };
+  }
+
+  return {
+    expirationType: expirationMode === 'deleteAfterSend' ? 'deleteAfterRead' : expirationMode,
+    expireTimer,
+  };
+}
+
+// TODO legacy messages support will be removed in a future release
+/**
+ * Forces a private DaR to be a DaS.
+ * This should only be used for the outgoing CallMessages that we keep locally only (not synced, just the "you started a call" notification)
+ * Note: this can only be called for private conversations, excluding ourselves as it throws otherwise (this wouldn't be right)
+ * */
+function forcedDeleteAfterSendMsgSetting(
+  convo: ConversationModel
+): { expirationType: Exclude<DisappearingMessageType, 'deleteAfterRead'>; expireTimer: number } {
+  if (convo.isMe() || !convo.isPrivate()) {
+    throw new Error(
+      'forcedDeleteAfterSendMsgSetting can only be called with a private chat (excluding ourselves)'
+    );
+  }
+  const expirationMode = convo.getExpirationMode();
+  const expireTimer = convo.getExpireTimer();
+  if (expirationMode === 'off' || expirationMode === 'legacy' || expireTimer <= 0) {
+    return { expirationType: 'unknown', expireTimer: 0 };
+  }
+
+  return {
+    expirationType: expirationMode === 'deleteAfterRead' ? 'deleteAfterSend' : expirationMode,
+    expireTimer,
+  };
+}
+
+// TODO legacy messages support will be removed in a future release
+/**
  * Converts DisappearingMessageType to DisappearingMessageConversationModeType
  *
  * NOTE Used for the UI
@@ -280,23 +354,21 @@ function changeToDisappearingConversationMode(
 async function checkForExpireUpdateInContentMessage(
   content: SignalService.Content,
   convoToUpdate: ConversationModel,
-  isOutgoing?: boolean
+  messageExpirationFromRetrieve: number | null
 ): Promise<DisappearingMessageUpdate | undefined> {
-  const dataMessage = content.dataMessage as SignalService.DataMessage;
+  const dataMessage = content.dataMessage as SignalService.DataMessage | undefined;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
 
   const couldBeLegacyContentMessage = couldBeLegacyDisappearingMessageContent(content);
-  const isLegacyDataMessage = checkIsLegacyDisappearingDataMessage(
-    couldBeLegacyContentMessage,
-    dataMessage as SignalService.DataMessage
-  );
+  const isLegacyDataMessage =
+    dataMessage && checkIsLegacyDisappearingDataMessage(couldBeLegacyContentMessage, dataMessage);
+  const hasExpirationUpdateFlags =
+    dataMessage?.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+
   const isLegacyConversationSettingMessage = isDisappearingMessagesV2Released
-    ? (isLegacyDataMessage ||
-        (couldBeLegacyContentMessage && !content.lastDisappearingMessageChangeTimestamp)) &&
-      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
-    : couldBeLegacyContentMessage &&
-      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+    ? (isLegacyDataMessage || couldBeLegacyContentMessage) && hasExpirationUpdateFlags
+    : couldBeLegacyContentMessage && hasExpirationUpdateFlags;
 
   const expirationTimer = isLegacyDataMessage
     ? Number(dataMessage.expireTimer)
@@ -309,59 +381,13 @@ async function checkForExpireUpdateInContentMessage(
     expirationTimer
   );
 
-  const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
-    ? Number(content.lastDisappearingMessageChangeTimestamp)
-    : undefined;
-
-  // NOTE if we are checking an outgoing content message then the conversation's lastDisappearingMessageChangeTimestamp has just been set to match the content message so it can't be outdated if equal
-  if (
-    convoToUpdate.getLastDisappearingMessageChangeTimestamp() &&
-    lastDisappearingMessageChangeTimestamp &&
-    ((isOutgoing &&
-      convoToUpdate.getLastDisappearingMessageChangeTimestamp() >
-        lastDisappearingMessageChangeTimestamp) ||
-      (!isOutgoing &&
-        convoToUpdate.getLastDisappearingMessageChangeTimestamp() >=
-          lastDisappearingMessageChangeTimestamp))
-  ) {
-    window.log.debug(
-      `[checkForExpireUpdateInContentMessage] This is an outdated ${
-        isOutgoing ? 'outgoing' : 'incoming'
-      } disappearing message setting for ${convoToUpdate.get(
-        'id'
-      )}. So we will ignore it. Current lastDisappearingMessageChangeTimestamp: ${convoToUpdate.get(
-        'lastDisappearingMessageChangeTimestamp'
-      )} New lastDisappearingMessageChangeTimestamp: ${lastDisappearingMessageChangeTimestamp}\n\ncontent: ${JSON.stringify(
-        content
-      )}`
-    );
-
-    return {
-      expirationType: changeToDisappearingMessageType(
-        convoToUpdate,
-        expirationTimer,
-        expirationMode
-      ),
-      expirationTimer,
-      isOutdated: true,
-    };
-  }
-
-  const shouldDisappearButIsntMessage = checkShouldDisappearButIsntMessage(
-    content,
-    convoToUpdate,
-    expirationMode,
-    expirationTimer
-  );
-
   const expireUpdate: DisappearingMessageUpdate = {
     expirationType: changeToDisappearingMessageType(convoToUpdate, expirationTimer, expirationMode),
     expirationTimer,
-    lastDisappearingMessageChangeTimestamp,
     isLegacyConversationSettingMessage,
     isLegacyDataMessage,
     isDisappearingMessagesV2Released,
-    shouldDisappearButIsntMessage,
+    messageExpirationFromRetrieve,
   };
 
   // NOTE some platforms do not include the diappearing message values in the Data Message for sent messages so we have to trust the conversation settings until v2 is released
@@ -396,7 +422,7 @@ async function checkForExpireUpdateInContentMessage(
   // NOTE If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings and show the outdated client banner
   if (
     isDisappearingMessagesV2Released &&
-    (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
+    (isLegacyDataMessage || isLegacyConversationSettingMessage)
   ) {
     window.log.debug(
       `[checkForExpireUpdateInContentMessage] Received a legacy disappearing message after v2 was released for ${convoToUpdate.get(
@@ -421,14 +447,18 @@ async function checkForExpireUpdateInContentMessage(
  */
 function checkForExpiringOutgoingMessage(message: MessageModel, location?: string) {
   const convo = message.getConversation();
-  const expireTimer = message.getExpireTimer();
+  const expireTimer = message.getExpireTimerSeconds();
   const expirationType = message.getExpirationType();
+
+  const isGroupConvo = !!convo?.isClosedGroup();
+  const isControlMessage = message.isControlMessage();
 
   if (
     convo &&
     expirationType &&
     expireTimer > 0 &&
-    Boolean(message.getExpirationStartTimestamp()) === false
+    !message.getExpirationStartTimestamp() &&
+    !(isGroupConvo && isControlMessage)
   ) {
     const expirationMode = changeToDisappearingConversationMode(convo, expirationType, expireTimer);
 
@@ -448,51 +478,94 @@ function checkForExpiringOutgoingMessage(message: MessageModel, location?: strin
 function getMessageReadyToDisappear(
   conversationModel: ConversationModel,
   messageModel: MessageModel,
-  expireUpdate?: DisappearingMessageUpdate
+  messageFlags: number,
+  expireUpdate?: ReadyToDisappearMsgUpdate
 ) {
-  if (!expireUpdate) {
-    // window.log.debug(
-    //   `[getMessageReadyToDisappear] called getMessageReadyToDisappear() without an expireUpdate`
-    // );
-    return messageModel;
-  }
-
   if (conversationModel.isPublic()) {
     throw Error(
-      `getMessageReadyToDisappear() Disappearing messages aren't supported in communities. Message id: ${messageModel.get(
-        'id'
-      )}`
+      `getMessageReadyToDisappear() Disappearing messages aren't supported in communities`
     );
+  }
+  if (!expireUpdate) {
+    window.log.debug(
+      `[getMessageReadyToDisappear] called getMessageReadyToDisappear() without an expireUpdate`
+    );
+    return messageModel;
   }
 
   const {
     expirationType,
     expirationTimer: expireTimer,
-    lastDisappearingMessageChangeTimestamp,
-    isLegacyConversationSettingMessage,
-    isDisappearingMessagesV2Released,
+    messageExpirationFromRetrieve,
   } = expireUpdate;
 
-  messageModel.set({
-    expirationType,
-    expireTimer,
-  });
-
   // This message is an ExpirationTimerUpdate
-  if (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) {
+  if (messageFlags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
     const expirationTimerUpdate = {
       expirationType,
       expireTimer,
-      lastDisappearingMessageChangeTimestamp: isLegacyConversationSettingMessage
-        ? isDisappearingMessagesV2Released
-          ? 0
-          : GetNetworkTime.getNowWithNetworkOffset()
-        : Number(lastDisappearingMessageChangeTimestamp),
       source: messageModel.get('source'),
     };
 
     messageModel.set({
       expirationTimerUpdate,
+    });
+  }
+
+  // Note: We agreed that a control message for legacy groups does not expire
+  if (conversationModel.isClosedGroup() && messageModel.isControlMessage()) {
+    return messageModel;
+  }
+
+  /**
+   * This is quite tricky, but when we receive a message from the network, it might be a disappearing after read one, which was already read by another device.
+   * If that's the case, we need to not only mark the message as read, but also mark it as read at the right time.
+   * So that a message read 20h ago, and expiring 24h after read, has only 4h to live on this device too.
+   *
+   * A message is marked as read when created, if the convo volatile update reports that it should have been read (check `markAttributesAsReadIfNeeded()` if needed).
+   * That means that here, if we have a message
+   *   - read,
+   *   - incoming,
+   *   - and disappearing after read,
+   * we have to force its expirationStartTimestamp and expire_at fields so they are in sync with our other devices.
+   */
+  messageModel.set({
+    expirationType,
+    expireTimer,
+  });
+
+  if (
+    conversationModel.isPrivate() &&
+    messageModel.isIncoming() &&
+    expirationType === 'deleteAfterRead' &&
+    expireTimer > 0 &&
+    messageModel.get('unread') === READ_MESSAGE_STATE.read &&
+    messageExpirationFromRetrieve &&
+    messageExpirationFromRetrieve > 0
+  ) {
+    const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
+    const expires_at = messageExpirationFromRetrieve;
+    // TODO a message might be added even when it expired, but the period cleaning of expired message will pick it up and remove it soon enough
+    window.log.debug(
+      `incoming DaR message already read by another device, forcing readAt ${(Date.now() -
+        expirationStartTimestamp) /
+        1000}s ago, so with ${(expires_at - Date.now()) / 1000}s left`
+    );
+    messageModel.set({
+      expirationStartTimestamp,
+      expires_at,
+    });
+  } else if (
+    expirationType === 'deleteAfterSend' &&
+    expireTimer > 0 &&
+    messageExpirationFromRetrieve &&
+    messageExpirationFromRetrieve > 0
+  ) {
+    const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
+    const expires_at = messageExpirationFromRetrieve;
+    messageModel.set({
+      expirationStartTimestamp,
+      expires_at,
     });
   }
 
@@ -505,9 +578,7 @@ async function checkHasOutdatedDisappearingMessageClient(
   expireUpdate: DisappearingMessageUpdate
 ) {
   const isOutdated =
-    expireUpdate.isLegacyDataMessage ||
-    expireUpdate.isLegacyConversationSettingMessage ||
-    expireUpdate.shouldDisappearButIsntMessage;
+    expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage;
 
   const outdatedSender =
     sender.get('nickname') || sender.get('displayNameInProfile') || sender.get('id');
@@ -537,60 +608,73 @@ async function checkHasOutdatedDisappearingMessageClient(
   }
 }
 
-async function updateMessageExpiryOnSwarm(
-  message: MessageModel,
-  callLocation?: string, // this is for debugging purposes
-  shouldCommit?: boolean
-) {
-  if (callLocation) {
-    // window.log.debug(`[updateMessageExpiryOnSwarm] called from: ${callLocation} `);
-  }
+async function updateMessageExpiriesOnSwarm(messages: Array<MessageModel>) {
+  const expiringDetails: ExpiringDetails = [];
 
-  if (!message.getExpirationType() || !message.getExpireTimer()) {
-    window.log.debug(
-      `[updateMessageExpiryOnSwarm] Message ${message.get(
-        'messageHash'
-      )} has no expirationType or expireTimer set. Ignoring`
-    );
-    return message;
-  }
-
-  const messageHash = message.get('messageHash');
-  if (!messageHash) {
-    window.log.debug(
-      `[updateMessageExpiryOnSwarm] Missing messageHash messageId: ${message.get('id')}`
-    );
-    return message;
-  }
-
-  const newTTL = await expireMessageOnSnode({
-    messageHash,
-    expireTimer: message.getExpireTimer() * 1000,
-    shorten: true,
-  });
-  const expiresAt = message.getExpiresAt();
-
-  if (newTTL && newTTL !== expiresAt) {
-    message.set({
-      expires_at: newTTL,
-    });
-
-    if (shouldCommit) {
-      await message.commit();
+  messages.forEach(msg => {
+    const hash = msg.getMessageHash();
+    const timestampStarted = msg.getExpirationStartTimestamp();
+    const timerSeconds = msg.getExpireTimerSeconds();
+    const disappearingType = msg.getExpirationType();
+    if (
+      !hash ||
+      !timestampStarted ||
+      timestampStarted <= 0 ||
+      !timerSeconds ||
+      timerSeconds <= 0 ||
+      disappearingType !== 'deleteAfterRead' || // this is very important as a message not stored on the swarm will be assumed expired, and so deleted locally!
+      !msg.isIncoming() // this is very important as a message not stored on the swarm will be assumed expired, and so deleted locally!
+    ) {
+      return;
     }
-  } else {
-    window.log.debug(
-      `[updateMessageExpiryOnSwarm]\nmessageHash ${messageHash} has no new TTL.${
-        expiresAt
-          ? `\nKeeping the old one ${expiresAt}which expires at ${new Date(
-              expiresAt
-            ).toUTCString()}`
-          : ''
-      }`
-    );
-  }
+    expiringDetails.push({
+      messageHash: hash,
+      expireTimerMs: timerSeconds * 1000,
+      readAt: timestampStarted,
+    });
+  });
 
-  return message;
+  if (isEmpty(expiringDetails)) {
+    window.log.debug(`[updateMessageExpiriesOnSwarm] no expiringDetails to update`);
+    return;
+  }
+  window.log.debug('updateMessageExpiriesOnSwarm: expiringDetails', expiringDetails);
+
+  const newTTLs = await expireMessagesOnSnode(expiringDetails, { shortenOrExtend: 'shorten' });
+  const updatedMsgModels: Array<MessageModel> = [];
+  window.log.debug('updateMessageExpiriesOnSwarm newTTLs: ', newTTLs);
+  newTTLs.forEach(m => {
+    const message = messages.find(model => model.getMessageHash() === m.messageHash);
+    if (!message) {
+      return;
+    }
+
+    const newTTLms = m.updatedExpiryMs;
+    const realReadAt = newTTLms - message.getExpireTimerSeconds() * 1000;
+    if (
+      newTTLms &&
+      (newTTLms !== message.getExpiresAt() ||
+        message.get('expirationStartTimestamp') !== realReadAt) &&
+      message.getExpireTimerSeconds()
+    ) {
+      window.log.debug(`updateMessageExpiriesOnSwarm: setting for msg hash ${m.messageHash}:`, {
+        expires_at: newTTLms,
+        expirationStartTimestamp: realReadAt,
+        unread: READ_MESSAGE_STATE.read,
+      });
+      message.set({
+        expires_at: newTTLms,
+        expirationStartTimestamp: realReadAt,
+        unread: READ_MESSAGE_STATE.read,
+      });
+
+      updatedMsgModels.push(message);
+    }
+  });
+
+  if (!isEmpty(updatedMsgModels)) {
+    await Promise.all(updatedMsgModels.map(m => m.commit()));
+  }
 }
 
 export const DisappearingMessages = {
@@ -600,9 +684,12 @@ export const DisappearingMessages = {
   setExpirationStartTimestamp,
   changeToDisappearingMessageType,
   changeToDisappearingConversationMode,
+  forcedDeleteAfterReadMsgSetting,
+  forcedDeleteAfterSendMsgSetting,
   checkForExpireUpdateInContentMessage,
   checkForExpiringOutgoingMessage,
   getMessageReadyToDisappear,
   checkHasOutdatedDisappearingMessageClient,
-  updateMessageExpiryOnSwarm,
+  updateMessageExpiriesOnSwarm,
+  destroyExpiredMessages,
 };

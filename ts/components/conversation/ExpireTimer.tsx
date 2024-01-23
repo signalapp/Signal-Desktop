@@ -8,17 +8,17 @@ import { SessionIcon } from '../icon/SessionIcon';
 
 const ExpireTimerBucket = styled.div`
   font-size: var(--font-size-xs);
-  line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: var(--text-primary-color);
+  color: var(--text-secondary-color);
+  align-self: center;
 `;
 
 type Props = {
-  expirationDurationMs: number;
-  expirationTimestamp: number | null;
-  style: CSSProperties;
+  expirationDurationMs?: number;
+  expirationTimestamp?: number | null;
+  style?: CSSProperties;
 };
 
 export const ExpireTimer = (props: Props) => {
@@ -43,13 +43,11 @@ export const ExpireTimer = (props: Props) => {
     return null;
   }
 
-  const expireTimerColor = 'var(--primary-text-color)';
-
   const bucket = getTimerBucketIcon(expirationTimestamp, expirationDurationMs);
 
   return (
     <ExpireTimerBucket style={style}>
-      <SessionIcon iconType={bucket} iconSize="tiny" iconColor={expireTimerColor} />
+      <SessionIcon iconType={bucket} iconSize="tiny" iconColor={'var(--secondary-text-color)'} />
     </ExpireTimerBucket>
   );
 };

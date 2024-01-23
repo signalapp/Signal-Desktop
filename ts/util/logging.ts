@@ -24,8 +24,8 @@ const LEVELS: Record<number, string> = {
 
 // Backwards-compatible logging, simple strings and no level (defaulted to INFO)
 function now() {
-  const date = new Date();
-  return date.toJSON();
+  const current = Date.now();
+  return `${current}`;
 }
 
 // To avoid [Object object] in our log since console.log handles non-strings smoothly

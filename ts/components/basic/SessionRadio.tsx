@@ -92,7 +92,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
         filledSize={filledSize * 2}
         outlineOffset={outlineOffset}
         disabled={disabled}
-        data-testid={`input-${value}`}
+        data-testid={`input-${value.replaceAll(' ', '-')}`} // data-testid cannot have spaces
       />
       <StyledLabel
         role="button"

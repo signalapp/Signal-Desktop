@@ -54,13 +54,14 @@ export function createSwarmMessageSentFromNotUs(args: {
   sender: string;
   conversationId: string;
 }): MessageModel {
-  const messageData: MessageAttributesOptionals = {
+  const messageAttributes: MessageAttributesOptionals = {
     ...getSharedAttributesForSwarmMessage(args),
     ...getSharedAttributesForIncomingMessage(),
     source: args.sender,
   };
 
-  return new MessageModel(messageData);
+  markAttributesAsReadIfNeeded(messageAttributes);
+  return new MessageModel(messageAttributes);
 }
 
 function getSharedAttributesForPublicMessage({
@@ -98,7 +99,7 @@ function getSharedAttributesForOutgoingMessage() {
 
 function getSharedAttributesForIncomingMessage() {
   return {
-    unread: READ_MESSAGE_STATE.unread,
+    unread: READ_MESSAGE_STATE.unread, // default to unread, but markAttributesAsReadIfNeeded will override it if needed
     type: 'incoming' as MessageModelType,
     direction: 'incoming' as MessageModelType,
   };

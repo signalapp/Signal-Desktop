@@ -8,11 +8,13 @@ import {
   useIsPrivate,
   useIsTyping,
 } from '../../../hooks/useParamSelector';
+import { LastMessageStatusType } from '../../../state/ducks/conversations';
 import { isSearching } from '../../../state/selectors/search';
 import { getIsMessageRequestOverlayShown } from '../../../state/selectors/section';
+import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
-import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
+import { SessionIcon } from '../../icon';
 import { useConvoIdFromContext } from './ConvoIdContext';
 
 function useLastMessageFromConvo(convoId: string) {
@@ -58,8 +60,39 @@ export const MessageItem = () => {
         )}
       </div>
       {!isSearchingMode && lastMessage && lastMessage.status && !isMessageRequest ? (
-        <OutgoingMessageStatus status={lastMessage.status} />
+        <IconMessageStatus status={lastMessage.status} />
       ) : null}
     </div>
   );
 };
+
+function IconMessageStatus({ status }: { status: LastMessageStatusType }) {
+  const nonErrorIconColor = 'var(--text-secondary-color';
+  switch (status) {
+    case 'error':
+      return <SessionIcon iconColor={'var(--danger-color'} iconType="error" iconSize="tiny" />;
+    case 'read':
+      return (
+        <SessionIcon
+          iconColor={nonErrorIconColor}
+          iconType="doubleCheckCircleFilled"
+          iconSize="tiny"
+        />
+      );
+    case 'sending':
+      return (
+        <SessionIcon
+          rotateDuration={2}
+          iconColor={nonErrorIconColor}
+          iconType="sending"
+          iconSize="tiny"
+        />
+      );
+    case 'sent':
+      return <SessionIcon iconColor={nonErrorIconColor} iconType="circleCheck" iconSize="tiny" />;
+    case undefined:
+      return null;
+    default:
+      assertUnreachable(status, 'missing case error');
+  }
+}

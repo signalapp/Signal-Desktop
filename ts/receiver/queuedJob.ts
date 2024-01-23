@@ -19,7 +19,6 @@ import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig'
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
-import { ReleasedFeatures } from '../util/releaseFeature';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -174,14 +173,6 @@ async function processProfileKeyNoCommit(
   }
 }
 
-function handleSyncedReceiptsNoCommit(message: MessageModel, conversation: ConversationModel) {
-  // If the newly received message is from us, we assume that we've seen the messages up until that point
-  const sentTimestamp = message.get('sent_at');
-  if (sentTimestamp) {
-    conversation.markConversationRead(sentTimestamp);
-  }
-}
-
 export type RegularMessageType = Pick<
   SignalService.DataMessage,
   | 'attachments'
@@ -285,19 +276,7 @@ async function handleRegularMessage(
       // should only occur after isOutgoing request as it relies on didApproveMe being false.
       await conversation.setDidApproveMe(true);
     }
-  } else if (type === 'outgoing') {
-    const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
-
-    if (!userConfigLibsession) {
-      // we want to do this for all types of conversations, not just private chats
-      handleSyncedReceiptsNoCommit(message, conversation);
-
-      if (conversation.isPrivate()) {
-        await conversation.setIsApproved(true);
-      }
-    }
   }
-
   const conversationActiveAt = conversation.get('active_at');
   if (
     !conversationActiveAt ||
@@ -337,7 +316,7 @@ async function markConvoAsReadIfOutgoingMessage(
     const sentAt = message.get('sent_at') || message.get('serverTimestamp');
     if (sentAt) {
       const expirationType = message.getExpirationType();
-      const expireTimer = message.getExpireTimer();
+      const expireTimer = message.getExpireTimerSeconds();
       // NOTE starting disappearing messages timer for all outbound messages
       if (
         expirationType &&
@@ -362,7 +341,10 @@ async function markConvoAsReadIfOutgoingMessage(
           await message.commit();
         }
       }
-      conversation.markConversationRead(sentAt);
+      conversation.markConversationRead({
+        newestUnreadDate: sentAt,
+        fromConfigMessage: false,
+      });
     }
   }
 }
@@ -378,7 +360,10 @@ export async function handleMessageJob(
   window?.log?.info(
     `Starting handleMessageJob for message ${messageModel.idForLogging()}, ${messageModel.get(
       'serverTimestamp'
-    ) || messageModel.get('timestamp')} in conversation ${conversation.idForLogging()}`
+    ) ||
+      messageModel.get(
+        'timestamp'
+      )} in conversation ${conversation.idForLogging()}, messageHash:${messageHash}`
   );
 
   const sendingDeviceConversation = await getConversationController().getOrCreateAndWait(
@@ -391,13 +376,13 @@ export async function handleMessageJob(
     // NOTE we handle incoming disappear after send messages and sync messages here
     if (
       conversation &&
-      messageModel.getExpireTimer() > 0 &&
-      Boolean(messageModel.getExpirationStartTimestamp()) === false
+      messageModel.getExpireTimerSeconds() > 0 &&
+      !messageModel.getExpirationStartTimestamp()
     ) {
       const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         messageModel.getExpirationType(),
-        messageModel.getExpireTimer()
+        messageModel.getExpireTimerSeconds()
       );
 
       // TODO legacy messages support will be removed in a future release
@@ -439,28 +424,17 @@ export async function handleMessageJob(
         expirationTimerUpdate?.expirationType,
         expireTimerUpdate
       );
-      const lastDisappearingMessageChangeTimestamp =
-        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp;
-
-      if (!lastDisappearingMessageChangeTimestamp) {
-        window.log.debug(
-          `The ExpirationTimerUpdate's lastDisappearingMessageChangeTimestamp is missing. message model: ${messageModel.get(
-            'id'
-          )}\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
-        );
-        confirm?.();
-        return;
-      }
 
       await conversation.updateExpireTimer({
         providedDisappearingMode: expirationModeUpdate,
         providedExpireTimer: expireTimerUpdate,
-        providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
         providedSource: source,
         fromSync: source === UserUtils.getOurPubKeyStrFromCache(),
         receivedAt: messageModel.get('received_at'),
         existingMessage: messageModel,
         shouldCommitConvo: false,
+        fromCurrentDevice: false,
+        fromConfigMessage: false,
         // NOTE we don't commit yet because we want to get the message id, see below
       });
     } else {

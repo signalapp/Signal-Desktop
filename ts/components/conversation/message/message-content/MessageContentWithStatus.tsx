@@ -7,14 +7,15 @@ import { MessageRenderingProps } from '../../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';
 import { updateReactListModal } from '../../../../state/ducks/modalDialog';
 import { StateType } from '../../../../state/reducer';
+import { useHideAvatarInMsgList } from '../../../../state/selectors';
 import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Reactions } from '../../../../util/reactions';
+import { Flex } from '../../../basic/Flex';
 import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
 import { MessageAuthorText } from './MessageAuthorText';
-import { MessageAvatar } from './MessageAvatar';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
 import { MessageReactions, StyledMessageReactions } from './MessageReactions';
@@ -33,11 +34,11 @@ type Props = {
   enableReactions: boolean;
 };
 
-const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }>`
+const StyledMessageContentContainer = styled.div<{ isIncoming: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: ${props => (props.direction === 'left' ? 'flex-start' : 'flex-end')};
+  align-items: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   width: 100%;
 
   ${StyledMessageReactions} {
@@ -45,16 +46,11 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
   }
 `;
 
-const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
-  max-width: ${props => (props.isIncoming ? '100%' : 'calc(100% - 17px)')};
+const StyledMessageWithAuthor = styled.div`
+  max-width: '100%';
   display: flex;
   flex-direction: column;
   min-width: 0;
-`;
-
-// NOTE aligns group member avatars with the ExpireTimer
-const StyledAvatarContainer = styled.div<{ hideAvatar: boolean; isGroup: boolean }>`
-  margin-inline-start: ${props => (!props.hideAvatar && props.isGroup ? '-11px' : '')};
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
@@ -62,6 +58,7 @@ export const MessageContentWithStatuses = (props: Props) => {
     getMessageContentWithStatusesSelectorProps(state, props.messageId)
   );
   const dispatch = useDispatch();
+  const hideAvatar = useHideAvatarInMsgList(props.messageId);
 
   const multiSelectMode = useSelector(isMessageSelectionMode);
 
@@ -102,13 +99,10 @@ export const MessageContentWithStatuses = (props: Props) => {
     return null;
   }
 
-  const { conversationType, direction: _direction, isDeleted, isGroup } = contentProps;
+  const { direction: _direction, isDeleted } = contentProps;
   // NOTE we want messages on the left in the message detail view regardless of direction
   const direction = isDetailView ? 'incoming' : _direction;
   const isIncoming = direction === 'incoming';
-
-  const isPrivate = conversationType === 'private';
-  const hideAvatar = isPrivate || direction === 'outgoing' || isDetailView;
 
   const handleMessageReaction = async (emoji: string) => {
     await Reactions.sendMessageReaction(messageId, emoji);
@@ -125,7 +119,7 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   return (
     <StyledMessageContentContainer
-      direction={isIncoming ? 'left' : 'right'}
+      isIncoming={isIncoming}
       onMouseLeave={() => {
         setPopupReaction('');
       }}
@@ -139,25 +133,17 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         dataTestId={dataTestId}
       >
-        <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
-          <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} isPrivate={isPrivate} />
-        </StyledAvatarContainer>
-        <MessageStatus
-          dataTestId="msg-status-incoming"
-          messageId={messageId}
-          isCorrectSide={isIncoming}
-          isDetailView={isDetailView}
-        />
-        <StyledMessageWithAuthor isIncoming={isIncoming}>
-          {!isDetailView && <MessageAuthorText messageId={messageId} />}
-          <MessageContent messageId={messageId} isDetailView={isDetailView} />
-        </StyledMessageWithAuthor>
-        <MessageStatus
-          dataTestId="msg-status-outgoing"
-          messageId={messageId}
-          isCorrectSide={!isIncoming}
-          isDetailView={isDetailView}
-        />
+        <Flex container={true} flexDirection="column" flexShrink={0}>
+          <StyledMessageWithAuthor>
+            {!isDetailView && <MessageAuthorText messageId={messageId} />}
+            <MessageContent messageId={messageId} isDetailView={isDetailView} />
+          </StyledMessageWithAuthor>
+          <MessageStatus
+            dataTestId="msg-status"
+            messageId={messageId}
+            isDetailView={isDetailView}
+          />
+        </Flex>
         {!isDeleted && (
           <MessageContextMenu
             messageId={messageId}

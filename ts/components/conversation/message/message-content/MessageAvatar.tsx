@@ -26,9 +26,11 @@ import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 
 const StyledAvatar = styled.div`
   position: relative;
-  margin-inline-end: 20px;
-  padding-bottom: 6px;
-  padding-inline-end: 4px;
+  margin-inline-end: 10px;
+  max-width: var(
+    --width-avatar-group-msg-list
+  ); // enforcing this so we change the variable when changing the content of the avatar
+  overflow-y: hidden;
 `;
 
 export type MessageAvatarSelectorProps = Pick<
@@ -129,13 +131,13 @@ export const MessageAvatar = (props: Props) => {
   }
 
   if (!lastMessageOfSeries) {
-    return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${sender}`} />;
+    return <div style={{ marginInlineEnd: 'var(--width-avatar-group-msg-list)' }} />;
   }
   /* eslint-disable @typescript-eslint/no-misused-promises */
-
+  // The styledAvatar, when rendered needs to have a width with margins included of var(--width-avatar-group-msg-list).
+  // This is so that the other message is still aligned when the avatar is not rendered (we need to make up for the space used by the avatar, and we use a margin of width-avatar-group-msg-list)
   return (
     <StyledAvatar
-      key={`msg-avatar-${sender}`}
       style={{
         visibility: hideAvatar ? 'hidden' : undefined,
       }}

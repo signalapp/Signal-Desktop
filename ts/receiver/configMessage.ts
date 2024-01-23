@@ -17,7 +17,6 @@ import { getOpenGroupManager } from '../session/apis/open_group_api/opengroupV2/
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
-import { getExpiriesFromSnode } from '../session/apis/snode_api/getExpiriesRequest';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { Profile, ProfileManager } from '../session/profile_manager/ProfileManager';
@@ -25,6 +24,7 @@ import { PubKey } from '../session/types';
 import { StringUtils, UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob'; // eslint-disable-next-line import/no-unresolved, import/extensions
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
@@ -41,7 +41,8 @@ import {
   isSignInByLinking,
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
-// eslint-disable-next-line import/no-unresolved, import/extensions
+
+// eslint-disable-next-line import/no-unresolved
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
@@ -51,7 +52,7 @@ import {
   UserGroupsWrapperActions,
 } from '../webworker/workers/browser/libsession_worker_interface';
 import { removeFromCache } from './cache';
-import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGroups';
+import { addKeyPairToCacheAndDBIfNeeded } from './closedGroups';
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
@@ -230,6 +231,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
     let changes = false;
 
     const expireTimer = ourConvo.getExpireTimer();
+
     const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
 
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
@@ -242,11 +244,12 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
               : 'legacy'
             : 'off',
         providedExpireTimer: wrapperNoteToSelfExpirySeconds,
-        providedChangeTimestamp: result.latestEnvelopeTimestamp,
         providedSource: ourConvo.id,
         receivedAt: result.latestEnvelopeTimestamp,
         fromSync: true,
         shouldCommitConvo: false,
+        fromCurrentDevice: false,
+        fromConfigMessage: true,
       });
       changes = success;
     }
@@ -388,13 +391,14 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         const success = await contactConvo.updateExpireTimer({
           providedDisappearingMode: wrapperConvo.expirationMode,
           providedExpireTimer: wrapperConvo.expirationTimerSeconds,
-          providedChangeTimestamp: result.latestEnvelopeTimestamp,
           providedSource: wrapperConvo.id,
           receivedAt: result.latestEnvelopeTimestamp,
           fromSync: true,
+          fromCurrentDevice: false,
           shouldCommitConvo: false,
+          fromConfigMessage: true,
         });
-        changes = success;
+        changes = changes || success;
       }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
@@ -621,11 +625,12 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
               : 'legacy'
             : 'off',
         providedExpireTimer: fromWrapper.disappearingTimerSeconds,
-        providedChangeTimestamp: latestEnvelopeTimestamp,
         providedSource: legacyGroupConvo.id,
         receivedAt: latestEnvelopeTimestamp,
         fromSync: true,
         shouldCommitConvo: false,
+        fromCurrentDevice: false,
+        fromConfigMessage: true,
       });
       changes = success;
     }
@@ -699,55 +704,25 @@ async function applyConvoVolatileUpdateFromWrapper(
   }
 
   try {
-    const canBeDeleteAfterRead = foundConvo && !foundConvo.isMe() && foundConvo.isPrivate();
     // TODO legacy messages support will be removed in a future release
-    if (
-      canBeDeleteAfterRead &&
-      (foundConvo.getExpirationMode() === 'deleteAfterRead' ||
-        foundConvo.getExpirationMode() === 'legacy') &&
-      foundConvo.getExpireTimer() > 0
-    ) {
-      const messages2Expire = await Data.getUnreadDisappearingByConversation(
+    if (foundConvo.isPrivate() && !foundConvo.isMe() && foundConvo.getExpireTimer() > 0) {
+      const messagesExpiring = await Data.getUnreadDisappearingByConversation(
         convoId,
         lastReadMessageTimestamp
       );
 
-      if (messages2Expire.length) {
-        const messageHashes = compact(
-          messages2Expire
-            .filter(
-              m =>
-                m.getExpirationType() !== undefined &&
-                m.getExpirationType() !== 'deleteAfterSend' &&
-                m.getExpireTimer() > 0
-            )
-            .map(m => m.get('messageHash'))
-        );
-        const currentExpiryTimestamps = await getExpiriesFromSnode({
-          messageHashes,
-          timestamp: lastReadMessageTimestamp,
-        });
+      const messagesExpiringAfterRead = messagesExpiring.filter(
+        m => m.getExpirationType() === 'deleteAfterRead' && m.getExpireTimerSeconds() > 0
+      );
 
-        if (currentExpiryTimestamps.length) {
-          for (let index = 0; index < messages2Expire.length; index++) {
-            if (currentExpiryTimestamps[index] === -1) {
-              window.log.debug(
-                `[applyConvoVolatileUpdateFromWrapper] invalid expiry value returned from snode. We will keep the local value of ${messages2Expire
-                  .get(index)
-                  .get('id')}.\nmessageHash: ${messageHashes[index]},`
-              );
-              continue;
-            }
-            messages2Expire.at(index).set('expires_at', currentExpiryTimestamps[index]);
-          }
-        }
+      const messageIdsToFetchExpiriesFor = compact(messagesExpiringAfterRead.map(m => m.id));
+
+      if (messageIdsToFetchExpiriesFor.length) {
+        await FetchMsgExpirySwarm.queueNewJobIfNeeded(messageIdsToFetchExpiriesFor);
       }
     }
 
-    // window.log.debug(
-    //   `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
-    // );
-    // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
+    // this mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
     await foundConvo.markReadFromConfigMessage(lastReadMessageTimestamp);
     // this commits to the DB, if needed
     await foundConvo.markAsUnread(forcedUnread, true);
@@ -1028,12 +1003,6 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
 
   await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, envelopeTimestamp);
 
-  // we only want to apply changes to closed groups if we never got them
-  // new opengroups get added when we get a new closed group message from someone, or a sync'ed message from outself creating the group
-  if (!lastConfigTimestamp) {
-    await handleClosedGroupsFromConfigLegacy(configMessage.closedGroups, envelope);
-  }
-
   void handleOpenGroupsFromConfigLegacy(configMessage.openGroups);
 
   if (configMessage.contacts?.length) {
@@ -1068,43 +1037,6 @@ const handleOpenGroupsFromConfigLegacy = async (openGroups: Array<string>) => {
       void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
-};
-
-/**
- * Trigger a join for all closed groups which doesn't exist yet
- * @param openGroups string array of open group urls
- */
-const handleClosedGroupsFromConfigLegacy = async (
-  closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
-  envelope: EnvelopePlus
-) => {
-  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
-
-  if (userConfigLibsession && Registration.isDone()) {
-    return;
-  }
-  const numberClosedGroup = closedGroups?.length || 0;
-
-  window?.log?.info(
-    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
-  );
-  await Promise.all(
-    closedGroups.map(async c => {
-      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
-        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
-        encryptionKeyPair: c.encryptionKeyPair,
-        name: c.name,
-        admins: c.admins,
-        members: c.members,
-        publicKey: c.publicKey,
-      });
-      try {
-        await handleNewClosedGroup(envelope, groupUpdate, true);
-      } catch (e) {
-        window?.log?.warn('failed to handle a new closed group from configuration message');
-      }
-    })
-  );
 };
 
 /**

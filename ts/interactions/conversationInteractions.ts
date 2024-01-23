@@ -11,7 +11,6 @@ import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
@@ -103,10 +102,7 @@ export async function unblockConvoById(conversationId: string) {
 /**
  * marks the conversation's approval fields, sends messageRequestResponse, syncs to linked devices
  */
-export const approveConvoAndSendResponse = async (
-  conversationId: string,
-  syncToDevices: boolean = true
-) => {
+export const approveConvoAndSendResponse = async (conversationId: string) => {
   const convoToApprove = getConversationController().get(conversationId);
 
   if (!convoToApprove) {
@@ -118,11 +114,6 @@ export const approveConvoAndSendResponse = async (
 
   await convoToApprove.commit();
   await convoToApprove.sendMessageRequestResponse();
-
-  // Conversation was not approved before so a sync is needed
-  if (syncToDevices) {
-    await forceSyncConfigurationNowIfNeeded();
-  }
 };
 
 export async function declineConversationWithoutConfirm({
@@ -379,19 +370,21 @@ export async function setDisappearingMessagesByConvoId(
     return;
   }
 
-  const providedChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
-
   if (!expirationMode || expirationMode === 'off' || !seconds || seconds <= 0) {
     await conversation.updateExpireTimer({
       providedDisappearingMode: 'off',
       providedExpireTimer: 0,
-      providedChangeTimestamp,
+      fromSync: false,
+      fromCurrentDevice: true,
+      fromConfigMessage: false,
     });
   } else {
     await conversation.updateExpireTimer({
       providedDisappearingMode: expirationMode,
       providedExpireTimer: seconds,
-      providedChangeTimestamp,
+      fromSync: false,
+      fromCurrentDevice: true,
+      fromConfigMessage: false,
     });
   }
 }

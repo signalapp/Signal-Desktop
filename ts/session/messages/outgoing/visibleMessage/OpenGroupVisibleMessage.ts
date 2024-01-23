@@ -13,7 +13,11 @@ export class OpenGroupVisibleMessage extends VisibleMessage {
   private readonly blocksCommunityMessageRequests: boolean;
 
   constructor(params: OpenGroupVisibleMessageParams) {
-    super(params);
+    super({
+      ...params,
+      expirationType: null,
+      expireTimer: null,
+    });
     // they are the opposite of each others
     this.blocksCommunityMessageRequests = !Storage.get(SettingsKey.hasBlindedMsgRequestsEnabled);
   }

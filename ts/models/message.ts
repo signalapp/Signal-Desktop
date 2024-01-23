@@ -44,7 +44,10 @@ import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { DURATION } from '../session/constants';
 import { DisappearingMessages } from '../session/disappearing_messages';
 import { TimerOptions } from '../session/disappearing_messages/timerOptions';
-import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import {
+  OpenGroupVisibleMessage,
+  OpenGroupVisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import {
   VisibleMessage,
   VisibleMessageParams,
@@ -137,7 +140,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public getMessageModelProps(): MessageModelPropsWithoutConvoProps {
-    perfStart(`getPropsMessage-${this.id}`);
     const propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
     const propsForGroupUpdateMessage = this.getPropsForGroupUpdateMessage();
@@ -180,7 +182,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         ...this.getPropsForExpiringMessage(),
       };
     }
-    perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
+
     return messageProps;
   }
 
@@ -191,10 +193,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public isExpirationTimerUpdate() {
     const expirationTimerFlag = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
     const flags = this.get('flags') || 0;
-    const expirationTimerUpdate = this.getExpirationTimerUpdate();
 
     // eslint-disable-next-line no-bitwise
-    return Boolean(flags & expirationTimerFlag) || !isEmpty(expirationTimerUpdate);
+    return Boolean(flags & expirationTimerFlag) && !isEmpty(this.getExpirationTimerUpdate());
+  }
+
+  public isControlMessage() {
+    return (
+      this.isExpirationTimerUpdate() ||
+      this.isDataExtractionNotification() ||
+      this.isMessageRequestResponse() ||
+      this.isGroupUpdate()
+    );
   }
 
   public isIncoming() {
@@ -229,6 +239,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public isDataExtractionNotification() {
     return !!this.get('dataExtractionNotification');
+  }
+  public isCallNotification() {
+    return !!this.get('callNotificationType');
   }
 
   public getNotificationText() {
@@ -290,8 +303,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getPropsForExpiringMessage(): PropsForExpiringMessage {
     const expirationType = this.getExpirationType();
-    const expirationDurationMs = this.getExpireTimer()
-      ? this.getExpireTimer() * DURATION.SECONDS
+    const expirationDurationMs = this.getExpireTimerSeconds()
+      ? this.getExpireTimerSeconds() * DURATION.SECONDS
       : null;
 
     const expireTimerStart = this.getExpirationStartTimestamp() || null;
@@ -335,12 +348,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expireTimer || 0
     );
 
-    const timespan = TimerOptions.getName(expireTimer || 0);
+    const timespanText = TimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {
       ...findAndFormatContact(source),
-      timespan,
+      timespanText,
+      timespanSeconds: expireTimer || 0,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
       receivedAt: this.get('received_at'),
@@ -484,7 +498,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return undefined;
     }
 
-    if (this.isDataExtractionNotification() || this.get('callNotificationType')) {
+    // some incoming legacy group updates are outgoing, but when synced to our other devices have just the received_at field set.
+    // when that is the case, we don't want to render the spinning 'sending' state
+    if (
+      (this.isExpirationTimerUpdate() || this.isDataExtractionNotification()) &&
+      this.get('received_at')
+    ) {
+      return undefined;
+    }
+
+    if (this.isDataExtractionNotification() || this.isCallNotification()) {
       return undefined;
     }
 
@@ -513,7 +536,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationType = this.getExpirationType();
-    const expirationDurationMs = this.getExpireTimer() * DURATION.SECONDS;
+    const expirationDurationMs = this.getExpireTimerSeconds() * DURATION.SECONDS;
     const expireTimerStart = this.getExpirationStartTimestamp();
     const expirationTimestamp =
       expirationType && expireTimerStart && expirationDurationMs
@@ -537,8 +560,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       props.isDeleted = this.get('isDeleted');
     }
 
-    if (this.get('messageHash')) {
-      props.messageHash = this.get('messageHash');
+    if (this.getMessageHash()) {
+      props.messageHash = this.getMessageHash();
     }
     if (this.get('received_at')) {
       props.receivedAt = this.get('received_at');
@@ -742,6 +765,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
    * Also returns the uploaded ids to include in the message post so that those attachments are linked to that message.
    */
   public async uploadData() {
+    const start = Date.now();
     const finalAttachments = await Promise.all(
       (this.get('attachments') || []).map(loadAttachmentData)
     );
@@ -802,7 +826,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       attachments[0].flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
     }
 
-    window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
+    window.log.info(
+      `Upload of message data for message ${this.idForLogging()} is finished in ${Date.now() -
+        start}ms.`
+    );
     return {
       body,
       attachments,
@@ -831,8 +858,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       reacts: undefined,
       reactsIndex: undefined,
     });
-    await this.markMessageAsRead(Date.now());
+    // we can ignore the result of that markMessageReadNoCommit as it would only be used
+    // to refresh the expiry of it(but it is already marked as "deleted", so we don't care)
+    this.markMessageReadNoCommit(Date.now());
     await this.commit();
+    // the line below makes sure that getNextExpiringMessage will find this message as expiring.
+    // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
+    await this.setToExpire();
+    await this.getConversation()?.refreshInMemoryDetails();
   }
 
   // One caller today: event handler for the 'Retry Send' entry on right click of a failed send message
@@ -855,7 +888,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const { body, attachments, preview, quote, fileIdsToLink } = await this.uploadData();
 
       if (conversation.isPublic()) {
-        const openGroupParams: VisibleMessageParams = {
+        const openGroupParams: OpenGroupVisibleMessageParams = {
           identifier: this.id,
           timestamp: GetNetworkTime.getNowWithNetworkOffset(),
           lokiProfile: UserUtils.getOurProfile(),
@@ -882,16 +915,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const timestamp = Date.now(); // force a new timestamp to handle user fixed his clock;
 
-      const chatParams = {
+      const chatParams: VisibleMessageParams = {
         identifier: this.id,
         body,
         timestamp,
-        expireTimer: this.getExpireTimer(),
         attachments,
         preview: preview ? [preview] : [],
-        reacts: this.get('reacts'),
         quote,
         lokiProfile: UserUtils.getOurProfile(),
+        // Note: we should have the fields set on that object when we've added it to the DB.
+        // We don't want to reuse the conversation setting, as it might change since this message was sent.
+        expirationType: this.getExpirationType() || null,
+        expireTimer: this.getExpireTimerSeconds(),
       };
       if (!chatParams.lokiProfile) {
         delete chatParams.lokiProfile;
@@ -983,6 +1018,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return lodashSize(this.get('errors')) > 0;
   }
 
+  /**
+   * Update the messageHash field of that message instance. Does not call commit()
+   *
+   * @param messageHash
+   */
   public async updateMessageHash(messageHash: string) {
     if (!messageHash) {
       window?.log?.error('Message hash not provided to update message hash');
@@ -990,8 +1030,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     this.set({
       messageHash,
     });
-
-    await this.commit();
   }
 
   public async sendSyncMessageOnly(contentMessage: ContentMessage) {
@@ -1029,7 +1067,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         content,
         conversation,
-        true
+        null
       );
 
       const syncMessage = buildSyncMessage(
@@ -1097,23 +1135,22 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return id;
   }
 
-  public async markMessageAsRead(readAt: number) {
-    this.markMessageReadNoCommit(readAt);
-    await this.commit();
-    // the line below makes sure that getNextExpiringMessage will find this message as expiring.
-    // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
-    await this.setToExpire();
+  /**
+   * Mark a message as read if it was not already read.
+   * @param readAt the timestamp at which this message was read
+   * @returns true if the message was marked as read, and if its expiry should be updated on the swarm, false otherwise
+   */
+  public markMessageReadNoCommit(readAt: number): boolean {
+    if (!this.isUnread()) {
+      return false;
+    }
 
-    await this.getConversation()?.refreshInMemoryDetails();
-  }
-
-  public markMessageReadNoCommit(readAt: number) {
     this.set({ unread: READ_MESSAGE_STATE.read });
 
     const convo = this.getConversation();
     const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
     const expirationType = this.getExpirationType();
-    const expireTimer = this.getExpireTimer();
+    const expireTimer = this.getExpireTimerSeconds();
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
       const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -1124,57 +1161,51 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
         if (this.isIncoming() && !this.isExpiring()) {
-          // NOTE We want to trigger disappearing now and then the TTL can update itself while it is running. Otherwise the UI is blocked until the request is completed.
-          void DisappearingMessages.updateMessageExpiryOnSwarm(
-            this,
-            'markMessageReadNoCommit()',
-            true
-          );
+          // only if that message has not started to expire already, set its "start expiry".
+          // this is because a message can have a expire start timestamp set when receiving it, if the convo volatile said that the message was read by another device.
+          if (!this.getExpirationStartTimestamp()) {
+            this.set({
+              expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
+                expirationMode,
+                readAt,
+                'markMessageReadNoCommit',
+                this.get('id')
+              ),
+            });
+            // return true, we want to update/refresh the real expiry of this message from the swarm
+            return true;
+          }
+          // return true, we want to update/refresh the real expiry of this message from the swarm
+          return true;
         }
-
-        this.set({
-          expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
-            expirationMode,
-            readAt,
-            'markMessageReadNoCommit',
-            this.get('id')
-          ),
-        });
       }
     }
 
     Notifications.clearByMessageId(this.id);
+    return false;
   }
 
   public isExpiring() {
-    return this.getExpireTimer() && this.getExpirationStartTimestamp();
+    return this.getExpireTimerSeconds() && this.getExpirationStartTimestamp();
   }
 
   public isExpired() {
-    return this.msTilExpire() <= 0;
-  }
-
-  public msTilExpire() {
     if (!this.isExpiring()) {
-      return Infinity;
+      return false;
     }
     const now = Date.now();
     const start = this.getExpirationStartTimestamp();
     if (!start) {
-      return Infinity;
+      return false;
     }
-    const delta = this.getExpireTimer() * 1000;
-    let msFromNow = start + delta - now;
-    if (msFromNow < 0) {
-      msFromNow = 0;
-    }
-    return msFromNow;
+    const delta = this.getExpireTimerSeconds() * 1000;
+    const msFromNow = start + delta - now;
+    return msFromNow < 0;
   }
-
   public async setToExpire() {
     if (this.isExpiring() && !this.getExpiresAt()) {
       const start = this.getExpirationStartTimestamp();
-      const delta = this.getExpireTimer() * 1000;
+      const delta = this.getExpireTimerSeconds() * 1000;
       if (!start) {
         return;
       }
@@ -1185,8 +1216,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       this.set({
         expires_at: expiresAt,
       });
-      const id = this.get('id');
-      if (id) {
+
+      if (this.get('id')) {
         await this.commit();
       }
 
@@ -1221,6 +1252,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   private dispatchMessageUpdate() {
     updatesToDispatch.set(this.id, this.getMessageModelProps());
     throttledAllMessagesDispatch();
+  }
+
+  private isGroupUpdate() {
+    return !isEmpty(this.get('group_update'));
   }
 
   /**
@@ -1336,7 +1371,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
       ]);
     }
-    if (this.get('callNotificationType')) {
+    if (this.isCallNotification()) {
       const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
         this.get('conversationId')
       );
@@ -1366,7 +1401,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return this.get('expirationType');
   }
 
-  public getExpireTimer() {
+  /**
+   *
+   * @returns the expireTimer (in seconds) for this message
+   */
+  public getExpireTimerSeconds() {
     return this.get('expireTimer');
   }
 
@@ -1376,6 +1415,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getExpiresAt() {
     return this.get('expires_at');
+  }
+
+  public getMessageHash() {
+    return this.get('messageHash');
   }
 
   public getExpirationTimerUpdate() {

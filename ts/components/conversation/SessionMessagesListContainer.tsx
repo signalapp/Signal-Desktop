@@ -65,8 +65,7 @@ const StyledMessagesContainer = styled.div<{ isGroup: boolean }>`
   padding-top: var(--margins-sm);
   padding-right: var(--margins-lg);
   padding-bottom: var(--margins-xl);
-  padding-left: ${props =>
-    props.isGroup ? 'calc(var(--margins-lg) + 11px)' : 'var(--margins-lg)'};
+  padding-left: ${props => (props.isGroup ? 'var(--margins-xs)' : 'var(--margins-lg)')};
 
   .session-icon-button {
     display: flex;
@@ -127,7 +126,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       <StyledMessagesContainer
         className="messages-container"
         id={messageContainerDomID}
-        isGroup={!conversation.isMe && !conversation.isPrivate && !conversation.isPublic}
+        isGroup={!conversation.isPrivate}
         onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
         data-testid="messages-container"

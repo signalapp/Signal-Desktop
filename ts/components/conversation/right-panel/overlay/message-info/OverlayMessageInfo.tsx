@@ -224,6 +224,8 @@ export const OverlayMessageInfo = () => {
                         messageSender: sender,
                         messageTimestamp: serverTimestamp || timestamp || Date.now(),
                         attachment: attachments[0],
+                        // TODO what about multiple attachments?
+                        index: 0,
                       });
                     }
                   }}

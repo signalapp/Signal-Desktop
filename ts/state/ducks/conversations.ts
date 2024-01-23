@@ -16,6 +16,7 @@ import {
   PropsForMessageRequestResponse,
 } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
+import { DisappearingMessages } from '../../session/disappearing_messages';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
@@ -90,7 +91,8 @@ export type PropsForExpiringMessage = {
 
 export type PropsForExpirationTimer = {
   expirationMode: DisappearingMessageConversationModeType;
-  timespan: string;
+  timespanText: string;
+  timespanSeconds: number | null;
   disabled: boolean;
   pubkey: string;
   avatarPath: string | null;
@@ -253,7 +255,6 @@ export interface ReduxConversationType {
   mentionedUs?: boolean;
   expirationMode?: DisappearingMessageConversationModeType;
   expireTimer?: number;
-  lastDisappearingMessageChangeTimestamp?: number;
   hasOutdatedClient?: string;
   isTyping?: boolean;
   isBlocked?: boolean;
@@ -529,6 +530,7 @@ function handleMessageChangedOrAdded(
   );
   if (messageInStoreIndex >= 0) {
     state.messages[messageInStoreIndex] = changedOrAddedMessageProps;
+    state.mostRecentMessageId = updateMostRecentMessageId(state);
 
     return state;
   }
@@ -539,10 +541,28 @@ function handleMessageChangedOrAdded(
   if (state.showScrollButton) {
     return state;
   }
-  // sorting happens in the selector
 
+  // sorting happens in the selector
   state.messages.push(changedOrAddedMessageProps);
+  state.mostRecentMessageId = updateMostRecentMessageId(state);
   return state;
+}
+
+function updateMostRecentMessageId(state: ConversationsStateType) {
+  // update the most recent message id as this is the one used to display the last MessageStatus
+  let foundSoFarMaxId = '';
+  let foundSoFarMaxTimestamp = 0;
+
+  state.messages.forEach(m => {
+    if (
+      (m.propsForMessage.serverTimestamp || m.propsForMessage.timestamp || 0) >
+      foundSoFarMaxTimestamp
+    ) {
+      foundSoFarMaxId = m.propsForMessage.id;
+      foundSoFarMaxTimestamp = m.propsForMessage.serverTimestamp || m.propsForMessage.timestamp;
+    }
+  });
+  return foundSoFarMaxId;
 }
 
 function handleMessagesChangedOrAdded(
@@ -1125,6 +1145,7 @@ export async function openConversationWithMessages(args: {
 }) {
   const { conversationKey, messageId } = args;
 
+  await DisappearingMessages.destroyExpiredMessages();
   await unmarkAsForcedUnread(conversationKey);
 
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);

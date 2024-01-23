@@ -3,7 +3,9 @@ import _ from 'lodash';
 import ReactDOM from 'react-dom';
 
 import nativeEmojiData from '@emoji-mart/data';
-import React from 'react';
+import { ipcRenderer } from 'electron';
+// eslint-disable-next-line import/no-named-default
+import { default as React } from 'react';
 
 import { isMacOS } from '../OS';
 import { SessionInboxView } from '../components/SessionInboxView';
@@ -22,11 +24,13 @@ import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { runners } from '../session/utils/job_runners/JobRunner';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
+import { switchThemeTo } from '../themes/switchTheme';
 import { BlockedNumberController } from '../util';
 import { initialiseEmojiData } from '../util/emoji';
 import { Notifications } from '../util/notifications';
 import { Registration } from '../util/registration';
 import { Storage, isSignInByLinking } from '../util/storage';
+import { getOppositeTheme, isThemeMismatched } from '../util/theme';
 
 // Globally disable drag and drop
 document.body.addEventListener(
@@ -109,6 +113,23 @@ function mapOldThemeToNew(theme: string) {
       return theme;
   }
 }
+// using __unused as lodash is imported using _
+ipcRenderer.on('native-theme-update', (__unused, shouldUseDarkColors) => {
+  const shouldFollowSystemTheme = window.getSettingValue(SettingsKey.hasFollowSystemThemeEnabled);
+
+  if (shouldFollowSystemTheme) {
+    const theme = window.Events.getThemeSetting();
+    if (isThemeMismatched(theme, shouldUseDarkColors)) {
+      const newTheme = getOppositeTheme(theme);
+      void switchThemeTo({
+        theme: newTheme,
+        mainWindow: true,
+        usePrimaryColor: true,
+        dispatch: window?.inboxStore?.dispatch,
+      });
+    }
+  }
+});
 
 async function startJobRunners() {
   // start the job runners
@@ -116,6 +137,10 @@ async function startJobRunners() {
   runners.avatarDownloadRunner.startProcessing();
   await runners.configurationSyncRunner.loadJobsFromDb();
   runners.configurationSyncRunner.startProcessing();
+  await runners.updateMsgExpiryRunner.loadJobsFromDb();
+  runners.updateMsgExpiryRunner.startProcessing();
+  await runners.fetchSwarmMsgExpiryRunner.loadJobsFromDb();
+  runners.fetchSwarmMsgExpiryRunner.startProcessing();
 }
 
 // We need this 'first' check because we don't want to start the app up any other time

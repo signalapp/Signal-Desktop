@@ -8,7 +8,7 @@ interface Props {
   initialItem: string;
   items: Array<{ value: string; label: string }>;
   group: string;
-  onClick: (selectedValue: string) => any;
+  onClick: (selectedValue: string) => void;
   style?: CSSProperties;
 }
 

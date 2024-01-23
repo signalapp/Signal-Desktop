@@ -23,10 +23,6 @@
 
 .module-contact-name.compact {
   display: block;
-
-  span::after {
-    content: '\00a0';
-  }
 }
 
 // Module: Message
@@ -756,8 +752,8 @@
   font-size: 20px;
   font-weight: normal;
   letter-spacing: 0;
-
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .module-image__close-button {

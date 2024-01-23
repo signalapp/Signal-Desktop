@@ -18,6 +18,8 @@ describe('ClosedGroupVisibleMessage', () => {
     const chatMessage = new VisibleMessage({
       timestamp,
       body: 'body',
+      expirationType: null,
+      expireTimer: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
@@ -48,6 +50,8 @@ describe('ClosedGroupVisibleMessage', () => {
     const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
       timestamp,
+      expirationType: null,
+      expireTimer: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
@@ -61,6 +65,8 @@ describe('ClosedGroupVisibleMessage', () => {
     const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
       timestamp,
+      expirationType: null,
+      expireTimer: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
@@ -77,6 +83,8 @@ describe('ClosedGroupVisibleMessage', () => {
       timestamp,
       body: 'body',
       identifier: 'chatMessage',
+      expirationType: null,
+      expireTimer: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
@@ -93,6 +101,8 @@ describe('ClosedGroupVisibleMessage', () => {
       timestamp,
       body: 'body',
       identifier: 'chatMessage',
+      expirationType: null,
+      expireTimer: null,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,

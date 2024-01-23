@@ -5,14 +5,14 @@ import { ContentMessage } from './ContentMessage';
 import { MessageParams } from './Message';
 
 export interface ExpirableMessageParams extends MessageParams {
-  expirationType?: DisappearingMessageType;
-  expireTimer?: number;
+  expirationType: DisappearingMessageType | null;
+  expireTimer: number | null;
 }
 
 export class ExpirableMessage extends ContentMessage {
-  public readonly expirationType?: DisappearingMessageType;
+  public readonly expirationType: DisappearingMessageType | null;
   /** in seconds, 0 means no expiration */
-  public readonly expireTimer?: number;
+  public readonly expireTimer: number | null;
 
   constructor(params: ExpirableMessageParams) {
     super({
@@ -51,7 +51,7 @@ export class ExpirableMessage extends ContentMessage {
   }
 
   public getDisappearingMessageType(): DisappearingMessageType | undefined {
-    return this.expirationType;
+    return this.expirationType || undefined;
   }
 
   public ttl(): number {

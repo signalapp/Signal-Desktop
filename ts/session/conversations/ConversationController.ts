@@ -15,24 +15,24 @@ import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGrou
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { PubKey } from '../types';
 
+import { getMessageQueue } from '..';
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conversationAttributes';
+import { removeAllClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
+import { getCurrentlySelectedConversationOutsideRedux } from '../../state/selectors/conversations';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { UserGroupsWrapperActions } from '../../webworker/workers/browser/libsession_worker_interface';
+import { OpenGroupUtils } from '../apis/open_group_api/utils';
+import { getSwarmPollingInstance } from '../apis/snode_api';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
+import { UserUtils } from '../utils';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
 import { LibSessionUtil } from '../utils/libsession/libsession_utils';
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
-import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
-import { getMessageQueue } from '..';
-import { getSwarmPollingInstance } from '../apis/snode_api';
-import { SnodeNamespaces } from '../apis/snode_api/namespaces';
-import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
-import { UserUtils } from '../utils';
-import { getCurrentlySelectedConversationOutsideRedux } from '../../state/selectors/conversations';
-import { removeAllClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
-import { OpenGroupUtils } from '../apis/open_group_api/utils';
 
 let instance: ConversationController | null;
 
@@ -496,6 +496,8 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: networkTimestamp,
     groupId,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: null,
   });
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);

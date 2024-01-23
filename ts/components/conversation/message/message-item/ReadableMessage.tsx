@@ -41,6 +41,7 @@ export type ReadableMessageProps = {
   role?: AriaRole;
   dataTestId: string;
   onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
+  isControlMessage?: boolean;
 };
 
 const debouncedTriggerLoadMoreTop = debounce(
@@ -98,7 +99,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
 
   // if this unread-indicator is rendered,
   // we want to scroll here only if the conversation was not opened to a specific message
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
     if (
@@ -127,7 +127,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           dispatch(showScrollToBottomButton(false));
           getConversationController()
             .get(selectedConversationKey)
-            ?.markConversationRead(receivedAt || 0); // TODOLATER this should be `sentAt || serverTimestamp` I think
+            ?.markConversationRead({ newestUnreadDate: receivedAt || 0, fromConfigMessage: false }); // TODOLATER this should be `sentAt || serverTimestamp` I think
 
           dispatch(markConversationFullyRead(selectedConversationKey));
         } else if (inView === false) {
@@ -172,7 +172,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
             if (foundSentAt) {
               getConversationController()
                 .get(selectedConversationKey)
-                ?.markConversationRead(foundSentAt, Date.now());
+                ?.markConversationRead({ newestUnreadDate: foundSentAt, fromConfigMessage: false });
             }
           }
         }

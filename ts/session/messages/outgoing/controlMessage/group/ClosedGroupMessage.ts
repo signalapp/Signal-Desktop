@@ -28,18 +28,16 @@ export abstract class ClosedGroupMessage extends ExpirableMessage {
   }
 
   public contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      dataMessage: this.dataProto(),
-      ...super.contentProto(),
-      // TODO legacy messages support will be removed in a future release
-      // Closed Groups only support 'deleteAfterSend' and 'legacy'
-      expirationType:
-        this.expirationType === 'deleteAfterSend'
-          ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
-          : this.expirationType
-          ? SignalService.Content.ExpirationType.UNKNOWN
-          : undefined,
-    });
+    const content = super.contentProto();
+    content.dataMessage = this.dataProto();
+    // TODO legacy messages support will be removed in a future release
+    // Closed Groups only support 'deleteAfterSend' and 'legacy'
+    content.expirationType =
+      this.expirationType === 'deleteAfterSend'
+        ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
+        : SignalService.Content.ExpirationType.UNKNOWN;
+
+    return content;
   }
 
   public dataProto(): SignalService.DataMessage {

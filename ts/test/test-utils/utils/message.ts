@@ -33,8 +33,8 @@ export function generateVisibleMessage({
     timestamp: timestamp || Date.now(),
     attachments: undefined,
     quote: undefined,
-    expirationType: undefined,
-    expireTimer: undefined,
+    expirationType: null,
+    expireTimer: null,
     lokiProfile: undefined,
     preview: undefined,
   });
@@ -153,10 +153,8 @@ export function generateDisappearingVisibleMessage({
     return new ExpirationTimerUpdateMessage({
       identifier: identifier ?? uuid(),
       timestamp: timestamp || Date.now(),
-      expirationType: expirationTimerUpdate.expirationType,
+      expirationType: expirationTimerUpdate.expirationType || null,
       expireTimer: expirationTimerUpdate.expireTimer,
-      lastDisappearingMessageChangeTimestamp:
-        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp,
     });
   }
 
@@ -166,8 +164,8 @@ export function generateDisappearingVisibleMessage({
     timestamp: timestamp || Date.now(),
     attachments: undefined,
     quote: undefined,
-    expirationType,
-    expireTimer,
+    expirationType: expirationType ?? null,
+    expireTimer: expireTimer ?? null,
     lokiProfile: undefined,
     preview: undefined,
   });
@@ -176,12 +174,10 @@ export function generateDisappearingVisibleMessage({
 export function generateFakeExpirationTimerUpdate({
   expirationType,
   expireTimer,
-  lastDisappearingMessageChangeTimestamp,
   source = '',
 }: {
   expirationType: DisappearingMessageType;
   expireTimer: number;
-  lastDisappearingMessageChangeTimestamp: number;
   source?: string;
 }): MessageModel {
   const convoId = TestUtils.generateFakePubKeyStr();
@@ -194,7 +190,6 @@ export function generateFakeExpirationTimerUpdate({
     expirationTimerUpdate: {
       expirationType,
       expireTimer,
-      lastDisappearingMessageChangeTimestamp,
       source,
     },
     flags: 2,

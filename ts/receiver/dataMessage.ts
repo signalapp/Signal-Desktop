@@ -153,14 +153,21 @@ export function cleanIncomingDataMessage(
  *        * dataMessage.syncTarget is either the group public key OR the private conversation this message is about.
  */
 
-export async function handleSwarmDataMessage(
-  envelope: EnvelopePlus,
-  sentAtTimestamp: number,
-  rawDataMessage: SignalService.DataMessage,
-  messageHash: string,
-  senderConversationModel: ConversationModel,
-  expireUpdate?: DisappearingMessageUpdate
-): Promise<void> {
+export async function handleSwarmDataMessage({
+  envelope,
+  messageHash,
+  rawDataMessage,
+  senderConversationModel,
+  sentAtTimestamp,
+  expireUpdate,
+}: {
+  envelope: EnvelopePlus;
+  sentAtTimestamp: number;
+  rawDataMessage: SignalService.DataMessage;
+  messageHash: string;
+  senderConversationModel: ConversationModel;
+  expireUpdate?: DisappearingMessageUpdate;
+}): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
   const cleanDataMessage = cleanIncomingDataMessage(rawDataMessage, envelope);
@@ -168,7 +175,8 @@ export async function handleSwarmDataMessage(
   if (cleanDataMessage.closedGroupControlMessage) {
     await handleClosedGroupControlMessage(
       envelope,
-      cleanDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+      cleanDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage,
+      expireUpdate || null
     );
     return;
   }
@@ -260,6 +268,7 @@ export async function handleSwarmDataMessage(
     msgModel = DisappearingMessages.getMessageReadyToDisappear(
       convoToAddMessageTo,
       msgModel,
+      cleanDataMessage.flags,
       expireUpdate
     );
   }

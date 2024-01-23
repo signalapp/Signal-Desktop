@@ -1,12 +1,13 @@
 /* eslint-disable no-restricted-syntax */
-import { isEmpty, sample } from 'lodash';
+import { isFinite, isNil, isNumber, sample } from 'lodash';
 import pRetry from 'p-retry';
 import { Snode } from '../../../data/data';
 import { UserUtils } from '../../utils';
 import { EmptySwarmError } from '../../utils/errors';
 import { SeedNodeAPI } from '../seed_node_api';
-import { GetExpiriesFromNodeSubRequest } from './SnodeRequestTypes';
+import { GetExpiriesFromNodeSubRequest, fakeHash } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
+import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
 import { GetExpiriesResultsContent } from './types';
@@ -14,44 +15,27 @@ import { GetExpiriesResultsContent } from './types';
 export type GetExpiriesRequestResponseResults = Record<string, number>;
 
 export async function processGetExpiriesRequestResponse(
-  targetNode: Snode,
+  _targetNode: Snode,
   expiries: GetExpiriesResultsContent,
   messageHashes: Array<string>
 ): Promise<GetExpiriesRequestResponseResults> {
-  if (isEmpty(expiries)) {
+  if (isNil(expiries)) {
     throw Error(
-      `[processGetExpiriesRequestResponse] Expiries are missing! ${JSON.stringify(messageHashes)}`
+      `[processGetExpiriesRequestResponse] Expiries are nul/undefined! ${JSON.stringify(
+        messageHashes
+      )}`
     );
   }
 
   const results: GetExpiriesRequestResponseResults = {};
-
-  for (const messageHash of Object.keys(expiries)) {
-    if (!expiries[messageHash]) {
-      window.log.warn(
-        `[processGetExpiriesRequestResponse] Expiries result failure on ${
-          targetNode.pubkey_ed25519
-        } for messageHash ${messageHash}\n${JSON.stringify(
-          expiries[messageHash]
-        )} moving to the next node`
-      );
-      continue;
-    }
-
+  // Note: we iterate over the hash we've requested and not the one we received,
+  // because a message which expired already is not in the result at all (and we need to force it to be expired)
+  for (const messageHash of messageHashes) {
     const expiryMs = expiries[messageHash];
 
-    if (!expiryMs) {
-      window.log.warn(
-        `[processGetExpiriesRequestResponse] Missing expiry value on ${
-          targetNode.pubkey_ed25519
-        } so we will ignore this result (${messageHash}) and move onto the next node.\n${JSON.stringify(
-          expiries[messageHash]
-        )}`
-      );
-      results[messageHash] = -1; // explicit failure value
-    } else {
+    if (expiries[messageHash] && isNumber(expiryMs) && isFinite(expiryMs)) {
       results[messageHash] = expiryMs;
-    }
+    } // not adding the Date.now() fallback here as it is done in the caller of this function
   }
 
   return results;
@@ -60,7 +44,7 @@ export async function processGetExpiriesRequestResponse(
 async function getExpiriesFromNodes(
   targetNode: Snode,
   expireRequest: GetExpiriesFromNodeSubRequest
-): Promise<Array<number>> {
+) {
   try {
     const result = await doSnodeBatchRequest(
       [expireRequest],
@@ -83,22 +67,26 @@ async function getExpiriesFromNodes(
     const firstResult = result[0];
 
     if (firstResult.code !== 200) {
-      throw Error(`result is not 200 but ${firstResult.code}`);
+      throw Error(`getExpiriesFromNodes result is not 200 but ${firstResult.code}`);
     }
 
-    const bodyFirstResult = firstResult.body;
+    // expirationResults is a record of {messageHash: currentExpiry}
     const expirationResults = await processGetExpiriesRequestResponse(
       targetNode,
-      bodyFirstResult.expiries as GetExpiriesResultsContent,
+      firstResult.body.expiries as GetExpiriesResultsContent,
       expireRequest.params.messages
     );
 
-    if (!Object.keys(expirationResults).length) {
-      throw new Error('expirationResults is empty');
-    }
+    // Note: even if expirationResults is empty we need to process the results.
+    // The status code is 200, so if the results is empty, it means all those messages already expired.
 
-    const expiryTimestamps: Array<number> = Object.values(expirationResults);
-    return expiryTimestamps;
+    // Note: a hash which already expired on the server is not going to be returned. So we force it's fetchedExpiry to be now() to make it expire asap
+    const expiriesWithForcedExpiried = expireRequest.params.messages.map(messageHash => ({
+      messageHash,
+      fetchedExpiry: expirationResults?.[messageHash] || Date.now(),
+    }));
+
+    return expiriesWithForcedExpiried;
   } catch (err) {
     // NOTE batch requests have their own retry logic which includes abort errors that will break our retry logic so we need to catch them and throw regular errors
     if (err instanceof pRetry.AbortError) {
@@ -111,13 +99,12 @@ async function getExpiriesFromNodes(
 
 export type GetExpiriesFromSnodeProps = {
   messageHashes: Array<string>;
-  timestamp: number;
 };
 
-export async function buildGetExpiriesRequest(
-  props: GetExpiriesFromSnodeProps
-): Promise<GetExpiriesFromNodeSubRequest | null> {
-  const { messageHashes, timestamp } = props;
+export async function buildGetExpiriesRequest({
+  messageHashes,
+}: GetExpiriesFromSnodeProps): Promise<GetExpiriesFromNodeSubRequest | null> {
+  const timestamp = GetNetworkTime.getNowWithNetworkOffset();
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
@@ -159,14 +146,10 @@ export async function buildGetExpiriesRequest(
  * @param timestamp the time (ms) the request was initiated, must be within ±60s of the current time so using the server time is recommended.
  * @returns an arrray of the expiry timestamps (TTL) for the given messages
  */
-export async function getExpiriesFromSnode(
-  props: GetExpiriesFromSnodeProps
-): Promise<Array<number>> {
-  const { messageHashes } = props;
-
+export async function getExpiriesFromSnode({ messageHashes }: GetExpiriesFromSnodeProps) {
   // FIXME There is a bug in the snode code that requires at least 2 messages to be requested. Will be fixed in next storage server release
   if (messageHashes.length === 1) {
-    messageHashes.push('fakehash');
+    messageHashes.push(fakeHash);
   }
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
@@ -178,21 +161,19 @@ export async function getExpiriesFromSnode(
   let snode: Snode | undefined;
 
   try {
-    const expireRequestParams = await buildGetExpiriesRequest(props);
+    const expireRequestParams = await buildGetExpiriesRequest({ messageHashes });
     if (!expireRequestParams) {
-      throw new Error(`Failed to build get_expiries request ${JSON.stringify(props)}`);
+      throw new Error(`Failed to build get_expiries request ${JSON.stringify({ messageHashes })}`);
     }
 
-    let expiryTimestamps: Array<number> = [];
-
-    await pRetry(
+    const fetchedExpiries = await pRetry(
       async () => {
         const swarm = await getSwarmFor(ourPubKey);
         snode = sample(swarm);
         if (!snode) {
           throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
         }
-        expiryTimestamps = await getExpiriesFromNodes(snode, expireRequestParams);
+        return getExpiriesFromNodes(snode, expireRequestParams);
       },
       {
         retries: 3,
@@ -206,7 +187,7 @@ export async function getExpiriesFromSnode(
       }
     );
 
-    return expiryTimestamps;
+    return fetchedExpiries;
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(

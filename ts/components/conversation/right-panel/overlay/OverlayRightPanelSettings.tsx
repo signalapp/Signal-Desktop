@@ -278,8 +278,7 @@ export const OverlayRightPanelSettings = () => {
     ? window.i18n('youLeftTheGroup')
     : window.i18n('leaveGroup');
 
-  const showUpdateGroupNameButton =
-    isGroup && (!isPublic || (isPublic && weAreAdmin)) && !commonNoShow;
+  const showUpdateGroupNameButton = isGroup && weAreAdmin && !commonNoShow; // legacy groups non-admin cannot change groupname anymore
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
   const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 
@@ -302,6 +301,7 @@ export const OverlayRightPanelSettings = () => {
             onClick={() => {
               void showUpdateGroupNameByConvoId(selectedConvoKey);
             }}
+            dataTestId="edit-group-name"
           />
         )}
 
@@ -313,6 +313,7 @@ export const OverlayRightPanelSettings = () => {
               onClick={() => {
                 showAddModeratorsByConvoId(selectedConvoKey);
               }}
+              dataTestId="add-moderators"
             />
 
             <PanelIconButton
@@ -321,6 +322,7 @@ export const OverlayRightPanelSettings = () => {
               onClick={() => {
                 showRemoveModeratorsByConvoId(selectedConvoKey);
               }}
+              dataTestId="remove-moderators"
             />
           </>
         )}
@@ -332,6 +334,7 @@ export const OverlayRightPanelSettings = () => {
             onClick={() => {
               void showUpdateGroupMembersByConvoId(selectedConvoKey);
             }}
+            dataTestId="group-members"
           />
         )}
 
@@ -340,6 +343,7 @@ export const OverlayRightPanelSettings = () => {
             iconType={'timer50'}
             text={window.i18n('disappearingMessages')}
             subtitle={disappearingMessagesSubtitle}
+            dataTestId="disappearing-messages"
             onClick={() => {
               dispatch(setRightOverlayMode({ type: 'disappearing_messages', params: null }));
             }}

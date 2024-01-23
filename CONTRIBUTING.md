@@ -41,6 +41,12 @@ Building on Windows is a pain, but is possible see our CI/Windows build machine 
 1.  Install build tools `apt install build-essential cmake` (this installs make, g++, gcc)
 2.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
 
+In Ubuntu, you may also need to install
+```
+sudo apt install cmake
+npm install cmake-js
+```
+
 ### All platforms
 
 Now, run these commands in your preferred terminal in a good directory for development:

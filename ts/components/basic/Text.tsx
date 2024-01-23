@@ -10,7 +10,7 @@ type TextProps = {
   ellipsisOverflow?: boolean;
 };
 
-const StyledDefaultText = styled.div<TextProps>`
+const StyledDefaultText = styled.div<Omit<TextProps, 'text'>>`
   transition: var(--default-duration);
   max-width: ${props => (props.maxWidth ? props.maxWidth : '')};
   padding: ${props => (props.padding ? props.padding : '')};
@@ -24,6 +24,12 @@ const StyledDefaultText = styled.div<TextProps>`
 
 export const Text = (props: TextProps) => {
   return <StyledDefaultText {...props}>{props.text}</StyledDefaultText>;
+};
+
+export const TextWithChildren = (
+  props: Omit<TextProps, 'text'> & { children: React.ReactNode }
+) => {
+  return <StyledDefaultText {...props}>{props.children}</StyledDefaultText>;
 };
 
 type SpacerProps = {

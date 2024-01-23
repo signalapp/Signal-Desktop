@@ -7,15 +7,20 @@ import { useSelector } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import { StateType } from '../../../../state/reducer';
-import { useMessageIsDeleted } from '../../../../state/selectors';
+import { useHideAvatarInMsgList, useMessageIsDeleted } from '../../../../state/selectors';
 import {
   getMessageContentSelectorProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
+import {
+  useSelectedIsGroup,
+  useSelectedIsPrivate,
+} from '../../../../state/selectors/selectedConversation';
 import { canDisplayImage } from '../../../../types/Attachment';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
+import { MessageAvatar } from './MessageAvatar';
 import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
@@ -47,7 +52,11 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
-const StyledMessageContent = styled.div``;
+const StyledMessageContent = styled.div<{ msgDirection: MessageModelType }>`
+  display: flex;
+
+  align-self: ${props => (props.msgDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+`;
 
 const opacityAnimation = keyframes`
     0% {
@@ -78,20 +87,26 @@ export const StyledMessageHighlighter = styled.div<{
 `;
 
 const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
-  messageDirection: MessageModelType;
+  isIncoming: boolean;
   highlight: boolean;
 }>`
   background: ${props =>
-    props.messageDirection === 'incoming'
+    props.isIncoming
       ? 'var(--message-bubbles-received-background-color)'
       : 'var(--message-bubbles-sent-background-color)'};
-  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+  align-self: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
   width: 100%;
 `;
 
 export const IsMessageVisibleContext = createContext(false);
+
+// NOTE aligns group member avatars with the ExpireTimer
+const StyledAvatarContainer = styled.div<{ hideAvatar: boolean; isGroup: boolean }>`
+  /* margin-inline-start: ${props => (!props.hideAvatar && props.isGroup ? '-11px' : '')}; */
+  align-self: flex-end;
+`;
 
 export const MessageContent = (props: Props) => {
   const [highlight, setHighlight] = useState(false);
@@ -103,6 +118,9 @@ export const MessageContent = (props: Props) => {
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+  const selectedIsPrivate = useSelectedIsPrivate();
+  const isGroup = useSelectedIsGroup();
+  const hideAvatar = useHideAvatarInMsgList(props.messageId);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -180,7 +198,16 @@ export const MessageContent = (props: Props) => {
       role="button"
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
+      msgDirection={direction}
     >
+      <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
+        <MessageAvatar
+          messageId={props.messageId}
+          hideAvatar={hideAvatar}
+          isPrivate={selectedIsPrivate}
+        />
+      </StyledAvatarContainer>
+
       <InView
         id={`inview-content-${props.messageId}`}
         onChange={onVisible}
@@ -195,7 +222,7 @@ export const MessageContent = (props: Props) => {
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
           {hasContentBeforeAttachment && (
-            <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
+            <StyledMessageOpaqueContent isIncoming={direction === 'incoming'} highlight={highlight}>
               {!isDeleted && (
                 <>
                   <MessageQuote messageId={props.messageId} />

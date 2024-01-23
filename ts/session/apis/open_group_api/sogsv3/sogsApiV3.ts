@@ -474,12 +474,13 @@ async function handleInboxOutboxMessages(
           window.log.warn('tryMatchBlindWithStandardKey could not veriyfy');
         }
 
-        await innerHandleSwarmContentMessage(
-          builtEnvelope,
-          postedAtInMs,
-          builtEnvelope.content,
-          ''
-        );
+        await innerHandleSwarmContentMessage({
+          envelope: builtEnvelope,
+          sentAtTimestamp: postedAtInMs,
+          plaintext: builtEnvelope.content,
+          messageHash: '',
+          messageExpirationFromRetrieve: null, // sogs message do not expire
+        });
       }
     } catch (e) {
       window.log.warn('handleOutboxMessages failed with:', e.message);

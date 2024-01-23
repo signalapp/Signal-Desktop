@@ -1,28 +1,25 @@
 import { AbortController } from 'abort-controller';
 
-import { PendingMessageCache } from './PendingMessageCache';
-import { JobQueue, MessageUtils, UserUtils } from '../utils';
-import { PubKey, RawMessage } from '../types';
 import { MessageSender } from '.';
-import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
 import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
+import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
+import { PubKey, RawMessage } from '../types';
+import { JobQueue, MessageUtils, UserUtils } from '../utils';
+import { PendingMessageCache } from './PendingMessageCache';
 
-import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
-import { MessageSentHandler } from './MessageSentHandler';
 import { ContentMessage } from '../messages/outgoing';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { ClosedGroupVisibleMessage } from '../messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { SyncMessageType } from '../utils/sync/syncUtils';
+import { MessageSentHandler } from './MessageSentHandler';
 
 import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
-import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
-import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 import { sendSogsReactionOnionV4 } from '../apis/open_group_api/sogsv3/sogsV3SendReaction';
 import {
@@ -30,7 +27,10 @@ import {
   SnodeNamespacesGroup,
   SnodeNamespacesUser,
 } from '../apis/snode_api/namespaces';
+import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
+import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
+import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -227,8 +227,8 @@ export class MessageQueue {
    * @param message Message to be sent
    */
   public async sendToPubKeyNonDurably({
-    message,
     namespace,
+    message,
     pubkey,
   }: {
     pubkey: PubKey;
@@ -242,7 +242,10 @@ export class MessageQueue {
     let rawMessage;
     try {
       rawMessage = await MessageUtils.toRawMessage(pubkey, message, namespace);
-      const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send(rawMessage);
+      const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send({
+        message: rawMessage,
+        isSyncMessage: false,
+      });
       await MessageSentHandler.handleMessageSentSuccess(
         rawMessage,
         effectiveTimestamp,
@@ -273,12 +276,10 @@ export class MessageQueue {
         // We put the event handling inside this job to avoid sending duplicate events
         const job = async () => {
           try {
-            const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send(
+            const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send({
               message,
-              undefined,
-              undefined,
-              isSyncMessage
-            );
+              isSyncMessage,
+            });
 
             await MessageSentHandler.handleMessageSentSuccess(
               message,
@@ -332,7 +333,7 @@ export class MessageQueue {
       // We allow a message for ourselves only if it's a ConfigurationMessage, a ClosedGroupNewMessage,
       // or a message with a syncTarget set.
 
-      if (MessageSender.isSyncMessage(message)) {
+      if (MessageSender.isContentSyncMessage(message)) {
         window?.log?.info('OutgoingMessageQueue: Processing sync message');
         isSyncMessage = true;
       } else {

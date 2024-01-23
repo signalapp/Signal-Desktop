@@ -1,14 +1,14 @@
 import React from 'react';
 
+import { useConversationsUsernameWithQuoteOrFullPubkey } from '../../../../hooks/useParamSelector';
+import { arrayContainsUsOnly } from '../../../../models/message';
 import {
   PropsForGroupUpdate,
   PropsForGroupUpdateType,
 } from '../../../../state/ducks/conversations';
-import { NotificationBubble } from './notification-bubble/NotificationBubble';
-import { ExpirableReadableMessage } from './ExpirableReadableMessage';
-import { arrayContainsUsOnly } from '../../../../models/message';
-import { useConversationsUsernameWithQuoteOrFullPubkey } from '../../../../hooks/useParamSelector';
 import { assertUnreachable } from '../../../../types/sqlSharedTypes';
+import { ExpirableReadableMessage } from './ExpirableReadableMessage';
+import { NotificationBubble } from './notification-bubble/NotificationBubble';
 
 // This component is used to display group updates in the conversation view.
 
@@ -80,7 +80,7 @@ export const GroupUpdateMessage = (props: PropsForGroupUpdate) => {
       messageId={messageId}
       key={`readable-message-${messageId}`}
       dataTestId="group-update-message"
-      isCentered={true}
+      isControlMessage={true}
     >
       <NotificationBubble notificationText={ChangeItem(change)} iconType="users" />
     </ExpirableReadableMessage>

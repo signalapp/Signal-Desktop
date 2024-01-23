@@ -27,6 +27,7 @@ export type ThemeGlobals = {
   /* Padding */
   '--padding-message-content': string;
   '--padding-link-preview': string;
+  '--width-avatar-group-msg-list': string;
 
   /* Border Radius */
   '--border-radius': string;
@@ -114,6 +115,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below
+  '--width-avatar-group-msg-list': '46px', // the width used by the avatar (and its margins when rendered as part of a group.)
 
   '--border-radius': '5px',
   '--border-radius-message-box': '16px',
@@ -145,7 +147,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--button-path-connecting-color': COLORS.PATH.CONNECTING,
   '--button-path-error-color': COLORS.PATH.ERROR,
 
-  '--modal-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.3)`,
+  '--modal-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.6)`,
   '--modal-drop-shadow': `0px 0px 10px rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`,
 
   '--lightbox-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`,
@@ -157,6 +159,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
 
   '--right-panel-width': '420px',
+  // TODO confirm what is better min-width: 350px; // because the disappear messages don't render well with less than this, and 25vw can be less than that
   '--right-panel-height': '100%',
   '--right-panel-attachment-width': '350px',
   '--right-panel-attachment-height': '350px',
