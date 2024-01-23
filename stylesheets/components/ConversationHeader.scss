@@ -278,10 +278,19 @@
         width: $icon-size;
       }
 
-      // Override hover state coming from __button above.
-      &:hover,
-      &:focus {
-        background-color: darken($background, 16%);
+      &:not(:disabled) {
+        // Override hover state coming from __button above.
+        &:hover {
+          @include any-theme {
+            background-color: darken($background, 16%);
+          }
+        }
+
+        &:focus {
+          @include keyboard-mode {
+            background-color: darken($background, 16%);
+          }
+        }
       }
     }
   }
