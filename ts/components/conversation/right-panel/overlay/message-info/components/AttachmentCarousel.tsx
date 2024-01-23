@@ -37,7 +37,7 @@ const FullscreenButton = (props: { onClick: () => void; style?: CSSProperties })
         iconColor={'var(--button-icon-stroke-hover-color)'}
         iconType={'fullscreen'}
         onClick={props.onClick}
-        iconPadding={'var(--margins-xs)'}
+        iconPadding={'6px'}
       />
     </StyledFullscreenButton>
   );
@@ -115,11 +115,17 @@ export const AttachmentCarousel = (props: Props) => {
           selectedOptionIndex={visibleIndex}
           optionsCount={attachments.length}
           style={{
-            display: attachments.length < 2 ? 'none' : undefined,
+            display: attachments.length < 2 ? 'none' : 'undefined',
+            position: 'absolute',
+            bottom: '8px',
+            left: '0',
+            right: '0',
+            zIndex: 2,
+            margin: '0 auto',
+            padding: '6px',
             backgroundColor: 'var(--modal-background-color)',
             borderRadius: '50px',
             width: 'fit-content',
-            padding: 'var(--margins-xs)',
           }}
         />
         <FullscreenButton
