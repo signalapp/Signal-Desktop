@@ -50,7 +50,7 @@ export const SubtitleDotMenu = ({
   optionsCount: number;
   style: CSSProperties;
 }) => (
-  <Flex id={id} container={true} alignItems={'center'} style={style}>
+  <StyledSubtitleDotMenu id={id} container={true} alignItems={'center'} style={style}>
     {Array(optionsCount)
       .fill(0)
       .map((_, index) => {
@@ -61,7 +61,7 @@ export const SubtitleDotMenu = ({
           />
         );
       })}
-  </Flex>
+  </StyledSubtitleDotMenu>
 );
 
 type ConversationHeaderSubtitleProps = {

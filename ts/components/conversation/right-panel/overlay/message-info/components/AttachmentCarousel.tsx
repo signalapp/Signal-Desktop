@@ -48,10 +48,11 @@ const ImageContainer = styled.div`
 
   ${StyledSubtitleDotMenu} {
     position: absolute;
-    bottom: 12px;
+    bottom: 8px;
     left: 0;
     right: 0;
     margin: 0 auto;
+    z-index: 2;
   }
 
   ${StyledFullscreenButton} {
@@ -116,12 +117,6 @@ export const AttachmentCarousel = (props: Props) => {
           optionsCount={attachments.length}
           style={{
             display: attachments.length < 2 ? 'none' : 'undefined',
-            position: 'absolute',
-            bottom: '8px',
-            left: '0',
-            right: '0',
-            zIndex: 2,
-            margin: '0 auto',
             padding: '6px',
             backgroundColor: 'var(--modal-background-color)',
             borderRadius: '50px',

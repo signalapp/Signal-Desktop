@@ -79,7 +79,7 @@ const StyledMessageDetail = styled.div`
   max-width: 650px;
   margin-inline-start: auto;
   margin-inline-end: auto;
-  padding: var(--margins-sm) var(--margins-lg) var(--margins-lg);
+  padding: var(--margins-sm) var(--margins-2xl) var(--margins-lg);
 `;
 
 export const OverlayMessageInfo = () => {
