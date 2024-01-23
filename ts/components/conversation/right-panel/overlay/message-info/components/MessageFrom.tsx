@@ -19,7 +19,7 @@ const Name = styled.span`
   font-weight: bold;
 `;
 const Pubkey = styled.span`
-  font-family: var(--font-font-mono);
+  font-family: var(--font-mono);
   font-size: var(--font-size-md);
   user-select: text;
 `;
