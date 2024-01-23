@@ -223,9 +223,8 @@ export const OverlayMessageInfo = () => {
                         conversationId: convoId,
                         messageSender: sender,
                         messageTimestamp: serverTimestamp || timestamp || Date.now(),
-                        attachment: attachments[0],
-                        // TODO what about multiple attachments?
-                        index: 0,
+                        attachment: attachments[visibleAttachmentIndex],
+                        index: visibleAttachmentIndex,
                       });
                     }
                   }}
