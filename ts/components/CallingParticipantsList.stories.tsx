@@ -26,6 +26,7 @@ function createParticipant(
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
     isHandRaised: Boolean(participantProps.isHandRaised),
+    mediaKeysReceived: Boolean(participantProps.mediaKeysReceived),
     presenting: Boolean(participantProps.presenting),
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,

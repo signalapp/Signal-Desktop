@@ -35,13 +35,17 @@ const getFrameBuffer = memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE));
 const createProps = (
   overrideProps: OverridePropsType,
   {
+    addedTime,
     isBlocked = false,
-    hasRemoteAudio = false,
-    presenting = false,
     isHandRaised = false,
+    hasRemoteAudio = false,
+    mediaKeysReceived = true,
+    presenting = false,
   }: {
+    addedTime?: number;
     isBlocked?: boolean;
     hasRemoteAudio?: boolean;
+    mediaKeysReceived?: boolean;
     presenting?: boolean;
     isHandRaised?: boolean;
   } = {}
@@ -54,10 +58,12 @@ const createProps = (
   audioLevel: 0,
   remoteParticipant: {
     aci: generateAci(),
+    addedTime,
     demuxId: 123,
     hasRemoteAudio,
     hasRemoteVideo: true,
     isHandRaised,
+    mediaKeysReceived,
     presenting,
     sharingScreen: false,
     videoAspectRatio: 1.3,
@@ -161,6 +167,27 @@ export function Blocked(): JSX.Element {
           width: 120,
         },
         { isBlocked: true }
+      )}
+    />
+  );
+}
+
+export function NoMediaKeys(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+        },
+        {
+          addedTime: Date.now() - 60 * 1000,
+          hasRemoteAudio: true,
+          mediaKeysReceived: false,
+        }
       )}
     />
   );

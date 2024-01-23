@@ -326,6 +326,7 @@ export function GroupCall1(): JSX.Element {
             hasRemoteAudio: true,
             hasRemoteVideo: true,
             isHandRaised: false,
+            mediaKeysReceived: true,
             presenting: false,
             sharingScreen: false,
             videoAspectRatio: 1.3,
@@ -353,6 +354,7 @@ export function GroupCallYourHandRaised(): JSX.Element {
             hasRemoteAudio: true,
             hasRemoteVideo: true,
             isHandRaised: false,
+            mediaKeysReceived: true,
             presenting: false,
             sharingScreen: false,
             videoAspectRatio: 1.3,
@@ -372,26 +374,32 @@ export function GroupCallYourHandRaised(): JSX.Element {
 const PARTICIPANT_EMOJIS = ['❤️', '🤔', '✨', '😂', '🦄'] as const;
 
 // We generate these upfront so that the list is stable when you move the slider.
-const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
-  aci: generateAci(),
-  demuxId: index,
-  hasRemoteAudio: index % 3 !== 0,
-  hasRemoteVideo: index % 4 !== 0,
-  isHandRaised: (index - 3) % 10 === 0,
-  presenting: false,
-  sharingScreen: false,
-  videoAspectRatio: Math.random() < 0.7 ? 1.3 : Math.random() * 0.4 + 0.6,
-  ...getDefaultConversationWithServiceId({
-    isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
-    title: `Participant ${
-      (index - 2) % 4 === 0
-        ? PARTICIPANT_EMOJIS[
-            Math.floor((index - 2) / 4) % PARTICIPANT_EMOJIS.length
-          ]
-        : ''
-    } ${index + 1}`,
-  }),
-}));
+const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
+  const mediaKeysReceived = (index + 1) % 20 !== 0;
+
+  return {
+    aci: generateAci(),
+    addedTime: Date.now() - 60000,
+    demuxId: index,
+    hasRemoteAudio: mediaKeysReceived ? index % 3 !== 0 : false,
+    hasRemoteVideo: mediaKeysReceived ? index % 4 !== 0 : false,
+    isHandRaised: (index - 3) % 10 === 0,
+    mediaKeysReceived,
+    presenting: false,
+    sharingScreen: false,
+    videoAspectRatio: Math.random() < 0.7 ? 1.3 : Math.random() * 0.4 + 0.6,
+    ...getDefaultConversationWithServiceId({
+      isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
+      title: `Participant ${
+        (index - 2) % 4 === 0
+          ? PARTICIPANT_EMOJIS[
+              Math.floor((index - 2) / 4) % PARTICIPANT_EMOJIS.length
+            ]
+          : ''
+      } ${index + 1}`,
+    }),
+  };
+});
 
 export function GroupCallManyPaginated(): JSX.Element {
   const props = createProps({
@@ -471,6 +479,7 @@ export function GroupCallReconnecting(): JSX.Element {
             hasRemoteAudio: true,
             hasRemoteVideo: true,
             isHandRaised: false,
+            mediaKeysReceived: true,
             presenting: false,
             sharingScreen: false,
             videoAspectRatio: 1.3,
@@ -792,4 +801,39 @@ function useHandRaiser(
     return () => clearInterval(interval);
   }, [frequency, call, max, min]);
   return call;
+}
+
+export function GroupCallSomeoneMissingMediaKeys(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants: allRemoteParticipants
+          .slice(0, 5)
+          .map((participant, index) => ({
+            ...participant,
+            addedTime: index === 1 ? Date.now() - 60000 : undefined,
+            hasRemoteAudio: false,
+            hasRemoteVideo: false,
+            mediaKeysReceived: index !== 1,
+          })),
+      })}
+    />
+  );
+}
+
+export function GroupCallSomeoneBlocked(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants: allRemoteParticipants
+          .slice(0, 5)
+          .map((participant, index) => ({
+            ...participant,
+            isBlocked: index === 1,
+          })),
+      })}
+    />
+  );
 }

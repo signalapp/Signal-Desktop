@@ -27,9 +27,12 @@ import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
+import { Theme } from '../util/theme';
+import { isOlderThan } from '../util/timestamp';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 10000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
+const DELAY_TO_SHOW_MISSING_MEDIA_KEYS = 5000;
 
 type BasePropsType = {
   getFrameBuffer: () => Buffer;
@@ -77,6 +80,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
     const {
       acceptedMessageRequest,
+      addedTime,
       avatarPath,
       color,
       demuxId,
@@ -85,6 +89,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       isHandRaised,
       isBlocked,
       isMe,
+      mediaKeysReceived,
       profileName,
       sharedGroupNames,
       sharingScreen,
@@ -102,7 +107,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const [isWide, setIsWide] = useState<boolean>(
       videoAspectRatio ? videoAspectRatio >= 1 : true
     );
-    const [showBlockInfo, setShowBlockInfo] = useState(false);
+    const [showErrorDialog, setShowErrorDialog] = useState(false);
 
     // We have some state (`hasReceivedVideoRecently`) and this ref. We can't have a
     //   single state value like `lastReceivedVideoAt` because (1) it won't automatically
@@ -129,6 +134,11 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
     const wantsToShowVideo = hasRemoteVideo && !isBlocked && isVisible;
     const hasVideoToShow = wantsToShowVideo && hasReceivedVideoRecently;
+    const showMissingMediaKeys = Boolean(
+      !mediaKeysReceived &&
+        addedTime &&
+        isOlderThan(addedTime, DELAY_TO_SHOW_MISSING_MEDIA_KEYS)
+    );
 
     const videoFrameSource = useMemo(
       () => getGroupCallVideoFrameSource(demuxId),
@@ -293,29 +303,94 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       }
     }
 
+    let noVideoNode: ReactNode;
+    let errorDialogTitle: ReactNode;
+    let errorDialogBody = '';
+    if (!hasVideoToShow) {
+      const showDialogButton = (
+        <button
+          type="button"
+          className="module-ongoing-call__group-call-remote-participant__more-info"
+          onClick={() => {
+            setShowErrorDialog(true);
+          }}
+        >
+          {i18n('icu:moreInfo')}
+        </button>
+      );
+      if (isBlocked) {
+        noVideoNode = (
+          <>
+            <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--blocked" />
+            {showDialogButton}
+          </>
+        );
+        errorDialogTitle = (
+          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
+            <Intl
+              i18n={i18n}
+              id="icu:calling__you-have-blocked"
+              components={{
+                name: <ContactName key="name" title={title} />,
+              }}
+            />
+          </div>
+        );
+        errorDialogBody = i18n('icu:calling__block-info');
+      } else if (showMissingMediaKeys) {
+        noVideoNode = (
+          <>
+            <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--missing-media-keys" />
+            <div className="module-ongoing-call__group-call-remote-participant__error">
+              {i18n('icu:calling__missing-media-keys', { name: title })}
+            </div>
+            {showDialogButton}
+          </>
+        );
+        errorDialogTitle = (
+          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
+            <Intl
+              i18n={i18n}
+              id="icu:calling__missing-media-keys"
+              components={{
+                name: <ContactName key="name" title={title} />,
+              }}
+            />
+          </div>
+        );
+        errorDialogBody = i18n('icu:calling__missing-media-keys-info');
+      } else {
+        noVideoNode = (
+          <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPath={avatarPath}
+            badge={undefined}
+            color={color || AvatarColors[0]}
+            noteToSelf={false}
+            conversationType="direct"
+            i18n={i18n}
+            isMe={isMe}
+            profileName={profileName}
+            title={title}
+            sharedGroupNames={sharedGroupNames}
+            size={avatarSize}
+          />
+        );
+      }
+    }
+
     return (
       <>
-        {showBlockInfo && (
+        {showErrorDialog && (
           <ConfirmationDialog
             dialogName="GroupCallRemoteParticipant.blockInfo"
             cancelText={i18n('icu:ok')}
             i18n={i18n}
-            onClose={() => {
-              setShowBlockInfo(false);
-            }}
-            title={
-              <div className="module-ongoing-call__group-call-remote-participant__blocked--modal-title">
-                <Intl
-                  i18n={i18n}
-                  id="icu:calling__you-have-blocked"
-                  components={{
-                    name: <ContactName key="name" title={title} />,
-                  }}
-                />
-              </div>
-            }
+            onClose={() => setShowErrorDialog(false)}
+            theme={Theme.Dark}
+            title={errorDialogTitle}
           >
-            {i18n('icu:calling__block-info')}
+            {errorDialogBody}
           </ConfirmationDialog>
         )}
 
@@ -372,40 +447,12 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               }}
             />
           )}
-          {!hasVideoToShow && (
+          {noVideoNode && (
             <CallBackgroundBlur
               avatarPath={avatarPath}
               className="module-ongoing-call__group-call-remote-participant-background"
             >
-              {isBlocked ? (
-                <>
-                  <i className="module-ongoing-call__group-call-remote-participant__blocked" />
-                  <button
-                    type="button"
-                    className="module-ongoing-call__group-call-remote-participant__blocked--info"
-                    onClick={() => {
-                      setShowBlockInfo(true);
-                    }}
-                  >
-                    {i18n('icu:moreInfo')}
-                  </button>
-                </>
-              ) : (
-                <Avatar
-                  acceptedMessageRequest={acceptedMessageRequest}
-                  avatarPath={avatarPath}
-                  badge={undefined}
-                  color={color || AvatarColors[0]}
-                  noteToSelf={false}
-                  conversationType="direct"
-                  i18n={i18n}
-                  isMe={isMe}
-                  profileName={profileName}
-                  title={title}
-                  sharedGroupNames={sharedGroupNames}
-                  size={avatarSize}
-                />
-              )}
+              {noVideoNode}
             </CallBackgroundBlur>
           )}
         </div>

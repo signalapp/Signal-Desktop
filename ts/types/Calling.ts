@@ -156,10 +156,12 @@ export enum GroupCallJoinState {
 
 export type GroupCallRemoteParticipantType = ConversationType & {
   aci: AciString;
+  addedTime?: number;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
   isHandRaised: boolean;
+  mediaKeysReceived: boolean;
   presenting: boolean;
   sharingScreen: boolean;
   speakerTime?: number;

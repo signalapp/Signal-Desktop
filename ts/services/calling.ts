@@ -1086,11 +1086,14 @@ export class CallingClass {
           aci = '00000000-0000-4000-8000-000000000000';
         }
         assertDev(isAciString(aci), 'remote participant aci must be a aci');
+
         return {
           aci,
+          addedTime: normalizeGroupCallTimestamp(remoteDeviceState.addedTime),
           demuxId: remoteDeviceState.demuxId,
           hasRemoteAudio: !remoteDeviceState.audioMuted,
           hasRemoteVideo: !remoteDeviceState.videoMuted,
+          mediaKeysReceived: remoteDeviceState.mediaKeysReceived,
           presenting: Boolean(remoteDeviceState.presenting),
           sharingScreen: Boolean(remoteDeviceState.sharingScreen),
           speakerTime: normalizeGroupCallTimestamp(

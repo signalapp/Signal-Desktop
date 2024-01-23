@@ -76,9 +76,11 @@ export type GroupCallPeekInfoType = ReadonlyDeep<{
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type GroupCallParticipantInfoType = {
   aci: AciString;
+  addedTime?: number;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
+  mediaKeysReceived: boolean;
   presenting: boolean;
   sharingScreen: boolean;
   speakerTime?: number;
