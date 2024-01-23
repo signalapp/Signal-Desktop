@@ -7,6 +7,7 @@ import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
+import { SessionRadioGroup, SessionRadioItems } from '../basic/SessionRadioGroup';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
@@ -24,6 +25,7 @@ export interface SessionConfirmDialogProps {
   message?: string;
   messageSub?: string;
   title?: string;
+  radioOptions?: SessionRadioItems;
   onOk?: any;
   onClose?: any;
   closeAfterInput?: boolean;
@@ -55,6 +57,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     title = '',
     message = '',
     messageSub = '',
+    radioOptions,
     okTheme,
     closeTheme = SessionButtonColor.Danger,
     onClickOk,
@@ -69,6 +72,9 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
   } = props;
 
   const [isLoading, setIsLoading] = useState(false);
+  const [chosenOption, setChosenOption] = useState(
+    radioOptions?.length ? radioOptions[0].value : ''
+  );
 
   const okText = props.okText || window.i18n('ok');
   const cancelText = props.cancelText || window.i18n('cancel');
@@ -128,6 +134,18 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
 
         <StyledSubText tag="span" textLength={message.length} html={message} />
         <SessionHtmlRenderer tag="span" className="session-confirm-sub-message" html={messageSub} />
+        {radioOptions && chosenOption !== '' && (
+          <SessionRadioGroup
+            group="session-confirm-radio-group"
+            initialItem={chosenOption}
+            onClick={value => {
+              if (value) {
+                setChosenOption(value);
+              }
+            }}
+            items={radioOptions}
+          />
+        )}
 
         <SessionSpinner loading={isLoading} />
       </div>

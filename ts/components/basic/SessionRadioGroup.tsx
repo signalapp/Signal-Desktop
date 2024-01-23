@@ -4,9 +4,11 @@ import styled, { CSSProperties } from 'styled-components';
 
 import { SessionRadio } from './SessionRadio';
 
+export type SessionRadioItems = Array<{ value: string; label: string }>;
+
 interface Props {
   initialItem: string;
-  items: Array<{ value: string; label: string }>;
+  items: SessionRadioItems;
   group: string;
   onClick: (selectedValue: string) => void;
   style?: CSSProperties;

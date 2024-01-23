@@ -4,10 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import {
-  deleteMessagesById,
-  deleteMessagesByIdForEveryone,
-} from '../../../../../interactions/conversations/unsendingInteractions';
 import { closeMessageDetailsView, closeRightPanel } from '../../../../../state/ducks/conversations';
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../../../state/ducks/section';
 import { getMessageDetailsViewProps } from '../../../../../state/selectors/conversations';
@@ -18,9 +14,9 @@ import {
   replyToMessage,
   resendMessage,
 } from '../../../../../interactions/conversationInteractions';
+import { deleteMessagesById } from '../../../../../interactions/conversations/unsendingInteractions';
 import {
   useMessageIsDeletable,
-  useMessageIsDeletableForEveryone,
   useMessageQuote,
   useMessageText,
 } from '../../../../../state/selectors';
@@ -86,7 +82,6 @@ export const OverlayMessageInfo = () => {
   const rightOverlayMode = useSelector(getRightOverlayMode);
   const messageDetailProps = useSelector(getMessageDetailsViewProps);
   const isDeletable = useMessageIsDeletable(messageDetailProps?.messageId);
-  const isDeletableForEveryone = useMessageIsDeletableForEveryone(messageDetailProps?.messageId);
 
   const dispatch = useDispatch();
 
@@ -232,25 +227,12 @@ export const OverlayMessageInfo = () => {
               )}
               {isDeletable && (
                 <PanelIconButton
-                  text={window.i18n('deleteJustForMe')}
+                  text={window.i18n('delete')}
                   iconType="delete"
                   color={'var(--danger-color)'}
-                  dataTestId="delete-for-me-from-details"
+                  dataTestId="delete-from-details"
                   onClick={() => {
                     void deleteMessagesById([messageId], convoId);
-                    dispatch(closeRightPanel());
-                    dispatch(resetRightOverlayMode());
-                  }}
-                />
-              )}
-              {isDeletableForEveryone && (
-                <PanelIconButton
-                  text={window.i18n('deleteForEveryone')}
-                  iconType="delete"
-                  color={'var(--danger-color)'}
-                  dataTestId="delete-for-everyone-from-details"
-                  onClick={() => {
-                    void deleteMessagesByIdForEveryone([messageId], convoId);
                     dispatch(closeRightPanel());
                     dispatch(resetRightOverlayMode());
                   }}

@@ -380,6 +380,10 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
       message: moreThanOne
         ? window.i18n('deleteMessagesQuestion', [messageCount.toString()])
         : window.i18n('deleteMessageQuestion'),
+      radioOptions: [
+        { label: window.i18n('deleteJustForMe'), value: window.i18n('deleteJustForMe') },
+        { label: window.i18n('deleteForEveryone'), value: window.i18n('deleteForEveryone') },
+      ],
       okText: window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
       onClickOk: async () => {
