@@ -3824,6 +3824,14 @@ button.module-image__border-overlay:focus {
             padding-block: 0 14px;
             padding-inline: 16px;
           }
+
+          .module-ongoing-call__group-call-remote-participant__error-icon {
+            margin-block-end: 16px;
+          }
+
+          .module-ongoing-call__group-call-remote-participant__error {
+            display: block;
+          }
         }
 
         &--hand-raised {
@@ -3861,6 +3869,7 @@ button.module-image__border-overlay:focus {
         margin-bottom: 1rem;
 
         &__footer {
+          height: 40px;
           padding-block: 0 8px;
           padding-inline: 10px;
         }
@@ -4029,28 +4038,60 @@ button.module-image__border-overlay:focus {
       background-color: $color-gray-78;
     }
 
-    &__blocked {
-      @include color-svg('../images/icons/v3/block/block.svg', $color-white);
-      height: 24px;
-      margin-bottom: 16px;
-      width: 24px;
+    &-background .module-calling__background--blur {
+      pointer-events: none;
+    }
 
-      &--info {
-        @include button-reset;
-        background-color: $color-gray-75;
-        border-radius: 16px;
-        color: $color-white;
-        line-height: 16px;
-        padding-block: 3px;
-        padding-inline: 10px;
-      }
+    &__error {
+      // Hide it here in the general case, and reveal it in the grid layout
+      // when @container size is big enough
+      display: none;
 
-      &--modal-title {
+      margin-block-end: 12px;
+      margin-inline: 8px;
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-white;
+      text-align: center;
+      z-index: $z-index-base;
+    }
+
+    &__more-info {
+      @include button-reset;
+      padding-block: 3px;
+      padding-inline: 10px;
+      border-radius: 16px;
+      background-color: $color-gray-75;
+      color: $color-white;
+      font-size: 12px;
+      line-height: 16px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      z-index: $z-index-above-base;
+
+      &-modal-title {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         display: -webkit-box;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+    }
+
+    &__error-icon {
+      width: 24px;
+      height: 24px;
+      margin-block-end: 8px;
+
+      &--blocked {
+        @include color-svg('../images/icons/v3/block/block.svg', $color-white);
+      }
+
+      &--missing-media-keys {
+        @include color-svg(
+          '../images/icons/v3/error/error-circle-solid.svg',
+          $color-white
+        );
       }
     }
 
