@@ -181,7 +181,6 @@ export type StorageAccessType = {
   signaling_key: never;
   signedKeyRotationRejected: number;
 };
-/* eslint-enable camelcase */
 
 export type StorageInterface = {
   onready(callback: () => void): void;

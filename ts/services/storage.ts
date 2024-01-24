@@ -33,6 +33,7 @@ import type { MergeResultType } from './storageRecordOps';
 import { MAX_READ_KEYS } from './storageConstants';
 import type { ConversationModel } from '../models/conversations';
 import { strictAssert } from '../util/assert';
+import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
@@ -900,23 +901,24 @@ async function fetchManifest(
       return decryptManifest(encryptedManifest);
     } catch (err) {
       await stopStorageServiceSync(err);
-      return;
     }
   } catch (err) {
     if (err.code === 204) {
       log.info('storageService.sync: no newer manifest, ok');
-      return;
+      return undefined;
     }
 
     log.error('storageService.sync: failed!', Errors.toLogFormat(err));
 
     if (err.code === 404) {
       await createNewManifest();
-      return;
+      return undefined;
     }
 
     throw err;
   }
+
+  return undefined;
 }
 
 type MergeableItemType = {
@@ -1605,7 +1607,7 @@ async function processRemoteRecords(
     );
 
     // Intentionally not awaiting
-    needProfileFetch.map(convo => convo.getProfiles());
+    needProfileFetch.map(convo => drop(convo.getProfiles()));
 
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();

@@ -12,6 +12,7 @@ import { Avatar } from '../Avatar';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
+import { drop } from '../../util/drop';
 
 const MAX_AVATARS_COUNT = 3;
 
@@ -104,7 +105,11 @@ function TypingBubbleAvatar({
 
   useEffect(() => {
     springApi.stop();
-    springApi.start(AVATAR_ANIMATION_PROPS[visible ? 'visible' : 'hidden']);
+    drop(
+      Promise.all(
+        springApi.start(AVATAR_ANIMATION_PROPS[visible ? 'visible' : 'hidden'])
+      )
+    );
   }, [visible, springApi]);
 
   if (!contact) {
@@ -308,12 +313,20 @@ export function TypingBubble({
       setIsVisible(true);
     }
     typingAnimationSpringApi.stop();
-    typingAnimationSpringApi.start(
-      BUBBLE_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+    drop(
+      Promise.all(
+        typingAnimationSpringApi.start(
+          BUBBLE_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+        )
+      )
     );
     outerDivSpringApi.stop();
-    outerDivSpringApi.start(
-      OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+    drop(
+      Promise.all(
+        outerDivSpringApi.start(
+          OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+        )
+      )
     );
   }, [isSomeoneTyping, typingAnimationSpringApi, outerDivSpringApi]);
 

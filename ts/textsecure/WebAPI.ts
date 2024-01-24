@@ -99,6 +99,7 @@ function _validateResponse(response: any, schema: any) {
         case 'object':
         case 'string':
         case 'number':
+          // eslint-disable-next-line valid-typeof
           if (typeof response[i] !== schema[i]) {
             return false;
           }

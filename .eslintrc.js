@@ -142,6 +142,13 @@ const rules = {
 
   'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
 
+  'jsx-a11y/no-static-element-interactions': 'error',
+
+  '@typescript-eslint/no-non-null-assertion': ['error'],
+  '@typescript-eslint/no-empty-interface': ['error'],
+  'no-empty-function': 'off',
+  '@typescript-eslint/no-empty-function': 'error',
+
   'no-restricted-syntax': [
     'error',
     {

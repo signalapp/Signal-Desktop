@@ -286,7 +286,6 @@ if (!process.mas) {
     });
   }
 }
-/* eslint-enable no-console */
 
 let sqlInitTimeStart = 0;
 let sqlInitTimeEnd = 0;
@@ -501,7 +500,7 @@ async function prepareFileUrl(
   options: PrepareUrlOptions = {}
 ): Promise<string> {
   const filePath = join(...pathSegments);
-  const fileUrl = pathToFileURL(filePath);
+  const fileUrl = pathToFileURL(filePath) as URL;
   return prepareUrl(fileUrl, options);
 }
 

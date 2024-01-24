@@ -266,7 +266,6 @@ export type MessageAttributesType = {
   deletedForEveryoneSendStatus?: Record<string, boolean>;
   deletedForEveryoneFailed?: boolean;
 };
-/* eslint-enable camelcase */
 
 export type ConversationAttributesTypeType = 'private' | 'group';
 
@@ -441,7 +440,6 @@ export type ConversationAttributesType = {
   //   up in that case).
   unblurredAvatarPath?: string;
 };
-/* eslint-enable camelcase */
 
 export type ConversationRenderInfoType = Pick<
   ConversationAttributesType,

@@ -15,8 +15,8 @@ jobs:
           fetch-depth: 0 # fetch all history
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.17.1'
-      - run: npm install -g yarn@1.22.10
+          node-version: '18.18.2'
+      - run: npm install -g yarn@1.22.10 npm@10.2.5
       - name: Cache danger node_modules
         id: cache-desktop-modules
         uses: actions/cache@v3

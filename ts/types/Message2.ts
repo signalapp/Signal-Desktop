@@ -944,13 +944,17 @@ export const deleteAllExternalFiles = ({
     }
 
     if (editHistory && editHistory.length) {
-      await editHistory.map(edit => {
-        if (!edit.attachments || !edit.attachments.length) {
-          return;
-        }
-        return Promise.all(edit.attachments.map(deleteAttachmentData));
-      });
-      await editHistory.map(edit => deletePreviews(edit.preview, deleteOnDisk));
+      await Promise.all(
+        editHistory.map(edit => {
+          if (!edit.attachments || !edit.attachments.length) {
+            return;
+          }
+          return Promise.all(edit.attachments.map(deleteAttachmentData));
+        })
+      );
+      await Promise.all(
+        editHistory.map(edit => deletePreviews(edit.preview, deleteOnDisk))
+      );
     }
   };
 };

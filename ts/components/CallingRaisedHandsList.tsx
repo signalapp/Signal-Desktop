@@ -11,6 +11,7 @@ import type { ServiceIdString } from '../types/ServiceId';
 import type { LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import { ModalHost } from './ModalHost';
+import { drop } from '../util/drop';
 import * as log from '../logging/log';
 import { usePrevious } from '../hooks/usePrevious';
 
@@ -200,19 +201,27 @@ export function CallingRaisedHandsListButton({
     if (raisedHandsCount > prevRaisedHandsCount) {
       setIsVisible(true);
       opacitySpringApi.stop();
-      opacitySpringApi.start({ opacity: 1 });
+      drop(Promise.all(opacitySpringApi.start({ opacity: 1 })));
       scaleSpringApi.stop();
-      scaleSpringApi.start({
-        from: { scale: 0.99 },
-        to: { scale: 1 },
-        config: { velocity: 0.0025 },
-      });
+      drop(
+        Promise.all(
+          scaleSpringApi.start({
+            from: { scale: 0.99 },
+            to: { scale: 1 },
+            config: { velocity: 0.0025 },
+          })
+        )
+      );
     } else if (raisedHandsCount === 0) {
       opacitySpringApi.stop();
-      opacitySpringApi.start({
-        to: { opacity: 0 },
-        onRest: () => onRestAfterAnimateOut,
-      });
+      drop(
+        Promise.all(
+          opacitySpringApi.start({
+            to: { opacity: 0 },
+            onRest: () => onRestAfterAnimateOut,
+          })
+        )
+      );
     }
   }, [
     raisedHandsCount,

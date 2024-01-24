@@ -3,7 +3,7 @@
 import 'urlpattern-polyfill';
 // We need to use the Node.js version of `URL` because chromium's `URL` doesn't
 // support custom protocols correctly.
-import { URL } from 'url';
+import { URL as NodeURL } from 'url';
 import { z } from 'zod';
 import { strictAssert } from './assert';
 import * as log from '../logging/log';
@@ -14,7 +14,7 @@ function toUrl(input: URL | string): URL | null {
     return input;
   }
   try {
-    return new URL(input);
+    return new NodeURL(input) as URL;
   } catch {
     return null;
   }

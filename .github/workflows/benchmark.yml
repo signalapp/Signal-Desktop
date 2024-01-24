@@ -28,9 +28,9 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.17.1'
+        node-version: '18.18.2'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10
+      run: npm install -g yarn@1.22.10 npm@10.2.5
 
     - name: Install xvfb
       run: sudo apt-get install xvfb

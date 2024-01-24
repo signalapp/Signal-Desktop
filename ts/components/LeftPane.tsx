@@ -641,7 +641,6 @@ export function LeftPane({
             'module-left-pane--mode-compose'
         )}
       >
-        {/* eslint-enable jsx-a11y/no-static-element-interactions */}
         <div className="module-left-pane__header">
           {helper.getHeaderContents({
             i18n,

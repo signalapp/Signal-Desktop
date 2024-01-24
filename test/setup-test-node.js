@@ -50,6 +50,8 @@ global.WebSocket = {};
 /* eslint max-classes-per-file: ["error", 2] */
 global.AudioContext = class {};
 global.Audio = class {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   pause() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   addEventListener() {}
 };
