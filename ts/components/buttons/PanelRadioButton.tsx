@@ -6,7 +6,7 @@ import { PanelButton, PanelButtonProps, PanelButtonText, StyledContent } from '.
 const StyledPanelButton = styled(PanelButton)`
   padding-top: var(--margins-lg);
   padding-bottom: var(--margins-lg);
-  text-align: left;
+  text-align: start;
 `;
 
 const StyledCheckContainer = styled.div`

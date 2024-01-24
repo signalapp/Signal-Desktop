@@ -233,8 +233,6 @@ export const OverlayMessageInfo = () => {
                   dataTestId="delete-from-details"
                   onClick={() => {
                     void deleteMessagesById([messageId], convoId);
-                    dispatch(closeRightPanel());
-                    dispatch(resetRightOverlayMode());
                   }}
                 />
               )}

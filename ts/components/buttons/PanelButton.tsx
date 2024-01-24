@@ -17,8 +17,7 @@ export const StyledText = styled.span<{ color?: string }>`
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  /* TODO needs RTL support */
-  text-align: left;
+  text-align: start;
   ${props => props.color && `color: ${props.color};`}
 `;
 
@@ -113,8 +112,7 @@ const StyledSubtitle = styled.p<{ color?: string }>`
   line-height: 1.1;
   margin-top: 0;
   margin-bottom: 0;
-  /* TODO needs RTL support */
-  text-align: left;
+  text-align: start;
   ${props => props.color && `color: ${props.color};`}
 `;
 

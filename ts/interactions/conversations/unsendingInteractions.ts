@@ -12,8 +12,9 @@ import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/Un
 import { ed25519Str } from '../../session/onions/onionPath';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { resetSelectedMessageIds } from '../../state/ducks/conversations';
+import { closeRightPanel, resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { resetRightOverlayMode } from '../../state/ducks/section';
 
 /**
  * Deletes messages for everyone in a 1-1 or everyone in a closed group conversation.
@@ -393,6 +394,8 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
           deleteForEveryone: args === 'deleteForEveryone', // chosenOption from radioOptions
         });
         window.inboxStore?.dispatch(updateConfirmModal(null));
+        window.inboxStore?.dispatch(closeRightPanel());
+        window.inboxStore?.dispatch(resetRightOverlayMode());
       },
       closeAfterInput: false,
     })
