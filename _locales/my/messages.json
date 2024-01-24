@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "ဤချက်(တ်)မှ မက်ဆေ့ချ်များအားလုံးကို ယခုစက်မှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1749,6 +1749,10 @@
     "messageformat": "ပြသမှု ရပ်ရန်",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
+  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "ပါဝင်သူများကို ဖုန်းခေါ်ရန် အဖွဲ့သည် ကြီးလွန်းနေပါသည်။",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1860,6 +1864,14 @@
   "icu:calling__block-info": {
     "messageformat": "၎င်းတို့၏ အသံ သို့မဟုတ် ဗီဒီယိုခေါ်ဆိုမှုကို သင်လက်ခံရရှိမည် မဟုတ်ဘဲ ၎င်းတို့သည် သင့်ခေါ်ဆိုမှုများကို လက်ခံရရှိမည် မဟုတ်ပါ။",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
+  },
+  "icu:calling__missing-media-keys": {
+    "messageformat": "Can't receive audio and video from {name}",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
+  },
+  "icu:calling__missing-media-keys-info": {
+    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "အပေါ်သို့ ဆွဲရန်",
@@ -5532,6 +5544,18 @@
     "messageformat": "သုံးစွဲသူအမည်များတွင် အက္ခရာ {max,number} လုံး အများဆုံး ရှိရပါမည်။",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "icu:ProfileEditor--username--check-discriminator-min": {
+    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
+  },
+  "icu:ProfileEditor--username--check-discriminator-all-zero": {
+    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with 00 as discriminator"
+  },
+  "icu:ProfileEditor--username--check-discriminator-leading-zero": {
+    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "ဤသုံးစွဲသူအမည်ကို မရရှိနိုင်ပါ",
     "description": "Shown if the username is not available for registration"
@@ -5733,11 +5757,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "စာရိုက်ထားသော ရုပ်ပြောင်များကို အီမိုဂျီအဖြစ် ပြောင်းရန်",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "ဥပမာ :-) ကို 🙂 ဟု ပြောင်းခြင်း",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -5773,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "သင်မက်ဆေ့ချ်ပို့သော လူများနှင့် အဖွဲ့များသည် သင်၏ ဖုန်းနံပါတ်ကို မြင်တွေ့ရပါမည်။ သင့်ဖုန်းနံပါတ်ကို ဖုန်းအဆက်အသွယ်များထဲတွင် ထည့်ထားသူများသည်လည်း Signal ပေါ်တွင် သင့်ဖုန်းနံပါတ်ကို တွေ့ရှိရပါမည်။",
+    "messageformat": "Your phone number will be visible to people and groups you message.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "မည်သူမျှ သင့်ဖုန်းနံပါတ်ကို Signal ပေါ်တွင် မြင်နိုင်မည် မဟုတ်ပါ။",
+    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5797,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "အဆက်အသွယ်များထဲတွင် သင့်ဖုန်းနံပါတ်ကို ထည့်ထားသည့် မည်သူမဆိုသည် Signal ပေါ်တွင် သင့်ကို အဆက်အသွယ်တစ်ခုအဖြစ် မြင်ရပါမည်။ အခြားသူများသည် ချက်(တ်) သို့မဟုတ် အဖွဲ့အသစ်တစ်ခု စတင်သည့်အခါတိုင်း သင့်ဖုန်းနံပါတ်ဖြင့် သင့်ထံသို့ ဆက်သွယ်နိုင်ပါမည်။",
+    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Signal ရှိ မည်သူကမျှ သင့်ဖုန်းနံပါတ်ဖြင့် သင့်ကို ဆက်သွယ်နိုင်မည် မဟုတ်ပါ။",
+    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -7016,6 +7040,10 @@
     "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:WhoCanFindMeReadOnlyToast": {
+    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "description": "A toast displayed when user clicks disabled option in settings window"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ",
     "description": "Title for the whats new modal"
@@ -7048,25 +7076,19 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.44--0": {
-    "messageformat": "အသေးစားချို့ယွင်းချက် အနည်းငယ်ကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v6.44--1": {
-    "messageformat": "ကွဲပြားသောဒေသများတွင် တရုတ်၊ ဂျပန်နှင့် ကိုရီးယား အက္ခရာများအား ပြသပုံကို ပိုမိုကောင်းမွန်အောင် လုပ်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v6.44--2": {
-    "messageformat": "ဤထုတ်ဝေမှုတွင် ပံ့ပိုးပါဝင်ခဲ့သည့်အတွက် {linkToGithub1}၊ {linkToGithub2}၊ {linkToGithub3}၊ {linkToGithub4} နှင့် {linkToGithub5} တို့ကို ကျေးဇူးတင်ပါသည်။"
-  },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "ယခုအခါ (“:-)” → “<emojify>🙂</emojify>” အဖြစ် စာရိုက်လိုက်လျှင် ပြောင်းသကဲ့သို့ ရုပ်ပြောင်များကို အီမိုဂျီအဖြစ် ပြောင်းရန် ရွေးချယ်နိုင်ပါပြီ။ သင်၏ Signal Desktop ဆက်တင်ထဲရှိ &quot;ချက်(တ်)&quot; ကဏ္ဍတွင် ဤအင်္ဂါရပ်အသစ်ကို ရှာကြည့်ပါ။"
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "ကီးဘုတ် ရှော့(တ်)ကတ်အသစ် (Ctrl+s/Cmd+s) သည် မီဒီယာကြည့်ရှုမှုမှ ဓာတ်ပုံနှင့် ဗီဒီယိုများကို လျင်မြန်စွာ သိမ်းဆည်းနိုင်စေရန် ကူညီပေးပါသည်။"
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Signal ဗီဒီယိုကောလ်များအတွင်း မျက်နှာပြင်ဝေမျှမှုအတွက် အမြင့်ဆုံး ပုံအရည်အသွေးကို ကျွန်ုပ်တို့ တိုးမြှင့်ထားပါသည်။"
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "ဤထုတ်ဝေမှုတွင် ပံ့ပိုးပါဝင်ခဲ့သည့်အတွက် {linkToGithub1} နှင့် {linkToGithub2} တို့ကို ကျေးဇူးတင်ပါသည်။"
+  },
+  "icu:WhatsNew__v6.46--0": {
+    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
   }
 }

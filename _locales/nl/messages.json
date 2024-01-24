@@ -1139,7 +1139,7 @@
     "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
   },
   "icu:messageFoundButNotLoaded": {
-    "messageformat": "Oorspronkelijk bericht gevonden, maar niet opgehaald. Scroll naar boven om het op te halen.",
+    "messageformat": "Oorspronkelijk bericht gevonden, maar niet opgehaald. Scrol naar boven om het op te halen.",
     "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
   },
   "icu:voiceRecording--start": {
@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Alle berichten in deze chat worden verwijderd van dit apparaat. Je kunt nog steeds naar deze chat zoeken nadat je berichten hebt verwijderd.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1451,7 +1451,7 @@
     "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
-    "messageformat": "Voordat je de groep verlaat, moet je tenminste één beheerder aanwijzen voor deze groep.",
+    "messageformat": "Voordat je de groep verlaat, moet je ten minste één beheerder aanwijzen voor deze groep.",
     "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
@@ -1491,7 +1491,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat deze persoon iets naar je probeerde te verzenden in een één-op-één-gesprek of in een groepsgesprek.",
+    "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat deze persoon iets naar je probeerde te verzenden in een één-op-één-chat of in een groepsgesprek.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "icu:DeliveryIssue--summary--group": {
@@ -1749,6 +1749,10 @@
     "messageformat": "Stoppen met scherm laten zien",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
+  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "De groep is te groot om de leden te bellen.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1860,6 +1864,14 @@
   "icu:calling__block-info": {
     "messageformat": "Je ontvangt hun spraakberichten of video's niet, en zij de jouwe ook niet.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
+  },
+  "icu:calling__missing-media-keys": {
+    "messageformat": "Can't receive audio and video from {name}",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
+  },
+  "icu:calling__missing-media-keys-info": {
+    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Omhoog scrollen",
@@ -4625,7 +4637,7 @@
     "description": "Description for counting muted conversations in badge setting"
   },
   "icu:ContactModal--message": {
-    "messageformat": "Bericht verzenden",
+    "messageformat": "Bericht sturen",
     "description": "Button text for send message button in Group Contact Details modal"
   },
   "icu:ContactModal--rm-admin": {
@@ -4729,7 +4741,7 @@
     "description": "This is a button to unblock a group"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
-    "messageformat": "Voor je de groep verlaat moet je tenminste één beheerder aanwijzen voor deze groep.",
+    "messageformat": "Voor je de groep verlaat moet je ten minste één beheerder aanwijzen voor deze groep.",
     "description": "Shown if, before leaving a group, you need to choose an admin"
   },
   "icu:ConversationDetailsActions--leave-group-modal-title": {
@@ -5025,7 +5037,7 @@
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging aanvaard.",
+    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging aanvaardt.",
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5532,6 +5544,18 @@
     "messageformat": "Gebruikersnamen mogen uit maximaal {max,number} karakters bestaan.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "icu:ProfileEditor--username--check-discriminator-min": {
+    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
+  },
+  "icu:ProfileEditor--username--check-discriminator-all-zero": {
+    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with 00 as discriminator"
+  },
+  "icu:ProfileEditor--username--check-discriminator-leading-zero": {
+    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Deze gebruikersnaam is niet beschikbaar",
     "description": "Shown if the username is not available for registration"
@@ -5657,7 +5681,7 @@
     "description": "Error message when something goes wrong updating your profile."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
-    "messageformat": "Bericht verzenden naar een beheerder",
+    "messageformat": "Bericht sturen naar een beheerder",
     "description": "Modal title for the list of admins in a group"
   },
   "icu:AnnouncementsOnlyGroupBanner--announcements-only": {
@@ -5733,11 +5757,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Converteer getypte emoticons naar emoji",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": ":-) wordt bijvoorbeeld omgezet naar 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -5773,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Je telefoonnummer zal zichtbaar zijn voor iedereen en elke groep waar je een bericht naar stuurt. Mensen die jouw telefoonnummer hebben in hun contactenlijst zullen je ook zien op Signal.",
+    "messageformat": "Your phone number will be visible to people and groups you message.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Niemand zal jouw telefoonnummer zien op Signal.",
+    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5797,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Iedereen die jouw telefoonnummer in hun contacten heeft, ziet jou als contact op Signal. Anderen kunnen je bereiken via je telefoonnummer als ze een nieuwe chat of groep starten.",
+    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Niemand op Signal kan je vinden met jouw telefoonnummer.",
+    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -7016,6 +7040,10 @@
     "messageformat": "{count, plural, one {{count,number} ander is aan het typen.} other {{count,number} anderen zijn aan het typen.}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:WhoCanFindMeReadOnlyToast": {
+    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "description": "A toast displayed when user clicks disabled option in settings window"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat er nieuw is",
     "description": "Title for the whats new modal"
@@ -7048,25 +7076,19 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.44--0": {
-    "messageformat": "• Als het oplossen van een paar kleine bugs telt als een goed voornemen voor het nieuwe jaar, dan is 2024 geweldig begonnen."
-  },
-  "icu:WhatsNew__v6.44--1": {
-    "messageformat": "De regioneutrale fallbacklogica voor lettertypen verbetert de manier waarop CJK-tekens worden weergegeven in verschillende taalgebieden."
-  },
-  "icu:WhatsNew__v6.44--2": {
-    "messageformat": "Wij bedanken {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} en {linkToGithub5} voor hun bijdragen aan deze release!"
-  },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Vanaf nu kun je optioneel emoticons in emoji veranderen. Wil je ‘<emojify>🙂</emojify>’ wanneer je ‘:-)’ typt, ga dan naar ‘Chats’ in Signal Desktop-instellingen om deze functie in te schakelen."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Met een nieuwe sneltoets (Ctrl+s/Cmd+s) kun je snel foto's en video's opslaan vanuit de mediaviewer."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Eén van onze goede voornemens is meer delen. Dus hebben we de maximale resolutie voor schermdeling tijdens video-oproepen resoluut verhoogd. Meer pixels delen, is ook meer delen. Toch?"
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Wij bedanken {linkToGithub1}, {linkToGithub2} voor hun bijdragen aan deze release!"
+  },
+  "icu:WhatsNew__v6.46--0": {
+    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
   }
 }
