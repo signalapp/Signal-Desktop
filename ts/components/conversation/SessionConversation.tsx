@@ -57,7 +57,7 @@ import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { RightPanel } from './right-panel/RightPanel';
+import { RightPanel, StyledRightPanelContainer } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
 
@@ -311,14 +311,9 @@ export class SessionConversation extends React.Component<Props, State> {
                 htmlDirection={this.props.htmlDirection}
               />
             </div>
-            <div
-              className={classNames(
-                'conversation-item__options-pane',
-                isRightPanelShowing && 'show'
-              )}
-            >
+            <StyledRightPanelContainer className={classNames(isRightPanelShowing && 'show')}>
               <RightPanel />
-            </div>
+            </StyledRightPanelContainer>
           </>
         )}
       </SessionTheme>

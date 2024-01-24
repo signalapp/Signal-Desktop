@@ -378,8 +378,8 @@ export const MessageContextMenu = (props: Props) => {
             <Item onClick={onReply}>{window.i18n('replyToMessage')}</Item>
           )}
           <Item
-            onClick={async () => {
-              await showMessageInfoOverlay({ messageId, dispatch });
+            onClick={() => {
+              void showMessageInfoOverlay({ messageId, dispatch });
             }}
           >
             {window.i18n('moreInformation')}

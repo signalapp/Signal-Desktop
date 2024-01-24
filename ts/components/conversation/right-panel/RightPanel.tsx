@@ -7,6 +7,27 @@ import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
 import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
 import { OverlayMessageInfo } from './overlay/message-info/OverlayMessageInfo';
 
+export const StyledRightPanelContainer = styled.div`
+  position: absolute;
+  height: var(--right-panel-height);
+  right: 0vw;
+
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+  will-change: transform;
+  width: var(--right-panel-width);
+  z-index: 5;
+
+  background-color: var(--background-primary-color);
+  border-left: 1px solid var(--border-color);
+
+  &.show {
+    transform: none;
+    transition: transform 0.3s ease-in-out;
+    z-index: 3;
+  }
+`;
+
 const StyledRightPanel = styled(Flex)`
   h2 {
     word-break: break-word;

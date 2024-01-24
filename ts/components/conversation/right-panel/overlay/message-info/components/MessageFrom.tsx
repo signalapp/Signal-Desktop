@@ -10,6 +10,7 @@ const StyledFromContainer = styled.div`
   align-items: center;
   padding: var(--margins-xs) var(--margins-xs) var(--margins-xs) 0;
 `;
+
 const StyledAuthorNamesContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -18,6 +19,7 @@ const StyledAuthorNamesContainer = styled.div`
 const Name = styled.span`
   font-weight: bold;
 `;
+
 const Pubkey = styled.span`
   font-family: var(--font-mono);
   font-size: var(--font-size-md);
