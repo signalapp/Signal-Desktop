@@ -25,7 +25,6 @@ export const getIsAppFocused = createSelector(
   (state: SectionStateType): boolean => state.isAppFocused
 );
 
-// TODO This should probably be renamed to getLeftOverlayMode and the props should be updated.
 export const getLeftOverlayMode = createSelector(
   getSection,
   (state: SectionStateType): LeftOverlayMode | undefined => state.leftOverlayMode
