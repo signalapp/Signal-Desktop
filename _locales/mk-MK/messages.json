@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Пораките во овој разговор ќе бидат избришани од овој уред. Ќе можете да го пронајдате овој разговор и откако ќе ги избришете пораките.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1749,6 +1749,10 @@
     "messageformat": "Престанете со презентирање",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
+  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Групата е преголема за да се јавите на учесниците.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1860,6 +1864,14 @@
   "icu:calling__block-info": {
     "messageformat": "Нема да го добивате нивниот гласовен и видео пренос, ни тие вашиот.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
+  },
+  "icu:calling__missing-media-keys": {
+    "messageformat": "Can't receive audio and video from {name}",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
+  },
+  "icu:calling__missing-media-keys-info": {
+    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Лизгај нагоре",
@@ -5532,6 +5544,18 @@
     "messageformat": "Корисничките имиња мора да имаат максимум {max,number} карактери.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "icu:ProfileEditor--username--check-discriminator-min": {
+    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
+  },
+  "icu:ProfileEditor--username--check-discriminator-all-zero": {
+    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with 00 as discriminator"
+  },
+  "icu:ProfileEditor--username--check-discriminator-leading-zero": {
+    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Ова корисничко име не е достапно",
     "description": "Shown if the username is not available for registration"
@@ -5733,11 +5757,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Претворете ги искуцаните емотикони во емоџи",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "На пример, :-) ќе се претвори во 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -5773,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Вашиот телефонски број ќе биде видлив за луѓето и групите со кои се допишувате. Лицата кои го имаат вашиот број во контакти исто така ќе можат да го видат на Signal.",
+    "messageformat": "Your phone number will be visible to people and groups you message.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Никој нема да го види вашиот телефонски број на Signal.",
+    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5797,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Сите кои го имаат зачувано вашиот телефонски број во контакти ќе можат да ве видат како контакт на Signal. Останатите ќе можат да ве контактираат со вашиот телефонски број кога ќе започнат нов разговор или создадат нова група.",
+    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Никој на Signal нема да може да ве пронајде со вашиот телефонски број.",
+    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -7016,6 +7040,10 @@
     "messageformat": "{count, plural, one {Уште {count,number} лице пишува.} other {Уште {count,number} лица пишуваат.}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:WhoCanFindMeReadOnlyToast": {
+    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "description": "A toast displayed when user clicks disabled option in settings window"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Што е ново",
     "description": "Title for the whats new modal"
@@ -7048,25 +7076,19 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.44--0": {
-    "messageformat": "Поправивме неколку мали багови."
-  },
-  "icu:WhatsNew__v6.44--1": {
-    "messageformat": "Подобрено прикажување на кинеските, јапонските и корејските карактери низ различните локации."
-  },
-  "icu:WhatsNew__v6.44--2": {
-    "messageformat": "Благодарност до {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} и {linkToGithub5} за нивните придонеси во оваа верзија!"
-  },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Сега можете и емотиконите да ги претворите во емоџи додека куцате („:-)“ → „<emojify>🙂</emojify>”). Побарајте ја оваа нова функција во делот „Разговори“ од поставувањата на Signal Desktop."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Со помош на новата кратенка на тастатура (Ctrl+s/Cmd+s) можете брзо да зачувате слики и видеа од прегледувачот на медиумски датотеки."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Исто така ја зголемивме максималната резолуција на споделување на екран во текот на Signal видео повици."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Благодарност до {linkToGithub1} и {linkToGithub2} за нивните придонеси во оваа верзија!"
+  },
+  "icu:WhatsNew__v6.46--0": {
+    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
   }
 }

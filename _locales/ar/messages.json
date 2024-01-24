@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "ستُحذَف رسائل هذه المحادثة من هذا الجهاز. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1749,6 +1749,10 @@
     "messageformat": "إيقاف العرض",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
+  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "إن المجموعة كبيرة جدا لكي يرن التطبيق على المشاركين.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1860,6 +1864,14 @@
   "icu:calling__block-info": {
     "messageformat": "كلاكما لن يتلقّى مكالمة صوتية أو فيديو من الآخر.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
+  },
+  "icu:calling__missing-media-keys": {
+    "messageformat": "Can't receive audio and video from {name}",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
+  },
+  "icu:calling__missing-media-keys-info": {
+    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "تمرير نحو اﻷعلى",
@@ -5532,6 +5544,18 @@
     "messageformat": "يجب أن تحتوي أسماء المستخدمين على {max,number} رموز كحد أقصى.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "icu:ProfileEditor--username--check-discriminator-min": {
+    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
+  },
+  "icu:ProfileEditor--username--check-discriminator-all-zero": {
+    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with 00 as discriminator"
+  },
+  "icu:ProfileEditor--username--check-discriminator-leading-zero": {
+    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "اسم المستخدم هذا غير متاح",
     "description": "Shown if the username is not available for registration"
@@ -5733,11 +5757,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "تحويل الرموز التعبيرية المكتوبة إلى وجوه تعبيرية",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "مثلاً، سَيتم تحويل :-) إلى 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -5773,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "سَيكون رقم هاتفك مرئيًا للأشخاص والمجموعات التي تراسلها. كما أن الأشخاص الذين لديهم رقمك في جهات اتصال هواتفهم سيرونه أيضًا على سيجنال.",
+    "messageformat": "Your phone number will be visible to people and groups you message.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "لن يرى أي أحد رقم هاتفك في سيجنال.",
+    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5797,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "كُل شخص يملك رقم هاتفك في جهات اتصاله سيعثُر عليك كجهة اتصال في سيجنال. سَيتمكن الآخرون من العثور عليك باستخدام رقم هاتفك عند بدء محادثة أو مجموعة جديدة.",
+    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "لن يتمكّن أي شخص على سيجنال من العثور عليك باستخدام رقم هاتفك.",
+    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -7016,6 +7040,10 @@
     "messageformat": "{count, plural, zero {{count,number} آخرون يكتبون.} one {{count,number} آخر يكتب.} two {{count,number} آخران يكتبان.} few {{count,number} آخرون يكتبون.} many {{count,number} آخرين يكتبون.} other {{count,number} آخرون يكتبون.}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:WhoCanFindMeReadOnlyToast": {
+    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "description": "A toast displayed when user clicks disabled option in settings window"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما الجديد",
     "description": "Title for the whats new modal"
@@ -7048,25 +7076,19 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.44--0": {
-    "messageformat": "إذا كان حل بعض الأخطاء الصغيرة يعتبر قرارًا للعام الجديد، فإن عام 2024 سيكون بداية رائعة."
-  },
-  "icu:WhatsNew__v6.44--1": {
-    "messageformat": "أدخلنا تحسينات على كيفية عرض الأحرف الصينية واليابانية والكورية على المحليين."
-  },
-  "icu:WhatsNew__v6.44--2": {
-    "messageformat": "نشكر {linkToGithub1} و {linkToGithub2} و {linkToGithub3} و {linkToGithub4} و{linkToGithub5} على مساهماتهم في هذا الإصدار!"
-  },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "يُمكنك الآن اختيار تحويل الرموز التعبيرية إلى وجوه تعبيرية عند كتابة (“:-)” → “<emojify>🙂</emojify>”). ابحث عن هذه الميزة الجديدة في قسم &quot;الدردشات&quot; في إعدادات سيجنال Desktop."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "يُساعدك اختصار لوحة المفاتيح (Ctrl+s/Cmd+s) على حفظ صور وفيديوهات بسرعة من عارض الوسائط."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "من المُؤسف أننا قمنا بالفعل بإطلاق نكتة حول قرار العام الجديد في ملاحظات الإصدار الخاصة بالتحديث الأخير، لأننا قمنا للتو بزيادة الحد الأقصى للدقة لمُشاركة الشاشة أثناء مكالمات فيديو سيجنال. قرارنا الجديد هو تجنب أي تلاعب في الدقة حتى عام 2025."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "شكرًا لـ {linkToGithub1} و{linkToGithub2} على مُساهماتهم في هذا الإصدار!"
+  },
+  "icu:WhatsNew__v6.46--0": {
+    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
   }
 }

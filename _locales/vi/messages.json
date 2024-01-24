@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Tất cả tin nhắn trong cuộc trò chuyện này sẽ được xóa khỏi thiết bị này. Bạn vẫn có thể tìm cuộc trò chuyện này sau khi xóa tin nhắn.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1749,6 +1749,10 @@
     "messageformat": "Ngưng trình bày",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
+  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Nhóm quá lớn để rung chuông các thành viên",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1860,6 +1864,14 @@
   "icu:calling__block-info": {
     "messageformat": "Bạn sẽ không nhận được âm thanh hoặc video từ họ và họ sẽ không nhận được các dữ liệu này của bạn.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
+  },
+  "icu:calling__missing-media-keys": {
+    "messageformat": "Can't receive audio and video from {name}",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
+  },
+  "icu:calling__missing-media-keys-info": {
+    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Kéo lên",
@@ -5532,6 +5544,18 @@
     "messageformat": "Tên người dùng phải có tối đa {max,number} ký tự.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "icu:ProfileEditor--username--check-discriminator-min": {
+    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
+  },
+  "icu:ProfileEditor--username--check-discriminator-all-zero": {
+    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with 00 as discriminator"
+  },
+  "icu:ProfileEditor--username--check-discriminator-leading-zero": {
+    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Tên người dùng này không khả dụng",
     "description": "Shown if the username is not available for registration"
@@ -5733,11 +5757,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Chuyển đổi biểu tượng cảm xúc khi bạn nhập thành emoji",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "Ví dụ, :-) sẽ được chuyển đổi thành 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -5773,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Số điện thoại của bạn sẽ hiện lên cho những người và nhóm bạn nhắn tin. Những người có số điện thoại của bạn trong danh bạ điện thoại của họ cũng sẽ thấy nó trên Signal.",
+    "messageformat": "Your phone number will be visible to people and groups you message.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Không ai sẽ có thấy số điện thoại của bạn trên Signal.",
+    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5797,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Bất kỳ ai có số điện thoại của bạn trong danh bạ của họ sẽ thấy bạn là một liên hệ trên Signal. Những người khác sẽ có thể liên hệ bạn với số điện thoại của bạn khi họ bắt đầu một cuộc trò chuyện hay nhóm mới.",
+    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Không có ai trên Signal có thể liên hệ với bạn với số điện thoại của bạn.",
+    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -7016,6 +7040,10 @@
     "messageformat": "{count, plural, other {{count,number} người khác đang nhập.}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:WhoCanFindMeReadOnlyToast": {
+    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "description": "A toast displayed when user clicks disabled option in settings window"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Có gì mới",
     "description": "Title for the whats new modal"
@@ -7048,25 +7076,19 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.44--0": {
-    "messageformat": "Chúng tôi đã sửa một số lỗi nhỏ."
-  },
-  "icu:WhatsNew__v6.44--1": {
-    "messageformat": "Cải thiện cách các ký tự của tiếng Trung, tiếng Nhật, và tiếng Hàn hiển thị trong các ngôn ngữ khác nhau."
-  },
-  "icu:WhatsNew__v6.44--2": {
-    "messageformat": "Cảm ơn {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, và {linkToGithub5} vì những đóng góp cho bản cập nhật này!"
-  },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Giờ đây bạn có thể chọn chuyển đổi biểu tượng cảm xúc thành emoji khi bạn nhập (“:-)” → “<emojify>🙂</emojify>”). Tìm tính năng mới này trong mục “Trò chuyện” trong phần tùy chỉnh của Signal Desktop."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Phím tắt mới (Ctrl+s/Cmd+s) giúp bạn nhanh chóng lưu ảnh và video từ trình xem tệp đa phương tiện."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Chúng tôi cũng đã tăng độ phân giải tối đa cho tính năng chia sẻ màn hình trong các cuộc gọi video của Signal."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Cảm ơn {linkToGithub1} và {linkToGithub2} vì những đóng góp cho bản cập nhật này!"
+  },
+  "icu:WhatsNew__v6.46--0": {
+    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
   }
 }

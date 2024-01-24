@@ -1431,7 +1431,7 @@
     "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
-    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ón ngléas seo. Beidh tú in ann cuardach le haghaidh an chomhrá seo fós tar éis duit teachtaireachtaí a scriosadh.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
@@ -1749,6 +1749,10 @@
     "messageformat": "Stop comhroinnt scáileáin",
     "description": "Button tooltip label for stopping screen sharing"
   },
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
+  },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Tá an grúpa ró-mhór le glao a chur ar na rannpháirtithe.",
     "description": "Button tooltip label when you can't ring because the group is too large"
@@ -1860,6 +1864,14 @@
   "icu:calling__block-info": {
     "messageformat": "Ní bhfaighidh tú guthghlaonna ná físghlaonna an duine sin agus a mhalairt de chás.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
+  },
+  "icu:calling__missing-media-keys": {
+    "messageformat": "Can't receive audio and video from {name}",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
+  },
+  "icu:calling__missing-media-keys-info": {
+    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Scrollaigh suas",
@@ -5532,6 +5544,18 @@
     "messageformat": "Ní mór go mbeidh an líon seo carachtar ar a mhó in ainmneacha úsáideora: {max,number}.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "icu:ProfileEditor--username--check-discriminator-min": {
+    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
+  },
+  "icu:ProfileEditor--username--check-discriminator-all-zero": {
+    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with 00 as discriminator"
+  },
+  "icu:ProfileEditor--username--check-discriminator-leading-zero": {
+    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Níl an t-ainm úsáideora seo ar fáil",
     "description": "Shown if the username is not available for registration"
@@ -5733,11 +5757,11 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Convert typed emoticons to emoji",
+    "messageformat": "Tiontaigh straoiseoga clóscríofa ina emoji",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to 🙂",
+    "messageformat": "Mar shampla, tiontófar :-) ina 🙂",
     "description": "Description for the auto convert emoji setting"
   },
   "icu:Preferences--advanced": {
@@ -5773,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Beidh d'uimhir ghutháin infheicthe ag daoine agus grúpaí a seolann tú teachtaireachtaí chucu. Daoine a bhfuil d'uimhir ina gcuid teagmhálaithe gutháin acu, feicfidh siad an uimhir ar Signal freisin.",
+    "messageformat": "Your phone number will be visible to people and groups you message.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Ní fheicfidh duine ar bith d'uimhir ghutháin ar Signal.",
+    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5797,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Daoine a bhfuil d'uimhir ghutháin ina gcuid teagmhálaithe acu, feicfidh siad mar theagmhálaí ar Signal thú. Beidh daoine eile in ann thú a aimsiú le d'uimhir ghutháin nuair a thosaíonn siad comhrá nó grúpa nua.",
+    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Ní bheidh aon duine ar Signal in ann teagmháil a dhéanamh leat le d'uimhir ghutháin.",
+    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -7016,6 +7040,10 @@
     "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:WhoCanFindMeReadOnlyToast": {
+    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "description": "A toast displayed when user clicks disabled option in settings window"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua",
     "description": "Title for the whats new modal"
@@ -7048,25 +7076,19 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.44--0": {
-    "messageformat": "Réitíomar cúpla fabht."
-  },
-  "icu:WhatsNew__v6.44--1": {
-    "messageformat": "Feabhsaigh conas a thaispeántar carachtair sa tSínis, sa tSeapáinis agus sa Chóiréis thar na logchaighdeáin éagsúla."
-  },
-  "icu:WhatsNew__v6.44--2": {
-    "messageformat": "Buíochas le {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4} agus {linkToGithub5} as an méid a chuir siad leis an eisiúint seo!"
-  },
   "icu:WhatsNew__v6.45--0": {
-    "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Anois tá rogha agat straoiseoga a thiontú ina emoji agus tú ag clóscríobh (&quot;:-)&quot; → &quot;<emojify>🙂</emojify>&quot;). Faigh an ghné nua seo sa chuid &quot;Comhráite&quot; de do shocruithe Deasc Signal."
   },
   "icu:WhatsNew__v6.45--1": {
-    "messageformat": "A new keyboard shortcut (Ctrl+s/Cmd+s) helps you quickly save pictures and videos from the media viewer."
+    "messageformat": "Cabhraíonn aicearra méarchláir nua (Ctrl+s/Cmd+s) leat pictiúir agus físeáin ón amharcóir meán a mhearshábháil."
   },
   "icu:WhatsNew__v6.45--2": {
-    "messageformat": "It’s too bad that we already made a New Year's Resolution joke in the release notes for the last update, because we just increased the maximum resolution for screen sharing during Signal video calls. Our new resolution is to avoid any resolution puns until 2025."
+    "messageformat": "Mhéadaíomar freisin an taifeach uasta le haghaidh comhroinnt scáileáin le linn físghlaonna Signal."
   },
   "icu:WhatsNew__v6.45--3": {
-    "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+    "messageformat": "Buíochas le {linkToGithub1} agus {linkToGithub2} as an méid a chuir siad leis an eisiúint seo!"
+  },
+  "icu:WhatsNew__v6.46--0": {
+    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
   }
 }
