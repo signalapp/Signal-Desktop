@@ -54,6 +54,7 @@ type SessionRadioProps = {
   beforeMargins?: string;
   onClick?: (value: string) => void;
   disabled?: boolean;
+  radioPosition?: 'left' | 'right';
   style?: CSSProperties;
 };
 
@@ -66,6 +67,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
     onClick,
     beforeMargins,
     disabled = false,
+    radioPosition = 'left',
     style,
   } = props;
 
@@ -81,7 +83,12 @@ export const SessionRadio = (props: SessionRadioProps) => {
   const outlineOffset = 2;
 
   return (
-    <Flex container={true} style={style}>
+    <Flex
+      container={true}
+      flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
+      justifyContent={radioPosition === 'left' ? 'flex-start' : 'flex-end'}
+      style={style}
+    >
       <StyledInput
         type="radio"
         name={inputName || ''}

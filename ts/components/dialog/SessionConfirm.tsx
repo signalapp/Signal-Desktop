@@ -138,12 +138,13 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
           <SessionRadioGroup
             group="session-confirm-radio-group"
             initialItem={chosenOption}
+            items={radioOptions}
+            radioPosition="right"
             onClick={value => {
               if (value) {
                 setChosenOption(value);
               }
             }}
-            items={radioOptions}
           />
         )}
 
