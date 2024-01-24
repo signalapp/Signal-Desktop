@@ -1,3 +1,48 @@
+diff --git a/node_modules/app-builder-lib/out/macPackager.js b/node_modules/app-builder-lib/out/macPackager.js
+index 9df12c4..fd48a4f 100644
+--- a/node_modules/app-builder-lib/out/macPackager.js
++++ b/node_modules/app-builder-lib/out/macPackager.js
+@@ -194,7 +194,8 @@ class MacPackager extends platformPackager_1.PlatformPackager {
+                     builder_util_1.log.warn("Mac Developer is used to sign app — it is only for development and testing, not for production");
+                 }
+             }
+-            if (identity == null) {
++            const customSign = await (0, platformPackager_1.resolveFunction)(options.sign, "sign");
++            if (!customSign && identity == null) {
+                 await (0, macCodeSign_1.reportError)(isMas, certificateTypes, qualifier, keychainFile, this.forceCodeSigning);
+                 return false;
+             }
+@@ -261,11 +262,11 @@ class MacPackager extends platformPackager_1.PlatformPackager {
+         };
+         builder_util_1.log.info({
+             file: builder_util_1.log.filePath(appPath),
+-            identityName: identity.name,
+-            identityHash: identity.hash,
++            identityName: identity ? identity.name : undefined,
++            identityHash: identity ? identity.hash : undefined,
+             provisioningProfile: signOptions.provisioningProfile || "none",
+         }, "signing");
+-        await this.doSign(signOptions);
++        await this.doSign(signOptions, masOptions);
+         // https://github.com/electron-userland/electron-builder/issues/1196#issuecomment-312310209
+         if (masOptions != null && !isDevelopment) {
+             const certType = isDevelopment ? "Mac Developer" : "3rd Party Mac Developer Installer";
+@@ -332,7 +333,14 @@ class MacPackager extends platformPackager_1.PlatformPackager {
+         return optionsForFile;
+     }
+     //noinspection JSMethodCanBeStatic
+-    doSign(opts) {
++    doSign(opts, masOptions) {
++        const options = masOptions == null ? this.platformSpecificBuildOptions : masOptions;
++
++        const customSign = (0, platformPackager_1.resolveFunction)(options.sign, "sign");
++        if (customSign) {
++            return Promise.resolve(customSign(opts));
++        }
++
+         return (0, osx_sign_1.signAsync)(opts);
+     }
+     //noinspection JSMethodCanBeStatic
 diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
 index fcb7f54..3f27bf3 100644
 --- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
@@ -11,6 +56,28 @@ index fcb7f54..3f27bf3 100644
              }
          }
          const desktopMeta = {
+diff --git a/node_modules/app-builder-lib/scheme.json b/node_modules/app-builder-lib/scheme.json
+index 1d45055..0d0cb9c 100644
+--- a/node_modules/app-builder-lib/scheme.json
++++ b/node_modules/app-builder-lib/scheme.json
+@@ -2784,6 +2784,17 @@
+             "string"
+           ]
+         },
++        "sign": {
++          "anyOf": [
++            {
++              "type": [
++                "null",
++                "string"
++              ]
++            }
++          ],
++          "description": "The custom function (or path to file or module id) to sign macOS files."
++        },
+         "signIgnore": {
+           "anyOf": [
+             {
 diff --git a/node_modules/app-builder-lib/templates/linux/after-install.tpl b/node_modules/app-builder-lib/templates/linux/after-install.tpl
 index 0f541f9..d1e77a0 100644
 --- a/node_modules/app-builder-lib/templates/linux/after-install.tpl

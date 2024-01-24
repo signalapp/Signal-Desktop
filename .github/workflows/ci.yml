@@ -95,9 +95,11 @@ jobs:
       env:
         ARTIFACTS_DIR: artifacts/macos
       timeout-minutes: 5
+    - run: touch noop.sh && chmod +x noop.sh
     - run: yarn build
       env:
         DISABLE_INSPECT_FUSE: on
+        SIGN_MACOS_SCRIPT: noop.sh
     - name: Rebuild native modules for x64
       run: yarn electron:install-app-deps
     - run: yarn test-release
