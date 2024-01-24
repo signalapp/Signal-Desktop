@@ -4,7 +4,7 @@ import { isEmpty, isString } from 'lodash';
 import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
-import { resetOverlayMode, setOverlayMode } from '../../../../state/ducks/section';
+import { resetLeftOverlayMode, setLeftOverlayMode } from '../../../../state/ducks/section';
 
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ContactsListWithBreaks } from './ContactsListWithBreaks';
@@ -47,19 +47,19 @@ const IconOnActionRow = (props: { iconType: SessionIconType }) => {
 export const OverlayChooseAction = () => {
   const dispatch = useDispatch();
   function closeOverlay() {
-    dispatch(resetOverlayMode());
+    dispatch(resetLeftOverlayMode());
   }
 
   const openNewMessage = useCallback(() => {
-    dispatch(setOverlayMode('message'));
+    dispatch(setLeftOverlayMode('message'));
   }, [dispatch]);
 
   const openCreateGroup = useCallback(() => {
-    dispatch(setOverlayMode('closed-group'));
+    dispatch(setLeftOverlayMode('closed-group'));
   }, [dispatch]);
 
   const openJoinCommunity = useCallback(() => {
-    dispatch(setOverlayMode('open-group'));
+    dispatch(setLeftOverlayMode('open-group'));
   }, [dispatch]);
 
   useKey('Escape', closeOverlay);
