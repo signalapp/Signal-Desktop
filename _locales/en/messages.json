@@ -7075,15 +7075,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.44--0": {
-    "messageformat": "If resolving a few small bugs counts as a New Year’s resolution, then 2024 is off to a fantastic start."
-  },
-  "icu:WhatsNew__v6.44--1": {
-    "messageformat": "Region-neutral font fallback logic improves how CJK characters are displayed across different locales."
-  },
-  "icu:WhatsNew__v6.44--2": {
-    "messageformat": "Thanks to {linkToGithub1}, {linkToGithub2}, {linkToGithub3}, {linkToGithub4}, and {linkToGithub5} for their contributions to this release!"
-  },
   "icu:WhatsNew__v6.45--0": {
     "messageformat": "Now you can optionally turn emoticons into emoji. If you want to “<emojify>🙂</emojify>” whenever you type “:-)”, you can enable this feature in the “Chats” section of your Signal Desktop settings."
   },
@@ -7095,5 +7086,8 @@
   },
   "icu:WhatsNew__v6.45--3": {
     "messageformat": "Thanks to {linkToGithub1} and {linkToGithub2} for their contributions to this release!"
+  },
+  "icu:WhatsNew__v6.46--0": {
+    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
   }
 }
