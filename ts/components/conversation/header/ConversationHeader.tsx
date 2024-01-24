@@ -1,23 +1,18 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  isMessageDetailView,
-  isMessageSelectionMode,
-} from '../../../state/selectors/conversations';
+import { isMessageSelectionMode } from '../../../state/selectors/conversations';
 
-import { closeMessageDetailsView, openRightPanel } from '../../../state/ducks/conversations';
+import { openRightPanel } from '../../../state/ducks/conversations';
 
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { Flex } from '../../basic/Flex';
-import { AvatarHeader, BackButton, CallButton } from './ConversationHeaderItems';
+import { AvatarHeader, CallButton } from './ConversationHeaderItems';
 import { SelectionOverlay } from './ConversationHeaderSelectionOverlay';
 import { ConversationHeaderTitle } from './ConversationHeaderTitle';
 
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);
-  // TODO remove I think?
-  const isMessageDetailOpened = useSelector(isMessageDetailView);
   const selectedConvoKey = useSelectedConversationKey();
   const dispatch = useDispatch();
 
@@ -29,18 +24,11 @@ export const ConversationHeaderWithDetails = () => {
     <div className="module-conversation-header">
       <Flex
         container={true}
-        justifyContent={isMessageDetailOpened ? 'space-between' : 'flex-end'}
+        justifyContent={'flex-end'}
         alignItems="center"
         width="100%"
         flexGrow={1}
       >
-        {/* TODO do we remove */}
-        <BackButton
-          onGoBack={() => {
-            dispatch(closeMessageDetailsView());
-          }}
-          showBackButton={isMessageDetailOpened}
-        />
         <ConversationHeaderTitle />
 
         {!isSelectionMode && (
@@ -57,7 +45,6 @@ export const ConversationHeaderWithDetails = () => {
                 dispatch(openRightPanel());
               }}
               pubkey={selectedConvoKey}
-              showBackButton={isMessageDetailOpened}
             />
           </Flex>
         )}

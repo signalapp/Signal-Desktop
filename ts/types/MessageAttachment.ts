@@ -15,8 +15,7 @@ import {
   replaceUnicodeV2,
 } from './attachments/migrations';
 
-// I think this is only used on the renderer side, but how?!
-
+// NOTE I think this is only used on the renderer side, but how?!
 export const deleteExternalMessageFiles = async (message: {
   attachments: any;
   quote: any;

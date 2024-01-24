@@ -16,18 +16,16 @@ import { SessionIconButton } from '../../icon';
 
 export const AvatarHeader = (props: {
   pubkey: string;
-  showBackButton: boolean;
   onAvatarClick?: (pubkey: string) => void;
 }) => {
-  const { pubkey, onAvatarClick, showBackButton } = props;
+  const { pubkey, onAvatarClick } = props;
 
   return (
     <span className="module-conversation-header__avatar">
       <Avatar
         size={AvatarSize.S}
         onAvatarClick={() => {
-          // do not allow right panel to appear if another button is shown on the SessionConversation
-          if (onAvatarClick && !showBackButton) {
+          if (onAvatarClick) {
             onAvatarClick(pubkey);
           }
         }}
