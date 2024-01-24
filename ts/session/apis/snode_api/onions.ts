@@ -4,7 +4,7 @@ import { AbortSignal } from 'abort-controller';
 import ByteBuffer from 'bytebuffer';
 import { to_string } from 'libsodium-wrappers-sumo';
 import { cloneDeep, isEmpty, isString, omit } from 'lodash';
-import { RequestInit, Response, default as insecureNodeFetch } from 'node-fetch';
+import insecureNodeFetch, { RequestInit, Response } from 'node-fetch';
 import pRetry from 'p-retry';
 // eslint-disable-next-line import/no-unresolved
 import { AbortSignal as AbortSignalNode } from 'node-fetch/externals';
