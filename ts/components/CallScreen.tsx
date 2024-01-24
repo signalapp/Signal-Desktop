@@ -71,6 +71,7 @@ import {
   PersistentCallingToast,
   useCallingToasts,
 } from './CallingToast';
+import { handleOutsideClick } from '../util/handleOutsideClick';
 import { Spinner } from './Spinner';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
@@ -327,6 +328,22 @@ export function CallScreen({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [toggleAudio, toggleVideo]);
+
+  useEffect(() => {
+    if (!showReactionPicker) {
+      return noop;
+    }
+    return handleOutsideClick(
+      () => {
+        setShowReactionPicker(false);
+        return true;
+      },
+      {
+        containerElements: [reactButtonRef, reactionPickerContainerRef],
+        name: 'CallScreen.reactionPicker',
+      }
+    );
+  }, [showReactionPicker]);
 
   useScreenSharingStoppedToast({ activeCall, i18n });
   useViewModeChangedToast({ activeCall, i18n });
