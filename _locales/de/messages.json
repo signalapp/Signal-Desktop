@@ -5385,7 +5385,7 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Lege eine Standardablaufzeit für verschwindende Nachrichten aller von dir begonnenen neuen Chats fest.",
+    "messageformat": "Lege eine Standardablaufzeit für verschwindende Nachrichten fest. Diese gilt für alle von dir begonnenen neuen Chats.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__timer__label": {
@@ -6853,7 +6853,7 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR-Code und Link nicht festgelegt. Überprüfe deine Netzverbindung und versuche es erneut.",
+    "messageformat": "QR-Code und Link konnte nicht festgelegt werden. Überprüfe deine Netzverbindung und versuche es erneut.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
