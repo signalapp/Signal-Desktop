@@ -32,8 +32,9 @@ export interface SessionConfirmDialogProps {
 
   /**
    * function to run on ok click. Closes modal after execution by default
+   * sometimes the callback might need arguments when using radioOptions
    */
-  onClickOk?: () => Promise<void> | void;
+  onClickOk?: (...args: Array<any>) => Promise<void> | void;
 
   onClickClose?: () => any;
 
@@ -84,7 +85,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     if (onClickOk) {
       setIsLoading(true);
       try {
-        await onClickOk();
+        await onClickOk(chosenOption !== '' ? chosenOption : undefined);
       } catch (e) {
         window.log.warn(e);
       } finally {
