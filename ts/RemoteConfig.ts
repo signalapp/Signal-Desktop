@@ -23,7 +23,6 @@ export type ConfigKeyType =
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
   | 'desktop.pnp'
-  | 'desktop.pnp.accountE164Deprecation'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.senderKey.retry'
   | 'desktop.senderKeyMaxAge'
