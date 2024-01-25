@@ -62,7 +62,6 @@ import type {
 } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
-import * as RemoteConfig from '../RemoteConfig';
 import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
 import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
 import { drop } from '../util/drop';
@@ -174,7 +173,7 @@ export async function toContactRecord(
     contactRecord.username = username;
   }
   const pni = conversation.getPni();
-  if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
+  if (pni) {
     contactRecord.pni = toUntaggedPni(pni);
   }
   const profileKey = conversation.get('profileKey');
@@ -989,11 +988,9 @@ export async function mergeContactRecord(
         : undefined,
   };
 
-  const isPniSupported = RemoteConfig.isEnabled('desktop.pnp');
-
   const e164 = dropNull(contactRecord.serviceE164);
   const { aci } = contactRecord;
-  const pni = isPniSupported ? dropNull(contactRecord.pni) : undefined;
+  const pni = dropNull(contactRecord.pni);
   const serviceId = aci || pni;
 
   // All contacts must have UUID
