@@ -69,16 +69,20 @@
 
   &__error {
     @include font-body-2;
-    margin-block: 16px;
-    margin-inline: 0;
+    margin-block: 8px 12px;
+    margin-inline: 6px;
+    font-size: 12px;
+    line-height: 17px;
 
     color: $color-accent-red;
   }
 
   &__info {
     @include font-body-2;
-    margin-block: 16px;
-    margin-inline: 0;
+    font-size: 12px;
+    line-height: 17px;
+    margin-block: 12px;
+    margin-inline: 6px;
 
     @include light-theme {
       color: $color-gray-60;
@@ -87,10 +91,10 @@
       color: $color-gray-25;
     }
 
-    // To account for missing error section - 16px previous margin, 34px for
-    //   16px margin of error plus 18px line height.
+    // To account for missing error section: 8px top margin, 17px line height,
+    //   12px bottom margin.
     &--no-error {
-      margin-bottom: 50px;
+      margin-bottom: 37px;
     }
   }
 
@@ -124,5 +128,9 @@
 
       -webkit-mask: url(../images/icons/v2/hashtag-24.svg) no-repeat center;
     }
+  }
+
+  &__input__container.Input__container {
+    margin-block-end: 8px;
   }
 }

@@ -6839,6 +6839,10 @@
     "messageformat": "Continue",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:UsernameLinkModalBody__hint": {
+    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+  },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "Save",
     "description": "Name of the button for saving username link QR code to disk in the username link modal"

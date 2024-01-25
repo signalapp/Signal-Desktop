@@ -22,6 +22,7 @@
 
     padding-block: 22px;
     padding-inline: 28px;
+    margin-block-start: 8px;
     background: var(--bg-color);
     border-radius: 18px;
     max-width: 204px;
@@ -53,16 +54,6 @@
 
       &__blotches {
         width: 100%;
-      }
-
-      &__logo {
-        --size: 25px;
-        position: absolute;
-        top: calc(50% - var(--size) / 2);
-        inset-inline-start: calc(50% - var(--size) / 2);
-        width: var(--size);
-        height: var(--size);
-        @include color-svg('../images/signal-qr-logo.svg', var(--fg-color));
       }
 
       &__error-icon {

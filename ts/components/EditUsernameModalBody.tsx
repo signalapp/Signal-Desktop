@@ -273,7 +273,7 @@ export function EditUsernameModalBody({
       </div>
 
       <Input
-        moduleClassName="Edit"
+        moduleClassName="EditUsernameModalBody__input"
         i18n={i18n}
         disableSpellcheck
         disabled={isConfirming}

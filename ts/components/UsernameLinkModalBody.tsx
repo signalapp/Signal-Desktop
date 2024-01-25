@@ -16,6 +16,7 @@ import type { LocalizerType } from '../types/Util';
 import { IMAGE_PNG } from '../types/MIME';
 import { strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
+import { splitText } from '../util/splitText';
 import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -39,59 +40,95 @@ export type PropsType = Readonly<{
 export type ColorMapEntryType = Readonly<{
   fg: string;
   bg: string;
+  tint: string;
 }>;
 
 const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
 
-const DEFAULT_PRESET: ColorMapEntryType = { fg: '#2449c0', bg: '#506ecd' };
+const DEFAULT_PRESET: ColorMapEntryType = {
+  fg: '#2449c0',
+  bg: '#506ecd',
+  tint: '#ecf0fb',
+};
 
 export const COLOR_MAP: ReadonlyMap<number, ColorMapEntryType> = new Map([
   [ColorEnum.BLUE, DEFAULT_PRESET],
-  [ColorEnum.WHITE, { fg: '#000000', bg: '#ffffff' }],
-  [ColorEnum.GREY, { fg: '#464852', bg: '#6a6c74' }],
-  [ColorEnum.OLIVE, { fg: '#73694f', bg: '#a89d7f' }],
-  [ColorEnum.GREEN, { fg: '#55733f', bg: '#829a6e' }],
-  [ColorEnum.ORANGE, { fg: '#d96b2d', bg: '#de7134' }],
-  [ColorEnum.PINK, { fg: '#bb617b', bg: '#e67899' }],
-  [ColorEnum.PURPLE, { fg: '#7651c5', bg: '#9c84cf' }],
+  [ColorEnum.WHITE, { fg: '#000000', bg: '#ffffff', tint: '#f5f5f5' }],
+  [ColorEnum.GREY, { fg: '#464852', bg: '#6a6c75', tint: '#f0f0f1' }],
+  [ColorEnum.OLIVE, { fg: '#73694f', bg: '#aa9c7c', tint: '#f6f5f2' }],
+  [ColorEnum.GREEN, { fg: '#55733f', bg: '#7c9b69', tint: '#f1f5f0' }],
+  [ColorEnum.ORANGE, { fg: '#d96b2d', bg: '#ee691a', tint: '#fef1ea' }],
+  [ColorEnum.PINK, { fg: '#bb617b', bg: '#f77099', tint: '#fef1f5' }],
+  [ColorEnum.PURPLE, { fg: '#7651c5', bg: '#a183d4', tint: '#f5f3fb' }],
 ]);
+
+const LOGO_PATH =
+  'M16.904 32.723V35a17.034 17.034 0 0 1-5.594-1.334l.595-2.22a14.763 14' +
+  '.763 0 0 0 5 1.277ZM9.119 33.064l.667-2.49-5.707 1.338 1.18-5.034-2.3' +
+  '82.209-1.22 5.204A1.7 1.7 0 0 0 3.7 34.334l5.419-1.27ZM3.28 19.159c.1' +
+  '5 1.91.671 3.77 1.53 5.477l-2.41.21a17.037 17.037 0 0 1-1.397-5.688H3' +
+  '.28ZM3.277 16.885H1c.146-2.223.727-4.4 1.712-6.403l1.972 1.139a14.765' +
+  ' 14.765 0 0 0-1.407 5.264ZM5.821 9.652 3.85 8.513a17.035 17.035 0 0 1' +
+  ' 4.69-4.68l1.138 1.972a14.763 14.763 0 0 0-3.856 3.847ZM11.648 4.672l' +
+  '-1.139-1.973c2-.978 4.172-1.556 6.395-1.699v2.277a14.762 14.762 0 0 0' +
+  '-5.256 1.395ZM19.177 3.283c1.816.145 3.593.625 5.24 1.42l1.137-1.973a' +
+  '17.034 17.034 0 0 0-6.377-1.725v2.278ZM29.795 9.118c.14.186.276.376.4' +
+  '07.568l1.971-1.139a17.035 17.035 0 0 0-4.654-4.675l-1.138 1.973a14.76' +
+  '3 14.763 0 0 1 3.414 3.273ZM32.52 15.322c.096.518.163 1.04.203 1.563H' +
+  '35a17.048 17.048 0 0 0-1.694-6.367l-1.973 1.14c.552 1.16.952 2.391 1.' +
+  '187 3.664ZM32.188 22.09a14.759 14.759 0 0 1-.871 2.287l1.972 1.139a17' +
+  '.032 17.032 0 0 0 1.708-6.357H32.72a14.768 14.768 0 0 1-.532 2.93ZM28' +
+  '.867 27.995a14.757 14.757 0 0 1-2.504 2.173l1.139 1.973a17.028 17.028' +
+  ' 0 0 0 4.65-4.657l-1.972-1.139c-.396.58-.835 1.13-1.313 1.65ZM23.259 ' +
+  '31.797c-1.314.5-2.69.809-4.082.92v2.278a17.033 17.033 0 0 0 6.358-1.7' +
+  '16l-1.139-1.972c-.371.179-.75.342-1.137.49Z M11.66 7.265a12.463 12.46' +
+  '3 0 0 1 11.9-.423 12.466 12.466 0 0 1 6.42 14.612 12.47 12.47 0 0 1-1' +
+  '3.21 8.954 12.462 12.462 0 0 1-5.411-1.857L6.246 29.75l1.199-5.115a12' +
+  '.47 12.47 0 0 1 4.216-17.37Z';
 
 const CLASS = 'UsernameLinkModalBody';
 const AUTODETECT_TYPE_NUMBER = 0;
 const ERROR_CORRECTION_LEVEL = 'H';
-const CENTER_CUTAWAY_PERCENTAGE = 32 / 184;
+const CENTER_CUTAWAY_PERCENTAGE = 30 / 184;
+const CENTER_LOGO_PERCENTAGE = 38 / 184;
+const QR_NATIVE_SIZE = 36;
 
-const PRINT_WIDTH = 296;
-const DEFAULT_PRINT_HEIGHT = 324;
-const PRINT_SHADOW_BLUR = 4;
-const PRINT_CARD_RADIUS = 24;
-const PRINT_MAX_USERNAME_WIDTH = 222;
-const PRINT_USERNAME_LINE_HEIGHT = 25;
-const PRINT_USERNAME_Y = 269;
+export const PRINT_WIDTH = 424;
+export const PRINT_HEIGHT = 576;
+const PRINT_PIXEL_RATIO = 3;
 const PRINT_QR_SIZE = 184;
-const PRINT_QR_Y = 48;
-const PRINT_QR_PADDING = 16;
-const PRINT_QR_PADDING_RADIUS = 12;
-const PRINT_DPI = 224;
-const PRINT_LOGO_SIZE = 36;
+const PRINT_DPI = 300;
+const BASE_PILL_WIDTH = 296;
+const BASE_PILL_HEIGHT = 324;
+const USERNAME_TOP = 352;
+const USERNAME_MAX_WIDTH = 222;
+const USERNAME_LINE_HEIGHT = 26;
+const USERNAME_FONT = `600 20px/${USERNAME_LINE_HEIGHT}px Inter`;
+const USERNAME_LETTER_SPACING = -0.34;
+
+const HINT_BASE_TOP = 447;
+const HINT_MAX_WIDTH = 296;
+const HINT_LINE_HEIGHT = 17;
+const HINT_FONT = `400 14px/${HINT_LINE_HEIGHT}px Inter`;
+const HINT_LETTER_SPACING = 0;
 
 type BlotchesPropsType = Readonly<{
-  className?: string;
+  size: number;
   link: string;
   color: string;
 }>;
 
-function Blotches({ className, link, color }: BlotchesPropsType): JSX.Element {
+function QRCode({ size, link, color }: BlotchesPropsType): JSX.Element {
   const qr = QR(AUTODETECT_TYPE_NUMBER, ERROR_CORRECTION_LEVEL);
   qr.addData(link);
   qr.make();
 
-  const size = qr.getModuleCount();
-  const center = size / 2;
-  const radius = CENTER_CUTAWAY_PERCENTAGE * size;
+  const moduleCount = qr.getModuleCount();
+  const center = moduleCount / 2;
+  const radius = CENTER_CUTAWAY_PERCENTAGE * moduleCount;
 
   function hasPixel(x: number, y: number): boolean {
-    if (x < 0 || y < 0 || x >= size || y >= size) {
+    if (x < 0 || y < 0 || x >= moduleCount || y >= moduleCount) {
       return false;
     }
 
@@ -100,7 +137,7 @@ function Blotches({ className, link, color }: BlotchesPropsType): JSX.Element {
     );
 
     // Center and 1 dot away should remain clear for the logo placement.
-    if (Math.ceil(distanceFromCenter) <= radius + 2) {
+    if (Math.ceil(distanceFromCenter) <= radius + 3) {
       return false;
     }
 
@@ -108,8 +145,8 @@ function Blotches({ className, link, color }: BlotchesPropsType): JSX.Element {
   }
 
   const path = [];
-  for (let y = 0; y < size; y += 1) {
-    for (let x = 0; x < size; x += 1) {
+  for (let y = 0; y < moduleCount; y += 1) {
+    for (let x = 0; x < moduleCount; x += 1) {
       if (!hasPixel(x, y)) {
         continue;
       }
@@ -135,21 +172,89 @@ function Blotches({ className, link, color }: BlotchesPropsType): JSX.Element {
     }
   }
 
+  const QR_SCALE = size / 2 / moduleCount;
+
+  const CENTER_X = size / 2;
+  const CENTER_Y = size / 2;
+  const LOGO_SIZE = CENTER_LOGO_PERCENTAGE * size;
+  const LOGO_X = CENTER_X - LOGO_SIZE / 2;
+  const LOGO_Y = CENTER_Y - LOGO_SIZE / 2;
+  const LOGO_SCALE = LOGO_SIZE / QR_NATIVE_SIZE;
+
+  return (
+    <>
+      <g transform={`scale(${QR_SCALE} ${QR_SCALE})`}>
+        <path d={path.join('')} fill={color} />
+
+        <circle
+          cx={moduleCount}
+          cy={moduleCount}
+          r={radius * 2}
+          stroke={color}
+          strokeWidth={2}
+        />
+      </g>
+
+      <g
+        transform={`translate(${LOGO_X} ${LOGO_Y}) scale(${LOGO_SCALE} ${LOGO_SCALE})`}
+      >
+        <path fill={color} d={LOGO_PATH} />
+      </g>
+    </>
+  );
+}
+
+type ExportedImagePropsType = Readonly<{
+  link: string;
+  colorId: number;
+  usernameLines: number;
+}>;
+
+function ExportedImage({
+  link,
+  colorId,
+  usernameLines,
+}: ExportedImagePropsType): JSX.Element {
+  const { fg, bg, tint } = COLOR_MAP.get(colorId) ?? DEFAULT_PRESET;
+
+  const isWhiteBackground = colorId === ColorEnum.WHITE;
+
+  const extraHeight = (usernameLines - 1) * USERNAME_LINE_HEIGHT;
+  const pillHeight = BASE_PILL_HEIGHT + extraHeight;
+
   return (
     <svg
-      className={className}
-      viewBox={`0 0 ${2 * size} ${2 * size}`}
+      style={{ position: 'absolute' }}
+      viewBox={`0 0 ${PRINT_WIDTH} ${PRINT_HEIGHT}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle
-        cx={size}
-        cy={size}
-        r={radius * 2}
-        stroke={color}
-        strokeWidth={2}
-      />
-      <path d={path.join('')} fill={color} />
+      <rect width={PRINT_WIDTH} height={PRINT_HEIGHT} fill={tint} />
+
+      {/* QR + Username pill */}
+      <g transform="translate(64, 80)">
+        <rect width={BASE_PILL_WIDTH} height={pillHeight} rx="32" fill={bg} />
+
+        {/* QR code with a frame */}
+        <g transform="translate(40, 32)">
+          {isWhiteBackground ? (
+            <rect
+              width="216"
+              height="216"
+              rx="12"
+              fill="white"
+              strokeWidth="2"
+              stroke="#e9e9e9"
+            />
+          ) : (
+            <rect width="216" height="216" rx="12" fill="white" />
+          )}
+
+          <g transform="translate(16, 16)">
+            <QRCode size={PRINT_QR_SIZE} link={link} color={fg} />
+          </g>
+        </g>
+      </g>
     </svg>
   );
 }
@@ -157,39 +262,29 @@ function Blotches({ className, link, color }: BlotchesPropsType): JSX.Element {
 type CreateCanvasAndContextOptionsType = Readonly<{
   width: number;
   height: number;
-  devicePixelRatio?: number;
 }>;
 
 function createCanvasAndContext({
   width,
   height,
-  devicePixelRatio = window.devicePixelRatio,
 }: CreateCanvasAndContextOptionsType): [
   OffscreenCanvas,
   OffscreenCanvasRenderingContext2D
 ] {
   const canvas = new OffscreenCanvas(
-    devicePixelRatio * width,
-    devicePixelRatio * height
+    PRINT_PIXEL_RATIO * width,
+    PRINT_PIXEL_RATIO * height
   );
 
   const context = canvas.getContext('2d');
   strictAssert(context, 'Failed to get 2d context');
 
   // Retina support
-  context.scale(devicePixelRatio, devicePixelRatio);
+  context.scale(PRINT_PIXEL_RATIO, PRINT_PIXEL_RATIO);
 
-  // Font config
-  context.font = `600 20px/${PRINT_USERNAME_LINE_HEIGHT}px Inter`;
+  // Common font config
   context.textAlign = 'center';
   context.textBaseline = 'top';
-
-  // Experimental Chrome APIs
-  (
-    context as unknown as {
-      letterSpacing: number;
-    }
-  ).letterSpacing = -0.34;
   (
     context as unknown as {
       textRendering: string;
@@ -201,155 +296,74 @@ function createCanvasAndContext({
   return [canvas, context];
 }
 
-type GetLogoCanvasOptionsType = Readonly<{
-  fgColor: string;
-  imageUrl?: string;
-  devicePixelRatio?: number;
+type CreateTextMeasurerOptionsType = Readonly<{
+  font: string;
+  letterSpacing: number;
+  maxWidth: number;
 }>;
 
-async function getLogoCanvas({
-  fgColor,
-  imageUrl = 'images/signal-qr-logo.svg',
-  devicePixelRatio,
-}: GetLogoCanvasOptionsType): Promise<OffscreenCanvas> {
-  const img = new Image();
-  await new Promise((resolve, reject) => {
-    img.addEventListener('load', resolve);
-    img.addEventListener('error', () =>
-      reject(new Error('Failed to load image'))
-    );
-    img.src = imageUrl;
-  });
-
-  const [canvas, context] = createCanvasAndContext({
-    width: PRINT_LOGO_SIZE,
-    height: PRINT_LOGO_SIZE,
-    devicePixelRatio,
-  });
-
-  context.fillStyle = fgColor;
-  context.fillRect(0, 0, PRINT_LOGO_SIZE, PRINT_LOGO_SIZE);
-  context.globalCompositeOperation = 'destination-in';
-  context.drawImage(img, 0, 0, PRINT_LOGO_SIZE, PRINT_LOGO_SIZE);
-
-  return canvas;
-}
-
-function splitUsername(username: string): Array<string> {
-  const result = new Array<string>();
-
+function createTextMeasurer({
+  font,
+  letterSpacing,
+  maxWidth,
+}: CreateTextMeasurerOptionsType): (text: string) => boolean {
   const [, context] = createCanvasAndContext({ width: 1, height: 1 });
 
-  // Compute number of lines and height of username
-  for (let i = 0, last = 0; i < username.length; i += 1) {
-    const part = username.slice(last, i);
-    if (context.measureText(part).width > PRINT_MAX_USERNAME_WIDTH) {
-      result.push(username.slice(last, i - 1));
-      last = i - 1;
-    } else if (i === username.length - 1) {
-      result.push(username.slice(last));
+  context.font = font;
+  // Experimental Chrome APIs
+  (
+    context as unknown as {
+      letterSpacing: number;
     }
-  }
+  ).letterSpacing = letterSpacing;
 
-  return result;
+  return value => context.measureText(value).width > maxWidth;
 }
 
 type GenerateImageURLOptionsType = Readonly<{
   link: string;
   username: string;
+  hint: string;
   colorId: number;
-  bgColor: string;
-  fgColor: string;
-
-  // For testing
-  logoUrl?: string;
-  devicePixelRatio?: number;
 }>;
 
 // Exported for testing
 export async function _generateImageBlob({
   link,
   username,
+  hint,
   colorId,
-  bgColor,
-  fgColor,
-  logoUrl,
-  devicePixelRatio,
 }: GenerateImageURLOptionsType): Promise<Blob> {
-  const usernameLines = splitUsername(username);
-  const usernameHeight = PRINT_USERNAME_LINE_HEIGHT * usernameLines.length;
-
-  const isWhiteBackground = colorId === ColorEnum.WHITE;
-
-  const padding = isWhiteBackground ? PRINT_SHADOW_BLUR : 0;
-
-  const totalHeight =
-    DEFAULT_PRINT_HEIGHT - PRINT_USERNAME_LINE_HEIGHT + usernameHeight;
-  const [canvas, context] = createCanvasAndContext({
-    width: PRINT_WIDTH + 2 * padding,
-    height: totalHeight + 2 * padding,
-    devicePixelRatio,
+  const usernameLines = splitText(username, {
+    granularity: 'grapheme',
+    shouldBreak: createTextMeasurer({
+      maxWidth: USERNAME_MAX_WIDTH,
+      font: USERNAME_FONT,
+      letterSpacing: USERNAME_LETTER_SPACING,
+    }),
   });
 
-  // Draw card
-  context.save();
-  if (isWhiteBackground) {
-    context.shadowColor = 'rgba(0, 0, 0, 0.08)';
-    context.shadowBlur = PRINT_SHADOW_BLUR;
-  }
-  context.fillStyle = bgColor;
-  context.beginPath();
-  context.roundRect(
-    padding,
-    padding,
-    PRINT_WIDTH,
-    totalHeight,
-    PRINT_CARD_RADIUS
+  const hintLines = splitText(hint, {
+    granularity: 'word',
+    shouldBreak: createTextMeasurer({
+      maxWidth: HINT_MAX_WIDTH,
+      font: HINT_FONT,
+      letterSpacing: HINT_LETTER_SPACING,
+    }),
+  });
+
+  const [canvas, context] = createCanvasAndContext({
+    width: PRINT_WIDTH,
+    height: PRINT_HEIGHT,
+  });
+
+  const svg = renderToStaticMarkup(
+    <ExportedImage
+      link={link}
+      colorId={colorId}
+      usernameLines={usernameLines.length}
+    />
   );
-  context.fill();
-  context.restore();
-
-  // Draw padding around QR code
-  context.save();
-  context.fillStyle = '#fff';
-  const sizeWithPadding = PRINT_QR_SIZE + 2 * PRINT_QR_PADDING;
-  context.beginPath();
-  context.roundRect(
-    padding + (PRINT_WIDTH - sizeWithPadding) / 2,
-    padding + PRINT_QR_Y - PRINT_QR_PADDING,
-    sizeWithPadding,
-    sizeWithPadding,
-    PRINT_QR_PADDING_RADIUS
-  );
-  context.fill();
-  if (isWhiteBackground) {
-    context.lineWidth = 2;
-    context.strokeStyle = '#e9e9e9';
-    context.stroke();
-  }
-  context.restore();
-
-  // Draw username
-  context.fillStyle = isWhiteBackground ? '#000' : '#fff';
-  for (const [i, line] of usernameLines.entries()) {
-    context.fillText(
-      line,
-      padding + PRINT_WIDTH / 2,
-      PRINT_USERNAME_Y + i * PRINT_USERNAME_LINE_HEIGHT
-    );
-  }
-
-  // Draw logo
-  context.drawImage(
-    await getLogoCanvas({ fgColor, imageUrl: logoUrl, devicePixelRatio }),
-    padding + (PRINT_WIDTH - PRINT_LOGO_SIZE) / 2,
-    padding + PRINT_QR_Y + (PRINT_QR_SIZE - PRINT_LOGO_SIZE) / 2,
-    PRINT_LOGO_SIZE,
-    PRINT_LOGO_SIZE
-  );
-
-  // Draw QR code
-  const svg = renderToStaticMarkup(Blotches({ link, color: fgColor }));
   const svgURL = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
   const img = new Image();
@@ -361,13 +375,42 @@ export async function _generateImageBlob({
     img.src = svgURL;
   });
 
-  context.drawImage(
-    img,
-    padding + (PRINT_WIDTH - PRINT_QR_SIZE) / 2,
-    PRINT_QR_Y + padding,
-    PRINT_QR_SIZE,
-    PRINT_QR_SIZE
-  );
+  context.drawImage(img, 0, 0, PRINT_WIDTH, PRINT_HEIGHT);
+
+  const isWhiteBackground = colorId === ColorEnum.WHITE;
+
+  context.save();
+  context.font = USERNAME_FONT;
+  // Experimental Chrome APIs
+  (
+    context as unknown as {
+      letterSpacing: number;
+    }
+  ).letterSpacing = USERNAME_LETTER_SPACING;
+  context.fillStyle = isWhiteBackground ? '#000' : '#fff';
+
+  const centerX = PRINT_WIDTH / 2;
+  for (const [i, line] of usernameLines.entries()) {
+    context.fillText(line, centerX, USERNAME_TOP + i * USERNAME_LINE_HEIGHT);
+  }
+  context.restore();
+
+  context.save();
+  context.font = HINT_FONT;
+  // Experimental Chrome APIs
+  (
+    context as unknown as {
+      letterSpacing: number;
+    }
+  ).letterSpacing = HINT_LETTER_SPACING;
+  context.fillStyle = 'rgba(60, 60, 69, 0.70)';
+
+  const hintTop =
+    HINT_BASE_TOP + (usernameLines.length - 1) * USERNAME_LINE_HEIGHT;
+  for (const [i, line] of hintLines.entries()) {
+    context.fillText(line, centerX, hintTop + i * HINT_LINE_HEIGHT);
+  }
+  context.restore();
 
   const blob = await canvas.convertToBlob({ type: 'image/png' });
   return changeDpiBlob(blob, PRINT_DPI);
@@ -533,8 +576,7 @@ export function UsernameLinkModalBody({
         link,
         username,
         colorId,
-        bgColor,
-        fgColor,
+        hint: i18n('icu:UsernameLinkModalBody__hint'),
       });
       const arrayBuffer = await blob.arrayBuffer();
       if (isAborted) {
@@ -548,7 +590,7 @@ export function UsernameLinkModalBody({
     return () => {
       isAborted = true;
     };
-  }, [link, username, colorId, bgColor, fgColor]);
+  }, [i18n, link, username, colorId, bgColor, fgColor]);
 
   const onSave = useCallback(
     (e: React.MouseEvent) => {
@@ -714,14 +756,14 @@ export function UsernameLinkModalBody({
   let linkImage: JSX.Element | undefined;
   if (usernameLinkState === UsernameLinkState.Ready && link) {
     linkImage = (
-      <>
-        <Blotches
-          className={`${CLASS}__card__qr__blotches`}
-          link={link}
-          color={fgColor}
-        />
-        <div className={`${CLASS}__card__qr__logo`} />
-      </>
+      <svg
+        className={`${CLASS}__card__qr__blotches`}
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <QRCode size={16} link={link} color={fgColor} />
+      </svg>
     );
   } else if (usernameLinkState === UsernameLinkState.Error) {
     linkImage = <i className={`${CLASS}__card__qr__error-icon`} />;
