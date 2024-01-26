@@ -11,7 +11,11 @@ import { setupI18n } from '../util/setupI18n';
 import { SignalService as Proto } from '../protobuf';
 
 import type { PropsType } from './UsernameLinkModalBody';
-import { UsernameLinkModalBody } from './UsernameLinkModalBody';
+import {
+  UsernameLinkModalBody,
+  PRINT_WIDTH,
+  PRINT_HEIGHT,
+} from './UsernameLinkModalBody';
 import { Modal } from './Modal';
 
 const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
@@ -92,7 +96,14 @@ const Template: StoryFn<PropsType> = args => {
       <Modal modalName="story" i18n={i18n} hasXButton>
         <UsernameLinkModalBody {...args} saveAttachment={saveAttachment} />
       </Modal>
-      {attachment && <img src={attachment} alt="printable qr code" />}
+      {attachment && (
+        <img
+          src={attachment}
+          width={PRINT_WIDTH}
+          height={PRINT_HEIGHT}
+          alt="printable qr code"
+        />
+      )}
     </>
   );
 };
