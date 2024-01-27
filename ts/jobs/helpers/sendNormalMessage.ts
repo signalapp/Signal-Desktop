@@ -793,6 +793,7 @@ async function uploadMessageQuote({
         if (!thumbnail) {
           return {
             contentType: attachment.contentType,
+            fileName: attachment.fileName,
           };
         }
 
