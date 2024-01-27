@@ -50,7 +50,6 @@ import * as reactionUtil from '../reactions/util';
 import * as Errors from '../types/errors';
 import type { AttachmentType } from '../types/Attachment';
 import { isImage, isVideo } from '../types/Attachment';
-import { stringToMIMEType } from '../types/MIME';
 import * as MIME from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
@@ -1553,16 +1552,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       firstAttachment.thumbnail = null;
     }
 
-    if (
-      !firstAttachment ||
-      !firstAttachment.contentType ||
-      (!GoogleChrome.isImageTypeSupported(
-        stringToMIMEType(firstAttachment.contentType)
-      ) &&
-        !GoogleChrome.isVideoTypeSupported(
-          stringToMIMEType(firstAttachment.contentType)
-        ))
-    ) {
+    if (!firstAttachment || !firstAttachment.contentType) {
       return;
     }
 
@@ -1599,6 +1589,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           ...thumbnail,
           copied: true,
         };
+      } else {
+        firstAttachment.contentType = queryFirst.contentType;
+        firstAttachment.fileName = queryFirst.fileName;
+        firstAttachment.thumbnail = null;
       }
     }
 
