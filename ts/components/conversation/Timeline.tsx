@@ -240,9 +240,15 @@ export class Timeline extends React.Component<
   );
 
   private onScroll = (event: UIEvent): void => {
-    if (event.isTrusted) {
+    // When content is removed from the viewport, such as typing indicators leaving
+    // or messages being edited smaller or deleted, scroll events are generated and
+    // they are marked as user-generated (isTrusted === true). Actual user generated
+    // scroll events with movement must scroll a nonbottom state at some point.
+    const isAtBottom = this.isAtBottom();
+    if (event.isTrusted && !isAtBottom) {
       this.scrollerLock.onUserInterrupt('onScroll');
     }
+
     // hasRecentlyScrolled is used to show the floating date header, which we only
     // want to show when scrolling through history or on conversation first open.
     // Checking bottom prevents new messages and typing from showing the header.
