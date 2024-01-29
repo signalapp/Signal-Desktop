@@ -97,6 +97,7 @@ message ContactRecord {
   optional string systemFamilyName = 18;
   optional string systemNickname = 19;
   optional bool hidden = 20;
+  optional bool pniSignatureVerified = 21;
 }
 
 message GroupV1Record {

@@ -54,6 +54,7 @@ const { hasOwnProperty } = Object.prototype;
 
 function applyChangeToConversation(
   conversation: ConversationModel,
+  pniSignatureVerified: boolean,
   suggestedChange: Partial<
     Pick<ConversationAttributesType, 'serviceId' | 'e164' | 'pni'>
   >
@@ -93,7 +94,7 @@ function applyChangeToConversation(
     conversation.updateE164(change.e164);
   }
   if (hasOwnProperty.call(change, 'pni')) {
-    conversation.updatePni(change.pni);
+    conversation.updatePni(change.pni, pniSignatureVerified);
   }
 
   // Note: we don't do a conversation.set here, because change is limited to these fields
@@ -504,6 +505,8 @@ export class ConversationController {
       : undefined;
     const mergePromises: Array<Promise<void>> = [];
 
+    const pniSignatureVerified = aci != null && pni != null && fromPniSignature;
+
     if (!aci && !e164 && !pni) {
       throw new Error(
         `${logId}: Need to provide at least one of: aci, e164, pni`
@@ -547,7 +550,7 @@ export class ConversationController {
               `conversation - ${targetConversation.idForLogging()}`
           );
           // Note: This line might erase a known e164 or PNI
-          applyChangeToConversation(targetConversation, {
+          applyChangeToConversation(targetConversation, pniSignatureVerified, {
             [key]: value,
           });
         } else {
@@ -611,7 +614,7 @@ export class ConversationController {
         log.info(
           `${logId}: Applying new value for ${unused.key} to target conversation`
         );
-        applyChangeToConversation(targetConversation, {
+        applyChangeToConversation(targetConversation, pniSignatureVerified, {
           [unused.key]: unused.value,
         });
       });
@@ -654,7 +657,7 @@ export class ConversationController {
         if ((key === 'pni' || key === 'e164') && match.getServiceId() === pni) {
           change.serviceId = undefined;
         }
-        applyChangeToConversation(match, change);
+        applyChangeToConversation(match, pniSignatureVerified, change);
 
         // Note: The PNI check here is just to be bulletproof; if we know a
         //   serviceId is a PNI, then that should be put in the serviceId field
@@ -662,7 +665,7 @@ export class ConversationController {
         const willMerge =
           !match.getServiceId() && !match.get('e164') && !match.getPni();
 
-        applyChangeToConversation(targetConversation, {
+        applyChangeToConversation(targetConversation, pniSignatureVerified, {
           [key]: value,
         });
 
@@ -687,7 +690,7 @@ export class ConversationController {
           `${logId}: Re-adding ${key} on target conversation - ` +
             `${targetConversation.idForLogging()}`
         );
-        applyChangeToConversation(targetConversation, {
+        applyChangeToConversation(targetConversation, pniSignatureVerified, {
           [key]: value,
         });
       }

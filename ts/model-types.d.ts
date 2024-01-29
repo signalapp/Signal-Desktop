@@ -370,6 +370,7 @@ export type ConversationAttributesType = {
   // Private core info
   serviceId?: ServiceIdString;
   pni?: PniString;
+  pniSignatureVerified?: boolean;
   e164?: string;
 
   // Private other fields

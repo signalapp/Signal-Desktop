@@ -176,6 +176,8 @@ export async function toContactRecord(
   if (pni) {
     contactRecord.pni = toUntaggedPni(pni);
   }
+  contactRecord.pniSignatureVerified =
+    conversation.get('pniSignatureVerified') ?? false;
   const profileKey = conversation.get('profileKey');
   if (profileKey) {
     contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
@@ -991,6 +993,7 @@ export async function mergeContactRecord(
   const e164 = dropNull(contactRecord.serviceE164);
   const { aci } = contactRecord;
   const pni = dropNull(contactRecord.pni);
+  const pniSignatureVerified = contactRecord.pniSignatureVerified || false;
   const serviceId = aci || pni;
 
   // All contacts must have UUID
@@ -1013,6 +1016,7 @@ export async function mergeContactRecord(
     aci,
     e164,
     pni,
+    fromPniSignature: pniSignatureVerified,
     reason: 'mergeContactRecord',
   });
 

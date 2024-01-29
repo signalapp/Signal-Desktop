@@ -371,6 +371,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
           toTaggedPni(aciRecord?.pni),
         pniContact.device.pni
       );
+      assert.strictEqual(aciRecord?.pniSignatureVerified, true);
 
       // Two outgoing, one incoming
       const messages = window.locator('.module-message__text');

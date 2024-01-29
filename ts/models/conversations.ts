@@ -814,7 +814,7 @@ export class ConversationModel extends window.Backbone
     const aci = this.getServiceId();
     if (e164 && pni && aci && pni !== aci) {
       this.updateE164(undefined);
-      this.updatePni(undefined);
+      this.updatePni(undefined, false);
 
       const { conversation: split } =
         window.ConversationController.maybeMergeContacts({
@@ -1915,7 +1915,7 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  updatePni(pni?: PniString): void {
+  updatePni(pni: PniString | undefined, pniSignatureVerified: boolean): void {
     const oldValue = this.getPni();
     if (pni === oldValue) {
       return;
@@ -1925,6 +1925,15 @@ export class ConversationModel extends window.Backbone
       'pni',
       pni ? normalizePni(pni, 'Conversation.updatePni') : undefined
     );
+    const newPniSignatureVerified = pni ? pniSignatureVerified : false;
+    if (this.get('pniSignatureVerified') !== newPniSignatureVerified) {
+      log.warn(
+        `updatePni/${this.idForLogging()}: setting ` +
+          `pniSignatureVerified to ${newPniSignatureVerified}`
+      );
+      this.set('pniSignatureVerified', newPniSignatureVerified);
+      this.captureChange('pniSignatureVerified');
+    }
 
     const pniIsPrimaryId =
       !this.getServiceId() ||
