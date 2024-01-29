@@ -33,6 +33,7 @@ export default {
     onSaveStory: action('onSaveStory'),
     preferredWidthFromStorage: 380,
     queueStoryDownload: action('queueStoryDownload'),
+    renderToastManager: () => <i />,
     renderStoryCreator: () => <>StoryCreator</>,
     retryMessageSend: action('retryMessageSend'),
     showConversation: action('showConversation'),

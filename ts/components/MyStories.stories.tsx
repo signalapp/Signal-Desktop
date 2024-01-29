@@ -36,6 +36,7 @@ export default {
     onForward: jest.fn(action('onForward')),
     onSave: jest.fn(action('onSave')),
     hasViewReceiptSetting: false,
+    renderToastManager: () => <i />,
     queueStoryDownload: action('queueStoryDownload'),
     retryMessageSend: action('retryMessageSend'),
     viewStory: action('viewStory'),

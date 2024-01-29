@@ -23,6 +23,7 @@ export const SHOW_TOAST = 'toast/SHOW_TOAST';
 
 type HideToastActionType = ReadonlyDeep<{
   type: typeof HIDE_TOAST;
+  payload: AnyToast | undefined;
 }>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -36,9 +37,12 @@ export type ToastActionType = HideToastActionType | ShowToastActionType;
 
 // Action Creators
 
-function hideToast(): HideToastActionType {
+export type HideToastAction = ReadonlyDeep<(toast?: AnyToast) => void>;
+
+function hideToast(toast?: AnyToast): HideToastActionType {
   return {
     type: HIDE_TOAST,
+    payload: toast,
   };
 }
 
@@ -80,6 +84,10 @@ export function reducer(
   action: Readonly<ToastActionType>
 ): ToastStateType {
   if (action.type === HIDE_TOAST) {
+    if (action.payload != null && state.toast !== action.payload) {
+      return state;
+    }
+
     return {
       ...state,
       toast: undefined,

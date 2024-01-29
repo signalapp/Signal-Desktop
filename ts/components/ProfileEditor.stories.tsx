@@ -79,7 +79,6 @@ export default {
     replaceAvatar: action('replaceAvatar'),
     resetUsernameLink: action('resetUsernameLink'),
     saveAvatarToDisk: action('saveAvatarToDisk'),
-    markCompletedUsernameOnboarding: action('markCompletedUsernameOnboarding'),
     markCompletedUsernameLinkOnboarding: action(
       'markCompletedUsernameLinkOnboarding'
     ),

@@ -6,7 +6,6 @@
 
   @include font-body-2;
 
-  position: absolute;
   align-items: stretch;
   border-radius: $border-radius-px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.05), 0px 4px 12px rgba(0, 0, 0, 0.3);
@@ -14,11 +13,14 @@
   justify-content: space-between;
   user-select: none;
   overflow: hidden;
-  z-index: $z-index-toast;
-  bottom: 62px;
+  width: fit-content;
   max-width: 280px;
   background-color: $color-gray-75;
   color: $color-gray-05;
+  z-index: $z-index-toast;
+
+  inset-inline-start: 20px;
+  text-align: start;
 
   &:focus {
     outline: none;
@@ -27,15 +29,13 @@
     }
   }
 
-  &--align-center {
-    @include position-absolute-center-x;
-    text-align: center;
+  .ToastManager--narrow-sidebar & {
+    min-width: max-content;
   }
 
-  &--align-left {
-    inset-inline-start: 20px;
-    bottom: 18px;
-    text-align: start;
+  .ToastManager--narrow-sidebar.ToastManager--composition-area-visible & {
+    min-width: initial;
+    text-align: center;
   }
 
   &__content {

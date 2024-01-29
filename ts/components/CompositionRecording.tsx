@@ -5,14 +5,16 @@ import { noop } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { usePrevious } from '../hooks/usePrevious';
+import type { HideToastAction, ShowToastAction } from '../state/ducks/toast';
 import type { InMemoryAttachmentDraftType } from '../types/Attachment';
 import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
 import type { LocalizerType } from '../types/Util';
+import type { AnyToast } from '../types/Toast';
+import { ToastType } from '../types/Toast';
 import { DurationInSeconds, SECOND } from '../util/durations';
 import { durationToPlaybackText } from '../util/durationToPlaybackText';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { RecordingComposer } from './RecordingComposer';
-import { ToastVoiceNoteLimit } from './ToastVoiceNoteLimit';
 
 export type Props = {
   i18n: LocalizerType;
@@ -29,6 +31,8 @@ export type Props = {
     conversationId: string,
     onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
   ) => unknown;
+  showToast: ShowToastAction;
+  hideToast: HideToastAction;
 };
 
 export function CompositionRecording({
@@ -40,10 +44,10 @@ export function CompositionRecording({
   errorDialogAudioRecorderType,
   addAttachment,
   completeRecording,
+  showToast,
+  hideToast,
 }: Props): JSX.Element {
   useEscapeHandling(onCancel);
-
-  const [showVoiceNoteLimitToast, setShowVoiceNoteLimitToast] = useState(true);
 
   // when interrupted (blur, switching convos)
   // stop recording and save draft
@@ -69,15 +73,12 @@ export function CompositionRecording({
     }
   });
 
-  const handleCloseToast = useCallback(() => {
-    setShowVoiceNoteLimitToast(false);
-  }, []);
-
   useEffect(() => {
-    return () => {
-      handleCloseToast();
-    };
-  }, [handleCloseToast]);
+    const toast: AnyToast = { toastType: ToastType.VoiceNoteLimit };
+    showToast(toast);
+
+    return () => hideToast(toast);
+  }, [showToast, hideToast]);
 
   const startTime = useRef(Date.now());
   const [duration, setDuration] = useState(0);
@@ -148,9 +149,6 @@ export function CompositionRecording({
       </div>
 
       {confirmationDialog}
-      {showVoiceNoteLimitToast && (
-        <ToastVoiceNoteLimit i18n={i18n} onClose={handleCloseToast} />
-      )}
     </RecordingComposer>
   );
 }

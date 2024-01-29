@@ -156,9 +156,6 @@ describe('pnp/username', function (this: Mocha.Suite) {
     const profileEditor = window.locator('.ProfileEditor');
     await profileEditor.locator('.ProfileEditor__row >> "Username"').click();
 
-    debug('skipping onboarding');
-    await profileEditor.locator('.module-Button >> "Continue"').click();
-
     debug('entering new username');
     const usernameField = profileEditor.locator('.Input__input');
     await usernameField.type(NICKNAME);

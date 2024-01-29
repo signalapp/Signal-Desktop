@@ -39,6 +39,7 @@ import type {
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
+import { WidthBreakpoint } from './_util';
 import {
   CircleCheckbox,
   Variant as CircleCheckboxVariant,
@@ -1581,9 +1582,11 @@ export function Preferences({
         OS="unused"
         hideToast={() => setToast(undefined)}
         i18n={i18n}
+        onShowDebugLog={shouldNeverBeCalled}
         onUndoArchive={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
         toast={toast}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
       />
     </>
   );

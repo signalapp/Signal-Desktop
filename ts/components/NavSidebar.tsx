@@ -55,6 +55,9 @@ export type NavSidebarProps = Readonly<{
   savePreferredLeftPaneWidth: (width: number) => void;
   title: string;
   otherTabsUnreadStats: UnreadStats;
+  renderToastManager: (_: {
+    containerWidthBreakpoint: WidthBreakpoint;
+  }) => JSX.Element;
 }>;
 
 enum DragState {
@@ -78,6 +81,7 @@ export function NavSidebar({
   savePreferredLeftPaneWidth,
   title,
   otherTabsUnreadStats,
+  renderToastManager,
 }: NavSidebarProps): JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
   const [dragState, setDragState] = useState(DragState.INITIAL);
@@ -218,6 +222,8 @@ export function NavSidebar({
         tabIndex={0}
         {...moveProps}
       />
+
+      {renderToastManager({ containerWidthBreakpoint: widthBreakpoint })}
     </div>
   );
 }

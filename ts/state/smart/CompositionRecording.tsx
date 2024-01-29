@@ -7,6 +7,7 @@ import { CompositionRecording } from '../../components/CompositionRecording';
 import { mapDispatchToProps } from '../actions';
 import { useAudioRecorderActions } from '../ducks/audioRecorder';
 import { useComposerActions } from '../ducks/composer';
+import { useToastActions } from '../ducks/toast';
 import { getSelectedConversationId } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 
@@ -22,6 +23,7 @@ export function SmartCompositionRecording({
   const { cancelRecording, completeRecording } = useAudioRecorderActions();
 
   const { sendMultiMediaMessage } = useComposerActions();
+  const { hideToast, showToast } = useToastActions();
 
   const handleCancel = useCallback(() => {
     cancelRecording();
@@ -54,6 +56,8 @@ export function SmartCompositionRecording({
       errorRecording={mapDispatchToProps.errorRecording}
       addAttachment={mapDispatchToProps.addAttachment}
       completeRecording={mapDispatchToProps.completeRecording}
+      showToast={showToast}
+      hideToast={hideToast}
     />
   );
 }

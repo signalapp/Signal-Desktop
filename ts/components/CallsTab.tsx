@@ -17,6 +17,7 @@ import type { ActiveCallStateType } from '../state/ducks/calling';
 import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { UnreadStats } from '../util/countUnreadStats';
+import type { WidthBreakpoint } from './_util';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -50,6 +51,9 @@ type CallsTabProps = Readonly<{
     conversationId: string,
     callHistoryGroup: CallHistoryGroup | null
   ) => JSX.Element;
+  renderToastManager: (_: {
+    containerWidthBreakpoint: WidthBreakpoint;
+  }) => JSX.Element;
   regionCode: string | undefined;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
 }>;
@@ -73,6 +77,7 @@ export function CallsTab({
   onOutgoingVideoCallInConversation,
   preferredLeftPaneWidth,
   renderConversationDetails,
+  renderToastManager,
   regionCode,
   savePreferredLeftPaneWidth,
 }: CallsTabProps): JSX.Element {
@@ -175,6 +180,7 @@ export function CallsTab({
           requiresFullWidth
           preferredLeftPaneWidth={preferredLeftPaneWidth}
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+          renderToastManager={renderToastManager}
           actions={
             <>
               {sidebarView === CallsTabSidebarView.CallsListView && (

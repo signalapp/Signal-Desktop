@@ -9,6 +9,7 @@ import {
   getPreferredLeftPaneWidth,
 } from '../selectors/items';
 import { getIntl, getRegionCode } from '../selectors/user';
+import type { WidthBreakpoint } from '../../components/_util';
 import { CallsTab } from '../../components/CallsTab';
 import {
   getAllConversations,
@@ -23,6 +24,7 @@ import type {
 } from '../../types/CallDisposition';
 import type { ConversationType } from '../ducks/conversations';
 import { SmartConversationDetails } from './ConversationDetails';
+import { SmartToastManager } from './ToastManager';
 import { useCallingActions } from '../ducks/calling';
 import { getActiveCallState } from '../selectors/calling';
 import { useCallHistoryActions } from '../ducks/callHistory';
@@ -78,6 +80,12 @@ function renderConversationDetails(
       callHistoryGroup={callHistoryGroup}
     />
   );
+}
+
+function renderToastManager(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): JSX.Element {
+  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 export function SmartCallsTab(): JSX.Element {
@@ -172,6 +180,7 @@ export function SmartCallsTab(): JSX.Element {
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       preferredLeftPaneWidth={preferredLeftPaneWidth}
       renderConversationDetails={renderConversationDetails}
+      renderToastManager={renderToastManager}
       regionCode={regionCode}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
     />

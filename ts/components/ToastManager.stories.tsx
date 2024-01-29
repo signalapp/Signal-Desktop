@@ -9,6 +9,8 @@ import enMessages from '../../_locales/en/messages.json';
 import { ToastManager } from './ToastManager';
 import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
+import type { AnyActionableMegaphone } from '../types/Megaphone';
+import { MegaphoneType } from '../types/Megaphone';
 import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import type { PropsType } from './ToastManager';
@@ -41,6 +43,10 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.CannotOpenGiftBadgeOutgoing };
     case ToastType.CannotStartGroupCall:
       return { toastType: ToastType.CannotStartGroupCall };
+    case ToastType.CaptchaFailed:
+      return { toastType: ToastType.CaptchaFailed };
+    case ToastType.CaptchaSolved:
+      return { toastType: ToastType.CaptchaSolved };
     case ToastType.ConversationArchived:
       return {
         toastType: ToastType.ConversationArchived,
@@ -61,6 +67,16 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.CopiedUsernameLink };
     case ToastType.DangerousFileType:
       return { toastType: ToastType.DangerousFileType };
+    case ToastType.DebugLogError:
+      return { toastType: ToastType.DebugLogError };
+    case ToastType.DecryptionError:
+      return {
+        toastType: ToastType.DecryptionError,
+        parameters: {
+          deviceId: 2,
+          name: 'Alice',
+        },
+      };
     case ToastType.DeleteForEveryoneFailed:
       return { toastType: ToastType.DeleteForEveryoneFailed };
     case ToastType.Error:
@@ -69,6 +85,10 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.Expired };
     case ToastType.FailedToDeleteUsername:
       return { toastType: ToastType.FailedToDeleteUsername };
+    case ToastType.FailedToFetchPhoneNumber:
+      return { toastType: ToastType.FailedToFetchPhoneNumber };
+    case ToastType.FailedToFetchUsername:
+      return { toastType: ToastType.FailedToFetchUsername };
     case ToastType.FileSaved:
       return {
         toastType: ToastType.FileSaved,
@@ -79,10 +99,16 @@ function getToast(toastType: ToastType): AnyToast {
         toastType: ToastType.FileSize,
         parameters: { limit: 100, units: 'MB' },
       };
+    case ToastType.GroupLinkCopied:
+      return { toastType: ToastType.GroupLinkCopied };
     case ToastType.InvalidConversation:
       return { toastType: ToastType.InvalidConversation };
     case ToastType.LeftGroup:
       return { toastType: ToastType.LeftGroup };
+    case ToastType.LinkCopied:
+      return { toastType: ToastType.LinkCopied };
+    case ToastType.LoadingFullLogs:
+      return { toastType: ToastType.LoadingFullLogs };
     case ToastType.MaxAttachments:
       return { toastType: ToastType.MaxAttachments };
     case ToastType.MessageBodyTooLong:
@@ -95,6 +121,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.ReactionFailed };
     case ToastType.ReportedSpamAndBlocked:
       return { toastType: ToastType.ReportedSpamAndBlocked };
+    case ToastType.StickerPackInstallFailed:
+      return { toastType: ToastType.StickerPackInstallFailed };
     case ToastType.StoryMuted:
       return { toastType: ToastType.StoryMuted };
     case ToastType.StoryReact:
@@ -130,6 +158,10 @@ function getToast(toastType: ToastType): AnyToast {
           group: 'Hike Group 🏔',
         },
       };
+    case ToastType.VoiceNoteLimit:
+      return { toastType: ToastType.VoiceNoteLimit };
+    case ToastType.VoiceNoteMustBeTheOnlyAttachment:
+      return { toastType: ToastType.VoiceNoteMustBeTheOnlyAttachment };
     case ToastType.WhoCanFindMeReadOnly:
       return { toastType: ToastType.WhoCanFindMeReadOnly };
     default:
@@ -137,8 +169,22 @@ function getToast(toastType: ToastType): AnyToast {
   }
 }
 
-type Args = Omit<PropsType, 'toast'> & {
+function getMegaphone(megaphoneType: MegaphoneType): AnyActionableMegaphone {
+  switch (megaphoneType) {
+    case MegaphoneType.UsernameOnboarding:
+      return {
+        type: megaphoneType,
+        onLearnMore: action('onLearnMore'),
+        onDismiss: action('onDismiss'),
+      };
+    default:
+      throw missingCaseError(megaphoneType);
+  }
+}
+
+type Args = Omit<PropsType, 'toast' | 'megaphone'> & {
   toastType: ToastType;
+  megaphoneType: MegaphoneType;
 };
 
 export default {
@@ -149,24 +195,34 @@ export default {
       options: ToastType,
       control: { type: 'select' },
     },
+    megaphoneType: {
+      options: MegaphoneType,
+      control: { type: 'select' },
+    },
   },
   args: {
     hideToast: action('hideToast'),
     openFileInFolder: action('openFileInFolder'),
+    onShowDebugLog: action('onShowDebugLog'),
     onUndoArchive: action('onUndoArchive'),
     i18n,
     toastType: ToastType.AddingUserToGroup,
+    megaphoneType: MegaphoneType.UsernameOnboarding,
     OS: 'macOS',
   },
 } satisfies Meta<Args>;
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Args> = args => {
-  const { toastType, ...rest } = args;
+  const { toastType, megaphoneType, ...rest } = args;
   return (
     <>
       <p>Select a toast type in controls</p>
-      <ToastManager toast={getToast(toastType)} {...rest} />
+      <ToastManager
+        toast={getToast(toastType)}
+        megaphone={getMegaphone(megaphoneType)}
+        {...rest}
+      />
     </>
   );
 };

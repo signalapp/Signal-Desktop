@@ -1,11 +1,12 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
+import type { ShowToastAction } from '../../state/ducks/toast';
 import type { AttachmentDraftType } from '../../types/Attachment';
 import type { LocalizerType } from '../../types/Util';
-import { ToastVoiceNoteMustBeOnlyAttachment } from '../ToastVoiceNoteMustBeOnlyAttachment';
+import { ToastType } from '../../types/Toast';
 import {
   useStartRecordingShortcut,
   useKeyboardShortcuts,
@@ -16,6 +17,7 @@ export type PropsType = {
   draftAttachments: ReadonlyArray<AttachmentDraftType>;
   i18n: LocalizerType;
   startRecording: (id: string) => unknown;
+  showToast: ShowToastAction;
 };
 
 export function AudioCapture({
@@ -23,9 +25,8 @@ export function AudioCapture({
   draftAttachments,
   i18n,
   startRecording,
+  showToast,
 }: PropsType): JSX.Element {
-  const [showOnlyAttachmentToast, setShowOnlyAttachmentToast] = useState(false);
-
   const recordConversation = useCallback(
     () => startRecording(conversationId),
     [conversationId, startRecording]
@@ -33,40 +34,23 @@ export function AudioCapture({
   const startRecordingShortcut = useStartRecordingShortcut(recordConversation);
   useKeyboardShortcuts(startRecordingShortcut);
 
-  const handleCloseToast = useCallback(() => {
-    setShowOnlyAttachmentToast(false);
-  }, []);
-
   const handleClick = useCallback(() => {
     if (draftAttachments.length) {
-      setShowOnlyAttachmentToast(true);
+      showToast({ toastType: ToastType.VoiceNoteMustBeTheOnlyAttachment });
     } else {
       startRecording(conversationId);
     }
-  }, [
-    conversationId,
-    draftAttachments,
-    setShowOnlyAttachmentToast,
-    startRecording,
-  ]);
+  }, [conversationId, draftAttachments, showToast, startRecording]);
 
   return (
-    <>
-      <div className="AudioCapture">
-        <button
-          aria-label={i18n('icu:voiceRecording--start')}
-          className="AudioCapture__microphone"
-          onClick={handleClick}
-          title={i18n('icu:voiceRecording--start')}
-          type="button"
-        />
-      </div>
-      {showOnlyAttachmentToast && (
-        <ToastVoiceNoteMustBeOnlyAttachment
-          i18n={i18n}
-          onClose={handleCloseToast}
-        />
-      )}
-    </>
+    <div className="AudioCapture">
+      <button
+        aria-label={i18n('icu:voiceRecording--start')}
+        className="AudioCapture__microphone"
+        onClick={handleClick}
+        title={i18n('icu:voiceRecording--start')}
+        type="button"
+      />
+    </div>
   );
 }

@@ -4,6 +4,8 @@
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 import * as log from '../../logging/log';
 
 // State
@@ -56,6 +58,9 @@ export const actions = {
   openInstaller,
   openStandalone,
 };
+
+export const useAppActions = (): BoundActionCreatorsMapObject<typeof actions> =>
+  useBoundActions(actions);
 
 function initialLoadComplete(): InitialLoadCompleteActionType {
   return {

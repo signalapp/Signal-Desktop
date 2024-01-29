@@ -158,6 +158,9 @@ export type PropsType = {
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
+  renderToastManager: (_: {
+    containerWidthBreakpoint: WidthBreakpoint;
+  }) => JSX.Element;
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
@@ -200,6 +203,7 @@ export function LeftPane({
   renderUnsupportedOSDialog,
   renderRelinkDialog,
   renderUpdateDialog,
+  renderToastManager,
   savePreferredLeftPaneWidth,
   searchInConversation,
   selectedConversationId,
@@ -597,6 +601,7 @@ export function LeftPane({
         modeSpecificProps.isAboutToSearch
       }
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+      renderToastManager={renderToastManager}
       actions={
         <>
           <NavSidebarActionButton

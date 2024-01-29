@@ -24,6 +24,7 @@ import {
 } from '../../components/InstallScreen';
 import { InstallError } from '../../components/installScreen/InstallScreenErrorStep';
 import { MAX_DEVICE_NAME_LENGTH } from '../../components/installScreen/InstallScreenChoosingDeviceNameStep';
+import { WidthBreakpoint } from '../../components/_util';
 import { HTTPError } from '../../textsecure/Errors';
 import { isRecord } from '../../util/isRecord';
 import * as Errors from '../../types/errors';
@@ -32,6 +33,7 @@ import OS from '../../util/os/osMain';
 import { SECOND } from '../../util/durations';
 import { BackOff } from '../../util/BackOff';
 import { drop } from '../../util/drop';
+import { SmartToastManager } from './ToastManager';
 
 type PropsType = ComponentProps<typeof InstallScreen>;
 
@@ -328,5 +330,13 @@ export function SmartInstallScreen(): ReactElement {
       throw missingCaseError(state);
   }
 
-  return <InstallScreen {...props} />;
+  return (
+    <>
+      <InstallScreen {...props} />
+      <SmartToastManager
+        disableMegaphone
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+      />
+    </>
+  );
 }

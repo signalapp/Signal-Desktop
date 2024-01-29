@@ -13,6 +13,7 @@ import { SmartContactModal } from './ContactModal';
 import { SmartEditHistoryMessagesModal } from './EditHistoryMessagesModal';
 import { SmartForwardMessagesModal } from './ForwardMessagesModal';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
+import { SmartUsernameOnboardingModal } from './UsernameOnboardingModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
 import { SmartSendAnywayDialog } from './SendAnywayDialog';
 import { SmartShortcutGuideModal } from './ShortcutGuideModal';
@@ -29,6 +30,10 @@ function renderEditHistoryMessagesModal(): JSX.Element {
 
 function renderProfileEditor(): JSX.Element {
   return <SmartProfileEditorModal />;
+}
+
+function renderUsernameOnboarding(): JSX.Element {
+  return <SmartUsernameOnboardingModal />;
 }
 
 function renderContactModal(): JSX.Element {
@@ -77,6 +82,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     isSignalConnectionsVisible,
     isStoriesSettingsVisible,
     isWhatsNewVisible,
+    usernameOnboardingState,
     safetyNumberChangedBlockingData,
     safetyNumberModalContactId,
     sendEditWarningData,
@@ -157,6 +163,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderDeleteMessagesModal={renderDeleteMessagesModal}
       renderForwardMessagesModal={renderForwardMessagesModal}
       renderProfileEditor={renderProfileEditor}
+      renderUsernameOnboarding={renderUsernameOnboarding}
       renderSafetyNumber={renderSafetyNumber}
       renderSendAnywayDialog={renderSendAnywayDialog}
       renderShortcutGuideModal={renderShortcutGuideModal}
@@ -171,6 +178,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
       userNotFoundModalState={userNotFoundModalState}
+      usernameOnboardingState={usernameOnboardingState}
       isAuthorizingArtCreator={isAuthorizingArtCreator}
       authArtCreatorData={authArtCreatorData}
       cancelAuthorizeArtCreator={cancelAuthorizeArtCreator}

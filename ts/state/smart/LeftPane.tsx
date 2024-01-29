@@ -77,6 +77,7 @@ import { SmartMessageSearchResult } from './MessageSearchResult';
 import { SmartNetworkStatus } from './NetworkStatus';
 import { SmartRelinkDialog } from './RelinkDialog';
 import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog';
+import { SmartToastManager } from './ToastManager';
 import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
 import { SmartCaptchaDialog } from './CaptchaDialog';
@@ -115,6 +116,17 @@ function renderUnsupportedOSDialog(
   props: Readonly<SmartUnsupportedOSDialogPropsType>
 ): JSX.Element {
   return <SmartUnsupportedOSDialog {...props} />;
+}
+function renderToastManager(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): JSX.Element {
+  return <SmartToastManager {...props} />;
+}
+
+function renderToastManagerWithoutMegaphone(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): JSX.Element {
+  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 const getModeSpecificProps = (
@@ -223,6 +235,10 @@ const mapStateToProps = (state: StateType) => {
     unsupportedOSDialogType = 'warning';
   }
 
+  const composerStep = getComposerStep(state);
+  const showArchived = getShowArchived(state);
+  const hasSearchQuery = isSearching(state);
+
   return {
     hasNetworkDialog: hasNetworkDialog(state),
     hasExpiredDialog,
@@ -238,7 +254,7 @@ const mapStateToProps = (state: StateType) => {
     preferredWidthFromStorage: getPreferredLeftPaneWidth(state),
     selectedConversationId: getSelectedConversationId(state),
     targetedMessageId: getTargetedMessage(state)?.id,
-    showArchived: getShowArchived(state),
+    showArchived,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isMacOS: getIsMacOS(state),
@@ -253,6 +269,10 @@ const mapStateToProps = (state: StateType) => {
     renderCrashReportDialog,
     renderExpiredBuildDialog,
     renderUnsupportedOSDialog,
+    renderToastManager:
+      composerStep == null && !showArchived && !hasSearchQuery
+        ? renderToastManager
+        : renderToastManagerWithoutMegaphone,
     lookupConversationWithoutServiceId,
     theme: getTheme(state),
   };

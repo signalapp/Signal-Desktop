@@ -28,6 +28,8 @@ import {
 import { showToast } from './toast';
 import { ToastType } from '../../types/Toast';
 import type { ToastActionType } from './toast';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 export type UsernameReservationStateType = ReadonlyDeep<{
   state: UsernameReservationState;
@@ -128,6 +130,10 @@ export const actions = {
   setUsernameLinkColor,
   markCompletedUsernameLinkOnboarding,
 };
+
+export const useUsernameActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 export function setUsernameEditState(
   editState: UsernameEditState

@@ -27,20 +27,7 @@ export type ItemsStateType = ReadonlyDeep<
     [key: string]: unknown;
     remoteConfig?: RemoteConfigType;
     serverTimeSkew?: number;
-  } & Partial<
-    Pick<
-      StorageAccessType,
-      | 'universalExpireTimer'
-      | 'defaultConversationColor'
-      | 'customColors'
-      | 'preferredLeftPaneWidth'
-      | 'navTabsCollapsed'
-      | 'preferredReactionEmoji'
-      | 'areWeASubscriber'
-      | 'usernameLinkColor'
-      | 'usernameLink'
-    >
-  >
+  } & Partial<StorageAccessType>
 >;
 
 // Actions

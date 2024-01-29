@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import { SmartStoryCreator } from './StoryCreator';
+import { SmartToastManager } from './ToastManager';
+import type { WidthBreakpoint } from '../../components/_util';
 import { StoriesTab } from '../../components/StoriesTab';
 import { getMaximumOutgoingAttachmentSizeInKb } from '../../types/AttachmentSize';
 import type { ConfigKeyType } from '../../RemoteConfig';
@@ -36,6 +38,12 @@ import { getOtherTabsUnreadStats } from '../selectors/nav';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
+}
+
+function renderToastManager(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): JSX.Element {
+  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 export function SmartStoriesTab(): JSX.Element | null {
@@ -122,6 +130,7 @@ export function SmartStoriesTab(): JSX.Element | null {
       preferredLeftPaneWidth={preferredLeftPaneWidth}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
+      renderToastManager={renderToastManager}
       retryMessageSend={retryMessageSend}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       showConversation={showConversation}
