@@ -282,7 +282,10 @@ export function SmartInstallScreen(): ReactElement {
           i18n,
           error: state.error,
           quit: () => window.IPC.shutdown(),
-          tryAgain: () => setState(INITIAL_STATE),
+          tryAgain: () => {
+            setRetryCounter(count => count + 1);
+            setState(INITIAL_STATE);
+          },
         },
       };
       break;
