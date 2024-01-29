@@ -14,7 +14,6 @@ import { getIntl } from '../selectors/user';
 import {
   getEmojiSkinTone,
   getUsernamesEnabled,
-  getHasCompletedUsernameOnboarding,
   getHasCompletedUsernameLinkOnboarding,
   getUsernameCorrupted,
   getUsernameLinkColor,
@@ -53,8 +52,6 @@ function mapStateToProps(
   const recentEmojis = selectRecentEmojis(state);
   const skinTone = getEmojiSkinTone(state);
   const isUsernameFlagEnabled = getUsernamesEnabled(state);
-  const hasCompletedUsernameOnboarding =
-    getHasCompletedUsernameOnboarding(state);
   const hasCompletedUsernameLinkOnboarding =
     getHasCompletedUsernameLinkOnboarding(state);
   const usernameEditState = getUsernameEditState(state);
@@ -72,9 +69,9 @@ function mapStateToProps(
     conversationId,
     familyName,
     firstName: String(firstName),
-    hasCompletedUsernameOnboarding,
     hasCompletedUsernameLinkOnboarding,
     hasError: state.globalModals.profileEditorHasError,
+    initialEditState: state.globalModals.profileEditorInitialEditState,
     i18n: getIntl(state),
     isUsernameFlagEnabled,
     recentEmojis,

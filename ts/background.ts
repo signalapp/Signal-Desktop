@@ -29,6 +29,7 @@ import { ReceiptType } from './types/Receipt';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ThemeType } from './types/Util';
+import { ToastType } from './types/Toast';
 import { ChallengeHandler } from './challenge';
 import * as durations from './util/durations';
 import { drop } from './util/drop';
@@ -143,9 +144,6 @@ import { normalizeAci } from './util/normalizeAci';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
-import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
-import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
-import { showToast } from './util/showToast';
 import { startInteractionMode } from './services/InteractionMode';
 import type { MainWindowStatsType } from './windows/context';
 import { ReactionSource } from './reactions/ReactionSource';
@@ -278,11 +276,15 @@ export async function startApp(): Promise<void> {
       onChallengeFailed() {
         // TODO: DESKTOP-1530
         // Display humanized `retryAfter`
-        showToast(ToastCaptchaFailed);
+        window.reduxActions.toast.showToast({
+          toastType: ToastType.CaptchaFailed,
+        });
       },
 
       onChallengeSolved() {
-        showToast(ToastCaptchaSolved);
+        window.reduxActions.toast.showToast({
+          toastType: ToastType.CaptchaSolved,
+        });
       },
 
       setChallengeStatus(challengeStatus) {

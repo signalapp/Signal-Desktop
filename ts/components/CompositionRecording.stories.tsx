@@ -51,6 +51,8 @@ export function Default(): JSX.Element {
           errorRecording={_ => action('error')()}
           addAttachment={action('addAttachment')}
           completeRecording={action('completeRecording')}
+          showToast={action('showToast')}
+          hideToast={action('hideToast')}
         />
       )}
     </>

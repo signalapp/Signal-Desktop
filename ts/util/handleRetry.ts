@@ -18,11 +18,7 @@ import * as RemoteConfig from '../RemoteConfig';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
-import {
-  ToastInternalError,
-  ToastInternalErrorKind,
-} from '../components/ToastInternalError';
-import { showToast } from './showToast';
+import { ToastType } from '../types/Toast';
 import * as Errors from '../types/errors';
 
 import type { ConversationModel } from '../models/conversations';
@@ -200,11 +196,12 @@ function maybeShowDecryptionToast(
   }
 
   log.info(`maybeShowDecryptionToast/${logId}: Showing decryption error toast`);
-  showToast(ToastInternalError, {
-    kind: ToastInternalErrorKind.DecryptionError,
-    deviceId,
-    name,
-    onShowDebugLog: () => window.IPC.showDebugLog(),
+  window.reduxActions.toast.showToast({
+    toastType: ToastType.DecryptionError,
+    parameters: {
+      deviceId,
+      name,
+    },
   });
 }
 

@@ -563,6 +563,7 @@ export function CompositionArea({
         conversationId={conversationId}
         draftAttachments={draftAttachments}
         i18n={i18n}
+        showToast={showToast}
         startRecording={startRecording}
       />
     </div>

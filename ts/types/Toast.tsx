@@ -8,6 +8,8 @@ export enum ToastType {
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CallHistoryCleared = 'CallHistoryCleared',
+  CaptchaFailed = 'CaptchaFailed',
+  CaptchaSolved = 'CaptchaSolved',
   CannotEditMessage = 'CannotEditMessage',
   CannotForwardEmptyMessage = 'CannotForwardEmptyMessage',
   CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',
@@ -21,20 +23,28 @@ export enum ToastType {
   CopiedUsername = 'CopiedUsername',
   CopiedUsernameLink = 'CopiedUsernameLink',
   DangerousFileType = 'DangerousFileType',
+  DecryptionError = 'DecryptionError',
+  DebugLogError = 'DebugLogError',
   DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
   Error = 'Error',
   Expired = 'Expired',
   FailedToDeleteUsername = 'FailedToDeleteUsername',
+  FailedToFetchPhoneNumber = 'FailedToFetchPhoneNumber',
+  FailedToFetchUsername = 'FailedToFetchUsername',
   FileSaved = 'FileSaved',
   FileSize = 'FileSize',
+  GroupLinkCopied = 'GroupLinkCopied',
   InvalidConversation = 'InvalidConversation',
   LeftGroup = 'LeftGroup',
+  LinkCopied = 'LinkCopied',
+  LoadingFullLogs = 'LoadingFullLogs',
   MaxAttachments = 'MaxAttachments',
   MessageBodyTooLong = 'MessageBodyTooLong',
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
   ReactionFailed = 'ReactionFailed',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
+  StickerPackInstallFailed = 'StickerPackInstallFailed',
   StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',
   StoryReply = 'StoryReply',
@@ -48,6 +58,8 @@ export enum ToastType {
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
   UserAddedToGroup = 'UserAddedToGroup',
+  VoiceNoteLimit = 'VoiceNoteLimit',
+  VoiceNoteMustBeTheOnlyAttachment = 'VoiceNoteMustBeTheOnlyAttachment',
   WhoCanFindMeReadOnly = 'WhoCanFindMeReadOnly',
 }
 
@@ -64,6 +76,8 @@ export type AnyToast =
   | { toastType: ToastType.CannotOpenGiftBadgeIncoming }
   | { toastType: ToastType.CannotOpenGiftBadgeOutgoing }
   | { toastType: ToastType.CannotStartGroupCall }
+  | { toastType: ToastType.CaptchaFailed }
+  | { toastType: ToastType.CaptchaSolved }
   | {
       toastType: ToastType.ConversationArchived;
       parameters: { conversationId: string };
@@ -74,23 +88,37 @@ export type AnyToast =
   | { toastType: ToastType.CopiedUsername }
   | { toastType: ToastType.CopiedUsernameLink }
   | { toastType: ToastType.DangerousFileType }
+  | { toastType: ToastType.DebugLogError }
   | { toastType: ToastType.DeleteForEveryoneFailed }
   | { toastType: ToastType.Error }
   | { toastType: ToastType.Expired }
   | { toastType: ToastType.FailedToDeleteUsername }
+  | { toastType: ToastType.FailedToFetchPhoneNumber }
+  | { toastType: ToastType.FailedToFetchUsername }
   | { toastType: ToastType.FileSaved; parameters: { fullPath: string } }
   | {
       toastType: ToastType.FileSize;
       parameters: { limit: number; units: string };
     }
+  | { toastType: ToastType.GroupLinkCopied }
+  | {
+      toastType: ToastType.DecryptionError;
+      parameters: {
+        name: string;
+        deviceId: number;
+      };
+    }
   | { toastType: ToastType.InvalidConversation }
   | { toastType: ToastType.LeftGroup }
+  | { toastType: ToastType.LinkCopied }
+  | { toastType: ToastType.LoadingFullLogs }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MessageBodyTooLong }
   | { toastType: ToastType.OriginalMessageNotFound }
   | { toastType: ToastType.PinnedConversationsFull }
   | { toastType: ToastType.ReactionFailed }
   | { toastType: ToastType.ReportedSpamAndBlocked }
+  | { toastType: ToastType.StickerPackInstallFailed }
   | { toastType: ToastType.StoryMuted }
   | { toastType: ToastType.StoryReact }
   | { toastType: ToastType.StoryReply }
@@ -110,4 +138,6 @@ export type AnyToast =
       toastType: ToastType.UserAddedToGroup;
       parameters: { contact: string; group: string };
     }
+  | { toastType: ToastType.VoiceNoteLimit }
+  | { toastType: ToastType.VoiceNoteMustBeTheOnlyAttachment }
   | { toastType: ToastType.WhoCanFindMeReadOnly };

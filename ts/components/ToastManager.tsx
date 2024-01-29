@@ -1,29 +1,43 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import classNames from 'classnames';
 import React from 'react';
+import { createPortal } from 'react-dom';
+
 import type { LocalizerType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
+import { WidthBreakpoint } from './_util';
+import { UsernameMegaphone } from './UsernameMegaphone';
+import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
+import type { AnyActionableMegaphone } from '../types/Megaphone';
+import { MegaphoneType } from '../types/Megaphone';
 
 export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
   OS: string;
+  onShowDebugLog: () => unknown;
   onUndoArchive: (conversaetionId: string) => unknown;
   toast?: AnyToast;
+  megaphone?: AnyActionableMegaphone;
+  centerToast?: boolean;
+  containerWidthBreakpoint: WidthBreakpoint;
+  isCompositionAreaVisible?: boolean;
 };
 
 const SHORT_TIMEOUT = 3 * SECOND;
 
-export function ToastManager({
+export function renderToast({
   hideToast,
   i18n,
   openFileInFolder,
+  onShowDebugLog,
   onUndoArchive,
   OS,
   toast,
@@ -116,6 +130,16 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.CaptchaFailed) {
+    return <Toast onClose={hideToast}>{i18n('icu:verificationFailed')}</Toast>;
+  }
+
+  if (toastType === ToastType.CaptchaSolved) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:verificationComplete')}</Toast>
+    );
+  }
+
   if (toastType === ToastType.CannotStartGroupCall) {
     return (
       <Toast onClose={hideToast}>
@@ -184,6 +208,10 @@ export function ToastManager({
     return <Toast onClose={hideToast}>{i18n('icu:dangerousFileType')}</Toast>;
   }
 
+  if (toastType === ToastType.DebugLogError) {
+    return <Toast onClose={hideToast}>{i18n('icu:debugLogError')}</Toast>;
+  }
+
   if (toastType === ToastType.DeleteForEveryoneFailed) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:deleteForEveryoneFailed')}</Toast>
@@ -217,6 +245,22 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.FailedToFetchPhoneNumber) {
+    return (
+      <Toast onClose={hideToast} style={{ maxWidth: '280px' }}>
+        {i18n('icu:Toast--failed-to-fetch-phone-number')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.FailedToFetchUsername) {
+    return (
+      <Toast onClose={hideToast} style={{ maxWidth: '280px' }}>
+        {i18n('icu:Toast--failed-to-fetch-username')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.FileSaved) {
     return (
       <Toast
@@ -244,12 +288,55 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.GroupLinkCopied) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:GroupLinkManagement--clipboard')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.DecryptionError) {
+    assertDev(
+      toast.toastType === ToastType.DecryptionError,
+      'Pacify typescript'
+    );
+    const { parameters } = toast;
+    const { deviceId, name } = parameters;
+
+    return (
+      <Toast
+        autoDismissDisabled
+        className="internal-error-toast"
+        onClose={hideToast}
+        style={{ maxWidth: '500px' }}
+        toastAction={{
+          label: i18n('icu:decryptionErrorToastAction'),
+          onClick: onShowDebugLog,
+        }}
+      >
+        {i18n('icu:decryptionErrorToast', {
+          name,
+          deviceId,
+        })}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.InvalidConversation) {
     return <Toast onClose={hideToast}>{i18n('icu:invalidConversation')}</Toast>;
   }
 
   if (toastType === ToastType.LeftGroup) {
     return <Toast onClose={hideToast}>{i18n('icu:youLeftTheGroup')}</Toast>;
+  }
+
+  if (toastType === ToastType.LinkCopied) {
+    return <Toast onClose={hideToast}>{i18n('icu:debugLogLinkCopied')}</Toast>;
+  }
+
+  if (toastType === ToastType.LoadingFullLogs) {
+    return <Toast onClose={hideToast}>{i18n('icu:loading')}</Toast>;
   }
 
   if (toastType === ToastType.MaxAttachments) {
@@ -280,6 +367,14 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:MessageRequests--block-and-report-spam-success-toast')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StickerPackInstallFailed) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:stickers--toast--InstallFailed')}
       </Toast>
     );
   }
@@ -392,6 +487,18 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.VoiceNoteLimit) {
+    return <Toast onClose={hideToast}>{i18n('icu:voiceNoteLimit')}</Toast>;
+  }
+
+  if (toastType === ToastType.VoiceNoteMustBeTheOnlyAttachment) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:voiceNoteMustBeOnlyAttachment')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.WhoCanFindMeReadOnly) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:WhoCanFindMeReadOnlyToast')}</Toast>
@@ -399,4 +506,44 @@ export function ToastManager({
   }
 
   throw missingCaseError(toastType);
+}
+
+export function renderMegaphone({
+  i18n,
+  megaphone,
+}: PropsType): JSX.Element | null {
+  if (!megaphone) {
+    return null;
+  }
+
+  if (megaphone.type === MegaphoneType.UsernameOnboarding) {
+    return <UsernameMegaphone i18n={i18n} {...megaphone} />;
+  }
+
+  throw missingCaseError(megaphone.type);
+}
+
+export function ToastManager(props: PropsType): JSX.Element {
+  const { centerToast, containerWidthBreakpoint, isCompositionAreaVisible } =
+    props;
+
+  const toast = renderToast(props);
+
+  return (
+    <div
+      className={classNames('ToastManager', {
+        'ToastManager--narrow-sidebar':
+          containerWidthBreakpoint === WidthBreakpoint.Narrow,
+        'ToastManager--composition-area-visible': isCompositionAreaVisible,
+      })}
+    >
+      {centerToast
+        ? createPortal(
+            <div className="ToastManager__root">{toast}</div>,
+            document.body
+          )
+        : toast}
+      {renderMegaphone(props)}
+    </div>
+  );
 }

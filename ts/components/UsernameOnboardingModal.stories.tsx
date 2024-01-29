@@ -8,23 +8,25 @@ import { action } from '@storybook/addon-actions';
 import enMessages from '../../_locales/en/messages.json';
 import { setupI18n } from '../util/setupI18n';
 
-import type { PropsType } from './UsernameOnboardingModalBody';
-import { UsernameOnboardingModalBody } from './UsernameOnboardingModalBody';
+import type { PropsType } from './UsernameOnboardingModal';
+import { UsernameOnboardingModal } from './UsernameOnboardingModal';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
-  component: UsernameOnboardingModalBody,
-  title: 'Components/UsernameOnboardingModalBody',
+  component: UsernameOnboardingModal,
+  title: 'Components/UsernameOnboardingModal',
   args: {
     i18n,
     onNext: action('onNext'),
+    onSkip: action('onSkip'),
+    onClose: action('onClose'),
   },
 } satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
-  return <UsernameOnboardingModalBody {...args} />;
+  return <UsernameOnboardingModal {...args} />;
 };
 
 export const Normal = Template.bind({});

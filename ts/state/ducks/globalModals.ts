@@ -16,10 +16,12 @@ import type {
 import type { MessagePropsType } from '../selectors/message';
 import type { RecipientsByConversation } from './stories';
 import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
+import type { EditState as ProfileEditorEditState } from '../../components/ProfileEditor';
 import type { StateType as RootStateType } from '../reducer';
 import * as Errors from '../../types/errors';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
+import { UsernameOnboardingState } from '../../types/globalModals';
 import * as log from '../../logging/log';
 import { getMessagePropsSelector } from '../selectors/message';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -96,7 +98,9 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   isSignalConnectionsVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
+  usernameOnboardingState: UsernameOnboardingState;
   profileEditorHasError: boolean;
+  profileEditorInitialEditState: ProfileEditorEditState | undefined;
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
   sendEditWarningData?: SendEditWarningDataType;
@@ -151,6 +155,7 @@ const CONFIRM_AUTH_ART_CREATOR_FULFILLED =
   'globalModals/CONFIRM_AUTH_ART_CREATOR_FULFILLED';
 const SHOW_EDIT_HISTORY_MODAL = 'globalModals/SHOW_EDIT_HISTORY_MODAL';
 const CLOSE_EDIT_HISTORY_MODAL = 'globalModals/CLOSE_EDIT_HISTORY_MODAL';
+const TOGGLE_USERNAME_ONBOARDING = 'globalModals/TOGGLE_USERNAME_ONBOARDING';
 
 export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
@@ -206,6 +211,9 @@ type ToggleForwardMessagesModalActionType = ReadonlyDeep<{
 
 type ToggleProfileEditorActionType = ReadonlyDeep<{
   type: typeof TOGGLE_PROFILE_EDITOR;
+  payload: {
+    initialEditState?: ProfileEditorEditState;
+  };
 }>;
 
 export type ToggleProfileEditorErrorActionType = ReadonlyDeep<{
@@ -229,6 +237,10 @@ type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
 type ToggleConfirmationModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_CONFIRMATION_MODAL;
   payload: boolean;
+}>;
+
+type ToggleUsernameOnboardingActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_USERNAME_ONBOARDING;
 }>;
 
 type ShowStoriesSettingsActionType = ReadonlyDeep<{
@@ -368,6 +380,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType
   | ToggleSignalConnectionsModalActionType
+  | ToggleUsernameOnboardingActionType
 >;
 
 // Action Creators
@@ -406,6 +419,7 @@ export const actions = {
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
   toggleSignalConnectionsModal,
+  toggleUsernameOnboarding,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -585,8 +599,10 @@ function toggleForwardMessagesModal(
   };
 }
 
-function toggleProfileEditor(): ToggleProfileEditorActionType {
-  return { type: TOGGLE_PROFILE_EDITOR };
+function toggleProfileEditor(
+  initialEditState?: ProfileEditorEditState
+): ToggleProfileEditorActionType {
+  return { type: TOGGLE_PROFILE_EDITOR, payload: { initialEditState } };
 }
 
 function toggleProfileEditorHasError(): ToggleProfileEditorErrorActionType {
@@ -624,6 +640,10 @@ function toggleConfirmationModal(
     type: TOGGLE_CONFIRMATION_MODAL,
     payload: isOpen,
   };
+}
+
+function toggleUsernameOnboarding(): ToggleUsernameOnboardingActionType {
+  return { type: TOGGLE_USERNAME_ONBOARDING };
 }
 
 function showBlockingSafetyNumberChangeDialog(
@@ -861,7 +881,9 @@ export function getEmptyState(): GlobalModalsStateType {
     isSignalConnectionsVisible: false,
     isStoriesSettingsVisible: false,
     isWhatsNewVisible: false,
+    usernameOnboardingState: UsernameOnboardingState.NeverShown,
     profileEditorHasError: false,
+    profileEditorInitialEditState: undefined,
   };
 }
 
@@ -873,6 +895,7 @@ export function reducer(
     return {
       ...state,
       isProfileEditorVisible: !state.isProfileEditorVisible,
+      profileEditorInitialEditState: action.payload.initialEditState,
     };
   }
 
@@ -980,6 +1003,16 @@ export function reducer(
     return {
       ...state,
       hasConfirmationModal: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_USERNAME_ONBOARDING) {
+    return {
+      ...state,
+      usernameOnboardingState:
+        state.usernameOnboardingState === UsernameOnboardingState.Open
+          ? UsernameOnboardingState.Closed
+          : UsernameOnboardingState.Open,
     };
   }
 

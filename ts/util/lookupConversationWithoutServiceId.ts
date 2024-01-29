@@ -3,14 +3,12 @@
 
 import { usernames, LibSignalErrorBase } from '@signalapp/libsignal-client';
 
-import { ToastFailedToFetchUsername } from '../components/ToastFailedToFetchUsername';
-import { ToastFailedToFetchPhoneNumber } from '../components/ToastFailedToFetchPhoneNumber';
 import type { UserNotFoundModalStateType } from '../state/ducks/globalModals';
 import * as log from '../logging/log';
 import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
+import { ToastType } from '../types/Toast';
 import { HTTPError } from '../textsecure/Errors';
-import { showToast } from './showToast';
 import { strictAssert } from './assert';
 import type { UUIDFetchStateKeyType } from './uuidFetchState';
 import { getServiceIdsForE164s } from './getServiceIdsForE164s';
@@ -121,9 +119,13 @@ export async function lookupConversationWithoutServiceId(
     );
 
     if (options.type === 'e164') {
-      showToast(ToastFailedToFetchPhoneNumber);
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.FailedToFetchPhoneNumber,
+      });
     } else {
-      showToast(ToastFailedToFetchUsername);
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.FailedToFetchUsername,
+      });
     }
 
     return undefined;

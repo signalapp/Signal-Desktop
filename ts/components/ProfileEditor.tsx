@@ -39,7 +39,6 @@ import { missingCaseError } from '../util/missingCaseError';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
 import { UsernameLinkModalBody } from './UsernameLinkModalBody';
-import { UsernameOnboardingModalBody } from './UsernameOnboardingModalBody';
 import {
   ConversationDetailsIcon,
   IconType,
@@ -54,7 +53,6 @@ export enum EditState {
   ProfileName = 'ProfileName',
   Bio = 'Bio',
   Username = 'Username',
-  UsernameOnboarding = 'UsernameOnboarding',
   UsernameLink = 'UsernameLink',
 }
 
@@ -75,13 +73,13 @@ export type PropsDataType = {
   conversationId: string;
   familyName?: string;
   firstName: string;
-  hasCompletedUsernameOnboarding: boolean;
   hasCompletedUsernameLinkOnboarding: boolean;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
   phoneNumber?: string;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
+  initialEditState?: EditState;
   usernameCorrupted: boolean;
   usernameEditState: UsernameEditState;
   usernameLinkState: UsernameLinkState;
@@ -92,7 +90,6 @@ export type PropsDataType = {
 
 type PropsActionType = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
-  markCompletedUsernameOnboarding: () => void;
   markCompletedUsernameLinkOnboarding: () => void;
   onSetSkinTone: (tone: number) => unknown;
   replaceAvatar: ReplaceAvatarActionType;
@@ -147,11 +144,10 @@ export function ProfileEditor({
   deleteUsername,
   familyName,
   firstName,
-  hasCompletedUsernameOnboarding,
   hasCompletedUsernameLinkOnboarding,
   i18n,
+  initialEditState = EditState.None,
   isUsernameFlagEnabled,
-  markCompletedUsernameOnboarding,
   markCompletedUsernameLinkOnboarding,
   onEditStateChanged,
   onProfileChanged,
@@ -179,7 +175,7 @@ export function ProfileEditor({
   usernameLinkCorrupted,
 }: PropsType): JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
-  const [editState, setEditState] = useState<EditState>(EditState.None);
+  const [editState, setEditState] = useState<EditState>(initialEditState);
   const [confirmDiscardAction, setConfirmDiscardAction] = useState<
     (() => unknown) | undefined
   >(undefined);
@@ -518,16 +514,6 @@ export function ProfileEditor({
     content = renderEditUsernameModalBody({
       onClose: () => setEditState(EditState.None),
     });
-  } else if (editState === EditState.UsernameOnboarding) {
-    content = (
-      <UsernameOnboardingModalBody
-        i18n={i18n}
-        onNext={() => {
-          markCompletedUsernameOnboarding();
-          setEditState(EditState.Username);
-        }}
-      />
-    );
   } else if (editState === EditState.UsernameLink) {
     content = (
       <UsernameLinkModalBody
@@ -686,11 +672,7 @@ export function ProfileEditor({
               }
 
               openUsernameReservationModal();
-              if (username || hasCompletedUsernameOnboarding) {
-                setEditState(EditState.Username);
-              } else {
-                setEditState(EditState.UsernameOnboarding);
-              }
+              setEditState(EditState.Username);
             }}
             alwaysShowActions={alwaysShowActions}
             actions={actions}

@@ -2,11 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
+import type { ThunkAction } from 'redux-thunk';
+
 import * as log from '../../logging/log';
-import { showToast } from '../../util/showToast';
 import * as Errors from '../../types/errors';
-import { ToastLinkCopied } from '../../components/ToastLinkCopied';
-import { ToastDebugLogError } from '../../components/ToastDebugLogError';
+import { ToastType } from '../../types/Toast';
+import type { StateType as RootStateType } from '../reducer';
+import { showToast } from './toast';
+import type { ShowToastActionType } from './toast';
 import type { PromiseAction } from '../util';
 
 // State
@@ -45,12 +48,43 @@ function setCrashReportCount(count: number): SetCrashReportCountActionType {
   return { type: SET_COUNT, payload: count };
 }
 
-function uploadCrashReports(): PromiseAction<typeof UPLOAD> {
-  return { type: UPLOAD, payload: window.IPC.crashReports.upload() };
+function uploadCrashReports(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  PromiseAction<typeof UPLOAD> | ShowToastActionType
+> {
+  return dispatch => {
+    async function run() {
+      try {
+        await window.IPC.crashReports.upload();
+        dispatch(showToast({ toastType: ToastType.LinkCopied }));
+      } catch (error) {
+        dispatch(showToast({ toastType: ToastType.DebugLogError }));
+        throw error;
+      }
+    }
+    dispatch({ type: UPLOAD, payload: run() });
+  };
 }
 
-function eraseCrashReports(): PromiseAction<typeof ERASE> {
-  return { type: ERASE, payload: window.IPC.crashReports.erase() };
+function eraseCrashReports(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  PromiseAction<typeof ERASE> | ShowToastActionType
+> {
+  return dispatch => {
+    async function run() {
+      try {
+        await window.IPC.crashReports.erase();
+      } catch (error) {
+        dispatch(showToast({ toastType: ToastType.DebugLogError }));
+        throw error;
+      }
+    }
+    dispatch({ type: ERASE, payload: run() });
+  };
 }
 
 // Reducer
@@ -87,9 +121,6 @@ export function reducer(
     action.type === `${UPLOAD}_FULFILLED` ||
     action.type === `${ERASE}_FULFILLED`
   ) {
-    if (action.type === `${UPLOAD}_FULFILLED`) {
-      showToast(ToastLinkCopied);
-    }
     return {
       ...state,
       count: 0,
@@ -106,8 +137,6 @@ export function reducer(
     log.error(
       `Failed to upload crash report due to error ${Errors.toLogFormat(error)}`
     );
-
-    showToast(ToastDebugLogError);
 
     return {
       ...state,

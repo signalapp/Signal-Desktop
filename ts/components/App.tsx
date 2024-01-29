@@ -5,15 +5,12 @@ import React, { useEffect } from 'react';
 import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
 
-import type { AnyToast } from '../types/Toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
-import type { LocalizerType } from '../types/Util';
 import type { VerificationTransport } from '../types/VerificationTransport';
 import { ThemeType } from '../types/Util';
 import { AppViewType } from '../state/ducks/app';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
-import { ToastManager } from './ToastManager';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
@@ -27,7 +24,6 @@ type PropsType = {
   ) => Promise<void>;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
-  i18n: LocalizerType;
   hasSelectedStoryData: boolean;
   renderStoryViewer: (closeView: () => unknown) => JSX.Element;
   renderLightbox: () => JSX.Element | null;
@@ -39,13 +35,8 @@ type PropsType = {
   theme: ThemeType;
   isMaximized: boolean;
   isFullScreen: boolean;
-  onUndoArchive: (conversationId: string) => unknown;
-  openFileInFolder: (target: string) => unknown;
-  OS: string;
   osClassName: string;
 
-  hideToast: () => unknown;
-  toast?: AnyToast;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
   renderInbox: () => JSX.Element;
@@ -54,14 +45,9 @@ type PropsType = {
 export function App({
   appView,
   hasSelectedStoryData,
-  hideToast,
-  i18n,
   isFullScreen,
   isMaximized,
-  onUndoArchive,
-  openFileInFolder,
   openInbox,
-  OS,
   osClassName,
   registerSingleDevice,
   renderCallManager,
@@ -71,7 +57,6 @@ export function App({
   renderStoryViewer,
   requestVerification,
   theme,
-  toast,
   viewStory,
 }: PropsType): JSX.Element {
   let contents;
@@ -139,14 +124,6 @@ export function App({
       })}
     >
       {contents}
-      <ToastManager
-        OS={OS}
-        hideToast={hideToast}
-        i18n={i18n}
-        onUndoArchive={onUndoArchive}
-        openFileInFolder={openFileInFolder}
-        toast={toast}
-      />
       {renderGlobalModalContainer()}
       {renderCallManager()}
       {renderLightbox()}

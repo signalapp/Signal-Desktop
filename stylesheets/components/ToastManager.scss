@@ -1,0 +1,45 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ToastManager {
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+
+  gap: 16px;
+
+  // Sync inner width with left pane
+  position: fixed;
+  width: inherit;
+  bottom: 0;
+  z-index: $z-index-toast;
+
+  padding: 16px;
+
+  & * {
+    pointer-events: auto;
+  }
+
+  // Separate container used when modals are on screen
+  &__root {
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    bottom: 16px;
+    z-index: $z-index-toast;
+
+    inset-inline-start: 0;
+    width: 100%;
+    align-items: center;
+  }
+}
+
+.ToastManager--narrow-sidebar.ToastManager--composition-area-visible {
+  inset-inline-start: 0;
+  width: 100%;
+  align-items: center;
+
+  // Roughly size of composer + a bit of padding
+  bottom: 40px;
+}

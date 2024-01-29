@@ -14,6 +14,7 @@ import type {
   UserNotFoundModalStateType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType, ThemeType } from '../types/Util';
+import { UsernameOnboardingState } from '../types/globalModals';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { missingCaseError } from '../util/missingCaseError';
 
@@ -90,6 +91,9 @@ export type PropsType = {
   // WhatsNewModal
   isWhatsNewVisible: boolean;
   hideWhatsNewModal: () => unknown;
+  // UsernameOnboarding
+  usernameOnboardingState: UsernameOnboardingState;
+  renderUsernameOnboarding: () => JSX.Element;
   // AuthArtCreatorModal
   authArtCreatorData?: AuthorizeArtCreatorDataType;
   isAuthorizingArtCreator?: boolean;
@@ -151,6 +155,9 @@ export function GlobalModalContainer({
   // WhatsNewModal
   hideWhatsNewModal,
   isWhatsNewVisible,
+  // UsernameOnboarding
+  usernameOnboardingState,
+  renderUsernameOnboarding,
   // AuthArtCreatorModal
   authArtCreatorData,
   isAuthorizingArtCreator,
@@ -251,6 +258,10 @@ export function GlobalModalContainer({
 
   if (isWhatsNewVisible) {
     return <WhatsNewModal hideWhatsNewModal={hideWhatsNewModal} i18n={i18n} />;
+  }
+
+  if (usernameOnboardingState === UsernameOnboardingState.Open) {
+    return renderUsernameOnboarding();
   }
 
   if (safetyNumberModalContactId) {

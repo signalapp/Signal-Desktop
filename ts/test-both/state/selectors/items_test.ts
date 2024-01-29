@@ -54,7 +54,8 @@ describe('both/state/selectors/items', () => {
         0.1,
         1.2,
         NaN,
-      ].forEach(skinTone => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- for testing
+      ].forEach((skinTone: any) => {
         const state = getRootState({ skinTone });
         assert.strictEqual(getEmojiSkinTone(state), 0);
       });

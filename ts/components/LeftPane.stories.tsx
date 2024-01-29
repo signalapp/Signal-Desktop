@@ -8,6 +8,7 @@ import type { PropsType } from './LeftPane';
 import { LeftPane, LeftPaneMode } from './LeftPane';
 import { CaptchaDialog } from './CaptchaDialog';
 import { CrashReportDialog } from './CrashReportDialog';
+import { ToastManager } from './ToastManager';
 import type { PropsType as DialogNetworkStatusPropsType } from './DialogNetworkStatus';
 import { DialogExpiredBuild } from './DialogExpiredBuild';
 import { DialogNetworkStatus } from './DialogNetworkStatus';
@@ -249,6 +250,19 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         OS="macOS"
         expirationTimestamp={Date.now() + 5 * DAY}
         {...props}
+      />
+    ),
+    renderToastManager: ({ containerWidthBreakpoint }) => (
+      <ToastManager
+        OS="unused"
+        hideToast={action('hideToast')}
+        i18n={i18n}
+        onShowDebugLog={action('onShowDebugLog')}
+        onUndoArchive={action('onUndoArchive')}
+        openFileInFolder={action('openFileInFolder')}
+        toast={undefined}
+        megaphone={undefined}
+        containerWidthBreakpoint={containerWidthBreakpoint}
       />
     ),
     selectedConversationId: undefined,

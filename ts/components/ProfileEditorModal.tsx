@@ -37,7 +37,6 @@ export function ProfileEditorModal({
     [EditState.Bio]: i18n('icu:ProfileEditorModal--about'),
     [EditState.None]: i18n('icu:ProfileEditorModal--profile'),
     [EditState.ProfileName]: i18n('icu:ProfileEditorModal--name'),
-    [EditState.UsernameOnboarding]: undefined,
     [EditState.Username]: i18n('icu:ProfileEditorModal--username'),
     [EditState.UsernameLink]: undefined,
   };
