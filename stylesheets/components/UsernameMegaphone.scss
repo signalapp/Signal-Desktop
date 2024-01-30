@@ -51,6 +51,8 @@
   &__row__text {
     @include font-body-2;
 
+    padding-inline-end: 8px;
+
     h2 {
       @include font-body-2-bold;
       margin: 0;
