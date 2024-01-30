@@ -18,6 +18,7 @@ import { hasSelectedStoryData } from '../selectors/stories';
 import { shouldShowLightbox } from '../selectors/lightbox';
 import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling';
 import { getSelectedNavTab } from '../selectors/nav';
+import { getMe } from '../selectors/conversations';
 import type { StateType } from '../reducer';
 import { useConversationsActions } from '../ducks/conversations';
 import type { ConversationsStateType } from '../ducks/conversations';
@@ -51,6 +52,7 @@ export function SmartToastManager({
   const isShowingStory = useSelector(hasSelectedStoryData);
   const isShowingLightbox = useSelector(shouldShowLightbox);
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
+  const { username } = useSelector(getMe);
 
   const selectedNavTab = useSelector(getSelectedNavTab);
   const { selectedConversationId } = useSelector<
@@ -69,6 +71,7 @@ export function SmartToastManager({
   if (
     isUsernameFlagEnabled &&
     !hasCompletedUsernameOnboarding &&
+    !username &&
     globalModals.usernameOnboardingState === UsernameOnboardingState.NeverShown
   ) {
     megaphone = {
