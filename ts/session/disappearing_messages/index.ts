@@ -561,12 +561,15 @@ function getMessageReadyToDisappear(
     messageExpirationFromRetrieve &&
     messageExpirationFromRetrieve > 0
   ) {
-    const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
-    const expires_at = messageExpirationFromRetrieve;
-    messageModel.set({
-      expirationStartTimestamp,
-      expires_at,
-    });
+    // Note: closed groups control message do not disappear
+    if (!conversationModel.isClosedGroup() && !messageModel.isControlMessage()) {
+      const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
+      const expires_at = messageExpirationFromRetrieve;
+      messageModel.set({
+        expirationStartTimestamp,
+        expires_at,
+      });
+    }
   }
 
   return messageModel;
