@@ -1513,6 +1513,7 @@ export default class MessageReceiver
         Boolean(content.storyMessage?.group);
 
       if (
+        wasEncrypted &&
         content.senderKeyDistributionMessage &&
         Bytes.isNotEmpty(content.senderKeyDistributionMessage)
       ) {
@@ -1575,7 +1576,7 @@ export default class MessageReceiver
         return { plaintext: undefined, envelope };
       }
 
-      if (content.pniSignatureMessage) {
+      if (wasEncrypted && content.pniSignatureMessage) {
         inProgressMessageType = 'pni signature';
         await this.handlePniSignatureMessage(
           envelope,
@@ -1586,7 +1587,7 @@ export default class MessageReceiver
       // Some sync messages have to be fully processed in the middle of
       // decryption queue since subsequent envelopes use their key material.
       const { syncMessage } = content;
-      if (syncMessage?.pniChangeNumber) {
+      if (wasEncrypted && syncMessage?.pniChangeNumber) {
         inProgressMessageType = 'pni change number';
         await this.handlePNIChangeNumber(envelope, syncMessage.pniChangeNumber);
         this.removeFromCache(envelope);
@@ -3323,6 +3324,12 @@ export default class MessageReceiver
       newE164,
     }: Proto.SyncMessage.IPniChangeNumber
   ): Promise<void> {
+    const ourAci = this.storage.user.getCheckedAci();
+
+    if (envelope.sourceServiceId !== ourAci) {
+      throw new Error('Received pni change number from another number');
+    }
+
     log.info('MessageReceiver: got pni change number sync message');
 
     logUnexpectedUrgentValue(envelope, 'pniIdentitySync');
