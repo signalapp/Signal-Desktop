@@ -886,7 +886,7 @@
   },
   "icu:cdsMirroringErrorToast": {
     "messageformat": "كومپيۇتېر «ئالاقە بايقاش مۇلازىمەت» بىردەك بولماسلىق مەسلىسىگە يولۇقتى.",
-    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "كومپيۇتېر {name}، ئۈسكۈنە «{deviceId}» دىن كەلگەن شىفىر يېشىش خاتالىقىغا يولۇقتى",
@@ -1750,7 +1750,7 @@
     "description": "Button tooltip label for stopping screen sharing"
   },
   "icu:calling__button--react": {
-    "messageformat": "React",
+    "messageformat": "ئىنكاس قايتۇرۇش",
     "description": "Button tooltip label to send a reaction during a call"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
@@ -1866,11 +1866,11 @@
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "Can't receive audio and video from {name}",
+    "messageformat": "{name} دىن ئۈن ۋە سىن تاپشۇرۇۋالالمايدۇ",
     "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "messageformat": "بۇنداق بولۇشىنىڭ سەۋەبى ئۇلار سىزنىڭ بىخەتەرلىك نومۇرىنى ئۆزگەرتكەنلىكىڭىزنى دەلىللىمىگەن بولۇشى مۇمكىن، ياكى ئۇلارنىڭ ئۈسكۈنىسىدە مەسىلە بار ۋە ياكى ئۇلار سىزنى چەكلىۋەتكەن بولۇشى مۇمكىن.",
     "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
@@ -5545,15 +5545,15 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
-    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "messageformat": "ئىشلەتكۈچى نامى ئىناۋەتسىز، ئاز دېگەندە 2 خانە كىرگۈزۈڭ.",
     "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
-    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "messageformat": "بۇ نومۇر 00 بولسا بولمايدۇ. 1-9 ئارىسىدىكى نومۇر كىرگۈزۈڭ",
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "messageformat": "بۇ نومۇر 00 بىلەن باشلانسا بولمايدۇ. 1-9 ئارىسىدىكى نومۇر كىرگۈزۈڭ",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5797,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Your phone number will be visible to people and groups you message.",
+    "messageformat": "تېلېفون نومۇرىڭىزنى سىز ئۇچۇر يوللىغان كىشىلەر ۋە گۇرۇپپىدىكىلەر كۆرەلەيدۇ.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
+    "messageformat": "ھېچكىم Signal دا تېلېفون نومۇرىڭىزنى كۆرەلمەيدۇ، ھەتتا ئۇلارغا ئۇچۇر يوللىغان تەقدىردىمۇ كۆرەلمەيدۇ.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5821,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
+    "messageformat": "تېلېفون نومۇرىڭىز بار ھەرقانداق كىشى سىزنىڭ Signal دا ئىكەنلىكىڭىزنى كۆرەلەيدۇ ۋە سىز بىلەن پاراڭ باشلىيالايدۇ.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
+    "messageformat": "ئەگەر باشقىلارغا ئۇچۇر يوللىسىمىڭىز ياكى باشقىلار بىلەن بۇرۇندىنلا مەۋجۇت پارىڭىڭىز بولمىسا، باشقىلار سىزنىڭ Signal دا ئىكەنلىكىڭىزنى كۆرەلمەيدۇ.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -6840,6 +6840,10 @@
     "messageformat": "داۋاملاشتۇرۇش",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:UsernameLinkModalBody__hint": {
+    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+  },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "ساقلا",
     "description": "Name of the button for saving username link QR code to disk in the username link modal"
@@ -6881,28 +6885,72 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Signal ئىشلەتكۈچى نامىنى بەلگىلەڭ",
+    "messageformat": "New ways to connect",
     "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__title": {
+    "messageformat": "Phone number privacy",
+    "description": "Title of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__body": {
+    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "description": "Body of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__title": {
+    "messageformat": "Usernames",
+    "description": "Title of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__body": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "description": "Body of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__title": {
+    "messageformat": "QR codes and links",
+    "description": "Title of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__body": {
+    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
     "messageformat": "ئىشلەتكۈچى نامى بىر يۈرۈش رەقەملەر بىلەن ماسلاشتۇرۇلغان بولۇپ، ئۇ ئارخىپىڭىزدا ئورتاقلىشىلمايدۇ",
-    "description": "Content of the first row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
     "messageformat": "ھەر بىر ئىشلەتكۈچى نامىنىڭ خاس QR كودى بار بولۇپ، بۇ ئۇلانمىنى دوستلىرىڭىز بىلەن ئورتاقلىشىپ پاراڭلىشىشنى باشلىيالايسىز",
-    "description": "Content of the second row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
     "messageformat": "ئىشلەتكۈچى نامىڭىزنى باشقىلارنىڭ سىزنى تاپىدىغان ئاساسلىق ئۇسۇلى قىلىپ تەڭشەش ئۈچۈن، تەڭشەك > مەخپىيەتلىك > تېلېفون نومۇرى > نومۇرىمنى تاپالايدىغانلار دېگەن جايدىن تېلفون نومۇرىنى بايقاش ئىقتىدارىنى ئېتىۋېتىڭ.",
-    "description": "Content of the third row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
     "messageformat": "تەپسىلات",
-    "description": "Text that open a popup with information about username onboarding"
+    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "داۋاملاشتۇرۇش",
+    "messageformat": "Set up username",
     "description": "Text of the primary button on username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__skip": {
+    "messageformat": "Not now",
+    "description": "Text of the secondary button on username onboarding modal"
+  },
+  "icu:UsernameMegaphone__title": {
+    "messageformat": "New ways to connect",
+    "description": "Title of username megaphone"
+  },
+  "icu:UsernameMegaphone__body": {
+    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "description": "Body of username megaphone"
+  },
+  "icu:UsernameMegaphone__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Text of the primary button on username megaphone"
+  },
+  "icu:UsernameMegaphone__dismiss": {
+    "messageformat": "Dismiss",
+    "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "قىسقا ۋاقىتتىن كېيىن Signal كومپيۇتېرىڭىزنىڭ {OS} نەشرىنى قوللىمايدۇ. Signal نى داۋاملىق ئىشلىتىش ئۈچۈن، كومپيۇتېرىڭىزنىڭ مەشغۇلات سىستېمىسىنى «{expirationDate}» دىن بۇرۇن يېڭىلاڭ <learnMoreLink>تەپسىلاتى</learnMoreLink>",
@@ -7041,7 +7089,7 @@
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
   "icu:WhoCanFindMeReadOnlyToast": {
-    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "messageformat": "بۇ تەڭشەكنى ئۆزگەرتىش ئۈچۈن «تېلېفون نومۇرۇمنى كۆرەلەيدىغانلار» نى «ھېچكىم» گە تەڭشەڭ.",
     "description": "A toast displayed when user clicks disabled option in settings window"
   },
   "icu:WhatsNew__modal-title": {
@@ -7076,19 +7124,13 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.45--0": {
-    "messageformat": "ھازىر emoticons نى تاللاپ emoji غا ئايلاندۇرالايسىز. «<emojify>🙂</emojify>» نى چىقارماقچى بولسىڭىز «:-)» نى كىرگۈزسىڭىزلا بولىدۇ. بۇ ئىقتىدارنى Signal ئۈستەليۈزى تەڭشىكىدىكى «پاراڭ» قىسىمىدىن قوزغىتالايسىز."
-  },
-  "icu:WhatsNew__v6.45--1": {
-    "messageformat": "يېڭى كۇنۇپكا تاختىسى تېزلەتمىسى (Ctrl+s/Cmd+s) دىن پايدىلىنىپ مېدىيا كۆرگۈچتىكى رەسىم ۋە ۋىدېيولارنى تېخىمۇ ئاسان ساقلىيالايسىز."
-  },
-  "icu:WhatsNew__v6.45--2": {
-    "messageformat": "Signal ۋىدېيولۇق چاقىرىق جەريانىدا ئېكران ئورتاقلىشىش ئۈچۈن ئەڭ يۇقىرى ئېنىقلىق دەرىجىسىنى يۇقىرى كۆتۈردۇق."
-  },
-  "icu:WhatsNew__v6.45--3": {
-    "messageformat": "بۇ يېڭى نەشرىنى ئېلان قىلىشتا {linkToGithub1} ۋە {linkToGithub2} نىڭ قوشقان تۆھپىسىگە رەھمەت ئېيتىمىز!"
-  },
   "icu:WhatsNew__v6.46--0": {
-    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
+    "messageformat": "ئوردۇ تىلى خەت نۇسخىسى يېڭىلانغان بولۇپ، تىل تاللانغاندا (Signal تەڭشەك > كۆرۈنۈشى > تىل) ئوقۇلۇشچانلىقى ئاشۇرۇلدى. رەھمەت، {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.47--0": {
+    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+  },
+  "icu:WhatsNew__v6.47--1": {
+    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
   }
 }

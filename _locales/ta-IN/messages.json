@@ -886,7 +886,7 @@
   },
   "icu:cdsMirroringErrorToast": {
     "messageformat": "ஒரு தொடர்பு கண்டறிதல் சேவையின் சீரற்ற தன்மையில் டெஸ்க்டாப் இயங்கியது.",
-    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "டெஸ்க்டாப்பில் {name} , சாதனம் {deviceId}- இருந்து மறைகுறியாக்கப் பிழை ஏற்பட்டது",
@@ -1750,7 +1750,7 @@
     "description": "Button tooltip label for stopping screen sharing"
   },
   "icu:calling__button--react": {
-    "messageformat": "React",
+    "messageformat": "ரியாக்ட் செய்க",
     "description": "Button tooltip label to send a reaction during a call"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
@@ -1866,11 +1866,11 @@
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "Can't receive audio and video from {name}",
+    "messageformat": "{name}இலிருந்து ஆடியோ மற்றும் வீடியோவைப் பெற முடியவில்லை",
     "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "messageformat": "இது உங்கள் பாதுகாப்பு எண் மாற்றத்தை அவர்கள் சரிபார்க்கவில்லை அல்லது அவர்களின் சாதனத்தில் சிக்கல் இருப்பதால் அல்லது அவர்கள் உங்களைத் தடுத்ததால் இருக்கலாம்.",
     "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
@@ -5545,15 +5545,15 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
-    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "messageformat": "தவறான பயனர் பெயர், குறைந்தபட்சம் 2 எண்களை உள்ளிடவும்.",
     "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
-    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "messageformat": "இந்த எண் 00 ஆக இருக்கக் கூடாது. 1-9 க்கு இடையேயுள்ள ஒரு எண்ணை உள்ளிடவும்",
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "messageformat": "இந்த எண் 00 ஐக் கொண்டு தொடங்கக் கூடாது. 1-9 க்கு இடையேயுள்ள ஒரு எண்ணை உள்ளிடவும்",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5797,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Your phone number will be visible to people and groups you message.",
+    "messageformat": "நீங்கள் மெசேஜ் அனுப்பும் அனைத்து நபர்களுக்கும் குழுக்களுக்கும் உங்கள் தொலைபேசி எண் புலனாகும்.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
+    "messageformat": "நீங்கள் அவர்களுக்கு மெசேஜை பரிமாறிக்கொண்டிருந்தாலும் கூட, உங்கள் தொலைபேசி எண்ணை சிக்னலில் யாராலும் பார்க்க முடியாது.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5821,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
+    "messageformat": "உங்கள் தொலைபேசி எண்ணை வைத்திருக்கும் எவரும் நீங்கள் சிக்கனலை பயன்படுத்திக் கொண்டிருப்பதை அறிவார்கள், மேலும் உங்களுடன் சாட் செய்யத் தொடங்கலாம்.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
+    "messageformat": "நீங்கள் அவர்களுக்கு மெசேஜ் அனுப்பாத வரை அல்லது அவர்களுடன் ஏற்கனவே சாட் செய்யாத வரை, நீங்கள் சிக்னலலை பயன்படுத்திக் கொண்டிருப்பதை யாராலும் பார்க்க முடியாது.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -6840,6 +6840,10 @@
     "messageformat": "தொடர்க",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:UsernameLinkModalBody__hint": {
+    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+  },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "சேமி",
     "description": "Name of the button for saving username link QR code to disk in the username link modal"
@@ -6881,28 +6885,72 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "உங்கள் Signal பயனர் பெயரை அமைக்கவும்",
+    "messageformat": "New ways to connect",
     "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__title": {
+    "messageformat": "Phone number privacy",
+    "description": "Title of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__body": {
+    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "description": "Body of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__title": {
+    "messageformat": "Usernames",
+    "description": "Title of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__body": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "description": "Body of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__title": {
+    "messageformat": "QR codes and links",
+    "description": "Title of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__body": {
+    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
     "messageformat": "பயனர்பெயர்கள் இலக்கங்களின் தொகுப்புடன் இணைக்கப்பட்டு உங்கள் சுயவிவரத்தில் பகிரப்படாது",
-    "description": "Content of the first row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
     "messageformat": "ஒவ்வொரு பயனர்பெயருக்கும் தனிப்பட்ட QR குறியீடு மற்றும் இணைப்பு உள்ளது, உங்களுடன் சாட் செய்ய நண்பர்களுடன் பகிர்ந்து கொள்ளலாம்",
-    "description": "Content of the second row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
     "messageformat": "மற்றவர்கள் உங்களைத் தொடர்புகொள்வதற்கு உங்கள் பயனர்பெயரை முதன்மையாகப் பயன்படுத்த, அமைப்புகள் > தனியுரிமை > ஃபோன் எண் > எனது எண்ணை யார் கண்டறியலாம், என்பதன் கீழ் ஃபோன் எண் கண்டுபிடிப்பை முடக்கவும்.",
-    "description": "Content of the third row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
     "messageformat": "மேலும் அறிக",
-    "description": "Text that open a popup with information about username onboarding"
+    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "தொடர்க",
+    "messageformat": "Set up username",
     "description": "Text of the primary button on username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__skip": {
+    "messageformat": "Not now",
+    "description": "Text of the secondary button on username onboarding modal"
+  },
+  "icu:UsernameMegaphone__title": {
+    "messageformat": "New ways to connect",
+    "description": "Title of username megaphone"
+  },
+  "icu:UsernameMegaphone__body": {
+    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "description": "Body of username megaphone"
+  },
+  "icu:UsernameMegaphone__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Text of the primary button on username megaphone"
+  },
+  "icu:UsernameMegaphone__dismiss": {
+    "messageformat": "Dismiss",
+    "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal டெஸ்க்டாப் விரைவில் உங்கள் கணினியின் {OS} பதிப்பை ஆதரிக்காது. சிக்னலைத் தொடர்ந்து பயன்படுத்த, உங்கள் கணினியின் இயங்குதளத்தை {expirationDate} க்குள் புதுப்பிக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>",
@@ -7041,7 +7089,7 @@
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
   "icu:WhoCanFindMeReadOnlyToast": {
-    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "messageformat": "இந்த அமைப்பை மாற்ற, \"எனது எண்ணை யார் பார்க்கலாம்\" என்னும் ஆப்ஷனில் \"யாரும் இல்லை\" என அமைக்கவும்.",
     "description": "A toast displayed when user clicks disabled option in settings window"
   },
   "icu:WhatsNew__modal-title": {
@@ -7076,19 +7124,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.45--0": {
-    "messageformat": "இப்போது நீங்கள் வேண்டுமென்றால் இமோடிகான்களை இமோஜியாக மாற்றலாம். &quot;:-)&quot; என நீங்கள் டைப் செய்யும் போதெல்லாம் &quot;<emojify>🙂</emojify>&quot; ஆக மாற்ற நீங்கள் விரும்பினால் , உங்கள் Signal டெஸ்க்டாப் அமைப்புகளின் &quot;சாட்கள்&quot; பிரிவில் இந்த அம்சத்தை இயக்கலாம்."
-  },
-  "icu:WhatsNew__v6.45--1": {
-    "messageformat": "ஒரு புதிய கீபோர்டு ஷார்ட்கட் (Ctrl+s/Cmd+s) மீடியா வியூவரில் இருந்து படங்களையும் வீடியோக்களையும் விரைவாகச் சேமிக்க உதவுகிறது."
-  },
-  "icu:WhatsNew__v6.45--2": {
-    "messageformat": "Signal வீடியோ அழைப்புகளின் போது ஸ்க்ரீனைப் பகிர்வதற்கான அதிகபட்ச தெளிவுத்திறனையும் நாங்கள் அதிகப்படுத்தியுள்ளோம்."
-  },
-  "icu:WhatsNew__v6.45--3": {
-    "messageformat": "இந்த வெளியீட்டிற்கு பங்களித்த {linkToGithub1} மற்றும் {linkToGithub2} ஆகியோருக்கு நன்றி!"
-  },
   "icu:WhatsNew__v6.46--0": {
-    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
+    "messageformat": "உருதுக்கான இயல்புநிலை எழுத்துருக்கள் அந்த மொழியைத் தேர்ந்தெடுக்கும் போது மேம்படுத்தப்பட்ட வாசிப்புத்திறனுக்காக புதுப்பிக்கப்பட்டுள்ளன (சிக்னல் அமைப்புகள் > தோற்றம் > மொழி). நன்றி, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.47--0": {
+    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+  },
+  "icu:WhatsNew__v6.47--1": {
+    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
   }
 }
