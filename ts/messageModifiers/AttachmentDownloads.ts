@@ -517,25 +517,89 @@ async function _addAttachmentToMessage(
   const attachmentSignature = getAttachmentSignature(attachment);
 
   if (type === 'long-message') {
-    // Attachment wasn't downloaded yet.
-    if (!attachment.path) {
-      message.set({
-        bodyAttachment: attachment,
-      });
-      return;
-    }
+    let handledAnywhere = false;
+    let attachmentData: Uint8Array | undefined;
 
     try {
-      const { data } = await window.Signal.Migrations.loadAttachmentData(
-        attachment
-      );
+      if (attachment.path) {
+        const loaded = await window.Signal.Migrations.loadAttachmentData(
+          attachment
+        );
+        attachmentData = loaded.data;
+      }
+
+      const editHistory = message.get('editHistory');
+      if (editHistory) {
+        let handledInEditHistory = false;
+
+        const newEditHistory = editHistory.map(edit => {
+          // We've already downloaded a bodyAttachment for this edit
+          if (!edit.bodyAttachment) {
+            return edit;
+          }
+          // This attachment isn't destined for this edit
+          if (
+            getAttachmentSignature(edit.bodyAttachment) !== attachmentSignature
+          ) {
+            return edit;
+          }
+
+          handledInEditHistory = true;
+          handledAnywhere = true;
+
+          // Attachment wasn't downloaded yet.
+          if (!attachmentData) {
+            return {
+              ...edit,
+              bodyAttachment: attachment,
+            };
+          }
+
+          return {
+            ...edit,
+            body: Bytes.toString(attachmentData),
+            bodyAttachment: undefined,
+          };
+        });
+
+        if (handledInEditHistory) {
+          message.set({ editHistory: newEditHistory });
+        }
+      }
+
+      const existingBodyAttachment = message.get('bodyAttachment');
+      // A bodyAttachment download might apply only to an edit, and not the top-level
+      if (!existingBodyAttachment) {
+        return;
+      }
+      if (
+        getAttachmentSignature(existingBodyAttachment) !== attachmentSignature
+      ) {
+        return;
+      }
+
+      handledAnywhere = true;
+
+      // Attachment wasn't downloaded yet.
+      if (!attachmentData) {
+        message.set({
+          bodyAttachment: attachment,
+        });
+        return;
+      }
+
       message.set({
-        body: Bytes.toString(data),
+        body: Bytes.toString(attachmentData),
         bodyAttachment: undefined,
       });
     } finally {
       if (attachment.path) {
-        void window.Signal.Migrations.deleteAttachmentData(attachment.path);
+        await window.Signal.Migrations.deleteAttachmentData(attachment.path);
+      }
+      if (!handledAnywhere) {
+        logger.warn(
+          `${logPrefix}: Long message attachment found no matching place to apply`
+        );
       }
     }
     return;
@@ -556,6 +620,7 @@ async function _addAttachmentToMessage(
   if (type === 'attachment') {
     const attachments = message.get('attachments');
 
+    let handledAnywhere = false;
     let handledInEditHistory = false;
 
     const editHistory = message.get('editHistory');
@@ -572,6 +637,7 @@ async function _addAttachmentToMessage(
           attachments: edit.attachments.map(item => {
             const newItem = maybeReplaceAttachment(item);
             handledInEditHistory ||= item !== newItem;
+            handledAnywhere ||= handledInEditHistory;
             return newItem;
           }),
         };
@@ -584,8 +650,18 @@ async function _addAttachmentToMessage(
 
     if (attachments) {
       message.set({
-        attachments: attachments.map(item => maybeReplaceAttachment(item)),
+        attachments: attachments.map(item => {
+          const newItem = maybeReplaceAttachment(item);
+          handledAnywhere ||= item !== newItem;
+          return newItem;
+        }),
       });
+    }
+
+    if (!handledAnywhere) {
+      logger.warn(
+        `${logPrefix}: 'attachment' type found no matching place to apply`
+      );
     }
 
     return;
@@ -643,7 +719,7 @@ async function _addAttachmentToMessage(
     const contact = message.get('contact');
     if (!contact || contact.length <= index) {
       throw new Error(
-        `_addAttachmentToMessage: contact didn't exist or ${index} was too large`
+        `${logPrefix}: contact didn't exist or ${index} was too large`
       );
     }
 
@@ -663,7 +739,7 @@ async function _addAttachmentToMessage(
       message.set({ contact: newContact });
     } else {
       logger.warn(
-        `_addAttachmentToMessage: Couldn't update contact with avatar attachment for message ${message.idForLogging()}`
+        `${logPrefix}: Couldn't update contact with avatar attachment for message`
       );
     }
 
@@ -730,7 +806,7 @@ async function _addAttachmentToMessage(
   if (type === 'sticker') {
     const sticker = message.get('sticker');
     if (!sticker) {
-      throw new Error("_addAttachmentToMessage: sticker didn't exist");
+      throw new Error(`${logPrefix}: sticker didn't exist`);
     }
 
     message.set({
@@ -742,9 +818,7 @@ async function _addAttachmentToMessage(
     return;
   }
 
-  throw new Error(
-    `_addAttachmentToMessage: Unknown job type ${type} for message ${message.idForLogging()}`
-  );
+  throw new Error(`${logPrefix}: Unknown job type ${type}`);
 }
 
 function _checkOldAttachment(

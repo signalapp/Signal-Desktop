@@ -115,6 +115,7 @@ export async function handleEditMessage(
     {
       attachments: mainMessage.attachments,
       body: mainMessage.body,
+      bodyAttachment: mainMessage.bodyAttachment,
       bodyRanges: mainMessage.bodyRanges,
       preview: mainMessage.preview,
       quote: mainMessage.quote,
@@ -278,6 +279,25 @@ export async function handleEditMessage(
   const updatedFields = await queueAttachmentDownloads(
     mainMessageModel.attributes
   );
+
+  // If we've scheduled a bodyAttachment download, we need that edit to know about it
+  if (updatedFields?.bodyAttachment) {
+    const existing =
+      updatedFields.editHistory || mainMessageModel.get('editHistory') || [];
+
+    updatedFields.editHistory = existing.map(item => {
+      if (item.timestamp !== editedMessage.timestamp) {
+        return item;
+      }
+
+      return {
+        ...item,
+        attachments: updatedFields.attachments,
+        bodyAttachment: updatedFields.bodyAttachment,
+      };
+    });
+  }
+
   if (updatedFields) {
     mainMessageModel.set(updatedFields);
   }

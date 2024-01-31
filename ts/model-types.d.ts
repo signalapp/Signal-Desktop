@@ -119,6 +119,7 @@ export type MessageReactionType = {
 export type EditHistoryType = {
   attachments?: Array<AttachmentType>;
   body?: string;
+  bodyAttachment?: AttachmentType;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   preview?: Array<LinkPreviewType>;
   quote?: QuotedMessageType;
