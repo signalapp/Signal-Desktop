@@ -886,7 +886,7 @@
   },
   "icu:cdsMirroringErrorToast": {
     "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ಕಾಂಟ್ಯಾಕ್ಟ್ ಅನ್ವೇಷಣಾ ಸೇವೆಯು ವ್ಯತ್ಯಯಗೊಂಡಿದೆ.",
-    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "{name}, ಸಾಧನ {deviceId} ದಿಂದ ಡೆಸ್ಕ್‌ಟಾಪ್ ವಿವರಣೆ ದೋಷಕ್ಕೆ ಒಳಗಾಗಿದೆ",
@@ -1750,7 +1750,7 @@
     "description": "Button tooltip label for stopping screen sharing"
   },
   "icu:calling__button--react": {
-    "messageformat": "React",
+    "messageformat": "ಪ್ರತಿಕ್ರಿಯಿಸಿ",
     "description": "Button tooltip label to send a reaction during a call"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
@@ -1866,11 +1866,11 @@
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "Can't receive audio and video from {name}",
+    "messageformat": "{name} ರಿಂದ ಆಡಿಯೊ ಹಾಗೂ ವೀಡಿಯೊ ಸ್ವೀಕರಿಸಲಾಗುತ್ತಿಲ್ಲ",
     "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "messageformat": "ಯಾಕೆಂದರೆ, ಅವರು ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾವಣೆಯನ್ನು ಪರಿಶೀಲಿಸಿಲ್ಲದಿರಬಹುದು, ಅವರ ಸಾಧನದಲ್ಲಿ ಸಮಸ್ಯೆ ಇರಬಹುದು ಅಥವಾ ಅವರು ನಿಮ್ಮನ್ನು ಬ್ಲಾಕ್ ಮಾಡಿರಬಹುದು.",
     "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
@@ -5545,15 +5545,15 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
-    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "messageformat": "ಅಮಾನ್ಯ ಯೂಸರ್‌ನೇಮ್, ಕನಿಷ್ಠ 2 ಅಂಕಿಗಳನ್ನು ನಮೂದಿಸಿ.",
     "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
-    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "messageformat": "ಈ ಸಂಖ್ಯೆ 00 ಆಗಿರುವಂತಿಲ್ಲ. 1-9 ನಡುವಿನ ಅಂಕಿಯನ್ನು ನಮೂದಿಸಿ",
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "messageformat": "ಈ ಸಂಖ್ಯೆಯು 00 ರಿಂದ ಪ್ರಾರಂಭವಾಗುವಂತಿಲ್ಲ. 1-9 ನಡುವಿನ ಅಂಕಿಯನ್ನು ನಮೂದಿಸಿ",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5797,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Your phone number will be visible to people and groups you message.",
+    "messageformat": "ನೀವು ಮೆಸೇಜ್ ಮಾಡುವ ಜನರು ಮತ್ತು ಗ್ರೂಪ್‌ಗಳಿಗೆ ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆ ಕಾಣಿಸುತ್ತದೆ.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
+    "messageformat": "ಮೆಸೇಜ್ ಕಳುಹಿಸುವಾಗಲೂ Signal ‌ನಲ್ಲಿ ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ಯಾರೂ ನೋಡುವುದಿಲ್ಲ.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5821,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ಹೊಂದಿರುವ ಯಾರಾದರೂ ನೀವು Signal ‌ನಲ್ಲಿರುವುದನ್ನು ನೋಡುತ್ತಾರೆ ಮತ್ತು ನಿಮ್ಮೊಂದಿಗೆ ಚಾಟ್‌ಗಳನ್ನು ಪ್ರಾರಂಭಿಸಬಹುದು.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
+    "messageformat": "ನೀವು ಮೆಸೇಜ್ ಕಳುಹಿಸದ ಹೊರತು ಅಥವಾ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಚಾಟ್ ಅನ್ನು ಹೊಂದಿರದ ಹೊರತು ನೀವು Signal ‌ನಲ್ಲಿದ್ದೀರಿ ಎಂದು ಯಾರಿಗೂ ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -6840,6 +6840,10 @@
     "messageformat": "ಮುಂದುವರಿಸಿ",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:UsernameLinkModalBody__hint": {
+    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+  },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "ಉಳಿಸಿ",
     "description": "Name of the button for saving username link QR code to disk in the username link modal"
@@ -6881,28 +6885,72 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "ನಿಮ್ಮ Signal ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಸೆಟಪ್ ಮಾಡಿ",
+    "messageformat": "New ways to connect",
     "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__title": {
+    "messageformat": "Phone number privacy",
+    "description": "Title of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__body": {
+    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "description": "Body of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__title": {
+    "messageformat": "Usernames",
+    "description": "Title of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__body": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "description": "Body of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__title": {
+    "messageformat": "QR codes and links",
+    "description": "Title of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__body": {
+    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
     "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಒಂದು ಸೆಟ್ ಅಂಕಿಗಳೊಂದಿಗೆ ಜೋಡಿಯಾಗಿರುತ್ತವೆ ಮತ್ತು ಅವುಗಳನ್ನು ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳಲಾಗಿಲ್ಲ",
-    "description": "Content of the first row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
     "messageformat": "ಪ್ರತಿ ಯೂಸರ್‌ನೇಮ್ ಒಂದು ವಿಶಿಷ್ಟ QR ಕೋಡ್ ಮತ್ತು ಲಿಂಕ್ ಹೊಂದಿರುತ್ತದೆ, ನಿಮ್ಮೊಂದಿಗೆ ಸ್ನೇಹಿತರು ಚಾಟ್ ಆರಂಭಿಸಲು ಅದನ್ನು ಅವರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಬಹುದು",
-    "description": "Content of the second row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
     "messageformat": "ಇತರರು ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಲು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಪ್ರಾಥಮಿಕ ವಿಧಾನವಾಗಿ ಬಳಸಲು, ಸೆಟ್ಟಿಂಗ್‌ಗಳು> ಗೌಪ್ಯತೆ > ಫೋನ್ ನಂಬರ್ > ಯಾರು ನನ್ನ ನಂಬರ್ ಕಂಡುಕೊಳ್ಳಬಹುದು ಎಂಬುದರ ಅಡಿಯಲ್ಲಿ ಫೋನ್ ನಂಬರ್ ಅನ್ವೇಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಿ.",
-    "description": "Content of the third row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
-    "description": "Text that open a popup with information about username onboarding"
+    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "ಮುಂದುವರಿಸಿ",
+    "messageformat": "Set up username",
     "description": "Text of the primary button on username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__skip": {
+    "messageformat": "Not now",
+    "description": "Text of the secondary button on username onboarding modal"
+  },
+  "icu:UsernameMegaphone__title": {
+    "messageformat": "New ways to connect",
+    "description": "Title of username megaphone"
+  },
+  "icu:UsernameMegaphone__body": {
+    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "description": "Body of username megaphone"
+  },
+  "icu:UsernameMegaphone__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Text of the primary button on username megaphone"
+  },
+  "icu:UsernameMegaphone__dismiss": {
+    "messageformat": "Dismiss",
+    "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "ಶೀಘ್ರದಲ್ಲೇ ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು Signal desktop ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. Signal ಬಳಕೆಯನ್ನು ಮುಂದುವರಿಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್ ಅನ್ನು {expirationDate} ನ ಒಳಗೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>",
@@ -7041,7 +7089,7 @@
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
   "icu:WhoCanFindMeReadOnlyToast": {
-    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "messageformat": "ಈ ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ಬದಲಾಯಿಸಲು, ”ನನ್ನ ಸಂಖ್ಯೆಯನ್ನು ಯಾರು ನೋಡಬಹುದು“ ಎಂಬುದನ್ನು “ಯಾರೂ ಇಲ್ಲ” ಎಂಬುದಾಗಿ ಹೊಂದಿಸಿ.",
     "description": "A toast displayed when user clicks disabled option in settings window"
   },
   "icu:WhatsNew__modal-title": {
@@ -7076,19 +7124,13 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.45--0": {
-    "messageformat": "ಈಗ ನೀವು ಐಚ್ಛಿಕವಾಗಿ ಎಮೋಟಿಕಾನ್‌ಗಳನ್ನು ಎಮೋಜಿಯನ್ನಾಗಿ ಪರಿವರ್ತಿಸಬಹುದು. ನಿಮಗೆ ಬೇಕಿದ್ದರೆ &quot;<emojify>🙂</emojify> &quot;:-)&quot; ಎಂದು ನೀವು ಟೈಪ್ ಮಾಡಿದಾಗಲೆಲ್ಲಾ, ನಿಮ್ಮ Signal Desktop ಸೆಟ್ಟಿಂಗ್‌ಗಳ &quot;ಚಾಟ್‌ಗಳು&quot; ವಿಭಾಗದಲ್ಲಿ ನೀವು ಈ ಫೀಚರ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು."
-  },
-  "icu:WhatsNew__v6.45--1": {
-    "messageformat": "ಹೊಸ ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್ (Ctrl+s/Cmd+s) ಮೀಡಿಯಾ ವೀಕ್ಷಕರಿಂದ ಚಿತ್ರಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಉಳಿಸಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ."
-  },
-  "icu:WhatsNew__v6.45--2": {
-    "messageformat": "ಕೊನೆಯ ಅಪ್‌ಡೇಟ್‌ಗಾಗಿ ಆವೃತ್ತಿ ಟಿಪ್ಪಣಿಗಳಲ್ಲಿ ನಾವು ಈಗಾಗಲೇ ಹೊಸ ವರ್ಷದ ರೆಸಲ್ಯೂಶನ್ ಜೋಕ್ ಅನ್ನು ಮಾಡಿರುವುದು ತುಂಬಾ ಕೆಟ್ಟದಾಗಿದೆ, ಏಕೆಂದರೆ ನಾವು Signal ವೀಡಿಯೊ ಕರೆಗಳ ವೇಳೆ ಸ್ಕ್ರೀನ್ ಹಂಚಿಕೆಗಾಗಿ ಗರಿಷ್ಠ ರೆಸಲ್ಯೂಶನ್ ಅನ್ನು ಹೆಚ್ಚಿಸಿದ್ದೇವೆ. 2025 ರವರೆಗೆ ಯಾವುದೇ ರೆಸಲ್ಯೂಶನ್ ಪನ್‌ಗಳನ್ನು ಮಾಡದಿರುವುದು ನಮ್ಮ ಹೊಸ ನಿರ್ಣಯವಾಗಿದೆ."
-  },
-  "icu:WhatsNew__v6.45--3": {
-    "messageformat": "ಈ ಆವೃತ್ತಿಗೆ ತಮ್ಮ ಕೊಡುಗೆಗಳಿಗಾಗಿ {linkToGithub1} ಮತ್ತು {linkToGithub2} ಅವರಿಗೆ ಧನ್ಯವಾದಗಳು!"
-  },
   "icu:WhatsNew__v6.46--0": {
-    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
+    "messageformat": "ಉರ್ದುವಿನ ಡೀಫಾಲ್ಟ್ ಫಾಂಟ್‌ಗಳನ್ನು ಆ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿದಾಗ ಸುಧಾರಿತ ಓದುವಿಕೆಗಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ (Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ರೂಪ > ಭಾಷೆ). ಧನ್ಯವಾದಗಳು, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.47--0": {
+    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+  },
+  "icu:WhatsNew__v6.47--1": {
+    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
   }
 }

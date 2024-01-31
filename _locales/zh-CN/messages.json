@@ -886,7 +886,7 @@
   },
   "icu:cdsMirroringErrorToast": {
     "messageformat": "桌面版 Signal 遇到 “发现联系人服务”不一致问题。",
-    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "桌面程序遇到来自{name}的解密错误，设备为{deviceId}",
@@ -1750,7 +1750,7 @@
     "description": "Button tooltip label for stopping screen sharing"
   },
   "icu:calling__button--react": {
-    "messageformat": "React",
+    "messageformat": "回应",
     "description": "Button tooltip label to send a reaction during a call"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
@@ -1866,11 +1866,11 @@
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "Can't receive audio and video from {name}",
+    "messageformat": "无法接收来自 {name} 的音频和视频",
     "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "messageformat": "这可能是因为对方还未对您的安全码变更进行验证，或对方的设备有问题，或对方已将您屏蔽。",
     "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
@@ -5545,15 +5545,15 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
-    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "messageformat": "用户名无效，请至少输入 2 位数。",
     "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
-    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "messageformat": "该数字不能为 00。请输入 1 到 9 之间的数字",
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "This number can’t start with 00. Enter a digit between 1-9",
+    "messageformat": "该数字不能以 00 开头。请输入 1 到 9 之间的数字",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5797,11 +5797,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Your phone number will be visible to people and groups you message.",
+    "messageformat": "您的电话号码将对您发送消息的用户和群组可见。",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
+    "messageformat": "没有人能在 Signal 中看到您的电话号码，即使您与对方互发消息。",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5821,11 +5821,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
+    "messageformat": "知道您的电话号码的任何人均可以在 Signal 上看到您的上线状态，并可以开始跟您聊天。",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
+    "messageformat": "没人能在 Signal 上看到您的上线状态，除非您给对方发送消息，或与对方有一个现有的聊天窗口。",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -6840,6 +6840,10 @@
     "messageformat": "继续",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:UsernameLinkModalBody__hint": {
+    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+  },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "保存",
     "description": "Name of the button for saving username link QR code to disk in the username link modal"
@@ -6881,28 +6885,72 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "设置您的 Signal 用户名",
+    "messageformat": "New ways to connect",
     "description": "Title of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__title": {
+    "messageformat": "Phone number privacy",
+    "description": "Title of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__number__body": {
+    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "description": "Body of the first row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__title": {
+    "messageformat": "Usernames",
+    "description": "Title of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__username__body": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "description": "Body of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__title": {
+    "messageformat": "QR codes and links",
+    "description": "Title of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__body": {
+    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
     "messageformat": "每个用户名会与一组数字匹配，并且不会显示在您的个人资料中",
-    "description": "Content of the first row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
     "messageformat": "每个用户名均有一个唯一的二维码和链接，您可以将其分享给您的朋友以开始聊天",
-    "description": "Content of the second row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
     "messageformat": "您可以在“设置 > 隐私 > 电话号码 >谁可以查找我的电话号码”中关闭电话号码搜索功能，将您的用户名用作其他人联系您的主要方式。",
-    "description": "Content of the third row of username onboarding modal"
+    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
     "messageformat": "了解更多",
-    "description": "Text that open a popup with information about username onboarding"
+    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "继续",
+    "messageformat": "Set up username",
     "description": "Text of the primary button on username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__skip": {
+    "messageformat": "Not now",
+    "description": "Text of the secondary button on username onboarding modal"
+  },
+  "icu:UsernameMegaphone__title": {
+    "messageformat": "New ways to connect",
+    "description": "Title of username megaphone"
+  },
+  "icu:UsernameMegaphone__body": {
+    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "description": "Body of username megaphone"
+  },
+  "icu:UsernameMegaphone__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Text of the primary button on username megaphone"
+  },
+  "icu:UsernameMegaphone__dismiss": {
+    "messageformat": "Dismiss",
+    "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop 即将不再兼容您电脑的 {OS} 版本。如您希望继续使用 Signal，请在 {expirationDate}前更新电脑操作系统。<learnMoreLink>了解详情</learnMoreLink>",
@@ -7041,7 +7089,7 @@
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
   "icu:WhoCanFindMeReadOnlyToast": {
-    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "messageformat": "如要更改此设置，请将“谁可以看到我的电话号码”设置为“没有人”。",
     "description": "A toast displayed when user clicks disabled option in settings window"
   },
   "icu:WhatsNew__modal-title": {
@@ -7076,19 +7124,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.45--0": {
-    "messageformat": "现在您可以选择将文字表情转换为表情符号啦，例如将 :-) 转换为 <emojify>🙂</emojify>。您可以在 Signal Desktop 设置中的“聊天”部分找到此功能。"
-  },
-  "icu:WhatsNew__v6.45--1": {
-    "messageformat": "新的键盘快捷键（Ctrl+s/Cmd+s）可帮助您快速保存媒体查看器中的图片和视频。"
-  },
-  "icu:WhatsNew__v6.45--2": {
-    "messageformat": "我们还提高了 Signal 视频通话时屏幕共享的最大分辨率。"
-  },
-  "icu:WhatsNew__v6.45--3": {
-    "messageformat": "非常感谢{linkToGithub1}和{linkToGithub2}为此版本做出的贡献！"
-  },
   "icu:WhatsNew__v6.46--0": {
-    "messageformat": "The default fonts for Urdu have been updated for improved readability when that language is selected (Signal Settings > Appearance > Language). Thanks, {linkToGithub}!"
+    "messageformat": "乌尔都语的默认字体已更新，以提高选择该语言时的可读性（Signal 设置 > 外观 > 语言）。对此我们要感谢{linkToGithub}！"
+  },
+  "icu:WhatsNew__v6.47--0": {
+    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+  },
+  "icu:WhatsNew__v6.47--1": {
+    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
   }
 }
