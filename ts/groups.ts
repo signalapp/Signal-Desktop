@@ -3133,38 +3133,6 @@ async function updateGroup(
     );
   }
 
-  if (changeMessagesToSave.length > 0) {
-    try {
-      if (contactsWithoutProfileKey && contactsWithoutProfileKey.length > 0) {
-        await Promise.race([profileFetches, sleep(30 * SECOND)]);
-        log.info(
-          `updateGroup/${logId}: timed out or finished fetching ${contactsWithoutProfileKey.length} profiles`
-        );
-      }
-    } catch (error) {
-      log.error(
-        `updateGroup/${logId}: failed to fetch missing profiles`,
-        Errors.toLogFormat(error)
-      );
-    }
-    await appendChangeMessages(conversation, changeMessagesToSave);
-  }
-
-  // We update group membership last to ensure that all notifications are in place before
-  //   the group updates happen on the model.
-
-  conversation.set({
-    ...newAttributes,
-    active_at: activeAt,
-  });
-
-  if (idChanged) {
-    conversation.trigger('idUpdated', conversation, 'groupId', previousId);
-  }
-
-  // Save these most recent updates to conversation
-  await updateConversation(conversation.attributes);
-
   // If we've been added by a blocked contact, then schedule a task to leave group
   const justAdded = !wasMemberOrPending && isMemberOrPending;
   const addedBy =
@@ -3193,9 +3161,43 @@ async function updateGroup(
       };
 
       // Cannot await here, would infinitely block queue
-      void waitThenLeave();
+      drop(waitThenLeave());
+
+      // Return early to discard group changes resulting from the blocked user's action.
+      return;
     }
   }
+
+  // We update group membership last to ensure that all notifications are in place before
+  //   the group updates happen on the model.
+  if (changeMessagesToSave.length > 0) {
+    try {
+      if (contactsWithoutProfileKey && contactsWithoutProfileKey.length > 0) {
+        await Promise.race([profileFetches, sleep(30 * SECOND)]);
+        log.info(
+          `updateGroup/${logId}: timed out or finished fetching ${contactsWithoutProfileKey.length} profiles`
+        );
+      }
+    } catch (error) {
+      log.error(
+        `updateGroup/${logId}: failed to fetch missing profiles`,
+        Errors.toLogFormat(error)
+      );
+    }
+    await appendChangeMessages(conversation, changeMessagesToSave);
+  }
+
+  conversation.set({
+    ...newAttributes,
+    active_at: activeAt,
+  });
+
+  if (idChanged) {
+    conversation.trigger('idUpdated', conversation, 'groupId', previousId);
+  }
+
+  // Save these most recent updates to conversation
+  await updateConversation(conversation.attributes);
 }
 
 // Exported for testing

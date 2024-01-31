@@ -1602,14 +1602,12 @@ export default class MessageReceiver
       );
     }
 
-    // We want to process GroupV2 updates, even from blocked users. We'll drop them later.
     if (
-      !isGroupV2 &&
-      ((envelope.source && this.isBlocked(envelope.source)) ||
-        (envelope.sourceServiceId &&
-          this.isServiceIdBlocked(envelope.sourceServiceId)))
+      (envelope.source && this.isBlocked(envelope.source)) ||
+      (envelope.sourceServiceId &&
+        this.isServiceIdBlocked(envelope.sourceServiceId))
     ) {
-      log.info(`${logId}: Dropping non-GV2 message from blocked sender`);
+      log.info(`${logId}: Dropping message from blocked sender`);
       this.removeFromCache(envelope);
       return { plaintext: undefined, envelope };
     }
