@@ -1515,7 +1515,7 @@ async function processRemoteRecords(
   });
 
   // Find remote contact records that:
-  // - Have `remote.pni === remote.serviceUuid` and have `remote.serviceE164`
+  // - Have `remote.pni` and have `remote.serviceE164`
   // - Match local contact that has `aci`.
   const splitPNIContacts = new Array<MergeableItemType>();
   prunedStorageItems = prunedStorageItems.filter(item => {

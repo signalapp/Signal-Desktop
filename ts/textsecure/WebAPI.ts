@@ -640,8 +640,7 @@ export type CapabilitiesType = {
   pni: boolean;
 };
 export type CapabilitiesUploadType = {
-  // true in staging, false in production
-  pni: boolean;
+  pni: true;
 };
 
 type StickerPackManifestType = Uint8Array;
