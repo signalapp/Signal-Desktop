@@ -459,8 +459,13 @@ export class SessionConversation extends React.Component<Props, State> {
 
         if (isAudio(contentType)) {
           const objectUrl = URL.createObjectURL(file);
-          const duration = await getAudioDuration({ objectUrl, contentType });
-          attachment.duration = duration;
+
+          try {
+            const duration = await getAudioDuration({ objectUrl, contentType });
+            attachment.duration = duration;
+          } finally {
+            URL.revokeObjectURL(objectUrl);
+          }
         }
 
         this.addAttachments([attachment]);

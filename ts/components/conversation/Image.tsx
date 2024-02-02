@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
+import { isNumber } from 'lodash';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
@@ -78,8 +79,8 @@ export const Image = (props: Props) => {
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
 
-  const width = typeof _width === 'number' ? `${_width}px` : _width;
-  const height = typeof _height === 'number' ? `${_height}px` : _height;
+  const width = isNumber(_width) ? `${_width}px` : _width;
+  const height = isNumber(_height) ? `${_height}px` : _height;
 
   return (
     <div
