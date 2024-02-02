@@ -88,6 +88,7 @@ import {
 } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
 import { getSendOptions } from '../util/getSendOptions';
+import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted';
 import { isConversationAccepted } from '../util/isConversationAccepted';
 import {
   getNumber,
@@ -2801,8 +2802,8 @@ export class ConversationModel extends window.Backbone
    * Determine if this conversation should be considered "accepted" in terms
    * of message requests
    */
-  getAccepted(): boolean {
-    return isConversationAccepted(this.attributes);
+  getAccepted(options?: IsConversationAcceptedOptionsType): boolean {
+    return isConversationAccepted(this.attributes, options);
   }
 
   onMemberVerifiedChange(): void {

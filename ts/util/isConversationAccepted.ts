@@ -6,13 +6,19 @@ import { SignalService as Proto } from '../protobuf';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 import { isInSystemContacts } from './isInSystemContacts';
 
+export type IsConversationAcceptedOptionsType = {
+  ignoreEmptyConvo: boolean;
+};
+
 /**
  * Determine if this conversation should be considered "accepted" in terms
  * of message requests
  */
 export function isConversationAccepted(
   conversationAttrs: ConversationAttributesType,
-  { ignoreEmptyConvo = false } = {}
+  { ignoreEmptyConvo }: IsConversationAcceptedOptionsType = {
+    ignoreEmptyConvo: false,
+  }
 ): boolean {
   if (isMe(conversationAttrs)) {
     return true;
@@ -36,6 +42,7 @@ export function isConversationAccepted(
     (conversationAttrs.messageCountBeforeMessageRequests || 0) > 0;
   const hasNoMessages = (conversationAttrs.messageCount || 0) === 0;
 
+  // We don't want to show the message request UI in an empty conversation.
   const isEmptyPrivateConvo =
     hasNoMessages &&
     isDirectConversation(conversationAttrs) &&
