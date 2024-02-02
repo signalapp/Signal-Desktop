@@ -1682,7 +1682,10 @@ export class CallingClass {
       return;
     }
 
-    if (callingMessage.offer && !conversation.getAccepted()) {
+    if (
+      callingMessage.offer &&
+      !conversation.getAccepted({ ignoreEmptyConvo: true })
+    ) {
       log.info(
         'Conversation was not approved by user; rejecting call message.'
       );
