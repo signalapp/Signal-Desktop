@@ -18,7 +18,7 @@ import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessa
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
-import { MessageReactions, StyledMessageReactions } from './MessageReactions';
+import { MessageReactions } from './MessageReactions';
 import { MessageStatus } from './MessageStatus';
 
 export type MessageContentWithStatusSelectorProps = { isGroup: boolean } & Pick<
@@ -39,11 +39,10 @@ const StyledMessageContentContainer = styled.div<{ isIncoming: boolean }>`
   flex-direction: column;
   justify-content: flex-start;
   align-items: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
+  padding-left: ${props => (props.isIncoming ? 0 : '25%')};
+  padding-right: ${props => (props.isIncoming ? '25%' : 0)};
   width: 100%;
-
-  ${StyledMessageReactions} {
-    margin-right: var(--margins-md);
-  }
+  margin-right: var(--margins-md);
 `;
 
 const StyledMessageWithAuthor = styled.div`

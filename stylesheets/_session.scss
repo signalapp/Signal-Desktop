@@ -136,11 +136,12 @@ textarea {
   display: inline-block;
   overflow: hidden;
   min-width: 30px;
-  // To limit messages with things forcing them wider, like long attachment names
-  max-width: 100%;
+  // To limit messages with things forcing them wider, like long attachment names.
+  width: 100%;
   align-items: center;
   border-radius: var(--border-radius-message-box);
 }
+
 label {
   user-select: none;
 }

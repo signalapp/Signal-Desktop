@@ -200,7 +200,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       };
     }
 
-    perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
     return messageProps;
   }
 
