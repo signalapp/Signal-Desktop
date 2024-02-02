@@ -219,6 +219,47 @@ function attachmentIsAttachmentTypeWithPath(attac: any): attac is AttachmentType
   return attac.path !== undefined;
 }
 
+export async function showLightboxFromAttachmentProps(
+  messageId: string,
+  selected: AttachmentTypeWithPath | AttachmentType | PropsForAttachment
+) {
+  const found = await Data.getMessageById(messageId);
+  if (!found) {
+    window.log.warn(`showLightboxFromAttachmentProps Message not found ${messageId}}`);
+    return;
+  }
+
+  const msgAttachments = found.getPropsForMessage().attachments;
+
+  let index = -1;
+
+  const media = (msgAttachments || []).map(attachmentForMedia => {
+    index++;
+    const messageTimestamp =
+      found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at');
+
+    return {
+      index: clone(index),
+      objectURL: attachmentForMedia.url || undefined,
+      contentType: attachmentForMedia.contentType,
+      attachment: attachmentForMedia,
+      messageSender: found.getSource(),
+      messageTimestamp,
+      messageId,
+    };
+  });
+
+  if (attachmentIsAttachmentTypeWithPath(selected)) {
+    const lightBoxOptions: LightBoxOptions = {
+      media: media as any,
+      attachment: selected,
+    };
+    window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+  } else {
+    window.log.warn('Attachment is not of the right type');
+  }
+}
+
 const onClickAttachment = async (onClickProps: {
   attachment: AttachmentTypeWithPath | AttachmentType;
   messageId: string;

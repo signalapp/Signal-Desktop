@@ -7,6 +7,7 @@ import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
+import { SessionRadioGroup, SessionRadioItems } from '../basic/SessionRadioGroup';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
@@ -24,14 +25,16 @@ export interface SessionConfirmDialogProps {
   message?: string;
   messageSub?: string;
   title?: string;
+  radioOptions?: SessionRadioItems;
   onOk?: any;
   onClose?: any;
   closeAfterInput?: boolean;
 
   /**
    * function to run on ok click. Closes modal after execution by default
+   * sometimes the callback might need arguments when using radioOptions
    */
-  onClickOk?: () => Promise<void> | void;
+  onClickOk?: (...args: Array<any>) => Promise<void> | void;
 
   onClickClose?: () => any;
 
@@ -55,6 +58,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     title = '',
     message = '',
     messageSub = '',
+    radioOptions,
     okTheme,
     closeTheme = SessionButtonColor.Danger,
     onClickOk,
@@ -69,6 +73,9 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
   } = props;
 
   const [isLoading, setIsLoading] = useState(false);
+  const [chosenOption, setChosenOption] = useState(
+    radioOptions?.length ? radioOptions[0].value : ''
+  );
 
   const okText = props.okText || window.i18n('ok');
   const cancelText = props.cancelText || window.i18n('cancel');
@@ -78,7 +85,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     if (onClickOk) {
       setIsLoading(true);
       try {
-        await onClickOk();
+        await onClickOk(chosenOption !== '' ? chosenOption : undefined);
       } catch (e) {
         window.log.warn(e);
       } finally {
@@ -128,6 +135,19 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
 
         <StyledSubText tag="span" textLength={message.length} html={message} />
         <SessionHtmlRenderer tag="span" className="session-confirm-sub-message" html={messageSub} />
+        {radioOptions && chosenOption !== '' && (
+          <SessionRadioGroup
+            group="session-confirm-radio-group"
+            initialItem={chosenOption}
+            items={radioOptions}
+            radioPosition="right"
+            onClick={value => {
+              if (value) {
+                setChosenOption(value);
+              }
+            }}
+          />
+        )}
 
         <SessionSpinner loading={isLoading} />
       </div>

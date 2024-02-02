@@ -4,11 +4,14 @@ import styled, { CSSProperties } from 'styled-components';
 
 import { SessionRadio } from './SessionRadio';
 
+export type SessionRadioItems = Array<{ value: string; label: string }>;
+
 interface Props {
   initialItem: string;
-  items: Array<{ value: string; label: string }>;
+  items: SessionRadioItems;
   group: string;
   onClick: (selectedValue: string) => void;
+  radioPosition?: 'left' | 'right';
   style?: CSSProperties;
 }
 
@@ -29,7 +32,7 @@ const StyledFieldSet = styled.fieldset`
 `;
 
 export const SessionRadioGroup = (props: Props) => {
-  const { items, group, initialItem, style } = props;
+  const { items, group, initialItem, radioPosition, style } = props;
   const [activeItem, setActiveItem] = useState('');
 
   useMount(() => {
@@ -53,6 +56,7 @@ export const SessionRadioGroup = (props: Props) => {
               props.onClick(value);
             }}
             beforeMargins={'0 var(--margins-sm) 0 0 '}
+            radioPosition={radioPosition}
           />
         );
       })}

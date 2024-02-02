@@ -8,7 +8,7 @@ import { getConversationController } from '../../../session/conversations';
 import { PubKey } from '../../../session/types';
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
-import { resetOverlayMode } from '../../../state/ducks/section';
+import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
@@ -42,7 +42,7 @@ export const OverlayMessage = () => {
   const dispatch = useDispatch();
 
   function closeOverlay() {
-    dispatch(resetOverlayMode());
+    dispatch(resetLeftOverlayMode());
   }
 
   useKey('Escape', closeOverlay);

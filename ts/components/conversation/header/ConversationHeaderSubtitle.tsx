@@ -27,6 +27,8 @@ export const StyledSubtitleContainer = styled.div`
   }
 `;
 
+export const StyledSubtitleDotMenu = styled(Flex)``;
+
 const StyledSubtitleDot = styled.span<{ active: boolean }>`
   border-radius: 50%;
   background-color: ${props =>
@@ -37,29 +39,29 @@ const StyledSubtitleDot = styled.span<{ active: boolean }>`
   margin: 0 2px;
 `;
 
-const SubtitleDotMenu = ({
-  options,
+export const SubtitleDotMenu = ({
+  id,
   selectedOptionIndex,
+  optionsCount,
   style,
 }: {
-  options: Array<string | null>;
+  id: string;
   selectedOptionIndex: number;
+  optionsCount: number;
   style: CSSProperties;
 }) => (
-  <Flex container={true} alignItems={'center'} style={style}>
-    {options.map((option, index) => {
-      if (!option) {
-        return null;
-      }
-
-      return (
-        <StyledSubtitleDot
-          key={`subtitleDotMenu-${option}-${index}`}
-          active={selectedOptionIndex === index}
-        />
-      );
-    })}
-  </Flex>
+  <StyledSubtitleDotMenu id={id} container={true} alignItems={'center'} style={style}>
+    {Array(optionsCount)
+      .fill(0)
+      .map((_, index) => {
+        return (
+          <StyledSubtitleDot
+            key={`subtitleDotMenu-${id}-${index}`}
+            active={selectedOptionIndex === index}
+          />
+        );
+      })}
+  </StyledSubtitleDotMenu>
 );
 
 type ConversationHeaderSubtitleProps = {
@@ -154,8 +156,9 @@ export const ConversationHeaderSubtitle = (props: ConversationHeaderSubtitleProp
         />
       </Flex>
       <SubtitleDotMenu
-        options={subtitlesArray}
+        id={'conversation-header-subtitle-dots'}
         selectedOptionIndex={subtitlesArray.indexOf(currentSubtitle)}
+        optionsCount={subtitlesArray.length}
         style={{ display: subtitlesArray.length < 2 ? 'none' : undefined, margin: '8px 0' }}
       />
     </StyledSubtitleContainer>

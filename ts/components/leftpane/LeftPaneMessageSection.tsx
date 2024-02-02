@@ -7,8 +7,8 @@ import { SearchResults } from '../search/SearchResults';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
-import { getOverlayMode } from '../../state/selectors/section';
+import { LeftOverlayMode, setLeftOverlayMode } from '../../state/ducks/section';
+import { getLeftOverlayMode } from '../../state/selectors/section';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { SessionSearchInput } from '../SessionSearchInput';
 import { StyledLeftPaneList } from './LeftPaneList';
@@ -22,7 +22,7 @@ import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction
 export interface Props {
   conversationIds?: Array<string>;
   hasSearchResults: boolean;
-  overlayMode: OverlayMode | undefined;
+  leftOverlayMode: LeftOverlayMode | undefined;
 }
 
 const StyledLeftPaneContent = styled.div`
@@ -42,9 +42,9 @@ const StyledConversationListContent = styled.div`
 `;
 
 const ClosableOverlay = () => {
-  const overlayMode = useSelector(getOverlayMode);
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
 
-  switch (overlayMode) {
+  switch (leftOverlayMode) {
     case 'choose-action':
       return <OverlayChooseAction />;
     case 'open-group':
@@ -59,8 +59,8 @@ const ClosableOverlay = () => {
       return null;
     default:
       return assertUnreachable(
-        overlayMode,
-        `ClosableOverlay: overlayMode case not handled "${overlayMode}"`
+        leftOverlayMode,
+        `ClosableOverlay: leftOverlayMode case not handled "${leftOverlayMode}"`
       );
   }
 };
@@ -121,12 +121,12 @@ export class LeftPaneMessageSection extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { overlayMode } = this.props;
+    const { leftOverlayMode } = this.props;
 
     return (
       <StyledLeftPaneContent>
         <LeftPaneSectionHeader />
-        {overlayMode ? <ClosableOverlay /> : this.renderConversations()}
+        {leftOverlayMode ? <ClosableOverlay /> : this.renderConversations()}
       </StyledLeftPaneContent>
     );
   }
@@ -137,7 +137,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
         <SessionSearchInput />
         <MessageRequestsBanner
           handleOnClick={() => {
-            window.inboxStore?.dispatch(setOverlayMode('message-requests'));
+            window.inboxStore?.dispatch(setLeftOverlayMode('message-requests'));
           }}
         />
         {this.renderList()}

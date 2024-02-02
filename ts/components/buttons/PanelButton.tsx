@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
+import { Flex } from '../basic/Flex';
 
 // NOTE Used for descendant components
 export const StyledContent = styled.div<{ disabled: boolean }>`
@@ -9,17 +10,15 @@ export const StyledContent = styled.div<{ disabled: boolean }>`
   color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
 `;
 
-export const StyledText = styled.span`
+export const StyledText = styled.span<{ color?: string }>`
   font-size: var(--font-size-md);
   font-weight: 500;
-  margin-inline-start: var(--margins-lg);
-  margin-inline-end: var(--margins-lg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  /* TODO needs RTL support */
-  text-align: left;
+  text-align: start;
+  ${props => props.color && `color: ${props.color};`}
 `;
 
 export const PanelLabel = styled.p`
@@ -37,14 +36,14 @@ const StyledRoundedPanelButtonGroup = styled.div`
   overflow: hidden;
   background: var(--right-panel-item-background-color);
   border-radius: 16px;
-  padding: var(--margins-lg);
+  padding: 0 var(--margins-lg) var(--margins-xs);
   margin: 0 var(--margins-lg);
   width: -webkit-fill-available;
 `;
 
 const PanelButtonContainer = styled.div`
   overflow: auto;
-  min-height: 50px;
+  min-height: 65px;
   max-height: 100%;
 `;
 
@@ -72,8 +71,7 @@ const StyledPanelButton = styled.button<{
   flex-shrink: 0;
   flex-grow: 1;
   font-family: var(--font-default);
-  padding: 0px var(--margins-sm);
-  min-height: 50px;
+  height: 65px;
   width: 100%;
   transition: var(--default-duration);
   color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
@@ -106,5 +104,30 @@ export const PanelButton = (props: PanelButtonProps) => {
     >
       {children}
     </StyledPanelButton>
+  );
+};
+
+const StyledSubtitle = styled.p<{ color?: string }>`
+  font-size: var(--font-size-xs);
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: start;
+  ${props => props.color && `color: ${props.color};`}
+`;
+
+export const PanelButtonText = (props: { text: string; subtitle?: string; color?: string }) => {
+  return (
+    <Flex
+      container={true}
+      width={'100%'}
+      flexDirection={'column'}
+      alignItems={'flex-start'}
+      margin="0 var(--margins-lg) 0 0"
+      minWidth="0"
+    >
+      <StyledText color={props.color}>{props.text}</StyledText>
+      {!!props.subtitle && <StyledSubtitle color={props.color}>{props.subtitle}</StyledSubtitle>}
+    </Flex>
   );
 };

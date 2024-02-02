@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
 import { getConversationsCount } from '../state/selectors/conversations';
-import { getOverlayMode } from '../state/selectors/section';
+import { getLeftOverlayMode } from '../state/selectors/section';
 import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { SessionIconButton } from './icon';
 
@@ -76,7 +76,7 @@ function updateSearch(dispatch: Dispatch<any>, searchTerm: string) {
 export const SessionSearchInput = () => {
   const [currentSearchTerm, setCurrentSearchTerm] = useState('');
   const dispatch = useDispatch();
-  const isGroupCreationSearch = useSelector(getOverlayMode) === 'closed-group';
+  const isGroupCreationSearch = useSelector(getLeftOverlayMode) === 'closed-group';
   const convoCount = useSelector(getConversationsCount);
 
   // just after onboard we only have a conversation with ourself

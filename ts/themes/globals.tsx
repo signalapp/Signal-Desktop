@@ -23,6 +23,7 @@ export type ThemeGlobals = {
   '--margins-md': string;
   '--margins-lg': string;
   '--margins-xl': string;
+  '--margins-2xl': string;
 
   /* Padding */
   '--padding-message-content': string;
@@ -84,6 +85,12 @@ export type ThemeGlobals = {
   /* Also used for FileDropZone */
   /* Used for Quote References Not Found */
   '--message-link-preview-background-color': string;
+
+  /* Right Panel */
+  '--right-panel-width': string;
+  '--right-panel-height': string;
+  '--right-panel-attachment-width': string;
+  '--right-panel-attachment-height': string;
 };
 
 // These are only set once in the global style (at root).
@@ -106,6 +113,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--margins-md': '15px',
   '--margins-lg': '20px',
   '--margins-xl': '25px',
+  '--margins-2xl': '30px',
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below
@@ -151,6 +159,12 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--avatar-border-color': 'var(--transparent-color)',
 
   '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
+
+  '--right-panel-width': '420px',
+  '--right-panel-height': '100%',
+  '--right-panel-attachment-width': 'calc(var(--right-panel-width) - 2 * var(--margins-2xl) - 7px)',
+  '--right-panel-attachment-height':
+    'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
 };
 
 // These should only be needed for the global style (at root).

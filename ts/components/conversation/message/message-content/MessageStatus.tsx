@@ -12,6 +12,7 @@ import { SessionIcon, SessionIconType } from '../../../icon';
 import { ExpireTimer } from '../../ExpireTimer';
 
 type Props = {
+  isDetailView: boolean;
   messageId: string;
   dataTestId?: string | undefined;
 };
@@ -30,11 +31,11 @@ type Props = {
  *        - if the message is outgoing: show the text for the last message, or a message sending, or in the error state. (4)
  */
 export const MessageStatus = (props: Props) => {
-  const { dataTestId, messageId } = props;
+  const { messageId, isDetailView, dataTestId } = props;
   const status = useMessageStatus(props.messageId);
   const selected = useMessageExpirationPropsById(props.messageId);
 
-  if (!props.messageId || !selected) {
+  if (!props.messageId || !selected || isDetailView) {
     return null;
   }
   const isIncoming = selected.direction === 'incoming';
@@ -126,7 +127,7 @@ function useIsMostRecentMessage(messageId: string) {
   return isMostRecentMessage;
 }
 
-function MessageStatusExpireTimer(props: Props) {
+function MessageStatusExpireTimer(props: Pick<Props, 'messageId'>) {
   const selected = useMessageExpirationPropsById(props.messageId);
   if (
     !selected ||
@@ -144,7 +145,7 @@ function MessageStatusExpireTimer(props: Props) {
   );
 }
 
-const MessageStatusSending = ({ dataTestId }: Props) => {
+const MessageStatusSending = ({ dataTestId }: Omit<Props, 'isDetailView'>) => {
   // while sending, we do not display the expire timer at all.
   return (
     <MessageStatusContainer
@@ -176,7 +177,7 @@ function IconForExpiringMessageId({
   );
 }
 
-const MessageStatusSent = ({ dataTestId, messageId }: Props) => {
+const MessageStatusSent = ({ dataTestId, messageId }: Omit<Props, 'isDetailView'>) => {
   const isExpiring = useIsExpiring(messageId);
   const isMostRecentMessage = useIsMostRecentMessage(messageId);
   const isGroup = useSelectedIsGroup();
@@ -202,7 +203,7 @@ const MessageStatusRead = ({
   dataTestId,
   messageId,
   isIncoming,
-}: Props & { isIncoming: boolean }) => {
+}: Omit<Props, 'isDetailView'> & { isIncoming: boolean }) => {
   const isExpiring = useIsExpiring(messageId);
   const isGroup = useSelectedIsGroup();
 
@@ -226,7 +227,7 @@ const MessageStatusRead = ({
   );
 };
 
-const MessageStatusError = ({ dataTestId }: Props) => {
+const MessageStatusError = ({ dataTestId }: Omit<Props, 'isDetailView'>) => {
   const showDebugLog = useCallback(() => {
     ipcRenderer.send('show-debug-log');
   }, []);

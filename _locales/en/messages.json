@@ -546,5 +546,13 @@
   "setDisplayPicture": "Set Display Picture",
   "settingAppliesToEveryone": "This setting applies to everyone in this conversation.",
   "settingAppliesToYourMessages": "This setting applies to messages you send in this conversation.",
-  "onlyGroupAdminsCanChange": "Only group admins can change this setting."
+  "onlyGroupAdminsCanChange": "Only group admins can change this setting.",
+  "messageInfo": "Message Info",
+  "fileId": "File ID",
+  "fileSize": "File Size",
+  "fileType": "File Type",
+  "resolution": "Resolution",
+  "duration": "Duration",
+  "notApplicable": "N/A",
+  "unknownError": "Unknown Error"
 }

@@ -41,11 +41,13 @@ const highlightedMessageAnimation = keyframes`
 const StyledReadableMessage = styled.div<{
   selected: boolean;
   isRightClicked: boolean;
+  isDetailView?: boolean;
 }>`
   display: flex;
   align-items: center;
   width: 100%;
   letter-spacing: 0.03rem;
+  padding: ${props => (props.isDetailView ? '0' : 'var(--margins-xs) var(--margins-lg) 0')};
 
   &.message-highlighted {
     animation: ${highlightedMessageAnimation} 1s ease-in-out;
@@ -151,6 +153,7 @@ export const GenericReadableMessage = (props: Props) => {
   return (
     <StyledReadableMessage
       selected={selected}
+      isDetailView={isDetailView}
       isRightClicked={isRightClicked}
       className={classNames(selected && 'message-selected')}
       onContextMenu={handleContextMenu}

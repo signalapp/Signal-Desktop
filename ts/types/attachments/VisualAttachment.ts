@@ -2,6 +2,7 @@
 /* global document, URL, Blob */
 
 import { blobToArrayBuffer, dataURLToBlob } from 'blob-util';
+import moment from 'moment';
 import { toLogFormat } from './Errors';
 
 import {
@@ -11,6 +12,7 @@ import {
 import { ToastUtils } from '../../session/utils';
 import { GoogleChrome } from '../../util';
 import { autoScaleForAvatar, autoScaleForThumbnail } from '../../util/attachmentsUtil';
+import { isAudio } from '../MIME';
 
 export const THUMBNAIL_SIDE = 200;
 export const THUMBNAIL_CONTENT_TYPE = 'image/png';
@@ -105,6 +107,70 @@ export const makeVideoScreenshot = async ({
       void video.play(); // for some reason, this is to be started, otherwise the generated thumbnail will be empty
     });
   });
+
+export async function getVideoDuration({
+  objectUrl,
+  contentType,
+}: {
+  objectUrl: string;
+  contentType: string;
+}): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video');
+
+    video.addEventListener('loadedmetadata', () => {
+      const duration = moment.duration(video.duration, 'seconds');
+      const durationString = moment.utc(duration.asMilliseconds()).format('m:ss');
+      resolve(durationString);
+    });
+
+    video.addEventListener('error', error => {
+      reject(error);
+    });
+
+    void getDecryptedMediaUrl(objectUrl, contentType, false)
+      .then(decryptedUrl => {
+        video.src = decryptedUrl;
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+export async function getAudioDuration({
+  objectUrl,
+  contentType,
+}: {
+  objectUrl: string;
+  contentType: string;
+}): Promise<string> {
+  if (!isAudio(contentType)) {
+    throw new Error('getAudioDuration can only be called with audio content type');
+  }
+
+  return new Promise((resolve, reject) => {
+    const audio = document.createElement('audio');
+
+    audio.addEventListener('loadedmetadata', () => {
+      const duration = moment.duration(audio.duration, 'seconds');
+      const durationString = moment.utc(duration.asMilliseconds()).format('m:ss');
+      resolve(durationString);
+    });
+
+    audio.addEventListener('error', error => {
+      reject(error);
+    });
+
+    void getDecryptedMediaUrl(objectUrl, contentType, false)
+      .then(decryptedUrl => {
+        audio.src = decryptedUrl;
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
 
 export const makeObjectUrl = (data: ArrayBufferLike, contentType: string) => {
   const blob = new Blob([data], {

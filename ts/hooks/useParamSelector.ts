@@ -379,3 +379,44 @@ export function useSortedGroupMembers(convoId: string | undefined): Array<string
   // we need to clone the array before being able to call sort() it
   return compact(convoProps.members?.slice()?.sort()) || [];
 }
+
+export function useDisappearingMessageSettingText({
+  convoId,
+  abbreviate,
+  separator = ' - ',
+}: {
+  convoId?: string;
+  abbreviate?: boolean;
+  separator?: string;
+}): string {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return '';
+  }
+
+  const { expirationMode, expireTimer, isMe, isPublic } = convoProps;
+
+  const isGroup = !convoProps.isPrivate && !convoProps.isPublic;
+
+  // TODO legacy messages support will be removed in a future release
+  const expirationModeText =
+    expirationMode === 'deleteAfterRead'
+      ? window.i18n('disappearingMessagesModeAfterRead')
+      : expirationMode === 'deleteAfterSend'
+      ? window.i18n('disappearingMessagesModeAfterSend')
+      : expirationMode === 'legacy'
+      ? isMe || (isGroup && !isPublic)
+        ? window.i18n('disappearingMessagesModeAfterSend')
+        : window.i18n('disappearingMessagesModeAfterRead')
+      : null;
+
+  const expireTimerText = isNumber(expireTimer)
+    ? abbreviate
+      ? TimerOptions.getAbbreviated(expireTimer)
+      : TimerOptions.getName(expireTimer)
+    : null;
+
+  return expireTimer && expirationModeText
+    ? `${expirationModeText}${expireTimerText ? `${separator}${expireTimerText}` : ''}`
+    : '';
+}

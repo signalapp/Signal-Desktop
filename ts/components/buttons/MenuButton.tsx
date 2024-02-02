@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { resetOverlayMode, setOverlayMode } from '../../state/ducks/section';
-import { getOverlayMode } from '../../state/selectors/section';
+import { resetLeftOverlayMode, setLeftOverlayMode } from '../../state/ducks/section';
+import { getLeftOverlayMode } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
 
 const StyledMenuButton = styled.button`
@@ -31,13 +31,13 @@ const StyledMenuButton = styled.button`
  * It has two state: selected or not and so we use an checkbox input to keep the state in sync.
  */
 export const MenuButton = () => {
-  const overlayMode = useSelector(getOverlayMode);
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
   const dispatch = useDispatch();
 
-  const isToggled = Boolean(overlayMode);
+  const isToggled = Boolean(leftOverlayMode);
 
   const onClickFn = () =>
-    dispatch(isToggled ? resetOverlayMode() : setOverlayMode('choose-action'));
+    dispatch(isToggled ? resetLeftOverlayMode() : setLeftOverlayMode('choose-action'));
 
   return (
     <StyledMenuButton data-testid="new-conversation-button" onClick={onClickFn}>

@@ -38,6 +38,8 @@ import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import {
   THUMBNAIL_CONTENT_TYPE,
+  getAudioDuration,
+  getVideoDuration,
   makeImageThumbnailBuffer,
   makeVideoScreenshot,
 } from '../../types/attachments/VisualAttachment';
@@ -50,12 +52,12 @@ import { InConversationCallContainer } from '../calling/InConversationCallContai
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
-import { MessageDetail } from './message/message-item/MessageDetail';
 
+import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { RightPanel } from './right-panel/RightPanel';
+import { RightPanel, StyledRightPanelContainer } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
 
@@ -238,7 +240,6 @@ export class SessionConversation extends React.Component<Props, State> {
       ourDisplayNameInProfile,
       selectedConversation,
       messagesProps,
-      showMessageDetails,
       selectedMessages,
       isRightPanelShowing,
       lightBoxOptions,
@@ -249,7 +250,7 @@ export class SessionConversation extends React.Component<Props, State> {
       // return an empty message view
       return <MessageView />;
     }
-    // TODOLATER break showMessageDetails & selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
+    // TODOLATER break selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;
 
     const bannerText =
@@ -284,9 +285,6 @@ export class SessionConversation extends React.Component<Props, State> {
               onKeyDown={this.onKeyDown}
               role="navigation"
             >
-              <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
-                <MessageDetail />
-              </div>
               {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
               <div className="conversation-messages">
@@ -313,14 +311,9 @@ export class SessionConversation extends React.Component<Props, State> {
                 htmlDirection={this.props.htmlDirection}
               />
             </div>
-            <div
-              className={classNames(
-                'conversation-item__options-pane',
-                isRightPanelShowing && 'show'
-              )}
-            >
+            <StyledRightPanelContainer className={classNames(isRightPanelShowing && 'show')}>
               <RightPanel />
-            </div>
+            </StyledRightPanelContainer>
           </>
         )}
       </SessionTheme>
@@ -452,19 +445,30 @@ export class SessionConversation extends React.Component<Props, State> {
         const attachmentWithVideoPreview = await renderVideoPreview(contentType, file, fileName);
         this.addAttachments([attachmentWithVideoPreview]);
       } else {
-        this.addAttachments([
-          {
-            file,
-            size: file.size,
-            contentType,
-            fileName,
-            url: '',
-            isVoiceMessage: false,
-            fileSize: null,
-            screenshot: null,
-            thumbnail: null,
-          },
-        ]);
+        const attachment: StagedAttachmentType = {
+          file,
+          size: file.size,
+          contentType,
+          fileName,
+          url: '',
+          isVoiceMessage: false,
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
+        };
+
+        if (isAudio(contentType)) {
+          const objectUrl = URL.createObjectURL(file);
+
+          try {
+            const duration = await getAudioDuration({ objectUrl, contentType });
+            attachment.duration = duration;
+          } finally {
+            URL.revokeObjectURL(objectUrl);
+          }
+        }
+
+        this.addAttachments([attachment]);
       }
     } catch (e) {
       window?.log?.error(
@@ -567,6 +571,10 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
       objectUrl,
       contentType: type,
     });
+    const duration = await getVideoDuration({
+      objectUrl,
+      contentType: type,
+    });
     const data = await blobToArrayBuffer(thumbnail);
     const url = arrayBufferToObjectURL({
       data,
@@ -577,6 +585,7 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
       size: file.size,
       fileName,
       contentType,
+      duration,
       videoUrl: objectUrl,
       url,
       isVoiceMessage: false,

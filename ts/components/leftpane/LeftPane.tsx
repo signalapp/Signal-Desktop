@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
 import { getLeftPaneConversationIds } from '../../state/selectors/conversations';
 import { getHasSearchResults } from '../../state/selectors/search';
-import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
+import { getFocusedSection, getLeftOverlayMode } from '../../state/selectors/section';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { CallInFullScreenContainer } from '../calling/CallInFullScreenContainer';
@@ -24,13 +24,13 @@ const StyledLeftPane = styled.div`
 const InnerLeftPaneMessageSection = () => {
   const hasSearchResults = useSelector(getHasSearchResults);
   const conversationIds = useSelector(getLeftPaneConversationIds);
-  const overlayMode = useSelector(getOverlayMode);
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
 
   return (
     <LeftPaneMessageSection
       hasSearchResults={hasSearchResults}
       conversationIds={conversationIds}
-      overlayMode={overlayMode}
+      leftOverlayMode={leftOverlayMode}
     />
   );
 };

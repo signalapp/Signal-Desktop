@@ -19,15 +19,9 @@ import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 import { Flex } from '../../../../basic/Flex';
 import { SessionButton } from '../../../../basic/SessionButton';
 import { SpacerLG, SpacerXL } from '../../../../basic/Text';
+import { Header, HeaderSubtitle, HeaderTitle, StyledScrollContainer } from '../components';
 import { DisappearingModes } from './DisappearingModes';
-import { Header } from './Header';
 import { TimeOptions } from './TimeOptions';
-
-const StyledScrollContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow: hidden auto;
-`;
 
 const StyledContainer = styled(Flex)`
   .session-button {
@@ -167,16 +161,16 @@ export const OverlayDisappearingMessages = () => {
   return (
     <StyledScrollContainer>
       <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>
-        <Header
-          title={window.i18n('disappearingMessages')}
-          subtitle={
-            singleMode === 'deleteAfterRead'
+        <Header>
+          <HeaderTitle>{window.i18n('disappearingMessages')}</HeaderTitle>
+          <HeaderSubtitle>
+            {singleMode === 'deleteAfterRead'
               ? window.i18n('disappearingMessagesModeAfterReadSubtitle')
               : singleMode === 'deleteAfterSend'
               ? window.i18n('disappearingMessagesModeAfterSendSubtitle')
-              : window.i18n('settingAppliesToYourMessages')
-          }
-        />
+              : window.i18n('settingAppliesToYourMessages')}
+          </HeaderSubtitle>
+        </Header>
         <DisappearingModes
           options={disappearingModeOptions}
           selected={modeSelected}

@@ -3,8 +3,7 @@ import ByteBuffer from 'bytebuffer';
 import https from 'https';
 import { to_string } from 'libsodium-wrappers-sumo';
 import { cloneDeep, isEmpty, isString, omit } from 'lodash';
-// eslint-disable-next-line import/no-named-default
-import { RequestInit, Response, default as insecureNodeFetch } from 'node-fetch';
+import insecureNodeFetch, { RequestInit, Response } from 'node-fetch';
 import pRetry from 'p-retry';
 // eslint-disable-next-line import/no-unresolved
 import { AbortSignal as AbortSignalNode } from 'node-fetch/externals';

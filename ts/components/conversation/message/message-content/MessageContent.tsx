@@ -17,6 +17,7 @@ import {
   useSelectedIsGroup,
   useSelectedIsPrivate,
 } from '../../../../state/selectors/selectedConversation';
+import { canDisplayImage } from '../../../../types/Attachment';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageAvatar } from './MessageAvatar';
@@ -174,11 +175,22 @@ export const MessageContent = (props: Props) => {
     return null;
   }
 
-  const { direction, text, timestamp, serverTimestamp, previews, quote } = contentProps;
+  const {
+    direction,
+    text,
+    timestamp,
+    serverTimestamp,
+    previews,
+    quote,
+    attachments,
+  } = contentProps;
 
   const hasContentBeforeAttachment = !isEmpty(previews) || !isEmpty(quote) || !isEmpty(text);
 
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
+
+  const isDetailViewAndSupportsAttachmentCarousel =
+    props.isDetailView && canDisplayImage(attachments);
 
   return (
     <StyledMessageContent
@@ -223,7 +235,7 @@ export const MessageContent = (props: Props) => {
               <MessageText messageId={props.messageId} />
             </StyledMessageOpaqueContent>
           )}
-          {!isDeleted && (
+          {!isDeleted && isDetailViewAndSupportsAttachmentCarousel && !imageBroken ? null : (
             <MessageAttachment
               messageId={props.messageId}
               imageBroken={imageBroken}

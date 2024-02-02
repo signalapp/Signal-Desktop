@@ -92,14 +92,16 @@ export const MessageContentWithStatuses = (props: Props) => {
     }
   };
 
-  const { messageId, ctxMenuID, isDetailView, dataTestId, enableReactions } = props;
+  const { messageId, ctxMenuID, isDetailView = false, dataTestId, enableReactions } = props;
   const [popupReaction, setPopupReaction] = useState('');
 
   if (!contentProps) {
     return null;
   }
 
-  const { direction, isDeleted } = contentProps;
+  const { direction: _direction, isDeleted } = contentProps;
+  // NOTE we want messages on the left in the message detail view regardless of direction
+  const direction = isDetailView ? 'incoming' : _direction;
   const isIncoming = direction === 'incoming';
 
   const handleMessageReaction = async (emoji: string) => {
@@ -107,7 +109,12 @@ export const MessageContentWithStatuses = (props: Props) => {
   };
 
   const handlePopupClick = () => {
-    dispatch(updateReactListModal({ reaction: popupReaction, messageId }));
+    dispatch(
+      updateReactListModal({
+        reaction: popupReaction,
+        messageId,
+      })
+    );
   };
 
   return (
@@ -121,16 +128,21 @@ export const MessageContentWithStatuses = (props: Props) => {
         messageId={messageId}
         className={classNames('module-message', `module-message--${direction}`)}
         role={'button'}
+        isDetailView={isDetailView}
         onClick={onClickOnMessageOuterContainer}
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         dataTestId={dataTestId}
       >
         <Flex container={true} flexDirection="column" flexShrink={0}>
           <StyledMessageWithAuthor>
-            <MessageAuthorText messageId={messageId} />
+            {!isDetailView && <MessageAuthorText messageId={messageId} />}
             <MessageContent messageId={messageId} isDetailView={isDetailView} />
           </StyledMessageWithAuthor>
-          <MessageStatus dataTestId="msg-status" messageId={messageId} />
+          <MessageStatus
+            dataTestId="msg-status"
+            messageId={messageId}
+            isDetailView={isDetailView}
+          />
         </Flex>
         {!isDeleted && (
           <MessageContextMenu
@@ -149,6 +161,7 @@ export const MessageContentWithStatuses = (props: Props) => {
           setPopupReaction={setPopupReaction}
           onPopupClick={handlePopupClick}
           noAvatar={hideAvatar}
+          isDetailView={isDetailView}
         />
       )}
     </StyledMessageContentContainer>
