@@ -38,6 +38,7 @@ import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
+import { normalizeServiceId } from '../../types/ServiceId';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isSignalConnection } from '../../util/getSignalConnections';
 import { sortByTitle } from '../../util/sortByTitle';
@@ -821,7 +822,7 @@ export const getConversationSelector = createSelector(
 
       const onServiceId = getOwn(
         byServiceId,
-        id.toLowerCase ? id.toLowerCase() : id
+        normalizeServiceId(id, 'getConversationSelector')
       );
       if (onServiceId) {
         return selector(onServiceId);

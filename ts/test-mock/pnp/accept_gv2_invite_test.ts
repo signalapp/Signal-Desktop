@@ -3,10 +3,14 @@
 
 import { assert } from 'chai';
 import type { Group, PrimaryDevice } from '@signalapp/mock-server';
-import { Proto, ServiceIdKind } from '@signalapp/mock-server';
+import { Proto, ServiceIdKind, StorageState } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
+import {
+  parseAndFormatPhoneNumber,
+  PhoneNumberFormat,
+} from '../../util/libphonenumberInstance';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 
@@ -19,6 +23,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
   let app: App;
   let group: Group;
   let unknownContact: PrimaryDevice;
+  let unknownPniContact: PrimaryDevice;
 
   beforeEach(async () => {
     bootstrap = new Bootstrap({
@@ -27,14 +32,34 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     });
     await bootstrap.init();
 
-    const { contacts, unknownContacts } = bootstrap;
+    const { phone, contacts, unknownContacts } = bootstrap;
     const [first, second] = contacts;
-    [unknownContact] = unknownContacts;
+    [unknownContact, unknownPniContact] = unknownContacts;
 
     group = await first.createGroup({
-      title: 'Invite by PNI',
+      title: 'Invited Desktop PNI',
       members: [first, second, unknownContact],
     });
+
+    let state = StorageState.getEmpty();
+
+    state = state.updateAccount({
+      profileKey: phone.profileKey.serialize(),
+      e164: phone.device.number,
+    });
+
+    state = state.addContact(
+      unknownPniContact,
+      {
+        identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+        whitelisted: true,
+
+        serviceE164: unknownPniContact.device.number,
+      },
+      ServiceIdKind.PNI
+    );
+
+    await phone.setStorageState(state);
 
     app = await bootstrap.link();
 
@@ -300,7 +325,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       timestamp: bootstrap.getTimestamp(),
 
       // There is no one to receive it so don't bother.
-      sendInvite: false,
+      sendUpdateTo: [],
     });
 
     debug('Sending message to group');
@@ -316,8 +341,9 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     await leftPane.locator(`[data-testid="${group.id}"]`).click();
 
     debug('Accepting remote invite');
-    await second.acceptPniInvite(group, desktop, {
+    await second.acceptPniInvite(group, {
       timestamp: bootstrap.getTimestamp(),
+      sendUpdateTo: [{ device: desktop }],
     });
 
     await window
@@ -325,6 +351,66 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
         '.SystemMessage >> ' +
           `text=${second.profileName} accepted an invitation to the group ` +
           `from ${first.profileName}.`
+      )
+      .waitFor();
+  });
+
+  it('should display a e164 for a PNI invite', async () => {
+    const { phone, contacts, desktop } = bootstrap;
+
+    const [first] = contacts;
+
+    debug('Creating new group with Desktop');
+    group = await phone.createGroup({
+      title: 'Remote Invite',
+      members: [phone, first],
+    });
+
+    debug('Sending message to group');
+    await first.sendText(desktop, 'howdy', {
+      group,
+      timestamp: bootstrap.getTimestamp(),
+    });
+
+    const window = await app.getWindow();
+    const leftPane = window.locator('#LeftPane');
+
+    debug('Opening new group');
+    await leftPane.locator(`[data-testid="${group.id}"]`).click();
+
+    debug('Inviting remote PNI to group');
+    group = await phone.inviteToGroup(group, unknownPniContact.device, {
+      timestamp: bootstrap.getTimestamp(),
+
+      serviceIdKind: ServiceIdKind.PNI,
+      sendUpdateTo: [{ device: desktop }],
+    });
+
+    debug('Waiting for invite notification');
+    const parsedE164 = parseAndFormatPhoneNumber(
+      unknownPniContact.device.number,
+      '+1',
+      PhoneNumberFormat.NATIONAL
+    );
+    if (!parsedE164) {
+      throw new Error('Failed to parse device number');
+    }
+    const { e164 } = parsedE164;
+    await window
+      .locator(`.SystemMessage >> text=You invited ${e164} to the group`)
+      .waitFor();
+
+    debug('Accepting remote invite');
+    await unknownPniContact.acceptPniInvite(group, {
+      timestamp: bootstrap.getTimestamp(),
+      sendUpdateTo: [{ device: desktop }],
+    });
+
+    debug('Waiting for accept notification');
+    await window
+      .locator(
+        '.SystemMessage >> ' +
+          `text=${unknownPniContact.profileName} accepted your invitation to the group`
       )
       .waitFor();
   });
