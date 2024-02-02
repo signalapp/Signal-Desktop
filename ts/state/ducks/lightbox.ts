@@ -49,11 +49,14 @@ export type LightboxStateType =
       hasPrevMessage: boolean;
       hasNextMessage: boolean;
       selectedIndex: number | undefined;
+      playbackDisabled: boolean;
     };
 
 const CLOSE_LIGHTBOX = 'lightbox/CLOSE';
 const SHOW_LIGHTBOX = 'lightbox/SHOW';
 const SET_SELECTED_LIGHTBOX_INDEX = 'lightbox/SET_SELECTED_LIGHTBOX_INDEX';
+const SET_LIGHTBOX_PLAYBACK_DISABLED =
+  'lightbox/SET_LIGHTBOX_PLAYBACK_DISABLED';
 
 type CloseLightboxActionType = ReadonlyDeep<{
   type: typeof CLOSE_LIGHTBOX;
@@ -71,6 +74,11 @@ type ShowLightboxActionType = {
   };
 };
 
+type SetLightboxPlaybackDisabledActionType = ReadonlyDeep<{
+  type: typeof SET_LIGHTBOX_PLAYBACK_DISABLED;
+  payload: boolean;
+}>;
+
 type SetSelectedLightboxIndexActionType = ReadonlyDeep<{
   type: typeof SET_SELECTED_LIGHTBOX_INDEX;
   payload: number;
@@ -83,7 +91,8 @@ type LightboxActionType =
   | MessageDeletedActionType
   | MessageExpiredActionType
   | ShowLightboxActionType
-  | SetSelectedLightboxIndexActionType;
+  | SetSelectedLightboxIndexActionType
+  | SetLightboxPlaybackDisabledActionType;
 
 function closeLightbox(): ThunkAction<
   void,
@@ -111,6 +120,28 @@ function closeLightbox(): ThunkAction<
 
     dispatch({
       type: CLOSE_LIGHTBOX,
+    });
+  };
+}
+
+function setPlaybackDisabled(
+  playbackDisabled: boolean
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetLightboxPlaybackDisabledActionType
+> {
+  return (dispatch, getState) => {
+    const { lightbox } = getState();
+
+    if (!lightbox.isShowingLightbox) {
+      return;
+    }
+
+    dispatch({
+      type: SET_LIGHTBOX_PLAYBACK_DISABLED,
+      payload: playbackDisabled,
     });
   };
 }
@@ -340,6 +371,7 @@ function showLightbox(opts: {
           older.length > 0 && filterValidAttachments(older[0]).length > 0,
         hasNextMessage:
           newer.length > 0 && filterValidAttachments(newer[0]).length > 0,
+        playbackDisabled: false,
       },
     });
   };
@@ -481,6 +513,7 @@ export const actions = {
   showLightboxForPrevMessage,
   showLightboxForNextMessage,
   setSelectedLightboxIndex,
+  setPlaybackDisabled,
 };
 
 export const useLightboxActions = (): BoundActionCreatorsMapObject<
@@ -505,6 +538,7 @@ export function reducer(
     return {
       ...action.payload,
       isShowingLightbox: true,
+      playbackDisabled: false,
     };
   }
 
@@ -519,6 +553,17 @@ export function reducer(
         0,
         Math.min(state.media.length - 1, action.payload)
       ),
+    };
+  }
+
+  if (action.type === SET_LIGHTBOX_PLAYBACK_DISABLED) {
+    if (!state.isShowingLightbox) {
+      return state;
+    }
+
+    return {
+      ...state,
+      playbackDisabled: action.payload,
     };
   }
 

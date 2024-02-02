@@ -66,6 +66,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     media,
     saveAttachment: action('saveAttachment'),
     selectedIndex,
+    playbackDisabled: false,
     toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
     onMediaPlaybackStart: noop,
     onPrevAttachment: () => {

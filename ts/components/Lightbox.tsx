@@ -36,6 +36,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isViewOnce?: boolean;
   media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
+  playbackDisabled: boolean;
   saveAttachment: SaveAttachmentActionCreatorType;
   selectedIndex: number;
   toggleForwardMessagesModal: (messageIds: ReadonlyArray<string>) => unknown;
@@ -82,6 +83,7 @@ export function Lightbox({
   saveAttachment,
   selectedIndex,
   toggleForwardMessagesModal,
+  playbackDisabled,
   onMediaPlaybackStart,
   onNextAttachment,
   onPrevAttachment,
@@ -249,6 +251,16 @@ export function Lightbox({
       videoElement.pause();
     }
   }, [videoElement, onMediaPlaybackStart]);
+
+  useEffect(() => {
+    if (!videoElement || videoElement.paused) {
+      return;
+    }
+
+    if (playbackDisabled) {
+      videoElement.pause();
+    }
+  }, [playbackDisabled, videoElement]);
 
   useEffect(() => {
     const div = document.createElement('div');

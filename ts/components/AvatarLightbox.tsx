@@ -32,6 +32,7 @@ export function AvatarLightbox({
       i18n={i18n}
       isViewOnce
       media={[]}
+      playbackDisabled={false}
       saveAttachment={noop}
       toggleForwardMessagesModal={noop}
       onMediaPlaybackStart={noop}

@@ -21,6 +21,7 @@ import {
   getMedia,
   getHasPrevMessage,
   getHasNextMessage,
+  getPlaybackDisabled,
   getSelectedIndex,
   shouldShowLightbox,
 } from '../selectors/lightbox';
@@ -50,6 +51,7 @@ export function SmartLightbox(): JSX.Element | null {
   const hasPrevMessage = useSelector<StateType, boolean>(getHasPrevMessage);
   const hasNextMessage = useSelector<StateType, boolean>(getHasNextMessage);
   const selectedIndex = useSelector<StateType, number>(getSelectedIndex);
+  const playbackDisabled = useSelector<StateType, boolean>(getPlaybackDisabled);
 
   const onPrevAttachment = useCallback(() => {
     if (selectedIndex <= 0) {
@@ -93,6 +95,7 @@ export function SmartLightbox(): JSX.Element | null {
       i18n={i18n}
       isViewOnce={isViewOnce}
       media={media}
+      playbackDisabled={playbackDisabled}
       saveAttachment={saveAttachment}
       selectedIndex={selectedIndex || 0}
       toggleForwardMessagesModal={toggleForwardMessagesModal}

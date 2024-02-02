@@ -46,3 +46,8 @@ export const getHasNextMessage = createSelector(
   getLightboxState,
   (state): boolean => state.isShowingLightbox && state.hasNextMessage
 );
+
+export const getPlaybackDisabled = createSelector(
+  getLightboxState,
+  (state): boolean => state.isShowingLightbox && state.playbackDisabled
+);
