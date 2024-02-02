@@ -420,3 +420,13 @@ export function useDisappearingMessageSettingText({
     ? `${expirationModeText}${expireTimerText ? `${separator}${expireTimerText}` : ''}`
     : '';
 }
+
+export function useLastMessage(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+
+  if (!convoId || !convoProps) {
+    return null;
+  }
+
+  return convoProps.lastMessage;
+}

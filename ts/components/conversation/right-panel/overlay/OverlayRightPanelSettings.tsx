@@ -7,10 +7,14 @@ import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { SessionIconButton } from '../../../icon';
 
-import { useDisappearingMessageSettingText } from '../../../../hooks/useParamSelector';
+import {
+  useConversationUsername,
+  useDisappearingMessageSettingText,
+} from '../../../../hooks/useParamSelector';
 import { useIsRightPanelShowing } from '../../../../hooks/useUI';
 import {
-  deleteAllMessagesByConvoIdWithConfirmation,
+  ConversationInteractionStatus,
+  ConversationInteractionType,
   showAddModeratorsByConvoId,
   showInviteContactByConvoId,
   showLeaveGroupByConvoId,
@@ -30,6 +34,7 @@ import {
   useSelectedIsKickedFromGroup,
   useSelectedIsLeft,
   useSelectedIsPublic,
+  useSelectedLastMessage,
   useSelectedSubscriberCount,
   useSelectedWeAreAdmin,
 } from '../../../../state/selectors/selectedConversation';
@@ -207,8 +212,10 @@ export const OverlayRightPanelSettings = () => {
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
 
   const selectedConvoKey = useSelectedConversationKey();
-  const dispatch = useDispatch();
+  const selectedUsername = useConversationUsername(selectedConvoKey) || selectedConvoKey;
   const isShowing = useIsRightPanelShowing();
+
+  const dispatch = useDispatch();
 
   const isActive = useSelectedIsActive();
   const isBlocked = useSelectedIsBlocked();
@@ -221,6 +228,7 @@ export const OverlayRightPanelSettings = () => {
     convoId: selectedConvoKey,
     separator: ': ',
   });
+  const lastMessage = useSelectedLastMessage();
 
   useEffect(() => {
     let isCancelled = false;
@@ -271,7 +279,10 @@ export const OverlayRightPanelSettings = () => {
   const commonNoShow = isKickedFromGroup || left || isBlocked || !isActive;
   const hasDisappearingMessages = !isPublic && !commonNoShow;
   const leaveGroupString = isPublic
-    ? window.i18n('leaveGroup')
+    ? window.i18n('leaveCommunity')
+    : lastMessage?.interactionType === ConversationInteractionType.Leave &&
+      lastMessage?.interactionStatus === ConversationInteractionStatus.Error
+    ? window.i18n('deleteConversation')
     : isKickedFromGroup
     ? window.i18n('youGotKickedFromGroup')
     : left
@@ -282,13 +293,9 @@ export const OverlayRightPanelSettings = () => {
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
   const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 
-  const deleteConvoAction = isPublic
-    ? () => {
-        deleteAllMessagesByConvoIdWithConfirmation(selectedConvoKey); // TODOLATER this does not delete the public group and showLeaveGroupByConvoId is not only working for closed groups
-      }
-    : () => {
-        showLeaveGroupByConvoId(selectedConvoKey);
-      };
+  const deleteConvoAction = async () => {
+    await showLeaveGroupByConvoId(selectedConvoKey, selectedUsername);
+  };
 
   return (
     <>

@@ -22,6 +22,10 @@ import {
   DisappearingMessageType,
 } from '../../session/disappearing_messages/types';
 import { ReactionList } from '../../types/Reaction';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../interactions/conversationInteractions';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 
@@ -40,6 +44,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForCallNotification?: PropsForCallNotification;
   propsForMessageRequestResponse?: PropsForMessageRequestResponse;
   propsForQuote?: PropsForQuote;
+  propsForInteractionNotification?: PropsForInteractionNotification;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -178,13 +183,21 @@ export type PropsForAttachment = {
 };
 
 export type PropsForQuote = {
+  text?: string;
   attachment?: QuotedAttachmentType;
   author: string;
   convoId?: string;
   id?: string; // this is the quoted message timestamp
   isFromMe?: boolean;
   referencedMessageNotFound?: boolean;
-  text?: string;
+};
+
+export type PropsForInteractionNotification = {
+  notificationType: InteractionNotificationType;
+  convoId: string;
+  messageId: string;
+  receivedAt: number;
+  isUnread: boolean;
 };
 
 export type PropsForMessageWithoutConvoProps = {
@@ -229,6 +242,13 @@ export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
 export type LastMessageType = {
   status: LastMessageStatusType;
   text: string | null;
+  interactionType: ConversationInteractionType | null;
+  interactionStatus: ConversationInteractionStatus | null;
+};
+
+export type InteractionNotificationType = {
+  interactionType: ConversationInteractionType;
+  interactionStatus: ConversationInteractionStatus;
 };
 
 /**

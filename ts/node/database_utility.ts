@@ -57,6 +57,8 @@ const allowedKeysFormatRowOfConversation = [
   'left',
   'lastMessage',
   'lastMessageStatus',
+  'lastMessageInteractionType',
+  'lastMessageInteractionStatus',
   'triggerNotificationsFor',
   'unreadCount',
   'lastJoinedTimestamp',
@@ -145,6 +147,14 @@ export function formatRowOfConversation(
     convo.blocksSogsMsgReqsTimestamp = 0;
   }
 
+  if (!convo.lastMessageInteractionType) {
+    convo.lastMessageInteractionType = null;
+  }
+
+  if (!convo.lastMessageInteractionStatus) {
+    convo.lastMessageInteractionStatus = null;
+  }
+
   if (!convo.triggerNotificationsFor) {
     convo.triggerNotificationsFor = 'all';
   }
@@ -182,6 +192,8 @@ const allowedKeysOfConversationAttributes = [
   'left',
   'lastMessage',
   'lastMessageStatus',
+  'lastMessageInteractionType',
+  'lastMessageInteractionStatus',
   'triggerNotificationsFor',
   'lastJoinedTimestamp',
   'expireTimer',

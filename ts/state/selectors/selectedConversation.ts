@@ -383,3 +383,7 @@ export function useSelectedWeAreModerator() {
 export function useIsMessageSelectionMode() {
   return useSelector(getIsMessageSelectionMode);
 }
+
+export function useSelectedLastMessage() {
+  return useSelector((state: StateType) => getSelectedConversation(state)?.lastMessage);
+}

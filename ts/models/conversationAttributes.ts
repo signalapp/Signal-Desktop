@@ -1,6 +1,10 @@
 import { defaults } from 'lodash';
 import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { LastMessageStatusType } from '../state/ducks/conversations';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../interactions/conversationInteractions';
 
 /**
  * Private chats have always the type `Private`
@@ -56,7 +60,6 @@ export interface ConversationAttributes {
   // 0 means inactive (undefined and null too but we try to get rid of them and only have 0 = inactive)
   active_at: number; // this field is the one used to sort conversations in the left pane from most recent
 
-  lastMessageStatus: LastMessageStatusType;
   /**
    * lastMessage is actually just a preview of the last message text, shortened to 60 chars.
    * This is to avoid filling the redux store with a huge last message when it's only used in the
@@ -64,6 +67,9 @@ export interface ConversationAttributes {
    * The shortening is made in sql.ts directly.
    */
   lastMessage: string | null;
+  lastMessageStatus: LastMessageStatusType;
+  lastMessageInteractionType: ConversationInteractionType | null;
+  lastMessageInteractionStatus: ConversationInteractionStatus | null;
 
   avatarImageId?: number; // avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar (not only sogs I think, but our profile too?)
 
@@ -134,8 +140,10 @@ export const fillConvoAttributesWithDefaults = (
 
     active_at: 0,
 
-    lastMessageStatus: undefined,
     lastMessage: null,
+    lastMessageStatus: undefined,
+    lastMessageInteractionType: null,
+    lastMessageInteractionStatus: null,
 
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
 

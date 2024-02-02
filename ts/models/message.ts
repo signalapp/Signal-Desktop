@@ -38,6 +38,10 @@ import {
 import { Data } from '../data/data';
 import { OpenGroupData } from '../data/opengroups';
 import { SettingsKey } from '../data/settings-key';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../interactions/conversationInteractions';
 import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
@@ -91,13 +95,14 @@ import {
 import { ReactionList } from '../types/Reaction';
 import { getAudioDuration, getVideoDuration } from '../types/attachments/VisualAttachment';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
-import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
+import { assertUnreachable, roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
 import { ConversationModel } from './conversation';
 import { READ_MESSAGE_STATE } from './conversationAttributes';
+// tslint:disable: cyclomatic-complexity
 
 /**
  * @returns true if the array contains only a single item being 'You', 'you' or our device pubkey
@@ -148,6 +153,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForMessageRequestResponse = this.getPropsForMessageRequestResponse();
     const propsForQuote = this.getPropsForQuote();
     const callNotificationType = this.get('callNotificationType');
+    const interactionNotification = this.getInteractionNotification();
+
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
     };
@@ -183,6 +190,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       };
     }
 
+    if (interactionNotification) {
+      messageProps.propsForInteractionNotification = {
+        notificationType: interactionNotification,
+        convoId: this.get('conversationId'),
+        messageId: this.id,
+        receivedAt: this.get('received_at') || Date.now(),
+        isUnread: this.isUnread(),
+      };
+    }
+
+    perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
     return messageProps;
   }
 
@@ -242,6 +260,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
   public isCallNotification() {
     return !!this.get('callNotificationType');
+  }
+  public isInteractionNotification() {
+    return !!this.getInteractionNotification();
+  }
+
+  public getInteractionNotification() {
+    return this.get('interactionNotification');
   }
 
   public getNotificationText() {
@@ -507,7 +532,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return undefined;
     }
 
-    if (this.isDataExtractionNotification() || this.isCallNotification()) {
+    if (
+      this.isDataExtractionNotification() ||
+      this.isCallNotification() ||
+      this.isInteractionNotification()
+    ) {
       return undefined;
     }
 
@@ -1306,6 +1335,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (arrayContainsUsOnly(groupUpdate.kicked)) {
         return window.i18n('youGotKickedFromGroup');
       }
+
       if (arrayContainsUsOnly(groupUpdate.left)) {
         return window.i18n('youLeftTheGroup');
       }
@@ -1317,12 +1347,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       const messages = [];
+
       if (!groupUpdate.name && !groupUpdate.joined && !groupUpdate.kicked && !groupUpdate.kicked) {
         return window.i18n('updatedTheGroup'); // Group Updated
       }
+
       if (groupUpdate.name) {
         return window.i18n('titleIsNow', [groupUpdate.name]);
       }
+
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const names = groupUpdate.joined.map(
           getConversationController().getContactProfileNameOrShortenedPubKey
@@ -1350,9 +1383,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
       return messages.join(' ');
     }
+
     if (this.isIncoming() && this.hasErrors()) {
       return window.i18n('incomingError');
     }
+
     if (this.isGroupInvitation()) {
       return `😎 ${window.i18n('openGroupInvitation')}`;
     }
@@ -1386,6 +1421,38 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('answeredACall', [displayName]);
       }
     }
+
+    const interactionNotification = this.getInteractionNotification();
+    if (interactionNotification) {
+      const { interactionType, interactionStatus } = interactionNotification;
+
+      // NOTE For now we only show interaction errors in the message history
+      if (interactionStatus === ConversationInteractionStatus.Error) {
+        const convo = getConversationController().get(this.get('conversationId'));
+
+        if (convo) {
+          const isGroup = !convo.isPrivate();
+          const isCommunity = convo.isPublic();
+
+          switch (interactionType) {
+            case ConversationInteractionType.Hide:
+              return window.i18n('hideConversationFailed');
+            case ConversationInteractionType.Leave:
+              return isCommunity
+                ? window.i18n('leaveCommunityFailed')
+                : isGroup
+                ? window.i18n('leaveGroupFailed')
+                : window.i18n('deleteConversationFailed');
+            default:
+              assertUnreachable(
+                interactionType,
+                `Message.getDescription: Missing case error "${interactionType}"`
+              );
+          }
+        }
+      }
+    }
+
     if (this.get('reaction')) {
       const reaction = this.get('reaction');
       if (reaction && reaction.emoji && reaction.emoji !== '') {

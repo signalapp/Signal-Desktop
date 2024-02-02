@@ -3,10 +3,10 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  useConversationPropsById,
   useHasUnread,
   useIsPrivate,
   useIsTyping,
+  useLastMessage,
 } from '../../../hooks/useParamSelector';
 import { LastMessageStatusType } from '../../../state/ducks/conversations';
 import { isSearching } from '../../../state/selectors/search';
@@ -16,18 +16,11 @@ import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { SessionIcon } from '../../icon';
 import { useConvoIdFromContext } from './ConvoIdContext';
-
-function useLastMessageFromConvo(convoId: string) {
-  const convoProps = useConversationPropsById(convoId);
-  if (!convoProps) {
-    return null;
-  }
-  return convoProps.lastMessage;
-}
+import { InteractionItem } from './InteractionItem';
 
 export const MessageItem = () => {
   const conversationId = useConvoIdFromContext();
-  const lastMessage = useLastMessageFromConvo(conversationId);
+  const lastMessage = useLastMessage(conversationId);
   const isGroup = !useIsPrivate(conversationId);
 
   const hasUnread = useHasUnread(conversationId);
@@ -36,9 +29,14 @@ export const MessageItem = () => {
 
   const isSearchingMode = useSelector(isSearching);
 
+  if (lastMessage?.interactionType && lastMessage?.interactionStatus) {
+    return <InteractionItem conversationId={conversationId} lastMessage={lastMessage} />;
+  }
+
   if (!lastMessage && !isConvoTyping) {
     return null;
   }
+
   const text = lastMessage?.text || '';
 
   if (isEmpty(text)) {

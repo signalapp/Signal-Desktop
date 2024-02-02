@@ -105,7 +105,8 @@ export type MessagePropsType =
   | 'timer-notification'
   | 'regular-message'
   | 'unread-indicator'
-  | 'call-notification';
+  | 'call-notification'
+  | 'interaction-notification';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getSortedMessagesOfSelectedConversation,
@@ -189,6 +190,19 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
             messageType: 'call-notification',
             props: {
               ...msg.propsForCallNotification,
+              messageId: msg.propsForMessage.id,
+            },
+          },
+        };
+      }
+
+      if (msg.propsForInteractionNotification) {
+        return {
+          ...common,
+          message: {
+            messageType: 'interaction-notification',
+            props: {
+              ...msg.propsForInteractionNotification,
               messageId: msg.propsForMessage.id,
             },
           },

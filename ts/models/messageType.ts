@@ -6,6 +6,7 @@ import {
 } from '../session/disappearing_messages/types';
 import {
   CallNotificationType,
+  InteractionNotificationType,
   LastMessageStatusType,
   PropsForMessageWithConvoProps,
 } from '../state/ducks/conversations';
@@ -118,6 +119,11 @@ export interface MessageAttributes {
   isDeleted?: boolean;
 
   callNotificationType?: CallNotificationType;
+
+  /**
+   * This is used when a user has performed an interaction (hiding, leaving, etc.) on a conversation. At the moment, this is only used for showing interaction errors.
+   */
+  interactionNotification?: InteractionNotificationType;
 }
 
 export interface DataExtractionNotificationMsg {
@@ -212,6 +218,7 @@ export interface MessageAttributesOptionals {
   messageHash?: string;
   isDeleted?: boolean;
   callNotificationType?: CallNotificationType;
+  interactionNotification?: InteractionNotificationType;
 }
 
 /**

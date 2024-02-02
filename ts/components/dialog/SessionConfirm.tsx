@@ -1,8 +1,12 @@
-import { Dispatch } from '@reduxjs/toolkit';
 import { shell } from 'electron';
-import React, { useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useLastMessage } from '../../hooks/useParamSelector';
 import { MessageInteraction } from '../../interactions';
+import {
+  ConversationInteractionStatus,
+  updateConversationInteractionState,
+} from '../../interactions/conversationInteractions';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
@@ -15,10 +19,18 @@ import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 const StyledSubText = styled(SessionHtmlRenderer)<{ textLength: number }>`
   font-size: var(--font-size-md);
   line-height: 1.5;
+  margin-bottom: var(--margins-lg);
+
   max-width: ${props =>
     props.textLength > 90
       ? '60ch'
       : '33ch'}; // this is ugly, but we want the dialog description to have multiple lines when a short text is displayed
+`;
+
+const StyledSubMessageText = styled(SessionHtmlRenderer)`
+  // Overrides SASS in this one case
+  margin-top: 0;
+  margin-bottom: var(--margins - md);
 `;
 
 export interface SessionConfirmDialogProps {
@@ -42,6 +54,7 @@ export interface SessionConfirmDialogProps {
    * function to run on close click. Closes modal after execution by default
    */
   onClickCancel?: () => any;
+
   okText?: string;
   cancelText?: string;
   hideCancel?: boolean;
@@ -51,6 +64,8 @@ export interface SessionConfirmDialogProps {
   iconSize?: SessionIconSize;
   shouldShowConfirm?: boolean | undefined;
   showExitIcon?: boolean | undefined;
+  headerReverse?: boolean;
+  conversationId?: string;
 }
 
 export const SessionConfirm = (props: SessionConfirmDialogProps) => {
@@ -69,8 +84,12 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     shouldShowConfirm,
     onClickCancel,
     showExitIcon,
+    headerReverse,
     closeAfterInput = true,
+    conversationId,
   } = props;
+
+  const lastMessage = useLastMessage(conversationId);
 
   const [isLoading, setIsLoading] = useState(false);
   const [chosenOption, setChosenOption] = useState(
@@ -98,6 +117,18 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     }
   };
 
+  useEffect(() => {
+    if (isLoading) {
+      if (conversationId && lastMessage?.interactionType) {
+        void updateConversationInteractionState({
+          conversationId,
+          type: lastMessage?.interactionType,
+          status: ConversationInteractionStatus.Loading,
+        });
+      }
+    }
+  }, [isLoading, conversationId, lastMessage?.interactionType]);
+
   if (shouldShowConfirm && !shouldShowConfirm) {
     return null;
   }
@@ -113,15 +144,15 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     if (onClickClose) {
       onClickClose();
     }
-
-    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
+
   return (
     <SessionWrapperModal
       title={title}
       onClose={onClickClose}
       showExitIcon={showExitIcon}
       showHeader={showHeader}
+      headerReverse={headerReverse}
     >
       {!showHeader && <SpacerLG />}
 
@@ -134,8 +165,15 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         )}
 
         <StyledSubText tag="span" textLength={message.length} html={message} />
-        <SessionHtmlRenderer tag="span" className="session-confirm-sub-message" html={messageSub} />
-        {radioOptions && chosenOption !== '' && (
+        {messageSub && (
+          <StyledSubMessageText
+            tag="span"
+            className="session-confirm-sub-message"
+            html={messageSub}
+          />
+        )}
+
+        {radioOptions && chosenOption !== '' ? (
           <SessionRadioGroup
             group="session-confirm-radio-group"
             initialItem={chosenOption}
@@ -147,7 +185,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
               }
             }}
           />
-        )}
+        ) : null}
 
         <SessionSpinner loading={isLoading} />
       </div>
