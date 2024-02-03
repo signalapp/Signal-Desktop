@@ -119,6 +119,7 @@ export type IPCEventsCallbacksType = {
   removeDarkOverlay: () => void;
   resetAllChatColors: () => void;
   resetDefaultChatColor: () => void;
+  setMediaPlaybackDisabled: (playbackDisabled: boolean) => void;
   showConversationViaNotification: (data: NotificationClickData) => void;
   showConversationViaSignalDotMe: (
     kind: string,
@@ -639,6 +640,13 @@ export function createIPCEvents(
     },
     getMediaPermissions: window.IPC.getMediaPermissions,
     getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
+
+    setMediaPlaybackDisabled: (playbackDisabled: boolean) => {
+      window.reduxActions.lightbox.setPlaybackDisabled(playbackDisabled);
+      if (playbackDisabled) {
+        window.reduxActions.audioPlayer.pauseVoiceNotePlayer();
+      }
+    },
 
     ...overrideEvents,
   };

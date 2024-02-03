@@ -832,6 +832,12 @@ async function createWindow() {
   // App dock icon bounce
   bounce.init(mainWindow);
 
+  mainWindow.on('hide', () => {
+    if (mainWindow && !windowState.shouldQuit()) {
+      mainWindow.webContents.send('set-media-playback-disabled', true);
+    }
+  });
+
   // Emitted when the window is about to be closed.
   // Note: We do most of our shutdown logic here because all windows are closed by
   //   Electron before the app quits.
@@ -934,6 +940,12 @@ async function createWindow() {
     getLogger().info('mainWindow leave-full-screen event');
     if (mainWindow) {
       mainWindow.webContents.send('full-screen-change', false);
+    }
+  });
+
+  mainWindow.on('show', () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('set-media-playback-disabled', false);
     }
   });
 

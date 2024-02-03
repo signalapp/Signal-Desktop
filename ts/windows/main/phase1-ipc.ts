@@ -239,6 +239,16 @@ ipc.on('power-channel:lock-screen', () => {
   window.Whisper.events.trigger('powerMonitorLockScreen');
 });
 
+ipc.on(
+  'set-media-playback-disabled',
+  (_event: unknown, playbackDisabled: unknown) => {
+    const { setMediaPlaybackDisabled } = window.Events || {};
+    if (setMediaPlaybackDisabled) {
+      setMediaPlaybackDisabled(Boolean(playbackDisabled));
+    }
+  }
+);
+
 ipc.on('window:set-window-stats', (_event, stats) => {
   if (!window.reduxActions) {
     return;
