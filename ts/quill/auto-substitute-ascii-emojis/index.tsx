@@ -22,6 +22,7 @@ const emojiMap: Record<string, string> = {
   ':-D': 'grinning',
   ':*': 'kissing_heart',
   ':-*': 'kissing_heart',
+  ':p': 'stuck_out_tongue',
   ':P': 'stuck_out_tongue',
   ':-P': 'stuck_out_tongue',
   ':-p': 'stuck_out_tongue',
