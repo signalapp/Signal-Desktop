@@ -12,6 +12,7 @@ import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
@@ -45,7 +46,6 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export enum ConversationInteractionStatus {
   Start = 'start',
@@ -395,20 +395,18 @@ export async function showLeaveGroupByConvoId(conversationId: string, name: stri
     //     conversationId,
     //   })
     // );
-  } else {
-    if (isPublic || (isClosedGroup && !isAdmin)) {
-      window?.inboxStore?.dispatch(
-        updateConfirmModal({
-          title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
-          message: window.i18n('leaveGroupConfirmation', name ? [name] : ['']),
-          onClickOk,
-          okText: window.i18n('leave'),
-          okTheme: SessionButtonColor.Danger,
-          onClickClose,
-          conversationId,
-        })
-      );
-    }
+  } else if (isPublic || (isClosedGroup && !isAdmin)) {
+    window?.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
+        message: window.i18n('leaveGroupConfirmation', name ? [name] : ['']),
+        onClickOk,
+        okText: window.i18n('leave'),
+        okTheme: SessionButtonColor.Danger,
+        onClickClose,
+        conversationId,
+      })
+    );
   }
 }
 

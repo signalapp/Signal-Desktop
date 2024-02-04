@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
+import React, { useEffect, useState } from 'react';
 
+import styled from 'styled-components';
 import { useIsPrivate, useIsPublic } from '../../../hooks/useParamSelector';
-import { MessageBody } from '../../conversation/message/message-content/MessageBody';
-import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import {
   ConversationInteractionStatus,
   ConversationInteractionType,
 } from '../../../interactions/conversationInteractions';
-import styled from 'styled-components';
 import { getConversationController } from '../../../session/conversations';
 import { LastMessageType } from '../../../state/ducks/conversations';
+import { assertUnreachable } from '../../../types/sqlSharedTypes';
+import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 
 const StyledInteractionItemText = styled.div<{ isError: boolean }>`
   ${props => props.isError && 'color: var(--danger-color) !important;'}
@@ -25,16 +25,6 @@ export const InteractionItem = (props: InteractionItemProps) => {
   const { conversationId, lastMessage } = props;
   const isGroup = !useIsPrivate(conversationId);
   const isCommunity = useIsPublic(conversationId);
-
-  if (!lastMessage) {
-    return null;
-  }
-
-  const { interactionType, interactionStatus } = lastMessage;
-
-  if (!interactionType || !interactionStatus) {
-    return null;
-  }
 
   const [storedLastMessageText, setStoredLastMessageText] = useState(lastMessage?.text);
   const [storedLastMessageInteractionStatus, setStoredLastMessageInteractionStatus] = useState(
@@ -51,7 +41,17 @@ export const InteractionItem = (props: InteractionItemProps) => {
         setStoredLastMessageText(convo.get('lastMessage'));
       }
     }
-  }, [conversationId]);
+  }, [conversationId, storedLastMessageInteractionStatus]);
+
+  if (!lastMessage) {
+    return null;
+  }
+
+  const { interactionType, interactionStatus } = lastMessage || {};
+
+  if (!interactionType || !interactionStatus) {
+    return null;
+  }
 
   let text = storedLastMessageText || '';
   let errorText = '';
