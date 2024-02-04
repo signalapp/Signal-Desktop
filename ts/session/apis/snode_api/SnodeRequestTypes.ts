@@ -134,7 +134,7 @@ export type DeleteFromNodeSubRequest = {
 export type UpdateExpireNodeParams = {
   pubkey: string;
   pubkey_ed25519: string;
-  messages: Array<string>;
+  messages: Array<string>; // Must have at least 2 arguments until the next storage server release (check fakeHash)
   expiry: number;
   signature: string;
   extend?: boolean;
@@ -146,6 +146,22 @@ export type UpdateExpiryOnNodeSubRequest = {
   params: UpdateExpireNodeParams;
 };
 
+export type GetExpiriesNodeParams = {
+  pubkey: string;
+  pubkey_ed25519: string;
+  messages: Array<string>;
+  timestamp: number;
+  signature: string;
+};
+
+export type GetExpiriesFromNodeSubRequest = {
+  method: 'get_expiries';
+  params: GetExpiriesNodeParams;
+};
+
+// Until the next storage server release is released, we need to have at least 2 hashes in the list for the `get_expiries` AND for the `update_expiries`
+export const fakeHash = '///////////////////////////////////////////';
+
 export type OxendSubRequest = OnsResolveSubRequest | GetServiceNodesSubRequest;
 
 export type SnodeApiSubRequests =
@@ -156,7 +172,8 @@ export type SnodeApiSubRequests =
   | NetworkTimeSubRequest
   | DeleteFromNodeSubRequest
   | DeleteAllFromNodeSubRequest
-  | UpdateExpiryOnNodeSubRequest;
+  | UpdateExpiryOnNodeSubRequest
+  | GetExpiriesFromNodeSubRequest;
 
 // eslint-disable-next-line @typescript-eslint/array-type
 export type NonEmptyArray<T> = [T, ...T[]];
@@ -165,3 +182,7 @@ export type NotEmptyArrayOfBatchResults = NonEmptyArray<{
   code: number;
   body: Record<string, any>;
 }>;
+
+export type WithShortenOrExtend = { shortenOrExtend: 'shorten' | 'extend' | '' };
+
+export const MAX_SUBREQUESTS_COUNT = 20;

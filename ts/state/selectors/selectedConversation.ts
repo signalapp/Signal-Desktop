@@ -1,11 +1,17 @@
 import { isString } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
+import {
+  DisappearingMessageConversationModeType,
+  DisappearingMessageConversationModes,
+} from '../../session/disappearing_messages/types';
 import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
+import { ReleasedFeatures } from '../../util/releaseFeature';
+import { ReduxConversationType } from '../ducks/conversations';
 import { StateType } from '../reducer';
-import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
 import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
+import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
 
 /**
  * Returns the formatted text for notification setting.
@@ -154,6 +160,68 @@ const getSelectedSubscriberCount = (state: StateType): number | undefined => {
   return getSubscriberCount(state, convo.id);
 };
 
+// TODO legacy messages support will be removed in a future release
+const getSelectedConversationExpirationModesWithLegacy = (convo: ReduxConversationType) => {
+  if (!convo) {
+    return undefined;
+  }
+
+  // NOTE this needs to be as any because the number of modes can change depending on if v2 is released or we are in single mode
+  let modes: any = DisappearingMessageConversationModes;
+
+  // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
+  const isClosedGroup = !convo.isPrivate && !convo.isPublic;
+  if (convo?.isMe || isClosedGroup) {
+    modes = [modes[0], ...modes.slice(2)];
+  }
+
+  // Legacy mode is the 2nd option in the UI
+  modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
+
+  const modesWithDisabledState: Record<string, boolean> = {};
+  // The new modes are disabled by default
+  if (modes && modes.length > 1) {
+    modes.forEach((mode: any) => {
+      modesWithDisabledState[mode] = Boolean(mode !== 'legacy' && mode !== 'off');
+    });
+  }
+
+  return modesWithDisabledState;
+};
+
+export const getSelectedConversationExpirationModes = (state: StateType) => {
+  const convo = getSelectedConversation(state);
+  if (!convo) {
+    return undefined;
+  }
+
+  if (!ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()) {
+    return getSelectedConversationExpirationModesWithLegacy(convo);
+  }
+
+  // NOTE this needs to be as any because the number of modes can change depending on if v2 is released or we are in single mode
+  let modes: any = DisappearingMessageConversationModes;
+  // TODO legacy messages support will be removed in a future release
+  // TODO remove legacy mode
+  modes = modes.slice(0, -1);
+
+  // Note to Self and Closed Groups only support deleteAfterSend
+  const isClosedGroup = !convo.isPrivate && !convo.isPublic;
+  if (convo?.isMe || isClosedGroup) {
+    modes = [modes[0], modes[2]];
+  }
+
+  // NOTE disabled = true
+  const modesWithDisabledState: Record<string, boolean> = {};
+  if (modes && modes.length > 1) {
+    modes.forEach((mode: any) => {
+      modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
+    });
+  }
+
+  return modesWithDisabledState;
+};
+
 // ============== SELECTORS RELEVANT TO SELECTED/OPENED CONVERSATION ==============
 
 export function useSelectedConversationKey() {
@@ -217,7 +285,7 @@ export function useSelectedIsActive() {
   return useSelector(getIsSelectedActive);
 }
 
-export function useSelectedisNoteToSelf() {
+export function useSelectedIsNoteToSelf() {
   return useSelector(getIsSelectedNoteToSelf);
 }
 
@@ -237,6 +305,16 @@ export function useSelectedIsKickedFromGroup() {
   return useSelector(
     (state: StateType) => Boolean(getSelectedConversation(state)?.isKickedFromGroup) || false
   );
+}
+
+export function useSelectedExpireTimer(): number | undefined {
+  return useSelector((state: StateType) => getSelectedConversation(state)?.expireTimer);
+}
+
+export function useSelectedConversationDisappearingMode():
+  | DisappearingMessageConversationModeType
+  | undefined {
+  return useSelector((state: StateType) => getSelectedConversation(state)?.expirationMode);
 }
 
 export function useSelectedIsLeft() {
@@ -276,7 +354,7 @@ export function useSelectedNicknameOrProfileNameOrShortenedPubkey() {
   const nickname = useSelectedNickname();
   const profileName = useSelectedDisplayNameInProfile();
   const shortenedPubkey = useSelectedShortenedPubkeyOrFallback();
-  const isMe = useSelectedisNoteToSelf();
+  const isMe = useSelectedIsNoteToSelf();
   if (isMe) {
     return window.i18n('noteToSelf');
   }
@@ -304,4 +382,8 @@ export function useSelectedWeAreModerator() {
 
 export function useIsMessageSelectionMode() {
   return useSelector(getIsMessageSelectionMode);
+}
+
+export function useSelectedLastMessage() {
+  return useSelector((state: StateType) => getSelectedConversation(state)?.lastMessage);
 }

@@ -7,10 +7,7 @@ import { ToastUtils } from '../../../../session/utils';
 import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
 import { StateType } from '../../../../state/reducer';
 import { useMessageDirection } from '../../../../state/selectors';
-import {
-  getMessageQuoteProps,
-  isMessageDetailView,
-} from '../../../../state/selectors/conversations';
+import { getMessageQuoteProps } from '../../../../state/selectors/conversations';
 import { Quote } from './quote/Quote';
 
 type Props = {
@@ -22,7 +19,6 @@ export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'd
 export const MessageQuote = (props: Props) => {
   const selected = useSelector((state: StateType) => getMessageQuoteProps(state, props.messageId));
   const direction = useMessageDirection(props.messageId);
-  const isMessageDetailViewMode = useSelector(isMessageDetailView);
 
   if (!selected || isEmpty(selected)) {
     return null;
@@ -45,11 +41,6 @@ export const MessageQuote = (props: Props) => {
     if (!quote) {
       ToastUtils.pushOriginalNotFound();
       window.log.warn('onQuoteClick: quote not valid');
-      return;
-    }
-
-    if (isMessageDetailViewMode) {
-      // trying to scroll while in the container while the message detail view is shown has unknown effects
       return;
     }
 

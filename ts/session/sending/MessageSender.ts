@@ -2,7 +2,7 @@
 
 import { AbortController } from 'abort-controller';
 import ByteBuffer from 'bytebuffer';
-import _, { isEmpty, isNil, isString, sample, toNumber } from 'lodash';
+import _, { isEmpty, isNil, isNumber, isString, sample, toNumber } from 'lodash';
 import pRetry from 'p-retry';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
@@ -12,15 +12,15 @@ import {
   sendMessageOnionV4BlindedRequest,
   sendSogsMessageOnionV4,
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
-import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
-import { SnodeNamespace, SnodeNamespaces } from '../apis/snode_api/namespaces';
-import { getSwarmFor } from '../apis/snode_api/snodePool';
 import {
   NotEmptyArrayOfBatchResults,
   StoreOnNodeMessage,
   StoreOnNodeParams,
   StoreOnNodeParamsNoSig,
 } from '../apis/snode_api/SnodeRequestTypes';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
+import { SnodeNamespace, SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { SnodeSignature, SnodeSignatureResult } from '../apis/snode_api/snodeSignatures';
 import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
 import { getConversationController } from '../conversations';
@@ -28,15 +28,16 @@ import { MessageEncrypter } from '../crypto';
 import { addMessagePadding } from '../crypto/BufferPadding';
 import { ContentMessage } from '../messages/outgoing';
 import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
-import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { PubKey } from '../types';
 import { RawMessage } from '../types/RawMessage';
-import { EmptySwarmError } from '../utils/errors';
+import { UserUtils } from '../utils';
 import { fromUInt8ArrayToBase64 } from '../utils/String';
+import { EmptySwarmError } from '../utils/errors';
 
 // ================ SNODE STORE ================
 
@@ -75,7 +76,7 @@ function getMinRetryTimeout() {
   return 1000;
 }
 
-function isSyncMessage(message: ContentMessage) {
+function isContentSyncMessage(message: ContentMessage) {
   if (
     message instanceof ConfigurationMessage ||
     message instanceof ClosedGroupNewMessage ||
@@ -94,16 +95,20 @@ function isSyncMessage(message: ContentMessage) {
  * @param message The message to send.
  * @param attempts The amount of times to attempt sending. Minimum value is 1.
  */
-async function send(
-  message: RawMessage,
-  attempts: number = 3,
-  retryMinTimeout?: number, // in ms
-  isASyncMessage?: boolean
-): Promise<{ wrappedEnvelope: Uint8Array; effectiveTimestamp: number }> {
+async function send({
+  message,
+  retryMinTimeout = 100,
+  attempts = 3,
+  isSyncMessage,
+}: {
+  message: RawMessage;
+  attempts?: number;
+  retryMinTimeout?: number; // in ms
+  isSyncMessage: boolean;
+}): Promise<{ wrappedEnvelope: Uint8Array; effectiveTimestamp: number }> {
   return pRetry(
     async () => {
       const recipient = PubKey.cast(message.device);
-      const { ttl } = message;
 
       // we can only have a single message in this send function for now
       const [encryptedAndWrapped] = await encryptMessagesAndWrap([
@@ -111,9 +116,9 @@ async function send(
           destination: message.device,
           plainTextBuffer: message.plainTextBuffer,
           namespace: message.namespace,
-          ttl,
+          ttl: message.ttl,
           identifier: message.identifier,
-          isSyncMessage: Boolean(isASyncMessage),
+          isSyncMessage: Boolean(isSyncMessage),
         },
       ]);
 
@@ -126,13 +131,30 @@ async function send(
         found.set({ sent_at: encryptedAndWrapped.networkTimestamp });
         await found.commit();
       }
+      let foundMessage = encryptedAndWrapped.identifier
+        ? await Data.getMessageById(encryptedAndWrapped.identifier)
+        : null;
+
+      const isSyncedDeleteAfterReadMessage =
+        found &&
+        UserUtils.isUsFromCache(recipient.key) &&
+        found.getExpirationType() === 'deleteAfterRead' &&
+        found.getExpireTimerSeconds() > 0 &&
+        encryptedAndWrapped.isSyncMessage;
+
+      let overridenTtl = encryptedAndWrapped.ttl;
+      if (isSyncedDeleteAfterReadMessage && found.getExpireTimerSeconds() > 0) {
+        const asMs = found.getExpireTimerSeconds() * 1000;
+        window.log.debug(`overriding ttl for synced DaR message to ${asMs}`);
+        overridenTtl = asMs;
+      }
 
       const batchResult = await MessageSender.sendMessagesDataToSnode(
         [
           {
             pubkey: recipient.key,
             data64: encryptedAndWrapped.data64,
-            ttl,
+            ttl: overridenTtl,
             timestamp: encryptedAndWrapped.networkTimestamp,
             namespace: encryptedAndWrapped.namespace,
           },
@@ -144,25 +166,34 @@ async function send(
       const isDestinationClosedGroup = getConversationController()
         .get(recipient.key)
         ?.isClosedGroup();
-      // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
+      const storedAt = batchResult?.[0]?.body?.t;
+      const storedHash = batchResult?.[0]?.body?.hash;
+
       if (
-        encryptedAndWrapped.identifier &&
-        (encryptedAndWrapped.isSyncMessage || isDestinationClosedGroup) &&
         batchResult &&
         !isEmpty(batchResult) &&
         batchResult[0].code === 200 &&
-        !isEmpty(batchResult[0].body.hash)
+        !isEmpty(storedHash) &&
+        isString(storedHash) &&
+        isNumber(storedAt)
       ) {
-        const messageSendHash = batchResult[0].body.hash;
-        const foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
-        if (foundMessage) {
-          await foundMessage.updateMessageHash(messageSendHash);
-          await foundMessage.commit();
-          window?.log?.info(
-            `updated message ${foundMessage.get('id')} with hash: ${foundMessage.get(
-              'messageHash'
-            )}`
-          );
+        // TODO: the expiration is due to be returned by the storage server on "store" soon, we will then be able to use it instead of doing the storedAt + ttl logic below
+        // if we have a hash and a storedAt, mark it as seen so we don't reprocess it on the next retrieve
+        await Data.saveSeenMessageHashes([
+          { expiresAt: storedAt + encryptedAndWrapped.ttl, hash: storedHash },
+        ]);
+        // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
+
+        if (
+          encryptedAndWrapped.identifier &&
+          (encryptedAndWrapped.isSyncMessage || isDestinationClosedGroup)
+        ) {
+          // get a fresh copy of the message from the DB
+          foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
+          if (foundMessage) {
+            await foundMessage.updateMessageHash(storedHash);
+            await foundMessage.commit();
+          }
         }
       }
 
@@ -343,7 +374,7 @@ async function encryptMessagesAndWrap(
 
 /**
  * Send a list of messages to a single service node.
- * Used currently only for sending SharedConfigMessage to multiple messages at a time.
+ * Used currently only for sending SharedConfigMessage for multiple messages at a time.
  *
  * @param params the messages to deposit
  * @param destination the pubkey we should deposit those message for
@@ -364,7 +395,7 @@ async function sendMessagesToSnode(
         namespace: m.namespace,
         ttl: m.message.ttl(),
         identifier: m.message.identifier,
-        isSyncMessage: MessageSender.isSyncMessage(m.message),
+        isSyncMessage: MessageSender.isContentSyncMessage(m.message),
       }))
     );
 
@@ -546,5 +577,5 @@ export const MessageSender = {
   getMinRetryTimeout,
   sendToOpenGroupV2,
   send,
-  isSyncMessage,
+  isContentSyncMessage,
 };

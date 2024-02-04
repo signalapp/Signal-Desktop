@@ -114,7 +114,6 @@ const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
 };
 
 type ProfileDialogModes = 'default' | 'edit' | 'qr';
-// tslint:disable-next-line: max-func-body-length
 export const EditProfileDialog = (): ReactElement => {
   const dispatch = useDispatch();
 
@@ -211,7 +210,6 @@ export const EditProfileDialog = (): ReactElement => {
 
   return (
     /* The <div> element has a child <input> element that allows keyboard interaction */
-    /* tslint:disable-next-line: react-a11y-event-has-role */
     <div className="edit-profile-dialog" data-testid="edit-profile-dialog" onKeyUp={handleOnKeyUp}>
       <SessionWrapperModal
         title={window.i18n('editProfileModalTitle')}

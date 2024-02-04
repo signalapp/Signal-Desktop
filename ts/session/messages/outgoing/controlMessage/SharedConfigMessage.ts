@@ -1,10 +1,10 @@
 // this is not a very good name, but a configuration message is a message sent to our other devices so sync our current public and closed groups
 import Long from 'long';
 
-import { SignalService } from '../../../../protobuf';
-import { MessageParams } from '../Message';
 import { ContentMessage } from '..';
+import { SignalService } from '../../../../protobuf';
 import { TTL_DEFAULT } from '../../../constants';
+import { MessageParams } from '../Message';
 
 interface SharedConfigParams extends MessageParams {
   seqno: Long;
@@ -31,7 +31,7 @@ export class SharedConfigMessage extends ContentMessage {
   }
 
   public ttl(): number {
-    return TTL_DEFAULT.TTL_CONFIG;
+    return TTL_DEFAULT.CONFIG_MESSAGE;
   }
 
   protected sharedConfigProto(): SignalService.SharedConfigMessage {

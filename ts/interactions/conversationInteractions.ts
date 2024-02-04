@@ -2,6 +2,7 @@ import { isNil } from 'lodash';
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
+  READ_MESSAGE_STATE,
 } from '../models/conversationAttributes';
 import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 
@@ -11,9 +12,11 @@ import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
@@ -25,7 +28,6 @@ import {
   resetConversationExternal,
 } from '../state/ducks/conversations';
 import {
-  adminLeaveClosedGroup,
   changeNickNameModal,
   updateAddModeratorsModal,
   updateBanOrUnbanUserModal,
@@ -44,6 +46,18 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
+
+export enum ConversationInteractionStatus {
+  Start = 'start',
+  Loading = 'loading',
+  Error = 'error',
+  Complete = 'complete',
+}
+
+export enum ConversationInteractionType {
+  Hide = 'hide',
+  Leave = 'leave',
+}
 
 export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -101,10 +115,7 @@ export async function unblockConvoById(conversationId: string) {
 /**
  * marks the conversation's approval fields, sends messageRequestResponse, syncs to linked devices
  */
-export const approveConvoAndSendResponse = async (
-  conversationId: string,
-  syncToDevices: boolean = true
-) => {
+export const approveConvoAndSendResponse = async (conversationId: string) => {
   const convoToApprove = getConversationController().get(conversationId);
 
   if (!convoToApprove) {
@@ -116,11 +127,6 @@ export const approveConvoAndSendResponse = async (
 
   await convoToApprove.commit();
   await convoToApprove.sendMessageRequestResponse();
-
-  // Conversation was not approved before so a sync is needed
-  if (syncToDevices) {
-    await forceSyncConfigurationNowIfNeeded();
-  }
 };
 
 export async function declineConversationWithoutConfirm({
@@ -226,54 +232,184 @@ export async function showUpdateGroupMembersByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateGroupMembersModal({ conversationId }));
 }
 
-export function showLeaveGroupByConvoId(conversationId: string) {
+export function showLeavePrivateConversationbyConvoId(
+  conversationId: string,
+  name: string | undefined
+) {
+  const conversation = getConversationController().get(conversationId);
+  const isMe = conversation.isMe();
+
+  if (!conversation.isPrivate()) {
+    throw new Error('showLeavePrivateConversationDialog() called with a non private convo.');
+  }
+
+  const onClickClose = () => {
+    window?.inboxStore?.dispatch(updateConfirmModal(null));
+  };
+
+  const onClickOk = async () => {
+    try {
+      await updateConversationInteractionState({
+        conversationId,
+        type: isMe ? ConversationInteractionType.Hide : ConversationInteractionType.Leave,
+        status: ConversationInteractionStatus.Start,
+      });
+      onClickClose();
+      await getConversationController().delete1o1(conversationId, {
+        fromSyncMessage: false,
+        justHidePrivate: true,
+        keepMessages: isMe,
+      });
+      await clearConversationInteractionState({ conversationId });
+    } catch (err) {
+      window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
+      await saveConversationInteractionErrorAsMessage({
+        conversationId,
+        interactionType: isMe
+          ? ConversationInteractionType.Hide
+          : ConversationInteractionType.Leave,
+      });
+    }
+  };
+
+  window?.inboxStore?.dispatch(
+    updateConfirmModal({
+      title: isMe ? window.i18n('hideConversation') : window.i18n('deleteConversation'),
+      message: isMe
+        ? window.i18n('hideNoteToSelfConfirmation')
+        : window.i18n('deleteConversationConfirmation', name ? [name] : ['']),
+      onClickOk,
+      okText: isMe ? window.i18n('hide') : window.i18n('delete'),
+      okTheme: SessionButtonColor.Danger,
+      onClickClose,
+      conversationId,
+    })
+  );
+}
+
+async function leaveGroupOrCommunityByConvoId(
+  conversationId: string,
+  isPublic: boolean,
+  forceDeleteLocal: boolean,
+  onClickClose?: () => void
+) {
+  try {
+    await updateConversationInteractionState({
+      conversationId,
+      type: ConversationInteractionType.Leave,
+      status: ConversationInteractionStatus.Start,
+    });
+
+    if (onClickClose) {
+      onClickClose();
+    }
+
+    if (isPublic) {
+      await getConversationController().deleteCommunity(conversationId, {
+        fromSyncMessage: false,
+      });
+    } else {
+      await getConversationController().deleteClosedGroup(conversationId, {
+        fromSyncMessage: false,
+        sendLeaveMessage: true,
+        forceDeleteLocal,
+      });
+    }
+    await clearConversationInteractionState({ conversationId });
+  } catch (err) {
+    window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
+    await saveConversationInteractionErrorAsMessage({
+      conversationId,
+      interactionType: ConversationInteractionType.Leave,
+    });
+  }
+}
+
+export async function showLeaveGroupByConvoId(conversationId: string, name: string | undefined) {
   const conversation = getConversationController().get(conversationId);
 
   if (!conversation.isGroup()) {
     throw new Error('showLeaveGroupDialog() called with a non group convo.');
   }
 
-  const title = window.i18n('leaveGroup');
-  const message = window.i18n('leaveGroupConfirmation');
-  const isAdmin = (conversation.get('groupAdmins') || []).includes(
-    UserUtils.getOurPubKeyStrFromCache()
-  );
   const isClosedGroup = conversation.isClosedGroup() || false;
   const isPublic = conversation.isPublic() || false;
+  const admins = conversation.get('groupAdmins') || [];
+  const isAdmin = admins.includes(UserUtils.getOurPubKeyStrFromCache());
+  const showOnlyGroupAdminWarning = isClosedGroup && isAdmin && admins.length === 1;
+  const lastMessageInteractionType = conversation.get('lastMessageInteractionType');
+  const lastMessageInteractionStatus = conversation.get('lastMessageInteractionStatus');
 
-  // if this is a community, or we legacy group are not admin, we can just show a confirmation dialog
-  if (isPublic || (isClosedGroup && !isAdmin)) {
-    const onClickClose = () => {
-      window.inboxStore?.dispatch(updateConfirmModal(null));
-    };
-    window.inboxStore?.dispatch(
-      updateConfirmModal({
-        title,
-        message,
-        onClickOk: async () => {
-          if (isPublic) {
-            await getConversationController().deleteCommunity(conversation.id, {
-              fromSyncMessage: false,
-            });
-          } else {
-            await getConversationController().deleteClosedGroup(conversation.id, {
-              fromSyncMessage: false,
-              sendLeaveMessage: true,
-            });
-          }
-          onClickClose();
-        },
-        onClickClose,
-      })
-    );
+  if (
+    !isPublic &&
+    lastMessageInteractionType === ConversationInteractionType.Leave &&
+    lastMessageInteractionStatus === ConversationInteractionStatus.Error
+  ) {
+    await leaveGroupOrCommunityByConvoId(conversationId, isPublic, true);
     return;
   }
-  window.inboxStore?.dispatch(
-    adminLeaveClosedGroup({
-      conversationId,
-    })
-  );
+
+  // if this is a community, or we legacy group are not admin, we can just show a confirmation dialog
+
+  const onClickClose = () => {
+    window?.inboxStore?.dispatch(updateConfirmModal(null));
+  };
+
+  const onClickOk = async () => {
+    await leaveGroupOrCommunityByConvoId(conversationId, isPublic, false, onClickClose);
+  };
+
+  if (showOnlyGroupAdminWarning) {
+    // NOTE For legacy closed groups
+    window?.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: window.i18n('leaveGroup'),
+        message: window.i18n('leaveGroupConrirmationOnlyAdminLegacy', name ? [name] : ['']),
+        onClickOk,
+        okText: window.i18n('leave'),
+        okTheme: SessionButtonColor.Danger,
+        onClickClose,
+        conversationId,
+      })
+    );
+    // TODO Only to be used after the closed group rebuild
+    // const onClickOkLastAdmin = () => {
+    //   /* TODO */
+    // };
+    // const onClickCloseLastAdmin = () => {
+    //   /* TODO */
+    // };
+    // window?.inboxStore?.dispatch(
+    //   updateConfirmModal({
+    //     title: window.i18n('leaveGroup'),
+    //     message: window.i18n('leaveGroupConfirmationOnlyAdmin', name ? [name] : ['']),
+    //     messageSub: window.i18n('leaveGroupConfirmationOnlyAdminWarning'),
+    //     onClickOk: onClickOkLastAdmin,
+    //     okText: window.i18n('addModerator'),
+    //     cancelText: window.i18n('leave'),
+    //     onClickCancel: onClickCloseLastAdmin,
+    //     closeTheme: SessionButtonColor.Danger,
+    //     onClickClose,
+    //     showExitIcon: true,
+    //     headerReverse: true,
+    //     conversationId,
+    //   })
+    // );
+  } else if (isPublic || (isClosedGroup && !isAdmin)) {
+    window?.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
+        message: window.i18n('leaveGroupConfirmation', name ? [name] : ['']),
+        onClickOk,
+        okText: window.i18n('leave'),
+        okTheme: SessionButtonColor.Danger,
+        onClickClose,
+        conversationId,
+      })
+    );
+  }
 }
+
 export function showInviteContactByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateInviteContactModal({ conversationId }));
 }
@@ -336,6 +472,8 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
   // conversation still appears on the conversation list but is empty
   conversation.set({
     lastMessage: null,
+    lastMessageInteractionType: null,
+    lastMessageInteractionStatus: null,
   });
 
   await conversation.commit();
@@ -355,7 +493,7 @@ export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: strin
   window?.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('deleteMessages'),
-      message: window.i18n('deleteConversationConfirmation'),
+      message: window.i18n('deleteMessagesConfirmation'),
       onClickOk,
       okTheme: SessionButtonColor.Danger,
       onClickClose,
@@ -365,7 +503,8 @@ export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: strin
 
 export async function setDisappearingMessagesByConvoId(
   conversationId: string,
-  seconds: number | undefined
+  expirationMode: DisappearingMessageConversationModeType,
+  seconds?: number
 ) {
   const conversation = getConversationController().get(conversationId);
 
@@ -376,10 +515,22 @@ export async function setDisappearingMessagesByConvoId(
     return;
   }
 
-  if (!seconds || seconds <= 0) {
-    await conversation.updateExpireTimer(null);
+  if (!expirationMode || expirationMode === 'off' || !seconds || seconds <= 0) {
+    await conversation.updateExpireTimer({
+      providedDisappearingMode: 'off',
+      providedExpireTimer: 0,
+      fromSync: false,
+      fromCurrentDevice: true,
+      fromConfigMessage: false,
+    });
   } else {
-    await conversation.updateExpireTimer(seconds);
+    await conversation.updateExpireTimer({
+      providedDisappearingMode: expirationMode,
+      providedExpireTimer: seconds,
+      fromSync: false,
+      fromCurrentDevice: true,
+      fromConfigMessage: false,
+    });
   }
 }
 
@@ -523,7 +674,7 @@ export async function replyToMessage(messageId: string) {
   const quotedMessageModel = await Data.getMessageById(messageId);
   if (!quotedMessageModel) {
     window.log.warn('Failed to find message to reply to');
-    return;
+    return false;
   }
   const conversationModel = getConversationController().getOrThrow(
     quotedMessageModel.get('conversationId')
@@ -536,6 +687,20 @@ export async function replyToMessage(messageId: string) {
   } else {
     window.inboxStore?.dispatch(quoteMessage(undefined));
   }
+
+  return true;
+}
+
+export async function resendMessage(messageId: string) {
+  const foundMessageModel = await Data.getMessageById(messageId);
+
+  if (!foundMessageModel) {
+    window.log.warn('Failed to find message to resend');
+    return false;
+  }
+
+  await foundMessageModel.retrySend();
+  return true;
 }
 
 /**
@@ -595,4 +760,97 @@ export async function callRecipient(pubkey: string, canCall: boolean) {
   if (convo && convo.isPrivate() && !convo.isMe()) {
     await CallManager.USER_callRecipient(convo.id);
   }
+}
+
+/**
+ * Updates the interaction state for a conversation. Remember to run clearConversationInteractionState() when the interaction is complete and we don't want to show it in the UI anymore.
+ * @param conversationId id of the converation we want to interact with
+ * @param type the type of conversation interaciton we are doing
+ * @param status the status of that interaction
+ */
+export async function updateConversationInteractionState({
+  conversationId,
+  type,
+  status,
+}: {
+  conversationId: string;
+  type: ConversationInteractionType;
+  status: ConversationInteractionStatus;
+}) {
+  const convo = getConversationController().get(conversationId);
+  if (
+    convo &&
+    (type !== convo.get('lastMessageInteractionType') ||
+      status !== convo.get('lastMessageInteractionStatus'))
+  ) {
+    convo.set('lastMessageInteractionType', type);
+    convo.set('lastMessageInteractionStatus', status);
+
+    await convo.commit();
+    window.log.debug(
+      `updateConversationInteractionState for ${conversationId} to ${type} ${status}`
+    );
+  }
+}
+
+/**
+ * Clears the interaction state for a conversation. We would use this when we don't need to show anything in the UI once an action is complete.
+ * @param conversationId id of the conversation whose interaction we want to clear
+ */
+export async function clearConversationInteractionState({
+  conversationId,
+}: {
+  conversationId: string;
+}) {
+  const convo = getConversationController().get(conversationId);
+  if (
+    convo &&
+    (convo.get('lastMessageInteractionType') || convo.get('lastMessageInteractionStatus'))
+  ) {
+    convo.set('lastMessageInteractionType', undefined);
+    convo.set('lastMessageInteractionStatus', undefined);
+
+    await convo.commit();
+    window.log.debug(`clearConversationInteractionState for ${conversationId}`);
+  }
+}
+
+async function saveConversationInteractionErrorAsMessage({
+  conversationId,
+  interactionType,
+}: {
+  conversationId: string;
+  interactionType: ConversationInteractionType;
+}) {
+  const conversation = getConversationController().get(conversationId);
+  if (!conversation) {
+    return;
+  }
+
+  const interactionStatus = ConversationInteractionStatus.Error;
+
+  await updateConversationInteractionState({
+    conversationId,
+    type: interactionType,
+    status: interactionStatus,
+  });
+
+  // NOTE at this time we don't have visible control messages in communities
+  if (conversation.isPublic()) {
+    return;
+  }
+
+  // Add an error message to the database so we can view it in the message history
+  await conversation?.addSingleIncomingMessage({
+    source: GetNetworkTime.getNowWithNetworkOffset().toString(),
+    sent_at: Date.now(),
+    interactionNotification: {
+      interactionType,
+      interactionStatus,
+    },
+    unread: READ_MESSAGE_STATE.read,
+    expireTimer: 0,
+  });
+
+  conversation.updateLastMessage();
 }

@@ -1,13 +1,11 @@
 import React from 'react';
 import { PropsForDataExtractionNotification } from '../../../../models/messageType';
 import { SignalService } from '../../../../protobuf';
-import { Flex } from '../../../basic/Flex';
-import { SpacerSM, Text } from '../../../basic/Text';
-import { SessionIcon } from '../../../icon';
-import { ReadableMessage } from './ReadableMessage';
+import { ExpirableReadableMessage } from './ExpirableReadableMessage';
+import { NotificationBubble } from './notification-bubble/NotificationBubble';
 
 export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
-  const { name, type, source, messageId, isUnread, receivedAt } = props;
+  const { name, type, source, messageId } = props;
 
   let contentText: string;
   if (type === SignalService.DataExtractionNotification.Type.MEDIA_SAVED) {
@@ -17,24 +15,13 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
   }
 
   return (
-    <ReadableMessage
+    <ExpirableReadableMessage
       messageId={messageId}
-      receivedAt={receivedAt}
-      isUnread={isUnread}
+      dataTestId="data-extraction-notification"
       key={`readable-message-${messageId}`}
+      isControlMessage={true}
     >
-      <Flex
-        container={true}
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="center"
-        margin={'var(--margins-sm)'}
-        id={`msg-${messageId}`}
-      >
-        <SessionIcon iconType="upload" iconSize="small" iconRotation={180} />
-        <SpacerSM />
-        <Text text={contentText} subtle={true} ellipsisOverflow={true} />
-      </Flex>
-    </ReadableMessage>
+      <NotificationBubble notificationText={contentText} iconType="save" />
+    </ExpirableReadableMessage>
   );
 };

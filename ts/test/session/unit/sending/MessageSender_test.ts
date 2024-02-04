@@ -1,5 +1,5 @@
-import * as crypto from 'crypto';
 import { expect } from 'chai';
+import * as crypto from 'crypto';
 import _ from 'lodash';
 import Sinon, * as sinon from 'sinon';
 import { SignalService } from '../../../../protobuf';
@@ -16,10 +16,10 @@ import { OnionV4 } from '../../../../session/onions/onionv4';
 import { MessageSender } from '../../../../session/sending';
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
+import { fromBase64ToArrayBuffer } from '../../../../session/utils/String';
 import { TestUtils } from '../../../test-utils';
 import { stubCreateObjectUrl, stubData, stubUtilWorker } from '../../../test-utils/utils';
 import { TEST_identityKeyPair } from '../crypto/MessageEncrypter_test';
-import { fromBase64ToArrayBuffer } from '../../../../session/utils/String';
 
 describe('MessageSender', () => {
   afterEach(() => {
@@ -68,27 +68,47 @@ describe('MessageSender', () => {
 
       it('should not retry if an error occurred during encryption', async () => {
         encryptStub.throws(new Error('Failed to encrypt.'));
-        const promise = MessageSender.send(rawMessage, 3, 10);
+        const promise = MessageSender.send({
+          message: rawMessage,
+          attempts: 3,
+          retryMinTimeout: 10,
+          isSyncMessage: false,
+        });
         await expect(promise).is.rejectedWith('Failed to encrypt.');
         expect(sessionMessageAPISendStub.callCount).to.equal(0);
       });
 
       it('should only call lokiMessageAPI once if no errors occured', async () => {
-        await MessageSender.send(rawMessage, 3, 10);
+        await MessageSender.send({
+          message: rawMessage,
+          attempts: 3,
+          retryMinTimeout: 10,
+          isSyncMessage: false,
+        });
         expect(sessionMessageAPISendStub.callCount).to.equal(1);
       });
 
       it('should only retry the specified amount of times before throwing', async () => {
         sessionMessageAPISendStub.throws(new Error('API error'));
         const attempts = 2;
-        const promise = MessageSender.send(rawMessage, attempts, 10);
+        const promise = MessageSender.send({
+          message: rawMessage,
+          attempts,
+          retryMinTimeout: 10,
+          isSyncMessage: false,
+        });
         await expect(promise).is.rejectedWith('API error');
         expect(sessionMessageAPISendStub.callCount).to.equal(attempts);
       });
 
       it('should not throw error if successful send occurs within the retry limit', async () => {
         sessionMessageAPISendStub.onFirstCall().throws(new Error('API error'));
-        await MessageSender.send(rawMessage, 3, 10);
+        await MessageSender.send({
+          message: rawMessage,
+          attempts: 3,
+          retryMinTimeout: 10,
+          isSyncMessage: false,
+        });
         expect(sessionMessageAPISendStub.callCount).to.equal(2);
       });
     });
@@ -114,7 +134,12 @@ describe('MessageSender', () => {
           SnodeNamespaces.UserMessages
         );
 
-        await MessageSender.send(rawMessage, 3, 10);
+        await MessageSender.send({
+          message: rawMessage,
+          attempts: 3,
+          retryMinTimeout: 10,
+          isSyncMessage: false,
+        });
 
         const args = sessionMessageAPISendStub.getCall(0).args;
         expect(args[1]).to.equal(device.key);
@@ -140,7 +165,12 @@ describe('MessageSender', () => {
         );
         const offset = 200000;
         Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(offset);
-        await MessageSender.send(rawMessage, 3, 10);
+        await MessageSender.send({
+          message: rawMessage,
+          attempts: 3,
+          retryMinTimeout: 10,
+          isSyncMessage: false,
+        });
 
         const firstArg = sessionMessageAPISendStub.getCall(0).args[0];
         const { data64 } = firstArg[0];
@@ -194,7 +224,12 @@ describe('MessageSender', () => {
             visibleMessage,
             SnodeNamespaces.UserMessages
           );
-          await MessageSender.send(rawMessage, 3, 10);
+          await MessageSender.send({
+            message: rawMessage,
+            attempts: 3,
+            retryMinTimeout: 10,
+            isSyncMessage: false,
+          });
 
           const firstArg = sessionMessageAPISendStub.getCall(0).args[0];
           const { data64 } = firstArg[0];

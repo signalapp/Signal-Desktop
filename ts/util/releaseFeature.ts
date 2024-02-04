@@ -1,11 +1,13 @@
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { FEATURE_RELEASE_TIMESTAMPS } from '../session/constants';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { Storage } from './storage';
 
 let isDisappearingMessageFeatureReleased: boolean | undefined;
 let isUserConfigLibsessionFeatureReleased: boolean | undefined;
-type FeatureNameTracked = 'disappearing_messages' | 'user_config_libsession';
+// TODO DO NOT MERGE Remove export after QA
+export type FeatureNameTracked = 'disappearing_messages' | 'user_config_libsession';
 
 /**
  * This is only intended for testing. Do not call this in production.
@@ -44,13 +46,9 @@ function setIsFeatureReleasedCached(featureName: FeatureNameTracked, value: bool
 function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
   switch (featureName) {
     case 'disappearing_messages':
-      // TODO update to agreed value between platforms for `disappearing_messages`
-      return 1706778000000; // unix 01/02/2024 09:00;
-    //   return 1677488400000; // testing:  unix 27/02/2023 09:00
+      return FEATURE_RELEASE_TIMESTAMPS.DISAPPEARING_MESSAGES_V2;
     case 'user_config_libsession':
-      return 1690761600000; // Monday July 31st at 10am Melbourne time
-    // return 1677488400000; // testing: unix 27/02/2023 09:00
-
+      return FEATURE_RELEASE_TIMESTAMPS.USER_CONFIG;
     default:
       assertUnreachable(featureName, 'case not handled for getFeatureReleaseTimestamp');
   }
@@ -101,11 +99,29 @@ async function checkIsUserConfigFeatureReleased() {
   return checkIsFeatureReleased('user_config_libsession');
 }
 
+async function checkIsDisappearMessageV2FeatureReleased() {
+  return true;
+  //   ((await checkIsFeatureReleased('disappearing_messages')) ||
+  //   !!process.env.MULTI?.toLocaleLowerCase().includes('disappear_v2') // FIXME to remove after QA
+  // );
+}
+
 function isUserConfigFeatureReleasedCached(): boolean {
   return !!isUserConfigLibsessionFeatureReleased;
 }
 
+// NOTE Make sure to call checkIsDisappearMessageV2FeatureReleased at least once and then use this. It's mostly used in components that are rendered where we don't want to do async calls
+function isDisappearMessageV2FeatureReleasedCached(): boolean {
+  return true;
+  // return (
+  //   !!isDisappearingMessageFeatureReleased ||
+  //   !!process.env.MULTI?.toLocaleLowerCase().includes('disappear_v2') // FIXME to remove after QA
+  // );
+}
+
 export const ReleasedFeatures = {
   checkIsUserConfigFeatureReleased,
+  checkIsDisappearMessageV2FeatureReleased,
   isUserConfigFeatureReleasedCached,
+  isDisappearMessageV2FeatureReleasedCached,
 };

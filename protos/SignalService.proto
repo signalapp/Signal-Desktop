@@ -18,10 +18,12 @@ message Envelope {
 }
 
 message TypingMessage {
+
     enum Action {
         STARTED = 0;
         STOPPED = 1;
     }
+
     required uint64 timestamp = 1;
     required Action action    = 2;
 }
@@ -55,6 +57,13 @@ message SharedConfigMessage {
 }
 
 message Content {
+
+  enum ExpirationType {
+    UNKNOWN             = 0;
+    DELETE_AFTER_READ   = 1;
+    DELETE_AFTER_SEND   = 2;
+  }
+
   optional DataMessage                dataMessage                = 1;
   optional CallMessage                callMessage                = 3;
   optional ReceiptMessage             receiptMessage             = 5;
@@ -64,6 +73,8 @@ message Content {
   optional Unsend                     unsendMessage              = 9;
   optional MessageRequestResponse     messageRequestResponse     = 10;
   optional SharedConfigMessage        sharedConfigMessage        = 11;
+  optional ExpirationType             expirationType             = 12;
+  optional uint32                     expirationTimer            = 13;
 }
 
 message KeyPair {
@@ -179,8 +190,8 @@ message DataMessage {
 
   message ClosedGroupControlMessage {
 
-    enum Type {
-      NEW                           = 1;
+	  enum Type {
+	    NEW                           = 1;
       ENCRYPTION_KEY_PAIR           = 3;
       NAME_CHANGE                   = 4;
       MEMBERS_ADDED                 = 5;
@@ -189,31 +200,30 @@ message DataMessage {
       ENCRYPTION_KEY_PAIR_REQUEST   = 8;
     }
 
+	  message KeyPairWrapper {
+	    // @required
+	    required bytes publicKey        = 1; // The public key of the user the key pair is meant for
+	    // @required
+	    required bytes encryptedKeyPair = 2; // The encrypted key pair
+	  }
 
-    message KeyPairWrapper {
-      // @required
-      required bytes publicKey        = 1; // The public key of the user the key pair is meant for
-      // @required
-      required bytes encryptedKeyPair = 2; // The encrypted key pair
-    }
-
-    // @required
-    required Type           type              = 1;
-    optional bytes          publicKey         = 2;
-    optional string         name              = 3;
-    optional KeyPair        encryptionKeyPair = 4;
-    repeated bytes          members           = 5;
-    repeated bytes          admins            = 6;
-    repeated KeyPairWrapper wrappers          = 7;
-    optional uint32         expireTimer       = 8;
-  }
-
+	  // @required
+	  required Type           type              = 1;
+	  optional bytes          publicKey         = 2;
+	  optional string         name              = 3;
+	  optional KeyPair        encryptionKeyPair = 4;
+	  repeated bytes          members           = 5;
+	  repeated bytes          admins            = 6;
+	  repeated KeyPairWrapper wrappers          = 7;
+    optional uint32         expirationTimer   = 8;
+	}
 
 
   optional string                    body                      = 1;
   repeated AttachmentPointer         attachments               = 2;
   optional GroupContext              group                     = 3;
   optional uint32                    flags                     = 4;
+  // TODO legacy messages support will be removed in a future release
   optional uint32                    expireTimer               = 5;
   optional bytes                     profileKey                = 6;
   optional uint64                    timestamp                 = 7;

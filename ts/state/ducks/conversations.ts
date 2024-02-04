@@ -16,18 +16,27 @@ import {
   PropsForMessageRequestResponse,
 } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
+import { DisappearingMessages } from '../../session/disappearing_messages';
+import {
+  DisappearingMessageConversationModeType,
+  DisappearingMessageType,
+} from '../../session/disappearing_messages/types';
 import { ReactionList } from '../../types/Reaction';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../interactions/conversationInteractions';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
+
 export type PropsForCallNotification = {
   notificationType: CallNotificationType;
   messageId: string;
-  receivedAt: number;
-  isUnread: boolean;
 };
 
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;
+  propsForExpiringMessage?: PropsForExpiringMessage;
   propsForGroupInvitation?: PropsForGroupInvitation;
   propsForTimerNotification?: PropsForExpirationTimer;
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
@@ -35,6 +44,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForCallNotification?: PropsForCallNotification;
   propsForMessageRequestResponse?: PropsForMessageRequestResponse;
   propsForQuote?: PropsForQuote;
+  propsForInteractionNotification?: PropsForInteractionNotification;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -54,10 +64,13 @@ export type MessagePropsDetails = {
   sentAt: number;
   receivedAt: number;
   errors: Array<Error>;
-  contacts: Array<ContactPropsMessageDetail>;
+  sender: string;
   convoId: string;
   messageId: string;
   direction: MessageModelType;
+  attachments: Array<PropsForAttachment>;
+  timestamp?: number;
+  serverTimestamp?: number;
 };
 
 export type LastMessageStatusType = 'sending' | 'sent' | 'read' | 'error' | undefined;
@@ -70,8 +83,21 @@ export type FindAndFormatContactType = {
   isMe: boolean;
 };
 
+export type PropsForExpiringMessage = {
+  convoId?: string;
+  messageId: string;
+  direction: MessageModelType;
+  receivedAt?: number;
+  isUnread?: boolean;
+  expirationTimestamp?: number | null;
+  expirationDurationMs?: number | null;
+  isExpired?: boolean;
+};
+
 export type PropsForExpirationTimer = {
-  timespan: string;
+  expirationMode: DisappearingMessageConversationModeType;
+  timespanText: string;
+  timespanSeconds: number | null;
   disabled: boolean;
   pubkey: string;
   avatarPath: string | null;
@@ -79,8 +105,6 @@ export type PropsForExpirationTimer = {
   profileName: string | null;
   type: 'fromMe' | 'fromSync' | 'fromOther';
   messageId: string;
-  isUnread: boolean;
-  receivedAt: number | undefined;
 };
 
 export type PropsForGroupUpdateGeneral = {
@@ -117,8 +141,6 @@ export type PropsForGroupUpdateType =
 export type PropsForGroupUpdate = {
   change: PropsForGroupUpdateType;
   messageId: string;
-  receivedAt: number | undefined;
-  isUnread: boolean;
 };
 
 export type PropsForGroupInvitation = {
@@ -127,8 +149,6 @@ export type PropsForGroupInvitation = {
   direction: MessageModelType;
   acceptUrl: string;
   messageId: string;
-  receivedAt?: number;
-  isUnread: boolean;
 };
 
 export type PropsForAttachment = {
@@ -138,6 +158,7 @@ export type PropsForAttachment = {
   size: number;
   width?: number;
   height?: number;
+  duration?: string;
   url: string;
   path: string;
   fileSize: string | null;
@@ -162,13 +183,21 @@ export type PropsForAttachment = {
 };
 
 export type PropsForQuote = {
+  text?: string;
   attachment?: QuotedAttachmentType;
   author: string;
   convoId?: string;
   id?: string; // this is the quoted message timestamp
   isFromMe?: boolean;
   referencedMessageNotFound?: boolean;
-  text?: string;
+};
+
+export type PropsForInteractionNotification = {
+  notificationType: InteractionNotificationType;
+  convoId: string;
+  messageId: string;
+  receivedAt: number;
+  isUnread: boolean;
 };
 
 export type PropsForMessageWithoutConvoProps = {
@@ -191,7 +220,8 @@ export type PropsForMessageWithoutConvoProps = {
   messageHash?: string;
   isDeleted?: boolean;
   isUnread?: boolean;
-  expirationLength?: number;
+  expirationType?: DisappearingMessageType;
+  expirationDurationMs?: number;
   expirationTimestamp?: number | null;
   isExpired?: boolean;
   isTrustedForAttachmentDownload?: boolean;
@@ -212,6 +242,13 @@ export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
 export type LastMessageType = {
   status: LastMessageStatusType;
   text: string | null;
+  interactionType: ConversationInteractionType | null;
+  interactionStatus: ConversationInteractionStatus | null;
+};
+
+export type InteractionNotificationType = {
+  interactionType: ConversationInteractionType;
+  interactionStatus: ConversationInteractionStatus;
 };
 
 /**
@@ -236,8 +273,9 @@ export interface ReduxConversationType {
   weAreAdmin?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
+  expirationMode?: DisappearingMessageConversationModeType;
   expireTimer?: number;
-
+  hasOutdatedClient?: string;
   isTyping?: boolean;
   isBlocked?: boolean;
   isKickedFromGroup?: boolean;
@@ -512,6 +550,7 @@ function handleMessageChangedOrAdded(
   );
   if (messageInStoreIndex >= 0) {
     state.messages[messageInStoreIndex] = changedOrAddedMessageProps;
+    state.mostRecentMessageId = updateMostRecentMessageId(state);
 
     return state;
   }
@@ -522,10 +561,28 @@ function handleMessageChangedOrAdded(
   if (state.showScrollButton) {
     return state;
   }
-  // sorting happens in the selector
 
+  // sorting happens in the selector
   state.messages.push(changedOrAddedMessageProps);
+  state.mostRecentMessageId = updateMostRecentMessageId(state);
   return state;
+}
+
+function updateMostRecentMessageId(state: ConversationsStateType) {
+  // update the most recent message id as this is the one used to display the last MessageStatus
+  let foundSoFarMaxId = '';
+  let foundSoFarMaxTimestamp = 0;
+
+  state.messages.forEach(m => {
+    if (
+      (m.propsForMessage.serverTimestamp || m.propsForMessage.timestamp || 0) >
+      foundSoFarMaxTimestamp
+    ) {
+      foundSoFarMaxId = m.propsForMessage.id;
+      foundSoFarMaxTimestamp = m.propsForMessage.serverTimestamp || m.propsForMessage.timestamp;
+    }
+  });
+  return foundSoFarMaxId;
 }
 
 function handleMessagesChangedOrAdded(
@@ -1108,6 +1165,7 @@ export async function openConversationWithMessages(args: {
 }) {
   const { conversationKey, messageId } = args;
 
+  await DisappearingMessages.destroyExpiredMessages();
   await unmarkAsForcedUnread(conversationKey);
 
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);

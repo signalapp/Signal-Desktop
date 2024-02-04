@@ -6,7 +6,7 @@ import { SessionIconButton } from './icon';
 const StyledNoticeBanner = styled(Flex)`
   position: relative;
   background-color: var(--primary-color);
-  color: var(--background-primary-color);
+  color: var(--black-color);
   font-size: var(--font-size-md);
   padding: var(--margins-xs) var(--margins-sm);
   text-align: center;

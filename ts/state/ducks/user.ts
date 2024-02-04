@@ -1,6 +1,7 @@
 // State
 
 export type UserStateType = {
+  ourDisplayNameInProfile: string;
   ourNumber: string;
 };
 
@@ -9,6 +10,7 @@ export type UserStateType = {
 type UserChangedActionType = {
   type: 'USER_CHANGED';
   payload: {
+    ourDisplayNameInProfile: string;
     ourNumber: string;
     ourPrimary: string;
   };
@@ -22,7 +24,11 @@ export const actions = {
   userChanged,
 };
 
-function userChanged(attributes: { ourNumber: string; ourPrimary: string }): UserChangedActionType {
+function userChanged(attributes: {
+  ourDisplayNameInProfile: string;
+  ourNumber: string;
+  ourPrimary: string;
+}): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
     payload: attributes,
@@ -33,6 +39,7 @@ function userChanged(attributes: { ourNumber: string; ourPrimary: string }): Use
 
 function getEmptyState(): UserStateType {
   return {
+    ourDisplayNameInProfile: '',
     ourNumber: 'missing',
   };
 }

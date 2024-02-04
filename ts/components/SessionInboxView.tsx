@@ -1,12 +1,12 @@
+import { fromPairs, map } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Provider } from 'react-redux';
-import styled from 'styled-components';
-import { fromPairs, map } from 'lodash';
+import useMount from 'react-use/lib/useMount';
+import useUpdate from 'react-use/lib/useUpdate';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import useUpdate from 'react-use/lib/useUpdate';
-import useMount from 'react-use/lib/useMount';
+import styled from 'styled-components';
 
 import { LeftPane } from './leftpane/LeftPane';
 // moment does not support es-419 correctly (and cause white screen on app start)
@@ -26,10 +26,8 @@ import { initialSearchState } from '../state/ducks/search';
 import { initialSectionState } from '../state/ducks/section';
 import { getEmptyStagedAttachmentsState } from '../state/ducks/stagedAttachments';
 import { initialThemeState } from '../state/ducks/theme';
-import { TimerOptionsArray } from '../state/ducks/timerOptions';
 import { initialUserConfigState } from '../state/ducks/userConfig';
 import { StateType } from '../state/reducer';
-import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { SessionMainPanel } from './SessionMainPanel';
 
 import { SettingsKey } from '../data/settings-key';
@@ -64,13 +62,13 @@ function createSessionInboxStore() {
     .getConversations()
     .map(conversation => conversation.getConversationModelProps());
 
-  const timerOptions: TimerOptionsArray = ExpirationTimerOptions.getTimerSecondsWithName();
   const initialState: StateType = {
     conversations: {
       ...getEmptyConversationState(),
       conversationLookup: makeLookup(conversations, 'id'),
     },
     user: {
+      ourDisplayNameInProfile: UserUtils.getOurProfile()?.displayName || '',
       ourNumber: UserUtils.getOurPubKeyStrFromCache(),
     },
     section: initialSectionState,
@@ -81,9 +79,6 @@ function createSessionInboxStore() {
     onionPaths: initialOnionPathState,
     modals: initialModalState,
     userConfig: initialUserConfigState,
-    timerOptions: {
-      timerOptions,
-    },
     stagedAttachments: getEmptyStagedAttachmentsState(),
     call: initialCallState,
     sogsRoomInfo: initialSogsRoomInfoState,

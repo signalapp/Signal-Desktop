@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { PnServer } from '../apis/push_notification_api';
+import { DisappearingMessages } from '../disappearing_messages';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { RawMessage } from '../types';
 import { UserUtils } from '../utils';
@@ -101,10 +102,7 @@ async function handleMessageSentSuccess(
   if (shouldTriggerSyncMessage) {
     if (dataMessage) {
       try {
-        await fetchedMessage.sendSyncMessage(
-          dataMessage as SignalService.DataMessage,
-          effectiveTimestamp
-        );
+        await fetchedMessage.sendSyncMessage(contentDecoded, effectiveTimestamp);
         const tempFetchMessage = await fetchHandleMessageSentData(sentMessage.identifier);
         if (!tempFetchMessage) {
           window?.log?.warn(
@@ -126,9 +124,10 @@ async function handleMessageSentSuccess(
   fetchedMessage.set({
     sent_to: sentTo,
     sent: true,
-    expirationStartTimestamp: Date.now(),
     sent_at: effectiveTimestamp,
   });
+
+  DisappearingMessages.checkForExpiringOutgoingMessage(fetchedMessage, 'handleMessageSentSuccess');
 
   await fetchedMessage.commit();
   fetchedMessage.getConversation()?.updateLastMessage();
@@ -155,10 +154,6 @@ async function handleMessageSentFailure(
     if (isOurDevice && !fetchedMessage.get('sync')) {
       fetchedMessage.set({ sentSync: false });
     }
-
-    fetchedMessage.set({
-      expirationStartTimestamp: Date.now(),
-    });
   }
 
   // always mark the message as sent.
@@ -166,6 +161,18 @@ async function handleMessageSentFailure(
   fetchedMessage.set({
     sent: true,
   });
+
+  // Disappeared messages that fail to send should not disappear
+  if (fetchedMessage.getExpirationType() && fetchedMessage.getExpireTimerSeconds() > 0) {
+    fetchedMessage.set({
+      expirationStartTimestamp: undefined,
+    });
+    window.log.warn(
+      `[handleMessageSentFailure] Stopping a message from disppearing until we retry the send operation. messageId: ${fetchedMessage.get(
+        'id'
+      )}`
+    );
+  }
 
   await fetchedMessage.commit();
   await fetchedMessage.getConversation()?.updateLastMessage();

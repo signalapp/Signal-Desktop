@@ -10,15 +10,15 @@ import { SessionSpinner } from '../../basic/SessionSpinner';
 import { MemberListItem } from '../../MemberListItem';
 import { OverlayHeader } from './OverlayHeader';
 
-import { resetOverlayMode } from '../../../state/ducks/section';
-import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
-import { SpacerLG } from '../../basic/Text';
-import { SessionSearchInput } from '../../SessionSearchInput';
-import { getSearchResultsContactOnly, isSearching } from '../../../state/selectors/search';
 import { useSet } from '../../../hooks/useSet';
 import { VALIDATION } from '../../../session/constants';
-import { ToastUtils } from '../../../session/utils';
 import { createClosedGroup } from '../../../session/conversations/createClosedGroup';
+import { ToastUtils } from '../../../session/utils';
+import { resetLeftOverlayMode } from '../../../state/ducks/section';
+import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
+import { getSearchResultsContactOnly, isSearching } from '../../../state/selectors/search';
+import { SpacerLG } from '../../basic/Text';
+import { SessionSearchInput } from '../../SessionSearchInput';
 
 const StyledMemberListNoContacts = styled.div`
   font-family: var(--font-mono), var(--font-default);
@@ -101,7 +101,7 @@ export const OverlayClosedGroup = () => {
   const searchResultContactsOnly = useSelector(getSearchResultsContactOnly);
 
   function closeOverlay() {
-    dispatch(resetOverlayMode());
+    dispatch(resetLeftOverlayMode());
   }
 
   async function onEnterPressed() {

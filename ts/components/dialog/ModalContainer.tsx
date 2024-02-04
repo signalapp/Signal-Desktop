@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   getAddModeratorsModal,
-  getAdminLeaveClosedGroupDialog,
   getBanOrUnbanUserModalState,
   getChangeNickNameDialog,
   getConfirmModal,
@@ -20,7 +19,6 @@ import {
   getUpdateGroupNameModal,
   getUserDetailsModal,
 } from '../../state/selectors/modal';
-import { AdminLeaveClosedGroupDialog } from './AdminLeaveClosedGroupDialog';
 import { InviteContactsDialog } from './InviteContactsDialog';
 import { DeleteAccountModal } from './DeleteAccountModal';
 import { EditProfileDialog } from './EditProfileDialog';
@@ -51,7 +49,6 @@ export const ModalContainer = () => {
   const editProfileModalState = useSelector(getEditProfileDialog);
   const onionPathModalState = useSelector(getOnionPathDialog);
   const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
-  const adminLeaveClosedGroupModalState = useSelector(getAdminLeaveClosedGroupDialog);
   const sessionPasswordModalState = useSelector(getSessionPasswordDialog);
   const deleteAccountModalState = useSelector(getDeleteAccountModalState);
   const banOrUnbanUserModalState = useSelector(getBanOrUnbanUserModalState);
@@ -74,9 +71,6 @@ export const ModalContainer = () => {
       {editProfileModalState && <EditProfileDialog {...editProfileModalState} />}
       {onionPathModalState && <OnionPathModal {...onionPathModalState} />}
       {recoveryPhraseModalState && <SessionSeedModal {...recoveryPhraseModalState} />}
-      {adminLeaveClosedGroupModalState && (
-        <AdminLeaveClosedGroupDialog {...adminLeaveClosedGroupModalState} />
-      )}
       {sessionPasswordModalState && <SessionPasswordDialog {...sessionPasswordModalState} />}
       {deleteAccountModalState && <DeleteAccountModal {...deleteAccountModalState} />}
       {confirmModalState && <SessionConfirm {...confirmModalState} />}

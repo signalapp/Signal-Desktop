@@ -10,11 +10,7 @@ export class ClosedGroupAddedMembersMessage extends ClosedGroupMessage {
   private readonly addedMembers: Array<string>;
 
   constructor(params: ClosedGroupAddedMembersMessageParams) {
-    super({
-      timestamp: params.timestamp,
-      identifier: params.identifier,
-      groupId: params.groupId,
-    });
+    super(params);
     this.addedMembers = params.addedMembers;
     if (!this.addedMembers?.length) {
       throw new Error('addedMembers cannot be empty');

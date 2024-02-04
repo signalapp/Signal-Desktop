@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PubKey } from '../types';
 import { getMessageQueue } from '..';
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
 import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
+import { MessageAttributesOptionals } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import {
   addKeyPairToCacheAndDBIfNeeded,
@@ -18,11 +18,14 @@ import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { getConversationController } from '../conversations';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
+import { DisappearingMessages } from '../disappearing_messages';
+import { DisappearAfterSendOnly, DisappearingMessageUpdate } from '../disappearing_messages/types';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import { PubKey } from '../types';
 import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
 
@@ -32,7 +35,8 @@ export type GroupInfo = {
   members: Array<string>;
   zombies?: Array<string>;
   activeAt?: number;
-  expireTimer?: number | null;
+  expirationType?: DisappearAfterSendOnly;
+  expireTimer?: number;
   admins?: Array<string>;
 };
 
@@ -66,6 +70,18 @@ export async function initiateClosedGroupUpdate(
     isGroupV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
   );
 
+  const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+    convo,
+    convo.getExpireTimer(),
+    convo.getExpirationMode()
+  );
+  const expireTimer = convo.getExpireTimer();
+
+  if (expirationType === 'deleteAfterRead') {
+    window.log.warn(`Groups cannot be deleteAfterRead. convo id: ${convo.id}`);
+    throw new Error(`Groups cannot be deleteAfterRead`);
+  }
+
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
   const groupDetails: GroupInfo = {
@@ -75,7 +91,8 @@ export async function initiateClosedGroupUpdate(
     // remove from the zombies list the zombies not which are not in the group anymore
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
-    expireTimer: convo.get('expireTimer'),
+    expirationType,
+    expireTimer,
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -87,41 +104,42 @@ export async function initiateClosedGroupUpdate(
     name: groupName,
     members,
     admins: convo.get('groupAdmins'),
-    expireTimer: convo.get('expireTimer'),
+  };
+
+  const sharedDetails = {
+    sender: UserUtils.getOurPubKeyStrFromCache(),
+    sentAt: Date.now(),
+    // Note: we agreed that legacy group control messages do not expire
+    expireUpdate: null,
+    convo,
   };
 
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = _.pick(diff, 'newName');
 
-    const dbMessageName = await addUpdateMessage(
-      convo,
-      nameOnlyDiff,
-      UserUtils.getOurPubKeyStrFromCache(),
-      Date.now()
-    );
+    const dbMessageName = await addUpdateMessage({
+      diff: nameOnlyDiff,
+      ...sharedDetails,
+    });
     await sendNewName(convo, diff.newName, dbMessageName.id as string);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = _.pick(diff, 'joiningMembers');
 
-    const dbMessageAdded = await addUpdateMessage(
-      convo,
-      joiningOnlyDiff,
-      UserUtils.getOurPubKeyStrFromCache(),
-      Date.now()
-    );
+    const dbMessageAdded = await addUpdateMessage({
+      diff: joiningOnlyDiff,
+      ...sharedDetails,
+    });
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id as string, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { kickedMembers: diff.leavingMembers };
-    const dbMessageLeaving = await addUpdateMessage(
-      convo,
-      leavingOnlyDiff,
-      UserUtils.getOurPubKeyStrFromCache(),
-      Date.now()
-    );
+    const dbMessageLeaving = await addUpdateMessage({
+      diff: leavingOnlyDiff,
+      ...sharedDetails,
+    });
     const stillMembers = members;
     await sendRemovedMembers(
       convo,
@@ -133,12 +151,19 @@ export async function initiateClosedGroupUpdate(
   await convo.commit();
 }
 
-export async function addUpdateMessage(
-  convo: ConversationModel,
-  diff: GroupDiff,
-  sender: string,
-  sentAt: number
-): Promise<MessageModel> {
+export async function addUpdateMessage({
+  convo,
+  diff,
+  sender,
+  sentAt,
+  expireUpdate,
+}: {
+  convo: ConversationModel;
+  diff: GroupDiff;
+  sender: string;
+  sentAt: number;
+  expireUpdate: DisappearingMessageUpdate | null;
+}): Promise<MessageModel> {
   const groupUpdate: any = {};
 
   if (diff.newName) {
@@ -157,24 +182,38 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  if (UserUtils.isUsFromCache(sender)) {
-    const outgoingMessage = await convo.addSingleOutgoingMessage({
-      sent_at: sentAt,
-      group_update: groupUpdate,
-      expireTimer: 0,
-    });
-    return outgoingMessage;
-  }
-  // addSingleIncomingMessage also takes care of updating the unreadCount
-
-  const incomingMessage = await convo.addSingleIncomingMessage({
+  const isUs = UserUtils.isUsFromCache(sender);
+  const msgModel: MessageAttributesOptionals = {
     sent_at: sentAt,
     group_update: groupUpdate,
-    expireTimer: 0,
     source: sender,
-  });
-  await convo.commit();
-  return incomingMessage;
+    conversationId: convo.id,
+    type: isUs ? 'outgoing' : 'incoming',
+  };
+
+  if (convo && expireUpdate && expireUpdate.expirationType && expireUpdate.expirationTimer > 0) {
+    const { expirationTimer, expirationType, isLegacyDataMessage } = expireUpdate;
+
+    msgModel.expirationType = expirationType === 'deleteAfterSend' ? 'deleteAfterSend' : 'unknown';
+    msgModel.expireTimer = msgModel.expirationType === 'deleteAfterSend' ? expirationTimer : 0;
+
+    // NOTE Triggers disappearing for an incoming groupUpdate message
+    // TODO legacy messages support will be removed in a future release
+    if (isLegacyDataMessage || expirationType === 'deleteAfterSend') {
+      msgModel.expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
+        isLegacyDataMessage ? 'legacy' : expirationType === 'unknown' ? 'off' : expirationType,
+        sentAt,
+        'addUpdateMessage'
+      );
+    }
+  }
+
+  return isUs
+    ? convo.addSingleOutgoingMessage(msgModel)
+    : convo.addSingleIncomingMessage({
+        ...msgModel,
+        source: sender,
+      });
 }
 
 function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff {
@@ -204,7 +243,7 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
 }
 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
-  const { id, expireTimer } = details;
+  const { id } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
     id,
@@ -231,18 +270,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   }
 
   await conversation.commit();
-
-  if (expireTimer === undefined || typeof expireTimer !== 'number') {
-    return;
-  }
-  await conversation.updateExpireTimer(
-    expireTimer,
-    UserUtils.getOurPubKeyStrFromCache(),
-    Date.now(),
-    {
-      fromSync: true,
-    }
-  );
 }
 
 async function sendNewName(convo: ConversationModel, name: string, messageId: string) {
@@ -259,6 +286,8 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
     groupId,
     identifier: messageId,
     name,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
   await getMessageQueue().sendToGroup({
     message: nameChangeMessage,
@@ -267,7 +296,7 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
 }
 
 async function sendAddedMembers(
-  convo: ConversationModel,
+  _convo: ConversationModel,
   addedMembers: Array<string>,
   messageId: string,
   groupUpdate: GroupInfo
@@ -287,13 +316,14 @@ async function sendAddedMembers(
   }
 
   const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
-  const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the Added Members message to the group (only members already in the group will get it)
   const closedGroupControlMessage = new ClosedGroupAddedMembersMessage({
     timestamp: Date.now(),
     groupId,
     addedMembers,
     identifier: messageId,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
   await getMessageQueue().sendToGroup({
     message: closedGroupControlMessage,
@@ -309,7 +339,8 @@ async function sendAddedMembers(
     members,
     keypair: encryptionKeyPair,
     identifier: messageId || uuidv4(),
-    expireTimer: existingExpireTimer,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
 
   const promises = addedMembers.map(async m => {
@@ -352,6 +383,8 @@ export async function sendRemovedMembers(
     groupId,
     removedMembers,
     identifier: messageId,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
   // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
   await getMessageQueue().sendToGroup({
@@ -412,6 +445,8 @@ async function generateAndSendNewEncryptionKeyPair(
     groupId: toHex(groupId),
     timestamp: GetNetworkTime.getNowWithNetworkOffset(),
     encryptedKeyPairs: wrappers,
+    expirationType: null, // we keep that one **not** expiring
+    expireTimer: 0,
   });
 
   distributingClosedGroupEncryptionKeyPairs.set(toHex(groupId), newKeyPair);

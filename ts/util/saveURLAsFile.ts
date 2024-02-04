@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 export const saveURLAsFile = ({
   filename,
   url,

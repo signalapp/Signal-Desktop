@@ -1,34 +1,36 @@
-import { ipcRenderer } from 'electron';
+import Backbone from 'backbone';
 import _ from 'lodash';
 import ReactDOM from 'react-dom';
-import Backbone from 'backbone';
-import React from 'react';
-import nativeEmojiData from '@emoji-mart/data';
 
-import { MessageModel } from '../models/message';
+import nativeEmojiData from '@emoji-mart/data';
+import { ipcRenderer } from 'electron';
+// eslint-disable-next-line import/no-named-default
+import { default as React } from 'react';
+
 import { isMacOS } from '../OS';
+import { SessionInboxView } from '../components/SessionInboxView';
+import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
+import { Data } from '../data/data';
+import { OpenGroupData } from '../data/opengroups';
+import { SettingsKey } from '../data/settings-key';
+import { MessageModel } from '../models/message';
+import { deleteAllLogs } from '../node/logs';
 import { queueAllCached } from '../receiver/receiver';
+import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../session/conversations';
+import { DisappearingMessages } from '../session/disappearing_messages';
 import { AttachmentDownloads, ToastUtils } from '../session/utils';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
+import { runners } from '../session/utils/job_runners/JobRunner';
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
+import { switchThemeTo } from '../themes/switchTheme';
 import { BlockedNumberController } from '../util';
-import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { initialiseEmojiData } from '../util/emoji';
 import { Notifications } from '../util/notifications';
 import { Registration } from '../util/registration';
-import { isSignInByLinking, Storage } from '../util/storage';
-import { Data } from '../data/data';
-import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
-import { SessionInboxView } from '../components/SessionInboxView';
-import { deleteAllLogs } from '../node/logs';
-import { OpenGroupData } from '../data/opengroups';
-import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { initialiseEmojiData } from '../util/emoji';
-import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
-import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
-import { runners } from '../session/utils/job_runners/JobRunner';
-import { SettingsKey } from '../data/settings-key';
+import { Storage, isSignInByLinking } from '../util/storage';
 import { getOppositeTheme, isThemeMismatched } from '../util/theme';
-import { switchThemeTo } from '../themes/switchTheme';
 
 // Globally disable drag and drop
 document.body.addEventListener(
@@ -135,6 +137,10 @@ async function startJobRunners() {
   runners.avatarDownloadRunner.startProcessing();
   await runners.configurationSyncRunner.loadJobsFromDb();
   runners.configurationSyncRunner.startProcessing();
+  await runners.updateMsgExpiryRunner.loadJobsFromDb();
+  runners.updateMsgExpiryRunner.startProcessing();
+  await runners.fetchSwarmMsgExpiryRunner.loadJobsFromDb();
+  runners.fetchSwarmMsgExpiryRunner.startProcessing();
 }
 
 // We need this 'first' check because we don't want to start the app up any other time
@@ -312,7 +318,7 @@ async function start() {
     ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
     switchBodyToRtlIfNeeded();
   }
-  ExpirationTimerOptions.initExpiringMessageListener();
+  DisappearingMessages.initExpiringMessageListener();
 
   if (Registration.isDone() && !isSignInByLinking()) {
     await connect();

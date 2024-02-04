@@ -9,22 +9,22 @@
 import { randomBytes } from 'crypto';
 
 import chai from 'chai';
-import Sinon, * as sinon from 'sinon';
-import { describe } from 'mocha';
 import chaiAsPromised from 'chai-as-promised';
+import { describe } from 'mocha';
+import Sinon, * as sinon from 'sinon';
 
+import { ContentMessage } from '../../../../session/messages/outgoing';
+import { ClosedGroupMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupMessage';
+import { MessageSender } from '../../../../session/sending';
+import { MessageQueue } from '../../../../session/sending/MessageQueue';
+import { PubKey } from '../../../../session/types';
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
-import { MessageQueue } from '../../../../session/sending/MessageQueue';
-import { ContentMessage } from '../../../../session/messages/outgoing';
-import { PubKey, RawMessage } from '../../../../session/types';
-import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
-import { ClosedGroupMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupMessage';
 
+import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
 import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
 import { stubData } from '../../../test-utils/utils';
-import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -44,12 +44,7 @@ describe('MessageQueue', () => {
   let messageQueueStub: MessageQueue;
 
   // Message Sender Stubs
-  let sendStub: sinon.SinonStub<[
-    RawMessage,
-    (number | undefined)?,
-    (number | undefined)?,
-    (boolean | undefined)?
-  ]>;
+  let sendStub: sinon.SinonStub;
 
   beforeEach(() => {
     // Utils Stubs
@@ -209,7 +204,7 @@ describe('MessageQueue', () => {
 
     describe('closed groups', () => {
       it('can send to closed group', async () => {
-        const members = TestUtils.generateFakePubKeys(4).map(p => new PubKey(p.key));
+        const members = TestUtils.generateFakePubKeys(4);
         Sinon.stub(GroupUtils, 'getGroupMembers').returns(members);
 
         const send = Sinon.stub(messageQueueStub, 'sendToPubKey').resolves();

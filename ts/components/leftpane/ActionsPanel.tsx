@@ -12,7 +12,7 @@ import { getMessageQueue } from '../../session/sending';
 import { syncConfigurationIfNeeded } from '../../session/utils/sync/syncUtils';
 
 import { clearSearch } from '../../state/ducks/search';
-import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
+import { resetLeftOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
 import {
   getGlobalUnreadMessageCount,
   getOurPrimaryConversation,
@@ -42,11 +42,12 @@ import {
   forceRefreshRandomSnodePool,
   getFreshSwarmFor,
 } from '../../session/apis/snode_api/snodePool';
+import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ensureThemeConsistency } from '../../themes/SessionTheme';
-import { getOppositeTheme } from '../../util/theme';
 import { switchThemeTo } from '../../themes/switchTheme';
-import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { ReleasedFeatures } from '../../util/releaseFeature';
+import { getOppositeTheme } from '../../util/theme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -78,7 +79,7 @@ const Section = (props: { type: SectionType }) => {
       // message section
       dispatch(clearSearch());
       dispatch(showLeftPaneSection(type));
-      dispatch(resetOverlayMode());
+      dispatch(resetLeftOverlayMode());
     }
   };
 
@@ -203,6 +204,9 @@ const doAppStartUp = async () => {
   void setupTheme();
   // this generates the key to encrypt attachments locally
   await Data.generateAttachmentKeyIfEmpty();
+
+  // Feature Checks
+  await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
 
   // trigger a sync message if needed for our other devices
   void triggerSyncIfNeeded();

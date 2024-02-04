@@ -1,8 +1,8 @@
 import autoBind from 'auto-bind';
 import Backbone from 'backbone';
+import { from_hex } from 'libsodium-wrappers-sumo';
 import {
   debounce,
-  defaults,
   includes,
   isArray,
   isEmpty,
@@ -16,8 +16,8 @@ import {
   uniq,
   xor,
 } from 'lodash';
-import { from_hex } from 'libsodium-wrappers-sumo';
 
+import { v4 } from 'uuid';
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
@@ -48,7 +48,7 @@ import {
   actions as conversationActions,
   conversationsChanged,
   markConversationFullyRead,
-  MessageModelPropsWithoutConvoProps,
+  messagesDeleted,
   ReduxConversationType,
 } from '../state/ducks/conversations';
 
@@ -116,7 +116,13 @@ import {
   getCanWriteOutsideRedux,
   getModeratorsOutsideRedux,
   getSubscriberCountOutsideRedux,
-} from '../state/selectors/sogsRoomInfo';
+} from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
+
+import { DisappearingMessages } from '../session/disappearing_messages';
+import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
+import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob';
+import { UpdateMsgExpirySwarm } from '../session/utils/job_runners/jobs/UpdateMsgExpirySwarmJob';
+import { ReleasedFeatures } from '../util/releaseFeature';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 
 type InMemoryConvoInfos = {
@@ -128,13 +134,16 @@ type InMemoryConvoInfos = {
  * Some fields are not stored in the database, but are kept in memory.
  * We use this map to keep track of them. The key is the conversation id.
  */
-const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map(); // decide it it makes sense to move this to a redux slice?
+const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map();
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
-  public updateLastMessage: () => any;
+  public updateLastMessage: () => unknown; // unknown because it is a Promise that we do not wait to await
   public throttledBumpTyping: () => void;
   public throttledNotify: (message: MessageModel) => void;
-  public markConversationRead: (newestUnreadDate: number, readAt?: number) => void;
+  public markConversationRead: (opts: {
+    newestUnreadDate: number;
+    fromConfigMessage?: boolean;
+  }) => void;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
@@ -266,13 +275,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public getConversationModelProps(): ReduxConversationType {
-    const isPublic = this.isPublic();
-
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
+    // TODO we should maybe make this weAreAdmin not props in redux but computed selectors
     const weAreAdmin = this.isAdmin(ourNumber);
-
     const currentNotificationSetting = this.get('triggerNotificationsFor');
     const priorityFromDb = this.get('priority');
 
@@ -317,12 +324,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.weAreAdmin = true;
     }
 
-    if (isPublic) {
+    if (this.isPublic()) {
       toRet.isPublic = true;
     }
 
     if (avatarPath) {
       toRet.avatarPath = avatarPath;
+    }
+
+    if (this.getExpirationMode()) {
+      toRet.expirationMode = this.getExpirationMode();
+    }
+
+    if (this.getHasOutdatedClient()) {
+      toRet.hasOutdatedClient = this.getHasOutdatedClient();
     }
 
     if (
@@ -347,12 +362,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.get('isApproved')) {
       toRet.isApproved = this.get('isApproved');
     }
-    if (this.get('expireTimer')) {
-      toRet.expireTimer = this.get('expireTimer');
+    if (this.getExpireTimer()) {
+      toRet.expireTimer = this.getExpireTimer();
     }
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
     if (this.isClosedGroup()) {
-      toRet.members = this.get('members') || [];
+      toRet.members = uniq(this.get('members') || []);
     }
 
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
@@ -388,6 +403,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // -- Handle the last message status, if present --
+    const lastMessageInteractionType = this.get('lastMessageInteractionType');
+    const lastMessageInteractionStatus = this.get('lastMessageInteractionStatus');
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
       const lastMessageStatus = this.get('lastMessageStatus');
@@ -395,8 +412,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.lastMessage = {
         status: lastMessageStatus,
         text: lastMessageText,
+        interactionType: lastMessageInteractionType,
+        interactionStatus: lastMessageInteractionStatus,
+      };
+    } else if (lastMessageInteractionType && lastMessageInteractionStatus) {
+      // if there is no last message, we still want to display the interaction status
+
+      toRet.lastMessage = {
+        text: '',
+        status: 'sent',
+        interactionType: lastMessageInteractionType,
+        interactionStatus: lastMessageInteractionStatus,
       };
     }
+
     return toRet;
   }
 
@@ -526,14 +555,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (!sentAt) {
         throw new Error('sendReactMessageJob() sent_at must be set.');
       }
-
-      // an OpenGroupV2 message is just a visible message
+      const expireTimer = this.getExpireTimer();
+      const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+        this,
+        expireTimer,
+        this.getExpirationMode()
+      );
       const chatMessageParams: VisibleMessageParams = {
         body: '',
         // we need to use a new timestamp here, otherwise android&iOS will consider this message as a duplicate and drop the synced reaction
         timestamp: GetNetworkTime.getNowWithNetworkOffset(),
         reaction,
         lokiProfile: UserUtils.getOurProfile(),
+        expirationType,
+        expireTimer,
       };
 
       const shouldApprove = !this.isApproved() && this.isPrivate();
@@ -564,6 +599,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isOpenGroupV2()) {
+        // communities have no expiration timer support, so enforce it here.
+        chatMessageParams.expirationType = null;
+        chatMessageParams.expireTimer = null;
+
         const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
         const roomInfos = this.toOpenGroupV2();
         if (!roomInfos) {
@@ -595,6 +634,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
 
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
+
         await getMessageQueue().sendToPubKey(
           destinationPubkey,
           chatMessagePrivate,
@@ -607,18 +647,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
         return;
       }
-
       if (this.isClosedGroup()) {
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
-          groupId: destination,
+          groupId: destinationPubkey,
+          timestamp: sentAt,
         });
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup({
           message: closedGroupVisibleMessage,
           namespace: SnodeNamespaces.ClosedGroupMessage,
         });
+
         await Reactions.handleMessageReaction({
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
@@ -721,7 +762,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
-    const expireTimer = this.get('expireTimer');
     const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
     window?.log?.info(
@@ -737,7 +777,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       preview,
       attachments,
       sent_at: networkTimestamp,
-      expireTimer,
+      expirationType: DisappearingMessages.changeToDisappearingMessageType(
+        this,
+        this.getExpireTimer(),
+        this.getExpirationMode()
+      ),
+      expireTimer: this.getExpireTimer(),
       serverTimestamp: this.isPublic() ? networkTimestamp : undefined,
       groupInvitation,
     });
@@ -758,10 +803,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastMessageStatus: 'sending',
       active_at: networkTimestamp,
     });
+
+    const interactionNotification = messageModel.getInteractionNotification();
+
+    if (interactionNotification) {
+      this.set({
+        lastMessageInteractionType: interactionNotification?.interactionType,
+        lastMessageInteractionStatus: interactionNotification?.interactionStatus,
+      });
+    }
+
     await this.commit();
 
     void this.queueJob(async () => {
-      await this.sendMessageJob(messageModel, expireTimer);
+      await this.sendMessageJob(messageModel);
     });
   }
 
@@ -777,119 +832,248 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
-  public async updateExpireTimer(
-    providedExpireTimer: number | null,
-    providedSource?: string,
-    receivedAt?: number, // is set if it comes from outside
-    options: {
-      fromSync?: boolean;
-    } = {},
-    shouldCommit = true
-  ): Promise<void> {
+  /**
+   * Updates the disappearing message settings for this conversation and sends an ExpirationTimerUpdate message if required
+   * @param providedDisappearingMode
+   * @param providedExpireTimer
+   * @param providedSource the pubkey of the user who made the change
+   * @param receivedAt the timestamp of when the change was received
+   * @param fromSync if the change was made from a sync message
+   * @param shouldCommitConvo if the conversation change should be committed to the DB
+   * @param shouldCommitMessage if the timer update message change should be committed to the DB
+   * @param existingMessage if we have an existing message model to update
+   * @returns true, if the change was made or false if it was ignored
+   */
+  public async updateExpireTimer({
+    providedDisappearingMode,
+    providedExpireTimer,
+    providedSource,
+    receivedAt, // is set if it comes from outside
+    fromSync, // if the update comes from sync message ONLY
+    fromConfigMessage, // if the update comes from a libsession config message ONLY
+    fromCurrentDevice,
+    shouldCommitConvo = true,
+    existingMessage,
+  }: {
+    providedDisappearingMode?: DisappearingMessageConversationModeType;
+    providedExpireTimer?: number;
+    providedSource?: string;
+    receivedAt?: number; // is set if it comes from outside
+    fromSync: boolean;
+    fromCurrentDevice: boolean;
+    fromConfigMessage: boolean;
+    shouldCommitConvo?: boolean;
+    existingMessage?: MessageModel;
+  }): Promise<boolean> {
+    const isRemoteChange = Boolean(
+      (receivedAt || fromSync || fromConfigMessage) && !fromCurrentDevice
+    );
+
+    // we don't add an update message when this comes from a config message, as we already have the SyncedMessage itself with the right timestamp to display
+    const shouldAddExpireUpdateMessage = !fromConfigMessage;
+
+    if (this.isPublic()) {
+      throw new Error("updateExpireTimer() Disappearing messages aren't supported in communities");
+    }
+    let expirationMode = providedDisappearingMode;
     let expireTimer = providedExpireTimer;
-    let source = providedSource;
+    const source = providedSource || UserUtils.getOurPubKeyStrFromCache();
 
-    defaults(options, { fromSync: false });
-
-    if (!expireTimer) {
+    if (expirationMode === undefined || expireTimer === undefined) {
+      expirationMode = 'off';
       expireTimer = 0;
     }
-    if (this.get('expireTimer') === expireTimer || (!expireTimer && !this.get('expireTimer'))) {
-      return;
-    }
-
-    window?.log?.info("Update conversation 'expireTimer'", {
-      id: this.idForLogging(),
-      expireTimer,
-      source,
-    });
-
-    const isOutgoing = Boolean(!receivedAt);
-
-    source = source || UserUtils.getOurPubKeyStrFromCache();
 
     // When we add a disappearing messages notification to the conversation, we want it
-    //   to be above the message that initiated that change, hence the subtraction.
+    // to be above the message that initiated that change, hence the subtraction.
     const timestamp = (receivedAt || Date.now()) - 1;
 
-    this.set({ expireTimer });
+    // NOTE when we turn the disappearing setting to off, we don't want it to expire with the previous expiration anymore
+
+    const isV2DisappearReleased = ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached();
+    // when the v2 disappear is released, the changes we make are only for our outgoing messages, not shared with a contact anymore
+    if (isV2DisappearReleased) {
+      if (!this.isPrivate()) {
+        this.set({
+          expirationMode,
+          expireTimer,
+        });
+      } else if (fromSync || fromCurrentDevice) {
+        if (expirationMode === 'legacy') {
+          // TODO legacy messages support will be removed in a future release
+          return false;
+        }
+        // v2 is live, this is a private chat and a change we made, set the setting to what was given, otherwise discard it
+        this.set({
+          expirationMode,
+          expireTimer,
+        });
+      }
+    } else {
+      // v2 is not live, we apply the setting we get blindly
+      this.set({
+        expirationMode,
+        expireTimer,
+      });
+    }
+
+    if (!shouldAddExpireUpdateMessage) {
+      await Conversation.cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
+
+      if (shouldCommitConvo) {
+        // tell the UI this conversation was updated
+        await this.commit();
+      }
+      return false;
+    }
+
+    let message = existingMessage || undefined;
+    const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+      this,
+      expireTimer,
+      expirationMode
+    );
 
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
+        expirationType,
         expireTimer,
         source,
-        fromSync: options.fromSync,
+        fromSync,
       },
-      expireTimer: 0,
     };
 
-    let message: MessageModel | undefined;
+    if (!message) {
+      if (!receivedAt) {
+        // outgoing message
+        message = await this.addSingleOutgoingMessage({
+          ...commonAttributes,
+          sent_at: timestamp,
+        });
+      } else {
+        message = await this.addSingleIncomingMessage({
+          ...commonAttributes,
+          // Even though this isn't reflected to the user, we want to place the last seen indicator above it. We set it to 'unread' to trigger that placement.
+          unread: READ_MESSAGE_STATE.unread,
+          source,
+          sent_at: timestamp,
+          received_at: timestamp,
+        });
+      }
+    }
 
-    if (isOutgoing) {
-      message = await this.addSingleOutgoingMessage({
-        ...commonAttributes,
-        sent_at: timestamp,
-      });
-    } else {
-      message = await this.addSingleIncomingMessage({
-        ...commonAttributes,
-        // Even though this isn't reflected to the user, we want to place the last seen
-        //   indicator above it. We set it to 'unread' to trigger that placement.
-        unread: READ_MESSAGE_STATE.unread,
-        source,
-        sent_at: timestamp,
-        received_at: timestamp,
-      });
+    // Note: we agreed that a closed group ControlMessage message does not expire.
+    message.set({
+      expirationType: this.isClosedGroup() ? 'unknown' : expirationType,
+      expireTimer: this.isClosedGroup() ? 0 : expireTimer,
+    });
+
+    if (!message.get('id')) {
+      message.set({ id: v4() });
     }
 
     if (this.isActive()) {
       this.set('active_at', timestamp);
     }
 
-    if (shouldCommit) {
+    if (shouldCommitConvo) {
       // tell the UI this conversation was updated
       await this.commit();
     }
-    // if change was made remotely, don't send it to the number/group
-    if (receivedAt) {
-      return;
-    }
 
+    // if change was made remotely, don't send it to the contact/group
+    if (isRemoteChange) {
+      window.log.debug(
+        `[updateExpireTimer] remote change, not sending message again. receivedAt: ${receivedAt} fromSync: ${fromSync} fromCurrentDevice: ${fromCurrentDevice} for ${ed25519Str(
+          this.id
+        )}`
+      );
+
+      if (!message.getExpirationStartTimestamp()) {
+        // Note: we agreed that a closed group ControlMessage message does not expire.
+
+        const canBeDeleteAfterSend = this.isMe() || !(this.isGroup() && message.isControlMessage());
+        if (
+          (canBeDeleteAfterSend && expirationMode === 'legacy') ||
+          expirationMode === 'deleteAfterSend'
+        ) {
+          message.set({
+            expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
+              expirationMode,
+              message.get('sent_at'),
+              'updateExpireTimer() remote change',
+              message.get('id')
+            ),
+          });
+        }
+      }
+      await message.commit();
+
+      await Conversation.cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
+      return true;
+    }
+    await message.commit();
+
+    await Conversation.cleanUpExpireHistoryFromConvo(this.id, this.isPrivate());
+    //
+    // Below is the "sending the update to the conversation" part.
+    // We would have returned if that message sending part was not needed
+    //
     const expireUpdate = {
       identifier: message.id,
       timestamp,
-      expireTimer: expireTimer || (null as number | null),
+      expirationType,
+      expireTimer,
     };
 
     if (this.isMe()) {
+      if (expireUpdate.expirationType === 'deleteAfterRead') {
+        window.log.info('Note to Self messages cannot be delete after read!');
+        return true;
+      }
+
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-      await message.sendSyncMessageOnly(expirationTimerMessage);
-      return;
+
+      await message?.sendSyncMessageOnly(expirationTimerMessage);
+      return true;
     }
 
     if (this.isPrivate()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
+
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(
         pubkey,
         expirationTimerMessage,
         SnodeNamespaces.UserMessages
       );
-    } else {
-      window?.log?.warn('TODO: Expiration update for closed groups are to be updated');
-      const expireUpdateForGroup = {
-        ...expireUpdate,
-        groupId: this.get('id'),
-      };
-
-      const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
-
-      await getMessageQueue().sendToGroup({
-        message: expirationTimerMessage,
-        namespace: SnodeNamespaces.ClosedGroupMessage,
-      });
+      return true;
     }
+    if (this.isClosedGroup()) {
+      if (this.isAdmin(UserUtils.getOurPubKeyStrFromCache())) {
+        // NOTE: we agreed that outgoing ExpirationTimerUpdate **for groups** are not expiring,
+        // but they still need the content to be right(as this is what we use for the change itself)
+
+        const expireUpdateForGroup = {
+          ...expireUpdate,
+          groupId: this.get('id'),
+        };
+
+        const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
+
+        await getMessageQueue().sendToGroup({
+          message: expirationTimerMessage,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
+        return true;
+      }
+      window.log.warn(
+        'tried to send a disappear update but we are not the creator of that legacy group... Cancelling'
+      );
+      return false;
+    }
+    throw new Error('Communities should not use disappearing messages');
   }
 
   public triggerUIRefresh() {
@@ -952,10 +1136,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     const toBeAddedAttributes: MessageAttributesOptionals = {
+      unread: READ_MESSAGE_STATE.unread, // an incoming is by default unread, unless  messageAttributes or markAttributesAsReadIfNeeded marks it as read
       ...messageAttributes,
       conversationId: this.id,
       type: 'incoming',
-      direction: 'outgoing',
+      direction: 'incoming',
     };
 
     // if the message is trying to be added unread, make sure that it shouldn't be already read from our other devices
@@ -982,7 +1167,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
      *
      * (if there is an expireTimer, we do it the slow way, handling each message separately)
      */
-    const expireTimerSet = !!this.get('expireTimer');
+    const expireTimerSet = !!this.getExpireTimer();
     const isOpenGroup = this.isOpenGroupV2();
 
     if (isOpenGroup || !expireTimerSet) {
@@ -1006,7 +1191,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // otherwise, do it the slow and expensive way
-    await this.markConversationReadBouncy(Date.now());
+    await this.markConversationReadBouncy({ newestUnreadDate: Date.now() });
   }
 
   public getUsInThatConversation() {
@@ -1023,18 +1208,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const sendReceipt =
       settingsReadReceiptEnabled && !this.isBlocked() && !this.isIncomingRequest();
 
-    if (sendReceipt) {
-      window?.log?.info(`Sending ${timestamps.length} read receipts.`);
-      // we should probably stack read receipts and send them every 5 seconds for instance per conversation
-
-      const receiptMessage = new ReadReceiptMessage({
-        timestamp: Date.now(),
-        timestamps,
-      });
-
-      const device = new PubKey(this.id);
-      await getMessageQueue().sendToPubKey(device, receiptMessage, SnodeNamespaces.UserMessages);
+    if (!sendReceipt) {
+      return;
     }
+    window?.log?.info(`Sending ${timestamps.length} read receipts.`);
+
+    const receiptMessage = new ReadReceiptMessage({
+      timestamp: Date.now(),
+      timestamps,
+    });
+
+    const device = new PubKey(this.id);
+    await getMessageQueue().sendToPubKey(device, receiptMessage, SnodeNamespaces.UserMessages);
   }
 
   public async setNickname(nickname: string | null, shouldCommit = false) {
@@ -1677,10 +1862,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * This call is not debounced and can be quite heavy, so only call it when handling config messages updates
    */
   public async markReadFromConfigMessage(newestUnreadDate: number) {
-    return this.markConversationReadBouncy(newestUnreadDate);
+    return this.markConversationReadBouncy({ newestUnreadDate, fromConfigMessage: true });
   }
 
-  private async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
+  private async sendMessageJob(message: MessageModel) {
     try {
       const { body, attachments, preview, quote, fileIdsToLink } = await message.uploadData();
       const { id } = message;
@@ -1700,7 +1885,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         identifier: id,
         timestamp: sentAt,
         attachments,
-        expireTimer,
+        expirationType: message.getExpirationType() ?? 'unknown', // Note we assume that the caller used a setting allowed for that conversation when building it. Here we just send it.
+        expireTimer: message.getExpireTimerSeconds(),
         preview: preview ? [preview] : [],
         quote,
         lokiProfile: UserUtils.getOurProfile(),
@@ -1754,6 +1940,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.isPrivate()) {
         if (this.isMe()) {
+          if (this.matchesDisappearingMode('deleteAfterRead')) {
+            throw new Error('Note to Self disappearing messages must be deleteAterSend');
+          }
           chatMessageParams.syncTarget = this.id;
           const chatMessageMe = new VisibleMessage(chatMessageParams);
 
@@ -1766,23 +1955,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
         if (message.get('groupInvitation')) {
           const groupInvitation = message.get('groupInvitation');
-          const groupInvitMessage = new GroupInvitationMessage({
+          const groupInviteMessage = new GroupInvitationMessage({
             identifier: id,
             timestamp: sentAt,
             name: groupInvitation.name,
             url: groupInvitation.url,
-            expireTimer: this.get('expireTimer'),
+            expirationType: chatMessageParams.expirationType,
+            expireTimer: chatMessageParams.expireTimer,
           });
           // we need the return await so that errors are caught in the catch {}
           await getMessageQueue().sendToPubKey(
             destinationPubkey,
-            groupInvitMessage,
+            groupInviteMessage,
             SnodeNamespaces.UserMessages
           );
           return;
         }
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
-
         await getMessageQueue().sendToPubKey(
           destinationPubkey,
           chatMessagePrivate,
@@ -1792,10 +1981,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isClosedGroup()) {
+        if (this.matchesDisappearingMode('deleteAfterRead')) {
+          throw new Error('Group disappearing messages must be deleteAterSend');
+        }
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
-          groupId: destination,
+          groupId: destinationPubkey,
+          timestamp: sentAt,
+          // expirationType & expireTimer are part of the chatMessageMediumGroup object
         });
 
         // we need the return await so that errors are caught in the catch {}
@@ -1874,16 +2068,30 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
+  // tslint:disable-next-line cyclomatic-complexity
   private async bouncyUpdateLastMessage() {
     if (!this.id || !this.get('active_at') || this.isHidden()) {
       return;
     }
     const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
-
+    const existingLastMessageAttribute = this.get('lastMessage');
+    const existingLastMessageStatus = this.get('lastMessageStatus');
     if (!messages || !messages.length) {
+      if (existingLastMessageAttribute || existingLastMessageStatus) {
+        this.set({
+          lastMessageStatus: undefined,
+          lastMessage: undefined,
+        });
+        await this.commit();
+      }
       return;
     }
     const lastMessageModel = messages.at(0);
+    const interactionNotification = lastMessageModel.getInteractionNotification();
+
+    const lastMessageInteractionType = interactionNotification?.interactionType;
+    const lastMessageInteractionStatus = lastMessageModel.getInteractionNotification()
+      ?.interactionStatus;
     const lastMessageStatus = lastMessageModel.getMessagePropStatus() || undefined;
     const lastMessageNotificationText = lastMessageModel.getNotificationText() || undefined;
     // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
@@ -1892,17 +2100,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         ? {
             lastMessage: lastMessageNotificationText || '',
             lastMessageStatus,
+            lastMessageInteractionType,
+            lastMessageInteractionStatus,
           }
-        : { lastMessage: '', lastMessageStatus: undefined };
-    const existingLastMessageAttribute = this.get('lastMessage');
-    const existingLastMessageStatus = this.get('lastMessageStatus');
+        : {
+            lastMessage: '',
+            lastMessageStatus: undefined,
+            lastMessageInteractionType: undefined,
+            lastMessageInteractionStatus: undefined,
+          };
+    const existingLastMessageInteractionType = this.get('lastMessageInteractionType');
+    const existingLastMessageInteractionStatus = this.get('lastMessageInteractionStatus');
 
     if (
       lastMessageUpdate.lastMessage !== existingLastMessageAttribute ||
-      lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus
+      lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus ||
+      lastMessageUpdate.lastMessageInteractionType !== existingLastMessageInteractionType ||
+      lastMessageUpdate.lastMessageInteractionStatus !== existingLastMessageInteractionStatus
     ) {
       if (
         lastMessageUpdate.lastMessageStatus === existingLastMessageStatus &&
+        lastMessageUpdate.lastMessageInteractionType === existingLastMessageInteractionType &&
+        lastMessageUpdate.lastMessageInteractionStatus === existingLastMessageInteractionStatus &&
         lastMessageUpdate.lastMessage &&
         lastMessageUpdate.lastMessage.length > 40 &&
         existingLastMessageAttribute &&
@@ -1920,7 +2139,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  private async markConversationReadBouncy(newestUnreadDate: number, readAt: number = Date.now()) {
+  private async markConversationReadBouncy({
+    newestUnreadDate,
+    fromConfigMessage = false,
+  }: {
+    newestUnreadDate: number;
+    fromConfigMessage?: boolean;
+  }) {
+    const readAt = Date.now();
     const conversationId = this.id;
     Notifications.clearByConversationID(conversationId);
 
@@ -1933,32 +2159,39 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // Build the list of updated message models so we can mark them all as read on a single sqlite call
     const readDetails = [];
+    const msgsIdsToUpdateExpireOnSwarm: Array<string> = [];
     // eslint-disable-next-line no-restricted-syntax
     for (const nowRead of oldUnreadNowRead) {
-      nowRead.markMessageReadNoCommit(readAt);
+      const shouldUpdateSwarmExpiry = nowRead.markMessageReadNoCommit(readAt);
+      if (shouldUpdateSwarmExpiry) {
+        msgsIdsToUpdateExpireOnSwarm.push(nowRead.get('id') as string);
+      }
 
-      const validTimestamp = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
-      if (nowRead.get('source') && validTimestamp && isFinite(validTimestamp)) {
+      const sentAt = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
+      if (nowRead.get('source') && sentAt && isFinite(sentAt)) {
         readDetails.push({
           sender: nowRead.get('source'),
-          timestamp: validTimestamp,
+          timestamp: sentAt,
         });
       }
     }
-    const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-    if (oldUnreadNowReadAttrs?.length) {
-      await Data.saveMessages(oldUnreadNowReadAttrs);
-    }
-    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const nowRead of oldUnreadNowRead) {
-      allProps.push(nowRead.getMessageModelProps());
+    if (!isEmpty(msgsIdsToUpdateExpireOnSwarm)) {
+      if (fromConfigMessage) {
+        // when we mark a message as read through a convo volatile update,
+        // it means those messages have already an up to date expiry on the server side
+        // so we can just fetch those expiries for all the hashes we are marking as read, and trust it.
+        await FetchMsgExpirySwarm.queueNewJobIfNeeded(msgsIdsToUpdateExpireOnSwarm);
+      } else {
+        await UpdateMsgExpirySwarm.queueNewJobIfNeeded(msgsIdsToUpdateExpireOnSwarm);
+      }
     }
-
-    if (allProps.length) {
-      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
-    }
+    // save all the attributes in a single call
+    await Data.saveMessages(oldUnreadNowRead.map(m => m.attributes));
+    // trigger all the ui updates in a single call
+    window.inboxStore?.dispatch(
+      conversationActions.messagesChanged(oldUnreadNowRead.map(m => m.getMessageModelProps()))
+    );
 
     await this.commit();
 
@@ -1985,7 +2218,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const voiceMessageFlags = messageAttributes.attachments?.[0]?.isVoiceMessage
       ? SignalService.AttachmentPointer.Flags.VOICE_MESSAGE
       : undefined;
-    const model = new MessageModel({ ...messageAttributes, flags: voiceMessageFlags });
+    // eslint-disable-next-line no-bitwise
+    const flags = (messageAttributes?.flags || 0) | (voiceMessageFlags || 0);
+    const model = new MessageModel({
+      ...messageAttributes,
+      flags,
+    });
 
     // no need to trigger a UI update now, we trigger a messagesAdded just below
     const messageId = await model.commit(false);
@@ -2213,6 +2451,37 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     return [];
   }
+
+  private matchesDisappearingMode(mode: DisappearingMessageConversationModeType) {
+    const ours = this.getExpirationMode();
+    // Note: couldn't this be ours === mode with a twist maybe?
+    const success =
+      mode === 'deleteAfterRead'
+        ? ours === 'deleteAfterRead'
+        : mode === 'deleteAfterSend'
+        ? ours === 'deleteAfterSend'
+        : mode === 'off'
+        ? ours === 'off'
+        : false;
+
+    return success;
+  }
+
+  // NOTE We want to replace Backbone .get() calls with these getters as we migrate to Redux completely eventually
+  // #region Start of getters
+  public getExpirationMode() {
+    return this.get('expirationMode');
+  }
+
+  public getExpireTimer() {
+    return this.get('expireTimer');
+  }
+
+  public getHasOutdatedClient() {
+    return this.get('hasOutdatedClient');
+  }
+
+  // #endregion
 }
 
 export async function commitConversationAndRefreshWrapper(id: string) {
@@ -2341,3 +2610,15 @@ export function hasValidIncomingRequestValues({
   const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
   return Boolean(isPrivate && !isMe && !isApproved && !isBlocked && isActive && didApproveMe);
 }
+
+async function cleanUpExpireHistoryFromConvo(conversationId: string, isPrivate: boolean) {
+  const updateIdsRemoved = await Data.cleanUpExpirationTimerUpdateHistory(
+    conversationId,
+    isPrivate
+  );
+  window.inboxStore.dispatch(
+    messagesDeleted(updateIdsRemoved.map(m => ({ conversationKey: conversationId, messageId: m })))
+  );
+}
+
+export const Conversation = { cleanUpExpireHistoryFromConvo };

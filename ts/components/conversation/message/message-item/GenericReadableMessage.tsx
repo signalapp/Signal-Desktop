@@ -1,29 +1,19 @@
 import classNames from 'classnames';
+import { isNil, isString, toNumber } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
-
-import useInterval from 'react-use/lib/useInterval';
-import useMount from 'react-use/lib/useMount';
-
-import { isNil, isString, toNumber } from 'lodash';
-import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
-import { messagesExpired } from '../../../../state/ducks/conversations';
+import { StateType } from '../../../../state/reducer';
 import {
   getGenericReadableMessageSelectorProps,
   getIsMessageSelected,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
-import { getIncrement } from '../../../../util/timer';
-import { ExpireTimer } from '../../ExpireTimer';
-
-import { isOpenOrClosedGroup } from '../../../../models/conversationAttributes';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
-import { ReadableMessage } from './ReadableMessage';
 
 export type GenericReadableMessageSelectorProps = Pick<
   MessageRenderingProps,
@@ -31,73 +21,10 @@ export type GenericReadableMessageSelectorProps = Pick<
   | 'conversationType'
   | 'receivedAt'
   | 'isUnread'
-  | 'expirationLength'
-  | 'expirationTimestamp'
   | 'isKickedFromGroup'
-  | 'isExpired'
   | 'convoId'
   | 'isDeleted'
 >;
-
-type ExpiringProps = {
-  isExpired?: boolean;
-  expirationTimestamp?: number | null;
-  expirationLength?: number | null;
-  convoId?: string;
-  messageId: string;
-};
-const EXPIRATION_CHECK_MINIMUM = 2000;
-
-function useIsExpired(props: ExpiringProps) {
-  const {
-    convoId,
-    messageId,
-    expirationLength,
-    expirationTimestamp,
-    isExpired: isExpiredProps,
-  } = props;
-
-  const dispatch = useDispatch();
-
-  const [isExpired] = useState(isExpiredProps);
-
-  const checkExpired = useCallback(async () => {
-    const now = Date.now();
-
-    if (!expirationTimestamp || !expirationLength) {
-      return;
-    }
-
-    if (isExpired || now >= expirationTimestamp) {
-      await Data.removeMessage(messageId);
-      if (convoId) {
-        dispatch(
-          messagesExpired([
-            {
-              conversationKey: convoId,
-              messageId,
-            },
-          ])
-        );
-        const convo = getConversationController().get(convoId);
-        convo?.updateLastMessage();
-      }
-    }
-  }, [dispatch, expirationTimestamp, expirationLength, isExpired, messageId, convoId]);
-
-  let checkFrequency: number | null = null;
-  if (expirationLength) {
-    const increment = getIncrement(expirationLength || EXPIRATION_CHECK_MINIMUM);
-    checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
-  }
-
-  useMount(() => {
-    void checkExpired();
-  });
-  useInterval(checkExpired, checkFrequency); // check every 2sec or sooner if needed
-
-  return { isExpired };
-}
 
 type Props = {
   messageId: string;
@@ -111,15 +38,16 @@ const highlightedMessageAnimation = keyframes`
   }
 `;
 
-const StyledReadableMessage = styled(ReadableMessage)<{
+const StyledReadableMessage = styled.div<{
   selected: boolean;
   isRightClicked: boolean;
+  isDetailView?: boolean;
 }>`
   display: flex;
   align-items: center;
   width: 100%;
   letter-spacing: 0.03rem;
-  padding: 0 var(--margins-lg) 0;
+  padding: ${props => (props.isDetailView ? '0' : 'var(--margins-xs) var(--margins-lg) 0')};
 
   &.message-highlighted {
     animation: ${highlightedMessageAnimation} 1s ease-in-out;
@@ -153,21 +81,12 @@ export const GenericReadableMessage = (props: Props) => {
 
   const [enableReactions, setEnableReactions] = useState(true);
 
-  const msgProps = useSelector(state =>
-    getGenericReadableMessageSelectorProps(state as any, props.messageId)
+  const msgProps = useSelector((state: StateType) =>
+    getGenericReadableMessageSelectorProps(state, props.messageId)
   );
 
-  const expiringProps: ExpiringProps = {
-    convoId: msgProps?.convoId,
-    expirationLength: msgProps?.expirationLength,
-    messageId: props.messageId,
-    expirationTimestamp: msgProps?.expirationTimestamp,
-    isExpired: msgProps?.isExpired,
-  };
-  const { isExpired } = useIsExpired(expiringProps);
-
-  const isMessageSelected = useSelector(state =>
-    getIsMessageSelected(state as any, props.messageId)
+  const isMessageSelected = useSelector((state: StateType) =>
+    getIsMessageSelected(state, props.messageId)
   );
   const multiSelectMode = useSelector(isMessageSelectionMode);
 
@@ -228,58 +147,25 @@ export const GenericReadableMessage = (props: Props) => {
   if (!msgProps) {
     return null;
   }
-  const {
-    direction,
-    conversationType,
-    receivedAt,
-    isUnread,
-    expirationLength,
-    expirationTimestamp,
-  } = msgProps;
-
-  if (isExpired) {
-    return null;
-  }
 
   const selected = isMessageSelected || false;
-  const isGroup = isOpenOrClosedGroup(conversationType);
-  const isIncoming = direction === 'incoming';
 
   return (
     <StyledReadableMessage
-      messageId={messageId}
       selected={selected}
+      isDetailView={isDetailView}
       isRightClicked={isRightClicked}
-      className={classNames(
-        selected && 'message-selected',
-        isGroup && 'public-chat-message-wrapper'
-      )}
+      className={classNames(selected && 'message-selected')}
       onContextMenu={handleContextMenu}
-      receivedAt={receivedAt}
-      isUnread={!!isUnread}
       key={`readable-message-${messageId}`}
     >
-      {expirationLength && expirationTimestamp && (
-        <ExpireTimer
-          isCorrectSide={!isIncoming}
-          expirationLength={expirationLength}
-          expirationTimestamp={expirationTimestamp}
-        />
-      )}
       <MessageContentWithStatuses
         ctxMenuID={ctxMenuID}
         messageId={messageId}
         isDetailView={isDetailView}
-        dataTestId={`message-content-${messageId}`}
+        dataTestId={'message-content'}
         enableReactions={enableReactions}
       />
-      {expirationLength && expirationTimestamp && (
-        <ExpireTimer
-          isCorrectSide={isIncoming}
-          expirationLength={expirationLength}
-          expirationTimestamp={expirationTimestamp}
-        />
-      )}
     </StyledReadableMessage>
   );
 };

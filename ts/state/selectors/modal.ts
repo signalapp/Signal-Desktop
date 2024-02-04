@@ -3,7 +3,6 @@ import { createSelector } from '@reduxjs/toolkit';
 import { StateType } from '../reducer';
 import {
   AddModeratorsModalState,
-  AdminLeaveClosedGroupModalState,
   BanOrUnbanUserModalState,
   ChangeNickNameModalState,
   ConfirmModalState,
@@ -84,11 +83,6 @@ export const getOnionPathDialog = createSelector(
 export const getRecoveryPhraseDialog = createSelector(
   getModal,
   (state: ModalState): RecoveryPhraseModalState => state.recoveryPhraseModal
-);
-
-export const getAdminLeaveClosedGroupDialog = createSelector(
-  getModal,
-  (state: ModalState): AdminLeaveClosedGroupModalState => state.adminLeaveClosedGroup
 );
 
 export const getSessionPasswordDialog = createSelector(

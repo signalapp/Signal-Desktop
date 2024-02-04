@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react';
-import classNames from 'classnames';
-import styled from 'styled-components';
 import autoBind from 'auto-bind';
+import classNames from 'classnames';
 import { isString } from 'lodash';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import styled from 'styled-components';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
-import { SessionSpinner } from './basic/SessionSpinner';
+// import { SessionSpinner } from './basic/SessionSpinner';
 import { SessionTheme } from '../themes/SessionTheme';
+import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 import { switchThemeTo } from '../themes/switchTheme';
-import { ToastUtils } from '../session/utils';
 import { SessionToastContainer } from './SessionToastContainer';
 import { SessionWrapperModal } from './SessionWrapperModal';
-import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
+import { SessionSpinner } from './basic/SessionSpinner';
+import { SessionToast } from './basic/SessionToast';
 
 interface State {
   errorCount: number;
@@ -33,6 +35,15 @@ const StyledContent = styled.div`
   height: 100%;
   width: 100%;
 `;
+
+// We cannot import toastutils from the password window as it is pulling the whole sending
+// pipeline(and causing crashes on Session instances with password)
+function pushToastError(id: string, title: string, description?: string) {
+  toast.error(<SessionToast title={title} description={description} />, {
+    toastId: id,
+    updateId: id,
+  });
+}
 
 class SessionPasswordPromptInner extends React.PureComponent<unknown, State> {
   private inputRef?: any;
@@ -112,9 +123,9 @@ class SessionPasswordPromptInner extends React.PureComponent<unknown, State> {
       });
 
       if (error && isString(error)) {
-        ToastUtils.pushToastError('onLogin', error);
+        pushToastError('onLogin', error);
       } else if (error?.message && isString(error.message)) {
-        ToastUtils.pushToastError('onLogin', error.message);
+        pushToastError('onLogin', error.message);
       }
 
       global.setTimeout(() => {

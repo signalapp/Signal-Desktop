@@ -1,19 +1,20 @@
-import React, { useCallback } from 'react';
 import classNames from 'classnames';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { Spinner } from '../basic/Spinner';
-import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
-import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+import { isNumber } from 'lodash';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
+import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
+import { Spinner } from '../basic/Spinner';
 
 type Props = {
   alt: string;
   attachment: AttachmentTypeWithPath | AttachmentType;
   url: string | undefined; // url is undefined if the message is not visible yet
 
-  height?: number;
-  width?: number;
+  height?: number | string;
+  width?: number | string;
 
   overlayText?: string;
 
@@ -46,7 +47,7 @@ export const Image = (props: Props) => {
     attachment,
     closeButton,
     darkOverlay,
-    height,
+    height: _height,
     onClick,
     onClickClose,
     onError,
@@ -56,7 +57,7 @@ export const Image = (props: Props) => {
     forceSquare,
     attachmentIndex,
     url,
-    width,
+    width: _width,
   } = props;
 
   const onErrorUrlFilterering = useCallback(() => {
@@ -78,6 +79,9 @@ export const Image = (props: Props) => {
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
 
+  const width = isNumber(_width) ? `${_width}px` : _width;
+  const height = isNumber(_height) ? `${_height}px` : _height;
+
   return (
     <div
       role={role}
@@ -93,10 +97,10 @@ export const Image = (props: Props) => {
         softCorners ? 'module-image--soft-corners' : null
       )}
       style={{
-        maxHeight: `${height}px`,
-        maxWidth: `${width}px`,
-        minHeight: `${height}px`,
-        minWidth: `${width}px`,
+        maxHeight: height,
+        maxWidth: width,
+        minHeight: height,
+        minWidth: width,
       }}
       data-attachmentindex={attachmentIndex}
     >
@@ -104,11 +108,11 @@ export const Image = (props: Props) => {
         <div
           className="module-image__loading-placeholder"
           style={{
-            maxHeight: `${height}px`,
-            maxWidth: `${width}px`,
-            width: `${width}px`,
-            height: `${height}px`,
-            lineHeight: `${height}px`,
+            maxHeight: height,
+            maxWidth: width,
+            width,
+            height,
+            lineHeight: height,
             textAlign: 'center',
           }}
         >
@@ -123,12 +127,12 @@ export const Image = (props: Props) => {
           )}
           alt={alt}
           style={{
-            maxHeight: `${height}px`,
-            maxWidth: `${width}px`,
-            minHeight: `${height}px`,
-            minWidth: `${width}px`,
-            width: forceSquare ? `${width}px` : '',
-            height: forceSquare ? `${height}px` : '',
+            maxHeight: height,
+            maxWidth: width,
+            minHeight: height,
+            minWidth: width,
+            width: forceSquare ? width : '',
+            height: forceSquare ? height : '',
           }}
           src={srcData}
           onDragStart={disableDrag}
@@ -165,7 +169,7 @@ export const Image = (props: Props) => {
         </div>
       ) : null}
       {overlayText ? (
-        <div className="module-image__text-container" style={{ lineHeight: `${height}px` }}>
+        <div className="module-image__text-container" style={{ lineHeight: height }}>
           {overlayText}
         </div>
       ) : null}

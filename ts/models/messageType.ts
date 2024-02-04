@@ -1,7 +1,12 @@
 import { defaultsDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import {
+  DisappearingMessageType,
+  ExpirationTimerUpdate,
+} from '../session/disappearing_messages/types';
+import {
   CallNotificationType,
+  InteractionNotificationType,
   LastMessageStatusType,
   PropsForMessageWithConvoProps,
 } from '../state/ducks/conversations';
@@ -17,7 +22,6 @@ export interface MessageAttributes {
   id: string;
   source: string;
   quote?: any;
-  expireTimer: number;
   received_at?: number;
   sent_at?: number;
   preview?: any;
@@ -25,9 +29,14 @@ export interface MessageAttributes {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
+  expirationType?: DisappearingMessageType;
+  /** in seconds, 0 means no expiration */
+  expireTimer: number;
+  /** in milliseconds */
   expirationStartTimestamp: number;
-  read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
+  expirationTimerUpdate?: ExpirationTimerUpdate;
+  read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -38,11 +47,6 @@ export interface MessageAttributes {
   hasAttachments: 1 | 0;
   hasFileAttachments: 1 | 0;
   hasVisualMediaAttachments: 1 | 0;
-  expirationTimerUpdate?: {
-    expireTimer: number;
-    source: string;
-    fromSync?: boolean;
-  };
   /**
    * 1 means unread, 0 or anything else is read.
    * You can use the values from READ_MESSAGE_STATE.unread and READ_MESSAGE_STATE.read
@@ -105,7 +109,7 @@ export interface MessageAttributes {
   messageRequestResponse?: MessageRequestResponseMsg;
 
   /**
-   * This field is used for unsending messages and used in sending unsend message requests.
+   * This field is used for unsending messages and used in sending update expiry, get expiries and unsend message requests.
    */
   messageHash?: string;
 
@@ -115,6 +119,11 @@ export interface MessageAttributes {
   isDeleted?: boolean;
 
   callNotificationType?: CallNotificationType;
+
+  /**
+   * This is used when a user has performed an interaction (hiding, leaving, etc.) on a conversation. At the moment, this is only used for showing interaction errors.
+   */
+  interactionNotification?: InteractionNotificationType;
 }
 
 export interface DataExtractionNotificationMsg {
@@ -137,8 +146,6 @@ export enum MessageDirection {
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;
-  receivedAt?: number;
-  isUnread: boolean;
 };
 
 export type PropsForMessageRequestResponse = MessageRequestResponseMsg & {
@@ -162,7 +169,6 @@ export interface MessageAttributesOptionals {
   id?: string;
   source: string;
   quote?: any;
-  expireTimer?: number;
   received_at?: number;
   sent_at?: number;
   preview?: any;
@@ -170,9 +176,12 @@ export interface MessageAttributesOptionals {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
+  expirationType?: DisappearingMessageType;
+  expireTimer?: number;
   expirationStartTimestamp?: number;
-  read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
+  expirationTimerUpdate?: ExpirationTimerUpdate;
+  read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -184,11 +193,6 @@ export interface MessageAttributesOptionals {
   hasAttachments?: boolean;
   hasFileAttachments?: boolean;
   hasVisualMediaAttachments?: boolean;
-  expirationTimerUpdate?: {
-    expireTimer: number;
-    source: string;
-    fromSync?: boolean;
-  };
   dataExtractionNotification?: {
     type: number;
     source: string;
@@ -214,6 +218,7 @@ export interface MessageAttributesOptionals {
   messageHash?: string;
   isDeleted?: boolean;
   callNotificationType?: CallNotificationType;
+  interactionNotification?: InteractionNotificationType;
 }
 
 /**

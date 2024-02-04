@@ -26,6 +26,7 @@ export type IncomingConfResult = {
   needsDump: boolean;
   kind: SignalService.SharedConfigMessage.Kind;
   publicKey: string;
+  // NOTE this is the latest sent timestamp of the config message
   latestEnvelopeTimestamp: number;
 };
 

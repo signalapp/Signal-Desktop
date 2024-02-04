@@ -6,7 +6,7 @@ import { resetConversationExternal } from '../../state/ducks/conversations';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import {
   SectionType,
-  setOverlayMode,
+  setLeftOverlayMode,
   showLeftPaneSection,
   showSettingsSection,
 } from '../../state/ducks/section';
@@ -105,7 +105,7 @@ const LeftPaneSettingsCategoryRow = (props: {
         switch (id) {
           case SessionSettingCategory.MessageRequests:
             dispatch(showLeftPaneSection(SectionType.Message));
-            dispatch(setOverlayMode('message-requests'));
+            dispatch(setLeftOverlayMode('message-requests'));
             dispatch(resetConversationExternal());
             break;
           case SessionSettingCategory.RecoveryPhrase:

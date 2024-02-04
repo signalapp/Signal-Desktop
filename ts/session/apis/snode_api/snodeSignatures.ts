@@ -1,6 +1,7 @@
 import { getSodiumRenderer } from '../../crypto';
 import { StringUtils, UserUtils } from '../../utils';
 import { fromHexToArray, fromUInt8ArrayToBase64 } from '../../utils/String';
+import { WithShortenOrExtend } from './SnodeRequestTypes';
 import { GetNetworkTime } from './getNetworkTime';
 
 export type SnodeSignatureResult = {
@@ -96,15 +97,17 @@ async function getSnodeSignatureParams(params: {
   }
 }
 
+/**
+ * NOTE if shortenOrExtend is an empty string it means we want to hardcode the expiry to a TTL value, otherwise it's to shorten or extend the TTL
+ */
 async function generateUpdateExpirySignature({
   shortenOrExtend,
   timestamp,
   messageHashes,
 }: {
-  shortenOrExtend: 'extend' | 'shorten' | '';
   timestamp: number;
   messageHashes: Array<string>;
-}): Promise<{ signature: string; pubkey_ed25519: string } | null> {
+} & WithShortenOrExtend): Promise<{ signature: string; pubkey_ed25519: string } | null> {
   const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
 
   if (!ourEd25519Key) {
@@ -115,7 +118,7 @@ async function generateUpdateExpirySignature({
 
   const edKeyPrivBytes = fromHexToArray(ourEd25519Key?.privKey);
 
-  // "expire" || ShortenOrExtend || expiry || messages[0] || ... || messages[N]
+  // ("expire" || ShortenOrExtend || expiry || messages[0] || ... || messages[N])
   const verificationString = `expire${shortenOrExtend}${timestamp}${messageHashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
   const message = new Uint8Array(verificationData);
@@ -130,7 +133,43 @@ async function generateUpdateExpirySignature({
       pubkey_ed25519: ourEd25519Key.pubKey,
     };
   } catch (e) {
-    window.log.warn('generateSignature failed with: ', e.message);
+    window.log.warn('getSnodeSignatureParams "expiry" failed with: ', e.message);
+    return null;
+  }
+}
+
+async function generateGetExpiriesSignature({
+  timestamp,
+  messageHashes,
+}: {
+  timestamp: number;
+  messageHashes: Array<string>;
+}): Promise<{ signature: string; pubkey_ed25519: string } | null> {
+  const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
+  if (!ourEd25519Key) {
+    const err = 'getSnodeSignatureParams "get_expiries": User has no getUserED25519KeyPair()';
+    window.log.warn(err);
+    throw new Error(err);
+  }
+
+  const edKeyPrivBytes = fromHexToArray(ourEd25519Key?.privKey);
+
+  // ("get_expiries" || timestamp || messages[0] || ... || messages[N])
+  const verificationString = `get_expiries${timestamp}${messageHashes.join('')}`;
+  const verificationData = StringUtils.encode(verificationString, 'utf8');
+  const message = new Uint8Array(verificationData);
+
+  const sodium = await getSodiumRenderer();
+  try {
+    const signature = sodium.crypto_sign_detached(message, edKeyPrivBytes);
+    const signatureBase64 = fromUInt8ArrayToBase64(signature);
+
+    return {
+      signature: signatureBase64,
+      pubkey_ed25519: ourEd25519Key.pubKey,
+    };
+  } catch (e) {
+    window.log.warn('generateSignature "get_expiries" failed with: ', e.message);
     return null;
   }
 }
@@ -139,4 +178,5 @@ export const SnodeSignature = {
   getSnodeSignatureParams,
   getSnodeSignatureByHashesParams,
   generateUpdateExpirySignature,
+  generateGetExpiriesSignature,
 };

@@ -1,5 +1,12 @@
 import { debounce, noop } from 'lodash';
-import React, { useCallback, useContext, useLayoutEffect, useState } from 'react';
+import React, {
+  AriaRole,
+  MouseEventHandler,
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Data } from '../../../../data/data';
@@ -23,13 +30,18 @@ import { getIsAppFocused } from '../../../../state/selectors/section';
 import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
-type ReadableMessageProps = {
+export type ReadableMessageProps = {
   children: React.ReactNode;
   messageId: string;
   className?: string;
   receivedAt: number | undefined;
   isUnread: boolean;
+  onClick?: MouseEventHandler<HTMLElement>;
+  onDoubleClickCapture?: MouseEventHandler<HTMLElement>;
+  role?: AriaRole;
+  dataTestId: string;
   onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
+  isControlMessage?: boolean;
 };
 
 const debouncedTriggerLoadMoreTop = debounce(
@@ -57,7 +69,17 @@ const debouncedTriggerLoadMoreBottom = debounce(
 );
 
 export const ReadableMessage = (props: ReadableMessageProps) => {
-  const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
+  const {
+    messageId,
+    onContextMenu,
+    className,
+    receivedAt,
+    isUnread,
+    onClick,
+    onDoubleClickCapture,
+    role,
+    dataTestId,
+  } = props;
 
   const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
@@ -77,7 +99,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
 
   // if this unread-indicator is rendered,
   // we want to scroll here only if the conversation was not opened to a specific message
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
     if (
@@ -106,7 +127,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           dispatch(showScrollToBottomButton(false));
           getConversationController()
             .get(selectedConversationKey)
-            ?.markConversationRead(receivedAt || 0); // TODOLATER this should be `sentAt || serverTimestamp` I think
+            ?.markConversationRead({ newestUnreadDate: receivedAt || 0, fromConfigMessage: false }); // TODOLATER this should be `sentAt || serverTimestamp` I think
 
           dispatch(markConversationFullyRead(selectedConversationKey));
         } else if (inView === false) {
@@ -151,7 +172,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
             if (foundSentAt) {
               getConversationController()
                 .get(selectedConversationKey)
-                ?.markConversationRead(foundSentAt, Date.now());
+                ?.markConversationRead({ newestUnreadDate: foundSentAt, fromConfigMessage: false });
             }
           }
         }
@@ -182,8 +203,11 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onChange={isAppFocused ? onVisible : noop}
       triggerOnce={false}
       trackVisibility={true}
+      onClick={onClick}
+      onDoubleClickCapture={onDoubleClickCapture}
+      role={role}
       key={`inview-msg-${messageId}`}
-      data-testid="control-message"
+      data-testid={dataTestId}
     >
       {props.children}
     </InView>
