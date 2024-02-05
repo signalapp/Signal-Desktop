@@ -7,6 +7,7 @@ import { assert } from 'chai';
 import { readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
+import { randomBytes } from 'crypto';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import * as Curve from '../Curve';
@@ -36,7 +37,12 @@ import {
   decryptAttachmentV1,
   padAndEncryptAttachment,
 } from '../Crypto';
-import { decryptAttachmentV2, encryptAttachmentV2 } from '../AttachmentCrypto';
+import {
+  KEY_SET_LENGTH,
+  _generateAttachmentIv,
+  decryptAttachmentV2,
+  encryptAttachmentV2,
+} from '../AttachmentCrypto';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
 
@@ -605,6 +611,10 @@ describe('Crypto', () => {
     const FILE_CONTENTS = readFileSync(FILE_PATH);
     let tempDir: string | undefined;
 
+    function generateAttachmentKeys(): Uint8Array {
+      return randomBytes(KEY_SET_LENGTH);
+    }
+
     beforeEach(async () => {
       tempDir = await createTempDir();
     });
@@ -615,7 +625,7 @@ describe('Crypto', () => {
     });
 
     it('v1 roundtrips (memory only)', () => {
-      const keys = getRandomBytes(64);
+      const keys = generateAttachmentKeys();
 
       // Note: support for padding is not in decryptAttachmentV1, so we don't pad here
       const encryptedAttachment = encryptAttachment({
@@ -632,7 +642,7 @@ describe('Crypto', () => {
     });
 
     it('v1 -> v2 (memory -> disk)', async () => {
-      const keys = getRandomBytes(64);
+      const keys = generateAttachmentKeys();
       const ciphertextPath = join(tempDir!, 'file');
       let plaintextPath;
 
@@ -670,7 +680,7 @@ describe('Crypto', () => {
     });
 
     it('v2 roundtrips (all on disk)', async () => {
-      const keys = getRandomBytes(64);
+      const keys = generateAttachmentKeys();
       let plaintextPath;
       let ciphertextPath;
 
@@ -680,7 +690,6 @@ describe('Crypto', () => {
           plaintextAbsolutePath: FILE_PATH,
           size: FILE_CONTENTS.byteLength,
         });
-
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
           encryptedAttachment.path
         );
@@ -695,9 +704,7 @@ describe('Crypto', () => {
           decryptedAttachment.path
         );
         const plaintext = readFileSync(plaintextPath);
-
         assert.isTrue(constantTimeEqual(FILE_CONTENTS, plaintext));
-
         assert.strictEqual(encryptedAttachment.plaintextHash, GHOST_KITTY_HASH);
         assert.strictEqual(
           decryptedAttachment.plaintextHash,
@@ -714,7 +721,7 @@ describe('Crypto', () => {
     });
 
     it('v2 -> v1 (disk -> memory)', async () => {
-      const keys = getRandomBytes(64);
+      const keys = generateAttachmentKeys();
       let ciphertextPath;
 
       try {
@@ -760,11 +767,10 @@ describe('Crypto', () => {
     });
 
     it('v1 and v2 produce the same ciphertext, given same iv', async () => {
-      const keys = getRandomBytes(64);
+      const keys = generateAttachmentKeys();
+      const dangerousTestOnlyIv = _generateAttachmentIv();
+
       let ciphertextPath;
-
-      const dangerousTestOnlyIv = getRandomBytes(16);
-
       try {
         const encryptedAttachmentV1 = padAndEncryptAttachment({
           plaintext: FILE_CONTENTS,
