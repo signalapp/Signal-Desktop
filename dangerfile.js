@@ -1,4 +1,4 @@
-// Copyright 2022 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Ensuring that the root directory is the same as this file before we load any

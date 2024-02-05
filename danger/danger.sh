@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright 2022 Signal Messenger, LLC
+# Copyright 2024 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
 if [ -f ./node_modules/.bin/danger ]; then

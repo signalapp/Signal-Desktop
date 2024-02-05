@@ -1,4 +1,4 @@
-// Copyright 2022 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // This file is to prevent circular references with other selector files, since

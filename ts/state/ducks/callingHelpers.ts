@@ -1,4 +1,4 @@
-// Copyright 2023 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Note that this file should not important any binary addons or Node.js modules

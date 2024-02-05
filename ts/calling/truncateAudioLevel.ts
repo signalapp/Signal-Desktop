@@ -1,4 +1,4 @@
-// Copyright 2022 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // See https://github.com/signalapp/Signal-Android/blob/b527b2ffb94fb82a7508c3b33ddbffef28085349/app/src/main/java/org/thoughtcrime/securesms/events/CallParticipant.kt#L87-L100

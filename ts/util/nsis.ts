@@ -1,4 +1,4 @@
-// Copyright 2023 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // https://github.com/electron-userland/electron-builder/blob/c1448c6584bb5106aaa2766379fd0917508ce3bf/packages/app-builder-lib/src/util/langs.ts#L1

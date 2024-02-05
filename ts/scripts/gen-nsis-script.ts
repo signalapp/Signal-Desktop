@@ -1,4 +1,4 @@
-// Copyright 2023 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createIntl } from '@formatjs/intl';
@@ -101,7 +101,7 @@ for (const lang of REQUIRED_LANGUAGES) {
 fs.writeFileSync(
   path.join(ROOT_DIR, 'build', 'SignalStrings.nsh'),
   [
-    '# Copyright 2023 Signal Messenger, LLC',
+    '# Copyright 2024 Signal Messenger, LLC',
     '# SPDX-License-Identifier: AGPL-3.0-only',
     '#',
     '# DO NOT EDIT. This is a generated file.',

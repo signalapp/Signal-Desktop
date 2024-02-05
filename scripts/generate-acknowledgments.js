@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const assert = require('assert');
@@ -95,7 +95,7 @@ async function main() {
   );
 
   const unformattedOutput = [
-    '<!-- Copyright 2020 Signal Messenger, LLC -->',
+    '<!-- Copyright 2024 Signal Messenger, LLC -->',
     '<!-- SPDX-License-Identifier: AGPL-3.0-only -->',
     '# Acknowledgments',
     '',

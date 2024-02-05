@@ -1,4 +1,4 @@
-// Copyright 2023 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import 'urlpattern-polyfill';
 // We need to use the Node.js version of `URL` because chromium's `URL` doesn't
