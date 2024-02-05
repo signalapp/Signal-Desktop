@@ -519,7 +519,6 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
   });
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
-
   // if we do not have a keypair for that group, we can't send our leave message, so just skip the message sending part
   const wasSent = await getMessageQueue().sendToPubKeyNonDurably({
     message: ourLeavingMessage,

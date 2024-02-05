@@ -30,12 +30,11 @@ type Props = {
  *        - if the message is incoming: do not show anything (3)
  *        - if the message is outgoing: show the text for the last message, or a message sending, or in the error state. (4)
  */
-export const MessageStatus = (props: Props) => {
-  const { messageId, isDetailView, dataTestId } = props;
-  const status = useMessageStatus(props.messageId);
-  const selected = useMessageExpirationPropsById(props.messageId);
+export const MessageStatus = ({ isDetailView, messageId, dataTestId }: Props) => {
+  const status = useMessageStatus(messageId);
+  const selected = useMessageExpirationPropsById(messageId);
 
-  if (!props.messageId || !selected || isDetailView) {
+  if (!messageId || !selected || isDetailView) {
     return null;
   }
   const isIncoming = selected.direction === 'incoming';
@@ -79,15 +78,15 @@ const MessageStatusContainer = styled.div<{ isIncoming: boolean; isGroup: boolea
     props.isGroup || !props.isIncoming ? 'var(--width-avatar-group-msg-list)' : 0};
 `;
 
-const StyledStatusText = styled.div`
-  color: var(--text-secondary-color);
+const StyledStatusText = styled.div<{ textColor: string }>`
   font-size: small;
+  color: ${props => props.textColor};
 `;
 
-const TextDetails = ({ text }: { text: string }) => {
+const TextDetails = ({ text, textColor }: { text: string; textColor: string }) => {
   return (
     <>
-      <StyledStatusText>{text}</StyledStatusText>
+      <StyledStatusText textColor={textColor}>{text}</StyledStatusText>
       <SpacerXS />
     </>
   );
@@ -154,7 +153,7 @@ const MessageStatusSending = ({ dataTestId }: Omit<Props, 'isDetailView'>) => {
       isIncoming={false}
       isGroup={false}
     >
-      <TextDetails text={window.i18n('sending')} />
+      <TextDetails text={window.i18n('sending')} textColor="var(--text-secondary-color)" />
       <IconNormal rotateDuration={2} iconType="sending" />
     </MessageStatusContainer>
   );
@@ -193,7 +192,7 @@ const MessageStatusSent = ({ dataTestId, messageId }: Omit<Props, 'isDetailView'
       isIncoming={false}
       isGroup={isGroup}
     >
-      <TextDetails text={window.i18n('sent')} />
+      <TextDetails text={window.i18n('sent')} textColor="var(--text-secondary-color)" />
       <IconForExpiringMessageId messageId={messageId} iconType="circleCheck" />
     </MessageStatusContainer>
   );
@@ -221,7 +220,7 @@ const MessageStatusRead = ({
       isIncoming={isIncoming}
       isGroup={isGroup}
     >
-      <TextDetails text={window.i18n('read')} />
+      <TextDetails text={window.i18n('read')} textColor="var(--text-secondary-color)" />
       <IconForExpiringMessageId messageId={messageId} iconType="doubleCheckCircleFilled" />
     </MessageStatusContainer>
   );
@@ -243,7 +242,7 @@ const MessageStatusError = ({ dataTestId }: Omit<Props, 'isDetailView'>) => {
       isIncoming={false}
       isGroup={isGroup}
     >
-      <TextDetails text={window.i18n('failed')} />
+      <TextDetails text={window.i18n('failedToSendMessage')} textColor="var(--danger-color)" />
       <IconDanger iconType="error" />
     </MessageStatusContainer>
   );

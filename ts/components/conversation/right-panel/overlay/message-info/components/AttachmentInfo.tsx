@@ -10,7 +10,8 @@ type Props = {
 
 const StyledLabelContainer = styled(Flex)`
   div {
-    flex-grow: 1;
+    min-width: 50%;
+    // we want 2 items per row and that's the easiest to make it happen
   }
 `;
 
@@ -23,7 +24,7 @@ export const AttachmentInfo = (props: Props) => {
         label={`${window.i18n('fileId')}:`}
         info={attachment?.id ? String(attachment.id) : window.i18n('notApplicable')}
       />
-      <StyledLabelContainer container={true} flexDirection="row" justifyContent="space-between">
+      <StyledLabelContainer container={true} flexDirection="row" flexWrap="wrap">
         <LabelWithInfo
           label={`${window.i18n('fileType')}:`}
           info={
@@ -34,8 +35,6 @@ export const AttachmentInfo = (props: Props) => {
           label={`${window.i18n('fileSize')}:`}
           info={attachment?.fileSize ? String(attachment.fileSize) : window.i18n('notApplicable')}
         />
-      </StyledLabelContainer>
-      <StyledLabelContainer container={true} flexDirection="row" justifyContent="space-between">
         <LabelWithInfo
           label={`${window.i18n('resolution')}:`}
           info={
