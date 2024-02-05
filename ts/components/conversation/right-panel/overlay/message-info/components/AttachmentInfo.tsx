@@ -10,8 +10,8 @@ type Props = {
 
 const StyledLabelContainer = styled(Flex)`
   div {
-    min-width: 50%;
     // we want 2 items per row and that's the easiest to make it happen
+    min-width: 50%;
   }
 `;
 

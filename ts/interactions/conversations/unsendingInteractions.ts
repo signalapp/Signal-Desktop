@@ -377,6 +377,7 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
 
   const messageCount = selectedMessages.length;
   const moreThanOne = selectedMessages.length > 1;
+  const closeDialog = () => window.inboxStore?.dispatch(updateConfirmModal(null));
 
   window.inboxStore?.dispatch(
     updateConfirmModal({
@@ -401,6 +402,7 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
         window.inboxStore?.dispatch(resetRightOverlayMode());
       },
       closeAfterInput: false,
+      onClickClose: closeDialog,
     })
   );
 }

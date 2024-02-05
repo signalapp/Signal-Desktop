@@ -106,6 +106,9 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
             })
           );
         },
+        onClickClose: () => {
+          window.inboxStore?.dispatch(updateConfirmModal(null));
+        },
       })
     );
   };

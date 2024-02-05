@@ -58,7 +58,7 @@ export const InteractionItem = (props: InteractionItemProps) => {
 
   switch (interactionType) {
     case ConversationInteractionType.Hide:
-      // if it's hidden or pending hiding, we don't show it any text
+      // if it's hidden or pending hiding, we don't show any text
       break;
     case ConversationInteractionType.Leave:
       errorText = isCommunity

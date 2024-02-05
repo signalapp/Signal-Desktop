@@ -95,6 +95,9 @@ async function deleteEverythingAndNetworkData() {
             await deleteDbLocally();
             window.restart();
           },
+          onClickClose: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
+          },
         })
       );
       return;
@@ -121,6 +124,9 @@ async function deleteEverythingAndNetworkData() {
           onClickOk: async () => {
             await deleteDbLocally();
             window.restart();
+          },
+          onClickClose: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
           },
         })
       );
