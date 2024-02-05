@@ -40,6 +40,6 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2013 Signal, a 501c3 nonprofit
+Copyright 2013-2024 Signal, a 501c3 nonprofit
 
 Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0
