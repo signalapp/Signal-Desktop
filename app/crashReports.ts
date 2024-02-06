@@ -7,7 +7,7 @@ import { basename, join } from 'path';
 
 import type { LoggerType } from '../ts/types/Logging';
 import * as Errors from '../ts/types/errors';
-import { isProduction } from '../ts/util/version';
+import { isAlpha } from '../ts/util/version';
 import { upload as uploadDebugLog } from '../ts/logging/uploadDebugLog';
 import { SignalService as Proto } from '../ts/protobuf';
 import OS from '../ts/util/os/osMain';
@@ -47,7 +47,7 @@ async function eraseDumps(
 }
 
 export function setup(getLogger: () => LoggerType, forceEnable = false): void {
-  const isEnabled = !isProduction(app.getVersion()) || forceEnable;
+  const isEnabled = isAlpha(app.getVersion()) || forceEnable;
 
   if (isEnabled) {
     getLogger().info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);
