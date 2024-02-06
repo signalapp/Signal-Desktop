@@ -2029,7 +2029,7 @@ function saveAvatarToDisk(
 
 function myProfileChanged(
   profileData: ProfileDataType,
-  avatar: AvatarUpdateType
+  avatarUpdate: AvatarUpdateType
 ): ThunkAction<
   void,
   RootStateType,
@@ -2045,7 +2045,9 @@ function myProfileChanged(
           ...conversation,
           ...profileData,
         },
-        avatar
+        {
+          avatarUpdate,
+        }
       );
 
       // writeProfile above updates the backbone model which in turn updates

@@ -242,8 +242,7 @@ export function createIPCEvents(
       // writeProfile fetches the latest profile first so do it before updating
       // local data to prevent triggering a conflict.
       await writeProfile(getConversation(account), {
-        oldAvatar: undefined,
-        newAvatar: undefined,
+        keepAvatar: true,
       });
 
       const promises = new Array<Promise<void>>();
