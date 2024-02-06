@@ -5800,8 +5800,12 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Nobody will see your phone number on Signal, even when you're messaging them.",
-    "description": "Description for the phone number sharing setting row when the value is Nobody"
+    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
+    "messageformat": "Your phone number will not be visible to anyone.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
     "messageformat": "Phone Number",
