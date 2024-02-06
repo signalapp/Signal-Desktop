@@ -42,7 +42,6 @@ import { AttachmentTypeWithPath } from '../../../../types/Attachment';
 import { getAbsoluteAttachmentPath } from '../../../../types/MessageAttachment';
 import { Avatar, AvatarSize } from '../../../avatar/Avatar';
 import { Flex } from '../../../basic/Flex';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../../../basic/SessionButton';
 import { SpacerMD } from '../../../basic/Text';
 import { PanelButtonGroup, PanelIconButton } from '../../../buttons';
 import { MediaItemType } from '../../../lightbox/LightboxGallery';
@@ -182,25 +181,6 @@ const HeaderItem = () => {
     </Header>
   );
 };
-
-const StyledLeaveButton = styled.div`
-  width: 100%;
-  .session-button {
-    margin-top: auto;
-    width: 100%;
-    min-height: calc(var(--composition-container-height) + 1px); // include border in height
-    flex-shrink: 0;
-    align-items: center;
-    border-top: 1px solid var(--border-color);
-    border-radius: 0px;
-
-    &:not(.disabled) {
-      &:hover {
-        background-color: var(--button-solid-background-hover-color);
-      }
-    }
-  }
-`;
 
 const StyledName = styled.h4`
   padding-inline: var(--margins-md);
@@ -359,15 +339,14 @@ export const OverlayRightPanelSettings = () => {
 
         <MediaGallery documents={documents} media={media} />
         {isGroup && (
-          <StyledLeaveButton>
-            <SessionButton
-              text={leaveGroupString}
-              buttonColor={SessionButtonColor.Danger}
-              buttonType={SessionButtonType.Simple}
-              disabled={isKickedFromGroup || left}
-              onClick={deleteConvoAction}
-            />
-          </StyledLeaveButton>
+          <PanelIconButton
+            text={leaveGroupString}
+            dataTestId="leave-group-button"
+            disabled={isKickedFromGroup || left}
+            onClick={() => void deleteConvoAction()}
+            color={'var(--danger-color)'}
+            iconType={'delete'}
+          />
         )}
       </PanelButtonGroup>
     </>

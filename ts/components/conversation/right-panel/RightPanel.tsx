@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../hooks/useUI';
+import { isRtlBody } from '../../../util/i18n';
 import { Flex } from '../../basic/Flex';
 import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
 import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
@@ -113,6 +114,8 @@ const ClosableOverlay = () => {
 };
 
 export const RightPanel = () => {
+  const isRtlMode = isRtlBody();
+
   return (
     <StyledRightPanel
       container={true}
@@ -121,6 +124,7 @@ export const RightPanel = () => {
       width={'var(--right-panel-width)'}
       height={'var(--right-panel-height)'}
       className="right-panel"
+      style={{ direction: isRtlMode ? 'rtl' : 'initial' }}
     >
       <ClosableOverlay />
     </StyledRightPanel>

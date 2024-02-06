@@ -347,6 +347,8 @@ export async function deleteMessagesByIdForEveryone(
   const messageCount = selectedMessages.length;
   const moreThanOne = messageCount > 1;
 
+  const closeDialog = () => window.inboxStore?.dispatch(updateConfirmModal(null));
+
   window.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('deleteForEveryone'),
@@ -359,8 +361,9 @@ export async function deleteMessagesByIdForEveryone(
         await doDeleteSelectedMessages({ selectedMessages, conversation, deleteForEveryone: true });
 
         // explicitly close modal for this case.
-        window.inboxStore?.dispatch(updateConfirmModal(null));
+        closeDialog();
       },
+      onClickCancel: closeDialog,
       closeAfterInput: false,
     })
   );
@@ -374,6 +377,7 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
 
   const messageCount = selectedMessages.length;
   const moreThanOne = selectedMessages.length > 1;
+  const closeDialog = () => window.inboxStore?.dispatch(updateConfirmModal(null));
 
   window.inboxStore?.dispatch(
     updateConfirmModal({
@@ -398,6 +402,7 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
         window.inboxStore?.dispatch(resetRightOverlayMode());
       },
       closeAfterInput: false,
+      onClickClose: closeDialog,
     })
   );
 }

@@ -58,14 +58,7 @@ export const InteractionItem = (props: InteractionItemProps) => {
 
   switch (interactionType) {
     case ConversationInteractionType.Hide:
-      errorText = window.i18n('hideConversationFailed');
-      text =
-        interactionStatus === ConversationInteractionStatus.Error
-          ? errorText
-          : interactionStatus === ConversationInteractionStatus.Start ||
-            interactionStatus === ConversationInteractionStatus.Loading
-          ? window.i18n('hiding')
-          : text;
+      // if it's hidden or pending hiding, we don't show any text
       break;
     case ConversationInteractionType.Leave:
       errorText = isCommunity

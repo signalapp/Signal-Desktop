@@ -38,7 +38,7 @@ export const InteractionNotification = (props: PropsForInteractionNotification) 
 
   switch (interactionType) {
     case ConversationInteractionType.Hide:
-      text = window.i18n('hideConversationFailedPleaseTryAgain');
+      // this can't happen
       break;
     case ConversationInteractionType.Leave:
       text = isCommunity

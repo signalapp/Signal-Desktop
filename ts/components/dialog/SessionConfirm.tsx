@@ -1,5 +1,6 @@
 import { shell } from 'electron';
 import React, { Dispatch, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useLastMessage } from '../../hooks/useParamSelector';
 import { MessageInteraction } from '../../interactions';
@@ -69,6 +70,7 @@ export interface SessionConfirmDialogProps {
 }
 
 export const SessionConfirm = (props: SessionConfirmDialogProps) => {
+  const dispatch = useDispatch();
   const {
     title = '',
     message = '',
@@ -113,7 +115,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     }
 
     if (closeAfterInput) {
-      window.inboxStore?.dispatch(updateConfirmModal(null));
+      dispatch(updateConfirmModal(null));
     }
   };
 
@@ -137,13 +139,9 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
    * Performs specified on close action then removes the modal.
    */
   const onClickCancelHandler = () => {
-    if (onClickCancel) {
-      onClickCancel();
-    }
+    onClickCancel?.();
 
-    if (onClickClose) {
-      onClickClose();
-    }
+    onClickClose?.();
   };
 
   return (

@@ -1435,7 +1435,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
           switch (interactionType) {
             case ConversationInteractionType.Hide:
-              return window.i18n('hideConversationFailed');
+              // there is no text for hiding changes
+              return '';
             case ConversationInteractionType.Leave:
               return isCommunity
                 ? window.i18n('leaveCommunityFailed')

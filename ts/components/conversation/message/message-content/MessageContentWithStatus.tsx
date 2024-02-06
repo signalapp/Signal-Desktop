@@ -132,7 +132,7 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         dataTestId={dataTestId}
       >
-        <Flex container={true} flexDirection="column" flexShrink={0}>
+        <Flex container={true} flexDirection="column" flexShrink={0} alignItems="flex-end">
           <StyledMessageWithAuthor>
             {!isDetailView && <MessageAuthorText messageId={messageId} />}
             <MessageContent messageId={messageId} isDetailView={isDetailView} />

@@ -294,12 +294,6 @@ async function leaveGroupOrCommunityByConvoId(
   onClickClose?: () => void
 ) {
   try {
-    await updateConversationInteractionState({
-      conversationId,
-      type: ConversationInteractionType.Leave,
-      status: ConversationInteractionStatus.Start,
-    });
-
     if (onClickClose) {
       onClickClose();
     }
@@ -308,13 +302,20 @@ async function leaveGroupOrCommunityByConvoId(
       await getConversationController().deleteCommunity(conversationId, {
         fromSyncMessage: false,
       });
-    } else {
-      await getConversationController().deleteClosedGroup(conversationId, {
-        fromSyncMessage: false,
-        sendLeaveMessage: true,
-        forceDeleteLocal,
-      });
+      return;
     }
+    // for groups, we have a "leaving..." state that we don't need for communities.
+    // that's because communities can be left always, whereas for groups we need to send a leave message (and so have some encryption keypairs)
+    await updateConversationInteractionState({
+      conversationId,
+      type: ConversationInteractionType.Leave,
+      status: ConversationInteractionStatus.Start,
+    });
+    await getConversationController().deleteClosedGroup(conversationId, {
+      fromSyncMessage: false,
+      sendLeaveMessage: true,
+      forceDeleteLocal,
+    });
     await clearConversationInteractionState({ conversationId });
   } catch (err) {
     window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
