@@ -978,14 +978,6 @@ export async function startApp(): Promise<void> {
       }
     }
 
-    if (
-      window.storage.get('autoConvertEmoji') === undefined &&
-      newVersion &&
-      !lastVersion
-    ) {
-      await window.storage.put('autoConvertEmoji', true);
-    }
-
     setAppLoadingScreenMessage(
       window.i18n('icu:optimizingApplication'),
       window.i18n

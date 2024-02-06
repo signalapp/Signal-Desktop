@@ -370,7 +370,7 @@ export function createIPCEvents(
       window.storage.get('auto-download-update', true),
     setAutoDownloadUpdate: value =>
       window.storage.put('auto-download-update', value),
-    getAutoConvertEmoji: () => window.storage.get('autoConvertEmoji', false),
+    getAutoConvertEmoji: () => window.storage.get('autoConvertEmoji', true),
     setAutoConvertEmoji: value => window.storage.put('autoConvertEmoji', value),
     getSentMediaQualitySetting: () =>
       window.storage.get('sent-media-quality', 'standard'),
