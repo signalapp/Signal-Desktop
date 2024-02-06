@@ -76,6 +76,7 @@ export const refreshRemoteConfig = async (
 ): Promise<void> => {
   const now = Date.now();
   const { config: newConfig, serverEpochTime } = await server.getConfig();
+
   const serverTimeSkew = serverEpochTime * SECOND - now;
 
   if (Math.abs(serverTimeSkew) > HOUR) {
@@ -126,6 +127,15 @@ export const refreshRemoteConfig = async (
       [name]: configValue,
     };
   }, {});
+
+  // If remote configuration fetch worked - we are not expired anymore.
+  if (
+    !getValue('desktop.clientExpiration') &&
+    window.storage.get('remoteBuildExpiration') != null
+  ) {
+    log.warn('Remote Config: clearing remote expiration on successful fetch');
+    await window.storage.remove('remoteBuildExpiration');
+  }
 
   await window.storage.put('remoteConfig', config);
   await window.storage.put('serverTimeSkew', serverTimeSkew);
