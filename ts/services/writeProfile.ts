@@ -11,12 +11,24 @@ import { getProfile } from '../util/getProfile';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { strictAssert } from '../util/assert';
 import { isWhitespace } from '../util/whitespaceStringUtil';
+import { imagePathToBytes } from '../util/imagePathToBytes';
+import { getAbsoluteProfileAvatarPath } from '../util/avatarUtils';
 import type { AvatarUpdateType } from '../types/Avatar';
 import MessageSender from '../textsecure/SendMessage';
 
+export type WriteProfileOptionsType = Readonly<
+  | {
+      keepAvatar: true;
+    }
+  | {
+      keepAvatar?: false;
+      avatarUpdate: AvatarUpdateType;
+    }
+>;
+
 export async function writeProfile(
   conversation: ConversationType,
-  avatar: AvatarUpdateType
+  options: WriteProfileOptionsType
 ): Promise<void> {
   const { server } = window.textsecure;
   if (!server) {
@@ -46,16 +58,37 @@ export async function writeProfile(
     'writeProfile: Cannot set an empty profile name'
   );
 
+  let avatarUpdate: AvatarUpdateType;
+  if (options.keepAvatar) {
+    const profileAvatarPath = getAbsoluteProfileAvatarPath(model.attributes);
+
+    let avatarBuffer: Uint8Array | undefined;
+    if (profileAvatarPath) {
+      try {
+        avatarBuffer = await imagePathToBytes(profileAvatarPath);
+      } catch (error) {
+        log.warn('writeProfile: local avatar not found, dropping remote');
+      }
+    }
+
+    avatarUpdate = {
+      oldAvatar: avatarBuffer,
+      newAvatar: avatarBuffer,
+    };
+  } else {
+    avatarUpdate = options.avatarUpdate;
+  }
+
   const [profileData, encryptedAvatarData] = await encryptProfileData(
     conversation,
-    avatar
+    avatarUpdate
   );
   const avatarRequestHeaders = await server.putProfile(profileData);
 
   // Upload the avatar if provided
   // delete existing files on disk if avatar has been removed
   // update the account's avatar path and hash if it's a new avatar
-  const { newAvatar } = avatar;
+  const { newAvatar } = avatarUpdate;
   let maybeProfileAvatarUpdate: {
     profileAvatar?:
       | {
