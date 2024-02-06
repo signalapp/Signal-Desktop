@@ -188,10 +188,6 @@ function prepareContact(
   proto: Proto.ContactDetails,
   avatar?: ContactAvatarType
 ): ContactDetailsWithAvatar | undefined {
-  const aci = proto.aci
-    ? normalizeAci(proto.aci, 'ContactBuffer.aci')
-    : proto.aci;
-
   const expireTimer =
     proto.expireTimer != null
       ? DurationInSeconds.fromSeconds(proto.expireTimer)
@@ -203,6 +199,10 @@ function prepareContact(
 
     return undefined;
   }
+
+  const aci = proto.aci
+    ? normalizeAci(proto.aci, 'ContactBuffer.aci')
+    : proto.aci;
 
   const result = {
     ...proto,
