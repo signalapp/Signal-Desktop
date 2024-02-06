@@ -150,6 +150,13 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.UnsupportedMultiAttachment };
     case ToastType.UnsupportedOS:
       return { toastType: ToastType.UnsupportedOS };
+    case ToastType.UsernameRecovered:
+      return {
+        toastType: ToastType.UsernameRecovered,
+        parameters: {
+          username: 'maya.45',
+        },
+      };
     case ToastType.UserAddedToGroup:
       return {
         toastType: ToastType.UserAddedToGroup,

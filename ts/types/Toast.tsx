@@ -58,6 +58,7 @@ export enum ToastType {
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
   UserAddedToGroup = 'UserAddedToGroup',
+  UsernameRecovered = 'UsernameRecovered',
   VoiceNoteLimit = 'VoiceNoteLimit',
   VoiceNoteMustBeTheOnlyAttachment = 'VoiceNoteMustBeTheOnlyAttachment',
   WhoCanFindMeReadOnly = 'WhoCanFindMeReadOnly',
@@ -137,6 +138,10 @@ export type AnyToast =
   | {
       toastType: ToastType.UserAddedToGroup;
       parameters: { contact: string; group: string };
+    }
+  | {
+      toastType: ToastType.UsernameRecovered;
+      parameters: { username: string };
     }
   | { toastType: ToastType.VoiceNoteLimit }
   | { toastType: ToastType.VoiceNoteMustBeTheOnlyAttachment }

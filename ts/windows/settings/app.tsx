@@ -28,6 +28,7 @@ SettingsWindowProps.onRender(
     customColors,
     defaultConversationColor,
     deviceName,
+    phoneNumber,
     doDeleteAllData,
     doneRendering,
     editCustomColor,
@@ -129,6 +130,7 @@ SettingsWindowProps.onRender(
         customColors={customColors}
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
+        phoneNumber={phoneNumber}
         doDeleteAllData={doDeleteAllData}
         doneRendering={doneRendering}
         editCustomColor={editCustomColor}

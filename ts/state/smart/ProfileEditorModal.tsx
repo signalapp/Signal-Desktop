@@ -25,9 +25,11 @@ import { selectRecentEmojis } from '../selectors/emojis';
 import {
   getUsernameEditState,
   getUsernameLinkState,
+  getUsernameLinkRecovered,
 } from '../selectors/username';
 
 function renderEditUsernameModalBody(props: {
+  isRootModal: boolean;
   onClose: () => void;
 }): JSX.Element {
   return <SmartEditUsernameModalBody {...props} />;
@@ -46,7 +48,6 @@ function mapStateToProps(
     firstName,
     familyName,
     id: conversationId,
-    phoneNumber,
     username,
   } = getMe(state);
   const recentEmojis = selectRecentEmojis(state);
@@ -56,6 +57,7 @@ function mapStateToProps(
     getHasCompletedUsernameLinkOnboarding(state);
   const usernameEditState = getUsernameEditState(state);
   const usernameLinkState = getUsernameLinkState(state);
+  const usernameLinkRecovered = getUsernameLinkRecovered(state);
   const usernameLinkColor = getUsernameLinkColor(state);
   const usernameLink = getUsernameLink(state);
   const usernameCorrupted = getUsernameCorrupted(state);
@@ -76,7 +78,6 @@ function mapStateToProps(
     isUsernameFlagEnabled,
     recentEmojis,
     skinTone,
-    phoneNumber,
     userAvatarData,
     username,
     usernameCorrupted,
@@ -84,6 +85,7 @@ function mapStateToProps(
     usernameLinkState,
     usernameLinkColor,
     usernameLinkCorrupted,
+    usernameLinkRecovered,
     usernameLink,
 
     renderEditUsernameModalBody,

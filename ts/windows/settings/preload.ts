@@ -31,6 +31,7 @@ const settingCallRingtoneNotification = createSetting(
 const settingCallSystemNotification = createSetting('callSystemNotification');
 const settingCountMutedConversations = createSetting('countMutedConversations');
 const settingDeviceName = createSetting('deviceName', { setter: false });
+const settingPhoneNumber = createSetting('phoneNumber', { setter: false });
 const settingHideMenuBar = createSetting('hideMenuBar');
 const settingIncomingCallNotification = createSetting(
   'incomingCallNotification'
@@ -163,6 +164,7 @@ async function renderPreferences() {
     isPhoneNumberSharingSupported,
     lastSyncTime,
     notificationContent,
+    phoneNumber,
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
@@ -205,6 +207,7 @@ async function renderPreferences() {
     isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
     notificationContent: settingNotificationSetting.getValue(),
+    phoneNumber: settingPhoneNumber.getValue(),
     selectedCamera: settingVideoInput.getValue(),
     selectedMicrophone: settingAudioInput.getValue(),
     selectedSpeaker: settingAudioOutput.getValue(),
@@ -275,6 +278,7 @@ async function renderPreferences() {
     lastSyncTime,
     localeOverride,
     notificationContent,
+    phoneNumber,
     preferredSystemLocales,
     resolvedLocale,
     selectedCamera,

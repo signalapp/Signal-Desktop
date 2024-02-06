@@ -101,6 +101,7 @@ export type PropsDataType = {
   hasTypingIndicators: boolean;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
+  phoneNumber: string | undefined;
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
@@ -325,6 +326,7 @@ export function Preferences({
   onWhoCanSeeMeChange,
   onWhoCanFindMeChange,
   onZoomFactorChange,
+  phoneNumber = '',
   preferredSystemLocales,
   removeCustomColor,
   removeCustomColorOnConversations,
@@ -531,6 +533,10 @@ export function Preferences({
           </div>
         </div>
         <SettingsRow>
+          <Control
+            left={i18n('icu:Preferences--phone-number')}
+            right={phoneNumber}
+          />
           <Control
             left={i18n('icu:Preferences--device-name')}
             right={deviceName}

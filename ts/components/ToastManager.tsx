@@ -476,6 +476,16 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.UsernameRecovered) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:EditUsernameModalBody__username-recovered__text', {
+          username: toast.parameters.username,
+        })}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.UserAddedToGroup) {
     return (
       <Toast onClose={hideToast}>

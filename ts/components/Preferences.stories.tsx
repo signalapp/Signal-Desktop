@@ -75,6 +75,7 @@ export default {
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
     deviceName: 'Work Windows ME',
+    phoneNumber: '+1 555 123-4567',
     hasAudioNotifications: true,
     hasAutoConvertEmoji: true,
     hasAutoDownloadUpdate: true,

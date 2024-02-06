@@ -23,7 +23,13 @@ export enum ReserveUsernameError {
 
 export enum ConfirmUsernameResult {
   Ok = 'Ok',
+  OkRecovered = 'OkRecovered',
   ConflictOrGone = 'ConflictOrGone',
+}
+
+export enum ResetUsernameLinkResult {
+  Ok = 'Ok',
+  OkRecovered = 'OkRecovered',
 }
 
 export function getUsernameFromSearch(searchTerm: string): string | undefined {

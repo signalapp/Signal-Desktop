@@ -47,6 +47,9 @@ export default {
     usernameLinkCorrupted: {
       control: 'boolean',
     },
+    usernameLinkRecovered: {
+      control: 'boolean',
+    },
   },
   args: {
     aboutEmoji: '',
@@ -78,6 +81,7 @@ export default {
     showToast: action('showToast'),
     replaceAvatar: action('replaceAvatar'),
     resetUsernameLink: action('resetUsernameLink'),
+    clearUsernameLinkRecovered: action('clearUsernameLinkRecovered'),
     saveAvatarToDisk: action('saveAvatarToDisk'),
     markCompletedUsernameLinkOnboarding: action(
       'markCompletedUsernameLinkOnboarding'
@@ -89,6 +93,7 @@ export default {
 } satisfies Meta<PropsType>;
 
 function renderEditUsernameModalBody(props: {
+  isRootModal: boolean;
   onClose: () => void;
 }): JSX.Element {
   return (
@@ -98,10 +103,13 @@ function renderEditUsernameModalBody(props: {
       maxNickname={20}
       state={UsernameReservationState.Open}
       error={undefined}
+      recoveredUsername={undefined}
+      usernameCorrupted={false}
       setUsernameReservationError={action('setUsernameReservationError')}
       clearUsernameReservation={action('clearUsernameReservation')}
       reserveUsername={action('reserveUsername')}
       confirmUsername={action('confirmUsername')}
+      showToast={action('showToast')}
       {...props}
     />
   );
@@ -163,4 +171,11 @@ ConfirmingDelete.args = {
   isUsernameFlagEnabled: true,
   username: 'signaluser.123',
   usernameEditState: UsernameEditState.ConfirmingDelete,
+};
+
+export const Corrupted = Template.bind({});
+Corrupted.args = {
+  isUsernameFlagEnabled: true,
+  username: 'signaluser.123',
+  usernameCorrupted: true,
 };

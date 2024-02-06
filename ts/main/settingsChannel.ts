@@ -44,6 +44,7 @@ export class SettingsChannel extends EventEmitter {
 
   public install(): void {
     this.installSetting('deviceName', { setter: false });
+    this.installSetting('phoneNumber', { setter: false });
 
     // ChatColorPicker redux hookups
     this.installCallback('getCustomColors');

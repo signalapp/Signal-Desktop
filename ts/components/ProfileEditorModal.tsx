@@ -74,6 +74,7 @@ export function ProfileEditorModal({
         }}
         onProfileChanged={myProfileChanged}
         onSetSkinTone={onSetSkinTone}
+        toggleProfileEditor={toggleProfileEditor}
       />
     </Modal>
   );
