@@ -11,9 +11,7 @@ import { explodePromise } from '../util/explodePromise';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { checkForUsername } from '../util/lookupConversationWithoutServiceId';
 import { storageJobQueue } from '../util/JobQueue';
-import { getAbsoluteProfileAvatarPath } from '../util/avatarUtils';
 import { getProfile } from '../util/getProfile';
-import { imagePathToBytes } from '../util/imagePathToBytes';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import * as log from '../logging/log';
 import { resolveUsernameByLink } from './username';
@@ -169,21 +167,8 @@ class UsernameIntegrityService {
         'updating profile'
     );
 
-    const profileAvatarPath = getAbsoluteProfileAvatarPath(me.attributes);
-
-    let avatarBuffer: Uint8Array | undefined;
-    if (profileAvatarPath) {
-      try {
-        avatarBuffer = await imagePathToBytes(profileAvatarPath);
-      } catch (error) {
-        log.error('usernameIntegrity: local avatar not found, aborting');
-        return;
-      }
-    }
-
     await writeProfile(getConversation(me), {
-      oldAvatar: avatarBuffer,
-      newAvatar: avatarBuffer,
+      keepAvatar: true,
     });
 
     log.warn('usernameIntegrity: updated profile');
