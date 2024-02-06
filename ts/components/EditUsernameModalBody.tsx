@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import type { LocalizerType } from '../types/Util';
 import type { UsernameReservationType } from '../types/Username';
+import { ToastType } from '../types/Toast';
 import { missingCaseError } from '../util/missingCaseError';
 import { getNickname, getDiscriminator, isCaseChange } from '../types/Username';
 import {
@@ -13,6 +14,7 @@ import {
   UsernameReservationError,
 } from '../state/ducks/usernameEnums';
 import type { ReserveUsernameOptionsType } from '../state/ducks/username';
+import type { ShowToastAction } from '../state/ducks/toast';
 
 import { AutoSizeInput } from './AutoSizeInput';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -24,9 +26,11 @@ import { Button, ButtonVariant } from './Button';
 export type PropsDataType = Readonly<{
   i18n: LocalizerType;
   currentUsername?: string;
+  usernameCorrupted: boolean;
   reservation?: UsernameReservationType;
   error?: UsernameReservationError;
   state: UsernameReservationState;
+  recoveredUsername: string | undefined;
   minNickname: number;
   maxNickname: number;
 }>;
@@ -38,10 +42,12 @@ export type ActionPropsDataType = Readonly<{
   clearUsernameReservation(): void;
   reserveUsername(optiona: ReserveUsernameOptionsType): void;
   confirmUsername(): void;
+  showToast: ShowToastAction;
 }>;
 
 export type ExternalPropsDataType = Readonly<{
   onClose(): void;
+  isRootModal: boolean;
 }>;
 
 export type PropsType = PropsDataType &
@@ -59,8 +65,10 @@ const DISCRIMINATOR_MAX_LENGTH = 19;
 export function EditUsernameModalBody({
   i18n,
   currentUsername,
+  usernameCorrupted,
   reserveUsername,
   confirmUsername,
+  showToast,
   minNickname,
   maxNickname,
   reservation,
@@ -68,6 +76,8 @@ export function EditUsernameModalBody({
   clearUsernameReservation,
   error,
   state,
+  recoveredUsername,
+  isRootModal,
   onClose,
 }: PropsType): JSX.Element {
   const currentNickname = useMemo(() => {
@@ -87,6 +97,7 @@ export function EditUsernameModalBody({
   const [nickname, setNickname] = useState(currentNickname);
   const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
   const [isConfirmingSave, setIsConfirmingSave] = useState(false);
+  const [isConfirmingReset, setIsConfirmingReset] = useState(false);
 
   const [customDiscriminator, setCustomDiscriminator] = useState<
     string | undefined
@@ -147,6 +158,21 @@ export function EditUsernameModalBody({
       onClose();
     }
   }, [state, onClose]);
+
+  useEffect(() => {
+    if (
+      state === UsernameReservationState.Closed &&
+      recoveredUsername &&
+      isRootModal
+    ) {
+      showToast({
+        toastType: ToastType.UsernameRecovered,
+        parameters: {
+          username: recoveredUsername,
+        },
+      });
+    }
+  }, [state, recoveredUsername, showToast, isRootModal]);
 
   const errorString = useMemo(() => {
     if (!error) {
@@ -227,14 +253,17 @@ export function EditUsernameModalBody({
   }, []);
 
   const onSave = useCallback(() => {
-    if (!currentUsername || (reservation && isCaseChange(reservation))) {
+    if (usernameCorrupted) {
+      setIsConfirmingReset(true);
+    } else if (!currentUsername || (reservation && isCaseChange(reservation))) {
       confirmUsername();
     } else {
       setIsConfirmingSave(true);
     }
-  }, [confirmUsername, currentUsername, reservation]);
+  }, [confirmUsername, currentUsername, reservation, usernameCorrupted]);
 
   const onCancelSave = useCallback(() => {
+    setIsConfirmingReset(false);
     setIsConfirmingSave(false);
   }, []);
 
@@ -404,6 +433,26 @@ export function EditUsernameModalBody({
           onClose={onCancelSave}
         >
           {i18n('icu:EditUsernameModalBody__change-confirmation')}
+        </ConfirmationDialog>
+      )}
+
+      {isConfirmingReset && (
+        <ConfirmationDialog
+          dialogName="EditUsernameModalBody.confirmReset"
+          cancelText={i18n('icu:cancel')}
+          actions={[
+            {
+              action: onConfirmUsername,
+              style: 'negative',
+              text: i18n(
+                'icu:EditUsernameModalBody__change-confirmation__continue'
+              ),
+            },
+          ]}
+          i18n={i18n}
+          onClose={onCancelSave}
+        >
+          {i18n('icu:EditUsernameModalBody__recover-confirmation')}
         </ConfirmationDialog>
       )}
     </>

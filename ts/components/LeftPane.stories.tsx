@@ -267,6 +267,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     ),
     selectedConversationId: undefined,
     targetedMessageId: undefined,
+    openUsernameReservationModal: action('openUsernameReservationModal'),
     savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
     searchInConversation: action('searchInConversation'),
     setComposeSearchTerm: action('setComposeSearchTerm'),

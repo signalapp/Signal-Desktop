@@ -35,6 +35,9 @@ export default {
     usernameLinkCorrupted: {
       control: 'boolean',
     },
+    usernameLinkRecovered: {
+      control: 'boolean',
+    },
     usernameLinkState: {
       control: { type: 'select' },
       options: [
@@ -66,6 +69,7 @@ export default {
     showToast: action('showToast'),
     resetUsernameLink: action('resetUsernameLink'),
     setUsernameLinkColor: action('setUsernameLinkColor'),
+    clearUsernameLinkRecovered: action('clearUsernameLinkRecovered'),
     onBack: action('onBack'),
   },
 } satisfies Meta<PropsType>;

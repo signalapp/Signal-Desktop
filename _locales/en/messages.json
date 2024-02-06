@@ -1637,8 +1637,12 @@
     "messageformat": "My Computer",
     "description": "The placeholder for the 'choose device name' input"
   },
+  "icu:Preferences--phone-number": {
+    "messageformat": "Phone Number",
+    "description": "The label in settings panel shown for the phone number associated with user's account"
+  },
   "icu:Preferences--device-name": {
-    "messageformat": "Device name",
+    "messageformat": "Device Name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -5512,15 +5516,19 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account.",
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
     "messageformat": "Delete username",
-    "description": "Button text for deletion of the username in case of corruption"
+    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
     "messageformat": "Create username",
+    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--fix-button": {
+    "messageformat": "Fix now",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5651,9 +5659,25 @@
     "messageformat": "Would you like to discard these changes?",
     "description": "ConfirmationDialog text for discarding changes"
   },
+  "icu:ProfileEditor--edit-photo": {
+    "messageformat": "Edit photo",
+    "description": "Text of a button on profile editor that leads to the avatar editor"
+  },
   "icu:ProfileEditor--info--link": {
     "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
-    "description": "Information shown at the bottom of the profile editor section"
+    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
+  },
+  "icu:ProfileEditor--info--general": {
+    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "description": "Information shown in profile editor below profile name and about fields"
+  },
+  "icu:ProfileEditor--info--pnp": {
+    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "description": "Information shown in profile editor below pnp settings when username is set"
+  },
+  "icu:ProfileEditor--info--pnp--no-username": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
     "messageformat": "Speak Freely",
@@ -6836,7 +6860,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "messageformat": "Usernames are always paired with a set of numbers.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6858,6 +6882,14 @@
   "icu:EditUsernameModalBody__change-confirmation__continue": {
     "messageformat": "Continue",
     "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:EditUsernameModalBody__recover-confirmation": {
+    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "description": "Body of the confirmation dialog displayed when user is about to recover their username"
+  },
+  "icu:EditUsernameModalBody__username-recovered__text": {
+    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "description": "Text of toast displayed upon successful recovery of username"
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
@@ -6892,7 +6924,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6900,8 +6932,16 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR code and link not set. Check your network connection and try again.",
+    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
     "description": "Text of the confirmation dialog shown on username link error"
+  },
+  "icu:UsernameLinkModalBody__error__fix-now": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in a confirmation dialog shown on username link error"
+  },
+  "icu:UsernameLinkModalBody__recovered__text": {
+    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "description": "Text of the confirmation dialog shown on successful username link recovery"
   },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "New ways to connect",

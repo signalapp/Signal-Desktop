@@ -44,6 +44,7 @@ installSetting('callRingtoneNotification');
 installSetting('callSystemNotification');
 installSetting('countMutedConversations');
 installSetting('deviceName');
+installSetting('phoneNumber');
 installSetting('hasStoriesDisabled');
 installSetting('hideMenuBar');
 installSetting('incomingCallNotification');

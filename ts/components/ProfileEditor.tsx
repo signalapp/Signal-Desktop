@@ -21,7 +21,6 @@ import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import { EmojiButton, EmojiButtonVariant } from './emoji/EmojiButton';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { Input } from './Input';
-import { Intl } from './Intl';
 import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
@@ -62,7 +61,10 @@ type PropsExternalType = {
     profileData: ProfileDataType,
     avatar: AvatarUpdateType
   ) => unknown;
-  renderEditUsernameModalBody: (props: { onClose: () => void }) => JSX.Element;
+  renderEditUsernameModalBody: (props: {
+    isRootModal: boolean;
+    onClose: () => void;
+  }) => JSX.Element;
 };
 
 export type PropsDataType = {
@@ -76,12 +78,12 @@ export type PropsDataType = {
   hasCompletedUsernameLinkOnboarding: boolean;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
-  phoneNumber?: string;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
   initialEditState?: EditState;
   usernameCorrupted: boolean;
   usernameEditState: UsernameEditState;
+  usernameLinkRecovered: boolean;
   usernameLinkState: UsernameLinkState;
   usernameLinkColor?: number;
   usernameLink?: string;
@@ -97,7 +99,9 @@ type PropsActionType = {
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   setUsernameEditState: (editState: UsernameEditState) => void;
   setUsernameLinkColor: (color: number) => void;
+  toggleProfileEditor: () => void;
   resetUsernameLink: () => void;
+  clearUsernameLinkRecovered: () => void;
   deleteUsername: () => void;
   showToast: ShowToastAction;
   openUsernameReservationModal: () => void;
@@ -138,6 +142,7 @@ function getDefaultBios(i18n: LocalizerType): Array<DefaultBio> {
 export function ProfileEditor({
   aboutEmoji,
   aboutText,
+  clearUsernameLinkRecovered,
   color,
   conversationId,
   deleteAvatarFromDisk,
@@ -153,12 +158,12 @@ export function ProfileEditor({
   onProfileChanged,
   onSetSkinTone,
   openUsernameReservationModal,
-  phoneNumber,
   profileAvatarPath,
   recentEmojis,
   renderEditUsernameModalBody,
   replaceAvatar,
   resetUsernameLink,
+  toggleProfileEditor,
   saveAttachment,
   saveAvatarToDisk,
   setUsernameEditState,
@@ -169,6 +174,7 @@ export function ProfileEditor({
   username,
   usernameCorrupted,
   usernameEditState,
+  usernameLinkRecovered,
   usernameLinkState,
   usernameLinkColor,
   usernameLink,
@@ -209,6 +215,7 @@ export function ProfileEditor({
     firstName,
   });
   const [isResettingUsername, setIsResettingUsername] = useState(false);
+  const [isResettingUsernameLink, setIsResettingUsernameLink] = useState(false);
 
   // Reset username edit state when leaving
   useEffect(() => {
@@ -275,6 +282,13 @@ export function ProfileEditor({
   useEffect(() => {
     onEditStateChanged(editState);
   }, [editState, onEditStateChanged]);
+
+  useEffect(() => {
+    // If we opened at a nested sub-modal - close when leaving it.
+    if (editState === EditState.None && initialEditState !== EditState.None) {
+      toggleProfileEditor();
+    }
+  }, [initialEditState, editState, toggleProfileEditor]);
 
   // To make AvatarEditor re-render less often
   const handleAvatarLoaded = useCallback(
@@ -512,6 +526,7 @@ export function ProfileEditor({
     );
   } else if (editState === EditState.Username) {
     content = renderEditUsernameModalBody({
+      isRootModal: initialEditState === editState,
       onClose: () => setEditState(EditState.None),
     });
   } else if (editState === EditState.UsernameLink) {
@@ -522,9 +537,11 @@ export function ProfileEditor({
         username={username ?? ''}
         colorId={usernameLinkColor}
         usernameLinkCorrupted={usernameLinkCorrupted}
+        usernameLinkRecovered={usernameLinkRecovered}
         usernameLinkState={usernameLinkState}
         setUsernameLinkColor={setUsernameLinkColor}
         resetUsernameLink={resetUsernameLink}
+        clearUsernameLinkRecovered={clearUsernameLinkRecovered}
         saveAttachment={saveAttachment}
         showToast={showToast}
         onBack={() => setEditState(EditState.None)}
@@ -614,6 +631,11 @@ export function ProfileEditor({
             }
             label={i18n('icu:ProfileEditor__username-link')}
             onClick={() => {
+              if (usernameLinkCorrupted) {
+                setIsResettingUsernameLink(true);
+                return;
+              }
+
               setEditState(EditState.UsernameLink);
             }}
             alwaysShowActions
@@ -656,6 +678,7 @@ export function ProfileEditor({
 
       maybeUsernameRows = (
         <>
+          <hr className="ProfileEditor__divider" />
           <PanelRow
             className="ProfileEditor__row"
             icon={
@@ -678,6 +701,11 @@ export function ProfileEditor({
             actions={actions}
           />
           {maybeUsernameLinkRow}
+          <div className="ProfileEditor__info">
+            {username
+              ? i18n('icu:ProfileEditor--info--pnp')
+              : i18n('icu:ProfileEditor--info--pnp--no-username')}
+          </div>
         </>
       );
     }
@@ -690,7 +718,6 @@ export function ProfileEditor({
           avatarValue={avatarBuffer}
           conversationTitle={getFullNameText()}
           i18n={i18n}
-          isEditable
           onAvatarLoaded={handleAvatarLoaded}
           onClick={() => {
             setEditState(EditState.BetterAvatar);
@@ -700,11 +727,17 @@ export function ProfileEditor({
             width: 80,
           }}
         />
-        <h1 className="ProfileEditor__Title">{getFullNameText()}</h1>
-        {phoneNumber != null && (
-          <p className="ProfileEditor__PhoneNumber">{phoneNumber}</p>
-        )}
-        <hr className="ProfileEditor__divider" />
+        <div className="ProfileEditor__EditPhotoContainer">
+          <Button
+            onClick={() => {
+              setEditState(EditState.BetterAvatar);
+            }}
+            variant={ButtonVariant.Secondary}
+            className="ProfileEditor__EditPhoto"
+          >
+            {i18n('icu:ProfileEditor--edit-photo')}
+          </Button>
+        </div>
         <PanelRow
           className="ProfileEditor__row"
           icon={
@@ -715,7 +748,6 @@ export function ProfileEditor({
             setEditState(EditState.ProfileName);
           }}
         />
-        {maybeUsernameRows}
         <PanelRow
           className="ProfileEditor__row"
           icon={
@@ -736,26 +768,10 @@ export function ProfileEditor({
             setEditState(EditState.Bio);
           }}
         />
-        <hr className="ProfileEditor__divider" />
         <div className="ProfileEditor__info">
-          <Intl
-            i18n={i18n}
-            id="icu:ProfileEditor--info--link"
-            components={{
-              // This is a render prop, not a component
-              // eslint-disable-next-line react/no-unstable-nested-components
-              learnMoreLink: parts => (
-                <a
-                  href="https://support.signal.org/hc/en-us/articles/360007459591"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {parts}
-                </a>
-              ),
-            }}
-          />
+          {i18n('icu:ProfileEditor--info--general')}
         </div>
+        {maybeUsernameRows}
       </>
     );
   } else {
@@ -791,6 +807,28 @@ export function ProfileEditor({
         />
       )}
 
+      {isResettingUsernameLink && (
+        <ConfirmationDialog
+          i18n={i18n}
+          dialogName="UsernameLinkModal__error"
+          onClose={() => setIsResettingUsernameLink(false)}
+          cancelButtonVariant={ButtonVariant.Secondary}
+          cancelText={i18n('icu:cancel')}
+          actions={[
+            {
+              action: () => {
+                setIsResettingUsernameLink(false);
+                setEditState(EditState.UsernameLink);
+              },
+              style: 'affirmative',
+              text: i18n('icu:UsernameLinkModalBody__error__fix-now'),
+            },
+          ]}
+        >
+          {i18n('icu:UsernameLinkModalBody__error__text')}
+        </ConfirmationDialog>
+      )}
+
       {isResettingUsername && (
         <ConfirmationDialog
           dialogName="ProfileEditor.confirmResetUsername"
@@ -799,15 +837,7 @@ export function ProfileEditor({
           onClose={() => setIsResettingUsername(false)}
           actions={[
             {
-              text: i18n(
-                'icu:ProfileEditor--username--corrupted--delete-button'
-              ),
-              action: () => deleteUsername(),
-            },
-            {
-              text: i18n(
-                'icu:ProfileEditor--username--corrupted--create-button'
-              ),
+              text: i18n('icu:ProfileEditor--username--corrupted--fix-button'),
               style: 'affirmative',
               action: () => {
                 openUsernameReservationModal();

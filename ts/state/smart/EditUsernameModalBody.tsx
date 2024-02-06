@@ -14,6 +14,7 @@ import {
   getUsernameReservationState,
   getUsernameReservationObject,
   getUsernameReservationError,
+  getRecoveredUsername,
 } from '../selectors/username';
 import { getUsernameCorrupted } from '../selectors/items';
 import { getMe } from '../selectors/conversations';
@@ -25,10 +26,12 @@ function mapStateToProps(state: StateType): PropsDataType {
 
   return {
     i18n,
+    usernameCorrupted,
     currentUsername: usernameCorrupted ? undefined : username,
     minNickname: getMinNickname(),
     maxNickname: getMaxNickname(),
     state: getUsernameReservationState(state),
+    recoveredUsername: getRecoveredUsername(state),
     reservation: getUsernameReservationObject(state),
     error: getUsernameReservationError(state),
   };

@@ -29,9 +29,11 @@ export type PropsType = Readonly<{
   colorId?: number;
   usernameLinkCorrupted: boolean;
   usernameLinkState: UsernameLinkState;
+  usernameLinkRecovered: boolean;
 
   setUsernameLinkColor: (colorId: number) => void;
   resetUsernameLink: () => void;
+  clearUsernameLinkRecovered: () => void;
   saveAttachment: SaveAttachmentActionCreatorType;
   showToast: ShowToastAction;
   onBack: () => void;
@@ -532,10 +534,12 @@ export function UsernameLinkModalBody({
   username,
   usernameLinkCorrupted,
   usernameLinkState,
+  usernameLinkRecovered,
   colorId: initialColorId = ColorEnum.UNKNOWN,
 
   setUsernameLinkColor,
   resetUsernameLink,
+  clearUsernameLinkRecovered,
   saveAttachment,
   showToast,
 
@@ -544,6 +548,7 @@ export function UsernameLinkModalBody({
   const [pngData, setPngData] = useState<Uint8Array | undefined>();
   const [showColors, setShowColors] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [isRecovered, setIsRecovered] = useState(false);
   const [showError, setShowError] = useState(false);
   const [colorId, setColorId] = useState(initialColorId);
 
@@ -662,9 +667,16 @@ export function UsernameLinkModalBody({
   }, []);
 
   const onConfirmReset = useCallback(() => {
+    setShowError(false);
     setConfirmReset(false);
     resetUsernameLink();
   }, [resetUsernameLink]);
+
+  const onCloseError = useCallback(() => {
+    if (showError) {
+      onBack();
+    }
+  }, [showError, onBack]);
 
   useEffect(() => {
     if (!usernameLinkCorrupted) {
@@ -682,12 +694,21 @@ export function UsernameLinkModalBody({
     setShowError(true);
   }, [usernameLinkState]);
 
-  const onClearError = useCallback(() => {
-    setShowError(false);
+  useEffect(() => {
+    if (usernameLinkRecovered) {
+      setIsRecovered(true);
+
+      // Only show the modal once
+      clearUsernameLinkRecovered();
+    }
+  }, [usernameLinkRecovered, clearUsernameLinkRecovered]);
+
+  const onClearIsRecovered = useCallback(() => {
+    setIsRecovered(false);
   }, []);
 
-  const isResettingLink =
-    usernameLinkCorrupted || usernameLinkState !== UsernameLinkState.Ready;
+  const isReady = usernameLinkState === UsernameLinkState.Ready;
+  const isResettingLink = usernameLinkCorrupted || !isReady;
 
   const info = (
     <>
@@ -754,7 +775,7 @@ export function UsernameLinkModalBody({
   );
 
   let linkImage: JSX.Element | undefined;
-  if (usernameLinkState === UsernameLinkState.Ready && link) {
+  if (isReady && link) {
     linkImage = (
       <svg
         className={`${CLASS}__card__qr__blotches`}
@@ -820,11 +841,30 @@ export function UsernameLinkModalBody({
           <ConfirmationDialog
             i18n={i18n}
             dialogName="UsernameLinkModal__error"
-            onClose={onClearError}
+            onClose={onCloseError}
+            cancelButtonVariant={ButtonVariant.Secondary}
+            cancelText={i18n('icu:cancel')}
+            actions={[
+              {
+                action: onConfirmReset,
+                style: 'affirmative',
+                text: i18n('icu:UsernameLinkModalBody__error__fix-now'),
+              },
+            ]}
+          >
+            {i18n('icu:UsernameLinkModalBody__error__text')}
+          </ConfirmationDialog>
+        )}
+
+        {isRecovered && (
+          <ConfirmationDialog
+            i18n={i18n}
+            dialogName="UsernameLinkModal__error"
+            onClose={onClearIsRecovered}
             cancelButtonVariant={ButtonVariant.Secondary}
             cancelText={i18n('icu:ok')}
           >
-            {i18n('icu:UsernameLinkModalBody__error__text')}
+            {i18n('icu:UsernameLinkModalBody__recovered__text')}
           </ConfirmationDialog>
         )}
 

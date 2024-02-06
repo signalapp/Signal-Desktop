@@ -43,6 +43,7 @@ import { StoryViewModeType, StoryViewTargetType } from '../types/Stories';
 import { isValidE164 } from './isValidE164';
 import { fromWebSafeBase64 } from './webSafeBase64';
 import { getConversation } from './getConversation';
+import { instance, PhoneNumberFormat } from './libphonenumberInstance';
 
 type SentMediaQualityType = 'standard' | 'high';
 type ThemeType = 'light' | 'dark' | 'system';
@@ -90,6 +91,7 @@ export type IPCEventsValuesType = {
   readReceiptSetting: boolean;
   typingIndicatorSetting: boolean;
   deviceName: string | undefined;
+  phoneNumber: string | undefined;
 };
 
 export type IPCEventsCallbacksType = {
@@ -158,6 +160,7 @@ type ValuesWithSetters = Omit<
   | 'readReceiptSetting'
   | 'typingIndicatorSetting'
   | 'deviceName'
+  | 'phoneNumber'
 
   // Optional
   | 'mediaPermissions'
@@ -222,6 +225,11 @@ export function createIPCEvents(
     },
 
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
+    getPhoneNumber: () => {
+      const e164 = window.textsecure.storage.user.getNumber();
+      const parsedNumber = instance.parse(e164);
+      return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
+    },
 
     getZoomFactor: () => {
       return ipcRenderer.invoke('getZoomFactor');

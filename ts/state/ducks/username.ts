@@ -8,6 +8,7 @@ import type { UsernameReservationType } from '../../types/Username';
 import {
   ReserveUsernameError,
   ConfirmUsernameResult,
+  ResetUsernameLinkResult,
 } from '../../types/Username';
 import * as usernameServices from '../../services/username';
 import { storageServiceUploadJob } from '../../services/storage';
@@ -33,6 +34,7 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 
 export type UsernameReservationStateType = ReadonlyDeep<{
   state: UsernameReservationState;
+  recoveredUsername?: string;
   reservation?: UsernameReservationType;
   error?: UsernameReservationError;
   abortController?: AbortController;
@@ -44,6 +46,7 @@ export type UsernameStateType = ReadonlyDeep<{
 
   // UsernameLinkModalBody
   linkState: UsernameLinkState;
+  linkRecovered: boolean;
 
   // EditUsernameModalBody
   usernameReservation: UsernameReservationStateType;
@@ -60,6 +63,7 @@ const RESERVE_USERNAME = 'username/RESERVE_USERNAME';
 const CONFIRM_USERNAME = 'username/CONFIRM_USERNAME';
 const DELETE_USERNAME = 'username/DELETE_USERNAME';
 const RESET_USERNAME_LINK = 'username/RESET_USERNAME_LINK';
+const CLEAR_USERNAME_LINK_RECOVERED = 'username/CLEAR_USERNAME_LINK_RECOVERED';
 
 type SetUsernameEditStateActionType = ReadonlyDeep<{
   type: typeof SET_USERNAME_EDIT_STATE;
@@ -83,7 +87,7 @@ type SetUsernameReservationErrorActionType = ReadonlyDeep<{
   };
 }>;
 
-type ClearUsernameReservation = ReadonlyDeep<{
+type ClearUsernameReservationActionType = ReadonlyDeep<{
   type: typeof CLEAR_USERNAME_RESERVATION;
 }>;
 
@@ -101,19 +105,23 @@ type DeleteUsernameActionType = ReadonlyDeep<
   PromiseAction<typeof DELETE_USERNAME, void>
 >;
 type ResetUsernameLinkActionType = ReadonlyDeep<
-  PromiseAction<typeof RESET_USERNAME_LINK, void>
+  PromiseAction<typeof RESET_USERNAME_LINK, ResetUsernameLinkResult>
 >;
+type ClearUsernameLinkRecoveredActionType = ReadonlyDeep<{
+  type: typeof CLEAR_USERNAME_LINK_RECOVERED;
+}>;
 
 export type UsernameActionType = ReadonlyDeep<
   | SetUsernameEditStateActionType
   | OpenUsernameReservationModalActionType
   | CloseUsernameReservationModalActionType
   | SetUsernameReservationErrorActionType
-  | ClearUsernameReservation
+  | ClearUsernameReservationActionType
   | ReserveUsernameActionType
   | ConfirmUsernameActionType
   | DeleteUsernameActionType
   | ResetUsernameLinkActionType
+  | ClearUsernameLinkRecoveredActionType
 >;
 
 export const actions = {
@@ -127,6 +135,7 @@ export const actions = {
   deleteUsername,
   markCompletedUsernameOnboarding,
   resetUsernameLink,
+  clearUsernameLinkRecovered,
   setUsernameLinkColor,
   markCompletedUsernameLinkOnboarding,
 };
@@ -165,7 +174,7 @@ export function setUsernameReservationError(
   };
 }
 
-export function clearUsernameReservation(): ClearUsernameReservation {
+export function clearUsernameReservation(): ClearUsernameReservationActionType {
   return {
     type: CLEAR_USERNAME_RESERVATION,
   };
@@ -352,12 +361,19 @@ function setUsernameLinkColor(
   };
 }
 
+export function clearUsernameLinkRecovered(): ClearUsernameLinkRecoveredActionType {
+  return {
+    type: CLEAR_USERNAME_LINK_RECOVERED,
+  };
+}
+
 // Reducers
 
 export function getEmptyState(): UsernameStateType {
   return {
     editState: UsernameEditState.Editing,
     linkState: UsernameLinkState.Ready,
+    linkRecovered: false,
     usernameReservation: {
       state: UsernameReservationState.Closed,
     },
@@ -370,20 +386,22 @@ export function reducer(
 ): UsernameStateType {
   const { usernameReservation } = state;
 
+  if (action.type === OPEN_USERNAME_RESERVATION_MODAL) {
+    return {
+      ...state,
+      editState: UsernameEditState.Editing,
+      linkState: UsernameLinkState.Ready,
+      usernameReservation: {
+        state: UsernameReservationState.Open,
+      },
+    };
+  }
+
   if (action.type === SET_USERNAME_EDIT_STATE) {
     const { editState } = action.payload;
     return {
       ...state,
       editState,
-    };
-  }
-
-  if (action.type === OPEN_USERNAME_RESERVATION_MODAL) {
-    return {
-      ...state,
-      usernameReservation: {
-        state: UsernameReservationState.Open,
-      },
     };
   }
 
@@ -546,6 +564,20 @@ export function reducer(
         },
       };
     }
+    if (payload === ConfirmUsernameResult.OkRecovered) {
+      const { reservation } = state.usernameReservation;
+      assertDev(
+        reservation !== undefined,
+        'Must be reserving before resolving confirmation'
+      );
+      return {
+        ...state,
+        usernameReservation: {
+          state: UsernameReservationState.Closed,
+          recoveredUsername: reservation.username,
+        },
+      };
+    }
     if (payload === ConfirmUsernameResult.ConflictOrGone) {
       return {
         ...state,
@@ -597,13 +629,16 @@ export function reducer(
     return {
       ...state,
       linkState: UsernameLinkState.Updating,
+      linkRecovered: false,
     };
   }
 
   if (action.type === 'username/RESET_USERNAME_LINK_FULFILLED') {
+    const { payload } = action;
     return {
       ...state,
       linkState: UsernameLinkState.Ready,
+      linkRecovered: payload === ResetUsernameLinkResult.OkRecovered,
     };
   }
 
@@ -611,6 +646,14 @@ export function reducer(
     return {
       ...state,
       linkState: UsernameLinkState.Error,
+      linkRecovered: false,
+    };
+  }
+
+  if (action.type === 'username/CLEAR_USERNAME_LINK_RECOVERED') {
+    return {
+      ...state,
+      linkRecovered: false,
     };
   }
 

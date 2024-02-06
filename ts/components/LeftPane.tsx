@@ -49,6 +49,7 @@ import {
   NavSidebarSearchHeader,
 } from './NavSidebar';
 import { ContextMenu } from './ContextMenu';
+import { EditState as ProfileEditorEditState } from './ProfileEditor';
 import type { UnreadStats } from '../util/countUnreadStats';
 
 export enum LeftPaneMode {
@@ -119,6 +120,7 @@ export type PropsType = {
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
   createGroup: () => void;
   navTabsCollapsed: boolean;
+  openUsernameReservationModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   removeConversation: (conversationId: string) => void;
@@ -138,7 +140,7 @@ export type PropsType = {
   toggleComposeEditingAvatar: () => unknown;
   toggleConversationInChooseMembers: (conversationId: string) => void;
   toggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
-  toggleProfileEditor: () => void;
+  toggleProfileEditor: (initialEditState?: ProfileEditorEditState) => void;
   updateSearchTerm: (_: string) => void;
 
   // Render Props
@@ -193,6 +195,7 @@ export function LeftPane({
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
 
+  openUsernameReservationModal,
   preferredWidthFromStorage,
   removeConversation,
   renderCaptchaDialog,
@@ -560,7 +563,10 @@ export function LeftPane({
     maybeBanner = (
       <LeftPaneBanner
         actionText={i18n('icu:LeftPane--corrupted-username--action-text')}
-        onClick={toggleProfileEditor}
+        onClick={() => {
+          openUsernameReservationModal();
+          toggleProfileEditor(ProfileEditorEditState.Username);
+        }}
       >
         {i18n('icu:LeftPane--corrupted-username--text')}
       </LeftPaneBanner>
@@ -569,7 +575,7 @@ export function LeftPane({
     maybeBanner = (
       <LeftPaneBanner
         actionText={i18n('icu:LeftPane--corrupted-username-link--action-text')}
-        onClick={toggleProfileEditor}
+        onClick={() => toggleProfileEditor(ProfileEditorEditState.UsernameLink)}
       >
         {i18n('icu:LeftPane--corrupted-username-link--text')}
       </LeftPaneBanner>
