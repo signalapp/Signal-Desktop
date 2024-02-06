@@ -30,6 +30,7 @@ const getCommonProps = () => ({
   i18n,
   onClose: action('onClose'),
   showContactModal: action('showContactModal'),
+  toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
   removeMember: action('removeMember'),
   theme: ThemeType.light,
 });
@@ -39,13 +40,19 @@ export function DirectConversationsWithSameTitle(): JSX.Element {
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
       type={ContactSpoofingType.DirectConversationWithSameTitle}
-      possiblyUnsafeConversation={getDefaultConversation()}
-      safeConversation={getDefaultConversation()}
+      possiblyUnsafe={{
+        conversation: getDefaultConversation(),
+        isSignalConnection: false,
+      }}
+      safe={{
+        conversation: getDefaultConversation(),
+        isSignalConnection: true,
+      }}
     />
   );
 }
 
-export function NotAdmin(): JSX.Element {
+export function NotAdminMany(): JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -57,12 +64,15 @@ export function NotAdmin(): JSX.Element {
       collisionInfoByTitle={{
         Alice: times(2, () => ({
           oldName: 'Alicia',
+          isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Alice' }),
         })),
         Bob: times(3, () => ({
+          isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Bob' }),
         })),
         Charlie: times(5, () => ({
+          isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Charlie' }),
         })),
       }}
@@ -70,7 +80,34 @@ export function NotAdmin(): JSX.Element {
   );
 }
 
-export function Admin(): JSX.Element {
+export function NotAdminOne(): JSX.Element {
+  return (
+    <ContactSpoofingReviewDialog
+      {...getCommonProps()}
+      type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
+      group={{
+        ...getDefaultConversation(),
+        areWeAdmin: false,
+      }}
+      collisionInfoByTitle={{
+        Alice: [
+          {
+            oldName: 'Alicia',
+            isSignalConnection: false,
+            conversation: getDefaultConversation({ title: 'Alice' }),
+          },
+          {
+            oldName: 'Alice',
+            isSignalConnection: true,
+            conversation: getDefaultConversation({ title: 'Alice' }),
+          },
+        ],
+      }}
+    />
+  );
+}
+
+export function AdminMany(): JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -82,14 +119,43 @@ export function Admin(): JSX.Element {
       collisionInfoByTitle={{
         Alice: times(2, () => ({
           oldName: 'Alicia',
+          isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Alice' }),
         })),
         Bob: times(3, () => ({
+          isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Bob' }),
         })),
         Charlie: times(5, () => ({
+          isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Charlie' }),
         })),
+      }}
+    />
+  );
+}
+
+export function AdminOne(): JSX.Element {
+  return (
+    <ContactSpoofingReviewDialog
+      {...getCommonProps()}
+      type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
+      group={{
+        ...getDefaultConversation(),
+        areWeAdmin: true,
+      }}
+      collisionInfoByTitle={{
+        Alice: [
+          {
+            oldName: 'Alicia',
+            isSignalConnection: false,
+            conversation: getDefaultConversation({ title: 'Alice' }),
+          },
+          {
+            isSignalConnection: true,
+            conversation: getDefaultConversation({ title: 'Alice' }),
+          },
+        ],
       }}
     />
   );

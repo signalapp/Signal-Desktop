@@ -77,9 +77,13 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
   hasMigrated: boolean;
   invitedMemberIds: Array<string>;
 }>;
+export type AboutContactModalPropsType = ReadonlyDeep<{
+  contactId: string;
+}>;
 
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
+  aboutContactModalProps?: AboutContactModalPropsType;
   authArtCreatorData?: AuthorizeArtCreatorDataType;
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
@@ -130,6 +134,7 @@ export const TOGGLE_PROFILE_EDITOR_ERROR =
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
 const TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL =
   'globalModals/TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL';
+const TOGGLE_ABOUT_MODAL = 'globalModals/TOGGLE_ABOUT_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
 export const SHOW_SEND_ANYWAY_DIALOG = 'globalModals/SHOW_SEND_ANYWAY_DIALOG';
@@ -228,6 +233,11 @@ type ToggleSafetyNumberModalActionType = ReadonlyDeep<{
 type ToggleAddUserToAnotherGroupModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL;
   payload: string | undefined;
+}>;
+
+type ToggleAboutContactModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_ABOUT_MODAL;
+  payload: AboutContactModalPropsType | undefined;
 }>;
 
 type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
@@ -372,6 +382,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowUserNotFoundModalActionType
   | ShowWhatsNewModalActionType
   | StartMigrationToGV2ActionType
+  | ToggleAboutContactModalActionType
   | ToggleAddUserToAnotherGroupModalActionType
   | ToggleConfirmationModalActionType
   | ToggleDeleteMessagesModalActionType
@@ -411,6 +422,7 @@ export const actions = {
   showStoriesSettings,
   showUserNotFoundModal,
   showWhatsNewModal,
+  toggleAboutContactModal,
   toggleAddUserToAnotherGroupModal,
   toggleConfirmationModal,
   toggleDeleteMessagesModal,
@@ -624,6 +636,15 @@ function toggleAddUserToAnotherGroupModal(
   return {
     type: TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL,
     payload: contactId,
+  };
+}
+
+function toggleAboutContactModal(
+  contactId?: string
+): ToggleAboutContactModalActionType {
+  return {
+    type: TOGGLE_ABOUT_MODAL,
+    payload: contactId ? { contactId } : undefined,
   };
 }
 
@@ -891,6 +912,13 @@ export function reducer(
   state: Readonly<GlobalModalsStateType> = getEmptyState(),
   action: Readonly<GlobalModalsActionType>
 ): GlobalModalsStateType {
+  if (action.type === TOGGLE_ABOUT_MODAL) {
+    return {
+      ...state,
+      aboutContactModalProps: action.payload,
+    };
+  }
+
   if (action.type === TOGGLE_PROFILE_EDITOR) {
     return {
       ...state,

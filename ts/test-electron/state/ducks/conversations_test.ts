@@ -34,7 +34,6 @@ import {
   updateConversationLookups,
 } from '../../../state/ducks/conversations';
 import { ReadStatus } from '../../../messages/MessageReadStatus';
-import { ContactSpoofingType } from '../../../util/contactSpoofing';
 import type { SingleServePromiseIdString } from '../../../services/singleServePromise';
 import { CallMode } from '../../../types/Calling';
 import { generateAci, getAciFromPrefix } from '../../../types/ServiceId';
@@ -75,8 +74,7 @@ const {
   repairNewestMessage,
   repairOldestMessage,
   resetAllChatColors,
-  reviewGroupMemberNameCollision,
-  reviewMessageRequestNameCollision,
+  reviewConversationNameCollision,
   setComposeGroupAvatar,
   setComposeGroupName,
   setComposeSearchTerm,
@@ -523,15 +521,12 @@ describe('both/state/ducks/conversations', () => {
       it('closes the contact spoofing review modal if it was open', () => {
         const state = {
           ...getEmptyState(),
-          contactSpoofingReview: {
-            type: ContactSpoofingType.DirectConversationWithSameTitle as const,
-            safeConversationId: 'abc123',
-          },
+          hasContactSpoofingReview: true,
         };
         const action = closeContactSpoofingReview();
         const actual = reducer(state, action);
 
-        assert.isUndefined(actual.contactSpoofingReview);
+        assert.isFalse(actual.hasContactSpoofingReview);
       });
 
       it("does nothing if the modal wasn't already open", () => {
@@ -1347,31 +1342,13 @@ describe('both/state/ducks/conversations', () => {
       });
     });
 
-    describe('REVIEW_GROUP_MEMBER_NAME_COLLISION', () => {
-      it('starts reviewing a group member name collision', () => {
+    describe('REVIEW_CONVERSATION_NAME_COLLISION', () => {
+      it('starts reviewing a name collision', () => {
         const state = getEmptyState();
-        const action = reviewGroupMemberNameCollision('abc123');
+        const action = reviewConversationNameCollision();
         const actual = reducer(state, action);
 
-        assert.deepEqual(actual.contactSpoofingReview, {
-          type: ContactSpoofingType.MultipleGroupMembersWithSameTitle as const,
-          groupConversationId: 'abc123',
-        });
-      });
-    });
-
-    describe('REVIEW_MESSAGE_REQUEST_NAME_COLLISION', () => {
-      it('starts reviewing a message request name collision', () => {
-        const state = getEmptyState();
-        const action = reviewMessageRequestNameCollision({
-          safeConversationId: 'def',
-        });
-        const actual = reducer(state, action);
-
-        assert.deepEqual(actual.contactSpoofingReview, {
-          type: ContactSpoofingType.DirectConversationWithSameTitle as const,
-          safeConversationId: 'def',
-        });
+        assert.isTrue(actual.hasContactSpoofingReview);
       });
     });
 

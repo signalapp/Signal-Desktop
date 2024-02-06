@@ -154,11 +154,34 @@ export const getAllSignalConnections = createSelector(
     conversations.filter(isSignalConnection)
 );
 
-export const getConversationsByTitleSelector = createSelector(
+export const getSafeConversationWithSameTitle = createSelector(
   getAllConversations,
-  (conversations): ((title: string) => Array<ConversationType>) =>
-    (title: string) =>
-      conversations.filter(conversation => conversation.title === title)
+  (
+    _state: StateType,
+    {
+      possiblyUnsafeConversation,
+    }: {
+      possiblyUnsafeConversation: ConversationType;
+    }
+  ) => possiblyUnsafeConversation,
+  (conversations, possiblyUnsafeConversation): ConversationType | undefined => {
+    const conversationsWithSameTitle = conversations.filter(conversation => {
+      return conversation.title === possiblyUnsafeConversation.title;
+    });
+    assertDev(
+      conversationsWithSameTitle.length,
+      'Expected at least 1 conversation with the same title (this one)'
+    );
+
+    const safeConversation = conversationsWithSameTitle.find(
+      otherConversation =>
+        otherConversation.acceptedMessageRequest &&
+        otherConversation.type === 'direct' &&
+        otherConversation.id !== possiblyUnsafeConversation.id
+    );
+
+    return safeConversation;
+  }
 );
 
 export const getSelectedConversationId = createSelector(

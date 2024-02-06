@@ -1,0 +1,101 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.AboutContactModal {
+  &__headerTitle.module-Modal__headerTitle {
+    // No padding between header and avatar
+    padding-block-end: 0;
+  }
+
+  &__body_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-inline: 8px;
+    padding-block-end: 20px;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  &__row--centered {
+    justify-content: center;
+  }
+
+  &__title {
+    @include font-title-2;
+
+    margin: 0;
+    margin-block-end: 4px;
+  }
+
+  &__row__icon {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    vertical-align: text-top;
+    flex-shrink: 0;
+
+    @mixin about-modal-icon($url) {
+      @include light-theme {
+        @include color-svg($url, $color-black);
+      }
+
+      @include dark-theme {
+        @include color-svg($url, $color-gray-05);
+      }
+    }
+
+    &--profile {
+      @include about-modal-icon('../images/icons/v3/person/person-compact.svg');
+    }
+
+    &--connections {
+      @include about-modal-icon(
+        '../images/icons/v3/connections/connections.svg'
+      );
+    }
+
+    &--person {
+      @include about-modal-icon(
+        '../images/icons/v3/person/person-circle-compact.svg'
+      );
+    }
+
+    &--phone {
+      @include about-modal-icon('../images/icons/v3/phone/phone-compact.svg');
+    }
+
+    &--group {
+      @include about-modal-icon('../images/icons/v3/group/group.svg');
+    }
+
+    &--about {
+      @include about-modal-icon('../images/icons/v3/edit/edit.svg');
+    }
+  }
+
+  &__signal-connection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @include button-reset();
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-gray-45
+      );
+    }
+  }
+}

@@ -4,14 +4,13 @@
 import React from 'react';
 
 import type { LocalizerType } from '../types/Util';
-import { Button, ButtonVariant } from './Button';
 import { Intl } from './Intl';
 import { Modal } from './Modal';
 
-export type PropsType = {
+export type PropsType = Readonly<{
   i18n: LocalizerType;
   onClose: () => unknown;
-};
+}>;
 
 export function SignalConnectionsModal({
   i18n,
@@ -47,12 +46,6 @@ export function SignalConnectionsModal({
 
         <div className="SignalConnectionsModal__description">
           {i18n('icu:SignalConnectionsModal__footer')}
-        </div>
-
-        <div className="SignalConnectionsModal__button">
-          <Button onClick={onClose} variant={ButtonVariant.Primary}>
-            {i18n('icu:Confirmation--confirm')}
-          </Button>
         </div>
       </div>
     </Modal>

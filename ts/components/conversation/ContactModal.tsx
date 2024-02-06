@@ -43,6 +43,7 @@ type PropsActionType = {
   removeMemberFromGroup: (conversationId: string, contactId: string) => void;
   showConversation: ShowConversationType;
   toggleAdmin: (conversationId: string, contactId: string) => void;
+  toggleAboutContactModal: (conversationId: string) => unknown;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   toggleAddUserToAnotherGroupModal: (conversationId: string) => void;
   updateConversationModelSharedGroups: (conversationId: string) => void;
@@ -77,6 +78,7 @@ export function ContactModal({
   removeMemberFromGroup,
   showConversation,
   theme,
+  toggleAboutContactModal,
   toggleAddUserToAnotherGroupModal,
   toggleAdmin,
   toggleSafetyNumberModal,
@@ -208,9 +210,17 @@ export function ContactModal({
               title={contact.title}
               unblurredAvatarPath={contact.unblurredAvatarPath}
             />
-            <div className="ContactModal__name">
+            <button
+              type="button"
+              className="ContactModal__name"
+              onClick={ev => {
+                ev.preventDefault();
+                toggleAboutContactModal(contact.id);
+              }}
+            >
               <UserText text={contact.title} />
-            </div>
+              <i className="ContactModal__name__chevron" />
+            </button>
             <div className="module-about__container">
               <About text={contact.about} />
             </div>

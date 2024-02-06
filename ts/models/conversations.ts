@@ -3185,6 +3185,8 @@ export class ConversationModel extends window.Backbone
 
     const serviceId = this.getServiceId();
     if (isDirectConversation(this.attributes) && serviceId) {
+      this.set({ profileLastUpdatedAt: Date.now() });
+
       void window.ConversationController.getAllGroupsInvolvingServiceId(
         serviceId
       ).then(groups => {

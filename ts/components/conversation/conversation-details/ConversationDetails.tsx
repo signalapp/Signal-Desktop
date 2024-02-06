@@ -150,6 +150,7 @@ type ActionProps = {
   setMuteExpiration: (id: string, muteExpiresAt: undefined | number) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showConversation: ShowConversationType;
+  toggleAboutContactModal: (contactId: string) => void;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   updateGroupAttributes: (
@@ -223,6 +224,7 @@ export function ConversationDetails({
   showConversation,
   showLightboxWithMedia,
   theme,
+  toggleAboutContactModal,
   toggleSafetyNumberModal,
   toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
@@ -398,6 +400,7 @@ export function ConversationDetails({
           );
         }}
         theme={theme}
+        toggleAboutContactModal={toggleAboutContactModal}
       />
 
       <div className="ConversationDetails__header-buttons">
