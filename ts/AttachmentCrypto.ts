@@ -1,48 +1,45 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
-import {
-  existsSync,
-  createReadStream,
-  createWriteStream,
-  unlinkSync,
-} from 'fs';
+import { unlinkSync } from 'fs';
+import { open } from 'fs/promises';
 import {
   createDecipheriv,
   createCipheriv,
   createHash,
   createHmac,
+  randomBytes,
 } from 'crypto';
-import type { Cipher, Decipher, Hash, Hmac } from 'crypto';
-import { ensureFile } from 'fs-extra';
+import type { Decipher, Hash, Hmac } from 'crypto';
+import type { TransformCallback } from 'stream';
 import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
-
+import { ensureFile } from 'fs-extra';
 import * as log from './logging/log';
-import * as Errors from './types/errors';
 import { HashType, CipherType } from './types/Crypto';
-
 import { createName, getRelativePath } from './windows/attachments';
-import {
-  constantTimeEqual,
-  getAttachmentSizeBucket,
-  getRandomBytes,
-  getZeroes,
-  sha256,
-} from './Crypto';
+import { constantTimeEqual, getAttachmentSizeBucket } from './Crypto';
 import { Environment } from './environment';
 import type { AttachmentType } from './types/Attachment';
 import type { ContextType } from './types/Message2';
+import { strictAssert } from './util/assert';
+import * as Errors from './types/errors';
 
 // This file was split from ts/Crypto.ts because it pulls things in from node, and
 //   too many things pull in Crypto.ts, so it broke storybook.
 
-export const IV_LENGTH = 16;
-export const KEY_LENGTH = 32;
-export const DIGEST_LENGTH = 32;
-export const ATTACHMENT_MAC_LENGTH = 32;
+const IV_LENGTH = 16;
+const KEY_LENGTH = 32;
+const DIGEST_LENGTH = 32;
+const HEX_DIGEST_LENGTH = DIGEST_LENGTH * 2;
+const ATTACHMENT_MAC_LENGTH = 32;
+
+/** @private */
+export const KEY_SET_LENGTH = KEY_LENGTH + ATTACHMENT_MAC_LENGTH;
+
+export function _generateAttachmentIv(): Uint8Array {
+  return randomBytes(IV_LENGTH);
+}
 
 export type EncryptedAttachmentV2 = {
   path: string;
@@ -67,92 +64,75 @@ export async function encryptAttachmentV2({
   dangerousTestOnlyIv?: Readonly<Uint8Array>;
 }): Promise<EncryptedAttachmentV2> {
   const logId = 'encryptAttachmentV2';
-  if (keys.byteLength !== KEY_LENGTH * 2) {
-    throw new Error(`${logId}: Got invalid length attachment keys`);
-  }
-  if (!existsSync(plaintextAbsolutePath)) {
-    throw new Error(`${logId}: Target path doesn't exist!`);
-  }
 
   // Create random output file
   const relativeTargetPath = getRelativePath(createName());
   const absoluteTargetPath =
     window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
-  await ensureFile(absoluteTargetPath);
 
-  // Create start and end streams
-  const readStream = createReadStream(plaintextAbsolutePath);
-  const writeStream = createWriteStream(absoluteTargetPath);
-
-  const aesKey = keys.slice(0, KEY_LENGTH);
-  const macKey = keys.slice(KEY_LENGTH, KEY_LENGTH * 2);
+  const { aesKey, macKey } = splitKeys(keys);
 
   if (dangerousTestOnlyIv && window.getEnvironment() !== Environment.Test) {
     throw new Error(`${logId}: Used dangerousTestOnlyIv outside tests!`);
   }
-  const iv = dangerousTestOnlyIv || getRandomBytes(16);
+  const iv = dangerousTestOnlyIv || _generateAttachmentIv();
 
-  const plaintextHashTransform = new DigestTransform();
-  const addPaddingTransform = new AddPaddingTransform(size);
-  const cipherTransform = new CipherTransform(iv, aesKey);
-  const addIvTransform = new AddIvTransform(iv);
-  const addMacTransform = new AddMacTransform(macKey);
-  const digestTransform = new DigestTransform();
+  const plaintextHash = createHash(HashType.size256);
+  const digest = createHash(HashType.size256);
 
+  let readFd;
+  let writeFd;
   try {
+    try {
+      readFd = await open(plaintextAbsolutePath, 'r');
+    } catch (cause) {
+      throw new Error(`${logId}: Read path doesn't exist`, { cause });
+    }
+    try {
+      await ensureFile(absoluteTargetPath);
+      writeFd = await open(absoluteTargetPath, 'w');
+    } catch (cause) {
+      throw new Error(`${logId}: Failed to create write path`, { cause });
+    }
+
     await pipeline(
-      readStream,
-      plaintextHashTransform,
-      addPaddingTransform,
-      cipherTransform,
-      addIvTransform,
-      addMacTransform,
-      digestTransform,
-      writeStream
+      readFd.createReadStream(),
+      peekAndUpdateHash(plaintextHash),
+      appendPadding(size),
+      createCipheriv(CipherType.AES256CBC, aesKey, iv),
+      prependIv(iv),
+      appendMac(macKey),
+      peekAndUpdateHash(digest),
+      writeFd.createWriteStream()
     );
   } catch (error) {
-    try {
-      readStream.close();
-      writeStream.close();
-    } catch (cleanupError) {
-      log.error(
-        `${logId}: Failed to clean up after error`,
-        Errors.toLogFormat(cleanupError)
-      );
-    }
-
-    if (existsSync(absoluteTargetPath)) {
-      unlinkSync(absoluteTargetPath);
-    }
-
+    log.error(
+      `${logId}: Failed to encrypt attachment`,
+      Errors.toLogFormat(error)
+    );
+    safeUnlinkSync(absoluteTargetPath);
     throw error;
+  } finally {
+    await Promise.all([readFd?.close(), writeFd?.close()]);
   }
 
-  const { digest: plaintextHash } = plaintextHashTransform;
-  if (
-    !plaintextHash ||
-    !plaintextHash.byteLength ||
-    plaintextHash.byteLength !== DIGEST_LENGTH
-  ) {
-    throw new Error(`${logId}: Failed to generate plaintext hash!`);
-  }
+  const ourPlaintextHash = plaintextHash.digest('hex');
+  const ourDigest = digest.digest();
 
-  const { digest: ourDigest } = digestTransform;
-  if (
-    !ourDigest ||
-    !ourDigest.byteLength ||
-    ourDigest.byteLength !== DIGEST_LENGTH
-  ) {
-    throw new Error(`${logId}: Failed to generate ourDigest!`);
-  }
+  strictAssert(
+    ourPlaintextHash.length === HEX_DIGEST_LENGTH,
+    `${logId}: Failed to generate plaintext hash!`
+  );
 
-  writeStream.close();
-  readStream.close();
+  strictAssert(
+    ourDigest.byteLength === DIGEST_LENGTH,
+    `${logId}: Failed to generate ourDigest!`
+  );
 
   return {
     path: relativeTargetPath,
     digest: ourDigest,
-    plaintextHash: Buffer.from(plaintextHash).toString('hex'),
+    plaintextHash: ourPlaintextHash,
   };
 }
 
@@ -170,676 +150,358 @@ export async function decryptAttachmentV2({
   theirDigest: Readonly<Uint8Array>;
 }): Promise<DecryptedAttachmentV2> {
   const logId = `decryptAttachmentV2(${id})`;
-  if (keys.byteLength !== KEY_LENGTH * 2) {
-    throw new Error(`${logId}: Got invalid length attachment keys`);
-  }
-  if (!existsSync(ciphertextPath)) {
-    throw new Error(`${logId}: Target path doesn't exist!`);
-  }
 
   // Create random output file
   const relativeTargetPath = getRelativePath(createName());
   const absoluteTargetPath =
     window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
-  await ensureFile(absoluteTargetPath);
 
-  // Create start and end streams
-  const readStream = createReadStream(ciphertextPath);
-  const writeStream = createWriteStream(absoluteTargetPath);
+  const { aesKey, macKey } = splitKeys(keys);
 
-  const aesKey = keys.slice(0, KEY_LENGTH);
-  const macKey = keys.slice(KEY_LENGTH, KEY_LENGTH * 2);
+  const digest = createHash(HashType.size256);
+  const hmac = createHmac(HashType.size256, macKey);
+  const plaintextHash = createHash(HashType.size256);
+  let theirMac = null as Uint8Array | null; // TypeScript shenanigans
 
-  const digestTransform = new DigestTransform();
-  const macTransform = new MacTransform(macKey);
-  const decipherTransform = new DecipherTransform(aesKey);
-  const coreDecryptionTransform = new CoreDecryptionTransform(
-    decipherTransform
-  );
-  const limitLengthTransform = new LimitLengthTransform(size);
-  const plaintextHashTransform = new DigestTransform();
-
+  let readFd;
+  let writeFd;
   try {
+    try {
+      readFd = await open(ciphertextPath, 'r');
+    } catch (cause) {
+      throw new Error(`${logId}: Read path doesn't exist`, { cause });
+    }
+    try {
+      await ensureFile(absoluteTargetPath);
+      writeFd = await open(absoluteTargetPath, 'w');
+    } catch (cause) {
+      throw new Error(`${logId}: Failed to create write path`, { cause });
+    }
+
     await pipeline(
-      readStream,
-      digestTransform,
-      macTransform,
-      coreDecryptionTransform,
-      decipherTransform,
-      limitLengthTransform,
-      plaintextHashTransform,
-      writeStream
+      readFd.createReadStream(),
+      peekAndUpdateHash(digest),
+      getMacAndUpdateHmac(hmac, theirMacValue => {
+        theirMac = theirMacValue;
+      }),
+      getIvAndDecipher(aesKey),
+      trimPadding(size),
+      peekAndUpdateHash(plaintextHash),
+      writeFd.createWriteStream()
     );
   } catch (error) {
-    try {
-      readStream.close();
-      writeStream.close();
-    } catch (cleanupError) {
-      log.error(
-        `${logId}: Failed to clean up after error`,
-        Errors.toLogFormat(cleanupError)
-      );
-    }
-
-    if (existsSync(absoluteTargetPath)) {
-      unlinkSync(absoluteTargetPath);
-    }
-
+    log.error(
+      `${logId}: Failed to decrypt attachment`,
+      Errors.toLogFormat(error)
+    );
+    safeUnlinkSync(absoluteTargetPath);
     throw error;
+  } finally {
+    await Promise.all([readFd?.close(), writeFd?.close()]);
   }
 
-  const { ourMac } = macTransform;
-  const { theirMac } = coreDecryptionTransform;
-  if (
-    !ourMac ||
-    !ourMac.byteLength ||
-    ourMac.byteLength !== ATTACHMENT_MAC_LENGTH
-  ) {
-    throw new Error(`${logId}: Failed to generate ourMac!`);
-  }
-  if (
-    !theirMac ||
-    !theirMac.byteLength ||
-    theirMac.byteLength !== ATTACHMENT_MAC_LENGTH
-  ) {
-    throw new Error(`${logId}: Failed to find theirMac!`);
-  }
+  const ourMac = hmac.digest();
+  const ourDigest = digest.digest();
+  const ourPlaintextHash = plaintextHash.digest('hex');
+
+  strictAssert(
+    ourMac.byteLength === ATTACHMENT_MAC_LENGTH,
+    `${logId}: Failed to generate ourMac!`
+  );
+  strictAssert(
+    theirMac != null && theirMac.byteLength === ATTACHMENT_MAC_LENGTH,
+    `${logId}: Failed to find theirMac!`
+  );
+  strictAssert(
+    ourDigest.byteLength === DIGEST_LENGTH,
+    `${logId}: Failed to generate ourDigest!`
+  );
+  strictAssert(
+    ourPlaintextHash.length === HEX_DIGEST_LENGTH,
+    `${logId}: Failed to generate file hash!`
+  );
+
   if (!constantTimeEqual(ourMac, theirMac)) {
     throw new Error(`${logId}: Bad MAC`);
   }
 
-  const { digest: ourDigest } = digestTransform;
-  if (
-    !ourDigest ||
-    !ourDigest.byteLength ||
-    ourDigest.byteLength !== DIGEST_LENGTH
-  ) {
-    throw new Error(`${logId}: Failed to generate ourDigest!`);
-  }
-  if (
-    !theirDigest ||
-    !theirDigest.byteLength ||
-    theirDigest.byteLength !== DIGEST_LENGTH
-  ) {
-    throw new Error(`${logId}: Failed to find theirDigest!`);
-  }
   if (!constantTimeEqual(ourDigest, theirDigest)) {
     throw new Error(`${logId}: Bad digest`);
   }
 
-  const { digest: plaintextHash } = plaintextHashTransform;
-  if (!plaintextHash || !plaintextHash.byteLength) {
-    throw new Error(`${logId}: Failed to generate file hash!`);
-  }
-
-  writeStream.close();
-  readStream.close();
-
   return {
     path: relativeTargetPath,
-    plaintextHash: Buffer.from(plaintextHash).toString('hex'),
+    plaintextHash: ourPlaintextHash,
   };
 }
 
-// A very simple transform that doesn't modify the stream, but does calculate a digest
-//   across all data it gets.
-class DigestTransform extends Transform {
-  private digestBuilder: Hash;
-  public digest: Uint8Array | undefined;
-
-  constructor() {
-    super();
-    this.digestBuilder = createHash(HashType.size256);
-  }
-
-  override _flush(done: (error?: Error) => void) {
-    try {
-      this.digest = this.digestBuilder.digest();
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      this.digestBuilder.update(chunk);
-      this.push(chunk);
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
+/**
+ * Splits the keys into aes and mac keys.
+ */
+function splitKeys(keys: Uint8Array) {
+  strictAssert(
+    keys.byteLength === KEY_SET_LENGTH,
+    `attachment keys must be ${KEY_SET_LENGTH} bytes, got ${keys.byteLength}`
+  );
+  const aesKey = keys.subarray(0, KEY_LENGTH);
+  const macKey = keys.subarray(KEY_LENGTH, KEY_SET_LENGTH);
+  return { aesKey, macKey };
 }
 
-// A more complex transform that also doesn't modify the stream, calculating an HMAC
-//   across everything but the last bytes of the stream.
-class MacTransform extends Transform {
-  public ourMac: Uint8Array | undefined;
-  private macBuilder: Hmac;
-  private lastBytes: Uint8Array | undefined;
-
-  constructor(macKey: Uint8Array) {
-    super();
-
-    if (macKey.byteLength !== KEY_LENGTH) {
-      throw new Error(
-        `MacTransform: macKey should be ${KEY_LENGTH} bytes, got ${macKey.byteLength} bytes`
-      );
-    }
-
-    this.macBuilder = createHmac('sha256', Buffer.from(macKey));
-  }
-
-  override _flush(done: (error?: Error) => void) {
-    try {
-      this.ourMac = this.macBuilder.digest();
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      // We'll continue building up data if our chunk sizes are too small to fit MAC
-      const data = this.lastBytes
-        ? Buffer.concat([this.lastBytes, chunk])
-        : chunk;
-
-      // Compute new last bytes from this chunk
-      const lastBytesIndex = Math.max(
-        0,
-        data.byteLength - ATTACHMENT_MAC_LENGTH
-      );
-      this.lastBytes = data.subarray(lastBytesIndex);
-
-      // Update hmac with data we know is not the last bytes
-      if (lastBytesIndex > 0) {
-        this.macBuilder.update(data.subarray(0, lastBytesIndex));
+/**
+ * Updates a hash of the stream without modifying it.
+ */
+function peekAndUpdateHash(hash: Hash) {
+  return new Transform({
+    transform(chunk, _encoding, callback) {
+      try {
+        hash.update(chunk);
+        callback(null, chunk);
+      } catch (error) {
+        callback(error);
       }
-
-      this.push(chunk);
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
+    },
+  });
 }
 
-// The core of the decryption algorithm - it grabs the iv and initializes the
-//   DecipherTransform provided to it. It also modifies the stream, only passing on the
-//   data between the iv and the mac at the end.
-class CoreDecryptionTransform extends Transform {
-  private lastBytes: Uint8Array | undefined;
+/**
+ * Updates an hmac with the stream except for the last ATTACHMENT_MAC_LENGTH
+ * bytes. The last ATTACHMENT_MAC_LENGTH bytes are passed to the callback.
+ */
+function getMacAndUpdateHmac(
+  hmac: Hmac,
+  onTheirMac: (theirMac: Uint8Array) => void
+) {
+  // Because we don't have a view of the entire stream, we don't know when we're
+  // at the end. We need to omit the last ATTACHMENT_MAC_LENGTH bytes from
+  // `hmac.update` so we only push what we know is not the mac.
+  let maybeMacBytes = Buffer.alloc(0);
 
-  public iv: Uint8Array | undefined;
-  public theirMac: Uint8Array | undefined;
-
-  constructor(private decipherTransform: DecipherTransform) {
-    super();
+  function updateWithKnownNonMacBytes() {
+    let knownNonMacBytes = null;
+    if (maybeMacBytes.byteLength > ATTACHMENT_MAC_LENGTH) {
+      knownNonMacBytes = maybeMacBytes.subarray(0, -ATTACHMENT_MAC_LENGTH);
+      maybeMacBytes = maybeMacBytes.subarray(-ATTACHMENT_MAC_LENGTH);
+      hmac.update(knownNonMacBytes);
+    }
+    return knownNonMacBytes;
   }
 
-  override _flush(done: (error?: Error) => void) {
-    try {
-      if (
-        !this.lastBytes ||
-        this.lastBytes.byteLength !== ATTACHMENT_MAC_LENGTH
-      ) {
-        throw new Error(
-          `CoreDecryptionTransform: didn't get expected ${ATTACHMENT_MAC_LENGTH} bytes for mac, got ${this.lastBytes?.byteLength}!`
-        );
+  return new Transform({
+    transform(chunk, _encoding, callback) {
+      try {
+        maybeMacBytes = Buffer.concat([maybeMacBytes, chunk]);
+        const knownNonMac = updateWithKnownNonMacBytes();
+        callback(null, knownNonMac);
+      } catch (error) {
+        callback(error);
       }
-
-      this.theirMac = this.lastBytes;
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      let data = chunk;
-
-      // Grab the first bytes from data if we haven't already
-      if (!this.iv) {
-        this.iv = chunk.subarray(0, IV_LENGTH);
-        data = chunk.subarray(IV_LENGTH);
-
-        if (this.iv.byteLength !== IV_LENGTH) {
-          throw new Error(
-            `CoreDecryptionTransform: didn't get expected ${IV_LENGTH} bytes for iv, got ${this.iv.byteLength}!`
-          );
-        }
-
-        this.decipherTransform.initializeDecipher(this.iv);
+    },
+    flush(callback) {
+      try {
+        onTheirMac(maybeMacBytes);
+        callback(null, null);
+      } catch (error) {
+        callback(error);
       }
-
-      // Add previous last bytes to this new chunk
-      if (this.lastBytes) {
-        data = Buffer.concat([this.lastBytes, data]);
-      }
-
-      // Compute new last bytes from this chunk - if this chunk doesn't fit the MAC, we
-      //   build across multiple chunks to get there.
-      const macIndex = Math.max(0, data.byteLength - ATTACHMENT_MAC_LENGTH);
-      this.lastBytes = data.subarray(macIndex);
-
-      if (macIndex > 0) {
-        this.push(data.subarray(0, macIndex));
-      }
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
+    },
+  });
 }
 
-// The transform that does the actual deciphering. It doesn't have enough information to
-//   start working until the first chunk is processed upstream, hence its public
-//   initializeDecipher() function.
-class DecipherTransform extends Transform {
-  private decipher: Decipher | undefined;
-
-  constructor(private aesKey: Uint8Array) {
-    super();
-
-    if (aesKey.byteLength !== KEY_LENGTH) {
-      throw new Error(
-        `DecipherTransform: aesKey should be ${KEY_LENGTH} bytes, got ${aesKey.byteLength} bytes`
-      );
-    }
-  }
-
-  public initializeDecipher(iv: Uint8Array) {
-    if (iv.byteLength !== IV_LENGTH) {
-      throw new Error(
-        `DecipherTransform: iv should be ${IV_LENGTH} bytes, got ${iv.byteLength} bytes`
-      );
-    }
-
-    this.decipher = createDecipheriv(
-      CipherType.AES256CBC,
-      Buffer.from(this.aesKey),
-      Buffer.from(iv)
-    );
-  }
-
-  override _flush(done: (error?: Error) => void) {
-    if (!this.decipher) {
-      done(
-        new Error(
-          "DecipherTransform: _flush called, but decipher isn't initialized"
-        )
-      );
-      return;
-    }
-
-    try {
-      this.push(this.decipher.final());
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!this.decipher) {
-      done(
-        new Error(
-          "DecipherTransform: got a chunk, but decipher isn't initialized"
-        )
-      );
-      return;
-    }
-
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      this.push(this.decipher.update(chunk));
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-}
-
-// A simple transform that limits the provided data to `size` bytes. We use this to
-//   discard the padding on the incoming plaintext data.
-class LimitLengthTransform extends Transform {
-  private bytesWritten = 0;
-
-  constructor(private size: number) {
-    super();
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      const chunkLength = chunk.byteLength;
-      const sizeLeft = this.size - this.bytesWritten;
-
-      if (sizeLeft >= chunkLength) {
-        this.bytesWritten += chunkLength;
-        this.push(chunk);
-      } else if (sizeLeft > 0) {
-        this.bytesWritten += sizeLeft;
-        this.push(chunk.subarray(0, sizeLeft));
-      }
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-}
-
-// This is an unusual transform, in that it can produce quite a bit more data than it is
-//   provided. That's because it computes a bucket size for the provided size, which may
-//   be quite a bit bigger than the attachment, and then needs to provide those zeroes
-//   at the end of the stream.
-const PADDING_CHUNK_SIZE = 64 * 1024;
-class AddPaddingTransform extends Transform {
-  private bytesWritten = 0;
-  private targetLength: number;
-  private paddingChunksToWrite: Array<number> = [];
-  private paddingCallback: ((error?: Error) => void) | undefined;
-
-  constructor(private size: number) {
-    super();
-    this.targetLength = getAttachmentSizeBucket(size);
-  }
-
-  override _read(size: number): void {
-    if (this.paddingChunksToWrite.length > 0) {
-      // Restart our efforts to push padding downstream
-      this.pushPaddingChunks();
-    } else {
-      Transform.prototype._read.call(this, size);
-    }
-  }
-
-  public pushPaddingChunks(): boolean {
-    while (this.paddingChunksToWrite.length > 0) {
-      const [first, ...rest] = this.paddingChunksToWrite;
-      this.paddingChunksToWrite = rest;
-
-      const zeroes = getZeroes(first);
-
-      if (!this.push(zeroes)) {
-        // We shouldn't push any more; if we have more to push, we'll do it after a read()
-        break;
-      }
-    }
-
-    if (this.paddingChunksToWrite.length > 0) {
-      return false;
-    }
-
-    this.paddingCallback?.();
-    return true;
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-    try {
-      const chunkLength = chunk.byteLength;
-      const contentsStillNeeded = this.size - this.bytesWritten;
-
-      if (contentsStillNeeded >= chunkLength) {
-        this.push(chunk);
-        this.bytesWritten += chunkLength;
-      } else if (contentsStillNeeded > 0) {
-        throw new Error(
-          `AddPaddingTransform: chunk length was ${chunkLength} but only ${contentsStillNeeded} bytes needed to get to size ${this.size}`
-        );
-      }
-
-      if (this.bytesWritten === this.size) {
-        const paddingNeeded = this.targetLength - this.size;
-        const chunks = Math.floor(paddingNeeded / PADDING_CHUNK_SIZE);
-        const remainder = paddingNeeded % PADDING_CHUNK_SIZE;
-
-        for (let i = 0; i < chunks; i += 1) {
-          this.paddingChunksToWrite.push(PADDING_CHUNK_SIZE);
-        }
-        if (remainder > 0) {
-          this.paddingChunksToWrite.push(remainder);
-        }
-
-        if (!this.pushPaddingChunks()) {
-          // If we didn't push all chunks, we shouldn't call done - we'll keep it around
-          //   to call when we're actually done.
-          this.paddingCallback = done;
+/**
+ * Gets the IV from the start of the stream and creates a decipher.
+ * Then deciphers the rest of the stream.
+ */
+function getIvAndDecipher(aesKey: Uint8Array) {
+  let maybeIvBytes: Buffer | null = Buffer.alloc(0);
+  let decipher: Decipher | null = null;
+  return new Transform({
+    transform(chunk, _encoding, callback) {
+      try {
+        // If we've already initialized the decipher, just pass the chunk through.
+        if (decipher != null) {
+          callback(null, decipher.update(chunk));
           return;
         }
+
+        // Wait until we have enough bytes to get the iv to initialize the
+        // decipher.
+        maybeIvBytes = Buffer.concat([maybeIvBytes, chunk]);
+        if (maybeIvBytes.byteLength < IV_LENGTH) {
+          callback(null, null);
+          return;
+        }
+
+        // Once we have enough bytes, initialize the decipher and pass the
+        // remainder of the bytes through.
+        const iv = maybeIvBytes.subarray(0, IV_LENGTH);
+        const remainder = maybeIvBytes.subarray(IV_LENGTH);
+        maybeIvBytes = null; // free memory
+        decipher = createDecipheriv(CipherType.AES256CBC, aesKey, iv);
+        callback(null, decipher.update(remainder));
+      } catch (error) {
+        callback(error);
       }
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-}
-
-// The transform that does the actual ciphering; quite simple in that it applies the
-//   cipher to all incoming data, and can initialize itself fully in its constructor.
-class CipherTransform extends Transform {
-  private cipher: Cipher;
-
-  constructor(private iv: Uint8Array, private aesKey: Uint8Array) {
-    super();
-
-    if (aesKey.byteLength !== KEY_LENGTH) {
-      throw new Error(
-        `CipherTransform: aesKey should be ${KEY_LENGTH} bytes, got ${aesKey.byteLength} bytes`
-      );
-    }
-    if (iv.byteLength !== IV_LENGTH) {
-      throw new Error(
-        `CipherTransform: iv should be ${IV_LENGTH} bytes, got ${iv.byteLength} bytes`
-      );
-    }
-
-    this.cipher = createCipheriv(
-      CipherType.AES256CBC,
-      Buffer.from(this.aesKey),
-      Buffer.from(this.iv)
-    );
-  }
-
-  override _flush(done: (error?: Error) => void) {
-    try {
-      this.push(this.cipher.final());
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      this.push(this.cipher.update(chunk));
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-}
-
-// This very simple transform adds the provided iv data to the beginning of the stream.
-class AddIvTransform extends Transform {
-  public haveAddedIv = false;
-
-  constructor(private iv: Uint8Array) {
-    super();
-
-    if (iv.byteLength !== IV_LENGTH) {
-      throw new Error(
-        `MacTransform: iv should be ${IV_LENGTH} bytes, got ${iv.byteLength} bytes`
-      );
-    }
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      if (!this.haveAddedIv) {
-        this.push(this.iv);
-        this.haveAddedIv = true;
+    },
+    flush(callback) {
+      try {
+        strictAssert(decipher != null, 'decipher must be set');
+        callback(null, decipher.final());
+      } catch (error) {
+        callback(error);
       }
-      this.push(chunk);
-    } catch (error) {
-      done(error);
-      return;
-    }
+    },
+  });
+}
 
-    done();
+/**
+ * Truncates the stream to the target size.
+ */
+function trimPadding(size: number) {
+  let total = 0;
+  return new Transform({
+    transform(chunk, _encoding, callback) {
+      const chunkSize = chunk.byteLength;
+      const sizeLeft = size - total;
+      if (sizeLeft >= chunkSize) {
+        total += chunkSize;
+        callback(null, chunk);
+      } else if (sizeLeft > 0) {
+        total += sizeLeft;
+        callback(null, chunk.subarray(0, sizeLeft));
+      } else {
+        callback(null, null);
+      }
+    },
+  });
+}
+
+export function getAttachmentDownloadSize(size: number): number {
+  return (
+    // Multiply this by 1.05 to allow some variance
+    getAttachmentSizeBucket(size) * 1.05 + IV_LENGTH + ATTACHMENT_MAC_LENGTH
+  );
+}
+
+const PADDING_CHUNK_SIZE = 64 * 1024;
+
+/**
+ * Creates iterator that yields zero-filled padding chunks.
+ */
+function* generatePadding(size: number) {
+  const targetLength = getAttachmentSizeBucket(size);
+  const paddingSize = targetLength - size;
+  const paddingChunks = Math.floor(paddingSize / PADDING_CHUNK_SIZE);
+  const paddingChunk = new Uint8Array(PADDING_CHUNK_SIZE); // zero-filled
+  const paddingRemainder = new Uint8Array(paddingSize % PADDING_CHUNK_SIZE);
+  for (let i = 0; i < paddingChunks; i += 1) {
+    yield paddingChunk;
+  }
+  if (paddingRemainder.byteLength > 0) {
+    yield paddingRemainder;
   }
 }
 
-// This transform both calculates the mac and adds it to the end of the stream.
-class AddMacTransform extends Transform {
-  public ourMac: Uint8Array | undefined;
-  private macBuilder: Hmac;
+/**
+ * Appends zero-padding to the stream to a target bucket size.
+ */
+function appendPadding(fileSize: number) {
+  const iterator = generatePadding(fileSize);
+  let bytesWritten = 0;
+  let finalCallback: TransformCallback;
 
-  constructor(macKey: Uint8Array) {
-    super();
-
-    if (macKey.byteLength !== KEY_LENGTH) {
-      throw new Error(
-        `MacTransform: macKey should be ${KEY_LENGTH} bytes, got ${macKey.byteLength} bytes`
-      );
+  // Push as much padding as we can. If we reach the end
+  // of the padding, call the callback.
+  function pushPadding(transform: Transform) {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const result = iterator.next();
+      if (result.done) {
+        break;
+      }
+      const keepGoing = transform.push(result.value);
+      if (!keepGoing) {
+        return;
+      }
     }
-
-    this.macBuilder = createHmac('sha256', Buffer.from(macKey));
+    finalCallback();
   }
 
-  override _flush(done: (error?: Error) => void) {
-    try {
-      this.ourMac = this.macBuilder.digest();
-      this.push(this.ourMac);
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
-
-  override _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ) {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      this.macBuilder.update(chunk);
-      this.push(chunk);
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
+  return new Transform({
+    read(size) {
+      // When in the process of pushing padding, we pause and wait for
+      // read to be called again.
+      if (finalCallback != null) {
+        pushPadding(this);
+      }
+      // Always call _read, even if we're done.
+      Transform.prototype._read.call(this, size);
+    },
+    transform(chunk, _encoding, callback) {
+      bytesWritten += chunk.byteLength;
+      // Once we reach the end of the file, start pushing padding.
+      if (bytesWritten >= fileSize) {
+        this.push(chunk);
+        finalCallback = callback;
+        pushPadding(this);
+        return;
+      }
+      callback(null, chunk);
+    },
+  });
 }
 
-// Called during message schema migration. New messages downloaded should have
-// plaintextHash added automatically during decryption / writing to file system.
+/**
+ * Prepends the iv to the stream.
+ */
+function prependIv(iv: Uint8Array) {
+  strictAssert(
+    iv.byteLength === IV_LENGTH,
+    `prependIv: iv should be ${IV_LENGTH} bytes, got ${iv.byteLength} bytes`
+  );
+  return new Transform({
+    construct(callback) {
+      this.push(iv);
+      callback();
+    },
+    transform(chunk, _encoding, callback) {
+      callback(null, chunk);
+    },
+  });
+}
+
+/**
+ * Appends the mac to the end of the stream.
+ */
+function appendMac(macKey: Uint8Array) {
+  strictAssert(
+    macKey.byteLength === KEY_LENGTH,
+    `macKey should be ${KEY_LENGTH} bytes, got ${macKey.byteLength} bytes`
+  );
+  const hmac = createHmac(HashType.size256, macKey);
+  return new Transform({
+    transform(chunk, _encoding, callback) {
+      try {
+        hmac.update(chunk);
+        callback(null, chunk);
+      } catch (error) {
+        callback(error);
+      }
+    },
+    flush(callback) {
+      try {
+        callback(null, hmac.digest());
+      } catch (error) {
+        callback(error);
+      }
+    },
+  });
+}
+
+/**
+ * Called during message schema migration. New messages downloaded should have
+ * plaintextHash added automatically during decryption / writing to file system.
+ */
 export async function addPlaintextHashToAttachment(
   attachment: AttachmentType,
   { getAbsoluteAttachmentPath }: ContextType
@@ -866,28 +528,50 @@ export async function addPlaintextHashToAttachment(
 async function getPlaintextHashForAttachmentOnDisk(
   absolutePath: string
 ): Promise<string | undefined> {
-  const readStream = createReadStream(absolutePath);
-  const hash = createHash(HashType.size256);
+  let readFd;
   try {
-    await pipeline(readStream, hash);
-    const plaintextHash = hash.digest();
+    try {
+      readFd = await open(absolutePath, 'r');
+    } catch (error) {
+      log.error('addPlaintextHashToAttachment: Target path does not exist');
+      return undefined;
+    }
+    const hash = createHash(HashType.size256);
+    await pipeline(readFd.createReadStream(), hash);
+    const plaintextHash = hash.digest('hex');
     if (!plaintextHash) {
       log.error(
         'addPlaintextHashToAttachment: no hash generated from file; is the file empty?'
       );
       return;
     }
-    return Buffer.from(plaintextHash).toString('hex');
+    return plaintextHash;
   } catch (error) {
     log.error('addPlaintextHashToAttachment: error during file read', error);
     return undefined;
   } finally {
-    readStream.close();
+    await readFd?.close();
   }
 }
 
 export function getPlaintextHashForInMemoryAttachment(
   data: Uint8Array
 ): string {
-  return Buffer.from(sha256(data)).toString('hex');
+  return createHash(HashType.size256).update(data).digest('hex');
+}
+
+/**
+ * Unlinks a file without throwing an error if it doesn't exist.
+ * Throws an error if it fails to unlink for any other reason.
+ */
+export function safeUnlinkSync(filePath: string): void {
+  try {
+    unlinkSync(filePath);
+  } catch (error) {
+    // Ignore if file doesn't exist
+    if (error.code !== 'ENOENT') {
+      log.error('Failed to unlink', error);
+      throw error;
+    }
+  }
 }
