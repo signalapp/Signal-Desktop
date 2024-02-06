@@ -10,8 +10,38 @@
   margin-bottom: 16px;
 
   &__name {
-    @include font-title-2;
+    @include button-reset();
+    @include font-title-1;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
     margin-top: 6px;
+    cursor: pointer;
+  }
+
+  &__name__chevron {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+
+    // Align with the text
+    position: relative;
+    inset-block-start: 2px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-gray-05
+      );
+    }
   }
 
   &__info {

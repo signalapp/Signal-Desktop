@@ -20,6 +20,7 @@
 
 // New style: components
 @import './components/About.scss';
+@import './components/AboutContactModal.scss';
 @import './components/AddGroupMembersModal.scss';
 @import './components/AddUserToAnotherGroupModal.scss';
 @import './components/AnnouncementsOnlyGroupBanner.scss';
@@ -54,6 +55,7 @@
 @import './components/ChatColorPicker.scss';
 @import './components/Checkbox.scss';
 @import './components/CircleCheckbox.scss';
+@import './components/CollidingAvatars.scss';
 @import './components/CompositionArea.scss';
 @import './components/CompositionRecording.scss';
 @import './components/CompositionRecordingDraft.scss';
@@ -68,6 +70,7 @@
 @import './components/ContactSpoofingReviewDialogPerson.scss';
 @import './components/ContextMenu.scss';
 @import './components/ConversationDetails.scss';
+@import './components/ConversationDetailsHeader.scss';
 @import './components/ConversationHeader.scss';
 @import './components/ConversationHero.scss';
 @import './components/ConversationMergeNotification.scss';

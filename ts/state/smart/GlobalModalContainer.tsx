@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 
 import type { GlobalModalsStateType } from '../ducks/globalModals';
 import type { StateType } from '../reducer';
+import { isSignalConnection } from '../../util/getSignalConnections';
+import type { ExternalPropsType as AboutContactModalPropsType } from '../../components/conversation/AboutContactModal';
 import { ErrorModal } from '../../components/ErrorModal';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
@@ -19,9 +21,13 @@ import { SmartSendAnywayDialog } from './SendAnywayDialog';
 import { SmartShortcutGuideModal } from './ShortcutGuideModal';
 import { SmartStickerPreviewModal } from './StickerPreviewModal';
 import { SmartStoriesSettingsModal } from './StoriesSettingsModal';
-import { getConversationsStoppingSend } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  getConversationsStoppingSend,
+} from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { useConversationsActions } from '../ducks/conversations';
 import { SmartDeleteMessagesModal } from './DeleteMessagesModal';
 
 function renderEditHistoryMessagesModal(): JSX.Element {
@@ -62,12 +68,14 @@ function renderShortcutGuideModal(): JSX.Element {
 
 export function SmartGlobalModalContainer(): JSX.Element {
   const conversationsStoppingSend = useSelector(getConversationsStoppingSend);
+  const getConversation = useSelector(getConversationSelector);
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
 
   const hasSafetyNumberChangeModal = conversationsStoppingSend.length > 0;
 
   const {
+    aboutContactModalProps: aboutContactModalRawProps,
     addUserToAnotherGroupModalContactId,
     authArtCreatorData,
     contactModalState,
@@ -100,8 +108,23 @@ export function SmartGlobalModalContainer(): JSX.Element {
     hideWhatsNewModal,
     showFormattingWarningModal,
     showSendEditWarningModal,
+    toggleAboutContactModal,
     toggleSignalConnectionsModal,
   } = useGlobalModalActions();
+
+  const { updateSharedGroups } = useConversationsActions();
+
+  let aboutContactModalProps: AboutContactModalPropsType | undefined;
+  if (aboutContactModalRawProps) {
+    const conversation = getConversation(aboutContactModalRawProps.contactId);
+
+    aboutContactModalProps = {
+      conversation,
+      isSignalConnection: isSignalConnection(conversation),
+      toggleSignalConnectionsModal,
+      updateSharedGroups,
+    };
+  }
 
   const renderAddUserToAnotherGroup = useCallback(() => {
     return (
@@ -140,6 +163,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
 
   return (
     <GlobalModalContainer
+      aboutContactModalProps={aboutContactModalProps}
       addUserToAnotherGroupModalContactId={addUserToAnotherGroupModalContactId}
       contactModalState={contactModalState}
       editHistoryMessages={editHistoryMessages}
@@ -176,6 +200,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
       showSendEditWarningModal={showSendEditWarningModal}
       stickerPackPreviewId={stickerPackPreviewId}
       theme={theme}
+      toggleAboutContactModal={toggleAboutContactModal}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
       userNotFoundModalState={userNotFoundModalState}
       usernameOnboardingState={usernameOnboardingState}

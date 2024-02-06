@@ -17,11 +17,35 @@ import { Modal } from '../Modal';
 import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog';
 import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson';
 import { Button, ButtonVariant } from '../Button';
-import { Intl } from '../Intl';
 import { assertDev } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
-import { UserText } from '../UserText';
+
+export type ReviewPropsType = Readonly<
+  | {
+      type: ContactSpoofingType.DirectConversationWithSameTitle;
+      possiblyUnsafe: {
+        conversation: ConversationType;
+        isSignalConnection: boolean;
+      };
+      safe: {
+        conversation: ConversationType;
+        isSignalConnection: boolean;
+      };
+    }
+  | {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
+      group: ConversationType;
+      collisionInfoByTitle: Record<
+        string,
+        Array<{
+          oldName?: string;
+          isSignalConnection: boolean;
+          conversation: ConversationType;
+        }>
+      >;
+    }
+>;
 
 export type PropsType = {
   conversationId: string;
@@ -29,6 +53,7 @@ export type PropsType = {
   blockAndReportSpam: (conversationId: string) => unknown;
   blockConversation: (conversationId: string) => unknown;
   deleteConversation: (conversationId: string) => unknown;
+  toggleSignalConnectionsModal: () => void;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClose: () => void;
@@ -38,24 +63,7 @@ export type PropsType = {
     memberConversationId: string
   ) => unknown;
   theme: ThemeType;
-} & (
-  | {
-      type: ContactSpoofingType.DirectConversationWithSameTitle;
-      possiblyUnsafeConversation: ConversationType;
-      safeConversation: ConversationType;
-    }
-  | {
-      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
-      group: ConversationType;
-      collisionInfoByTitle: Record<
-        string,
-        Array<{
-          oldName?: string;
-          conversation: ConversationType;
-        }>
-      >;
-    }
-);
+} & ReviewPropsType;
 
 enum ConfirmationStateType {
   ConfirmingDelete,
@@ -70,6 +78,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
     blockConversation,
     conversationId,
     deleteConversation,
+    toggleSignalConnectionsModal,
     getPreferredBadge,
     i18n,
     onClose,
@@ -169,13 +178,13 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
 
   switch (props.type) {
     case ContactSpoofingType.DirectConversationWithSameTitle: {
-      const { possiblyUnsafeConversation, safeConversation } = props;
+      const { possiblyUnsafe, safe } = props;
       assertDev(
-        possiblyUnsafeConversation.type === 'direct',
+        possiblyUnsafe.conversation.type === 'direct',
         '<ContactSpoofingReviewDialog> expected a direct conversation for the "possibly unsafe" conversation'
       );
       assertDev(
-        safeConversation.type === 'direct',
+        safe.conversation.type === 'direct',
         '<ContactSpoofingReviewDialog> expected a direct conversation for the "safe" conversation'
       );
 
@@ -187,10 +196,13 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             {i18n('icu:ContactSpoofingReviewDialog__possibly-unsafe-title')}
           </h2>
           <ContactSpoofingReviewDialogPerson
-            conversation={possiblyUnsafeConversation}
+            conversation={possiblyUnsafe.conversation}
             getPreferredBadge={getPreferredBadge}
+            toggleSignalConnectionsModal={toggleSignalConnectionsModal}
             i18n={i18n}
             theme={theme}
+            isSignalConnection={possiblyUnsafe.isSignalConnection}
+            oldName={undefined}
           >
             <div className="module-ContactSpoofingReviewDialog__buttons">
               <Button
@@ -198,7 +210,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 onClick={() => {
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingDelete,
-                    affectedConversation: possiblyUnsafeConversation,
+                    affectedConversation: possiblyUnsafe.conversation,
                   });
                 }}
               >
@@ -209,7 +221,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 onClick={() => {
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingBlock,
-                    affectedConversation: possiblyUnsafeConversation,
+                    affectedConversation: possiblyUnsafe.conversation,
                   });
                 }}
               >
@@ -220,13 +232,16 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
           <hr />
           <h2>{i18n('icu:ContactSpoofingReviewDialog__safe-title')}</h2>
           <ContactSpoofingReviewDialogPerson
-            conversation={safeConversation}
+            conversation={safe.conversation}
             getPreferredBadge={getPreferredBadge}
+            toggleSignalConnectionsModal={toggleSignalConnectionsModal}
             i18n={i18n}
             onClick={() => {
-              showContactModal(safeConversation.id);
+              showContactModal(safe.conversation.id);
             }}
             theme={theme}
+            isSignalConnection={safe.isSignalConnection}
+            oldName={undefined}
           />
         </>
       );
@@ -257,117 +272,83 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 })}
           </p>
 
-          {Object.values(collisionInfoByTitle).map(
-            (conversationInfos, titleIdx) => {
-              return (
-                <>
-                  <h2>
-                    {i18n(
-                      'icu:ContactSpoofingReviewDialog__group__members-header'
-                    )}
-                  </h2>
-                  {conversationInfos.map(
-                    (conversationInfo, conversationIdx) => {
-                      let button: ReactNode;
-                      if (group.areWeAdmin) {
-                        button = (
-                          <Button
-                            variant={ButtonVariant.SecondaryAffirmative}
-                            onClick={() => {
-                              setConfirmationState({
-                                type: ConfirmationStateType.ConfirmingGroupRemoval,
-                                affectedConversation:
-                                  conversationInfo.conversation,
-                                group,
-                              });
-                            }}
-                          >
-                            {i18n(
-                              'icu:RemoveGroupMemberConfirmation__remove-button'
-                            )}
-                          </Button>
-                        );
-                      } else if (conversationInfo.conversation.isBlocked) {
-                        button = (
-                          <Button
-                            variant={ButtonVariant.SecondaryAffirmative}
-                            onClick={() => {
-                              acceptConversation(
-                                conversationInfo.conversation.id
-                              );
-                            }}
-                          >
-                            {i18n('icu:MessageRequests--unblock')}
-                          </Button>
-                        );
-                      } else if (
-                        !isInSystemContacts(conversationInfo.conversation)
-                      ) {
-                        button = (
-                          <Button
-                            variant={ButtonVariant.SecondaryDestructive}
-                            onClick={() => {
-                              setConfirmationState({
-                                type: ConfirmationStateType.ConfirmingBlock,
-                                affectedConversation:
-                                  conversationInfo.conversation,
-                              });
-                            }}
-                          >
-                            {i18n('icu:MessageRequests--block')}
-                          </Button>
-                        );
+          {Object.values(collisionInfoByTitle)
+            .map((conversationInfos, titleIdx) =>
+              conversationInfos.map((conversationInfo, conversationIdx) => {
+                let button: ReactNode;
+                if (group.areWeAdmin) {
+                  button = (
+                    <Button
+                      variant={ButtonVariant.SecondaryAffirmative}
+                      onClick={() => {
+                        setConfirmationState({
+                          type: ConfirmationStateType.ConfirmingGroupRemoval,
+                          affectedConversation: conversationInfo.conversation,
+                          group,
+                        });
+                      }}
+                    >
+                      {i18n('icu:RemoveGroupMemberConfirmation__remove-button')}
+                    </Button>
+                  );
+                } else if (conversationInfo.conversation.isBlocked) {
+                  button = (
+                    <Button
+                      variant={ButtonVariant.SecondaryAffirmative}
+                      onClick={() => {
+                        acceptConversation(conversationInfo.conversation.id);
+                      }}
+                    >
+                      {i18n('icu:MessageRequests--unblock')}
+                    </Button>
+                  );
+                } else if (!isInSystemContacts(conversationInfo.conversation)) {
+                  button = (
+                    <Button
+                      variant={ButtonVariant.SecondaryDestructive}
+                      onClick={() => {
+                        setConfirmationState({
+                          type: ConfirmationStateType.ConfirmingBlock,
+                          affectedConversation: conversationInfo.conversation,
+                        });
+                      }}
+                    >
+                      {i18n('icu:MessageRequests--block')}
+                    </Button>
+                  );
+                }
+
+                const { oldName, isSignalConnection } = conversationInfo;
+
+                return (
+                  <>
+                    <ContactSpoofingReviewDialogPerson
+                      key={conversationInfo.conversation.id}
+                      conversation={conversationInfo.conversation}
+                      toggleSignalConnectionsModal={
+                        toggleSignalConnectionsModal
                       }
-
-                      const { oldName } = conversationInfo;
-                      const newName =
-                        conversationInfo.conversation.profileName ||
-                        conversationInfo.conversation.title;
-
-                      let callout: JSX.Element | undefined;
-                      if (oldName && oldName !== newName) {
-                        callout = (
-                          <div className="module-ContactSpoofingReviewDialogPerson__info__property module-ContactSpoofingReviewDialogPerson__info__property--callout">
-                            <Intl
-                              i18n={i18n}
-                              id="icu:ContactSpoofingReviewDialog__group__name-change-info"
-                              components={{
-                                oldName: <UserText text={oldName} />,
-                                newName: <UserText text={newName} />,
-                              }}
-                            />
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <>
-                          <ContactSpoofingReviewDialogPerson
-                            key={conversationInfo.conversation.id}
-                            conversation={conversationInfo.conversation}
-                            getPreferredBadge={getPreferredBadge}
-                            i18n={i18n}
-                            theme={theme}
-                          >
-                            {callout}
-                            {button && (
-                              <div className="module-ContactSpoofingReviewDialog__buttons">
-                                {button}
-                              </div>
-                            )}
-                          </ContactSpoofingReviewDialogPerson>
-                          {titleIdx < sharedTitles.length - 1 ||
-                          conversationIdx < conversationInfos.length - 1 ? (
-                            <hr />
-                          ) : null}
-                        </>
-                      );
-                    }
-                  )}
-                </>
-              );
-            }
-          )}
+                      getPreferredBadge={getPreferredBadge}
+                      i18n={i18n}
+                      theme={theme}
+                      oldName={oldName}
+                      isSignalConnection={isSignalConnection}
+                    >
+                      {button && (
+                        <div className="module-ContactSpoofingReviewDialog__buttons">
+                          {button}
+                        </div>
+                      )}
+                    </ContactSpoofingReviewDialogPerson>
+                    {titleIdx < sharedTitles.length - 1 ||
+                    conversationIdx < conversationInfos.length - 1 ? (
+                      <hr />
+                    ) : null}
+                  </>
+                );
+              })
+            )
+            .flat()}
         </>
       );
       break;

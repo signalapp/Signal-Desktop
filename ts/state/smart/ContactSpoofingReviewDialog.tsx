@@ -1,48 +1,42 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { mapValues } from 'lodash';
 import type { StateType } from '../reducer';
 
 import { ContactSpoofingReviewDialog } from '../../components/conversation/ContactSpoofingReviewDialog';
 
-import type { ConversationType } from '../ducks/conversations';
 import { useConversationsActions } from '../ducks/conversations';
 import type { GetConversationByIdType } from '../selectors/conversations';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  getConversationByServiceIdSelector,
+  getSafeConversationWithSameTitle,
+} from '../selectors/conversations';
+import { getOwn } from '../../util/getOwn';
+import { assertDev } from '../../util/assert';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { isSignalConnection } from '../../util/getSignalConnections';
+import {
+  getCollisionsFromMemberships,
+  invertIdsByTitle,
+} from '../../util/groupMemberNameCollisions';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
 
-export type PropsType =
-  | {
-      conversationId: string;
-      onClose: () => void;
-    } & (
-      | {
-          type: ContactSpoofingType.DirectConversationWithSameTitle;
-          possiblyUnsafeConversation: ConversationType;
-          safeConversation: ConversationType;
-        }
-      | {
-          type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
-          groupConversationId: string;
-          collisionInfoByTitle: Record<
-            string,
-            Array<{
-              oldName?: string;
-              conversation: ConversationType;
-            }>
-          >;
-        }
-    );
+export type PropsType = Readonly<{
+  conversationId: string;
+  onClose: () => void;
+}>;
 
 export function SmartContactSpoofingReviewDialog(
   props: PropsType
-): JSX.Element {
-  const { type } = props;
+): JSX.Element | null {
+  const { conversationId } = props;
 
   const getConversation = useSelector<StateType, GetConversationByIdType>(
     getConversationSelector
@@ -55,12 +49,29 @@ export function SmartContactSpoofingReviewDialog(
     deleteConversation,
     removeMember,
   } = useConversationsActions();
-  const { showContactModal } = useGlobalModalActions();
+  const { showContactModal, toggleSignalConnectionsModal } =
+    useGlobalModalActions();
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
+  const getConversationByServiceId = useSelector(
+    getConversationByServiceIdSelector
+  );
+  const conversation = getConversation(conversationId);
+
+  // Just binding the options argument
+  const safeConversationSelector = useCallback(
+    (state: StateType) => {
+      return getSafeConversationWithSameTitle(state, {
+        possiblyUnsafeConversation: conversation,
+      });
+    },
+    [conversation]
+  );
+  const safeConvo = useSelector(safeConversationSelector);
 
   const sharedProps = {
+    ...props,
     acceptConversation,
     blockAndReportSpam,
     blockConversation,
@@ -69,18 +80,65 @@ export function SmartContactSpoofingReviewDialog(
     i18n,
     removeMember,
     showContactModal,
+    toggleSignalConnectionsModal,
     theme,
   };
 
-  if (type === ContactSpoofingType.MultipleGroupMembersWithSameTitle) {
+  if (conversation.type === 'group') {
+    const { memberships } = getGroupMemberships(
+      conversation,
+      getConversationByServiceId
+    );
+    const groupNameCollisions = getCollisionsFromMemberships(memberships);
+
+    const previouslyAcknowledgedTitlesById = invertIdsByTitle(
+      conversation.acknowledgedGroupNameCollisions
+    );
+
+    const collisionInfoByTitle = mapValues(groupNameCollisions, collisions =>
+      collisions.map(collision => ({
+        conversation: collision,
+        isSignalConnection: isSignalConnection(collision),
+        oldName: getOwn(previouslyAcknowledgedTitlesById, collision.id),
+      }))
+    );
+
     return (
       <ContactSpoofingReviewDialog
-        {...props}
         {...sharedProps}
-        group={getConversation(props.groupConversationId)}
+        type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
+        group={conversation}
+        collisionInfoByTitle={collisionInfoByTitle}
       />
     );
   }
 
-  return <ContactSpoofingReviewDialog {...props} {...sharedProps} />;
+  const possiblyUnsafeConvo = conversation;
+  assertDev(
+    possiblyUnsafeConvo.type === 'direct',
+    'DirectConversationWithSameTitle: expects possibly unsafe direct ' +
+      'conversation'
+  );
+
+  if (!safeConvo) {
+    return null;
+  }
+
+  const possiblyUnsafe = {
+    conversation: possiblyUnsafeConvo,
+    isSignalConnection: isSignalConnection(possiblyUnsafeConvo),
+  };
+  const safe = {
+    conversation: safeConvo,
+    isSignalConnection: isSignalConnection(safeConvo),
+  };
+
+  return (
+    <ContactSpoofingReviewDialog
+      {...sharedProps}
+      type={ContactSpoofingType.DirectConversationWithSameTitle}
+      possiblyUnsafe={possiblyUnsafe}
+      safe={safe}
+    />
+  );
 }

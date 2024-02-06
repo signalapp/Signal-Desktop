@@ -45,6 +45,7 @@ export default {
     removeMemberFromGroup: action('removeMemberFromGroup'),
     showConversation: action('showConversation'),
     theme: ThemeType.light,
+    toggleAboutContactModal: action('AboutContactModal'),
     toggleAdmin: action('toggleAdmin'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     updateConversationModelSharedGroups: action(

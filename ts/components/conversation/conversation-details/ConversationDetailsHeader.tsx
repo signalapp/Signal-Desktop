@@ -11,7 +11,7 @@ import { GroupDescription } from '../GroupDescription';
 import { About } from '../About';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
-import { bemGenerator } from './util';
+import { assertDev } from '../../../util/assert';
 import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
 import { UserText } from '../../UserText';
@@ -26,6 +26,7 @@ export type Props = {
   isMe: boolean;
   memberships: ReadonlyArray<GroupV2Membership>;
   startEditing: (isGroupTitle: boolean) => void;
+  toggleAboutContactModal: (contactId: string) => void;
   theme: ThemeType;
 };
 
@@ -33,8 +34,6 @@ enum ConversationDetailsHeaderActiveModal {
   ShowingAvatar,
   ShowingBadges,
 }
-
-const bem = bemGenerator('ConversationDetails-header');
 
 export function ConversationDetailsHeader({
   areWeASubscriber,
@@ -46,6 +45,7 @@ export function ConversationDetailsHeader({
   isMe,
   memberships,
   startEditing,
+  toggleAboutContactModal,
   theme,
 }: Props): JSX.Element {
   const [activeModal, setActiveModal] = useState<
@@ -75,10 +75,10 @@ export function ConversationDetailsHeader({
   } else if (!isMe) {
     subtitle = (
       <>
-        <div className={bem('subtitle__about')}>
+        <div className="ConversationDetailsHeader__subtitle__about">
           <About text={conversation.about} />
         </div>
-        <div className={bem('subtitle__phone-number')}>
+        <div className="ConversationDetailsHeader__subtitle__phone-number">
           {conversation.phoneNumber}
         </div>
       </>
@@ -103,15 +103,6 @@ export function ConversationDetailsHeader({
       sharedGroupNames={[]}
       theme={theme}
     />
-  );
-
-  const contents = (
-    <div>
-      <div className={bem('title')}>
-        {isMe ? i18n('icu:noteToSelf') : <UserText text={conversation.title} />}
-        {isMe && <span className="ContactModal__official-badge__large" />}
-      </div>
-    </div>
   );
 
   let modal: ReactNode;
@@ -150,8 +141,13 @@ export function ConversationDetailsHeader({
   }
 
   if (canEdit) {
+    assertDev(isGroup, 'Only groups support editable title');
+
     return (
-      <div className={bem('root')} data-testid="ConversationDetailsHeader">
+      <div
+        className="ConversationDetailsHeader"
+        data-testid="ConversationDetailsHeader"
+      >
         {modal}
         {avatar}
         <button
@@ -161,12 +157,14 @@ export function ConversationDetailsHeader({
             ev.stopPropagation();
             startEditing(true);
           }}
-          className={bem('root', 'editable')}
+          className="ConversationDetailsHeader__edit-button"
         >
-          {contents}
+          <div className="ConversationDetailsHeader__title">
+            <UserText text={conversation.title} />
+          </div>
         </button>
         {hasNestedButton ? (
-          <div className={bem('subtitle')}>{subtitle}</div>
+          <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
         ) : (
           <button
             type="button"
@@ -179,21 +177,61 @@ export function ConversationDetailsHeader({
               ev.stopPropagation();
               startEditing(false);
             }}
-            className={bem('root', 'editable')}
+            className="ConversationDetailsHeader__edit-button"
           >
-            <div className={bem('subtitle')}>{subtitle}</div>
+            <div className="ConversationDetailsHeader__subtitle">
+              {subtitle}
+            </div>
           </button>
         )}
       </div>
     );
   }
 
+  let title: JSX.Element;
+
+  if (isMe) {
+    title = (
+      <div className="ConversationDetailsHeader__title">
+        {i18n('icu:noteToSelf')}
+        <span className="ContactModal__official-badge__large" />
+      </div>
+    );
+  } else if (isGroup) {
+    title = (
+      <div className="ConversationDetailsHeader__title">
+        <UserText text={conversation.title} />
+      </div>
+    );
+  } else {
+    title = (
+      <button
+        type="button"
+        onClick={ev => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          toggleAboutContactModal(conversation.id);
+        }}
+        className="ConversationDetailsHeader__about-button"
+      >
+        <div className="ConversationDetailsHeader__title">
+          <UserText text={conversation.title} />
+
+          <span className="ConversationDetailsHeader__about-icon" />
+        </div>
+      </button>
+    );
+  }
+
   return (
-    <div className={bem('root')} data-testid="ConversationDetailsHeader">
+    <div
+      className="ConversationDetailsHeader"
+      data-testid="ConversationDetailsHeader"
+    >
       {modal}
       {avatar}
-      {contents}
-      <div className={bem('subtitle')}>{subtitle}</div>
+      {title}
+      <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
     </div>
   );
 }

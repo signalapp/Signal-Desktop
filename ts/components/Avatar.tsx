@@ -36,6 +36,7 @@ export enum AvatarBlur {
 
 export enum AvatarSize {
   TWENTY = 20,
+  TWENTY_FOUR = 24,
   TWENTY_EIGHT = 28,
   THIRTY_TWO = 32,
   THIRTY_SIX = 36,
@@ -44,6 +45,7 @@ export enum AvatarSize {
   FIFTY_TWO = 52,
   EIGHTY = 80,
   NINETY_SIX = 96,
+  TWO_HUNDRED_SIXTEEN = 216,
 }
 
 type BadgePlacementType = { bottom: number; right: number };

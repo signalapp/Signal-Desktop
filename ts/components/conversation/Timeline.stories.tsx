@@ -13,10 +13,8 @@ import type { PropsType } from './Timeline';
 import { Timeline } from './Timeline';
 import type { TimelineItemType } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
-import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import { ConversationHero } from './ConversationHero';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
@@ -26,8 +24,12 @@ import { ThemeType } from '../../types/Util';
 import { TextDirection } from './Message';
 import { PaymentEventKind } from '../../types/Payment';
 import type { PropsData as TimelineMessageProps } from './TimelineMessage';
+import { CollidingAvatars } from '../CollidingAvatars';
 
 const i18n = setupI18n('en', enMessages);
+
+const alice = getDefaultConversation();
+const bob = getDefaultConversation();
 
 export default {
   title: 'Components/Conversation/Timeline',
@@ -323,10 +325,7 @@ const actions = () => ({
   returnToActiveCall: action('returnToActiveCall'),
 
   closeContactSpoofingReview: action('closeContactSpoofingReview'),
-  reviewGroupMemberNameCollision: action('reviewGroupMemberNameCollision'),
-  reviewMessageRequestNameCollision: action(
-    'reviewMessageRequestNameCollision'
-  ),
+  reviewConversationNameCollision: action('reviewConversationNameCollision'),
 
   unblurAvatar: action('unblurAvatar'),
 
@@ -375,35 +374,9 @@ const renderItem = ({
   />
 );
 
-const renderContactSpoofingReviewDialog = (
-  props: SmartContactSpoofingReviewDialogPropsType
-) => {
-  const sharedProps = {
-    acceptConversation: action('acceptConversation'),
-    blockAndReportSpam: action('blockAndReportSpam'),
-    blockConversation: action('blockConversation'),
-    deleteConversation: action('deleteConversation'),
-    getPreferredBadge: () => undefined,
-    i18n,
-    removeMember: action('removeMember'),
-    showContactModal: action('showContactModal'),
-    theme: ThemeType.dark,
-  };
-
-  if (props.type === ContactSpoofingType.MultipleGroupMembersWithSameTitle) {
-    return (
-      <ContactSpoofingReviewDialog
-        {...props}
-        {...sharedProps}
-        group={{
-          ...getDefaultConversation(),
-          areWeAdmin: true,
-        }}
-      />
-    );
-  }
-
-  return <ContactSpoofingReviewDialog {...props} {...sharedProps} />;
+const renderContactSpoofingReviewDialog = () => {
+  // hasContactSpoofingReview is always false in stories
+  return <div />;
 };
 
 const getAbout = () => '👍 Free to chat';
@@ -433,6 +406,7 @@ const renderHeroRow = () => {
         unblurAvatar={action('unblurAvatar')}
         updateSharedGroups={noop}
         viewUserStories={action('viewUserStories')}
+        toggleAboutContactModal={action('toggleAboutContactModal')}
       />
     );
   }
@@ -451,6 +425,9 @@ const renderTypingBubble = () => (
     i18n={i18n}
     theme={ThemeType.light}
   />
+);
+const renderCollidingAvatars = () => (
+  <CollidingAvatars i18n={i18n} conversations={[alice, bob]} />
 );
 const renderMiniPlayer = () => (
   <div>If active, this is where smart mini player would be</div>
@@ -477,12 +454,14 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
   warning: overrideProps.warning,
+  hasContactSpoofingReview: false,
 
   id: uuid(),
   renderItem,
   renderHeroRow,
   renderMiniPlayer,
   renderTypingBubble,
+  renderCollidingAvatars,
   renderContactSpoofingReviewDialog,
   isSomeoneTyping: overrideProps.isSomeoneTyping || false,
 
@@ -581,7 +560,9 @@ export function WithSameNameInDirectConversationWarning(): JSX.Element {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.DirectConversationWithSameTitle,
-      safeConversation: getDefaultConversation(),
+
+      // Just to pacify type-script
+      safeConversationId: '123',
     },
     items: [],
   });
@@ -590,6 +571,21 @@ export function WithSameNameInDirectConversationWarning(): JSX.Element {
 }
 
 export function WithSameNameInGroupConversationWarning(): JSX.Element {
+  const props = useProps({
+    warning: {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
+      acknowledgedGroupNameCollisions: {},
+      groupNameCollisions: {
+        Alice: times(2, () => uuid()),
+      },
+    },
+    items: [],
+  });
+
+  return <Timeline {...props} />;
+}
+
+export function WithSameNamesInGroupConversationWarning(): JSX.Element {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,

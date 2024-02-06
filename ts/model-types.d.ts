@@ -381,6 +381,7 @@ export type ConversationAttributesType = {
   profileKey?: string;
   profileName?: string;
   verified?: number;
+  profileLastUpdatedAt?: number;
   profileLastFetchedAt?: number;
   pendingUniversalTimer?: string;
   pendingRemovedContactNotification?: string;

@@ -26,6 +26,7 @@ export default {
     unblurAvatar: action('unblurAvatar'),
     updateSharedGroups: action('updateSharedGroups'),
     viewUserStories: action('viewUserStories'),
+    toggleAboutContactModal: action('toggleAboutContactModal'),
   },
 } satisfies Meta<Props>;
 
@@ -78,7 +79,7 @@ export const DirectNoGroupsJustPhoneNumber = Template.bind({});
 DirectNoGroupsJustPhoneNumber.args = {
   phoneNumber: casual.phone,
   profileName: '',
-  title: '',
+  title: casual.phone,
 };
 
 export const DirectNoGroupsNoData = Template.bind({});
@@ -86,7 +87,7 @@ DirectNoGroupsNoData.args = {
   avatarPath: undefined,
   phoneNumber: '',
   profileName: '',
-  title: '',
+  title: casual.phone,
 };
 
 export const DirectNoGroupsNoDataNotAccepted = Template.bind({});

@@ -58,7 +58,7 @@ const LOAD_NEWER_THRESHOLD = 5;
 export type WarningType = ReadonlyDeep<
   | {
       type: ContactSpoofingType.DirectConversationWithSameTitle;
-      safeConversation: ConversationType;
+      safeConversationId: string;
     }
   | {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
@@ -66,23 +66,6 @@ export type WarningType = ReadonlyDeep<
       groupNameCollisions: GroupNameCollisionsWithIdsByTitle;
     }
 >;
-
-export type ContactSpoofingReviewPropType =
-  | {
-      type: ContactSpoofingType.DirectConversationWithSameTitle;
-      possiblyUnsafeConversation: ConversationType;
-      safeConversation: ConversationType;
-    }
-  | {
-      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
-      collisionInfoByTitle: Record<
-        string,
-        Array<{
-          oldName?: string;
-          conversation: ConversationType;
-        }>
-      >;
-    };
 
 export type PropsDataType = {
   haveNewest: boolean;
@@ -112,7 +95,7 @@ type PropsHousekeepingType = {
   shouldShowMiniPlayer: boolean;
 
   warning?: WarningType;
-  contactSpoofingReview?: ContactSpoofingReviewPropType;
+  hasContactSpoofingReview: boolean | undefined;
 
   discardMessages: (
     _: Readonly<
@@ -128,6 +111,9 @@ type PropsHousekeepingType = {
   i18n: LocalizerType;
   theme: ThemeType;
 
+  renderCollidingAvatars: (_: {
+    conversationIds: ReadonlyArray<string>;
+  }) => JSX.Element;
   renderContactSpoofingReviewDialog: (
     props: SmartContactSpoofingReviewDialogPropsType
   ) => JSX.Element;
@@ -167,12 +153,7 @@ export type PropsActionsType = {
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => unknown;
   peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
   peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
-  reviewGroupMemberNameCollision: (groupConversationId: string) => void;
-  reviewMessageRequestNameCollision: (
-    _: Readonly<{
-      safeConversationId: string;
-    }>
-  ) => void;
+  reviewConversationNameCollision: () => void;
   scrollToOldestUnreadMention: (conversationId: string) => unknown;
 };
 
@@ -798,7 +779,7 @@ export class Timeline extends React.Component<
       acknowledgeGroupMemberNameCollisions,
       clearInvitedServiceIdsForNewlyCreatedGroup,
       closeContactSpoofingReview,
-      contactSpoofingReview,
+      hasContactSpoofingReview,
       getPreferredBadge,
       getTimestampForMessage,
       haveNewest,
@@ -811,13 +792,13 @@ export class Timeline extends React.Component<
       items,
       messageLoadingState,
       oldestUnseenIndex,
+      renderCollidingAvatars,
       renderContactSpoofingReviewDialog,
       renderHeroRow,
       renderItem,
       renderMiniPlayer,
       renderTypingBubble,
-      reviewGroupMemberNameCollision,
-      reviewMessageRequestNameCollision,
+      reviewConversationNameCollision,
       scrollToOldestUnreadMention,
       shouldShowMiniPlayer,
       theme,
@@ -963,8 +944,14 @@ export class Timeline extends React.Component<
     let headerElements: ReactNode;
     if (warning || shouldShowMiniPlayer) {
       let text: ReactChild | undefined;
+      let icon: ReactChild | undefined;
       let onClose: () => void;
       if (warning) {
+        icon = (
+          <TimelineWarning.IconContainer>
+            <TimelineWarning.GenericIcon />
+          </TimelineWarning.IconContainer>
+        );
         switch (warning.type) {
           case ContactSpoofingType.DirectConversationWithSameTitle:
             text = (
@@ -976,11 +963,7 @@ export class Timeline extends React.Component<
                   // eslint-disable-next-line react/no-unstable-nested-components
                   reviewRequestLink: parts => (
                     <TimelineWarning.Link
-                      onClick={() => {
-                        reviewMessageRequestNameCollision({
-                          safeConversationId: warning.safeConversation.id,
-                        });
-                      }}
+                      onClick={reviewConversationNameCollision}
                     >
                       {parts}
                     </TimelineWarning.Link>
@@ -998,24 +981,25 @@ export class Timeline extends React.Component<
             const { groupNameCollisions } = warning;
             const numberOfSharedNames = Object.keys(groupNameCollisions).length;
             const reviewRequestLink: FullJSXType = parts => (
-              <TimelineWarning.Link
-                onClick={() => {
-                  reviewGroupMemberNameCollision(id);
-                }}
-              >
+              <TimelineWarning.Link onClick={reviewConversationNameCollision}>
                 {parts}
               </TimelineWarning.Link>
             );
             if (numberOfSharedNames === 1) {
+              const [conversationIds] = [...Object.values(groupNameCollisions)];
+              if (conversationIds.length >= 2) {
+                icon = (
+                  <TimelineWarning.CustomInfo>
+                    {renderCollidingAvatars({ conversationIds })}
+                  </TimelineWarning.CustomInfo>
+                );
+              }
               text = (
                 <Intl
                   i18n={i18n}
                   id="icu:ContactSpoofing__same-name-in-group--link"
                   components={{
-                    count: Object.values(groupNameCollisions).reduce(
-                      (result, conversations) => result + conversations.length,
-                      0
-                    ),
+                    count: conversationIds.length,
                     reviewRequestLink,
                   }}
                 />
@@ -1053,9 +1037,7 @@ export class Timeline extends React.Component<
               {renderMiniPlayer({ shouldFlow: true })}
               {text && (
                 <TimelineWarning i18n={i18n} onClose={onClose}>
-                  <TimelineWarning.IconContainer>
-                    <TimelineWarning.GenericIcon />
-                  </TimelineWarning.IconContainer>
+                  {icon}
                   <TimelineWarning.Text>{text}</TimelineWarning.Text>
                 </TimelineWarning>
               )}
@@ -1066,33 +1048,11 @@ export class Timeline extends React.Component<
     }
 
     let contactSpoofingReviewDialog: ReactNode;
-    if (contactSpoofingReview) {
-      const commonProps = {
+    if (hasContactSpoofingReview) {
+      contactSpoofingReviewDialog = renderContactSpoofingReviewDialog({
         conversationId: id,
         onClose: closeContactSpoofingReview,
-      };
-
-      switch (contactSpoofingReview.type) {
-        case ContactSpoofingType.DirectConversationWithSameTitle:
-          contactSpoofingReviewDialog = renderContactSpoofingReviewDialog({
-            ...commonProps,
-            type: ContactSpoofingType.DirectConversationWithSameTitle,
-            possiblyUnsafeConversation:
-              contactSpoofingReview.possiblyUnsafeConversation,
-            safeConversation: contactSpoofingReview.safeConversation,
-          });
-          break;
-        case ContactSpoofingType.MultipleGroupMembersWithSameTitle:
-          contactSpoofingReviewDialog = renderContactSpoofingReviewDialog({
-            ...commonProps,
-            type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
-            groupConversationId: id,
-            collisionInfoByTitle: contactSpoofingReview.collisionInfoByTitle,
-          });
-          break;
-        default:
-          throw missingCaseError(contactSpoofingReview);
-      }
+      });
     }
 
     return (

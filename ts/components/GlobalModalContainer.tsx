@@ -23,6 +23,8 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import { FormattingWarningModal } from './FormattingWarningModal';
 import { SendEditWarningModal } from './SendEditWarningModal';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
+import { AboutContactModal } from './conversation/AboutContactModal';
+import type { ExternalPropsType as AboutContactModalPropsType } from './conversation/AboutContactModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
 // NOTE: All types should be required for this component so that the smart
@@ -73,6 +75,9 @@ export type PropsType = {
   // SignalConnectionsModal
   isSignalConnectionsVisible: boolean;
   toggleSignalConnectionsModal: () => unknown;
+  // AboutContactModal
+  aboutContactModalProps: AboutContactModalPropsType | undefined;
+  toggleAboutContactModal: () => unknown;
   // StickerPackPreviewModal
   stickerPackPreviewId: string | undefined;
   renderStickerPreviewModal: () => JSX.Element | null;
@@ -139,6 +144,9 @@ export function GlobalModalContainer({
   // SignalConnectionsModal
   isSignalConnectionsVisible,
   toggleSignalConnectionsModal,
+  // AboutContactModal
+  aboutContactModalProps,
+  toggleAboutContactModal,
   // StickerPackPreviewModal
   stickerPackPreviewId,
   renderStickerPreviewModal,
@@ -183,10 +191,6 @@ export function GlobalModalContainer({
 
   if (addUserToAnotherGroupModalContactId) {
     return renderAddUserToAnotherGroup();
-  }
-
-  if (contactModalState) {
-    return renderContactModal();
   }
 
   if (editHistoryMessages) {
@@ -250,6 +254,20 @@ export function GlobalModalContainer({
         onClose={toggleSignalConnectionsModal}
       />
     );
+  }
+
+  if (aboutContactModalProps) {
+    return (
+      <AboutContactModal
+        i18n={i18n}
+        onClose={toggleAboutContactModal}
+        {...aboutContactModalProps}
+      />
+    );
+  }
+
+  if (contactModalState) {
+    return renderContactModal();
   }
 
   if (isStoriesSettingsVisible) {

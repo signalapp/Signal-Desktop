@@ -102,6 +102,7 @@ const createProps = (
   setMuteExpiration: action('setMuteExpiration'),
   userAvatarData: [],
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+  toggleAboutContactModal: action('toggleAboutContactModal'),
   toggleAddUserToAnotherGroupModal: action('toggleAddUserToAnotherGroup'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'

@@ -45,6 +45,7 @@ function Wrapper(overrideProps: Partial<Props>) {
       isGroup
       isMe={false}
       theme={theme}
+      toggleAboutContactModal={action('toggleAboutContactModal')}
       {...overrideProps}
     />
   );
@@ -80,7 +81,16 @@ export function EditableNoDescription(): JSX.Element {
 }
 
 export function OneOnOne(): JSX.Element {
-  return <Wrapper isGroup={false} badges={getFakeBadges(3)} />;
+  return (
+    <Wrapper
+      isGroup={false}
+      badges={getFakeBadges(3)}
+      conversation={getDefaultConversation({
+        title: 'Maya Johnson',
+        type: 'direct',
+      })}
+    />
+  );
 }
 
 export function NoteToSelf(): JSX.Element {

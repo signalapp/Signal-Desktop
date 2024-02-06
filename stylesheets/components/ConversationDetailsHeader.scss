@@ -1,0 +1,98 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ConversationDetailsHeader {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-block: 0 20px;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 24px;
+  text-align: center;
+  width: 100%;
+
+  &__edit-button,
+  &__about-button {
+    @include button-reset();
+    cursor: pointer;
+  }
+
+  &__title {
+    @include font-title-1;
+    font-weight: 400;
+    align-items: baseline;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 8px;
+    padding-top: 12px;
+    user-select: text;
+  }
+
+  &__subtitle {
+    @include font-body-1;
+    color: $color-gray-60;
+    justify-content: center;
+    padding-bottom: 6px;
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    &__about,
+    &__phone-number {
+      user-select: text;
+    }
+  }
+
+  &__edit-button &__title {
+    $icon: '../images/icons/v3/edit/edit.svg';
+
+    &::after {
+      $size: 24px;
+
+      content: '';
+      height: $size;
+      inset-inline-start: $size + 13px;
+      margin-inline-start: -$size;
+      opacity: 0;
+      position: relative;
+      transition: opacity 100ms ease-out;
+      width: $size;
+
+      @include light-theme {
+        @include color-svg($icon, $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg($icon, $color-gray-25);
+      }
+    }
+  }
+
+  &__edit-button:hover &__title::after {
+    opacity: 1;
+  }
+
+  &__about-icon {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+
+    // Align with the text
+    position: relative;
+    inset-block-start: 2px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-black
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-gray-05
+      );
+    }
+  }
+}

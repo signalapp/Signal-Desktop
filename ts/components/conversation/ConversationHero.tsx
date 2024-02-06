@@ -13,7 +13,6 @@ import type { HasStories } from '../../types/Stories';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
 import { StoryViewModeType } from '../../types/Stories';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
@@ -27,7 +26,6 @@ export type Props = {
   isMe: boolean;
   isSignalConversation?: boolean;
   membersCount?: number;
-  name?: string;
   phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
   unblurAvatar: (conversationId: string) => void;
@@ -35,6 +33,7 @@ export type Props = {
   updateSharedGroups: (conversationId: string) => unknown;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
+  toggleAboutContactModal: (conversationId: string) => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
 const renderMembershipRow = ({
@@ -56,22 +55,25 @@ const renderMembershipRow = ({
   Required<Pick<Props, 'sharedGroupNames'>> & {
     onClickMessageRequestWarning: () => void;
   }) => {
-  const className = 'module-conversation-hero__membership';
-
   if (conversationType !== 'direct') {
     return null;
   }
 
   if (isMe) {
-    return <div className={className}>{i18n('icu:noteToSelfHero')}</div>;
+    return (
+      <div className="module-conversation-hero__note-to-self">
+        {i18n('icu:noteToSelfHero')}
+      </div>
+    );
   }
 
   if (sharedGroupNames.length > 0) {
     return (
-      <div className={className}>
+      <div className="module-conversation-hero__membership">
+        <i className="module-conversation-hero__membership__chevron" />
         <SharedGroupNames
           i18n={i18n}
-          nameClassName={`${className}__name`}
+          nameClassName="module-conversation-hero__membership__name"
           sharedGroupNames={sharedGroupNames}
         />
       </div>
@@ -81,21 +83,30 @@ const renderMembershipRow = ({
     if (phoneNumber) {
       return null;
     }
-    return <div className={className}>{i18n('icu:no-groups-in-common')}</div>;
+    return (
+      <div className="module-conversation-hero__membership">
+        {i18n('icu:no-groups-in-common')}
+      </div>
+    );
   }
 
   return (
-    <div className="module-conversation-hero__message-request-warning">
-      <div className="module-conversation-hero__message-request-warning__message">
-        {i18n('icu:no-groups-in-common-warning')}
+    <div className="module-conversation-hero__membership">
+      <div className="module-conversation-hero__membership__warning">
+        <i className="module-conversation-hero__membership__warning__icon" />
+        <span>{i18n('icu:no-groups-in-common-warning')}</span>
+        &nbsp;
+        <button
+          className="module-conversation-hero__membership__warning__learn-more"
+          type="button"
+          onClick={ev => {
+            ev.preventDefault();
+            onClickMessageRequestWarning();
+          }}
+        >
+          {i18n('icu:MessageRequestWarning__learn-more')}
+        </button>
       </div>
-      <Button
-        onClick={onClickMessageRequestWarning}
-        size={ButtonSize.Small}
-        variant={ButtonVariant.SecondaryAffirmative}
-      >
-        {i18n('icu:MessageRequestWarning__learn-more')}
-      </Button>
     </div>
   );
 };
@@ -115,7 +126,6 @@ export function ConversationHero({
   isSignalConversation,
   membersCount,
   sharedGroupNames = [],
-  name,
   phoneNumber,
   profileName,
   theme,
@@ -124,6 +134,7 @@ export function ConversationHero({
   unblurredAvatarPath,
   updateSharedGroups,
   viewUserStories,
+  toggleAboutContactModal,
 }: Props): JSX.Element {
   const [isShowingMessageRequestWarning, setIsShowingMessageRequestWarning] =
     useState(false);
@@ -158,9 +169,29 @@ export function ConversationHero({
     };
   }
 
-  const phoneNumberOnly = Boolean(
-    !name && !profileName && conversationType === 'direct'
-  );
+  let titleElem: JSX.Element | undefined;
+
+  if (isMe) {
+    titleElem = <>{i18n('icu:noteToSelf')}</>;
+  } else if (isSignalConversation || conversationType !== 'direct') {
+    titleElem = (
+      <ContactName isSignalConversation={isSignalConversation} title={title} />
+    );
+  } else if (title) {
+    titleElem = (
+      <button
+        type="button"
+        className="module-conversation-hero__title"
+        onClick={ev => {
+          ev.preventDefault();
+          toggleAboutContactModal(id);
+        }}
+      >
+        <ContactName title={title} />
+        <i className="module-conversation-hero__title__chevron" />
+      </button>
+    );
+  }
 
   /* eslint-disable no-nested-ternary */
   return (
@@ -187,14 +218,7 @@ export function ConversationHero({
           title={title}
         />
         <h1 className="module-conversation-hero__profile-name">
-          {isMe ? (
-            i18n('icu:noteToSelf')
-          ) : (
-            <ContactName
-              isSignalConversation={isSignalConversation}
-              title={title}
-            />
-          )}
+          {titleElem}
           {isMe && <span className="ContactModal__official-badge__large" />}
         </h1>
         {about && !isMe && (
@@ -212,9 +236,7 @@ export function ConversationHero({
               />
             ) : membersCount != null ? (
               i18n('icu:ConversationHero--members', { count: membersCount })
-            ) : phoneNumberOnly ? null : (
-              phoneNumber
-            )}
+            ) : null}
           </div>
         ) : null}
         {!isSignalConversation &&
