@@ -54,6 +54,7 @@ export type PropsType = {
   blockConversation: (conversationId: string) => unknown;
   deleteConversation: (conversationId: string) => unknown;
   toggleSignalConnectionsModal: () => void;
+  updateSharedGroups: (conversationId: string) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClose: () => void;
@@ -79,6 +80,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
     conversationId,
     deleteConversation,
     toggleSignalConnectionsModal,
+    updateSharedGroups,
     getPreferredBadge,
     i18n,
     onClose,
@@ -199,6 +201,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             conversation={possiblyUnsafe.conversation}
             getPreferredBadge={getPreferredBadge}
             toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+            updateSharedGroups={updateSharedGroups}
             i18n={i18n}
             theme={theme}
             isSignalConnection={possiblyUnsafe.isSignalConnection}
@@ -235,6 +238,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             conversation={safe.conversation}
             getPreferredBadge={getPreferredBadge}
             toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+            updateSharedGroups={updateSharedGroups}
             i18n={i18n}
             onClick={() => {
               showContactModal(safe.conversation.id);
@@ -328,6 +332,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       toggleSignalConnectionsModal={
                         toggleSignalConnectionsModal
                       }
+                      updateSharedGroups={updateSharedGroups}
                       getPreferredBadge={getPreferredBadge}
                       i18n={i18n}
                       theme={theme}
