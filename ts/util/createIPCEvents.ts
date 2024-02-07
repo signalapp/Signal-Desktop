@@ -238,12 +238,6 @@ export function createIPCEvents(
     setPhoneNumberSharingSetting: async (newValue: PhoneNumberSharingMode) => {
       const account = window.ConversationController.getOurConversationOrThrow();
 
-      // writeProfile fetches the latest profile first so do it before updating
-      // local data to prevent triggering a conflict.
-      await writeProfile(getConversation(account), {
-        keepAvatar: true,
-      });
-
       const promises = new Array<Promise<void>>();
       promises.push(window.storage.put('phoneNumberSharingMode', newValue));
       if (newValue === PhoneNumberSharingMode.Everybody) {
@@ -255,6 +249,12 @@ export function createIPCEvents(
       }
       account.captureChange('phoneNumberSharingMode');
       await Promise.all(promises);
+
+      // Write profile after updating storage so that the write has up-to-date
+      // information.
+      await writeProfile(getConversation(account), {
+        keepAvatar: true,
+      });
     },
 
     getHasStoriesDisabled: () =>
