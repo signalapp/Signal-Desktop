@@ -72,43 +72,46 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
     const icon = getCallingIcon(type, direction, status);
     return (
       <>
-        <div
-          onContextMenu={handleContextMenu}
-          // @ts-expect-error -- React/TS doesn't know about inert
-          // eslint-disable-next-line react/no-unknown-property
-          inert={props.isSelectMode ? '' : undefined}
-        >
-          <SystemMessage
-            button={renderCallingNotificationButton(props)}
-            contents={
-              <>
-                {getCallingNotificationText(props, i18n)} &middot;{' '}
-                <MessageTimestamp
-                  direction="outgoing"
-                  i18n={i18n}
-                  timestamp={timestamp}
-                  withImageNoCaption={false}
-                  withSticker={false}
-                  withTapToViewExpired={false}
-                />
-              </>
-            }
-            icon={icon}
-            kind={
-              status === DirectCallStatus.Missed ||
-              status === GroupCallStatus.Missed
-                ? SystemMessageKind.Danger
-                : SystemMessageKind.Normal
-            }
-          />
-        </div>
         <ContextMenuTrigger
           id={props.id}
-          ref={ref => {
-            // react-contextmenu's typings are incorrect here
-            menuTriggerRef.current = ref as unknown as ContextMenuTriggerType;
-          }}
-        />
+          // react-contextmenu's typings are incorrect here
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ref={menuTriggerRef as any}
+          disable={props.isSelectMode}
+          // Immediately hide the context menu on outside click.
+          // This is a bug in react-contextmenu trying to handle touch events.
+          holdToDisplay={-1}
+        >
+          <div
+            // @ts-expect-error -- React/TS doesn't know about inert
+            // eslint-disable-next-line react/no-unknown-property
+            inert={props.isSelectMode ? '' : undefined}
+          >
+            <SystemMessage
+              button={renderCallingNotificationButton(props)}
+              contents={
+                <>
+                  {getCallingNotificationText(props, i18n)} &middot;{' '}
+                  <MessageTimestamp
+                    direction="outgoing"
+                    i18n={i18n}
+                    timestamp={timestamp}
+                    withImageNoCaption={false}
+                    withSticker={false}
+                    withTapToViewExpired={false}
+                  />
+                </>
+              }
+              icon={icon}
+              kind={
+                status === DirectCallStatus.Missed ||
+                status === GroupCallStatus.Missed
+                  ? SystemMessageKind.Danger
+                  : SystemMessageKind.Normal
+              }
+            />
+          </div>
+        </ContextMenuTrigger>
         <MessageContextMenu
           i18n={i18n}
           triggerId={props.id}
