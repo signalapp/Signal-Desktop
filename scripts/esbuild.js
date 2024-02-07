@@ -14,7 +14,8 @@ const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
 const nodeDefaults = {
   platform: 'node',
   target: 'esnext',
-  sourcemap: isProd ? false : 'inline',
+  // Disabled even in dev because the debugger is broken
+  sourcemap: false,
   // Otherwise React components get renamed
   // See: https://github.com/evanw/esbuild/issues/1147
   keepNames: true,
