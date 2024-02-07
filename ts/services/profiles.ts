@@ -434,15 +434,15 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
           decryptionKey
         );
 
-        // It should be one byte, but be conservative about it and only
-        // set `notSharingPhoneNumber` to `true` in all cases except [0x01].
+        // It should be one byte, but be conservative about it and
+        // set `sharingPhoneNumber` to `false` in all cases except [0x01].
         c.set(
-          'notSharingPhoneNumber',
-          decrypted.length !== 1 || decrypted[0] !== 1
+          'sharingPhoneNumber',
+          decrypted.length === 1 && decrypted[0] === 1
         );
       }
     } else {
-      c.unset('notSharingPhoneNumber');
+      c.unset('sharingPhoneNumber');
     }
 
     if (profile.paymentAddress && isMe(c.attributes)) {

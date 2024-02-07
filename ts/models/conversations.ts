@@ -1859,7 +1859,7 @@ export class ConversationModel extends window.Backbone
     this.set('e164', e164 || undefined);
 
     // This user changed their phone number
-    if (oldValue && e164 && !this.get('notSharingPhoneNumber')) {
+    if (oldValue && e164 && this.get('sharingPhoneNumber')) {
       void this.addChangeNumberNotification(oldValue, e164);
     }
 

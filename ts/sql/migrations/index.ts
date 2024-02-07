@@ -73,10 +73,11 @@ import { updateToSchemaVersion940 } from './940-fts5-revert';
 import { updateToSchemaVersion950 } from './950-fts5-secure-delete';
 import { updateToSchemaVersion960 } from './960-untag-pni';
 import { updateToSchemaVersion970 } from './970-fts5-optimize';
+import { updateToSchemaVersion980 } from './980-reaction-timestamp';
 import {
   version as MAX_VERSION,
-  updateToSchemaVersion980,
-} from './980-reaction-timestamp';
+  updateToSchemaVersion990,
+} from './990-phone-number-sharing';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2017,6 +2018,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion960,
   updateToSchemaVersion970,
   updateToSchemaVersion980,
+  updateToSchemaVersion990,
 ];
 
 export class DBVersionFromFutureError extends Error {

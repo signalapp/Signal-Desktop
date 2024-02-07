@@ -333,7 +333,7 @@ export type ConversationAttributesType = {
   messageRequestResponseType?: number;
   muteExpiresAt?: number;
   dontNotifyForMentionsIfMuted?: boolean;
-  notSharingPhoneNumber?: boolean;
+  sharingPhoneNumber?: boolean;
   profileAvatar?: ContactAvatarType | null;
   profileKeyCredential?: string | null;
   profileKeyCredentialExpiration?: number | null;

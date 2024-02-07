@@ -16,7 +16,7 @@ export enum PhoneNumberSharingMode {
 
 export const parsePhoneNumberSharingMode = makeEnumParser(
   PhoneNumberSharingMode,
-  PhoneNumberSharingMode.Everybody
+  PhoneNumberSharingMode.Nobody
 );
 
 export const isSharingPhoneNumberWithEverybody = (): boolean => {

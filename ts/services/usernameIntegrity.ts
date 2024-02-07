@@ -123,7 +123,7 @@ class UsernameIntegrityService {
 
     {
       const localValue = isSharingPhoneNumberWithEverybody();
-      const remoteValue = !me.get('notSharingPhoneNumber');
+      const remoteValue = me.get('sharingPhoneNumber') === true;
       if (localValue === remoteValue) {
         return;
       }
@@ -152,7 +152,7 @@ class UsernameIntegrityService {
 
     {
       const localValue = isSharingPhoneNumberWithEverybody();
-      const remoteValue = !me.get('notSharingPhoneNumber');
+      const remoteValue = me.get('sharingPhoneNumber') === true;
       if (localValue === remoteValue) {
         log.info(
           'usernameIntegrity: phone number sharing mode conflict resolved by ' +

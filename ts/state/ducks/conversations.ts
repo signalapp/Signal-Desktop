@@ -308,7 +308,7 @@ export type ConversationType = ReadonlyDeep<
     typingContactIdTimestamps?: Record<string, number>;
     recentMediaItems?: ReadonlyArray<MediaItemType>;
     profileSharing?: boolean;
-    notSharingPhoneNumber?: boolean;
+    sharingPhoneNumber?: boolean;
 
     shouldShowDraft?: boolean;
     // Full information for re-hydrating composition area

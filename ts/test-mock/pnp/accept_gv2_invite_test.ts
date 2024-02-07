@@ -53,6 +53,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       {
         identityState: Proto.ContactRecord.IdentityState.DEFAULT,
         whitelisted: true,
+        profileKey: undefined,
 
         serviceE164: unknownPniContact.device.number,
       },
