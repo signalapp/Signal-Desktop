@@ -11,6 +11,7 @@ import {
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
 import { StateType } from '../../../../state/reducer';
+import { useMessageSelected } from '../../../../state/selectors';
 import {
   getMessageAttachmentProps,
   isMessageSelectionMode,
@@ -72,6 +73,7 @@ export const MessageAttachment = (props: Props) => {
   );
 
   const multiSelectMode = useSelector(isMessageSelectionMode);
+  const selected = useMessageSelected(messageId);
   const onClickOnImageGrid = useCallback(
     (attachment: AttachmentTypeWithPath | AttachmentType) => {
       if (multiSelectMode) {
@@ -176,7 +178,13 @@ export const MessageAttachment = (props: Props) => {
   const extension = getExtensionForDisplay({ contentType, fileName });
 
   return (
-    <MessageHighlighter highlight={highlight} className="module-message__generic-attachment">
+    <MessageHighlighter
+      highlight={highlight}
+      className={classNames(
+        'module-message__generic-attachment',
+        selected ? 'message-selected' : undefined
+      )}
+    >
       {pending ? (
         <div className="module-message__generic-attachment__spinner-container">
           <Spinner size="small" />
