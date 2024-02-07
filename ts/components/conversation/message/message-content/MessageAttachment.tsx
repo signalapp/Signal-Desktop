@@ -32,7 +32,7 @@ import { AudioPlayerWithEncryptedFile } from '../../H5AudioPlayer';
 import { ImageGrid } from '../../ImageGrid';
 import { LightBoxOptions } from '../../SessionConversation';
 import { ClickToTrustSender } from './ClickToTrustSender';
-import { StyledMessageHighlighter } from './MessageContent';
+import { MessageHighlighter } from './MessageHighlighter';
 
 export type MessageAttachmentSelectorProps = Pick<
   MessageRenderingProps,
@@ -138,21 +138,22 @@ export const MessageAttachment = (props: Props) => {
       (isVideo(attachments) && hasVideoScreenshot(attachments)))
   ) {
     return (
-      <StyledMessageHighlighter highlight={highlight}>
+      <MessageHighlighter highlight={highlight}>
         <StyledAttachmentContainer messageDirection={direction}>
           <ImageGrid
+            messageId={messageId}
             attachments={attachments}
             onError={handleImageError}
             onClickAttachment={onClickOnImageGrid}
           />
         </StyledAttachmentContainer>
-      </StyledMessageHighlighter>
+      </MessageHighlighter>
     );
   }
 
   if (!firstAttachment.pending && !firstAttachment.error && isAudio(attachments)) {
     return (
-      <StyledMessageHighlighter
+      <MessageHighlighter
         highlight={highlight}
         role="main"
         onClick={(e: any) => {
@@ -168,14 +169,14 @@ export const MessageAttachment = (props: Props) => {
           contentType={firstAttachment.contentType}
           messageId={messageId}
         />
-      </StyledMessageHighlighter>
+      </MessageHighlighter>
     );
   }
   const { pending, fileName, fileSize, contentType } = firstAttachment;
   const extension = getExtensionForDisplay({ contentType, fileName });
 
   return (
-    <StyledMessageHighlighter highlight={highlight} className="module-message__generic-attachment">
+    <MessageHighlighter highlight={highlight} className="module-message__generic-attachment">
       {pending ? (
         <div className="module-message__generic-attachment__spinner-container">
           <Spinner size="small" />
@@ -211,7 +212,7 @@ export const MessageAttachment = (props: Props) => {
           {fileSize}
         </div>
       </div>
-    </StyledMessageHighlighter>
+    </MessageHighlighter>
   );
 };
 

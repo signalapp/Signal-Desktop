@@ -24,6 +24,7 @@ type Props = {
   playIconOverlay?: boolean;
   softCorners: boolean;
   forceSquare?: boolean;
+  dropShadow?: boolean;
   attachmentIndex?: number;
 
   onClick?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
@@ -55,6 +56,7 @@ export const Image = (props: Props) => {
     playIconOverlay,
     softCorners,
     forceSquare,
+    dropShadow,
     attachmentIndex,
     url,
     width: _width,
@@ -101,6 +103,7 @@ export const Image = (props: Props) => {
         maxWidth: width,
         minHeight: height,
         minWidth: width,
+        boxShadow: dropShadow ? 'var(--drop-shadow)' : undefined,
       }}
       data-attachmentindex={attachmentIndex}
     >
