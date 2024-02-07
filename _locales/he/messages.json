@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "אפשר לסרוק את קוד ה–QR הזה עם הטלפון שלך כדי לשוחח איתי ב–Signal.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "דרכים חדשות להתחבר",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "פרטיות מספר טלפון",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "מספר הטלפון שלך כבר לא גלוי בצ׳אטים. אם המספר שלך שמור באנשי הקשר של חבר או חברה, הם עדיין יראו אותו.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "שמות משתמש",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "אנשים יכולים לשלוח לך הודעות באמצעות שם המשתמש האופציונלי שלך, כך שכבר אין צורך לתת את מספר הטלפון שלך. שמות משתמש לא גלויים בפרופיל שלך.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "קודי QR ולינקים",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "לכל שם משתמש יש קוד QR ולינק ייחודיים שאפשר לשתף עם חברים כדי שהם יוכלו להתחיל איתך צ׳אט במהירות.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6929,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "הגדרת שם משתמש",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "לא עכשיו",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "דרכים חדשות להתחבר",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "מעכשיו פרטיות מספר טלפון, שמות משתמש אופציונליים ולינקים.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "למידע נוסף",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "ביטול",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "גופני ברירת המחדל עבור אורדו עודכנו כדי לשפר את הקריאוּת כאשר שפה זו נבחרת (הגדרות Signal > מראה > שפה). תודה, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "תיקנו באג שקשור למחווני הקלדה שלפעמים גרם לתיבת בחירת האימוג׳י להיעלם. <emojify>🎉</emojify>"
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "מעכשיו, חלון Signal יתאים את עצמו לצבע שורת הכותרת הנבחר שלך ב–Microsoft Windows."
   }
 }

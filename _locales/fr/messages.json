@@ -724,7 +724,7 @@
     "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
@@ -788,7 +788,7 @@
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
@@ -1463,7 +1463,7 @@
     "description": "Shown in timeline when a error happened, and the session was automatically reset."
   },
   "icu:ChatRefresh--learnMore": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "icu:ChatRefresh--summary": {
@@ -1483,7 +1483,7 @@
     "description": "Shown in timeline when message delivery issue happens"
   },
   "icu:DeliveryIssue--learnMore": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
   },
   "icu:DeliveryIssue--title": {
@@ -1515,7 +1515,7 @@
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Shown on a button below a 'conversations were merged' timeline notification"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
@@ -1583,7 +1583,7 @@
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
   "icu:Install__learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Button text for learn more button during error screen"
   },
   "icu:Install__scan-this-code": {
@@ -1611,7 +1611,7 @@
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "icu:Install__qr-failed-load": {
-    "messageformat": "Le code QR n’a pas pu être chargé. Veuillez vérifier votre connexion à Internet et réessayer. <retry>Réessayer</retry>",
+    "messageformat": "Impossible de charger le code QR. Veuillez vérifier votre connexion Internet et réessayer. <retry>Réessayer</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "icu:Install__support-link": {
@@ -2096,7 +2096,7 @@
     "description": "Hides the details of a key change"
   },
   "icu:learnMore": {
-    "messageformat": "En apprendre davantage sur la conformation des numéros de sécurité",
+    "messageformat": "En savoir plus sur la conformation des numéros de sécurité",
     "description": "Text that links to a support article on verifying safety numbers"
   },
   "icu:expiredWarning": {
@@ -4481,7 +4481,7 @@
     "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Convertissez ce groupe pour activer de nouvelles fonctions telles que les @mentions et les administrateurs. Les membres qui n’ont pas partagé leur nom ou leur photo dans ce groupe seront invités à s’y joindre. <learnMoreLink>En apprendre davantage.</learnMoreLink>",
+    "messageformat": "Convertissez ce groupe pour activer de nouvelles fonctions telles que les @mentions et les administrateurs. Les membres qui n’ont pas partagé leur nom ou leur photo dans ce groupe seront invités à s’y joindre. <learnMoreLink>En savoir plus.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "icu:GroupV1--Migration--was-upgraded": {
@@ -4489,7 +4489,7 @@
     "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
   },
   "icu:GroupV1--Migration--learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
   },
   "icu:GroupV1--Migration--migrate": {
@@ -5041,7 +5041,7 @@
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:AddGroupMembersModal--title": {
@@ -5145,7 +5145,7 @@
     "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "icu:MessageRequestWarning__learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
   },
   "icu:MessageRequestWarning__dialog__details": {
@@ -5633,7 +5633,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info--link": {
-    "messageformat": "Votre profil est chiffré. Votre profil et les modifications qui y sont apportées sont visibles par vos contacts et quand vous lancerez ou accepterez de nouvelles conversations. <learnMoreLink>En apprendre davantage</learnMoreLink>",
+    "messageformat": "Votre profil est chiffré. Votre profil et les modifications qui y sont apportées sont visibles par vos contacts et quand vous lancerez ou accepterez de nouvelles conversations. <learnMoreLink>En savoir plus</learnMoreLink>",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "icu:Bio--speak-freely": {
@@ -6405,7 +6405,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choisissez qui peut voir votre Story. Les modifications apportées ne s’appliqueront pas aux Stories déjà publiées. <learnMoreLink>En apprendre davantage.</learnMoreLink>",
+    "messageformat": "Choisissez qui peut voir votre Story. Les modifications apportées ne s’appliqueront pas aux Stories déjà publiées. <learnMoreLink>En savoir plus.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:StoriesSettings__context-menu": {
@@ -6497,7 +6497,7 @@
     "description": "Modal title for setting privacy for My Story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Choisissez les connexions Signal qui peuvent voir votre Story. Vous pourrez modifier vos préférences à tout moment dans les paramètres de confidentialité. <learnMoreLink>En apprendre davantage.</learnMoreLink>",
+    "messageformat": "Choisissez les connexions Signal qui peuvent voir votre Story. Vous pourrez modifier vos préférences à tout moment dans les paramètres de confidentialité. <learnMoreLink>En savoir plus.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__delete-story": {
@@ -6821,7 +6821,7 @@
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "Text that open a popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__title": {
@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "Et si on discutait sur Signal ? Scannez ce code QR pour me contacter.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "De nouvelles façons de garder le contact",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "Confidentialité du numéro de téléphone",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "Votre numéro de téléphone ne s’affiche plus dans les conversations. Il reste cependant visible aux utilisateurs qui l’ont déjà enregistré dans leurs contacts.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "Noms d’utilisateur",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "Vos amis peuvent désormais vous contacter grâce à votre nom d’utilisateur facultatif, ce qui vous évite de partager votre numéro de téléphone. Le nom d’utilisateur n’apparaît pas sur votre profil.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "Liens et codes QR",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "Les noms d’utilisateur sont associés à des liens et des codes QR uniques. Vous pouvez les envoyer à vos amis pour démarrer une conversation sans attendre.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6925,31 +6925,31 @@
     "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "En apprendre davantage",
+    "messageformat": "En savoir plus",
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "Configurer le nom d’utilisateur",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "Plus tard",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "De nouvelles façons de garder le contact",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "Protégez votre numéro de téléphone, choisissez un nom d’utilisateur facultatif et découvrez les liens de conversation.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "En savoir plus",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "Ignorer",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "Les polices par défaut pour l’ourdou ont été remplacées afin d’améliorer la lisibilité lorsque cette langue est sélectionnée (Paramètres Signal > Apparence > Langue). Merci, {linkToGithub} !"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "Si vous êtes de ceux qui passent beaucoup de temps à choisir l’émoji parfaitement adapté à chaque situation, vous n’allez pas être déçu <emojify>🎉</emojify> ! La zone de sélection des émojis disparaissait parfois alors que vous étiez en pleine réflexion. Ce bug est désormais corrigé."
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "Signal se fond dans le décor et adopte la couleur des barres de titre que vous avez choisie dans Microsoft Windows. Toutes vos fenêtres sont ainsi assorties."
   }
 }

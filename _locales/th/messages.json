@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "ใช้มือถือสแกนคิวอาร์โค้ดนี้เพื่อพูดคุยกับฉันบน Signal",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "วิธีใหม่ในการติดต่อสื่อสาร",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "การรักษาความเป็นส่วนตัวของหมายเลขโทรศัพท์",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "ระบบจะไม่แสดงหมายเลขโทรศัพท์ของคุณในแชทอีกต่อไป ผู้ติดต่อจะยังคงเห็นหมายเลขโทรศัพท์ของคุณ หากบันทึกเบอร์คุณไว้ในรายชื่อติดต่อ",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "ชื่อผู้ใช้",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "ผู้ติดต่อจะสามารถส่งข้อความหาคุณผ่านชื่อผู้ใช้ที่คุณกำหนด วิธีนี้ทำให้คุณไม่จำเป็นต้องบอกหมายเลขโทรศัพท์กับใคร โดยชื่อผู้ใช้จะไม่ปรากฏบนโปรไฟล์ของคุณ",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "คิวอาร์โค้ดและลิงก์",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "ชื่อผู้ใช้จะมีคิวอาร์โค้ดและลิงก์เฉพาะที่คุณสามารถแชร์เพื่อให้เพื่อนเริ่มแชทด้วยได้ทันที",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6929,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "กำหนดชื่อผู้ใช้",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "ไว้ทีหลัง",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "วิธีใหม่ในการติดต่อสื่อสาร",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "ขอแนะนำการรักษาความเป็นส่วนตัวของหมายเลขโทรศัพท์ ตัวเลือกการกำหนดชื่อผู้ใช้และลิงก์เพิ่มเติม",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "เรียนรู้เพิ่มเติม",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "ปิด",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "อัปเดตค่าเริ่มต้นสำหรับแบบอักษรภาษาอูรดู เพื่อให้ผู้ใช้อ่านง่ายและสบายตายิ่งขึ้น (ไปที่การตั้งค่า Signal > ลักษณะ > ภาษา) ขอบคุณ {linkToGithub} สำหรับการปรับปรุงครั้งนี้!"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "เราแก้ไขบั๊กเกี่ยวกับฟีเจอร์สัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่ ซึ่งอาจเคยทำให้กล่องเลือกตัวอีโมจิหายไปกลางคัน <emojify>🎉</emojify>"
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "ปรับให้สีของหน้าต่าง Signal มีสีเดียวกับแถบชื่อเรื่อง (Title Bar) ที่คุณเลือกใช้บน Microsoft Windows"
   }
 }

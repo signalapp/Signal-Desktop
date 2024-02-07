@@ -5825,7 +5825,7 @@
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Niemand kan zien dat je een Signal-gebruiker bent, tenzij je een contact een bericht stuurt of een bestaande chat met iemand hebt.",
+    "messageformat": "Niemand kan zien dat je een Signal-gebruiker bent, tenzij je hen een bericht stuurt of een bestaande chat met iemand hebt.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -6817,7 +6817,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Gebruikersnamen zorgen ervoor dat mensen jou berichten kunnen sturen zonder jouw telefoonnummer nodig te hebben. Ze zijn gekoppeld aan een cijferset zodat jouw adres privé blijft.",
+    "messageformat": "Gebruikersnamen zorgen ervoor dat anderen jou berichten kunnen sturen zonder je telefoonnummer nodig te hebben. Ze zijn gekoppeld aan een cijferset zodat jouw adres privé blijft.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6829,7 +6829,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "Deze cijfers helpen jou je gebruikersnaam privé te houden zodat je ongewenste berichten kunt voorkomen. Deel jouw gebruikersnaam alleen met mensen en groepen waarmee je zou willen chatten. Als je je gebruikersnaam wijzigt, krijg je een nieuwe cijferreeks.",
+    "messageformat": "Deze cijfers helpen om je gebruikersnaam privé te houden zodat je ongewenste berichten kunt voorkomen. Deel je gebruikersnaam alleen met mensen en groepen waarmee je zou willen chatten. Als je je gebruikersnaam wijzigt, krijg je een nieuwe cijferset.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__change-confirmation": {
@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "Scan deze QR-code met je telefoon om met mij te chatten op Signal.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6857,7 +6857,7 @@
     "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Deel je QR-code en link alleen met mensen die je vertrouwt. Eenmaal gedeeld, kunnen anderen je gebruikersnaam zien en een chat met je starten.",
+    "messageformat": "Deel je QR-code en link alleen met mensen die je vertrouwt. Wanneer gedeeld, kunnen anderen je gebruikersnaam zien en een chat met je starten.",
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "Nieuwe manieren om contact te maken",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "Telefoonnummerprivacy",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "Je telefoonnummer is niet meer zichtbaar in chats. Als iemand je nummer heeft opgeslagen, dan blijft het zichtbaar voor deze persoon.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "Gebruikersnamen",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "Mensen kunnen je nu berichten sturen via je optionele gebruikersnaam zodat je je telefoonnummer niet hoeft te geven. Gebruikersnamen zijn niet zichtbaar op je profiel.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "QR-codes en links",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "Gebruikersnamen hebben een unieke QR-code en link die je kunt delen met vrienden, zodat ze direct een chat met je kunnen beginnen.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6929,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "Gebruikersnaam instellen",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "Niet nu",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "Nieuwe manieren om contact te maken",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "Ontdek telefoonnummerprivacy, optionele gebruikersnamen en links.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "Meer informatie",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "Sluiten",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "De standaardlettertypen voor Urdu zijn bijgewerkt voor een betere leesbaarheid wanneer die taal is geselecteerd (Signal Instellingen > Uiterlijk > Taal). Bedankt {linkToGithub}!"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "Als je veel tijd besteedt om voor elke situatie de perfecte emoji te zoeken als reactie, dan ben je vast <emojify>🎉</emojify> om te horen dat we een bug hebben opgelost met typindicatoren die er soms voor zorgden dat het emoji-selectievak verdween terwijl je aan het nadenken was over je keuze."
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "Vanaf nu matcht Signal met de kleur die jij gekozen hebt voor de titelbalk in Microsoft Windows. Als al je vensters in Windows er hetzelfde uitzien, is dat een klein themafeestje."
   }
 }

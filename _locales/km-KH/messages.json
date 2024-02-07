@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "ស្គែនកូដ QR នេះដោយប្រើទូរសព្ទរបស់អ្នក ដើម្បីជជែកជាមួយខ្ញុំនៅលើ Signal។",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "វិធីថ្មីៗដើម្បីភ្ជាប់",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "ឯកជនភាពនៃលេខទូរសព្ទ",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "លេខទូរសព្ទរបស់អ្នកលែងមើលឃើញនៅក្នុងការជជែកទៀតហើយ។ ប្រសិនបើលេខរបស់អ្នកត្រូវបានរក្សាទុកក្នុងបញ្ជីទំនាក់ទំនងរបស់មិត្តភក្តិ ពួកគេនឹងនៅតែមើលឃើញវាដដែល។",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "ឈ្មោះអ្នកប្រើ",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "ឥឡូវនេះ អ្នកផ្សេងអាចផ្ញើសារមកអ្នក ដោយប្រើប្រាស់ឈ្មោះអ្នកប្រើតាមជម្រើសរបស់អ្នក ដូច្នេះអ្នកមិនចាំបាច់ឱ្យលេខទូរសព្ទរបស់អ្នកទេ។ ឈ្មោះអ្នកប្រើមិនអាចមើលឃើញនៅលើប្រូហ្វាល់របស់អ្នកទេ។",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "កូដ QR និងតំណ",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "ឈ្មោះអ្នកប្រើមានកូដ QR និងតំណតែមួយគត់ដែលអ្នកអាចចែករំលែកជាមួយមិត្តភក្តិ ដើម្បីចាប់ផ្តើមជជែកជាមួយអ្នកបានឆាប់រហ័ស។",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6929,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "បង្កើតឈ្មោះអ្នកប្រើ",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "ឥឡូវកុំទាន់",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "វិធីថ្មីៗដើម្បីភ្ជាប់",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "សូមណែនាំឯកជនភាពនៃលេខទូរសព្ទ ឈ្មោះអ្នកប្រើតាមជម្រើស និងតំណ។",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "ស្វែងយល់បន្ថែម",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "បិទ",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "ពុម្ពអក្សរលំនាំដើមសម្រាប់ភាសាអ៊ូឌូត្រូវបានធ្វើបច្ចុប្បន្នភាពដើម្បីឱ្យកាន់តែងាយស្រួលអាន នៅពេលដែលភាសានោះត្រូវបានជ្រើសរើស (ការកំណត់ Signal > រូបរាង > ភាសា)។ អរគុណ {linkToGithub}!"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "ប្រសិនបើអ្នកចំណាយពេលច្រើនក្នុងការជ្រើសរើសរូបអារម្មណ៍ដែលសក្តិសមបំផុតសម្រាប់ស្ថានភាពនីមួយៗ អ្នកប្រាកដជាពេញចិត្តដែលដឹងថាយើងបានដោះស្រាយបញ្ហាជាមួយសញ្ញាវាយអក្សរនោះហើយ ដែលជួនកាលវាបានធ្វើឲ្យប្រអប់ជ្រើសរើសរូបអារម្មណ៍ស្រាប់តែបាត់ទៅ ក្នុងពេលដែលអ្នកកំពុងតែរើសមើល។ <emojify>🎉</emojify>"
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "ឥឡូវនេះ Signal នឹងផ្គូផ្គងពណ៌ដែលអ្នកបានជ្រើសរើសសម្រាប់របារចំណងជើងនៅលើ Microsoft Windows។ នៅពេលដែលផ្ទាំងវីនដូទាំងអស់របស់អ្នកនៅក្នុង Windows មើលទៅដូចគ្នា នោះគឺជាផ្ទៃពណ៌តែមួយ។"
   }
 }

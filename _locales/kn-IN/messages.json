@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "Signal ನಲ್ಲಿ ನನ್ನೊಂದಿಗೆ ಚಾಟ್ ಮಾಡಲು ನಿಮ್ಮ ಫೋನ್‌ ಮೂಲಕ ಈ QR ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "ಸಂಪರ್ಕಿಸಲು ಹೊಸ ಮಾರ್ಗಗಳು",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆ ಗೌಪ್ಯತೆ",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆ ಇನ್ನು ಮುಂದೆ ಚಾಟ್‌ಗಳಲ್ಲಿ ಗೋಚರಿಸುವುದಿಲ್ಲ. ನಿಮ್ಮ ಸಂಖ್ಯೆಯನ್ನು ಸ್ನೇಹಿತರ ಸಂಪರ್ಕಗಳಲ್ಲಿ ಉಳಿಸಿದರೆ, ಅವರು ಅದನ್ನು ಇನ್ನೂ ನೋಡುತ್ತಾರೆ.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "ನಿಮ್ಮ ಐಚ್ಛಿಕ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಬಳಸಿಕೊಂಡು ಜನರು ಈಗ ನಿಮಗೆ ಮೆಸೇಜ್ ಅನ್ನು ಕಳುಹಿಸಬಹುದು, ಆಗ ನೀವು ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನೀಡಬೇಕಾಗಿಲ್ಲ. ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಗೋಚರಿಸುವುದಿಲ್ಲ.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "QR ಕೋಡ್‌ಗಳು ಮತ್ತು ಲಿಂಕ್‌ಗಳು",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಅನನ್ಯ QR ಕೋಡ್ ಮತ್ತು ಲಿಂಕ್ ಅನ್ನು ಹೊಂದಿದ್ದು, ತ್ವರಿತವಾಗಿ ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ಅದನ್ನು ನೀವು ಸ್ನೇಹಿತರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಬಹುದು.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6929,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಸೆಟಪ್ ಮಾಡಿ",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "ಈಗಲ್ಲ",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "ಸಂಪರ್ಕಿಸಲು ಹೊಸ ಮಾರ್ಗಗಳು",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆ ಗೌಪ್ಯತೆ, ಐಚ್ಛಿಕ ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಮತ್ತು ಲಿಂಕ್‌ಗಳನ್ನು ಪರಿಚಯಿಸಲಾಗುತ್ತಿದೆ.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "ವಜಾಗೊಳಿಸಿ",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "ಉರ್ದುವಿನ ಡೀಫಾಲ್ಟ್ ಫಾಂಟ್‌ಗಳನ್ನು ಆ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿದಾಗ ಸುಧಾರಿತ ಓದುವಿಕೆಗಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ (Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ರೂಪ > ಭಾಷೆ). ಧನ್ಯವಾದಗಳು, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "ಪ್ರತಿ ಸನ್ನಿವೇಶಕ್ಕೂ ಪರಿಪೂರ್ಣವಾದ ಎಮೋಜಿ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ನೀವು ಸಾಕಷ್ಟು ಸಮಯವನ್ನು ಕಳೆದರೆ, ನಿಮ್ಮ ಆಯ್ಕೆಗಳ ಕುರಿತು ನೀವು ಯೋಚಿಸುತ್ತಿರುವಾಗ ಕೆಲವೊಮ್ಮೆ ಎಮೋಜಿ ಆಯ್ಕೆ ಬಾಕ್ಸ್ ಕಣ್ಮರೆಯಾಗಲು ಕಾರಣವಾಗುವ ಟೈಪಿಂಗ್ ಸೂಚಕಗಳ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ ಎಂದು ತಿಳಿದುಕೊಳ್ಳಲು ನೀವು <emojify>🎉</emojify> ಆಗುತ್ತೀರಿ."
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "Signal ಈಗ Microsoft Windows ನಲ್ಲಿ ನೀವು ಆಯ್ಕೆಮಾಡಿದ ಶೀರ್ಷಿಕೆ ಪಟ್ಟಿಯ ಬಣ್ಣಕ್ಕೆ ಹೊಂದಿಕೆಯಾಗುತ್ತದೆ. Windows ನಲ್ಲಿ ನಿಮ್ಮ ಎಲ್ಲಾ ವಿಂಡೋಗಳು ಒಂದೇ ರೀತಿ ಕಾಣುವಾಗ, ಅದು ಸಾಮಾನ್ಯ ಥೀಮ್ ಆಗಿದೆ."
   }
 }

@@ -429,7 +429,7 @@
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "Du wirst diese Person bei der Suche nicht sehen. Du erhältst eine Nachrichtenanfrage, wenn sie dir in Zukunft eine Nachricht schickt.",
+    "messageformat": "Du wirst diese Person bei der Suche nicht sehen. Du erhältst eine Unterhaltungsanfrage, wenn sie dir in Zukunft eine Nachricht schickt.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
@@ -2553,7 +2553,7 @@
     "description": "Prefix shown in italic in conversation view when a draft is saved"
   },
   "icu:message--getNotificationText--messageRequest": {
-    "messageformat": "Nachrichtenanfrage",
+    "messageformat": "Unterhaltungsanfrage",
     "description": "Shown in notifications and in the left pane when a message request is received."
   },
   "icu:message--getNotificationText--gif": {
@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "Scanne diesen QR-Code mit deinem Smartphone, um mit mir auf Signal zu chatten.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "Neue Möglichkeiten, um sich zu verbinden",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "Datenschutz bei Telefonnummern",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "Deine Telefonnummer wird nicht mehr in Chats angezeigt. Wenn deine Nummer in den Kontakten von anderen Personen gespeichert ist, können diese sie trotzdem sehen.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "Nutzernamen",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "Andere können dir jetzt über deinen optionalen Nutzernamen eine Nachricht schicken, sodass du deine Telefonnummer nicht mehr herausgeben musst. Nutzernamen sind in deinem Profil nicht sichtbar.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "QR-Codes und Links",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "Nutzernamen haben einen einzigartigen QR-Code und einen Link, den du mit Freund*innen teilen kannst, damit diese schnell einen Chat mit dir beginnen können.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6929,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "Nutzernamen einrichten",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "Jetzt nicht",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "Neue Möglichkeiten, um sich zu verbinden",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "Wir führen Datenschutz bei Telefonnummern, optionale Nutzernamen und Links ein.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "Mehr erfahren",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "Schließen",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "Die Standardschriftarten für Urdu wurden aktualisiert, um die Lesbarkeit zu verbessern, wenn diese Sprache ausgewählt ist (Signal-Einstellungen > Darstellung > Sprache). Danke, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "Wenn du viel Zeit darauf verwendest, die perfekte Emoji-Reaktion für jede Situation auszuwählen, wirst du <emojify>🎉</emojify>, weil wir einen Fehler bei den Tipp-Indikatoren behoben haben. Dieser hatte zur Folge, dass das Emoji-Auswahlfeld manchmal einfach verschwand, während du gerade dabei warst, das passende Emoji auszuwählen."
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "Signal passt sich jetzt der von dir gewählten Farbe der Titelleiste unter Microsoft Windows an.Alle Fenster sollten nun gleich aussehen."
   }
 }

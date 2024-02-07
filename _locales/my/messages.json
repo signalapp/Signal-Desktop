@@ -6841,7 +6841,7 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "ကျွန်ုပ်နှင့် Signal တွင် ချက်(တ်)ရန်အတွက် ဤ QR ကုဒ်ကို သင့်ဖုန်းဖြင့် စကန်ဖတ်ပါ။",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6885,31 +6885,31 @@
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "ချိတ်ဆက်ရန် နည်းလမ်းသစ်များ",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "ဖုန်းနံပါတ် ကိုယ်ပိုင်အချက်အလက်လုံခြုံရေး",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "ချက်(တ်)များတွင် သင့်ဖုန်းနံပါတ်ကို မြင်တွေ့ရခြင်းမရှိတော့ပါ။ သင့်ဖုန်းနံပါတ်ကို မိတ်ဆွေတစ်ဦး၏ အဆက်အသွယ်များထဲတွင် သိမ်းထားပါက ၎င်းတို့က မြင်တွေ့ရဦးမည်ဖြစ်သည်။",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "သုံးစွဲသူအမည်များ",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "ယခုအခါ လူအများသည် သင်၏ ရွေးချယ်နိုင်သော သုံးစွဲသူအမည်ကို အသုံးပြုလျက် သင့်ထံ မက်ဆေ့ချ်ပို့နိုင်ပြီဖြစ်၍ သင့်ဖုန်းနံပါတ်ကို မပေးရတော့ပါ။ သုံးစွဲသူအမည်များကို သင့်ပရိုဖိုင်တွင် မမြင်တွေ့နိုင်ပါ။",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "QR ကုဒ်များနှင့် လင့်ခ်များ",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "သုံးစွဲသူအမည်များတွင် သင်နှင့် လျင်မြန်စွာ ချက်(တ်)စတင်နိုင်ရန် မိတ်ဆွေများထံ ဝေမျှနိုင်သည့် သီးသန့် QR ကုဒ်နှင့် လင့်ခ်တစ်ခု ရှိပါသည်။",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6929,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "သုံးစွဲသူအမည်ကို စီစဉ်သတ်မှတ်ရန်",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "ယခု မလုပ်သေးပါ",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "ချိတ်ဆက်ရန် နည်းလမ်းသစ်များ",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "ဖုန်းနံပါတ် ကိုယ်ပိုင်အချက်အလက် လုံခြုံရေး၊ ရွေးချယ်နိုင်သော သုံးစွဲသူအမည်များနှင့် လင့်ခ်များအကြောင်း မိတ်ဆက်ပေးခြင်း။",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "ပိုမိုသိရှိရန်",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "ပယ်ရန်",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7128,9 +7128,9 @@
     "messageformat": "အူရဒူဘာသာစကားကို ရွေးချယ်လိုက်သောအခါ ဖတ်ရှုရပိုလွယ်စေရန် ထိုဘာသာစကားအတွက် မူရင်းဖောင့်များကို ပြောင်းလဲသတ်မှတ်ထားပါသည် (Signal ဆက်တင် > ပုံပန်းသွင်ပြင် > ဘာသာစကား)။ ကျေးဇူးပါ {linkToGithub}။"
   },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "အီမိုဂျီရွေးချယ်သည့် အကွက်ကို တစ်ခါတစ်ရံ ပျောက်သွားစေသည့် စာရိုက်နေကြောင်း အချက်ပြမှုများနှင့် ပတ်သက်သော ချို့ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြုပြင်ထားပါသည်။<emojify>🎉</emojify>"
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "ယခုအခါ Signal သည် Microsoft Windows တွင် သင်ရွေးထားသော ခေါင်းစဉ်ဘား အရောင်နှင့် တူညီနေပါမည်။"
   }
 }
