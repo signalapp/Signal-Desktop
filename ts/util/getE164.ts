@@ -14,11 +14,12 @@ export function getE164(
     | 'systemFamilyName'
     | 'e164'
     | 'notSharingPhoneNumber'
+    | 'profileKey'
   >
 ): string | undefined {
-  const { e164, notSharingPhoneNumber = false } = attributes;
+  const { e164, profileKey, notSharingPhoneNumber = false } = attributes;
 
-  if (notSharingPhoneNumber && !isInSystemContacts(attributes)) {
+  if (notSharingPhoneNumber && profileKey && !isInSystemContacts(attributes)) {
     return undefined;
   }
 

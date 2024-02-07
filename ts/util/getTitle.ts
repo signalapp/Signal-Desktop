@@ -110,7 +110,7 @@ export function getSystemName(
 export function getNumber(
   attributes: Pick<
     ConversationAttributesType,
-    'e164' | 'type' | 'notSharingPhoneNumber'
+    'e164' | 'type' | 'notSharingPhoneNumber' | 'profileKey'
   >
 ): string | undefined {
   if (!isDirectConversation(attributes)) {
