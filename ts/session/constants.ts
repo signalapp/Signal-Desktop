@@ -13,6 +13,8 @@ export const DURATION = {
   HOURS: hours,
   /** 24 * 60 * 60 * 1000 = 86,400,000 ms */
   DAYS: days,
+  /** 7 * 24 * 60 * 60 * 1000 = 604,800,000 ms */
+  WEEKS: days * 7,
 };
 
 export const TTL_DEFAULT = {
