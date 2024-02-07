@@ -2919,7 +2919,6 @@ export async function startApp(): Promise<void> {
     const NUMBER_ID_KEY = 'number_id';
     const UUID_ID_KEY = 'uuid_id';
     const PNI_KEY = 'pni';
-    const VERSION_KEY = 'version';
     const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
     const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
@@ -2976,7 +2975,6 @@ export async function startApp(): Promise<void> {
       } else {
         await window.textsecure.storage.remove(LAST_PROCESSED_INDEX_KEY);
       }
-      await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
       // Re-hydrate items from memory; removeAllConfiguration above changed database
       await window.storage.fetch();

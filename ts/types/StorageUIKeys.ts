@@ -44,5 +44,6 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'system-tray-setting',
   'textFormatting',
   'theme-setting',
+  'version',
   'zoomFactor',
 ];
