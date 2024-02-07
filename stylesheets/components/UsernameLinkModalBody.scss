@@ -71,8 +71,6 @@
 
     &__username {
       display: flex;
-      flex-direction: row;
-      gap: 4px;
       justify-content: center;
       margin-block: 12px 2px;
 
@@ -85,20 +83,26 @@
         text-align: center;
       }
 
-      &__copy {
+      &__copy__button {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+
+        i {
+          flex-shrink: 0;
+          margin-top: 2px;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+
+          @include color-svg(
+            '../images/icons/v3/copy/copy.svg',
+            var(--text-color)
+          );
+        }
+
         @include button-reset;
         @include button-focus-outline;
-
-        flex-shrink: 0;
-        margin-top: 2px;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-
-        @include color-svg(
-          '../images/icons/v3/copy/copy.svg',
-          var(--text-color)
-        );
       }
     }
   }

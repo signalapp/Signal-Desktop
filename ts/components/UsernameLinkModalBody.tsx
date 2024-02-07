@@ -808,15 +808,21 @@ export function UsernameLinkModalBody({
         >
           <div className={`${CLASS}__card__qr`}>{linkImage}</div>
           <div className={`${CLASS}__card__username`}>
-            {!showColors && (
+            {showColors ? (
+              <div className={`${CLASS}__card__username__text`}>{username}</div>
+            ) : (
               <button
-                className={classnames(`${CLASS}__card__username__copy`)}
+                className={`${CLASS}__card__username__copy__button`}
                 type="button"
                 onClick={onCopyUsername}
                 aria-label={i18n('icu:UsernameLinkModalBody__copy')}
-              />
+              >
+                <i />
+                <div className={`${CLASS}__card__username__text`}>
+                  {username}
+                </div>
+              </button>
             )}
-            <div className={`${CLASS}__card__username__text`}>{username}</div>
           </div>
         </div>
 
