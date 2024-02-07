@@ -124,11 +124,9 @@ export const MessageContent = (props: Props) => {
 
   const [imageBroken, setImageBroken] = useState(false);
 
-  const onVisible = (inView: boolean | object) => {
-    if (
-      inView === true ||
-      ((inView as any).type === 'focus' && (inView as any).returnValue === true)
-    ) {
+  const onVisible = (inView: boolean, _: IntersectionObserverEntry) => {
+    // TODO check if there is no issue with focus after simplifiying the check
+    if (inView) {
       if (isMessageVisible !== true) {
         setMessageIsVisible(true);
       }
@@ -142,6 +140,7 @@ export const MessageContent = (props: Props) => {
   const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
   const shouldHighlightMessage = useSelector(getShouldHighlightMessage);
   const isQuotedMessageToAnimate = quotedMessageToAnimate === props.messageId;
+  // const selected = useMessageSelected(props.messageId);
 
   useLayoutEffect(() => {
     if (isQuotedMessageToAnimate) {
@@ -210,6 +209,7 @@ export const MessageContent = (props: Props) => {
 
       <InView
         id={`inview-content-${props.messageId}`}
+        as={'div'}
         onChange={onVisible}
         threshold={0}
         rootMargin="500px 0px 500px 0px"

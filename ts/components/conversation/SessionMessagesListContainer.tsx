@@ -62,10 +62,11 @@ const StyledMessagesContainer = styled.div<{ isGroup: boolean }>`
   min-width: 370px;
   scrollbar-width: 4px;
 
-  padding-top: var(--margins-sm);
+  // TODO fixing spacing around messages when in multi-select mode
+  /* padding-top: var(--margins-sm);
   padding-right: var(--margins-lg);
   padding-bottom: var(--margins-xl);
-  padding-left: ${props => (props.isGroup ? 'var(--margins-xs)' : 'var(--margins-lg)')};
+  padding-left: ${props => (props.isGroup ? 'var(--margins-xs)' : 'var(--margins-lg)')}; */
 
   .session-icon-button {
     display: flex;
