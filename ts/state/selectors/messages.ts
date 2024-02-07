@@ -108,7 +108,7 @@ export const useMessageStatus = (
   return useMessagePropsByMessageId(messageId)?.propsForMessage.status;
 };
 
-export function useMessageSender(messageId: string) {
+export function useMessageSender(messageId: string | undefined) {
   return useMessagePropsByMessageId(messageId)?.propsForMessage.sender;
 }
 
@@ -116,11 +116,15 @@ export function useMessageIsDeletableForEveryone(messageId: string | undefined) 
   return useMessagePropsByMessageId(messageId)?.propsForMessage.isDeletableForEveryone;
 }
 
-export function useMessageServerTimestamp(messageId: string) {
+export function useMessageServerTimestamp(messageId: string | undefined) {
   return useMessagePropsByMessageId(messageId)?.propsForMessage.serverTimestamp;
 }
 
-export function useMessageTimestamp(messageId: string) {
+export function useMessageReceivedAt(messageId: string | undefined) {
+  return useMessagePropsByMessageId(messageId)?.propsForMessage.receivedAt;
+}
+
+export function useMessageTimestamp(messageId: string | undefined) {
   return useMessagePropsByMessageId(messageId)?.propsForMessage.timestamp;
 }
 

@@ -22,7 +22,7 @@ import { MessageRenderingProps } from '../../../../models/messageType';
 import { pushUnblockToSend } from '../../../../session/utils/Toast';
 import {
   openRightPanel,
-  showMessageDetailsView,
+  showMessageInfoView,
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
 import { setRightOverlayMode } from '../../../../state/ducks/section';
@@ -173,8 +173,7 @@ export const showMessageInfoOverlay = async ({
 }) => {
   const found = await Data.getMessageById(messageId);
   if (found) {
-    const messageDetailsProps = await found.getPropsForMessageDetail();
-    dispatch(showMessageDetailsView(messageDetailsProps));
+    dispatch(showMessageInfoView(messageId));
     dispatch(
       setRightOverlayMode({
         type: 'message_info',

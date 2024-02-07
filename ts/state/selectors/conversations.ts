@@ -9,7 +9,6 @@ import {
   MentionsMembersType,
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
-  MessagePropsDetails,
   PropsForQuote,
   QuoteLookupType,
   ReduxConversationType,
@@ -493,11 +492,7 @@ export const getGlobalUnreadMessageCount = createSelector(
   _getGlobalUnreadCount
 );
 
-export const isMessageDetailView = (state: StateType): boolean =>
-  state.conversations.messageDetailProps !== undefined;
-
-export const getMessageDetailsViewProps = (state: StateType): MessagePropsDetails | undefined =>
-  state.conversations.messageDetailProps;
+export const getMessageInfoId = (state: StateType) => state.conversations.messageInfoId;
 
 export const isRightPanelShowing = (state: StateType): boolean =>
   state.conversations.showRightPanel;

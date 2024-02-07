@@ -76,7 +76,6 @@ interface Props {
   selectedConversation?: ReduxConversationType;
   messagesProps: Array<SortedMessageModelProps>;
   selectedMessages: Array<string>;
-  showMessageDetails: boolean;
   isRightPanelShowing: boolean;
   hasOngoingCallWithFocusedConvo: boolean;
   htmlDirection: HTMLDirection;
