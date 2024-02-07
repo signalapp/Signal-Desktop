@@ -26,6 +26,7 @@ export default {
     i18n,
     onClick: action('onClick'),
     toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
+    updateSharedGroups: action('updateSharedGroups'),
     getPreferredBadge: () => undefined,
     conversation: getDefaultConversation(),
     theme: ThemeType.light,

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType, ThemeType } from '../../types/Util';
@@ -22,6 +22,7 @@ export type PropsType = Readonly<{
   i18n: LocalizerType;
   onClick?: () => void;
   toggleSignalConnectionsModal: () => void;
+  updateSharedGroups: (conversationId: string) => void;
   theme: ThemeType;
   oldName: string | undefined;
   isSignalConnection: boolean;
@@ -34,6 +35,7 @@ export function ContactSpoofingReviewDialogPerson({
   i18n,
   onClick,
   toggleSignalConnectionsModal,
+  updateSharedGroups,
   theme,
   oldName,
   isSignalConnection,
@@ -42,6 +44,11 @@ export function ContactSpoofingReviewDialogPerson({
     conversation.type === 'direct',
     '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
   );
+
+  useEffect(() => {
+    // Kick off the expensive hydration of the current sharedGroupNames
+    updateSharedGroups(conversation.id);
+  }, [conversation.id, updateSharedGroups]);
 
   const newName = conversation.profileName || conversation.title;
 

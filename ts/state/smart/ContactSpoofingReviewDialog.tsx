@@ -48,6 +48,7 @@ export function SmartContactSpoofingReviewDialog(
     blockConversation,
     deleteConversation,
     removeMember,
+    updateSharedGroups,
   } = useConversationsActions();
   const { showContactModal, toggleSignalConnectionsModal } =
     useGlobalModalActions();
@@ -79,6 +80,7 @@ export function SmartContactSpoofingReviewDialog(
     getPreferredBadge,
     i18n,
     removeMember,
+    updateSharedGroups,
     showContactModal,
     toggleSignalConnectionsModal,
     theme,

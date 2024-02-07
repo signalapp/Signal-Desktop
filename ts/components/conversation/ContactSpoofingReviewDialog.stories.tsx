@@ -31,6 +31,7 @@ const getCommonProps = () => ({
   onClose: action('onClose'),
   showContactModal: action('showContactModal'),
   toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
+  updateSharedGroups: action('updateSharedGroups'),
   removeMember: action('removeMember'),
   theme: ThemeType.light,
 });
