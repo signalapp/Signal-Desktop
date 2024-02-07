@@ -699,7 +699,7 @@ export default class MessageReceiver
       let it = headers.length;
       // eslint-disable-next-line no-plusplus
       while (--it >= 0) {
-        const match = headers[it].match(/^X-Signal-Timestamp:\s*(\d+)\s*$/);
+        const match = headers[it].match(/^X-Signal-Timestamp:\s*(\d+)\s*$/i);
         if (match && match.length === 2) {
           const timestamp = Number(match[1]);
 
