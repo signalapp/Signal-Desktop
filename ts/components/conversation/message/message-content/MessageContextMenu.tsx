@@ -203,7 +203,6 @@ export const MessageContextMenu = (props: Props) => {
   const attachments = useMessageAttachments(messageId);
   const timestamp = useMessageTimestamp(messageId);
   const serverTimestamp = useMessageServerTimestamp(messageId);
-
   const sender = useMessageSender(messageId);
 
   const isOutgoing = direction === 'outgoing';
@@ -368,7 +367,11 @@ export const MessageContextMenu = (props: Props) => {
         <Menu id={contextMenuId} onVisibilityChange={onVisibilityChange} animation="fade">
           {enableReactions && (
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            <MessageReactBar action={onEmojiClick} additionalAction={onShowEmoji} />
+            <MessageReactBar
+              action={onEmojiClick}
+              additionalAction={onShowEmoji}
+              messageId={messageId}
+            />
           )}
           {attachments?.length ? (
             <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
