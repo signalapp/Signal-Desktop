@@ -26,6 +26,7 @@ const StyledGroupInvitation = styled.div`
 
   display: inline-block;
   padding: 4px;
+  margin: var(--margins-xs) calc(var(--margins-lg) + var(--margins-md)) 0 var(--margins-lg);
 
   border-radius: var(--border-radius-message-box);
 
