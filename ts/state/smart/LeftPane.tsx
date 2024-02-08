@@ -6,13 +6,15 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import type { PropsType as LeftPanePropsType } from '../../components/LeftPane';
-import { LeftPane, LeftPaneMode } from '../../components/LeftPane';
+import { LeftPane } from '../../components/LeftPane';
 import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
 import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
 import { isDone as isRegistrationDone } from '../../util/registration';
+import { getCountryDataForLocale } from '../../util/getCountryData';
+import { LeftPaneMode } from '../../types/leftPane';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import {
@@ -49,6 +51,7 @@ import {
   getComposeGroupExpireTimer,
   getComposeGroupName,
   getComposerConversationSearchTerm,
+  getComposerSelectedRegion,
   getComposerStep,
   getComposerUUIDFetchState,
   getComposeSelectedContacts,
@@ -131,6 +134,7 @@ function renderToastManagerWithoutMegaphone(props: {
 const getModeSpecificProps = (
   state: StateType
 ): LeftPanePropsType['modeSpecificProps'] => {
+  const i18n = getIntl(state);
   const composerStep = getComposerStep(state);
   switch (composerStep) {
     case undefined:
@@ -178,6 +182,21 @@ const getModeSpecificProps = (
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         uuidFetchState: getComposerUUIDFetchState(state),
+      };
+    case ComposerStep.FindByUsername:
+      return {
+        mode: LeftPaneMode.FindByUsername,
+        searchTerm: getComposerConversationSearchTerm(state),
+        uuidFetchState: getComposerUUIDFetchState(state),
+      };
+    case ComposerStep.FindByPhoneNumber:
+      return {
+        mode: LeftPaneMode.FindByPhoneNumber,
+        searchTerm: getComposerConversationSearchTerm(state),
+        regionCode: getRegionCode(state),
+        uuidFetchState: getComposerUUIDFetchState(state),
+        countries: getCountryDataForLocale(i18n.getLocale()),
+        selectedRegion: getComposerSelectedRegion(state),
       };
     case ComposerStep.ChooseGroupMembers:
       return {

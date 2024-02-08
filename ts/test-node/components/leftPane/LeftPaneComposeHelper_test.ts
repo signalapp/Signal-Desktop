@@ -39,7 +39,7 @@ describe('LeftPaneComposeHelper', () => {
   });
 
   describe('getRowCount', () => {
-    it('returns 1 (for the "new group" button) if not searching and there are no contacts', () => {
+    it('returns 3 (for the "new group", etc) if not searching and there are no contacts', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [],
@@ -48,11 +48,11 @@ describe('LeftPaneComposeHelper', () => {
           searchTerm: '',
           uuidFetchState: {},
         }).getRowCount(),
-        1
+        3
       );
     });
 
-    it('returns the number of contacts + 2 (for the "new group" button and header) if not searching', () => {
+    it('returns the number of contacts + 4 (for the "new group"+etc and header) if not searching', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
@@ -61,11 +61,11 @@ describe('LeftPaneComposeHelper', () => {
           searchTerm: '',
           uuidFetchState: {},
         }).getRowCount(),
-        4
+        6
       );
     });
 
-    it('returns the number of contacts + number of groups + 3 (for the "new group" button and the headers) if not searching', () => {
+    it('returns the number of contacts + number of groups + 5 (for the "new group"+etc and the headers) if not searching', () => {
       assert.strictEqual(
         new LeftPaneComposeHelper({
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
@@ -74,7 +74,7 @@ describe('LeftPaneComposeHelper', () => {
           searchTerm: '',
           uuidFetchState: {},
         }).getRowCount(),
-        7
+        9
       );
     });
 
@@ -165,7 +165,7 @@ describe('LeftPaneComposeHelper', () => {
   });
 
   describe('getRow', () => {
-    it('returns a "new group" button if not searching and there are no contacts', () => {
+    it('returns a "new group"+etc if not searching and there are no contacts', () => {
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
         composeGroups: [],
@@ -177,10 +177,16 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(0), {
         type: RowType.CreateNewGroup,
       });
-      assert.isUndefined(helper.getRow(1));
+      assert.deepEqual(helper.getRow(1), {
+        type: RowType.FindByUsername,
+      });
+      assert.deepEqual(helper.getRow(2), {
+        type: RowType.FindByPhoneNumber,
+      });
+      assert.isUndefined(helper.getRow(3));
     });
 
-    it('returns a "new group" button, a header, and contacts if not searching', () => {
+    it('returns a "new group"+etc, a header, and contacts if not searching', () => {
       const composeContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
@@ -196,20 +202,26 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(0), {
         type: RowType.CreateNewGroup,
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(1)), 'icu:contactsHeader');
+      assert.deepEqual(helper.getRow(1), {
+        type: RowType.FindByUsername,
+      });
       assert.deepEqual(helper.getRow(2), {
+        type: RowType.FindByPhoneNumber,
+      });
+      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'icu:contactsHeader');
+      assert.deepEqual(helper.getRow(4), {
         type: RowType.Contact,
         contact: composeContacts[0],
         hasContextMenu: true,
       });
-      assert.deepEqual(helper.getRow(3), {
+      assert.deepEqual(helper.getRow(5), {
         type: RowType.Contact,
         contact: composeContacts[1],
         hasContextMenu: true,
       });
     });
 
-    it('returns a "new group" button, a header, contacts, groups header, and groups -- if not searching', () => {
+    it('returns a "new group"+etc, a header, contacts, groups header, and groups -- if not searching', () => {
       const composeContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
@@ -229,23 +241,29 @@ describe('LeftPaneComposeHelper', () => {
       assert.deepEqual(helper.getRow(0), {
         type: RowType.CreateNewGroup,
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(1)), 'icu:contactsHeader');
+      assert.deepEqual(helper.getRow(1), {
+        type: RowType.FindByUsername,
+      });
       assert.deepEqual(helper.getRow(2), {
+        type: RowType.FindByPhoneNumber,
+      });
+      assert.deepEqual(_testHeaderText(helper.getRow(3)), 'icu:contactsHeader');
+      assert.deepEqual(helper.getRow(4), {
         type: RowType.Contact,
         contact: composeContacts[0],
         hasContextMenu: true,
       });
-      assert.deepEqual(helper.getRow(3), {
+      assert.deepEqual(helper.getRow(5), {
         type: RowType.Contact,
         contact: composeContacts[1],
         hasContextMenu: true,
       });
-      assert.deepEqual(_testHeaderText(helper.getRow(4)), 'icu:groupsHeader');
-      assert.deepEqual(helper.getRow(5), {
+      assert.deepEqual(_testHeaderText(helper.getRow(6)), 'icu:groupsHeader');
+      assert.deepEqual(helper.getRow(7), {
         type: RowType.SelectSingleGroup,
         group: composeGroups[0],
       });
-      assert.deepEqual(helper.getRow(6), {
+      assert.deepEqual(helper.getRow(8), {
         type: RowType.SelectSingleGroup,
         group: composeGroups[1],
       });

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './LeftPane';
-import { LeftPane, LeftPaneMode } from './LeftPane';
+import { LeftPane } from './LeftPane';
 import { CaptchaDialog } from './CaptchaDialog';
 import { CrashReportDialog } from './CrashReportDialog';
 import { ToastManager } from './ToastManager';
@@ -21,6 +21,7 @@ import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setupI18n } from '../util/setupI18n';
 import { DurationInSeconds, DAY } from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
+import { LeftPaneMode } from '../types/leftPane';
 import { ThemeType } from '../types/Util';
 import {
   getDefaultConversation,
@@ -271,6 +272,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
     searchInConversation: action('searchInConversation'),
     setComposeSearchTerm: action('setComposeSearchTerm'),
+    setComposeSelectedRegion: action('setComposeSelectedRegion'),
     setComposeGroupAvatar: action('setComposeGroupAvatar'),
     setComposeGroupName: action('setComposeGroupName'),
     setComposeGroupExpireTimer: action('setComposeGroupExpireTimer'),
@@ -278,6 +280,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     showInbox: action('showInbox'),
     startComposing: action('startComposing'),
     showChooseGroupMembers: action('showChooseGroupMembers'),
+    showFindByUsername: action('showFindByUsername'),
+    showFindByPhoneNumber: action('showFindByPhoneNumber'),
     startSearch: action('startSearch'),
     startSettingGroupMetadata: action('startSettingGroupMetadata'),
     theme: React.useContext(StorybookThemeContext),

@@ -331,6 +331,42 @@
     "messageformat": "Fix now",
     "description": "Text of the button in the corrupted username link banner in the left pane"
   },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Find by username",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Find by phone number",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Find by username",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Find by phone number",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Username",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Phone number",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Enter a full username with its pair of digits.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Country code",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Country code",
+    "description": "Title of the country code modal"
+  },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Show Tabs",
     "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
@@ -2343,7 +2379,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Search by name or phone number",
+    "messageformat": "Name, username, or number",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {

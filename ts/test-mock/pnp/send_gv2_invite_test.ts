@@ -104,7 +104,7 @@ describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
 
     await window.getByRole('button', { name: 'New chat' }).click();
 
-    await leftPane.getByTestId('CreateNewGroupButton').click();
+    await leftPane.getByTestId('ComposeStepButton--group').click();
 
     debug('inviting ACI member');
 

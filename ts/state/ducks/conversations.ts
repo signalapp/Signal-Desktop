@@ -445,9 +445,15 @@ type VerificationDataByConversation = ReadonlyDeep<
 
 type ComposerStateType = ReadonlyDeep<
   | {
-      step: ComposerStep.StartDirectConversation;
+      step: ComposerStep.StartDirectConversation | ComposerStep.FindByUsername;
       searchTerm: string;
       uuidFetchState: UUIDFetchStateType;
+    }
+  | {
+      step: ComposerStep.FindByPhoneNumber;
+      searchTerm: string;
+      uuidFetchState: UUIDFetchStateType;
+      selectedRegion: string;
     }
   | ({
       step: ComposerStep.ChooseGroupMembers;
@@ -866,6 +872,10 @@ type SetComposeSearchTermActionType = ReadonlyDeep<{
   type: 'SET_COMPOSE_SEARCH_TERM';
   payload: { searchTerm: string };
 }>;
+type SetComposeSelectedRegionActionType = ReadonlyDeep<{
+  type: 'SET_COMPOSE_SELECTED_REGION';
+  payload: { selectedRegion: string };
+}>;
 type SetIsFetchingUUIDActionType = ReadonlyDeep<{
   type: 'SET_IS_FETCHING_UUID';
   payload: {
@@ -888,6 +898,12 @@ type StartComposingActionType = ReadonlyDeep<{
 }>;
 type ShowChooseGroupMembersActionType = ReadonlyDeep<{
   type: 'SHOW_CHOOSE_GROUP_MEMBERS';
+}>;
+type ShowFindByUsername = ReadonlyDeep<{
+  type: 'SHOW_FIND_BY_USERNAME';
+}>;
+type ShowFindByPhoneNumber = ReadonlyDeep<{
+  type: 'SHOW_FIND_BY_PHONE_NUMBER';
 }>;
 type StartSettingGroupMetadataActionType = ReadonlyDeep<{
   type: 'START_SETTING_GROUP_METADATA';
@@ -976,6 +992,7 @@ export type ConversationActionType =
   | SetComposeGroupExpireTimerActionType
   | SetComposeGroupNameActionType
   | SetComposeSearchTermActionType
+  | SetComposeSelectedRegionActionType
   | SetIsFetchingUUIDActionType
   | SetIsNearBottomActionType
   | SetMessageLoadingStateActionType
@@ -983,6 +1000,8 @@ export type ConversationActionType =
   | SetRecentMediaItemsActionType
   | ShowArchivedConversationsActionType
   | ShowChooseGroupMembersActionType
+  | ShowFindByUsername
+  | ShowFindByPhoneNumber
   | ShowInboxActionType
   | ShowSendAnywayDialogActionType
   | ShowSpoilerActionType
@@ -1088,6 +1107,7 @@ export const actions = {
   setComposeGroupExpireTimer,
   setComposeGroupName,
   setComposeSearchTerm,
+  setComposeSelectedRegion,
   setDisappearingMessages,
   setDontNotifyForMentionsIfMuted,
   setIsFetchingUUID,
@@ -1103,6 +1123,8 @@ export const actions = {
   showConversation,
   showExpiredIncomingTapToViewToast,
   showExpiredOutgoingTapToViewToast,
+  showFindByUsername,
+  showFindByPhoneNumber,
   showInbox,
   startComposing,
   startConversation,
@@ -3666,12 +3688,29 @@ function setComposeSearchTerm(
   };
 }
 
+function setComposeSelectedRegion(
+  selectedRegion: string
+): SetComposeSelectedRegionActionType {
+  return {
+    type: 'SET_COMPOSE_SELECTED_REGION',
+    payload: { selectedRegion },
+  };
+}
+
 function startComposing(): StartComposingActionType {
   return { type: 'START_COMPOSING' };
 }
 
 function showChooseGroupMembers(): ShowChooseGroupMembersActionType {
   return { type: 'SHOW_CHOOSE_GROUP_MEMBERS' };
+}
+
+function showFindByUsername(): ShowFindByUsername {
+  return { type: 'SHOW_FIND_BY_USERNAME' };
+}
+
+function showFindByPhoneNumber(): ShowFindByPhoneNumber {
+  return { type: 'SHOW_FIND_BY_PHONE_NUMBER' };
 }
 
 function startSettingGroupMetadata(): StartSettingGroupMetadataActionType {
@@ -5853,6 +5892,31 @@ export function reducer(
     };
   }
 
+  if (action.type === 'SHOW_FIND_BY_USERNAME') {
+    return {
+      ...state,
+      showArchived: false,
+      composer: {
+        step: ComposerStep.FindByUsername,
+        searchTerm: '',
+        uuidFetchState: {},
+      },
+    };
+  }
+
+  if (action.type === 'SHOW_FIND_BY_PHONE_NUMBER') {
+    return {
+      ...state,
+      showArchived: false,
+      composer: {
+        step: ComposerStep.FindByPhoneNumber,
+        searchTerm: '',
+        selectedRegion: '',
+        uuidFetchState: {},
+      },
+    };
+  }
+
   if (action.type === 'START_SETTING_GROUP_METADATA') {
     const { composer } = state;
 
@@ -5959,6 +6023,8 @@ export function reducer(
     }
     if (
       composer.step !== ComposerStep.StartDirectConversation &&
+      composer.step !== ComposerStep.FindByUsername &&
+      composer.step !== ComposerStep.FindByPhoneNumber &&
       composer.step !== ComposerStep.ChooseGroupMembers
     ) {
       assertDev(
@@ -5977,6 +6043,32 @@ export function reducer(
     };
   }
 
+  if (action.type === 'SET_COMPOSE_SELECTED_REGION') {
+    const { composer } = state;
+    if (!composer) {
+      assertDev(
+        false,
+        'Setting compose search term with the composer closed is a no-op'
+      );
+      return state;
+    }
+    if (composer.step !== ComposerStep.FindByPhoneNumber) {
+      assertDev(
+        false,
+        `Setting compose search term at step ${composer.step} is a no-op`
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        selectedRegion: action.payload.selectedRegion,
+      },
+    };
+  }
+
   if (action.type === 'SET_IS_FETCHING_UUID') {
     const { composer } = state;
     if (!composer) {
@@ -5988,6 +6080,8 @@ export function reducer(
     }
     if (
       composer.step !== ComposerStep.StartDirectConversation &&
+      composer.step !== ComposerStep.FindByUsername &&
+      composer.step !== ComposerStep.FindByPhoneNumber &&
       composer.step !== ComposerStep.ChooseGroupMembers
     ) {
       assertDev(
