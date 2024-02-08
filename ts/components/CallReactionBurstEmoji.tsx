@@ -35,12 +35,14 @@ export function CallReactionBurstEmoji({ value }: PropsType): JSX.Element {
       value,
       springConfig: {
         mass: random(10, 20),
-        tension: random(60, 90),
+        tension: random(45, 60),
         friction: random(20, 60),
         clamp: true,
         precision: 0,
         velocity: -0.01,
       },
+      fromX: random(0, 20),
+      toX: random(-30, 300),
       fromY,
       toY,
       toScale: random(1, 2.5, true),
@@ -93,9 +95,11 @@ export function CallReactionBurstEmoji({ value }: PropsType): JSX.Element {
 type AnimatedEmojiProps = {
   value: string;
   fromRotate: number;
+  fromX: number;
   fromY: number;
   toRotate: number;
   toScale: number;
+  toX: number;
   toY: number;
   springConfig: AnimationConfig;
   onAnimationEnd?: () => unknown;
@@ -104,22 +108,26 @@ type AnimatedEmojiProps = {
 export function AnimatedEmoji({
   value,
   fromRotate,
+  fromX,
   fromY,
   toRotate,
   toScale,
+  toX,
   toY,
   springConfig,
   onAnimationEnd,
 }: AnimatedEmojiProps): JSX.Element {
   const height = EMOJI_HEIGHT * toScale;
 
-  const { rotate, y } = useSpring({
+  const { rotate, x, y } = useSpring({
     from: {
       rotate: fromRotate,
+      x: fromX,
       y: fromY,
     },
     to: {
       rotate: toRotate,
+      x: toX,
       y: toY - height - 10,
     },
     config: springConfig,
@@ -143,6 +151,7 @@ export function AnimatedEmoji({
       style={{
         rotate,
         scale,
+        x,
         y,
       }}
     >
