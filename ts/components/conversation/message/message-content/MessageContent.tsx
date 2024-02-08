@@ -17,10 +17,7 @@ import {
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
-import {
-  useSelectedIsGroup,
-  useSelectedIsPrivate,
-} from '../../../../state/selectors/selectedConversation';
+import { useSelectedIsPrivate } from '../../../../state/selectors/selectedConversation';
 import { canDisplayImage } from '../../../../types/Attachment';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
@@ -59,7 +56,6 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
 
 const StyledMessageContent = styled.div<{ msgDirection: MessageModelType }>`
   display: flex;
-
   align-self: ${props => (props.msgDirection === 'incoming' ? 'flex-start' : 'flex-end')};
 `;
 
@@ -82,9 +78,7 @@ const StyledMessageOpaqueContent = styled(MessageHighlighter)<{
 
 export const IsMessageVisibleContext = createContext(false);
 
-// NOTE aligns group member avatars with the ExpireTimer
-const StyledAvatarContainer = styled.div<{ hideAvatar: boolean; isGroup: boolean }>`
-  /* margin-inline-start: ${props => (!props.hideAvatar && props.isGroup ? '-11px' : '')}; */
+const StyledAvatarContainer = styled.div`
   align-self: flex-end;
 `;
 
@@ -99,13 +93,11 @@ export const MessageContent = (props: Props) => {
 
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
   const selectedIsPrivate = useSelectedIsPrivate();
-  const isGroup = useSelectedIsGroup();
   const hideAvatar = useHideAvatarInMsgList(props.messageId);
 
   const [imageBroken, setImageBroken] = useState(false);
 
   const onVisible = (inView: boolean, _: IntersectionObserverEntry) => {
-    // TODO[epic=ses-1409] check if there is no issue with focus after simplifiying the check
     if (inView) {
       if (isMessageVisible !== true) {
         setMessageIsVisible(true);
@@ -179,7 +171,7 @@ export const MessageContent = (props: Props) => {
       title={toolTipTitle}
       msgDirection={direction}
     >
-      <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
+      <StyledAvatarContainer>
         <MessageAvatar
           messageId={props.messageId}
           hideAvatar={hideAvatar}
