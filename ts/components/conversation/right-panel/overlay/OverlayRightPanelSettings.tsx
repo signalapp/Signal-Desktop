@@ -42,11 +42,11 @@ import { AttachmentTypeWithPath } from '../../../../types/Attachment';
 import { getAbsoluteAttachmentPath } from '../../../../types/MessageAttachment';
 import { Avatar, AvatarSize } from '../../../avatar/Avatar';
 import { Flex } from '../../../basic/Flex';
-import { SpacerMD } from '../../../basic/Text';
+import { SpacerLG, SpacerMD, SpacerXL } from '../../../basic/Text';
 import { PanelButtonGroup, PanelIconButton } from '../../../buttons';
 import { MediaItemType } from '../../../lightbox/LightboxGallery';
 import { MediaGallery } from '../../media-gallery/MediaGallery';
-import { Header } from './components';
+import { Header, StyledScrollContainer } from './components';
 
 async function getMediaGalleryProps(
   conversationId: string
@@ -278,77 +278,81 @@ export const OverlayRightPanelSettings = () => {
   };
 
   return (
-    <>
-      <HeaderItem />
-      <PanelButtonGroup style={{ margin: '0 var(--margins-lg)' }}>
-        {showUpdateGroupNameButton && (
-          <PanelIconButton
-            iconType={'group'}
-            text={isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
-            onClick={() => {
-              void showUpdateGroupNameByConvoId(selectedConvoKey);
-            }}
-            dataTestId="edit-group-name"
-          />
-        )}
-
-        {showAddRemoveModeratorsButton && (
-          <>
+    <StyledScrollContainer>
+      <Flex container={true} flexDirection={'column'} alignItems={'center'}>
+        <HeaderItem />
+        <PanelButtonGroup style={{ margin: '0 var(--margins-lg)' }}>
+          {showUpdateGroupNameButton && (
             <PanelIconButton
-              iconType={'addModerator'}
-              text={window.i18n('addModerators')}
+              iconType={'group'}
+              text={isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
               onClick={() => {
-                showAddModeratorsByConvoId(selectedConvoKey);
+                void showUpdateGroupNameByConvoId(selectedConvoKey);
               }}
-              dataTestId="add-moderators"
+              dataTestId="edit-group-name"
             />
+          )}
 
+          {showAddRemoveModeratorsButton && (
+            <>
+              <PanelIconButton
+                iconType={'addModerator'}
+                text={window.i18n('addModerators')}
+                onClick={() => {
+                  showAddModeratorsByConvoId(selectedConvoKey);
+                }}
+                dataTestId="add-moderators"
+              />
+
+              <PanelIconButton
+                iconType={'deleteModerator'}
+                text={window.i18n('removeModerators')}
+                onClick={() => {
+                  showRemoveModeratorsByConvoId(selectedConvoKey);
+                }}
+                dataTestId="remove-moderators"
+              />
+            </>
+          )}
+
+          {showUpdateGroupMembersButton && (
             <PanelIconButton
-              iconType={'deleteModerator'}
-              text={window.i18n('removeModerators')}
+              iconType={'group'}
+              text={window.i18n('groupMembers')}
               onClick={() => {
-                showRemoveModeratorsByConvoId(selectedConvoKey);
+                void showUpdateGroupMembersByConvoId(selectedConvoKey);
               }}
-              dataTestId="remove-moderators"
+              dataTestId="group-members"
             />
-          </>
-        )}
+          )}
 
-        {showUpdateGroupMembersButton && (
-          <PanelIconButton
-            iconType={'group'}
-            text={window.i18n('groupMembers')}
-            onClick={() => {
-              void showUpdateGroupMembersByConvoId(selectedConvoKey);
-            }}
-            dataTestId="group-members"
-          />
-        )}
+          {hasDisappearingMessages && (
+            <PanelIconButton
+              iconType={'timer50'}
+              text={window.i18n('disappearingMessages')}
+              subtitle={disappearingMessagesSubtitle}
+              dataTestId="disappearing-messages"
+              onClick={() => {
+                dispatch(setRightOverlayMode({ type: 'disappearing_messages', params: null }));
+              }}
+            />
+          )}
 
-        {hasDisappearingMessages && (
-          <PanelIconButton
-            iconType={'timer50'}
-            text={window.i18n('disappearingMessages')}
-            subtitle={disappearingMessagesSubtitle}
-            dataTestId="disappearing-messages"
-            onClick={() => {
-              dispatch(setRightOverlayMode({ type: 'disappearing_messages', params: null }));
-            }}
-          />
-        )}
-
-        <MediaGallery documents={documents} media={media} />
-        {isGroup && (
-          <PanelIconButton
-            text={leaveGroupString}
-            dataTestId="leave-group-button"
-            disabled={isKickedFromGroup || left}
-            onClick={() => void deleteConvoAction()}
-            color={'var(--danger-color)'}
-            iconType={'delete'}
-          />
-        )}
-      </PanelButtonGroup>
-    </>
+          <MediaGallery documents={documents} media={media} />
+          {isGroup && (
+            <PanelIconButton
+              text={leaveGroupString}
+              dataTestId="leave-group-button"
+              disabled={isKickedFromGroup || left}
+              onClick={() => void deleteConvoAction()}
+              color={'var(--danger-color)'}
+              iconType={'delete'}
+            />
+          )}
+        </PanelButtonGroup>
+        <SpacerLG />
+        <SpacerXL />
+      </Flex>
+    </StyledScrollContainer>
   );
 };
