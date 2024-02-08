@@ -18,32 +18,26 @@ import {
 } from '../../basic/SessionButton';
 import { SessionIconButton } from '../../icon';
 
+function onDeleteSelectedMessagesForEveryone(
+  selectedConversationKey: string,
+  selectedMessageIds: Array<string>
+) {
+  if (selectedConversationKey) {
+    void deleteMessagesByIdForEveryone(selectedMessageIds, selectedConversationKey);
+  }
+}
+
 export const SelectionOverlay = () => {
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const selectedConversationKey = useSelectedConversationKey();
   const isPublic = useSelectedIsPublic();
   const dispatch = useDispatch();
 
-  const { i18n } = window;
-
   function onCloseOverlay() {
     dispatch(resetSelectedMessageIds());
   }
 
-  function onDeleteSelectedMessages() {
-    if (selectedConversationKey) {
-      void deleteMessagesById(selectedMessageIds, selectedConversationKey);
-    }
-  }
-  function onDeleteSelectedMessagesForEveryone() {
-    if (selectedConversationKey) {
-      void deleteMessagesByIdForEveryone(selectedMessageIds, selectedConversationKey);
-    }
-  }
-
   const isOnlyServerDeletable = isPublic;
-  const deleteMessageButtonText = i18n('delete');
-  const deleteForEveryoneMessageButtonText = i18n('deleteForEveryone');
 
   return (
     <div className="message-selection-overlay">
@@ -52,21 +46,23 @@ export const SelectionOverlay = () => {
       </div>
 
       <div className="button-group">
-        {!isOnlyServerDeletable && (
-          <SessionButton
-            buttonColor={SessionButtonColor.Danger}
-            buttonShape={SessionButtonShape.Square}
-            buttonType={SessionButtonType.Solid}
-            text={deleteMessageButtonText}
-            onClick={onDeleteSelectedMessages}
-          />
-        )}
         <SessionButton
           buttonColor={SessionButtonColor.Danger}
           buttonShape={SessionButtonShape.Square}
           buttonType={SessionButtonType.Solid}
-          text={deleteForEveryoneMessageButtonText}
-          onClick={onDeleteSelectedMessagesForEveryone}
+          text={window.i18n('delete')}
+          onClick={() => {
+            if (selectedConversationKey) {
+              if (isOnlyServerDeletable) {
+                void onDeleteSelectedMessagesForEveryone(
+                  selectedConversationKey,
+                  selectedMessageIds
+                );
+              } else {
+                void deleteMessagesById(selectedMessageIds, selectedConversationKey);
+              }
+            }
+          }}
         />
       </div>
     </div>
