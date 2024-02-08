@@ -16,7 +16,6 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     candidateContacts: [],
     isShowingRecommendedGroupSizeModal: false,
     isShowingMaximumGroupSizeModal: false,
-    isUsernamesEnabled: true,
     ourE164: undefined,
     ourUsername: undefined,
     groupSizeRecommendedLimit: 22,
@@ -55,7 +54,6 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           candidateContacts: [],
           searchTerm: 'foo bar',
           selectedContacts: [getDefaultConversation()],
-          isUsernamesEnabled: false,
         }).getRowCount(),
         0
       );
@@ -101,7 +99,6 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
           candidateContacts: [],
           searchTerm: 'foo bar',
           selectedContacts: [getDefaultConversation()],
-          isUsernamesEnabled: false,
         }).getRow(0)
       );
     });
@@ -115,7 +112,6 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
         ...defaults,
         candidateContacts,
         searchTerm: 'foo bar',
-        isUsernamesEnabled: false,
         selectedContacts: [candidateContacts[1]],
       });
 

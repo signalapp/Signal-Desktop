@@ -83,7 +83,6 @@ const ipcGetAvailableIODevices = createCallback('getAvailableIODevices');
 const ipcGetCustomColors = createCallback('getCustomColors');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
-const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 
 // ChatColorPicker redux hookups
@@ -161,7 +160,6 @@ async function renderPreferences() {
     hasStoriesDisabled,
     hasTextFormatting,
     hasTypingIndicators,
-    isPhoneNumberSharingSupported,
     lastSyncTime,
     notificationContent,
     phoneNumber,
@@ -204,7 +202,6 @@ async function renderPreferences() {
     hasStoriesDisabled: settingHasStoriesDisabled.getValue(),
     hasTextFormatting: settingTextFormatting.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
-    isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
     notificationContent: settingNotificationSetting.getValue(),
     phoneNumber: settingPhoneNumber.getValue(),
@@ -312,7 +309,6 @@ async function renderPreferences() {
     isAutoLaunchSupported: Settings.isAutoLaunchSupported(OS),
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(OS),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(OS),
-    isPhoneNumberSharingSupported,
     isSyncSupported: !isSyncNotSupported,
     isSystemTraySupported: Settings.isSystemTraySupported(
       OS,

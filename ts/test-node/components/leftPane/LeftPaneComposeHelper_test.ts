@@ -31,7 +31,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -47,7 +46,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         1
@@ -61,7 +59,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         4
@@ -75,7 +72,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: '',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         7
@@ -89,24 +85,9 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'someone.01',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         8
-      );
-    });
-
-    it('if usernames are disabled, two less rows are shown', () => {
-      assert.strictEqual(
-        new LeftPaneComposeHelper({
-          composeContacts: [getDefaultConversation(), getDefaultConversation()],
-          composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
-          regionCode: 'US',
-          searchTerm: 'someone.54321',
-          isUsernamesEnabled: false,
-          uuidFetchState: {},
-        }).getRowCount(),
-        6
       );
     });
 
@@ -117,7 +98,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foobar.01',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         2
@@ -128,7 +108,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foobar.01',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         5
@@ -139,7 +118,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'foobar.01',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         7
@@ -153,7 +131,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         2
@@ -167,7 +144,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'someone.02',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         2
@@ -181,7 +157,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
         5
@@ -196,7 +171,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -216,7 +190,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -250,7 +223,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups,
         regionCode: 'US',
         searchTerm: '',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -279,20 +251,6 @@ describe('LeftPaneComposeHelper', () => {
       });
     });
 
-    it('returns no rows if searching, no results, and usernames are disabled', () => {
-      const helper = new LeftPaneComposeHelper({
-        composeContacts: [],
-        composeGroups: [],
-        regionCode: 'US',
-        searchTerm: 'foo bar',
-        isUsernamesEnabled: false,
-        uuidFetchState: {},
-      });
-
-      assert.isUndefined(helper.getRow(0));
-      assert.isUndefined(helper.getRow(1));
-    });
-
     it('returns one row per contact if searching', () => {
       const composeContacts = [
         getDefaultConversation(),
@@ -303,7 +261,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -325,7 +282,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '+1(650) 555 12 34',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -353,7 +309,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: username,
-        isUsernamesEnabled: true,
         uuidFetchState: {
           [`username:${username}`]: true,
         },
@@ -381,7 +336,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '+1(650) 555 12 34',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -419,7 +373,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -434,7 +387,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -455,7 +407,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -465,7 +416,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'different search',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -475,7 +425,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'last search',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -487,7 +436,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -497,7 +445,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -509,7 +456,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -519,7 +465,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -529,7 +474,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -541,7 +485,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -551,7 +494,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -563,7 +505,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -573,7 +514,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'foo bar',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -583,7 +523,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
         regionCode: 'US',
         searchTerm: 'foo bar',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -593,7 +532,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );
@@ -605,7 +543,6 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [getDefaultGroupListItem()],
         regionCode: 'US',
         searchTerm: 'soup',
-        isUsernamesEnabled: true,
         uuidFetchState: {},
       });
 
@@ -615,7 +552,6 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'soup',
-          isUsernamesEnabled: true,
           uuidFetchState: {},
         })
       );

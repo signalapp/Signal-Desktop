@@ -25,10 +25,7 @@ import type { ConversationsStateType } from '../ducks/conversations';
 import { useToastActions } from '../ducks/toast';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { NavTab } from '../ducks/nav';
-import {
-  getUsernamesEnabled,
-  getHasCompletedUsernameOnboarding,
-} from '../selectors/items';
+import { getHasCompletedUsernameOnboarding } from '../selectors/items';
 import { ToastManager } from '../../components/ToastManager';
 import type { WidthBreakpoint } from '../../components/_util';
 
@@ -42,7 +39,6 @@ export function SmartToastManager({
   containerWidthBreakpoint,
 }: SmartPropsType): JSX.Element {
   const i18n = useSelector(getIntl);
-  const isUsernameFlagEnabled = useSelector(getUsernamesEnabled);
   const hasCompletedUsernameOnboarding = useSelector(
     getHasCompletedUsernameOnboarding
   );
@@ -69,7 +65,6 @@ export function SmartToastManager({
   let megaphone: AnyActionableMegaphone | undefined;
 
   if (
-    isUsernameFlagEnabled &&
     !hasCompletedUsernameOnboarding &&
     !username &&
     globalModals.usernameOnboardingState === UsernameOnboardingState.NeverShown

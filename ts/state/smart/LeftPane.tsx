@@ -39,7 +39,6 @@ import { getPreferredBadgeSelector } from '../selectors/badges';
 import { hasNetworkDialog } from '../selectors/network';
 import {
   getPreferredLeftPaneWidth,
-  getUsernamesEnabled,
   getUsernameCorrupted,
   getUsernameLinkCorrupted,
   getNavTabsCollapsed,
@@ -178,7 +177,6 @@ const getModeSpecificProps = (
         composeGroups: getFilteredComposeGroups(state),
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
-        isUsernamesEnabled: getUsernamesEnabled(state),
         uuidFetchState: getComposerUUIDFetchState(state),
       };
     case ComposerStep.ChooseGroupMembers:
@@ -197,7 +195,6 @@ const getModeSpecificProps = (
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
-        isUsernamesEnabled: getUsernamesEnabled(state),
         uuidFetchState: getComposerUUIDFetchState(state),
       };
     case ComposerStep.SetGroupMetadata:

@@ -73,12 +73,6 @@ export const getServerTimeSkew = createSelector(
   (state: ItemsStateType): number => state.serverTimeSkew || 0
 );
 
-export const getUsernamesEnabled = createSelector(
-  getRemoteConfig,
-  (remoteConfig: ConfigMapType): boolean =>
-    isRemoteConfigFlagEnabled(remoteConfig, 'desktop.usernames')
-);
-
 export const getHasCompletedUsernameOnboarding = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>

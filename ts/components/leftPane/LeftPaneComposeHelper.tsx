@@ -28,7 +28,6 @@ export type LeftPaneComposePropsType = {
   regionCode: string | undefined;
   searchTerm: string;
   uuidFetchState: UUIDFetchStateType;
-  isUsernamesEnabled: boolean;
 };
 
 enum TopButton {
@@ -58,7 +57,6 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     composeGroups,
     regionCode,
     searchTerm,
-    isUsernamesEnabled,
     uuidFetchState,
   }: Readonly<LeftPaneComposePropsType>) {
     super();
@@ -70,15 +68,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
     const username = getUsernameFromSearch(this.searchTerm);
 
-    if (isUsernamesEnabled) {
-      this.username = username;
-      this.isUsernameVisible =
-        isUsernamesEnabled &&
-        Boolean(username) &&
-        this.composeContacts.every(contact => contact.username !== username);
-    } else {
-      this.isUsernameVisible = false;
-    }
+    this.username = username;
+    this.isUsernameVisible =
+      Boolean(username) &&
+      this.composeContacts.every(contact => contact.username !== username);
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
     if (!username && phoneNumber) {

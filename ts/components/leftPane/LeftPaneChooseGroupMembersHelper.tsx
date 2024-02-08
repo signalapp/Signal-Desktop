@@ -34,7 +34,6 @@ export type LeftPaneChooseGroupMembersPropsType = {
   groupSizeHardLimit: number;
   isShowingRecommendedGroupSizeModal: boolean;
   isShowingMaximumGroupSizeModal: boolean;
-  isUsernamesEnabled: boolean;
   ourE164: string | undefined;
   ourUsername: string | undefined;
   searchTerm: string;
@@ -73,7 +72,6 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     candidateContacts,
     isShowingMaximumGroupSizeModal,
     isShowingRecommendedGroupSizeModal,
-    isUsernamesEnabled,
     groupSizeRecommendedLimit,
     groupSizeHardLimit,
     ourE164,
@@ -101,17 +99,13 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       username !== ourUsername &&
       this.candidateContacts.every(contact => contact.username !== username);
 
-    if (isUsernamesEnabled) {
-      if (isUsernameVisible) {
-        this.username = username;
-      }
-
-      this.isUsernameChecked = selectedContacts.some(
-        contact => contact.username === this.username
-      );
-    } else {
-      this.isUsernameChecked = false;
+    if (isUsernameVisible) {
+      this.username = username;
     }
+
+    this.isUsernameChecked = selectedContacts.some(
+      contact => contact.username === this.username
+    );
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
     if (

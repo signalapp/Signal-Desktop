@@ -653,7 +653,6 @@ export function ComposeNoResults(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: [],
           composeGroups: [],
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
@@ -671,7 +670,6 @@ export function ComposeSomeContactsNoSearchTerm(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: defaultConversations,
           composeGroups: [],
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
@@ -689,7 +687,6 @@ export function ComposeSomeContactsWithASearchTerm(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: defaultConversations,
           composeGroups: [],
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'ar',
@@ -707,7 +704,6 @@ export function ComposeSomeGroupsNoSearchTerm(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: [],
           composeGroups: defaultGroups,
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
@@ -725,7 +721,6 @@ export function ComposeSomeGroupsWithSearchTerm(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: [],
           composeGroups: defaultGroups,
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'ar',
@@ -743,7 +738,6 @@ export function ComposeSearchIsValidUsername(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: [],
           composeGroups: [],
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'someone',
@@ -761,48 +755,11 @@ export function ComposeSearchIsValidUsernameFetchingUsername(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: [],
           composeGroups: [],
-          isUsernamesEnabled: true,
           uuidFetchState: {
             'username:someone': true,
           },
           regionCode: 'US',
           searchTerm: 'someone',
-        },
-      })}
-    />
-  );
-}
-
-export function ComposeSearchIsValidUsernameButFlagIsNotEnabled(): JSX.Element {
-  return (
-    <LeftPaneInContainer
-      {...useProps({
-        modeSpecificProps: {
-          mode: LeftPaneMode.Compose,
-          composeContacts: [],
-          composeGroups: [],
-          isUsernamesEnabled: false,
-          uuidFetchState: {},
-          regionCode: 'US',
-          searchTerm: 'someone',
-        },
-      })}
-    />
-  );
-}
-
-export function ComposeSearchIsPartialPhoneNumber(): JSX.Element {
-  return (
-    <LeftPaneInContainer
-      {...useProps({
-        modeSpecificProps: {
-          mode: LeftPaneMode.Compose,
-          composeContacts: [],
-          composeGroups: [],
-          isUsernamesEnabled: false,
-          uuidFetchState: {},
-          regionCode: 'US',
-          searchTerm: '+1(212)555',
         },
       })}
     />
@@ -817,7 +774,6 @@ export function ComposeSearchIsValidPhoneNumber(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: [],
           composeGroups: [],
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '2125555454',
@@ -835,7 +791,6 @@ export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): JSX.Elemen
           mode: LeftPaneMode.Compose,
           composeContacts: [],
           composeGroups: [],
-          isUsernamesEnabled: true,
           uuidFetchState: {
             'e164:+12125555454': true,
           },
@@ -855,7 +810,6 @@ export function ComposeAllKindsOfResultsNoSearchTerm(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: defaultConversations,
           composeGroups: defaultGroups,
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
@@ -873,7 +827,6 @@ export function ComposeAllKindsOfResultsWithASearchTerm(): JSX.Element {
           mode: LeftPaneMode.Compose,
           composeContacts: defaultConversations,
           composeGroups: defaultGroups,
-          isUsernamesEnabled: true,
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'someone',
@@ -952,7 +905,6 @@ export function ChooseGroupMembersPartialPhoneNumber(): JSX.Element {
           groupSizeHardLimit: 1001,
           isShowingRecommendedGroupSizeModal: false,
           isShowingMaximumGroupSizeModal: false,
-          isUsernamesEnabled: true,
           ourE164: undefined,
           ourUsername: undefined,
           searchTerm: '+1(212) 555',
@@ -976,7 +928,6 @@ export function ChooseGroupMembersValidPhoneNumber(): JSX.Element {
           groupSizeHardLimit: 1001,
           isShowingRecommendedGroupSizeModal: false,
           isShowingMaximumGroupSizeModal: false,
-          isUsernamesEnabled: true,
           ourE164: undefined,
           ourUsername: undefined,
           searchTerm: '+1(212) 555 5454',
@@ -1000,7 +951,6 @@ export function ChooseGroupMembersUsername(): JSX.Element {
           groupSizeHardLimit: 1001,
           isShowingRecommendedGroupSizeModal: false,
           isShowingMaximumGroupSizeModal: false,
-          isUsernamesEnabled: true,
           ourE164: undefined,
           ourUsername: undefined,
           searchTerm: '@signal',
