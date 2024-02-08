@@ -16,6 +16,7 @@ export type PropsType = {
   module?: string;
   preferFirstName?: boolean;
   title: string;
+  onClick?: VoidFunction;
 };
 
 export function ContactName({
@@ -26,6 +27,7 @@ export function ContactName({
   module,
   preferFirstName,
   title,
+  onClick,
 }: PropsType): JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
@@ -35,19 +37,20 @@ export function ContactName({
   } else {
     text = title || '';
   }
-
+  const WrappingElement = onClick ? 'button' : 'span';
   return (
-    <span
+    <WrappingElement
       className={classNames(
         getClassName(''),
         contactNameColor ? getClassName(`--${contactNameColor}`) : null
       )}
       dir="auto"
+      onClick={onClick}
     >
       <Emojify text={text} />
       {(isSignalConversation || isMe) && (
         <span className="ContactModal__official-badge" />
       )}
-    </span>
+    </WrappingElement>
   );
 }

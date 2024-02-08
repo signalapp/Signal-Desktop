@@ -1,6 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+button.module-contact-name {
+  @include button-reset;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      outline: auto;
+      text-decoration: none;
+    }
+  }
+}
+
 .module-contact-name {
   &--000 {
     color: #d00b0b;
