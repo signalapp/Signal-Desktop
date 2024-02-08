@@ -19,7 +19,10 @@ import type { BadgeType } from '../badges/types';
 import type { LoggerType } from '../types/Logging';
 import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { RawBodyRange } from '../types/BodyRange';
-import type { GetMessagesBetweenOptions } from './Server';
+import type {
+  GetMessagesBetweenOptions,
+  MaybeStaleCallHistory,
+} from './Server';
 import type { MessageTimestamps } from '../state/ducks/conversations';
 import type {
   CallHistoryDetails,
@@ -665,6 +668,10 @@ export type DataInterface = {
     conversationId: string,
     eraId: string
   ) => Promise<boolean>;
+  markCallHistoryMissed(callIds: ReadonlyArray<string>): Promise<void>;
+  getRecentStaleRingsAndMarkOlderMissed(): Promise<
+    ReadonlyArray<MaybeStaleCallHistory>
+  >;
   migrateConversationMessages: (
     obsoleteId: string,
     currentId: string
