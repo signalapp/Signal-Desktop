@@ -1,13 +1,20 @@
+import { format, formatDistanceStrict } from 'date-fns';
 import { ipcRenderer } from 'electron';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
+
 import React from 'react';
 import styled from 'styled-components';
 import { MessageFrom } from '.';
 import {
   useMessageDirection,
+  useMessageExpirationDurationMs,
+  useMessageExpirationTimestamp,
+  useMessageExpirationType,
+  useMessageHash,
   useMessageReceivedAt,
   useMessageSender,
+  useMessageServerId,
   useMessageServerTimestamp,
   useMessageTimestamp,
 } from '../../../../../../state/selectors';
@@ -57,6 +64,48 @@ const showDebugLog = () => {
   ipcRenderer.send('show-debug-log');
 };
 
+const showDebugMessageInfo = false;
+
+const DebugMessageInfo = ({ messageId }: { messageId: string }) => {
+  const messageHash = useMessageHash(messageId);
+  const serverId = useMessageServerId(messageId);
+  const expirationType = useMessageExpirationType(messageId);
+  const expirationDurationMs = useMessageExpirationDurationMs(messageId);
+  const expirationTimestamp = useMessageExpirationTimestamp(messageId);
+
+  if (!showDebugMessageInfo) {
+    return null;
+  }
+
+  return (
+    <>
+      {messageHash ? (
+        <LabelWithInfo label={`${window.i18n('messageHash')}:`} info={messageHash} />
+      ) : null}
+      {serverId ? (
+        <LabelWithInfo label={`${window.i18n('serverId')}:`} info={`${serverId}`} />
+      ) : null}
+      {expirationType ? (
+        <LabelWithInfo label={`${window.i18n('expirationType')}:`} info={expirationType} />
+      ) : null}
+      {expirationDurationMs ? (
+        <LabelWithInfo
+          label={`${window.i18n('expirationDuration')}:`}
+          // formatDistanceStrict (date-fns) is not localized yet
+          info={`${formatDistanceStrict(0, Math.floor(expirationDurationMs / 1000))}`}
+        />
+      ) : null}
+      {expirationTimestamp ? (
+        <LabelWithInfo
+          label={`${window.i18n('disappears')}:`}
+          // format (date-fns) is not localized yet
+          info={`${format(expirationTimestamp, 'PPpp')}`}
+        />
+      ) : null}
+    </>
+  );
+};
+
 export const MessageInfo = ({ messageId, errors }: { messageId: string; errors: Array<Error> }) => {
   const sender = useMessageSender(messageId);
   const direction = useMessageDirection(messageId);
@@ -83,6 +132,8 @@ export const MessageInfo = ({ messageId, errors }: { messageId: string; errors: 
   return (
     <Flex container={true} flexDirection="column">
       <LabelWithInfo label={`${window.i18n('sent')}:`} info={sentAtStr} />
+      <DebugMessageInfo messageId={messageId} />
+
       {direction === 'incoming' ? (
         <LabelWithInfo label={`${window.i18n('received')}:`} info={receivedAtStr} />
       ) : null}

@@ -136,6 +136,26 @@ export const useMessageQuote = (messageId: string | undefined): PropsForQuote | 
   return useMessagePropsByMessageId(messageId)?.propsForMessage.quote;
 };
 
+export const useMessageHash = (messageId: string | undefined) => {
+  return useMessagePropsByMessageId(messageId)?.propsForMessage.messageHash;
+};
+
+export const useMessageExpirationType = (messageId: string | undefined) => {
+  return useMessagePropsByMessageId(messageId)?.propsForMessage.expirationType;
+};
+
+export const useMessageExpirationDurationMs = (messageId: string | undefined) => {
+  return useMessagePropsByMessageId(messageId)?.propsForMessage.expirationDurationMs;
+};
+
+export const useMessageExpirationTimestamp = (messageId: string | undefined) => {
+  return useMessagePropsByMessageId(messageId)?.propsForMessage.expirationTimestamp;
+};
+
+export const useMessageServerId = (messageId: string | undefined) => {
+  return useMessagePropsByMessageId(messageId)?.propsForMessage.serverId;
+};
+
 export const useMessageText = (messageId: string | undefined): string | undefined => {
   return useMessagePropsByMessageId(messageId)?.propsForMessage.text;
 };

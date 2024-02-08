@@ -2616,7 +2616,7 @@ async function cleanUpExpireHistoryFromConvo(conversationId: string, isPrivate: 
     conversationId,
     isPrivate
   );
-  window.inboxStore.dispatch(
+  window?.inboxStore?.dispatch(
     messagesDeleted(updateIdsRemoved.map(m => ({ conversationKey: conversationId, messageId: m })))
   );
 }

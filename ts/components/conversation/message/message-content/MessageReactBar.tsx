@@ -3,7 +3,10 @@ import styled from 'styled-components';
 
 import { isEmpty } from 'lodash';
 import moment from 'moment';
+import useBoolean from 'react-use/lib/useBoolean';
+import useInterval from 'react-use/lib/useInterval';
 import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
+import { DURATION } from '../../../../session/constants';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { getRecentReactions } from '../../../../util/storage';
 import { SpacerSM } from '../../../basic/Text';
@@ -91,8 +94,7 @@ function useIsRenderedExpiresInItem(messageId: string) {
   return expiryDetails.expirationTimestamp;
 }
 
-function formatExpiry({ expirationTimestamp }: { expirationTimestamp: number }) {
-  const diffMs = expirationTimestamp - Date.now();
+function formatExpiry({ diffMs }: { diffMs: number }) {
   const diff = moment(diffMs).utc();
 
   if (diffMs <= 0) {
@@ -132,7 +134,17 @@ function formatExpiry({ expirationTimestamp }: { expirationTimestamp: number }) 
 }
 
 const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number | null }) => {
-  if (!expirationTimestamp) {
+  // this boolean is just used to forceRefresh the state when we get to display seconds in the contextmenu
+  const [refresh, setRefresh] = useBoolean(false);
+  const diffMs = (expirationTimestamp || 0) - Date.now();
+
+  useInterval(
+    () => {
+      setRefresh(!refresh);
+    },
+    diffMs > 0 && diffMs <= 2 * DURATION.MINUTES ? 500 : null
+  );
+  if (!expirationTimestamp || diffMs < 0) {
     return null;
   }
 
@@ -140,7 +152,7 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
     <StyledExpiresIn>
       <SessionIcon iconSize={'small'} iconType="stopwatch" />
       <SpacerSM />
-      <span>{formatExpiry({ expirationTimestamp })}</span>
+      <span>{formatExpiry({ diffMs })}</span>
     </StyledExpiresIn>
   );
 };
