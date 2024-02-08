@@ -1351,6 +1351,18 @@
   "icu:showSafetyNumber": {
     "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு"
   },
+  "icu:AboutContactModal__title": {
+    "messageformat": "About",
+    "description": "Title of About modal"
+  },
+  "icu:AboutContactModal__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on About modal leading to an education modal"
+  },
+  "icu:AboutContactModal__system-contact": {
+    "messageformat": "{name} is in your system contacts",
+    "description": "Text of a row in the About modal describing that the contact is in system contacts"
+  },
   "icu:ContactModal__showSafetyNumber": {
     "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு",
     "description": "Contact modal, label for button to show safety number modal"
@@ -1626,8 +1638,12 @@
     "messageformat": "எனது கணினி",
     "description": "The placeholder for the 'choose device name' input"
   },
+  "icu:Preferences--phone-number": {
+    "messageformat": "Phone Number",
+    "description": "The label in settings panel shown for the phone number associated with user's account"
+  },
   "icu:Preferences--device-name": {
-    "messageformat": "சாதனத்தின் பெயர்",
+    "messageformat": "Device Name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -5189,7 +5205,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} குழு உறுப்பினருக்கு ஒத்த பெயர் உள்ளது. கீழே உள்ள உறுப்பினர்களை மதிப்பாய்வு செய்யவும் அல்லது நடவடிக்கை எடுக்கத் தேர்வு செய்யவும்.} other {{count,number} குழு உறுப்பினர்களுக்கு ஒத்த பெயர்கள் உள்ளன. கீழே உள்ள உறுப்பினர்களை மதிப்பாய்வு செய்யவும் அல்லது நடவடிக்கை எடுக்க தேர்வு செய்யவும்.}}",
+    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5198,7 +5214,15 @@
   },
   "icu:ContactSpoofingReviewDialog__group__members-header": {
     "messageformat": "உறுப்பினர்கள்",
-    "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+  },
+  "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
+    "messageformat": "No other groups in common",
+    "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
+  },
+  "icu:ContactSpoofingReviewDialog__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
     "messageformat": "சமீபத்தில் அவர்களின் சுயவிவரப் பெயரை மாற்றியது {oldName} க்கு {newName}",
@@ -5493,15 +5517,19 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "உங்கள் பயனர்பெயரில் ஏதோ தவறு நடந்து விட்டது, இனி ஒருபோதும் உங்கள் கணக்கில் நியமிக்கப்படவில்லை.",
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
     "messageformat": "பயனர் பெயரை நீக்கவும்",
-    "description": "Button text for deletion of the username in case of corruption"
+    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
     "messageformat": "பயனர்பெயரை உருவாக்கவும்",
+    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--fix-button": {
+    "messageformat": "Fix now",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5553,7 +5581,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "இந்த எண் 00 ஐக் கொண்டு தொடங்கக் கூடாது. 1-9 க்கு இடையேயுள்ள ஒரு எண்ணை உள்ளிடவும்",
+    "messageformat": "Numbers with more than 2 digits can’t start with 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5632,9 +5660,25 @@
     "messageformat": "இந்த மாற்றங்களை நிராகரிக்க விரும்புகிறீர்களா?",
     "description": "ConfirmationDialog text for discarding changes"
   },
+  "icu:ProfileEditor--edit-photo": {
+    "messageformat": "Edit photo",
+    "description": "Text of a button on profile editor that leads to the avatar editor"
+  },
   "icu:ProfileEditor--info--link": {
     "messageformat": "உங்கள் சுயவிவரம் குறியாக்கம் செய்யப்பட்டுள்ளது. உங்கள் சுயவிவரமும் அதில் ஏற்படும் மாற்றங்களும் உங்கள் தொடர்புகளுக்குத் தெரியும் மற்றும் நீங்கள் புதிய சாட்களைத் தொடங்கும்போது அல்லது ஏற்கும்போது. <learnMoreLink>மேலும் அறிக</learnMoreLink>",
-    "description": "Information shown at the bottom of the profile editor section"
+    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
+  },
+  "icu:ProfileEditor--info--general": {
+    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "description": "Information shown in profile editor below profile name and about fields"
+  },
+  "icu:ProfileEditor--info--pnp": {
+    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "description": "Information shown in profile editor below pnp settings when username is set"
+  },
+  "icu:ProfileEditor--info--pnp--no-username": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
     "messageformat": "சுதந்திரமாக பேசுவோம்",
@@ -5801,8 +5845,12 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "நீங்கள் அவர்களுக்கு மெசேஜை பரிமாறிக்கொண்டிருந்தாலும் கூட, உங்கள் தொலைபேசி எண்ணை சிக்னலில் யாராலும் பார்க்க முடியாது.",
-    "description": "Description for the phone number sharing setting row when the value is Nobody"
+    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
+    "messageformat": "Your phone number will not be visible to anyone.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
     "messageformat": "ஃபோன் எண்",
@@ -6817,7 +6865,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "பயனர்பெயர்கள் உங்கள் மொபைல் எண்ணிற்கான தேவையில்லாமல் மற்றவர்கள் உங்களுக்கு செய்தி அனுப்ப அனுமதிக்கும். உங்கள் முகவரியைத் தனிப்பட்டதாக வைத்திருக்க உதவுவதற்காக இலக்கங்களின் தொகுப்புடன் அவை இணைக்கப்பட்டுள்ளன.",
+    "messageformat": "Usernames are always paired with a set of numbers.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6840,8 +6888,16 @@
     "messageformat": "தொடர்க",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:EditUsernameModalBody__recover-confirmation": {
+    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "description": "Body of the confirmation dialog displayed when user is about to recover their username"
+  },
+  "icu:EditUsernameModalBody__username-recovered__text": {
+    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "description": "Text of toast displayed upon successful recovery of username"
+  },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "என்னுடன் சிக்னலில் சாட் செய்ய இந்த QR குறியீட்டை உங்கள் ஃபோன் மூலம் ஸ்கேன் செய்யவும்.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6873,7 +6929,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "உங்கள் QR குறியீட்டை மீட்டமைத்தால், உங்கள் தற்போதைய QR குறியீடு மற்றும் இணைப்பு இனி ஒருபோதும் வேலை செய்யாது.",
+    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6881,35 +6937,43 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR குறியீடு மற்றும் இணைப்பு அமைக்கப்படவில்லை. உங்கள் நெட்வொர்க் இணைப்பைச் சரிபார்த்து, மீண்டும் முயலவும்.",
+    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
+  "icu:UsernameLinkModalBody__error__fix-now": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in a confirmation dialog shown on username link error"
+  },
+  "icu:UsernameLinkModalBody__recovered__text": {
+    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "description": "Text of the confirmation dialog shown on successful username link recovery"
+  },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "இணைவதற்கான புதிய வழிகள்",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "தொலைபேசி எண் தனியுரிமை",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "உங்கள் தொலைபேசி எண் இனி சாட்ஸில் புலப்படாது. உங்கள் நண்பர் ஒருவர் உங்களின் எண்ணை தொடர்புகளில் சேமித்து வைத்திருந்தால், அதை அவர்களால் பார்க்க முடியும்.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "பயனர் பெயர்கள்",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "உங்கள் விருப்பத் தேர்ந்தெடுப்புக்குரிய பயனர் பெயரைப் பயன்படுத்தி மக்கள் இப்போது உங்களுக்கு மெசேஜ் அனுப்ப முடியும் என்பதால், உங்கள் ஃபோன் எண்ணை நீங்கள் பகிர வேண்டியதில்லை. உங்கள் புரொஃபைலில் பயனர் பெயர்கள் புலப்படாது.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "QR குறியீடுகள் மற்றும் இணைப்புகள்",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "உங்களுடன் விரைவாக சாட் செய்யத் தொடங்க பயனர் பெயர்களில் நண்பர்களுடன் பகிர்ந்துகொள்ளும்படியான ஒரு தனித்துவமான QR குறியீடு மற்றும் ஒரு இணைப்பு உள்ளது.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6993,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "பயனர் பெயரை அமைக்கவும்",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "இப்போது வேண்டாம்",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "இணைவதற்கான புதிய வழிகள்",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "தொலைபேசி எண் தனியுரிமை, விருப்பத் தேர்ந்தெடுப்புக்குரிய பயனர் பெயர்கள் மற்றும் இணைப்புகளை அறிமுகப்படுத்துகிறோம்.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "மேலும் அறிக",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "நிராகரி",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7124,13 +7188,16 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.46--0": {
-    "messageformat": "உருதுக்கான இயல்புநிலை எழுத்துருக்கள் அந்த மொழியைத் தேர்ந்தெடுக்கும் போது மேம்படுத்தப்பட்ட வாசிப்புத்திறனுக்காக புதுப்பிக்கப்பட்டுள்ளன (சிக்னல் அமைப்புகள் > தோற்றம் > மொழி). நன்றி, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "சில நேரங்களில் ஈமோஜி தேர்வு பெட்டியை மறைக்கும்படி டைப்பிங் அறிவிப்புக் குறி கொண்ட ஒரு பிழையை நாங்கள் சரிசெய்துள்ளோம். <emojify>🎉</emojify>"
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "மைக்ரோசாஃப்ட் விண்டோஸில் நீங்கள் தேர்ந்தெடுத்த டைட்டில் பார் நிறத்துடன் சிக்னல் விண்டோ இப்போது பொருந்தும்."
+  },
+  "icu:WhatsNew__v6.48--0": {
+    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+  },
+  "icu:WhatsNew__v6.48--1": {
+    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
   }
 }
