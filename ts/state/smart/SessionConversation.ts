@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { SessionConversation } from '../../components/conversation/SessionConversation';
+import { HTMLDirection } from '../../util/i18n';
 import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 import { getHasOngoingCallWithFocusedConvo } from '../selectors/call';
@@ -9,14 +10,12 @@ import {
   getSelectedConversation,
   getSelectedMessageIds,
   getSortedMessagesOfSelectedConversation,
-  isMessageDetailView,
   isRightPanelShowing,
 } from '../selectors/conversations';
 import { getSelectedConversationKey } from '../selectors/selectedConversation';
 import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 import { getTheme } from '../selectors/theme';
 import { getOurDisplayNameInProfile, getOurNumber } from '../selectors/user';
-import { HTMLDirection } from '../../util/i18n';
 
 type SmartSessionConversationOwnProps = {
   htmlDirection: HTMLDirection;
@@ -30,7 +29,6 @@ const mapStateToProps = (state: StateType, ownProps: SmartSessionConversationOwn
     messagesProps: getSortedMessagesOfSelectedConversation(state),
     ourDisplayNameInProfile: getOurDisplayNameInProfile(state),
     ourNumber: getOurNumber(state),
-    showMessageDetails: isMessageDetailView(state),
     isRightPanelShowing: isRightPanelShowing(state),
     selectedMessages: getSelectedMessageIds(state),
     lightBoxOptions: getLightBoxOptions(state),

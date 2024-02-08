@@ -68,7 +68,6 @@ import {
   FindAndFormatContactType,
   LastMessageStatusType,
   MessageModelPropsWithoutConvoProps,
-  MessagePropsDetails,
   PropsForAttachment,
   PropsForExpirationTimer,
   PropsForExpiringMessage,
@@ -84,7 +83,6 @@ import {
   messagesChanged,
 } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import { isAudio } from '../types/MIME';
 import {
   deleteExternalMessageFiles,
   getAbsoluteAttachmentPath,
@@ -93,10 +91,8 @@ import {
   loadQuoteData,
 } from '../types/MessageAttachment';
 import { ReactionList } from '../types/Reaction';
-import { getAudioDuration, getVideoDuration } from '../types/attachments/VisualAttachment';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import { assertUnreachable, roomHasBlindEnabled } from '../types/sqlSharedTypes';
-import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
@@ -728,62 +724,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           }
         : null,
     };
-  }
-
-  public async getPropsForMessageDetail(): Promise<MessagePropsDetails> {
-    // process attachments so we have the fileSize, url and screenshots
-    const attachments = this.get('attachments') || [];
-    for (let i = 0; i < attachments.length; i++) {
-      let props = this.getPropsForAttachment(attachments[i]);
-      if (
-        props?.contentType &&
-        GoogleChrome.isVideoTypeSupported(props?.contentType) &&
-        !props.duration &&
-        props.url
-      ) {
-        // eslint-disable-next-line no-await-in-loop
-        const duration = await getVideoDuration({
-          objectUrl: props.url,
-          contentType: props.contentType,
-        });
-        props = {
-          ...props,
-          duration,
-        };
-      }
-      if (props?.contentType && isAudio(props?.contentType) && !props.duration && props.url) {
-        // eslint-disable-next-line no-await-in-loop
-        const duration = await getAudioDuration({
-          objectUrl: props.url,
-          contentType: props.contentType,
-        });
-        props = {
-          ...props,
-          duration,
-        };
-      }
-      attachments[i] = props;
-    }
-
-    // This will make the error message for outgoing key errors a bit nicer
-    const errors = (this.get('errors') || []).map((error: any) => {
-      return error;
-    });
-
-    const toRet: MessagePropsDetails = {
-      sentAt: this.get('sent_at') || 0,
-      receivedAt: this.get('received_at') || 0,
-      convoId: this.get('conversationId'),
-      messageId: this.get('id'),
-      errors,
-      direction: this.get('direction'),
-      sender: this.get('source'),
-      attachments,
-      timestamp: this.get('timestamp'),
-      serverTimestamp: this.get('serverTimestamp'),
-    };
-
-    return toRet;
   }
 
   /**

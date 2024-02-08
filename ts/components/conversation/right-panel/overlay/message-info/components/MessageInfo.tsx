@@ -2,10 +2,16 @@ import { ipcRenderer } from 'electron';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { MessageFrom } from '.';
-import { getMessageDetailsViewProps } from '../../../../../../state/selectors/conversations';
+import {
+  useMessageDirection,
+  useMessageReceivedAt,
+  useMessageSender,
+  useMessageServerTimestamp,
+  useMessageTimestamp,
+} from '../../../../../../state/selectors';
+
 import { Flex } from '../../../../../basic/Flex';
 import { SpacerSM } from '../../../../../basic/Text';
 
@@ -51,16 +57,18 @@ const showDebugLog = () => {
   ipcRenderer.send('show-debug-log');
 };
 
-export const MessageInfo = () => {
-  const messageDetailProps = useSelector(getMessageDetailsViewProps);
+export const MessageInfo = ({ messageId, errors }: { messageId: string; errors: Array<Error> }) => {
+  const sender = useMessageSender(messageId);
+  const direction = useMessageDirection(messageId);
+  const sentAt = useMessageTimestamp(messageId);
+  const serverTimestamp = useMessageServerTimestamp(messageId);
+  const receivedAt = useMessageReceivedAt(messageId);
 
-  if (!messageDetailProps) {
+  if (!messageId || !sender) {
     return null;
   }
 
-  const { errors, receivedAt, sentAt, direction, sender } = messageDetailProps;
-
-  const sentAtStr = `${moment(sentAt).format(formatTimestamps)}`;
+  const sentAtStr = `${moment(serverTimestamp || sentAt).format(formatTimestamps)}`;
   const receivedAtStr = `${moment(receivedAt).format(formatTimestamps)}`;
 
   const hasError = !isEmpty(errors);
