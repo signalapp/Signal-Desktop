@@ -4,17 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import {
-  PropsForAttachment,
-  closeMessageInfoView,
-  closeRightPanel,
-} from '../../../../../state/ducks/conversations';
+import { PropsForAttachment, closeRightPanel } from '../../../../../state/ducks/conversations';
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../../../state/ducks/section';
 import { getMessageInfoId } from '../../../../../state/selectors/conversations';
 import { Flex } from '../../../../basic/Flex';
 import { Header, HeaderTitle, StyledScrollContainer } from '../components';
 
 import { Data } from '../../../../../data/data';
+import { useRightOverlayMode } from '../../../../../hooks/useUI';
 import {
   replyToMessage,
   resendMessage,
@@ -30,7 +27,6 @@ import {
   useMessageText,
   useMessageTimestamp,
 } from '../../../../../state/selectors';
-import { getRightOverlayMode } from '../../../../../state/selectors/section';
 import { useSelectedConversationKey } from '../../../../../state/selectors/selectedConversation';
 import { canDisplayImage } from '../../../../../types/Attachment';
 import { isAudio } from '../../../../../types/MIME';
@@ -95,15 +91,15 @@ const StyledMessageDetail = styled.div`
   padding: var(--margins-sm) var(--margins-2xl) var(--margins-lg);
 `;
 
-type MessagePropsDetails = {
+type MessageInfoProps = {
   errors: Array<Error>;
   attachments: Array<PropsForAttachment>;
 };
 
-async function getPropsForMessageDetail(
+async function getPropsForMessageInfo(
   messageId: string | undefined,
   attachments: Array<PropsForAttachment>
-): Promise<MessagePropsDetails | null> {
+): Promise<MessageInfoProps | null> {
   if (!messageId) {
     return null;
   }
@@ -149,7 +145,7 @@ async function getPropsForMessageDetail(
       return error;
     });
 
-    const toRet: MessagePropsDetails = {
+    const toRet: MessageInfoProps = {
       errors,
       attachments: attachmentsWithMediaDetails,
     };
@@ -159,8 +155,8 @@ async function getPropsForMessageDetail(
   return null;
 }
 
-function useMessageDetailProps(messageId: string | undefined): MessagePropsDetails | null {
-  const [details, setDetails] = useState<MessagePropsDetails | null>(null);
+function useMessageInfo(messageId: string | undefined) {
+  const [details, setDetails] = useState<MessageInfoProps | null>(null);
 
   const fromState = useMessageAttachments(messageId);
 
@@ -169,7 +165,7 @@ function useMessageDetailProps(messageId: string | undefined): MessagePropsDetai
   useEffect(() => {
     let mounted = true;
     // eslint-disable-next-line more/no-then
-    void getPropsForMessageDetail(messageId, fromState || [])
+    void getPropsForMessageInfo(messageId, fromState || [])
       .then(result => {
         if (mounted) {
           setDetails(result);
@@ -188,40 +184,41 @@ function useMessageDetailProps(messageId: string | undefined): MessagePropsDetai
 export const OverlayMessageInfo = () => {
   const dispatch = useDispatch();
 
-  const rightOverlayMode = useSelector(getRightOverlayMode);
+  const rightOverlayMode = useRightOverlayMode();
   const messageId = useSelector(getMessageInfoId);
-  const messageDetailProps = useMessageDetailProps(messageId);
+  const messageInfo = useMessageInfo(messageId);
   const isDeletable = useMessageIsDeletable(messageId);
   const direction = useMessageDirection(messageId);
   const timestamp = useMessageTimestamp(messageId);
   const serverTimestamp = useMessageServerTimestamp(messageId);
   const sender = useMessageSender(messageId);
 
-  // we close the right panel when switching conversation so the convoId of the convoId of that message
+  // we close the right panel when switching conversation so the convoId of that message is always the selectedConversationKey
   // is always the currently selected conversation
   const convoId = useSelectedConversationKey();
 
   const closePanel = useCallback(() => {
     dispatch(closeRightPanel());
     dispatch(resetRightOverlayMode());
-    dispatch(closeMessageInfoView());
   }, [dispatch]);
 
   useKey('Escape', closePanel);
 
+  // close the panel if the messageInfo is associated with a deleted message
   useEffect(() => {
     if (!sender) {
       closePanel();
     }
   }, [sender, closePanel]);
-  if (!rightOverlayMode || !messageDetailProps || !convoId || !messageId || !sender) {
+
+  if (!rightOverlayMode || !messageInfo || !convoId || !messageId || !sender) {
     return null;
   }
 
   const { params } = rightOverlayMode;
   const visibleAttachmentIndex = params?.visibleAttachmentIndex || 0;
 
-  const { errors, attachments } = messageDetailProps;
+  const { errors, attachments } = messageInfo;
 
   const hasAttachments = attachments && attachments.length > 0;
   const supportsAttachmentCarousel = canDisplayImage(attachments);
@@ -254,14 +251,7 @@ export const OverlayMessageInfo = () => {
   return (
     <StyledScrollContainer>
       <Flex container={true} flexDirection={'column'} alignItems={'center'}>
-        <Header
-          hideBackButton={true}
-          closeButtonOnClick={() => {
-            dispatch(closeRightPanel());
-            dispatch(resetRightOverlayMode());
-            dispatch(closeMessageInfoView());
-          }}
-        >
+        <Header hideBackButton={true} closeButtonOnClick={closePanel}>
           <HeaderTitle>{window.i18n('messageInfo')}</HeaderTitle>
         </Header>
         <StyledMessageDetailContainer>
@@ -292,7 +282,7 @@ export const OverlayMessageInfo = () => {
                 <SpacerMD />
               </>
             )}
-            <MessageInfo messageId={messageId} errors={messageDetailProps.errors} />
+            <MessageInfo messageId={messageId} errors={messageInfo.errors} />
             <SpacerLG />
             <PanelButtonGroup style={{ margin: '0' }}>
               <PanelIconButton

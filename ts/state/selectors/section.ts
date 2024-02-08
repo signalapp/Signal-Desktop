@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { SessionSettingCategory } from '../../components/settings/SessionSettings';
-import { LeftOverlayMode, RightOverlayMode, SectionStateType, SectionType } from '../ducks/section';
+import { LeftOverlayMode, SectionStateType, SectionType } from '../ducks/section';
 import { StateType } from '../reducer';
 
 export const getSection = (state: StateType): SectionStateType => state.section;
@@ -30,7 +30,7 @@ export const getLeftOverlayMode = createSelector(
   (state: SectionStateType): LeftOverlayMode | undefined => state.leftOverlayMode
 );
 
-export const getRightOverlayMode = (state: StateType): RightOverlayMode | undefined => {
+export const getRightOverlayMode = (state: StateType) => {
   return state.section.rightOverlayMode;
 };
 

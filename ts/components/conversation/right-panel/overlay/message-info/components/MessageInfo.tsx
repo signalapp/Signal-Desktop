@@ -57,7 +57,7 @@ const showDebugLog = () => {
   ipcRenderer.send('show-debug-log');
 };
 
-export const MessageInfo = ({ messageId, errors }: { messageId: string; errors: Array<any> }) => {
+export const MessageInfo = ({ messageId, errors }: { messageId: string; errors: Array<Error> }) => {
   const sender = useMessageSender(messageId);
   const direction = useMessageDirection(messageId);
   const sentAt = useMessageTimestamp(messageId);

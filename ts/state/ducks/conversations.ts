@@ -669,10 +669,6 @@ const conversationsSlice = createSlice({
       return { ...state, messageInfoId: action.payload, showRightPanel: false };
     },
 
-    closeMessageInfoView(state: ConversationsStateType) {
-      return { ...state, messageInfoId: undefined };
-    },
-
     openRightPanel(state: ConversationsStateType) {
       if (
         state.selectedConversation === undefined ||
@@ -690,7 +686,7 @@ const conversationsSlice = createSlice({
       return state;
     },
     closeRightPanel(state: ConversationsStateType) {
-      return { ...state, showRightPanel: false };
+      return { ...state, showRightPanel: false, messageInfoId: undefined };
     },
     addMessageIdToSelection(state: ConversationsStateType, action: PayloadAction<string>) {
       if (state.selectedMessageIds.some(id => id === action.payload)) {
@@ -1119,7 +1115,6 @@ export const {
   markConversationFullyRead,
   // layout stuff
   showMessageInfoView,
-  closeMessageInfoView,
   openRightPanel,
   closeRightPanel,
   addMessageIdToSelection,

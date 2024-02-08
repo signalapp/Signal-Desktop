@@ -1,10 +1,9 @@
 import React, { ReactElement, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useMouse } from 'react-use';
 import styled from 'styled-components';
+import { useRightOverlayMode } from '../../../../hooks/useUI';
 import { isUsAnySogsFromCache } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../../../../session/utils';
-import { getRightOverlayMode } from '../../../../state/selectors/section';
 import { useIsMessageSelectionMode } from '../../../../state/selectors/selectedConversation';
 import { THEME_GLOBALS } from '../../../../themes/globals';
 import { SortedReactionList } from '../../../../types/Reaction';
@@ -79,7 +78,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
     handlePopupClick,
   } = props;
 
-  const rightOverlayMode = useSelector(getRightOverlayMode);
+  const rightOverlayMode = useRightOverlayMode();
   const isMessageSelection = useIsMessageSelectionMode();
   const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
   const senders = reactionsMap[emoji]?.senders || [];
