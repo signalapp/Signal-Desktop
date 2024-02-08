@@ -351,7 +351,8 @@ export class CallingClass {
       reduxInterface.setPresenting();
     });
 
-    void this.cleanExpiredGroupCallRingsAndLoop();
+    drop(this.cleanExpiredGroupCallRingsAndLoop());
+    drop(this.cleanupStaleRingingCalls());
 
     if (process.platform === 'darwin') {
       drop(this.enumerateMediaDevices());
@@ -591,6 +592,27 @@ export class CallingClass {
           Buffer.from(member.uuidCiphertext)
         )
     );
+  }
+
+  public async cleanupStaleRingingCalls(): Promise<void> {
+    const calls = await dataInterface.getRecentStaleRingsAndMarkOlderMissed();
+
+    const results = await Promise.all(
+      calls.map(async call => {
+        const peekInfo = await this.peekGroupCall(call.peerId);
+        return { callId: call.callId, peekInfo };
+      })
+    );
+
+    const staleCallIds = results
+      .filter(result => {
+        return result.peekInfo == null;
+      })
+      .map(result => {
+        return result.callId;
+      });
+
+    await dataInterface.markCallHistoryMissed(staleCallIds);
   }
 
   public async peekGroupCall(conversationId: string): Promise<PeekInfo> {

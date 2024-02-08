@@ -26,6 +26,7 @@ import {
   map,
   mapValues,
   omit,
+  partition,
   pick,
 } from 'lodash';
 
@@ -157,6 +158,8 @@ import {
   CallHistoryFilterStatus,
   callHistoryDetailsSchema,
   CallDirection,
+  GroupCallStatus,
+  CallType,
 } from '../types/CallDisposition';
 
 type ConversationRow = Readonly<{
@@ -316,6 +319,8 @@ const dataInterface: ServerInterface = {
   getCallHistoryGroups,
   saveCallHistory,
   hasGroupCallHistoryMessage,
+  markCallHistoryMissed,
+  getRecentStaleRingsAndMarkOlderMissed,
   migrateConversationMessages,
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
@@ -3800,6 +3805,65 @@ async function hasGroupCallHistoryMessage(
     });
 
   return exists !== 0;
+}
+
+function _markCallHistoryMissed(db: Database, callIds: ReadonlyArray<string>) {
+  batchMultiVarQuery(db, callIds, batch => {
+    const [updateQuery, updateParams] = sql`
+      UPDATE callsHistory
+      SET status = ${sqlConstant(GroupCallStatus.Missed)}
+      WHERE callId IN (${sqlJoin(batch)})
+    `;
+    return db.prepare(updateQuery).run(updateParams);
+  });
+}
+
+async function markCallHistoryMissed(
+  callIds: ReadonlyArray<string>
+): Promise<void> {
+  const db = await getWritableInstance();
+  return db.transaction(() => _markCallHistoryMissed(db, callIds))();
+}
+
+export type MaybeStaleCallHistory = Readonly<
+  Pick<CallHistoryDetails, 'callId' | 'peerId'>
+>;
+
+async function getRecentStaleRingsAndMarkOlderMissed(): Promise<
+  ReadonlyArray<MaybeStaleCallHistory>
+> {
+  const db = await getWritableInstance();
+  return db.transaction(() => {
+    const [selectQuery, selectParams] = sql`
+      SELECT callId, peerId FROM callsHistory
+      WHERE
+        type = ${sqlConstant(CallType.Group)} AND
+        status = ${sqlConstant(GroupCallStatus.Ringing)}
+      ORDER BY timestamp DESC
+    `;
+
+    const ringingCalls = db.prepare(selectQuery).all(selectParams);
+
+    const seen = new Set<string>();
+    const [latestCalls, pastCalls] = partition(ringingCalls, result => {
+      if (seen.size >= 10) {
+        return false;
+      }
+      if (seen.has(result.peerId)) {
+        return false;
+      }
+      seen.add(result.peerId);
+      return true;
+    });
+
+    _markCallHistoryMissed(
+      db,
+      pastCalls.map(result => result.callId)
+    );
+
+    // These are returned so we can peek them.
+    return latestCalls;
+  })();
 }
 
 async function migrateConversationMessages(
