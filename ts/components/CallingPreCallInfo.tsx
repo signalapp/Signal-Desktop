@@ -25,6 +25,8 @@ export type PropsType = {
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
+    | 'systemGivenName'
+    | 'systemNickname'
     | 'title'
     | 'type'
     | 'unblurredAvatarPath'
@@ -34,10 +36,18 @@ export type PropsType = {
   ringMode: RingMode;
 
   // The following should only be set for group conversations.
-  groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
+  groupMembers?: Array<
+    Pick<
+      ConversationType,
+      'id' | 'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+    >
+  >;
   isCallFull?: boolean;
   peekedParticipants?: Array<
-    Pick<ConversationType, 'firstName' | 'title' | 'serviceId'>
+    Pick<
+      ConversationType,
+      'firstName' | 'systemGivenName' | 'systemNickname' | 'title' | 'serviceId'
+    >
   >;
 };
 

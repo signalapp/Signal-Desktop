@@ -39,11 +39,18 @@ export type PropsType = {
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
+    | 'systemGivenName'
+    | 'systemNickname'
     | 'title'
     | 'type'
     | 'unblurredAvatarPath'
   >;
-  groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
+  groupMembers?: Array<
+    Pick<
+      ConversationType,
+      'id' | 'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+    >
+  >;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
