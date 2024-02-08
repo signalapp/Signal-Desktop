@@ -14,12 +14,12 @@ describe('RemoteConfig', () => {
   const aci = normalizeAci('95b9729c-51ea-4ddb-b516-652befe78062', 'test');
 
   describe('#innerIsBucketValueEnabled', () => {
-    // Note: bucketValue is 627610 for 'desktop.pnp' key
+    // Note: bucketValue is 376321 for 'desktop.internalUser' key
 
     it('returns true for 100% wildcard', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.pnp',
+          'desktop.internalUser',
           '*:1000000',
           '+12125550000',
           aci
@@ -31,7 +31,7 @@ describe('RemoteConfig', () => {
     it('returns true for 70% on country code 1', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.pnp',
+          'desktop.internalUser',
           '1:700000',
           '+12125550000',
           aci
@@ -40,11 +40,11 @@ describe('RemoteConfig', () => {
       );
     });
 
-    it('returns false for 50% on country code 1', () => {
+    it('returns false for 30% on country code 1', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.pnp',
-          '1:500000',
+          'desktop.internalUser',
+          '1:300000',
           '+12125550000',
           aci
         ),

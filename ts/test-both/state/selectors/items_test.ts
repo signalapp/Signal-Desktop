@@ -8,7 +8,6 @@ import {
   getPinnedConversationIds,
   getPreferredLeftPaneWidth,
   getPreferredReactionEmoji,
-  getUsernamesEnabled,
 } from '../../../state/selectors/items';
 import type { StateType } from '../../../state/reducer';
 import type { ItemsStateType } from '../../../state/ducks/items';
@@ -143,38 +142,6 @@ describe('both/state/selectors/items', () => {
       const actual = getPreferredReactionEmoji(state);
 
       assert.deepStrictEqual(actual, preferredReactionEmoji);
-    });
-  });
-
-  describe('#getUsernamesEnabled', () => {
-    it('returns false if the flag is missing or disabled', () => {
-      [
-        {},
-        { remoteConfig: {} },
-        {
-          remoteConfig: {
-            'desktop.usernames': {
-              name: 'desktop.usernames' as const,
-              enabled: false,
-            },
-          },
-        },
-      ].forEach(itemsState => {
-        const state = getRootState(itemsState);
-        assert.isFalse(getUsernamesEnabled(state));
-      });
-    });
-
-    it('returns true if the flag is enabled', () => {
-      const state = getRootState({
-        remoteConfig: {
-          'desktop.usernames': {
-            name: 'desktop.usernames' as const,
-            enabled: true,
-          },
-        },
-      });
-      assert.isTrue(getUsernamesEnabled(state));
     });
   });
 });

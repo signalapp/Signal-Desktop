@@ -104,7 +104,6 @@ export default {
     isAutoLaunchSupported: true,
     isHideMenuBarSupported: true,
     isNotificationAttentionSupported: true,
-    isPhoneNumberSharingSupported: true,
     isSyncSupported: true,
     isSystemTraySupported: true,
     isMinimizeToAndStartInSystemTraySupported: true,
@@ -206,12 +205,10 @@ export const PNPSharingDisabled = Template.bind({});
 PNPSharingDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
-  isPhoneNumberSharingSupported: true,
 };
 
 export const PNPDiscoverabilityDisabled = Template.bind({});
 PNPDiscoverabilityDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.NotDiscoverable,
-  isPhoneNumberSharingSupported: true,
 };

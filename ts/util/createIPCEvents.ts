@@ -33,7 +33,6 @@ import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { strictAssert, assertDev } from './assert';
 import * as durations from './durations';
 import type { DurationInSeconds } from './durations';
-import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import * as Registration from './registration';
 import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId';
 import * as log from '../logging/log';
@@ -114,7 +113,6 @@ export type IPCEventsCallbacksType = {
     mediaType: 'screen' | 'microphone' | 'camera'
   ) => Promise<string | unknown>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
-  isPhoneNumberSharingEnabled: () => boolean;
   isPrimary: () => boolean;
   removeCustomColor: (x: string) => void;
   removeCustomColorOnConversations: (x: string) => void;
@@ -461,7 +459,6 @@ export function createIPCEvents(
       return window.IPC.setAutoLaunch(value);
     },
 
-    isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {

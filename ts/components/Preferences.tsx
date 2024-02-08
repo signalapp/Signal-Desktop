@@ -126,7 +126,6 @@ export type PropsDataType = {
   isAutoLaunchSupported: boolean;
   isHideMenuBarSupported: boolean;
   isNotificationAttentionSupported: boolean;
-  isPhoneNumberSharingSupported: boolean;
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
   isMinimizeToAndStartInSystemTraySupported: boolean;
@@ -286,7 +285,6 @@ export function Preferences({
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
   isHideMenuBarSupported,
-  isPhoneNumberSharingSupported,
   isNotificationAttentionSupported,
   isSyncSupported,
   isSystemTraySupported,
@@ -1193,20 +1191,18 @@ export function Preferences({
             {i18n('icu:Preferences__button--privacy')}
           </div>
         </div>
-        {isPhoneNumberSharingSupported ? (
-          <button
-            type="button"
-            className="Preferences__link"
-            onClick={() => setPage(Page.PNP)}
-          >
-            <h3 className="Preferences__padding">
-              {i18n('icu:Preferences__pnp__row--title')}
-            </h3>
-            <div className="Preferences__padding Preferences__description">
-              {i18n('icu:Preferences__pnp__row--body')}
-            </div>
-          </button>
-        ) : null}
+        <button
+          type="button"
+          className="Preferences__link"
+          onClick={() => setPage(Page.PNP)}
+        >
+          <h3 className="Preferences__padding">
+            {i18n('icu:Preferences__pnp__row--title')}
+          </h3>
+          <div className="Preferences__padding Preferences__description">
+            {i18n('icu:Preferences__pnp__row--body')}
+          </div>
+        </button>
         <SettingsRow>
           <Control
             left={i18n('icu:Preferences--blocked')}

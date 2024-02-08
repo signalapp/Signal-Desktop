@@ -62,7 +62,6 @@ SettingsWindowProps.onRender(
     isHideMenuBarSupported,
     isMinimizeToAndStartInSystemTraySupported,
     isNotificationAttentionSupported,
-    isPhoneNumberSharingSupported,
     isSyncSupported,
     isSystemTraySupported,
     lastSyncTime,
@@ -167,7 +166,6 @@ SettingsWindowProps.onRender(
           isMinimizeToAndStartInSystemTraySupported
         }
         isNotificationAttentionSupported={isNotificationAttentionSupported}
-        isPhoneNumberSharingSupported={isPhoneNumberSharingSupported}
         isSyncSupported={isSyncSupported}
         isSystemTraySupported={isSystemTraySupported}
         lastSyncTime={lastSyncTime}

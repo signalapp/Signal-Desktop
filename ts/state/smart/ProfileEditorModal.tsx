@@ -13,7 +13,6 @@ import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import {
   getEmojiSkinTone,
-  getUsernamesEnabled,
   getHasCompletedUsernameLinkOnboarding,
   getUsernameCorrupted,
   getUsernameLinkColor,
@@ -52,7 +51,6 @@ function mapStateToProps(
   } = getMe(state);
   const recentEmojis = selectRecentEmojis(state);
   const skinTone = getEmojiSkinTone(state);
-  const isUsernameFlagEnabled = getUsernamesEnabled(state);
   const hasCompletedUsernameLinkOnboarding =
     getHasCompletedUsernameLinkOnboarding(state);
   const usernameEditState = getUsernameEditState(state);
@@ -75,7 +73,6 @@ function mapStateToProps(
     hasError: state.globalModals.profileEditorHasError,
     initialEditState: state.globalModals.profileEditorInitialEditState,
     i18n: getIntl(state),
-    isUsernameFlagEnabled,
     recentEmojis,
     skinTone,
     userAvatarData,

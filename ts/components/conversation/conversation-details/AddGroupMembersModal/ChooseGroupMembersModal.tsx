@@ -65,7 +65,6 @@ export type StatePropsType = {
   removeSelectedContact: (_: string) => void;
   setSearchTerm: (_: string) => void;
   toggleSelectedContact: (conversationId: string) => void;
-  isUsernamesEnabled: boolean;
 } & Pick<
   LookupConversationWithoutServiceIdActionsType,
   'lookupConversationWithoutServiceId'
@@ -97,29 +96,22 @@ export function ChooseGroupMembersModal({
   toggleSelectedContact,
   lookupConversationWithoutServiceId,
   showUserNotFoundModal,
-  isUsernamesEnabled,
 }: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
 
-  const parsedUsername = getUsernameFromSearch(searchTerm);
-  let username: string | undefined;
-  let isUsernameChecked = false;
-  let isUsernameVisible = false;
-  if (isUsernamesEnabled) {
-    username = parsedUsername;
+  const username = getUsernameFromSearch(searchTerm);
 
-    isUsernameChecked = selectedContacts.some(
-      contact => contact.username === username
-    );
+  const isUsernameChecked = selectedContacts.some(
+    contact => contact.username === username
+  );
 
-    isUsernameVisible =
-      Boolean(username) &&
-      username !== ourUsername &&
-      candidateContacts.every(contact => contact.username !== username);
-  }
+  const isUsernameVisible =
+    Boolean(username) &&
+    username !== ourUsername &&
+    candidateContacts.every(contact => contact.username !== username);
 
   let phoneNumber: ParsedE164Type | undefined;
-  if (!parsedUsername) {
+  if (!username) {
     phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
   }
 

@@ -30,7 +30,6 @@ installSetting('typingIndicatorSetting', {
 });
 
 installCallback('deleteAllMyStories');
-installCallback('isPhoneNumberSharingEnabled');
 installCallback('isPrimary');
 installCallback('syncRequest');
 
