@@ -20,4 +20,25 @@ describe('getParticipantName', () => {
 
     assert.strictEqual(getParticipantName(participant), 'Foo Bar');
   });
+
+  it('returns system given name if available', () => {
+    const participant = {
+      firstName: 'Foo',
+      systemGivenName: 'Foo from that party',
+      title: 'Foo Bar',
+    };
+
+    assert.strictEqual(getParticipantName(participant), 'Foo from that party');
+  });
+
+  it('returns system nickname if available', () => {
+    const participant = {
+      firstName: 'Foo',
+      systemGivenName: 'Foo from that party',
+      systemNickname: 'Foo-chan',
+      title: 'Foo Bar',
+    };
+
+    assert.strictEqual(getParticipantName(participant), 'Foo-chan');
+  });
 });

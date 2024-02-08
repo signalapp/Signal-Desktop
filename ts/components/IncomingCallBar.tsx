@@ -53,8 +53,16 @@ export type PropsType = {
     }
   | {
       callMode: CallMode.Group;
-      otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
-      ringer: Pick<ConversationType, 'firstName' | 'title'>;
+      otherMembersRung: Array<
+        Pick<
+          ConversationType,
+          'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+        >
+      >;
+      ringer: Pick<
+        ConversationType,
+        'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+      >;
     }
 );
 
@@ -96,8 +104,16 @@ function GroupCallMessage({
   ringer,
 }: Readonly<{
   i18n: LocalizerType;
-  otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
-  ringer: Pick<ConversationType, 'firstName' | 'title'>;
+  otherMembersRung: Array<
+    Pick<
+      ConversationType,
+      'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+    >
+  >;
+  ringer: Pick<
+    ConversationType,
+    'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+  >;
 }>): JSX.Element {
   // As an optimization, we only process the first two names.
   const [first, second] = otherMembersRung
