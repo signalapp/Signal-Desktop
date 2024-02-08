@@ -2069,17 +2069,13 @@ function removeCustomColorOnConversations(
 ): ThunkAction<void, RootStateType, unknown, CustomColorRemovedActionType> {
   return async dispatch => {
     const conversationsToUpdate: Array<ConversationAttributesType> = [];
-    // We don't want to trigger a model change because we're updating redux
-    // here manually ourselves. Au revoir Backbone!
     window.getConversations().forEach(conversation => {
       if (conversation.get('customColorId') === colorId) {
-        // eslint-disable-next-line no-param-reassign
-        delete conversation.attributes.conversationColor;
-        // eslint-disable-next-line no-param-reassign
-        delete conversation.attributes.customColor;
-        // eslint-disable-next-line no-param-reassign
-        delete conversation.attributes.customColorId;
-
+        conversation.set({
+          conversationColor: undefined,
+          customColor: undefined,
+          customColorId: undefined,
+        });
         conversationsToUpdate.push(conversation.attributes);
       }
     });
@@ -2107,15 +2103,12 @@ function resetAllChatColors(): ThunkAction<
     // Calling this with no args unsets all the colors in the db
     await window.Signal.Data.updateAllConversationColors();
 
-    // We don't want to trigger a model change because we're updating redux
-    // here manually ourselves. Au revoir Backbone!
     window.getConversations().forEach(conversation => {
-      // eslint-disable-next-line no-param-reassign
-      delete conversation.attributes.conversationColor;
-      // eslint-disable-next-line no-param-reassign
-      delete conversation.attributes.customColor;
-      // eslint-disable-next-line no-param-reassign
-      delete conversation.attributes.customColorId;
+      conversation.set({
+        conversationColor: undefined,
+        customColor: undefined,
+        customColorId: undefined,
+      });
     });
 
     dispatch({
@@ -2296,11 +2289,9 @@ export function setVoiceNotePlaybackRate({
   return async dispatch => {
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
-      if (rate === 1) {
-        delete conversationModel.attributes.voiceNotePlaybackRate;
-      } else {
-        conversationModel.attributes.voiceNotePlaybackRate = rate;
-      }
+      conversationModel.set({
+        voiceNotePlaybackRate: rate === 1 ? undefined : rate,
+      });
       window.Signal.Data.updateConversation(conversationModel.attributes);
     }
 
@@ -2332,23 +2323,27 @@ function colorSelected({
   ColorSelectedActionType
 > {
   return async dispatch => {
-    // We don't want to trigger a model change because we're updating redux
-    // here manually ourselves. Au revoir Backbone!
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
       if (conversationColor) {
-        conversation.attributes.conversationColor = conversationColor;
+        conversation.set({ conversationColor });
         if (customColorData) {
-          conversation.attributes.customColor = customColorData.value;
-          conversation.attributes.customColorId = customColorData.id;
+          conversation.set({
+            customColor: customColorData.value,
+            customColorId: customColorData.id,
+          });
         } else {
-          delete conversation.attributes.customColor;
-          delete conversation.attributes.customColorId;
+          conversation.set({
+            customColor: undefined,
+            customColorId: undefined,
+          });
         }
       } else {
-        delete conversation.attributes.conversationColor;
-        delete conversation.attributes.customColor;
-        delete conversation.attributes.customColorId;
+        conversation.set({
+          conversationColor: undefined,
+          customColor: undefined,
+          customColorId: undefined,
+        });
       }
 
       window.Signal.Data.updateConversation(conversation.attributes);
