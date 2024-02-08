@@ -48,8 +48,8 @@ type ExternalProps = {
   unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 };
 
-function renderContact(conversationId: string): JSX.Element {
-  return <SmartContactName conversationId={conversationId} />;
+function renderContact(contactId: string): JSX.Element {
+  return <SmartContactName contactId={contactId} />;
 }
 
 function renderUniversalTimerNotification(): JSX.Element {

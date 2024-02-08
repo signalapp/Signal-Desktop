@@ -9,29 +9,38 @@ import { ContactName } from '../../components/conversation/ContactName';
 
 import { getIntl } from '../selectors/user';
 import type { GetConversationByIdType } from '../selectors/conversations';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  getSelectedConversationId,
+} from '../selectors/conversations';
 
 import type { LocalizerType } from '../../types/Util';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
 type ExternalProps = {
-  conversationId: string;
+  contactId: string;
 };
 
 export function SmartContactName(props: ExternalProps): JSX.Element {
-  const { conversationId } = props;
+  const { contactId } = props;
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getConversation = useSelector<StateType, GetConversationByIdType>(
     getConversationSelector
   );
 
-  const conversation = getConversation(conversationId) || {
+  const contact = getConversation(contactId) || {
     title: i18n('icu:unknownContact'),
   };
+  const currentConversationId = useSelector(getSelectedConversationId);
+  const currentConversation = getConversation(currentConversationId);
+
+  const { showContactModal } = useGlobalModalActions();
 
   return (
     <ContactName
-      firstName={conversation.firstName}
-      title={conversation.title}
+      firstName={contact.firstName}
+      title={contact.title}
+      onClick={() => showContactModal(contact.id, currentConversation.id)}
     />
   );
 }
