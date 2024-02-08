@@ -1351,6 +1351,18 @@
   "icu:showSafetyNumber": {
     "messageformat": "భద్రతా సంఖ్యను వీక్షించండి"
   },
+  "icu:AboutContactModal__title": {
+    "messageformat": "About",
+    "description": "Title of About modal"
+  },
+  "icu:AboutContactModal__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on About modal leading to an education modal"
+  },
+  "icu:AboutContactModal__system-contact": {
+    "messageformat": "{name} is in your system contacts",
+    "description": "Text of a row in the About modal describing that the contact is in system contacts"
+  },
   "icu:ContactModal__showSafetyNumber": {
     "messageformat": "భద్రతా సంఖ్యను వీక్షించండి",
     "description": "Contact modal, label for button to show safety number modal"
@@ -1626,8 +1638,12 @@
     "messageformat": "మై కంప్యూటర్",
     "description": "The placeholder for the 'choose device name' input"
   },
+  "icu:Preferences--phone-number": {
+    "messageformat": "Phone Number",
+    "description": "The label in settings panel shown for the phone number associated with user's account"
+  },
   "icu:Preferences--device-name": {
-    "messageformat": "పరికరం యొక్క పేరు",
+    "messageformat": "Device Name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -5189,7 +5205,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} గ్రూపు సభ్యునికి ఒకే విధమైన పేర్లు ఉన్నాయి, దిగువ సభ్యులను సమీక్షించండి లేదా చర్య తీసుకోవడానికి ఎంచుకోండి.} other {{count,number} గ్రూపు సభ్యులకు ఒకే విధమైన పేర్లు ఉన్నాయి, దిగువ సభ్యులను సమీక్షించండి లేదా చర్య తీసుకోవడానికి ఎంచుకోండి.}}",
+    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5198,7 +5214,15 @@
   },
   "icu:ContactSpoofingReviewDialog__group__members-header": {
     "messageformat": "సభ్యులు",
-    "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+  },
+  "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
+    "messageformat": "No other groups in common",
+    "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
+  },
+  "icu:ContactSpoofingReviewDialog__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
     "messageformat": "ఇటీవల వారి ప్రొఫైల్ పేరును {oldName} నుండి {newName} గా మార్చారు",
@@ -5493,15 +5517,19 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "మీ యూజర్‌నేమ్‌తో ఏదో తప్పు జరిగింది, ఇది మీ ఖాతాకు ఇక ఏమాత్రం కేటాయించబడలేదు.",
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
     "messageformat": "యూజర్‌నేమ్‌ను తొలగించండి",
-    "description": "Button text for deletion of the username in case of corruption"
+    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
     "messageformat": "వినియోగదారు పేరుని సృష్టించండి",
+    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--fix-button": {
+    "messageformat": "Fix now",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5553,7 +5581,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "ఈ నంబర్ 00 తో ప్రారంభం కాకూడదు. 1-9 మధ్య అంకెను ఎంటర్ చేయండి",
+    "messageformat": "Numbers with more than 2 digits can’t start with 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5632,9 +5660,25 @@
     "messageformat": "మీరు ఈ మార్పులను విస్మరించాలనుకుంటున్నారా?",
     "description": "ConfirmationDialog text for discarding changes"
   },
+  "icu:ProfileEditor--edit-photo": {
+    "messageformat": "Edit photo",
+    "description": "Text of a button on profile editor that leads to the avatar editor"
+  },
   "icu:ProfileEditor--info--link": {
     "messageformat": "మీ ప్రొఫైల్ ఎన్‌క్రిప్ట్ చేయబడింది. మీ ప్రొఫైల్ మరియు దానికి చేసిన మార్పులు మీ పరిచయాలకు అలాగే మీరు కొత్త చాట్‌లను ప్రారంభించినా లేదా అంగీకరించినా కనిపిస్తాయి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
-    "description": "Information shown at the bottom of the profile editor section"
+    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
+  },
+  "icu:ProfileEditor--info--general": {
+    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "description": "Information shown in profile editor below profile name and about fields"
+  },
+  "icu:ProfileEditor--info--pnp": {
+    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "description": "Information shown in profile editor below pnp settings when username is set"
+  },
+  "icu:ProfileEditor--info--pnp--no-username": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
     "messageformat": "స్వేచ్ఛగా మాట్లాడండి",
@@ -5801,8 +5845,12 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "వారికి సందేశం పంపిస్తున్నప్పుడు కూడా, మీ ఫోన్ నంబర్‌ను Signal లో ఎవరూ చూడలేరు.",
-    "description": "Description for the phone number sharing setting row when the value is Nobody"
+    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
+    "messageformat": "Your phone number will not be visible to anyone.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
     "messageformat": "ఫోన్ నంబరు",
@@ -6817,7 +6865,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "మీ ఫోన్ నంబర్ అవసరం లేకుండానే ఇతరులు మీకు సందేశం పంపడానికి యూజర్‌నేమ్‌లు అనుమతిస్తాయి. మీ చిరునామాను గోప్యంగా ఉంచడంలో సహాయం చేయడానికి అవి అమర్చబడిన అంకెలతో జతచేయబడతాయి.",
+    "messageformat": "Usernames are always paired with a set of numbers.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6840,8 +6888,16 @@
     "messageformat": "కొనసాగించండి",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:EditUsernameModalBody__recover-confirmation": {
+    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "description": "Body of the confirmation dialog displayed when user is about to recover their username"
+  },
+  "icu:EditUsernameModalBody__username-recovered__text": {
+    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "description": "Text of toast displayed upon successful recovery of username"
+  },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "Signal లో నాతో చాట్ చేయడానికి మీ ఫోన్‌తో ఈ QR కోడ్‌ను స్కాన్ చేయండి.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6873,7 +6929,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "ఒకవేళ మీరు మీ QR కోడ్‌ను రీసెట్ చేస్తే, మీ ప్రస్తుత QR కోడ్ మరియు లింక్ ఇకపై పని చేయవు.",
+    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6881,35 +6937,43 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR కోడ్ మరియు లింక్ సెట్ చేయబడలేదు. మీ నెట్‌వర్క్ కనెక్షన్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి.",
+    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
+  "icu:UsernameLinkModalBody__error__fix-now": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in a confirmation dialog shown on username link error"
+  },
+  "icu:UsernameLinkModalBody__recovered__text": {
+    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "description": "Text of the confirmation dialog shown on successful username link recovery"
+  },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "కనెక్ట్ కావడానికి కొత్త మార్గాలు",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "ఫోన్ నంబర్ గోప్యత",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "మీ ఫోన్ నంబర్ ఇకపై చాట్‌లలో కనిపించదు. ఒకవేళ మీ నంబర్ స్నేహితుని పరిచయాలకు సేవ్ చేయబడితే, వారు ఇప్పటికీ దాన్ని చూస్తారు.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "యూజర్‌నేమ్‌లు",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "మీ ఐచ్ఛిక యూజర్‌నేమ్‌ను ఉపయోగించి వ్యక్తులు ఇప్పుడు మీకు సందేశం పంపగలరు కాబట్టి మీరు మీ ఫోన్ నంబర్‌ను ఇవ్వాల్సిన అవసరం లేదు. యూజర్‌నేమ్‌లు మీ ప్రొఫైల్‌లో కనిపించవు.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "QR కోడ్‌లు మరియు లింక్‌లు",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "మీతో త్వరగా చాట్‌ను ప్రారంభించడానికి మీ స్నేహితులతో మీరు పంచుకోగల సాటిలేని QR కోడ్ మరియు లింకును యూజర్‌నేమ్‌లు కలిగి ఉంటాయి.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6993,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "యూజర్‌నేమ్‌ను సెట్ చేయండి",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "ఇప్పుడు కాదు",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "కనెక్ట్ కావడానికి కొత్త మార్గాలు",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "ఫోన్ నంబర్ గోప్యత, ఐచ్ఛిక యూజర్‌నేమ్‌లు మరియు లింక్‌లను పరిచయం చేస్తున్నాము.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "మరింత నేర్చుకోండి",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "రద్దుచేసే",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7124,13 +7188,16 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.46--0": {
-    "messageformat": "ఉర్దూ భాషను ఎంచుకున్నప్పుడు (Signal సెట్టింగ్‌లు > రూపం > భాష) చదివేందుకు వీలుగా మెరుగుపరచడానికి ఆ భాషకు సంబంధించి డిఫాల్ట్ ఫాంట్‌లు అప్‌డేట్ చేయబడ్డాయి. ధన్యవాదాలు, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "టైపింగ్ ఇండికేటర్లతో ఒక బగ్‌ను మేము పరిష్కరించాము, ఇది కొన్నిసార్లు ఎమోజీ ఎంపిక పెట్టె అదృశ్యం కావడానికి కారణమైంది. <emojify>🎉</emojify>."
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "సిగ్నల్ ఇప్పుడు Microsoft Windows లో మీరు ఎంచుకున్న టైటిల్ బార్ రంగుతో మ్యాచ్ అవుతుంది. Windows లో మీ అన్ని విండోలు ఒకేలా కనిపించినప్పుడు, అది ఒక సాధారణ థీమ్."
+  },
+  "icu:WhatsNew__v6.48--0": {
+    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+  },
+  "icu:WhatsNew__v6.48--1": {
+    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
   }
 }

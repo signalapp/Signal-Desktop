@@ -1351,6 +1351,18 @@
   "icu:showSafetyNumber": {
     "messageformat": "सुरक्षितता क्रमांक पहा"
   },
+  "icu:AboutContactModal__title": {
+    "messageformat": "About",
+    "description": "Title of About modal"
+  },
+  "icu:AboutContactModal__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on About modal leading to an education modal"
+  },
+  "icu:AboutContactModal__system-contact": {
+    "messageformat": "{name} is in your system contacts",
+    "description": "Text of a row in the About modal describing that the contact is in system contacts"
+  },
   "icu:ContactModal__showSafetyNumber": {
     "messageformat": "सुरक्षितता क्रमांक पहा",
     "description": "Contact modal, label for button to show safety number modal"
@@ -1626,8 +1638,12 @@
     "messageformat": "माझा संगणक",
     "description": "The placeholder for the 'choose device name' input"
   },
+  "icu:Preferences--phone-number": {
+    "messageformat": "Phone Number",
+    "description": "The label in settings panel shown for the phone number associated with user's account"
+  },
   "icu:Preferences--device-name": {
-    "messageformat": "डिव्हाईस नाव",
+    "messageformat": "Device Name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -5189,7 +5205,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {1 गट सदस्याचे नाव समान आहे, खालील सदस्यांचे पुनरावलोकन करा किंवा काय करायचे ते निवडा.} other {{count,number} गट सदस्यांची नावे समान आहेत, खालील सदस्यांचे पुनरावलोकन करा किंवा काय करायचे ते निवडा.}}",
+    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5198,7 +5214,15 @@
   },
   "icu:ContactSpoofingReviewDialog__group__members-header": {
     "messageformat": "सदस्य",
-    "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+    "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+  },
+  "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
+    "messageformat": "No other groups in common",
+    "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
+  },
+  "icu:ContactSpoofingReviewDialog__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
     "messageformat": "अलीकडे त्यांचे प्रोफाईल नाव {oldName} ते {newName} वर बदलले.",
@@ -5493,15 +5517,19 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "आपल्या वापरकर्ता नावासह काहीतरी चुकीचे झाले आहे, ते यापुढे आपल्या अकाऊंटसह नियुक्त केलेले नाही.",
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
     "messageformat": "वापरकर्ता नाव हटवा",
-    "description": "Button text for deletion of the username in case of corruption"
+    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
     "messageformat": "वापरकर्तानाव तयार करा",
+    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
+  },
+  "icu:ProfileEditor--username--corrupted--fix-button": {
+    "messageformat": "Fix now",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5553,7 +5581,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "हा नंबर 00 ने सुरु होऊ शकत नाही. 1-9 मधील अंक प्रविष्ट करा",
+    "messageformat": "Numbers with more than 2 digits can’t start with 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5632,9 +5660,25 @@
     "messageformat": "आपल्याला हे बदल टाकून देण्यास आवडतील?",
     "description": "ConfirmationDialog text for discarding changes"
   },
+  "icu:ProfileEditor--edit-photo": {
+    "messageformat": "Edit photo",
+    "description": "Text of a button on profile editor that leads to the avatar editor"
+  },
   "icu:ProfileEditor--info--link": {
     "messageformat": "आपले प्रोफाईल कूटबद्ध केलेले आहे. आपण जेव्हा नवीन चॅटस् स्वीकाराल किंवा सुरू कराल तेव्हा आपले प्रोफाईल आणि त्यामधील बदल आपल्या संपर्कांना दृश्यमान होतील. <learnMoreLink>अधिक जाणा</learnMoreLink>",
-    "description": "Information shown at the bottom of the profile editor section"
+    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
+  },
+  "icu:ProfileEditor--info--general": {
+    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "description": "Information shown in profile editor below profile name and about fields"
+  },
+  "icu:ProfileEditor--info--pnp": {
+    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "description": "Information shown in profile editor below pnp settings when username is set"
+  },
+  "icu:ProfileEditor--info--pnp--no-username": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
     "messageformat": "मोकळेपणाने बोला",
@@ -5801,8 +5845,12 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "अगदी त्यांना संदेश पाठविताना देखील, कोणीही आपला फोन नंबर Signal वर पाहू शकणार नाही.",
-    "description": "Description for the phone number sharing setting row when the value is Nobody"
+    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
+    "messageformat": "Your phone number will not be visible to anyone.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
     "messageformat": "फोन नंबर",
@@ -6817,7 +6865,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "वापरकर्तानाव आपला फोन नंबर असण्याच्या गरजेशिवाय आपणाला संदेश करु देते. ते आपला पत्ता खाजगी ठेवण्यास मदत करण्यास अंकाच्या सेटसह जुळवलेले आहेत.",
+    "messageformat": "Usernames are always paired with a set of numbers.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6840,8 +6888,16 @@
     "messageformat": "सुरू ठेवा",
     "description": "Text of the primary button on username change confirmation modal"
   },
+  "icu:EditUsernameModalBody__recover-confirmation": {
+    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "description": "Body of the confirmation dialog displayed when user is about to recover their username"
+  },
+  "icu:EditUsernameModalBody__username-recovered__text": {
+    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "description": "Text of toast displayed upon successful recovery of username"
+  },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "messageformat": "माझ्यासोबत Signal वर चॅट करण्यासाठी आपल्या फोनसब हा QR कोड स्कॅन करा.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -6873,7 +6929,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "आपण आपला QR कोड रीसेट केल्यास, आपला अस्तित्वात असलेला QR कोड आणि लिंक यापुढे काम करणार नाही.",
+    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6881,35 +6937,43 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "QR कोड आणि लिंक सेट केलेली नाही. आपले नेटवर्क कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
+    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
+  "icu:UsernameLinkModalBody__error__fix-now": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in a confirmation dialog shown on username link error"
+  },
+  "icu:UsernameLinkModalBody__recovered__text": {
+    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "description": "Text of the confirmation dialog shown on successful username link recovery"
+  },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "कनेक्ट होण्याचे नवीन मार्ग",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Phone number privacy",
+    "messageformat": "फोन नंबर गोपनीयता",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "messageformat": "आपला फोन क्रमांक यापुढे चॅट्समध्ये दृश्यमान असणार नाही. आपला क्रमांक जर मित्रांच्या संपर्कामध्ये जतन केला असल्यास, ते अद्याप पाहू शकतात.",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Usernames",
+    "messageformat": "वापरकर्ता नाव",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "messageformat": "लोक आपणाला आपले वैकल्पिक वापरकर्ता नाव वापरून आता संदेश पाठवू शकतात ज्यामुळे आपणाला आपला फोन क्रमांक देण्याची आवश्यकता नाही. वापरकर्तानाव आपल्या प्रोफाइल वर दृश्यमान होणार नाहीत.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
-    "messageformat": "QR codes and links",
+    "messageformat": "QR कोड्स आणि लिंक्स",
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "messageformat": "आपल्यासह जलद चॅट्स सुरू करण्यासाठी आपल्या मित्रांसोबत आपण शेअर करू शकता असा एक असामान्य QR कोड आणि लिंक वापरकर्तानावाला आहे.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6929,27 +6993,27 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Set up username",
+    "messageformat": "वापरकर्ता नाव सेट करा",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
-    "messageformat": "Not now",
+    "messageformat": "आता नाही",
     "description": "Text of the secondary button on username onboarding modal"
   },
   "icu:UsernameMegaphone__title": {
-    "messageformat": "New ways to connect",
+    "messageformat": "कनेक्ट होण्याचे नवीन मार्ग",
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "messageformat": "फोन नंबर गोपनीयता, पर्यायी वापरकर्ता नाव आणि लिंक्स सादर करीत आहोत.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "अधिक जाणून घ्या",
     "description": "Text of the primary button on username megaphone"
   },
   "icu:UsernameMegaphone__dismiss": {
-    "messageformat": "Dismiss",
+    "messageformat": "रद्द करा",
     "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
@@ -7124,13 +7188,16 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.46--0": {
-    "messageformat": "जेव्हा उर्दू भाषा निवडली जाते तेव्हा वाचनीयता सुधारण्यासाठी त्या भाषेसाठी डिफॉल्ट फॉन्ट्स अपडेट करण्यात आलेले आहेत (Signal सेटिंग्ज > स्वरूप > भाषा). धन्यवाद, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.47--0": {
-    "messageformat": "If you spend a lot of time trying to pick out the perfect emoji reaction for every situation, you'll be <emojify>🎉</emojify> to know that we fixed a bug with typing indicators that sometimes caused the emoji selection box to disappear while you were in the middle of pondering your choices."
+    "messageformat": "आपण प्रत्येक परिस्थितीसाठी योग्य इमोजी प्रतिक्रिया निवडण्यास बराच वेळ घालवत असल्यास, काहीवेळा आपण आपल्या निवडीवर विचार करत असताना इमोजी निवड बॉक्स अदृश्य होतो हा टायपिंग निर्देशकासह असलेला दोष आम्ही दुरूस्त केला आहे हे जाणून आपण <emojify>🎉</emojify> व्हाल."
   },
   "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal will now match your selected title bar color on Microsoft Windows. When all of your windows in Windows look the same, that's a common theme."
+    "messageformat": "Signal आता Microsoft Windows वर आपण निवडलेल्या शीर्षक पट्टीच्या रंगाशी जुळेल. जेव्हा आपल्या Windows मधील सर्व विंडो एक सारख्या दिसतील, तेव्हा ती एक सामान्य थीम असते."
+  },
+  "icu:WhatsNew__v6.48--0": {
+    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+  },
+  "icu:WhatsNew__v6.48--1": {
+    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
   }
 }
