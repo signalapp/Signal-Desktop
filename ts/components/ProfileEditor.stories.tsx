@@ -44,9 +44,6 @@ export default {
     usernameLinkCorrupted: {
       control: 'boolean',
     },
-    usernameLinkRecovered: {
-      control: 'boolean',
-    },
   },
   args: {
     aboutEmoji: '',
@@ -77,7 +74,6 @@ export default {
     showToast: action('showToast'),
     replaceAvatar: action('replaceAvatar'),
     resetUsernameLink: action('resetUsernameLink'),
-    clearUsernameLinkRecovered: action('clearUsernameLinkRecovered'),
     saveAvatarToDisk: action('saveAvatarToDisk'),
     markCompletedUsernameLinkOnboarding: action(
       'markCompletedUsernameLinkOnboarding'

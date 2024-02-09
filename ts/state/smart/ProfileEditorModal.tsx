@@ -24,7 +24,6 @@ import { selectRecentEmojis } from '../selectors/emojis';
 import {
   getUsernameEditState,
   getUsernameLinkState,
-  getUsernameLinkRecovered,
 } from '../selectors/username';
 
 function renderEditUsernameModalBody(props: {
@@ -55,7 +54,6 @@ function mapStateToProps(
     getHasCompletedUsernameLinkOnboarding(state);
   const usernameEditState = getUsernameEditState(state);
   const usernameLinkState = getUsernameLinkState(state);
-  const usernameLinkRecovered = getUsernameLinkRecovered(state);
   const usernameLinkColor = getUsernameLinkColor(state);
   const usernameLink = getUsernameLink(state);
   const usernameCorrupted = getUsernameCorrupted(state);
@@ -82,7 +80,6 @@ function mapStateToProps(
     usernameLinkState,
     usernameLinkColor,
     usernameLinkCorrupted,
-    usernameLinkRecovered,
     usernameLink,
 
     renderEditUsernameModalBody,

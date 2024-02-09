@@ -82,7 +82,6 @@ export type PropsDataType = {
   initialEditState?: EditState;
   usernameCorrupted: boolean;
   usernameEditState: UsernameEditState;
-  usernameLinkRecovered: boolean;
   usernameLinkState: UsernameLinkState;
   usernameLinkColor?: number;
   usernameLink?: string;
@@ -100,7 +99,6 @@ type PropsActionType = {
   setUsernameLinkColor: (color: number) => void;
   toggleProfileEditor: () => void;
   resetUsernameLink: () => void;
-  clearUsernameLinkRecovered: () => void;
   deleteUsername: () => void;
   showToast: ShowToastAction;
   openUsernameReservationModal: () => void;
@@ -141,7 +139,6 @@ function getDefaultBios(i18n: LocalizerType): Array<DefaultBio> {
 export function ProfileEditor({
   aboutEmoji,
   aboutText,
-  clearUsernameLinkRecovered,
   color,
   conversationId,
   deleteAvatarFromDisk,
@@ -172,7 +169,6 @@ export function ProfileEditor({
   username,
   usernameCorrupted,
   usernameEditState,
-  usernameLinkRecovered,
   usernameLinkState,
   usernameLinkColor,
   usernameLink,
@@ -535,11 +531,9 @@ export function ProfileEditor({
         username={username ?? ''}
         colorId={usernameLinkColor}
         usernameLinkCorrupted={usernameLinkCorrupted}
-        usernameLinkRecovered={usernameLinkRecovered}
         usernameLinkState={usernameLinkState}
         setUsernameLinkColor={setUsernameLinkColor}
         resetUsernameLink={resetUsernameLink}
-        clearUsernameLinkRecovered={clearUsernameLinkRecovered}
         saveAttachment={saveAttachment}
         showToast={showToast}
         onBack={() => setEditState(EditState.None)}

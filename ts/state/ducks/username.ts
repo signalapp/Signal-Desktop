@@ -8,7 +8,6 @@ import type { UsernameReservationType } from '../../types/Username';
 import {
   ReserveUsernameError,
   ConfirmUsernameResult,
-  ResetUsernameLinkResult,
 } from '../../types/Username';
 import * as usernameServices from '../../services/username';
 import { storageServiceUploadJob } from '../../services/storage';
@@ -46,7 +45,6 @@ export type UsernameStateType = ReadonlyDeep<{
 
   // UsernameLinkModalBody
   linkState: UsernameLinkState;
-  linkRecovered: boolean;
 
   // EditUsernameModalBody
   usernameReservation: UsernameReservationStateType;
@@ -63,7 +61,6 @@ const RESERVE_USERNAME = 'username/RESERVE_USERNAME';
 const CONFIRM_USERNAME = 'username/CONFIRM_USERNAME';
 const DELETE_USERNAME = 'username/DELETE_USERNAME';
 const RESET_USERNAME_LINK = 'username/RESET_USERNAME_LINK';
-const CLEAR_USERNAME_LINK_RECOVERED = 'username/CLEAR_USERNAME_LINK_RECOVERED';
 
 type SetUsernameEditStateActionType = ReadonlyDeep<{
   type: typeof SET_USERNAME_EDIT_STATE;
@@ -105,11 +102,8 @@ type DeleteUsernameActionType = ReadonlyDeep<
   PromiseAction<typeof DELETE_USERNAME, void>
 >;
 type ResetUsernameLinkActionType = ReadonlyDeep<
-  PromiseAction<typeof RESET_USERNAME_LINK, ResetUsernameLinkResult>
+  PromiseAction<typeof RESET_USERNAME_LINK, void>
 >;
-type ClearUsernameLinkRecoveredActionType = ReadonlyDeep<{
-  type: typeof CLEAR_USERNAME_LINK_RECOVERED;
-}>;
 
 export type UsernameActionType = ReadonlyDeep<
   | SetUsernameEditStateActionType
@@ -121,7 +115,6 @@ export type UsernameActionType = ReadonlyDeep<
   | ConfirmUsernameActionType
   | DeleteUsernameActionType
   | ResetUsernameLinkActionType
-  | ClearUsernameLinkRecoveredActionType
 >;
 
 export const actions = {
@@ -135,7 +128,6 @@ export const actions = {
   deleteUsername,
   markCompletedUsernameOnboarding,
   resetUsernameLink,
-  clearUsernameLinkRecovered,
   setUsernameLinkColor,
   markCompletedUsernameLinkOnboarding,
 };
@@ -361,19 +353,12 @@ function setUsernameLinkColor(
   };
 }
 
-export function clearUsernameLinkRecovered(): ClearUsernameLinkRecoveredActionType {
-  return {
-    type: CLEAR_USERNAME_LINK_RECOVERED,
-  };
-}
-
 // Reducers
 
 export function getEmptyState(): UsernameStateType {
   return {
     editState: UsernameEditState.Editing,
     linkState: UsernameLinkState.Ready,
-    linkRecovered: false,
     usernameReservation: {
       state: UsernameReservationState.Closed,
     },
@@ -629,16 +614,13 @@ export function reducer(
     return {
       ...state,
       linkState: UsernameLinkState.Updating,
-      linkRecovered: false,
     };
   }
 
   if (action.type === 'username/RESET_USERNAME_LINK_FULFILLED') {
-    const { payload } = action;
     return {
       ...state,
       linkState: UsernameLinkState.Ready,
-      linkRecovered: payload === ResetUsernameLinkResult.OkRecovered,
     };
   }
 
@@ -646,14 +628,6 @@ export function reducer(
     return {
       ...state,
       linkState: UsernameLinkState.Error,
-      linkRecovered: false,
-    };
-  }
-
-  if (action.type === 'username/CLEAR_USERNAME_LINK_RECOVERED') {
-    return {
-      ...state,
-      linkRecovered: false,
     };
   }
 

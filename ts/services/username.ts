@@ -16,7 +16,6 @@ import type { UsernameReservationType } from '../types/Username';
 import {
   ReserveUsernameError,
   ConfirmUsernameResult,
-  ResetUsernameLinkResult,
   getNickname,
   getDiscriminator,
   isCaseChange,
@@ -334,9 +333,7 @@ export async function deleteUsername(
   await updateUsernameAndSyncProfile(undefined);
 }
 
-export async function resetLink(
-  username: string
-): Promise<ResetUsernameLinkResult> {
+export async function resetLink(username: string): Promise<void> {
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('server interface is not available!');
@@ -349,8 +346,6 @@ export async function resetLink(
   }
 
   const { entropy, encryptedUsername } = usernames.createUsernameLink(username);
-
-  const wasCorrupted = window.storage.get('usernameLinkCorrupted');
 
   await window.storage.remove('usernameLink');
 
@@ -368,10 +363,6 @@ export async function resetLink(
 
   me.captureChange('usernameLink');
   storageServiceUploadJob();
-
-  return wasCorrupted
-    ? ResetUsernameLinkResult.OkRecovered
-    : ResetUsernameLinkResult.Ok;
 }
 
 const USERNAME_LINK_ENTROPY_SIZE = 32;
