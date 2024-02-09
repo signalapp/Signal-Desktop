@@ -69,10 +69,6 @@
     color: var(--message-bubbles-received-text-color);
     background: var(--message-bubbles-received-background-color);
   }
-
-  &.message-selected {
-    box-shadow: var(--drop-shadow);
-  }
 }
 
 .module-message__generic-attachment__icon-container {

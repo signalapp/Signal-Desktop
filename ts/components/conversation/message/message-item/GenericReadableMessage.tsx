@@ -142,7 +142,7 @@ export const GenericReadableMessage = (props: Props) => {
       selected={selected}
       isDetailView={isDetailView}
       isRightClicked={isRightClicked}
-      className={classNames(selected && 'message-selected')}
+      className={classNames(selected ? 'message-selected' : undefined)}
       onContextMenu={handleContextMenu}
       key={`readable-message-${messageId}`}
     >

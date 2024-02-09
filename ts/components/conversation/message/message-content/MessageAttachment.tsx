@@ -54,7 +54,7 @@ type Props = {
   highlight?: boolean;
 };
 
-const StyledAttachmentContainer = styled.div<{
+const StyledImageGridContainer = styled.div<{
   messageDirection: MessageModelType;
 }>`
   text-align: center;
@@ -62,6 +62,10 @@ const StyledAttachmentContainer = styled.div<{
   overflow: hidden;
   display: flex;
   justify-content: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+`;
+
+const StyledGenericAttachmentContainer = styled(MessageHighlighter)<{ selected: boolean }>`
+  ${props => props.selected && 'box-shadow: var(--drop-shadow);'}
 `;
 
 export const MessageAttachment = (props: Props) => {
@@ -141,14 +145,14 @@ export const MessageAttachment = (props: Props) => {
   ) {
     return (
       <MessageHighlighter highlight={highlight}>
-        <StyledAttachmentContainer messageDirection={direction}>
+        <StyledImageGridContainer messageDirection={direction}>
           <ImageGrid
             messageId={messageId}
             attachments={attachments}
             onError={handleImageError}
             onClickAttachment={onClickOnImageGrid}
           />
-        </StyledAttachmentContainer>
+        </StyledImageGridContainer>
       </MessageHighlighter>
     );
   }
@@ -178,12 +182,10 @@ export const MessageAttachment = (props: Props) => {
   const extension = getExtensionForDisplay({ contentType, fileName });
 
   return (
-    <MessageHighlighter
+    <StyledGenericAttachmentContainer
       highlight={highlight}
-      className={classNames(
-        'module-message__generic-attachment',
-        selected ? 'message-selected' : undefined
-      )}
+      selected={selected}
+      className={'module-message__generic-attachment'}
     >
       {pending ? (
         <div className="module-message__generic-attachment__spinner-container">
@@ -220,7 +222,7 @@ export const MessageAttachment = (props: Props) => {
           {fileSize}
         </div>
       </div>
-    </MessageHighlighter>
+    </StyledGenericAttachmentContainer>
   );
 };
 
