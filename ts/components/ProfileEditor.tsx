@@ -321,7 +321,6 @@ export function ProfileEditor({
     );
   } else if (editState === EditState.ProfileName) {
     const shouldDisableSave =
-      isLoadingAvatar ||
       !stagedProfile.firstName ||
       (stagedProfile.firstName === fullName.firstName &&
         stagedProfile.familyName === fullName.familyName) ||
