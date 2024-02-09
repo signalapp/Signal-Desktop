@@ -120,9 +120,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       if (!selectedConversationKey) {
         return;
       }
-      window.log.debug(
-        `WIP: [ses-1409] ReadableMessage inView ${inView} isAppFocused ${isAppFocused} messageId ${messageId}`
-      );
       // we are the most recent message
       if (mostRecentMessageId === messageId) {
         // make sure the app is focused, because we mark message as read here

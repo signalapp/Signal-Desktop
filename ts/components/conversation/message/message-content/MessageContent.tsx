@@ -101,9 +101,6 @@ export const MessageContent = (props: Props) => {
   const [imageBroken, setImageBroken] = useState(false);
 
   const onVisible = (inView: boolean, _: IntersectionObserverEntry) => {
-    window.log.debug(
-      `WIP: [ses-1409] MessageContent inView ${inView} isAppFocused ${isAppFocused} messageId ${props.messageId}`
-    );
     if (isAppFocused && inView) {
       if (isMessageVisible !== true) {
         setMessageIsVisible(true);
