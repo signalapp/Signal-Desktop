@@ -49,13 +49,13 @@
   }
 
   &__Modal__body {
-    padding-inline: 16px;
+    padding-inline: 10px;
     padding-block: 16px 0;
   }
 
   &__Modal__Search__container.module-SearchInput__container {
     margin-block: 8px;
-    margin-inline: 0;
+    margin-inline: 10px;
   }
 
   &__table {
@@ -82,16 +82,23 @@
     align-items: center;
 
     height: 40px;
-    padding-inline: 8px;
+    padding-inline: 14px;
+    border-radius: 8px;
 
-    @include keyboard-mode {
-      &:focus {
+    @include mouse-mode {
+      &:hover {
         @include light-theme {
           background-color: $color-black-alpha-06;
         }
         @include dark-theme {
           background-color: $color-white-alpha-12;
         }
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
       }
     }
   }
