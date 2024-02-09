@@ -144,7 +144,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       }
 
       // this part is just handling the marking of the message as read if needed
-      if (inView && isAppFocused) {
+      if (inView) {
         if (isUnread) {
           // TODOLATER this is pretty expensive and should instead use values from the redux store
           const found = await Data.getMessageById(messageId);
