@@ -13,22 +13,15 @@ import { strictAssert } from '../util/assert';
 import { isWhitespace } from '../util/whitespaceStringUtil';
 import { imagePathToBytes } from '../util/imagePathToBytes';
 import { getAbsoluteProfileAvatarPath } from '../util/avatarUtils';
-import type { AvatarUpdateType } from '../types/Avatar';
+import type {
+  AvatarUpdateOptionsType,
+  AvatarUpdateType,
+} from '../types/Avatar';
 import MessageSender from '../textsecure/SendMessage';
-
-export type WriteProfileOptionsType = Readonly<
-  | {
-      keepAvatar: true;
-    }
-  | {
-      keepAvatar?: false;
-      avatarUpdate: AvatarUpdateType;
-    }
->;
 
 export async function writeProfile(
   conversation: ConversationType,
-  options: WriteProfileOptionsType
+  options: AvatarUpdateOptionsType
 ): Promise<void> {
   const { server } = window.textsecure;
   if (!server) {

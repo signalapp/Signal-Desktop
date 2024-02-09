@@ -7,7 +7,7 @@ import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import type {
   AvatarDataType,
-  AvatarUpdateType,
+  AvatarUpdateOptionsType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
@@ -59,7 +59,7 @@ type PropsExternalType = {
   onEditStateChanged: (editState: EditState) => unknown;
   onProfileChanged: (
     profileData: ProfileDataType,
-    avatar: AvatarUpdateType
+    avatarUpdateOptions: AvatarUpdateOptionsType
   ) => unknown;
   renderEditUsernameModalBody: (props: {
     isRootModal: boolean;
@@ -205,9 +205,6 @@ export function ProfileEditor({
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     undefined
   );
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState(
-    Boolean(profileAvatarPath)
-  );
   const [stagedProfile, setStagedProfile] = useState<ProfileDataType>({
     aboutEmoji,
     aboutText,
@@ -258,7 +255,10 @@ export function ProfileEditor({
             ? trim(stagedProfile.familyName)
             : undefined,
         },
-        { oldAvatar: oldAvatarBuffer, newAvatar: avatar }
+        {
+          keepAvatar: false,
+          avatarUpdate: { oldAvatar: oldAvatarBuffer, newAvatar: avatar },
+        }
       );
       setOldAvatarBuffer(avatar);
     },
@@ -295,9 +295,8 @@ export function ProfileEditor({
     avatar => {
       setAvatarBuffer(avatar);
       setOldAvatarBuffer(avatar);
-      setIsLoadingAvatar(false);
     },
-    [setAvatarBuffer, setOldAvatarBuffer, setIsLoadingAvatar]
+    [setAvatarBuffer, setOldAvatarBuffer]
   );
 
   let content: JSX.Element;
@@ -393,10 +392,7 @@ export function ProfileEditor({
                 familyName: stagedProfile.familyName,
               });
 
-              onProfileChanged(stagedProfile, {
-                oldAvatar: oldAvatarBuffer,
-                newAvatar: avatarBuffer,
-              });
+              onProfileChanged(stagedProfile, { keepAvatar: true });
               handleBack();
             }}
           >
@@ -407,9 +403,8 @@ export function ProfileEditor({
     );
   } else if (editState === EditState.Bio) {
     const shouldDisableSave =
-      isLoadingAvatar ||
-      (stagedProfile.aboutText === fullBio.aboutText &&
-        stagedProfile.aboutEmoji === fullBio.aboutEmoji);
+      stagedProfile.aboutText === fullBio.aboutText &&
+      stagedProfile.aboutEmoji === fullBio.aboutEmoji;
 
     const defaultBios = getDefaultBios(i18n);
 
@@ -511,10 +506,7 @@ export function ProfileEditor({
                 aboutText: stagedProfile.aboutText,
               });
 
-              onProfileChanged(stagedProfile, {
-                oldAvatar: oldAvatarBuffer,
-                newAvatar: avatarBuffer,
-              });
+              onProfileChanged(stagedProfile, { keepAvatar: true });
               handleBack();
             }}
           >

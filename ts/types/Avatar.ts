@@ -76,6 +76,16 @@ export type AvatarUpdateType = Readonly<{
   newAvatar: Uint8Array | undefined;
 }>;
 
+export type AvatarUpdateOptionsType = Readonly<
+  | {
+      keepAvatar: false;
+      avatarUpdate: AvatarUpdateType;
+    }
+  | {
+      keepAvatar: true;
+    }
+>;
+
 const groupIconColors = [
   'A180',
   'A120',
