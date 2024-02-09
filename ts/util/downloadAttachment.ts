@@ -28,8 +28,8 @@ export async function downloadAttachment(
   try {
     downloaded = await doDownloadAttachment(server, migratedAttachment);
   } catch (error) {
-    // Attachments on the server expire after 30 days, then start returning 404
-    if (error && error.code === 404) {
+    // Attachments on the server expire after 30 days, then start returning 404 or 403
+    if (error && (error.code === 404 || error.code === 403)) {
       return null;
     }
 
