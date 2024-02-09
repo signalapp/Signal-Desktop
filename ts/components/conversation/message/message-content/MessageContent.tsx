@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { isEmpty } from 'lodash';
+import { isEmpty, noop } from 'lodash';
 import moment from 'moment';
 import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
@@ -17,6 +17,7 @@ import {
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
+import { getIsAppFocused } from '../../../../state/selectors/section';
 import { useSelectedIsPrivate } from '../../../../state/selectors/selectedConversation';
 import { canDisplayImage } from '../../../../types/Attachment';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
@@ -83,6 +84,8 @@ const StyledAvatarContainer = styled.div`
 `;
 
 export const MessageContent = (props: Props) => {
+  const isAppFocused = useSelector(getIsAppFocused);
+
   const [highlight, setHighlight] = useState(false);
   const [didScroll, setDidScroll] = useState(false);
   const contentProps = useSelector((state: StateType) =>
@@ -98,7 +101,10 @@ export const MessageContent = (props: Props) => {
   const [imageBroken, setImageBroken] = useState(false);
 
   const onVisible = (inView: boolean, _: IntersectionObserverEntry) => {
-    if (inView) {
+    window.log.debug(
+      `WIP: [ses-1409] MessageContent inView ${inView} isAppFocused ${isAppFocused} messageId ${props.messageId}`
+    );
+    if (isAppFocused && inView) {
       if (isMessageVisible !== true) {
         setMessageIsVisible(true);
       }
@@ -182,7 +188,7 @@ export const MessageContent = (props: Props) => {
       <InView
         id={`inview-content-${props.messageId}`}
         as={'div'}
-        onChange={onVisible}
+        onChange={isAppFocused ? onVisible : noop}
         threshold={0}
         rootMargin="500px 0px 500px 0px"
         triggerOnce={false}
