@@ -137,7 +137,7 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { isMessageUnread } from '../util/isMessageUnread';
 import type { SenderKeyTargetType } from '../util/sendToGroup';
-import { sendContentMessageToGroup } from '../util/sendToGroup';
+import { resetSenderKey, sendContentMessageToGroup } from '../util/sendToGroup';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { TimelineMessageLoadingState } from '../util/timelineUtil';
 import { SeenStatus } from '../MessageSeenStatus';
@@ -2976,20 +2976,10 @@ export class ConversationModel extends window.Backbone
         });
       }
 
-      // Drop a member from sender key distribution list.
+      // Reset sender key for next send
       const senderKeyInfo = this.get('senderKeyInfo');
       if (senderKeyInfo) {
-        const updatedSenderKeyInfo = {
-          ...senderKeyInfo,
-          memberDevices: senderKeyInfo.memberDevices.filter(
-            ({ serviceId: memberServiceId }) => {
-              return memberServiceId !== keyChangedId;
-            }
-          ),
-        };
-
-        this.set('senderKeyInfo', updatedSenderKeyInfo);
-        window.Signal.Data.updateConversation(this.attributes);
+        await resetSenderKey(this.toSenderKeyTarget());
       }
 
       if (isDirectConversation(this.attributes)) {

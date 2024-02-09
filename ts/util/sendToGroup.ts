@@ -720,6 +720,37 @@ export async function sendToGroupViaSenderKey(options: {
   }
 }
 
+// Public utility methods
+
+export async function resetSenderKey(
+  sendTarget: SenderKeyTargetType
+): Promise<void> {
+  const logId = sendTarget.idForLogging();
+
+  log.info(`resetSenderKey/${logId}: Sender key needs reset. Clearing data...`);
+  const senderKeyInfo = sendTarget.getSenderKeyInfo();
+  if (!senderKeyInfo) {
+    log.warn(`resetSenderKey/${logId}: No sender key info`);
+    return;
+  }
+
+  const { distributionId } = senderKeyInfo;
+  const ourAddress = getOurAddress();
+
+  // Note: We preserve existing distributionId to minimize space for sender key storage
+  await sendTarget.saveSenderKeyInfo({
+    createdAtDate: Date.now(),
+    distributionId,
+    memberDevices: [],
+  });
+
+  const ourAci = window.storage.user.getCheckedAci();
+  await window.textsecure.storage.protocol.removeSenderKey(
+    new QualifiedAddress(ourAci, ourAddress),
+    distributionId
+  );
+}
+
 // Utility Methods
 
 function mergeSendResult({
@@ -1231,33 +1262,6 @@ function getOurAddress(): Address {
     throw new Error('getOurAddress: Unable to fetch our deviceId');
   }
   return new Address(ourAci, ourDeviceId);
-}
-
-async function resetSenderKey(sendTarget: SenderKeyTargetType): Promise<void> {
-  const logId = sendTarget.idForLogging();
-
-  log.info(`resetSenderKey/${logId}: Sender key needs reset. Clearing data...`);
-  const senderKeyInfo = sendTarget.getSenderKeyInfo();
-  if (!senderKeyInfo) {
-    log.warn(`resetSenderKey/${logId}: No sender key info`);
-    return;
-  }
-
-  const { distributionId } = senderKeyInfo;
-  const ourAddress = getOurAddress();
-
-  // Note: We preserve existing distributionId to minimize space for sender key storage
-  await sendTarget.saveSenderKeyInfo({
-    createdAtDate: Date.now(),
-    distributionId,
-    memberDevices: [],
-  });
-
-  const ourAci = window.storage.user.getCheckedAci();
-  await window.textsecure.storage.protocol.removeSenderKey(
-    new QualifiedAddress(ourAci, ourAddress),
-    distributionId
-  );
 }
 
 function getAccessKey(
