@@ -27,11 +27,6 @@ export enum ConfirmUsernameResult {
   ConflictOrGone = 'ConflictOrGone',
 }
 
-export enum ResetUsernameLinkResult {
-  Ok = 'Ok',
-  OkRecovered = 'OkRecovered',
-}
-
 export function getUsernameFromSearch(searchTerm: string): string | undefined {
   try {
     window.SignalContext.usernames.hash(searchTerm);

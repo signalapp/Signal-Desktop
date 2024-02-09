@@ -29,11 +29,9 @@ export type PropsType = Readonly<{
   colorId?: number;
   usernameLinkCorrupted: boolean;
   usernameLinkState: UsernameLinkState;
-  usernameLinkRecovered: boolean;
 
   setUsernameLinkColor: (colorId: number) => void;
   resetUsernameLink: () => void;
-  clearUsernameLinkRecovered: () => void;
   saveAttachment: SaveAttachmentActionCreatorType;
   showToast: ShowToastAction;
   onBack: () => void;
@@ -528,18 +526,22 @@ function UsernameLinkColors({
   );
 }
 
+enum ResetModalVisibility {
+  NotMounted = 'NotMounted',
+  Closed = 'Closed',
+  Open = 'Open',
+}
+
 export function UsernameLinkModalBody({
   i18n,
   link,
   username,
   usernameLinkCorrupted,
   usernameLinkState,
-  usernameLinkRecovered,
   colorId: initialColorId = ColorEnum.UNKNOWN,
 
   setUsernameLinkColor,
   resetUsernameLink,
-  clearUsernameLinkRecovered,
   saveAttachment,
   showToast,
 
@@ -548,7 +550,9 @@ export function UsernameLinkModalBody({
   const [pngData, setPngData] = useState<Uint8Array | undefined>();
   const [showColors, setShowColors] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
-  const [isRecovered, setIsRecovered] = useState(false);
+  const [resetModalVisibility, setResetModalVisibility] = useState(
+    ResetModalVisibility.NotMounted
+  );
   const [showError, setShowError] = useState(false);
   const [colorId, setColorId] = useState(initialColorId);
 
@@ -694,21 +698,23 @@ export function UsernameLinkModalBody({
     setShowError(true);
   }, [usernameLinkState]);
 
-  useEffect(() => {
-    if (usernameLinkRecovered) {
-      setIsRecovered(true);
-
-      // Only show the modal once
-      clearUsernameLinkRecovered();
-    }
-  }, [usernameLinkRecovered, clearUsernameLinkRecovered]);
-
-  const onClearIsRecovered = useCallback(() => {
-    setIsRecovered(false);
+  const onResetModalClose = useCallback(() => {
+    setResetModalVisibility(ResetModalVisibility.Closed);
   }, []);
 
   const isReady = usernameLinkState === UsernameLinkState.Ready;
   const isResettingLink = usernameLinkCorrupted || !isReady;
+
+  useEffect(() => {
+    setResetModalVisibility(x => {
+      // Initial mount shouldn't show the modal
+      if (x === ResetModalVisibility.NotMounted || isResettingLink) {
+        return ResetModalVisibility.Closed;
+      }
+
+      return ResetModalVisibility.Open;
+    });
+  }, [isResettingLink]);
 
   const info = (
     <>
@@ -862,11 +868,11 @@ export function UsernameLinkModalBody({
           </ConfirmationDialog>
         )}
 
-        {isRecovered && (
+        {resetModalVisibility === ResetModalVisibility.Open && (
           <ConfirmationDialog
             i18n={i18n}
             dialogName="UsernameLinkModal__error"
-            onClose={onClearIsRecovered}
+            onClose={onResetModalClose}
             cancelButtonVariant={ButtonVariant.Secondary}
             cancelText={i18n('icu:ok')}
           >

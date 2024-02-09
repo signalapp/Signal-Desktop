@@ -29,11 +29,6 @@ export const getUsernameLinkState = createSelector(
   (state: UsernameStateType): UsernameLinkState => state.linkState
 );
 
-export const getUsernameLinkRecovered = createSelector(
-  getUsernameState,
-  (state: UsernameStateType): boolean => state.linkRecovered
-);
-
 export const getUsernameReservation = createSelector(
   getUsernameState,
   (state: UsernameStateType): UsernameReservationStateType =>
