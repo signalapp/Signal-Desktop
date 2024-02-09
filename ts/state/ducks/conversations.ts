@@ -92,7 +92,10 @@ import {
   getMessagesByConversation,
 } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
-import type { AvatarDataType, AvatarUpdateType } from '../../types/Avatar';
+import type {
+  AvatarDataType,
+  AvatarUpdateOptionsType,
+} from '../../types/Avatar';
 import { getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
 import { isSameAvatarData } from '../../util/isSameAvatarData';
@@ -2051,7 +2054,7 @@ function saveAvatarToDisk(
 
 function myProfileChanged(
   profileData: ProfileDataType,
-  avatarUpdate: AvatarUpdateType
+  avatarUpdateOptions: AvatarUpdateOptionsType
 ): ThunkAction<
   void,
   RootStateType,
@@ -2067,9 +2070,7 @@ function myProfileChanged(
           ...conversation,
           ...profileData,
         },
-        {
-          avatarUpdate,
-        }
+        avatarUpdateOptions
       );
 
       // writeProfile above updates the backbone model which in turn updates
