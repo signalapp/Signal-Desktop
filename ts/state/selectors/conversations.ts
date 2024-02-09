@@ -471,6 +471,24 @@ export const getComposerConversationSearchTerm = createSelector(
   }
 );
 
+export const getComposerSelectedRegion = createSelector(
+  getComposerState,
+  (composer): string => {
+    if (!composer) {
+      assertDev(false, 'getComposerSelectedRegion: composer is not open');
+      return '';
+    }
+    if (composer.step !== ComposerStep.FindByPhoneNumber) {
+      assertDev(
+        false,
+        'getComposerSelectedRegion: composer does not have a selected region'
+      );
+      return '';
+    }
+    return composer.selectedRegion;
+  }
+);
+
 export const getComposerUUIDFetchState = createSelector(
   getComposerState,
   (composer): UUIDFetchStateType => {
@@ -480,6 +498,8 @@ export const getComposerUUIDFetchState = createSelector(
     }
     if (
       composer.step !== ComposerStep.StartDirectConversation &&
+      composer.step !== ComposerStep.FindByUsername &&
+      composer.step !== ComposerStep.FindByPhoneNumber &&
       composer.step !== ComposerStep.ChooseGroupMembers
     ) {
       assertDev(

@@ -9,6 +9,8 @@
 
 export enum ComposerStep {
   StartDirectConversation = 'StartDirectConversation',
+  FindByUsername = 'FindByUsername',
+  FindByPhoneNumber = 'FindByPhoneNumber',
   ChooseGroupMembers = 'ChooseGroupMembers',
   SetGroupMetadata = 'SetGroupMetadata',
 }

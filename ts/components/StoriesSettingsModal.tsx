@@ -1233,6 +1233,8 @@ export function EditDistributionListModal({
                 setIsFetchingUUID={shouldNeverBeCalled}
                 shouldRecomputeRowHeights={false}
                 showChooseGroupMembers={shouldNeverBeCalled}
+                showFindByUsername={shouldNeverBeCalled}
+                showFindByPhoneNumber={shouldNeverBeCalled}
                 showConversation={shouldNeverBeCalled}
                 showUserNotFoundModal={shouldNeverBeCalled}
                 theme={theme}

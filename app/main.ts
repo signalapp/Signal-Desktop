@@ -2447,6 +2447,12 @@ ipc.on('locale-display-names', event => {
   event.returnValue = getResolvedMessagesLocale().localeDisplayNames;
 });
 
+// Ingested in preload.js via a sendSync call
+ipc.on('country-display-names', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = getResolvedMessagesLocale().countryDisplayNames;
+});
+
 // TODO DESKTOP-5241
 ipc.on('OS.getClassName', event => {
   // eslint-disable-next-line no-param-reassign

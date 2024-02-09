@@ -1,0 +1,17 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.LeftPaneFindByPhoneNumberHelper {
+  &__search-input__input.module-SearchInput__input {
+    padding-inline: 12px;
+  }
+
+  &__container {
+    margin-block-start: 8px;
+
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+}

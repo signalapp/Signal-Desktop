@@ -11,7 +11,11 @@ import { config } from '../context/config';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { createSetting } from '../util/preload';
 import { environment } from '../context/environment';
-import { localeDisplayNames, localeMessages } from '../context/localeMessages';
+import {
+  localeDisplayNames,
+  countryDisplayNames,
+  localeMessages,
+} from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
 
 export const MinimalSignalContext: MinimalSignalContextType = {
@@ -40,6 +44,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
   getLocaleDisplayNames: () => localeDisplayNames,
+  getCountryDisplayNames: () => countryDisplayNames,
 
   getResolvedMessagesLocale: () => config.resolvedTranslationsLocale,
   getResolvedMessagesLocaleDirection: () =>

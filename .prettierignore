@@ -20,6 +20,7 @@ stylesheets/manifest.css
 ts/util/lint/exceptions.json
 storybook-static
 build/locale-display-names.json
+build/country-display-names.json
 
 # Third-party files
 node_modules/**

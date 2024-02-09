@@ -97,6 +97,8 @@ function Wrapper({
       scrollable={scrollable}
       lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}
       showChooseGroupMembers={action('showChooseGroupMembers')}
+      showFindByUsername={action('showFindByUsername')}
+      showFindByPhoneNumber={action('showFindByPhoneNumber')}
       showUserNotFoundModal={action('showUserNotFoundModal')}
       setIsFetchingUUID={action('setIsFetchingUUID')}
       showConversation={action('showConversation')}

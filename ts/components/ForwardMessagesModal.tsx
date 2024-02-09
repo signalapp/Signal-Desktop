@@ -390,6 +390,8 @@ export function ForwardMessagesModal({
                       rowCount={rowCount}
                       shouldRecomputeRowHeights={false}
                       showChooseGroupMembers={shouldNeverBeCalled}
+                      showFindByUsername={shouldNeverBeCalled}
+                      showFindByPhoneNumber={shouldNeverBeCalled}
                       theme={theme}
                     />
                   </div>
