@@ -77,15 +77,13 @@ const MessageBody = ({
   );
 };
 
-const StyledMessageDetailContainer = styled.div`
+const StyledMessageInfoContainer = styled.div`
   height: calc(100% - 48px);
   width: 100%;
-  overflow-y: auto;
-  z-index: 2;
-`;
-
-const StyledMessageDetail = styled.div`
   max-width: 650px;
+  overflow: hidden auto;
+  z-index: 2;
+
   margin-inline-start: auto;
   margin-inline-end: auto;
   padding: var(--margins-sm) var(--margins-2xl) var(--margins-lg);
@@ -254,96 +252,94 @@ export const OverlayMessageInfo = () => {
         <Header hideBackButton={true} closeButtonOnClick={closePanel}>
           <HeaderTitle>{window.i18n('messageInfo')}</HeaderTitle>
         </Header>
-        <StyledMessageDetailContainer>
-          <StyledMessageDetail>
-            <MessageBody
-              messageId={messageId}
-              supportsAttachmentCarousel={supportsAttachmentCarousel}
-            />
-            {hasAttachments && (
-              <>
-                {supportsAttachmentCarousel && (
-                  <>
-                    <AttachmentCarousel
-                      messageId={messageId}
-                      attachments={attachments}
-                      visibleIndex={visibleAttachmentIndex}
-                      nextAction={() => {
-                        handleChangeAttachment(1);
-                      }}
-                      previousAction={() => {
-                        handleChangeAttachment(-1);
-                      }}
-                    />
-                    <SpacerXL />
-                  </>
-                )}
-                <AttachmentInfo attachment={attachments[visibleAttachmentIndex]} />
-                <SpacerMD />
-              </>
-            )}
-            <MessageInfo messageId={messageId} errors={messageInfo.errors} />
-            <SpacerLG />
-            <PanelButtonGroup style={{ margin: '0' }}>
-              <PanelIconButton
-                text={window.i18n('replyToMessage')}
-                iconType="reply"
-                onClick={() => {
-                  // eslint-disable-next-line more/no-then
-                  void replyToMessage(messageId).then(foundIt => {
-                    if (foundIt) {
-                      dispatch(closeRightPanel());
-                      dispatch(resetRightOverlayMode());
-                    }
-                  });
-                }}
-                dataTestId="reply-to-msg-from-details"
-              />
-              {hasErrors && direction === 'outgoing' && (
-                <PanelIconButton
-                  text={window.i18n('resend')}
-                  iconType="resend"
-                  onClick={() => {
-                    void resendMessage(messageId);
+        <StyledMessageInfoContainer>
+          <MessageBody
+            messageId={messageId}
+            supportsAttachmentCarousel={supportsAttachmentCarousel}
+          />
+          {hasAttachments && (
+            <>
+              {supportsAttachmentCarousel && (
+                <>
+                  <AttachmentCarousel
+                    messageId={messageId}
+                    attachments={attachments}
+                    visibleIndex={visibleAttachmentIndex}
+                    nextAction={() => {
+                      handleChangeAttachment(1);
+                    }}
+                    previousAction={() => {
+                      handleChangeAttachment(-1);
+                    }}
+                  />
+                  <SpacerXL />
+                </>
+              )}
+              <AttachmentInfo attachment={attachments[visibleAttachmentIndex]} />
+              <SpacerMD />
+            </>
+          )}
+          <MessageInfo messageId={messageId} errors={messageInfo.errors} />
+          <SpacerLG />
+          <PanelButtonGroup style={{ margin: '0' }}>
+            <PanelIconButton
+              text={window.i18n('replyToMessage')}
+              iconType="reply"
+              onClick={() => {
+                // eslint-disable-next-line more/no-then
+                void replyToMessage(messageId).then(foundIt => {
+                  if (foundIt) {
                     dispatch(closeRightPanel());
                     dispatch(resetRightOverlayMode());
-                  }}
-                  dataTestId="resend-msg-from-details"
-                />
-              )}
-              {hasAttachments && (
-                <PanelIconButton
-                  text={window.i18n('save')}
-                  iconType="saveToDisk"
-                  dataTestId="save-attachment-from-details"
-                  onClick={() => {
-                    if (hasAttachments) {
-                      void saveAttachmentToDisk({
-                        conversationId: convoId,
-                        messageSender: sender,
-                        messageTimestamp: serverTimestamp || timestamp || Date.now(),
-                        attachment: attachments[visibleAttachmentIndex],
-                        index: visibleAttachmentIndex,
-                      });
-                    }
-                  }}
-                />
-              )}
-              {isDeletable && (
-                <PanelIconButton
-                  text={window.i18n('delete')}
-                  iconType="delete"
-                  color={'var(--danger-color)'}
-                  dataTestId="delete-from-details"
-                  onClick={() => {
-                    void deleteMessagesById([messageId], convoId);
-                  }}
-                />
-              )}
-            </PanelButtonGroup>
-            <SpacerXL />
-          </StyledMessageDetail>
-        </StyledMessageDetailContainer>
+                  }
+                });
+              }}
+              dataTestId="reply-to-msg-from-details"
+            />
+            {hasErrors && direction === 'outgoing' && (
+              <PanelIconButton
+                text={window.i18n('resend')}
+                iconType="resend"
+                onClick={() => {
+                  void resendMessage(messageId);
+                  dispatch(closeRightPanel());
+                  dispatch(resetRightOverlayMode());
+                }}
+                dataTestId="resend-msg-from-details"
+              />
+            )}
+            {hasAttachments && (
+              <PanelIconButton
+                text={window.i18n('save')}
+                iconType="saveToDisk"
+                dataTestId="save-attachment-from-details"
+                onClick={() => {
+                  if (hasAttachments) {
+                    void saveAttachmentToDisk({
+                      conversationId: convoId,
+                      messageSender: sender,
+                      messageTimestamp: serverTimestamp || timestamp || Date.now(),
+                      attachment: attachments[visibleAttachmentIndex],
+                      index: visibleAttachmentIndex,
+                    });
+                  }
+                }}
+              />
+            )}
+            {isDeletable && (
+              <PanelIconButton
+                text={window.i18n('delete')}
+                iconType="delete"
+                color={'var(--danger-color)'}
+                dataTestId="delete-from-details"
+                onClick={() => {
+                  void deleteMessagesById([messageId], convoId);
+                }}
+              />
+            )}
+          </PanelButtonGroup>
+          <SpacerXL />
+        </StyledMessageInfoContainer>
       </Flex>
     </StyledScrollContainer>
   );

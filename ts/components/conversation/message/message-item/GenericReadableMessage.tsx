@@ -7,9 +7,9 @@ import styled, { keyframes } from 'styled-components';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import { StateType } from '../../../../state/reducer';
+import { useMessageSelected } from '../../../../state/selectors';
 import {
   getGenericReadableMessageSelectorProps,
-  getIsMessageSelected,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
@@ -62,18 +62,6 @@ const StyledReadableMessage = styled.div<{
     `
     background-color: var(--conversation-tab-background-selected-color);
   `}
-
-  ${props =>
-    props.selected &&
-    `
-    &.message-selected {
-      .module-message {
-        &__container {
-          box-shadow: var(--drop-shadow);
-        }
-      }
-    }
-    `}
 `;
 
 export const GenericReadableMessage = (props: Props) => {
@@ -85,9 +73,8 @@ export const GenericReadableMessage = (props: Props) => {
     getGenericReadableMessageSelectorProps(state, props.messageId)
   );
 
-  const isMessageSelected = useSelector((state: StateType) =>
-    getIsMessageSelected(state, props.messageId)
-  );
+  const isMessageSelected = useMessageSelected(props.messageId);
+
   const multiSelectMode = useSelector(isMessageSelectionMode);
 
   const [isRightClicked, setIsRightClicked] = useState(false);
@@ -155,7 +142,7 @@ export const GenericReadableMessage = (props: Props) => {
       selected={selected}
       isDetailView={isDetailView}
       isRightClicked={isRightClicked}
-      className={classNames(selected && 'message-selected')}
+      className={classNames(selected ? 'message-selected' : undefined)}
       onContextMenu={handleContextMenu}
       key={`readable-message-${messageId}`}
     >

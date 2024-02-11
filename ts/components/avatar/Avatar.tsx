@@ -48,15 +48,14 @@ const CrownWrapper = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 0%;
-  right: 12%;
-  height: 20px;
-  width: 20px;
+  bottom: 11%;
+  right: 11%;
+  height: 18px;
+  width: 18px;
   transform: translate(20%, 20%); // getting over 23% creates a glitch
   color: #f7c347;
   background: var(--background-primary-color);
   border-radius: 50%;
-  box-shadow: var(--drop-shadow);
 `;
 
 export const CrownIcon = () => {

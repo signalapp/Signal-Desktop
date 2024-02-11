@@ -8,7 +8,7 @@ import {
   ReduxConversationType,
 } from '../ducks/conversations';
 import { StateType } from '../reducer';
-import { getMessagePropsByMessageId } from './conversations';
+import { getIsMessageSelected, getMessagePropsByMessageId } from './conversations';
 import { useSelectedIsPrivate } from './selectedConversation';
 
 function useMessagePropsByMessageId(messageId: string | undefined) {
@@ -144,4 +144,8 @@ export function useHideAvatarInMsgList(messageId?: string) {
   const msgProps = useMessagePropsByMessageId(messageId);
   const selectedIsPrivate = useSelectedIsPrivate();
   return msgProps?.propsForMessage.direction === 'outgoing' || selectedIsPrivate;
+}
+
+export function useMessageSelected(messageId?: string) {
+  return useSelector((state: StateType) => getIsMessageSelected(state, messageId));
 }

@@ -134,7 +134,6 @@ textarea {
 .module-message__container {
   position: relative;
   display: inline-block;
-  overflow: hidden;
   min-width: 30px;
   // To limit messages with things forcing them wider, like long attachment names.
   width: 100%;

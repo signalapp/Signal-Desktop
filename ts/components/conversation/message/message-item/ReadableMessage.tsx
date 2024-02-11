@@ -116,7 +116,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   });
 
   const onVisible = useCallback(
-    async (inView: boolean | object) => {
+    async (inView: boolean, _: IntersectionObserverEntry) => {
       if (!selectedConversationKey) {
         return;
       }
@@ -135,30 +135,16 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         }
       }
 
-      if (
-        inView === true &&
-        isAppFocused &&
-        oldestMessageId === messageId &&
-        !fetchingMoreInProgress
-      ) {
+      if (inView && isAppFocused && oldestMessageId === messageId && !fetchingMoreInProgress) {
         debouncedTriggerLoadMoreTop(selectedConversationKey, oldestMessageId);
       }
 
-      if (
-        inView === true &&
-        isAppFocused &&
-        youngestMessageId === messageId &&
-        !fetchingMoreInProgress
-      ) {
+      if (inView && isAppFocused && youngestMessageId === messageId && !fetchingMoreInProgress) {
         debouncedTriggerLoadMoreBottom(selectedConversationKey, youngestMessageId);
       }
 
       // this part is just handling the marking of the message as read if needed
-      if (
-        (inView === true ||
-          ((inView as any).type === 'focus' && (inView as any).returnValue === true)) &&
-        isAppFocused
-      ) {
+      if (inView) {
         if (isUnread) {
           // TODOLATER this is pretty expensive and should instead use values from the redux store
           const found = await Data.getMessageById(messageId);

@@ -88,19 +88,29 @@ const StyledEmojiPanelContainer = styled.div<{ x: number; y: number }>`
   }
 `;
 
-const DeleteForEveryone = ({ messageId }: { messageId: string }) => {
+const DeleteItem = ({ messageId }: { messageId: string }) => {
   const convoId = useSelectedConversationKey();
+  const isPublic = useSelectedIsPublic();
+
+  const isDeletable = useMessageIsDeletable(messageId);
   const isDeletableForEveryone = useMessageIsDeletableForEveryone(messageId);
-  if (!convoId || !isDeletableForEveryone) {
+
+  const onDelete = useCallback(() => {
+    if (convoId) {
+      if (!isPublic && isDeletable) {
+        void deleteMessagesById([messageId], convoId);
+      }
+      if (isPublic && isDeletableForEveryone) {
+        void deleteMessagesByIdForEveryone([messageId], convoId);
+      }
+    }
+  }, [convoId, isDeletable, isDeletableForEveryone, isPublic, messageId]);
+
+  if (!convoId || (isPublic && !isDeletableForEveryone) || (!isPublic && !isDeletable)) {
     return null;
   }
-  const onDeleteForEveryone = () => {
-    void deleteMessagesByIdForEveryone([messageId], convoId);
-  };
 
-  const unsendMessageText = window.i18n('deleteForEveryone');
-
-  return <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>;
+  return <Item onClick={onDelete}>{window.i18n('delete')}</Item>;
 };
 
 type MessageId = { messageId: string };
@@ -193,7 +203,6 @@ export const MessageContextMenu = (props: Props) => {
 
   const isSelectedBlocked = useSelectedIsBlocked();
   const convoId = useSelectedConversationKey();
-  const isPublic = useSelectedIsPublic();
 
   const direction = useMessageDirection(messageId);
   const status = useMessageStatus(messageId);
@@ -238,7 +247,6 @@ export const MessageContextMenu = (props: Props) => {
   );
 
   const selectMessageText = window.i18n('selectMessage');
-  const deleteMessageJustForMeText = window.i18n('deleteJustForMe');
 
   const onReply = useCallback(() => {
     if (isSelectedBlocked) {
@@ -255,12 +263,6 @@ export const MessageContextMenu = (props: Props) => {
   const onSelect = useCallback(() => {
     dispatch(toggleSelectedMessageId(messageId));
   }, [dispatch, messageId]);
-
-  const onDelete = useCallback(() => {
-    if (convoId) {
-      void deleteMessagesById([messageId], convoId);
-    }
-  }, [convoId, messageId]);
 
   const onShowEmoji = () => {
     hideAll();
@@ -388,10 +390,7 @@ export const MessageContextMenu = (props: Props) => {
           </Item>
           <RetryItem messageId={messageId} />
           {isDeletable ? <Item onClick={onSelect}>{selectMessageText}</Item> : null}
-          {isDeletable && !isPublic ? (
-            <Item onClick={onDelete}>{deleteMessageJustForMeText}</Item>
-          ) : null}
-          <DeleteForEveryone messageId={messageId} />
+          <DeleteItem messageId={messageId} />
           <AdminActionItems messageId={messageId} />
         </Menu>
       </SessionContextMenuContainer>

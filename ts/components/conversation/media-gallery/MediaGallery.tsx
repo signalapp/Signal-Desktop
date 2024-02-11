@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
+import React, { useCallback, useState } from 'react';
 
+import { MediaItemType } from '../../lightbox/LightboxGallery';
 import { AttachmentSection } from './AttachmentSection';
 import { EmptyState } from './EmptyState';
-import { MediaItemType } from '../../lightbox/LightboxGallery';
 
 type Props = {
   documents: Array<MediaItemType>;
