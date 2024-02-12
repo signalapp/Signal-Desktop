@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSpring, animated } from '@react-spring/web';
 
 import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
@@ -45,6 +46,7 @@ import {
 import { isWhitespace, trim } from '../util/whitespaceStringUtil';
 import { UserText } from './UserText';
 import { Tooltip, TooltipPlacement } from './Tooltip';
+import { offsetDistanceModifier } from '../util/popperUtil';
 
 export enum EditState {
   None = 'None',
@@ -625,34 +627,13 @@ export function ProfileEditor({
       );
 
       if (!hasCompletedUsernameLinkOnboarding) {
-        const tooltip = (
-          <div className="ProfileEditor__username-link__tooltip__container">
-            <div className="ProfileEditor__username-link__tooltip__icon" />
-
-            <div className="ProfileEditor__username-link__tooltip__content">
-              <h3>
-                {i18n('icu:ProfileEditor__username-link__tooltip__title')}
-              </h3>
-              <p>{i18n('icu:ProfileEditor__username-link__tooltip__body')}</p>
-            </div>
-
-            <button
-              type="button"
-              className="ProfileEditor__username-link__tooltip__close"
-              onClick={markCompletedUsernameLinkOnboarding}
-              aria-label={i18n('icu:close')}
-            />
-          </div>
-        );
         maybeUsernameLinkRow = (
-          <Tooltip
-            className="ProfileEditor__username-link__tooltip"
-            direction={TooltipPlacement.Bottom}
-            sticky
-            content={tooltip}
+          <UsernameLinkTooltip
+            handleClose={markCompletedUsernameLinkOnboarding}
+            i18n={i18n}
           >
             {maybeUsernameLinkRow}
-          </Tooltip>
+          </UsernameLinkTooltip>
         );
       }
     }
@@ -832,5 +813,57 @@ export function ProfileEditor({
 
       <div className="ProfileEditor">{content}</div>
     </>
+  );
+}
+
+function UsernameLinkTooltip({
+  handleClose,
+  children,
+  i18n,
+}: {
+  handleClose: VoidFunction;
+  children: React.ReactNode;
+  i18n: LocalizerType;
+}) {
+  const animatedStyles = useSpring({
+    from: { opacity: 0, scale: 0.25 },
+    to: { opacity: 1, scale: 1 },
+    config: { mass: 1, tension: 280, friction: 25 },
+    delay: 200,
+  });
+  const tooltip = (
+    <animated.div
+      className="ProfileEditor__username-link__tooltip__container"
+      style={animatedStyles}
+    >
+      <div className="ProfileEditor__username-link__tooltip__icon" />
+
+      <div className="ProfileEditor__username-link__tooltip__content">
+        <h3>{i18n('icu:ProfileEditor__username-link__tooltip__title')}</h3>
+        <p>{i18n('icu:ProfileEditor__username-link__tooltip__body')}</p>
+      </div>
+
+      <button
+        type="button"
+        className="ProfileEditor__username-link__tooltip__close"
+        onClick={handleClose}
+        aria-label={i18n('icu:close')}
+      />
+      <div className="ProfileEditor__username-link__tooltip__arrow" />
+    </animated.div>
+  );
+
+  return (
+    <Tooltip
+      className="ProfileEditor__username-link__tooltip"
+      direction={TooltipPlacement.Bottom}
+      sticky
+      content={tooltip}
+      // By default tooltip has its distance modified, here we clear that
+      popperModifiers={[offsetDistanceModifier(0)]}
+      hideArrow
+    >
+      {children}
+    </Tooltip>
   );
 }

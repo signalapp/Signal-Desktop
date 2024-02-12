@@ -90,6 +90,7 @@ export type PropsType = {
   theme?: Theme;
   wrapperClassName?: string;
   delay?: number;
+  hideArrow?: boolean;
 };
 
 let GLOBAL_EXIT_TIMER: NodeJS.Timeout | undefined;
@@ -105,6 +106,7 @@ export function Tooltip({
   popperModifiers = [],
   wrapperClassName,
   delay,
+  hideArrow,
 }: PropsType): JSX.Element {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>();
   const [active, setActive] = React.useState(false);
@@ -184,11 +186,13 @@ export function Tooltip({
               data-placement={placement}
             >
               {content}
-              <div
-                className="module-tooltip-arrow"
-                ref={arrowProps.ref}
-                style={arrowProps.style}
-              />
+              {!hideArrow ? (
+                <div
+                  className="module-tooltip-arrow"
+                  ref={arrowProps.ref}
+                  style={arrowProps.style}
+                />
+              ) : null}
             </div>
           )
         }
