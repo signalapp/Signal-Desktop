@@ -117,6 +117,7 @@ export function markAttributesAsReadIfNeeded(messageAttributes: MessageAttribute
       latestUnreadForThisConvo?.lastRead &&
       sentAt <= latestUnreadForThisConvo.lastRead
     ) {
+      // That message was sent before our last read timestamp for that conversation.
       // eslint-disable-next-line no-param-reassign
       messageAttributes.unread = READ_MESSAGE_STATE.read;
     }

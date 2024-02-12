@@ -1144,9 +1144,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     };
 
     // if the message is trying to be added unread, make sure that it shouldn't be already read from our other devices
-
     markAttributesAsReadIfNeeded(toBeAddedAttributes);
-
     return this.addSingleMessage(toBeAddedAttributes);
   }
 

@@ -12,6 +12,7 @@ import { ExpiringDetails, expireMessagesOnSnode } from '../apis/snode_api/expire
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { getConversationController } from '../conversations';
 import { isValidUnixTimestamp } from '../utils/Timestamps';
+import { UpdateMsgExpirySwarm } from '../utils/job_runners/jobs/UpdateMsgExpirySwarmJob';
 import {
   checkIsLegacyDisappearingDataMessage,
   couldBeLegacyDisappearingMessageContent,
@@ -543,18 +544,40 @@ function getMessageReadyToDisappear(
     messageExpirationFromRetrieve &&
     messageExpirationFromRetrieve > 0
   ) {
-    const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
-    const expires_at = messageExpirationFromRetrieve;
-    // TODO a message might be added even when it expired, but the period cleaning of expired message will pick it up and remove it soon enough
-    window.log.debug(
-      `incoming DaR message already read by another device, forcing readAt ${(Date.now() -
-        expirationStartTimestamp) /
-        1000}s ago, so with ${(expires_at - Date.now()) / 1000}s left`
-    );
-    messageModel.set({
-      expirationStartTimestamp,
-      expires_at,
-    });
+    /**
+     * Edge case: when we send a message before we poll for a message sent earlier, our convo volatile update will
+     * mark that incoming message as read right away (because it was sent earlier than our latest convolatile lastRead).
+     * To take care of this case, we need to check if the expiration of an incoming DaR, alreadt marked as read message looks to not have been updated yet.
+     * The way we do it, is by checking that the swarm expiration is before (now + expireTimer).
+     * If it looks like this expiration was not updated yet, we need to trigger a UpdateExpiryJob for that message.
+     */
+    const now = GetNetworkTime.getNowWithNetworkOffset();
+    const expirationNowPlusTimer = now + expireTimer * 1000;
+    const msgExpirationWasAlreadyUpdated = messageExpirationFromRetrieve <= expirationNowPlusTimer;
+    // Note: a message might be added even when it expired, but the periodic cleaning of expired message will pick it up and remove it soon enough
+
+    if (msgExpirationWasAlreadyUpdated) {
+      const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
+      window.log.debug(
+        `incoming DaR message already read by another device, forcing readAt ${(Date.now() -
+          expirationStartTimestamp) /
+          1000}s ago, so with ${(messageExpirationFromRetrieve - Date.now()) / 1000}s left`
+      );
+      messageModel.set({
+        expirationStartTimestamp,
+        expires_at: messageExpirationFromRetrieve,
+      });
+    } else {
+      window.log.debug(
+        `incoming DaR message already read by another device but swarmExpiration seems NOT updated, forcing readAt NOW and triggering UpdateExpiryJob with ${expireTimer}s left`
+      );
+      messageModel.set({
+        expirationStartTimestamp: now,
+        expires_at: expirationNowPlusTimer,
+      });
+      // Ideally we would batch call those UpdateExpiry, but we can't currently and disappear v2 is already too complex as it is.
+      void UpdateMsgExpirySwarm.queueNewJobIfNeeded([messageModel.id]);
+    }
   } else if (
     expirationType === 'deleteAfterSend' &&
     expireTimer > 0 &&
