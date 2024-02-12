@@ -3,7 +3,10 @@ import styled from 'styled-components';
 
 import { isEmpty } from 'lodash';
 import moment from 'moment';
+import useBoolean from 'react-use/lib/useBoolean';
+import useInterval from 'react-use/lib/useInterval';
 import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
+import { DURATION } from '../../../../session/constants';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { getRecentReactions } from '../../../../util/storage';
 import { SpacerSM } from '../../../basic/Text';
@@ -91,37 +94,36 @@ function useIsRenderedExpiresInItem(messageId: string) {
   return expiryDetails.expirationTimestamp;
 }
 
-function formatExpiry({ expirationTimestamp }: { expirationTimestamp: number }) {
-  const diffMs = expirationTimestamp - Date.now();
-  const diff = moment(diffMs).utc();
+function formatTimeLeft({ timeLeftMs }: { timeLeftMs: number }) {
+  const timeLeft = moment(timeLeftMs).utc();
 
-  if (diffMs <= 0) {
+  if (timeLeftMs <= 0) {
     return `0s`;
   }
 
   const prefix = 'Message will expire in';
 
-  if (diff.isBefore(moment.utc(0).add(1, 'minute'))) {
-    return `${prefix} ${diff.seconds()}s`;
+  if (timeLeft.isBefore(moment.utc(0).add(1, 'minute'))) {
+    return `${prefix} ${timeLeft.seconds()}s`;
   }
 
-  if (diff.isBefore(moment.utc(0).add(1, 'hour'))) {
-    const extraUnit = diff.seconds() ? ` ${diff.seconds()}s` : '';
-    return `${prefix} ${diff.minutes()}m${extraUnit}`;
+  if (timeLeft.isBefore(moment.utc(0).add(1, 'hour'))) {
+    const extraUnit = timeLeft.seconds() ? ` ${timeLeft.seconds()}s` : '';
+    return `${prefix} ${timeLeft.minutes()}m${extraUnit}`;
   }
 
-  if (diff.isBefore(moment.utc(0).add(1, 'day'))) {
-    const extraUnit = diff.minutes() ? ` ${diff.minutes()}m` : '';
-    return `${prefix} ${diff.hours()}h${extraUnit}`;
+  if (timeLeft.isBefore(moment.utc(0).add(1, 'day'))) {
+    const extraUnit = timeLeft.minutes() ? ` ${timeLeft.minutes()}m` : '';
+    return `${prefix} ${timeLeft.hours()}h${extraUnit}`;
   }
 
-  if (diff.isBefore(moment.utc(0).add(7, 'day'))) {
-    const extraUnit = diff.hours() ? ` ${diff.hours()}h` : '';
-    return `${prefix} ${diff.dayOfYear() - 1}d${extraUnit}`;
+  if (timeLeft.isBefore(moment.utc(0).add(7, 'day'))) {
+    const extraUnit = timeLeft.hours() ? ` ${timeLeft.hours()}h` : '';
+    return `${prefix} ${timeLeft.dayOfYear() - 1}d${extraUnit}`;
   }
 
-  if (diff.isBefore(moment.utc(0).add(31, 'day'))) {
-    const days = diff.dayOfYear() - 1;
+  if (timeLeft.isBefore(moment.utc(0).add(31, 'day'))) {
+    const days = timeLeft.dayOfYear() - 1;
     const weeks = Math.floor(days / 7);
     const daysLeft = days % 7;
     const extraUnit = daysLeft ? ` ${daysLeft}d` : '';
@@ -132,7 +134,20 @@ function formatExpiry({ expirationTimestamp }: { expirationTimestamp: number }) 
 }
 
 const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number | null }) => {
-  if (!expirationTimestamp) {
+  // this boolean is just used to forceRefresh the state when we get to display seconds in the contextmenu
+  const [refresh, setRefresh] = useBoolean(false);
+  const timeLeftMs = (expirationTimestamp || 0) - Date.now();
+
+  useInterval(
+    () => {
+      setRefresh(!refresh);
+    },
+    // We want to force refresh this component a lot more if the message has more than 2 minutes before disappearing,
+    // because when that's the case we also display the seconds left (i.e. 1min 23s) and we want that 23s to be dynamic.
+    // Also, we use a refresh interval of 500 rather than 1s so that the counter is a bit smoother
+    timeLeftMs > 0 && timeLeftMs <= 2 * DURATION.MINUTES ? 500 : null
+  );
+  if (!expirationTimestamp || timeLeftMs < 0) {
     return null;
   }
 
@@ -140,7 +155,7 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
     <StyledExpiresIn>
       <SessionIcon iconSize={'small'} iconType="stopwatch" />
       <SpacerSM />
-      <span>{formatExpiry({ expirationTimestamp })}</span>
+      <span>{formatTimeLeft({ timeLeftMs })}</span>
     </StyledExpiresIn>
   );
 };

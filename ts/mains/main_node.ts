@@ -87,10 +87,9 @@ import { windowMarkShouldQuit, windowShouldQuit } from '../node/window_state'; /
 
 let appStartInitialSpellcheckSetting = true;
 
-const isTestIntegration = Boolean(
-  process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('test-integration')
-);
-const openDevToolsTestIntegration = isTestIntegration && !isEmpty(process.env.TEST_OPEN_DEV_TOOLS);
+function openDevToolsTestIntegration() {
+  return isTestIntegration() && !isEmpty(process.env.TEST_OPEN_DEV_TOOLS);
+}
 
 async function getSpellCheckSetting() {
   const json = sqlNode.getItemById('spell-check');
@@ -159,6 +158,7 @@ if (windowFromUserConfig) {
 import { getAppRootPath } from '../node/getRootPath';
 import { setLastestRelease } from '../node/latest_desktop_release';
 import { load as loadLocale, LocaleMessagesWithNameType } from '../node/locale';
+import { isDevProd, isTestIntegration } from '../shared/env_vars';
 import { classicDark } from '../themes';
 
 // Both of these will be set after app fires the 'ready' event
@@ -215,7 +215,7 @@ function captureClicks(window: BrowserWindow) {
 function getDefaultWindowSize() {
   return {
     defaultWidth: 880,
-    defaultHeight: openDevToolsTestIntegration ? 1000 : 820, // the dev tools open at the bottom hide some stuff which should be visible
+    defaultHeight: openDevToolsTestIntegration() ? 1000 : 820, // the dev tools open at the bottom hide some stuff which should be visible
     minWidth: 880,
     minHeight: 600,
   };
@@ -274,7 +274,7 @@ async function createWindow() {
     y: (windowConfig as any).y,
   };
 
-  if (isTestIntegration) {
+  if (isTestIntegration()) {
     const screenWidth =
       screen.getPrimaryDisplay().workAreaSize.width - getDefaultWindowSize().defaultWidth;
     const screenHeight =
@@ -416,7 +416,7 @@ async function createWindow() {
   const urlToLoad = prepareURL([getAppRootPath(), 'background.html']);
 
   await mainWindow.loadURL(urlToLoad);
-  if (openDevToolsTestIntegration) {
+  if (openDevToolsTestIntegration()) {
     setTimeout(() => {
       if (mainWindow && mainWindow.webContents) {
         mainWindow.webContents.openDevTools({
@@ -427,7 +427,7 @@ async function createWindow() {
     }, 5000);
   }
 
-  if ((process.env.NODE_APP_INSTANCE || '').startsWith('devprod')) {
+  if (isDevProd()) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools({
       mode: 'bottom',

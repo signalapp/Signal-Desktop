@@ -1144,9 +1144,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     };
 
     // if the message is trying to be added unread, make sure that it shouldn't be already read from our other devices
-
     markAttributesAsReadIfNeeded(toBeAddedAttributes);
-
     return this.addSingleMessage(toBeAddedAttributes);
   }
 
@@ -2616,7 +2614,7 @@ async function cleanUpExpireHistoryFromConvo(conversationId: string, isPrivate: 
     conversationId,
     isPrivate
   );
-  window.inboxStore.dispatch(
+  window?.inboxStore?.dispatch(
     messagesDeleted(updateIdsRemoved.map(m => ({ conversationKey: conversationId, messageId: m })))
   );
 }

@@ -3,6 +3,7 @@
 import { escapeRegExp, isEmpty, isRegExp, isString } from 'lodash';
 import { compose } from 'lodash/fp';
 import { getAppRootPath } from '../node/getRootPath';
+import { isDevProd } from '../shared/env_vars';
 
 const APP_ROOT_PATH = getAppRootPath();
 const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
@@ -103,7 +104,7 @@ function shouldNotRedactLogs() {
     return true;
   }
   // otherwise we don't want to redact logs when running on the devprod env
-  return (process.env.NODE_APP_INSTANCE || '').startsWith('devprod');
+  return isDevProd();
 }
 
 //      redactAll :: String -> String

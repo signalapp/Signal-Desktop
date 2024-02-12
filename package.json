@@ -85,6 +85,7 @@
     "config": "1.28.1",
     "country-code-lookup": "^0.0.19",
     "curve25519-js": "https://github.com/oxen-io/curve25519-js",
+    "date-fns": "^3.3.1",
     "dompurify": "^2.0.7",
     "electron-localshortcut": "^3.2.1",
     "electron-updater": "^4.2.2",
