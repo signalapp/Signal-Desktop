@@ -9,9 +9,6 @@ const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 
-window.React = require('react');
-window.ReactDOM = require('react-dom');
-
 window.theme = config.theme;
 window.i18n = i18n.setupi18n(locale, localeMessages);
 

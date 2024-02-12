@@ -243,9 +243,6 @@ setInterval(() => {
   window.nodeSetImmediate(() => {});
 }, 1000);
 
-window.React = require('react');
-window.ReactDOM = require('react-dom');
-
 window.clipboard = clipboard;
 
 window.getSeedNodeList = () =>

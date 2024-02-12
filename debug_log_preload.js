@@ -14,9 +14,6 @@ const localeMessages = ipcRenderer.sendSync('locale-data');
 
 window._ = require('lodash');
 
-window.React = require('react');
-window.ReactDOM = require('react-dom');
-
 window.getVersion = () => config.version;
 window.theme = config.theme;
 window.i18n = i18n.setupi18n(locale, localeMessages);
