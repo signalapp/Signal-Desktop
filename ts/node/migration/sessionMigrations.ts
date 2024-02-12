@@ -104,6 +104,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion33,
   updateToSessionSchemaVersion34,
   updateToSessionSchemaVersion35,
+  updateToSessionSchemaVersion36,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1922,6 +1923,26 @@ function updateToSessionSchemaVersion35(currentVersion: number, db: BetterSqlite
     db.prepare(
       `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastMessageInteractionStatus TEXT;`
     ).run();
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToSessionSchemaVersion36(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 36;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`CREATE INDEX messages_DaR_unread_sent_at ON ${MESSAGES_TABLE} (
+      expirationType,
+      unread,
+      sent_at
+    );`);
     writeSessionSchemaVersion(targetVersion, db);
   })();
 

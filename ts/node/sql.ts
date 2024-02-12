@@ -64,6 +64,7 @@ import { KNOWN_BLINDED_KEYS_ITEM, SettingsKey } from '../data/settings-key';
 import { MessageAttributes } from '../models/messageType';
 import { SignalService } from '../protobuf';
 import { Quote } from '../receiver/types';
+import { DURATION } from '../session/constants';
 import {
   getSQLCipherIntegrityCheck,
   openAndMigrateDatabase,
@@ -192,6 +193,7 @@ async function initializeSql({
     console.info('total conversation count before cleaning: ', getConversationCount());
     cleanUpOldOpengroupsOnStart();
     cleanUpUnusedNodeForKeyEntriesOnStart();
+    cleanUpUnreadExpiredDaRMessages();
     printDbStats();
 
     console.info('total message count after cleaning: ', getMessageCount());
@@ -1612,6 +1614,28 @@ function getExpiredMessages() {
     });
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+function cleanUpUnreadExpiredDaRMessages() {
+  // we cannot rely on network offset here, so we need to trust the user clock
+  const t14daysEarlier = Date.now() - 14 * DURATION.DAYS;
+  const start = Date.now();
+  const deleted = assertGlobalInstance()
+    .prepare(
+      `DELETE FROM ${MESSAGES_TABLE} WHERE
+      expirationType = 'deleteAfterRead' AND
+      unread = $unread AND
+      sent_at <= $t14daysEarlier;`
+    )
+    .run({
+      unread: toSqliteBoolean(true),
+      t14daysEarlier,
+    });
+  console.info(
+    `cleanUpUnreadExpiredDaRMessages: deleted ${
+      deleted.changes
+    } message(s) which were DaR and sent before ${t14daysEarlier} in ${Date.now() - start}ms`
+  );
 }
 
 function getOutgoingWithoutExpiresAt() {
