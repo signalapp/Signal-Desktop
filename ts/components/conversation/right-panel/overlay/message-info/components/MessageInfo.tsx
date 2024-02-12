@@ -19,6 +19,7 @@ import {
   useMessageTimestamp,
 } from '../../../../../../state/selectors';
 
+import { isDevProd } from '../../../../../../shared/env_vars';
 import { Flex } from '../../../../../basic/Flex';
 import { SpacerSM } from '../../../../../basic/Text';
 
@@ -64,8 +65,6 @@ const showDebugLog = () => {
   ipcRenderer.send('show-debug-log');
 };
 
-const showDebugMessageInfo = false;
-
 const DebugMessageInfo = ({ messageId }: { messageId: string }) => {
   const messageHash = useMessageHash(messageId);
   const serverId = useMessageServerId(messageId);
@@ -73,7 +72,7 @@ const DebugMessageInfo = ({ messageId }: { messageId: string }) => {
   const expirationDurationMs = useMessageExpirationDurationMs(messageId);
   const expirationTimestamp = useMessageExpirationTimestamp(messageId);
 
-  if (!showDebugMessageInfo) {
+  if (!isDevProd()) {
     return null;
   }
 

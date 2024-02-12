@@ -547,7 +547,7 @@ function getMessageReadyToDisappear(
     /**
      * Edge case: when we send a message before we poll for a message sent earlier, our convo volatile update will
      * mark that incoming message as read right away (because it was sent earlier than our latest convolatile lastRead).
-     * To take care of this case, we need to check if the expiration of an incoming DaR, alreadt marked as read message looks to not have been updated yet.
+     * To take care of this case, we need to check if an incoming DaR message is in a read state but its expiration has not been updated yet.
      * The way we do it, is by checking that the swarm expiration is before (now + expireTimer).
      * If it looks like this expiration was not updated yet, we need to trigger a UpdateExpiryJob for that message.
      */

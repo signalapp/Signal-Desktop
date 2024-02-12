@@ -17,14 +17,11 @@ If you import anything in global.d.ts, the type system won't work correctly.
 
 declare global {
   interface Window {
-    CONSTANTS: any;
     Events: any;
-    Lodash: any;
     Session: any;
     Whisper: any;
-    clearLocalData: any;
+    clearLocalData: () => Promise<void>;
     clipboard: any;
-    dcodeIO: any;
     getSettingValue: (id: string, comparisonValue?: any) => any;
     setSettingValue: (id: string, value: any) => Promise<void>;
 
@@ -43,22 +40,20 @@ declare global {
         debugOnionRequests: boolean;
       };
     };
-    SessionSnodeAPI: SessionSnodeAPI;
     onLogin: (pw: string) => Promise<void>;
     persistStore?: Persistor;
-    restart: any;
+    restart: () => void;
     getSeedNodeList: () => Array<string> | undefined;
-    setPassword: any;
+    setPassword: (newPassword: string | null, oldPassword: string | null) => Promise<void>;
     isOnline: boolean;
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
     getCallMediaPermissions: () => boolean;
     toggleMenuBar: () => void;
-    toggleSpellCheck: any;
+    toggleSpellCheck: () => void;
     primaryColor: PrimaryColorStateType;
     theme: ThemeStateType;
     setTheme: (newTheme: string) => Promise<void>;
-    isDev?: () => boolean;
     userConfig: any;
     versionInfo: any;
     getConversations: () => ConversationCollection;

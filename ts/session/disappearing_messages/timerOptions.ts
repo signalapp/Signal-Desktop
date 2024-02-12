@@ -1,5 +1,5 @@
-import { isEmpty } from 'lodash';
 import moment from 'moment';
+import { isDevProd } from '../../shared/env_vars';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 
 type TimerOptionsEntry = { name: string; value: number };
@@ -67,12 +67,7 @@ const VALUES: Array<number> = timerOptionsDurations.map(t => {
 });
 
 const filterOutDebugValues = (option: number) => {
-  // process.env.NODE_APP_INSTANCE is empty when the app is packaged, and not empty when starting from start-prod or start-dev
-  const isPackaged = isEmpty(process.env.NODE_APP_INSTANCE);
-  if (isPackaged) {
-    return option > 60; // when packaged, filter out options with less than 60s
-  }
-  return true;
+  return isDevProd() || option > 60; // when not a dev build, filter out options with less than 60s
 };
 
 const DELETE_AFTER_READ = VALUES.filter(option => {
