@@ -18,17 +18,22 @@ import {
 import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 import { Flex } from '../../../../basic/Flex';
 import { SessionButton } from '../../../../basic/SessionButton';
-import { SpacerLG, SpacerXL } from '../../../../basic/Text';
+import { SpacerLG } from '../../../../basic/Text';
 import { Header, HeaderSubtitle, HeaderTitle, StyledScrollContainer } from '../components';
 import { DisappearingModes } from './DisappearingModes';
 import { TimeOptions } from './TimeOptions';
 
-const StyledContainer = styled(Flex)`
+const StyledButtonContainer = styled.div`
+  background: linear-gradient(0deg, black, transparent);
+  position: sticky;
+  width: 100%;
+  bottom: 0px;
+
   .session-button {
     font-weight: 500;
     min-width: 90px;
     width: fit-content;
-    margin: 35px auto 0;
+    margin: 35px auto 10px;
   }
 `;
 
@@ -160,7 +165,7 @@ export const OverlayDisappearingMessages = () => {
 
   return (
     <StyledScrollContainer>
-      <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>
+      <Flex container={true} flexDirection={'column'} alignItems={'center'}>
         <Header>
           <HeaderTitle>{window.i18n('disappearingMessages')}</HeaderTitle>
           <HeaderSubtitle>
@@ -205,22 +210,22 @@ export const OverlayDisappearingMessages = () => {
             </StyledNonAdminDescription>
           </>
         )}
-        <SessionButton
-          onClick={handleSetMode}
-          disabled={
-            singleMode
-              ? disappearingModeOptions[singleMode]
-              : modeSelected
-              ? disappearingModeOptions[modeSelected]
-              : undefined
-          }
-          dataTestId={'disappear-set-button'}
-        >
-          {window.i18n('set')}
-        </SessionButton>
-        <SpacerLG />
-        <SpacerXL />
-      </StyledContainer>
+        <StyledButtonContainer>
+          <SessionButton
+            onClick={handleSetMode}
+            disabled={
+              singleMode
+                ? disappearingModeOptions[singleMode]
+                : modeSelected
+                ? disappearingModeOptions[modeSelected]
+                : undefined
+            }
+            dataTestId={'disappear-set-button'}
+          >
+            {window.i18n('set')}
+          </SessionButton>
+        </StyledButtonContainer>
+      </Flex>
     </StyledScrollContainer>
   );
 };
