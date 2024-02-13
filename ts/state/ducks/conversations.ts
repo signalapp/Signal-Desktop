@@ -12,6 +12,7 @@ import {
   values,
   without,
 } from 'lodash';
+import type { PhoneNumber } from 'google-libphonenumber';
 
 import { clipboard } from 'electron';
 import type { ReadonlyDeep } from 'type-fest';
@@ -27,6 +28,7 @@ import type { DurationInSeconds } from '../../util/durations';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import * as Attachment from '../../types/Attachment';
 import { isFileDangerous } from '../../util/isFileDangerous';
+import { instance as libphonenumberInstance } from '../../util/libphonenumberInstance';
 import type {
   ShowSendAnywayDialogActionType,
   ShowErrorModalActionType,
@@ -6035,13 +6037,46 @@ export function reducer(
       return state;
     }
 
-    return {
+    const { searchTerm } = action.payload;
+
+    // Basic state that we return if we can't parse the term.
+    const withUpdatedSearchTerm = {
       ...state,
       composer: {
         ...composer,
-        searchTerm: action.payload.searchTerm,
+        searchTerm,
       },
     };
+
+    if (composer.step === ComposerStep.FindByPhoneNumber) {
+      const { selectedRegion } = composer;
+      let result: PhoneNumber;
+      try {
+        result = libphonenumberInstance.parse(searchTerm, selectedRegion);
+      } catch {
+        return withUpdatedSearchTerm;
+      }
+
+      const region = libphonenumberInstance.getRegionCodeForNumber(result);
+      if (!result.hasCountryCode() || !region || region === selectedRegion) {
+        return withUpdatedSearchTerm;
+      }
+
+      result.clearCountryCode();
+      const withoutCountryCode =
+        libphonenumberInstance.formatInOriginalFormat(result);
+
+      return {
+        ...state,
+        composer: {
+          ...composer,
+          selectedRegion: region,
+          searchTerm: withoutCountryCode,
+        },
+      };
+    }
+
+    return withUpdatedSearchTerm;
   }
 
   if (action.type === 'SET_COMPOSE_SELECTED_REGION') {
