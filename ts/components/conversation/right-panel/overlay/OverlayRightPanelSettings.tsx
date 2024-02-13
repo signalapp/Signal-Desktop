@@ -45,6 +45,7 @@ import { Flex } from '../../../basic/Flex';
 import { SpacerLG, SpacerMD, SpacerXL } from '../../../basic/Text';
 import { PanelButtonGroup, PanelIconButton } from '../../../buttons';
 import { MediaItemType } from '../../../lightbox/LightboxGallery';
+import { SessionProgressBar } from '../../../loading';
 import { MediaGallery } from '../../media-gallery/MediaGallery';
 import { Header, StyledScrollContainer } from './components';
 
@@ -210,6 +211,25 @@ export const OverlayRightPanelSettings = () => {
   });
   const lastMessage = useSelectedLastMessage();
 
+  // TODO[epic=ses-50] move this into already have an account screen
+  // #region for testing
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(oldProgress => {
+        if (oldProgress === 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return Math.min(oldProgress + 10, 100);
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  // #endregion
+
   useEffect(() => {
     let isCancelled = false;
 
@@ -280,6 +300,14 @@ export const OverlayRightPanelSettings = () => {
   return (
     <StyledScrollContainer>
       <Flex container={true} flexDirection={'column'} alignItems={'center'}>
+        <SessionProgressBar
+          progress={progress}
+          width={'320px'}
+          margin={'var(--margins-lg) auto'}
+          title={window.i18n('waitOneMoment')}
+          subtitle={window.i18n('loadAccountProgressMessage')}
+          showPercentage={true}
+        />
         <HeaderItem />
         <PanelButtonGroup style={{ margin: '0 var(--margins-lg)' }}>
           {showUpdateGroupNameButton && (
