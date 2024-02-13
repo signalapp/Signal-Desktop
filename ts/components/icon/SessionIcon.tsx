@@ -1,6 +1,6 @@
-import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
+import { memo } from 'react';
 import { icons, SessionIconSize, SessionIconType } from '.';
 
 export type SessionIconProps = {
@@ -118,7 +118,7 @@ const animation = (props: {
   return undefined;
 };
 
-const Svg = React.memo(styled.svg<StyledSvgProps>`
+const Svg = memo(styled.svg<StyledSvgProps>`
   width: ${props => props.width};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   ${props => animation(props)};

@@ -1,8 +1,8 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 type PillContainerProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   margin?: string;
   padding?: string;
   onClick?: () => void;

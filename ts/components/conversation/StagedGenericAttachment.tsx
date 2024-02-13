@@ -1,5 +1,4 @@
-import React from 'react';
-
+import { Component } from 'react';
 import { AttachmentType, getExtensionForDisplay } from '../../types/Attachment';
 
 interface Props {
@@ -7,7 +6,7 @@ interface Props {
   onClose: (attachment: AttachmentType) => void;
 }
 
-export class StagedGenericAttachment extends React.Component<Props> {
+export class StagedGenericAttachment extends Component<Props> {
   public render() {
     const { attachment, onClose } = this.props;
     const { fileName, contentType } = attachment;

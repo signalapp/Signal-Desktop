@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import classNames from 'classnames';
-import { SessionIconButton } from '../icon';
 import { Noop } from '../../types/Util';
 import { useHTMLDirection } from '../../util/i18n';
+import { SessionIconButton } from '../icon';
 
 type Props = {
   label?: string;
@@ -78,7 +78,7 @@ export const SessionInput = (props: Props) => {
 
   const correctType = forceShow ? 'text' : type;
 
-  const updateInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const val = e.target.value;
     setInputValue(val);

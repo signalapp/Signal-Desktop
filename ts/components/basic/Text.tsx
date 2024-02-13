@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 
 type TextProps = {
@@ -26,9 +26,7 @@ export const Text = (props: TextProps) => {
   return <StyledDefaultText {...props}>{props.text}</StyledDefaultText>;
 };
 
-export const TextWithChildren = (
-  props: Omit<TextProps, 'text'> & { children: React.ReactNode }
-) => {
+export const TextWithChildren = (props: Omit<TextProps, 'text'> & { children: ReactNode }) => {
   return <StyledDefaultText {...props}>{props.children}</StyledDefaultText>;
 };
 

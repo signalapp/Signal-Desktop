@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import useKey from 'react-use/lib/useKey';
@@ -26,9 +26,9 @@ import { Message } from './message/message-item/Message';
 import { MessageRequestResponse } from './message/message-item/MessageRequestResponse';
 import { CallNotification } from './message/message-item/notification-bubble/CallNotification';
 
-import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { TimerNotification } from './TimerNotification';
+import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { InteractionNotification } from './message/message-item/InteractionNotification';
 
 function isNotTextboxEvent(e: KeyboardEvent) {

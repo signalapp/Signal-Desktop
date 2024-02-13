@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { debounce, isEmpty, isString } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';

@@ -1,5 +1,5 @@
 import { shell } from 'electron';
-import React, { Dispatch, useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useLastMessage } from '../../hooks/useParamSelector';

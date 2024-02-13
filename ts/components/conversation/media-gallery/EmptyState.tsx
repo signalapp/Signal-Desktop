@@ -1,13 +1,14 @@
 /**
  * @prettier
  */
-import React from 'react';
+
+import { Component } from 'react';
 
 interface Props {
   label: string;
 }
 
-export class EmptyState extends React.Component<Props> {
+export class EmptyState extends Component<Props> {
   public render() {
     const { label } = this.props;
 

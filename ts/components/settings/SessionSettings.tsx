@@ -1,23 +1,24 @@
 import { shell } from 'electron';
-import React from 'react';
+
 import autoBind from 'auto-bind';
 import styled from 'styled-components';
 
+import { Component, RefObject, createRef } from 'react';
 import { SettingsHeader } from './SessionSettingsHeader';
 
 import { SessionIconButton } from '../icon';
 
 import { SessionNotificationGroupSettings } from './SessionNotificationGroupSettings';
 
-import { CategoryConversations } from './section/CategoryConversations';
-import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
-import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { Data } from '../../data/data';
-import { SettingsCategoryPermissions } from './section/CategoryPermissions';
-import { SettingsCategoryHelp } from './section/CategoryHelp';
 import { sessionPassword } from '../../state/ducks/modalDialog';
-import { PasswordAction } from '../dialog/SessionPasswordDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
+import { PasswordAction } from '../dialog/SessionPasswordDialog';
+import { SettingsCategoryAppearance } from './section/CategoryAppearance';
+import { CategoryConversations } from './section/CategoryConversations';
+import { SettingsCategoryHelp } from './section/CategoryHelp';
+import { SettingsCategoryPermissions } from './section/CategoryPermissions';
+import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 
 export function displayPasswordModal(
   passwordAction: PasswordAction,
@@ -159,8 +160,8 @@ const StyledSettingsList = styled.div`
   flex-direction: column;
 `;
 
-export class SessionSettingsView extends React.Component<SettingsViewProps, State> {
-  public settingsViewRef: React.RefObject<HTMLDivElement>;
+export class SessionSettingsView extends Component<SettingsViewProps, State> {
+  public settingsViewRef: RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
     super(props);
@@ -170,7 +171,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
       shouldLockSettings: true,
     };
 
-    this.settingsViewRef = React.createRef();
+    this.settingsViewRef = createRef();
     autoBind(this);
 
     // eslint-disable-next-line more/no-then

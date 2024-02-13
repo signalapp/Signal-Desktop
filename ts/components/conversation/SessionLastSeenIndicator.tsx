@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getQuotedMessageToAnimate } from '../../state/selectors/conversations';

@@ -1,17 +1,16 @@
-import React from 'react';
-
 import { contextMenu } from 'react-contexify';
 
 import { connect } from 'react-redux';
 
 import autoBind from 'auto-bind';
+import { Component, RefObject, createContext } from 'react';
 import styled from 'styled-components';
 import {
-  quotedMessageToAnimate,
   ReduxConversationType,
+  SortedMessageModelProps,
+  quotedMessageToAnimate,
   resetOldBottomMessageId,
   resetOldTopMessageId,
-  SortedMessageModelProps,
 } from '../../state/ducks/conversations';
 import { SessionScrollButton } from '../SessionScrollButton';
 
@@ -27,7 +26,7 @@ import { SessionMessagesList } from './SessionMessagesList';
 import { TypingBubble } from './TypingBubble';
 
 export type SessionMessageListProps = {
-  messageContainerRef: React.RefObject<HTMLDivElement>;
+  messageContainerRef: RefObject<HTMLDivElement>;
 };
 export const messageContainerDomID = 'messages-container';
 
@@ -38,7 +37,7 @@ export type ScrollToLoadedReasons =
   | 'load-more-top'
   | 'load-more-bottom';
 
-export const ScrollToLoadedMessageContext = React.createContext(
+export const ScrollToLoadedMessageContext = createContext(
   (_loadedMessageIdToScrollTo: string, _reason: ScrollToLoadedReasons) => {}
 );
 
@@ -77,7 +76,7 @@ const StyledTypingBubble = styled(TypingBubble)`
   margin: var(--margins-xs) var(--margins-lg) 0;
 `;
 
-class SessionMessagesListContainerInner extends React.Component<Props> {
+class SessionMessagesListContainerInner extends Component<Props> {
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
 
   public constructor(props: Props) {

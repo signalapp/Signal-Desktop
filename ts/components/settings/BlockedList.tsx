@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { useSet } from '../../hooks/useSet';
 import { ToastUtils } from '../../session/utils';
 import { BlockedNumberController } from '../../util';
+import { MemberListItem } from '../MemberListItem';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
-import { MemberListItem } from '../MemberListItem';
 import { SettingsTitleAndDescription } from './SessionSettingListItem';
 
 const BlockedEntriesContainer = styled.div`

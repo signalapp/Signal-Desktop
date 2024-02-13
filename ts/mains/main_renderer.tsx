@@ -1,11 +1,10 @@
 import Backbone from 'backbone';
 import _ from 'lodash';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import nativeEmojiData from '@emoji-mart/data';
 import { ipcRenderer } from 'electron';
 // eslint-disable-next-line import/no-named-default
-import { default as React } from 'react';
 
 import { isMacOS } from '../OS';
 import { SessionInboxView } from '../components/SessionInboxView';
@@ -310,12 +309,16 @@ async function start() {
     void getConversationController()
       .loadPromise()
       ?.then(() => {
-        ReactDOM.render(<SessionInboxView />, document.getElementById('root'));
+        const container = document.getElementById('root');
+        const root = createRoot(container!);
+        root.render(<SessionInboxView />);
       });
   }
 
   function showRegistrationView() {
-    ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
+    const container = document.getElementById('root');
+    const root = createRoot(container!);
+    root.render(<SessionRegistrationView />);
     switchBodyToRtlIfNeeded();
   }
   DisappearingMessages.initExpiringMessageListener();

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { getConversationController } from '../../../../session/conversations';

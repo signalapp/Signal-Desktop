@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
 import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';

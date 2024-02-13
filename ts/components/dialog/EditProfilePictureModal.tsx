@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';

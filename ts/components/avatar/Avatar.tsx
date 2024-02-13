@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
-import React, { useState } from 'react';
+import { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -66,7 +66,7 @@ export const CrownIcon = () => {
   );
 };
 
-const NoImage = React.memo(
+const NoImage = memo(
   (
     props: Pick<Props, 'forcedName' | 'size' | 'pubkey' | 'onAvatarClick'> & {
       isClosedGroup: boolean;
@@ -185,4 +185,4 @@ const AvatarInner = (props: Props) => {
   );
 };
 
-export const Avatar = React.memo(AvatarInner, isEqual);
+export const Avatar = memo(AvatarInner, isEqual);

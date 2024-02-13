@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { isNil, isString, toNumber } from 'lodash';
-import React, { useCallback, useEffect, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
@@ -85,7 +85,7 @@ export const GenericReadableMessage = (props: Props) => {
   }, [isRightClicked]);
 
   const handleContextMenu = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
+    (e: MouseEvent<HTMLElement>) => {
       // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
       // and the context menu save attachment item to save the right attachment I did not find a better way for now.
 

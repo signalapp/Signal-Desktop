@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 import moment from 'moment';
 
 import formatFileSize from 'filesize';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 import { MediaItemType } from '../../lightbox/LightboxGallery';
-import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 
 type Props = {
   // Required

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 

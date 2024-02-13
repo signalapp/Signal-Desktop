@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
+
 import autoBind from 'auto-bind';
 
-import { ToastUtils } from '../../session/utils';
+import { Component } from 'react';
 import { Data } from '../../data/data';
-import { SpacerSM } from '../basic/Text';
+import { ToastUtils } from '../../session/utils';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { matchesHash, validatePassword } from '../../util/passwordUtils';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
+import { matchesHash, validatePassword } from '../../util/passwordUtils';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerSM } from '../basic/Text';
 
 export type PasswordAction = 'set' | 'change' | 'remove' | 'enter';
 
@@ -26,7 +27,7 @@ interface State {
   currentPasswordRetypeEntered: string | null;
 }
 
-export class SessionPasswordDialog extends React.Component<Props, State> {
+export class SessionPasswordDialog extends Component<Props, State> {
   private passportInput: HTMLInputElement | null = null;
 
   constructor(props: any) {

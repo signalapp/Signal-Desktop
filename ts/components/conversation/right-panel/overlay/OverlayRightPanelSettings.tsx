@@ -1,5 +1,5 @@
 import { compact, flatten, isEqual } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';

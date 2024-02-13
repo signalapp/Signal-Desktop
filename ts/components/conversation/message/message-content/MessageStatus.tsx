@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';

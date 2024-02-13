@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
 import classNames from 'classnames';
+import { useRef } from 'react';
 import useKey from 'react-use/lib/useKey';
 
 import { SessionIconButton } from './icon';

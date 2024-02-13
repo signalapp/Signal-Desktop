@@ -1,8 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 
-import { Avatar, AvatarSize, CrownIcon } from './avatar/Avatar';
 import { useNicknameOrProfileNameOrShortenedPubkey } from '../hooks/useParamSelector';
+import { Avatar, AvatarSize, CrownIcon } from './avatar/Avatar';
 import { SessionRadio } from './basic/SessionRadio';
 
 const AvatarContainer = styled.div`

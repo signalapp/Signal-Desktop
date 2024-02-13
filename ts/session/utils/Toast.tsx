@@ -1,4 +1,3 @@
-import React from 'react';
 import { toast } from 'react-toastify';
 import { SessionToast, SessionToastType } from '../../components/basic/SessionToast';
 import { SessionIconType } from '../../components/icon';

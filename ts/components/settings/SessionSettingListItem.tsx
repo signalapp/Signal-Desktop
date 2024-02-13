@@ -1,6 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 
+import { ReactNode } from 'react';
+import { Noop } from '../../types/Util';
 import {
   SessionButton,
   SessionButtonColor,
@@ -10,7 +11,6 @@ import {
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
 import { SessionIconButton } from '../icon';
-import { Noop } from '../../types/Util';
 
 type ButtonSettingsProps = {
   title?: string;
@@ -76,7 +76,7 @@ const StyledSettingItemClickable = styled(StyledSettingItemInline)`
 export const SettingsTitleAndDescription = (props: {
   title?: string;
   description?: string;
-  childrenDescription?: React.ReactNode;
+  childrenDescription?: ReactNode;
 }) => {
   const { description, childrenDescription, title } = props;
   return (
@@ -96,8 +96,8 @@ export const SessionSettingsItemWrapper = (props: {
   inline: boolean;
   title?: string;
   description?: string;
-  children?: React.ReactNode;
-  childrenDescription?: React.ReactNode;
+  children?: ReactNode;
+  childrenDescription?: ReactNode;
 }) => {
   const { inline, children, description, title, childrenDescription } = props;
   const ComponentToRender = inline ? StyledSettingItemInline : StyledSettingItem;
@@ -129,7 +129,7 @@ export const SessionToggleWithDescription = (props: {
   active: boolean;
   onClickToggle: () => void;
   confirmationDialogParams?: SessionConfirmDialogProps;
-  childrenDescription?: React.ReactNode; // if set, those elements will be appended next to description field (only used for typing message settings as of now)
+  childrenDescription?: ReactNode; // if set, those elements will be appended next to description field (only used for typing message settings as of now)
   dataTestId?: string;
 }) => {
   const {

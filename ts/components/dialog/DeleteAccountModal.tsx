@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
 import { ed25519Str } from '../../session/onions/onionPath';

@@ -1,5 +1,5 @@
 import _, { debounce, isEmpty } from 'lodash';
-import React from 'react';
+
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -7,6 +7,7 @@ import { AbortController } from 'abort-controller';
 import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 
 import autoBind from 'auto-bind';
+import { Component, RefObject, createRef } from 'react';
 import * as MIME from '../../../types/MIME';
 
 import { SessionEmojiPanel, StyledEmojiPanel } from '../SessionEmojiPanel';
@@ -268,10 +269,10 @@ const StyledSendMessageInput = styled.div<{ dir?: HTMLDirection }>`
   }
 `;
 
-class CompositionBoxInner extends React.Component<Props, State> {
-  private readonly textarea: React.RefObject<any>;
-  private readonly fileInput: React.RefObject<HTMLInputElement>;
-  private readonly emojiPanel: React.RefObject<HTMLDivElement>;
+class CompositionBoxInner extends Component<Props, State> {
+  private readonly textarea: RefObject<any>;
+  private readonly fileInput: RefObject<HTMLInputElement>;
+  private readonly emojiPanel: RefObject<HTMLDivElement>;
   private readonly emojiPanelButton: any;
   private linkPreviewAbortController?: AbortController;
   private container: HTMLDivElement | null;
@@ -281,13 +282,13 @@ class CompositionBoxInner extends React.Component<Props, State> {
     super(props);
     this.state = getDefaultState(props.selectedConversationKey);
 
-    this.textarea = React.createRef();
-    this.fileInput = React.createRef();
+    this.textarea = createRef();
+    this.fileInput = createRef();
 
     this.container = null;
     // Emojis
-    this.emojiPanel = React.createRef();
-    this.emojiPanelButton = React.createRef();
+    this.emojiPanel = createRef();
+    this.emojiPanelButton = createRef();
     autoBind(this);
     this.toggleEmojiPanel = debounce(this.toggleEmojiPanel.bind(this), 100);
   }

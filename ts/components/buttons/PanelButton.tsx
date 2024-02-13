@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from '../basic/Flex';
 

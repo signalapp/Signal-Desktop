@@ -1,7 +1,9 @@
 import { debounce, noop } from 'lodash';
-import React, {
+import {
   AriaRole,
+  MouseEvent,
   MouseEventHandler,
+  ReactNode,
   useCallback,
   useContext,
   useLayoutEffect,
@@ -31,7 +33,7 @@ import { useSelectedConversationKey } from '../../../../state/selectors/selected
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 export type ReadableMessageProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   messageId: string;
   className?: string;
   receivedAt: number | undefined;
@@ -40,7 +42,7 @@ export type ReadableMessageProps = {
   onDoubleClickCapture?: MouseEventHandler<HTMLElement>;
   role?: AriaRole;
   dataTestId: string;
-  onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
+  onContextMenu?: (e: MouseEvent<HTMLElement>) => void;
   isControlMessage?: boolean;
 };
 

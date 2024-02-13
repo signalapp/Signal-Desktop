@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React from 'react';
+
+import { MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../data/data';
@@ -114,10 +115,7 @@ const MentionAtSymbol = styled.span`
 /**
  * When clicking on the `@` symbol of a conversation, we open the conversation to the first unread message tagging us (with the @pubkey syntax)
  */
-async function openConvoToLastMention(
-  e: React.MouseEvent<HTMLSpanElement>,
-  conversationId: string
-) {
+async function openConvoToLastMention(e: MouseEvent<HTMLSpanElement>, conversationId: string) {
   e.stopPropagation();
   e.preventDefault();
 

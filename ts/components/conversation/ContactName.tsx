@@ -1,12 +1,11 @@
-import React from 'react';
 import classNames from 'classnames';
 import { CSSProperties } from 'styled-components';
 
-import { Emojify } from './Emojify';
 import {
-  useNicknameOrProfileNameOrShortenedPubkey,
   useIsPrivate,
+  useNicknameOrProfileNameOrShortenedPubkey,
 } from '../../hooks/useParamSelector';
+import { Emojify } from './Emojify';
 
 type Props = {
   pubkey: string;
@@ -29,7 +28,7 @@ export const ContactName = (props: Props) => {
     ? {
         fontWeight: 'bold',
       }
-    : {}) as React.CSSProperties;
+    : {}) as CSSProperties;
   const textProfile = profileName || name || convoName || window.i18n('anonymous');
 
   return (

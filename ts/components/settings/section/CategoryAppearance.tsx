@@ -1,10 +1,8 @@
-import React from 'react';
-
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
-import { isHideMenuBarSupported } from '../../../types/Settings';
 import { useHasFollowSystemThemeEnabled } from '../../../state/selectors/settings';
 import { ensureThemeConsistency } from '../../../themes/SessionTheme';
+import { isHideMenuBarSupported } from '../../../types/Settings';
 import { SessionToggleWithDescription } from '../SessionSettingListItem';
 import { SettingsThemeSwitcher } from '../SettingsThemeSwitcher';
 import { ZoomingSessionSlider } from '../ZoomingSessionSlider';

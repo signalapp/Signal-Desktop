@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { contextMenu, Item, Menu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -40,7 +40,7 @@ const VideoInputMenu = ({
 
 const showVideoInputMenu = (
   currentConnectedCameras: Array<InputItem>,
-  e: React.MouseEvent<HTMLDivElement>
+  e: MouseEvent<HTMLDivElement>
 ) => {
   if (currentConnectedCameras.length === 0) {
     ToastUtils.pushNoCameraFound();
@@ -113,7 +113,7 @@ const AudioInputMenu = ({
 
 const showAudioInputMenu = (
   currentConnectedAudioInputs: Array<any>,
-  e: React.MouseEvent<HTMLDivElement>
+  e: MouseEvent<HTMLDivElement>
 ) => {
   if (currentConnectedAudioInputs.length === 0) {
     ToastUtils.pushNoAudioInputFound();
@@ -182,7 +182,7 @@ const AudioOutputMenu = ({
 
 const showAudioOutputMenu = (
   currentConnectedAudioOutputs: Array<any>,
-  e: React.MouseEvent<HTMLDivElement>
+  e: MouseEvent<HTMLDivElement>
 ) => {
   if (currentConnectedAudioOutputs.length === 0) {
     ToastUtils.pushNoAudioOutputFound();

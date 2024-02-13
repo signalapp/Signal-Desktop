@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Noop } from '../../types/Util';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
 import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SessionIconButton } from '../icon';
 import { RegistrationContext, RegistrationPhase, signUp } from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
-import { sanitizeDisplayNameOrToast, SignInMode } from './SignInTab';
+import { SignInMode, sanitizeDisplayNameOrToast } from './SignInTab';
 import { TermsAndConditions } from './TermsAndConditions';
-import { Noop } from '../../types/Util';
 
 export enum SignUpMode {
   Default,

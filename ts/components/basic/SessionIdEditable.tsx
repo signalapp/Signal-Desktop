@@ -1,5 +1,5 @@
-import React, { ChangeEvent, KeyboardEvent, useRef } from 'react';
 import classNames from 'classnames';
+import { ChangeEvent, KeyboardEvent, useRef } from 'react';
 import { useFocusMount } from '../../hooks/useFocusMount';
 
 type Props = {

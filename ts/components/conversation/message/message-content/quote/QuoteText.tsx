@@ -1,11 +1,11 @@
 import { isEmpty } from 'lodash';
-import React from 'react';
+
 import styled from 'styled-components';
+import { useSelectedIsGroup } from '../../../../../state/selectors/selectedConversation';
 import { MIME } from '../../../../../types';
 import { GoogleChrome } from '../../../../../util';
 import { MessageBody } from '../MessageBody';
 import { QuoteProps } from './Quote';
-import { useSelectedIsGroup } from '../../../../../state/selectors/selectedConversation';
 
 const StyledQuoteText = styled.div<{ isIncoming: boolean }>`
   display: -webkit-box;

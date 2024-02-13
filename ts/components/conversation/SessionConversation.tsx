@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import React from 'react';
 
 import autoBind from 'auto-bind';
 import { blobToArrayBuffer } from 'blob-util';
 import loadImage from 'blueimp-load-image';
 import classNames from 'classnames';
+import { Component, RefObject, createRef } from 'react';
 import styled from 'styled-components';
 import {
   CompositionBox,
@@ -103,8 +103,8 @@ const ConvoLoadingSpinner = () => {
   );
 };
 
-export class SessionConversation extends React.Component<Props, State> {
-  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
+export class SessionConversation extends Component<Props, State> {
+  private readonly messageContainerRef: RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
   private readonly updateMemberList: () => any;
@@ -115,7 +115,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.state = {
       isDraggingFile: false,
     };
-    this.messageContainerRef = React.createRef();
+    this.messageContainerRef = createRef();
     this.dragCounter = 0;
     this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 10000);
 

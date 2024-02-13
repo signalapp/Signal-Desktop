@@ -1,4 +1,3 @@
-import React from 'react';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 
 export const TermsAndConditions = () => {
