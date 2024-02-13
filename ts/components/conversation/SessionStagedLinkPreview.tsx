@@ -1,6 +1,5 @@
-// eslint-disable-next-line import/no-named-default
 import { AbortSignal } from 'abort-controller';
-import { default as insecureNodeFetch } from 'node-fetch';
+import insecureNodeFetch from 'node-fetch';
 import { StagedLinkPreviewData } from './composition/CompositionBox';
 
 import { arrayBufferFromFile } from '../../types/Attachment';

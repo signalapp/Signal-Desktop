@@ -12,7 +12,7 @@ import {
   PrimaryColorStateType,
   THEMES,
   ThemeStateType,
-} from '../../themes/constants/colors.js';
+} from '../../themes/constants/colors';
 import { FixedBaseEmoji } from '../../types/Reaction';
 import { i18nEmojiData } from '../../util/emoji';
 import { hexColorToRGB } from '../../util/hexColorToRGB';
