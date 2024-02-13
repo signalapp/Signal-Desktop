@@ -70,7 +70,7 @@ export const ToggleEmojiButton = forwardRef<HTMLDivElement, { onClick: Noop }>((
 
 export const SendMessageButton = (props: { onClick: Noop }) => {
   return (
-    <StyledChatButtonContainer className="send-message-button">
+    <StyledChatButtonContainer>
       <SessionIconButton
         iconType="send"
         backgroundColor={'var(--chat-buttons-background-color)'}

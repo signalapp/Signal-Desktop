@@ -163,12 +163,7 @@ export class SessionRecording extends Component<Props, State> {
         ) : null}
 
         {!isRecording && (
-          <div
-            className={classNames(
-              'send-message-button',
-              hasRecording && 'send-message-button---scale'
-            )}
-          >
+          <div>
             <SessionIconButton
               iconType="send"
               iconSize={'large'}
