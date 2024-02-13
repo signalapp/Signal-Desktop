@@ -12,8 +12,8 @@ import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 import { switchThemeTo } from '../themes/switchTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { SessionWrapperModal } from './SessionWrapperModal';
-import { SessionSpinner } from './basic/SessionSpinner';
 import { SessionToast } from './basic/SessionToast';
+import { SessionSpinner } from './loading';
 
 interface State {
   errorCount: number;

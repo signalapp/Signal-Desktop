@@ -13,7 +13,7 @@ import { updateRemoveModeratorsModal } from '../../state/ducks/modalDialog';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionSpinner } from '../loading';
 
 type Props = {
   conversationId: string;

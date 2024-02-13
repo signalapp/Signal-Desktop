@@ -21,7 +21,7 @@ import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
 import { DEVICE_DISABLED_DEVICE_ID } from '../../session/utils/calling/CallManager';
 import { CallWindowControls } from './CallButtons';
 
-import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionSpinner } from '../loading';
 
 const VideoContainer = styled.div`
   height: 100%;

@@ -18,8 +18,8 @@ import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
+import { SessionSpinner } from '../loading';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();

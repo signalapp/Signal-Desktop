@@ -28,7 +28,7 @@ import {
   isVideo,
 } from '../../../../types/Attachment';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
-import { Spinner } from '../../../basic/Spinner';
+import { Spinner } from '../../../loading';
 import { AudioPlayerWithEncryptedFile } from '../../H5AudioPlayer';
 import { ImageGrid } from '../../ImageGrid';
 import { LightBoxOptions } from '../../SessionConversation';

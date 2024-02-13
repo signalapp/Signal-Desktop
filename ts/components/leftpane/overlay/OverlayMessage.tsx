@@ -11,7 +11,7 @@ import { openConversationWithMessages } from '../../../state/ducks/conversations
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
-import { SessionSpinner } from '../../basic/SessionSpinner';
+import { SessionSpinner } from '../../loading';
 import { OverlayHeader } from './OverlayHeader';
 
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';

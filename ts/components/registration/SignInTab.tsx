@@ -3,8 +3,8 @@ import { ToastUtils } from '../../session/utils';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
+import { SessionSpinner } from '../loading';
 import {
   RegistrationContext,
   RegistrationPhase,

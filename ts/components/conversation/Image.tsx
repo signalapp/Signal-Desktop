@@ -6,7 +6,7 @@ import { isNumber } from 'lodash';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
-import { Spinner } from '../basic/Spinner';
+import { Spinner } from '../loading';
 
 type Props = {
   alt: string;

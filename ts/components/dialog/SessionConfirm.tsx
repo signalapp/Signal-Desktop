@@ -13,9 +13,9 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionRadioGroup, SessionRadioItems } from '../basic/SessionRadioGroup';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
+import { SessionSpinner } from '../loading';
 
 const StyledSubText = styled(SessionHtmlRenderer)<{ textLength: number }>`
   font-size: var(--font-size-md);

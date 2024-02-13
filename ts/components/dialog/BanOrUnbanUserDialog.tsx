@@ -17,8 +17,8 @@ import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerSM } from '../basic/Text';
+import { SessionSpinner } from '../loading';
 
 async function banOrUnBanUserCall(
   convo: ConversationModel,

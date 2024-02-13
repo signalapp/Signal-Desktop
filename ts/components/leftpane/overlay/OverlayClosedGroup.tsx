@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
-import { SessionSpinner } from '../../basic/SessionSpinner';
+import { SessionSpinner } from '../../loading';
 import { MemberListItem } from '../../MemberListItem';
 import { OverlayHeader } from './OverlayHeader';
 

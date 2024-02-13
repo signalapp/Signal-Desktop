@@ -16,9 +16,9 @@ import {
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
 
-import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionIcon, SessionIconButton } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionIcon, SessionIconButton } from '../icon';
+import { SessionSpinner } from '../loading';
 
 export type StatusLightType = {
   glowStartDelay: number;

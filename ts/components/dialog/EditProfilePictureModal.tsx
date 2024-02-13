@@ -7,9 +7,9 @@ import { editProfileModal, updateEditProfilePictureModel } from '../../state/duc
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
+import { SessionSpinner } from '../loading';
 import { ProfileAvatar } from './EditProfileDialog';
 
 const StyledAvatarContainer = styled.div`

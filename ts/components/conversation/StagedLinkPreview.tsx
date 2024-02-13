@@ -5,8 +5,8 @@ import { Image } from './Image';
 import { fromArrayBufferToBase64 } from '../../session/utils/String';
 import { isImage } from '../../types/MIME';
 import { Flex } from '../basic/Flex';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
+import { SessionSpinner } from '../loading';
 import { StagedLinkPreviewImage } from './composition/CompositionBox';
 
 type Props = {

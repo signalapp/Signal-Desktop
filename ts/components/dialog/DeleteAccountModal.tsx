@@ -6,8 +6,8 @@ import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/sync/sync
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
+import { SessionSpinner } from '../loading';
 
 import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
