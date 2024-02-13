@@ -23,9 +23,13 @@ import { Header, HeaderSubtitle, HeaderTitle, StyledScrollContainer } from '../c
 import { DisappearingModes } from './DisappearingModes';
 import { TimeOptions } from './TimeOptions';
 
+const ButtonSpacer = styled.div`
+  height: 80px;
+`;
+
 const StyledButtonContainer = styled.div`
   background: linear-gradient(0deg, black, transparent);
-  position: sticky;
+  position: absolute;
   width: 100%;
   bottom: 0px;
 
@@ -210,6 +214,8 @@ export const OverlayDisappearingMessages = () => {
             </StyledNonAdminDescription>
           </>
         )}
+        <ButtonSpacer />
+
         <StyledButtonContainer>
           <SessionButton
             onClick={handleSetMode}
