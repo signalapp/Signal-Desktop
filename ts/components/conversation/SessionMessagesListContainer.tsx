@@ -3,7 +3,7 @@ import { contextMenu } from 'react-contexify';
 import { connect } from 'react-redux';
 
 import autoBind from 'auto-bind';
-import { Component, createContext } from 'react';
+import { Component, RefObject, createContext } from 'react';
 import styled from 'styled-components';
 import {
   ReduxConversationType,
@@ -26,7 +26,7 @@ import { SessionMessagesList } from './SessionMessagesList';
 import { TypingBubble } from './TypingBubble';
 
 export type SessionMessageListProps = {
-  messageContainerRef: React.RefObject<HTMLDivElement>;
+  messageContainerRef: RefObject<HTMLDivElement>;
 };
 export const messageContainerDomID = 'messages-container';
 

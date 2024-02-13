@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import classNames from 'classnames';
 import { Noop } from '../../types/Util';
@@ -78,7 +78,7 @@ export const SessionInput = (props: Props) => {
 
   const correctType = forceShow ? 'text' : type;
 
-  const updateInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const val = e.target.value;
     setInputValue(val);

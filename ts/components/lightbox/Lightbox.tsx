@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { CSSProperties, MouseEvent, MutableRefObject, useRef } from 'react';
 
 import { isUndefined } from 'lodash';
 import { useDispatch } from 'react-redux';
@@ -46,7 +46,7 @@ const styles = {
     top: 0,
     bottom: 0,
     backgroundColor: 'var(--lightbox-background-color)',
-  } as React.CSSProperties,
+  } as CSSProperties,
   mainContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -58,13 +58,13 @@ const styles = {
     minHeight: 0,
     overflow: 'hidden',
     minWidth: 0,
-  } as React.CSSProperties,
+  } as CSSProperties,
   objectContainer: {
     position: 'relative',
     flexGrow: 1,
     display: 'inline-flex',
     justifyContent: 'center',
-  } as React.CSSProperties,
+  } as CSSProperties,
   objectParentContainer: {
     flexGrow: 1,
     textAlign: 'center' as const,
@@ -76,7 +76,7 @@ const styles = {
     maxWidth: '80vw',
     maxHeight: '80vh',
     objectFit: 'contain',
-  } as React.CSSProperties,
+  } as CSSProperties,
   caption: {
     position: 'absolute',
     bottom: 0,
@@ -88,7 +88,7 @@ const styles = {
     paddingLeft: '3em',
     paddingRight: '3em',
     backgroundColor: 'var(--lightbox-caption-background-color)',
-  } as React.CSSProperties,
+  } as CSSProperties,
   controlsOffsetPlaceholder: {
     width: CONTROLS_WIDTH,
     marginRight: CONTROLS_SPACING,
@@ -101,7 +101,7 @@ const styles = {
     flexDirection: 'column',
     marginLeft: CONTROLS_SPACING,
     justifyContent: 'space-between',
-  } as React.CSSProperties,
+  } as CSSProperties,
   navigationContainer: {
     flexShrink: 0,
     display: 'flex',
@@ -109,7 +109,7 @@ const styles = {
     justifyContent: 'center',
     padding: 10,
     height: '50px', // force it so the buttons stick to the bottom
-  } as React.CSSProperties,
+  } as CSSProperties,
   saveButton: {
     marginTop: 10,
   },
@@ -134,7 +134,7 @@ const StyledIconButton = styled.div`
 
 interface IconButtonProps {
   onClick?: () => void;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   type: 'save' | 'close' | 'previous' | 'next';
 }
 
@@ -186,7 +186,7 @@ const Icon = ({
   onClick,
   url,
 }: {
-  onClick?: (event: React.MouseEvent<HTMLImageElement | HTMLDivElement>) => void;
+  onClick?: (event: MouseEvent<HTMLImageElement | HTMLDivElement>) => void;
   url: string;
 }) => (
   <div
@@ -208,7 +208,7 @@ export const LightboxObject = ({
 }: {
   objectURL: string;
   contentType: MIME.MIMEType;
-  renderedRef: React.MutableRefObject<any>;
+  renderedRef: MutableRefObject<any>;
   onObjectClick: (event: any) => any;
 }) => {
   const { urlToLoad } = useEncryptedFileFetch(objectURL, contentType, false);
@@ -280,7 +280,7 @@ export const Lightbox = (props: Props) => {
     dispatch(showLightBox(undefined));
   };
 
-  const onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const onContainerClick = (event: MouseEvent<HTMLDivElement>) => {
     if (renderedRef && event.target === renderedRef.current) {
       return;
     }

@@ -3,7 +3,7 @@ import { shell } from 'electron';
 import autoBind from 'auto-bind';
 import styled from 'styled-components';
 
-import { Component, createRef } from 'react';
+import { Component, RefObject, createRef } from 'react';
 import { SettingsHeader } from './SessionSettingsHeader';
 
 import { SessionIconButton } from '../icon';
@@ -161,7 +161,7 @@ const StyledSettingsList = styled.div`
 `;
 
 export class SessionSettingsView extends Component<SettingsViewProps, State> {
-  public settingsViewRef: React.RefObject<HTMLDivElement>;
+  public settingsViewRef: RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
     super(props);

@@ -28,7 +28,7 @@ export const ContactName = (props: Props) => {
     ? {
         fontWeight: 'bold',
       }
-    : {}) as React.CSSProperties;
+    : {}) as CSSProperties;
   const textProfile = profileName || name || convoName || window.i18n('anonymous');
 
   return (

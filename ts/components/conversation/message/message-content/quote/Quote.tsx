@@ -51,7 +51,7 @@ export type QuoteProps = {
   text?: string;
   attachment?: QuotedAttachmentType;
 
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 };
 
 export interface QuotedAttachmentThumbnailType {

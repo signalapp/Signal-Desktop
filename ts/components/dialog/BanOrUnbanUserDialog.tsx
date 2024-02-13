@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useFocusMount } from '../../hooks/useFocusMount';
@@ -108,7 +108,7 @@ export const BanOrUnBanUserDialog = (props: {
   const chatName = convo.getNicknameOrRealUsernameOrPlaceholder();
   const title = `${isBan ? window.i18n('banUser') : window.i18n('unbanUser')}: ${chatName}`;
 
-  const onPubkeyBoxChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onPubkeyBoxChanges = (e: ChangeEvent<HTMLInputElement>) => {
     setInputBoxValue(e.target.value?.trim() || '');
   };
 

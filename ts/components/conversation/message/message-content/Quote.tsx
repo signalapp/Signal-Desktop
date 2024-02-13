@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import * as MIME from '../../../../types/MIME';
 import * as GoogleChrome from '../../../../util/GoogleChrome';
@@ -27,7 +27,7 @@ export type QuotePropsWithoutListener = {
 };
 
 export type QuotePropsWithListener = QuotePropsWithoutListener & {
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 };
 
 export interface QuotedAttachmentType {

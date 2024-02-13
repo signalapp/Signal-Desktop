@@ -1,5 +1,6 @@
 import { isEmpty, toNumber } from 'lodash';
 
+import { MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
@@ -34,7 +35,7 @@ export const MessageQuote = (props: Props) => {
     quote.referencedMessageNotFound || !quote?.author || !quote.id || !quote.convoId
   );
 
-  const onQuoteClick = async (event: React.MouseEvent<HTMLDivElement>) => {
+  const onQuoteClick = async (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.stopPropagation();
 

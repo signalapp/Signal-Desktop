@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
@@ -103,7 +104,7 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
     });
   };
 
-  const openRequests = (e: React.MouseEvent<HTMLDivElement>) => {
+  const openRequests = (e: MouseEvent<HTMLDivElement>) => {
     if (e.button === 0) {
       handleOnClick();
     }

@@ -4,7 +4,7 @@ import autoBind from 'auto-bind';
 import { blobToArrayBuffer } from 'blob-util';
 import loadImage from 'blueimp-load-image';
 import classNames from 'classnames';
-import { Component, createRef } from 'react';
+import { Component, RefObject, createRef } from 'react';
 import styled from 'styled-components';
 import {
   CompositionBox,
@@ -104,7 +104,7 @@ const ConvoLoadingSpinner = () => {
 };
 
 export class SessionConversation extends Component<Props, State> {
-  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
+  private readonly messageContainerRef: RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
   private readonly updateMemberList: () => any;
