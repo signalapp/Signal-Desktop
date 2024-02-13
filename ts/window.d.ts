@@ -61,7 +61,7 @@ export type IPCType = {
   closeAbout: () => void;
   crashReports: {
     getCount: () => Promise<number>;
-    upload: () => Promise<void>;
+    writeToLog: () => Promise<void>;
     erase: () => Promise<void>;
   };
   drawAttention: () => void;

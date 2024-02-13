@@ -27,7 +27,7 @@ export async function updateConversationsWithUuidLookup({
     return;
   }
 
-  const serverLookup = await getServiceIdsForE164s(server, e164s);
+  const { entries: serverLookup } = await getServiceIdsForE164s(server, e164s);
 
   await Promise.all(
     conversations.map(async conversation => {

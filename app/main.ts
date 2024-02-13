@@ -211,7 +211,7 @@ const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
 
 const CLI_LANG = cliOptions.lang as string | undefined;
 
-setupCrashReports(getLogger, FORCE_ENABLE_CRASH_REPORTS);
+setupCrashReports(getLogger, showDebugLogWindow, FORCE_ENABLE_CRASH_REPORTS);
 
 let sendDummyKeystroke: undefined | (() => void);
 if (OS.isWindows()) {
