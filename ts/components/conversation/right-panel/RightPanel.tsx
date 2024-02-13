@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../hooks/useUI';
 import { isRtlBody } from '../../../util/i18n';

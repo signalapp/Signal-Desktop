@@ -1,5 +1,5 @@
 import { debounce, noop } from 'lodash';
-import React, {
+import {
   AriaRole,
   MouseEventHandler,
   useCallback,

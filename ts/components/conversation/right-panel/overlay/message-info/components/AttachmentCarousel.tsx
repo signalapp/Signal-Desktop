@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { PropsForAttachment } from '../../../../../../state/ducks/conversations';
 import { getAlt, getThumbnailUrl, isVideoAttachment } from '../../../../../../types/Attachment';

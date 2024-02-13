@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Item, Submenu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
 import {

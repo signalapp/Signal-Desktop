@@ -1,4 +1,3 @@
-import React from 'react';
 import { useConversationUsername } from '../../../../hooks/useParamSelector';
 import { PropsForMessageRequestResponse } from '../../../../models/messageType';
 import { UserUtils } from '../../../../session/utils';

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import classNames from 'classnames';
-import { SessionIconButton } from '../icon';
 import { Noop } from '../../types/Util';
 import { useHTMLDirection } from '../../util/i18n';
+import { SessionIconButton } from '../icon';
 
 type Props = {
   label?: string;

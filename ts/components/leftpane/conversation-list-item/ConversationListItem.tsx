@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { isNil } from 'lodash';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';

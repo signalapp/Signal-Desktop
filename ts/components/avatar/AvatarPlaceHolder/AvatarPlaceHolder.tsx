@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
 import { COLORS } from '../../../themes/constants/colors';
 import { getInitials } from '../../../util/getInitials';
-import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
 import { MemberAvatarPlaceHolder } from '../../icon/MemberAvatarPlaceHolder';
 
 type Props = {

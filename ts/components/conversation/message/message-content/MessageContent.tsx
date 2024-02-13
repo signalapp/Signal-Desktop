@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
-import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';

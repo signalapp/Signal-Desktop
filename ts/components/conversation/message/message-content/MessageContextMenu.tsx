@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
 import { isNumber } from 'lodash';
 import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';

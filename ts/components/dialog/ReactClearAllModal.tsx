@@ -1,14 +1,14 @@
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
 import { clearSogsReactionByServerId } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearReaction';
 import { getConversationController } from '../../session/conversations';
 import { updateReactClearAllModal } from '../../state/ducks/modalDialog';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionWrapperModal } from '../SessionWrapperModal';
 
 type Props = {
   reaction: string;

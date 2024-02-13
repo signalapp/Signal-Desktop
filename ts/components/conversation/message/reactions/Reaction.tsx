@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import { useMouse } from 'react-use';
 import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../../hooks/useUI';

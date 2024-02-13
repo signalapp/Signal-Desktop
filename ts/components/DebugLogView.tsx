@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { switchThemeTo } from '../themes/switchTheme';
 import { SessionTheme } from '../themes/SessionTheme';
+import { switchThemeTo } from '../themes/switchTheme';
 import { fetch } from '../util/logging';
 import { SessionButton, SessionButtonType } from './basic/SessionButton';
 import { SessionIconButton } from './icon';

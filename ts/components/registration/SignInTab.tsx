@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ToastUtils } from '../../session/utils';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { CSSProperties } from 'styled-components';
 
 type TextProps = {

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { sogsV3AddAdmin } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
+import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { Flex } from '../basic/Flex';
-import { getConversationController } from '../../session/conversations';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
+import { isDarkTheme } from '../../state/selectors/theme';
+import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { sogsV3AddAdmin } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
-import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
-import { isDarkTheme } from '../../state/selectors/theme';
 
 type Props = {
   conversationId: string;

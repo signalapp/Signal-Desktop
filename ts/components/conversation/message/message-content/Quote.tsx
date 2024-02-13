@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
 import { noop } from 'lodash';
+import { useState } from 'react';
 
 import * as MIME from '../../../../types/MIME';
 import * as GoogleChrome from '../../../../util/GoogleChrome';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { contextMenu, Item, Menu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';

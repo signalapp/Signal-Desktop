@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
 import classNames from 'classnames';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 export enum SessionButtonType {

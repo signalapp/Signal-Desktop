@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
+import { findAndFormatContact } from '../../../../models/message';
 import { PubKey } from '../../../../session/types/PubKey';
 import { isDarkTheme } from '../../../../state/selectors/theme';
 import { nativeEmojiData } from '../../../../util/emoji';
-import { findAndFormatContact } from '../../../../models/message';
 
 export type TipPosition = 'center' | 'left' | 'right';
 

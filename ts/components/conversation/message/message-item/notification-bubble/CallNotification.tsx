@@ -1,4 +1,3 @@
-import React from 'react';
 import { PubKey } from '../../../../../session/types';
 
 import {

@@ -1,7 +1,7 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
-import { SessionIconButton } from '../../icon';
 import { Noop } from '../../../types/Util';
+import { SessionIconButton } from '../../icon';
 
 const StyledChatButtonContainer = styled.div`
   .session-icon-button {
@@ -50,25 +50,23 @@ export const StartRecordingButton = (props: { onClick: Noop }) => {
 };
 
 // eslint-disable-next-line react/display-name
-export const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: Noop }>(
-  (props, ref) => {
-    return (
-      <StyledChatButtonContainer>
-        <SessionIconButton
-          iconType="emoji"
-          ref={ref}
-          backgroundColor={'var(--chat-buttons-background-color)'}
-          iconColor={'var(--chat-buttons-icon-color)'}
-          iconSize={'huge2'}
-          borderRadius="300px"
-          iconPadding="6px"
-          onClick={props.onClick}
-          dataTestId="emoji-button"
-        />
-      </StyledChatButtonContainer>
-    );
-  }
-);
+export const ToggleEmojiButton = forwardRef<HTMLDivElement, { onClick: Noop }>((props, ref) => {
+  return (
+    <StyledChatButtonContainer>
+      <SessionIconButton
+        iconType="emoji"
+        ref={ref}
+        backgroundColor={'var(--chat-buttons-background-color)'}
+        iconColor={'var(--chat-buttons-icon-color)'}
+        iconSize={'huge2'}
+        borderRadius="300px"
+        iconPadding="6px"
+        onClick={props.onClick}
+        dataTestId="emoji-button"
+      />
+    </StyledChatButtonContainer>
+  );
+});
 
 export const SendMessageButton = (props: { onClick: Noop }) => {
   return (

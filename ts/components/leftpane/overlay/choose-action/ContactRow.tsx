@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { CSSProperties } from 'styled-components';
 import { useAvatarPath } from '../../../../hooks/useParamSelector';

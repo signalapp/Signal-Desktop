@@ -1,6 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
 import { contextMenu } from 'react-contexify';
+import styled from 'styled-components';
 
 type SProps = {
   onArrowClick: (e: React.MouseEvent<HTMLDivElement>) => void;

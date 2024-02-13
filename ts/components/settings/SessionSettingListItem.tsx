@@ -1,6 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
+import { Noop } from '../../types/Util';
 import {
   SessionButton,
   SessionButtonColor,
@@ -10,7 +10,6 @@ import {
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
 import { SessionIconButton } from '../icon';
-import { Noop } from '../../types/Util';
 
 type ButtonSettingsProps = {
   title?: string;

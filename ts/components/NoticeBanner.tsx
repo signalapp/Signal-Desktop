@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Flex } from './basic/Flex';
 import { SessionIconButton } from './icon';

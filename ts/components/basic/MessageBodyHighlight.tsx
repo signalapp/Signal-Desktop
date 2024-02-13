@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { RenderTextCallbackType } from '../../types/Util';
 import { SizeClassType } from '../../util/emoji';

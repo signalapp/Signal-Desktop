@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
-import classNames from 'classnames';
-import autoBind from 'auto-bind';
 
-import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SpacerMD } from '../basic/Text';
-import { updateGroupNameModal } from '../../state/ducks/modalDialog';
+import autoBind from 'auto-bind';
+import classNames from 'classnames';
+
+import { Component } from 'react';
 import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { initiateOpenGroupUpdate } from '../../session/group/open-group';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
+import { initiateOpenGroupUpdate } from '../../session/group/open-group';
+import { updateGroupNameModal } from '../../state/ducks/modalDialog';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerMD } from '../basic/Text';
 
 type Props = {
   conversationId: string;
@@ -26,7 +27,7 @@ interface State {
   newAvatarObjecturl: string | null;
 }
 
-export class UpdateGroupNameDialog extends React.Component<Props, State> {
+export class UpdateGroupNameDialog extends Component<Props, State> {
   private readonly convo: ConversationModel;
 
   constructor(props: Props) {

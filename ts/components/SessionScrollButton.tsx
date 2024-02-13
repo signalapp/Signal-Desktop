@@ -1,10 +1,9 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getShowScrollButton } from '../state/selectors/conversations';
 
-import { SessionIconButton } from './icon';
 import { Noop } from '../types/Util';
+import { SessionIconButton } from './icon';
 
 const SessionScrollButtonDiv = styled.div`
   position: fixed;

@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import { useConversationUsername, useIsMe, useIsPrivate } from '../../hooks/useParamSelector';
 import { Avatar, AvatarSize } from '../avatar/Avatar';

@@ -1,17 +1,17 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
-import useUnmount from 'react-use/lib/useUnmount';
-import { useDispatch } from 'react-redux';
 import { isUndefined } from 'lodash';
+import { useDispatch } from 'react-redux';
+import useUnmount from 'react-use/lib/useUnmount';
 import styled from 'styled-components';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { showLightBox } from '../../state/ducks/conversations';
+import * as MIME from '../../types/MIME';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { GoogleChrome } from '../../util';
 import { Flex } from '../basic/Flex';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import * as MIME from '../../types/MIME';
-import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 const colorSVG = (url: string, color: string) => {
   return {

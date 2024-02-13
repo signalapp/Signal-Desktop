@@ -1,15 +1,15 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { AccentText } from './AccentText';
 
-import { RegistrationStages } from './RegistrationStages';
-import { SessionIcon } from '../icon';
-import { SessionToastContainer } from '../SessionToastContainer';
 import { SessionTheme } from '../../themes/SessionTheme';
-import { Flex } from '../basic/Flex';
 import { setSignInByLinking } from '../../util/storage';
+import { SessionToastContainer } from '../SessionToastContainer';
+import { Flex } from '../basic/Flex';
+import { SessionIcon } from '../icon';
+import { RegistrationStages } from './RegistrationStages';
 
 export const SessionRegistrationView = () => {
-  React.useEffect(() => {
+  useEffect(() => {
     void setSignInByLinking(false);
   }, []);
   return (

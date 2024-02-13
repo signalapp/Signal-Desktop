@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { isNil, isString, toNumber } from 'lodash';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';

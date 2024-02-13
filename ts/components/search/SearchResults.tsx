@@ -1,8 +1,7 @@
-import React from 'react';
-import styled, { CSSProperties } from 'styled-components';
+import { isString } from 'lodash';
 import { useSelector } from 'react-redux';
 import { AutoSizer, List } from 'react-virtualized';
-import { isString } from 'lodash';
+import styled, { CSSProperties } from 'styled-components';
 
 import { ConversationListItem } from '../leftpane/conversation-list-item/ConversationListItem';
 import { MessageSearchResult } from './MessageSearchResults';

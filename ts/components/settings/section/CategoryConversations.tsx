@@ -1,10 +1,10 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
+import { useHasEnterSendEnabled } from '../../../state/selectors/settings';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
 import { SessionRadioGroup } from '../../basic/SessionRadioGroup';
 import { BlockedContactsList } from '../BlockedList';
@@ -12,7 +12,6 @@ import {
   SessionSettingsItemWrapper,
   SessionToggleWithDescription,
 } from '../SessionSettingListItem';
-import { useHasEnterSendEnabled } from '../../../state/selectors/settings';
 
 async function toggleCommunitiesPruning() {
   try {

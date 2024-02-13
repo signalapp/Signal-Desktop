@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { SessionIcon, SessionIconType } from '../icon';
 import { PanelButton, PanelButtonProps, PanelButtonText, StyledContent } from './PanelButton';

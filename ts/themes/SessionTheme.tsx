@@ -1,10 +1,10 @@
 import { ipcRenderer } from 'electron';
-import React from 'react';
+
 import { createGlobalStyle } from 'styled-components';
-import { switchThemeTo } from './switchTheme';
-import { classicDark } from './classicDark';
 import { getOppositeTheme, isThemeMismatched } from '../util/theme';
-import { declareCSSVariables, THEME_GLOBALS } from './globals';
+import { classicDark } from './classicDark';
+import { THEME_GLOBALS, declareCSSVariables } from './globals';
+import { switchThemeTo } from './switchTheme';
 
 // Defaults to Classic Dark theme
 const SessionGlobalStyles = createGlobalStyle`

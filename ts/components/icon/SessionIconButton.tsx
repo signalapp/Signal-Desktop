@@ -1,13 +1,13 @@
-import React, { KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+import { KeyboardEvent, MouseEvent, forwardRef, memo } from 'react';
 import styled from 'styled-components';
 
 import { SessionIcon, SessionIconProps } from '.';
 import { SessionNotificationCount } from './SessionNotificationCount';
 
 interface SProps extends SessionIconProps {
-  onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (e?: MouseEvent<HTMLDivElement>) => void;
   notificationCount?: number;
   isSelected?: boolean;
   isHidden?: boolean;
@@ -40,7 +40,7 @@ const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolea
 `;
 
 // eslint-disable-next-line react/display-name
-const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, ref) => {
+const SessionIconButtonInner = forwardRef<HTMLDivElement, SProps>((props, ref) => {
   const {
     iconType,
     iconSize,
@@ -62,7 +62,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     style,
     tabIndex,
   } = props;
-  const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+  const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {
       e.stopPropagation();
       props.onClick(e);
@@ -107,4 +107,4 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
   );
 });
 
-export const SessionIconButton = React.memo(SessionIconButtonInner, _.isEqual);
+export const SessionIconButton = memo(SessionIconButtonInner, _.isEqual);

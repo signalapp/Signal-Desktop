@@ -1,9 +1,8 @@
-import React from 'react';
 import moment from 'moment';
 
 import useInterval from 'react-use/lib/useInterval';
-import styled from 'styled-components';
 import useUpdate from 'react-use/lib/useUpdate';
+import styled from 'styled-components';
 
 type Props = {
   timestamp?: number;

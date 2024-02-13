@@ -1,12 +1,12 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { SignUpMode, SignUpTab } from './SignUpTab';
-import { SignInMode, SignInTab } from './SignInTab';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { Data } from '../../data/data';
+import { SettingsKey } from '../../data/settings-key';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
 import { mnDecode } from '../../session/crypto/mnemonic';
 import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
 import { TaskTimedOutError } from '../../session/utils/Promise';
+import { fromHex } from '../../session/utils/String';
 import { trigger } from '../../shims/events';
 import {
   generateMnemonic,
@@ -14,9 +14,9 @@ import {
   sessionGenerateKeyPair,
   signInByLinkingDevice,
 } from '../../util/accountManager';
-import { fromHex } from '../../session/utils/String';
-import { setSignInByLinking, setSignWithRecoveryPhrase, Storage } from '../../util/storage';
-import { SettingsKey } from '../../data/settings-key';
+import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
+import { SignInMode, SignInTab } from './SignInTab';
+import { SignUpMode, SignUpTab } from './SignUpTab';
 
 export async function resetRegistration() {
   await Data.removeAll();
@@ -212,7 +212,7 @@ export const RegistrationStages = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const memoizedValue = React.useMemo(() => {
+  const memoizedValue = useMemo(() => {
     return {
       registrationPhase,
       signInMode,

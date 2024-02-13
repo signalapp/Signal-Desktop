@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+
 import { MAX_USERNAME_BYTES } from '../../session/constants';
 import { SessionInput } from '../basic/SessionInput';
 

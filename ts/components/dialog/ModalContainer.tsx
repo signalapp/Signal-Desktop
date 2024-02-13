@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   getAddModeratorsModal,
@@ -19,23 +18,23 @@ import {
   getUpdateGroupNameModal,
   getUserDetailsModal,
 } from '../../state/selectors/modal';
-import { InviteContactsDialog } from './InviteContactsDialog';
+import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
 import { DeleteAccountModal } from './DeleteAccountModal';
 import { EditProfileDialog } from './EditProfileDialog';
-import { OnionPathModal } from './OnionStatusPathDialog';
-import { UserDetailsDialog } from './UserDetailsDialog';
-import { SessionConfirm } from './SessionConfirm';
-import { SessionPasswordDialog } from './SessionPasswordDialog';
-import { SessionSeedModal } from './SessionSeedModal';
+import { EditProfilePictureModal } from './EditProfilePictureModal';
+import { InviteContactsDialog } from './InviteContactsDialog';
 import { AddModeratorsDialog } from './ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from './ModeratorsRemoveDialog';
+import { OnionPathModal } from './OnionStatusPathDialog';
+import { ReactClearAllModal } from './ReactClearAllModal';
+import { ReactListModal } from './ReactListModal';
+import { SessionConfirm } from './SessionConfirm';
+import { SessionNicknameDialog } from './SessionNicknameDialog';
+import { SessionPasswordDialog } from './SessionPasswordDialog';
+import { SessionSeedModal } from './SessionSeedModal';
 import { UpdateGroupMembersDialog } from './UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from './UpdateGroupNameDialog';
-import { SessionNicknameDialog } from './SessionNicknameDialog';
-import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
-import { ReactListModal } from './ReactListModal';
-import { ReactClearAllModal } from './ReactClearAllModal';
-import { EditProfilePictureModal } from './EditProfilePictureModal';
+import { UserDetailsDialog } from './UserDetailsDialog';
 
 export const ModalContainer = () => {
   const confirmModalState = useSelector(getConfirmModal);

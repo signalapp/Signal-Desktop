@@ -1,4 +1,3 @@
-import React from 'react';
 import { CSSProperties } from 'styled-components';
 
 export const MessageView = () => {
