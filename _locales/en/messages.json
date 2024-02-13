@@ -577,5 +577,7 @@
   "resolution": "Resolution",
   "duration": "Duration",
   "notApplicable": "N/A",
-  "unknownError": "Unknown Error"
+  "unknownError": "Unknown Error",
+  "waitOneMoment": "One moment please...",
+  "loadAccountProgressMessage": "Loading your account"
 }
