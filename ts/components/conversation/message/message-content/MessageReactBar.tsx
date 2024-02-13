@@ -142,10 +142,10 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
     () => {
       setRefresh(!refresh);
     },
-    // We want to force refresh this component a lot more if the message has more than 2 minutes before disappearing,
-    // because when that's the case we also display the seconds left (i.e. 1min 23s) and we want that 23s to be dynamic.
+    // We want to force refresh this component a lot more if the message has less than 1h before disappearing,
+    // because when that's the case we also display the seconds left (i.e. 59min 23s) and we want that 23s to be dynamic.
     // Also, we use a refresh interval of 500 rather than 1s so that the counter is a bit smoother
-    timeLeftMs > 0 && timeLeftMs <= 2 * DURATION.MINUTES ? 500 : null
+    timeLeftMs > 0 && timeLeftMs <= 1 * DURATION.HOURS ? 500 : null
   );
   if (!expirationTimestamp || timeLeftMs < 0) {
     return null;
