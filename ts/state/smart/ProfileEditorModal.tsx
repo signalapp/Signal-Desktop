@@ -18,6 +18,7 @@ import {
   getUsernameLinkColor,
   getUsernameLink,
   getUsernameLinkCorrupted,
+  isInternalUser,
 } from '../selectors/items';
 import { getMe } from '../selectors/conversations';
 import { selectRecentEmojis } from '../selectors/emojis';
@@ -81,6 +82,7 @@ function mapStateToProps(
     usernameLinkColor,
     usernameLinkCorrupted,
     usernameLink,
+    isUsernameDeletionEnabled: isInternalUser(state),
 
     renderEditUsernameModalBody,
   };

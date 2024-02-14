@@ -44,6 +44,9 @@ export default {
     usernameLinkCorrupted: {
       control: 'boolean',
     },
+    isUsernameDeletionEnabled: {
+      control: 'boolean',
+    },
   },
   args: {
     aboutEmoji: '',
@@ -60,6 +63,7 @@ export default {
     usernameLinkColor: Proto.AccountRecord.UsernameLink.Color.PURPLE,
     usernameEditState: UsernameEditState.Editing,
     usernameLinkState: UsernameLinkState.Ready,
+    isUsernameDeletionEnabled: true,
 
     recentEmojis: [],
     skinTone: 0,
