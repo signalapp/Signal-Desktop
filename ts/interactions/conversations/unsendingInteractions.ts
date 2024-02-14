@@ -364,6 +364,7 @@ export async function deleteMessagesByIdForEveryone(
         closeDialog();
       },
       onClickCancel: closeDialog,
+      onClickClose: closeDialog,
       closeAfterInput: false,
     })
   );
