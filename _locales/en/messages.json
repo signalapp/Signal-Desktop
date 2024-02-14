@@ -202,6 +202,7 @@
   "expirationType": "Expiration Type",
   "expirationDuration": "Expiration Duration",
   "disappears": "Disappears",
+  "messageWillDisappear": "Messages will disappear in $countAndUnit$",
   "followSetting": "Follow Setting",
   "followSettingDisabled": "Messages you send will no longer disappear. Are you sure you want to turn off disappearing messages?",
   "followSettingTimeAndType": "Set your messages to disappear <b>$time$</b> after they have been <b>$type$</b>?",
