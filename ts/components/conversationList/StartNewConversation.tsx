@@ -15,7 +15,6 @@ import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import type { LocalizerType } from '../../types/Util';
 import type { ShowConversationType } from '../../state/ducks/conversations';
-import { AvatarColors } from '../../types/Colors';
 
 type PropsData = {
   phoneNumber: ParsedE164Type;
@@ -94,7 +93,6 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
           leading={
             <Avatar
               acceptedMessageRequest={false}
-              color={AvatarColors[0]}
               conversationType="direct"
               searchResult
               i18n={i18n}
