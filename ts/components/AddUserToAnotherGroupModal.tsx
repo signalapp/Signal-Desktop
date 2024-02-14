@@ -175,7 +175,9 @@ export function AddUserToAnotherGroupModal({
           <div className="AddUserToAnotherGroupModal__main-body">
             <SearchInput
               i18n={i18n}
-              placeholder={i18n('icu:contactSearchPlaceholder')}
+              placeholder={i18n(
+                'icu:AddUserToAnotherGroupModal__search-placeholder'
+              )}
               onChange={handleSearchInputChange}
               ref={inputRef}
               value={searchTerm}

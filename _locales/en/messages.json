@@ -43,6 +43,10 @@
     "messageformat": "Add “{contact}” to the group “{group}”",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Search",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} was added to {group}",
     "description": "Shown in toast after a user is added to an existing group"
@@ -356,7 +360,7 @@
     "description": "Placeholder of the search input in left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "Enter a full username with its pair of digits.",
+    "messageformat": "Enter a username followed by a dot and its set of numbers.",
     "description": "Description displayed under search input in left pane when looking up someone by username"
   },
   "icu:CountryCodeSelect__placeholder": {

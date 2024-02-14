@@ -12,6 +12,7 @@ import { getIntl, getTheme } from '../selectors/user';
 import { getBadgesSelector } from '../selectors/badges';
 import { getConversationSelector } from '../selectors/conversations';
 import { getHasStoriesSelector } from '../selectors/stories2';
+import { getActiveCallState } from '../selectors/calling';
 
 const mapStateToProps = (state: StateType): PropsDataType => {
   const { contactId, conversationId } =
@@ -42,6 +43,7 @@ const mapStateToProps = (state: StateType): PropsDataType => {
     areWeASubscriber: getAreWeASubscriber(state),
     areWeAdmin,
     badges: getBadgesSelector(state)(contact.badges),
+    hasActiveCall: Boolean(getActiveCallState(state)),
     contact,
     conversation: currentConversation,
     hasStories,
