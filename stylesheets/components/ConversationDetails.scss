@@ -300,6 +300,7 @@
       padding-inline: 24px;
       user-select: none;
       width: 100%;
+      @include font-body-2;
 
       &--button {
         color: inherit;
@@ -350,7 +351,6 @@
     }
 
     &__info {
-      @include font-body-2;
       margin-top: 4px;
 
       @include light-theme {

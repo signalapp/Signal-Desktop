@@ -33,7 +33,6 @@
 }
 
 @mixin font-title-1 {
-  @include font-family;
   font-weight: 600;
   font-size: 26px;
   line-height: 32px;
@@ -41,7 +40,6 @@
 }
 
 @mixin font-title-2 {
-  @include font-family;
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;
@@ -49,7 +47,6 @@
 }
 
 @mixin font-title-medium {
-  @include font-family;
   font-weight: 600;
   font-size: 18px;
   line-height: 25px;
@@ -57,7 +54,6 @@
 }
 
 @mixin font-body-1 {
-  @include font-family;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.08px;
@@ -77,7 +73,6 @@
 }
 
 @mixin font-body-2 {
-  @include font-family;
   font-size: 13px;
   line-height: 18px;
   letter-spacing: -0.03px;
@@ -101,7 +96,6 @@
 }
 
 @mixin font-subtitle {
-  @include font-family;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0;
@@ -112,7 +106,6 @@
 }
 
 @mixin font-caption {
-  @include font-family;
   font-size: 11px;
   line-height: 14px;
   letter-spacing: 0.06px;

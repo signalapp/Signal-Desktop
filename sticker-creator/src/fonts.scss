@@ -14,7 +14,6 @@ $inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
 }
 
 @mixin font-title-1 {
-  @include font-family;
   font-weight: 600;
   font-size: 26px;
   line-height: 32px;
@@ -22,7 +21,6 @@ $inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
 }
 
 @mixin font-title-2 {
-  @include font-family;
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;
@@ -30,7 +28,6 @@ $inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
 }
 
 @mixin font-body-1 {
-  @include font-family;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.08px;
@@ -50,7 +47,6 @@ $inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
 }
 
 @mixin font-body-2 {
-  @include font-family;
   font-size: 13px;
   line-height: 18px;
   letter-spacing: -0.03px;
@@ -74,14 +70,12 @@ $inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
 }
 
 @mixin font-subtitle {
-  @include font-family;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0;
 }
 
 @mixin font-caption {
-  @include font-family;
   font-size: 11px;
   line-height: 14px;
   letter-spacing: 0.06px;
