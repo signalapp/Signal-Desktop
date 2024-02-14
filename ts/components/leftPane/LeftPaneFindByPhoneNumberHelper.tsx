@@ -15,6 +15,7 @@ import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import type { CountryDataType } from '../../util/getCountryData';
 import { isFetchingByE164 } from '../../util/uuidFetchState';
+import { drop } from '../../util/drop';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import { Spinner } from '../Spinner';
 import { Button } from '../Button';
@@ -27,6 +28,12 @@ export type LeftPaneFindByPhoneNumberPropsType = {
   selectedRegion: string;
   countries: ReadonlyArray<CountryDataType>;
 };
+
+type DoLookupActionsType = Readonly<{
+  showInbox: () => void;
+  showConversation: ShowConversationType;
+}> &
+  LookupConversationWithoutServiceIdActionsType;
 
 export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFindByPhoneNumberPropsType> {
   private readonly searchTerm: string;
@@ -100,13 +107,15 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
     i18n,
     onChangeComposeSearchTerm,
     onChangeComposeSelectedRegion,
+    ...lookupActions
   }: Readonly<{
     i18n: LocalizerType;
     onChangeComposeSearchTerm: (
       event: React.ChangeEvent<HTMLInputElement>
     ) => unknown;
     onChangeComposeSelectedRegion: (newRegion: string) => void;
-  }>): ReactChild {
+  }> &
+    DoLookupActionsType): ReactChild {
     const placeholder = i18n(
       'icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber'
     );
@@ -129,6 +138,11 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
           placeholder={placeholder}
           ref={focusRef}
           value={this.searchTerm}
+          onKeyDown={ev => {
+            if (ev.key === 'Enter') {
+              drop(this.doLookup(lookupActions));
+            }
+          }}
         />
       </div>
     );
@@ -136,38 +150,15 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
 
   override getFooterContents({
     i18n,
-    lookupConversationWithoutServiceId,
-    showUserNotFoundModal,
-    setIsFetchingUUID,
-    showInbox,
-    showConversation,
+    ...lookupActions
   }: Readonly<{
     i18n: LocalizerType;
-    showInbox: () => void;
-    showConversation: ShowConversationType;
   }> &
-    LookupConversationWithoutServiceIdActionsType): ReactChild {
+    DoLookupActionsType): ReactChild {
     return (
       <Button
         disabled={this.isLookupDisabled()}
-        onClick={async () => {
-          if (!this.phoneNumber) {
-            return;
-          }
-
-          const conversationId = await lookupConversationWithoutServiceId({
-            showUserNotFoundModal,
-            setIsFetchingUUID,
-            type: 'e164',
-            e164: this.phoneNumber.e164,
-            phoneNumber: this.searchTerm,
-          });
-
-          if (conversationId != null) {
-            showConversation({ conversationId });
-            showInbox();
-          }
-        }}
+        onClick={() => drop(this.doLookup(lookupActions))}
       >
         {this.isFetching() ? (
           <span aria-label={i18n('icu:loading')} role="status">
@@ -205,6 +196,31 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
 
   shouldRecomputeRowHeights(_old: unknown): boolean {
     return false;
+  }
+
+  private async doLookup({
+    lookupConversationWithoutServiceId,
+    showUserNotFoundModal,
+    setIsFetchingUUID,
+    showInbox,
+    showConversation,
+  }: DoLookupActionsType): Promise<void> {
+    if (!this.phoneNumber || this.isLookupDisabled()) {
+      return;
+    }
+
+    const conversationId = await lookupConversationWithoutServiceId({
+      showUserNotFoundModal,
+      setIsFetchingUUID,
+      type: 'e164',
+      e164: this.phoneNumber.e164,
+      phoneNumber: this.searchTerm,
+    });
+
+    if (conversationId != null) {
+      showConversation({ conversationId });
+      showInbox();
+    }
   }
 
   private isFetching(): boolean {

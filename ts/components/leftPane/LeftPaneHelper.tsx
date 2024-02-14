@@ -47,7 +47,9 @@ export abstract class LeftPaneHelper<T> {
       onChangeComposeSelectedRegion: (newRegion: string) => void;
       updateSearchTerm: (searchTerm: string) => unknown;
       showConversation: ShowConversationType;
-    }>
+      showInbox: () => void;
+    }> &
+      LookupConversationWithoutServiceIdActionsType
   ): null | ReactChild {
     return null;
   }

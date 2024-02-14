@@ -714,6 +714,10 @@ export function LeftPane({
               updateSearchTerm,
               onChangeComposeSelectedRegion: setComposeSelectedRegion,
               showConversation,
+              lookupConversationWithoutServiceId,
+              showUserNotFoundModal,
+              setIsFetchingUUID,
+              showInbox,
             })}
           </NavSidebarSearchHeader>
         )}
