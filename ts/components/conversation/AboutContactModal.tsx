@@ -5,7 +5,8 @@ import React, { useCallback, useEffect } from 'react';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
-import { Avatar, AvatarSize } from '../Avatar';
+import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
+import { Avatar, AvatarBlur, AvatarSize } from '../Avatar';
 import { Modal } from '../Modal';
 import { UserText } from '../UserText';
 import { SharedGroupNames } from '../SharedGroupNames';
@@ -21,7 +22,9 @@ export type ExternalPropsType = Readonly<{
   conversation: ConversationType;
   isSignalConnection: boolean;
   toggleSignalConnectionsModal: () => void;
+  toggleSafetyNumberModal: (id: string) => void;
   updateSharedGroups: (id: string) => void;
+  unblurAvatar: (conversationId: string) => void;
 }>;
 
 export function AboutContactModal({
@@ -29,13 +32,25 @@ export function AboutContactModal({
   conversation,
   isSignalConnection,
   toggleSignalConnectionsModal,
+  toggleSafetyNumberModal,
   updateSharedGroups,
+  unblurAvatar,
   onClose,
 }: PropsType): JSX.Element {
   useEffect(() => {
     // Kick off the expensive hydration of the current sharedGroupNames
     updateSharedGroups(conversation.id);
   }, [conversation.id, updateSharedGroups]);
+
+  const avatarBlur = shouldBlurAvatar(conversation)
+    ? AvatarBlur.BlurPictureWithClickToView
+    : AvatarBlur.NoBlur;
+
+  const onAvatarClick = useCallback(() => {
+    if (avatarBlur === AvatarBlur.BlurPictureWithClickToView) {
+      unblurAvatar(conversation.id);
+    }
+  }, [avatarBlur, unblurAvatar, conversation.id]);
 
   const onSignalConnectionClick = useCallback(
     (ev: React.MouseEvent) => {
@@ -44,6 +59,43 @@ export function AboutContactModal({
     },
     [toggleSignalConnectionsModal]
   );
+
+  const onVerifiedClick = useCallback(
+    (ev: React.MouseEvent) => {
+      ev.preventDefault();
+      toggleSafetyNumberModal(conversation.id);
+    },
+    [toggleSafetyNumberModal, conversation.id]
+  );
+
+  let statusRow: JSX.Element | undefined;
+
+  if (conversation.isBlocked) {
+    statusRow = (
+      <div className="AboutContactModal__row">
+        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--blocked" />
+        {i18n('icu:AboutContactModal__blocked', {
+          name: conversation.title,
+        })}
+      </div>
+    );
+  } else if (!conversation.acceptedMessageRequest) {
+    statusRow = (
+      <div className="AboutContactModal__row">
+        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--message-request" />
+        {i18n('icu:AboutContactModal__message-request')}
+      </div>
+    );
+  } else if (!conversation.hasMessages && !conversation.profileSharing) {
+    statusRow = (
+      <div className="AboutContactModal__row">
+        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--no-dms" />
+        {i18n('icu:AboutContactModal__no-dms', {
+          name: conversation.title,
+        })}
+      </div>
+    );
+  }
 
   return (
     <Modal
@@ -58,6 +110,8 @@ export function AboutContactModal({
         <Avatar
           acceptedMessageRequest={conversation.acceptedMessageRequest}
           avatarPath={conversation.avatarPath}
+          blur={avatarBlur}
+          onClick={avatarBlur === AvatarBlur.NoBlur ? undefined : onAvatarClick}
           badge={undefined}
           color={conversation.color}
           conversationType="direct"
@@ -81,6 +135,19 @@ export function AboutContactModal({
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
         <UserText text={conversation.title} />
       </div>
+
+      {conversation.isVerified ? (
+        <div className="AboutContactModal__row">
+          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--verified" />
+          <button
+            type="button"
+            className="AboutContactModal__verified"
+            onClick={onVerifiedClick}
+          >
+            {i18n('icu:AboutContactModal__verified')}
+          </button>
+        </div>
+      ) : null}
 
       {conversation.about ? (
         <div className="AboutContactModal__row">
@@ -130,6 +197,8 @@ export function AboutContactModal({
           />
         </div>
       </div>
+
+      {statusRow}
     </Modal>
   );
 }

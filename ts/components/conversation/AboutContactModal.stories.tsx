@@ -12,13 +12,37 @@ import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 
-const conversation = getDefaultConversation();
+const conversation = getDefaultConversation({
+  acceptedMessageRequest: true,
+  hasMessages: true,
+});
+const verifiedConversation = getDefaultConversation({
+  acceptedMessageRequest: true,
+  isVerified: true,
+  hasMessages: true,
+});
+const blockedConversation = getDefaultConversation({
+  acceptedMessageRequest: true,
+  isBlocked: true,
+  hasMessages: true,
+});
+const pendingConversation = getDefaultConversation({
+  acceptedMessageRequest: false,
+  hasMessages: true,
+});
+const noMessages = getDefaultConversation({
+  hasMessages: false,
+});
 const conversationWithAbout = getDefaultConversation({
+  acceptedMessageRequest: true,
   aboutText: '😀 About Me',
+  hasMessages: true,
 });
 const systemContact = getDefaultConversation({
+  acceptedMessageRequest: true,
   systemGivenName: 'Alice',
   phoneNumber: '+1 555 123-4567',
+  hasMessages: true,
 });
 
 export default {
@@ -31,7 +55,9 @@ export default {
     i18n,
     onClose: action('onClose'),
     toggleSignalConnectionsModal: action('toggleSignalConnections'),
+    toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     updateSharedGroups: action('updateSharedGroups'),
+    unblurAvatar: action('unblurAvatar'),
     conversation,
     isSignalConnection: false,
   },
@@ -39,6 +65,22 @@ export default {
 
 export function Defaults(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} />;
+}
+
+export function Verified(args: PropsType): JSX.Element {
+  return <AboutContactModal {...args} conversation={verifiedConversation} />;
+}
+
+export function Blocked(args: PropsType): JSX.Element {
+  return <AboutContactModal {...args} conversation={blockedConversation} />;
+}
+
+export function Pending(args: PropsType): JSX.Element {
+  return <AboutContactModal {...args} conversation={pendingConversation} />;
+}
+
+export function NoMessages(args: PropsType): JSX.Element {
+  return <AboutContactModal {...args} conversation={noMessages} />;
 }
 
 export function WithAbout(args: PropsType): JSX.Element {

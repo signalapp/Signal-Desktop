@@ -110,9 +110,10 @@ export function SmartGlobalModalContainer(): JSX.Element {
     showSendEditWarningModal,
     toggleAboutContactModal,
     toggleSignalConnectionsModal,
+    toggleSafetyNumberModal,
   } = useGlobalModalActions();
 
-  const { updateSharedGroups } = useConversationsActions();
+  const { updateSharedGroups, unblurAvatar } = useConversationsActions();
 
   let aboutContactModalProps: AboutContactModalPropsType | undefined;
   if (aboutContactModalRawProps) {
@@ -122,7 +123,9 @@ export function SmartGlobalModalContainer(): JSX.Element {
       conversation,
       isSignalConnection: isSignalConnection(conversation),
       toggleSignalConnectionsModal,
+      toggleSafetyNumberModal,
       updateSharedGroups,
+      unblurAvatar,
     };
   }
 

@@ -53,10 +53,30 @@
       @include about-modal-icon('../images/icons/v3/person/person-compact.svg');
     }
 
+    &--verified {
+      @include about-modal-icon('../images/icons/v3/check/check.svg');
+    }
+
+    &--blocked {
+      @include about-modal-icon('../images/icons/v3/block/block.svg');
+    }
+
+    &--message-request {
+      @include about-modal-icon('../images/icons/v3/chat/chat-badge.svg');
+    }
+
+    &--no-dms {
+      @include about-modal-icon('../images/icons/v3/chat/chat-x.svg');
+    }
+
     &--connections {
       @include about-modal-icon(
         '../images/icons/v3/connections/connections.svg'
       );
+    }
+
+    &--chat-x {
+      @include about-modal-icon('../images/icons/v3/chat/chat-x.svg');
     }
 
     &--person {
@@ -97,5 +117,10 @@
         $color-gray-45
       );
     }
+  }
+
+  &__verified {
+    @include button-reset();
+    cursor: pointer;
   }
 }

@@ -256,6 +256,10 @@ export function GlobalModalContainer({
     );
   }
 
+  if (safetyNumberModalContactId) {
+    return renderSafetyNumber();
+  }
+
   if (aboutContactModalProps) {
     return (
       <AboutContactModal
@@ -280,10 +284,6 @@ export function GlobalModalContainer({
 
   if (usernameOnboardingState === UsernameOnboardingState.Open) {
     return renderUsernameOnboarding();
-  }
-
-  if (safetyNumberModalContactId) {
-    return renderSafetyNumber();
   }
 
   if (stickerPackPreviewId) {
