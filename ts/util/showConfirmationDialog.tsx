@@ -13,6 +13,7 @@ type ConfirmationDialogViewProps = {
   title: string;
   description?: string;
   okText: string;
+  noMouseClose?: boolean;
   reject?: (error: Error) => void;
   resolve: () => void;
 };
@@ -25,7 +26,7 @@ function removeConfirmationDialog() {
     return;
   }
 
-  window.reduxActions.globalModals.toggleConfirmationModal(false);
+  window.reduxActions?.globalModals.toggleConfirmationModal(false);
 
   unmountComponentAtNode(confirmationDialogViewNode);
   document.body.removeChild(confirmationDialogViewNode);
@@ -46,7 +47,7 @@ export function showConfirmationDialog(
     removeConfirmationDialog();
   }
 
-  window.reduxActions.globalModals.toggleConfirmationModal(true);
+  window.reduxActions?.globalModals.toggleConfirmationModal(true);
 
   confirmationDialogViewNode = document.createElement('div');
   document.body.appendChild(confirmationDialogViewNode);
@@ -77,6 +78,7 @@ export function showConfirmationDialog(
         removeConfirmationDialog();
       }}
       title={options.title}
+      noMouseClose={options.noMouseClose}
     >
       {options.description}
     </ConfirmationDialog>,
