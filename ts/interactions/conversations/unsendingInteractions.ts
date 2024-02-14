@@ -375,6 +375,8 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
     await Promise.all(messageIds.map(m => Data.getMessageById(m, false)))
   );
 
+  const isMe = conversation.isMe();
+
   const messageCount = selectedMessages.length;
   const moreThanOne = selectedMessages.length > 1;
   const closeDialog = () => window.inboxStore?.dispatch(updateConfirmModal(null));
@@ -385,10 +387,12 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
       message: moreThanOne
         ? window.i18n('deleteMessagesQuestion', [messageCount.toString()])
         : window.i18n('deleteMessageQuestion'),
-      radioOptions: [
-        { label: window.i18n('deleteJustForMe'), value: 'deleteJustForMe' },
-        { label: window.i18n('deleteForEveryone'), value: 'deleteForEveryone' },
-      ],
+      radioOptions: !isMe
+        ? [
+            { label: window.i18n('deleteJustForMe'), value: 'deleteJustForMe' },
+            { label: window.i18n('deleteForEveryone'), value: 'deleteForEveryone' },
+          ]
+        : undefined,
       okText: window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
       onClickOk: async args => {
