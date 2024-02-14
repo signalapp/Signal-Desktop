@@ -2899,10 +2899,12 @@ export default class MessageReceiver
     const { groupId, timestamp, action } = typingMessage;
 
     let groupV2IdString: string | undefined;
-    if (groupId && groupId.byteLength === GROUPV2_ID_LENGTH) {
-      groupV2IdString = Bytes.toBase64(groupId);
-    } else {
-      log.error('handleTypingMessage: Received invalid groupId value');
+    if (groupId?.byteLength) {
+      if (groupId.byteLength === GROUPV2_ID_LENGTH) {
+        groupV2IdString = Bytes.toBase64(groupId);
+      } else {
+        log.error('handleTypingMessage: Received invalid groupId value');
+      }
     }
 
     this.dispatchEvent(
@@ -3241,12 +3243,14 @@ export default class MessageReceiver
     const { groupId } = sync;
 
     let groupV2IdString: string | undefined;
-    if (groupId && groupId.byteLength === GROUPV2_ID_LENGTH) {
-      groupV2IdString = Bytes.toBase64(groupId);
-    } else {
-      this.removeFromCache(envelope);
-      log.error('Received message request with invalid groupId');
-      return undefined;
+    if (groupId?.byteLength) {
+      if (groupId.byteLength === GROUPV2_ID_LENGTH) {
+        groupV2IdString = Bytes.toBase64(groupId);
+      } else {
+        this.removeFromCache(envelope);
+        log.error('Received message request with invalid groupId');
+        return undefined;
+      }
     }
 
     const ev = new MessageRequestResponseEvent(
