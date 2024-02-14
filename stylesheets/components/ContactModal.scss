@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
   margin-top: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 
   &__name {
     @include button-reset();
@@ -17,7 +17,7 @@
     flex-direction: row;
     align-items: baseline;
 
-    margin-top: 6px;
+    margin-top: 12px;
     cursor: pointer;
   }
 
@@ -63,8 +63,8 @@
 
     display: flex;
     align-items: center;
-    padding-block: 7px;
-    padding-inline: 16px;
+    padding-block: 6px;
+    padding-inline: 24px;
     width: 100%;
 
     &:last-child {
@@ -94,7 +94,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-inline-end: 10px;
+    margin-inline-end: 12px;
     width: 20px;
   }
 
@@ -127,6 +127,19 @@
         '../images/icons/v3/safety_number/safety_number.svg',
         $color-gray-15
       );
+    }
+  }
+
+  &__block__bubble-icon {
+    height: 20px;
+    width: 20px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v3/block/block.svg', $color-gray-75);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v3/block/block.svg', $color-gray-15);
     }
   }
 
@@ -238,5 +251,34 @@
         $color-ultramarine
       );
     }
+  }
+
+  &__quick-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+
+    margin-block: 16px;
+  }
+
+  &__divider {
+    // Full width minus margin
+    width: calc(100% - 48px);
+
+    border-style: solid;
+    border-bottom: none;
+    border-width: 1px;
+
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+
+    @include dark-theme {
+      border-color: $color-gray-75;
+    }
+
+    margin-block: 8px 5px;
+    margin-inline: 24px;
   }
 }
