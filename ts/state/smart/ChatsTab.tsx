@@ -150,7 +150,6 @@ export function SmartChatsTab(): JSX.Element {
       hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
-      prevConversationId={prevConversationId}
       renderConversationView={renderConversationView}
       renderLeftPane={renderLeftPane}
       renderMiniPlayer={renderMiniPlayer}
