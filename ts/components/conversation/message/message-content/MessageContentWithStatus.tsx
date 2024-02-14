@@ -151,7 +151,7 @@ export const MessageContentWithStatuses = (props: Props) => {
           />
         )}
       </ExpirableReadableMessage>
-      {enableReactions && (
+      {!isDetailView && enableReactions ? (
         <MessageReactions
           messageId={messageId}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -162,7 +162,7 @@ export const MessageContentWithStatuses = (props: Props) => {
           noAvatar={hideAvatar}
           isDetailView={isDetailView}
         />
-      )}
+      ) : null}
     </StyledMessageContentContainer>
   );
 };
