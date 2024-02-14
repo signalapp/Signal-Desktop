@@ -5683,6 +5683,10 @@
     "messageformat": "Delete",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "To delete your username, open Signal on your phone and navigate to Settings > Profile.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copy or delete username",
     "description": "Shown as aria label for context menu next to username"

@@ -88,6 +88,7 @@ export type PropsDataType = {
   usernameLinkColor?: number;
   usernameLink?: string;
   usernameLinkCorrupted: boolean;
+  isUsernameDeletionEnabled: boolean;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type PropsActionType = {
@@ -175,6 +176,7 @@ export function ProfileEditor({
   usernameLinkColor,
   usernameLink,
   usernameLinkCorrupted,
+  isUsernameDeletionEnabled,
 }: PropsType): JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [editState, setEditState] = useState<EditState>(initialEditState);
@@ -208,6 +210,7 @@ export function ProfileEditor({
     firstName,
   });
   const [isResettingUsername, setIsResettingUsername] = useState(false);
+  const [isUsernameNoticeVisible, setIsUsernameNoticeVisible] = useState(false);
   const [isResettingUsernameLink, setIsResettingUsernameLink] = useState(false);
 
   // Reset username edit state when leaving
@@ -567,7 +570,11 @@ export function ProfileEditor({
           icon: 'ProfileEditor__username-menu__trash-icon',
           label: i18n('icu:ProfileEditor--username--delete'),
           onClick: () => {
-            setUsernameEditState(UsernameEditState.ConfirmingDelete);
+            if (isUsernameDeletionEnabled) {
+              setUsernameEditState(UsernameEditState.ConfirmingDelete);
+            } else {
+              setIsUsernameNoticeVisible(true);
+            }
           },
         },
       ];
@@ -757,6 +764,17 @@ export function ProfileEditor({
           {i18n('icu:ProfileEditor--username--confirm-delete-body-2', {
             username,
           })}
+        </ConfirmationDialog>
+      )}
+
+      {isUsernameNoticeVisible && (
+        <ConfirmationDialog
+          dialogName="ProfileEditor.confirmDeleteUsername"
+          i18n={i18n}
+          onClose={() => setIsUsernameNoticeVisible(false)}
+          cancelText={i18n('icu:ok')}
+        >
+          {i18n('icu:ProfileEditor--username--delete-unavailable-notice')}
         </ConfirmationDialog>
       )}
 
