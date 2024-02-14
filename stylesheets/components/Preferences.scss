@@ -315,6 +315,7 @@
 
 .Preferences__LanguageButton {
   @include button-reset;
+  @include localized-fonts;
 }
 
 .Preferences__LanguageModal {
@@ -401,6 +402,7 @@
 
 .Preferences__LanguageModal__Item__Matching {
   display: block;
+  @include localized-fonts;
   @include font-body-2;
   @include light-theme {
     color: $color-gray-60;
