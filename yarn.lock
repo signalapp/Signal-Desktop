@@ -5247,10 +5247,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/google-libphonenumber@7.4.23":
-  version "7.4.23"
-  resolved "https://registry.yarnpkg.com/@types/google-libphonenumber/-/google-libphonenumber-7.4.23.tgz#c44c9125d45f042943694d605fd8d8d796cafc3b"
-  integrity sha512-C3ydakLTQa8HxtYf9ge4q6uT9krDX8smSIxmmW3oACFi5g5vv6T068PRExF7UyWbWpuYiDG8Nm24q2X5XhcZWw==
+"@types/google-libphonenumber@7.4.30":
+  version "7.4.30"
+  resolved "https://registry.yarnpkg.com/@types/google-libphonenumber/-/google-libphonenumber-7.4.30.tgz#a47ed8f1f237bd43edbd1c8aff24400b0fd9b2fe"
+  integrity sha512-Td1X1ayRxePEm6/jPHUBs2tT6TzW1lrVB6ZX7ViPGellyzO/0xMNi+wx5nH6jEitjznq276VGIqjK5qAju0XVw==
 
 "@types/graceful-fs@^4.1.3":
   version "4.1.7"
@@ -11072,10 +11072,10 @@ globjoin@^0.1.4:
   resolved "https://registry.yarnpkg.com/globjoin/-/globjoin-0.1.4.tgz#2f4494ac8919e3767c5cbb691e9f463324285d43"
   integrity sha512-xYfnw62CKG8nLkZBfWbhWwDw02CHty86jfPcc2cr3ZfeuK9ysoVPPEUxf21bAD/rWAgk52SuBrLJlefNy8mvFg==
 
-google-libphonenumber@3.2.27:
-  version "3.2.27"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.27.tgz#06a0c1d42be712a6fd4189e2e3b07fc36cacee01"
-  integrity sha512-et3QlrfWemNPhyUfXZmJG8TfzitfAN71ygNI15+B35zNge/7vyZxkpDsc13oninkf8RAtN2kNEzvMr4L1n3vfQ==
+google-libphonenumber@3.2.34:
+  version "3.2.34"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.34.tgz#ef29b53be0f9fb517aaa53d26a541150f86ec921"
+  integrity sha512-CLwkp0lZvMywh6dCh0T3Fm8XsfJhLAupc8AECwYkJNQBPW8wQPrv/tV0oFKCs8FMw+pTQyNPZoycgBzYjqtTZQ==
 
 gopd@^1.0.1:
   version "1.0.1"
