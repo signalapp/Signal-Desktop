@@ -22,7 +22,7 @@ export type CrashReportsStateType = ReadonlyDeep<{
 // Actions
 
 const SET_COUNT = 'crashReports/SET_COUNT';
-const UPLOAD = 'crashReports/UPLOAD';
+const WRITE_TO_LOG = 'crashReports/WRITE_TO_LOG';
 const ERASE = 'crashReports/ERASE';
 
 type SetCrashReportCountActionType = ReadonlyDeep<{
@@ -32,7 +32,7 @@ type SetCrashReportCountActionType = ReadonlyDeep<{
 
 type CrashReportsActionType = ReadonlyDeep<
   | SetCrashReportCountActionType
-  | PromiseAction<typeof UPLOAD>
+  | PromiseAction<typeof WRITE_TO_LOG>
   | PromiseAction<typeof ERASE>
 >;
 
@@ -40,7 +40,7 @@ type CrashReportsActionType = ReadonlyDeep<
 
 export const actions = {
   setCrashReportCount,
-  uploadCrashReports,
+  writeCrashReportsToLog,
   eraseCrashReports,
 };
 
@@ -48,23 +48,22 @@ function setCrashReportCount(count: number): SetCrashReportCountActionType {
   return { type: SET_COUNT, payload: count };
 }
 
-function uploadCrashReports(): ThunkAction<
+function writeCrashReportsToLog(): ThunkAction<
   void,
   RootStateType,
   unknown,
-  PromiseAction<typeof UPLOAD> | ShowToastActionType
+  PromiseAction<typeof WRITE_TO_LOG> | ShowToastActionType
 > {
   return dispatch => {
     async function run() {
       try {
-        await window.IPC.crashReports.upload();
-        dispatch(showToast({ toastType: ToastType.LinkCopied }));
+        await window.IPC.crashReports.writeToLog();
       } catch (error) {
         dispatch(showToast({ toastType: ToastType.DebugLogError }));
         throw error;
       }
     }
-    dispatch({ type: UPLOAD, payload: run() });
+    dispatch({ type: WRITE_TO_LOG, payload: run() });
   };
 }
 
@@ -108,7 +107,7 @@ export function reducer(
   }
 
   if (
-    action.type === `${UPLOAD}_PENDING` ||
+    action.type === `${WRITE_TO_LOG}_PENDING` ||
     action.type === `${ERASE}_PENDING`
   ) {
     return {
@@ -118,7 +117,7 @@ export function reducer(
   }
 
   if (
-    action.type === `${UPLOAD}_FULFILLED` ||
+    action.type === `${WRITE_TO_LOG}_FULFILLED` ||
     action.type === `${ERASE}_FULFILLED`
   ) {
     return {
@@ -129,13 +128,13 @@ export function reducer(
   }
 
   if (
-    action.type === (`${UPLOAD}_REJECTED` as const) ||
+    action.type === (`${WRITE_TO_LOG}_REJECTED` as const) ||
     action.type === (`${ERASE}_REJECTED` as const)
   ) {
     const { error } = action;
 
     log.error(
-      `Failed to upload crash report due to error ${Errors.toLogFormat(error)}`
+      `Failed to write crash report due to error ${Errors.toLogFormat(error)}`
     );
 
     return {

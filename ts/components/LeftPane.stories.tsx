@@ -240,7 +240,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       <CrashReportDialog
         i18n={i18n}
         isPending={false}
-        uploadCrashReports={action('uploadCrashReports')}
+        writeCrashReportsToLog={action('writeCrashReportsToLog')}
         eraseCrashReports={action('eraseCrashReports')}
       />
     ),

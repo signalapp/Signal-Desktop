@@ -1,16 +1,33 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { app, clipboard, crashReporter, ipcMain as ipc } from 'electron';
-import { realpath, readdir, readFile, unlink } from 'fs-extra';
+import { app, crashReporter, ipcMain as ipc } from 'electron';
+import { realpath, readdir, readFile, unlink, stat } from 'fs-extra';
 import { basename, join } from 'path';
+import { toJSONString as dumpToJSONString } from '@signalapp/libsignal-client/dist/Minidump';
+import z from 'zod';
 
 import type { LoggerType } from '../ts/types/Logging';
 import * as Errors from '../ts/types/errors';
 import { isAlpha } from '../ts/util/version';
-import { upload as uploadDebugLog } from '../ts/logging/uploadDebugLog';
-import { SignalService as Proto } from '../ts/protobuf';
 import OS from '../ts/util/os/osMain';
+
+const dumpSchema = z
+  .object({
+    crashing_thread: z
+      .object({
+        frames: z
+          .object({
+            registers: z.unknown(),
+          })
+          .passthrough()
+          .array()
+          .optional(),
+      })
+      .passthrough()
+      .optional(),
+  })
+  .passthrough();
 
 async function getPendingDumps(): Promise<ReadonlyArray<string>> {
   const crashDumpsPath = await realpath(app.getPath('crashDumps'));
@@ -46,7 +63,11 @@ async function eraseDumps(
   );
 }
 
-export function setup(getLogger: () => LoggerType, forceEnable = false): void {
+export function setup(
+  getLogger: () => LoggerType,
+  showDebugLogWindow: () => Promise<void>,
+  forceEnable = false
+): void {
   const isEnabled = isAlpha(app.getVersion()) || forceEnable;
 
   if (isEnabled) {
@@ -68,7 +89,7 @@ export function setup(getLogger: () => LoggerType, forceEnable = false): void {
     return pendingDumps.length;
   });
 
-  ipc.handle('crash-reports:upload', async () => {
+  ipc.handle('crash-reports:write-to-log', async () => {
     if (!isEnabled) {
       return;
     }
@@ -79,17 +100,26 @@ export function setup(getLogger: () => LoggerType, forceEnable = false): void {
     }
 
     const logger = getLogger();
-    logger.warn(`crashReports: uploading ${pendingDumps.length} dumps`);
+    logger.warn(`crashReports: logging ${pendingDumps.length} dumps`);
 
-    const maybeDumps = await Promise.all(
+    await Promise.all(
       pendingDumps.map(async fullPath => {
         try {
-          return {
-            filename: basename(fullPath),
-            content: await readFile(fullPath),
-          };
-        } catch (error) {
+          const content = await readFile(fullPath);
+          const { mtime } = await stat(fullPath);
+
+          const dump = dumpSchema.parse(JSON.parse(dumpToJSONString(content)));
+          for (const frame of dump.crashing_thread?.frames ?? []) {
+            delete frame.registers;
+          }
+
           logger.warn(
+            `crashReports: dump=${basename(fullPath)} ` +
+              `mtime=${JSON.stringify(mtime)}`,
+            JSON.stringify(dump, null, 2)
+          );
+        } catch (error) {
+          logger.error(
             `crashReports: failed to read crash report ${fullPath} due to error`,
             Errors.toLogFormat(error)
           );
@@ -98,30 +128,8 @@ export function setup(getLogger: () => LoggerType, forceEnable = false): void {
       })
     );
 
-    const content = Proto.CrashReportList.encode({
-      reports: maybeDumps.filter(
-        (dump): dump is { filename: string; content: Buffer } => {
-          return dump !== undefined;
-        }
-      ),
-    }).finish();
-
-    try {
-      const url = await uploadDebugLog({
-        content,
-        appVersion: app.getVersion(),
-        logger,
-        extension: 'dmp',
-        contentType: 'application/octet-stream',
-        compress: false,
-        prefix: 'desktop-crash-',
-      });
-
-      logger.info(`crashReports: upload complete, ${url}`);
-      clipboard.writeText(url);
-    } finally {
-      await eraseDumps(logger, pendingDumps);
-    }
+    await eraseDumps(logger, pendingDumps);
+    await showDebugLogWindow();
   });
 
   ipc.handle('crash-reports:erase', async () => {

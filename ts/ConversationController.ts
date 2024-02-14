@@ -1356,7 +1356,9 @@ export class ConversationController {
   async _forgetE164(e164: string): Promise<void> {
     const { server } = window.textsecure;
     strictAssert(server, 'Server must be initialized');
-    const serviceIdMap = await getServiceIdsForE164s(server, [e164]);
+    const { entries: serviceIdMap } = await getServiceIdsForE164s(server, [
+      e164,
+    ]);
 
     const pni = serviceIdMap.get(e164)?.pni;
 

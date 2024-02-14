@@ -122,7 +122,7 @@ export abstract class CDSSocketBase<
     }
 
     log.info('CDSSocket.request(): done');
-    return resultMap;
+    return { debugPermitsUsed: 0, entries: resultMap };
   }
 
   // Abstract methods

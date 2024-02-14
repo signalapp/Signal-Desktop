@@ -24,9 +24,9 @@ export function Basic(): JSX.Element {
     <CrashReportDialog
       i18n={i18n}
       isPending={isPending}
-      uploadCrashReports={async () => {
+      writeCrashReportsToLog={async () => {
         setIsPending(true);
-        action('uploadCrashReports')();
+        action('writeCrashReportsToLog')();
         await sleep(5000);
         setIsPending(false);
       }}

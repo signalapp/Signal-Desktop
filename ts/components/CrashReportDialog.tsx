@@ -9,7 +9,7 @@ import { Modal } from './Modal';
 import { Spinner } from './Spinner';
 
 type PropsActionsType = {
-  uploadCrashReports: () => void;
+  writeCrashReportsToLog: () => void;
   eraseCrashReports: () => void;
 };
 
@@ -19,7 +19,7 @@ export type PropsType = {
 } & PropsActionsType;
 
 export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
-  const { i18n, isPending, uploadCrashReports, eraseCrashReports } = props;
+  const { i18n, isPending, writeCrashReportsToLog, eraseCrashReports } = props;
 
   const onEraseClick = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -30,7 +30,7 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
   const onSubmitClick = (event: React.MouseEvent) => {
     event.preventDefault();
 
-    uploadCrashReports();
+    writeCrashReportsToLog();
   };
 
   const footer = (

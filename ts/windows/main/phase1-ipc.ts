@@ -78,7 +78,7 @@ const IPC: IPCType = {
   closeAbout: () => ipc.send('close-about'),
   crashReports: {
     getCount: () => ipc.invoke('crash-reports:get-count'),
-    upload: () => ipc.invoke('crash-reports:upload'),
+    writeToLog: () => ipc.invoke('crash-reports:write-to-log'),
     erase: () => ipc.invoke('crash-reports:erase'),
   },
   drawAttention: () => {

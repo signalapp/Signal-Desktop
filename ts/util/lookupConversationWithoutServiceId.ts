@@ -69,7 +69,9 @@ export async function lookupConversationWithoutServiceId(
   try {
     let conversationId: string | undefined;
     if (options.type === 'e164') {
-      const serverLookup = await getServiceIdsForE164s(server, [options.e164]);
+      const { entries: serverLookup } = await getServiceIdsForE164s(server, [
+        options.e164,
+      ]);
 
       const maybePair = serverLookup.get(options.e164);
 

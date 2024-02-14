@@ -93,7 +93,7 @@ function checkForAccount(
 
     log.info(`checkForAccount: looking ${phoneNumber} up on server`);
     try {
-      const serviceIdLookup = await getServiceIdsForE164s(server, [
+      const { entries: serviceIdLookup } = await getServiceIdsForE164s(server, [
         phoneNumber,
       ]);
       const maybePair = serviceIdLookup.get(phoneNumber);
