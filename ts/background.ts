@@ -1332,6 +1332,10 @@ export async function startApp(): Promise<void> {
         return;
       }
 
+      if (remotelyExpired) {
+        return;
+      }
+
       log.info('reconnectToWebSocket starting...');
       await server.reconnect();
     });
@@ -1350,6 +1354,16 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
     void unlinkAndDisconnect();
+  });
+
+  window.Whisper.events.on('httpResponse499', () => {
+    if (remotelyExpired) {
+      return;
+    }
+
+    log.warn('background: remote expiration detected, disabling reconnects');
+    remotelyExpired = true;
+    onOffline();
   });
 
   async function runStorageService() {
@@ -1554,6 +1568,10 @@ export async function startApp(): Promise<void> {
   }
 
   function onOnline() {
+    if (remotelyExpired) {
+      return;
+    }
+
     log.info('online');
 
     window.removeEventListener('online', onOnline);
@@ -1604,9 +1622,15 @@ export async function startApp(): Promise<void> {
 
   let connectCount = 0;
   let connecting = false;
+  let remotelyExpired = false;
   async function connect(firstRun?: boolean) {
     if (connecting) {
       log.warn('connect already running', { connectCount });
+      return;
+    }
+
+    if (remotelyExpired) {
+      log.warn('remotely expired, not reconnecting');
       return;
     }
 
@@ -1711,7 +1735,9 @@ export async function startApp(): Promise<void> {
       server.registerRequestHandler(messageReceiver);
 
       // If coming here after `offline` event - connect again.
-      await server.onOnline();
+      if (!remotelyExpired) {
+        await server.onOnline();
+      }
 
       void AttachmentDownloads.start({
         logger: log,
