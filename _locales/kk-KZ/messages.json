@@ -1352,15 +1352,15 @@
     "messageformat": "Қауіпсіздік нөмірін көру"
   },
   "icu:AboutContactModal__title": {
-    "messageformat": "About",
+    "messageformat": "Мағлұмат",
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal-мен байланыс",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} is in your system contacts",
+    "messageformat": "{name} сіздің жүйелік контактілеріңізде бар",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
   "icu:ContactModal__showSafetyNumber": {
@@ -1639,11 +1639,11 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "Phone Number",
+    "messageformat": "Телефон нөмірі",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
-    "messageformat": "Device Name",
+    "messageformat": "Құрылғы аты",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -5205,7 +5205,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {1 group member has the same name, review the member below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5217,11 +5217,11 @@
     "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
-    "messageformat": "No other groups in common",
+    "messageformat": "Басқа ортақ топтар жоқ",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal-мен байланыс",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
@@ -5517,7 +5517,7 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "Пайдаланушы атыңызға байланысты бірдеңе дұрыс болмады, ол енді сіздің аккаунтыңызға тағайындалып тұрған жоқ. Оны қайта орнатып көруіңізге болады немесе жаңасын таңдаңыз.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
@@ -5529,7 +5529,7 @@
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
-    "messageformat": "Fix now",
+    "messageformat": "Қазір түзету",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5581,7 +5581,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "Numbers with more than 2 digits can’t start with 0",
+    "messageformat": "2 цифрдан көп сандар 0-ден басталмауы керек",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5661,7 +5661,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Edit photo",
+    "messageformat": "Фотосуретті өзгерту",
     "description": "Text of a button on profile editor that leads to the avatar editor"
   },
   "icu:ProfileEditor--info--link": {
@@ -5669,15 +5669,15 @@
     "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "messageformat": "Профиліңіз және оған енгізілген өзгерістер сіз хат жазған адамдарға, контактілерге және топтарға көрінетін болады.",
     "description": "Information shown in profile editor below profile name and about fields"
   },
   "icu:ProfileEditor--info--pnp": {
-    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "messageformat": "Профиліңізде пайдаланушы атыңыз, QR кодыңыз және сілтемеңіз көрсетілмейді. Оны тек сенімді адамдармен бөлісіңіз.",
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "messageformat": "Енді адамдар сізге қосымша пайдаланушы атыңызға жаза алады, сондықтан телефон нөміріңізді берудің қажеті жоқ.",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -5845,11 +5845,11 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "messageformat": "Телефондағы контактілеріне сақтамаса, телефон нөміріңіз ешкімге көрсетілмейді.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "Your phone number will not be visible to anyone.",
+    "messageformat": "Телефон нөміріңіз ешкімге көрінбейді.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -6865,7 +6865,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames are always paired with a set of numbers.",
+    "messageformat": "Пайдаланушы аттары міндетті түрде сандар жинағымен жұптасады.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6889,11 +6889,11 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
-    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "Пайдаланушы атыңызды қалпына келтірсеңіз, бұрынғы QR кодыңыз бен сілтемеңіз де қайта орнатылады. Сенімдісіз бе?",
     "description": "Body of the confirmation dialog displayed when user is about to recover their username"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "messageformat": "QR кодыңыз бен сілтемеңіз қалпына келтірілді және пайдаланушы атыңыз – {username}",
     "description": "Text of toast displayed upon successful recovery of username"
   },
   "icu:UsernameLinkModalBody__hint": {
@@ -6929,7 +6929,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
+    "messageformat": "Егер QR коды мен сілтемені қалпына келтірсеңіз, ескі QR коды мен сілтеме жарамсыз болып қалады.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6937,15 +6937,15 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
+    "messageformat": "QR коды және сілтемеге қатысты белгісіз қате орын алды, олар енді жарамсыз. Жаңа QR коды мен сілтеме жасау үшін оны қалпына келтіріңіз.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__error__fix-now": {
-    "messageformat": "Fix now",
+    "messageformat": "Қазір түзету",
     "description": "Text of the button in a confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "messageformat": "QR кодыңыз бен сілтемеңіз қалпына келтірілді және жаңа QR коды мен сілтеме жасалды.",
     "description": "Text of the confirmation dialog shown on successful username link recovery"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7195,9 +7195,9 @@
     "messageformat": "Signal қолданбасы енді Microsoft Windows жүйесінде таңдалған атау жолағының түсіне сай келеді. Windows жүйесіндегі терезелердің барлығы бірдей болып тұрғанда, бұл соларға тән сипат."
   },
   "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+    "messageformat": "Signal терезесі жабылғанда және жүйе науасында барынша кішірейгенде, видео және аудио уақытша тоқтайды. Егер тыныштық керек болса, X түймесін басыңыз."
   },
   "icu:WhatsNew__v6.48--1": {
-    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Көпшіліктің сұрауы бойынша “:-)” сияқты эмотикондар енді автоматты түрде “<emojify>🙂</emojify>” сияқты эмодзиге айналады. Егер бұл функция сізге ұнамаса, Signal Desktop параметрлеріндегі &quot;Чаттар&quot; бөлімінде оны өшіріп қоюыңызға болады."
   }
 }
