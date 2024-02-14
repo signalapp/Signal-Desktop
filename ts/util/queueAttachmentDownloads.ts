@@ -189,12 +189,16 @@ export async function queueAttachmentDownloads(
         );
       }
     }
-    if (!data && sticker.data) {
-      data = await AttachmentDownloads.addJob(sticker.data, {
-        messageId,
-        type: 'sticker',
-        index: 0,
-      });
+    if (!data) {
+      if (sticker.data) {
+        data = await AttachmentDownloads.addJob(sticker.data, {
+          messageId,
+          type: 'sticker',
+          index: 0,
+        });
+      } else {
+        log.error(`${idLog}: Sticker data was missing`);
+      }
     }
     if (!status) {
       // Save the packId/packKey for future download/install
