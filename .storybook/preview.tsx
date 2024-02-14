@@ -111,9 +111,6 @@ window.SignalContext = {
     platform: '',
     release: '',
   },
-  usernames: {
-    hash: input => Buffer.from(input),
-  } as any,
   config: {} as any,
 
   getHourCyclePreference: () => HourCyclePreference.UnknownPreference,

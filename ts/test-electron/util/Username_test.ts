@@ -3,15 +3,20 @@
 
 import { assert } from 'chai';
 
-import * as Username from '../../types/Username';
+import * as Username from '../../util/Username';
 
 describe('Username', () => {
   describe('getUsernameFromSearch', () => {
     const { getUsernameFromSearch } = Username;
 
     it('matches invalid username searches', () => {
-      assert.isUndefined(getUsernameFromSearch('use'));
-      assert.isUndefined(getUsernameFromSearch('username9012345678901234567'));
+      assert.isUndefined(getUsernameFromSearch('us'));
+      assert.isUndefined(getUsernameFromSearch('123'));
+    });
+
+    it('matches partial username searches without discriminator', () => {
+      assert.strictEqual(getUsernameFromSearch('use'), 'use');
+      assert.strictEqual(getUsernameFromSearch('use.'), 'use.');
     });
 
     it('matches valid username searches', () => {

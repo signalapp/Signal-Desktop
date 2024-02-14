@@ -9,7 +9,6 @@ import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
 import { SearchInput } from '../SearchInput';
 import type { LocalizerType } from '../../types/Util';
-import { getUsernameFromSearch } from '../../types/Username';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import { isFetchingByUsername } from '../../util/uuidFetchState';
@@ -20,6 +19,7 @@ import { Button } from '../Button';
 export type LeftPaneFindByUsernamePropsType = {
   searchTerm: string;
   uuidFetchState: UUIDFetchStateType;
+  username: string | undefined;
 };
 
 export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByUsernamePropsType> {
@@ -32,13 +32,14 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
   constructor({
     searchTerm,
     uuidFetchState,
+    username,
   }: Readonly<LeftPaneFindByUsernamePropsType>) {
     super();
 
     this.searchTerm = searchTerm;
     this.uuidFetchState = uuidFetchState;
 
-    this.username = getUsernameFromSearch(this.searchTerm);
+    this.username = username;
   }
 
   override getHeaderContents({

@@ -12,7 +12,6 @@ import { SearchInput } from '../SearchInput';
 import type { LocalizerType } from '../../types/Util';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
-import { getUsernameFromSearch } from '../../types/Username';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import {
   isFetchingByUsername,
@@ -27,6 +26,7 @@ export type LeftPaneComposePropsType = {
   regionCode: string | undefined;
   searchTerm: string;
   uuidFetchState: UUIDFetchStateType;
+  username: string | undefined;
 };
 
 enum TopButtons {
@@ -57,6 +57,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     regionCode,
     searchTerm,
     uuidFetchState,
+    username,
   }: Readonly<LeftPaneComposePropsType>) {
     super();
 
@@ -64,8 +65,6 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     this.composeGroups = composeGroups;
     this.searchTerm = searchTerm;
     this.uuidFetchState = uuidFetchState;
-
-    const username = getUsernameFromSearch(this.searchTerm);
 
     this.username = username;
     this.isUsernameVisible =

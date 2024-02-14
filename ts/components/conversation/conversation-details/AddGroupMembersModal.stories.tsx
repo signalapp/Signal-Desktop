@@ -70,6 +70,7 @@ const createProps = (
         i18n={i18n}
         lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
         showUserNotFoundModal={action('showUserNotFoundModal')}
+        username={undefined}
       />
     );
   },

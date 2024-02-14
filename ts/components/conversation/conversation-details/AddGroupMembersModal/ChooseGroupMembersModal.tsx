@@ -12,7 +12,6 @@ import { omit } from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
-import { getUsernameFromSearch } from '../../../../types/Username';
 import { strictAssert, assertDev } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
@@ -59,6 +58,7 @@ export type StatePropsType = {
   ourUsername: string | undefined;
   searchTerm: string;
   selectedContacts: ReadonlyArray<ConversationType>;
+  username: string | undefined;
 
   confirmAdds: () => void;
   onClose: () => void;
@@ -96,10 +96,9 @@ export function ChooseGroupMembersModal({
   toggleSelectedContact,
   lookupConversationWithoutServiceId,
   showUserNotFoundModal,
+  username,
 }: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
-
-  const username = getUsernameFromSearch(searchTerm);
 
   const isUsernameChecked = selectedContacts.some(
     contact => contact.username === username

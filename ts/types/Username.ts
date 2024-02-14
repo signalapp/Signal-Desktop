@@ -27,15 +27,6 @@ export enum ConfirmUsernameResult {
   ConflictOrGone = 'ConflictOrGone',
 }
 
-export function getUsernameFromSearch(searchTerm: string): string | undefined {
-  try {
-    window.SignalContext.usernames.hash(searchTerm);
-    return searchTerm;
-  } catch {
-    return undefined;
-  }
-}
-
 export function getNickname(username: string): string | undefined {
   const match = username.match(/^(.*?)(?:\.|$)/);
   if (!match) {

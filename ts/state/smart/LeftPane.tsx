@@ -14,6 +14,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
 import { isDone as isRegistrationDone } from '../../util/registration';
 import { getCountryDataForLocale } from '../../util/getCountryData';
+import { getUsernameFromSearch } from '../../util/Username';
 import { LeftPaneMode } from '../../types/leftPane';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
@@ -182,12 +183,18 @@ const getModeSpecificProps = (
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
         uuidFetchState: getComposerUUIDFetchState(state),
+        username: getUsernameFromSearch(
+          getComposerConversationSearchTerm(state)
+        ),
       };
     case ComposerStep.FindByUsername:
       return {
         mode: LeftPaneMode.FindByUsername,
         searchTerm: getComposerConversationSearchTerm(state),
         uuidFetchState: getComposerUUIDFetchState(state),
+        username: getUsernameFromSearch(
+          getComposerConversationSearchTerm(state)
+        ),
       };
     case ComposerStep.FindByPhoneNumber:
       return {
@@ -215,6 +222,9 @@ const getModeSpecificProps = (
         searchTerm: getComposerConversationSearchTerm(state),
         selectedContacts: getComposeSelectedContacts(state),
         uuidFetchState: getComposerUUIDFetchState(state),
+        username: getUsernameFromSearch(
+          getComposerConversationSearchTerm(state)
+        ),
       };
     case ComposerStep.SetGroupMetadata:
       return {
