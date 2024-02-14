@@ -38,10 +38,10 @@ export type MessageAvatarSelectorProps = Pick<
   'sender' | 'isSenderAdmin' | 'lastMessageOfSeries'
 >;
 
-type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean };
+type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean; isDetailView?: boolean };
 
 export const MessageAvatar = (props: Props) => {
-  const { messageId, hideAvatar, isPrivate } = props;
+  const { messageId, hideAvatar, isPrivate, isDetailView } = props;
 
   const dispatch = useDispatch();
   const selectedConvoKey = useSelectedConversationKey();
@@ -143,7 +143,7 @@ export const MessageAvatar = (props: Props) => {
       }}
     >
       <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
-      {isSenderAdmin && <CrownIcon />}
+      {!isDetailView && isSenderAdmin ? <CrownIcon /> : null}
     </StyledAvatar>
   );
 };
