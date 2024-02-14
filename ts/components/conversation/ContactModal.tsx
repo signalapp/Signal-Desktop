@@ -224,9 +224,6 @@ export function ContactModal({
             <div className="module-about__container">
               <About text={contact.about} />
             </div>
-            {contact.phoneNumber && (
-              <div className="ContactModal__info">{contact.phoneNumber}</div>
-            )}
             {!contact.isMe && (
               <div className="ContactModal__info">
                 <SharedGroupNames

@@ -74,14 +74,9 @@ export function ConversationDetailsHeader({
     }
   } else if (!isMe) {
     subtitle = (
-      <>
-        <div className="ConversationDetailsHeader__subtitle__about">
-          <About text={conversation.about} />
-        </div>
-        <div className="ConversationDetailsHeader__subtitle__phone-number">
-          {conversation.phoneNumber}
-        </div>
-      </>
+      <div className="ConversationDetailsHeader__subtitle__about">
+        <About text={conversation.about} />
+      </div>
     );
     preferredBadge = badges?.[0];
   }
