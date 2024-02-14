@@ -5,7 +5,6 @@
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { usernames } = require('@signalapp/libsignal-client');
 
 const { Crypto } = require('../ts/context/Crypto');
 const { setEnvironment, Environment } = require('../ts/environment');
@@ -23,7 +22,6 @@ global.window = {
   performance,
   SignalContext: {
     crypto: new Crypto(),
-    usernames,
     log: {
       info: (...args) => console.log(...args),
       warn: (...args) => console.warn(...args),

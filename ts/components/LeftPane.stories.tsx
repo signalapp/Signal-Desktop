@@ -660,6 +660,7 @@ export function ComposeNoResults(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
+          username: undefined,
         },
       })}
     />
@@ -677,6 +678,7 @@ export function ComposeSomeContactsNoSearchTerm(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
+          username: undefined,
         },
       })}
     />
@@ -694,6 +696,7 @@ export function ComposeSomeContactsWithASearchTerm(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'ar',
+          username: undefined,
         },
       })}
     />
@@ -711,6 +714,7 @@ export function ComposeSomeGroupsNoSearchTerm(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
+          username: undefined,
         },
       })}
     />
@@ -728,6 +732,7 @@ export function ComposeSomeGroupsWithSearchTerm(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'ar',
+          username: undefined,
         },
       })}
     />
@@ -745,6 +750,7 @@ export function ComposeSearchIsValidUsername(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'someone',
+          username: 'someone',
         },
       })}
     />
@@ -764,6 +770,7 @@ export function ComposeSearchIsValidUsernameFetchingUsername(): JSX.Element {
           },
           regionCode: 'US',
           searchTerm: 'someone',
+          username: 'someone',
         },
       })}
     />
@@ -781,6 +788,7 @@ export function ComposeSearchIsValidPhoneNumber(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '2125555454',
+          username: undefined,
         },
       })}
     />
@@ -800,6 +808,7 @@ export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): JSX.Elemen
           },
           regionCode: 'US',
           searchTerm: '(212)5555454',
+          username: undefined,
         },
       })}
     />
@@ -817,6 +826,7 @@ export function ComposeAllKindsOfResultsNoSearchTerm(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: '',
+          username: undefined,
         },
       })}
     />
@@ -834,6 +844,7 @@ export function ComposeAllKindsOfResultsWithASearchTerm(): JSX.Element {
           uuidFetchState: {},
           regionCode: 'US',
           searchTerm: 'someone',
+          username: 'someone',
         },
       })}
     />
@@ -912,6 +923,7 @@ export function ChooseGroupMembersPartialPhoneNumber(): JSX.Element {
           ourE164: undefined,
           ourUsername: undefined,
           searchTerm: '+1(212) 555',
+          username: undefined,
           regionCode: 'US',
           selectedContacts: [],
         },
@@ -937,6 +949,7 @@ export function ChooseGroupMembersValidPhoneNumber(): JSX.Element {
           searchTerm: '+1(212) 555 5454',
           regionCode: 'US',
           selectedContacts: [],
+          username: undefined,
         },
       })}
     />
@@ -957,9 +970,10 @@ export function ChooseGroupMembersUsername(): JSX.Element {
           isShowingMaximumGroupSizeModal: false,
           ourE164: undefined,
           ourUsername: undefined,
-          searchTerm: '@signal',
+          searchTerm: 'signal.01',
           regionCode: 'US',
           selectedContacts: [],
+          username: 'signal.01',
         },
       })}
     />

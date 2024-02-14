@@ -32,6 +32,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         uuidFetchState: {},
+        username: undefined,
       });
 
       assert.strictEqual(helper.getBackAction({ showInbox }), showInbox);
@@ -46,6 +47,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
+          username: undefined,
           uuidFetchState: {},
         }).getRowCount(),
         3
@@ -60,6 +62,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '',
           uuidFetchState: {},
+          username: undefined,
         }).getRowCount(),
         6
       );
@@ -73,6 +76,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '',
           uuidFetchState: {},
+          username: undefined,
         }).getRowCount(),
         9
       );
@@ -86,6 +90,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'someone.01',
           uuidFetchState: {},
+          username: 'someone.01',
         }).getRowCount(),
         8
       );
@@ -99,6 +104,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foobar.01',
           uuidFetchState: {},
+          username: 'foobar.01',
         }).getRowCount(),
         2
       );
@@ -109,6 +115,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foobar.01',
           uuidFetchState: {},
+          username: 'foobar.01',
         }).getRowCount(),
         5
       );
@@ -119,6 +126,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'foobar.01',
           uuidFetchState: {},
+          username: 'foobar.01',
         }).getRowCount(),
         7
       );
@@ -132,6 +140,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '+16505551234',
           uuidFetchState: {},
+          username: undefined,
         }).getRowCount(),
         2
       );
@@ -145,6 +154,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: 'someone.02',
           uuidFetchState: {},
+          username: 'someone.02',
         }).getRowCount(),
         2
       );
@@ -158,6 +168,7 @@ describe('LeftPaneComposeHelper', () => {
           regionCode: 'US',
           searchTerm: '+16505551234',
           uuidFetchState: {},
+          username: undefined,
         }).getRowCount(),
         5
       );
@@ -172,6 +183,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         uuidFetchState: {},
+        username: undefined,
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -197,6 +209,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         uuidFetchState: {},
+        username: undefined,
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -236,6 +249,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '',
         uuidFetchState: {},
+        username: undefined,
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -280,6 +294,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: 'foo bar',
         uuidFetchState: {},
+        username: undefined,
       });
 
       assert.deepEqual(helper.getRow(1), {
@@ -301,6 +316,7 @@ describe('LeftPaneComposeHelper', () => {
         regionCode: 'US',
         searchTerm: '+1(650) 555 12 34',
         uuidFetchState: {},
+        username: undefined,
       });
 
       assert.deepEqual(
@@ -327,6 +343,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: username,
+        username,
         uuidFetchState: {
           [`username:${username}`]: true,
         },
@@ -354,6 +371,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '+1(650) 555 12 34',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -391,6 +409,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -405,6 +424,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -425,6 +445,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -434,6 +455,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'different search',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -443,6 +465,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'last search',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -454,6 +477,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -463,6 +487,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -474,6 +499,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -483,6 +509,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -492,6 +519,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: '+16505551234',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -503,6 +531,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: '',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -512,6 +541,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -523,6 +553,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [],
         regionCode: 'US',
         searchTerm: 'foo bar',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -532,6 +563,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'foo bar',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -541,6 +573,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
         regionCode: 'US',
         searchTerm: 'foo bar',
+        username: undefined,
         uuidFetchState: {},
       });
 
@@ -550,6 +583,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [],
           regionCode: 'US',
           searchTerm: 'foo bar',
+          username: undefined,
           uuidFetchState: {},
         })
       );
@@ -561,6 +595,7 @@ describe('LeftPaneComposeHelper', () => {
         composeGroups: [getDefaultGroupListItem()],
         regionCode: 'US',
         searchTerm: 'soup',
+        username: 'soup',
         uuidFetchState: {},
       });
 
@@ -570,6 +605,7 @@ describe('LeftPaneComposeHelper', () => {
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
           searchTerm: 'soup',
+          username: 'soup',
           uuidFetchState: {},
         })
       );
