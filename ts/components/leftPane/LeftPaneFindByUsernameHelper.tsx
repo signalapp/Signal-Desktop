@@ -13,6 +13,7 @@ import { getUsernameFromSearch } from '../../types/Username';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import { isFetchingByUsername } from '../../util/uuidFetchState';
+import { drop } from '../../util/drop';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import { Spinner } from '../Spinner';
 import { Button } from '../Button';
@@ -21,6 +22,12 @@ export type LeftPaneFindByUsernamePropsType = {
   searchTerm: string;
   uuidFetchState: UUIDFetchStateType;
 };
+
+type DoLookupActionsType = Readonly<{
+  showInbox: () => void;
+  showConversation: ShowConversationType;
+}> &
+  LookupConversationWithoutServiceIdActionsType;
 
 export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByUsernamePropsType> {
   private readonly searchTerm: string;
@@ -78,12 +85,14 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
   override getSearchInput({
     i18n,
     onChangeComposeSearchTerm,
+    ...lookupActions
   }: Readonly<{
     i18n: LocalizerType;
     onChangeComposeSearchTerm: (
       event: React.ChangeEvent<HTMLInputElement>
     ) => unknown;
-  }>): ReactChild {
+  }> &
+    DoLookupActionsType): ReactChild {
     const placeholder = i18n(
       'icu:LeftPaneFindByHelper__placeholder--findByUsername'
     );
@@ -101,43 +110,26 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
         ref={focusRef}
         value={this.searchTerm}
         description={description}
+        onKeyDown={ev => {
+          if (ev.key === 'Enter') {
+            drop(this.doLookup(lookupActions));
+          }
+        }}
       />
     );
   }
 
   override getFooterContents({
     i18n,
-    lookupConversationWithoutServiceId,
-    showUserNotFoundModal,
-    setIsFetchingUUID,
-    showInbox,
-    showConversation,
+    ...lookupActions
   }: Readonly<{
     i18n: LocalizerType;
-    showInbox: () => void;
-    showConversation: ShowConversationType;
   }> &
-    LookupConversationWithoutServiceIdActionsType): ReactChild {
+    DoLookupActionsType): ReactChild {
     return (
       <Button
         disabled={this.isLookupDisabled()}
-        onClick={async () => {
-          if (!this.username) {
-            return;
-          }
-
-          const conversationId = await lookupConversationWithoutServiceId({
-            showUserNotFoundModal,
-            setIsFetchingUUID,
-            type: 'username',
-            username: this.username,
-          });
-
-          if (conversationId != null) {
-            showConversation({ conversationId });
-            showInbox();
-          }
-        }}
+        onClick={() => drop(this.doLookup(lookupActions))}
       >
         {this.isFetching() ? (
           <span aria-label={i18n('icu:loading')} role="status">
@@ -175,6 +167,30 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
 
   shouldRecomputeRowHeights(_old: unknown): boolean {
     return false;
+  }
+
+  private async doLookup({
+    lookupConversationWithoutServiceId,
+    showUserNotFoundModal,
+    setIsFetchingUUID,
+    showInbox,
+    showConversation,
+  }: DoLookupActionsType): Promise<void> {
+    if (!this.username || this.isLookupDisabled()) {
+      return;
+    }
+
+    const conversationId = await lookupConversationWithoutServiceId({
+      showUserNotFoundModal,
+      setIsFetchingUUID,
+      type: 'username',
+      username: this.username,
+    });
+
+    if (conversationId != null) {
+      showConversation({ conversationId });
+      showInbox();
+    }
   }
 
   private isFetching(): boolean {
