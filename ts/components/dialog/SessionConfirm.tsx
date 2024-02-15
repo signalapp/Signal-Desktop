@@ -49,7 +49,7 @@ export interface SessionConfirmDialogProps {
    */
   onClickOk?: (...args: Array<any>) => Promise<void> | void;
 
-  onClickClose: () => any;
+  onClickClose?: () => any;
 
   /**
    * function to run on close click. Closes modal after execution by default
@@ -140,8 +140,8 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
    */
   const onClickCancelHandler = () => {
     onClickCancel?.();
-
     onClickClose?.();
+    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
   return (

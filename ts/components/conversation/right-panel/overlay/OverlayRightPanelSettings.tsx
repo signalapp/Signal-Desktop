@@ -30,7 +30,7 @@ import {
   useSelectedDisplayNameInProfile,
   useSelectedIsActive,
   useSelectedIsBlocked,
-  useSelectedIsGroup,
+  useSelectedIsGroupOrCommunity,
   useSelectedIsKickedFromGroup,
   useSelectedIsLeft,
   useSelectedIsPublic,
@@ -128,7 +128,7 @@ const HeaderItem = () => {
   const isBlocked = useSelectedIsBlocked();
   const isKickedFromGroup = useSelectedIsKickedFromGroup();
   const left = useSelectedIsLeft();
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
   const subscriberCount = useSelectedSubscriberCount();
 
   if (!selectedConvoKey) {
@@ -201,7 +201,7 @@ export const OverlayRightPanelSettings = () => {
   const isBlocked = useSelectedIsBlocked();
   const isKickedFromGroup = useSelectedIsKickedFromGroup();
   const left = useSelectedIsLeft();
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
   const isPublic = useSelectedIsPublic();
   const weAreAdmin = useSelectedWeAreAdmin();
   const disappearingMessagesSubtitle = useDisappearingMessageSettingText({

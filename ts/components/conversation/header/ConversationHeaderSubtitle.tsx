@@ -123,7 +123,7 @@ export const ConversationHeaderSubtitle = (props: ConversationHeaderSubtitleProp
           <SessionIconButton
             iconColor={'var(--button-icon-stroke-selected-color)'}
             iconSize={'tiny'}
-            iconType="timer50"
+            iconType="timerFixed"
             margin={'0 var(--margins-xs) 0 0'}
           />
         )}

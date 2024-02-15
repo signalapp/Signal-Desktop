@@ -12,8 +12,8 @@ import {
   useSelectedConversationDisappearingMode,
   useSelectedConversationKey,
   useSelectedExpireTimer,
-  useSelectedIsGroup,
-  useSelectedWeAreAdmin,
+  useSelectedIsGroupOrCommunity,
+  useSelectedWeAreAdmin
 } from '../../../../../state/selectors/selectedConversation';
 import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 import { Flex } from '../../../../basic/Flex';
@@ -114,7 +114,7 @@ export const OverlayDisappearingMessages = () => {
   const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
   const { singleMode, hasOnlyOneMode } = useSingleMode(disappearingModeOptions);
 
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
   const expirationMode = useSelectedConversationDisappearingMode();
   const expireTimer = useSelectedExpireTimer();
   const weAreAdmin = useSelectedWeAreAdmin();

@@ -151,7 +151,7 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
 
   return (
     <StyledExpiresIn>
-      <SessionIcon iconSize={'small'} iconType="stopwatch" />
+      <SessionIcon iconSize={'small'} iconType="timerFixed" />
       <SpacerSM />
       <span>{formatTimeLeft({ timeLeftMs })}</span>
     </StyledExpiresIn>
