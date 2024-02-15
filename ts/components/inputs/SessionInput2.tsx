@@ -1,96 +1,69 @@
 import { ChangeEvent, useState } from 'react';
 
-import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { Noop } from '../../types/Util';
 import { useHTMLDirection } from '../../util/i18n';
+import { Flex } from '../basic/Flex';
+import { SpacerMD } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 
-type Props = {
-  label?: string;
-  error?: string;
-  type?: string;
-  value?: string;
-  placeholder: string;
-  maxLength?: number;
-  enableShowHide?: boolean;
-  onValueChanged?: (value: string) => any;
-  onEnterPressed?: any;
-  autoFocus?: boolean;
-  ref?: any;
-  inputDataTestId?: string;
-};
-
-const StyledInputWithLabelContainer = styled.label`
-  height: 46.5px;
+const StyledInputContainer = styled(Flex)<{ error: boolean }>`
   width: 280px;
-  font-family: var(--font-default);
-  color: var(--text-primary-color);
-
-  padding: 2px 0 2px 0;
-  transition: opacity var(--default-duration);
-  opacity: 1;
-  position: relative;
 
   label {
-    line-height: 14px;
-    opacity: 0;
     color: var(--text-primary-color);
+    opacity: 0;
+    transition: opacity var(--default-duration);
 
-    font-size: 10px;
-    line-height: 11px;
-    position: absolute;
-    top: 0px;
-  }
-
-  &.filled {
-    opacity: 1;
-  }
-
-  &.error {
-    color: var(--danger-color);
-  }
-
-  input {
-    border: none;
-    outline: 0;
-    height: 14px;
-    width: 280px;
-    background: transparent;
-    color: var(--input-text-color);
-
-    font-family: var(--font-default);
-    font-size: 12px;
-    line-height: 14px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-
-    &::placeholder {
-      color: var(--input-text-placeholder-color);
+    &.filled {
+      opacity: 1;
     }
+
+    &.error {
+      color: var(--danger-color);
+      font-weight: 700;
+    }
+  }
+
+  ${props =>
+    props.error &&
+    `
+      input {
+        color: var(--danger-color);
+        border-color: var(--danger-color);
+
+        &::placeholder {
+          color: var(--danger-color);
+          opacity: 1;
+        }
+      }
+    `}
+`;
+
+const StyledInput = styled.input`
+  border: 1px solid var(--input-border-color);
+  border-radius: 13px;
+  outline: 0;
+  width: 280px;
+  background: transparent;
+  color: var(--input-text-color);
+
+  font-family: var(--font-default);
+  font-size: 12px;
+  line-height: 14px;
+  padding: var(--margins-lg);
+
+  &::placeholder {
+    color: var(--input-text-placeholder-color);
   }
 `;
 
-const LabelItem = (props: { inputValue: string; label?: string }) => {
+const ErrorItem = (props: { id: string; error: string }) => {
   return (
-    <StyledInputWithLabelContainer
-      htmlFor="session-input-floating-label"
-      className={classNames(props.inputValue !== '' ? 'filled' : '')}
-    >
-      {props.label}
-    </StyledInputWithLabelContainer>
-  );
-};
-
-const ErrorItem = (props: { error: string | undefined }) => {
-  return (
-    <StyledInputWithLabelContainer
-      htmlFor="session-input-floating-label"
-      className={classNames('filled error')}
-    >
+    <label htmlFor={props.id} className={'filled error'}>
       {props.error}
-    </StyledInputWithLabelContainer>
+    </label>
   );
 };
 
@@ -108,18 +81,33 @@ const ShowHideButton = (props: { toggleForceShow: Noop }) => {
   );
 };
 
+type Props = {
+  error?: string;
+  type?: string;
+  value?: string;
+  placeholder: string;
+  maxLength?: number;
+  enableShowHide?: boolean;
+  onValueChanged?: (value: string) => any;
+  onEnterPressed?: (value?: string) => any;
+  autoFocus?: boolean;
+  ref?: any;
+  inputDataTestId?: string;
+  id?: string;
+};
+
 export const SessionInput2 = (props: Props) => {
   const {
     autoFocus,
     placeholder,
-    type,
+    type = 'text',
     value,
     maxLength,
     enableShowHide,
     error,
-    label,
     onValueChanged,
     inputDataTestId,
+    id = 'session-input-floating-label',
   } = props;
   const [inputValue, setInputValue] = useState('');
   const [forceShow, setForceShow] = useState(false);
@@ -136,14 +124,15 @@ export const SessionInput2 = (props: Props) => {
   };
 
   return (
-    <StyledInputWithLabelContainer>
-      {error ? (
-        <ErrorItem error={props.error} />
-      ) : (
-        <LabelItem inputValue={inputValue} label={label} />
-      )}
-      <input
-        id="session-input-floating-label"
+    <StyledInputContainer
+      container={true}
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      error={Boolean(error)}
+    >
+      <StyledInput
+        id={id}
         type={correctType}
         placeholder={placeholder}
         value={value}
@@ -156,7 +145,7 @@ export const SessionInput2 = (props: Props) => {
         onBlur={updateInputValue}
         onKeyDown={event => {
           if (event.key === 'Enter' && props.onEnterPressed) {
-            props.onEnterPressed();
+            props.onEnterPressed(inputValue !== '' ? inputValue : undefined);
           }
         }}
       />
@@ -168,6 +157,12 @@ export const SessionInput2 = (props: Props) => {
           }}
         />
       )}
-    </StyledInputWithLabelContainer>
+      {!isEmpty(error) ? (
+        <>
+          <SpacerMD />
+          <ErrorItem id={id} error={error!} />
+        </>
+      ) : null}
+    </StyledInputContainer>
   );
 };

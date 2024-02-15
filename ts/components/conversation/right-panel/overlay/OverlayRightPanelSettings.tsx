@@ -234,9 +234,16 @@ export const OverlayRightPanelSettings = () => {
 
   const handleInputChanged = (name: string) => {
     sanitizeDisplayNameOrToast(name, setInputValue, setInputError);
+    if (name.length > MAX_USERNAME_BYTES) {
+      setInputError(window.i18n('displayNameTooLong'));
+    }
   };
 
-  const handleEnterPressed = () => {
+  const handleEnterPressed = (name?: string) => {
+    if (name && name.length >= MAX_USERNAME_BYTES) {
+      setInputError(window.i18n('displayNameTooLong'));
+      return;
+    }
     ToastUtils.pushToastSuccess('success', window.i18n('done'));
   };
 
@@ -335,10 +342,9 @@ export const OverlayRightPanelSettings = () => {
         />
         <SpacerLG />
         <SessionInput2
-          label={window.i18n('displayName')}
-          type="text"
           placeholder={window.i18n('enterDisplayName')}
           value={inputValue}
+          error={inputError}
           maxLength={MAX_USERNAME_BYTES}
           onValueChanged={handleInputChanged}
           onEnterPressed={handleEnterPressed}
