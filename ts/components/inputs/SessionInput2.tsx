@@ -1,7 +1,9 @@
 import { ChangeEvent, useState } from 'react';
 
+import { motion } from 'framer-motion';
 import { isEmpty } from 'lodash';
 import styled from 'styled-components';
+import { THEME_GLOBALS } from '../../themes/globals';
 import { Noop } from '../../types/Util';
 import { useHTMLDirection } from '../../util/i18n';
 import { Flex } from '../basic/Flex';
@@ -26,22 +28,13 @@ const StyledInputContainer = styled(Flex)<{ error: boolean }>`
     }
   }
 
-  ${props =>
-    props.error &&
-    `
-      input {
-        color: var(--danger-color);
-        border-color: var(--danger-color);
-
-        &::placeholder {
-          color: var(--danger-color);
-          opacity: 1;
-        }
-      }
-    `}
+  input::placeholder {
+    transition: opacity var(--default-duration) color var(--default-duration);
+    ${props => props.error && `color: var(--danger-color); opacity: 1;`}
+  }
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled(motion.input)`
   border: 1px solid var(--input-border-color);
   border-radius: 13px;
   outline: 0;
@@ -61,9 +54,15 @@ const StyledInput = styled.input`
 
 const ErrorItem = (props: { id: string; error: string }) => {
   return (
-    <label htmlFor={props.id} className={'filled error'}>
+    <motion.label
+      htmlFor={props.id}
+      className={'filled error'}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
+    >
       {props.error}
-    </label>
+    </motion.label>
   );
 };
 
@@ -148,6 +147,13 @@ export const SessionInput2 = (props: Props) => {
             props.onEnterPressed(inputValue !== '' ? inputValue : undefined);
           }
         }}
+        initial={{
+          borderColor: error && 'var(--input-border-color)',
+        }}
+        animate={{
+          borderColor: error && 'var(--danger-color)',
+        }}
+        transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
       />
 
       {enableShowHide && (

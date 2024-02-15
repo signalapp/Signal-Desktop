@@ -41,6 +41,7 @@ export type ThemeGlobals = {
 
   /* Animations */
   '--default-duration': string;
+  '--default-duration-seconds': number;
 
   /* Colors */
   '--green-color': string;
@@ -127,6 +128,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--search-input-height': '34px',
 
   '--default-duration': '0.25s',
+  '--default-duration-seconds': 0.25, // framer-motion requires a number
 
   '--green-color': COLORS.PRIMARY.GREEN,
   '--blue-color': COLORS.PRIMARY.BLUE,
