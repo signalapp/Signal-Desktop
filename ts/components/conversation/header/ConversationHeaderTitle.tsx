@@ -8,7 +8,7 @@ import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks
 import {
   useSelectedConversationDisappearingMode,
   useSelectedConversationKey,
-  useSelectedIsGroup,
+  useSelectedIsGroupOrCommunity,
   useSelectedIsKickedFromGroup,
   useSelectedIsNoteToSelf,
   useSelectedIsPublic,
@@ -42,7 +42,7 @@ export const ConversationHeaderTitle = () => {
   const isPublic = useSelectedIsPublic();
   const isKickedFromGroup = useSelectedIsKickedFromGroup();
   const isMe = useSelectedIsNoteToSelf();
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
   const members = useSelectedMembers();
 
   const expirationMode = useSelectedConversationDisappearingMode();
