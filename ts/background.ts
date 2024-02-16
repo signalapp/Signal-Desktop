@@ -162,7 +162,7 @@ import { StartupQueue } from './util/StartupQueue';
 import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
 import { sleeper } from './util/sleeper';
-import { DAY, HOUR, MINUTE } from './util/durations';
+import { DAY, HOUR, SECOND } from './util/durations';
 import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage';
 import {
   flushMessageCounter,
@@ -798,7 +798,7 @@ export async function startApp(): Promise<void> {
               );
               timeout = undefined;
               resolve();
-            }, 1 * MINUTE);
+            }, 10 * SECOND);
           }),
         ]);
         if (timeout) {

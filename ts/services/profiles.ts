@@ -122,14 +122,14 @@ export class ProfileService {
           return;
         }
 
-        if (
-          isRecord(error) &&
-          'code' in error &&
-          (error.code === 413 || error.code === 429)
-        ) {
-          this.clearAll(`got ${error.code} from server`);
-          const time = findRetryAfterTimeFromError(error);
-          void this.pause(time);
+        if (isRecord(error) && 'code' in error) {
+          if (error.code === -1) {
+            this.clearAll('Failed to connect to the server');
+          } else if (error.code === 413 || error.code === 429) {
+            this.clearAll(`got ${error.code} from server`);
+            const time = findRetryAfterTimeFromError(error);
+            void this.pause(time);
+          }
         }
       } finally {
         this.jobsByConversationId.delete(conversationId);
@@ -525,7 +525,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
             ? `code: ${error.code}`
             : Errors.toLogFormat(error)
         );
-        return;
+        throw error;
     }
   }
 

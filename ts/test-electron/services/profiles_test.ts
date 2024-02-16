@@ -154,5 +154,40 @@ describe('util/profiles', () => {
         assert.strictEqual(runCount, 3, 'after await');
       });
     }
+
+    it('clears all outstanding jobs if we get a -1', async () => {
+      let runCount = 0;
+      const getProfileWhichThrows = async () => {
+        runCount += 1;
+        const error = new HTTPError('fake -1', {
+          code: -1,
+          headers: {},
+        });
+        throw error;
+      };
+      const service = new ProfileService(getProfileWhichThrows);
+
+      // Queued and immediately started due to concurrency = 3
+      const promise1 = service.get(SERVICE_ID_1);
+      const promise2 = service.get(SERVICE_ID_2);
+      const promise3 = service.get(SERVICE_ID_3);
+
+      // Never started, but queued
+      const promise4 = service.get(SERVICE_ID_4);
+
+      assert.strictEqual(runCount, 3, 'before await');
+
+      await assert.isRejected(promise1, 'fake -1');
+
+      // Queued, because we aren't pausing
+      const promise5 = service.get(SERVICE_ID_5);
+
+      await assert.isRejected(promise2, 'job cancelled');
+      await assert.isRejected(promise3, 'job cancelled');
+      await assert.isRejected(promise4, 'job cancelled');
+      await assert.isRejected(promise5, 'fake -1');
+
+      assert.strictEqual(runCount, 4, 'after await');
+    });
   });
 });
