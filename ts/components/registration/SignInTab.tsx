@@ -151,7 +151,7 @@ export const SignInTab = () => {
       {signInMode !== SignInMode.Default && (
         <>
           <GoBackMainMenuButton />
-
+          <SpacerLG />
           <RegistrationUserDetails
             showDisplayNameField={showDisplayNameField}
             showSeedField={true}

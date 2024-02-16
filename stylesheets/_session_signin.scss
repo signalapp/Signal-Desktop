@@ -77,75 +77,71 @@
       @include registration-label-mixin;
       text-align: center;
     }
-
-    &__entry-fields {
-      margin: 0px;
-      padding-bottom: 30px;
-    }
   }
 
-  &-input-floating-label-show-hide {
-    padding-inline-end: 30px;
-  }
+  // TODO[epic=ses-50]: Remove the following styles
+  // &-input-floating-label-show-hide {
+  //   padding-inline-end: 30px;
+  // }
 
-  &-input-with-label-container {
-    height: 46.5px;
-    width: 280px;
-    font-family: var(--font-default);
-    color: var(--text-primary-color);
+  // &-input-with-label-container {
+  //   height: 46.5px;
+  //   width: 280px;
+  //   font-family: var(--font-default);
+  //   color: var(--text-primary-color);
 
-    padding: 2px 0 2px 0;
-    transition: opacity var(--default-duration);
-    opacity: 1;
-    position: relative;
+  //   padding: 2px 0 2px 0;
+  //   transition: opacity var(--default-duration);
+  //   opacity: 1;
+  //   position: relative;
 
-    label {
-      line-height: 14px;
-      opacity: 0;
-      color: var(--text-primary-color);
+  //   label {
+  //     line-height: 14px;
+  //     opacity: 0;
+  //     color: var(--text-primary-color);
 
-      font-size: 10px;
-      line-height: 11px;
-      position: absolute;
-      top: 0px;
-    }
+  //     font-size: 10px;
+  //     line-height: 11px;
+  //     position: absolute;
+  //     top: 0px;
+  //   }
 
-    &.filled {
-      opacity: 1;
-    }
+  //   &.filled {
+  //     opacity: 1;
+  //   }
 
-    &.error {
-      color: var(--danger-color);
-    }
+  //   &.error {
+  //     color: var(--danger-color);
+  //   }
 
-    input {
-      border: none;
-      outline: 0;
-      height: 14px;
-      width: 280px;
-      background: transparent;
-      color: var(--input-text-color);
+  //   input {
+  //     border: none;
+  //     outline: 0;
+  //     height: 14px;
+  //     width: 280px;
+  //     background: transparent;
+  //     color: var(--input-text-color);
 
-      font-family: var(--font-default);
-      font-size: 12px;
-      line-height: 14px;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+  //     font-family: var(--font-default);
+  //     font-size: 12px;
+  //     line-height: 14px;
+  //     position: absolute;
+  //     top: 50%;
+  //     transform: translateY(-50%);
 
-      &::placeholder {
-        color: var(--input-text-placeholder-color);
-      }
-    }
+  //     &::placeholder {
+  //       color: var(--input-text-placeholder-color);
+  //     }
+  //   }
 
-    hr {
-      border: 1px solid var(--border-color);
+  //   hr {
+  //     border: 1px solid var(--border-color);
 
-      width: 100%;
-      position: absolute;
-      bottom: 0px;
-    }
-  }
+  //     width: 100%;
+  //     position: absolute;
+  //     bottom: 0px;
+  //   }
+  // }
 
   &-terms-conditions-agreement {
     padding-top: var(--margins-md);

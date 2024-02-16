@@ -1,7 +1,6 @@
-import classNames from 'classnames';
-
 import { MAX_USERNAME_BYTES } from '../../session/constants';
-import { SessionInput } from '../basic/SessionInput';
+import { SpacerLG } from '../basic/Text';
+import { SessionInput2 } from '../inputs';
 
 const DisplayNameInput = (props: {
   stealAutoFocus?: boolean;
@@ -10,9 +9,8 @@ const DisplayNameInput = (props: {
   handlePressEnter: () => any;
 }) => {
   return (
-    <SessionInput
+    <SessionInput2
       autoFocus={props.stealAutoFocus || false}
-      label={window.i18n('displayName')}
       type="text"
       placeholder={window.i18n('enterDisplayName')}
       value={props.displayName}
@@ -31,8 +29,7 @@ const RecoveryPhraseInput = (props: {
   stealAutoFocus?: boolean;
 }) => {
   return (
-    <SessionInput
-      label={window.i18n('recoveryPhrase')}
+    <SessionInput2
       type="password"
       value={props.recoveryPhrase}
       autoFocus={props.stealAutoFocus || false}
@@ -60,26 +57,31 @@ export const RegistrationUserDetails = (props: Props) => {
   if (props.showSeedField && (props.recoveryPhrase === undefined || !props.onSeedChanged)) {
     throw new Error('if show seed is true, we need callback + value');
   }
+
   return (
-    <div className={classNames('session-registration__entry-fields')}>
+    <div style={{ margin: 0 }}>
       {props.showSeedField && (
-        <RecoveryPhraseInput
-          recoveryPhrase={props.recoveryPhrase as string}
-          handlePressEnter={props.handlePressEnter}
-          onSeedChanged={props.onSeedChanged as any}
-          stealAutoFocus={props.stealAutoFocus}
-        />
+        <>
+          <RecoveryPhraseInput
+            recoveryPhrase={props.recoveryPhrase as string}
+            handlePressEnter={props.handlePressEnter}
+            onSeedChanged={props.onSeedChanged as any}
+            stealAutoFocus={props.stealAutoFocus}
+          />
+          <SpacerLG />
+        </>
       )}
-      <div className="inputfields">
-        {props.showDisplayNameField && (
+      {props.showDisplayNameField && (
+        <>
           <DisplayNameInput
             stealAutoFocus={!props.showSeedField && props.stealAutoFocus}
             displayName={props.displayName}
             handlePressEnter={props.handlePressEnter}
             onDisplayNameChanged={props.onDisplayNameChanged}
           />
-        )}
-      </div>
+          <SpacerLG />
+        </>
+      )}
     </div>
   );
 };
