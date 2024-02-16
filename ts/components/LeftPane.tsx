@@ -625,17 +625,18 @@ export function LeftPane({
     dialogs.push({ key: 'banner', dialog: maybeBanner });
   }
 
+  const hideHeader =
+    modeSpecificProps.mode === LeftPaneMode.Archive ||
+    modeSpecificProps.mode === LeftPaneMode.Compose ||
+    modeSpecificProps.mode === LeftPaneMode.FindByUsername ||
+    modeSpecificProps.mode === LeftPaneMode.FindByPhoneNumber ||
+    modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers ||
+    modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata;
+
   return (
     <NavSidebar
       title="Chats"
-      hideHeader={
-        modeSpecificProps.mode === LeftPaneMode.Archive ||
-        modeSpecificProps.mode === LeftPaneMode.Compose ||
-        modeSpecificProps.mode === LeftPaneMode.FindByUsername ||
-        modeSpecificProps.mode === LeftPaneMode.FindByPhoneNumber ||
-        modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers ||
-        modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata
-      }
+      hideHeader={hideHeader}
       i18n={i18n}
       otherTabsUnreadStats={otherTabsUnreadStats}
       hasFailedStorySends={hasFailedStorySends}
@@ -722,9 +723,10 @@ export function LeftPane({
           </NavSidebarSearchHeader>
         )}
         <div className="module-left-pane__dialogs">
-          {dialogs.map(({ key, dialog }) => (
-            <React.Fragment key={key}>{dialog}</React.Fragment>
-          ))}
+          {!hideHeader &&
+            dialogs.map(({ key, dialog }) => (
+              <React.Fragment key={key}>{dialog}</React.Fragment>
+            ))}
         </div>
         {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
         <div className="module-left-pane__list--measure" ref={measureRef}>

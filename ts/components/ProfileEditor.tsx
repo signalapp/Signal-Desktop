@@ -621,6 +621,8 @@ export function ProfileEditor({
           }
           label={i18n('icu:ProfileEditor__username-link')}
           onClick={() => {
+            markCompletedUsernameLinkOnboarding();
+
             if (usernameLinkCorrupted) {
               setIsResettingUsernameLink(true);
               return;
@@ -633,7 +635,7 @@ export function ProfileEditor({
         />
       );
 
-      if (!hasCompletedUsernameLinkOnboarding) {
+      if (!hasCompletedUsernameLinkOnboarding && !usernameLink) {
         maybeUsernameLinkRow = (
           <UsernameLinkTooltip
             handleClose={markCompletedUsernameLinkOnboarding}
