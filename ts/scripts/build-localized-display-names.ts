@@ -6,23 +6,6 @@ import fs from 'fs/promises';
 import { z } from 'zod';
 import { _getAvailableLocales } from '../../app/locale';
 
-const availableLocales = _getAvailableLocales();
-
-const LocaleString = z.string().refine(arg => {
-  try {
-    return new Intl.Locale(arg) && true;
-  } catch {
-    return false;
-  }
-});
-
-const LocaleDisplayNames = z
-  .tuple([z.tuple([z.literal('locale')]).rest(LocaleString)])
-  .rest(z.tuple([LocaleString]).rest(z.string()));
-
-type Row = ReadonlyArray<string>;
-type Records = ReadonlyArray<Row>;
-
 const type = process.argv[2];
 if (type !== 'countries' && type !== 'locales') {
   throw new Error('Invalid first argument, expceted "countries" or "locales"');
@@ -36,6 +19,27 @@ const localeDisplayNamesBuildPath = process.argv[4];
 if (!localeDisplayNamesBuildPath) {
   throw new Error('Missing third argument: output json file');
 }
+
+const availableLocales = _getAvailableLocales();
+
+const LocaleString = z.string().refine(arg => {
+  try {
+    return new Intl.Locale(arg) && true;
+  } catch {
+    return false;
+  }
+});
+
+const LocaleDisplayNames = z
+  .tuple([
+    z
+      .tuple([z.literal(type === 'locales' ? 'locale' : 'Country Code')])
+      .rest(LocaleString),
+  ])
+  .rest(z.tuple([LocaleString]).rest(z.string()));
+
+type Row = ReadonlyArray<string>;
+type Records = ReadonlyArray<Row>;
 
 function parseCsv(input: string) {
   return new Promise<Records>((resolve, reject) => {
