@@ -131,6 +131,13 @@
   }
 
   &__input__container.Input__container {
+    /**
+     * Discriminator should always be to the right of the nickname.
+     * This overrides the default direction of the page.
+     */
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+    direction: ltr;
+
     margin-block-end: 8px;
   }
 }
