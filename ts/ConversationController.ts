@@ -102,7 +102,6 @@ function applyChangeToConversation(
 
 export type CombineConversationsParams = Readonly<{
   current: ConversationModel;
-  fromPniSignature?: boolean;
   obsolete: ConversationModel;
   obsoleteTitleInfo?: ConversationRenderInfoType;
 }>;
@@ -495,6 +494,9 @@ export class ConversationController {
     if (providedPni) {
       dataProvided.push(`pni=${providedPni}`);
     }
+    if (fromPniSignature) {
+      dataProvided.push(`fromPniSignature=${fromPniSignature}`);
+    }
     const logId = `maybeMergeContacts/${reason}/${dataProvided.join(',')}`;
 
     const aci = providedAci
@@ -677,7 +679,6 @@ export class ConversationController {
           mergePromises.push(
             mergeOldAndNew({
               current: targetConversation,
-              fromPniSignature,
               logId,
               obsolete: match,
               obsoleteTitleInfo,
@@ -1021,7 +1022,6 @@ export class ConversationController {
     current,
     obsolete,
     obsoleteTitleInfo,
-    fromPniSignature,
   }: CombineConversationsParams): Promise<void> {
     const logId = `combineConversations/${obsolete.id}->${current.id}`;
 
@@ -1047,12 +1047,13 @@ export class ConversationController {
 
     const obsoleteActiveAt = obsolete.get('active_at');
     const currentActiveAt = current.get('active_at');
-    const activeAt =
-      !obsoleteActiveAt ||
-      !currentActiveAt ||
-      currentActiveAt > obsoleteActiveAt
-        ? currentActiveAt
-        : obsoleteActiveAt;
+    let activeAt: number | null | undefined;
+
+    if (obsoleteActiveAt && currentActiveAt) {
+      activeAt = Math.max(obsoleteActiveAt, currentActiveAt);
+    } else {
+      activeAt = obsoleteActiveAt || currentActiveAt;
+    }
     current.set('active_at', activeAt);
 
     const dataToCopy: Partial<ConversationAttributesType> = pick(
@@ -1195,12 +1196,7 @@ export class ConversationController {
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
-    if (
-      obsoleteTitleInfo &&
-      titleIsUseful &&
-      !fromPniSignature &&
-      obsoleteHadMessages
-    ) {
+    if (obsoleteTitleInfo && titleIsUseful && obsoleteHadMessages) {
       drop(current.addConversationMerge(obsoleteTitleInfo));
     }
 

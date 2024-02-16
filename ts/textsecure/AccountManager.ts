@@ -47,6 +47,7 @@ import {
   isUntaggedPniString,
 } from '../types/ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
+import { drop } from '../util/drop';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { strictAssert } from '../util/assert';
@@ -558,7 +559,10 @@ export default class AccountManager extends EventTarget {
     return toUpload;
   }
 
-  async maybeUpdateKeys(serviceIdKind: ServiceIdKind): Promise<void> {
+  async maybeUpdateKeys(
+    serviceIdKind: ServiceIdKind,
+    forceUpdate = false
+  ): Promise<void> {
     const logId = `maybeUpdateKeys(${serviceIdKind})`;
     await this.queueTask(async () => {
       const { storage } = window.textsecure;
@@ -583,7 +587,7 @@ export default class AccountManager extends EventTarget {
         await this.server.getMyKeyCounts(serviceIdKind);
 
       let preKeys: Array<UploadPreKeyType> | undefined;
-      if (preKeyCount < PRE_KEY_MINIMUM) {
+      if (preKeyCount < PRE_KEY_MINIMUM || forceUpdate) {
         log.info(
           `${logId}: Server prekey count is ${preKeyCount}, generating a new set`
         );
@@ -591,7 +595,7 @@ export default class AccountManager extends EventTarget {
       }
 
       let pqPreKeys: Array<UploadKyberPreKeyType> | undefined;
-      if (kyberPreKeyCount < PRE_KEY_MINIMUM) {
+      if (kyberPreKeyCount < PRE_KEY_MINIMUM || forceUpdate) {
         log.info(
           `${logId}: Server kyber prekey count is ${kyberPreKeyCount}, generating a new set`
         );
@@ -599,9 +603,13 @@ export default class AccountManager extends EventTarget {
       }
 
       const pqLastResortPreKey = await this.maybeUpdateLastResortKyberKey(
-        serviceIdKind
+        serviceIdKind,
+        forceUpdate
       );
-      const signedPreKey = await this.maybeUpdateSignedPreKey(serviceIdKind);
+      const signedPreKey = await this.maybeUpdateSignedPreKey(
+        serviceIdKind,
+        forceUpdate
+      );
 
       if (
         !preKeys?.length &&
@@ -615,7 +623,7 @@ export default class AccountManager extends EventTarget {
 
       const keySummary: Array<string> = [];
       if (preKeys?.length) {
-        keySummary.push(`${!preKeys?.length || 0} prekeys`);
+        keySummary.push(`${preKeys.length} prekeys`);
       }
       if (signedPreKey) {
         keySummary.push('a signed prekey');
@@ -624,7 +632,7 @@ export default class AccountManager extends EventTarget {
         keySummary.push('a last-resort kyber prekey');
       }
       if (pqPreKeys?.length) {
-        keySummary.push(`${!pqPreKeys?.length || 0} kyber prekeys`);
+        keySummary.push(`${pqPreKeys.length} kyber prekeys`);
       }
       log.info(`${logId}: Uploading with ${keySummary.join(', ')}`);
 
@@ -699,7 +707,8 @@ export default class AccountManager extends EventTarget {
   }
 
   private async maybeUpdateSignedPreKey(
-    serviceIdKind: ServiceIdKind
+    serviceIdKind: ServiceIdKind,
+    forceUpdate = false
   ): Promise<UploadSignedPreKeyType | undefined> {
     const ourServiceId =
       window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
@@ -713,7 +722,10 @@ export default class AccountManager extends EventTarget {
     const mostRecent = confirmedKeys[0];
 
     const lastUpdate = mostRecent?.created_at;
-    if (isMoreRecentThan(lastUpdate || 0, SIGNED_PRE_KEY_ROTATION_AGE)) {
+    if (
+      !forceUpdate &&
+      isMoreRecentThan(lastUpdate || 0, SIGNED_PRE_KEY_ROTATION_AGE)
+    ) {
       log.warn(
         `${logId}: ${confirmedKeys.length} confirmed keys, ` +
           `most recent was created ${lastUpdate}. No need to update.`
@@ -765,7 +777,8 @@ export default class AccountManager extends EventTarget {
   }
 
   private async maybeUpdateLastResortKyberKey(
-    serviceIdKind: ServiceIdKind
+    serviceIdKind: ServiceIdKind,
+    forceUpdate = false
   ): Promise<UploadSignedPreKeyType | undefined> {
     const ourServiceId =
       window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
@@ -779,7 +792,10 @@ export default class AccountManager extends EventTarget {
     const mostRecent = confirmedKeys[0];
 
     const lastUpdate = mostRecent?.createdAt;
-    if (isMoreRecentThan(lastUpdate || 0, LAST_RESORT_KEY_ROTATION_AGE)) {
+    if (
+      !forceUpdate &&
+      isMoreRecentThan(lastUpdate || 0, LAST_RESORT_KEY_ROTATION_AGE)
+    ) {
       log.warn(
         `${logId}: ${confirmedKeys.length} confirmed keys, ` +
           `most recent was created ${lastUpdate}. No need to update.`
@@ -1389,17 +1405,20 @@ export default class AccountManager extends EventTarget {
       await storage.protocol.updateOurPniKeyMaterial(pni, keyMaterial);
 
       // Intentionally not awaiting since this is processed on encrypted queue
-      // of MessageReceiver.
-      void this.queueTask(async () => {
-        try {
-          await this.maybeUpdateKeys(ServiceIdKind.PNI);
-        } catch (error) {
-          log.error(
-            `${logId}: Failed to upload PNI prekeys. Moving on`,
-            Errors.toLogFormat(error)
-          );
-        }
-      });
+      // of MessageReceiver. Note that `maybeUpdateKeys` runs on the queue so
+      // we don't have to wrap it with `queueTask`.
+      drop(
+        (async () => {
+          try {
+            await this.maybeUpdateKeys(ServiceIdKind.PNI, true);
+          } catch (error) {
+            log.error(
+              `${logId}: Failed to upload PNI prekeys. Moving on`,
+              Errors.toLogFormat(error)
+            );
+          }
+        })()
+      );
 
       // PNI has changed and credentials are no longer valid
       await storage.put('groupCredentials', []);

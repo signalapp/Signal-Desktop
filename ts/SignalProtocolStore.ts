@@ -2635,7 +2635,7 @@ export class SignalProtocolStore extends EventEmitter {
     this.ourRegistrationIds.set(pni, registrationId);
 
     // Update database
-    await Promise.all([
+    await Promise.all<void>([
       storage.put('identityKeyMap', {
         ...(storage.get('identityKeyMap') || {}),
         [pni]: {
@@ -2647,11 +2647,11 @@ export class SignalProtocolStore extends EventEmitter {
         ...(storage.get('registrationIdMap') || {}),
         [pni]: registrationId,
       }),
-      async () => {
+      (async () => {
         const newId = signedPreKey.id() + 1;
         log.warn(`${logId}: Updating next signed pre key id to ${newId}`);
         await storage.put(SIGNED_PRE_KEY_ID_KEY[ServiceIdKind.PNI], newId);
-      },
+      })(),
       this.storeSignedPreKey(
         pni,
         signedPreKey.id(),
@@ -2662,14 +2662,14 @@ export class SignalProtocolStore extends EventEmitter {
         true,
         signedPreKey.timestamp()
       ),
-      async () => {
+      (async () => {
         if (!lastResortKyberPreKey) {
           return;
         }
         const newId = lastResortKyberPreKey.id() + 1;
         log.warn(`${logId}: Updating next kyber pre key id to ${newId}`);
         await storage.put(KYBER_KEY_ID_KEY[ServiceIdKind.PNI], newId);
-      },
+      })(),
       lastResortKyberPreKeyBytes && lastResortKyberPreKey
         ? this.storeKyberPreKeys(pni, [
             {
