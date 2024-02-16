@@ -1,7 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import styled from 'styled-components';
 import { THEME_GLOBALS } from '../../themes/globals';
 import { Noop } from '../../types/Util';
@@ -88,7 +88,7 @@ type Props = {
   maxLength?: number;
   enableShowHide?: boolean;
   onValueChanged?: (value: string) => any;
-  onEnterPressed?: (value?: string) => any;
+  onEnterPressed?: (value: string) => any;
   autoFocus?: boolean;
   ref?: any;
   inputDataTestId?: string;
@@ -109,6 +109,7 @@ export const SessionInput2 = (props: Props) => {
     id = 'session-input-floating-label',
   } = props;
   const [inputValue, setInputValue] = useState('');
+  const [errorString, setErrorString] = useState('');
   const [forceShow, setForceShow] = useState(false);
 
   const correctType = forceShow ? 'text' : type;
@@ -122,13 +123,20 @@ export const SessionInput2 = (props: Props) => {
     }
   };
 
+  // if we have an error, we want to show it even if the input changes to a valid value
+  useEffect(() => {
+    if (error && !isEmpty(error) && !isEqual(error, errorString)) {
+      setErrorString(error);
+    }
+  }, [error, errorString]);
+
   return (
     <StyledInputContainer
       container={true}
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      error={Boolean(error)}
+      error={Boolean(errorString)}
     >
       <StyledInput
         id={id}
@@ -144,14 +152,15 @@ export const SessionInput2 = (props: Props) => {
         onBlur={updateInputValue}
         onKeyDown={event => {
           if (event.key === 'Enter' && props.onEnterPressed) {
-            props.onEnterPressed(inputValue !== '' ? inputValue : undefined);
+            props.onEnterPressed(inputValue);
+            setErrorString('');
           }
         }}
         initial={{
-          borderColor: error && 'var(--input-border-color)',
+          borderColor: errorString ? 'var(--input-border-color)' : undefined,
         }}
         animate={{
-          borderColor: error && 'var(--danger-color)',
+          borderColor: errorString ? 'var(--danger-color)' : undefined,
         }}
         transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
       />
@@ -163,10 +172,10 @@ export const SessionInput2 = (props: Props) => {
           }}
         />
       )}
-      {!isEmpty(error) ? (
+      {errorString ? (
         <>
           <SpacerMD />
-          <ErrorItem id={id} error={error!} />
+          <ErrorItem id={id} error={errorString} />
         </>
       ) : null}
     </StyledInputContainer>

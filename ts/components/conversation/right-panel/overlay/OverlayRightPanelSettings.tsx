@@ -239,12 +239,11 @@ export const OverlayRightPanelSettings = () => {
     }
   };
 
-  const handleEnterPressed = (name?: string) => {
-    if (name && name.length >= MAX_USERNAME_BYTES) {
-      setInputError(window.i18n('displayNameTooLong'));
-      return;
+  const handleEnterPressed = (name: string) => {
+    if (name) {
+      sanitizeDisplayNameOrToast(name, setInputValue, setInputError);
+      ToastUtils.pushToastSuccess('success', window.i18n('done'));
     }
-    ToastUtils.pushToastSuccess('success', window.i18n('done'));
   };
 
   useEffect(() => {
