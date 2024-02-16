@@ -214,7 +214,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         const notifications = window.locator('.SystemMessage');
         assert.strictEqual(
           await notifications.count(),
-          withPNIMessage && !pniSignatureVerified ? 1 : 0,
+          withPNIMessage ? 1 : 0,
           'notification count'
         );
 
