@@ -1456,6 +1456,9 @@ export async function startApp(): Promise<void> {
       drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
 
       drop(connect(true));
+
+      // Run storage service after linking
+      drop(runStorageService());
     });
 
     cancelInitializationMessage();
