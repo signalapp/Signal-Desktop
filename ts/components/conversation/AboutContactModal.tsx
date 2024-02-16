@@ -15,10 +15,6 @@ import { About } from './About';
 export type PropsType = Readonly<{
   i18n: LocalizerType;
   onClose: () => void;
-}> &
-  ExternalPropsType;
-
-export type ExternalPropsType = Readonly<{
   conversation: ConversationType;
   isSignalConnection: boolean;
   toggleSignalConnectionsModal: () => void;
@@ -37,6 +33,8 @@ export function AboutContactModal({
   unblurAvatar,
   onClose,
 }: PropsType): JSX.Element {
+  const { isMe } = conversation;
+
   useEffect(() => {
     // Kick off the expensive hydration of the current sharedGroupNames
     updateSharedGroups(conversation.id);
@@ -70,7 +68,9 @@ export function AboutContactModal({
 
   let statusRow: JSX.Element | undefined;
 
-  if (conversation.isBlocked) {
+  if (isMe) {
+    // No status for ourselves
+  } else if (conversation.isBlocked) {
     statusRow = (
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--blocked" />
@@ -127,7 +127,9 @@ export function AboutContactModal({
 
       <div className="AboutContactModal__row">
         <h3 className="AboutContactModal__title">
-          {i18n('icu:AboutContactModal__title')}
+          {isMe
+            ? i18n('icu:AboutContactModal__title--myself')
+            : i18n('icu:AboutContactModal__title')}
         </h3>
       </div>
 
@@ -136,7 +138,7 @@ export function AboutContactModal({
         <UserText text={conversation.title} />
       </div>
 
-      {conversation.isVerified ? (
+      {!isMe && conversation.isVerified ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--verified" />
           <button
@@ -149,7 +151,7 @@ export function AboutContactModal({
         </div>
       ) : null}
 
-      {conversation.about ? (
+      {!isMe && conversation.about ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--about" />
           <About
@@ -159,7 +161,7 @@ export function AboutContactModal({
         </div>
       ) : null}
 
-      {isSignalConnection ? (
+      {!isMe && isSignalConnection ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--connections" />
           <button
@@ -172,7 +174,7 @@ export function AboutContactModal({
         </div>
       ) : null}
 
-      {isInSystemContacts(conversation) ? (
+      {!isMe && isInSystemContacts(conversation) ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--person" />
           {i18n('icu:AboutContactModal__system-contact', {
@@ -188,15 +190,17 @@ export function AboutContactModal({
         </div>
       ) : null}
 
-      <div className="AboutContactModal__row">
-        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--group" />
-        <div>
-          <SharedGroupNames
-            i18n={i18n}
-            sharedGroupNames={conversation.sharedGroupNames || []}
-          />
+      {!isMe && (
+        <div className="AboutContactModal__row">
+          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--group" />
+          <div>
+            <SharedGroupNames
+              i18n={i18n}
+              sharedGroupNames={conversation.sharedGroupNames || []}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {statusRow}
     </Modal>

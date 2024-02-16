@@ -27,6 +27,7 @@
 
   &__title {
     @include font-title-2;
+    font-weight: 500;
 
     margin: 0;
     margin-block-end: 4px;

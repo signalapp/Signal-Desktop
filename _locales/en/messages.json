@@ -1394,6 +1394,10 @@
     "messageformat": "About",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__title--myself": {
+    "messageformat": "You",
+    "description": "Title of About modal when viewing your own information"
+  },
   "icu:AboutContactModal__verified": {
     "messageformat": "Verified",
     "description": "Text of a button on About modal leading to a safety number modal"

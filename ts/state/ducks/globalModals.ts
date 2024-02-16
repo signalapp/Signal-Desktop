@@ -77,13 +77,10 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
   hasMigrated: boolean;
   invitedMemberIds: Array<string>;
 }>;
-export type AboutContactModalPropsType = ReadonlyDeep<{
-  contactId: string;
-}>;
 
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
-  aboutContactModalProps?: AboutContactModalPropsType;
+  aboutContactModalContactId?: string;
   authArtCreatorData?: AuthorizeArtCreatorDataType;
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
@@ -237,7 +234,7 @@ type ToggleAddUserToAnotherGroupModalActionType = ReadonlyDeep<{
 
 type ToggleAboutContactModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ABOUT_MODAL;
-  payload: AboutContactModalPropsType | undefined;
+  payload: string | undefined;
 }>;
 
 type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
@@ -644,7 +641,7 @@ function toggleAboutContactModal(
 ): ToggleAboutContactModalActionType {
   return {
     type: TOGGLE_ABOUT_MODAL,
-    payload: contactId ? { contactId } : undefined,
+    payload: contactId,
   };
 }
 
@@ -915,7 +912,7 @@ export function reducer(
   if (action.type === TOGGLE_ABOUT_MODAL) {
     return {
       ...state,
-      aboutContactModalProps: action.payload,
+      aboutContactModalContactId: action.payload,
     };
   }
 
@@ -965,6 +962,14 @@ export function reducer(
   }
 
   if (action.type === SHOW_CONTACT_MODAL) {
+    const ourId = window.ConversationController.getOurConversationIdOrThrow();
+    if (action.payload.contactId === ourId) {
+      return {
+        ...state,
+        aboutContactModalContactId: ourId,
+      };
+    }
+
     return {
       ...state,
       contactModalState: action.payload,
