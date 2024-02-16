@@ -888,7 +888,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         !PubKey.isClosedGroupV3(this.id) &&
         !fromConfigMessage &&
         expirationMode !== this.get('expirationMode') &&
-        expireTimer !== this.get('expireTimer'));
+        expireTimer !== this.get('expireTimer') &&
+        expirationMode !== 'off' &&
+        expireTimer !== 0);
 
     // When we add a disappearing messages notification to the conversation, we want it
     // to be above the message that initiated that change, hence the subtraction.
