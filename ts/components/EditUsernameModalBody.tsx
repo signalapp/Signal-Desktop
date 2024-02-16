@@ -60,7 +60,7 @@ enum UpdateState {
   Discriminator = 'Discriminator',
 }
 
-const DISCRIMINATOR_MAX_LENGTH = 19;
+const DISCRIMINATOR_MAX_LENGTH = 9;
 
 export function EditUsernameModalBody({
   i18n,
