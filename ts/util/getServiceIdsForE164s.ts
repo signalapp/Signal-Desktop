@@ -5,7 +5,6 @@ import type { CDSResponseType } from '../textsecure/cds/Types.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import type { AciString } from '../types/ServiceId';
 import * as log from '../logging/log';
-import { isEnabled } from '../RemoteConfig';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 
 export async function getServiceIdsForE164s(
@@ -36,10 +35,6 @@ export async function getServiceIdsForE164s(
     acisAndAccessKeys.push({ aci, accessKey });
   }
 
-  const returnAcisWithoutUaks =
-    !isEnabled('cds.disableCompatibilityMode') &&
-    isEnabled('desktop.cdsi.returnAcisWithoutUaks');
-
   log.info(
     `getServiceIdsForE164s(${e164s}): acis=${acisAndAccessKeys.length} ` +
       `accessKeys=${acisAndAccessKeys.length}`
@@ -47,6 +42,6 @@ export async function getServiceIdsForE164s(
   return server.cdsLookup({
     e164s,
     acisAndAccessKeys,
-    returnAcisWithoutUaks,
+    returnAcisWithoutUaks: false,
   });
 }

@@ -24,7 +24,6 @@ import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
 } from '../util/phoneNumberDiscoverability';
-import { isPnpCapable } from '../util/isPnpCapable';
 import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
 import type { ConversationModel } from '../models/conversations';
 import {
@@ -279,14 +278,6 @@ export function toAccountRecord(
   const primarySendsSms = window.storage.get('primarySendsSms');
   if (primarySendsSms !== undefined) {
     accountRecord.primarySendsSms = Boolean(primarySendsSms);
-  }
-
-  const accountE164 = window.storage.get('accountE164');
-  // Once account becomes PNP capable - we want to stop populating this field
-  // because it is deprecated in PNP world and we don't want to cause storage
-  // service thrashing.
-  if (accountE164 !== undefined && !isPnpCapable()) {
-    accountRecord.e164 = accountE164;
   }
 
   const rawPreferredReactionEmoji = window.storage.get(
@@ -1194,7 +1185,6 @@ export async function mergeAccountRecord(
     preferContactAvatars,
     primarySendsSms,
     universalExpireTimer,
-    e164: accountE164,
     preferredReactionEmoji: rawPreferredReactionEmoji,
     subscriberId,
     subscriberCurrencyCode,
@@ -1236,15 +1226,6 @@ export async function mergeAccountRecord(
 
   if (typeof primarySendsSms === 'boolean') {
     await window.storage.put('primarySendsSms', primarySendsSms);
-  }
-
-  // Store AccountRecord.e164 in an auxiliary field that isn't used for any
-  // other purpose in the app. This is required only while we are deprecating
-  // the AccountRecord.e164.
-  if (typeof accountE164 === 'string') {
-    await window.storage.put('accountE164', accountE164);
-  } else {
-    await window.storage.remove('accountE164');
   }
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {

@@ -183,7 +183,7 @@ message AccountRecord {
   optional bool preferContactAvatars = 15;
   optional uint32 universalExpireTimer = 17;
   optional bool primarySendsSms = 18;
-  optional string e164 = 19;
+  reserved 19; // deprecatedE164
   repeated string preferredReactionEmoji = 20;
   optional bytes subscriberId = 21;
   optional string subscriberCurrencyCode = 22;

@@ -636,12 +636,8 @@ export type WebAPIConnectType = {
   connect: (options: WebAPIConnectOptionsType) => WebAPIType;
 };
 
-export type CapabilitiesType = {
-  pni: boolean;
-};
-export type CapabilitiesUploadType = {
-  pni: true;
-};
+export type CapabilitiesType = Record<string, never>;
+export type CapabilitiesUploadType = Record<string, never>;
 
 type StickerPackManifestType = Uint8Array;
 
@@ -2262,9 +2258,7 @@ export function initialize({
           fetchesMessages: true,
           registrationId,
           pniRegistrationId,
-          capabilities: {
-            pni: true,
-          },
+          capabilities: {},
           unidentifiedAccessKey: Bytes.toBase64(accessKey),
         },
         requireAtomic: true,
@@ -2315,9 +2309,7 @@ export function initialize({
           name: encryptedDeviceName,
           registrationId,
           pniRegistrationId,
-          capabilities: {
-            pni: true,
-          },
+          capabilities: {},
         },
         aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
         pniSignedPreKey: serializeSignedPreKey(pniSignedPreKey),
