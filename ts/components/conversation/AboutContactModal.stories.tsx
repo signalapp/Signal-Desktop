@@ -44,6 +44,11 @@ const systemContact = getDefaultConversation({
   phoneNumber: '+1 555 123-4567',
   hasMessages: true,
 });
+const me = getDefaultConversation({
+  isMe: true,
+  acceptedMessageRequest: true,
+  hasMessages: true,
+});
 
 export default {
   title: 'Components/Conversation/AboutContactModal',
@@ -65,6 +70,10 @@ export default {
 
 export function Defaults(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} />;
+}
+
+export function Me(args: PropsType): JSX.Element {
+  return <AboutContactModal {...args} conversation={me} />;
 }
 
 export function Verified(args: PropsType): JSX.Element {
