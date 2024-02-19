@@ -862,6 +862,21 @@ async function createWindow() {
     // Prevent the shutdown
     e.preventDefault();
 
+    // In certain cases such as during an active call, we ask the user to confirm close
+    // which includes shutdown, clicking X on MacOS or closing to tray.
+    let shouldClose = true;
+    try {
+      shouldClose = await maybeRequestCloseConfirmation();
+    } catch (error) {
+      getLogger().warn(
+        'Error while requesting close confirmation.',
+        Errors.toLogFormat(error)
+      );
+    }
+    if (!shouldClose) {
+      return;
+    }
+
     /**
      * if the user is in fullscreen mode and closes the window, not the
      * application, we need them leave fullscreen first before closing it to
@@ -2055,6 +2070,59 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     isProduction: menuOptions.isProduction,
     platform: menuOptions.platform,
   });
+}
+
+async function maybeRequestCloseConfirmation(): Promise<boolean> {
+  if (!mainWindow || !mainWindow.webContents) {
+    return true;
+  }
+
+  getLogger().info(
+    'maybeRequestCloseConfirmation: Checking to see if close confirmation is needed'
+  );
+  const request = new Promise<boolean>(resolveFn => {
+    let timeout: NodeJS.Timeout | undefined;
+
+    if (!mainWindow) {
+      resolveFn(true);
+      return;
+    }
+
+    ipc.once('received-close-confirmation', (_event, result) => {
+      getLogger().info('maybeRequestCloseConfirmation: Response received');
+
+      clearTimeoutIfNecessary(timeout);
+      resolveFn(result);
+    });
+
+    ipc.once('requested-close-confirmation', () => {
+      getLogger().info(
+        'maybeRequestCloseConfirmation: Confirmation dialog shown, waiting for user.'
+      );
+      clearTimeoutIfNecessary(timeout);
+    });
+
+    mainWindow.webContents.send('maybe-request-close-confirmation');
+
+    // Wait a short time then proceed. Normally the dialog should be
+    // shown right away.
+    timeout = setTimeout(() => {
+      getLogger().error(
+        'maybeRequestCloseConfirmation: Response never received; continuing with close.'
+      );
+      resolveFn(true);
+    }, 10 * 1000);
+  });
+
+  try {
+    return await request;
+  } catch (error) {
+    getLogger().error(
+      'maybeRequestCloseConfirmation error:',
+      Errors.toLogFormat(error)
+    );
+    return true;
+  }
 }
 
 async function requestShutdown() {

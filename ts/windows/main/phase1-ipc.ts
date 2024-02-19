@@ -388,6 +388,19 @@ ipc.on('get-ready-for-shutdown', async () => {
   }
 });
 
+ipc.on('maybe-request-close-confirmation', async () => {
+  const { maybeRequestCloseConfirmation } = window.Events;
+  if (!maybeRequestCloseConfirmation) {
+    ipc.send('received-close-confirmation', true);
+    return;
+  }
+
+  log.info('Requesting close confirmation.');
+  ipc.send('requested-close-confirmation');
+  const result = await maybeRequestCloseConfirmation();
+  ipc.send('received-close-confirmation', result);
+});
+
 ipc.on('show-release-notes', () => {
   const { showReleaseNotes } = window.Events;
   if (showReleaseNotes) {

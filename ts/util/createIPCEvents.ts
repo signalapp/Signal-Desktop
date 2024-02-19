@@ -22,6 +22,7 @@ import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
 import { resolveUsernameByLinkBase64 } from '../services/username';
 import { writeProfile } from '../services/writeProfile';
+import { isInCall as getIsInCall } from '../state/selectors/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
@@ -43,6 +44,7 @@ import { isValidE164 } from './isValidE164';
 import { fromWebSafeBase64 } from './webSafeBase64';
 import { getConversation } from './getConversation';
 import { instance, PhoneNumberFormat } from './libphonenumberInstance';
+import { showConfirmationDialog } from './showConfirmationDialog';
 
 type SentMediaQualityType = 'standard' | 'high';
 type ThemeType = 'light' | 'dark' | 'system';
@@ -129,6 +131,7 @@ export type IPCEventsCallbacksType = {
   showGroupViaLink: (value: string) => Promise<void>;
   showReleaseNotes: () => void;
   showStickerPack: (packId: string, key: string) => void;
+  maybeRequestCloseConfirmation: () => Promise<boolean>;
   shutdown: () => Promise<void>;
   unknownSignalLink: () => void;
   getCustomColors: () => Record<string, CustomColorType>;
@@ -618,6 +621,43 @@ export function createIPCEvents(
 
       log.info('showConversationViaSignalDotMe: invalid E164');
       showUnknownSgnlLinkModal();
+    },
+
+    maybeRequestCloseConfirmation: async (): Promise<boolean> => {
+      const isInCall = getIsInCall(window.reduxStore.getState());
+      if (!isInCall) {
+        return true;
+      }
+
+      try {
+        await new Promise<void>((resolve, reject) => {
+          showConfirmationDialog({
+            dialogName: 'closeConfirmation',
+            onTopOfEverything: true,
+            cancelText: window.i18n(
+              'icu:ConfirmationDialog__Title--close-requested-not-now'
+            ),
+            confirmStyle: 'negative',
+            title: window.i18n(
+              'icu:ConfirmationDialog__Title--in-call-close-requested'
+            ),
+            okText: window.i18n('icu:close'),
+            reject: () => reject(),
+            resolve: () => resolve(),
+          });
+        });
+        log.info('Close confirmed by user.');
+        if (isInCall) {
+          window.reduxActions.calling.hangUpActiveCall(
+            'User confirmed in-call close.'
+          );
+        }
+
+        return true;
+      } catch {
+        log.info('Close cancelled by user.');
+        return false;
+      }
     },
 
     unknownSignalLink: () => {

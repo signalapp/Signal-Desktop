@@ -5723,6 +5723,14 @@
     "messageformat": "Would you like to discard these changes?",
     "description": "ConfirmationDialog text for discarding changes"
   },
+  "icu:ConfirmationDialog__Title--in-call-close-requested": {
+    "messageformat": "Close Signal and end the call?",
+    "description": "ConfirmationDialog title when trying to close the app while in a call."
+  },
+  "icu:ConfirmationDialog__Title--close-requested-not-now": {
+    "messageformat": "Not Now",
+    "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
+  },
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "Edit photo",
     "description": "Text of a button on profile editor that leads to the avatar editor"
