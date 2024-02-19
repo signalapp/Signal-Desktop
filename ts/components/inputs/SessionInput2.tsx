@@ -11,6 +11,7 @@ import { SpacerMD } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 
 const StyledInputContainer = styled(Flex)<{ error: boolean }>`
+  position: relative;
   width: 280px;
 
   label {
@@ -68,7 +69,8 @@ const ErrorItem = (props: { id: string; error: string }) => {
 
 const ShowHideButton = (props: { toggleForceShow: Noop }) => {
   const htmlDirection = useHTMLDirection();
-  const position = htmlDirection === 'ltr' ? { right: '0px' } : { left: '0px' };
+  const position =
+    htmlDirection === 'ltr' ? { right: 'var(--margins-md)' } : { left: 'var(--margins-md)' };
 
   return (
     <SessionIconButton
