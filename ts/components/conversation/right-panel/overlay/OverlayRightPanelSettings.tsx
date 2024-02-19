@@ -41,6 +41,7 @@ import { AttachmentTypeWithPath } from '../../../../types/Attachment';
 import { getAbsoluteAttachmentPath } from '../../../../types/MessageAttachment';
 import { Avatar, AvatarSize } from '../../../avatar/Avatar';
 import { Flex } from '../../../basic/Flex';
+import { SessionButton } from '../../../basic/SessionButton';
 import { SpacerLG, SpacerMD, SpacerXL } from '../../../basic/Text';
 import { SessionInput2 } from '../../../inputs';
 import { MediaItemType } from '../../../lightbox/LightboxGallery';
@@ -234,7 +235,7 @@ export const OverlayRightPanelSettings = () => {
 
   const handleInputChanged = (name: string) => {
     sanitizeDisplayNameOrToast(name, setInputValue, setInputError);
-    if (name.length > MAX_USERNAME_BYTES) {
+    if (name.length > 8) {
       setInputError(window.i18n('displayNameTooLong'));
     }
   };
@@ -347,6 +348,16 @@ export const OverlayRightPanelSettings = () => {
           maxLength={MAX_USERNAME_BYTES}
           onValueChanged={handleInputChanged}
           onEnterPressed={handleEnterPressed}
+          ctaButton={
+            <SessionButton
+              onClick={() => {
+                window.log.debug(
+                  `WIP: [OverlayRightPanelSettings] clicked continuing your session! `
+                );
+              }}
+              text={window.i18n('continueYourSession')}
+            />
+          }
         />
         {/* <HeaderItem />
         <PanelButtonGroup style={{ margin: '0 var(--margins-lg)' }}>

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { isEmpty, isEqual } from 'lodash';
@@ -82,6 +82,10 @@ const ShowHideButton = (props: { toggleForceShow: Noop }) => {
   );
 };
 
+const StyledCtaContainer = styled(motion.div)`
+  width: 100%;
+`;
+
 type Props = {
   error?: string;
   type?: string;
@@ -95,6 +99,7 @@ type Props = {
   ref?: any;
   inputDataTestId?: string;
   id?: string;
+  ctaButton?: ReactNode;
 };
 
 export const SessionInput2 = (props: Props) => {
@@ -109,6 +114,7 @@ export const SessionInput2 = (props: Props) => {
     onValueChanged,
     inputDataTestId,
     id = 'session-input-floating-label',
+    ctaButton,
   } = props;
   const [inputValue, setInputValue] = useState('');
   const [errorString, setErrorString] = useState('');
@@ -174,12 +180,16 @@ export const SessionInput2 = (props: Props) => {
           }}
         />
       )}
-      {errorString ? (
-        <>
-          <SpacerMD />
-          <ErrorItem id={id} error={errorString} />
-        </>
-      ) : null}
+
+      {ctaButton || errorString ? <SpacerMD /> : null}
+      {errorString ? <ErrorItem id={id} error={errorString} /> : null}
+
+      <StyledCtaContainer
+        initial={{ y: errorString && ctaButton ? 0 : undefined }}
+        animate={{ y: errorString && ctaButton ? 'var(--margins-md)' : undefined }}
+      >
+        {ctaButton}
+      </StyledCtaContainer>
     </StyledInputContainer>
   );
 };
