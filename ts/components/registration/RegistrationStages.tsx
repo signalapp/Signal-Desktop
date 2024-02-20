@@ -1,4 +1,5 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
+import { Provider } from 'react-redux';
 import { Data } from '../../data/data';
 import { SettingsKey } from '../../data/settings-key';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
@@ -8,6 +9,7 @@ import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
 import { TaskTimedOutError } from '../../session/utils/Promise';
 import { fromHex } from '../../session/utils/String';
 import { trigger } from '../../shims/events';
+import { onboardingStore } from '../../state/onboarding/store';
 import {
   generateMnemonic,
   registerSingleDevice,
@@ -15,6 +17,7 @@ import {
   signInByLinkingDevice,
 } from '../../util/accountManager';
 import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
+import { ModalContainer } from './ModalContainer';
 import { SignInMode, SignInTab } from './SignInTab';
 import { SignUpMode, SignUpTab } from './SignUpTab';
 
@@ -235,13 +238,16 @@ export const RegistrationStages = () => {
   ]);
 
   return (
-    <div className="session-registration-container">
-      <RegistrationContext.Provider value={memoizedValue}>
-        {(registrationPhase === RegistrationPhase.Start ||
-          registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
-        {(registrationPhase === RegistrationPhase.Start ||
-          registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
-      </RegistrationContext.Provider>
-    </div>
+    <Provider store={onboardingStore}>
+      <ModalContainer />
+      <div className="session-registration-container">
+        <RegistrationContext.Provider value={memoizedValue}>
+          {(registrationPhase === RegistrationPhase.Start ||
+            registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
+          {(registrationPhase === RegistrationPhase.Start ||
+            registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
+        </RegistrationContext.Provider>
+      </div>
+    </Provider>
   );
 };

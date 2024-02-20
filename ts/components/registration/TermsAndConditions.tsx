@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { updateTermsOfServicePrivacyModal } from '../../state/ducks/modalDialog';
+import { updateTermsOfServicePrivacyModal } from '../../state/onboarding/ducks/modals';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 
 const StyledTermsAndConditions = styled.div`
