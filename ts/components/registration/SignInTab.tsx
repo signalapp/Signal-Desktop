@@ -212,7 +212,7 @@ export const SignInTab = () => {
         </Flex>
       )}
 
-      {showTermsAndConditions && <TermsAndConditions />}
+      {showTermsAndConditions ? <TermsAndConditions /> : null}
     </div>
   );
 };

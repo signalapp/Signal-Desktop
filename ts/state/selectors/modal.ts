@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { StateType } from '../reducer';
 import {
   AddModeratorsModalState,
   BanOrUnbanUserModalState,
@@ -16,10 +15,12 @@ import {
   RecoveryPhraseModalState,
   RemoveModeratorsModalState,
   SessionPasswordModalState,
+  TermsOfServicePrivacyModalState,
   UpdateGroupMembersModalState,
   UpdateGroupNameModalState,
   UserDetailsModalState,
 } from '../ducks/modalDialog';
+import { StateType } from '../reducer';
 
 export const getModal = (state: StateType): ModalState => {
   return state.modals;
@@ -108,4 +109,9 @@ export const getReactClearAllDialog = createSelector(
 export const getEditProfilePictureModalState = createSelector(
   getModal,
   (state: ModalState): EditProfilePictureModalState => state.editProfilePictureModalState
+);
+
+export const getTermsOfServicePrivacyModalState = createSelector(
+  getModal,
+  (state: ModalState): TermsOfServicePrivacyModalState => state.termsOfServicePrivacyModalState
 );

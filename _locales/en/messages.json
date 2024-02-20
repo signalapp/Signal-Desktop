@@ -402,7 +402,6 @@
   "linkDevice": "Link Device",
   "restoreUsingRecoveryPhrase": "Restore your account",
   "or": "or",
-  "ByUsingThisService...": "By using this service, you agree to our <a href=\"https://getsession.org/terms-of-service \">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy\" target=\"_blank\">Privacy Policy</a>",
   "beginYourSession": "Begin your Session.",
   "welcomeToYourSession": "Welcome to your Session",
   "searchFor...": "Search conversations and contacts",
@@ -579,5 +578,10 @@
   "notApplicable": "N/A",
   "unknownError": "Unknown Error",
   "waitOneMoment": "One moment please...",
-  "loadAccountProgressMessage": "Loading your account"
+  "loadAccountProgressMessage": "Loading your account",
+  "onboardingTosPrivacy": "By using this service, you agree to our <b>Terms of Service</b> and <b>Privacy Policy</b>",
+  "urlOpen": "Open URL",
+  "urlOpenBrowser": "This will open in your browser.",
+  "termsOfService": "Terms of Service",
+  "privacyPolicy": "Privacy Policy"
 }
