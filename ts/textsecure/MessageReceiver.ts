@@ -343,9 +343,7 @@ export default class MessageReceiver
       wait: 75,
       maxSize: 30,
       processBatch: (items: Array<CacheAddItemType>) => {
-        // Not returning the promise here because we don't want to stall
-        // the batch.
-        void this.decryptAndCacheBatch(items);
+        return this.decryptAndCacheBatch(items);
       },
     });
     this.cacheRemoveBatcher = createBatcher<string>({
@@ -1150,6 +1148,16 @@ export default class MessageReceiver
       return;
     }
 
+    // Now, queue and process decrypted envelopes. We drop the promise so that the next
+    // decryptAndCacheBatch batch does not have to wait for the decrypted envelopes to be
+    // processed, which can be an asynchronous blocking operation
+    drop(this.queueAllDecryptedEnvelopes(decrypted));
+  }
+
+  // The final step in decryptAndCacheBatch: queue the decrypted envelopes for processing
+  private async queueAllDecryptedEnvelopes(
+    decrypted: Array<Required<DecryptResult>>
+  ): Promise<void> {
     await Promise.all(
       decrypted.map(async ({ envelope, plaintext }) => {
         try {
