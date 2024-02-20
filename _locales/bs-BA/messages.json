@@ -44,6 +44,10 @@
     "messageformat": "Dodaj “{contact}” u grupu “{group}”",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Traži",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "Kontakt {contact} je dodan u grupu {group}",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Popravi sada",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Pronađite po korisničkom imenu",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Pronađite po broju telefona",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Pronađite po korisničkom imenu",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Pronađite po broju telefona",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Korisničko ime",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Broj telefona",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Unesite korisničko ime praćeno tačkom i njenim skupom brojeva.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Državni kōd",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Državni kōd",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Prikaži kartice",
@@ -1352,15 +1392,35 @@
     "messageformat": "Vidi sigurnosni broj"
   },
   "icu:AboutContactModal__title": {
-    "messageformat": "About",
+    "messageformat": "O kontaktu",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__title--myself": {
+    "messageformat": "You",
+    "description": "Title of About modal when viewing your own information"
+  },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Potvrđeno",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} je blokiran/a",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Zahtjev za porukom na čekanju",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "Nema direktnih poruka sa {name}",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal veza",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} is in your system contacts",
+    "messageformat": "{name} je u vašim sistemskim kontaktima",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
   "icu:ContactModal__showSafetyNumber": {
@@ -1639,11 +1699,11 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "Phone Number",
+    "messageformat": "Broj telefona",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
-    "messageformat": "Device Name",
+    "messageformat": "Naziv uređaja",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -2344,7 +2404,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Pretražite po imenu ili broju telefona",
+    "messageformat": "Name, username, or number",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2384,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "Korisnik nije pronađen. {atUsername} nije korisnik/ca Signala; provjerite jeste li unijeli potpuno korisničko ime.",
+    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5205,7 +5265,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} član grupe ima slično ime. Pregledajte članove u nastavku ili odaberite radnju.} few {{count,number} člana grupe imaju slično ime. Pregledajte članove u nastavku ili odaberite radnju.} many {{count,number} članova grupe imaju slično ime. Pregledajte članove u nastavku ili odaberite radnju.} other {{count,number} članova grupe imaju isto ime. Provjerite članove ispod i odlučite kako s njima postupiti.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5217,15 +5277,15 @@
     "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
-    "messageformat": "No other groups in common",
+    "messageformat": "Nema drugih zajedničkih grupa",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal veza",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "Nedavno je promijenio/la naziv profila sa {oldName} u {newName}",
+    "messageformat": "Nedavno je promijenio/la ime profila sa {oldName} u {newName}",
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
@@ -5517,7 +5577,7 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "Nešto nije u redu s vašim korisničkim imenom, više nije dodijeljeno vašem računu. Možete ga pokušati ponovo postaviti ili odabrati novo.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
@@ -5529,7 +5589,7 @@
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
-    "messageformat": "Fix now",
+    "messageformat": "Popravi sada",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5557,7 +5617,7 @@
     "description": "Title text for username modal"
   },
   "icu:ProfileEditor--username--check-characters": {
-    "messageformat": "Korisnička imane amogu sadržavati samo slova a-z, brojeve 0-9 i _",
+    "messageformat": "Korisnička imena mogu sadržavati samo slova a-z, brojeve 0-9 i _",
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
@@ -5581,7 +5641,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "Numbers with more than 2 digits can’t start with 0",
+    "messageformat": "Brojevi s više od 2 cifre ne mogu početi sa 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5593,7 +5653,7 @@
     "description": "Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
-    "messageformat": "Pohranjivanje vašeg korisničkog imena nije uspjelo. Provjerite vezu i pokušajte ponovo.",
+    "messageformat": "Spremanje vašeg korisničkog imena nije uspjelo. Provjerite vezu i pokušajte ponovo.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
@@ -5628,6 +5688,10 @@
     "messageformat": "Izbriši",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "Da izbrišete svoje korisničko ime, otvorite Signal na telefonu i idite na Postavke > Profil.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopiraj ili izbriši korisničko ime",
     "description": "Shown as aria label for context menu next to username"
@@ -5661,7 +5725,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Edit photo",
+    "messageformat": "Obradi fotografiju",
     "description": "Text of a button on profile editor that leads to the avatar editor"
   },
   "icu:ProfileEditor--info--link": {
@@ -5669,15 +5733,15 @@
     "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "messageformat": "Vaš profil i promjene na njemu će biti vidljivi osobama kojima pošaljete poruku, kontaktima i grupama.",
     "description": "Information shown in profile editor below profile name and about fields"
   },
   "icu:ProfileEditor--info--pnp": {
-    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "messageformat": "Vaše korisničko ime, QR kod i poveznica nisu vidljivi na vašem profilu. Dijelite ih samo s osobama kojima vjerujete.",
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "messageformat": "Drugi vam sada mogu slati poruke koristeći vaše opcionalno korisničko ime tako da ne morate davati svoj broj telefona.",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -5845,11 +5909,11 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "messageformat": "Vaš broj telefona neće biti vidljiv nikome osim ako ga neka osoba nema sačuvanog u kontaktima na svom telefonu.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "Your phone number will not be visible to anyone.",
+    "messageformat": "Vaš broj telefona neće biti vidljiv nikome.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5889,7 +5953,7 @@
     "description": "Title for the messaging settings"
   },
   "icu:Preferences--see-me": {
-    "messageformat": "Vidi moj telefonski broj",
+    "messageformat": "Vidi moj broj telefona",
     "description": "Label for the see my phone number setting"
   },
   "icu:Preferences--find-me": {
@@ -6261,7 +6325,7 @@
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "Imate ih u svojim kontaktima na telefonu",
+    "messageformat": "Imate ih u svojim sistemskim kontaktima",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__footer": {
@@ -6545,7 +6609,7 @@
     "description": "Modal title for setting privacy for My Story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Odaberite koje Signal konekcije mogu vidjeti vašu priču. To uvijek možete promijeniti u postavkama privatnosti. <learnMoreLink>Saznajte više.</learnMoreLink>",
+    "messageformat": "Odaberite koje Signal veze mogu vidjeti vašu priču. To uvijek možete promijeniti u postavkama privatnosti. <learnMoreLink>Saznajte više.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__delete-story": {
@@ -6561,7 +6625,7 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Svi Signal kontakti · 1 gledalac} few {Svi Signal kontakti · {viewersCount,number} gledaoca} many {Svi Signal kontakti · {viewersCount,number} gledalaca} other {Svi Signal kontakti · {viewersCount,number} gledalaca}}",
+    "messageformat": "{viewersCount, plural, one {Sve Signal veze· {viewersCount,number} gledalac} few {Sve Signal veze · {viewersCount,number} gledaoca} many {Sve Signal veze · {viewersCount,number} gledalaca} other {Sve Signal veze· {viewersCount,number} gledalaca}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
@@ -6865,7 +6929,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames are always paired with a set of numbers.",
+    "messageformat": "Korisnička imena su uvijek uparena sa skupom brojeva.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6889,11 +6953,11 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
-    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "Oporavak vašeg korisničkog imena će poništiti vaš postojeći QR kod i vezu. Jeste li sigurni?",
     "description": "Body of the confirmation dialog displayed when user is about to recover their username"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "messageformat": "Vaš QR kod i link su poništeni i vaše korisničko ime je {username}",
     "description": "Text of toast displayed upon successful recovery of username"
   },
   "icu:UsernameLinkModalBody__hint": {
@@ -6929,7 +6993,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
+    "messageformat": "Ako resetujete svoj QR kod i link, vaš postojeći QR kod i link više neće funkcionirati.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6937,15 +7001,15 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
+    "messageformat": "Nešto nije u redu s vašim QR kodom i linkom, više nisu važeći. Pokušajte ga resetirati da kreirate novi QR kod i link.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__error__fix-now": {
-    "messageformat": "Fix now",
+    "messageformat": "Popravi sada",
     "description": "Text of the button in a confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "messageformat": "Vaš QR kod i link su poništeni i novi QR kod i link su kreirani.",
     "description": "Text of the confirmation dialog shown on successful username link recovery"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6953,7 +7017,7 @@
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "Privatnost telefonskog broja",
+    "messageformat": "Privatnost broja telefona",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
@@ -6985,7 +7049,7 @@
     "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Isključite otkrivanje telefonskog broja u Postavkama > Privatnost > Broj telefona > Ko može pronaći moj broj, da biste koristili svoje korisničko ime kao primarni način na koji vas drugi mogu kontaktirati.",
+    "messageformat": "Isključite otkrivanje broja telefona u Postavkama > Privatnost > Broj telefona > Ko može pronaći moj broj, da biste koristili svoje korisničko ime kao primarni način na koji vas drugi mogu kontaktirati.",
     "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -7005,7 +7069,7 @@
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Predstavljamo privatnost telefonskih brojeva, opcionalna korisnička imena i poveznice.",
+    "messageformat": "Predstavljamo privatnost brojeva telefona, opcionalna korisnička imena i poveznice.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
@@ -7188,16 +7252,22 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.47--0": {
-    "messageformat": "Ispravili smo grešku s indikatorima pisanja koja je ponekad uzrokovala nestajanje okvira za odabir emotikona.<emojify>🎉</emojify>"
-  },
-  "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Prozor Signala sada će odgovarati odabranoj boji naslovne trake u sustavu Microsoft Windows."
-  },
   "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+    "messageformat": "Video i audio reprodukcija će se sada pauzirati kad god se prozor Signala zatvori i minimizira na sistemskoj traci. Ako tražite tišinu, X označava mjesto."
   },
   "icu:WhatsNew__v6.48--1": {
-    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Emotikoni se sada prema zadanim postavkama pretvaraju u emoji dok tipkate (“:-)” → “<emojify>🙂</emojify>”). —Ovu značajku možete konfigurirati u odjeljku &quot;Razgovori&quot; u postavkama vašeg Signal Desktopa."
+  },
+  "icu:WhatsNew__v7.0--header": {
+    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+  },
+  "icu:WhatsNew__v7.0--0": {
+    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+  },
+  "icu:WhatsNew__v7.0--1": {
+    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+  },
+  "icu:WhatsNew__v7.0--2": {
+    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
   }
 }

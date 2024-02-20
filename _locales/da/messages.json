@@ -44,6 +44,10 @@
     "messageformat": "Tilføj \"{contact}\" til gruppen \"{group}\"",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Søg",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} blev tilføjet {group}",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Få hjælp nu",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Find via brugernavn",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Find ud fra telefonnummer",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Find via brugernavn",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Find ud fra telefonnummer",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Brugernavn",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Telefonnummer",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Angiv et brugernavn efterfulgt af et punktum og de tilhørende tal.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Landekode",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Landekode",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Vis faner",
@@ -1052,7 +1092,7 @@
     "description": "Shown to separate the types of search results"
   },
   "icu:findByUsernameHeader": {
-    "messageformat": "Find ud fra brugernavn",
+    "messageformat": "Find via brugernavn",
     "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
   },
   "icu:findByPhoneNumberHeader": {
@@ -1352,15 +1392,35 @@
     "messageformat": "Vis sikkerhedsnummer"
   },
   "icu:AboutContactModal__title": {
-    "messageformat": "About",
+    "messageformat": "Om",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__title--myself": {
+    "messageformat": "You",
+    "description": "Title of About modal when viewing your own information"
+  },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Verificeret",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} er blokeret",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Afventende beskedanmodning",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "Ingen direkte beskeder med {name}",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal-kontakt",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} is in your system contacts",
+    "messageformat": "{name} er i dine systemkontakter",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
   "icu:ContactModal__showSafetyNumber": {
@@ -1639,11 +1699,11 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "Phone Number",
+    "messageformat": "Telefonnummer",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
-    "messageformat": "Device Name",
+    "messageformat": "Enhedsnavn",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -2344,7 +2404,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Søg via navn eller telefonnummer",
+    "messageformat": "Navn, brugernavn eller nummer",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2384,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "Bruger ikke fundet. {atUsername} er ikke en Signal-bruger; sørg for, at du har indtastet det fulde brugernavn.",
+    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5205,7 +5265,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} gruppemedlem har det samme navn, find medlemmet nedenfor eller vælg at gøre noget.} other {{count,number} gruppemedlemmer har det samme navn, find medlemmerne nedenfor eller vælg at gøre noget.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5217,11 +5277,11 @@
     "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
-    "messageformat": "No other groups in common",
+    "messageformat": "Ingen andre grupper til fælles",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal-kontakt",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
@@ -5517,7 +5577,7 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "Noget gik galt med dit brugernavn. Det er ikke længere tildelt din konto. Du kan prøve at indstille det igen eller vælge et nyt.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
@@ -5529,7 +5589,7 @@
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
-    "messageformat": "Fix now",
+    "messageformat": "Få hjælp nu",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5581,7 +5641,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "Numbers with more than 2 digits can’t start with 0",
+    "messageformat": "Tal med flere end 2 cifre kan ikke starte med 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5628,6 +5688,10 @@
     "messageformat": "Slet",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "For at slette dit brugernavn, skal du åbne Signal på din telefon og gå ind i Indstillinger > Profil.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopiér eller slet brugernavn",
     "description": "Shown as aria label for context menu next to username"
@@ -5661,7 +5725,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Edit photo",
+    "messageformat": "Rediger billede",
     "description": "Text of a button on profile editor that leads to the avatar editor"
   },
   "icu:ProfileEditor--info--link": {
@@ -5669,15 +5733,15 @@
     "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "messageformat": "Din profil og ændringerne vil være synlige for folk, du skriver til, kontakter og grupper.",
     "description": "Information shown in profile editor below profile name and about fields"
   },
   "icu:ProfileEditor--info--pnp": {
-    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "messageformat": "Dit brugernavn, din QR-kode og dit link er ikke synligt på din profil. Del kun disse oplysninger med personer, du stoler på.",
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "messageformat": "Folk kan nu sende dig beskeder ved hjælp af dit valgfrie brugernavn, så du ikke behøver at dele dit telefonnummer.",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -5845,11 +5909,11 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "messageformat": "Dit telefonnummer vil ikke være synligt for nogen, medmindre de har gemt det i telefonens kontakter.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "Your phone number will not be visible to anyone.",
+    "messageformat": "Dit telefonnummer er ikke synligt for nogen.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -6261,7 +6325,7 @@
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "Have dem i dit systems kontakter",
+    "messageformat": "Have dem i dine systemkontakter",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__footer": {
@@ -6561,11 +6625,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Alle Signal-kontakter · {viewersCount,number} seer} other {Alle Signal-kontaker · {viewersCount,number} seere}}",
+    "messageformat": "{viewersCount, plural, one {Alle Signal-kontakter · {viewersCount,number} seer} other {Alle Signal-kontakter · {viewersCount,number} seere}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Alle Signal-kontaker · {excludedCount,number} ekskluderet} other {Alle Signal-kontaker · {excludedCount,number} ekskluderet}}",
+    "messageformat": "{excludedCount, plural, one {Alle Signal-kontakter · {excludedCount,number} ekskluderet} other {Alle Signal-kontakter · {excludedCount,number} ekskluderet}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
@@ -6865,7 +6929,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames are always paired with a set of numbers.",
+    "messageformat": "Brugernavne er altid parret med en række tal.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6889,11 +6953,11 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
-    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "Hvis du gendanner dit brugernavn, nulstilles din eksisterende QR-kode og dit link. Er du sikker?",
     "description": "Body of the confirmation dialog displayed when user is about to recover their username"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "messageformat": "Din QR-kode og dit link er blevet nulstillet, og dit brugernavn er {username}",
     "description": "Text of toast displayed upon successful recovery of username"
   },
   "icu:UsernameLinkModalBody__hint": {
@@ -6929,7 +6993,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
+    "messageformat": "Hvis du nulstiller din QR-kode og dit link, vil din eksisterende QR-kode og dit link ikke længere fungere.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6937,15 +7001,15 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
+    "messageformat": "Noget gik galt med din QR-kode og dit link. Oplysningerne er ikke længere gyldige. Nulstil for at oprette en ny QR-kode og et nyt link.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__error__fix-now": {
-    "messageformat": "Fix now",
+    "messageformat": "Få hjælp nu",
     "description": "Text of the button in a confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "messageformat": "Din QR-kode og dit link er blevet nulstillet, og der er oprettet en ny QR-kode og et nyt link.",
     "description": "Text of the confirmation dialog shown on successful username link recovery"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7188,16 +7252,22 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.47--0": {
-    "messageformat": "Hvis du bruger meget tid på at prøve at finde den perfekte emoji-reaktion til enhver situation, vil du være <emojify>🎉</emojify> for at vide, at vi rettede en fejl med indtastningsindikatorer, der undertiden fik emoji-valgfeltet til at forsvinde, mens du var midt i at overveje dine valg."
-  },
-  "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal matcher nu din valgte titelbjælkefarve på Microsoft Windows. Når alle dine vinduer i Windows ser ens ud, er det et fælles tema."
-  },
   "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+    "messageformat": "Nu stopper video- og lydafspilning, når Signal-vinduet lukkes og minimeres i systembakken."
   },
   "icu:WhatsNew__v6.48--1": {
-    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Efter populær efterspørgsel bliver emoji-ikoner som &quot;:-)&quot; nu automatisk konverteret til en emoji som &quot;<emojify>🙂</emojify>&quot; – men hvis dette gør dig &quot;:-(&quot; kan du deaktivere denne funktion i afsnittet &quot;Chats&quot; i dine Signal Desktop-indstillinger."
+  },
+  "icu:WhatsNew__v7.0--header": {
+    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+  },
+  "icu:WhatsNew__v7.0--0": {
+    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+  },
+  "icu:WhatsNew__v7.0--1": {
+    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+  },
+  "icu:WhatsNew__v7.0--2": {
+    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
   }
 }

@@ -44,6 +44,10 @@
     "messageformat": "Pievienot “{contact}” grupai “{group}”",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Meklēt",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact}pievienots {group}",
     "description": "Shown in toast after a user is added to an existing group"
@@ -317,7 +321,7 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Radās problēma ar jūsu lietotāja vārdu. Tas vairs nav piesaistīts jūsu kontam. Varat mēģināt to iestatīt vēlreiz vai izvēlēties jaunu.",
+    "messageformat": "Radās problēma ar jūsu lietotājvārdu. Tas vairs nav piesaistīts jūsu kontam. Varat mēģināt to iestatīt vēlreiz vai izvēlēties jaunu.",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
@@ -325,12 +329,48 @@
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Radās problēma saistībā ar jūsu QR kodu un lietotāja vārda saiti. Tā vairs nav derīga. Izveidojiet jaunu saiti, ko kopīgot ar citiem.",
+    "messageformat": "Radās problēma saistībā ar jūsu QR kodu un lietotājvārda saiti. Tā vairs nav derīga. Izveidojiet jaunu saiti, ko kopīgot ar citiem.",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Labot",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Atrast pēc lietotājvārda",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Meklēt pēc tālruņa numura",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Atrast pēc lietotājvārda",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Meklēt pēc tālruņa numura",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Lietotājvārds",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Tālruņa numurs",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Ievadiet lietotāja vārdu, lieciet aiz tā punktu un tad ierakstiet tam piesaistīto ciparu kombināciju.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Valsts kods",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Valsts kods",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Rādīt cilnes",
@@ -1052,7 +1092,7 @@
     "description": "Shown to separate the types of search results"
   },
   "icu:findByUsernameHeader": {
-    "messageformat": "Atrast pēc lietotājvārds",
+    "messageformat": "Atrast pēc lietotājvārda",
     "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
   },
   "icu:findByPhoneNumberHeader": {
@@ -1352,15 +1392,35 @@
     "messageformat": "Skatīt drošības numuru"
   },
   "icu:AboutContactModal__title": {
-    "messageformat": "About",
+    "messageformat": "Kontaktpersonas informācija",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__title--myself": {
+    "messageformat": "You",
+    "description": "Title of About modal when viewing your own information"
+  },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Pārbaudīts(verificēts)",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} ir bloķēts",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Gaida saziņas apstiprinājumu",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "Jūs un {name} vēl neesat sazinājušies",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal kontaktpersona",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} is in your system contacts",
+    "messageformat": "{name} ir jūsu kontaktpersona sistēmā",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
   "icu:ContactModal__showSafetyNumber": {
@@ -1639,11 +1699,11 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "Phone Number",
+    "messageformat": "Tālruņa numurs",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
-    "messageformat": "Device Name",
+    "messageformat": "Ierīces nosaukums",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -2344,7 +2404,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Meklēt pēc vārda vai tālruņa numura",
+    "messageformat": "Vārds, lietotājvārds vai numurs",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2384,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "Lietotājs nav atrasts. {atUsername} nav Signal lietotājs; pārbaudiet, vai ievadījāt visu lietotājvārdu.",
+    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5205,7 +5265,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, zero {{count,number} grupas dalībniekiem ir vienādi vārdi. Pārskatiet tālāk norādītos dalībniekus vai izvēlieties rīkoties.} one {{count,number} grupas dalībniekam ir vienādi vārdi. Pārskatiet tālāk norādītos dalībniekus vai izvēlieties rīkoties.} other {{count,number} grupas dalībniekiem ir vienādi vārdi; pārskatiet tālāk norādītos dalībniekus vai izvēlieties rīkoties.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5217,11 +5277,11 @@
     "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
-    "messageformat": "No other groups in common",
+    "messageformat": "Nav citu kopīgu grupu",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal kontaktpersona",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
@@ -5517,7 +5577,7 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "Radās problēma ar jūsu lietotājvārdu. Tas vairs nav piesaistīts jūsu kontam. Varat mēģināt to iestatīt vēlreiz vai izvēlēties jaunu.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
@@ -5529,7 +5589,7 @@
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
-    "messageformat": "Fix now",
+    "messageformat": "Labot",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5537,11 +5597,11 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "Lietotāja vārds ir jāatiestata",
+    "messageformat": "Lietotājvārds ir jāatiestata",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "Lietotāja vārda saite ir jāatiestata",
+    "messageformat": "Lietotājvārda saite ir jāatiestata",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
@@ -5573,7 +5633,7 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
-    "messageformat": "Nederīgs lietotāja vārds. Ievadiet vismaz 2 ciparus.",
+    "messageformat": "Nederīgs lietotājvārds. Ievadiet vismaz 2 ciparus.",
     "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
@@ -5581,7 +5641,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "Numbers with more than 2 digits can’t start with 0",
+    "messageformat": "Numuri, kuros ir vairāk nekā divi cipari, nedrīkst sākties ar \"0\"",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5597,7 +5657,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} vairs nav pieejams. Jūsu lietotāja vārdam tiks piesaistīta jauna ciparu kombinācija, lūdzu, mēģiniet to saglabāt vēlreiz.",
+    "messageformat": "{username} vairs nav pieejams. Jūsu lietotājvārdam tiks piesaistīta jauna ciparu kombinācija, lūdzu, mēģiniet to saglabāt vēlreiz.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "icu:ProfileEditor--username--delete-general-error": {
@@ -5627,6 +5687,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Dzēst",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "Lai dzēstu savu lietotāja vārdu, atveriet Signal savā tālrunī un dodieties uz Iestatījumi > Profils.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopēt vai dzēst lietotājvārdu",
@@ -5661,7 +5725,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Edit photo",
+    "messageformat": "Rediģēt fotogrāfiju",
     "description": "Text of a button on profile editor that leads to the avatar editor"
   },
   "icu:ProfileEditor--info--link": {
@@ -5669,15 +5733,15 @@
     "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "messageformat": "Jūsu profilu un ar to veiktās izmaiņas redzēs lietotāji, kuriem nosūtīsiet ziņas, kā arī jūsu kontaktpersonas un grupu dalībnieki.",
     "description": "Information shown in profile editor below profile name and about fields"
   },
   "icu:ProfileEditor--info--pnp": {
-    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "messageformat": "Jūsu lietotājvārds, QR kods un saite jūsu profilā nav redzami. Izpaudiet šo informāciju tikai uzticamiem cilvēkiem.",
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "messageformat": "Tagad cilvēki var nosūtīt jums ziņas, izmantojot jūsu izvēles lietotājvārdu. Tālruņa numuri vairs nav nepieciešami.",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -5845,11 +5909,11 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "messageformat": "Jūsu tālruņa numurs nevienam netiks rādīts, izņemot personām, kuras to ir saglabājušas sava tālruņa kontaktpersonu sarakstā.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "Your phone number will not be visible to anyone.",
+    "messageformat": "Jūsu tālruņa numurs nevienam netiks rādīts.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5889,7 +5953,7 @@
     "description": "Title for the messaging settings"
   },
   "icu:Preferences--see-me": {
-    "messageformat": "Redzēt manu telefona #",
+    "messageformat": "Redzēt manu tālruņa numuru",
     "description": "Label for the see my phone number setting"
   },
   "icu:Preferences--find-me": {
@@ -6245,7 +6309,7 @@
     "description": "Payment event notification check device label"
   },
   "icu:SignalConnectionsModal__title": {
-    "messageformat": "Signal kontakti",
+    "messageformat": "Signal kontaktpersonas",
     "description": "The phrase/term: 'Signal Connections'"
   },
   "icu:SignalConnectionsModal__header": {
@@ -6261,7 +6325,7 @@
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "Pievienošanas savā kontaktu sarakstā",
+    "messageformat": "Pievienošanas sistēmā kā kontaktpersonu",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__footer": {
@@ -6425,7 +6489,7 @@
     "description": "Modal title when hiding people from my stories"
   },
   "icu:StoriesSettings__mine__all--label": {
-    "messageformat": "Visi Signal kontakti",
+    "messageformat": "Visas Signal kontaktpersonas",
     "description": "Input label to describe all signal connections"
   },
   "icu:StoriesSettings__mine__all--description": {
@@ -6545,7 +6609,7 @@
     "description": "Modal title for setting privacy for My Story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Izvēlieties, kuri Signal kontakti var skatīt jūsu stāstu. To vienmēr varat mainīt privātuma iestatījumos. Uzziniet vairāk.",
+    "messageformat": "Izvēlieties, kuras Signal kontaktpersonas var skatīt jūsu stāstu. To vienmēr varat mainīt privātuma iestatījumos. <learnMoreLink>Uzziniet vairāk.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__delete-story": {
@@ -6561,11 +6625,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, zero {Visi Signal kontakti {viewersCount,number} skatītāji} one {Visi Signal kontakti 1 skatītājs} other {Visi Signal kontakti {viewersCount,number} skatītāji}}",
+    "messageformat": "{viewersCount, plural, zero {Visas Signal kontaktpersonas · {viewersCount,number} skatītāju} one {Visas Signal kontaktpersonas · {viewersCount,number} skatītājs} other {Visas Signal kontaktpersonas · {viewersCount,number} skatītāji}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, zero {Visi Signal kontakti {excludedCount,number} nav iekļauti} one {Visi Signal kontakti 1 nav iekļauts} other {Visi Signal kontakti {excludedCount,number} nav iekļauti}}",
+    "messageformat": "{excludedCount, plural, zero {Visas Signal kontaktpersonas · {excludedCount,number} nav iekļautas} one {Visas Signal kontaktpersonas · {excludedCount,number} nav iekļauta} other {Visas Signal kontaktpersonas · {excludedCount,number} nav iekļautas}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
@@ -6865,7 +6929,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames are always paired with a set of numbers.",
+    "messageformat": "Lietotājvārdiem vienmēr ir piesaistīta ciparu kombinācija.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6889,11 +6953,11 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
-    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "Mainot lietotājvārdu, tiks atiestatīts esošais QR kods un saite. Vai tiešām turpināt?",
     "description": "Body of the confirmation dialog displayed when user is about to recover their username"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "messageformat": "Jūsu QR kods un saite ir atiestatīti, un jūsu lietotājvārds ir {username}",
     "description": "Text of toast displayed upon successful recovery of username"
   },
   "icu:UsernameLinkModalBody__hint": {
@@ -6929,7 +6993,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
+    "messageformat": "Ja atiestatīsiet savu QR kodu un saiti, esošais QR kods un saite vairs nedarbosies.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6937,15 +7001,15 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
+    "messageformat": "Radās problēma ar jūsu QR kodu un saiti. Tie vairs nav derīgi. Mēģiniet to atiestatīt, lai izveidotu jaunu QR kodu un saiti.",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__error__fix-now": {
-    "messageformat": "Fix now",
+    "messageformat": "Labot",
     "description": "Text of the button in a confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "messageformat": "Jūsu QR kods un saite tika atiestatīti, un tika izveidots jauns QR kods un saite.",
     "description": "Text of the confirmation dialog shown on successful username link recovery"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6961,11 +7025,11 @@
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
-    "messageformat": "Lietotāju vārdi",
+    "messageformat": "Lietotājvārdi",
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "Tagad cilvēki var nosūtīt jums ziņas, izmantojot jūsu izvēles lietotāja vārdu. Tālruņa numuri vairs nav nepieciešami. Lietotāja vārds netiek rādīts jūsu profilā.",
+    "messageformat": "Tagad cilvēki var nosūtīt jums ziņas, izmantojot jūsu izvēles lietotājvārdu. Tālruņa numuri vairs nav nepieciešami. Lietotājvārds netiek rādīts jūsu profilā.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
@@ -6973,19 +7037,19 @@
     "description": "Title of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Lietotāju vārdiem ir piesaistīti unikāli QR kodi, kurus varat nosūtīt draugiem, lai ātri uzsāktu sarunu.",
+    "messageformat": "Lietotājvārdiem ir piesaistīti unikāli QR kodi, kurus varat nosūtīt draugiem, lai ātri uzsāktu sarunu.",
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Lietotāju vārdi tiek piesaistīti ciparu kombinācijām un netiek kopīgoti jūsu profilā",
+    "messageformat": "Lietotājvārdi tiek piesaistīti ciparu kombinācijām un netiek kopīgoti jūsu profilā",
     "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Katram lietotāja vārdam ir unikāls QR kods, kuru varat kopīgot ar draugiem, lai sāktu sarunu",
+    "messageformat": "Katram lietotājvārdam ir unikāls QR kods, kuru varat kopīgot ar draugiem, lai sāktu sarunu",
     "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Izslēdziet tālruņa numura noteikšanu sadaļā Iestatījumi > Privātums > > Tālruņa numurs > Kas var atrast manu numuru, lai izmantotu jūsu lietotāja vārdu kā galveno veidu, kā citi var ar jums sazināties.",
+    "messageformat": "Izslēdziet tālruņa numura noteikšanu sadaļā Iestatījumi > Privātums > > Tālruņa numurs > Kas var atrast manu numuru, lai izmantotu jūsu lietotājvārdu kā galveno veidu, kā citi var ar jums sazināties.",
     "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {
@@ -6993,7 +7057,7 @@
     "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Iestatīt lietotāja vārdu",
+    "messageformat": "Iestatīt lietotājvārdu",
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__skip": {
@@ -7005,7 +7069,7 @@
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Jaunumi: tālruņu numuru privātums, izvēles lietotāju vārdi un saites.",
+    "messageformat": "Jaunumi: tālruņu numuru privātums, izvēles lietotājvārdi un saites.",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {
@@ -7188,16 +7252,22 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.47--0": {
-    "messageformat": "Ja bieži mēdzat meklēt ideālo emocijzīmi ikvienai situācijai, tad tagad jūsu reakcija būs <emojify>🎉</emojify>, jo mēs izlabojām rakstīšanas indikatoru kļūdu, kas reizēm lika emocijzīmju atlasīšanas laukam vienkārši pazust, kamēr jūs prātojāt, kuru emocijzīmi izvēlēties."
-  },
-  "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Tagad Signal pieskaņosies jūsu izvēlētajai Microsoft Windows virsrakstjoslas krāsai. Kad visi Windows logi izskatās vienādi, lūk, tas ir saskaņots dizains."
-  },
   "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+    "messageformat": "Tagad video un audio atskaņošana tiks apturēta, ja Signal logs tiks aizvērts un minimizēts sistēmas ikonjoslā. Ja vēlaties klusumu, meklējiet \"X\" simbolu."
   },
   "icu:WhatsNew__v6.48--1": {
-    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "Pieprasījums bija liels, tāpēc tagad tādas emocijzīmes kā &quot;:-)&quot; automātiski kļūs par &quot;<emojify>🙂</emojify>&quot;. Ja šī funkcija jums šķiet &quot;:-(&quot;, varat to atspējot Signal datora versijas iestatījumu sadaļā &quot;Sarunas&quot;."
+  },
+  "icu:WhatsNew__v7.0--header": {
+    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+  },
+  "icu:WhatsNew__v7.0--0": {
+    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+  },
+  "icu:WhatsNew__v7.0--1": {
+    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+  },
+  "icu:WhatsNew__v7.0--2": {
+    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
   }
 }

@@ -21,7 +21,7 @@
     "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
-    "messageformat": "စာ",
+    "messageformat": "မက်ဆေ့ချ်",
     "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
@@ -43,6 +43,10 @@
   "icu:AddUserToAnotherGroupModal__confirm-message": {
     "messageformat": "“{contact}” ကို အဖွဲ့ “{group}” တွင် ပေါင်းထည့်ရန်",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "ရှာရန်",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} ကို {group} အဖွဲ့ထဲသို့ ပေါင်းထည့်ခဲ့ပါသည်",
@@ -77,11 +81,11 @@
     "description": "Title for the sent media quality setting"
   },
   "icu:sentMediaQualityStandard": {
-    "messageformat": "áá¯á¶áá¾ááº á¡ááá·áºááá·áº",
+    "messageformat": "စံအရည်အသွေး",
     "description": "Label text for standard media quality option"
   },
   "icu:sentMediaQualityHigh": {
-    "messageformat": "မြင့်သော",
+    "messageformat": "အရည်အသွေးမြင့်",
     "description": "Label text for high media quality option"
   },
   "icu:softwareAcknowledgments": {
@@ -269,7 +273,7 @@
     "description": "Label for context button next to each message"
   },
   "icu:contextMenuCopyLink": {
-    "messageformat": "link ကို ကူးယူရန်",
+    "messageformat": "လင့်ခ်ကို ကူးယူရန်",
     "description": "Shown in the context menu for a link to indicate that the user can copy the link"
   },
   "icu:contextMenuCopyImage": {
@@ -309,7 +313,7 @@
     "description": "Shown in place of the search box when showing archived conversation list"
   },
   "icu:LeftPane--pinned": {
-    "messageformat": "မှတ်ချိတ်ထားသည်",
+    "messageformat": "ပင်မှတ်ထားသည်",
     "description": "Shown as a header for pinned conversations in the left pane"
   },
   "icu:LeftPane--chats": {
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "ယခု ဖြေရှင်းရန်",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်ဖြင့် ရှာရန်",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "ဖုန်းနံပါတ်ဖြင့် ရှာရန်",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်ဖြင့် ရှာရန်",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "ဖုန်းနံပါတ်ဖြင့် ရှာရန်",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "ဖုန်းနံပါတ်",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်ကို ၎င်း၏နောက်တွင် အစက်တစ်စက်နှင့် ကိန်းဂဏန်းတွဲတစ်ခုနှင့်အတူ ရိုက်ထည့်ပါ။",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "နိုင်ငံ ကုဒ်",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "နိုင်ငံ ကုဒ်",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "တက်ဘ်များကို ပြသရန်",
@@ -481,7 +521,7 @@
     "description": "Title of the popup window used to select data previously exported"
   },
   "icu:importErrorHeader": {
-    "messageformat": "Something went wrong!",
+    "messageformat": "တစ်ခုခုမှားယွင်းနေသည်။",
     "description": "Header of the error screen after a failed import"
   },
   "icu:importingHeader": {
@@ -489,7 +529,7 @@
     "description": "Header of screen shown as data is import"
   },
   "icu:importErrorFirst": {
-    "messageformat": "သင်၏ သိမ်းထားသော Signal ဒေတာများ ပါဝင်သည့် မှန်ကန်သော ဖိုင်လမ်းကြောင်းကို ရွေးချယ်ထားကြောင်း သေချာပါစေ။ ၎င်း၏အမည်သည် 'Signal Export.' ဖြင့် စသင့်ပါသည်။ သင့်ဒေတာ မိတ္တူအသစ်ကို Chrome App မှလည်း သိမ်းနိုင်ပါသည်။",
+    "messageformat": "သင်၏ သိမ်းထားသော Signal ဒေတာများ ပါဝင်သည့် မှန်ကန်သော ဖိုင်လမ်းကြောင်းကို ရွေးချယ်ထားကြောင်း သေချာပါစေ။ ၎င်း၏အမည်သည် 'Signal Export' ဖြင့် စသင့်ပါသည်။ သင့်ဒေတာ မိတ္တူအသစ်ကို Chrome App မှလည်း သိမ်းနိုင်ပါသည်။",
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
@@ -497,11 +537,11 @@
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "icu:importAgain": {
-    "messageformat": "Choose folder and try again",
+    "messageformat": "ဖိုင်တွဲကို ရွေးချယ်ပြီး ထပ်မံကြိုးစားပါ",
     "description": "Button shown if the user runs into an error during import, allowing them to start over"
   },
   "icu:importCompleteHeader": {
-    "messageformat": "အောင်မြင်!",
+    "messageformat": "အောင်မြင်။",
     "description": "Header shown on the screen at the end of a successful import process"
   },
   "icu:importCompleteStartButton": {
@@ -513,7 +553,7 @@
     "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "icu:selectedLocation": {
-    "messageformat": "your selected location",
+    "messageformat": "သင်ရွေးချယ်ထားသော တည်နေရာ",
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "icu:upgradingDatabase": {
@@ -549,7 +589,7 @@
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:messagesBelow": {
-    "messageformat": "New messages below",
+    "messageformat": "အောက်တွင် မက်ဆေ့ချ်အသစ်ရှိသည်",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "icu:mentionsBelow": {
@@ -557,11 +597,11 @@
     "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
   },
   "icu:unreadMessage": {
-    "messageformat": "1 Unread Message",
+    "messageformat": "မဖတ်ရသေးသော မက်ဆေ့ချ်တစ်စောင်",
     "description": "Text for unread message separator, just one message"
   },
   "icu:unreadMessages": {
-    "messageformat": "{count, plural, other {မဖတ်ရသေးသည့် စာတို {count,number}}}",
+    "messageformat": "{count, plural, other {မဖတ်ရသေးသည့် မက်ဆေ့ချ် {count,number}}}",
     "description": "Text for unread message separator, with count"
   },
   "icu:messageHistoryUnsynced": {
@@ -585,7 +625,7 @@
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "icu:membersNeedingVerification": {
-    "messageformat": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+    "messageformat": "ယင်းအဖွဲ့ဝင်များနှင့် သင့်လုံခြုံရေးနံပါတ်သည် သင်နောက်ဆုံးအကြိမ် အတည်ပြုပြီးနောက် ပြောင်းလဲသွားပြီဖြစ်သည်။ ၎င်းတို့နှင့် သင့် လုံခြုံရေးနံပါတ်ကိုကြည့်ရန် အဖွဲ့ဝင်တစ်ယောက်ကို နှိပ်ပါ။",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
@@ -909,7 +949,7 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit,number} {units}",
+    "messageformat": "ဝမ်းနည်းပါသည်၊ ရွေးချယ်ထားသော ဖိုင်မှာ မက်ဆေ့ချ်အရွယ်အစား သတ်မှတ်ချက်ထက် ကျော်နေပါသည်။ {limit,number}{units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "icu:unableToLoadAttachment": {
@@ -1352,15 +1392,35 @@
     "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်"
   },
   "icu:AboutContactModal__title": {
-    "messageformat": "About",
+    "messageformat": "အဆက်အသွယ်အကြောင်း",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__title--myself": {
+    "messageformat": "You",
+    "description": "Title of About modal when viewing your own information"
+  },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "အတည်ပြုပြီး",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} ကို ဘလော့ခ်ထားသည်",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "ဆိုင်းငံ့ထားသော မက်ဆေ့ချ်တောင်းဆိုချက်",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "{name} နှင့် တိုက်ရိုက်မက်ဆေ့ချ် မရှိပါ",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal အဆက်အသွယ်",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} is in your system contacts",
+    "messageformat": "{name} သည် သင့်စနစ်ထဲရှိ အဆက်အသွယ်များတွင် ရှိပြီးဖြစ်သည်",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
   "icu:ContactModal__showSafetyNumber": {
@@ -1639,11 +1699,11 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "Phone Number",
+    "messageformat": "ဖုန်းနံပါတ်",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
-    "messageformat": "Device Name",
+    "messageformat": "စက်အမည်",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -2344,7 +2404,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "အမည် သို့မဟုတ် ဖုန်းနံပါတ်ဖြင့် ရှာရန်",
+    "messageformat": "အမည်၊ သုံးသူအမည်၊ သို့မဟုတ် နံပါတ်",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2384,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "သုံးစွဲသူ ရှာမတွေ့ပါ။ {atUsername} သည် Signal သုံးစွဲသူ မဟုတ်ပါ၊ မှန်ကန်သော သုံးစွဲသူအမည်ကို ရိုက်ထည့်ထားကြောင်း သေချာပါစေ။",
+    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5205,7 +5265,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, other {အဖွဲ့မန်ဘာ {count,number} ဦးတွင် ဆင်တူအမည်များ ရှိနေပါသည်၊ အောက်ပါ မန်ဘာများကို ပြန်သုံးသပ်ပါ သို့မဟုတ် လုပ်ဆောင်ချက်တစ်ခု လုပ်ရန် ရွေးချယ်ပါ။}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5217,11 +5277,11 @@
     "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
-    "messageformat": "No other groups in common",
+    "messageformat": "အခြား တူညီသော အဖွဲ့များမရှိပါ",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal အဆက်အသွယ်",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
@@ -5517,7 +5577,7 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "သင်၏ သုံးစွဲသူအမည်နှင့်ပတ်သက်၍ တစ်စုံတစ်ခု မှားယွင်းနေပါသည်၊ ၎င်းကို သင့်အကောင့်အတွက် သတ်မှတ်ထားခြင်း မရှိတော့ပါ။ ထပ်မံကြိုးစား၍ သတ်မှတ်နိုင်ပါသည် သို့မဟုတ် အမည်အသစ်တစ်ခု ရွေးချယ်နိုင်ပါသည်။",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
@@ -5529,7 +5589,7 @@
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
-    "messageformat": "Fix now",
+    "messageformat": "ယခု ဖြေရှင်းရန်",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5561,7 +5621,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "သုံးသူအမည်များသည် နံပါတ်နှင့် စတင်၍ မရပါ။",
+    "messageformat": "သုံးစွဲသူအမည်များသည် နံပါတ်နှင့် စတင်၍ မရပါ။",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -5581,7 +5641,7 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "Numbers with more than 2 digits can’t start with 0",
+    "messageformat": "ဂဏန်း 2 လုံးအထက် ကိန်းဂဏန်းများသည် 0 ဖြင့် စ၍မရပါ",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5589,7 +5649,7 @@
     "description": "Shown if the username is not available for registration"
   },
   "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "ဤအသုံးပြုသူအမည်ကို ယူထားပြီးပါပြီ။",
+    "messageformat": "ဤသုံးစွဲသူအမည်ကို ယူထားပြီးပါပြီ။",
     "description": "Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
@@ -5628,6 +5688,10 @@
     "messageformat": "ဖျက်ရန်",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "သင့်သုံးစွဲသူအမည်ကို ဖျက်ရန် သင့်ဖုန်းတွင် Signal ဖွင့်ပြီး ဆက်တင် > ပရိုဖိုင်သို့ သွားပါ။",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "သုံးစွဲသူအမည်ကို ကူးရန် သို့မဟုတ် ဖျက်ရန်",
     "description": "Shown as aria label for context menu next to username"
@@ -5661,7 +5725,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Edit photo",
+    "messageformat": "ဓာတ်ပုံ ပြင်ရန်",
     "description": "Text of a button on profile editor that leads to the avatar editor"
   },
   "icu:ProfileEditor--info--link": {
@@ -5669,15 +5733,15 @@
     "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "messageformat": "သင့်ပရိုဖိုင်နှင့် ၎င်းရှိ ပြောင်းလဲမှုများကို သင် မက်ဆေ့ချ်ပို့ထားသူများ၊ အဆက်အသွယ်များနှင့် အဖွဲ့များက မြင်ရပါမည်။",
     "description": "Information shown in profile editor below profile name and about fields"
   },
   "icu:ProfileEditor--info--pnp": {
-    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "messageformat": "သင်၏ သုံးစွဲသူအမည်၊ QR ကုဒ်နှင့် လင့်ခ်တို့ကို သင့်ပရိုဖိုင်တွင် မမြင်တွေ့နိုင်ပါ။ ၎င်းတို့ကို သင် ယုံကြည်ရသူများနှင့်သာ မျှဝေပေးပါ။",
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "messageformat": "ယခုအခါ လူအများသည် သင်၏ ရွေးချယ်နိုင်သော သုံးစွဲသူအမည်ကို အသုံးပြုလျက် သင့်ထံ မက်ဆေ့ချ်ပို့နိုင်ပြီဖြစ်၍ သင့်ဖုန်းနံပါတ်ကို မပေးရတော့ပါ။",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -5845,11 +5909,11 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "messageformat": "သင့်ဖုန်းနံပါတ်ကို မိမိဖုန်း၏ အဆက်အသွယ်များထဲတွင် သိမ်းဆည်းမထားပါက ၎င်းကို မည်သူမျှ တွေ့မြင်ရမည်မဟုတ်ပါ။",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "Your phone number will not be visible to anyone.",
+    "messageformat": "သင့်ဖုန်းနံပါတ်ကို မည်သူမျှ မြင်တွေ့ရမည်မဟုတ်ပါ။",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -6865,7 +6929,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames are always paired with a set of numbers.",
+    "messageformat": "သုံးစွဲသူအမည်များကို ကိန်းဂဏန်းတွဲတစ်ခုနှင့် အမြဲတွဲဖက်ထားပါသည်။",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6889,11 +6953,11 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
-    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "သင်၏ သုံးစွဲသူအမည်ကို ပြန်လည်ရယူပါက သင့်မူလ QR ကုဒ်နှင့် လင့်ခ်ကို ပြန်လည်သတ်မှတ်လိုက်ပါမည်။ သေချာပါသလား။",
     "description": "Body of the confirmation dialog displayed when user is about to recover their username"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "messageformat": "သင်၏ QR ကုဒ်နှင့် လင့်ခ်ကို ပြန်လည်သတ်မှတ်လိုက်ပြီး သင့်သုံးစွဲသူအမည်သည် {username} ဖြစ်ပါသည်",
     "description": "Text of toast displayed upon successful recovery of username"
   },
   "icu:UsernameLinkModalBody__hint": {
@@ -6929,7 +6993,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
+    "messageformat": "သင့် QR ကုဒ်နှင့် လင့်ခ်ကို သင် ပြန်လည်သတ်မှတ်လိုက်ပါက မူလ QR ကုဒ်နှင့် လင့်ခ်မှာ အလုပ်လုပ်တော့မည်မဟုတ်ပါ။",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6937,15 +7001,15 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
+    "messageformat": "သင်၏ QR ကုဒ်နှင့် လင့်ခ်တွင် တစ်စုံတစ်ခု မှားယွင်းနေပါသည်၊ ၎င်းသည် မှန်ကန်ခြင်းမရှိတော့ပါ။ QR ကုဒ်နှင့် လင့်ခ်အသစ်တစ်ခု ဖန်တီးရန် ၎င်းကို ပြန်လည်သတ်မှတ်ကြည့်ပါ။",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__error__fix-now": {
-    "messageformat": "Fix now",
+    "messageformat": "ယခု ဖြေရှင်းရန်",
     "description": "Text of the button in a confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "messageformat": "သင့် QR ကုဒ်နှင့် လင့်ခ်ကို ပြန်လည်သတ်မှတ်လိုက်ပြီဖြစ်ပြီး QR ကုဒ်နှင့် လင့်ခ် အသစ်တစ်ခုကို ဖန်တီးလိုက်ပါပြီ။",
     "description": "Text of the confirmation dialog shown on successful username link recovery"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7188,16 +7252,22 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.47--0": {
-    "messageformat": "အီမိုဂျီရွေးချယ်သည့် အကွက်ကို တစ်ခါတစ်ရံ ပျောက်သွားစေသည့် စာရိုက်နေကြောင်း အချက်ပြမှုများနှင့် ပတ်သက်သော ချို့ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြုပြင်ထားပါသည်။<emojify>🎉</emojify>"
-  },
-  "icu:WhatsNew__v6.47--1": {
-    "messageformat": "ယခုအခါ Signal သည် Microsoft Windows တွင် သင်ရွေးထားသော ခေါင်းစဉ်ဘား အရောင်နှင့် တူညီနေပါမည်။"
-  },
   "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+    "messageformat": "ယခုအခါ Signal ဝင်းဒိုးကို ပိတ်ပြီးနောက် စနစ် Tray ထဲတွင် ချုံ့ထားလိုက်သည့်အခါတိုင်း ဗီဒီယိုနှင့် အော်ဒီယို ဖွင့်ခြင်းကို ခေတ္တရပ်ထားပါမည်။ အသံပိတ်ရန် သင် ကြိုးစားနေပါက ပိတ်ရမည့်နေရာကို X ဖြင့် ပြထားပါသည်။"
   },
   "icu:WhatsNew__v6.48--1": {
-    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "ယခုအခါ “:-)” ဟု စာရိုက်လိုက်လျှင် “<emojify>🙂</emojify>” — ဖြစ်သွားသကဲ့သို့ ရုပ်ပြောင်များသည် အလိုအလျောက် အီမိုဂျီဖြစ်သွားပါသည်။ ဤအင်္ဂါရပ်ကို သင်၏ Signal Desktop ဆက်တင်များရှိ &quot;ချက်(တ်)&quot; ကဏ္ဍတွင် စီစဉ်သတ်မှတ်နိုင်ပါသည်။"
+  },
+  "icu:WhatsNew__v7.0--header": {
+    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+  },
+  "icu:WhatsNew__v7.0--0": {
+    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+  },
+  "icu:WhatsNew__v7.0--1": {
+    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+  },
+  "icu:WhatsNew__v7.0--2": {
+    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
   }
 }
