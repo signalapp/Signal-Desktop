@@ -6,11 +6,13 @@ export enum SessionButtonType {
   Outline = 'outline',
   Simple = 'simple',
   Solid = 'solid',
+  ModalConfirm = 'modal-confirm',
 }
 
 export enum SessionButtonShape {
   Round = 'round',
   Square = 'square',
+  None = 'none',
 }
 
 // NOTE References ts/themes/colors.tsx
@@ -33,7 +35,7 @@ const StyledButton = styled.div<{
   buttonType: SessionButtonType;
   buttonShape: SessionButtonShape;
 }>`
-  width: auto;
+  width: ${props => (props.buttonType === SessionButtonType.ModalConfirm ? '100%' : 'auto')};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,8 +47,9 @@ const StyledButton = styled.div<{
   transition: var(--default-duration);
   background-repeat: no-repeat;
   overflow: hidden;
-  height: 34px;
-  padding: 0px 18px;
+  height: ${props => (props.buttonType === SessionButtonType.ModalConfirm ? undefined : '34px')};
+  padding: ${props =>
+    props.buttonType === SessionButtonType.ModalConfirm ? '16px 24px 24px' : '0px 18px'};
   background-color: ${props =>
     props.buttonType === SessionButtonType.Solid && props.color
       ? `var(--${props.color}-color)`
@@ -65,7 +68,12 @@ const StyledButton = styled.div<{
   ${props =>
     props.buttonType === SessionButtonType.Solid &&
     'box-shadow: 0px 0px 6px var(--button-solid-shadow-color);'}
-  border-radius: ${props => (props.buttonShape === SessionButtonShape.Round ? '17px' : '6px')};
+  border-radius: ${props =>
+    props.buttonShape === SessionButtonShape.Round
+      ? '17px'
+      : props.buttonShape === SessionButtonShape.Square
+      ? '6px'
+      : '0px'};
 
   .session-icon {
     fill: var(--background-primary-color);

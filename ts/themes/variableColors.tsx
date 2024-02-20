@@ -70,6 +70,12 @@ export type ThemeColorVariables = {
   '--button-simple-text-color': string;
   '--button-simple-disabled-color': string;
 
+  /* Confirm */
+  '--button-modal-confirm-background-color': string;
+  '--button-modal-confirm-background-hover-color': string;
+  /* Confirm buttons stay the same and rely on the disabled pointer */
+  '--button-modal-confirm-disabled-color': string;
+
   /* Icons */
   '--button-icon-background-color': string;
   '--button-icon-stroke-color': string;

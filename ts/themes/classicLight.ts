@@ -58,6 +58,10 @@ export const classicLight: ThemeColorVariables = {
   '--button-simple-text-color': 'var(--text-primary-color)',
   '--button-simple-disabled-color': 'var(--disabled-color)',
 
+  '--button-modal-confirm-background-color': 'none',
+  '--button-modal-confirm-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--button-modal-confirm-disabled-color': 'none',
+
   '--button-icon-background-color': 'var(--transparent-color)',
   '--button-icon-stroke-color': 'var(--text-secondary-color)',
   '--button-icon-stroke-hover-color': 'var(--text-primary-color)',
