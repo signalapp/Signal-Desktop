@@ -14,7 +14,6 @@ import {
   getRecoveryPhraseDialog,
   getRemoveModeratorsModal,
   getSessionPasswordDialog,
-  getTermsOfServicePrivacyModalState,
   getUpdateGroupMembersModal,
   getUpdateGroupNameModal,
   getUserDetailsModal,
@@ -33,7 +32,6 @@ import { SessionConfirm } from './SessionConfirm';
 import { SessionNicknameDialog } from './SessionNicknameDialog';
 import { SessionPasswordDialog } from './SessionPasswordDialog';
 import { SessionSeedModal } from './SessionSeedModal';
-import { TermsOfServicePrivacyDialog } from './TermsOfServicePrivacyDialog';
 import { UpdateGroupMembersDialog } from './UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from './UpdateGroupNameDialog';
 import { UserDetailsDialog } from './UserDetailsDialog';
@@ -56,7 +54,6 @@ export const ModalContainer = () => {
   const reactListModalState = useSelector(getReactListDialog);
   const reactClearAllModalState = useSelector(getReactClearAllDialog);
   const editProfilePictureModalState = useSelector(getEditProfilePictureModalState);
-  const termsOfServicePrivacyModalState = useSelector(getTermsOfServicePrivacyModalState);
 
   return (
     <>
@@ -80,9 +77,6 @@ export const ModalContainer = () => {
       {reactClearAllModalState && <ReactClearAllModal {...reactClearAllModalState} />}
       {editProfilePictureModalState && (
         <EditProfilePictureModal {...editProfilePictureModalState} />
-      )}
-      {termsOfServicePrivacyModalState && (
-        <TermsOfServicePrivacyDialog {...termsOfServicePrivacyModalState} />
       )}
     </>
   );

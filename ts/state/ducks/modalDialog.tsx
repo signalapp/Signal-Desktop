@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EditProfilePictureModalProps } from '../../components/dialog/EditProfilePictureModal';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
 import { PasswordAction } from '../../components/dialog/SessionPasswordDialog';
-import { TermsOfServicePrivacyDialogProps } from '../../components/dialog/TermsOfServicePrivacyDialog';
 import { Noop } from '../../types/Util';
 
 export type BanType = 'ban' | 'unban';
@@ -39,8 +38,6 @@ export type ReactModalsState = {
 
 export type EditProfilePictureModalState = EditProfilePictureModalProps | null;
 
-export type TermsOfServicePrivacyModalState = TermsOfServicePrivacyDialogProps | null;
-
 export type ModalState = {
   confirmModal: ConfirmModalState;
   inviteContactModal: InviteContactModalState;
@@ -59,7 +56,6 @@ export type ModalState = {
   reactListModalState: ReactModalsState;
   reactClearAllModalState: ReactModalsState;
   editProfilePictureModalState: EditProfilePictureModalState;
-  termsOfServicePrivacyModalState: TermsOfServicePrivacyModalState;
 };
 
 export const initialModalState: ModalState = {
@@ -80,7 +76,6 @@ export const initialModalState: ModalState = {
   reactListModalState: null,
   reactClearAllModalState: null,
   editProfilePictureModalState: null,
-  termsOfServicePrivacyModalState: null,
 };
 
 const ModalSlice = createSlice({
@@ -138,12 +133,6 @@ const ModalSlice = createSlice({
     updateEditProfilePictureModel(state, action: PayloadAction<EditProfilePictureModalState>) {
       return { ...state, editProfilePictureModalState: action.payload };
     },
-    updateTermsOfServicePrivacyModal(
-      state,
-      action: PayloadAction<TermsOfServicePrivacyModalState>
-    ) {
-      return { ...state, termsOfServicePrivacyModalState: action.payload };
-    },
   },
 });
 
@@ -166,6 +155,5 @@ export const {
   updateReactListModal,
   updateReactClearAllModal,
   updateEditProfilePictureModel,
-  updateTermsOfServicePrivacyModal,
 } = actions;
 export const modalReducer = reducer;

@@ -15,7 +15,6 @@ import {
   RecoveryPhraseModalState,
   RemoveModeratorsModalState,
   SessionPasswordModalState,
-  TermsOfServicePrivacyModalState,
   UpdateGroupMembersModalState,
   UpdateGroupNameModalState,
   UserDetailsModalState,
@@ -109,9 +108,4 @@ export const getReactClearAllDialog = createSelector(
 export const getEditProfilePictureModalState = createSelector(
   getModal,
   (state: ModalState): EditProfilePictureModalState => state.editProfilePictureModalState
-);
-
-export const getTermsOfServicePrivacyModalState = createSelector(
-  getModal,
-  (state: ModalState): TermsOfServicePrivacyModalState => state.termsOfServicePrivacyModalState
 );

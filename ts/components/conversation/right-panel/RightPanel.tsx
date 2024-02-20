@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../hooks/useUI';
 import { isRtlBody } from '../../../util/i18n';
 import { Flex } from '../../basic/Flex';
-import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
+import { OverlayRightPanelSettings2 } from './overlay/OverlayRightPanelSettings2';
 import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
 import { OverlayMessageInfo } from './overlay/message-info/OverlayMessageInfo';
 
@@ -107,7 +107,8 @@ const ClosableOverlay = () => {
     case 'message_info':
       return <OverlayMessageInfo />;
     default:
-      return <OverlayRightPanelSettings />;
+      // TODO[epic=ses-50] revert to proper right panel settings later
+      return <OverlayRightPanelSettings2 />;
   }
 };
 
