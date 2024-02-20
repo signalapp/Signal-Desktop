@@ -1,4 +1,4 @@
-import { noop } from 'lodash';
+import { shell } from 'electron';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { updateTermsOfServicePrivacyModal } from '../../state/onboarding/ducks/modals';
@@ -45,14 +45,18 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
             text={window.i18n('termsOfService')}
             buttonType={SessionButtonType.ModalConfirm}
             buttonShape={SessionButtonShape.None}
-            onClick={noop}
+            onClick={() => {
+              void shell.openExternal('https://getsession.org/terms-of-service');
+            }}
             dataTestId="session-tos-button"
           />
           <SessionButton
             text={window.i18n('privacyPolicy')}
             buttonType={SessionButtonType.ModalConfirm}
             buttonShape={SessionButtonShape.None}
-            onClick={noop}
+            onClick={() => {
+              void shell.openExternal('https://getsession.org/privacy-policy');
+            }}
             dataTestId="session-privacy-policy-button"
           />
         </ConfirmButtonContainer>
