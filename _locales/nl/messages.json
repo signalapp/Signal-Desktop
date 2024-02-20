@@ -44,6 +44,10 @@
     "messageformat": "''{contact}' toevoegen aan de groep ''{group}'",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Zoeken",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} is aan de groep “{group}” toegevoegd",
     "description": "Shown in toast after a user is added to an existing group"
@@ -113,7 +117,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "Er is een databasefout opgetreden. Je kunt de foutmelding kopiëren en contact opnemen met Signal-support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kun je je gegevens wissen en opnieuw opstarten.\n\nGa naar {link} voor contact met support",
+    "messageformat": "Er is een databasefout opgetreden. Je kunt de foutmelding kopiëren en contact opnemen met Signal Support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kun je je gegevens wissen en opnieuw opstarten.\n\nGa naar {link} voor contact met support",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Nu oplossen",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Zoeken op gebruikersnaam",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Zoeken op telefoonnummer",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Zoeken op gebruikersnaam",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Zoeken op telefoonnummer",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Gebruikersnaam",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Telefoonnummer",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Voer een gebruikersnaam in, gevolgd door een punt en de bijbehorende cijfercombinatie.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Landcode",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Landcode",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Tabbladen weergeven",
@@ -716,7 +756,7 @@
     "messageformat": "Uploaden"
   },
   "icu:acceptNewKey": {
-    "messageformat": "Gesprek aanvaarden",
+    "messageformat": "Accepteren",
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
@@ -1272,7 +1312,7 @@
     "messageformat": "Verwijderen"
   },
   "icu:accept": {
-    "messageformat": "Gesprek aanvaarden"
+    "messageformat": "Accepteren"
   },
   "icu:edit": {
     "messageformat": "Bewerken"
@@ -1354,6 +1394,22 @@
   "icu:AboutContactModal__title": {
     "messageformat": "Over mij",
     "description": "Title of About modal"
+  },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Geverifieerd",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} is geblokkeerd",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Openstaand gespreksverzoek",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "Je hebt geen chat met {name}",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
   },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Signal-contact",
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Zoeken op naam of nummer",
+    "messageformat": "Naam, gebruikersnaam of telefoonnummer",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2384,7 +2440,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "De gebruikersnaam is niet gevonden. {atUsername} is geen Signalgebruiker. Ga na dat je de volledige gebruikersnaam hebt ingevoerd.",
+    "messageformat": "De gebruikersnaam is niet gevonden. {atUsername} is geen Signal-gebruiker. Ga na dat je de volledige gebruikersnaam hebt ingevoerd.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -3333,7 +3389,7 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Als je leesbevestigingen hebt ingeschakeld kan hij of zij die nog niet zien totdat je de uitnodiging hebt aanvaard.",
+    "messageformat": "Wil je berichten van {name} ontvangen, en sta je toe dat diegene je profielnaam, -foto en -omschrijving kan zien? Personen weten niet dat je hun berichten hebt gezien totdat je het gespreksverzoek hebt geaccepteerd.",
     "description": "Shown as the message for a message request in a direct message"
   },
   "icu:MessageRequests--message-direct-hidden": {
@@ -3345,7 +3401,7 @@
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "Wil je lid worden van deze groep, en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Als je leesbevestigingen hebt ingeschakeld kunnen de leden van deze groep die nog niet zien totdat je de uitnodiging hebt aanvaard.",
+    "messageformat": "Wil je lid worden van deze groep, en sta je toe dat alle leden van de groep je profielnaam, -foto en -omschrijving kunnen zien? Leden van de groep weten niet dat je hun berichten hebt gezien totdat je het gespreksverzoek hebt geaccepteerd.",
     "description": "Shown as the message for a message request in a group"
   },
   "icu:MessageRequests--message-group-blocked": {
@@ -3425,7 +3481,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a group message request"
   },
   "icu:MessageRequests--accept": {
-    "messageformat": "Gesprek aanvaarden",
+    "messageformat": "Accepteren",
     "description": "Shown as a button to let the user accept a message request"
   },
   "icu:MessageRequests--continue": {
@@ -3589,7 +3645,7 @@
     "description": "Text that appears in a group when a call is active"
   },
   "icu:callNeedPermission": {
-    "messageformat": "{title} zal van jou een gespreksverzoek ontvangen. Je kunt bellen zodra je gespreksverzoek door hem of haar is aanvaard.",
+    "messageformat": "{title} zal van jou een gespreksverzoek ontvangen. Je kunt bellen zodra je gespreksverzoek door hem of haar is geaccepteerd.",
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "icu:callReconnecting": {
@@ -3825,7 +3881,7 @@
     "description": "Title in popup dialog when attempting to edit a message too many times."
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "{max, plural, one {Dit bericht kan slechts {max,number} keer bewerkt worden.} other {Dit bericht kan slechts {max,number} keren bewerkt worden.}}",
+    "messageformat": "{max, plural, one {Dit bericht kan slechts {max,number} keer bewerkt worden.} other {Dit bericht kan slechts {max,number} keer bewerkt worden.}}",
     "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
@@ -4089,23 +4145,23 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--from-invite--other": {
-    "messageformat": "{inviteeName} heeft de uitnodiging van {inviterName} om lid te worden van de groep aanvaard.",
+    "messageformat": "{inviteeName} heeft de uitnodiging van {inviterName} om lid te worden van de groep geaccepteerd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--from-invite--other-no-from": {
-    "messageformat": "{inviteeName} heeft een uitnodiging om lid te worden van de groep aanvaard.",
+    "messageformat": "{inviteeName} heeft een uitnodiging om lid te worden van de groep geaccepteerd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--from-invite--you": {
-    "messageformat": "Je hebt de uitnodiging van {inviterName} om lid van de groep te worden aanvaard.",
+    "messageformat": "Je hebt de uitnodiging van {inviterName} om lid van de groep te worden geaccepteerd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--from-invite--you-no-from": {
-    "messageformat": "Je hebt een uitnodiging om lid te worden van de groep aanvaard.",
+    "messageformat": "Je hebt een uitnodiging om lid te worden van de groep geaccepteerd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--from-invite--from-you": {
-    "messageformat": "{inviteeName} heeft je uitnodiging om lid te worden van de groep aanvaard.",
+    "messageformat": "{inviteeName} heeft je uitnodiging om lid te worden van de groep geaccepteerd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--other--other": {
@@ -4533,7 +4589,7 @@
     "description": "Shown on Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--invited--you": {
-    "messageformat": "Om weer lid te worden van deze groep zul je een uitnodiging moeten aanvaarden. Je zult geen berichten van deze groep ontvangen zolang je dat nog niet hebt gedaan.",
+    "messageformat": "Om weer lid te worden van deze groep zul je een uitnodiging moeten accepteren. Je zult geen berichten van deze groep ontvangen zolang je dat nog niet hebt gedaan.",
     "description": "Shown on Learn More popup after GV1 migration"
   },
   "icu:GroupV1--Migration--info--invited--many": {
@@ -4941,7 +4997,7 @@
     "description": "Information shown below the pending admin approval list"
   },
   "icu:PendingInvites--info": {
-    "messageformat": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te aanvaarden, dan zullen op dat moment diens profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet aanvaard hebben zullen ze nog geen groepsberichten ontvangen.",
+    "messageformat": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te accepteren, dan zullen op dat moment diens profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet geaccepteerd hebben zullen ze nog geen groepsberichten ontvangen.",
     "description": "Information shown below the invite list"
   },
   "icu:PendingRequests--block--button": {
@@ -5053,7 +5109,7 @@
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging aanvaardt.",
+    "messageformat": "Deze persoon is uitgenodigd om lid te worden van de groep maar zal nog geen berichten kunnen lezen totdat die de uitnodiging heeft geaccepteerd.",
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5189,7 +5245,7 @@
     "description": "Title for the contact name spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__description": {
-    "messageformat": "Vergelijk, als je niet zeker bent van wie het gespreksverzoek afkomstig is, de personen hieronder en neem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.",
+    "messageformat": "Vergelijk, als je niet zeker bent van wie het gespreksverzoek afkomstig is, de personen hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.",
     "description": "Description for the contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__possibly-unsafe-title": {
@@ -5205,11 +5261,11 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} groepslid heeft dezelfde naam. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.} other {{count,number} groepsleden hebben dezelfde naam. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.}}",
+    "messageformat": "{count, plural, one {{count,number} groepslid heeft dezelfde naam. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.} other {{count,number} groepsleden hebben dezelfde naam. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als iemand anders.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {Er is {count,number} naamconflict gevonden in deze groep. Bekijk de onderstaande leden of kies ervoor om actie te ondernemen.} other {Er zijn {count,number} naamconflicten gevonden in deze groep. Bekijk de onderstaande leden of kies ervoor om actie te ondernemen.}}",
+    "messageformat": "{count, plural, one {Er is {count,number} naamconflict gevonden in deze groep. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als de ander.} other {Er zijn {count,number} naamconflicten gevonden in deze groep. Vergelijk deze groepsleden hieronder en onderneem actie indien je denkt dat een van hen zich probeert voor te doen als iemand anders.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "icu:ContactSpoofingReviewDialog__group__members-header": {
@@ -5593,7 +5649,7 @@
     "description": "Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
-    "messageformat": "Je gebruikersnaam kan niet worden bewaard. Controleer je internetverbinding en probeer het opnieuw.",
+    "messageformat": "Je gebruikersnaam kan niet worden opgeslagen. Controleer je internetverbinding en probeer het opnieuw.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
@@ -5627,6 +5683,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Verwijderen",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "Om je gebruikersnaam te verwijderen, open Signal op je telefoon en ga naar Instellingen > Profiel.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Gebruikersnaam kopiëren of verwijderen",

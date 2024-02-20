@@ -44,6 +44,10 @@
     "messageformat": "Pievienot “{contact}” grupai “{group}”",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Meklēt",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact}pievienots {group}",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Labot",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Atrast pēc lietotājvārda",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Meklēt pēc tālruņa numura",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Atrast pēc lietotājvārda",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Meklēt pēc tālruņa numura",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Lietotājvārds",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Tālruņa numurs",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Ievadiet lietotāja vārdu, lieciet aiz tā punktu un tad ierakstiet tam piesaistīto ciparu kombināciju.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Valsts kods",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Valsts kods",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Rādīt cilnes",
@@ -1355,6 +1395,22 @@
     "messageformat": "Kontaktpersonas informācija",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Pārbaudīts(verificēts)",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} ir bloķēts",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Gaida saziņas apstiprinājumu",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "Jūs un {name} vēl neesat sazinājušies",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Signal kontaktpersona",
     "description": "Text of a button on About modal leading to an education modal"
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Meklēt pēc vārda vai tālruņa numura",
+    "messageformat": "Vārds, lietotājvārds vai numurs",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -5627,6 +5683,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Dzēst",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "Lai dzēstu savu lietotāja vārdu, atveriet Signal savā tālrunī un dodieties uz Iestatījumi > Profils.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopēt vai dzēst lietotājvārdu",

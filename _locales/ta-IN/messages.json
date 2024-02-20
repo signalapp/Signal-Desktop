@@ -44,6 +44,10 @@
     "messageformat": "“{group}” குழுவில் “{contact}” ஐச் சேர்க்கவும்",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "தேடல்",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} அவர்கள் {group} குழுவில் சேர்க்கப்பட்டனர்",
     "description": "Shown in toast after a user is added to an existing group"
@@ -317,7 +321,7 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "உங்கள் பயனர்பெயரில் ஏதோ தவறு நடந்து விட்டது, இனி ஒருபோதும் உங்கள் கணக்கில் நியமிக்கப்படவில்லை. நீங்கள் முயன்று மீண்டும் அமைக்கலாம் அல்லது புதியதைத் தேர்ந்தெடுக்கலாம்.",
+    "messageformat": "உங்கள் பயனர் பெயரில் ஏதோ தவறு நடந்து விட்டது, இனி ஒருபோதும் உங்கள் கணக்கில் நியமிக்கப்படவில்லை. நீங்கள் முயன்று மீண்டும் அமைக்கலாம் அல்லது புதியதைத் தேர்ந்தெடுக்கலாம்.",
     "description": "Text of corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username--action-text": {
@@ -325,12 +329,48 @@
     "description": "Text of the button in the corrupted username banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "உங்கள் QR குறியீடு மற்றும் பயனர்பெயர் இணைப்பில் ஏதோ தவறு நடந்துவிட்டது, அது இனி செல்லுபடியாகாது. மற்றவர்களுடன் பகிர புதிய இணைப்பை உருவாக்கவும்.",
+    "messageformat": "உங்கள் QR குறியீடு மற்றும் பயனர் பெயர் இணைப்பில் ஏதோ தவறு நடந்துவிட்டது, அது இனி செல்லுபடியாகாது. மற்றவர்களுடன் பகிர புதிய இணைப்பை உருவாக்கவும்.",
     "description": "Text of corrupted username link banner in the left pane"
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "இப்பொழுதே சரிபார்",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "பயனர் பெயர் மூலம் தேடு",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "தொலைபேசி எண் மூலம் கண்டுபிடிக்கவும்",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "பயனர் பெயர் மூலம் தேடு",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "தொலைபேசி எண் மூலம் கண்டுபிடிக்கவும்",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "பயனர் பெயர்",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "தொலைபேசி எண்",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "புள்ளி மற்றும் அதன் எண்களின் தொகுப்பைத் தொடர்ந்து பயனர்பெயரை உள்ளிடவும்.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "நாட்டின் குறியீடு",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "நாட்டின் குறியீடு",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "தாவல்களைக் காட்டு",
@@ -1355,6 +1395,22 @@
     "messageformat": "தொடர்பை பற்றி",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "சரிபார்க்கப்பட்ட",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} தடுக்கப்பட்டார்",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "மெசேஜ் கோரிக்கை நிலுவையில் உள்ளது",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "உங்களுக்கும் {name}க்கும் இடையில் எந்த மெசேஜ்களும் இல்லை",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "சிக்னல் இணைப்பு",
     "description": "Text of a button on About modal leading to an education modal"
@@ -1639,7 +1695,7 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "ஃபோன் எண்",
+    "messageformat": "தொலைபேசி எண்",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
@@ -2260,11 +2316,11 @@
     "description": "Description for incoming calls setting"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} அவர்கள் தங்கள் சுயவிவரப் பெயரை {oldProfile} இலிருந்து {newProfile} ஆக மாற்றினர்.",
+    "messageformat": "{sender} அவர்கள் தங்கள் ப்ரொஃபைல் பெயரை {oldProfile} இலிருந்து {newProfile} ஆக மாற்றினர்.",
     "description": "Description for incoming calls setting"
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} தங்கள் சுயவிவரப் பெயரை {newProfile} ஆக மாற்றினர் .",
+    "messageformat": "{oldProfile} தங்கள் ப்ரொஃபைல் பெயரை {newProfile} ஆக மாற்றினர் .",
     "description": "Shown when a contact not in your address book changes their profile name"
   },
   "icu:SafetyNumberModal__title": {
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "பெயர் அல்லது தொலைபேசி எண் மூலம் தேட",
+    "messageformat": "பெயர், பயனர்பெயர் அல்லது எண்",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -5513,11 +5569,11 @@
     "description": "Default text for about field"
   },
   "icu:ProfileEditor--username": {
-    "messageformat": "பயனர்பெயர்",
+    "messageformat": "பயனர் பெயர்",
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "உங்கள் பயனர்பெயரில் ஏதோ தவறு நடந்து விட்டது, இனி ஒருபோதும் உங்கள் கணக்கில் நியமிக்கப்படவில்லை. நீங்கள் முயன்று மீண்டும் அமைக்கலாம் அல்லது புதியதைத் தேர்ந்தெடுக்கலாம்.",
+    "messageformat": "உங்கள் பயனர் பெயரில் ஏதோ தவறு நடந்து விட்டது, இனி ஒருபோதும் உங்கள் கணக்கில் நியமிக்கப்படவில்லை. நீங்கள் முயன்று மீண்டும் அமைக்கலாம் அல்லது புதியதைத் தேர்ந்தெடுக்கலாம்.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
@@ -5525,7 +5581,7 @@
     "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "பயனர்பெயரை உருவாக்கவும்",
+    "messageformat": "பயனர் பெயரை உருவாக்கவும்",
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
@@ -5537,15 +5593,15 @@
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username__error-icon": {
-    "messageformat": "பயனர்பெயரை மீட்டமைக்க வேண்டும்",
+    "messageformat": "பயனர் பெயரை மீட்டமைக்க வேண்டும்",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__error-icon": {
-    "messageformat": "பயனர்பெயர் இணைப்பை மீட்டமைக்க வேண்டும்",
+    "messageformat": "பயனர் பெயர் இணைப்பை மீட்டமைக்க வேண்டும்",
     "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
-    "messageformat": "உங்கள் பயனர்பெயரைப் பகிரவும்",
+    "messageformat": "உங்கள் பயனர் பெயரைப் பகிரவும்",
     "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
   },
   "icu:ProfileEditor__username-link__tooltip__body": {
@@ -5553,23 +5609,23 @@
     "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
   },
   "icu:ProfileEditor--username--title": {
-    "messageformat": "உங்கள் பயனர்பெயரைத் தேர்வு செய்யவும்",
+    "messageformat": "உங்கள் பயனர் பெயரைத் தேர்வு செய்யவும்",
     "description": "Title text for username modal"
   },
   "icu:ProfileEditor--username--check-characters": {
-    "messageformat": "பயனர்பெயர்களில் a-z, 0-9 மற்றும் _ மட்டுமே இருக்கலாம்",
+    "messageformat": "பயனர் பெயர்கள் a-z, 0-9 மற்றும் _ மட்டுமே இருக்கலாம்",
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "பயனர்பெயர்கள் எண்ணுடன் தொடங்கக்கூடாது.",
+    "messageformat": "பயனர் பெயர்கள் எண்ணுடன் தொடங்கக்கூடாது.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "பயனர்பெயர்களில் குறைந்தபட்சம் {min,number} எழுத்துக்கள் இருக்க வேண்டும்.",
+    "messageformat": "பயனர் பெயர்களில் குறைந்தபட்சம் {min,number} எழுத்துக்கள் இருக்க வேண்டும்.",
     "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "பயனர்பெயர்களில் அதிகபட்சம் {max,number} எழுத்துக்கள் இருக்க வேண்டும்.",
+    "messageformat": "பயனர் பெயர்களில் அதிகபட்சம் {max,number} எழுத்துக்கள் இருக்க வேண்டும்.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
@@ -5589,23 +5645,23 @@
     "description": "Shown if the username is not available for registration"
   },
   "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "இந்த பயனர்பெயர் எடுக்கப்பட்டது.",
+    "messageformat": "இந்த பயனர் பெயர் எடுக்கப்பட்டது.",
     "description": "Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
-    "messageformat": "உங்கள் பயனர்பெயரை சேமிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
+    "messageformat": "உங்கள் பயனர் பெயரை சேமிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} இனி கிடைக்காது. புதிய இலக்கங்கள் உங்கள் பயனர்பெயருடன் இணைக்கப்படும், தயவுசெய்து அதை மீண்டும் சேமிக்க முயலவும்.",
+    "messageformat": "{username} இனி கிடைக்காது. புதிய இலக்கங்கள் உங்கள் பயனர் பெயருடன் இணைக்கப்படும், தயவுசெய்து அதை மீண்டும் சேமிக்க முயலவும்.",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "icu:ProfileEditor--username--delete-general-error": {
-    "messageformat": "உங்கள் பயனர்பெயரை அகற்ற முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
+    "messageformat": "உங்கள் பயனர் பெயரை அகற்ற முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "icu:ProfileEditor--username--copied-username": {
-    "messageformat": "பயனர்பெயர் நகலெடுக்கப்பட்டது",
+    "messageformat": "பயனர் பெயர் நகலெடுக்கப்பட்டது",
     "description": "Shown when username is copied to clipboard."
   },
   "icu:ProfileEditor--username--copied-username-link": {
@@ -5613,7 +5669,7 @@
     "description": "Shown when username link is copied to clipboard."
   },
   "icu:ProfileEditor--username--deleting-username": {
-    "messageformat": "பயனர்பெயரை நீக்குகிறது",
+    "messageformat": "பயனர் பெயரை நீக்குகிறது",
     "description": "Shown as aria label for spinner icon next to username"
   },
   "icu:ProfileEditor--username--delete-username": {
@@ -5628,12 +5684,16 @@
     "messageformat": "நீக்கு",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "உங்கள் பயனர்பெயரை அழிக்க, உங்கள் போனில் சிக்னலைத் திறந்து, அமைப்புகள் > புரொஃபைலுக்குச் செல்லவும்.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
-    "messageformat": "பயனர்பெயரை நகலெடுக்கவும் அல்லது நீக்கவும்",
+    "messageformat": "பயனர் பெயரை நகலெடுக்கவும் அல்லது நீக்கவும்",
     "description": "Shown as aria label for context menu next to username"
   },
   "icu:ProfileEditor--username--copy": {
-    "messageformat": "பயனர்பெயரை நகலெடுக்கவும்",
+    "messageformat": "பயனர் பெயரை நகலெடுக்கவும்",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
   },
   "icu:ProfileEditor--username--copy-link": {
@@ -5677,7 +5737,7 @@
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "உங்கள் விருப்பத் தேர்ந்தெடுப்புக்குரிய பயனர் பெயரைப் பயன்படுத்தி மக்கள் இப்போது உங்களுக்கு மெசேஜ் அனுப்ப முடியும் என்பதால், உங்கள் ஃபோன் எண்ணை நீங்கள் பகிர வேண்டியதில்லை.",
+    "messageformat": "உங்கள் விருப்பத் தேர்ந்தெடுப்புக்குரிய பயனர் பெயரைப் பயன்படுத்தி மக்கள் இப்போது உங்களுக்கு மெசேஜ் அனுப்ப முடியும் என்பதால், உங்கள் தொலைபேசி எண்ணை நீங்கள் பகிர வேண்டியதில்லை.",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -5717,7 +5777,7 @@
     "description": "Title for profile avatar editing"
   },
   "icu:ProfileEditorModal--username": {
-    "messageformat": "பயனர்பெயர்",
+    "messageformat": "பயனர் பெயர்",
     "description": "Title for username editing"
   },
   "icu:ProfileEditorModal--error": {
@@ -5829,11 +5889,11 @@
     "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
-    "messageformat": "ஃபோன் எண்",
+    "messageformat": "தொலைபேசி எண்",
     "description": "Title of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--body": {
-    "messageformat": "உங்கள் ஃபோன் எண்ணை யார் பார்க்கலாம் மற்றும் யார் உங்களை Signal இல் தொடர்பு கொள்ளலாம் என்பதைத் தேர்வுசெய்யவும்.",
+    "messageformat": "உங்கள் தொலைபேசி எண்ணை யார் பார்க்கலாம் மற்றும் யார் உங்களை சிக்னலில் தொடர்பு கொள்ளலாம் என்பதைத் தேர்வுசெய்யவும்.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -5845,15 +5905,15 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "உங்கள் ஃபோன் நம்பரை அவர்கள் ஃபோனின் தொடர்புகளில் சேமித்து வைத்திருக்கும் வரை, அது யாருக்கும் காட்டப்படாது.",
+    "messageformat": "உங்கள் தொலைபேசி எண்ணை அவர்கள் ஃபோனின் தொடர்புகளில் சேமித்து வைத்திருக்கும் வரை, அது யாருக்கும் காட்டப்படாது.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "உங்கள் ஃபோன் நம்பர் யாருக்கும் காட்டப்படாது.",
+    "messageformat": "உங்கள் தொலைபேசி எண் யாருக்கும் காட்டப்படாது.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
-    "messageformat": "ஃபோன் எண்",
+    "messageformat": "தொலைபேசி எண்",
     "description": "Title of the page in Phone Number Privacy settings"
   },
   "icu:Preferences__pnp__sharing__everyone": {
@@ -6545,7 +6605,7 @@
     "description": "Modal title for setting privacy for My Story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "உங்கள் ஸ்டோரியை எந்த Signal  இணைப்புகள் பார்க்கலாம் என்பதைத் தேர்வுசெய்யவும். தனியுரிமை அமைப்புகளில் இதை எப்போது வேண்டுமானாலும் மாற்றலாம். <learnMoreLink>மேலும் அறிக.</learnMoreLink>",
+    "messageformat": "உங்கள் ஸ்டோரியை எந்த சிக்னல் இணைப்புகள் பார்க்கலாம் என்பதைத் தேர்வுசெய்யவும். தனியுரிமை அமைப்புகளில் இதை எப்போது வேண்டுமானாலும் மாற்றலாம். <learnMoreLink>மேலும் அறிக.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__delete-story": {
@@ -6561,11 +6621,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "messageformat": "{viewersCount, plural, one {அனைத்து சிக்னல் இணைப்புகள் · {viewersCount,number} பார்வையாளர்} other {அனைத்து சிக்னல் இணைப்புகள் · {viewersCount,number} பார்வையாளர்கள்}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "messageformat": "{excludedCount, plural, one {அனைத்து சிக்னல் இணைப்புகள் · {excludedCount,number} விடுபட்டுள்ளது} other {அனைத்து சிக்னல் இணைப்புகள் · {excludedCount,number} விடுபட்டுள்ளன}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
@@ -6861,7 +6921,7 @@
     "description": "Default aria-label for the context menu buttons"
   },
   "icu:EditUsernameModalBody__username-placeholder": {
-    "messageformat": "பயனர்பெயர்",
+    "messageformat": "பயனர் பெயர்",
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
@@ -6877,11 +6937,11 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற செய்திகளைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
+    "messageformat": "இந்த இலக்கங்கள் உங்கள் பயனர் பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற செய்திகளைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர் பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "உங்கள் பயனர்பெயரை மாற்றுவது உங்கள் தற்போதைய QR குறியீடு மற்றும் இணைப்பை மீட்டமைக்கும். உறுதியாக உள்ளீர்களா?",
+    "messageformat": "உங்கள் பயனர் பெயரை மாற்றுவது உங்கள் தற்போதைய QR குறியீடு மற்றும் இணைப்பை மீட்டமைக்கும். உறுதியாக உள்ளீர்களா?",
     "description": "Body of the confirmation dialog displayed when user is about to change their username"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
@@ -6925,7 +6985,7 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
-    "messageformat": "பயனர்பெயர் இணைப்பு நிறம், {index,number} / {total,number}",
+    "messageformat": "பயனர் பெயர் இணைப்பு நிறம், {index,number} / {total,number}",
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
@@ -6965,7 +7025,7 @@
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "உங்கள் விருப்பத் தேர்ந்தெடுப்புக்குரிய பயனர் பெயரைப் பயன்படுத்தி மக்கள் இப்போது உங்களுக்கு மெசேஜ் அனுப்ப முடியும் என்பதால், உங்கள் ஃபோன் எண்ணை நீங்கள் பகிர வேண்டியதில்லை. உங்கள் புரொஃபைலில் பயனர் பெயர்கள் புலப்படாது.",
+    "messageformat": "உங்கள் விருப்பத் தேர்ந்தெடுப்புக்குரிய பயனர் பெயரைப் பயன்படுத்தி மக்கள் இப்போது உங்களுக்கு மெசேஜ் அனுப்ப முடியும் என்பதால், உங்கள் தொலைபேசி எண்ணை நீங்கள் பகிர வேண்டியதில்லை. உங்கள் ப்ரொஃபைலில் பயனர் பெயர்கள் புலப்படாது.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {
@@ -6977,15 +7037,15 @@
     "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "பயனர்பெயர்கள் இலக்கங்களின் தொகுப்புடன் இணைக்கப்பட்டு உங்கள் சுயவிவரத்தில் பகிரப்படாது",
+    "messageformat": "பயனர் பெயர்கள் இலக்கங்களின் தொகுப்புடன் இணைக்கப்பட்டு உங்கள் சுயவிவரத்தில் பகிரப்படாது",
     "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "ஒவ்வொரு பயனர்பெயருக்கும் தனிப்பட்ட QR குறியீடு மற்றும் இணைப்பு உள்ளது, உங்களுடன் சாட் செய்ய நண்பர்களுடன் பகிர்ந்து கொள்ளலாம்",
+    "messageformat": "ஒவ்வொரு பயனர் பெயருக்கும் தனிப்பட்ட QR குறியீடு மற்றும் இணைப்பு உள்ளது, உங்களுடன் சாட் செய்ய நண்பர்களுடன் பகிர்ந்து கொள்ளலாம்",
     "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "மற்றவர்கள் உங்களைத் தொடர்புகொள்வதற்கு உங்கள் பயனர்பெயரை முதன்மையாகப் பயன்படுத்த, அமைப்புகள் > தனியுரிமை > ஃபோன் எண் > எனது எண்ணை யார் கண்டறியலாம், என்பதன் கீழ் ஃபோன் எண் கண்டுபிடிப்பை முடக்கவும்.",
+    "messageformat": "மற்றவர்கள் உங்களைத் தொடர்புகொள்வதற்கு உங்கள் பயனர் பெயரை முதன்மையாகப் பயன்படுத்த, அமைப்புகள் > தனியுரிமை > தொலைபேசி எண் > எனது எண்ணை யார் கண்டறியலாம், என்பதன் கீழ் தொலைபேசி எண் கண்டுபிடிப்பை முடக்கவும்.",
     "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__learn-more": {

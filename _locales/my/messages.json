@@ -44,6 +44,10 @@
     "messageformat": "“{contact}” ကို အဖွဲ့ “{group}” တွင် ပေါင်းထည့်ရန်",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "ရှာရန်",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} ကို {group} အဖွဲ့ထဲသို့ ပေါင်းထည့်ခဲ့ပါသည်",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "ယခု ဖြေရှင်းရန်",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်ဖြင့် ရှာရန်",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "ဖုန်းနံပါတ်ဖြင့် ရှာရန်",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်ဖြင့် ရှာရန်",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "ဖုန်းနံပါတ်ဖြင့် ရှာရန်",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "ဖုန်းနံပါတ်",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "သုံးစွဲသူအမည်ကို ၎င်း၏နောက်တွင် အစက်တစ်စက်နှင့် ကိန်းဂဏန်းတွဲတစ်ခုနှင့်အတူ ရိုက်ထည့်ပါ။",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "နိုင်ငံ ကုဒ်",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "နိုင်ငံ ကုဒ်",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "တက်ဘ်များကို ပြသရန်",
@@ -1355,6 +1395,22 @@
     "messageformat": "အဆက်အသွယ်အကြောင်း",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "အတည်ပြုပြီး",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} ကို ဘလော့ခ်ထားသည်",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "ဆိုင်းငံ့ထားသော မက်ဆေ့ချ်တောင်းဆိုချက်",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "{name} နှင့် တိုက်ရိုက်မက်ဆေ့ချ် မရှိပါ",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Signal အဆက်အသွယ်",
     "description": "Text of a button on About modal leading to an education modal"
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "အမည် သို့မဟုတ် ဖုန်းနံပါတ်ဖြင့် ရှာရန်",
+    "messageformat": "အမည်၊ သုံးသူအမည်၊ သို့မဟုတ် နံပါတ်",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -5627,6 +5683,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ဖျက်ရန်",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "သင့်သုံးစွဲသူအမည်ကို ဖျက်ရန် သင့်ဖုန်းတွင် Signal ဖွင့်ပြီး ဆက်တင် > ပရိုဖိုင်သို့ သွားပါ။",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "သုံးစွဲသူအမည်ကို ကူးရန် သို့မဟုတ် ဖျက်ရန်",

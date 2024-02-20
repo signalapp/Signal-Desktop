@@ -44,6 +44,10 @@
     "messageformat": "\"{contact}\" को \"{group}\" में जोड़ें",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "सर्च",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} को {group} में शामिल किया गया था",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "अभी ठीक करें",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "यूज़रनेम द्वारा खोजें",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "फोन नंबर द्वारा खोजें",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "यूज़रनेम द्वारा खोजें",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "फोन नंबर द्वारा खोजें",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "यूज़रनेम",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "फोन नंबर",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "एक यूज़रनेम और उसके बाद एक बिंदु और उसके अंकों का सेट दर्ज करें।",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "देश कोड",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "देश कोड",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "टैब दिखाएं",
@@ -1056,7 +1096,7 @@
     "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
   },
   "icu:findByPhoneNumberHeader": {
-    "messageformat": "फ़ोन नंबर द्वारा खोजें",
+    "messageformat": "फोन नंबर द्वारा खोजें",
     "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
   },
   "icu:welcomeToSignal": {
@@ -1355,6 +1395,22 @@
     "messageformat": "हमारे बारे में",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "सत्यापित",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} ब्लॉक किया गया है",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "संदेश अनुरोध लंबित",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "{name} के साथ कोई सीधा संदेश नहीं",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Signal कनेक्शन",
     "description": "Text of a button on About modal leading to an education modal"
@@ -1511,7 +1567,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:ChangeNumber--notification": {
-    "messageformat": "{sender} ने अपने फ़ोन नंबर बदल लिए",
+    "messageformat": "{sender} ने अपने फोन नंबर बदल लिए",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "icu:ConversationMerge--notification": {
@@ -1531,7 +1587,7 @@
     "description": "Shown on a button below a 'conversations were merged' timeline notification"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
-    "messageformat": "{obsoleteConversationTitle} को मेसेज करने पर आपने जाना कि यह नंबर {conversationTitle} का है। उनका फ़ोन नंबर निजी है।",
+    "messageformat": "{obsoleteConversationTitle} को मेसेज करने पर आपने जाना कि यह नंबर {conversationTitle} का है। उनका फोन नंबर निजी है।",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
@@ -1639,7 +1695,7 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "फ़ोन नंबर",
+    "messageformat": "फोन नंबर",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
@@ -2260,11 +2316,11 @@
     "description": "Description for incoming calls setting"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} ने अपना प्रोफाइल नाम {oldProfile} से बदलकर {newProfile} रख दिया।",
+    "messageformat": "{sender} ने अपना प्रोफ़ाइल नाम {oldProfile} से बदलकर {newProfile} रख दिया।",
     "description": "Description for incoming calls setting"
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} ने अपना प्रोफाइल नाम बदल कर {newProfile} रख दिया।",
+    "messageformat": "{oldProfile} ने अपना प्रोफ़ाइल नाम बदल कर {newProfile} रख दिया।",
     "description": "Shown when a contact not in your address book changes their profile name"
   },
   "icu:SafetyNumberModal__title": {
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "नाम या फोन नंबर से खोजें",
+    "messageformat": "नाम, यूज़रनेम या नंबर",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2376,7 +2432,7 @@
     "description": "Shown if request to Signal servers to find username fails"
   },
   "icu:Toast--failed-to-fetch-phone-number": {
-    "messageformat": "फ़ोन नंबर नहीं ला सका। अपना कनेक्शन जाँचें और फिर से प्रयास करें।",
+    "messageformat": "फोन नंबर नहीं ला सका। अपना कनेक्शन जाँचें और फिर से प्रयास करें।",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
   "icu:ToastManager__CannotEditMessage_24": {
@@ -2392,7 +2448,7 @@
     "description": "Shown in dialog if phone number is not found."
   },
   "icu:startConversation--phone-number-not-valid": {
-    "messageformat": "यूज़र नहीं मिल सका। \"{phoneNumber}\" एक वैध फ़ोन नंबर नहीं है।",
+    "messageformat": "यूज़र नहीं मिल सका। \"{phoneNumber}\" एक वैध फोन नंबर नहीं है।",
     "description": "Shown in dialog if phone number is not valid."
   },
   "icu:chooseGroupMembers__title": {
@@ -2468,7 +2524,7 @@
     "description": "Label underneath number informing user that SMS is not supported on desktop"
   },
   "icu:newPhoneNumber": {
-    "messageformat": "कोई संपर्क जोड़ने के लिए एक फ़ोन नंबर दर्ज करें",
+    "messageformat": "कोई संपर्क जोड़ने के लिए एक फोन नंबर दर्ज करें",
     "description": "Placeholder for adding a new number to a contact"
   },
   "icu:invalidNumberError": {
@@ -5525,7 +5581,7 @@
     "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "उपयोगकर्ता नाम बनाएँ",
+    "messageformat": "यूज़रनेम बनाएँ",
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
@@ -5597,7 +5653,7 @@
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} अब उपलब्ध नहीं है। आपके उपयोगकर्ता नाम के साथ अंकों का एक नया सेट जोड़ा जाएगा, कृपया इसे फिर से सहेजने का प्रयास करें।",
+    "messageformat": "{username} अब उपलब्ध नहीं है। आपके यूज़रनेम के साथ अंकों का एक नया सेट जोड़ा जाएगा, कृपया इसे फिर से सहेजने का प्रयास करें।",
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "icu:ProfileEditor--username--delete-general-error": {
@@ -5627,6 +5683,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "डिलीट करें",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "अपना यूज़रनेम डिलीट करने के लिए, अपने फ़ोन पर Signal खोलें और सेटिंग्स > प्रोफ़ाइल पर जाएँ।",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "यूज़रनेम कॉपी या डिलीट करें",
@@ -5829,7 +5889,7 @@
     "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
-    "messageformat": "फ़ोन नंबर",
+    "messageformat": "फोन नंबर",
     "description": "Title of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--body": {
@@ -5841,7 +5901,7 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "आपका फ़ोन नंबर उन लोगों और ग्रुप्स को दिखेगा जिन्हें आप संदेश भेजेंगे।",
+    "messageformat": "आपका फोन नंबर उन लोगों और ग्रुप्स को दिखेगा जिन्हें आप संदेश भेजेंगे।",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
@@ -5853,7 +5913,7 @@
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
-    "messageformat": "फ़ोन नंबर",
+    "messageformat": "फोन नंबर",
     "description": "Title of the page in Phone Number Privacy settings"
   },
   "icu:Preferences__pnp__sharing__everyone": {
@@ -5889,11 +5949,11 @@
     "description": "Title for the messaging settings"
   },
   "icu:Preferences--see-me": {
-    "messageformat": "मेरा फ़ोन नंबर देखना",
+    "messageformat": "मेरा फोन नंबर देखना",
     "description": "Label for the see my phone number setting"
   },
   "icu:Preferences--find-me": {
-    "messageformat": "मुझे मेरे फ़ोन नंबर से खोजें",
+    "messageformat": "मुझे मेरे फोन नंबर से खोजें",
     "description": "Label for the find me by my phone number setting"
   },
   "icu:Preferences--read-receipts": {
@@ -6261,7 +6321,7 @@
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "अपने सिस्टम के संपर्कों में उन्हें रखना",
+    "messageformat": "अपने सिस्टम संपर्कों में उन्हें रखना",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__footer": {
@@ -6913,7 +6973,7 @@
     "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "केवल अपना QR कोड साझा करें और उन लोगों के साथ लिंक करें, जिन पर आप भरोसा करते हैं। साझा किए जाने पर अन्य लोग आपका उपयोगकर्ता नाम देख सकेंगे और आपके साथ चैट शुरू कर सकेंगे।",
+    "messageformat": "केवल अपना QR कोड साझा करें और उन लोगों के साथ लिंक करें, जिन पर आप भरोसा करते हैं। साझा किए जाने पर अन्य लोग आपका यूज़रनेम देख सकेंगे और आपके साथ चैट शुरू कर सकेंगे।",
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
@@ -6953,11 +7013,11 @@
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__title": {
-    "messageformat": "फ़ोन नंबर निजता",
+    "messageformat": "फोन नंबर निजता",
     "description": "Title of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number__body": {
-    "messageformat": "आपका फ़ोन नंबर अब चैट में दिखाई नहीं देगा। यदि आपका नंबर किसी मित्र के संपर्कों में सहेजा गया है, तो भी वे इसे देखेंगे।",
+    "messageformat": "आपका फोन नंबर अब चैट में दिखाई नहीं देगा। यदि आपका नंबर किसी मित्र के संपर्कों में सहेजा गया है, तो भी वे इसे देखेंगे।",
     "description": "Body of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__title": {
@@ -7005,7 +7065,7 @@
     "description": "Title of username megaphone"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "फ़ोन नंबर गोपनीयता, वैकल्पिक यूज़रनेम और लिंक का परिचय।",
+    "messageformat": "फोन नंबर गोपनीयता, वैकल्पिक यूज़रनेम और लिंक का परिचय।",
     "description": "Body of username megaphone"
   },
   "icu:UsernameMegaphone__learn-more": {

@@ -44,6 +44,10 @@
     "messageformat": "“{group}” grubuna “{contact}” adlı kullancıyı ekle",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Ara",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact}, {group} grubuna eklendi",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Şimdi düzelt",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Kullanıcı adına göre bul",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Telefon numarasına göre bul",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Kullanıcı adına göre bul",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Telefon numarasına göre bul",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Kullanıcı adı",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Telefon numarası",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Bir kullanıcı adı ve ardından bir nokta ve sayı kümesi gir.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Ülke kodu",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Ülke kodu",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Sekmeleri Göster",
@@ -1355,8 +1395,24 @@
     "messageformat": "Hakkında",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Doğrulandı",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} engellendi",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Bekleyen mesaj isteği",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "{name} kişisinden doğrudan mesaj yok",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "Signal Bağlantısı",
+    "messageformat": "Signal Kişisi",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "İsim veya numara ara",
+    "messageformat": "İsim, kullanıcı adı veya numara",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -5221,11 +5277,11 @@
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "Signal Bağlantısı",
+    "messageformat": "Signal Kişisi",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "Yakın zamanda {oldName} profil ismini {newName} şeklinde değiştirdi",
+    "messageformat": "Yakın zamanda {oldName} profil adını {newName} şeklinde değiştirdi",
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
@@ -5628,6 +5684,10 @@
     "messageformat": "Sil",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "Kullanıcı adını silmek için telefonunda Signal'i aç ve Ayarlar > Profil bölümüne git.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kullanıcı adını kopyala veya sil",
     "description": "Shown as aria label for context menu next to username"
@@ -5893,7 +5953,7 @@
     "description": "Label for the see my phone number setting"
   },
   "icu:Preferences--find-me": {
-    "messageformat": "Numaramla bulunayım",
+    "messageformat": "Telefon numaramla bulunayım",
     "description": "Label for the find me by my phone number setting"
   },
   "icu:Preferences--read-receipts": {
@@ -6245,7 +6305,7 @@
     "description": "Payment event notification check device label"
   },
   "icu:SignalConnectionsModal__title": {
-    "messageformat": "Signal Bağlantıları",
+    "messageformat": "Signal Kişileri",
     "description": "The phrase/term: 'Signal Connections'"
   },
   "icu:SignalConnectionsModal__header": {
@@ -6261,7 +6321,7 @@
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "Bunları sistem bağlantılarınızda bulundurmak",
+    "messageformat": "Bunları sistem kişilerin arasında bulundurmak",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__footer": {
@@ -6425,7 +6485,7 @@
     "description": "Modal title when hiding people from my stories"
   },
   "icu:StoriesSettings__mine__all--label": {
-    "messageformat": "Tüm Signal bağlantıları",
+    "messageformat": "Tüm Signal kişileri",
     "description": "Input label to describe all signal connections"
   },
   "icu:StoriesSettings__mine__all--description": {
@@ -6545,7 +6605,7 @@
     "description": "Modal title for setting privacy for My Story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Hikayeni hangi Signal bağlantılarının görüntüleyebileceğini seç. Bunu her zaman gizlilik ayarlarından değiştirebilirsin. <learnMoreLink>Dahasını öğren.</learnMoreLink>",
+    "messageformat": "Hikayeni hangi Signal kişilerinin görüntüleyebileceğini seç. Bunu her zaman gizlilik ayarlarından değiştirebilirsin. <learnMoreLink>Dahasını öğren.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__delete-story": {
@@ -6561,11 +6621,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Tüm Signal Bağlantıları · {viewersCount,number} Görüntüleyen} other {Tüm Signal Bağlantıları · {viewersCount,number} Görüntüleyen}}",
+    "messageformat": "{viewersCount, plural, one {Tüm Signal kişileri · {viewersCount,number} Görüntüleyen} other {Tüm Signal kişileri · {viewersCount,number} Görüntüleyen}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Tüm Signal Bağlantıları · {excludedCount,number} Kişi Hariç Tutuldu} other {Tüm Signal Bağlantıları · {excludedCount,number} Kişi Hariç Tutuldu}}",
+    "messageformat": "{excludedCount, plural, one {Tüm Signal kişileri · {excludedCount,number} Kişi Hariç Tutuldu} other {Tüm Signal kişileri · {excludedCount,number} Kişi Hariç Tutuldu}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {

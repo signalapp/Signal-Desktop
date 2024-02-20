@@ -44,6 +44,10 @@
     "messageformat": "إضافة \"{contact}\" إلى مجموعة \"{group}\"",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "بحث",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "تمت إضافة {contact} إلى {group}",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "إصلاح الآن",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "البحث حسب اسم المستخدم",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "العثور عبر رقم الهاتف",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "البحث حسب اسم المستخدم",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "العثور عبر رقم الهاتف",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "اِسمُ المُستخدِم",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "رقم الهاتف",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "أدخل اسم مستخدم متبوعًا بنقطة ومجموعة من الأرقام الخاصة به.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "رمز البلد",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "رمز البلد",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "عرض علامات التبويب",
@@ -1355,12 +1395,28 @@
     "messageformat": "نبذة عن",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "مُتحقَّق منه",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "تم حَظر {name}",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "طلب مراسلة في الانتظار",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "لا توجد رسائل مباشرة مع {name}",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "جهات اتصال سيجنال",
+    "messageformat": "جهة اتصال سيجنال",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} موجود في جهات اتصالك",
+    "messageformat": "{name} موجود في جهات اتصال نظامك",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
   "icu:ContactModal__showSafetyNumber": {
@@ -2260,11 +2316,11 @@
     "description": "Description for incoming calls setting"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "لقد غيَّر العضو {sender} اسمه الشخصي من{oldProfile} إلى {newProfile}.",
+    "messageformat": "لقد غيَّر العضو {sender} اسم حسابه الشخصي من{oldProfile} إلى {newProfile}.",
     "description": "Description for incoming calls setting"
   },
   "icu:changedProfileName": {
-    "messageformat": "غيَّر العضو {oldProfile} اسمه الشخصي إلى {newProfile}.",
+    "messageformat": "غيَّر العضو {oldProfile} اسم حسابه الشخصي إلى {newProfile}.",
     "description": "Shown when a contact not in your address book changes their profile name"
   },
   "icu:SafetyNumberModal__title": {
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "البحث باستخدام الاسم أو رقم الهاتف",
+    "messageformat": "اسم، اسم مُستخدم، أو رقم",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -5221,11 +5277,11 @@
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "جهات اتصال سيجنال",
+    "messageformat": "جهة اتصال سيجنال",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "لقد غير عضو اسم ملفه الشخصي من {oldName} إلى {newName}",
+    "messageformat": "لقد غير عضو اسم حسابه الشخصي من {oldName} إلى {newName}",
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
@@ -5628,6 +5684,10 @@
     "messageformat": "حذف",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "لِحذف اسم المستخدم، افتح سيجنال على هاتفك وانتقل إلى الإعدادات > الحساب الشخصي.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "نسخ أو حذف اِسمُ المُستخدِم",
     "description": "Shown as aria label for context menu next to username"
@@ -5677,7 +5737,7 @@
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "يُمكن للناس مراسلتك الآن باستخدام اسم المستخدم الاختياري الخاص بك حتى لا تضطر إلى إعطاء رقم هاتفك.",
+    "messageformat": "يُمكن للناس مراسلتك الآن باستخدام اسم المُستخدم الاختياري الخاص بك حتى لا تضطر إلى إعطاء رقم هاتفك.",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -6245,7 +6305,7 @@
     "description": "Payment event notification check device label"
   },
   "icu:SignalConnectionsModal__title": {
-    "messageformat": "جهات الاتصال في سيجنال",
+    "messageformat": "جهة اتصال سيجنال",
     "description": "The phrase/term: 'Signal Connections'"
   },
   "icu:SignalConnectionsModal__header": {
@@ -6425,7 +6485,7 @@
     "description": "Modal title when hiding people from my stories"
   },
   "icu:StoriesSettings__mine__all--label": {
-    "messageformat": "جميع جهات الاتصال في سيجنال",
+    "messageformat": "جميع جهات اتصال سيجنال",
     "description": "Input label to describe all signal connections"
   },
   "icu:StoriesSettings__mine__all--description": {
@@ -6965,7 +7025,7 @@
     "description": "Title of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__username__body": {
-    "messageformat": "يُمكن للناس مراسلتك الآن باستخدام اسم المستخدم الاختياري الخاص بك حتى لا تضطر إلى إعطاء رقم هاتفك. أسماء المستخدمين ليست مرئية على حسابك الشخصي.",
+    "messageformat": "يُمكن للناس مراسلتك الآن باستخدام اسم المُستخدم الاختياري الخاص بك حتى لا تضطر إلى إعطاء رقم هاتفك. أسماء المُستخدمين ليست مرئية على حسابك الشخصي.",
     "description": "Body of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__qr__title": {

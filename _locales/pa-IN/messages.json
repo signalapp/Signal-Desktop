@@ -44,6 +44,10 @@
     "messageformat": "“{contact}” ਨੂੰ \"{group}\" ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "ਖੋਜੋ",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} ਨੂੰ {group} ਵਿੱਚ ਜੋੜਿਆ ਗਿਆ ਸੀ",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "ਹੁਣੇ ਠੀਕ ਕਰੋ",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਨਾਲ ਲੱਭੋ",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "ਫ਼ੋਨ ਨੰਬਰ ਨਾਲ ਲੱਭੋ",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਨਾਲ ਲੱਭੋ",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "ਫ਼ੋਨ ਨੰਬਰ ਨਾਲ ਲੱਭੋ",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "ਫ਼ੋਨ ਨੰਬਰ",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਅਤੇ ਫਿਰ ਇੱਕ ਬਿੰਦੂ ਅਤੇ ਫਿਰ ਅੰਕਾਂ ਦਾ ਜੋੜਾ ਦਰਜ ਕਰੋ।",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "ਦੇਸ਼ ਦਾ ਕੋਡ",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "ਦੇਸ਼ ਦਾ ਕੋਡ",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "ਟੈਬਾਂ ਦਿਖਾਓ",
@@ -1355,6 +1395,22 @@
     "messageformat": "ਜਾਣ-ਪਛਾਣ",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "ਤਸਦੀਕਸ਼ੁਦਾ",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} ਉੱਤੇ ਪਾਬੰਦੀ ਲਗਾਈ ਗਈ ਹੈ",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "ਬਕਾਇਆ ਸੁਨੇਹਾ ਬੇਨਤੀ",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "{name} ਨਾਲ ਕਦੇ ਵੀ ਸਿੱਧਾ ਚੈਟ ਨਹੀਂ ਹੋਈ ਹੈ",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Signal ਕਨੈਕਸ਼ਨ",
     "description": "Text of a button on About modal leading to an education modal"
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "ਨਾਂ ਜਾਂ ਫ਼ੋਨ ਨੰਬਰ ਨਾਲ ਖੋਜੋ",
+    "messageformat": "ਨਾਂ, ਵਰਤੋਂਕਾਰ ਨਾਂ, ਜਾਂ ਨੰਬਰ",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -5627,6 +5683,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ਮਿਟਾਓ",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "ਆਪਣੇ ਵਰਤੋਂਕਾਰ ਨਾਂ ਨੂੰ ਮਿਟਾਉਣ ਲਈ, ਆਪਣੇ ਫ਼ੋਨ ਉੱਤੇ Signal ਖੋਲ੍ਹੋ ਅਤੇ ਸੈਟਿੰਗਾਂ > ਪ੍ਰੋਫ਼ਾਈਲ 'ਤੇ ਜਾਓ।",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਕਾਪੀ ਕਰੋ ਜਾਂ ਮਿਟਾਓ",

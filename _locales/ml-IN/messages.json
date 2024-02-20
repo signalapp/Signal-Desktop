@@ -44,6 +44,10 @@
     "messageformat": "“{group}” ഗ്രൂപ്പിലേക്ക് “{contact}” എന്നയാളെ ചേർക്കുക",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "തിരയൽ",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact}-നെ {group}-ലേക്ക് ചേർത്തു",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "ഇപ്പോൾ പരിഹരിക്കുക",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "ഉപയോക്തൃനാമം ഉപയോഗിച്ച് കണ്ടെത്തുക",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "ഫോൺ നമ്പർ ഉപയോഗിച്ച് കണ്ടെത്തുക",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "ഉപയോക്തൃനാമം ഉപയോഗിച്ച് കണ്ടെത്തുക",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "ഫോൺ നമ്പർ ഉപയോഗിച്ച് കണ്ടെത്തുക",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "ഉപയോക്തൃനാമം",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "ഫോൺ നമ്പർ",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "ഡോട്ടും തുടർന്ന് വരുന്ന സംഖ്യകളും ഉൾപ്പെടെയുള്ള ഉപയോക്തൃനാമം നൽകുക.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "രാജ്യ കോഡ്",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "രാജ്യ കോഡ്",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "ടാബുകൾ കാണിക്കുക",
@@ -1355,6 +1395,22 @@
     "messageformat": "ആമുഖം",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "പരിശോധിച്ചു",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} എന്നയാളെ ബ്ലോക്ക് ചെയ്തിരിക്കുന്നു",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "തീർച്ചപ്പെടുത്താത്ത സന്ദേശ അഭ്യർത്ഥന",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "{name} എന്നയാൾക്ക് നേരിട്ട് സന്ദേശങ്ങളൊന്നും അയച്ചിട്ടില്ല",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Signal കണക്ഷൻ",
     "description": "Text of a button on About modal leading to an education modal"
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "പേര് അല്ലെങ്കിൽ ഫോൺ നമ്പർ ഉപയോഗിച്ച് തിരയുക",
+    "messageformat": "പേര്, യൂസർ പേര്, അല്ലെങ്കിൽ നമ്പർ",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -5627,6 +5683,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ഇല്ലാതാക്കൂ",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "നിങ്ങളുടെ ഉപയോക്തൃനാമം ഇല്ലാതാക്കാൻ, ഫോണിൽ Signal ആപ്പ് തുറന്ന ശേഷം, ക്രമീകരണങ്ങൾ > പ്രൊഫൈൽ എന്നതിലേക്ക് പോകുക.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "ഉപയോക്തൃനാമം പകർത്തുക അല്ലെങ്കിൽ ഇല്ലാതാക്കുക",

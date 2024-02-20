@@ -44,6 +44,10 @@
     "messageformat": "Ajouter « {contact} » au groupe « {group} »",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Rechercher",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} a été ajouté à {group}",
     "description": "Shown in toast after a user is added to an existing group"
@@ -137,7 +141,7 @@
     "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Créer ou téléverser un paquet d’autocollants",
+    "messageformat": "Créer ou importer un pack de stickers",
     "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuEdit": {
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Résoudre",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Rechercher par nom d’utilisateur",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Rechercher par numéro de téléphone",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Rechercher par nom d’utilisateur",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Rechercher par numéro de téléphone",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Nom d’utilisateur",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Numéro de téléphone",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Saisissez un nom d’utilisateur composé d’un nom, d’un point et d’une série de chiffres.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Indicatif de pays",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Indicatif de pays",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Afficher les onglets",
@@ -1012,7 +1052,7 @@
     "description": "Tooltip for the tray icon"
   },
   "icu:search": {
-    "messageformat": "Chercher",
+    "messageformat": "Rechercher",
     "description": "Placeholder text in the search input"
   },
   "icu:clearSearch": {
@@ -1355,6 +1395,22 @@
     "messageformat": "À propos",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Confirmé",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} est bloqué",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Invitation par message en attente",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "Aucun message privé avec {name}",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Contact Signal",
     "description": "Text of a button on About modal leading to an education modal"
@@ -1503,11 +1559,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Un message, un autocollant, une réaction, un accusé de lecture ou un contenu multimédia de {sender} n’a pas pu vous être remis. Cette personne pourrait avoir tenté de vous l’envoyer directement ou dans un groupe.",
+    "messageformat": "Impossible de distribuer un contenu de {sender}. Il peut s’agir d’un message, d’un sticker, d’une réaction, d’une confirmation de lecture ou d’un contenu multimédia que ce contact vous a envoyés directement ou dans un groupe.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Un message, un autocollant, une réaction, un accusé de lecture ou un contenu multimédia de {sender} n’a pas pu vous être remis dans cette conversation.",
+    "messageformat": "Impossible de distribuer un contenu de {sender} dans cette conversation. Il peut s’agir d’un message, d’un sticker, d’une réaction, d’une confirmation de lecture ou d’un contenu multimédia.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "icu:ChangeNumber--notification": {
@@ -2344,7 +2400,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Chercher par nom ou numéro de téléphone",
+    "messageformat": "Nom, nom d’utilisateur ou numéro",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2597,7 +2653,7 @@
     "description": "Shown in notifications and in the left pane when a generic file is received."
   },
   "icu:message--getNotificationText--stickers": {
-    "messageformat": "Message — Autocollant",
+    "messageformat": "Message – Sticker",
     "description": "Shown in notifications and in the left pane instead of sticker image."
   },
   "icu:message--getNotificationText--text-with-emoji": {
@@ -2753,7 +2809,7 @@
     "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
-    "messageformat": "Les autocollants des messages entrants apparaîtront ici",
+    "messageformat": "Les stickers des messages reçus s’affichent ici",
     "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
   },
   "icu:stickers--StickerManager--Install": {
@@ -2853,7 +2909,7 @@
     "description": "Button title to cancel the emoji search."
   },
   "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Chercher un émoji",
+    "messageformat": "Rechercher un émoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
   },
   "icu:EmojiPicker--skin-tone": {
@@ -3021,7 +3077,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--search": {
-    "messageformat": "Chercher",
+    "messageformat": "Rechercher",
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--search-in-conversation": {
@@ -5557,11 +5613,11 @@
     "description": "Title text for username modal"
   },
   "icu:ProfileEditor--username--check-characters": {
-    "messageformat": "Le nom d’utilisateur ne peut contenir que des a-z, 0-9 et _.",
+    "messageformat": "Le nom d’utilisateur ne peut contenir que des caractères de a à z, des chiffres de 0 à 9 et des _.",
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Le nom d’utilisateur ne peut pas commencer par un numéro.",
+    "messageformat": "Le nom d’utilisateur ne peut pas commencer par un chiffre.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -5627,6 +5683,10 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Supprimer",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "Pour supprimer votre nom d’utilisateur, ouvrez Signal sur votre téléphone et accédez à Paramètres > Profil.",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copier ou supprimer le nom d'utilisateur",
@@ -5897,7 +5957,7 @@
     "description": "Label for the find me by my phone number setting"
   },
   "icu:Preferences--read-receipts": {
-    "messageformat": "Accusés de lecture",
+    "messageformat": "Confirmations de lecture",
     "description": "Label for the read receipts setting"
   },
   "icu:Preferences--typing-indicators": {
@@ -7089,11 +7149,11 @@
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
   },
   "icu:CallsList__SearchInputPlaceholder": {
-    "messageformat": "Chercher",
+    "messageformat": "Rechercher",
     "description": "Calls Tab > Calls List > Search Input > Placeholder"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
-    "messageformat": "Rechercher dans les appels manqués",
+    "messageformat": "Filtrer par appels manqués",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
