@@ -17,6 +17,7 @@ export type PropsType = {
 type ReleaseNotesType = {
   date: Date;
   version: string;
+  header?: JSX.Element;
   features: Array<JSX.Element>;
 };
 
@@ -41,21 +42,26 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
+    header: <Intl i18n={i18n} id="icu:WhatsNew__v7.0--header" />,
     features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.48--0" />,
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.48--1" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v7.0--0" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v7.0--1" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v7.0--2" />,
     ],
   };
 
-  if (releaseNotes.features.length === 1) {
+  if (releaseNotes.features.length === 1 && !releaseNotes.header) {
     contentNode = <p>{releaseNotes.features[0]}</p>;
   } else {
     contentNode = (
-      <ul>
-        {releaseNotes.features.map(element => {
-          return <li key={element.props.id}>{element}</li>;
-        })}
-      </ul>
+      <>
+        {releaseNotes.header ? <p>{releaseNotes.header}</p> : null}
+        <ul>
+          {releaseNotes.features.map(element => {
+            return <li key={element.props.id}>{element}</li>;
+          })}
+        </ul>
+      </>
     );
   }
 
