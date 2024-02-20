@@ -44,6 +44,10 @@
     "messageformat": "\"{contact}\" کو گروپ \"{group}\" میں شامل کریں",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "تلا ‎ش کر یں",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
+  },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} میں {group} شامل کیا گیا تھا",
     "description": "Shown in toast after a user is added to an existing group"
@@ -331,6 +335,42 @@
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "ابھی ٹھیک کریں",
     "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "بلحاظ یوزر نیم تلاش کریں",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "فون نمبر سے تلاش کریں",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "بلحاظ یوزر نیم تلاش کریں",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "فون نمبر سے تلاش کریں",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "یوزر نیم",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "فون نمبر",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "کوئی یوزر نیم درج کریں جس کے بعد نقطہ اور اس کے نمبرز کا سیٹ ہو۔",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "ملک کا کوڈ",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "ملک کا کوڈ",
+    "description": "Title of the country code modal"
   },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "ٹیبز دکھائیں",
@@ -1052,7 +1092,7 @@
     "description": "Shown to separate the types of search results"
   },
   "icu:findByUsernameHeader": {
-    "messageformat": "صارفی نام سے تلاش کریں",
+    "messageformat": "بلحاظ یوزر نیم تلاش کریں",
     "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
   },
   "icu:findByPhoneNumberHeader": {
@@ -1352,15 +1392,35 @@
     "messageformat": "حفاظتی نمبر دیکھیں"
   },
   "icu:AboutContactModal__title": {
-    "messageformat": "About",
+    "messageformat": "کے بارے میں",
     "description": "Title of About modal"
   },
+  "icu:AboutContactModal__title--myself": {
+    "messageformat": "You",
+    "description": "Title of About modal when viewing your own information"
+  },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "تصدیق شدہ",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} بلاک ہے",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "زیر التوا میسج کی درخواست",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "{name} کے ساتھ کوئی براہ راست میسجز نہیں",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
   "icu:AboutContactModal__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal کنیکشن",
     "description": "Text of a button on About modal leading to an education modal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} is in your system contacts",
+    "messageformat": "{name} آپ کے سسٹم کانٹیکٹس میں موجود ہے",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
   "icu:ContactModal__showSafetyNumber": {
@@ -1639,11 +1699,11 @@
     "description": "The placeholder for the 'choose device name' input"
   },
   "icu:Preferences--phone-number": {
-    "messageformat": "Phone Number",
+    "messageformat": "فون نمبر",
     "description": "The label in settings panel shown for the phone number associated with user's account"
   },
   "icu:Preferences--device-name": {
-    "messageformat": "Device Name",
+    "messageformat": "ڈیوائس کا نام",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -2260,11 +2320,11 @@
     "description": "Description for incoming calls setting"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} نے اپنے پروفائل کا نام {oldProfile} تبدیل کرکے {newProfile} کردیا۔",
+    "messageformat": "{sender} نے اپنا پروفائل نیم {oldProfile} تبدیل کرکے {newProfile} کردیا۔",
     "description": "Description for incoming calls setting"
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} نے اپنے پروفائل کا نام تبدیل کر کے{newProfile} کر دیا۔",
+    "messageformat": "{oldProfile} نے اپنا پروفائل نیم تبدیل کر کے{newProfile} کر دیا۔",
     "description": "Shown when a contact not in your address book changes their profile name"
   },
   "icu:SafetyNumberModal__title": {
@@ -2344,7 +2404,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "نام یا فون نمبر کے ذریعہ تلاش کریں",
+    "messageformat": "نام، یوزر نیم ، یا نمبر",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2372,7 +2432,7 @@
     "description": "Label for the error toast button"
   },
   "icu:Toast--failed-to-fetch-username": {
-    "messageformat": "صارفی نام ڈھونڈنے میں ناکامی ہوئی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
+    "messageformat": "یوزر نیم ڈھونڈنے میں قاصر۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
     "description": "Shown if request to Signal servers to find username fails"
   },
   "icu:Toast--failed-to-fetch-phone-number": {
@@ -2384,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "صارف نہیں ملا۔ {atUsername} Signal کا صارف نہیں ہے؛ یقینی بنائیں کہ آپ نے مکمل صارفی نام درج کیا ہے۔",
+    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5205,7 +5265,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} group member have the same name, review the members below or choose to take action.} other {{count,number} group members have the same name, review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {گروپ کے {count,number} ممبر کا نام مماثل ہے، ممبر کا ذیل میں جائزہ لیں یا ایکشن لینے کا انتخاب کریں۔} other {گروپ کے {count,number} ممبرز کے نام مماثل ہیں، ممبرز کا ذیل میں جائزہ لیں یا ایکشن لینے کا انتخاب کریں۔}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5217,15 +5277,15 @@
     "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
-    "messageformat": "No other groups in common",
+    "messageformat": "کوئی اور گروپس مشترکہ نہیں",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
   },
   "icu:ContactSpoofingReviewDialog__signal-connection": {
-    "messageformat": "Signal Connection",
+    "messageformat": "Signal کنکشن",
     "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "حال ہی میں ان کے پروفائل کا نام {oldName} سے تبدیل کرکے {newName} کردیا گیا ہے",
+    "messageformat": "حال ہی میں ان کا پروفائل نیم {oldName} سے تبدیل کرکے {newName} کردیا گیا ہے",
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
@@ -5513,23 +5573,23 @@
     "description": "Default text for about field"
   },
   "icu:ProfileEditor--username": {
-    "messageformat": "صارفی نام",
+    "messageformat": "یوزر نیم",
     "description": "Default text for username field"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "messageformat": "آپ کے یوزر نیم کے ساتھ کچھ غلط ہو گیا ہے، یہ مزید آپ کے اکاؤنٹ کے ساتھ تفویض کردہ نہیں ہے۔ آپ دوبارہ کوشش کر کے اسے سیٹ کر سکتے ہیں یا نیا منتخب کر سکتے ہیں۔",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
   "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "صارفی نام حذف کریں",
+    "messageformat": "یوزر نیم حذف کریں",
     "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "صارف کام نام بنائیں",
+    "messageformat": "یوزر نیم بنائیں",
     "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
-    "messageformat": "Fix now",
+    "messageformat": "ابھی ٹھیک کریں",
     "description": "Button text for creation of a new username in case of corruption"
   },
   "icu:ProfileEditor__username-link": {
@@ -5553,23 +5613,23 @@
     "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
   },
   "icu:ProfileEditor--username--title": {
-    "messageformat": "اپنا صارفی نام منتخب کریں",
+    "messageformat": "اپنا یوزر نیم منتخب کریں",
     "description": "Title text for username modal"
   },
   "icu:ProfileEditor--username--check-characters": {
-    "messageformat": "صارفی ناموں میں صرف a-z، 0-9 اور _ شامل ہو سکتا ہے",
+    "messageformat": "یوزر نیمز میں صرف a-z، 0-9 اور _ شامل ہو سکتا ہے",
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "صارف نام کسی نمبر کے ساتھ شروع نہیں ہوسکتے ہیں۔",
+    "messageformat": "یوزر نیمز کسی نمبر کے ساتھ شروع نہیں ہوسکتے ہیں۔",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "صارفی ناموں میں کم از کم {min,number} حروف ہونا لازمی ہیں۔",
+    "messageformat": "یوزر نیمز میں کم از کم {min,number} حروف ہونا لازمی ہیں۔",
     "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "صارفی ناموں میں زیادہ سے زیادہ {max,number} حروف ہونا لازمی ہیں۔",
+    "messageformat": "یوزر نیمز میں زیادہ سے زیادہ {max,number} حروف ہونا لازمی ہیں۔",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
@@ -5581,19 +5641,19 @@
     "description": "Shown if user has attempted to enter a username with 00 as discriminator"
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "Numbers with more than 2 digits can’t start with 0",
+    "messageformat": "2 سے زیادہ ہندسوں والے نمبرز 0 سے شروع نہیں ہو سکتے",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--unavailable": {
-    "messageformat": "یہ صارفی نام دستیاب نہیں ہے",
+    "messageformat": "یہ یوزر نیم دستیاب نہیں ہے",
     "description": "Shown if the username is not available for registration"
   },
   "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "یہ صارف نام لیا گیا ہے۔",
+    "messageformat": "یہ یوزر نیم لے لیا گیا ہے۔",
     "description": "Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
-    "messageformat": "آپ کا صارفی نام محفوظ نہیں کیا جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
+    "messageformat": "آپ کا یوزر نیم محفوظ نہیں کیا جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
     "description": "Shown if something unknown has gone wrong with username save."
   },
   "icu:ProfileEditor--username--reservation-gone": {
@@ -5601,11 +5661,11 @@
     "description": "Shown if username reservation has expired and new one needs to be generated."
   },
   "icu:ProfileEditor--username--delete-general-error": {
-    "messageformat": "آپ کا صارفی نام ہٹایا نہیں جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
+    "messageformat": "آپ کا یوزر نیم ہٹایا نہیں جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "icu:ProfileEditor--username--copied-username": {
-    "messageformat": "کاپی کردہ صارفی نام",
+    "messageformat": "کاپی کردہ یوزر نیم",
     "description": "Shown when username is copied to clipboard."
   },
   "icu:ProfileEditor--username--copied-username-link": {
@@ -5613,11 +5673,11 @@
     "description": "Shown when username link is copied to clipboard."
   },
   "icu:ProfileEditor--username--deleting-username": {
-    "messageformat": "صارفی نام ڈیلیٹ کیا جا رہا ہے",
+    "messageformat": "یوزر نیم حذف کیا جا رہا ہے",
     "description": "Shown as aria label for spinner icon next to username"
   },
   "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "صارفی نام حذف کریں",
+    "messageformat": "یوزر نیم حذف کریں",
     "description": "Shown as aria label for trash icon next to username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
@@ -5628,12 +5688,16 @@
     "messageformat": "حذف کریں",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "اپنا یوزر نیم حذف کرنے کے لیے، اپنے فون پر Signal کھولیں اور سیٹنگز > پروفائل پر نیویگیٹ کریں۔",
+    "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
-    "messageformat": "صارفی نام کاپی یا ڈیلیٹ کریں",
+    "messageformat": "یوزر نیم کاپی یا حذف کریں",
     "description": "Shown as aria label for context menu next to username"
   },
   "icu:ProfileEditor--username--copy": {
-    "messageformat": "صارفی نام کاپی کریں",
+    "messageformat": "یوزر نیم کاپی کریں",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
   },
   "icu:ProfileEditor--username--copy-link": {
@@ -5661,7 +5725,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Edit photo",
+    "messageformat": "تصویر میں ترمیم کریں",
     "description": "Text of a button on profile editor that leads to the avatar editor"
   },
   "icu:ProfileEditor--info--link": {
@@ -5669,15 +5733,15 @@
     "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "messageformat": "آپ کی پروفائل اور اس میں کی گئی تبدیلیاں آپ کے میسج وصول کرنے والے افراد، روابط اور گروپس کو نظر آئیں گی۔",
     "description": "Information shown in profile editor below profile name and about fields"
   },
   "icu:ProfileEditor--info--pnp": {
-    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "messageformat": "آپ کا یوزر نیم، QR کوڈ اور لنک آپ کی پروفائل پر نظر نہیں آتے۔ ان کا صرف ان لوگوں کے ساتھ اشتراک کریں جن پر آپ کو اعتماد ہو۔",
     "description": "Information shown in profile editor below pnp settings when username is set"
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "messageformat": "لوگ اب آپ کا اختیاری یوزر نیم استعمال کرتے ہوئے آپ کو میسج کر سکتے ہیں تاکہ آپ کو اپنا فون نمبر دینے کی ضرورت نہ پڑے۔",
     "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
@@ -5717,7 +5781,7 @@
     "description": "Title for profile avatar editing"
   },
   "icu:ProfileEditorModal--username": {
-    "messageformat": "صارفی نام",
+    "messageformat": "یوزر نیم",
     "description": "Title for username editing"
   },
   "icu:ProfileEditorModal--error": {
@@ -5845,11 +5909,11 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "messageformat": "آپ کا فون نمبر کسی کو نظر نہیں آئے گا جب تک وہ ان کے فون کے رابطوں میں پہلے سے محفوظ نہ ہو۔",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
-    "messageformat": "Your phone number will not be visible to anyone.",
+    "messageformat": "آپ کا فون نمبر کسی کو نظر نہیں آئے گا۔",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -6245,7 +6309,7 @@
     "description": "Payment event notification check device label"
   },
   "icu:SignalConnectionsModal__title": {
-    "messageformat": "Signal کنکشنز",
+    "messageformat": "Signal کنیکشنز",
     "description": "The phrase/term: 'Signal Connections'"
   },
   "icu:SignalConnectionsModal__header": {
@@ -6261,7 +6325,7 @@
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "اپنے سسٹم کے روابط میں انہیں رکھنے سے",
+    "messageformat": "اپنے سسٹم کانٹیکٹس میں انہیں رکھنے سے",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__footer": {
@@ -6425,7 +6489,7 @@
     "description": "Modal title when hiding people from my stories"
   },
   "icu:StoriesSettings__mine__all--label": {
-    "messageformat": "تمام Signal کنکشنز",
+    "messageformat": "تمام Signal کنیکشنز",
     "description": "Input label to describe all signal connections"
   },
   "icu:StoriesSettings__mine__all--description": {
@@ -6545,7 +6609,7 @@
     "description": "Modal title for setting privacy for My Story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "منتخب کریں کہ کون سے Signal کنکشنز آپ کی سٹوری دیکھ سکتے ہیں۔ آپ پرائیویسی سیٹنگز میں ہمیشہ اسے تبدیل کر سکتے ہیں۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>",
+    "messageformat": "منتخب کریں کہ کون سے Signal کنیکشنز آپ کی سٹوری دیکھ سکتے ہیں۔ آپ پرائیویسی سیٹنگز میں ہمیشہ اسے تبدیل کر سکتے ہیں۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__delete-story": {
@@ -6561,11 +6625,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {تمام Signal کنکشنز · {viewersCount,number} ناظر} other {تمام Signal کنکشنز · {viewersCount,number} ناظرین}}",
+    "messageformat": "{viewersCount, plural, one {تمام Signal کنیکشنز · {viewersCount,number} ناظر} other {تمام Signal کنیکشنز · {viewersCount,number} ناظرین}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {تمام Signal کنکشنز · {excludedCount,number} خارج} other {تمام Signal کنکشن · {excludedCount,number} خارج}}",
+    "messageformat": "{excludedCount, plural, one {تمام Signal کنیکشنز · {excludedCount,number} خارج} other {تمام Signal کنیکشن · {excludedCount,number} خارج}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
@@ -6861,11 +6925,11 @@
     "description": "Default aria-label for the context menu buttons"
   },
   "icu:EditUsernameModalBody__username-placeholder": {
-    "messageformat": "صارفی نام",
+    "messageformat": "یوزر نیم",
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames are always paired with a set of numbers.",
+    "messageformat": "یوزر نیمز کو ہمیشہ نمبرز کے سیٹ کے ساتھ جوڑا جاتا ہے۔",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6889,11 +6953,11 @@
     "description": "Text of the primary button on username change confirmation modal"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
-    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "اپنا یوزر نیم بازیافت کرنے سے آپ کا موجودہ QR کوڈ اور لنک ری سیٹ ہو جائے گا۔ کیا واقعی ایسا چاہتے ہیں؟",
     "description": "Body of the confirmation dialog displayed when user is about to recover their username"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "messageformat": "آپ کا QR کوڈ اور لنک ری سیٹ کر دیا گیا ہے اور آپ کا یوزر نیم {username} ہے",
     "description": "Text of toast displayed upon successful recovery of username"
   },
   "icu:UsernameLinkModalBody__hint": {
@@ -6929,7 +6993,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
+    "messageformat": "اگر آپ اپنا QR کوڈ اور لنک ری سیٹ کرتے ہیں، تو آپ کا موجودہ QR کوڈ اور لنک مزید کام نہیں کریں گے۔",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameLinkModalBody__resetting-link": {
@@ -6937,15 +7001,15 @@
     "description": "Text shown when resetting the username link"
   },
   "icu:UsernameLinkModalBody__error__text": {
-    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
+    "messageformat": "آپ کے QR کوڈ اور لنک کے ساتھ کچھ مسئلہ ہو گیا ہے، یہ اب مزید مستند نہیں رہا۔ نیا QR کوڈ اور لنک بنانے کے لیے اس کو ری سیٹ کرنے کی کوشش کریں۔",
     "description": "Text of the confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__error__fix-now": {
-    "messageformat": "Fix now",
+    "messageformat": "ابھی ٹھیک کریں",
     "description": "Text of the button in a confirmation dialog shown on username link error"
   },
   "icu:UsernameLinkModalBody__recovered__text": {
-    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "messageformat": "آپ کا QR کوڈ اور لنک ری سیٹ کر دیا گیا ہے اور ایک نیا QR کوڈ اور لنک بنایا گیا ہے۔",
     "description": "Text of the confirmation dialog shown on successful username link recovery"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -7188,16 +7252,22 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.47--0": {
-    "messageformat": "<emojify>🎉</emojify> ہم نے ٹائپنگ کے اشاروں کے بگ کو ٹھیک کر دیا ہے جوبعض اوقات ایموجی منتخب کرنے والے باکس کے غائب ہونے کا سبب بن رہا تھا۔"
-  },
-  "icu:WhatsNew__v6.47--1": {
-    "messageformat": "Signal ونڈو اب Microsoft Windows پر آپ کے منتخب کردہ ٹائٹل بار کے رنگ سے ممالث ہو گی۔"
-  },
   "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
+    "messageformat": "جب بھی Signal ونڈو کو بند یا سسٹم ٹرے میں منیمائز کیا جائے گا تو ویڈیو اور آڈیو پلے بیک اب رک جائے گا۔"
   },
   "icu:WhatsNew__v6.48--1": {
-    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
+    "messageformat": "ایموٹیکنز اب طے شدہ طور پر ایموجی میں تبدیل ہو جاتے ہیں جب آپ (“:-)” → “<emojify>🙂</emojify>”) ٹائپ کرتے ہیں۔ آپ اس فیچر کو اپنی Signal ڈیسک ٹاپ سیٹنگز کے &quot;چیٹس&quot; سیکشن میں ترتیب دے سکتے ہیں۔"
+  },
+  "icu:WhatsNew__v7.0--header": {
+    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+  },
+  "icu:WhatsNew__v7.0--0": {
+    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+  },
+  "icu:WhatsNew__v7.0--1": {
+    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+  },
+  "icu:WhatsNew__v7.0--2": {
+    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
   }
 }
