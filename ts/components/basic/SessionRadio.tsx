@@ -87,7 +87,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
       container={true}
       flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
       justifyContent={radioPosition === 'left' ? 'flex-start' : 'flex-end'}
-      style={style}
+      style={{ ...style, position: 'relative' }}
     >
       <StyledInput
         type="radio"
