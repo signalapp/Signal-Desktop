@@ -9,13 +9,15 @@ import {
   useSelectedConversationDisappearingMode,
   useSelectedConversationKey,
   useSelectedExpireTimer,
+  useSelectedIsGroupOrCommunity,
+  useSelectedIsGroupV2,
   useSelectedIsNoteToSelf,
   useSelectedIsPrivate,
   useSelectedIsPrivateFriend,
 } from '../../state/selectors/selectedConversation';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { Flex } from '../basic/Flex';
-import { TextWithChildren } from '../basic/Text';
+import { SpacerMD, TextWithChildren } from '../basic/Text';
 import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
 // eslint-disable-next-line import/order
 import { ConversationInteraction } from '../../interactions';
@@ -23,6 +25,7 @@ import { getConversationController } from '../../session/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
+import { SessionIcon } from '../icon';
 
 const FollowSettingButton = styled.button`
   color: var(--primary-color);
@@ -180,6 +183,9 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   const { messageId } = props;
 
   const textToRender = useTextToRender(props);
+  const isGroupOrCommunity = useSelectedIsGroupOrCommunity();
+  const isGroupV2 = useSelectedIsGroupV2();
+  const renderOffIcon = props.disabled || (isGroupOrCommunity && !isGroupV2);
 
   if (!textToRender || textToRender.length === 0) {
     throw new Error('textToRender invalid key used TimerNotification');
@@ -203,6 +209,16 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         padding="5px 10px"
         style={{ textAlign: 'center' }}
       >
+        {renderOffIcon && (
+          <>
+            <SessionIcon
+              iconType="timerFixed"
+              iconSize={'tiny'}
+              iconColor="var(--text-secondary-color)"
+            />
+            <SpacerMD />
+          </>
+        )}
         <TextWithChildren subtle={true}>
           <SessionHtmlRenderer html={textToRender} />
         </TextWithChildren>

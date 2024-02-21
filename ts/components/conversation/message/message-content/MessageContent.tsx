@@ -183,6 +183,7 @@ export const MessageContent = (props: Props) => {
           messageId={props.messageId}
           hideAvatar={hideAvatar}
           isPrivate={selectedIsPrivate}
+          isDetailView={props.isDetailView}
         />
       </StyledAvatarContainer>
 

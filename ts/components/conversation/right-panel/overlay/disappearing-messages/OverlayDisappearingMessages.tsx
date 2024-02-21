@@ -12,8 +12,8 @@ import {
   useSelectedConversationDisappearingMode,
   useSelectedConversationKey,
   useSelectedExpireTimer,
-  useSelectedIsGroup,
-  useSelectedWeAreAdmin,
+  useSelectedIsGroupOrCommunity,
+  useSelectedWeAreAdmin
 } from '../../../../../state/selectors/selectedConversation';
 import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 import { Flex } from '../../../../basic/Flex';
@@ -23,9 +23,13 @@ import { Header, HeaderSubtitle, HeaderTitle, StyledScrollContainer } from '../c
 import { DisappearingModes } from './DisappearingModes';
 import { TimeOptions } from './TimeOptions';
 
+const ButtonSpacer = styled.div`
+  height: 80px;
+`;
+
 const StyledButtonContainer = styled.div`
-  background: linear-gradient(0deg, black, transparent);
-  position: sticky;
+  background: linear-gradient(0deg, var(--background-primary-color), transparent);
+  position: absolute;
   width: 100%;
   bottom: 0px;
 
@@ -110,7 +114,7 @@ export const OverlayDisappearingMessages = () => {
   const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
   const { singleMode, hasOnlyOneMode } = useSingleMode(disappearingModeOptions);
 
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
   const expirationMode = useSelectedConversationDisappearingMode();
   const expireTimer = useSelectedExpireTimer();
   const weAreAdmin = useSelectedWeAreAdmin();
@@ -210,6 +214,8 @@ export const OverlayDisappearingMessages = () => {
             </StyledNonAdminDescription>
           </>
         )}
+        <ButtonSpacer />
+
         <StyledButtonContainer>
           <SessionButton
             onClick={handleSetMode}

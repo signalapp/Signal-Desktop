@@ -140,8 +140,8 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
    */
   const onClickCancelHandler = () => {
     onClickCancel?.();
-
     onClickClose?.();
+    window.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
   return (

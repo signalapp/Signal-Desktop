@@ -101,25 +101,23 @@ function formatTimeLeft({ timeLeftMs }: { timeLeftMs: number }) {
     return `0s`;
   }
 
-  const prefix = 'Message will expire in';
-
   if (timeLeft.isBefore(moment.utc(0).add(1, 'minute'))) {
-    return `${prefix} ${timeLeft.seconds()}s`;
+    return window.i18n('messageWillDisappear', [`${timeLeft.seconds()}s`]);
   }
 
   if (timeLeft.isBefore(moment.utc(0).add(1, 'hour'))) {
     const extraUnit = timeLeft.seconds() ? ` ${timeLeft.seconds()}s` : '';
-    return `${prefix} ${timeLeft.minutes()}m${extraUnit}`;
+    return window.i18n('messageWillDisappear', [`${timeLeft.minutes()}m${extraUnit}`]);
   }
 
   if (timeLeft.isBefore(moment.utc(0).add(1, 'day'))) {
     const extraUnit = timeLeft.minutes() ? ` ${timeLeft.minutes()}m` : '';
-    return `${prefix} ${timeLeft.hours()}h${extraUnit}`;
+    return window.i18n('messageWillDisappear', [`${timeLeft.hours()}h${extraUnit}`]);
   }
 
   if (timeLeft.isBefore(moment.utc(0).add(7, 'day'))) {
     const extraUnit = timeLeft.hours() ? ` ${timeLeft.hours()}h` : '';
-    return `${prefix} ${timeLeft.dayOfYear() - 1}d${extraUnit}`;
+    return window.i18n('messageWillDisappear', [`${timeLeft.dayOfYear() - 1}d${extraUnit}`]);
   }
 
   if (timeLeft.isBefore(moment.utc(0).add(31, 'day'))) {
@@ -127,7 +125,7 @@ function formatTimeLeft({ timeLeftMs }: { timeLeftMs: number }) {
     const weeks = Math.floor(days / 7);
     const daysLeft = days % 7;
     const extraUnit = daysLeft ? ` ${daysLeft}d` : '';
-    return `${prefix} ${weeks}w${extraUnit}`;
+    return window.i18n('messageWillDisappear', [`${weeks}w${extraUnit}`]);
   }
 
   return '...';
@@ -142,10 +140,10 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
     () => {
       setRefresh(!refresh);
     },
-    // We want to force refresh this component a lot more if the message has more than 2 minutes before disappearing,
-    // because when that's the case we also display the seconds left (i.e. 1min 23s) and we want that 23s to be dynamic.
+    // We want to force refresh this component a lot more if the message has less than 1h before disappearing,
+    // because when that's the case we also display the seconds left (i.e. 59min 23s) and we want that 23s to be dynamic.
     // Also, we use a refresh interval of 500 rather than 1s so that the counter is a bit smoother
-    timeLeftMs > 0 && timeLeftMs <= 2 * DURATION.MINUTES ? 500 : null
+    timeLeftMs > 0 && timeLeftMs <= 1 * DURATION.HOURS ? 500 : null
   );
   if (!expirationTimestamp || timeLeftMs < 0) {
     return null;
@@ -153,7 +151,7 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
 
   return (
     <StyledExpiresIn>
-      <SessionIcon iconSize={'small'} iconType="stopwatch" />
+      <SessionIcon iconSize={'small'} iconType="timerFixed" />
       <SpacerSM />
       <span>{formatTimeLeft({ timeLeftMs })}</span>
     </StyledExpiresIn>

@@ -121,16 +121,25 @@ function getSelectedBlindedDisabledMsgRequests(state: StateType) {
   return isBlindedAndDisabledMsgRequests;
 }
 
-/**
- * Returns true if the current conversation selected is a group conversation.
- * Returns false if the current conversation selected is not a group conversation, or none are selected
- */
-const getSelectedConversationIsGroup = (state: StateType): boolean => {
+const getSelectedConversationType = (state: StateType): ConversationTypeEnum | null => {
+  const selected = getSelectedConversation(state);
+  if (!selected || !selected.type) {
+    return null;
+  }
+  return selected.type;
+};
+
+const getSelectedConversationIsGroupOrCommunity = (state: StateType): boolean => {
+  const type = getSelectedConversationType(state);
+  return type ? isOpenOrClosedGroup(type) : false;
+};
+
+const getSelectedConversationIsGroupV2 = (state: StateType): boolean => {
   const selected = getSelectedConversation(state);
   if (!selected || !selected.type) {
     return false;
   }
-  return selected.type ? isOpenOrClosedGroup(selected.type) : false;
+  return selected.type === ConversationTypeEnum.GROUPV3;
 };
 
 /**
@@ -232,8 +241,12 @@ export function useSelectedConversationKey() {
   return useSelector(getSelectedConversationKey);
 }
 
-export function useSelectedIsGroup() {
-  return useSelector(getSelectedConversationIsGroup);
+export function useSelectedIsGroupOrCommunity() {
+  return useSelector(getSelectedConversationIsGroupOrCommunity);
+}
+
+export function useSelectedIsGroupV2() {
+  return useSelector(getSelectedConversationIsGroupV2);
 }
 
 export function useSelectedIsPublic() {

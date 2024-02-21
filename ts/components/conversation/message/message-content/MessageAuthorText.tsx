@@ -9,7 +9,7 @@ import {
   useMessageDirection,
 } from '../../../../state/selectors';
 import {
-  useSelectedIsGroup,
+  useSelectedIsGroupOrCommunity,
   useSelectedIsPublic,
 } from '../../../../state/selectors/selectedConversation';
 import { Flex } from '../../../basic/Flex';
@@ -27,7 +27,7 @@ const StyledAuthorContainer = styled(Flex)<{ hideAvatar: boolean }>`
 
 export const MessageAuthorText = (props: Props) => {
   const isPublic = useSelectedIsPublic();
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
   const authorProfileName = useAuthorProfileName(props.messageId);
   const authorName = useAuthorName(props.messageId);
   const sender = useMessageAuthor(props.messageId);

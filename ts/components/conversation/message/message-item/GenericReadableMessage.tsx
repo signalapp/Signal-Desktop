@@ -58,10 +58,9 @@ const StyledReadableMessage = styled.div<{
   }
 
   ${props =>
+    !props.selected &&
     props.isRightClicked &&
-    `
-    background-color: var(--conversation-tab-background-selected-color);
-  `}
+    `background-color: var(--conversation-tab-background-selected-color);`}
 `;
 
 export const GenericReadableMessage = (props: Props) => {

@@ -6,7 +6,7 @@ import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelecto
 import { useMessageStatus } from '../../../../state/selectors';
 
 import { getMostRecentMessageId } from '../../../../state/selectors/conversations';
-import { useSelectedIsGroup } from '../../../../state/selectors/selectedConversation';
+import { useSelectedIsGroupOrCommunity } from '../../../../state/selectors/selectedConversation';
 import { SpacerXS } from '../../../basic/Text';
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ExpireTimer } from '../../ExpireTimer';
@@ -179,7 +179,7 @@ function IconForExpiringMessageId({
 const MessageStatusSent = ({ dataTestId, messageId }: Omit<Props, 'isDetailView'>) => {
   const isExpiring = useIsExpiring(messageId);
   const isMostRecentMessage = useIsMostRecentMessage(messageId);
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
 
   // we hide a "sent" message status which is not expiring except for the most recent message
   if (!isExpiring && !isMostRecentMessage) {
@@ -204,7 +204,7 @@ const MessageStatusRead = ({
   isIncoming,
 }: Omit<Props, 'isDetailView'> & { isIncoming: boolean }) => {
   const isExpiring = useIsExpiring(messageId);
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
 
   const isMostRecentMessage = useIsMostRecentMessage(messageId);
 
@@ -231,7 +231,7 @@ const MessageStatusError = ({ dataTestId }: Omit<Props, 'isDetailView'>) => {
     ipcRenderer.send('show-debug-log');
   }, []);
   // when on error, we do not display the expire timer at all.
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
 
   return (
     <MessageStatusContainer

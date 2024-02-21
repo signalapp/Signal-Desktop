@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { REACT_LIMIT } from '../../../../session/constants';
-import { useSelectedIsGroup } from '../../../../state/selectors/selectedConversation';
+import { useSelectedIsGroupOrCommunity } from '../../../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../../../types/Reaction';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { Flex } from '../../../basic/Flex';
@@ -175,7 +175,7 @@ export const MessageReactions = (props: Props) => {
 
   const msgProps = useMessageReactsPropsById(messageId);
 
-  const inGroup = useSelectedIsGroup();
+  const inGroup = useSelectedIsGroupOrCommunity();
 
   useEffect(() => {
     if (msgProps?.sortedReacts && !isEqual(reactions, msgProps?.sortedReacts)) {
