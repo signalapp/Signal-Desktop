@@ -140,23 +140,19 @@ jobs:
         path: 'benchmark-results'
         token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
 
-    - name: Push benchmark repo
+    - name: Build benchmark repo
       working-directory: benchmark-results
       run: |
-        for attempt in {1..5}; do
-          echo "Attempting to push to repository #$attempt"
-          git fetch origin
-          git reset --hard origin/main
-          npm ci
-          node ./bin/collect.js ../benchmark-startup.log data/startup.json
-          node ./bin/collect.js ../benchmark-send.log data/send.json
-          node ./bin/collect.js ../benchmark-group-send.log data/group-send.json
-          node ./bin/collect.js ../benchmark-large-group-send.log data/large-group-send.json
-          node ./bin/collect.js ../benchmark-convo-open.log data/convo-open.json
-          npm run build
-          git config --global user.email "no-reply@signal.org"
-          git config --global user.name "Signal Bot"
-          git add .
-          git commit --message "${GITHUB_REF} ${GITHUB_SHA}"
-          git push origin main && break || sleep "$((1 + RANDOM % 5))"
-        done
+        npm ci
+        npm run build
+
+    - name: Publish to DataDog
+      working-directory: benchmark-results
+      run: |
+        node ./bin/publish.js ../benchmark-startup.log desktop.ci.performance.startup
+        node ./bin/publish.js ../benchmark-send.log desktop.ci.performance.send
+        node ./bin/publish.js ../benchmark-group-send.log desktop.ci.performance.groupSend
+        node ./bin/publish.js ../benchmark-large-group-send.log desktop.ci.performance.largeGroupSend
+        node ./bin/publish.js ../benchmark-convo-open.log desktop.ci.performance.convoOpen
+      env:
+        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
