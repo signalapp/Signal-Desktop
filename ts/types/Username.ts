@@ -19,6 +19,7 @@ export enum ReserveUsernameError {
   NotEnoughDiscriminator = 'NotEnoughDiscriminator',
   AllZeroDiscriminator = 'AllZeroDiscriminator',
   LeadingZeroDiscriminator = 'LeadingZeroDiscriminator',
+  TooManyAttempts = 'TooManyAttempts',
 }
 
 export enum ConfirmUsernameResult {

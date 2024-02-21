@@ -53,6 +53,7 @@ export default {
         CheckCharacters: UsernameReservationError.CheckCharacters,
         UsernameNotAvailable: UsernameReservationError.UsernameNotAvailable,
         General: UsernameReservationError.General,
+        TooManyAttempts: UsernameReservationError.TooManyAttempts,
       },
     },
     reservation: {

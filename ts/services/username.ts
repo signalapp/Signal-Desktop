@@ -138,11 +138,10 @@ export async function reserveUsername(
         return { ok: false, error: ReserveUsernameError.Conflict };
       }
       if (error.code === 413 || error.code === 429) {
-        const time = findRetryAfterTimeFromError(error);
-        log.warn(`reserveUsername: got ${error.code}, waiting ${time}ms`);
-        await sleep(time, abortSignal);
-
-        return reserveUsername(options);
+        return {
+          ok: false,
+          error: ReserveUsernameError.TooManyAttempts,
+        };
       }
     }
     if (error instanceof LibSignalErrorBase) {

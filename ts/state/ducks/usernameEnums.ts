@@ -43,4 +43,5 @@ export enum UsernameReservationError {
   NotEnoughDiscriminator = 'NotEnoughDiscriminator',
   AllZeroDiscriminator = 'AllZeroDiscriminator',
   LeadingZeroDiscriminator = 'LeadingZeroDiscriminator',
+  TooManyAttempts = 'TooManyAttempts',
 }
