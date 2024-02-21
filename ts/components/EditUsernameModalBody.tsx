@@ -208,6 +208,9 @@ export function EditUsernameModalBody({
         'icu:ProfileEditor--username--check-discriminator-leading-zero'
       );
     }
+    if (error === UsernameReservationError.TooManyAttempts) {
+      return i18n('icu:ProfileEditor--username--too-many-attempts');
+    }
     // Displayed through confirmation modal below
     if (
       error === UsernameReservationError.General ||

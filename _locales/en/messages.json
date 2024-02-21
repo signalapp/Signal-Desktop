@@ -5643,6 +5643,10 @@
     "messageformat": "Numbers with more than 2 digits can’t start with 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "This username is not available",
     "description": "Shown if the username is not available for registration"

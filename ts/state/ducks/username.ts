@@ -476,6 +476,8 @@ export function reducer(
         stateError = UsernameReservationError.AllZeroDiscriminator;
       } else if (error === ReserveUsernameError.LeadingZeroDiscriminator) {
         stateError = UsernameReservationError.LeadingZeroDiscriminator;
+      } else if (error === ReserveUsernameError.TooManyAttempts) {
+        stateError = UsernameReservationError.TooManyAttempts;
       } else {
         throw missingCaseError(error);
       }
