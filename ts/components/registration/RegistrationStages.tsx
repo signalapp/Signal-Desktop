@@ -1,5 +1,6 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { Provider } from 'react-redux';
+import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { SettingsKey } from '../../data/settings-key';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
@@ -17,9 +18,19 @@ import {
   signInByLinkingDevice,
 } from '../../util/accountManager';
 import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
+import { Flex } from '../basic/Flex';
 import { ModalContainer } from './ModalContainer';
 import { SignInMode, SignInTab } from './SignInTab';
 import { SignUpMode, SignUpTab } from './SignUpTab';
+
+const StyledRegistrationContainer = styled(Flex)`
+  width: 289px;
+
+  .session-button {
+    width: 80%;
+    margin: auto;
+  }
+`;
 
 export async function resetRegistration() {
   await Data.removeAll();
@@ -240,14 +251,14 @@ export const RegistrationStages = () => {
   return (
     <Provider store={onboardingStore}>
       <ModalContainer />
-      <div className="session-registration-container">
+      <StyledRegistrationContainer container={true} flexDirection="column">
         <RegistrationContext.Provider value={memoizedValue}>
           {(registrationPhase === RegistrationPhase.Start ||
             registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
           {(registrationPhase === RegistrationPhase.Start ||
             registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
         </RegistrationContext.Provider>
-      </div>
+      </StyledRegistrationContainer>
     </Provider>
   );
 };

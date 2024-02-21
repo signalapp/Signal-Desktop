@@ -1,57 +1,5 @@
 .session {
-  &-fullscreen {
-    width: 100%;
-    height: 100%;
-    background-color: var(--background-primary-color);
-    color: var(--text-primary-color);
-  }
-  &-content {
-    &-accent {
-      &-text {
-        font-family: var(--font-accent), var(--font-default);
-        text-align: center;
-        .title {
-          font-size: 90px;
-          font-weight: 700;
-          line-height: 100px;
-        }
-      }
-    }
-
-    &-registration {
-      padding-inline-end: 128px;
-    }
-
-    &-header {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      justify-content: space-between;
-      padding: 17px 20px;
-    }
-
-    &-body {
-      display: flex;
-      flex-direction: row;
-      flex: 1;
-      align-items: center;
-      width: 100%;
-      padding-bottom: 20px;
-    }
-  }
-
   &-registration {
-    &-container {
-      display: flex;
-      flex-direction: column;
-      width: 289px;
-
-      .session-button {
-        width: 80%;
-        margin: auto;
-      }
-    }
-
     &__content {
       width: 100%;
       padding-top: 20px;
