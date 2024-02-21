@@ -13,31 +13,33 @@ import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
-import {
-  CONVERSATION_PRIORITIES,
-  ConversationTypeEnum,
-  READ_MESSAGE_STATE,
-} from '../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
+import { DisappearingMessages } from '../session/disappearing_messages';
+import { ReadyToDisappearMsgUpdate } from '../session/disappearing_messages/types';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromHexToArray, toHex } from '../session/utils/String';
+import { isUsFromCache } from '../session/utils/User';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
 import { ReadReceipts } from '../util/readReceipts';
 import { Storage } from '../util/storage';
+import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 import { handleCallMessage } from './callMessage';
 import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGroups';
 import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
-import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
-import { isUsFromCache } from '../session/utils/User';
 
-export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
+export async function handleSwarmContentMessage(
+  envelope: EnvelopePlus,
+  messageHash: string,
+  messageExpirationFromRetrieve: number | null
+) {
   try {
     const plaintext = await decrypt(envelope);
 
@@ -50,7 +52,13 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
     const sentAtTimestamp = toNumber(envelope.timestamp);
     // swarm messages already comes with a timestamp in milliseconds, so this sentAtTimestamp is correct.
     // the sogs messages do not come as milliseconds but just seconds, so we override it
-    await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
+    await innerHandleSwarmContentMessage({
+      envelope,
+      sentAtTimestamp,
+      plaintext,
+      messageHash,
+      messageExpirationFromRetrieve,
+    });
   } catch (e) {
     window?.log?.warn(e.message);
   }
@@ -385,12 +393,19 @@ function shouldDropBlockedUserMessage(
   return !isControlDataMessageOnly;
 }
 
-export async function innerHandleSwarmContentMessage(
-  envelope: EnvelopePlus,
-  sentAtTimestamp: number,
-  plaintext: ArrayBuffer,
-  messageHash: string
-): Promise<void> {
+export async function innerHandleSwarmContentMessage({
+  envelope,
+  messageHash,
+  plaintext,
+  sentAtTimestamp,
+  messageExpirationFromRetrieve,
+}: {
+  envelope: EnvelopePlus;
+  sentAtTimestamp: number;
+  plaintext: ArrayBuffer;
+  messageHash: string;
+  messageExpirationFromRetrieve: number | null;
+}): Promise<void> {
   try {
     perfStart(`SignalService.Content.decode-${envelope.id}`);
     window.log.info('innerHandleSwarmContentMessage');
@@ -440,31 +455,62 @@ export async function innerHandleSwarmContentMessage(
       ConversationTypeEnum.PRIVATE
     );
 
+    // We need to make sure that we trigger the outdated client banner ui on the correct model for the conversation and not the author (for closed groups)
+    let conversationModelForUIUpdate = senderConversationModel;
+
+    // For a private synced message, we need to make sure we have the conversation with the syncTarget
+    if (isPrivateConversationMessage && content.dataMessage?.syncTarget) {
+      conversationModelForUIUpdate = await getConversationController().getOrCreateAndWait(
+        content.dataMessage.syncTarget,
+        ConversationTypeEnum.PRIVATE
+      );
+    }
+
     /**
      * For a closed group message, this holds the closed group's conversation.
      * For a private conversation message, this is just the conversation with that user
      */
     if (!isPrivateConversationMessage) {
       // this is a closed group message, we have a second conversation to make sure exists
-      await getConversationController().getOrCreateAndWait(
+      conversationModelForUIUpdate = await getConversationController().getOrCreateAndWait(
         envelope.source,
         ConversationTypeEnum.GROUP
       );
     }
 
+    const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
+      content,
+      conversationModelForUIUpdate,
+      messageExpirationFromRetrieve
+    );
     if (content.dataMessage) {
       // because typescript is funky with incoming protobufs
       if (isEmpty(content.dataMessage.profileKey)) {
         content.dataMessage.profileKey = null;
       }
+
+      // TODO legacy messages support will be removed in a future release
+      if (expireUpdate?.isDisappearingMessagesV2Released) {
+        await DisappearingMessages.checkHasOutdatedDisappearingMessageClient(
+          conversationModelForUIUpdate,
+          senderConversationModel,
+          expireUpdate
+        );
+        if (expireUpdate.isLegacyConversationSettingMessage) {
+          await removeFromCache(envelope);
+          return;
+        }
+      }
+
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
-      await handleSwarmDataMessage(
+      await handleSwarmDataMessage({
         envelope,
         sentAtTimestamp,
-        content.dataMessage as SignalService.DataMessage,
+        rawDataMessage: content.dataMessage as SignalService.DataMessage,
         messageHash,
-        senderConversationModel
-      );
+        senderConversationModel,
+        expireUpdate,
+      });
       perfEnd(`handleSwarmDataMessage-${envelope.id}`, 'handleSwarmDataMessage');
       return;
     }
@@ -501,10 +547,12 @@ export async function innerHandleSwarmContentMessage(
     if (content.dataExtractionNotification) {
       perfStart(`handleDataExtractionNotification-${envelope.id}`);
 
-      await handleDataExtractionNotification(
+      await handleDataExtractionNotification({
         envelope,
-        content.dataExtractionNotification as SignalService.DataExtractionNotification
-      );
+        dataExtractionNotification: content.dataExtractionNotification as SignalService.DataExtractionNotification,
+        expireUpdate,
+        messageHash,
+      });
       perfEnd(
         `handleDataExtractionNotification-${envelope.id}`,
         'handleDataExtractionNotification'
@@ -515,7 +563,10 @@ export async function innerHandleSwarmContentMessage(
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
     }
     if (content.callMessage) {
-      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
+      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage, {
+        expireDetails: expireUpdate,
+        messageHash,
+      });
     }
     if (content.messageRequestResponse) {
       await handleMessageRequestResponse(
@@ -784,49 +835,62 @@ async function handleMessageRequestResponse(
 }
 
 /**
- * A DataExtractionNotification message can only come from a 1 o 1 conversation.
+ * A DataExtractionNotification message can only come from a 1o1 conversation.
  *
- * We drop them if the convo is not a 1 o 1 conversation.
+ * We drop them if the convo is not a 1o1 conversation.
  */
-export async function handleDataExtractionNotification(
-  envelope: EnvelopePlus,
-  dataNotificationMessage: SignalService.DataExtractionNotification
-): Promise<void> {
+
+export async function handleDataExtractionNotification({
+  envelope,
+  expireUpdate,
+  messageHash,
+  dataExtractionNotification,
+}: {
+  envelope: EnvelopePlus;
+  dataExtractionNotification: SignalService.DataExtractionNotification;
+  expireUpdate: ReadyToDisappearMsgUpdate | undefined;
+  messageHash: string;
+}): Promise<void> {
   // we currently don't care about the timestamp included in the field itself, just the timestamp of the envelope
-  const { type, timestamp: referencedAttachment } = dataNotificationMessage;
+  const { type, timestamp: referencedAttachment } = dataExtractionNotification;
 
   const { source, timestamp } = envelope;
   await removeFromCache(envelope);
 
   const convo = getConversationController().get(source);
-  if (!convo || !convo.isPrivate() || !Storage.get(SettingsKey.settingsReadReceipt)) {
-    window?.log?.info(
-      'Got DataNotification for unknown or non private convo or read receipt not enabled'
-    );
+  if (!convo || !convo.isPrivate()) {
+    window?.log?.info('Got DataNotification for unknown or non-private convo');
+
     return;
   }
 
-  if (!type || !source) {
+  if (!type || !source || !timestamp) {
     window?.log?.info('DataNotification pre check failed');
 
     return;
   }
 
-  if (timestamp) {
-    const envelopeTimestamp = toNumber(timestamp);
-    const referencedAttachmentTimestamp = toNumber(referencedAttachment);
+  const envelopeTimestamp = toNumber(timestamp);
+  const referencedAttachmentTimestamp = toNumber(referencedAttachment);
 
-    await convo.addSingleIncomingMessage({
+  let created = await convo.addSingleIncomingMessage({
+    source,
+    messageHash,
+    sent_at: envelopeTimestamp,
+    dataExtractionNotification: {
+      type,
+      referencedAttachmentTimestamp, // currently unused
       source,
-      sent_at: envelopeTimestamp,
-      dataExtractionNotification: {
-        type,
-        referencedAttachmentTimestamp, // currently unused
-        source,
-      },
-      unread: READ_MESSAGE_STATE.unread, // 1 means unread
-      expireTimer: 0,
-    });
-    convo.updateLastMessage();
-  }
+    },
+  });
+
+  created = DisappearingMessages.getMessageReadyToDisappear(
+    convo,
+    created,
+    0,
+    expireUpdate || undefined
+  );
+  await created.commit();
+  await convo.commit();
+  convo.updateLastMessage();
 }

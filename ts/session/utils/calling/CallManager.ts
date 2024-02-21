@@ -30,6 +30,8 @@ import { PnServer } from '../../apis/push_notification_api';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { DURATION } from '../../constants';
+import { DisappearingMessages } from '../../disappearing_messages';
+import { ReadyToDisappearMsgUpdate } from '../../disappearing_messages/types';
 import { MessageSender } from '../../sending';
 import { getIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';
@@ -37,6 +39,9 @@ import { getBlackSilenceMediaStream } from './Silence';
 export type InputItem = { deviceId: string; label: string };
 
 export const callTimeoutMs = 60000;
+
+export type WithOptExpireUpdate = { expireDetails: ReadyToDisappearMsgUpdate | undefined };
+export type WithMessageHash = { messageHash: string };
 
 /**
  * This uuid is set only once we accepted a call or started one.
@@ -107,6 +112,9 @@ type CachedCallMessageType = {
   sdpMids: Array<string>;
   uuid: string;
   timestamp: number;
+  // when we receive some messages, we keep track of what were their
+  // expireUpdate, so we can add a message once the user / accepts denies the call
+  expireDetails: (WithOptExpireUpdate & WithMessageHash) | null;
 };
 
 /**
@@ -385,8 +393,12 @@ export async function selectAudioOutputByDeviceId(audioOutputDeviceId: string) {
   }
 }
 
-async function createOfferAndSendIt(recipient: string) {
+async function createOfferAndSendIt(recipient: string, msgIdentifier: string | null) {
   try {
+    const convo = getConversationController().get(recipient);
+    if (!convo) {
+      throw new Error('createOfferAndSendIt needs a convo');
+    }
     makingOffer = true;
     window.log.info('got createOfferAndSendIt event. creating offer');
     await (peerConnection as any)?.setLocalDescription();
@@ -412,11 +424,19 @@ async function createOfferAndSendIt(recipient: string) {
         ''
       );
 
+      // Note: we are forcing callMessages to be DaR if DaS, using the same timer
+      const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
+        convo
+      );
+
       const offerMessage = new CallMessage({
+        identifier: msgIdentifier || undefined,
         timestamp: Date.now(),
         type: SignalService.CallMessage.Type.OFFER,
         sdps: [overridenSdps],
         uuid: currentCallUUID,
+        expirationType,
+        expireTimer,
       });
 
       window.log.info(`sending '${offer.type}'' with callUUID: ${currentCallUUID}`);
@@ -503,6 +523,8 @@ export async function USER_callRecipient(recipient: string) {
     timestamp: now,
     type: SignalService.CallMessage.Type.PRE_OFFER,
     uuid: currentCallUUID,
+    expirationType: null, // Note: Preoffer messages are not added to the DB, so no need to make them expire
+    expireTimer: null,
   });
 
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
@@ -511,27 +533,42 @@ export async function USER_callRecipient(recipient: string) {
   await calledConvo.unhideIfNeeded(false);
   weAreCallerOnCurrentCall = true;
 
-  await calledConvo?.addSingleOutgoingMessage({
-    sent_at: now,
-    expireTimer: 0,
-    callNotificationType: 'started-call',
-  });
-
   // initiating a call is analogous to sending a message request
-  await approveConvoAndSendResponse(recipient, true);
+  await approveConvoAndSendResponse(recipient);
 
-  // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
+  // Note: we do the sending of the preoffer manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
   const rawMessage = await MessageUtils.toRawMessage(
     PubKey.cast(recipient),
     preOfferMsg,
     SnodeNamespaces.UserMessages
   );
-  const { wrappedEnvelope } = await MessageSender.send(rawMessage);
+  const { wrappedEnvelope } = await MessageSender.send({
+    message: rawMessage,
+    isSyncMessage: false,
+  });
   void PnServer.notifyPnServer(wrappedEnvelope, recipient);
 
   await openMediaDevicesAndAddTracks();
-  await createOfferAndSendIt(recipient);
+  // Note CallMessages are very custom, as we moslty don't sync them to ourselves.
+  // So here, we are creating a DaS/off message saved locally which will expire locally only,
+  // but the "offer" we are sending the the called pubkey had a DaR on it (as that one is synced, and should expire after our message was read)
+  const expireDetails = DisappearingMessages.forcedDeleteAfterSendMsgSetting(calledConvo);
+
+  let msgModel = await calledConvo?.addSingleOutgoingMessage({
+    callNotificationType: 'started-call',
+    sent_at: now,
+    expirationType: expireDetails.expirationType,
+    expireTimer: expireDetails.expireTimer,
+  });
+  msgModel = DisappearingMessages.getMessageReadyToDisappear(calledConvo, msgModel, 0, {
+    messageExpirationFromRetrieve: null,
+    expirationTimer: expireDetails.expireTimer,
+    expirationType: expireDetails.expirationType,
+  });
+
+  const msgIdentifier = await msgModel.commit();
+  await createOfferAndSendIt(recipient, msgIdentifier);
 
   // close and end the call if callTimeoutMs is reached and still not connected
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -579,6 +616,8 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     sdpMids: validCandidates.map(c => c.sdpMid),
     sdps: validCandidates.map(c => c.candidate),
     uuid: currentCallUUID,
+    expirationType: null, // Note: An ICE_CANDIDATES is not saved to the DB on the recipient's side, so no need to make it expire
+    expireTimer: null,
   });
 
   window.log.info(
@@ -781,7 +820,7 @@ function createOrGetPeerConnection(withPubkey: string) {
           // we are the caller and the connection got dropped out, we need to send a new offer with iceRestart set to true.
           // the recipient will get that new offer and send us a response back if he still online
           (peerConnection as any).restartIce();
-          await createOfferAndSendIt(withPubkey);
+          await createOfferAndSendIt(withPubkey, null);
         }
       }, 2000);
     }
@@ -815,8 +854,15 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     window?.log?.info('incoming call request cannot be accepted as uuid is invalid');
     return;
   }
-  window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
-  await openConversationWithMessages({ conversationKey: fromSender, messageId: null });
+  window.inboxStore?.dispatch(
+    answerCall({
+      pubkey: fromSender,
+    })
+  );
+  await openConversationWithMessages({
+    conversationKey: fromSender,
+    messageId: null,
+  });
   if (peerConnection) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }
@@ -835,7 +881,10 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   }
   try {
     await peerConnection.setRemoteDescription(
-      new RTCSessionDescription({ sdp: sdps[0], type: 'offer' })
+      new RTCSessionDescription({
+        sdp: sdps[0],
+        type: 'offer',
+      })
     );
   } catch (e) {
     window.log?.error(`Error setting RTC Session Description ${e}`);
@@ -852,7 +901,11 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       const sdp = lastCandidatesFromSender.sdps[index];
       const sdpMLineIndex = lastCandidatesFromSender.sdpMLineIndexes[index];
       const sdpMid = lastCandidatesFromSender.sdpMids[index];
-      const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
+      const candicate = new RTCIceCandidate({
+        sdpMid,
+        sdpMLineIndex,
+        candidate: sdp,
+      });
       // eslint-disable-next-line no-await-in-loop
       await peerConnection.addIceCandidate(candicate);
     }
@@ -862,28 +915,47 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   callerConvo.set('active_at', networkTimestamp);
   await callerConvo.unhideIfNeeded(false);
 
-  await callerConvo?.addSingleIncomingMessage({
+  const expireUpdate = DisappearingMessages.forcedDeleteAfterSendMsgSetting(callerConvo);
+
+  const msgModel = await callerConvo.addSingleIncomingMessage({
+    callNotificationType: 'answered-a-call',
     source: UserUtils.getOurPubKeyStrFromCache(),
     sent_at: networkTimestamp,
     received_at: networkTimestamp,
-    expireTimer: 0,
-    callNotificationType: 'answered-a-call',
     unread: READ_MESSAGE_STATE.read,
+    messageHash: lastOfferMessage.expireDetails?.messageHash,
+    expirationType: expireUpdate.expirationType,
+    expireTimer: expireUpdate.expireTimer,
   });
-  await buildAnswerAndSendIt(fromSender);
+
+  const msgIdentifier = await msgModel.commit();
+
+  await buildAnswerAndSendIt(fromSender, msgIdentifier);
 
   // consider the conversation completely approved
   await callerConvo.setDidApproveMe(true);
-  await approveConvoAndSendResponse(fromSender, true);
+  await approveConvoAndSendResponse(fromSender);
 }
 
 export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUID: string) {
+  const convo = getConversationController().get(fromSender);
+  if (!convo) {
+    throw new Error('rejectCallAlreadyAnotherCall non existing convo');
+  }
   window.log.info(`rejectCallAlreadyAnotherCall ${ed25519Str(fromSender)}: ${forcedUUID}`);
   rejectedCallUUIDS.add(forcedUUID);
+
+  // Note: we are forcing callMessages to be DaR if DaS, using the same timer
+  const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
+    convo
+  );
+
   const rejectCallMessage = new CallMessage({
     type: SignalService.CallMessage.Type.END_CALL,
     timestamp: Date.now(),
     uuid: forcedUUID,
+    expirationType,
+    expireTimer,
   });
   await sendCallMessageAndSync(rejectCallMessage, fromSender);
 
@@ -903,10 +975,21 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
   window.log.info(`USER_rejectIncomingCallRequest ${ed25519Str(fromSender)}: ${aboutCallUUID}`);
   if (aboutCallUUID) {
     rejectedCallUUIDS.add(aboutCallUUID);
+    const convo = getConversationController().get(fromSender);
+    if (!convo) {
+      throw new Error('USER_rejectIncomingCallRequest not existing convo');
+    }
+    // Note: we are forcing callMessages to be DaR if DaS, using the same timer
+    const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
+      convo
+    );
+
     const endCallMessage = new CallMessage({
       type: SignalService.CallMessage.Type.END_CALL,
       timestamp: Date.now(),
       uuid: aboutCallUUID,
+      expirationType,
+      expireTimer,
     });
     // sync the reject event so our other devices remove the popup too
     await sendCallMessageAndSync(endCallMessage, fromSender);
@@ -919,7 +1002,7 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
   if (ongoingCallWith && ongoingCallStatus && ongoingCallWith === fromSender) {
     closeVideoCall();
   }
-  await addMissedCallMessage(fromSender, Date.now());
+  await addMissedCallMessage(fromSender, Date.now(), lastOfferMessage?.expireDetails || null);
 }
 
 async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
@@ -944,11 +1027,21 @@ export async function USER_hangup(fromSender: string) {
     window.log.warn('should not be able to hangup without a currentCallUUID');
     return;
   }
+  const convo = getConversationController().get(fromSender);
+  if (!convo) {
+    throw new Error('USER_hangup not existing convo');
+  }
+  // Note: we are forcing callMessages to be DaR if DaS, using the same timer
+  const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
+    convo
+  );
   rejectedCallUUIDS.add(currentCallUUID);
   const endCallMessage = new CallMessage({
     type: SignalService.CallMessage.Type.END_CALL,
     timestamp: Date.now(),
     uuid: currentCallUUID,
+    expirationType,
+    expireTimer,
   });
   void getMessageQueue().sendToPubKeyNonDurably({
     pubkey: PubKey.cast(fromSender),
@@ -1007,7 +1100,7 @@ export async function handleCallTypeEndCall(sender: string, aboutCallUUID?: stri
   }
 }
 
-async function buildAnswerAndSendIt(sender: string) {
+async function buildAnswerAndSendIt(sender: string, msgIdentifier: string | null) {
   if (peerConnection) {
     if (!currentCallUUID) {
       window.log.warn('cannot send answer without a currentCallUUID');
@@ -1019,12 +1112,23 @@ async function buildAnswerAndSendIt(sender: string) {
       window.log.warn('failed to create answer');
       return;
     }
+    const convo = getConversationController().get(sender);
+    if (!convo) {
+      throw new Error('buildAnswerAndSendIt not existing convo');
+    }
+    // Note: we are forcing callMessages to be DaR if DaS, using the same timer
+    const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
+      convo
+    );
     const answerSdp = answer.sdp;
     const callAnswerMessage = new CallMessage({
+      identifier: msgIdentifier || undefined,
       timestamp: Date.now(),
       type: SignalService.CallMessage.Type.ANSWER,
       sdps: [answerSdp],
       uuid: currentCallUUID,
+      expirationType,
+      expireTimer,
     });
 
     window.log.info('sending ANSWER MESSAGE and sync');
@@ -1038,8 +1142,9 @@ export function isCallRejected(uuid: string) {
 
 function getCachedMessageFromCallMessage(
   callMessage: SignalService.CallMessage,
-  envelopeTimestamp: number
-) {
+  envelopeTimestamp: number,
+  expireDetails: (WithOptExpireUpdate & WithMessageHash) | null
+): CachedCallMessageType {
   return {
     type: callMessage.type,
     sdps: callMessage.sdps,
@@ -1047,6 +1152,7 @@ function getCachedMessageFromCallMessage(
     sdpMids: callMessage.sdpMids,
     uuid: callMessage.uuid,
     timestamp: envelopeTimestamp,
+    expireDetails,
   };
 }
 
@@ -1065,7 +1171,8 @@ async function isUserApprovedOrWeSentAMessage(user: string) {
 export async function handleCallTypeOffer(
   sender: string,
   callMessage: SignalService.CallMessage,
-  incomingOfferTimestamp: number
+  incomingOfferTimestamp: number,
+  details: WithMessageHash & WithOptExpireUpdate
 ) {
   try {
     const remoteCallUUID = callMessage.uuid;
@@ -1076,25 +1183,33 @@ export async function handleCallTypeOffer(
 
     if (!getCallMediaPermissionsSettings()) {
       // we still add it to the cache so if user toggles settings in the next 60 sec, he can still reply to it
-      const cachedMsg = getCachedMessageFromCallMessage(callMessage, incomingOfferTimestamp);
+      const cachedMsg = getCachedMessageFromCallMessage(
+        callMessage,
+        incomingOfferTimestamp,
+        details
+      );
       pushCallMessageToCallCache(sender, remoteCallUUID, cachedMsg);
 
-      await handleMissedCall(sender, incomingOfferTimestamp, 'permissions');
+      await handleMissedCall(sender, incomingOfferTimestamp, 'permissions', details);
       return;
     }
 
     const shouldDisplayOffer = await isUserApprovedOrWeSentAMessage(sender);
     if (!shouldDisplayOffer) {
-      const cachedMsg = getCachedMessageFromCallMessage(callMessage, incomingOfferTimestamp);
+      const cachedMsg = getCachedMessageFromCallMessage(
+        callMessage,
+        incomingOfferTimestamp,
+        details
+      );
       pushCallMessageToCallCache(sender, remoteCallUUID, cachedMsg);
 
-      await handleMissedCall(sender, incomingOfferTimestamp, 'not-approved');
+      await handleMissedCall(sender, incomingOfferTimestamp, 'not-approved', details);
       return;
     }
 
     // if the offer is more than the call timeout, don't try to handle it (as the sender would have already closed it)
     if (incomingOfferTimestamp <= Date.now() - callTimeoutMs) {
-      await handleMissedCall(sender, incomingOfferTimestamp, 'too-old-timestamp');
+      await handleMissedCall(sender, incomingOfferTimestamp, 'too-old-timestamp', details);
       return;
     }
 
@@ -1107,7 +1222,7 @@ export async function handleCallTypeOffer(
         return;
       }
       // add a message in the convo with this user about the missed call.
-      await handleMissedCall(sender, incomingOfferTimestamp, 'another-call-ongoing');
+      await handleMissedCall(sender, incomingOfferTimestamp, 'another-call-ongoing', details);
       // Here, we are in a call, and we got an offer from someone we are in a call with, and not one of his other devices.
       // Just hangup automatically the call on the calling side.
 
@@ -1139,7 +1254,7 @@ export async function handleCallTypeOffer(
       await peerConnection.setRemoteDescription(remoteOfferDesc); // SRD rolls back as needed
       isSettingRemoteAnswerPending = false;
 
-      await buildAnswerAndSendIt(sender);
+      await buildAnswerAndSendIt(sender, null);
     } else {
       window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 
@@ -1152,7 +1267,11 @@ export async function handleCallTypeOffer(
         await callerConvo.notifyIncomingCall();
       }
     }
-    const cachedMessage = getCachedMessageFromCallMessage(callMessage, incomingOfferTimestamp);
+    const cachedMessage = getCachedMessageFromCallMessage(
+      callMessage,
+      incomingOfferTimestamp,
+      details
+    );
 
     pushCallMessageToCallCache(sender, remoteCallUUID, cachedMessage);
   } catch (err) {
@@ -1163,7 +1282,8 @@ export async function handleCallTypeOffer(
 export async function handleMissedCall(
   sender: string,
   incomingOfferTimestamp: number,
-  reason: 'not-approved' | 'permissions' | 'another-call-ongoing' | 'too-old-timestamp'
+  reason: 'not-approved' | 'permissions' | 'another-call-ongoing' | 'too-old-timestamp',
+  details: WithMessageHash & WithOptExpireUpdate
 ) {
   const incomingCallConversation = getConversationController().get(sender);
 
@@ -1188,10 +1308,14 @@ export async function handleMissedCall(
     default:
   }
 
-  await addMissedCallMessage(sender, incomingOfferTimestamp);
+  await addMissedCallMessage(sender, incomingOfferTimestamp, details);
 }
 
-async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
+async function addMissedCallMessage(
+  callerPubkey: string,
+  sentAt: number,
+  details: (WithMessageHash & WithOptExpireUpdate) | null
+) {
   const incomingCallConversation = getConversationController().get(callerPubkey);
 
   if (incomingCallConversation.isActive() || incomingCallConversation.isHidden()) {
@@ -1199,14 +1323,25 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     await incomingCallConversation.unhideIfNeeded(false);
   }
 
-  await incomingCallConversation?.addSingleIncomingMessage({
+  // Note: Missed call messages should be sent with DaR setting or off. Don't enforce it here.
+  // if it's set to something, apply it to the missed message we are creating
+
+  let msgModel = await incomingCallConversation?.addSingleIncomingMessage({
+    callNotificationType: 'missed-call',
     source: callerPubkey,
     sent_at: sentAt,
     received_at: GetNetworkTime.getNowWithNetworkOffset(),
-    expireTimer: 0,
-    callNotificationType: 'missed-call',
     unread: READ_MESSAGE_STATE.unread,
+    messageHash: details?.messageHash,
   });
+
+  msgModel = DisappearingMessages.getMessageReadyToDisappear(
+    incomingCallConversation,
+    msgModel,
+    0,
+    details?.expireDetails
+  );
+  await msgModel.commit();
 }
 
 function getOwnerOfCallUUID(callUUID: string) {
@@ -1226,7 +1361,8 @@ function getOwnerOfCallUUID(callUUID: string) {
 export async function handleCallTypeAnswer(
   sender: string,
   callMessage: SignalService.CallMessage,
-  envelopeTimestamp: number
+  envelopeTimestamp: number,
+  expireDetails: (WithOptExpireUpdate & WithMessageHash) | null
 ) {
   if (!callMessage.sdps || callMessage.sdps.length === 0) {
     window.log.warn('cannot handle answered message without signal description proto sdps');
@@ -1274,7 +1410,11 @@ export async function handleCallTypeAnswer(
   }
   window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
 
-  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
+  const cachedMessage = getCachedMessageFromCallMessage(
+    callMessage,
+    envelopeTimestamp,
+    expireDetails
+  );
 
   pushCallMessageToCallCache(sender, callMessageUUID, cachedMessage);
 
@@ -1319,7 +1459,7 @@ export async function handleCallTypeIceCandidates(
     return;
   }
   window.log.info('handling callMessage ICE_CANDIDATES');
-  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
+  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp, null); // we don't care about the expiredetails of those messages
 
   pushCallMessageToCallCache(sender, remoteCallUUID, cachedMessage);
   if (currentCallUUID && callMessage.uuid === currentCallUUID) {
@@ -1331,9 +1471,11 @@ async function addIceCandidateToExistingPeerConnection(callMessage: SignalServic
   if (peerConnection) {
     for (let index = 0; index < callMessage.sdps.length; index++) {
       const sdp = callMessage.sdps[index];
+
       const sdpMLineIndex = callMessage.sdpMLineIndexes[index];
       const sdpMid = callMessage.sdpMids[index];
       const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
+
       try {
         // eslint-disable-next-line no-await-in-loop
         await peerConnection.addIceCandidate(candicate);
@@ -1358,7 +1500,7 @@ export async function handleOtherCallTypes(
     window.log.warn('handleOtherCallTypes has no valid uuid');
     return;
   }
-  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
+  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp, null); // we don't care about the expireDetails of those other messages
   pushCallMessageToCallCache(sender, remoteCallUUID, cachedMessage);
 }
 

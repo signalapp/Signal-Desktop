@@ -1,27 +1,27 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from 'react';
-import useKey from 'react-use/lib/useKey';
 import { useDispatch, useSelector } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
 
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 
-import { SessionButton } from '../../basic/SessionButton';
-import { SessionIdEditable } from '../../basic/SessionIdEditable';
-import { SessionSpinner } from '../../basic/SessionSpinner';
-import { OverlayHeader } from './OverlayHeader';
-import { resetOverlayMode } from '../../../state/ducks/section';
 import {
   joinOpenGroupV2WithUIEvents,
   JoinSogsRoomUICallbackArgs,
 } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { openGroupV2CompleteURLRegex } from '../../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { ToastUtils } from '../../../session/utils';
+import { resetLeftOverlayMode } from '../../../state/ducks/section';
+import { SessionButton } from '../../basic/SessionButton';
+import { SessionIdEditable } from '../../basic/SessionIdEditable';
+import { SessionSpinner } from '../../basic/SessionSpinner';
+import { OverlayHeader } from './OverlayHeader';
 
-import { getOverlayMode } from '../../../state/selectors/section';
 import {
   markConversationInitialLoadingInProgress,
   openConversationWithMessages,
 } from '../../../state/ducks/conversations';
+import { getLeftOverlayMode } from '../../../state/selectors/section';
 
 async function joinOpenGroup(
   serverUrl: string,
@@ -42,10 +42,10 @@ export const OverlayCommunity = () => {
   const [loading, setLoading] = useState(false);
   const [groupUrl, setGroupUrl] = useState('');
 
-  const overlayModeIsCommunity = useSelector(getOverlayMode) === 'open-group';
+  const overlayModeIsCommunity = useSelector(getLeftOverlayMode) === 'open-group';
 
   function closeOverlay() {
-    dispatch(resetOverlayMode());
+    dispatch(resetLeftOverlayMode());
   }
 
   async function onTryJoinRoom(completeUrl?: string) {

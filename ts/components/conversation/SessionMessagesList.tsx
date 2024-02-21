@@ -11,12 +11,14 @@ import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
+  PropsForInteractionNotification,
 } from '../../state/ducks/conversations';
 import {
   getOldBottomMessageId,
   getOldTopMessageId,
   getSortedMessagesTypesOfSelectedConversation,
 } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { MessageDateBreak } from './message/message-item/DateBreak';
 import { GroupInvitation } from './message/message-item/GroupInvitation';
 import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';
@@ -24,10 +26,10 @@ import { Message } from './message/message-item/Message';
 import { MessageRequestResponse } from './message/message-item/MessageRequestResponse';
 import { CallNotification } from './message/message-item/notification-bubble/CallNotification';
 
-import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { TimerNotification } from './TimerNotification';
+import { InteractionNotification } from './message/message-item/InteractionNotification';
 
 function isNotTextboxEvent(e: KeyboardEvent) {
   return (e?.target as any)?.type === undefined;
@@ -118,6 +120,7 @@ export const SessionMessagesList = (props: {
           ) : null;
 
         const componentToMerge = [dateBreak, unreadIndicator];
+
         if (messageProps.message?.messageType === 'group-notification') {
           const msgProps = messageProps.message.props as PropsForGroupUpdate;
           return [<GroupUpdateMessage key={messageId} {...msgProps} />, ...componentToMerge];
@@ -153,6 +156,12 @@ export const SessionMessagesList = (props: {
           const msgProps = messageProps.message.props as PropsForCallNotification;
 
           return [<CallNotification key={messageId} {...msgProps} />, ...componentToMerge];
+        }
+
+        if (messageProps.message?.messageType === 'interaction-notification') {
+          const msgProps = messageProps.message.props as PropsForInteractionNotification;
+
+          return [<InteractionNotification key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
         if (!messageProps) {

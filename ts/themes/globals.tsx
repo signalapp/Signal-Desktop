@@ -22,10 +22,13 @@ export type ThemeGlobals = {
   '--margins-sm': string;
   '--margins-md': string;
   '--margins-lg': string;
+  '--margins-xl': string;
+  '--margins-2xl': string;
 
   /* Padding */
   '--padding-message-content': string;
   '--padding-link-preview': string;
+  '--width-avatar-group-msg-list': string;
 
   /* Border Radius */
   '--border-radius': string;
@@ -82,6 +85,12 @@ export type ThemeGlobals = {
   /* Also used for FileDropZone */
   /* Used for Quote References Not Found */
   '--message-link-preview-background-color': string;
+
+  /* Right Panel */
+  '--right-panel-width': string;
+  '--right-panel-height': string;
+  '--right-panel-attachment-width': string;
+  '--right-panel-attachment-height': string;
 };
 
 // These are only set once in the global style (at root).
@@ -103,14 +112,17 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--margins-sm': '10px',
   '--margins-md': '15px',
   '--margins-lg': '20px',
+  '--margins-xl': '25px',
+  '--margins-2xl': '30px',
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below
+  '--width-avatar-group-msg-list': '46px', // the width used by the avatar (and its margins when rendered as part of a group.)
 
   '--border-radius': '5px',
   '--border-radius-message-box': '16px',
 
-  '--main-view-header-height': '63px',
+  '--main-view-header-height': '68px',
   '--composition-container-height': '60px',
   '--search-input-height': '34px',
 
@@ -137,7 +149,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--button-path-connecting-color': COLORS.PATH.CONNECTING,
   '--button-path-error-color': COLORS.PATH.ERROR,
 
-  '--modal-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.3)`,
+  '--modal-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.6)`,
   '--modal-drop-shadow': `0px 0px 10px rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`,
 
   '--lightbox-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`,
@@ -147,6 +159,12 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--avatar-border-color': 'var(--transparent-color)',
 
   '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
+
+  '--right-panel-width': '420px',
+  '--right-panel-height': '100%',
+  '--right-panel-attachment-width': 'calc(var(--right-panel-width) - 2 * var(--margins-2xl) - 7px)',
+  '--right-panel-attachment-height':
+    'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
 };
 
 // These should only be needed for the global style (at root).

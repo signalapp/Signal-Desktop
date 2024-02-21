@@ -6,20 +6,13 @@ import {
   UserConfigWrapperNode,
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
-import { compact, isArray, isEmpty, isFinite, isNil, isNumber, isString, map, pick } from 'lodash';
+import { compact, isArray, isEmpty, isNil, isString, map, pick } from 'lodash';
 import {
   CONVERSATION_PRIORITIES,
   ConversationAttributes,
 } from '../../models/conversationAttributes';
-import { HexKeyPair } from '../../receiver/keypairs';
 import { fromHexToArray } from '../../session/utils/String';
-import {
-  CONFIG_DUMP_TABLE,
-  ConfigDumpRow,
-  getCommunityInfoFromDBValues,
-  getContactInfoFromDBValues,
-  getLegacyGroupInfoFromDBValues,
-} from '../../types/sqlSharedTypes';
+import { CONFIG_DUMP_TABLE } from '../../types/sqlSharedTypes';
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
@@ -31,14 +24,17 @@ import {
   dropFtsAndTriggers,
   objectToJSON,
   rebuildFtsTable,
-  toSqliteBoolean,
 } from '../database_utility';
 
-import { getIdentityKeys, sqlNode } from '../sql';
-import { sleepFor } from '../../session/utils/Promise';
 import { SettingsKey } from '../../data/settings-key';
-
-const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
+import { sleepFor } from '../../session/utils/Promise';
+import { sqlNode } from '../sql';
+import MIGRATION_HELPERS from './helpers';
+import {
+  getBlockedNumbersDuringMigration,
+  getLoggedInUserConvoDuringMigration,
+  hasDebugEnvVariable,
+} from './utils';
 
 // eslint:disable: quotemark one-variable-per-declaration no-unused-expression
 
@@ -106,6 +102,9 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion31,
   updateToSessionSchemaVersion32,
   updateToSessionSchemaVersion33,
+  updateToSessionSchemaVersion34,
+  updateToSessionSchemaVersion35,
+  updateToSessionSchemaVersion36,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1213,253 +1212,6 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-function insertContactIntoContactWrapper(
-  contact: any,
-  blockedNumbers: Array<string>,
-  contactsConfigWrapper: ContactsConfigWrapperNode | null, // set this to null to only insert into the convo volatile wrapper (i.e. for ourConvo case)
-  volatileConfigWrapper: ConvoInfoVolatileWrapperNode,
-  db: BetterSqlite3.Database
-) {
-  if (contactsConfigWrapper !== null) {
-    const dbApproved = !!contact.isApproved || false;
-    const dbApprovedMe = !!contact.didApproveMe || false;
-    const dbBlocked = blockedNumbers.includes(contact.id);
-    const priority = contact.priority || CONVERSATION_PRIORITIES.default;
-    // const expirationTimerSeconds = contact.expireTimer || 0;
-
-    const wrapperContact = getContactInfoFromDBValues({
-      id: contact.id,
-      dbApproved,
-      dbApprovedMe,
-      dbBlocked,
-      dbName: contact.displayNameInProfile || undefined,
-      dbNickname: contact.nickname || undefined,
-      dbProfileKey: contact.profileKey || undefined,
-      dbProfileUrl: contact.avatarPointer || undefined,
-      priority,
-      dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
-
-      // expirationTimerSeconds,
-    });
-
-    try {
-      hasDebugEnvVariable && console.info('Inserting contact into wrapper: ', wrapperContact);
-      contactsConfigWrapper.set(wrapperContact);
-    } catch (e) {
-      console.error(
-        `contactsConfigWrapper.set during migration failed with ${e.message} for id: ${contact.id}`
-      );
-      // the wrapper did not like something. Try again with just the boolean fields as it's most likely the issue is with one of the strings (which could be recovered)
-      try {
-        hasDebugEnvVariable && console.info('Inserting edited contact into wrapper: ', contact.id);
-        contactsConfigWrapper.set(
-          getContactInfoFromDBValues({
-            id: contact.id,
-            dbApproved,
-            dbApprovedMe,
-            dbBlocked,
-            dbName: undefined,
-            dbNickname: undefined,
-            dbProfileKey: undefined,
-            dbProfileUrl: undefined,
-            priority: CONVERSATION_PRIORITIES.default,
-            dbCreatedAtSeconds: Math.floor(Date.now() / 1000),
-            // expirationTimerSeconds: 0,
-          })
-        );
-      } catch (err2) {
-        // there is nothing else we can do here
-        console.error(
-          `contactsConfigWrapper.set during migration failed with ${err2.message} for id: ${contact.id}. Skipping contact entirely`
-        );
-      }
-    }
-  }
-
-  try {
-    const rows = db
-      .prepare(
-        `
-      SELECT MAX(COALESCE(sent_at, 0)) AS max_sent_at
-      FROM ${MESSAGES_TABLE} WHERE
-        conversationId = $conversationId AND
-        unread = $unread;
-    `
-      )
-      .get({
-        conversationId: contact.id,
-        unread: toSqliteBoolean(false), // we want to find the message read with the higher sentAt timestamp
-      });
-
-    const maxRead = rows?.max_sent_at;
-    const lastRead = isNumber(maxRead) && isFinite(maxRead) ? maxRead : 0;
-    hasDebugEnvVariable &&
-      console.info(`Inserting contact into volatile wrapper maxread: ${contact.id} :${lastRead}`);
-    volatileConfigWrapper.set1o1(contact.id, lastRead, false);
-  } catch (e) {
-    console.error(
-      `volatileConfigWrapper.set1o1 during migration failed with ${e.message} for id: ${contact.id}. skipping`
-    );
-  }
-}
-
-function insertCommunityIntoWrapper(
-  community: { id: string; priority: number },
-  userGroupConfigWrapper: UserGroupsWrapperNode,
-  volatileConfigWrapper: ConvoInfoVolatileWrapperNode,
-  db: BetterSqlite3.Database
-) {
-  const priority = community.priority;
-  const convoId = community.id; // the id of a conversation has the prefix, the serverUrl and the roomToken already present, but not the pubkey
-
-  const roomDetails = sqlNode.getV2OpenGroupRoom(convoId, db);
-  // hasDebugEnvVariable && console.info('insertCommunityIntoWrapper: ', community);
-
-  if (
-    !roomDetails ||
-    isEmpty(roomDetails) ||
-    isEmpty(roomDetails.serverUrl) ||
-    isEmpty(roomDetails.roomId) ||
-    isEmpty(roomDetails.serverPublicKey)
-  ) {
-    console.info(
-      'insertCommunityIntoWrapper did not find corresponding room details',
-      convoId,
-      roomDetails
-    );
-    return;
-  }
-  hasDebugEnvVariable ??
-    console.info(
-      `building fullUrl from serverUrl:"${roomDetails.serverUrl}" roomId:"${roomDetails.roomId}" pubkey:"${roomDetails.serverPublicKey}"`
-    );
-
-  const fullUrl = userGroupConfigWrapper.buildFullUrlFromDetails(
-    roomDetails.serverUrl,
-    roomDetails.roomId,
-    roomDetails.serverPublicKey
-  );
-  const wrapperComm = getCommunityInfoFromDBValues({
-    fullUrl,
-    priority,
-  });
-
-  try {
-    hasDebugEnvVariable && console.info('Inserting community into group wrapper: ', wrapperComm);
-    userGroupConfigWrapper.setCommunityByFullUrl(wrapperComm.fullUrl, wrapperComm.priority);
-    const rows = db
-      .prepare(
-        `
-      SELECT MAX(COALESCE(serverTimestamp, 0)) AS max_sent_at
-      FROM ${MESSAGES_TABLE} WHERE
-        conversationId = $conversationId AND
-        unread = $unread;
-    `
-      )
-      .get({
-        conversationId: convoId,
-        unread: toSqliteBoolean(false), // we want to find the message read with the higher serverTimestamp timestamp
-      });
-
-    const maxRead = rows?.max_sent_at;
-    const lastRead = isNumber(maxRead) && isFinite(maxRead) ? maxRead : 0;
-    hasDebugEnvVariable &&
-      console.info(
-        `Inserting community into volatile wrapper: ${wrapperComm.fullUrl} :${lastRead}`
-      );
-    volatileConfigWrapper.setCommunityByFullUrl(wrapperComm.fullUrl, lastRead, false);
-  } catch (e) {
-    console.error(
-      `userGroupConfigWrapper.set during migration failed with ${e.message} for fullUrl: "${wrapperComm.fullUrl}". Skipping community entirely`
-    );
-  }
-}
-
-function insertLegacyGroupIntoWrapper(
-  legacyGroup: Pick<
-    ConversationAttributes,
-    'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' // | 'expireTimer'
-  > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
-  userGroupConfigWrapper: UserGroupsWrapperNode,
-  volatileInfoConfigWrapper: ConvoInfoVolatileWrapperNode,
-  db: BetterSqlite3.Database
-) {
-  const {
-    priority,
-    id,
-    // expireTimer,
-    groupAdmins,
-    members,
-    displayNameInProfile,
-    lastJoinedTimestamp,
-  } = legacyGroup;
-
-  const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
-    legacyGroup.id,
-    db
-  ) as HexKeyPair | undefined;
-
-  const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
-    id,
-    priority,
-    // expireTimer,
-    groupAdmins,
-    members,
-    displayNameInProfile,
-    encPubkeyHex: latestEncryptionKeyPairHex?.publicHex || '',
-    encSeckeyHex: latestEncryptionKeyPairHex?.privateHex || '',
-    lastJoinedTimestamp,
-  });
-
-  try {
-    hasDebugEnvVariable &&
-      console.info('Inserting legacy group into wrapper: ', wrapperLegacyGroup);
-    userGroupConfigWrapper.setLegacyGroup(wrapperLegacyGroup);
-
-    const rows = db
-      .prepare(
-        `
-      SELECT MAX(COALESCE(sent_at, 0)) AS max_sent_at
-      FROM ${MESSAGES_TABLE} WHERE
-        conversationId = $conversationId AND
-        unread = $unread;
-    `
-      )
-      .get({
-        conversationId: id,
-        unread: toSqliteBoolean(false), // we want to find the message read with the higher sentAt timestamp
-      });
-
-    const maxRead = rows?.max_sent_at;
-    const lastRead = isNumber(maxRead) && isFinite(maxRead) ? maxRead : 0;
-    hasDebugEnvVariable &&
-      console.info(`Inserting legacy group into volatile wrapper maxread: ${id} :${lastRead}`);
-    volatileInfoConfigWrapper.setLegacyGroup(id, lastRead, false);
-  } catch (e) {
-    console.error(
-      `userGroupConfigWrapper.set during migration failed with ${e.message} for legacyGroup.id: "${legacyGroup.id}". Skipping that legacy group entirely`
-    );
-  }
-}
-
-function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
-  try {
-    const blockedItem = sqlNode.getItemById('blocked', db);
-    if (!blockedItem) {
-      return [];
-    }
-    const foundBlocked = blockedItem?.value;
-    hasDebugEnvVariable && console.info('foundBlockedNumbers during migration', foundBlocked);
-    if (isArray(foundBlocked)) {
-      return foundBlocked;
-    }
-    return [];
-  } catch (e) {
-    console.info('failed to read blocked numbers. Considering no blocked numbers', e.stack);
-    return [];
-  }
-}
-
 function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 30;
   if (currentVersion >= targetVersion) {
@@ -1585,24 +1337,6 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-/**
- * Returns the logged in user conversation attributes and the keys.
- * If the keys exists but a conversation for that pubkey does not exist yet, the keys are still returned
- */
-function getLoggedInUserConvoDuringMigration(db: BetterSqlite3.Database) {
-  const ourKeys = getIdentityKeys(db);
-
-  if (!ourKeys || !ourKeys.publicKeyHex || !ourKeys.privateEd25519) {
-    return null;
-  }
-
-  const ourConversation = db.prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).get({
-    id: ourKeys.publicKeyHex,
-  }) as Record<string, any> | null;
-
-  return { ourKeys, ourConversation: ourConversation || null };
-}
-
 function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 31;
   if (currentVersion >= targetVersion) {
@@ -1641,25 +1375,21 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       const ourDbProfileUrl = ourConversation.avatarPointer || '';
       const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
       const ourConvoPriority = ourConversation.priority;
-      // const ourConvoExpire = ourConversation.expireTimer || 0;
+
       if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
-        userProfileWrapper.setUserInfo(
-          ourDbName,
-          ourConvoPriority,
-          {
-            url: ourDbProfileUrl,
-            key: ourDbProfileKey,
-          }
-          // ourConvoExpire,
-        );
+        userProfileWrapper.setUserInfo(ourDbName, ourConvoPriority, {
+          url: ourDbProfileUrl,
+          key: ourDbProfileKey,
+        });
       }
 
-      insertContactIntoContactWrapper(
+      MIGRATION_HELPERS.V31.insertContactIntoContactWrapper(
         ourConversation,
         blockedNumbers,
         null,
         volatileInfoConfigWrapper,
-        db
+        db,
+        targetVersion
       );
 
       // dump the user wrapper content and save it to the DB
@@ -1700,12 +1430,13 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
         );
 
         contactsToWriteInWrapper.forEach(contact => {
-          insertContactIntoContactWrapper(
+          MIGRATION_HELPERS.V31.insertContactIntoContactWrapper(
             contact,
             blockedNumbers,
             contactsConfigWrapper,
             volatileInfoConfigWrapper,
-            db
+            db,
+            targetVersion
           );
         });
 
@@ -1747,11 +1478,12 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
 
         communitiesToWriteInWrapper.forEach(community => {
           try {
-            insertCommunityIntoWrapper(
+            MIGRATION_HELPERS.V31.insertCommunityIntoWrapper(
               community,
               userGroupsConfigWrapper,
               volatileInfoConfigWrapper,
-              db
+              db,
+              targetVersion
             );
           } catch (e) {
             console.info(`failed to insert community with ${e.message}`, community);
@@ -1780,11 +1512,12 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
             hasDebugEnvVariable &&
               console.info('Writing legacy group: ', JSON.stringify(legacyGroup));
 
-            insertLegacyGroupIntoWrapper(
+            MIGRATION_HELPERS.V31.insertLegacyGroupIntoWrapper(
               legacyGroup,
               userGroupsConfigWrapper,
               volatileInfoConfigWrapper,
-              db
+              db,
+              targetVersion
             );
           } catch (e) {
             console.info(`failed to insert legacy group with ${e.message}`, legacyGroup);
@@ -1868,41 +1601,6 @@ function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-function fetchUserConfigDump(
-  db: BetterSqlite3.Database,
-  userPubkeyhex: string
-): ConfigDumpRow | null {
-  const userConfigWrapperDumps = db
-    .prepare(
-      `SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
-    )
-    .all({ variant: 'UserConfig', publicKey: userPubkeyhex }) as Array<ConfigDumpRow>;
-
-  if (!userConfigWrapperDumps || !userConfigWrapperDumps.length) {
-    return null;
-  }
-  // we can only have one dump with the "UserConfig" variant and our pubkey
-  return userConfigWrapperDumps[0];
-}
-
-function writeUserConfigDump(db: BetterSqlite3.Database, userPubkeyhex: string, dump: Uint8Array) {
-  db.prepare(
-    `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
-            publicKey,
-            variant,
-            data
-        ) values (
-          $publicKey,
-          $variant,
-          $data
-        );`
-  ).run({
-    publicKey: userPubkeyhex,
-    variant: 'UserConfig',
-    data: dump,
-  });
-}
-
 function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 33;
   if (currentVersion >= targetVersion) {
@@ -1924,7 +1622,11 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
     const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
 
     // Get existing config wrapper dump and update it
-    const userConfigWrapperDump = fetchUserConfigDump(db, publicKeyHex);
+    const userConfigWrapperDump = MIGRATION_HELPERS.V33.fetchUserConfigDump(
+      db,
+      targetVersion,
+      publicKeyHex
+    );
 
     if (!userConfigWrapperDump) {
       writeSessionSchemaVersion(targetVersion, db);
@@ -1939,7 +1641,12 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
     if (isNil(blindedReqEnabled)) {
       // this change will be part of the next ConfSyncJob (one is always made on app startup)
       userProfileWrapper.setEnableBlindedMsgRequest(true);
-      writeUserConfigDump(db, publicKeyHex, userProfileWrapper.dump());
+      MIGRATION_HELPERS.V33.writeUserConfigDump(
+        db,
+        targetVersion,
+        publicKeyHex,
+        userProfileWrapper.dump()
+      );
     }
     blindedReqEnabled = userProfileWrapper.getEnableBlindedMsgRequest();
 
@@ -1951,6 +1658,295 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
 
     writeSessionSchemaVersion(targetVersion, db);
   })();
+}
+
+function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 34;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    try {
+      // #region v34 Disappearing Messages Database Model Changes
+      // Conversation changes
+      db.prepare(
+        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationMode TEXT DEFAULT "off";`
+      ).run();
+
+      db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
+
+      // Message changes
+      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
+      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN flags INTEGER;`).run();
+      db.prepare(`UPDATE ${MESSAGES_TABLE} SET flags = json_extract(json, '$.flags');`);
+
+      // #endregion
+
+      const loggedInUser = getLoggedInUserConvoDuringMigration(db);
+
+      if (!loggedInUser || !loggedInUser.ourKeys) {
+        throw new Error('privateEd25519 was empty. Considering no users are logged in');
+      }
+
+      const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
+
+      // #region v34 Disappearing Messages Note to Self
+      const noteToSelfInfo = db
+        .prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationMode = $expirationMode
+      WHERE id = $id AND type = 'private' AND expireTimer > 0;`
+        )
+        .run({ expirationMode: 'deleteAfterSend', id: publicKeyHex });
+
+      if (noteToSelfInfo.changes) {
+        const ourConversation = db
+          .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id`)
+          .get({ id: publicKeyHex });
+
+        const expirySeconds = ourConversation.expireTimer || 0;
+
+        // Get existing config wrapper dump and update it
+        const userConfigWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
+          db,
+          targetVersion,
+          publicKeyHex,
+          'UserConfig'
+        );
+
+        if (userConfigWrapperDump) {
+          const userConfigData = userConfigWrapperDump.data;
+          const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, userConfigData);
+
+          userProfileWrapper.setNoteToSelfExpiry(expirySeconds);
+
+          // dump the user wrapper content and save it to the DB
+          MIGRATION_HELPERS.V34.writeConfigDumps(
+            db,
+            targetVersion,
+            publicKeyHex,
+            'UserConfig',
+            userProfileWrapper.dump()
+          );
+
+          console.log(
+            '===================== user config wrapper dump updated ======================='
+          );
+        } else {
+          console.log(
+            '===================== user config wrapper dump not found ======================='
+          );
+        }
+      }
+
+      // #endregion
+
+      // #region v34 Disappearing Messages Private Conversations
+      const privateConversationsInfo = db
+        .prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationMode = $expirationMode
+      WHERE type = 'private' AND expirationMode = 'off' AND expireTimer > 0;`
+        )
+        .run({ expirationMode: 'deleteAfterRead' });
+
+      if (privateConversationsInfo.changes) {
+        // this filter is based on the `isContactToStoreInWrapper` function. Note, it has been expanded to check if disappearing messages is on
+        const contactsToUpdateInWrapper = db
+          .prepare(
+            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND priority <> ${CONVERSATION_PRIORITIES.hidden} AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' AND id NOT LIKE '25%' AND expirationMode = 'deleteAfterRead' AND expireTimer > 0;`
+          )
+          .all({
+            us: publicKeyHex,
+          });
+
+        if (isArray(contactsToUpdateInWrapper) && contactsToUpdateInWrapper.length) {
+          const blockedNumbers = getBlockedNumbersDuringMigration(db);
+
+          // Get existing config wrapper dumps and update them
+          const contactsWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
+            db,
+            targetVersion,
+            publicKeyHex,
+            'ContactsConfig'
+          );
+
+          if (contactsWrapperDump) {
+            const contactsData = contactsWrapperDump.data;
+            const contactsConfigWrapper = new ContactsConfigWrapperNode(
+              privateEd25519,
+              contactsData
+            );
+
+            console.info(
+              `===================== Starting contact update into wrapper ${contactsToUpdateInWrapper?.length} =======================`
+            );
+
+            contactsToUpdateInWrapper.forEach(contact => {
+              MIGRATION_HELPERS.V34.updateContactInContactWrapper(
+                contact,
+                blockedNumbers,
+                contactsConfigWrapper,
+                targetVersion
+              );
+            });
+
+            console.info(
+              '===================== Done with contact updating ======================='
+            );
+
+            // dump the wrapper content and save it to the DB
+            MIGRATION_HELPERS.V34.writeConfigDumps(
+              db,
+              targetVersion,
+              publicKeyHex,
+              'ContactsConfig',
+              contactsConfigWrapper.dump()
+            );
+
+            console.log(
+              '===================== contacts config wrapper dump updated ======================='
+            );
+          } else {
+            console.log(
+              '===================== contacts config wrapper dump not found ======================='
+            );
+          }
+        }
+      }
+
+      // #endregion
+
+      // #region v34 Disappearing Messages Groups
+      const groupConversationsInfo = db
+        .prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationMode = $expirationMode
+      WHERE type = 'group' AND id LIKE '05%' AND expirationMode = 'off' AND expireTimer > 0;`
+        )
+        .run({ expirationMode: 'deleteAfterSend' });
+
+      if (groupConversationsInfo.changes) {
+        // this filter is based on the `isLegacyGroupToStoreInWrapper` function. Note, it has been expanded to check if disappearing messages is on
+        const legacyGroupsToWriteInWrapper = db
+          .prepare(
+            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'group' AND active_at > 0 AND id LIKE '05%' AND NOT isKickedFromGroup AND NOT left AND expirationMode = 'deleteAfterSend' AND expireTimer > 0;`
+          )
+          .all({});
+
+        if (isArray(legacyGroupsToWriteInWrapper) && legacyGroupsToWriteInWrapper.length) {
+          // Get existing config wrapper dumps and update them
+          const userGroupsConfigWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
+            db,
+            targetVersion,
+            publicKeyHex,
+            'UserGroupsConfig'
+          );
+
+          if (userGroupsConfigWrapperDump) {
+            const userGroupsConfigData = userGroupsConfigWrapperDump.data;
+            const userGroupsConfigWrapper = new UserGroupsWrapperNode(
+              privateEd25519,
+              userGroupsConfigData
+            );
+
+            console.info(
+              `===================== Starting legacy group wrapper update length: ${legacyGroupsToWriteInWrapper?.length} =======================`
+            );
+
+            legacyGroupsToWriteInWrapper.forEach(legacyGroup => {
+              try {
+                hasDebugEnvVariable &&
+                  console.info('Updating legacy group: ', JSON.stringify(legacyGroup));
+
+                MIGRATION_HELPERS.V34.updateLegacyGroupInWrapper(
+                  legacyGroup,
+                  userGroupsConfigWrapper,
+                  db,
+                  targetVersion
+                );
+              } catch (e) {
+                console.info(`failed to insert legacy group with ${e.message}`, legacyGroup);
+              }
+            });
+
+            // dump the wrapper content and save it to the DB
+            MIGRATION_HELPERS.V34.writeConfigDumps(
+              db,
+              targetVersion,
+              publicKeyHex,
+              'UserGroupsConfig',
+              userGroupsConfigWrapper.dump()
+            );
+            console.info(
+              '===================== Done with legacy group inserting ======================='
+            );
+          } else {
+            console.log(
+              '===================== user groups config wrapper dump found ======================='
+            );
+          }
+        }
+      }
+
+      // #endregion
+    } catch (e) {
+      console.error(
+        `Failed to migrate to disappearing messages v2. Might just not have a logged in user yet? `,
+        e.message,
+        e.stack,
+        e
+      );
+      // if we get an exception here, most likely no users are logged in yet. We can just continue the transaction and the wrappers will be created when a user creates a new account.
+    }
+
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToSessionSchemaVersion35(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 35;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastMessageInteractionType TEXT;`
+    ).run();
+
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastMessageInteractionStatus TEXT;`
+    ).run();
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToSessionSchemaVersion36(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 36;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`CREATE INDEX messages_DaR_unread_sent_at ON ${MESSAGES_TABLE} (
+      expirationType,
+      unread,
+      sent_at
+    );`);
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {

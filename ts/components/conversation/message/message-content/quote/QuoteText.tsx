@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
-import { useSelectedIsGroup } from '../../../../../state/selectors/selectedConversation';
+import { useSelectedIsGroupOrCommunity } from '../../../../../state/selectors/selectedConversation';
 import { MIME } from '../../../../../types';
 import { GoogleChrome } from '../../../../../util';
 import { MessageBody } from '../MessageBody';
@@ -61,7 +61,7 @@ export const QuoteText = (
 ) => {
   const { text, attachment, isIncoming, referencedMessageNotFound } = props;
 
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
 
   if (!referencedMessageNotFound && attachment && !isEmpty(attachment)) {
     const { contentType, isVoiceMessage } = attachment;

@@ -27,6 +27,9 @@ const toggleCallMediaPermissions = async (triggerUIUpdate: () => void) => {
           await window.toggleCallMediaPermissionsTo(false);
           triggerUIUpdate();
         },
+        onClickClose: () => {
+          window.inboxStore?.dispatch(updateConfirmModal(null));
+        },
       })
     );
   } else {

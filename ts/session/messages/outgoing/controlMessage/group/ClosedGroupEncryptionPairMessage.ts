@@ -11,11 +11,7 @@ export class ClosedGroupEncryptionPairMessage extends ClosedGroupMessage {
   >;
 
   constructor(params: ClosedGroupEncryptionPairMessageParams) {
-    super({
-      timestamp: params.timestamp,
-      identifier: params.identifier,
-      groupId: params.groupId,
-    });
+    super(params);
     this.encryptedKeyPairs = params.encryptedKeyPairs;
     if (this.encryptedKeyPairs.length === 0) {
       throw new Error('EncryptedKeyPairs cannot be empty');

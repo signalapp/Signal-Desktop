@@ -5,7 +5,7 @@ export type RawMessage = {
   identifier: string;
   plainTextBuffer: Uint8Array;
   device: string;
-  ttl: number;
+  ttl: number; // ttl is in millis
   encryption: SignalService.Envelope.Type;
   namespace: SnodeNamespaces | null; // allowing null as when we upgrade, we might have messages awaiting sending which won't have a namespace
 };

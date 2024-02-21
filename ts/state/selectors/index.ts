@@ -7,7 +7,6 @@ import * as SearchSelectors from './search';
 import * as SectionSelectors from './section';
 import * as StagedAttachmentSelectors from './stagedAttachments';
 import * as ThemeSelectors from './theme';
-import * as TimerOptionsSelectors from './timerOptions';
 import * as UserSelectors from './user';
 import * as UserConfigSelectors from './userConfig';
 
@@ -21,7 +20,6 @@ export {
   SectionSelectors,
   StagedAttachmentSelectors,
   ThemeSelectors,
-  TimerOptionsSelectors,
   UserConfigSelectors,
   UserSelectors,
 };

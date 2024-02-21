@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { setNextMessageToPlayId } from '../../state/ducks/conversations';
+import { useMessageSelected } from '../../state/selectors';
 import {
   getNextMessageToPlayId,
   getSortedMessagesOfSelectedConversation,
@@ -25,7 +26,7 @@ const StyledSpeedButton = styled.div`
   }
 `;
 
-export const StyledH5AudioPlayer = styled(H5AudioPlayer)`
+export const StyledH5AudioPlayer = styled(H5AudioPlayer)<{ dropShadow?: boolean }>`
   &.rhap_container {
     min-width: 220px;
     padding: 0px;
@@ -145,6 +146,8 @@ export const StyledH5AudioPlayer = styled(H5AudioPlayer)`
     height: 20px;
     margin-right: 0px;
   }
+
+  ${props => props.dropShadow && 'box-shadow: var(--drop-shadow);'}
 `;
 
 export const AudioPlayerWithEncryptedFile = (props: {
@@ -162,6 +165,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
   const messageProps = useSelector(getSortedMessagesOfSelectedConversation);
   const nextMessageToPlayId = useSelector(getNextMessageToPlayId);
   const multiSelectMode = useSelector(isMessageSelectionMode);
+  const selected = useMessageSelected(messageId);
 
   const dataTestId = `audio-${messageId}`;
 
@@ -263,6 +267,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
         play: <SessionIcon iconType="play" iconSize="small" />,
         pause: <SessionIcon iconType="pause" iconSize="small" />,
       }}
+      dropShadow={selected}
     />
   );
 };

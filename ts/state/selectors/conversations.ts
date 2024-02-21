@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { createSelector } from '@reduxjs/toolkit';
-import { filter, isEmpty, isNumber, pick, sortBy, toNumber, isFinite } from 'lodash';
+import { filter, isEmpty, isFinite, isNumber, pick, sortBy, toNumber } from 'lodash';
 
 import {
   ConversationLookupType,
@@ -9,7 +9,6 @@ import {
   MentionsMembersType,
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
-  MessagePropsDetails,
   PropsForQuote,
   QuoteLookupType,
   ReduxConversationType,
@@ -105,7 +104,8 @@ export type MessagePropsType =
   | 'timer-notification'
   | 'regular-message'
   | 'unread-indicator'
-  | 'call-notification';
+  | 'call-notification'
+  | 'interaction-notification';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getSortedMessagesOfSelectedConversation,
@@ -121,7 +121,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
       // this is to smooth a bit the loading of older message (to avoid a jump once new messages are rendered)
       const previousMessageTimestamp =
         index + 1 >= sortedMessages.length
-          ? Number.MAX_SAFE_INTEGER
+          ? 0
           : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
             sortedMessages[index + 1].propsForMessage.timestamp;
 
@@ -189,6 +189,19 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
             messageType: 'call-notification',
             props: {
               ...msg.propsForCallNotification,
+              messageId: msg.propsForMessage.id,
+            },
+          },
+        };
+      }
+
+      if (msg.propsForInteractionNotification) {
+        return {
+          ...common,
+          message: {
+            messageType: 'interaction-notification',
+            props: {
+              ...msg.propsForInteractionNotification,
               messageId: msg.propsForMessage.id,
             },
           },
@@ -479,11 +492,7 @@ export const getGlobalUnreadMessageCount = createSelector(
   _getGlobalUnreadCount
 );
 
-export const isMessageDetailView = (state: StateType): boolean =>
-  state.conversations.messageDetailProps !== undefined;
-
-export const getMessageDetailsViewProps = (state: StateType): MessagePropsDetails | undefined =>
-  state.conversations.messageDetailProps;
+export const getMessageInfoId = (state: StateType) => state.conversations.messageInfoId;
 
 export const isRightPanelShowing = (state: StateType): boolean =>
   state.conversations.showRightPanel;
@@ -914,8 +923,12 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
+    const isGroup =
+      props.propsForMessage.conversationType !== 'private' && !props.propsForMessage.isPublic;
+
     const msgProps: MessageContentWithStatusSelectorProps = {
       ...pick(props.propsForMessage, ['conversationType', 'direction', 'isDeleted']),
+      isGroup,
     };
 
     return msgProps;
@@ -933,7 +946,7 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       'convoId',
       'direction',
       'conversationType',
-      'expirationLength',
+      'expirationDurationMs',
       'expirationTimestamp',
       'isExpired',
       'isUnread',

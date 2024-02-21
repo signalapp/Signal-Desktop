@@ -5,7 +5,9 @@ import {
   parseBatchGlobalStatusCode,
 } from '../open_group_api/sogsv3/sogsV3BatchPoll';
 
-export const fileServerURL = 'http://filev2.getsession.org';
+export const fileServerHost = 'filev2.getsession.org';
+export const fileServerURL = `http://${fileServerHost}`;
+
 export const fileServerPubKey = 'da21e1d886c6fbaea313f75298bd64aab03a97ce985b46bb2dad9f2089c8ee59';
 const RELEASE_VERSION_ENDPOINT = '/session_version?platform=desktop';
 

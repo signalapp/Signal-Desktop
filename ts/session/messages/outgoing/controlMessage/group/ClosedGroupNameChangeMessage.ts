@@ -9,11 +9,7 @@ export class ClosedGroupNameChangeMessage extends ClosedGroupMessage {
   private readonly name: string;
 
   constructor(params: ClosedGroupNameChangeMessageParams) {
-    super({
-      timestamp: params.timestamp,
-      identifier: params.identifier,
-      groupId: params.groupId,
-    });
+    super(params);
     this.name = params.name;
     if (this.name.length === 0) {
       throw new Error('name cannot be empty');

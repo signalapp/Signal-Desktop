@@ -5,11 +5,12 @@ import {
   useAuthorName,
   useAuthorProfileName,
   useFirstMessageOfSeries,
+  useHideAvatarInMsgList,
   useMessageAuthor,
   useMessageDirection,
 } from '../../../../state/selectors';
 import {
-  useSelectedIsGroup,
+  useSelectedIsGroupOrCommunity,
   useSelectedIsPublic,
 } from '../../../../state/selectors/selectedConversation';
 import { Flex } from '../../../basic/Flex';
@@ -19,19 +20,21 @@ type Props = {
   messageId: string;
 };
 
-const StyledAuthorContainer = styled(Flex)`
+const StyledAuthorContainer = styled(Flex)<{ hideAvatar: boolean }>`
   color: var(--text-primary-color);
   text-overflow: ellipsis;
+  margin-inline-start: ${props => (props.hideAvatar ? 0 : 'var(--width-avatar-group-msg-list)')};
 `;
 
 export const MessageAuthorText = (props: Props) => {
   const isPublic = useSelectedIsPublic();
-  const isGroup = useSelectedIsGroup();
+  const isGroup = useSelectedIsGroupOrCommunity();
   const authorProfileName = useAuthorProfileName(props.messageId);
   const authorName = useAuthorName(props.messageId);
   const sender = useMessageAuthor(props.messageId);
   const direction = useMessageDirection(props.messageId);
   const firstMessageOfSeries = useFirstMessageOfSeries(props.messageId);
+  const hideAvatar = useHideAvatarInMsgList(props.messageId);
 
   if (!props.messageId || !sender || !direction) {
     return null;
@@ -46,7 +49,7 @@ export const MessageAuthorText = (props: Props) => {
   const displayedPubkey = authorProfileName ? PubKey.shorten(sender) : sender;
 
   return (
-    <StyledAuthorContainer container={true}>
+    <StyledAuthorContainer container={true} hideAvatar={hideAvatar}>
       <ContactName
         pubkey={displayedPubkey}
         name={authorName}

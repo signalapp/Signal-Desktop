@@ -1,42 +1,28 @@
 import React, { useCallback, useState } from 'react';
 
 import useInterval from 'react-use/lib/useInterval';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import { getTimerBucketIcon } from '../../util/timer';
 
 import { SessionIcon } from '../icon/SessionIcon';
 
+const ExpireTimerBucket = styled.div`
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  user-select: none;
+  color: var(--text-secondary-color);
+  align-self: center;
+`;
+
 type Props = {
-  expirationLength: number;
-  expirationTimestamp: number | null;
-  isCorrectSide: boolean;
+  expirationDurationMs?: number;
+  expirationTimestamp?: number | null;
+  style?: CSSProperties;
 };
 
-const ExpireTimerCount = styled.div<{
-  color: string;
-}>`
-  margin-inline-start: 6px;
-  font-size: var(--font-size-xs);
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  user-select: none;
-  color: ${props => props.color};
-  flex-shrink: 0;
-`;
-
-const ExpireTimerBucket = styled.div`
-  margin-inline-start: 6px;
-  font-size: var(--font-size-xs);
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  user-select: none;
-  color: var(--text-primary-color);
-`;
-
 export const ExpireTimer = (props: Props) => {
-  const { expirationLength, expirationTimestamp, isCorrectSide } = props;
+  const { expirationDurationMs, expirationTimestamp, style } = props;
 
   const initialTimeLeft = Math.max(Math.round(((expirationTimestamp || 0) - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
@@ -53,20 +39,15 @@ export const ExpireTimer = (props: Props) => {
   const updateFrequency = 500;
   useInterval(update, updateFrequency);
 
-  if (!(isCorrectSide && expirationLength && expirationTimestamp)) {
+  if (!(expirationDurationMs && expirationTimestamp)) {
     return null;
   }
 
-  const expireTimerColor = 'var(--primary-text-color)';
-
-  if (timeLeft <= 60) {
-    return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;
-  }
-  const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
+  const bucket = getTimerBucketIcon(expirationTimestamp, expirationDurationMs);
 
   return (
-    <ExpireTimerBucket>
-      <SessionIcon iconType={bucket} iconSize="tiny" iconColor={expireTimerColor} />
+    <ExpireTimerBucket style={style}>
+      <SessionIcon iconType={bucket} iconSize="tiny" iconColor={'var(--secondary-text-color)'} />
     </ExpireTimerBucket>
   );
 };
