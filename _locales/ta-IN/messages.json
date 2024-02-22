@@ -45,7 +45,7 @@
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
-    "messageformat": "தேடல்",
+    "messageformat": "தேடு",
     "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
@@ -341,7 +341,7 @@
     "description": "Text of the button displayed when clicking compose button in left pane"
   },
   "icu:LeftPane__compose__findByPhoneNumber": {
-    "messageformat": "தொலைபேசி எண் மூலம் கண்டுபிடிக்கவும்",
+    "messageformat": "தொலைபேசி எண் மூலம் தேடு",
     "description": "Text of the button displayed when clicking compose button in left pane"
   },
   "icu:LeftPaneFindByHelper__title--findByUsername": {
@@ -349,7 +349,7 @@
     "description": "Title of the left pane when looking up someone by username"
   },
   "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
-    "messageformat": "தொலைபேசி எண் மூலம் கண்டுபிடிக்கவும்",
+    "messageformat": "தொலைபேசி எண் மூலம் தேடு",
     "description": "Title of the left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
@@ -361,7 +361,7 @@
     "description": "Placeholder of the search input in left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "புள்ளி மற்றும் அதன் எண்களின் தொகுப்பைத் தொடர்ந்து பயனர்பெயரை உள்ளிடவும்.",
+    "messageformat": "ஒரு புள்ளி மற்றும் அதன் எண்களின் தொகுப்பைத் தொடர்ந்து பயனர் பெயரை உள்ளிடவும்.",
     "description": "Description displayed under search input in left pane when looking up someone by username"
   },
   "icu:CountryCodeSelect__placeholder": {
@@ -1400,7 +1400,7 @@
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
-    "messageformat": "சரிபார்க்கப்பட்ட",
+    "messageformat": "சரிபார்க்கப்பட்டது",
     "description": "Text of a button on About modal leading to a safety number modal"
   },
   "icu:AboutContactModal__blocked": {
@@ -1412,7 +1412,7 @@
     "description": "Text of a row on About modal when user is in message request state"
   },
   "icu:AboutContactModal__no-dms": {
-    "messageformat": "உங்களுக்கும் {name}க்கும் இடையில் எந்த மெசேஜ்களும் இல்லை",
+    "messageformat": "உங்களுக்கும் {name}க்கும் இடையில் எந்த நேரடி மெசேஜ்களும் இல்லை",
     "description": "Text of a row on About modal when there are no direct messages with a user"
   },
   "icu:AboutContactModal__signal-connection": {
@@ -5644,6 +5644,10 @@
     "messageformat": "2 இலக்கஙளுக்கு மேல் உள்ள எண்கள் 0 இல் தொடங்க முடியாது",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "இந்தப் பயனர் பெயர் கிடைக்கவில்லை",
     "description": "Shown if the username is not available for registration"
@@ -5689,7 +5693,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "உங்கள் பயனர்பெயரை அழிக்க, உங்கள் போனில் சிக்னலைத் திறந்து, அமைப்புகள் > புரொஃபைலுக்குச் செல்லவும்.",
+    "messageformat": "உங்கள் பயனர் பெயரை நீக்க, உங்கள் ஃபோனில் சிக்னலைத் திறந்து, அமைப்புகள் > புரொஃபைலுக்குச் செல்லவும்.",
     "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "உங்கள் தொலைபேசி எண்ணை யார் பார்க்கலாம் மற்றும் யார் உங்களை சிக்னலில் தொடர்பு கொள்ளலாம் என்பதைத் தேர்வுசெய்யவும்.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "எனது எண்ணை யார் பார்க்கலாம்",

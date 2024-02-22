@@ -361,7 +361,7 @@
     "description": "Placeholder of the search input in left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "نام کاربری و سپس نقطه و مجموعه اعداد آن را وارد کنید.",
+    "messageformat": "یک نام کاربری و سپس یک نقطه و مجموعۀ اعداد آن را وارد کنید.",
     "description": "Description displayed under search input in left pane when looking up someone by username"
   },
   "icu:CountryCodeSelect__placeholder": {
@@ -5644,6 +5644,10 @@
     "messageformat": "اعداد دارای بیش از ۲ رقم نمی‌توانند با ۰ شروع شوند",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "این نام کاربری در دسترس نیست",
     "description": "Shown if the username is not available for registration"
@@ -5689,7 +5693,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "برای حذف نام کاربری خود، سیگنال را در تلفن باز کنید و به «تنظیمات > نمایه» بروید.",
+    "messageformat": "برای پاک کردن نام کاربری خود، سیگنال را در تلفن‌تان باز کنید و به «تنظیمات > نمایه» بروید.",
     "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "انتخاب کنید که چه‌کسی بتواند شماره تلفن شما را ببیند و از طریق شماره تلفن‌تان در سیگنال با شما تماس بگیرد.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "چه‌کسی می‌تواند شماره من را ببیند",

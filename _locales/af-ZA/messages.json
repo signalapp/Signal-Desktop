@@ -1400,7 +1400,7 @@
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
-    "messageformat": "Geverifiëer",
+    "messageformat": "Geverifieer",
     "description": "Text of a button on About modal leading to a safety number modal"
   },
   "icu:AboutContactModal__blocked": {
@@ -5644,6 +5644,10 @@
     "messageformat": "Getalle met meer as 2 syfers kan nie met 0 begin nie",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Hierdie gebruikersnaam is nie beskikbaar nie",
     "description": "Shown if the username is not available for registration"
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Kies wie jou telefoonnommer kan sien en wie jou daarmee op Signal kan kontak.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Wie my nommer kan sien",
