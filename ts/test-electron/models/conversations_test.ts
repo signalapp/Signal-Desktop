@@ -138,6 +138,7 @@ describe('Conversations', () => {
       [
         {
           url: 'https://sometest.signal.org/',
+          isCallLink: false,
         },
       ]
     );
@@ -154,6 +155,7 @@ describe('Conversations', () => {
             size: 100,
             data: new Uint8Array(),
           },
+          isCallLink: false,
         },
       ]
     );

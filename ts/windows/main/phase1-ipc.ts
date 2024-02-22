@@ -21,6 +21,7 @@ import type {
   NotificationClickData,
   WindowsNotificationData,
 } from '../../services/notifications';
+import { isAdhocCallingEnabled } from '../../util/isAdhocCallingEnabled';
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;
@@ -52,6 +53,7 @@ window.getBuildExpiration = () => config.buildExpiration;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.getServerPublicParams = () => config.serverPublicParams;
+window.getGenericServerPublicParams = () => config.genericServerPublicParams;
 window.getSfuUrl = () => config.sfuUrl;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
@@ -327,6 +329,19 @@ ipc.on('start-call-lobby', (_event, { conversationId }) => {
     conversationId,
     isVideoCall: true,
   });
+});
+
+ipc.on('start-call-link', (_event, { key }) => {
+  if (isAdhocCallingEnabled()) {
+    window.reduxActions?.calling?.startCallLinkLobby({
+      rootKey: key,
+    });
+  } else {
+    const { unknownSignalLink } = window.Events;
+    if (unknownSignalLink) {
+      unknownSignalLink();
+    }
+  }
 });
 
 ipc.on('show-window', () => {

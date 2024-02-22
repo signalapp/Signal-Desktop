@@ -42,7 +42,7 @@ import type {
 import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
 import type { QuotedAttachmentType } from '../../components/conversation/Quote';
 
-import { getDomain, isStickerPack } from '../../types/LinkPreview';
+import { getDomain, isCallLink, isStickerPack } from '../../types/LinkPreview';
 import type {
   AciString,
   PniString,
@@ -383,6 +383,7 @@ const getPreviewsForMessage = ({
   return previews.map(preview => ({
     ...preview,
     isStickerPack: isStickerPack(preview.url),
+    isCallLink: isCallLink(preview.url),
     domain: getDomain(preview.url),
     image: preview.image ? getPropsForAttachment(preview.image) : undefined,
   }));

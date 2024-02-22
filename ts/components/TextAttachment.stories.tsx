@@ -184,6 +184,7 @@ export function LinkPreview(): JSX.Element {
         preview: {
           url: 'https://www.signal.org/workworkwork',
           title: 'Signal >> Careers',
+          isCallLink: false,
         },
       }}
     />
@@ -200,6 +201,7 @@ export function LinkPreviewThumbnail(): JSX.Element {
         preview: {
           url: 'https://www.signal.org/workworkwork',
           title: 'Signal >> Careers',
+          isCallLink: false,
         },
       }}
     />
@@ -216,6 +218,7 @@ export function LinkPreviewLongTitle(): JSX.Element {
           title:
             '2021 Etihad Airways Abu Dhabi Grand Prix Race Summary - F1 RaceCast Dec 10 to Dec 12 - ESPN',
           url: 'https://www.espn.com/f1/race/_/id/600001776',
+          isCallLink: false,
         },
         text: 'Spoiler alert!',
         textForegroundColor: 4294704123,
@@ -232,6 +235,7 @@ export function LinkPreviewJustUrl(): JSX.Element {
         color: 4294951251,
         preview: {
           url: 'https://www.rolex.com/en-us/watches/day-date/m228236-0012.html',
+          isCallLink: false,
         },
       }}
     />
@@ -246,6 +250,7 @@ export function LinkPreviewJustUrlText(): JSX.Element {
         color: 4294951251,
         preview: {
           url: 'https://www.rolex.com/en-us/watches/day-date/m228236-0012.html',
+          isCallLink: false,
         },
         text: 'Check this out!',
       }}
@@ -261,6 +266,7 @@ export function LinkPreviewReallyLongDomain(): JSX.Element {
         color: 4294951251,
         preview: {
           url: 'https://llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch.international/',
+          isCallLink: false,
         },
       }}
     />
@@ -284,6 +290,7 @@ export function LinkPreviewWRJ(): JSX.Element {
         preview: {
           title: 'Romeo and Juliet: Entire Play',
           url: 'http://shakespeare.mit.edu/romeo_juliet/full.html',
+          isCallLink: false,
         },
       }}
     />
@@ -307,6 +314,7 @@ export function TextBackgroundAndLinkPreview(): JSX.Element {
         preview: {
           title: 'A really long title so that the we can test the margins',
           url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          isCallLink: false,
         },
       }}
     />

@@ -41,6 +41,7 @@ import {
 import { SHOW_TOAST } from './toast';
 import type { ShowToastActionType } from './toast';
 import { isDownloaded } from '../../types/Attachment';
+import type { ButtonVariant } from '../../components/Button';
 
 // State
 
@@ -86,6 +87,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   deleteMessagesProps?: DeleteMessagesPropsType;
   editHistoryMessages?: EditHistoryMessagesType;
   errorModalProps?: {
+    buttonVariant?: ButtonVariant;
     description?: string;
     title?: string;
   };
@@ -308,6 +310,7 @@ type CloseErrorModalActionType = ReadonlyDeep<{
 export type ShowErrorModalActionType = ReadonlyDeep<{
   type: typeof SHOW_ERROR_MODAL;
   payload: {
+    buttonVariant?: ButtonVariant;
     description?: string;
     title?: string;
   };
@@ -729,15 +732,18 @@ function closeErrorModal(): CloseErrorModalActionType {
 }
 
 function showErrorModal({
+  buttonVariant,
   description,
   title,
 }: {
-  title?: string;
+  buttonVariant?: ButtonVariant;
   description?: string;
+  title?: string;
 }): ShowErrorModalActionType {
   return {
     type: SHOW_ERROR_MODAL,
     payload: {
+      buttonVariant,
       description,
       title,
     },

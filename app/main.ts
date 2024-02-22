@@ -2469,6 +2469,7 @@ ipc.on('get-config', async event => {
     registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
     serverPublicParams: config.get<string>('serverPublicParams'),
     serverTrustRoot: config.get<string>('serverTrustRoot'),
+    genericServerPublicParams: config.get<string>('genericServerPublicParams'),
     theme,
     appStartInitialSpellcheckSetting,
 
@@ -2618,6 +2619,10 @@ function handleSignalRoute(route: ParsedSignalRoute) {
   } else if (route.key === 'startCallLobby') {
     mainWindow.webContents.send('start-call-lobby', {
       conversationId: route.args.conversationId,
+    });
+  } else if (route.key === 'linkCall') {
+    mainWindow.webContents.send('start-call-link', {
+      key: route.args.key,
     });
   } else if (route.key === 'showWindow') {
     mainWindow.webContents.send('show-window');

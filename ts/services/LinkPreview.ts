@@ -3,6 +3,7 @@
 
 import { debounce, omit } from 'lodash';
 
+import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
 import type {
   LinkPreviewImage,
@@ -28,6 +29,8 @@ import { imageToBlurHash } from '../util/imageToBlurHash';
 import { maybeParseUrl } from '../util/url';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { drop } from '../util/drop';
+import { linkCallRoute } from '../util/signalRoutes';
+import { calling } from './calling';
 
 const LINK_PREVIEW_TIMEOUT = 60 * SECOND;
 
@@ -164,6 +167,7 @@ export async function addLinkPreview(
   window.reduxActions.linkPreviews.addLinkPreview(
     {
       url,
+      isCallLink: false,
     },
     source,
     conversationId
@@ -220,6 +224,7 @@ export async function addLinkPreview(
         date: dropNull(result.date),
         domain: LinkPreview.getDomain(result.url),
         isStickerPack: LinkPreview.isStickerPack(result.url),
+        isCallLink: LinkPreview.isCallLink(result.url),
       },
       source,
       conversationId
@@ -274,6 +279,7 @@ export function sanitizeLinkPreview(
       date: dropNull(item.date),
       domain: LinkPreview.getDomain(item.url),
       isStickerPack: LinkPreview.isStickerPack(item.url),
+      isCallLink: LinkPreview.isCallLink(item.url),
     };
   }
 
@@ -284,6 +290,7 @@ export function sanitizeLinkPreview(
     date: dropNull(item.date),
     domain: LinkPreview.getDomain(item.url),
     isStickerPack: LinkPreview.isStickerPack(item.url),
+    isCallLink: LinkPreview.isCallLink(item.url),
   };
 }
 
@@ -302,6 +309,9 @@ async function getPreview(
   }
   if (LinkPreview.isGroupLink(url)) {
     return getGroupPreview(url, abortSignal);
+  }
+  if (LinkPreview.isCallLink(url)) {
+    return getCallLinkPreview(url, abortSignal);
   }
 
   // This is already checked elsewhere, but we want to be extra-careful.
@@ -561,5 +571,32 @@ async function getGroupPreview(
     image,
     title,
     url,
+  };
+}
+
+async function getCallLinkPreview(
+  url: string,
+  _abortSignal: Readonly<AbortSignal>
+): Promise<null | LinkPreviewResult> {
+  const parsedUrl = linkCallRoute.fromUrl(url);
+  if (parsedUrl == null) {
+    throw new Error('Failed to parse call link URL');
+  }
+
+  const callLinkRootKey = CallLinkRootKey.parse(parsedUrl.args.key);
+  const callLinkState = await calling.readCallLink({ callLinkRootKey });
+  if (!callLinkState) {
+    return null;
+  }
+
+  return {
+    url,
+    title:
+      callLinkState.name === ''
+        ? window.i18n('icu:calling__call-link-default-title')
+        : callLinkState.name,
+    description: window.i18n('icu:message--call-link-description'),
+    image: undefined,
+    date: null,
   };
 }

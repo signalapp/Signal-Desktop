@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 import type { GlobalModalsStateType } from '../ducks/globalModals';
 import type { StateType } from '../reducer';
+import type { ButtonVariant } from '../../components/Button';
 import { ErrorModal } from '../../components/ErrorModal';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { SmartAboutContactModal } from './AboutContactModal';
@@ -133,10 +134,19 @@ export function SmartGlobalModalContainer(): JSX.Element {
   );
 
   const renderErrorModal = useCallback(
-    ({ description, title }: { description?: string; title?: string }) => (
+    ({
+      buttonVariant,
+      description,
+      title,
+    }: {
+      buttonVariant?: ButtonVariant;
+      description?: string;
+      title?: string;
+    }) => (
       <ErrorModal
-        title={title}
+        buttonVariant={buttonVariant}
         description={description}
+        title={title}
         i18n={i18n}
         onClose={closeErrorModal}
       />

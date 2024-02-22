@@ -10,6 +10,7 @@ import { CallingToastProvider, useCallingToasts } from './CallingToast';
 import { usePrevious } from '../hooks/usePrevious';
 import { difference as setDifference } from '../util/setUtil';
 import { isMoreRecentThan } from '../util/timestamp';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 
 type PropsType = {
   activeCall: ActiveCallType;
@@ -24,13 +25,16 @@ function getCurrentPresenter(
   if (activeCall.presentingSource) {
     return { id: ME };
   }
-  if (activeCall.callMode === CallMode.Direct) {
+  if (
+    activeCall.callMode === CallMode.Direct &&
+    activeCall.conversation.type === 'direct'
+  ) {
     const isOtherPersonPresenting = activeCall.remoteParticipants.some(
       participant => participant.presenting
     );
     return isOtherPersonPresenting ? activeCall.conversation : undefined;
   }
-  if (activeCall.callMode === CallMode.Group) {
+  if (isGroupOrAdhocActiveCall(activeCall)) {
     return activeCall.remoteParticipants.find(
       participant => participant.presenting
     );

@@ -91,6 +91,10 @@
       background-color: WindowText;
     }
 
+    &--callLink {
+      -webkit-mask-image: url('../images/icons/v3/video/video-display-bold.svg');
+    }
+
     &--direct {
       -webkit-mask-image: url('../images/icons/v3/person/person.svg');
     }

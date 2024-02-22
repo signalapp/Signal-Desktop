@@ -10,12 +10,14 @@ import { ErrorModal } from './ErrorModal';
 
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { ButtonVariant } from './Button';
 
 const i18n = setupI18n('en', enMessages);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  title: overrideProps.title ?? '',
+  buttonVariant: overrideProps.buttonVariant ?? undefined,
   description: overrideProps.description ?? '',
+  title: overrideProps.title ?? '',
   i18n,
   onClose: action('onClick'),
 });
@@ -28,6 +30,12 @@ export default {
 
 export function Normal(): JSX.Element {
   return <ErrorModal {...createProps()} />;
+}
+
+export function PrimaryButton(): JSX.Element {
+  return (
+    <ErrorModal {...createProps({ buttonVariant: ButtonVariant.Primary })} />
+  );
 }
 
 export function CustomStrings(): JSX.Element {

@@ -36,6 +36,19 @@
   }
 }
 
+.CallingLobby__CallLinkNotice {
+  @include font-caption;
+  display: flex;
+  padding-block: 12px;
+  padding-inline: 18px;
+  margin-block-end: 32px;
+  width: 340px;
+  background: $color-black-alpha-60;
+  color: $color-white;
+  border-radius: 10px;
+  text-align: center;
+}
+
 .CallingLobby__Footer {
   display: flex;
   width: 100%;

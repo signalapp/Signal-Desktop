@@ -136,6 +136,7 @@ export function LinkPreview(): JSX.Element {
                   contentType: IMAGE_JPEG,
                 }),
                 isStickerPack: false,
+                isCallLink: false,
                 title: LONG_TITLE,
               },
             ],

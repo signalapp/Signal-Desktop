@@ -61,6 +61,8 @@ function getToast(toastType: ToastType): AnyToast {
       };
     case ToastType.ConversationUnarchived:
       return { toastType: ToastType.ConversationUnarchived };
+    case ToastType.CopiedCallLink:
+      return { toastType: ToastType.CopiedCallLink };
     case ToastType.CopiedUsername:
       return { toastType: ToastType.CopiedUsername };
     case ToastType.CopiedUsernameLink:

@@ -7528,3 +7528,45 @@ button.module-image__border-overlay:focus {
     }
   }
 }
+
+.module-message__action {
+  @include button-reset();
+  margin-top: 5px;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  @include font-body-1-bold();
+  border-top: 1px solid;
+}
+.module-message__action--outgoing {
+  border-top-color: rgba(255, 255, 255, 0.5);
+}
+.module-message__action--incoming {
+  @include light-theme {
+    border-top-color: rgba(0, 0, 0, 0.25);
+  }
+  @include dark-theme {
+    border-top-color: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.module-message__link-preview__call-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-inline-end: 12px;
+  background: #e5e5fe;
+  @include rounded-corners();
+  &::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 36px;
+    @include color-svg(
+      '../images/icons/v3/video/video-display-bold.svg',
+      #5151f6
+    );
+  }
+}

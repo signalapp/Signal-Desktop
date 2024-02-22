@@ -23,6 +23,8 @@ import { usePageVisibility } from '../hooks/usePageVisibility';
 import { missingCaseError } from '../util/missingCaseError';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 import { isReconnecting } from '../util/callingIsReconnecting';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
+import { assertDev } from '../util/assert';
 
 // This value should be kept in sync with the hard-coded CSS height. It should also be
 //   less than `MAX_FRAME_HEIGHT`.
@@ -97,17 +99,17 @@ export function CallingPipRemoteVideo({
 
   const activeGroupCallSpeaker: undefined | GroupCallRemoteParticipantType =
     useMemo(() => {
-      if (activeCall.callMode !== CallMode.Group) {
+      if (!isGroupOrAdhocActiveCall(activeCall)) {
         return undefined;
       }
 
       return maxBy(activeCall.remoteParticipants, participant =>
         participant.presenting ? Infinity : participant.speakerTime || -Infinity
       );
-    }, [activeCall.callMode, activeCall.remoteParticipants]);
+    }, [activeCall]);
 
   useEffect(() => {
-    if (activeCall.callMode !== CallMode.Group) {
+    if (!isGroupOrAdhocActiveCall(activeCall)) {
       return;
     }
 
@@ -136,8 +138,7 @@ export function CallingPipRemoteVideo({
       );
     }
   }, [
-    activeCall.callMode,
-    activeCall.remoteParticipants,
+    activeCall,
     activeGroupCallSpeaker,
     isPageVisible,
     setGroupCallVideoRequest,
@@ -149,6 +150,10 @@ export function CallingPipRemoteVideo({
       if (!hasRemoteVideo) {
         return <NoVideo activeCall={activeCall} i18n={i18n} />;
       }
+      assertDev(
+        conversation.type === 'direct',
+        'CallingPipRemoteVideo for direct call must be associated with direct conversation'
+      );
       return (
         <div className="module-calling-pip__video--remote">
           <DirectCallRemoteParticipant
@@ -162,6 +167,7 @@ export function CallingPipRemoteVideo({
       );
     }
     case CallMode.Group:
+    case CallMode.Adhoc:
       if (!activeGroupCallSpeaker) {
         return <NoVideo activeCall={activeCall} i18n={i18n} />;
       }

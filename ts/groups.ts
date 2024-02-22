@@ -15,7 +15,7 @@ import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
 import * as log from './logging/log';
 import {
-  getCheckedCredentialsForToday,
+  getCheckedGroupCredentialsForToday,
   maybeFetchNewCredentials,
 } from './services/groupCredentialFetcher';
 import { storageServiceUploadJob } from './services/storage';
@@ -1687,7 +1687,7 @@ async function makeRequestWithTemporalRetry<T>({
   secretParams: string;
   request: (sender: MessageSender, options: GroupCredentialsType) => Promise<T>;
 }): Promise<T> {
-  const groupCredentials = getCheckedCredentialsForToday(
+  const groupCredentials = getCheckedGroupCredentialsForToday(
     `makeRequestWithTemporalRetry/${logId}`
   );
 

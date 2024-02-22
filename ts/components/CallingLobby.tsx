@@ -19,17 +19,22 @@ import {
   CallingLobbyJoinButton,
   CallingLobbyJoinButtonVariant,
 } from './CallingLobbyJoinButton';
+import { CallMode } from '../types/Calling';
+import type { CallingConversationType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
 import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { ConversationType } from '../state/ducks/conversations';
 import { useCallingToasts } from './CallingToast';
 import { CallingButtonToastsContainer } from './CallingToastManager';
+import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall';
+import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
+  callMode: CallMode;
   conversation: Pick<
-    ConversationType,
+    CallingConversationType,
     | 'acceptedMessageRequest'
     | 'avatarPath'
     | 'color'
@@ -54,8 +59,8 @@ export type PropsType = {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
+  isAdhocJoinRequestPending: boolean;
   isConversationTooBigToRing: boolean;
-  isGroupCall: boolean;
   isCallFull?: boolean;
   me: Readonly<
     Pick<ConversationType, 'avatarPath' | 'color' | 'id' | 'serviceId'>
@@ -75,12 +80,13 @@ export type PropsType = {
 
 export function CallingLobby({
   availableCameras,
+  callMode,
   conversation,
   groupMembers,
   hasLocalAudio,
   hasLocalVideo,
   i18n,
-  isGroupCall = false,
+  isAdhocJoinRequestPending,
   isCallFull = false,
   isConversationTooBigToRing,
   me,
@@ -98,6 +104,8 @@ export function CallingLobby({
   const localVideoRef = React.useRef<null | HTMLVideoElement>(null);
 
   const shouldShowLocalVideo = hasLocalVideo && availableCameras.length > 0;
+
+  const isGroupOrAdhocCall = isGroupOrAdhocCallMode(callMode);
 
   const toggleAudio = React.useCallback((): void => {
     setLocalAudio({ enabled: !hasLocalAudio });
@@ -161,12 +169,12 @@ export function CallingLobby({
     : CallingButtonType.AUDIO_OFF;
 
   const isRingButtonVisible: boolean =
-    isGroupCall &&
+    isGroupOrAdhocCall &&
     peekedParticipants.length === 0 &&
     (groupMembers || []).length > 1;
 
   let preCallInfoRingMode: RingMode;
-  if (isGroupCall) {
+  if (isGroupOrAdhocCall) {
     preCallInfoRingMode =
       outgoingRing && !isConversationTooBigToRing
         ? RingMode.WillRing
@@ -205,10 +213,12 @@ export function CallingLobby({
   }
 
   const callStatus = React.useMemo(() => {
-    if (isGroupCall) {
+    if (isGroupOrAdhocCall) {
       return (
         <CallParticipantCount
+          callMode={callMode}
           i18n={i18n}
+          isAdhocJoinRequestPending={isAdhocJoinRequestPending}
           groupMemberCount={groupMembers?.length ?? 0}
           participantCount={peekedParticipants.length}
           toggleParticipants={toggleParticipants}
@@ -223,7 +233,9 @@ export function CallingLobby({
     }
     return null;
   }, [
-    isGroupCall,
+    callMode,
+    isAdhocJoinRequestPending,
+    isGroupOrAdhocCall,
     peekedParticipants.length,
     i18n,
     hasLocalVideo,
@@ -252,7 +264,7 @@ export function CallingLobby({
 
         <CallingHeader
           i18n={i18n}
-          isGroupCall={isGroupCall}
+          isGroupCall={isGroupOrAdhocCall}
           participantCount={peekedParticipants.length}
           toggleSettings={toggleSettings}
           onCancel={onCallCanceled}
@@ -279,6 +291,14 @@ export function CallingLobby({
         >
           {i18n('icu:calling__your-video-is-off')}
         </div>
+
+        {callMode === CallMode.Adhoc && (
+          <div className="CallingLobby__CallLinkNotice">
+            {isSharingPhoneNumberWithEverybody()
+              ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
+              : i18n('icu:CallingLobby__CallLinkNotice')}
+          </div>
+        )}
 
         <CallingButtonToastsContainer
           hasLocalAudio={hasLocalAudio}

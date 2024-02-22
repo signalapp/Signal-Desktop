@@ -15,7 +15,7 @@ import { getIntl, getTheme } from '../selectors/user';
 import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
-import { getIncomingCall } from '../selectors/calling';
+import { getCallLinkSelector, getIncomingCall } from '../selectors/calling';
 import { isGroupCallRaiseHandEnabled } from '../../util/isGroupCallRaiseHandEnabled';
 import { isGroupCallReactionsEnabled } from '../../util/isGroupCallReactionsEnabled';
 import type {
@@ -23,12 +23,14 @@ import type {
   ActiveCallType,
   ActiveDirectCallType,
   ActiveGroupCallType,
+  CallingConversationType,
   ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
 import { isAciString } from '../../util/isAciString';
 import type { AciString } from '../../types/ServiceId';
 import { CallMode, CallState } from '../../types/Calling';
+import type { CallLinkType } from '../../types/CallLink';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
@@ -51,6 +53,7 @@ import { isConversationTooBigToRing } from '../../conversations/isConversationTo
 import { strictAssert } from '../../util/assert';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
+import { callLinkToConversation } from '../../util/callLinks';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -133,7 +136,19 @@ const mapStateToActiveCallProp = (
   }
 
   const conversationSelector = getConversationSelector(state);
-  const conversation = conversationSelector(activeCallState.conversationId);
+  let conversation: CallingConversationType;
+  if (call.callMode === CallMode.Adhoc) {
+    const callLinkSelector = getCallLinkSelector(state);
+    const callLink = callLinkSelector(activeCallState.conversationId);
+    if (!callLink) {
+      // An error is logged in mapStateToCallLinkProp
+      return undefined;
+    }
+
+    conversation = callLinkToConversation(callLink, window.i18n);
+  } else {
+    conversation = conversationSelector(activeCallState.conversationId);
+  }
   if (!conversation) {
     log.error('The active call has no corresponding conversation');
     return undefined;
@@ -199,7 +214,8 @@ const mapStateToActiveCallProp = (
           },
         ],
       } satisfies ActiveDirectCallType;
-    case CallMode.Group: {
+    case CallMode.Group:
+    case CallMode.Adhoc: {
       const conversationsWithSafetyNumberChanges: Array<ConversationType> = [];
       const groupMembers: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
@@ -305,7 +321,7 @@ const mapStateToActiveCallProp = (
 
       return {
         ...baseResult,
-        callMode: CallMode.Group,
+        callMode: call.callMode,
         connectionState: call.connectionState,
         conversationsWithSafetyNumberChanges,
         conversationsByDemuxId,
@@ -324,6 +340,31 @@ const mapStateToActiveCallProp = (
     default:
       throw missingCaseError(call);
   }
+};
+
+const mapStateToCallLinkProp = (state: StateType): CallLinkType | undefined => {
+  const { calling } = state;
+  const { activeCallState } = calling;
+
+  if (!activeCallState) {
+    return;
+  }
+
+  const call = getActiveCall(calling);
+  if (call?.callMode !== CallMode.Adhoc) {
+    return;
+  }
+
+  const callLinkSelector = getCallLinkSelector(state);
+  const callLink = callLinkSelector(activeCallState.conversationId);
+  if (!callLink) {
+    log.error(
+      'Active call referred to a call link but no corresponding call link in state.'
+    );
+    return;
+  }
+
+  return callLink;
 };
 
 const mapStateToIncomingCallProp = (
@@ -371,6 +412,9 @@ const mapStateToIncomingCallProp = (
         remoteParticipants: call.remoteParticipants,
       };
     }
+    case CallMode.Adhoc:
+      log.error('Cannot handle an incoming adhoc call');
+      return null;
     default:
       throw missingCaseError(call);
   }
@@ -381,6 +425,7 @@ const mapStateToProps = (state: StateType) => {
 
   return {
     activeCall: mapStateToActiveCallProp(state),
+    callLink: mapStateToCallLinkProp(state),
     bounceAppIconStart,
     bounceAppIconStop,
     availableCameras: state.calling.availableCameras,

@@ -40,8 +40,11 @@ export type PropsType = {
   editHistoryMessages: EditHistoryMessagesType | undefined;
   renderEditHistoryMessagesModal: () => JSX.Element;
   // ErrorModal
-  errorModalProps: { description?: string; title?: string } | undefined;
+  errorModalProps:
+    | { buttonVariant?: ButtonVariant; description?: string; title?: string }
+    | undefined;
   renderErrorModal: (opts: {
+    buttonVariant?: ButtonVariant;
     description?: string;
     title?: string;
   }) => JSX.Element;

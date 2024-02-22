@@ -514,6 +514,9 @@ export function transitionCallHistory(
       event,
       direction
     );
+  } else if (mode === CallMode.Adhoc) {
+    // TODO: DESKTOP-6653
+    strictAssert(false, 'cannot transitionCallHistory for adhoc calls yet');
   } else {
     throw missingCaseError(mode);
   }
