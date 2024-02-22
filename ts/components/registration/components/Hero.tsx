@@ -29,7 +29,7 @@ const StyledHero = styled.img<{
   height: 100%;
   position: absolute;
   top: 50%;
-  ${props => (props.positionWithinContainer === 'right' ? 'right: -50px;' : 'left: 0;')}
+  ${props => (props.positionWithinContainer === 'right' ? 'right: -16px;' : 'left: -80px;')}
   transform: translateY(-50%);
 `;
 

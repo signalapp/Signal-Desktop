@@ -1,13 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
-import { Noop } from '../../types/Util';
-import { Flex } from '../basic/Flex';
-import { SessionButton } from '../basic/SessionButton';
-import { SessionIdEditable } from '../basic/SessionIdEditable';
-import { SessionIconButton } from '../icon';
-import { RegistrationContext, RegistrationPhase, signUp } from './RegistrationStages';
-import { RegistrationUserDetails } from './RegistrationUserDetails';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  setRegistrationPhase,
+  setSignInMode,
+  setSignUpMode,
+} from '../../../state/onboarding/ducks/registration';
+import {
+  useRegGeneratedRecoveryPhrase,
+  useRegHexGeneratedPubKey,
+  useRegSignUpMode,
+} from '../../../state/onboarding/selectors/registration';
+import { Noop } from '../../../types/Util';
+import { Flex } from '../../basic/Flex';
+import { SessionButton } from '../../basic/SessionButton';
+import { SessionIdEditable } from '../../basic/SessionIdEditable';
+import { SessionIconButton } from '../../icon';
+import { RegistrationPhase, signUp } from '../RegistrationStages';
+import { RegistrationUserDetails } from '../RegistrationUserDetails';
+import { TermsAndConditions } from '../TermsAndConditions';
 import { SignInMode, sanitizeDisplayNameOrToast } from './SignInTab';
-import { TermsAndConditions } from './TermsAndConditions';
 
 export enum SignUpMode {
   Default,
@@ -32,16 +43,16 @@ const SignUpDefault = (props: { createSessionID: Noop }) => {
 };
 
 export const GoBackMainMenuButton = () => {
-  const { setRegistrationPhase, setSignInMode, setSignUpMode } = useContext(RegistrationContext);
+  const dispatch = useDispatch();
   return (
     <SessionIconButton
       iconSize="huge"
       iconType="arrow"
       iconPadding="5px"
       onClick={() => {
-        setRegistrationPhase(RegistrationPhase.Start);
-        setSignInMode(SignInMode.Default);
-        setSignUpMode(SignUpMode.Default);
+        dispatch(setRegistrationPhase(RegistrationPhase.Start));
+        dispatch(setSignInMode(SignInMode.Default));
+        dispatch(setSignUpMode(SignUpMode.Default));
       }}
     />
   );
@@ -66,13 +77,12 @@ const SignUpSessionIDShown = (props: { continueSignUp: Noop }) => {
 };
 
 export const SignUpTab = () => {
-  const {
-    signUpMode,
-    setRegistrationPhase,
-    generatedRecoveryPhrase,
-    hexGeneratedPubKey,
-    setSignUpMode,
-  } = useContext(RegistrationContext);
+  const signUpMode = useRegSignUpMode();
+  const generatedRecoveryPhrase = useRegGeneratedRecoveryPhrase();
+  const hexGeneratedPubKey = useRegHexGeneratedPubKey();
+
+  const dispatch = useDispatch();
+
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
 
@@ -86,8 +96,8 @@ export const SignUpTab = () => {
     return (
       <SignUpDefault
         createSessionID={() => {
-          setSignUpMode(SignUpMode.SessionIDShown);
-          setRegistrationPhase(RegistrationPhase.SignUp);
+          dispatch(setSignUpMode(SignUpMode.SessionIDShown));
+          dispatch(setRegistrationPhase(RegistrationPhase.SignUp));
         }}
       />
     );
@@ -97,7 +107,7 @@ export const SignUpTab = () => {
     return (
       <SignUpSessionIDShown
         continueSignUp={() => {
-          setSignUpMode(SignUpMode.EnterDetails);
+          dispatch(setSignUpMode(SignUpMode.EnterDetails));
         }}
       />
     );

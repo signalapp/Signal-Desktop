@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { Provider } from 'react-redux';
 import styled from 'styled-components';
 import { AccentText } from './AccentText';
 
+import { onboardingStore } from '../../state/onboarding/store';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { setSignInByLinking } from '../../util/storage';
 import { SessionToastContainer } from '../SessionToastContainer';
@@ -75,7 +77,9 @@ export const SessionRegistrationView = () => {
             <SessionIcon iconSize={150} iconType="brand" />
 
             <AccentText />
-            <RegistrationStages />
+            <Provider store={onboardingStore}>
+              <RegistrationStages />
+            </Provider>
           </Flex>
         </StyledSessionContent>
       </StyledFullscreenContainer>

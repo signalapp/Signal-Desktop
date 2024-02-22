@@ -1,19 +1,17 @@
-import { useContext, useState } from 'react';
-import { ToastUtils } from '../../session/utils';
-import { sanitizeSessionUsername } from '../../session/utils/String';
-import { Flex } from '../basic/Flex';
-import { SessionButton } from '../basic/SessionButton';
-import { SpacerLG } from '../basic/Text';
-import { SessionSpinner } from '../loading';
-import {
-  RegistrationContext,
-  RegistrationPhase,
-  signInWithLinking,
-  signInWithRecovery,
-} from './RegistrationStages';
-import { RegistrationUserDetails } from './RegistrationUserDetails';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { ToastUtils } from '../../../session/utils';
+import { sanitizeSessionUsername } from '../../../session/utils/String';
+import { setRegistrationPhase, setSignInMode } from '../../../state/onboarding/ducks/registration';
+import { useRegSignInMode } from '../../../state/onboarding/selectors/registration';
+import { Flex } from '../../basic/Flex';
+import { SessionButton } from '../../basic/SessionButton';
+import { SpacerLG } from '../../basic/Text';
+import { SessionSpinner } from '../../loading';
+import { RegistrationPhase, signInWithLinking, signInWithRecovery } from '../RegistrationStages';
+import { RegistrationUserDetails } from '../RegistrationUserDetails';
+import { TermsAndConditions } from '../TermsAndConditions';
 import { GoBackMainMenuButton } from './SignUpTab';
-import { TermsAndConditions } from './TermsAndConditions';
 
 export enum SignInMode {
   Default,
@@ -106,7 +104,9 @@ export function sanitizeDisplayNameOrToast(
 }
 
 export const SignInTab = () => {
-  const { setRegistrationPhase, signInMode, setSignInMode } = useContext(RegistrationContext);
+  const signInMode = useRegSignInMode();
+
+  const dispatch = useDispatch();
 
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
@@ -173,15 +173,15 @@ export const SignInTab = () => {
       <SignInButtons
         signInMode={signInMode}
         onRecoveryButtonClicked={() => {
-          setRegistrationPhase(RegistrationPhase.SignIn);
-          setSignInMode(SignInMode.UsingRecoveryPhrase);
+          dispatch(setRegistrationPhase(RegistrationPhase.SignIn));
+          dispatch(setSignInMode(SignInMode.UsingRecoveryPhrase));
           setRecoveryPhrase('');
           setDisplayName('');
           setIsLoading(false);
         }}
         onLinkDeviceButtonClicked={() => {
-          setRegistrationPhase(RegistrationPhase.SignIn);
-          setSignInMode(SignInMode.LinkDevice);
+          dispatch(setRegistrationPhase(RegistrationPhase.SignIn));
+          dispatch(setSignInMode(SignInMode.LinkDevice));
           setRecoveryPhrase('');
           setDisplayName('');
           setIsLoading(false);

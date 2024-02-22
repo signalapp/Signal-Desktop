@@ -1,5 +1,5 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
-import { Provider } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { SettingsKey } from '../../data/settings-key';
@@ -10,7 +10,14 @@ import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
 import { TaskTimedOutError } from '../../session/utils/Promise';
 import { fromHex } from '../../session/utils/String';
 import { trigger } from '../../shims/events';
-import { onboardingStore } from '../../state/onboarding/store';
+import {
+  setGeneratedRecoveryPhrase,
+  setHexGeneratedPubKey,
+} from '../../state/onboarding/ducks/registration';
+import {
+  useRegGeneratedRecoveryPhrase,
+  useRegRegistrationPhase,
+} from '../../state/onboarding/selectors/registration';
 import {
   generateMnemonic,
   registerSingleDevice,
@@ -20,8 +27,7 @@ import {
 import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { ModalContainer } from './ModalContainer';
-import { SignInMode, SignInTab } from './SignInTab';
-import { SignUpMode, SignUpTab } from './SignUpTab';
+import { SignInTab, SignUpTab } from './stages';
 
 const StyledRegistrationContainer = styled(Flex)`
   width: 289px;
@@ -171,34 +177,11 @@ export enum RegistrationPhase {
   SignUp,
 }
 
-interface RegistrationPhaseContext {
-  registrationPhase: RegistrationPhase;
-  signUpMode: SignUpMode;
-  signInMode: SignInMode;
-  setRegistrationPhase: (phase: RegistrationPhase) => void;
-  setSignInMode: (phase: SignInMode) => void;
-  setSignUpMode: (phase: SignUpMode) => void;
-  generatedRecoveryPhrase: string;
-  hexGeneratedPubKey: string;
-}
-
-export const RegistrationContext = createContext<RegistrationPhaseContext>({
-  registrationPhase: RegistrationPhase.Start,
-  signInMode: SignInMode.Default,
-  signUpMode: SignUpMode.Default,
-  setRegistrationPhase: () => undefined,
-  setSignUpMode: () => undefined,
-  setSignInMode: () => undefined,
-  generatedRecoveryPhrase: '',
-  hexGeneratedPubKey: '',
-});
-
 export const RegistrationStages = () => {
-  const [generatedRecoveryPhrase, setGeneratedRecoveryPhrase] = useState('');
-  const [hexGeneratedPubKey, setHexGeneratedPubKey] = useState('');
-  const [registrationPhase, setRegistrationPhase] = useState(RegistrationPhase.Start);
-  const [signInMode, setSignInMode] = useState(SignInMode.Default);
-  const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
+  const generatedRecoveryPhrase = useRegGeneratedRecoveryPhrase();
+  const registrationPhase = useRegRegistrationPhase();
+
+  const dispatch = useDispatch();
 
   const generateMnemonicAndKeyPair = async () => {
     if (generatedRecoveryPhrase === '') {
@@ -215,50 +198,25 @@ export const RegistrationStages = () => {
       const keyPair = await sessionGenerateKeyPair(seed);
       const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
-      setGeneratedRecoveryPhrase(mnemonic);
-      setHexGeneratedPubKey(newHexPubKey); // our 'frontend' sessionID
+      dispatch(setGeneratedRecoveryPhrase(mnemonic));
+      dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' sessionID
     }
   };
 
-  useEffect(() => {
+  useMount(() => {
     void generateMnemonicAndKeyPair();
     void resetRegistration();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const memoizedValue = useMemo(() => {
-    return {
-      registrationPhase,
-      signInMode,
-      signUpMode,
-      setSignInMode,
-      setSignUpMode,
-      setRegistrationPhase,
-      generatedRecoveryPhrase,
-      hexGeneratedPubKey,
-    };
-  }, [
-    registrationPhase,
-    signInMode,
-    signUpMode,
-    setSignInMode,
-    setSignUpMode,
-    setRegistrationPhase,
-    generatedRecoveryPhrase,
-    hexGeneratedPubKey,
-  ]);
+  });
 
   return (
-    <Provider store={onboardingStore}>
+    <>
       <ModalContainer />
       <StyledRegistrationContainer container={true} flexDirection="column">
-        <RegistrationContext.Provider value={memoizedValue}>
-          {(registrationPhase === RegistrationPhase.Start ||
-            registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
-          {(registrationPhase === RegistrationPhase.Start ||
-            registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
-        </RegistrationContext.Provider>
+        {(registrationPhase === RegistrationPhase.Start ||
+          registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
+        {(registrationPhase === RegistrationPhase.Start ||
+          registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
       </StyledRegistrationContainer>
-    </Provider>
+    </>
   );
 };
