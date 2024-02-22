@@ -32,6 +32,7 @@ const getDefaultProps = (): Props => ({
   onClose: action('onClose'),
   title: 'This is a super-sweet site',
   url: 'https://www.signal.org',
+  isCallLink: false,
 });
 
 // eslint-disable-next-line react/function-component-definition

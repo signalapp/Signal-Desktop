@@ -216,6 +216,9 @@ function renderCallingNotificationButton(
       }
       break;
     }
+    case CallMode.Adhoc:
+      log.warn('CallingNotification for adhoc call, should never happen');
+      return null;
     default:
       log.error(missingCaseError(props.callHistory.mode));
       return null;

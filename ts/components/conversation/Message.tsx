@@ -1229,6 +1229,9 @@ export class Message extends React.PureComponent<Props, State> {
               />
             </div>
           ) : null}
+          {first.isCallLink && (
+            <div className="module-message__link-preview__call-link-icon" />
+          )}
           <div
             className={classNames(
               'module-message__link-preview__text',
@@ -1931,6 +1934,31 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderAction(): JSX.Element | null {
+    const { direction, i18n, previews } = this.props;
+    if (previews?.length !== 1) {
+      return null;
+    }
+
+    const onlyPreview = previews[0];
+    if (onlyPreview.isCallLink) {
+      return (
+        <button
+          type="button"
+          className={classNames('module-message__action', {
+            'module-message__action--incoming': direction === 'incoming',
+            'module-message__action--outgoing': direction === 'outgoing',
+          })}
+          onClick={() => openLinkInWebBrowser(onlyPreview.url)}
+        >
+          {i18n('icu:calling__join')}
+        </button>
+      );
+    }
+
+    return null;
+  }
+
   private renderError(): ReactNode {
     const { status, direction } = this.props;
 
@@ -2406,6 +2434,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderPayment()}
         {this.renderEmbeddedContact()}
         {this.renderText()}
+        {this.renderAction()}
         {this.renderMetadata()}
         {this.renderSendMessageButton()}
       </>

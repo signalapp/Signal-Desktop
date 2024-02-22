@@ -16,6 +16,9 @@ const UUID_OR_STORY_ID_PATTERN =
   /[0-9A-F]{8}-[0-9A-F]{4}-[04][0-9A-F]{3}-[089AB][0-9A-F]{3}-[0-9A-F]{9}([0-9A-F]{3})/gi;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const GROUP_V2_ID_PATTERN = /(groupv2\()([^=)]+)(=?=?\))/g;
+const CALL_LINK_ROOM_ID_PATTERN = /[0-9A-F]{61}([0-9A-F]{3})/gi;
+const CALL_LINK_ROOT_KEY_PATTERN =
+  /([A-Z]{4})-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}/gi;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 export type RedactFunction = (value: string) => string;
@@ -125,6 +128,22 @@ export const redactGroupIds = (text: string): string => {
     );
 };
 
+export const redactCallLinkRoomIds = (text: string): string => {
+  if (!isString(text)) {
+    throw new TypeError("'text' must be a string");
+  }
+
+  return text.replace(CALL_LINK_ROOM_ID_PATTERN, `${REDACTION_PLACEHOLDER}$1`);
+};
+
+export const redactCallLinkRootKeys = (text: string): string => {
+  if (!isString(text)) {
+    throw new TypeError("'text' must be a string");
+  }
+
+  return text.replace(CALL_LINK_ROOT_KEY_PATTERN, `${REDACTION_PLACEHOLDER}$1`);
+};
+
 const createRedactSensitivePaths = (
   paths: ReadonlyArray<string>
 ): RedactFunction => {
@@ -146,7 +165,9 @@ export const redactAll: RedactFunction = compose(
   (text: string) => redactSensitivePaths(text),
   redactGroupIds,
   redactPhoneNumbers,
-  redactUuids
+  redactUuids,
+  redactCallLinkRoomIds,
+  redactCallLinkRootKeys
 );
 
 const removeNewlines: RedactFunction = text => text.replace(/\r?\n|\r/g, '');

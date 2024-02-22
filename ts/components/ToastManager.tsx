@@ -188,6 +188,14 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.CopiedCallLink) {
+    return (
+      <Toast onClose={hideToast} timeout={3 * SECOND}>
+        {i18n('icu:calling__call-link-copied')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CopiedUsername) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>

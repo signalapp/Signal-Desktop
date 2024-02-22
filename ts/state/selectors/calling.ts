@@ -7,10 +7,14 @@ import type { StateType } from '../reducer';
 import type {
   CallingStateType,
   CallsByConversationType,
+  AdhocCallsType,
+  CallLinksByRoomIdType,
   DirectCallStateType,
   GroupCallStateType,
 } from '../ducks/calling';
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
+import { CallMode } from '../../types/Calling';
+import type { CallLinkType } from '../../types/CallLink';
 import { getUserACI } from './user';
 import { getOwn } from '../../util/getOwn';
 import type { AciString } from '../../types/ServiceId';
@@ -30,6 +34,38 @@ export const getCallsByConversation = createSelector(
     state.callsByConversation
 );
 
+export const getAdhocCalls = createSelector(
+  getCalling,
+  (state: CallingStateType): AdhocCallsType => state.adhocCalls
+);
+
+export const getCallLinksByRoomId = createSelector(
+  getCalling,
+  (state: CallingStateType): CallLinksByRoomIdType => state.callLinks
+);
+
+export type CallLinkSelectorType = (roomId: string) => CallLinkType | undefined;
+
+export const getCallLinkSelector = createSelector(
+  getCallLinksByRoomId,
+  (callLinksByRoomId: CallLinksByRoomIdType): CallLinkSelectorType =>
+    (roomId: string): CallLinkType | undefined => {
+      const callLinkState = getOwn(callLinksByRoomId, roomId);
+      if (!callLinkState) {
+        return;
+      }
+
+      const { name, restrictions, rootKey, expiration } = callLinkState;
+      return {
+        roomId,
+        name,
+        restrictions,
+        rootKey,
+        expiration,
+      };
+    }
+);
+
 export type CallSelectorType = (
   conversationId: string
 ) => CallStateType | undefined;
@@ -40,15 +76,33 @@ export const getCallSelector = createSelector(
       getOwn(callsByConversation, conversationId)
 );
 
+export type AdhocCallSelectorType = (
+  conversationId: string
+) => GroupCallStateType | undefined;
+export const getAdhocCallSelector = createSelector(
+  getAdhocCalls,
+  (adhocCalls: AdhocCallsType): AdhocCallSelectorType =>
+    (roomId: string) =>
+      getOwn(adhocCalls, roomId)
+);
+
 export const getActiveCall = createSelector(
   getActiveCallState,
   getCallSelector,
-  (activeCallState, callSelector): undefined | CallStateType => {
-    if (activeCallState && activeCallState.conversationId) {
-      return callSelector(activeCallState.conversationId);
+  getAdhocCallSelector,
+  (
+    activeCallState,
+    callSelector,
+    adhocCallSelector
+  ): undefined | CallStateType => {
+    const { callMode, conversationId } = activeCallState || {};
+    if (!conversationId) {
+      return undefined;
     }
 
-    return undefined;
+    return callMode === CallMode.Adhoc
+      ? adhocCallSelector(conversationId)
+      : callSelector(conversationId);
   }
 );
 

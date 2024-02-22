@@ -57,7 +57,7 @@ export type Props = {
   loading?: boolean;
 
   acceptedMessageRequest: boolean;
-  conversationType: 'group' | 'direct';
+  conversationType: 'group' | 'direct' | 'callLink';
   isMe: boolean;
   noteToSelf?: boolean;
   phoneNumber?: string;

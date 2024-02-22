@@ -71,6 +71,7 @@ LinkPreview.args = {
     }),
     title: 'Cats & Kittens LOL',
     url: 'https://www.catsandkittens.lolcats/kittens/page/1',
+    isCallLink: false,
   },
 };
 

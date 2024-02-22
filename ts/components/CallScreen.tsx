@@ -85,6 +85,8 @@ import {
   CallReactionBurstProvider,
   useCallReactionBursts,
 } from './CallReactionBurst';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
+import { assertDev } from '../util/assert';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -378,6 +380,7 @@ export function CallScreen({
       break;
     }
     case CallMode.Group:
+    case CallMode.Adhoc:
       isRinging =
         activeCall.outgoingRing &&
         !activeCall.remoteParticipants.length &&
@@ -475,7 +478,7 @@ export function CallScreen({
     'module-ongoing-call__controls--fadeOut': controlsFadedOut,
   });
 
-  const isGroupCall = activeCall.callMode === CallMode.Group;
+  const isGroupCall = isGroupOrAdhocActiveCall(activeCall);
 
   let presentingButtonType: CallingButtonType;
   if (presentingSource) {
@@ -486,8 +489,9 @@ export function CallScreen({
     presentingButtonType = CallingButtonType.PRESENTING_OFF;
   }
 
-  const raisedHands =
-    activeCall.callMode === CallMode.Group ? activeCall.raisedHands : undefined;
+  const raisedHands = isGroupOrAdhocActiveCall(activeCall)
+    ? activeCall.raisedHands
+    : undefined;
 
   // This is the value of our hand raised as seen by remote clients. We should prefer
   // to use it in UI so the user understands what remote clients see.
@@ -614,6 +618,7 @@ export function CallScreen({
     if (isGroupCall) {
       return (
         <CallParticipantCount
+          callMode={activeCall.callMode}
           i18n={i18n}
           participantCount={participantCount}
           toggleParticipants={toggleParticipants}
@@ -635,6 +640,7 @@ export function CallScreen({
     i18n,
     isRinging,
     isConnected,
+    activeCall.callMode,
     activeCall.joinedAt,
     isReconnecting,
     isGroupCall,
@@ -647,6 +653,10 @@ export function CallScreen({
   let remoteParticipantsElement: ReactNode;
   switch (activeCall.callMode) {
     case CallMode.Direct: {
+      assertDev(
+        conversation.type === 'direct',
+        'direct call must have direct conversation'
+      );
       remoteParticipantsElement = hasCallStarted ? (
         <DirectCallRemoteParticipant
           conversation={conversation}
@@ -661,6 +671,7 @@ export function CallScreen({
       break;
     }
     case CallMode.Group:
+    case CallMode.Adhoc:
       remoteParticipantsElement = (
         <GroupCallRemoteParticipants
           callViewMode={activeCall.viewMode}
@@ -846,6 +857,7 @@ export function CallScreen({
                   onPick: emoji => {
                     setShowReactionPicker(false);
                     sendGroupCallReaction({
+                      callMode: activeCall.callMode,
                       conversationId: conversation.id,
                       value: emoji,
                     });
@@ -932,12 +944,13 @@ export function CallScreen({
 }
 
 function getCallModeClassSuffix(
-  callMode: CallMode.Direct | CallMode.Group
+  callMode: CallMode.Direct | CallMode.Group | CallMode.Adhoc
 ): string {
   switch (callMode) {
     case CallMode.Direct:
       return 'direct';
     case CallMode.Group:
+    case CallMode.Adhoc:
       return 'group';
     default:
       throw missingCaseError(callMode);

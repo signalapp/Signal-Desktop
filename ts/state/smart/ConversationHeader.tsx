@@ -36,6 +36,7 @@ import { useSearchActions } from '../ducks/search';
 import { useStoriesActions } from '../ducks/stories';
 import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall';
 
 export type OwnProps = {
   id: string;
@@ -59,10 +60,11 @@ const getOutgoingCallButtonStyle = (
       return OutgoingCallButtonStyle.None;
     case CallMode.Direct:
       return OutgoingCallButtonStyle.Both;
-    case CallMode.Group: {
+    case CallMode.Group:
+    case CallMode.Adhoc: {
       const call = getOwn(calling.callsByConversation, conversation.id);
       if (
-        call?.callMode === CallMode.Group &&
+        isGroupOrAdhocCallState(call) &&
         isAnybodyElseInGroupCall(call.peekInfo, ourAci)
       ) {
         return OutgoingCallButtonStyle.Join;

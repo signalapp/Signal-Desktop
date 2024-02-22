@@ -452,6 +452,7 @@ function ForwardMessageEditor({
             onClose={removeLinkPreview}
             title={linkPreview.title}
             url={linkPreview.url}
+            isCallLink={linkPreview.isCallLink}
           />
         </div>
       ) : null}

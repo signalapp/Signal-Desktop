@@ -59,6 +59,7 @@ export const rendererConfigSchema = z.object({
   registrationChallengeUrl: configRequiredStringSchema,
   serverPublicParams: configRequiredStringSchema,
   serverTrustRoot: configRequiredStringSchema,
+  genericServerPublicParams: configRequiredStringSchema,
   serverUrl: configRequiredStringSchema,
   sfuUrl: configRequiredStringSchema,
   storageUrl: configRequiredStringSchema,

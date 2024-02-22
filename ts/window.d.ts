@@ -193,6 +193,7 @@ declare global {
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
     getServerPublicParams: () => string;
+    getGenericServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => SocketStatus;
     getSyncRequest: (timeoutMillis?: number) => SyncRequest;

@@ -1,0 +1,83 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CallingAdhocCallInfo {
+  width: 100%;
+  height: auto;
+  margin-block-end: auto;
+  padding-block-end: 16px;
+  overflow: auto;
+}
+
+.CallingAdhocCallInfo__width-container {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  height: auto;
+  padding-block: 1px;
+  padding-inline: 1px;
+  margin-block-end: 102px;
+  margin-inline-start: 90px;
+  overflow: hidden;
+}
+
+.CallingAdhocCallInfo__overlay {
+  background: transparent;
+}
+
+.CallingAdhocCallInfo__overlay-container {
+  flex-direction: column;
+  padding: 0;
+  justify-content: flex-end;
+  align-items: start;
+}
+
+.CallingAdhocCallInfo__Overlay {
+  align-items: start;
+}
+
+.CallingAdhocCallInfo__MenuItem {
+  @include button-reset;
+  @include font-body-2;
+  display: flex;
+  padding-block: 8px;
+  padding-inline: 10px 2px;
+  align-items: center;
+}
+
+.CallingAdhocCallInfo__MenuItemIcon {
+  background: $color-gray-65;
+  display: flex;
+  width: 32px;
+  height: 32px;
+  margin-inline-end: 8px;
+  border-radius: 32px;
+  align-items: center;
+  justify-content: center;
+}
+
+.CallingAdhocCallInfo__MenuItemIcon:before {
+  content: '';
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+}
+
+.CallingAdhocCallInfo__MenuItemIcon--copy-link:before {
+  @include color-svg('../images/icons/v3/copy/copy.svg', $color-gray-15);
+}
+
+.CallingAdhocCallInfo__MenuItemIcon--share-via-signal:before {
+  @include color-svg('../images/icons/v3/forward/forward.svg', $color-gray-15);
+}
+
+.CallingAdhocCallInfo__MenuItemText {
+  display: flex;
+}
+
+.CallingAdhocCallInfo__Divider {
+  display: flex;
+  margin-block: 16px;
+  margin-inline: 10px;
+  border: 1px solid $color-gray-65;
+}

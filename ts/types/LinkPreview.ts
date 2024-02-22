@@ -9,7 +9,11 @@ import { maybeParseUrl } from '../util/url';
 import { replaceEmojiWithSpaces } from '../util/emoji';
 
 import type { AttachmentWithHydratedData } from './Attachment';
-import { artAddStickersRoute, groupInvitesRoute } from '../util/signalRoutes';
+import {
+  artAddStickersRoute,
+  groupInvitesRoute,
+  linkCallRoute,
+} from '../util/signalRoutes';
 
 export type LinkPreviewImage = AttachmentWithHydratedData;
 
@@ -93,6 +97,11 @@ export function shouldLinkifyMessage(
   }
 
   return true;
+}
+
+export function isCallLink(link = ''): boolean {
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && linkCallRoute.isMatch(url);
 }
 
 export function isStickerPack(link = ''): boolean {

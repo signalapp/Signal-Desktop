@@ -15,6 +15,7 @@ import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import type {
   ActiveCallType,
+  CallingConversationType,
   CallViewMode,
   GroupCallVideoRequest,
   PresentedSource,
@@ -43,12 +44,19 @@ import type {
   SetRendererCanvasType,
   StartCallType,
 } from '../state/ducks/calling';
+import { CallLinkRestrictions } from '../types/CallLink';
+import type { CallLinkType } from '../types/CallLink';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 import { CallingToastProvider } from './CallingToast';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
 import * as log from '../logging/log';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
+import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
+import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
+import { ToastType } from '../types/Toast';
+import type { ShowToastAction } from '../state/ducks/toast';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -73,6 +81,7 @@ export type GroupIncomingCall = Readonly<{
 export type PropsType = {
   activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
+  callLink: CallLinkType | undefined;
   cancelCall: (_: CancelCallType) => void;
   changeCallView: (mode: CallViewMode) => void;
   closeNeedPermissionScreen: () => void;
@@ -116,6 +125,7 @@ export type PropsType = {
   setOutgoingRing: (_: boolean) => void;
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  showToast: ShowToastAction;
   stopRingtone: () => unknown;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
@@ -135,6 +145,7 @@ type ActiveCallManagerPropsType = PropsType & {
 function ActiveCallManager({
   activeCall,
   availableCameras,
+  callLink,
   cancelCall,
   changeCallView,
   closeNeedPermissionScreen,
@@ -161,6 +172,7 @@ function ActiveCallManager({
   setPresenting,
   setRendererCanvas,
   setOutgoingRing,
+  showToast,
   startCall,
   switchToPresentationView,
   switchFromPresentationView,
@@ -224,6 +236,18 @@ function ActiveCallManager({
     [setGroupCallVideoRequest, conversation.id]
   );
 
+  const onCopyCallLink = useCallback(async () => {
+    if (!callLink) {
+      return;
+    }
+
+    const link = callLinkRootKeyToUrl(callLink.rootKey);
+    if (link) {
+      await window.navigator.clipboard.writeText(link);
+      showToast({ toastType: ToastType.CopiedCallLink });
+    }
+  }, [callLink, showToast]);
+
   const onSafetyNumberDialogCancel = useCallback(() => {
     hangUpActiveCall('safety number dialog cancel');
   }, [hangUpActiveCall]);
@@ -234,6 +258,7 @@ function ActiveCallManager({
     | undefined
     | Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   let isConvoTooBigToRing = false;
+  let isAdhocJoinRequestPending = false;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -256,11 +281,15 @@ function ActiveCallManager({
       groupMembers = undefined;
       break;
     }
-    case CallMode.Group: {
+    case CallMode.Group:
+    case CallMode.Adhoc: {
       showCallLobby = activeCall.joinState !== GroupCallJoinState.Joined;
       isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
       isConvoTooBigToRing = activeCall.isConversationTooBigToRing;
       ({ groupMembers } = activeCall);
+      isAdhocJoinRequestPending =
+        callLink?.restrictions === CallLinkRestrictions.AdminApproval &&
+        activeCall.joinState === GroupCallJoinState.Pending;
       break;
     }
     default:
@@ -272,12 +301,13 @@ function ActiveCallManager({
       <>
         <CallingLobby
           availableCameras={availableCameras}
+          callMode={activeCall.callMode}
           conversation={conversation}
           groupMembers={groupMembers}
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
-          isGroupCall={activeCall.callMode === CallMode.Group}
+          isAdhocJoinRequestPending={isAdhocJoinRequestPending}
           isCallFull={isCallFull}
           isConversationTooBigToRing={isConvoTooBigToRing}
           me={me}
@@ -294,14 +324,24 @@ function ActiveCallManager({
           toggleSettings={toggleSettings}
         />
         {settingsDialogOpen && renderDeviceSelection()}
-        {showParticipantsList && activeCall.callMode === CallMode.Group ? (
-          <CallingParticipantsList
-            i18n={i18n}
-            onClose={toggleParticipants}
-            ourServiceId={me.serviceId}
-            participants={peekedParticipants}
-          />
-        ) : null}
+        {showParticipantsList &&
+          (activeCall.callMode === CallMode.Adhoc && callLink ? (
+            <CallingAdhocCallInfo
+              callLink={callLink}
+              i18n={i18n}
+              ourServiceId={me.serviceId}
+              participants={peekedParticipants}
+              onClose={toggleParticipants}
+              onCopyCallLink={onCopyCallLink}
+            />
+          ) : (
+            <CallingParticipantsList
+              i18n={i18n}
+              onClose={toggleParticipants}
+              ourServiceId={me.serviceId}
+              participants={peekedParticipants}
+            />
+          ))}
       </>
     );
   }
@@ -325,31 +365,27 @@ function ActiveCallManager({
   }
 
   let isHandRaised = false;
-  if (activeCall.callMode === CallMode.Group) {
+  if (isGroupOrAdhocActiveCall(activeCall)) {
     const { raisedHands, localDemuxId } = activeCall;
     if (localDemuxId) {
       isHandRaised = raisedHands.has(localDemuxId);
     }
   }
 
-  const groupCallParticipantsForParticipantsList =
-    activeCall.callMode === CallMode.Group
-      ? [
-          ...activeCall.remoteParticipants.map(participant => ({
-            ...participant,
-            hasRemoteAudio: participant.hasRemoteAudio,
-            hasRemoteVideo: participant.hasRemoteVideo,
-            presenting: participant.presenting,
-          })),
-          {
-            ...me,
-            hasRemoteAudio: hasLocalAudio,
-            hasRemoteVideo: hasLocalVideo,
-            isHandRaised,
-            presenting: Boolean(activeCall.presentingSource),
-          },
-        ]
-      : [];
+  const groupCallParticipantsForParticipantsList = isGroupOrAdhocActiveCall(
+    activeCall
+  )
+    ? [
+        ...activeCall.remoteParticipants,
+        {
+          ...me,
+          hasRemoteAudio: hasLocalAudio,
+          hasRemoteVideo: hasLocalVideo,
+          isHandRaised,
+          presenting: Boolean(activeCall.presentingSource),
+        },
+      ]
+    : [];
 
   return (
     <>
@@ -393,15 +429,25 @@ function ActiveCallManager({
         />
       ) : null}
       {settingsDialogOpen && renderDeviceSelection()}
-      {showParticipantsList && activeCall.callMode === CallMode.Group ? (
-        <CallingParticipantsList
-          i18n={i18n}
-          onClose={toggleParticipants}
-          ourServiceId={me.serviceId}
-          participants={groupCallParticipantsForParticipantsList}
-        />
-      ) : null}
-      {activeCall.callMode === CallMode.Group &&
+      {showParticipantsList &&
+        (activeCall.callMode === CallMode.Adhoc && callLink ? (
+          <CallingAdhocCallInfo
+            callLink={callLink}
+            i18n={i18n}
+            ourServiceId={me.serviceId}
+            participants={groupCallParticipantsForParticipantsList}
+            onClose={toggleParticipants}
+            onCopyCallLink={onCopyCallLink}
+          />
+        ) : (
+          <CallingParticipantsList
+            i18n={i18n}
+            onClose={toggleParticipants}
+            ourServiceId={me.serviceId}
+            participants={groupCallParticipantsForParticipantsList}
+          />
+        ))}
+      {isGroupOrAdhocActiveCall(activeCall) &&
       activeCall.conversationsWithSafetyNumberChanges.length ? (
         <SafetyNumberChangeDialog
           confirmText={i18n('icu:continueCall')}
@@ -462,7 +508,7 @@ export function CallManager(props: PropsType): JSX.Element | null {
   }, [shouldRing, playRingtone, stopRingtone]);
 
   const mightBeRingingOutgoingGroupCall =
-    activeCall?.callMode === CallMode.Group &&
+    isGroupOrAdhocActiveCall(activeCall) &&
     activeCall.outgoingRing &&
     activeCall.joinState !== GroupCallJoinState.NotJoined;
   useEffect(() => {
@@ -527,7 +573,7 @@ function hasRemoteParticipants(
   return remoteParticipants.length > 0;
 }
 
-function isLonelyGroup(conversation: ConversationType): boolean {
+function isLonelyGroup(conversation: CallingConversationType): boolean {
   return (conversation.sortedGroupMembers?.length ?? 0) < 2;
 }
 
@@ -563,28 +609,30 @@ function getShouldRing({
       );
     }
 
+    // Adhoc calls can't be incoming.
+
     throw missingCaseError(incomingCall);
   }
 
   if (activeCall != null) {
-    if (activeCall.callMode === CallMode.Direct) {
-      return (
-        activeCall.callState === CallState.Prering ||
-        activeCall.callState === CallState.Ringing
-      );
+    switch (activeCall.callMode) {
+      case CallMode.Direct:
+        return (
+          activeCall.callState === CallState.Prering ||
+          activeCall.callState === CallState.Ringing
+        );
+      case CallMode.Group:
+      case CallMode.Adhoc:
+        return (
+          activeCall.outgoingRing &&
+          isConnected(activeCall.connectionState) &&
+          isJoined(activeCall.joinState) &&
+          !hasRemoteParticipants(activeCall.remoteParticipants) &&
+          !isLonelyGroup(activeCall.conversation)
+        );
+      default:
+        throw missingCaseError(activeCall);
     }
-
-    if (activeCall.callMode === CallMode.Group) {
-      return (
-        activeCall.outgoingRing &&
-        isConnected(activeCall.connectionState) &&
-        isJoined(activeCall.joinState) &&
-        !hasRemoteParticipants(activeCall.remoteParticipants) &&
-        !isLonelyGroup(activeCall.conversation)
-      );
-    }
-
-    throw missingCaseError(activeCall);
   }
 
   return false;

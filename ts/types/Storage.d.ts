@@ -141,6 +141,7 @@ export type StorageAccessType = {
   serverTimeSkew: number;
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: ReadonlyArray<GroupCredentialType>;
+  callLinkAuthCredentials: ReadonlyArray<GroupCredentialType>;
   lastReceivedAtCounter: number;
   preferredReactionEmoji: ReadonlyArray<string>;
   skinTone: number;

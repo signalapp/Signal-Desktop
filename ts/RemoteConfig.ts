@@ -15,6 +15,7 @@ import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
+  | 'desktop.calling.adhoc'
   | 'desktop.clientExpiration'
   | 'desktop.groupMultiTypingIndicators'
   | 'desktop.internalUser'

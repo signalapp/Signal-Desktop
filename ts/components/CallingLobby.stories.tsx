@@ -19,6 +19,7 @@ import {
   getDefaultConversationWithServiceId,
 } from '../test-both/helpers/getDefaultConversation';
 import { CallingToastProvider } from './CallingToast';
+import { CallMode } from '../types/Calling';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -33,24 +34,28 @@ const camera = {
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
-  const isGroupCall = overrideProps.isGroupCall ?? false;
-  const conversation = isGroupCall
-    ? getDefaultConversation({
-        title: 'Tahoe Trip',
-        type: 'group',
-      })
-    : getDefaultConversation();
+  const callMode = overrideProps.callMode ?? CallMode.Direct;
+  const conversation =
+    callMode === CallMode.Group
+      ? getDefaultConversation({
+          title: 'Tahoe Trip',
+          type: 'group',
+        })
+      : getDefaultConversation();
 
   return {
     availableCameras: overrideProps.availableCameras || [camera],
+    callMode,
     conversation,
     groupMembers:
       overrideProps.groupMembers ||
-      (isGroupCall ? times(3, () => getDefaultConversation()) : undefined),
+      (callMode === CallMode.Group
+        ? times(3, () => getDefaultConversation())
+        : undefined),
     hasLocalAudio: overrideProps.hasLocalAudio ?? true,
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     i18n,
-    isGroupCall,
+    isAdhocJoinRequestPending: false,
     isConversationTooBigToRing: false,
     isCallFull: overrideProps.isCallFull ?? false,
     me:
@@ -133,13 +138,16 @@ export function InitiallyMuted(): JSX.Element {
 }
 
 export function GroupCallWithNoPeekedParticipants(): JSX.Element {
-  const props = createProps({ isGroupCall: true, peekedParticipants: [] });
+  const props = createProps({
+    callMode: CallMode.Group,
+    peekedParticipants: [],
+  });
   return <CallingLobby {...props} />;
 }
 
 export function GroupCallWith1PeekedParticipant(): JSX.Element {
   const props = createProps({
-    isGroupCall: true,
+    callMode: CallMode.Group,
     peekedParticipants: [{ title: 'Sam' }].map(fakePeekedParticipant),
   });
   return <CallingLobby {...props} />;
@@ -148,7 +156,7 @@ export function GroupCallWith1PeekedParticipant(): JSX.Element {
 export function GroupCallWith1PeekedParticipantSelf(): JSX.Element {
   const serviceId = generateAci();
   const props = createProps({
-    isGroupCall: true,
+    callMode: CallMode.Group,
     me: getDefaultConversation({
       id: generateUuid(),
       serviceId,
@@ -160,7 +168,7 @@ export function GroupCallWith1PeekedParticipantSelf(): JSX.Element {
 
 export function GroupCallWith4PeekedParticipants(): JSX.Element {
   const props = createProps({
-    isGroupCall: true,
+    callMode: CallMode.Group,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
       fakePeekedParticipant({ title })
     ),
@@ -170,7 +178,7 @@ export function GroupCallWith4PeekedParticipants(): JSX.Element {
 
 export function GroupCallWith4PeekedParticipantsParticipantsList(): JSX.Element {
   const props = createProps({
-    isGroupCall: true,
+    callMode: CallMode.Group,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
       fakePeekedParticipant({ title })
     ),
@@ -181,7 +189,7 @@ export function GroupCallWith4PeekedParticipantsParticipantsList(): JSX.Element 
 
 export function GroupCallWithCallFull(): JSX.Element {
   const props = createProps({
-    isGroupCall: true,
+    callMode: CallMode.Group,
     isCallFull: true,
     peekedParticipants: ['Sam', 'Cayce'].map(title =>
       fakePeekedParticipant({ title })
@@ -192,7 +200,7 @@ export function GroupCallWithCallFull(): JSX.Element {
 
 export function GroupCallWith0PeekedParticipantsBigGroup(): JSX.Element {
   const props = createProps({
-    isGroupCall: true,
+    callMode: CallMode.Group,
     groupMembers: times(100, () => getDefaultConversation()),
   });
   return <CallingLobby {...props} />;

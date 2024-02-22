@@ -63,6 +63,7 @@ describe('calling duck', () => {
   const stateWithActiveDirectCall: CallingStateTypeWithActiveCall = {
     ...stateWithDirectCall,
     activeCallState: {
+      callMode: CallMode.Direct,
       conversationId: directCallState.conversationId,
       hasLocalAudio: true,
       hasLocalVideo: false,
@@ -145,6 +146,7 @@ describe('calling duck', () => {
   const stateWithActiveGroupCall: CallingStateTypeWithActiveCall = {
     ...stateWithGroupCall,
     activeCallState: {
+      callMode: CallMode.Group,
       conversationId: 'fake-group-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
@@ -473,6 +475,7 @@ describe('calling duck', () => {
           const result = reducer(stateWithIncomingDirectCall, action);
 
           assert.deepEqual(result.activeCallState, {
+            callMode: CallMode.Direct,
             conversationId: 'fake-direct-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
@@ -567,6 +570,7 @@ describe('calling duck', () => {
           const result = reducer(stateWithIncomingGroupCall, action);
 
           assert.deepEqual(result.activeCallState, {
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
@@ -816,6 +820,7 @@ describe('calling duck', () => {
 
       it("does nothing if there's no relevant call", () => {
         const action = groupCallAudioLevelsChange({
+          callMode: CallMode.Group,
           conversationId: 'garbage',
           localAudioLevel: 1,
           remoteDeviceStates,
@@ -839,6 +844,7 @@ describe('calling duck', () => {
           },
         };
         const action = groupCallAudioLevelsChange({
+          callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           localAudioLevel: 0.001,
           remoteDeviceStates,
@@ -851,6 +857,7 @@ describe('calling duck', () => {
 
       it('updates the set of speaking participants, including yourself', () => {
         const action = groupCallAudioLevelsChange({
+          callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           localAudioLevel: 0.8,
           remoteDeviceStates,
@@ -888,6 +895,7 @@ describe('calling duck', () => {
         const result = reducer(
           getEmptyState(),
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joining,
@@ -952,6 +960,7 @@ describe('calling duck', () => {
         const result = reducer(
           stateWithGroupCall,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
@@ -1025,6 +1034,7 @@ describe('calling duck', () => {
         const result = reducer(
           state,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
@@ -1078,6 +1088,7 @@ describe('calling duck', () => {
         const result = reducer(
           state,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             localDemuxId: 1,
@@ -1118,6 +1129,7 @@ describe('calling duck', () => {
         const result = reducer(
           stateWithGroupCall,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
@@ -1151,6 +1163,7 @@ describe('calling duck', () => {
         const result = reducer(
           stateWithActiveGroupCall,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'another-fake-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
@@ -1178,6 +1191,7 @@ describe('calling duck', () => {
         );
 
         assert.deepEqual(result.activeCallState, {
+          callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,
@@ -1196,6 +1210,7 @@ describe('calling duck', () => {
         const result = reducer(
           stateWithActiveGroupCall,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
@@ -1241,6 +1256,7 @@ describe('calling duck', () => {
         const result = reducer(
           state,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
@@ -1270,6 +1286,7 @@ describe('calling duck', () => {
         const result = reducer(
           state,
           getAction({
+            callMode: CallMode.Group,
             conversationId: 'fake-group-call-conversation-id',
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
@@ -1484,6 +1501,7 @@ describe('calling duck', () => {
 
       it('adds reactions by timestamp', function (this: Mocha.Context) {
         const firstAction = getAction({
+          callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           reactions: [
             {
@@ -1504,6 +1522,7 @@ describe('calling duck', () => {
         const secondDate = new Date(NOW.getTime() + 1234);
         this.sandbox.useFakeTimers({ now: secondDate });
         const secondAction = getAction({
+          callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           reactions: [
             {
@@ -1529,6 +1548,7 @@ describe('calling duck', () => {
 
       it('sets multiple reactions with the same timestamp', () => {
         const action = getAction({
+          callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           reactions: [
             {
@@ -1588,6 +1608,7 @@ describe('calling duck', () => {
 
       it('adds a local copy', () => {
         const action = getAction({
+          callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
           value: '❤️',
         });
@@ -1858,6 +1879,7 @@ describe('calling duck', () => {
             isVideoCall: true,
           });
           assert.deepEqual(result.activeCallState, {
+            callMode: CallMode.Direct,
             conversationId: 'fake-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
@@ -2151,6 +2173,7 @@ describe('calling duck', () => {
           isVideoCall: false,
         });
         assert.deepEqual(result.activeCallState, {
+          callMode: CallMode.Direct,
           conversationId: 'fake-conversation-id',
           hasLocalAudio: true,
           hasLocalVideo: false,

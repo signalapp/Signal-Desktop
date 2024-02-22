@@ -4,6 +4,7 @@
 import type { AudioDevice, Reaction as CallReaction } from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { AciString, ServiceIdString } from './ServiceId';
+import type { CallLinkConversationType } from './CallLink';
 
 export const MAX_CALLING_REACTIONS = 5;
 export const CALLING_REACTIONS_LIFETIME = 4000;
@@ -12,6 +13,7 @@ export const CALLING_REACTIONS_LIFETIME = 4000;
 export enum CallMode {
   Direct = 'Direct',
   Group = 'Group',
+  Adhoc = 'Adhoc',
 }
 
 // Speaker and Presentation mode have the same UI, but Presentation is only set
@@ -48,7 +50,7 @@ export type ActiveCallReaction = {
 export type ActiveCallReactionsType = ReadonlyArray<ActiveCallReaction>;
 
 export type ActiveCallBaseType = {
-  conversation: ConversationType;
+  conversation: CallingConversationType;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   localAudioLevel: number;
@@ -85,7 +87,7 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
 };
 
 export type ActiveGroupCallType = ActiveCallBaseType & {
-  callMode: CallMode.Group;
+  callMode: CallMode.Group | CallMode.Adhoc;
   connectionState: GroupCallConnectionState;
   conversationsByDemuxId: ConversationsByDemuxIdType;
   conversationsWithSafetyNumberChanges: Array<ConversationType>;
@@ -199,3 +201,7 @@ export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
   | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
   | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevice };
+
+export type CallingConversationType =
+  | ConversationType
+  | CallLinkConversationType;

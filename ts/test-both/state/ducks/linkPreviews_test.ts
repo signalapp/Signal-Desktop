@@ -17,6 +17,7 @@ describe('both/state/ducks/linkPreviews', () => {
       domain: 'signal.org',
       url: 'https://www.signal.org',
       isStickerPack: false,
+      isCallLink: false,
     };
   }
 

@@ -983,6 +983,7 @@ describe('both/state/ducks/stories', () => {
           digest: 'digest-1',
           size: 0,
         },
+        isCallLink: false,
       };
       const messageAttributes = {
         ...getStoryMessage(storyId),
