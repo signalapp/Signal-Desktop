@@ -5644,6 +5644,10 @@
     "messageformat": "2 కంటే ఎక్కువ అంకెలు ఉన్న సంఖ్యలు 0 తో ప్రారంభం కాలేవు",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "ఈ యూజర్‌నేమ్ అందుబాటులో లేదు",
     "description": "Shown if the username is not available for registration"
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "మీ ఫోన్ నంబర్‌ను ఎవరు చూడగలరు మరియు దానితో Signal లో మిమ్మల్ని ఎవరు సంప్రదించగలరో ఎంచుకోండి.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "నా నంబర్‌ను ఎవరు చూడగలరు",

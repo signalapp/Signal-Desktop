@@ -1096,7 +1096,7 @@
     "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
   },
   "icu:findByPhoneNumberHeader": {
-    "messageformat": "Trouver par numéro de téléphone",
+    "messageformat": "Rechercher par numéro de téléphone",
     "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
   },
   "icu:welcomeToSignal": {
@@ -2809,7 +2809,7 @@
     "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
   },
   "icu:stickers--StickerManager--ReceivedPacks": {
-    "messageformat": "Autocollants que vous avez reçus",
+    "messageformat": "Stickers reçus",
     "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
@@ -5644,6 +5644,10 @@
     "messageformat": "Les séries comportant plus de 2 chiffres ne peuvent pas commencer par un 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Nom d’utilisateur indisponible",
     "description": "Shown if the username is not available for registration"
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Choisissez qui peut voir votre numéro de téléphone et qui peut vous contacter sur Signal avec celui-ci.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Qui peut voir mon numéro de téléphone",

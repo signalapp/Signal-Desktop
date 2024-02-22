@@ -2432,11 +2432,11 @@
     "description": "Label for the error toast button"
   },
   "icu:Toast--failed-to-fetch-username": {
-    "messageformat": "Emri i përdoruesit nuk u mor. Kontrollo lidhjen dhe riprovo.",
+    "messageformat": "Gjetja e emrit të përdoruesit dështoi. Kontrollo lidhjen e internetit dhe provo sërish.",
     "description": "Shown if request to Signal servers to find username fails"
   },
   "icu:Toast--failed-to-fetch-phone-number": {
-    "messageformat": "S’u arrit të sillej numër telefoni. Kontrolloni lidhjen tuaj dhe riprovoni.",
+    "messageformat": "Gjetja e emrit të përdoruesit dështoi. Kontrollo lidhjen e internetit dhe provo sërish.",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
   "icu:ToastManager__CannotEditMessage_24": {
@@ -5644,6 +5644,10 @@
     "messageformat": "Numrat me më shumë se 2 shifra nuk mund të fillojnë me 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Ky emër përdoruesi nuk është i lirë",
     "description": "Shown if the username is not available for registration"
@@ -5825,7 +5829,7 @@
     "description": "Button to switch the settings view"
   },
   "icu:Preferences__button--appearance": {
-    "messageformat": "Dukje",
+    "messageformat": "Paraqitja",
     "description": "Button to switch the settings view"
   },
   "icu:Preferences__button--chats": {
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Zgjidh se kush mund ta shohë numrin tënd të telefonit dhe kush mund të të kontaktojë nëpërmjet tij në Signal.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Kush mund të shohë numrin tim",

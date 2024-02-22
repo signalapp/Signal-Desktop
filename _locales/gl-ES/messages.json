@@ -5644,6 +5644,10 @@
     "messageformat": "Números con máis de 2 díxitos non poden comezar por 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Este nome de usuario non está dispoñible",
     "description": "Shown if the username is not available for registration"
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Escolle quen pode ver o teu número de teléfono e quen pode contactar contigo en Signal con el.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Quen pode ver o meu número de teléfono",

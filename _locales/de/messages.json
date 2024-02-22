@@ -1412,7 +1412,7 @@
     "description": "Text of a row on About modal when user is in message request state"
   },
   "icu:AboutContactModal__no-dms": {
-    "messageformat": "Keine Direktnachrichten mit {name}",
+    "messageformat": "Keine Einzelchats mit {name}",
     "description": "Text of a row on About modal when there are no direct messages with a user"
   },
   "icu:AboutContactModal__signal-connection": {
@@ -5644,6 +5644,10 @@
     "messageformat": "Nummern mit mehr als 2 Ziffern können nicht mit 0 beginnen.",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Dein Nutzername ist nicht verfügbar",
     "description": "Shown if the username is not available for registration"
@@ -5899,6 +5903,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Lege fest, wer deine Telefonnummer sehen kann und wer dich auf Signal mit ihr kontaktieren kann.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Wer kann meine Telefonnummer sehen",
