@@ -10,6 +10,7 @@ import type { LoggerType } from './Logging';
 import { strictAssert } from '../util/assert';
 import { canvasToBlob } from '../util/canvasToBlob';
 import { KIBIBYTE } from './AttachmentSize';
+import { explodePromise } from '../util/explodePromise';
 
 export { blobToArrayBuffer };
 
@@ -208,47 +209,44 @@ export type MakeVideoScreenshotOptionsType = Readonly<{
   logger: Pick<LoggerType, 'error'>;
 }>;
 
-export function makeVideoScreenshot({
+async function loadVideo({
+  objectUrl,
+  logger,
+}: MakeVideoScreenshotOptionsType): Promise<HTMLVideoElement> {
+  const video = document.createElement('video');
+  const { promise, resolve, reject } = explodePromise();
+  video.addEventListener('loadeddata', resolve);
+  video.addEventListener('error', reject);
+  video.src = objectUrl;
+  try {
+    await promise;
+  } catch (error) {
+    logger.error('loadVideo error', toLogFormat(video.error));
+    throw error;
+  } finally {
+    video.removeEventListener('loadeddata', resolve);
+    video.removeEventListener('error', reject);
+  }
+  return video;
+}
+
+export async function makeVideoScreenshot({
   objectUrl,
   contentType = IMAGE_PNG,
   logger,
 }: MakeVideoScreenshotOptionsType): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    const video = document.createElement('video');
-
-    function seek() {
-      video.currentTime = 1.0;
-    }
-
-    async function capture() {
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const context = canvas.getContext('2d');
-      strictAssert(context, 'Failed to get canvas context');
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      video.removeEventListener('loadeddata', seek);
-      video.removeEventListener('seeked', capture);
-
-      try {
-        const image = canvasToBlob(canvas, contentType);
-        resolve(image);
-      } catch (err) {
-        reject(err);
-      }
-    }
-
-    video.addEventListener('loadeddata', seek);
-    video.addEventListener('seeked', capture);
-
-    video.addEventListener('error', error => {
-      logger.error('makeVideoScreenshot error', toLogFormat(error));
-      reject(error);
-    });
-
-    video.src = objectUrl;
+  const video = await loadVideo({ objectUrl, logger });
+  await new Promise<unknown>(res => {
+    video.currentTime = 1.0;
+    video.addEventListener('seeked', res, { once: true });
   });
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const context = canvas.getContext('2d');
+  strictAssert(context, 'Failed to get canvas context');
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  return canvasToBlob(canvas, contentType);
 }
 
 export function makeObjectUrl(
