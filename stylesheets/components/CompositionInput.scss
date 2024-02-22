@@ -52,6 +52,8 @@
 
     // Override Quill styles
     .ql-container {
+      // Inherit global font stack
+      font-family: inherit;
       @include font-body-1;
     }
 
