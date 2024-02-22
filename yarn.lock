@@ -3947,10 +3947,10 @@
   resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
-"@signalapp/better-sqlite3@8.6.0":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.6.0.tgz#0413f4d0626b99838cd64ad09c88720aa2bec6ed"
-  integrity sha512-dSLWG4m6XtPq/jbUjckLaiR/nFFkY95pWZI8VSm0dEVJC8S2YTXHm6VZ7vZiErt4h6EjBaa827WyK1oheElE2A==
+"@signalapp/better-sqlite3@8.7.1":
+  version "8.7.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.7.1.tgz#0a09293aa833b836ec6b17f6ab0e790097f3fdeb"
+  integrity sha512-T/7OXR0RfSJ8jXK837wXmad0c4XESBHoGDCLDZFTrd4l0nzfbTxEbXo6VCvUyxDTGrKUfIHCo5JtffIl8jQL5Q==
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
@@ -5491,7 +5491,7 @@
     "@types/node" "*"
     form-data "^4.0.0"
 
-"@types/node@*", "@types/node@18.15.11", "@types/node@>=13.7.0", "@types/node@^18.11.18":
+"@types/node@*", "@types/node@18.15.11", "@types/node@>=13.7.0":
   version "18.15.11"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.11.tgz#b3b790f09cb1696cffcec605de025b088fa4225f"
   integrity sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==
@@ -5500,6 +5500,13 @@
   version "16.18.55"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.55.tgz#3d9ac633ed401238c13ccaeed54297bd653412a3"
   integrity sha512-Y1zz/LIuJek01+hlPNzzXQhmq/Z2BCP96j18MSXC0S0jSu/IG4FFxmBs7W4/lI2vPJ7foVfEB0hUVtnOjnCiTg==
+
+"@types/node@^20.9.0":
+  version "20.11.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.19.tgz#b466de054e9cb5b3831bee38938de64ac7f81195"
+  integrity sha512-7xMnVEcZFu0DikYjWOlRq7NTPETrm7teqUT2WkQjrTIkEgUyyGdWsj/Zg8bEJt5TNklzbPD1X3fqfsHw3SpapQ==
+  dependencies:
+    undici-types "~5.26.4"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -9098,13 +9105,13 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@28.2.0:
-  version "28.2.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-28.2.0.tgz#ecf7097d4a1e47dd08111c0229a9d03c44f485ad"
-  integrity sha512-22SylXQQ9IHtwLw4D+Z4Si7OUpeDtpHfJVTjy3yv53iLg5zJKKPOCWT4ZwgYGHQZ0eldyBrYBHF/P9FPd2CcVQ==
+electron@29.0.0:
+  version "29.0.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-29.0.0.tgz#2c1d34a95fc23a5b3530aa53de6eacca89a410b1"
+  integrity sha512-HhrRC5vWb6fAbWXP3A6ABwKUO9JvYSC4E141RzWFgnDBqNiNtabfmgC8hsVeCR65RQA2MLSDgC8uP52I9zFllQ==
   dependencies:
     "@electron/get" "^2.0.0"
-    "@types/node" "^18.11.18"
+    "@types/node" "^20.9.0"
     extract-zip "^2.0.1"
 
 emittery@^0.10.2:
@@ -19289,6 +19296,11 @@ underscore@~1.13.2:
   version "1.13.6"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.6.tgz#04786a1f589dc6c09f761fc5f45b89e935136441"
   integrity sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A==
+
+undici-types@~5.26.4:
+  version "5.26.5"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
+  integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"

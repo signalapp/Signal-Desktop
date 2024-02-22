@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '18.18.2'
+        node-version: '20.9.0'
     - run: npm install -g yarn@1.22.10 npm@10.2.5
 
     - name: Cache Desktop node_modules
@@ -72,7 +72,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '18.18.2'
+        node-version: '20.9.0'
     
     - run: npm install -g yarn@1.22.10 npm@10.2.5
 
@@ -124,7 +124,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '18.18.2'
+        node-version: '20.9.0'
     - run: sudo apt-get install xvfb
 
     - run: npm install -g yarn@1.22.10 npm@10.2.5
@@ -191,7 +191,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '18.18.2'
+        node-version: '20.9.0'
     - run: npm install -g yarn@1.22.10 npm@10.2.5 node-gyp@10.0.1
 
     # Set things up so @nodert-win10-rs4 dependencies build properly
@@ -300,7 +300,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.18.2'
+        node-version: '20.9.0'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10 npm@10.2.5
 

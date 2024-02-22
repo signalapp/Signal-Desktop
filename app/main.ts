@@ -29,10 +29,7 @@ import {
   systemPreferences,
   Notification,
 } from 'electron';
-import type {
-  MenuItemConstructorOptions,
-  LoginItemSettingsOptions,
-} from 'electron';
+import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
 
 import packageJson from '../package.json';
@@ -1695,7 +1692,7 @@ function loadPreferredSystemLocales(): Array<string> {
   return app.getPreferredSystemLanguages();
 }
 
-async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> {
+async function getDefaultLoginItemSettings(): Promise<Settings> {
   if (!OS.isWindows()) {
     return {};
   }
