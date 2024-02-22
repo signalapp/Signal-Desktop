@@ -1257,7 +1257,7 @@ export async function mergeAccountRecord(
     case PHONE_NUMBER_SHARING_MODE_ENUM.EVERYBODY:
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
       break;
-    case PHONE_NUMBER_SHARING_MODE_ENUM.CONTACTS_ONLY:
+    case PHONE_NUMBER_SHARING_MODE_ENUM.UNKNOWN:
     case PHONE_NUMBER_SHARING_MODE_ENUM.NOBODY:
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Nobody;
       break;
