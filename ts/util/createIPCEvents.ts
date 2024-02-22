@@ -654,9 +654,9 @@ export function createIPCEvents(
     getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
 
     setMediaPlaybackDisabled: (playbackDisabled: boolean) => {
-      window.reduxActions.lightbox.setPlaybackDisabled(playbackDisabled);
+      window.reduxActions?.lightbox.setPlaybackDisabled(playbackDisabled);
       if (playbackDisabled) {
-        window.reduxActions.audioPlayer.pauseVoiceNotePlayer();
+        window.reduxActions?.audioPlayer.pauseVoiceNotePlayer();
       }
     },
 
