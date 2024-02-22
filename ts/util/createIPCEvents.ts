@@ -224,9 +224,17 @@ export function createIPCEvents(
 
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
     getPhoneNumber: () => {
-      const e164 = window.textsecure.storage.user.getNumber();
-      const parsedNumber = instance.parse(e164);
-      return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
+      try {
+        const e164 = window.textsecure.storage.user.getNumber();
+        const parsedNumber = instance.parse(e164);
+        return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
+      } catch (error) {
+        log.warn(
+          'IPC.getPhoneNumber: failed to parse our E164',
+          Errors.toLogFormat(error)
+        );
+        return '';
+      }
     },
 
     getZoomFactor: () => {
