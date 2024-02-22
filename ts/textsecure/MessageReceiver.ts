@@ -3014,7 +3014,10 @@ export default class MessageReceiver
         return this.handleSentEditMessage(envelope, sentMessage);
       }
 
-      if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
+      if (
+        sentMessage.storyMessageRecipients?.length &&
+        sentMessage.isRecipientUpdate
+      ) {
         if (getStoriesBlocked()) {
           log.info(
             'MessageReceiver.handleSyncMessage: dropping story recipients update',
