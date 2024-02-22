@@ -5911,6 +5911,10 @@
     "messageformat": "Choose who can see your phone number and who can contact you on Signal with it.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
+  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Who can see my number",
     "description": "Title for the phone number sharing setting row"

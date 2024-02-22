@@ -39,6 +39,10 @@
     padding-inline: 24px;
   }
 
+  legend {
+    font-weight: 600;
+  }
+
   &__button {
     @include button-reset;
     @include font-body-1;
@@ -161,9 +165,7 @@
     margin-bottom: 24px;
   }
 
-  &__link {
-    @include button-reset;
-    padding-block: 0px 28px;
+  &__pnp {
     padding-inline: 0;
     width: 100%;
 
@@ -171,19 +173,7 @@
       @include font-body-1;
       font-weight: 400;
       margin: 0;
-      margin-bottom: 8px;
     }
-  }
-
-  &__link:not(:last-child) {
-    border-bottom: 1px solid $color-gray-15;
-    @include light-theme {
-      border-color: $color-gray-15;
-    }
-    @include dark-theme {
-      border-color: $color-gray-65;
-    }
-    margin-bottom: 24px;
   }
 
   &__control {
@@ -208,6 +198,7 @@
 
     &--value {
       color: $color-gray-45;
+      flex-shrink: 0;
     }
 
     &--clickable {
