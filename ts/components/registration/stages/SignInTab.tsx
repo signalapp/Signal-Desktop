@@ -11,7 +11,7 @@ import { SessionSpinner } from '../../loading';
 import { RegistrationPhase, signInWithLinking, signInWithRecovery } from '../RegistrationStages';
 import { RegistrationUserDetails } from '../RegistrationUserDetails';
 import { TermsAndConditions } from '../TermsAndConditions';
-import { GoBackMainMenuButton } from './SignUpTab';
+import { BackButton } from '../components';
 
 export enum SignInMode {
   Default,
@@ -150,7 +150,7 @@ export const SignInTab = () => {
     <div className="session-registration__content">
       {signInMode !== SignInMode.Default && (
         <>
-          <GoBackMainMenuButton />
+          <BackButton />
           <SpacerLG />
           <RegistrationUserDetails
             showDisplayNameField={showDisplayNameField}

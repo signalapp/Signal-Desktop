@@ -1,3 +1,4 @@
+import { BackButton } from './BackButton';
 import { Hero } from './Hero';
 
-export { Hero };
+export { BackButton, Hero };

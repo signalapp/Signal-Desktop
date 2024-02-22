@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  setRegistrationPhase,
-  setSignInMode,
-  setSignUpMode,
-} from '../../../state/onboarding/ducks/registration';
+import styled from 'styled-components';
+import { setRegistrationPhase, setSignUpMode } from '../../../state/onboarding/ducks/registration';
 import {
   useRegGeneratedRecoveryPhrase,
   useRegHexGeneratedPubKey,
@@ -14,11 +11,16 @@ import { Noop } from '../../../types/Util';
 import { Flex } from '../../basic/Flex';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
-import { SessionIconButton } from '../../icon';
 import { RegistrationPhase, signUp } from '../RegistrationStages';
 import { RegistrationUserDetails } from '../RegistrationUserDetails';
 import { TermsAndConditions } from '../TermsAndConditions';
-import { SignInMode, sanitizeDisplayNameOrToast } from './SignInTab';
+import { BackButton } from '../components';
+import { sanitizeDisplayNameOrToast } from './SignInTab';
+
+const StyledContainer = styled.div`
+  width: 100%;
+  padding-top: 20px;
+`;
 
 export enum SignUpMode {
   Default,
@@ -42,27 +44,11 @@ const SignUpDefault = (props: { createSessionID: Noop }) => {
   );
 };
 
-export const GoBackMainMenuButton = () => {
-  const dispatch = useDispatch();
-  return (
-    <SessionIconButton
-      iconSize="huge"
-      iconType="arrow"
-      iconPadding="5px"
-      onClick={() => {
-        dispatch(setRegistrationPhase(RegistrationPhase.Start));
-        dispatch(setSignInMode(SignInMode.Default));
-        dispatch(setSignUpMode(SignUpMode.Default));
-      }}
-    />
-  );
-};
-
 const SignUpSessionIDShown = (props: { continueSignUp: Noop }) => {
   return (
     <div className="session-registration__content">
       <Flex flexDirection="row" container={true} alignItems="center">
-        <GoBackMainMenuButton />
+        <BackButton />
 
         <div className="session-registration__unique-session-id">
           {window.i18n('yourUniqueSessionID')}
@@ -127,9 +113,9 @@ export const SignUpTab = () => {
   };
 
   return (
-    <div className="session-registration__content">
+    <StyledContainer>
       <Flex flexDirection="row" container={true} alignItems="center">
-        <GoBackMainMenuButton />
+        <BackButton />
         <Flex className="session-registration__welcome-session" padding="20px">
           {window.i18n('welcomeToYourSession')}
         </Flex>
@@ -150,6 +136,6 @@ export const SignUpTab = () => {
         disabled={!enableCompleteSignUp}
       />
       <TermsAndConditions />
-    </div>
+    </StyledContainer>
   );
 };
