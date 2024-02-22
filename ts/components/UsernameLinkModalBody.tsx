@@ -300,16 +300,19 @@ type CreateTextMeasurerOptionsType = Readonly<{
   font: string;
   letterSpacing: number;
   maxWidth: number;
+  direction: 'ltr' | 'rtl';
 }>;
 
 function createTextMeasurer({
   font,
   letterSpacing,
   maxWidth,
+  direction,
 }: CreateTextMeasurerOptionsType): (text: string) => boolean {
   const [, context] = createCanvasAndContext({ width: 1, height: 1 });
 
   context.font = font;
+  context.direction = direction;
   // Experimental Chrome APIs
   (
     context as unknown as {
@@ -324,6 +327,7 @@ type GenerateImageURLOptionsType = Readonly<{
   link: string;
   username: string;
   hint: string;
+  hintDirection: 'ltr' | 'rtl';
   colorId: number;
 }>;
 
@@ -332,6 +336,7 @@ export async function _generateImageBlob({
   link,
   username,
   hint,
+  hintDirection,
   colorId,
 }: GenerateImageURLOptionsType): Promise<Blob> {
   const usernameLines = splitText(username, {
@@ -340,6 +345,7 @@ export async function _generateImageBlob({
       maxWidth: USERNAME_MAX_WIDTH,
       font: USERNAME_FONT,
       letterSpacing: USERNAME_LETTER_SPACING,
+      direction: 'ltr',
     }),
   });
 
@@ -349,6 +355,7 @@ export async function _generateImageBlob({
       maxWidth: HINT_MAX_WIDTH,
       font: HINT_FONT,
       letterSpacing: HINT_LETTER_SPACING,
+      direction: hintDirection,
     }),
   });
 
@@ -381,6 +388,7 @@ export async function _generateImageBlob({
 
   context.save();
   context.font = USERNAME_FONT;
+  context.direction = 'ltr';
   // Experimental Chrome APIs
   (
     context as unknown as {
@@ -397,6 +405,7 @@ export async function _generateImageBlob({
 
   context.save();
   context.font = HINT_FONT;
+  context.direction = hintDirection;
   // Experimental Chrome APIs
   (
     context as unknown as {
@@ -586,6 +595,7 @@ export function UsernameLinkModalBody({
         username,
         colorId,
         hint: i18n('icu:UsernameLinkModalBody__hint'),
+        hintDirection: i18n.getLocaleDirection(),
       });
       const arrayBuffer = await blob.arrayBuffer();
       if (isAborted) {
