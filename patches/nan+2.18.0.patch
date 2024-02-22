@@ -1,0 +1,28 @@
+diff --git a/node_modules/nan/nan.h b/node_modules/nan/nan.h
+index 2a68349..7576469 100644
+--- a/node_modules/nan/nan.h
++++ b/node_modules/nan/nan.h
+@@ -2511,6 +2511,7 @@ inline void SetPrototypeMethod(
+ 
+ //=== Accessors and Such =======================================================
+ 
++/*
+ NAN_DEPRECATED inline void SetAccessor(
+     v8::Local<v8::ObjectTemplate> tpl
+   , v8::Local<v8::String> name
+@@ -2557,6 +2558,7 @@ NAN_DEPRECATED inline void SetAccessor(
+ #endif
+   );
+ }
++*/
+ 
+ inline void SetAccessor(
+     v8::Local<v8::ObjectTemplate> tpl
+@@ -2596,7 +2598,6 @@ inline void SetAccessor(
+     , getter_
+     , setter_
+     , obj
+-    , settings
+     , attribute
+   );
+ }
