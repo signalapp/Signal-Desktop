@@ -4433,7 +4433,9 @@ export class ConversationModel extends window.Backbone
     const shouldBeRead =
       (isInitialSync && isFromSyncOperation) || isFromMe || isNoteToSelf;
 
+    const id = generateGuid();
     const model = new window.Whisper.Message({
+      id,
       conversationId: this.id,
       expirationTimerUpdate: {
         expireTimer,
@@ -4451,11 +4453,9 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType);
 
-    const id = await window.Signal.Data.saveMessage(model.attributes, {
+    await window.Signal.Data.saveMessage(model.attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
-
-    model.set({ id });
 
     const message = window.MessageCache.__DEPRECATED$register(
       id,
