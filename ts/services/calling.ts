@@ -2596,10 +2596,14 @@ export class CallingClass {
     const isContactUntrusted = !isInSystemContacts(conversation.attributes);
 
     const callSettings = {
-      iceServer: {
-        ...iceServer,
-        urls: iceServer.urls.slice(),
-      },
+      iceServers: [
+        {
+          hostname: '',
+          username: iceServer.username,
+          password: iceServer.password,
+          urls: iceServer.urls.slice(),
+        },
+      ],
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
       // TODO: DESKTOP-3101
