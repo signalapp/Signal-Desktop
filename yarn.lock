@@ -1903,10 +1903,28 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.2.tgz#d9fae00a2d5cb40f92cfe64b47ad749fbc38f917"
   integrity sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==
 
+"@indutny/rezip-electron@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@indutny/rezip-electron/-/rezip-electron-1.3.1.tgz#b131a023bac540458e8974db16705e08b6beefb8"
+  integrity sha512-tRH4WTmIMYnCQf7UUGaUM9vKiiUIcPWqA6wTHo7A3vwqMR5Yjr28gvp0DToZr94kJZ4dmfIinvTcNk6uJo+TfQ==
+  dependencies:
+    "@indutny/yazl" "^2.7.0"
+    better-blockmap "^1.0.2"
+    commander "^12.0.0"
+    functional-red-black-tree "^1.0.1"
+    yauzl "^3.1.0"
+
 "@indutny/sneequals@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@indutny/sneequals/-/sneequals-4.0.0.tgz#94f74e577019759c5d12818e7c7ff1b9300653a4"
   integrity sha512-kQUBQtcm4aVqJil+KRfA7SycJqcWlFEa7MJTYyl4XAahHOPXnzgqvlzUPQOw1tRFlvnzxRpXNUpJxej2fdAPjg==
+
+"@indutny/yazl@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@indutny/yazl/-/yazl-2.7.0.tgz#34e46310ef252998e93a9f18315fcfe0c885b326"
+  integrity sha512-6igFZsYj7BVSTIJ8qhWvsPp0adMY62IJe4xHwQTpoMvbFlalRdpYXsL9wDaAiwt76CtyPlcT7SBNBEKkDbcQyg==
+  dependencies:
+    buffer-crc32 "~0.2.3"
 
 "@internationalized/date@^3.2.0":
   version "3.2.0"
@@ -7044,6 +7062,13 @@ before-after-hook@^2.2.0:
   resolved "https://registry.yarnpkg.com/before-after-hook/-/before-after-hook-2.2.2.tgz#a6e8ca41028d90ee2c24222f201c90956091613e"
   integrity sha512-3pZEU3NT5BFUo/AD5ERPWOgQOCZITni6iavr5AUw5AUwQjMlI0kzu5btnyD39AF0gUEsDPwJT+oY1ORBJijPjQ==
 
+better-blockmap@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/better-blockmap/-/better-blockmap-1.0.2.tgz#04f99f6115775e9b4bcbd26c34ec651a01b3865a"
+  integrity sha512-D6Fp7QuPcO1mlCbOM8MigD66B/uqSlLXilGkK7Fo8XkMy4Zxh7oFeLORnlGhkQqrbJsrKKchuRGaEo0jCvh61Q==
+  dependencies:
+    yargs "^17.3.1"
+
 better-opn@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/better-opn/-/better-opn-3.0.2.tgz#f96f35deaaf8f34144a4102651babcf00d1d8817"
@@ -7878,6 +7903,11 @@ combined-stream@^1.0.6, combined-stream@^1.0.8:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
+
+commander@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-12.0.0.tgz#b929db6df8546080adfd004ab215ed48cf6f2592"
+  integrity sha512-MwVNWlYjDTtOjX5PiD7o5pK0UrFU/OYgcJfjjK4RaHZETNtjJqrZa9Y9ds88+A+f+d5lv+561eZ+yCKoS3gbAA==
 
 commander@^2.18.0, commander@^2.19.0, commander@^2.20.0:
   version "2.20.3"
@@ -10705,6 +10735,11 @@ function.prototype.name@^1.1.5:
     define-properties "^1.1.3"
     es-abstract "^1.19.0"
     functions-have-names "^1.2.2"
+
+functional-red-black-tree@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
+  integrity sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==
 
 functions-have-names@^1.2.2, functions-have-names@^1.2.3:
   version "1.2.3"
@@ -20281,6 +20316,14 @@ yauzl@^2.10.0:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
+
+yauzl@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/yauzl/-/yauzl-3.1.0.tgz#6ebf3c3bb11372dd45e458e78aa5571a9a422223"
+  integrity sha512-zbff6SaAPyewVextulqeBjJm+1ZhS69vSN7cRpqVD7jMNSE9oXEdQ1SGF+ydfB+gKE2a3GiWfXf/pnwVZ1/tOA==
+  dependencies:
+    buffer-crc32 "~0.2.3"
+    pend "~1.2.0"
 
 yn@^3.0.0:
   version "3.1.1"

@@ -200,6 +200,7 @@
     "@electron/fuses": "1.5.0",
     "@electron/notarize": "2.1.0",
     "@formatjs/intl": "2.6.7",
+    "@indutny/rezip-electron": "1.3.1",
     "@mixer/parallel-prettier": "2.0.3",
     "@signalapp/mock-server": "5.1.0",
     "@storybook/addon-a11y": "7.4.5",
@@ -444,6 +445,7 @@
         "signalcaptcha"
       ]
     },
+    "artifactBuildCompleted": "ts/scripts/artifact-build-completed.js",
     "afterSign": "ts/scripts/after-sign.js",
     "afterPack": "ts/scripts/after-pack.js",
     "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.js",
