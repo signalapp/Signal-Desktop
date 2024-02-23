@@ -15,7 +15,9 @@ export const BackButton = () => {
   return (
     <SessionIconButton
       iconSize="huge"
-      iconType="arrow"
+      iconType="chevron"
+      iconColor="var(--color-text-primary)"
+      iconRotation={90}
       iconPadding="5px"
       onClick={() => {
         dispatch(setOnboardingStep(Onboarding.Start));
