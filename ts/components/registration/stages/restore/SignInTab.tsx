@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ToastUtils } from '../../../session/utils';
-import { sanitizeSessionUsername } from '../../../session/utils/String';
+import { ToastUtils } from '../../../../session/utils';
+import { sanitizeSessionUsername } from '../../../../session/utils/String';
 import {
   AccountRestoration,
   Onboarding,
   setAccountRestorationStep,
   setOnboardingStep,
-} from '../../../state/onboarding/ducks/registration';
-import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
-import { Flex } from '../../basic/Flex';
-import { SessionButton } from '../../basic/SessionButton';
-import { SpacerLG } from '../../basic/Text';
-import { SessionSpinner } from '../../loading';
-import { signInWithLinking, signInWithRecovery } from '../RegistrationStages';
-import { RegistrationUserDetails } from '../RegistrationUserDetails';
-import { TermsAndConditions } from '../TermsAndConditions';
-import { BackButton } from '../components';
+} from '../../../../state/onboarding/ducks/registration';
+import { useOnboardAccountRestorationStep } from '../../../../state/onboarding/selectors/registration';
+import { Flex } from '../../../basic/Flex';
+import { SessionButton } from '../../../basic/SessionButton';
+import { SpacerLG } from '../../../basic/Text';
+import { SessionSpinner } from '../../../loading';
+import { signInWithLinking, signInWithRecovery } from '../../RegistrationStages';
+import { RegistrationUserDetails } from '../../RegistrationUserDetails';
+import { TermsAndConditions } from '../../TermsAndConditions';
+import { BackButton } from '../../components';
 
 const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
   return (

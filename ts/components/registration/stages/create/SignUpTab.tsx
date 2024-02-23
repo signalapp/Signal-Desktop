@@ -6,60 +6,25 @@ import {
   Onboarding,
   setAccountCreationStep,
   setOnboardingStep,
-} from '../../../state/onboarding/ducks/registration';
+} from '../../../../state/onboarding/ducks/registration';
 import {
   useOnboardAccountCreationStep,
   useOnboardGeneratedRecoveryPhrase,
   useOnboardHexGeneratedPubKey,
-} from '../../../state/onboarding/selectors/registration';
-import { Noop } from '../../../types/Util';
-import { Flex } from '../../basic/Flex';
-import { SessionButton } from '../../basic/SessionButton';
-import { SessionIdEditable } from '../../basic/SessionIdEditable';
-import { signUp } from '../RegistrationStages';
-import { RegistrationUserDetails } from '../RegistrationUserDetails';
-import { TermsAndConditions } from '../TermsAndConditions';
-import { BackButton } from '../components';
-import { sanitizeDisplayNameOrToast } from './SignInTab';
+} from '../../../../state/onboarding/selectors/registration';
+import { Flex } from '../../../basic/Flex';
+import { SessionButton } from '../../../basic/SessionButton';
+import { SessionIdEditable } from '../../../basic/SessionIdEditable';
+import { signUp } from '../../RegistrationStages';
+import { RegistrationUserDetails } from '../../RegistrationUserDetails';
+import { TermsAndConditions } from '../../TermsAndConditions';
+import { BackButton } from '../../components';
+import { sanitizeDisplayNameOrToast } from '../restore/SignInTab';
 
 const StyledContainer = styled.div`
   width: 100%;
   padding-top: 20px;
 `;
-
-const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
-  return <SessionButton onClick={createSessionID} text={window.i18n('createSessionID')} />;
-};
-
-const ContinueSignUpButton = ({ continueSignUp }: { continueSignUp: any }) => {
-  return <SessionButton onClick={continueSignUp} text={window.i18n('continue')} />;
-};
-
-const SignUpDefault = (props: { createSessionID: Noop }) => {
-  return (
-    <div className="session-registration__content">
-      <CreateSessionIdButton createSessionID={props.createSessionID} />
-    </div>
-  );
-};
-
-const SignUpSessionIDShown = (props: { continueSignUp: Noop }) => {
-  return (
-    <div className="session-registration__content">
-      <Flex flexDirection="row" container={true} alignItems="center">
-        <BackButton />
-
-        <div className="session-registration__unique-session-id">
-          {window.i18n('yourUniqueSessionID')}
-        </div>
-      </Flex>
-      <SessionIdEditable editable={false} placeholder={undefined} dataTestId="session-id-signup" />
-      <div className="session-description-long">{window.i18n('allUsersAreRandomly...')}</div>
-      <ContinueSignUpButton continueSignUp={props.continueSignUp} />
-      <TermsAndConditions />
-    </div>
-  );
-};
 
 export const SignUpTab = () => {
   const step = useOnboardAccountCreationStep();
@@ -79,22 +44,42 @@ export const SignUpTab = () => {
 
   if (step === AccountCreation.Start) {
     return (
-      <SignUpDefault
-        createSessionID={() => {
-          dispatch(setAccountCreationStep(AccountCreation.SessionIDShown));
-          dispatch(setOnboardingStep(Onboarding.CreateAccount));
-        }}
-      />
+      <div className="session-registration__content">
+        <SessionButton
+          onClick={() => {
+            dispatch(setAccountCreationStep(AccountCreation.SessionIDShown));
+            dispatch(setOnboardingStep(Onboarding.CreateAccount));
+          }}
+          text={window.i18n('createSessionID')}
+        />
+      </div>
     );
   }
 
   if (step === AccountCreation.SessionIDShown) {
     return (
-      <SignUpSessionIDShown
-        continueSignUp={() => {
-          dispatch(setAccountCreationStep(AccountCreation.DisplayName));
-        }}
-      />
+      <div className="session-registration__content">
+        <Flex flexDirection="row" container={true} alignItems="center">
+          <BackButton />
+
+          <div className="session-registration__unique-session-id">
+            {window.i18n('yourUniqueSessionID')}
+          </div>
+        </Flex>
+        <SessionIdEditable
+          editable={false}
+          placeholder={undefined}
+          dataTestId="session-id-signup"
+        />
+        <div className="session-description-long">{window.i18n('allUsersAreRandomly...')}</div>
+        <SessionButton
+          onClick={() => {
+            dispatch(setAccountCreationStep(AccountCreation.DisplayName));
+          }}
+          text={window.i18n('continue')}
+        />
+        <TermsAndConditions />
+      </div>
     );
   }
 

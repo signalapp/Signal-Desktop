@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
-import { AccentText } from './AccentText';
 
 import { onboardingStore } from '../../state/onboarding/store';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { setSignInByLinking } from '../../util/storage';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { Flex } from '../basic/Flex';
-import { SessionIcon } from '../icon';
 import { RegistrationStages } from './RegistrationStages';
 import { Hero } from './components';
 
@@ -62,27 +60,24 @@ export const SessionRegistrationView = () => {
   }, []);
 
   return (
-    <SessionTheme>
-      <StyledFullscreenContainer container={true} alignItems="center">
-        <Hero />
-        <StyledSessionContent
-          flexDirection="column"
-          alignItems="center"
-          container={true}
-          height="100%"
-          flexGrow={1}
-        >
-          <Flex container={true} margin="auto" alignItems="center" flexDirection="column">
-            <SessionToastContainer />
-            <SessionIcon iconSize={150} iconType="brand" />
-
-            <AccentText />
-            <Provider store={onboardingStore}>
+    <Provider store={onboardingStore}>
+      <SessionTheme>
+        <StyledFullscreenContainer container={true} alignItems="center">
+          <Hero />
+          <StyledSessionContent
+            flexDirection="column"
+            alignItems="center"
+            container={true}
+            height="100%"
+            flexGrow={1}
+          >
+            <Flex container={true} margin="auto" alignItems="center" flexDirection="column">
+              <SessionToastContainer />
               <RegistrationStages />
-            </Provider>
-          </Flex>
-        </StyledSessionContent>
-      </StyledFullscreenContainer>
-    </SessionTheme>
+            </Flex>
+          </StyledSessionContent>
+        </StyledFullscreenContainer>
+      </SessionTheme>
+    </Provider>
   );
 };

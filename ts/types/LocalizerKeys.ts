@@ -37,7 +37,6 @@ export type LocalizerKeys =
   | 'autoUpdateSettingTitle'
   | 'banUser'
   | 'banUserAndDeleteAll'
-  | 'beginYourSession'
   | 'blindedMsgReqsSettingDesc'
   | 'blindedMsgReqsSettingTitle'
   | 'block'

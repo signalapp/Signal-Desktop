@@ -1,4 +1,4 @@
-import { SignInTab } from './SignInTab';
-import { SignUpTab } from './SignUpTab';
+import { SignUpTab } from './create/SignUpTab';
+import { SignInTab } from './restore/SignInTab';
 
 export { SignInTab, SignUpTab };

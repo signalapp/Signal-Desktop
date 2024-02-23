@@ -1,3 +1,4 @@
+import { shell } from 'electron';
 import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import styled from 'styled-components';
@@ -27,15 +28,17 @@ import {
 } from '../../util/accountManager';
 import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
+import { SpacerSM } from '../basic/Text';
+import { SessionIcon, SessionIconButton } from '../icon';
 import { ModalContainer } from './ModalContainer';
 import { SignInTab, SignUpTab } from './stages';
 
 const StyledRegistrationContainer = styled(Flex)`
-  width: 289px;
+  width: 348px;
 
   .session-button {
-    width: 80%;
-    margin: auto;
+    width: 100%;
+    margin: 0;
   }
 `;
 
@@ -207,6 +210,38 @@ export const RegistrationStages = () => {
     <>
       <ModalContainer />
       <StyledRegistrationContainer container={true} flexDirection="column">
+        <Flex container={true} alignItems="center">
+          <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
+          <SpacerSM />
+          <div style={{ flexGrow: 1 }}>
+            <SessionIcon iconSize={'small'} iconType="session" />
+          </div>
+          <Flex container={true} alignItems="center">
+            <SessionIconButton
+              aria-label="external link to Session FAQ web page"
+              iconType="question"
+              iconSize={'medium'}
+              iconPadding="4px"
+              iconColor="var(--text-primary-color)"
+              style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+              onClick={() => {
+                void shell.openExternal('https://getsession.org/faq');
+              }}
+            />
+            <SpacerSM />
+            <SessionIconButton
+              aria-label="external link to Session FAQ web page"
+              iconType="link"
+              iconSize="medium"
+              iconColor="var(--text-primary-color)"
+              iconPadding="4px"
+              style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+              onClick={() => {
+                void shell.openExternal('https://getsession.org');
+              }}
+            />
+          </Flex>
+        </Flex>
         {(step === Onboarding.Start || step === Onboarding.CreateAccount) && <SignUpTab />}
         {(step === Onboarding.Start || step === Onboarding.RestoreAccount) && <SignInTab />}
       </StyledRegistrationContainer>
