@@ -1,37 +1,37 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export enum Onboarding {
-  /* starting screen */
+  /** starting screen */
   Start,
-  /* uses AccountCreation internally */
+  /** uses AccountCreation internally */
   CreateAccount,
-  /* uses AccountRestoration internally */
+  /** uses AccountRestoration internally */
   RestoreAccount,
 }
 
 export enum AccountCreation {
-  /* TODO to be removed - current starting screen */
+  /** TODO to be removed - current starting screen */
   Start,
-  /* TODO to be removed */
+  /** TODO to be removed */
   SessionIDShown,
-  /* starting screen */
+  /** starting screen */
   DisplayName,
-  /* show conversation screen */
+  /** show conversation screen */
   Complete,
 }
 
 export enum AccountRestoration {
-  /* TODO to be removed - current starting screen */
+  /** TODO to be removed - current starting screen */
   Start,
-  /* starting screen */
+  /** starting screen */
   RecoveryPassword,
-  /* fetching account details */
+  /** fetching account details */
   Loading,
-  /* we failed to fetch a display name in time so we choose a new one */
+  /** we failed to fetch a display name in time so we choose a new one */
   DisplayName,
-  /* show conversation screen */
+  /** show conversation screen */
   Complete,
-  /* TODO to be removed */
+  /** TODO to be removed */
   LinkDevice,
 }
 
