@@ -7,6 +7,7 @@ import { SessionTheme } from '../../themes/SessionTheme';
 import { setSignInByLinking } from '../../util/storage';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { Flex } from '../basic/Flex';
+import { ModalContainer } from './ModalContainer';
 import { RegistrationStages } from './RegistrationStages';
 import { Hero } from './components';
 
@@ -73,6 +74,7 @@ export const SessionRegistrationView = () => {
           >
             <Flex container={true} margin="auto" alignItems="center" flexDirection="column">
               <SessionToastContainer />
+              <ModalContainer />
               <RegistrationStages />
             </Flex>
           </StyledSessionContent>

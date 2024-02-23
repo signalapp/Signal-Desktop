@@ -1,42 +1,14 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { ToastUtils } from '../../../../session/utils';
-import { sanitizeSessionUsername } from '../../../../session/utils/String';
-import {
-  AccountRestoration,
-  Onboarding,
-  setAccountRestorationStep,
-  setOnboardingStep,
-} from '../../../../state/onboarding/ducks/registration';
-import { useOnboardAccountRestorationStep } from '../../../../state/onboarding/selectors/registration';
-import { Flex } from '../../../basic/Flex';
-import { SessionButton } from '../../../basic/SessionButton';
-import { SpacerLG } from '../../../basic/Text';
-import { SessionSpinner } from '../../../loading';
-import { signInWithLinking, signInWithRecovery } from '../../RegistrationStages';
-import { RegistrationUserDetails } from '../../RegistrationUserDetails';
-import { TermsAndConditions } from '../../TermsAndConditions';
-import { BackButton } from '../../components';
-
-const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
-  return (
-    <SessionButton
-      onClick={props.onLinkDeviceButtonClicked}
-      text={window.i18n('linkDevice')}
-      dataTestId="link-device"
-    />
-  );
-};
-
-const RestoreUsingRecoveryPhraseButton = (props: { onRecoveryButtonClicked: () => any }) => {
-  return (
-    <SessionButton
-      onClick={props.onRecoveryButtonClicked}
-      text={window.i18n('restoreUsingRecoveryPhrase')}
-      dataTestId="restore-using-recovery"
-    />
-  );
-};
+import { ToastUtils } from '../../../session/utils';
+import { sanitizeSessionUsername } from '../../../session/utils/String';
+import { AccountRestoration } from '../../../state/onboarding/ducks/registration';
+import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
+import { Flex } from '../../basic/Flex';
+import { SessionButton } from '../../basic/SessionButton';
+import { SessionSpinner } from '../../loading';
+import { signInWithLinking, signInWithRecovery } from '../RegistrationStages';
+import { RegistrationUserDetails } from '../RegistrationUserDetails';
+import { TermsAndConditions } from '../TermsAndConditions';
 
 const ContinueYourSessionButton = (props: {
   handleContinueYourSessionClick: () => any;
@@ -68,23 +40,6 @@ const SignInContinueButton = (props: {
   );
 };
 
-const SignInButtons = (props: {
-  accountRestorationStep: AccountRestoration;
-  onRecoveryButtonClicked: () => any;
-  onLinkDeviceButtonClicked: () => any;
-}) => {
-  if (props.accountRestorationStep !== AccountRestoration.Start) {
-    return null;
-  }
-  return (
-    <div>
-      <RestoreUsingRecoveryPhraseButton onRecoveryButtonClicked={props.onRecoveryButtonClicked} />
-      <SpacerLG />
-      <LinkDeviceButton onLinkDeviceButtonClicked={props.onLinkDeviceButtonClicked} />
-    </div>
-  );
-};
-
 export function sanitizeDisplayNameOrToast(
   displayName: string,
   setDisplayName: (sanitized: string) => void,
@@ -102,10 +57,8 @@ export function sanitizeDisplayNameOrToast(
   }
 }
 
-export const SignInTab = () => {
+export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
-
-  const dispatch = useDispatch();
 
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
@@ -146,11 +99,9 @@ export const SignInTab = () => {
   };
 
   return (
-    <div className="session-registration__content">
+    <>
       {step !== AccountRestoration.Start && (
         <>
-          <BackButton />
-          <SpacerLG />
           <RegistrationUserDetails
             showDisplayNameField={showDisplayNameField}
             showSeedField={true}
@@ -168,24 +119,6 @@ export const SignInTab = () => {
           />
         </>
       )}
-
-      <SignInButtons
-        accountRestorationStep={step}
-        onRecoveryButtonClicked={() => {
-          dispatch(setOnboardingStep(Onboarding.RestoreAccount));
-          dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
-          setRecoveryPhrase('');
-          setDisplayName('');
-          setIsLoading(false);
-        }}
-        onLinkDeviceButtonClicked={() => {
-          dispatch(setOnboardingStep(Onboarding.RestoreAccount));
-          dispatch(setAccountRestorationStep(AccountRestoration.LinkDevice));
-          setRecoveryPhrase('');
-          setDisplayName('');
-          setIsLoading(false);
-        }}
-      />
       <SignInContinueButton
         accountRestorationStep={step}
         handleContinueYourSessionClick={continueYourSession}
@@ -212,6 +145,6 @@ export const SignInTab = () => {
       )}
 
       {showTermsAndConditions ? <TermsAndConditions /> : null}
-    </div>
+    </>
   );
 };

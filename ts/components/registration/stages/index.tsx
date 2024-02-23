@@ -1,4 +1,5 @@
-import { SignUpTab } from './create/SignUpTab';
-import { SignInTab } from './restore/SignInTab';
+import { CreateAccount } from './CreatAccount';
+import { RestoreAccount } from './RestoreAccount';
+import { Start } from './Start';
 
-export { SignInTab, SignUpTab };
+export { CreateAccount, RestoreAccount, Start };

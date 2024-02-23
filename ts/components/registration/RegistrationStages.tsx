@@ -28,10 +28,10 @@ import {
 } from '../../util/accountManager';
 import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
-import { SpacerSM } from '../basic/Text';
+import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
-import { ModalContainer } from './ModalContainer';
-import { SignInTab, SignUpTab } from './stages';
+import { BackButton } from './components';
+import { CreateAccount, RestoreAccount, Start } from './stages';
 
 const StyledRegistrationContainer = styled(Flex)`
   width: 348px;
@@ -207,8 +207,12 @@ export const RegistrationStages = () => {
   });
 
   return (
-    <>
-      <ModalContainer />
+    <Flex container={true}>
+      {step === Onboarding.Start ? null : (
+        <div style={{ marginTop: 'calc(var(--margins-lg) + 30px)' }}>
+          <BackButton />
+        </div>
+      )}
       <StyledRegistrationContainer container={true} flexDirection="column">
         <Flex container={true} alignItems="center">
           <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
@@ -242,9 +246,14 @@ export const RegistrationStages = () => {
             />
           </Flex>
         </Flex>
-        {(step === Onboarding.Start || step === Onboarding.CreateAccount) && <SignUpTab />}
-        {(step === Onboarding.Start || step === Onboarding.RestoreAccount) && <SignInTab />}
+
+        <Flex container={true} flexDirection="column" alignItems="center">
+          <SpacerLG />
+          {step === Onboarding.Start ? <Start /> : null}
+          {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
+          {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}
+        </Flex>
       </StyledRegistrationContainer>
-    </>
+    </Flex>
   );
 };

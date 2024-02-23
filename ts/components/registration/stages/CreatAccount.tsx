@@ -3,30 +3,27 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {
   AccountCreation,
-  Onboarding,
   setAccountCreationStep,
-  setOnboardingStep,
-} from '../../../../state/onboarding/ducks/registration';
+} from '../../../state/onboarding/ducks/registration';
 import {
   useOnboardAccountCreationStep,
   useOnboardGeneratedRecoveryPhrase,
   useOnboardHexGeneratedPubKey,
-} from '../../../../state/onboarding/selectors/registration';
-import { Flex } from '../../../basic/Flex';
-import { SessionButton } from '../../../basic/SessionButton';
-import { SessionIdEditable } from '../../../basic/SessionIdEditable';
-import { signUp } from '../../RegistrationStages';
-import { RegistrationUserDetails } from '../../RegistrationUserDetails';
-import { TermsAndConditions } from '../../TermsAndConditions';
-import { BackButton } from '../../components';
-import { sanitizeDisplayNameOrToast } from '../restore/SignInTab';
+} from '../../../state/onboarding/selectors/registration';
+import { Flex } from '../../basic/Flex';
+import { SessionButton } from '../../basic/SessionButton';
+import { SessionIdEditable } from '../../basic/SessionIdEditable';
+import { signUp } from '../RegistrationStages';
+import { RegistrationUserDetails } from '../RegistrationUserDetails';
+import { TermsAndConditions } from '../TermsAndConditions';
+import { sanitizeDisplayNameOrToast } from './RestoreAccount';
 
 const StyledContainer = styled.div`
   width: 100%;
   padding-top: 20px;
 `;
 
-export const SignUpTab = () => {
+export const CreateAccount = () => {
   const step = useOnboardAccountCreationStep();
   const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();
   const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
@@ -42,25 +39,16 @@ export const SignUpTab = () => {
     }
   }, [step, hexGeneratedPubKey]);
 
-  if (step === AccountCreation.Start) {
-    return (
-      <div className="session-registration__content">
-        <SessionButton
-          onClick={() => {
-            dispatch(setAccountCreationStep(AccountCreation.SessionIDShown));
-            dispatch(setOnboardingStep(Onboarding.CreateAccount));
-          }}
-          text={window.i18n('createSessionID')}
-        />
-      </div>
-    );
-  }
-
   if (step === AccountCreation.SessionIDShown) {
     return (
-      <div className="session-registration__content">
-        <Flex flexDirection="row" container={true} alignItems="center">
-          <BackButton />
+      <div>
+        <Flex
+          flexDirection="row"
+          container={true}
+          alignItems="center"
+          margin={'0 0 0 calc(var(--margins-sm) * -1)'}
+        >
+          {/* <BackButton /> */}
 
           <div className="session-registration__unique-session-id">
             {window.i18n('yourUniqueSessionID')}
@@ -99,7 +87,6 @@ export const SignUpTab = () => {
   return (
     <StyledContainer>
       <Flex flexDirection="row" container={true} alignItems="center">
-        <BackButton />
         <Flex className="session-registration__welcome-session" padding="20px">
           {window.i18n('welcomeToYourSession')}
         </Flex>
@@ -119,7 +106,6 @@ export const SignUpTab = () => {
         text={window.i18n('getStarted')}
         disabled={!enableCompleteSignUp}
       />
-      <TermsAndConditions />
     </StyledContainer>
   );
 };
