@@ -1,27 +1,54 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { SignInMode } from '../../../components/registration/stages/SignInTab';
-import { SignUpMode } from '../../../components/registration/stages/SignUpTab';
 
-export enum RegistrationPhase {
+export enum Onboarding {
+  /* starting screen */
   Start,
-  SignIn,
-  SignUp,
+  /* uses AccountCreation internally */
+  CreateAccount,
+  /* uses AccountRestoration internally */
+  RestoreAccount,
 }
 
-export type RegistrationState = {
+export enum AccountCreation {
+  /* TODO to be removed - current starting screen */
+  Start,
+  /* TODO to be removed */
+  SessionIDShown,
+  /* starting screen */
+  DisplayName,
+  /* show conversation screen */
+  Complete,
+}
+
+export enum AccountRestoration {
+  /* TODO to be removed - current starting screen */
+  Start,
+  /* starting screen */
+  RecoveryPassword,
+  /* fetching account details */
+  Loading,
+  /* we failed to fetch a display name in time so we choose a new one */
+  DisplayName,
+  /* show conversation screen */
+  Complete,
+  /* TODO to be removed */
+  LinkDevice,
+}
+
+export type OnboardingState = {
   generatedRecoveryPhrase: string;
   hexGeneratedPubKey: string;
-  registrationPhase: RegistrationPhase;
-  signUpMode: SignUpMode;
-  signInMode: SignInMode;
+  step: Onboarding;
+  accountCreationStep: AccountCreation;
+  accountRestorationStep: AccountRestoration;
 };
 
-const initialState: RegistrationState = {
+const initialState: OnboardingState = {
   generatedRecoveryPhrase: '',
   hexGeneratedPubKey: '',
-  registrationPhase: RegistrationPhase.Start,
-  signInMode: SignInMode.Default,
-  signUpMode: SignUpMode.Default,
+  step: Onboarding.Start,
+  accountRestorationStep: AccountRestoration.Start,
+  accountCreationStep: AccountCreation.Start,
 };
 
 export const registrationSlice = createSlice({
@@ -34,14 +61,14 @@ export const registrationSlice = createSlice({
     setHexGeneratedPubKey(state, action: PayloadAction<string>) {
       return { ...state, hexGeneratedPubKey: action.payload };
     },
-    setRegistrationPhase(state, action: PayloadAction<RegistrationPhase>) {
-      return { ...state, registrationPhase: action.payload };
+    setOnboardingStep(state, action: PayloadAction<Onboarding>) {
+      return { ...state, step: action.payload };
     },
-    setSignUpMode(state, action: PayloadAction<SignUpMode>) {
-      return { ...state, signUpMode: action.payload };
+    setAccountCreationStep(state, action: PayloadAction<AccountCreation>) {
+      return { ...state, accountCreationStep: action.payload };
     },
-    setSignInMode(state, action: PayloadAction<SignInMode>) {
-      return { ...state, signInMode: action.payload };
+    setAccountRestorationStep(state, action: PayloadAction<AccountRestoration>) {
+      return { ...state, accountRestorationStep: action.payload };
     },
   },
 });
@@ -49,8 +76,8 @@ export const registrationSlice = createSlice({
 export const {
   setGeneratedRecoveryPhrase,
   setHexGeneratedPubKey,
-  setRegistrationPhase,
-  setSignUpMode,
-  setSignInMode,
+  setOnboardingStep,
+  setAccountCreationStep,
+  setAccountRestorationStep,
 } = registrationSlice.actions;
 export default registrationSlice.reducer;

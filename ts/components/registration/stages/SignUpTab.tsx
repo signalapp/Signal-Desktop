@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { setRegistrationPhase, setSignUpMode } from '../../../state/onboarding/ducks/registration';
 import {
-  useRegGeneratedRecoveryPhrase,
-  useRegHexGeneratedPubKey,
-  useRegSignUpMode,
+  AccountCreation,
+  Onboarding,
+  setAccountCreationStep,
+  setOnboardingStep,
+} from '../../../state/onboarding/ducks/registration';
+import {
+  useOnboardAccountCreationStep,
+  useOnboardGeneratedRecoveryPhrase,
+  useOnboardHexGeneratedPubKey,
 } from '../../../state/onboarding/selectors/registration';
 import { Noop } from '../../../types/Util';
 import { Flex } from '../../basic/Flex';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
-import { RegistrationPhase, signUp } from '../RegistrationStages';
+import { signUp } from '../RegistrationStages';
 import { RegistrationUserDetails } from '../RegistrationUserDetails';
 import { TermsAndConditions } from '../TermsAndConditions';
 import { BackButton } from '../components';
@@ -21,12 +26,6 @@ const StyledContainer = styled.div`
   width: 100%;
   padding-top: 20px;
 `;
-
-export enum SignUpMode {
-  Default,
-  SessionIDShown,
-  EnterDetails,
-}
 
 const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
   return <SessionButton onClick={createSessionID} text={window.i18n('createSessionID')} />;
@@ -63,9 +62,9 @@ const SignUpSessionIDShown = (props: { continueSignUp: Noop }) => {
 };
 
 export const SignUpTab = () => {
-  const signUpMode = useRegSignUpMode();
-  const generatedRecoveryPhrase = useRegGeneratedRecoveryPhrase();
-  const hexGeneratedPubKey = useRegHexGeneratedPubKey();
+  const step = useOnboardAccountCreationStep();
+  const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();
+  const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
 
   const dispatch = useDispatch();
 
@@ -73,27 +72,27 @@ export const SignUpTab = () => {
   const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
 
   useEffect(() => {
-    if (signUpMode === SignUpMode.SessionIDShown) {
+    if (step === AccountCreation.SessionIDShown) {
       window.Session.setNewSessionID(hexGeneratedPubKey);
     }
-  }, [signUpMode, hexGeneratedPubKey]);
+  }, [step, hexGeneratedPubKey]);
 
-  if (signUpMode === SignUpMode.Default) {
+  if (step === AccountCreation.Start) {
     return (
       <SignUpDefault
         createSessionID={() => {
-          dispatch(setSignUpMode(SignUpMode.SessionIDShown));
-          dispatch(setRegistrationPhase(RegistrationPhase.SignUp));
+          dispatch(setAccountCreationStep(AccountCreation.SessionIDShown));
+          dispatch(setOnboardingStep(Onboarding.CreateAccount));
         }}
       />
     );
   }
 
-  if (signUpMode === SignUpMode.SessionIDShown) {
+  if (step === AccountCreation.SessionIDShown) {
     return (
       <SignUpSessionIDShown
         continueSignUp={() => {
-          dispatch(setSignUpMode(SignUpMode.EnterDetails));
+          dispatch(setAccountCreationStep(AccountCreation.DisplayName));
         }}
       />
     );

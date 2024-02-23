@@ -11,12 +11,13 @@ import { TaskTimedOutError } from '../../session/utils/Promise';
 import { fromHex } from '../../session/utils/String';
 import { trigger } from '../../shims/events';
 import {
+  Onboarding,
   setGeneratedRecoveryPhrase,
   setHexGeneratedPubKey,
 } from '../../state/onboarding/ducks/registration';
 import {
-  useRegGeneratedRecoveryPhrase,
-  useRegRegistrationPhase,
+  useOnboardGeneratedRecoveryPhrase,
+  useOnboardStep,
 } from '../../state/onboarding/selectors/registration';
 import {
   generateMnemonic,
@@ -171,15 +172,9 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
   }
 }
 
-export enum RegistrationPhase {
-  Start,
-  SignIn,
-  SignUp,
-}
-
 export const RegistrationStages = () => {
-  const generatedRecoveryPhrase = useRegGeneratedRecoveryPhrase();
-  const registrationPhase = useRegRegistrationPhase();
+  const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();
+  const step = useOnboardStep();
 
   const dispatch = useDispatch();
 
@@ -212,10 +207,8 @@ export const RegistrationStages = () => {
     <>
       <ModalContainer />
       <StyledRegistrationContainer container={true} flexDirection="column">
-        {(registrationPhase === RegistrationPhase.Start ||
-          registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
-        {(registrationPhase === RegistrationPhase.Start ||
-          registrationPhase === RegistrationPhase.SignIn) && <SignInTab />}
+        {(step === Onboarding.Start || step === Onboarding.CreateAccount) && <SignUpTab />}
+        {(step === Onboarding.Start || step === Onboarding.RestoreAccount) && <SignInTab />}
       </StyledRegistrationContainer>
     </>
   );

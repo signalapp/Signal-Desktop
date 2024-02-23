@@ -1,4 +1,4 @@
-import { SignInMode, SignInTab } from './SignInTab';
-import { SignUpMode, SignUpTab } from './SignUpTab';
+import { SignInTab } from './SignInTab';
+import { SignUpTab } from './SignUpTab';
 
-export { SignInMode, SignInTab, SignUpMode, SignUpTab };
+export { SignInTab, SignUpTab };

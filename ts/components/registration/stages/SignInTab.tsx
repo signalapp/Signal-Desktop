@@ -2,22 +2,21 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ToastUtils } from '../../../session/utils';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
-import { setRegistrationPhase, setSignInMode } from '../../../state/onboarding/ducks/registration';
-import { useRegSignInMode } from '../../../state/onboarding/selectors/registration';
+import {
+  AccountRestoration,
+  Onboarding,
+  setAccountRestorationStep,
+  setOnboardingStep,
+} from '../../../state/onboarding/ducks/registration';
+import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
 import { Flex } from '../../basic/Flex';
 import { SessionButton } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
 import { SessionSpinner } from '../../loading';
-import { RegistrationPhase, signInWithLinking, signInWithRecovery } from '../RegistrationStages';
+import { signInWithLinking, signInWithRecovery } from '../RegistrationStages';
 import { RegistrationUserDetails } from '../RegistrationUserDetails';
 import { TermsAndConditions } from '../TermsAndConditions';
 import { BackButton } from '../components';
-
-export enum SignInMode {
-  Default,
-  UsingRecoveryPhrase,
-  LinkDevice,
-}
 
 const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
   return (
@@ -54,11 +53,11 @@ const ContinueYourSessionButton = (props: {
 };
 
 const SignInContinueButton = (props: {
-  signInMode: SignInMode;
+  accountRestorationStep: AccountRestoration;
   disabled: boolean;
   handleContinueYourSessionClick: () => any;
 }) => {
-  if (props.signInMode === SignInMode.Default) {
+  if (props.accountRestorationStep === AccountRestoration.Start) {
     return null;
   }
   return (
@@ -70,11 +69,11 @@ const SignInContinueButton = (props: {
 };
 
 const SignInButtons = (props: {
-  signInMode: SignInMode;
+  accountRestorationStep: AccountRestoration;
   onRecoveryButtonClicked: () => any;
   onLinkDeviceButtonClicked: () => any;
 }) => {
-  if (props.signInMode !== SignInMode.Default) {
+  if (props.accountRestorationStep !== AccountRestoration.Start) {
     return null;
   }
   return (
@@ -104,7 +103,7 @@ export function sanitizeDisplayNameOrToast(
 }
 
 export const SignInTab = () => {
-  const signInMode = useRegSignInMode();
+  const step = useOnboardAccountRestorationStep();
 
   const dispatch = useDispatch();
 
@@ -114,9 +113,9 @@ export const SignInTab = () => {
   const [displayNameError, setDisplayNameError] = useState<string | undefined>('');
   const [loading, setIsLoading] = useState(false);
 
-  const isRecovery = signInMode === SignInMode.UsingRecoveryPhrase;
-  const isLinking = signInMode === SignInMode.LinkDevice;
-  const showTermsAndConditions = signInMode !== SignInMode.Default;
+  const isRecovery = step === AccountRestoration.RecoveryPassword;
+  const isLinking = step === AccountRestoration.LinkDevice;
+  const showTermsAndConditions = step !== AccountRestoration.Start;
 
   // show display name input only if we are trying to recover from seed.
   // We don't need a display name when we link a device, as the display name
@@ -148,7 +147,7 @@ export const SignInTab = () => {
 
   return (
     <div className="session-registration__content">
-      {signInMode !== SignInMode.Default && (
+      {step !== AccountRestoration.Start && (
         <>
           <BackButton />
           <SpacerLG />
@@ -171,24 +170,24 @@ export const SignInTab = () => {
       )}
 
       <SignInButtons
-        signInMode={signInMode}
+        accountRestorationStep={step}
         onRecoveryButtonClicked={() => {
-          dispatch(setRegistrationPhase(RegistrationPhase.SignIn));
-          dispatch(setSignInMode(SignInMode.UsingRecoveryPhrase));
+          dispatch(setOnboardingStep(Onboarding.RestoreAccount));
+          dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
           setRecoveryPhrase('');
           setDisplayName('');
           setIsLoading(false);
         }}
         onLinkDeviceButtonClicked={() => {
-          dispatch(setRegistrationPhase(RegistrationPhase.SignIn));
-          dispatch(setSignInMode(SignInMode.LinkDevice));
+          dispatch(setOnboardingStep(Onboarding.RestoreAccount));
+          dispatch(setAccountRestorationStep(AccountRestoration.LinkDevice));
           setRecoveryPhrase('');
           setDisplayName('');
           setIsLoading(false);
         }}
       />
       <SignInContinueButton
-        signInMode={signInMode}
+        accountRestorationStep={step}
         handleContinueYourSessionClick={continueYourSession}
         disabled={!activateContinueButton}
       />

@@ -1,58 +1,62 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { SignInMode, SignUpMode } from '../../../components/registration/stages';
-import { RegistrationPhase, RegistrationState } from '../ducks/registration';
+import {
+  AccountCreation,
+  AccountRestoration,
+  Onboarding,
+  OnboardingState,
+} from '../ducks/registration';
 import { OnboardingStoreState } from '../store';
 
 // #region Getters
-const getRegistration = (state: OnboardingStoreState): RegistrationState => {
+const getRegistration = (state: OnboardingStoreState): OnboardingState => {
   return state.registration;
 };
 
 const getGeneratedRecoveryPhrase = createSelector(
   getRegistration,
-  (state: RegistrationState): string => state.generatedRecoveryPhrase
+  (state: OnboardingState): string => state.generatedRecoveryPhrase
 );
 
 const getHexGeneratedPubKey = createSelector(
   getRegistration,
-  (state: RegistrationState): string => state.hexGeneratedPubKey
+  (state: OnboardingState): string => state.hexGeneratedPubKey
 );
 
-const getRegistrationPhase = createSelector(
+const getOnboardingStep = createSelector(
   getRegistration,
-  (state: RegistrationState): RegistrationPhase => state.registrationPhase
+  (state: OnboardingState): Onboarding => state.step
 );
 
-const getSignUpMode = createSelector(
+const getAccountCreationStep = createSelector(
   getRegistration,
-  (state: RegistrationState): SignUpMode => state.signUpMode
+  (state: OnboardingState): AccountCreation => state.accountCreationStep
 );
 
-const getSignInMode = createSelector(
+const getAccountRestorationStep = createSelector(
   getRegistration,
-  (state: RegistrationState): SignInMode => state.signInMode
+  (state: OnboardingState): AccountRestoration => state.accountRestorationStep
 );
 // #endregion
 
 // #region Hooks
-export const useRegGeneratedRecoveryPhrase = () => {
+export const useOnboardGeneratedRecoveryPhrase = () => {
   return useSelector(getGeneratedRecoveryPhrase);
 };
 
-export const useRegHexGeneratedPubKey = () => {
+export const useOnboardHexGeneratedPubKey = () => {
   return useSelector(getHexGeneratedPubKey);
 };
 
-export const useRegRegistrationPhase = () => {
-  return useSelector(getRegistrationPhase);
+export const useOnboardStep = () => {
+  return useSelector(getOnboardingStep);
 };
 
-export const useRegSignUpMode = () => {
-  return useSelector(getSignUpMode);
+export const useOnboardAccountCreationStep = () => {
+  return useSelector(getAccountCreationStep);
 };
 
-export const useRegSignInMode = () => {
-  return useSelector(getSignInMode);
+export const useOnboardAccountRestorationStep = () => {
+  return useSelector(getAccountRestorationStep);
 };
 // #endregion
