@@ -102,6 +102,10 @@ async function main() {
     'Signal Desktop makes use of the following open source projects.',
     '',
     markdownsForDependency.join('\n\n'),
+    '',
+    '## Kyber Patent License',
+    '',
+    '<https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/selected-algos-2022/nist-pqc-license-summary-and-excerpts.pdf>',
   ].join('\n');
 
   const prettierConfig = await prettier.resolveConfig(destinationPath);
