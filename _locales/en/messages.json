@@ -6907,6 +6907,10 @@
     "messageformat": "Reacted to a story from {name}",
     "description": "Label for when a person reacts to a story"
   },
+  "icu:Quote__story-reaction--you": {
+    "messageformat": "Reacted to your story",
+    "description": "Label for when someone reacts to your story"
+  },
   "icu:Quote__story-reaction--single": {
     "messageformat": "Reacted to a story",
     "description": "Used whenever we can't find a user's first name"
