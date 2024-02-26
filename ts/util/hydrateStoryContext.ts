@@ -62,10 +62,8 @@ export async function hydrateStoryContext(
     );
     const newMessageAttributes: Partial<MessageAttributesType> = {
       storyReplyContext: {
+        ...context,
         attachment: undefined,
-        // This is ok to do because story replies only show in 1:1 conversations
-        // so the story that was quoted should be from the same conversation.
-        authorAci: conversation?.getAci(),
         // No messageId = referenced story not found
         messageId: '',
       },

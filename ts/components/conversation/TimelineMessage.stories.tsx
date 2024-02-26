@@ -1839,8 +1839,8 @@ export const StoryReplyYours = (): JSX.Element => {
 export const StoryReplyEmoji = (): JSX.Element => {
   const conversation = getDefaultConversation();
 
-  return renderThree({
-    ...createProps({ direction: 'outgoing', text: 'Wow!' }),
+  return renderBothDirections({
+    ...createProps({ text: 'Wow!' }),
     storyReplyContext: {
       authorTitle: conversation.firstName || conversation.title,
       conversationColor: ConversationColors[0],
