@@ -19,7 +19,7 @@ jobs:
             -H "Accept: application/json" \
             -H "Content-Type: application/json" \
             -H "DD-API-KEY: ${DD_API_KEY}" \
-            -d @- << EOF
+            -d '
             {
               "title": "Desktop Release ${{ github.ref_name }}",
               "text": "A new desktop release ${{ github.ref_name }} was just published",
@@ -30,6 +30,6 @@ jobs:
                 "version:${{ github.ref_name }}"
               ]
             }
-            EOF
+            '
         env:
           DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
