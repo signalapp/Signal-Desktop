@@ -30,7 +30,6 @@ import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../ut
 import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
-import { BackButton } from './components';
 import { CreateAccount, RestoreAccount, Start } from './stages';
 
 const StyledRegistrationContainer = styled(Flex)`
@@ -207,53 +206,46 @@ export const RegistrationStages = () => {
   });
 
   return (
-    <Flex container={true}>
-      {step === Onboarding.Start ? null : (
-        <div style={{ marginTop: 'calc(var(--margins-lg) + 30px)' }}>
-          <BackButton />
+    <StyledRegistrationContainer container={true} flexDirection="column">
+      <Flex container={true} alignItems="center">
+        <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
+        <SpacerSM />
+        <div style={{ flexGrow: 1 }}>
+          <SessionIcon iconSize={'small'} iconType="session" />
         </div>
-      )}
-      <StyledRegistrationContainer container={true} flexDirection="column">
         <Flex container={true} alignItems="center">
-          <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
+          <SessionIconButton
+            aria-label="external link to Session FAQ web page"
+            iconType="question"
+            iconSize={'medium'}
+            iconPadding="4px"
+            iconColor="var(--text-primary-color)"
+            style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+            onClick={() => {
+              void shell.openExternal('https://getsession.org/faq');
+            }}
+          />
           <SpacerSM />
-          <div style={{ flexGrow: 1 }}>
-            <SessionIcon iconSize={'small'} iconType="session" />
-          </div>
-          <Flex container={true} alignItems="center">
-            <SessionIconButton
-              aria-label="external link to Session FAQ web page"
-              iconType="question"
-              iconSize={'medium'}
-              iconPadding="4px"
-              iconColor="var(--text-primary-color)"
-              style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
-              onClick={() => {
-                void shell.openExternal('https://getsession.org/faq');
-              }}
-            />
-            <SpacerSM />
-            <SessionIconButton
-              aria-label="external link to Session FAQ web page"
-              iconType="link"
-              iconSize="medium"
-              iconColor="var(--text-primary-color)"
-              iconPadding="4px"
-              style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
-              onClick={() => {
-                void shell.openExternal('https://getsession.org');
-              }}
-            />
-          </Flex>
+          <SessionIconButton
+            aria-label="external link to Session FAQ web page"
+            iconType="link"
+            iconSize="medium"
+            iconColor="var(--text-primary-color)"
+            iconPadding="4px"
+            style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+            onClick={() => {
+              void shell.openExternal('https://getsession.org');
+            }}
+          />
         </Flex>
+      </Flex>
 
-        <Flex container={true} flexDirection="column" alignItems="center">
-          <SpacerLG />
-          {step === Onboarding.Start ? <Start /> : null}
-          {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
-          {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}
-        </Flex>
-      </StyledRegistrationContainer>
-    </Flex>
+      <Flex container={true} flexDirection="column" alignItems="center">
+        <SpacerLG />
+        {step === Onboarding.Start ? <Start /> : null}
+        {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
+        {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}
+      </Flex>
+    </StyledRegistrationContainer>
   );
 };

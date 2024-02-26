@@ -1,6 +1,7 @@
 import { MAX_USERNAME_BYTES } from '../../session/constants';
 import { SpacerLG } from '../basic/Text';
 import { SessionInput2 } from '../inputs';
+import { BackButtonWithininContainer } from './components/BackButton';
 
 const DisplayNameInput = (props: {
   stealAutoFocus?: boolean;
@@ -59,29 +60,31 @@ export const RegistrationUserDetails = (props: Props) => {
   }
 
   return (
-    <div style={{ margin: 0 }}>
-      {props.showSeedField && (
-        <>
-          <RecoveryPhraseInput
-            recoveryPhrase={props.recoveryPhrase as string}
-            handlePressEnter={props.handlePressEnter}
-            onSeedChanged={props.onSeedChanged as any}
-            stealAutoFocus={props.stealAutoFocus}
-          />
-          <SpacerLG />
-        </>
-      )}
-      {props.showDisplayNameField && (
-        <>
-          <DisplayNameInput
-            stealAutoFocus={!props.showSeedField && props.stealAutoFocus}
-            displayName={props.displayName}
-            handlePressEnter={props.handlePressEnter}
-            onDisplayNameChanged={props.onDisplayNameChanged}
-          />
-          <SpacerLG />
-        </>
-      )}
-    </div>
+    <BackButtonWithininContainer margin={'12px 0 0 0'}>
+      <div style={{ margin: 0 }}>
+        {props.showSeedField && (
+          <>
+            <RecoveryPhraseInput
+              recoveryPhrase={props.recoveryPhrase as string}
+              handlePressEnter={props.handlePressEnter}
+              onSeedChanged={props.onSeedChanged as any}
+              stealAutoFocus={props.stealAutoFocus}
+            />
+            <SpacerLG />
+          </>
+        )}
+        {props.showDisplayNameField && (
+          <>
+            <DisplayNameInput
+              stealAutoFocus={!props.showSeedField && props.stealAutoFocus}
+              displayName={props.displayName}
+              handlePressEnter={props.handlePressEnter}
+              onDisplayNameChanged={props.onDisplayNameChanged}
+            />
+            <SpacerLG />
+          </>
+        )}
+      </div>
+    </BackButtonWithininContainer>
   );
 };

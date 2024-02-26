@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   AccountCreation,
@@ -7,7 +8,25 @@ import {
   setAccountRestorationStep,
   setOnboardingStep,
 } from '../../../state/onboarding/ducks/registration';
+import { Flex } from '../../basic/Flex';
 import { SessionIconButton } from '../../icon';
+
+export const BackButtonWithininContainer = ({
+  children,
+  margin,
+}: {
+  children: ReactNode;
+  margin?: string;
+}) => {
+  return (
+    <Flex container={true} width={'100%'} flexDirection="row" alignItems="flex-start">
+      <div style={{ margin }}>
+        <BackButton />
+      </div>
+      {children}
+    </Flex>
+  );
+};
 
 export const BackButton = () => {
   const dispatch = useDispatch();

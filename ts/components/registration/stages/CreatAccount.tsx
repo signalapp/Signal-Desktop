@@ -16,6 +16,7 @@ import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { signUp } from '../RegistrationStages';
 import { RegistrationUserDetails } from '../RegistrationUserDetails';
 import { TermsAndConditions } from '../TermsAndConditions';
+import { BackButtonWithininContainer } from '../components/BackButton';
 import { sanitizeDisplayNameOrToast } from './RestoreAccount';
 
 const StyledContainer = styled.div`
@@ -48,11 +49,11 @@ export const CreateAccount = () => {
           alignItems="center"
           margin={'0 0 0 calc(var(--margins-sm) * -1)'}
         >
-          {/* <BackButton /> */}
-
-          <div className="session-registration__unique-session-id">
-            {window.i18n('yourUniqueSessionID')}
-          </div>
+          <BackButtonWithininContainer margin={'-5px 0 0 0'}>
+            <div className="session-registration__unique-session-id">
+              {window.i18n('yourUniqueSessionID')}
+            </div>
+          </BackButtonWithininContainer>
         </Flex>
         <SessionIdEditable
           editable={false}
