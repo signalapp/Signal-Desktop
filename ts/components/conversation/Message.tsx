@@ -1651,9 +1651,11 @@ export class Message extends React.PureComponent<Props, State> {
       <>
         {storyReplyContext.emoji && (
           <div className="module-message__quote-story-reaction-header">
-            {i18n('icu:Quote__story-reaction', {
-              name: storyReplyContext.authorTitle,
-            })}
+            {isIncoming
+              ? i18n('icu:Quote__story-reaction--you')
+              : i18n('icu:Quote__story-reaction', {
+                  name: storyReplyContext.authorTitle,
+                })}
           </div>
         )}
         <Quote
