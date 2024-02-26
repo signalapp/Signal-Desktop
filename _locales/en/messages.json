@@ -585,5 +585,6 @@
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
   "displayNamePick": "Pick your display name",
-  "displayNameDescription": "It can be your real name, an alias, or anything else you like — and you can change it any time."
+  "displayNameDescription": "It can be your real name, an alias, or anything else you like — and you can change it any time.",
+  "invalidDisplayNameTooLong": "Please enter a shorter display name."
 }

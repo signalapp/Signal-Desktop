@@ -236,6 +236,7 @@ export type LocalizerKeys =
   | 'imageCaptionIconAlt'
   | 'incomingCallFrom'
   | 'incomingError'
+  | 'invalidDisplayNameTooLong'
   | 'invalidGroupNameTooLong'
   | 'invalidGroupNameTooShort'
   | 'invalidNumberError'

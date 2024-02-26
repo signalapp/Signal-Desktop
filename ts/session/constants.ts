@@ -68,6 +68,7 @@ export const VALIDATION = {
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
 export const REACT_LIMIT = 6;
 
+/** the useronfig wrapper name property character limit */
 export const MAX_USERNAME_BYTES = 64;
 
 export const FEATURE_RELEASE_TIMESTAMPS = {

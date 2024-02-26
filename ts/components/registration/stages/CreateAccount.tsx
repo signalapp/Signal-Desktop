@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MAX_USERNAME_BYTES } from '../../../session/constants';
+import { sanitizeSessionUsername } from '../../../session/utils/String';
 import { AccountCreation } from '../../../state/onboarding/ducks/registration';
 import {
   useOnboardAccountCreationStep,
@@ -8,12 +8,11 @@ import {
   useOnboardHexGeneratedPubKey,
 } from '../../../state/onboarding/selectors/registration';
 import { Flex } from '../../basic/Flex';
-import { SessionButton } from '../../basic/SessionButton';
+import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput2 } from '../../inputs';
 import { signUp } from '../RegistrationStages';
 import { BackButtonWithininContainer } from '../components/BackButton';
-import { sanitizeDisplayNameOrToast } from './RestoreAccount';
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -30,12 +29,26 @@ const StyledDescription = styled.p`
   margin: 0;
 `;
 
+function sanitizeDisplayNameOrToast(
+  displayName: string,
+  setDisplayName: (sanitized: string) => void,
+  setDisplayNameError: (error: string | undefined) => void
+) {
+  try {
+    const sanitizedName = sanitizeSessionUsername(displayName);
+    const trimName = sanitizedName.trim();
+    setDisplayName(sanitizedName);
+    setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+  } catch (e) {
+    setDisplayName(displayName);
+    setDisplayNameError(window.i18n('invalidDisplayNameTooLong'));
+  }
+}
+
 export const CreateAccount = () => {
   const step = useOnboardAccountCreationStep();
   const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();
   const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
-
-  // const dispatch = useDispatch();
 
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
@@ -46,12 +59,13 @@ export const CreateAccount = () => {
     }
   }, [step, hexGeneratedPubKey]);
 
-  // Display name is required
-  const displayNameOK = !displayNameError && !!displayName;
+  const displayNameOK = !!displayName && !displayNameError;
+  const signUpWithDetails = () => {
+    if (!displayNameOK) {
+      return;
+    }
 
-  const enableCompleteSignUp = displayNameOK;
-  const signUpWithDetails = async () => {
-    await signUp({
+    void signUp({
       displayName,
       generatedRecoveryPhrase,
     });
@@ -70,18 +84,18 @@ export const CreateAccount = () => {
             type="text"
             placeholder={window.i18n('enterDisplayName')}
             value={displayName}
-            maxLength={MAX_USERNAME_BYTES}
             onValueChanged={(name: string) => {
               sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
             }}
             onEnterPressed={signUpWithDetails}
+            error={displayNameError}
             inputDataTestId="display-name-input"
           />
           <SpacerLG />
           <SessionButton
+            buttonColor={SessionButtonColor.White}
             onClick={signUpWithDetails}
             text={window.i18n('continue')}
-            disabled={!enableCompleteSignUp}
           />
         </Flex>
       </BackButtonWithininContainer>

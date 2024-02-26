@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { ToastUtils } from '../../../session/utils';
-import { sanitizeSessionUsername } from '../../../session/utils/String';
 import { AccountRestoration } from '../../../state/onboarding/ducks/registration';
 import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
 import { Flex } from '../../basic/Flex';
@@ -39,23 +37,6 @@ const SignInContinueButton = (props: {
     />
   );
 };
-
-export function sanitizeDisplayNameOrToast(
-  displayName: string,
-  setDisplayName: (sanitized: string) => void,
-  setDisplayNameError: (error: string | undefined) => void
-) {
-  try {
-    const sanitizedName = sanitizeSessionUsername(displayName);
-    const trimName = sanitizedName.trim();
-    setDisplayName(sanitizedName);
-    setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
-  } catch (e) {
-    setDisplayName(displayName);
-    setDisplayNameError(window.i18n('displayNameTooLong'));
-    ToastUtils.pushToastError('toolong', window.i18n('displayNameTooLong'));
-  }
-}
 
 export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
@@ -108,7 +89,10 @@ export const RestoreAccount = () => {
             displayName={displayName}
             handlePressEnter={continueYourSession}
             onDisplayNameChanged={(name: string) => {
-              sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
+              // NOTE this is just dummy code for later
+              setDisplayName(name);
+              setDisplayNameError(name);
+              window.log.debug(`WIP: [displayName] ${displayName} `);
             }}
             onSeedChanged={(seed: string) => {
               setRecoveryPhrase(seed);
