@@ -10,7 +10,7 @@ import {
 import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
-import { SessionInput2 } from '../../inputs';
+import { SessionInput } from '../../inputs';
 import { signUp } from '../RegistrationStages';
 import { BackButtonWithininContainer } from '../components/BackButton';
 
@@ -79,7 +79,7 @@ export const CreateAccount = () => {
           <SpacerSM />
           <StyledDescription>{window.i18n('displayNameDescription')}</StyledDescription>
           <SpacerLG />
-          <SessionInput2
+          <SessionInput
             autoFocus={true}
             type="text"
             placeholder={window.i18n('enterDisplayName')}

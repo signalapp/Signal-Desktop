@@ -1,5 +1,5 @@
 import { SpacerLG } from '../basic/Text';
-import { SessionInput2 } from '../inputs';
+import { SessionInput } from '../inputs';
 
 const RecoveryPhraseInput = (props: {
   recoveryPhrase: string;
@@ -8,7 +8,7 @@ const RecoveryPhraseInput = (props: {
   stealAutoFocus?: boolean;
 }) => {
   return (
-    <SessionInput2
+    <SessionInput
       type="password"
       value={props.recoveryPhrase}
       autoFocus={props.stealAutoFocus || false}

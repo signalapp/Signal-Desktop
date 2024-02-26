@@ -1,3 +1,3 @@
-import { SessionInput2 } from './SessionInput2';
+import { SessionInput } from './SessionInput';
 
-export { SessionInput2 };
+export { SessionInput };

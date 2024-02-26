@@ -7,7 +7,7 @@ import { useSelectedConversationKey } from '../../../../state/selectors/selected
 import { Flex } from '../../../basic/Flex';
 import { SessionButton } from '../../../basic/SessionButton';
 import { SpacerLG, SpacerXL } from '../../../basic/Text';
-import { SessionInput2 } from '../../../inputs';
+import { SessionInput } from '../../../inputs';
 import { SessionProgressBar } from '../../../loading';
 import { StyledScrollContainer } from './components';
 
@@ -82,7 +82,7 @@ export const OverlayRightPanelSettings2 = () => {
           showPercentage={true}
         />
         <SpacerLG />
-        <SessionInput2
+        <SessionInput
           placeholder={window.i18n('enterDisplayName')}
           value={inputValue}
           error={inputError}

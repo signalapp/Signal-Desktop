@@ -102,7 +102,7 @@ type Props = {
   ctaButton?: ReactNode;
 };
 
-export const SessionInput2 = (props: Props) => {
+export const SessionInput = (props: Props) => {
   const {
     autoFocus,
     placeholder,
