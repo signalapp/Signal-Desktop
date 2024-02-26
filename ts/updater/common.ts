@@ -108,7 +108,9 @@ export abstract class Updater {
 
   protected readonly getMainWindow: () => BrowserWindow | undefined;
 
-  private throttledSendDownloadingUpdate: (downloadedSize: number) => void;
+  private throttledSendDownloadingUpdate: ((downloadedSize: number) => void) & {
+    cancel: () => void;
+  };
 
   private activeDownload: Promise<boolean> | undefined;
 
@@ -134,7 +136,7 @@ export abstract class Updater {
         DialogType.Downloading,
         { downloadedSize }
       );
-    }, 500);
+    }, 50);
   }
 
   //
@@ -359,7 +361,7 @@ export abstract class Updater {
         this.logger.warn(
           'offerUpdate: Failed to download differential update, offering full'
         );
-
+        this.throttledSendDownloadingUpdate.cancel();
         return this.offerUpdate(updateInfo, DownloadMode.FullOnly, attempt + 1);
       }
 
