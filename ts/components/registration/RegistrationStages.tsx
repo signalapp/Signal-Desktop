@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
-import { SettingsKey } from '../../data/settings-key';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
 import { mnDecode } from '../../session/crypto/mnemonic';
@@ -31,6 +30,7 @@ import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { CreateAccount, RestoreAccount, Start } from './stages';
+import { displayNameIsValid } from './stages/CreateAccount';
 
 const StyledRegistrationContainer = styled(Flex)`
   width: 348px;
@@ -47,49 +47,6 @@ export async function resetRegistration() {
   await Storage.fetch();
   getConversationController().reset();
   await getConversationController().load();
-}
-
-/**
- * Returns undefined if an error happened, or the trim userName.
- *
- * Be sure to use the trimmed userName for creating the account.
- */
-const displayNameIsValid = (displayName: string): undefined | string => {
-  const trimName = displayName.trim();
-
-  if (!trimName) {
-    window?.log?.warn('invalid trimmed name for registration');
-    ToastUtils.pushToastError('invalidDisplayName', window.i18n('displayNameEmpty'));
-    return undefined;
-  }
-  return trimName;
-};
-
-export async function signUp(signUpDetails: {
-  displayName: string;
-  generatedRecoveryPhrase: string;
-}) {
-  const { displayName, generatedRecoveryPhrase } = signUpDetails;
-  window?.log?.info('SIGNING UP');
-
-  const trimName = displayNameIsValid(displayName);
-  // shows toast to user about the error
-  if (!trimName) {
-    return;
-  }
-
-  try {
-    await resetRegistration();
-    await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
-    await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, Date.now());
-    await setSignWithRecoveryPhrase(false);
-    trigger('openInbox');
-  } catch (e) {
-    await resetRegistration();
-
-    ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
-    window?.log?.warn('exception during registration:', e);
-  }
 }
 
 /**

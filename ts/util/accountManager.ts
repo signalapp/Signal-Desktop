@@ -4,20 +4,20 @@ import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
 
-import { actions as userActions } from '../state/ducks/user';
-import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { SettingsKey } from '../data/settings-key';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { SessionKeyPair } from '../receiver/keypairs';
+import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { actions as userActions } from '../state/ducks/user';
+import { Registration } from './registration';
 import {
+  Storage,
   saveRecoveryPhrase,
   setLastProfileUpdateTimestamp,
   setLocalPubKey,
   setSignInByLinking,
-  Storage,
 } from './storage';
-import { Registration } from './registration';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { SessionKeyPair } from '../receiver/keypairs';
-import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 
 /**
  * Might throw
@@ -100,7 +100,7 @@ export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: 
  * This is a signup. User has no recovery and does not try to link a device
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
- * @param profileName the display name to register toi
+ * @param profileName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
  */
 export async function registerSingleDevice(
   generatedMnemonic: string,

@@ -10,7 +10,7 @@ import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSession
 
 import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_NAME_LENGTH } from '../../session/constants';
+import { MAX_NAME_LENGTH_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
@@ -151,7 +151,7 @@ export const EditProfileDialog = (): ReactElement => {
     try {
       const newName = profileName ? profileName.trim() : '';
 
-      if (newName.length === 0 || newName.length > MAX_NAME_LENGTH) {
+      if (newName.length === 0 || newName.length > MAX_NAME_LENGTH_BYTES) {
         return;
       }
 
@@ -256,7 +256,7 @@ export const EditProfileDialog = (): ReactElement => {
                 value={profileName}
                 placeholder={window.i18n('displayName')}
                 onChange={onNameEdited}
-                maxLength={MAX_NAME_LENGTH}
+                maxLength={MAX_NAME_LENGTH_BYTES}
                 tabIndex={0}
                 required={true}
                 aria-required={true}
