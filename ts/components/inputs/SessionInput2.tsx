@@ -12,7 +12,7 @@ import { SessionIconButton } from '../icon';
 
 const StyledInputContainer = styled(Flex)<{ error: boolean }>`
   position: relative;
-  width: 280px;
+  width: 100%;
 
   label {
     color: var(--text-primary-color);
@@ -39,7 +39,7 @@ const StyledInput = styled(motion.input)`
   border: 1px solid var(--input-border-color);
   border-radius: 13px;
   outline: 0;
-  width: 280px;
+  width: 100%;
   background: transparent;
   color: var(--input-text-color);
 

@@ -19,7 +19,7 @@ export const Start = () => {
       <SessionButton
         buttonColor={SessionButtonColor.White}
         onClick={() => {
-          dispatch(setAccountCreationStep(AccountCreation.SessionIDShown));
+          dispatch(setAccountCreationStep(AccountCreation.DisplayName));
           dispatch(setOnboardingStep(Onboarding.CreateAccount));
         }}
         text={window.i18n('createAccount')}

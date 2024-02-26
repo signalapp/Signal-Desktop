@@ -10,10 +10,6 @@ export enum Onboarding {
 }
 
 export enum AccountCreation {
-  /** TODO to be removed - current starting screen */
-  Start,
-  /** TODO to be removed */
-  SessionIDShown,
   /** starting screen */
   DisplayName,
   /** show conversation screen */
@@ -48,7 +44,7 @@ const initialState: OnboardingState = {
   hexGeneratedPubKey: '',
   step: Onboarding.Start,
   accountRestorationStep: AccountRestoration.Start,
-  accountCreationStep: AccountCreation.Start,
+  accountCreationStep: AccountCreation.DisplayName,
 };
 
 export const registrationSlice = createSlice({

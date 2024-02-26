@@ -41,7 +41,7 @@ export const BackButton = () => {
       onClick={() => {
         dispatch(setOnboardingStep(Onboarding.Start));
         dispatch(setAccountRestorationStep(AccountRestoration.Start));
-        dispatch(setAccountCreationStep(AccountCreation.Start));
+        dispatch(setAccountCreationStep(AccountCreation.DisplayName));
       }}
     />
   );

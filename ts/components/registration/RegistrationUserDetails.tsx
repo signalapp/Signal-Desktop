@@ -1,27 +1,5 @@
-import { MAX_USERNAME_BYTES } from '../../session/constants';
 import { SpacerLG } from '../basic/Text';
 import { SessionInput2 } from '../inputs';
-import { BackButtonWithininContainer } from './components/BackButton';
-
-const DisplayNameInput = (props: {
-  stealAutoFocus?: boolean;
-  displayName: string;
-  onDisplayNameChanged: (val: string) => any;
-  handlePressEnter: () => any;
-}) => {
-  return (
-    <SessionInput2
-      autoFocus={props.stealAutoFocus || false}
-      type="text"
-      placeholder={window.i18n('enterDisplayName')}
-      value={props.displayName}
-      maxLength={MAX_USERNAME_BYTES}
-      onValueChanged={props.onDisplayNameChanged}
-      onEnterPressed={props.handlePressEnter}
-      inputDataTestId="display-name-input"
-    />
-  );
-};
 
 const RecoveryPhraseInput = (props: {
   recoveryPhrase: string;
@@ -60,31 +38,18 @@ export const RegistrationUserDetails = (props: Props) => {
   }
 
   return (
-    <BackButtonWithininContainer margin={'12px 0 0 0'}>
-      <div style={{ margin: 0 }}>
-        {props.showSeedField && (
-          <>
-            <RecoveryPhraseInput
-              recoveryPhrase={props.recoveryPhrase as string}
-              handlePressEnter={props.handlePressEnter}
-              onSeedChanged={props.onSeedChanged as any}
-              stealAutoFocus={props.stealAutoFocus}
-            />
-            <SpacerLG />
-          </>
-        )}
-        {props.showDisplayNameField && (
-          <>
-            <DisplayNameInput
-              stealAutoFocus={!props.showSeedField && props.stealAutoFocus}
-              displayName={props.displayName}
-              handlePressEnter={props.handlePressEnter}
-              onDisplayNameChanged={props.onDisplayNameChanged}
-            />
-            <SpacerLG />
-          </>
-        )}
-      </div>
-    </BackButtonWithininContainer>
+    <div style={{ margin: 0 }}>
+      {props.showSeedField && (
+        <>
+          <RecoveryPhraseInput
+            recoveryPhrase={props.recoveryPhrase as string}
+            handlePressEnter={props.handlePressEnter}
+            onSeedChanged={props.onSeedChanged as any}
+            stealAutoFocus={props.stealAutoFocus}
+          />
+          <SpacerLG />
+        </>
+      )}
+    </div>
   );
 };

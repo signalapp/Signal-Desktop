@@ -1,4 +1,4 @@
-import { CreateAccount } from './CreatAccount';
+import { CreateAccount } from './CreateAccount';
 import { RestoreAccount } from './RestoreAccount';
 import { Start } from './Start';
 

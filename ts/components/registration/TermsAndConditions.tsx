@@ -4,13 +4,11 @@ import { updateTermsOfServicePrivacyModal } from '../../state/onboarding/ducks/m
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 
 const StyledTermsAndConditions = styled.div`
-  color: var(--text-secondary-color);
   text-align: center;
   font-size: 12px;
 
   b {
     font-weight: bold;
-    color: var(--text-primary-color);
   }
 
   &:hover {

@@ -583,5 +583,7 @@
   "urlOpen": "Open URL",
   "urlOpenBrowser": "This will open in your browser.",
   "termsOfService": "Terms of Service",
-  "privacyPolicy": "Privacy Policy"
+  "privacyPolicy": "Privacy Policy",
+  "displayNamePick": "Pick your display name",
+  "displayNameDescription": "It can be your real name, an alias, or anything else you like — and you can change it any time."
 }
