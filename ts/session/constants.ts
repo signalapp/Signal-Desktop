@@ -68,8 +68,8 @@ export const VALIDATION = {
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
 export const REACT_LIMIT = 6;
 
-/** the useronfig wrapper name property character limit */
-export const MAX_USERNAME_BYTES = 64;
+/** character limit for a display name based on libsession MAX_NAME_LENGTH */
+export const MAX_NAME_LENGTH = 100;
 
 export const FEATURE_RELEASE_TIMESTAMPS = {
   // TODO update to agreed value between platforms for `disappearing_messages`

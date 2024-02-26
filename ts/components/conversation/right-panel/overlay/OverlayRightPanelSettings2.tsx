@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { MAX_USERNAME_BYTES } from '../../../../session/constants';
+import { MAX_NAME_LENGTH } from '../../../../session/constants';
 import { ToastUtils } from '../../../../session/utils';
 import { sanitizeSessionUsername } from '../../../../session/utils/String';
 import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
@@ -86,7 +86,7 @@ export const OverlayRightPanelSettings2 = () => {
           placeholder={window.i18n('enterDisplayName')}
           value={inputValue}
           error={inputError}
-          maxLength={MAX_USERNAME_BYTES}
+          maxLength={MAX_NAME_LENGTH}
           onValueChanged={handleInputChanged}
           onEnterPressed={handleEnterPressed}
           ctaButton={
