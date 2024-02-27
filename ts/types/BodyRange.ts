@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { escapeRegExp, isNumber, omit, partition } from 'lodash';
+import { isNumber, omit, partition } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
@@ -572,12 +572,13 @@ export function processBodyRangesForSearchResult({
     withNoStartTruncation.length !== cleanedSnippet.length
       ? TRUNCATION_CHAR.length
       : 0;
-  const rx = new RegExp(escapeRegExp(withNoEndTruncation));
-  const match = rx.exec(body);
 
-  assertDev(Boolean(match), `No match found for "${snippet}" inside "${body}"`);
+  let startOfSnippet = body.indexOf(withNoEndTruncation);
+  if (startOfSnippet === -1) {
+    assertDev(false, `No match found for "${snippet}" inside "${body}"`);
+    startOfSnippet = 0;
+  }
 
-  const startOfSnippet = match ? match.index : 0;
   const endOfSnippet = startOfSnippet + withNoEndTruncation.length;
 
   // We want only the ranges that include the snippet
