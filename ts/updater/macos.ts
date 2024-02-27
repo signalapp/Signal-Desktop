@@ -9,7 +9,6 @@ import { join } from 'path';
 import { Updater, createTempDir, deleteTempDir } from './common';
 import { explodePromise } from '../util/explodePromise';
 import * as Errors from '../types/errors';
-import { markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';
 
 export class MacOSUpdater extends Updater {
@@ -41,7 +40,7 @@ export class MacOSUpdater extends Updater {
 
     this.setUpdateListener(async () => {
       logger.info('downloadAndInstall: restarting...');
-      markShouldQuit();
+      this.markRestarting();
       autoUpdater.quitAndInstall();
     });
   }
