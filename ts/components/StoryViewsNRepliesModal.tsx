@@ -435,11 +435,13 @@ export function StoryViewsNRepliesModal({
         i18n={i18n}
         moduleClassName="StoryViewsNRepliesModal"
         onClose={onClose}
+        padded={false}
         useFocusTrap={Boolean(composerElement)}
         theme={Theme.Dark}
       >
         <div
           className={classNames({
+            StoryViewsNRepliesModal__content: true,
             'StoryViewsNRepliesModal--group': Boolean(group),
           })}
         >
