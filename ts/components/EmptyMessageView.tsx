@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { Flex } from './basic/Flex';
 
@@ -23,9 +25,66 @@ const StyledSessionFullLogo = styled(Flex)`
   }
 `;
 
+const StyledPartyPopper = styled.img`
+  height: 180px;
+  margin: 0 auto;
+  -webkit-user-drag: none;
+`;
+
+const StyledHeading = styled.p`
+  padding: 0;
+  margin: 0;
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+`;
+
+const StyledSessionWelcome = styled.p`
+  padding: 0;
+  margin: 0;
+  color: var(--primary-color);
+  font-size: var(--font-size-h2);
+`;
+
 export const EmptyMessageView = () => {
+  const [newAccountCreated, setNewAccountCreated] = useState(false);
+
+  useMount(() => {
+    const launchCount = window.getSettingValue('launch-count');
+    window.log.debug(`WIP: [launch-count] ${launchCount}`);
+
+    if (!launchCount || launchCount < 1) {
+      setNewAccountCreated(true);
+    }
+  });
+
+  if (newAccountCreated) {
+    return (
+      <StyledPlaceholder
+        container={true}
+        className="content"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        margin="auto"
+      >
+        <StyledPartyPopper src="images/party-popper.svg" alt="party popper emoji" />
+        <StyledHeading>{window.i18n('onboardingAccountCreated')}</StyledHeading>
+        <StyledSessionWelcome>
+          {window.i18n('onboardingBubbleWelcomeToSession')}
+        </StyledSessionWelcome>
+      </StyledPlaceholder>
+    );
+  }
+
   return (
-    <StyledPlaceholder container={true} alignItems="center">
+    <StyledPlaceholder
+      container={true}
+      className="content"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      margin="auto"
+    >
       <StyledSessionFullLogo
         container={true}
         className="content"

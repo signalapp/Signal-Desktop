@@ -356,6 +356,8 @@ export type LocalizerKeys =
   | 'oceanLightThemeTitle'
   | 'offline'
   | 'ok'
+  | 'onboardingAccountCreated'
+  | 'onboardingBubbleWelcomeToSession'
   | 'onboardingTosPrivacy'
   | 'oneNonImageAtATimeToast'
   | 'onionPathIndicatorDescription'

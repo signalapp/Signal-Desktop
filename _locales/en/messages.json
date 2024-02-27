@@ -586,5 +586,7 @@
   "privacyPolicy": "Privacy Policy",
   "displayNamePick": "Pick your display name",
   "displayNameDescription": "It can be your real name, an alias, or anything else you like — and you can change it any time.",
-  "invalidDisplayNameTooLong": "Please enter a shorter display name."
+  "invalidDisplayNameTooLong": "Please enter a shorter display name.",
+  "onboardingAccountCreated": "Account Created",
+  "onboardingBubbleWelcomeToSession": "Welcome to Session"
 }

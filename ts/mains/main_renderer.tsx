@@ -406,7 +406,10 @@ async function start() {
     window.showWindow();
     if (conversationKey) {
       // do not put the messageId here so the conversation is loaded on the last unread instead
-      await window.openConversationWithMessages({ conversationKey, messageId: null });
+      await window.openConversationWithMessages({
+        conversationKey,
+        messageId: null,
+      });
     } else {
       openInbox();
     }
