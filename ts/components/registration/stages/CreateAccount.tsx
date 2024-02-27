@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
 import { trigger } from '../../../shims/events';
-import { AccountCreation } from '../../../state/onboarding/ducks/registration';
+import {
+  AccountCreation,
+  setAccountCreationStep,
+} from '../../../state/onboarding/ducks/registration';
 import {
   useOnboardAccountCreationStep,
   useOnboardGeneratedRecoveryPhrase,
@@ -95,6 +99,8 @@ export const CreateAccount = () => {
   const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();
   const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
 
+  const dispatch = useDispatch();
+
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
 
@@ -114,6 +120,8 @@ export const CreateAccount = () => {
       displayName,
       generatedRecoveryPhrase,
     });
+
+    dispatch(setAccountCreationStep(AccountCreation.Done));
   };
 
   return (

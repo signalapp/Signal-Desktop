@@ -13,7 +13,7 @@ export enum AccountCreation {
   /** starting screen */
   DisplayName,
   /** show conversation screen */
-  Complete,
+  Done,
 }
 
 export enum AccountRestoration {
