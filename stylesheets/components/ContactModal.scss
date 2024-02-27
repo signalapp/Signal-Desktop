@@ -8,6 +8,7 @@
   justify-content: center;
   margin-top: 4px;
   margin-bottom: 24px;
+  padding-inline: 24px;
 
   &__name {
     @include button-reset();
@@ -16,12 +17,21 @@
     display: flex;
     flex-direction: row;
     align-items: baseline;
+    max-width: 100%;
 
     margin-top: 12px;
     cursor: pointer;
   }
 
+  &__name__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__name__chevron {
+    flex-shrink: 0;
+
     display: inline-block;
     height: 20px;
     width: 20px;
@@ -64,7 +74,6 @@
     display: flex;
     align-items: center;
     padding-block: 6px;
-    padding-inline: 24px;
     width: 100%;
 
     &:last-child {
@@ -263,8 +272,7 @@
   }
 
   &__divider {
-    // Full width minus margin
-    width: calc(100% - 48px);
+    width: 100%;
 
     border-style: solid;
     border-bottom: none;
@@ -279,6 +287,5 @@
     }
 
     margin-block: 8px 5px;
-    margin-inline: 24px;
   }
 }
