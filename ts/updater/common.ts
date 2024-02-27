@@ -159,16 +159,11 @@ export abstract class Updater {
     }
 
     this.logger.info(
-      'updater/onRestartCancelled: restart was cancelled. showing update dialog.'
+      'updater/onRestartCancelled: restart was cancelled. forcing update to reset updater state'
     );
     this.restarting = false;
     markShouldNotQuit();
-
-    const mainWindow = this.getMainWindow();
-    mainWindow?.webContents.send(
-      'show-update-dialog',
-      DialogType.DownloadedUpdate
-    );
+    drop(this.force());
   }
 
   public async start(): Promise<void> {
