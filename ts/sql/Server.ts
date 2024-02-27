@@ -1762,6 +1762,11 @@ async function searchMessages({
     .map(token => `"${token.replace(/"/g, '""')}"*`)
     .join(' ');
 
+  // FTS5 is not happy about empty "MATCH" so short-circuit early.
+  if (!normalizedQuery) {
+    return [];
+  }
+
   // sqlite queries with a join on a virtual table (like FTS5) are de-optimized
   // and can't use indices for ordering results. Instead an in-memory index of
   // the join rows is sorted on the fly, and this becomes substantially
