@@ -284,11 +284,9 @@ async function start() {
   window.log.info('Cleanup: complete');
 
   window.log.info('listening for registration events');
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  WhisperEvents.on('registration_done', async () => {
+  WhisperEvents.on('registration_done', () => {
     window.log.info('handling registration event');
-
-    await connect();
+    void connect();
   });
 
   function switchBodyToRtlIfNeeded() {
@@ -321,6 +319,7 @@ async function start() {
     root.render(<SessionRegistrationView />);
     switchBodyToRtlIfNeeded();
   }
+
   DisappearingMessages.initExpiringMessageListener();
 
   if (Registration.isDone() && !isSignInByLinking()) {

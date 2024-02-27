@@ -45,7 +45,7 @@ import {
 } from '../../types/attachments/VisualAttachment';
 import { AttachmentUtil, GoogleChrome, arrayBufferToObjectURL } from '../../util';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
-import { MessageView } from '../MainViewController';
+import { EmptyMessageView } from '../EmptyMessageView';
 import { SplitViewContainer } from '../SplitViewContainer';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
@@ -246,8 +246,7 @@ export class SessionConversation extends Component<Props, State> {
     } = this.props;
 
     if (!selectedConversation || !messagesProps) {
-      // return an empty message view
-      return <MessageView />;
+      return <EmptyMessageView />;
     }
     // TODOLATER break selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;

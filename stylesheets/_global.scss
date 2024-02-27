@@ -122,6 +122,27 @@ a {
       animation: loading 1500ms ease infinite 666ms;
     }
   }
+
+  .session-full-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+
+    .session-brand-logo {
+      height: 180px;
+      filter: brightness(0) saturate(100%) invert(75%) sepia(84%) saturate(3272%) hue-rotate(103deg)
+        brightness(106%) contrast(103%);
+    }
+
+    .session-text-logo {
+      margin-top: 10px;
+      width: 250px;
+      transition: 0s;
+      filter: var(--session-logo-text-current-filter);
+    }
+  }
+
   .session-text-logo {
     filter: var(--session-logo-text-current-filter);
   }
