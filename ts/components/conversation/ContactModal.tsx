@@ -247,7 +247,9 @@ export function ContactModal({
                 toggleAboutContactModal(contact.id);
               }}
             >
-              <UserText text={contact.title} />
+              <div className="ContactModal__name__text">
+                <UserText text={contact.title} />
+              </div>
               <i className="ContactModal__name__chevron" />
             </button>
             {!contact.isMe && (
