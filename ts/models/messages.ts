@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
-  isEmpty,
   isNumber,
   isObject,
   mapValues,
   maxBy,
   noop,
-  omit,
   partition,
   pick,
   union,
@@ -58,7 +56,7 @@ import {
   SendStatus,
   isSent,
   sendStateReducer,
-  someSendStatus,
+  someRecipientSendStatus,
 } from '../messages/MessageSendState';
 import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
@@ -824,11 +822,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   public hasSuccessfulDelivery(): boolean {
     const sendStateByConversationId = this.get('sendStateByConversationId');
-    const withoutMe = omit(
-      sendStateByConversationId,
-      window.ConversationController.getOurConversationIdOrThrow()
+    const ourConversationId =
+      window.ConversationController.getOurConversationIdOrThrow();
+
+    return someRecipientSendStatus(
+      sendStateByConversationId ?? {},
+      ourConversationId,
+      isSent
     );
-    return isEmpty(withoutMe) || someSendStatus(withoutMe, isSent);
   }
 
   /**

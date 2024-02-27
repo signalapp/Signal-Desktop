@@ -904,7 +904,7 @@ export const getConversationByServiceIdSelector = createSelector(
       getOwn(conversationsByServiceId, serviceId)
 );
 
-const getCachedConversationMemberColorsSelector = createSelector(
+export const getCachedConversationMemberColorsSelector = createSelector(
   getConversationSelector,
   getUserConversationId,
   (
@@ -958,22 +958,29 @@ export const getContactNameColorSelector = createSelector(
       conversationId: string,
       contactId: string | undefined
     ): ContactNameColorType => {
-      if (!contactId) {
-        log.warn('No color generated for missing contactId');
-        return ContactNameColors[0];
-      }
-
       const contactNameColors =
         conversationMemberColorsSelector(conversationId);
-      const color = contactNameColors.get(contactId);
-      if (!color) {
-        log.warn(`No color generated for contact ${contactId}`);
-        return ContactNameColors[0];
-      }
-      return color;
+      return getContactNameColor(contactNameColors, contactId);
     };
   }
 );
+
+export const getContactNameColor = (
+  contactNameColors: Map<string, string>,
+  contactId: string | undefined
+): string => {
+  if (!contactId) {
+    log.warn('No color generated for missing contactId');
+    return ContactNameColors[0];
+  }
+
+  const color = contactNameColors.get(contactId);
+  if (!color) {
+    log.warn(`No color generated for contact ${contactId}`);
+    return ContactNameColors[0];
+  }
+  return color;
+};
 
 export function _conversationMessagesSelector(
   conversation: ConversationMessageType

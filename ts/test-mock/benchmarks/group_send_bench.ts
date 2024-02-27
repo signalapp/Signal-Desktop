@@ -183,8 +183,10 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     debug('waiting for timing from the app');
     const { timestamp, delta } = await app.waitForMessageSend();
 
-    // Sleep to allow any receipts from previous rounds to be processed
-    await sleep(1000);
+    if (GROUP_DELIVERY_RECEIPTS > 1) {
+      // Sleep to allow any receipts from previous rounds to be processed
+      await sleep(1000);
+    }
 
     debug('sending delivery receipts');
     receiptsFromPreviousMessage = await Promise.all(

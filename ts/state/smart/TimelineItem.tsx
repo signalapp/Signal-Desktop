@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
 import type { WidthBreakpoint } from '../../components/_util';
-import { useProxySelector } from '../../hooks/useProxySelector';
 import { useConversationsActions } from '../ducks/conversations';
 import { useComposerActions } from '../ducks/composer';
 import { useGlobalModalActions } from '../ducks/globalModals';
@@ -23,7 +22,7 @@ import {
   getPlatform,
 } from '../selectors/user';
 import { getTargetedMessage } from '../selectors/conversations';
-import { getTimelineItem } from '../selectors/timeline';
+import { useTimelineItem } from '../selectors/timeline';
 import {
   areMessagesInSameGroup,
   shouldCurrentMessageHideMetadata,
@@ -37,7 +36,7 @@ import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
 
-type ExternalProps = {
+export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
@@ -55,8 +54,7 @@ function renderContact(contactId: string): JSX.Element {
 function renderUniversalTimerNotification(): JSX.Element {
   return <SmartUniversalTimerNotification />;
 }
-
-export function SmartTimelineItem(props: ExternalProps): JSX.Element {
+export function SmartTimelineItem(props: SmartTimelineItemProps): JSX.Element {
   const {
     containerElementRef,
     containerWidthBreakpoint,
@@ -73,10 +71,10 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const platform = useSelector(getPlatform);
-  const item = useProxySelector(getTimelineItem, messageId);
-  const previousItem = useProxySelector(getTimelineItem, previousMessageId);
-  const nextItem = useProxySelector(getTimelineItem, nextMessageId);
 
+  const item = useTimelineItem(messageId, conversationId);
+  const previousItem = useTimelineItem(previousMessageId, conversationId);
+  const nextItem = useTimelineItem(nextMessageId, conversationId);
   const targetedMessage = useSelector(getTargetedMessage);
   const isTargeted = Boolean(
     targetedMessage && messageId === targetedMessage.id

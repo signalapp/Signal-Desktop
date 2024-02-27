@@ -7,9 +7,8 @@ import { useSelector } from 'react-redux';
 
 import { TypingBubble } from '../../components/conversation/TypingBubble';
 import { useGlobalModalActions } from '../ducks/globalModals';
-import { useProxySelector } from '../../hooks/useProxySelector';
 import { getIntl, getTheme } from '../selectors/user';
-import { getTimelineItem } from '../selectors/timeline';
+import { useTimelineItem } from '../selectors/timeline';
 import {
   getConversationSelector,
   getConversationMessagesSelector,
@@ -37,7 +36,7 @@ export function SmartTypingBubble({
     conversationId
   );
   const lastMessageId = last(conversationMessages.items);
-  const lastItem = useProxySelector(getTimelineItem, lastMessageId);
+  const lastItem = useTimelineItem(lastMessageId, conversationId);
   let lastItemAuthorId: string | undefined;
   let lastItemTimestamp: number | undefined;
   if (lastItem?.data) {

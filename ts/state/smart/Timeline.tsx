@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEmpty, pick } from 'lodash';
-import type { RefObject } from 'react';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -25,7 +24,7 @@ import {
 } from '../selectors/conversations';
 import { selectAudioPlayerActive } from '../selectors/audioPlayer';
 
-import { SmartTimelineItem } from './TimelineItem';
+import { SmartTimelineItem, type SmartTimelineItemProps } from './TimelineItem';
 import { SmartCollidingAvatars } from './CollidingAvatars';
 import type { PropsType as SmartCollidingAvatarsPropsType } from './CollidingAvatars';
 import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
@@ -40,8 +39,6 @@ import {
   getCollisionsFromMemberships,
 } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
-import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
-import type { WidthBreakpoint } from '../../components/_util';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { SmartMiniPlayer } from './MiniPlayer';
 
@@ -58,16 +55,7 @@ function renderItem({
   nextMessageId,
   previousMessageId,
   unreadIndicatorPlacement,
-}: {
-  containerElementRef: RefObject<HTMLElement>;
-  containerWidthBreakpoint: WidthBreakpoint;
-  conversationId: string;
-  isOldestTimelineItem: boolean;
-  messageId: string;
-  nextMessageId: undefined | string;
-  previousMessageId: undefined | string;
-  unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
-}): JSX.Element {
+}: SmartTimelineItemProps): JSX.Element {
   return (
     <SmartTimelineItem
       containerElementRef={containerElementRef}

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
-import { mapValues } from 'lodash';
+import { isEqual, mapValues } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import type { BadgeType, BadgeImageType } from '../../badges/types';
@@ -147,6 +147,9 @@ export function reducer(
         }
       });
 
+      if (isEqual(state.byId, newById)) {
+        return state;
+      }
       return {
         ...state,
         byId: newById,

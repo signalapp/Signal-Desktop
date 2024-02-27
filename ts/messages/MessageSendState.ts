@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import memoizee from 'memoizee';
 import { makeEnumParser } from '../util/enum';
 
 /**
@@ -153,22 +154,111 @@ const STATE_TRANSITIONS: Record<SendActionType, SendStatus> = {
 
 export type SendStateByConversationId = Record<string, SendState>;
 
+/** Test all of sendStateByConversationId for predicate  */
 export const someSendStatus = (
-  sendStateByConversationId: undefined | Readonly<SendStateByConversationId>,
+  sendStateByConversationId: SendStateByConversationId,
   predicate: (value: SendStatus) => boolean
-): boolean =>
-  Object.values(sendStateByConversationId || {}).some(sendState =>
-    predicate(sendState.status)
-  );
+): boolean => {
+  return [
+    ...summarizeMessageSendStatuses(sendStateByConversationId).statuses,
+  ].some(predicate);
+};
+
+/** Test sendStateByConversationId, excluding ourConversationId, for predicate  */
+export const someRecipientSendStatus = (
+  sendStateByConversationId: SendStateByConversationId,
+  ourConversationId: string | undefined,
+  predicate: (value: SendStatus) => boolean
+): boolean => {
+  return getStatusesIgnoringOurConversationId(
+    sendStateByConversationId,
+    ourConversationId
+  ).some(predicate);
+};
 
 export const isMessageJustForMe = (
-  sendStateByConversationId: undefined | Readonly<SendStateByConversationId>,
+  sendStateByConversationId: SendStateByConversationId,
   ourConversationId: string | undefined
 ): boolean => {
-  const conversationIds = Object.keys(sendStateByConversationId || {});
-  return Boolean(
-    ourConversationId &&
-      conversationIds.length === 1 &&
-      conversationIds[0] === ourConversationId
+  const { length } = summarizeMessageSendStatuses(sendStateByConversationId);
+
+  return (
+    ourConversationId !== undefined &&
+    length === 1 &&
+    Object.hasOwn(sendStateByConversationId, ourConversationId)
   );
 };
+
+export const getHighestSuccessfulRecipientStatus = (
+  sendStateByConversationId: SendStateByConversationId,
+  ourConversationId: string | undefined
+): SendStatus => {
+  return getStatusesIgnoringOurConversationId(
+    sendStateByConversationId,
+    ourConversationId
+  ).reduce(
+    (result: SendStatus, status) => maxStatus(result, status),
+    SendStatus.Pending
+  );
+};
+
+const getStatusesIgnoringOurConversationId = (
+  sendStateByConversationId: SendStateByConversationId,
+  ourConversationId: string | undefined
+): Array<SendStatus> => {
+  const { statuses, statusesWithOnlyOneConversationId } =
+    summarizeMessageSendStatuses(sendStateByConversationId);
+
+  const statusesIgnoringOurConversationId = [];
+
+  for (const status of statuses) {
+    if (
+      ourConversationId &&
+      statusesWithOnlyOneConversationId.get(status) === ourConversationId
+    ) {
+      // ignore this status; it only applies to us
+    } else {
+      statusesIgnoringOurConversationId.push(status);
+    }
+  }
+
+  return statusesIgnoringOurConversationId;
+};
+
+// Looping through each value in sendStateByConversationId can be quite slow, especially
+// if sendStateByConversationId is large (e.g. in a large group) and if it is actually a
+// proxy (e.g. being called via useProxySelector) -- that's why we memoize it here.
+const summarizeMessageSendStatuses = memoizee(
+  (
+    sendStateByConversationId: SendStateByConversationId
+  ): {
+    statuses: Set<SendStatus>;
+    statusesWithOnlyOneConversationId: Map<SendStatus, string>;
+    length: number;
+  } => {
+    const statuses: Set<SendStatus> = new Set();
+
+    // We keep track of statuses with only one conversationId associated with it
+    // so that we can ignore a status if it is only for ourConversationId, as needed
+    const statusesWithOnlyOneConversationId: Map<SendStatus, string> =
+      new Map();
+
+    const entries = Object.entries(sendStateByConversationId);
+
+    for (const [conversationId, { status }] of entries) {
+      if (!statuses.has(status)) {
+        statuses.add(status);
+        statusesWithOnlyOneConversationId.set(status, conversationId);
+      } else {
+        statusesWithOnlyOneConversationId.delete(status);
+      }
+    }
+
+    return {
+      statuses,
+      statusesWithOnlyOneConversationId,
+      length: entries.length,
+    };
+  },
+  { max: 100 }
+);
