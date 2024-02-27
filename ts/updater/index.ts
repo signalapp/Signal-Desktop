@@ -64,6 +64,12 @@ export async function force(): Promise<void> {
   }
 }
 
+export function onRestartCancelled(): void {
+  if (updater) {
+    updater.onRestartCancelled();
+  }
+}
+
 function autoUpdateDisabled() {
   return (
     process.platform === 'linux' || process.mas || !config.get('updatesEnabled')

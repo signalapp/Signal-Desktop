@@ -10,7 +10,6 @@ import { app } from 'electron';
 import pify from 'pify';
 
 import { Updater } from './common';
-import { markShouldQuit } from '../../app/window_state';
 
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);
@@ -61,9 +60,9 @@ export class WindowsUpdater extends Updater {
         throw error;
       }
 
-      logger.info('downloadAndInstall: restarting...');
-      markShouldQuit();
-      app.quit();
+      // If interrupted at this point, we only want to restart (not reattempt install)
+      this.setUpdateListener(this.restart);
+      this.restart();
     };
 
     if (isSilent) {
@@ -73,6 +72,12 @@ export class WindowsUpdater extends Updater {
     }
 
     this.setUpdateListener(doInstall);
+  }
+
+  protected restart(): void {
+    this.logger.info('downloadAndInstall: restarting...');
+    this.markRestarting();
+    app.quit();
   }
 
   private async install(filePath: string, isSilent: boolean): Promise<void> {

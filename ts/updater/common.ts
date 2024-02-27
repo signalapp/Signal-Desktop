@@ -21,6 +21,7 @@ import { app, ipcMain } from 'electron';
 
 import * as durations from '../util/durations';
 import { getTempPath, getUpdateCachePath } from '../../app/attachments';
+import { markShouldNotQuit, markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';
 import * as Errors from '../types/errors';
 import { isAlpha, isBeta, isStaging } from '../util/version';
@@ -117,6 +118,8 @@ export abstract class Updater {
 
   private markedCannotUpdate = false;
 
+  private restarting = false;
+
   private readonly canRunSilently: () => boolean;
 
   constructor({
@@ -148,6 +151,26 @@ export abstract class Updater {
     return this.checkForUpdatesMaybeInstall(true);
   }
 
+  // If the updater was about to restart the app but the user cancelled it, show dialog
+  // to let them retry the restart
+  public onRestartCancelled(): void {
+    if (!this.restarting) {
+      return;
+    }
+
+    this.logger.info(
+      'updater/onRestartCancelled: restart was cancelled. showing update dialog.'
+    );
+    this.restarting = false;
+    markShouldNotQuit();
+
+    const mainWindow = this.getMainWindow();
+    mainWindow?.webContents.send(
+      'show-update-dialog',
+      DialogType.DownloadedUpdate
+    );
+  }
+
   public async start(): Promise<void> {
     this.logger.info('updater/start: starting checks...');
 
@@ -173,7 +196,7 @@ export abstract class Updater {
   //
 
   protected setUpdateListener(
-    performUpdateCallback: () => Promise<void>
+    performUpdateCallback: () => Promise<void> | void
   ): void {
     ipcMain.removeHandler('start-update');
     ipcMain.handleOnce('start-update', performUpdateCallback);
@@ -207,6 +230,11 @@ export abstract class Updater {
       this.markedCannotUpdate = false;
       await this.checkForUpdatesMaybeInstall();
     });
+  }
+
+  protected markRestarting(): void {
+    this.restarting = true;
+    markShouldQuit();
   }
 
   //

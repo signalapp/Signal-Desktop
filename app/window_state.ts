@@ -7,6 +7,10 @@ export function markShouldQuit(): void {
   shouldQuitFlag = true;
 }
 
+export function markShouldNotQuit(): void {
+  shouldQuitFlag = false;
+}
+
 export function shouldQuit(): boolean {
   return shouldQuitFlag;
 }
