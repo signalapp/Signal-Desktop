@@ -8,10 +8,39 @@ import type {
   lookup as nodeLookup,
 } from 'dns';
 import { ipcRenderer, net } from 'electron';
-import type { ResolvedHost } from 'electron';
+import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 
 import { strictAssert } from './assert';
 import { drop } from './drop';
+
+const FALLBACK_ADDRS: ReadonlyMap<
+  string,
+  ReadonlyArray<ResolvedEndpoint>
+> = new Map([
+  [
+    'cdsi.signal.org',
+    [
+      { family: 'ipv4', address: '40.122.45.194' },
+      { family: 'ipv6', address: '2603:1030:7::1' },
+    ],
+  ],
+  [
+    'chat.signal.org',
+    [
+      { family: 'ipv4', address: '13.248.212.111' },
+      { family: 'ipv4', address: '76.223.92.165' },
+      { family: 'ipv6', address: '2600:9000:a507:ab6d:4ce3:2f58:25d7:9cbf' },
+      { family: 'ipv6', address: '2600:9000:a61f:527c:d5eb:a431:5239:3232' },
+    ],
+  ],
+  [
+    'sfu.voip.signal.org',
+    [
+      { family: 'ipv4', address: '34.49.5.136' },
+      { family: 'ipv6', address: '2600:1901:0:9c39::' },
+    ],
+  ],
+]);
 
 function lookupAll(
   hostname: string,
@@ -27,16 +56,16 @@ function lookupAll(
   strictAssert(typeof callback === 'function', 'missing callback');
 
   async function run() {
-    let result: ResolvedHost;
+    let result: Pick<ResolvedHost, 'endpoints'>;
+
+    let queryType: 'A' | 'AAAA' | undefined;
+    if (opts.family === 4) {
+      queryType = 'A';
+    } else if (opts.family === 6) {
+      queryType = 'AAAA';
+    }
 
     try {
-      let queryType: 'A' | 'AAAA' | undefined;
-      if (opts.family === 4) {
-        queryType = 'A';
-      } else if (opts.family === 6) {
-        queryType = 'AAAA';
-      }
-
       if (net) {
         // Main process
         result = await net.resolveHost(hostname, {
@@ -50,39 +79,40 @@ function lookupAll(
           queryType
         );
       }
-      const addresses = result.endpoints.map(({ address, family }) => {
-        let numericFamily = -1;
-        if (family === 'ipv4') {
-          numericFamily = 4;
-        } else if (family === 'ipv6') {
-          numericFamily = 6;
-        }
-        return {
-          address,
-          family: numericFamily,
-        };
-      });
-
-      if (!opts.all) {
-        const random = addresses.at(
-          Math.floor(Math.random() * addresses.length)
-        );
-        if (random === undefined) {
-          callback(
-            new Error(`Hostname: ${hostname} cannot be resolved`),
-            '',
-            -1
-          );
-          return;
-        }
-        callback(null, random.address, random.family);
+    } catch (error) {
+      const fallback = FALLBACK_ADDRS.get(hostname);
+      if (fallback) {
+        result = { endpoints: fallback.slice() };
+      } else {
+        callback(error, []);
         return;
       }
-
-      callback(null, addresses);
-    } catch (error) {
-      callback(error, []);
     }
+
+    const addresses = result.endpoints.map(({ address, family }) => {
+      let numericFamily = -1;
+      if (family === 'ipv4') {
+        numericFamily = 4;
+      } else if (family === 'ipv6') {
+        numericFamily = 6;
+      }
+      return {
+        address,
+        family: numericFamily,
+      };
+    });
+
+    if (!opts.all) {
+      const random = addresses.at(Math.floor(Math.random() * addresses.length));
+      if (random === undefined) {
+        callback(new Error(`Hostname: ${hostname} cannot be resolved`), '', -1);
+        return;
+      }
+      callback(null, random.address, random.family);
+      return;
+    }
+
+    callback(null, addresses);
   }
 
   drop(run());
