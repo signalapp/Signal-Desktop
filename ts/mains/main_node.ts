@@ -8,33 +8,33 @@ import {
   app,
   BrowserWindow,
   dialog,
+  protocol as electronProtocol,
   ipcMain as ipc,
   Menu,
   nativeTheme,
-  protocol as electronProtocol,
   screen,
   shell,
   systemPreferences,
 } from 'electron';
 
+import crypto from 'crypto';
+import fs from 'fs';
+import os from 'os';
 import path, { join } from 'path';
 import { platform as osPlatform } from 'process';
 import url from 'url';
-import os from 'os';
-import fs from 'fs';
-import crypto from 'crypto';
 
-import _ from 'lodash';
-import pify from 'pify';
 import Logger from 'bunyan';
+import _, { isEmpty } from 'lodash';
+import pify from 'pify';
 
-import { setup as setupSpellChecker } from '../node/spell_check'; // checked - only node
 import { setupGlobalErrorHandler } from '../node/global_errors'; // checked - only node
+import { setup as setupSpellChecker } from '../node/spell_check'; // checked - only node
 
+import electronLocalshortcut from 'electron-localshortcut';
 import packageJson from '../../package.json'; // checked - only node
 
 setupGlobalErrorHandler();
-import electronLocalshortcut from 'electron-localshortcut';
 
 const getRealPath = pify(fs.realpath);
 
@@ -75,24 +75,22 @@ import { initAttachmentsChannel } from '../node/attachment_channel';
 
 import * as updater from '../updater/index'; // checked - only node
 
-import { createTrayIcon } from '../node/tray_icon'; // checked - only node
 import { ephemeralConfig } from '../node/config/ephemeral_config'; // checked - only node
 import { getLogger, initializeLogger } from '../node/logging'; // checked - only node
+import { createTemplate } from '../node/menu'; // checked - only node
+import { installPermissionsHandler } from '../node/permissions'; // checked - only node
+import { installFileHandler, installWebHandler } from '../node/protocol_filter'; // checked - only node
 import { sqlNode } from '../node/sql'; // checked - only node
 import * as sqlChannels from '../node/sql_channel'; // checked - only node
+import { createTrayIcon } from '../node/tray_icon'; // checked - only node
 import { windowMarkShouldQuit, windowShouldQuit } from '../node/window_state'; // checked - only node
-import { createTemplate } from '../node/menu'; // checked - only node
-import { installFileHandler, installWebHandler } from '../node/protocol_filter'; // checked - only node
-import { installPermissionsHandler } from '../node/permissions'; // checked - only node
 
 let appStartInitialSpellcheckSetting = true;
 
-const enableTestIntegrationWiderWindow = false;
-const isTestIntegration =
-  enableTestIntegrationWiderWindow &&
-  Boolean(
-    process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('test-integration')
-  );
+function openDevToolsTestIntegration() {
+  return isTestIntegration() && !isEmpty(process.env.TEST_OPEN_DEV_TOOLS);
+}
+
 async function getSpellCheckSetting() {
   const json = sqlNode.getItemById('spell-check');
   // Default to `true` if setting doesn't exist yet
@@ -157,9 +155,10 @@ if (windowFromUserConfig) {
 }
 
 // import {load as loadLocale} from '../..'
-import { load as loadLocale, LocaleMessagesWithNameType } from '../node/locale';
-import { setLastestRelease } from '../node/latest_desktop_release';
 import { getAppRootPath } from '../node/getRootPath';
+import { setLastestRelease } from '../node/latest_desktop_release';
+import { load as loadLocale, LocaleMessagesWithNameType } from '../node/locale';
+import { isDevProd, isTestIntegration } from '../shared/env_vars';
 import { classicDark } from '../themes';
 
 // Both of these will be set after app fires the 'ready' event
@@ -215,8 +214,8 @@ function captureClicks(window: BrowserWindow) {
 
 function getDefaultWindowSize() {
   return {
-    defaultWidth: isTestIntegration ? 1500 : 880,
-    defaultHeight: 820,
+    defaultWidth: 880,
+    defaultHeight: openDevToolsTestIntegration() ? 1000 : 820, // the dev tools open at the bottom hide some stuff which should be visible
     minWidth: 880,
     minHeight: 600,
   };
@@ -275,7 +274,7 @@ async function createWindow() {
     y: (windowConfig as any).y,
   };
 
-  if (isTestIntegration) {
+  if (isTestIntegration()) {
     const screenWidth =
       screen.getPrimaryDisplay().workAreaSize.width - getDefaultWindowSize().defaultWidth;
     const screenHeight =
@@ -417,18 +416,18 @@ async function createWindow() {
   const urlToLoad = prepareURL([getAppRootPath(), 'background.html']);
 
   await mainWindow.loadURL(urlToLoad);
-  if (isTestIntegration) {
+  if (openDevToolsTestIntegration()) {
     setTimeout(() => {
       if (mainWindow && mainWindow.webContents) {
         mainWindow.webContents.openDevTools({
-          mode: 'right',
+          mode: 'bottom',
           activate: false,
         });
       }
     }, 5000);
   }
 
-  if ((process.env.NODE_APP_INSTANCE || '').startsWith('devprod')) {
+  if (isDevProd()) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools({
       mode: 'bottom',
@@ -758,13 +757,14 @@ app.on('ready', async () => {
   }
 
   const key = getDefaultSQLKey();
-
   // Try to show the main window with the default key
   // If that fails then show the password window
   const dbHasPassword = userConfig.get('dbHasPassword');
   if (dbHasPassword) {
+    assertLogger().info('showing password window');
     await showPasswordWindow();
   } else {
+    assertLogger().info('showing main window');
     await showMainWindow(key);
   }
 });

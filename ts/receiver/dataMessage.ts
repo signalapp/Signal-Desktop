@@ -3,7 +3,6 @@ import { isEmpty, isFinite, noop, omit, toNumber } from 'lodash';
 
 import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
-import { getEnvelopeId } from './common';
 import { EnvelopePlus } from './types';
 
 import { Data } from '../data/data';
@@ -20,6 +19,8 @@ import {
   createSwarmMessageSentFromNotUs,
   createSwarmMessageSentFromUs,
 } from '../models/messageFactory';
+import { DisappearingMessages } from '../session/disappearing_messages';
+import { DisappearingMessageUpdate } from '../session/disappearing_messages/types';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { isUsFromCache } from '../session/utils/User';
 import { Action, Reaction } from '../types/Reaction';
@@ -111,6 +112,7 @@ export function cleanIncomingDataMessage(
   if (rawDataMessage.flags == null) {
     rawDataMessage.flags = 0;
   }
+  // TODO legacy messages support will be removed in a future release
   if (rawDataMessage.expireTimer == null) {
     rawDataMessage.expireTimer = 0;
   }
@@ -151,13 +153,21 @@ export function cleanIncomingDataMessage(
  *        * dataMessage.syncTarget is either the group public key OR the private conversation this message is about.
  */
 
-export async function handleSwarmDataMessage(
-  envelope: EnvelopePlus,
-  sentAtTimestamp: number,
-  rawDataMessage: SignalService.DataMessage,
-  messageHash: string,
-  senderConversationModel: ConversationModel
-): Promise<void> {
+export async function handleSwarmDataMessage({
+  envelope,
+  messageHash,
+  rawDataMessage,
+  senderConversationModel,
+  sentAtTimestamp,
+  expireUpdate,
+}: {
+  envelope: EnvelopePlus;
+  sentAtTimestamp: number;
+  rawDataMessage: SignalService.DataMessage;
+  messageHash: string;
+  senderConversationModel: ConversationModel;
+  expireUpdate?: DisappearingMessageUpdate;
+}): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
   const cleanDataMessage = cleanIncomingDataMessage(rawDataMessage, envelope);
@@ -165,7 +175,8 @@ export async function handleSwarmDataMessage(
   if (cleanDataMessage.closedGroupControlMessage) {
     await handleClosedGroupControlMessage(
       envelope,
-      cleanDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+      cleanDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage,
+      expireUpdate || null
     );
     return;
   }
@@ -229,7 +240,6 @@ export async function handleSwarmDataMessage(
   }
 
   if (!messageHasVisibleContent(cleanDataMessage)) {
-    window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     await removeFromCache(envelope);
     return;
   }
@@ -240,7 +250,7 @@ export async function handleSwarmDataMessage(
     return;
   }
 
-  const msgModel =
+  let msgModel =
     isSyncedMessage || (envelope.senderIdentity && isUsFromCache(envelope.senderIdentity))
       ? createSwarmMessageSentFromUs({
           conversationId: convoIdToAddTheMessageTo,
@@ -253,6 +263,15 @@ export async function handleSwarmDataMessage(
           sender: senderConversationModel.id,
           sentAt: sentAtTimestamp,
         });
+
+  if (!isEmpty(expireUpdate)) {
+    msgModel = DisappearingMessages.getMessageReadyToDisappear(
+      convoToAddMessageTo,
+      msgModel,
+      cleanDataMessage.flags,
+      expireUpdate
+    );
+  }
 
   await handleSwarmMessage(
     msgModel,
@@ -329,6 +348,7 @@ async function handleSwarmMessage(
         sender: msgModel.get('source'),
         you: isUsFromCache(msgModel.get('source')),
       });
+
       if (
         convoToAddMessageTo.isPrivate() &&
         msgModel.get('unread') &&
@@ -341,6 +361,7 @@ async function handleSwarmMessage(
       confirm();
       return;
     }
+
     const isDuplicate = await isSwarmMessageDuplicate({
       source: msgModel.get('source'),
       sentAt,

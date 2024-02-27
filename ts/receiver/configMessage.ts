@@ -5,6 +5,7 @@ import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationInteraction } from '../interactions';
+import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { SignalService } from '../protobuf';
 import { ClosedGroup } from '../session';
@@ -18,11 +19,12 @@ import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/uti
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
-import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { Profile, ProfileManager } from '../session/profile_manager/ProfileManager';
 import { PubKey } from '../session/types';
 import { StringUtils, UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgExpirySwarmJob'; // eslint-disable-next-line import/no-unresolved, import/extensions
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
@@ -39,9 +41,9 @@ import {
   isSignInByLinking,
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
-import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import { ConfigWrapperObjectTypes } from '../../ts/webworker/workers/browser/libsession_worker_functions';
+
+// eslint-disable-next-line import/no-unresolved
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
   ConvoInfoVolatileWrapperActions,
@@ -50,7 +52,7 @@ import {
   UserGroupsWrapperActions,
 } from '../webworker/workers/browser/libsession_worker_interface';
 import { removeFromCache } from './cache';
-import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGroups';
+import { addKeyPairToCacheAndDBIfNeeded } from './closedGroups';
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
@@ -116,13 +118,16 @@ async function mergeConfigsWithIncomingUpdates(
         }
       }
 
-      const mergedCount = await GenericWrapperActions.merge(variant, toMerge);
+      const hashesMerged = await GenericWrapperActions.merge(variant, toMerge);
       const needsPush = await GenericWrapperActions.needsPush(variant);
       const needsDump = await GenericWrapperActions.needsDump(variant);
-      const latestEnvelopeTimestamp = Math.max(...sameVariant.map(m => m.envelopeTimestamp));
+      const mergedTimestamps = sameVariant
+        .filter(m => hashesMerged.includes(m.messageHash))
+        .map(m => m.envelopeTimestamp);
+      const latestEnvelopeTimestamp = Math.max(...mergedTimestamps);
 
       window.log.debug(
-        `${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump}; mergedCount:${mergedCount} `
+        `${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump}; mergedCount:${hashesMerged.length}`
       );
 
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
@@ -192,6 +197,10 @@ async function updateLibsessionLatestProcessedUserTimestamp(
   }
 }
 
+/**
+ * NOTE When adding new properties to the wrapper, don't update the conversation model here because the merge has not been done yet.
+ * Instead you will need to updateOurProfileLegacyOrViaLibSession() to support them
+ */
 async function handleUserProfileUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
   const updateUserInfo = await UserConfigWrapperActions.getUserInfo();
   if (!updateUserInfo) {
@@ -206,14 +215,50 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
 
   const picUpdate = !isEmpty(updateUserInfo.key) && !isEmpty(updateUserInfo.url);
 
-  // NOTE: if you do any changes to the settings of a user which are synced, it should be done above the `updateOurProfileLegacyOrViaLibSession` call
-  await updateOurProfileLegacyOrViaLibSession(
-    result.latestEnvelopeTimestamp,
-    updateUserInfo.name,
-    picUpdate ? updateUserInfo.url : null,
-    picUpdate ? updateUserInfo.key : null,
-    updateUserInfo.priority
-  );
+  // NOTE: if you do any changes to the user's settings which are synced, it should be done above the `updateOurProfileLegacyOrViaLibSession` call
+  await updateOurProfileLegacyOrViaLibSession({
+    sentAt: result.latestEnvelopeTimestamp,
+    displayName: updateUserInfo.name,
+    profileUrl: picUpdate ? updateUserInfo.url : null,
+    profileKey: picUpdate ? updateUserInfo.key : null,
+    priority: updateUserInfo.priority,
+  });
+
+  // NOTE: If we want to update the conversation in memory with changes from the updated user profile we need to wait untl the profile has been updated to prevent multiple merge conflicts
+  const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
+
+  if (ourConvo) {
+    let changes = false;
+
+    const expireTimer = ourConvo.getExpireTimer();
+
+    const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
+
+    if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
+      // TODO legacy messages support will be removed in a future release
+      const success = await ourConvo.updateExpireTimer({
+        providedDisappearingMode:
+          wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
+            ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+              ? 'deleteAfterSend'
+              : 'legacy'
+            : 'off',
+        providedExpireTimer: wrapperNoteToSelfExpirySeconds,
+        providedSource: ourConvo.id,
+        receivedAt: result.latestEnvelopeTimestamp,
+        fromSync: true,
+        shouldCommitConvo: false,
+        fromCurrentDevice: false,
+        fromConfigMessage: true,
+      });
+      changes = success;
+    }
+
+    // make sure to write the changes to the database now as the `AvatarDownloadJob` triggered by updateOurProfileLegacyOrViaLibSession might take some time before getting run
+    if (changes) {
+      await ourConvo.commit();
+    }
+  }
 
   const settingsKey = SettingsKey.latestUserProfileEnvelopeTimestamp;
   const currentLatestEnvelopeProcessed = Storage.get(settingsKey) || 0;
@@ -339,10 +384,22 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         changes = true;
       }
 
-      // if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
-      //   await contactConvo.updateExpireTimer(wrapperConvo.expirationTimerSeconds);
-      //   changes = true;
-      // }
+      if (
+        wrapperConvo.expirationTimerSeconds !== contactConvo.getExpireTimer() ||
+        wrapperConvo.expirationMode !== contactConvo.getExpirationMode()
+      ) {
+        const success = await contactConvo.updateExpireTimer({
+          providedDisappearingMode: wrapperConvo.expirationMode,
+          providedExpireTimer: wrapperConvo.expirationTimerSeconds,
+          providedSource: wrapperConvo.id,
+          receivedAt: result.latestEnvelopeTimestamp,
+          fromSync: true,
+          fromCurrentDevice: false,
+          shouldCommitConvo: false,
+          fromConfigMessage: true,
+        });
+        changes = changes || success;
+      }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
       if (!contactConvo.get('active_at') && wrapperConvo.createdAtSeconds) {
@@ -558,6 +615,26 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 
     let changes = await legacyGroupConvo.setPriorityFromWrapper(fromWrapper.priority, false);
 
+    if (fromWrapper.disappearingTimerSeconds !== legacyGroupConvo.getExpireTimer()) {
+      // TODO legacy messages support will be removed in a future release
+      const success = await legacyGroupConvo.updateExpireTimer({
+        providedDisappearingMode:
+          fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds > 0
+            ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+              ? 'deleteAfterSend'
+              : 'legacy'
+            : 'off',
+        providedExpireTimer: fromWrapper.disappearingTimerSeconds,
+        providedSource: legacyGroupConvo.id,
+        receivedAt: latestEnvelopeTimestamp,
+        fromSync: true,
+        shouldCommitConvo: false,
+        fromCurrentDevice: false,
+        fromConfigMessage: true,
+      });
+      changes = success;
+    }
+
     const existingTimestampMs = legacyGroupConvo.get('lastJoinedTimestamp');
     const existingJoinedAtSeconds = Math.floor(existingTimestampMs / 1000);
     if (existingJoinedAtSeconds !== fromWrapper.joinedAtSeconds) {
@@ -567,17 +644,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       changes = true;
     }
 
-    // if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
-    //   await legacyGroupConvo.updateExpireTimer(
-    //     fromWrapper.disappearingTimerSeconds,
-    //     undefined,
-    //     latestEnvelopeTimestamp,
-    //     {
-    //       fromSync: true,
-    //     }
-    //   );
-    //   changes = true;
-    // }
     // start polling for this group if we haven't left it yet. The wrapper does not store this info for legacy group so we check from the DB entry instead
     if (!legacyGroupConvo.get('isKickedFromGroup') && !legacyGroupConvo.get('left')) {
       getSwarmPollingInstance().addGroupId(PubKey.cast(fromWrapper.pubkeyHex));
@@ -615,7 +681,6 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
       case 'Community':
         await handleCommunitiesUpdate();
         break;
-
       case 'LegacyGroup':
         await handleLegacyGroupUpdate(result.latestEnvelopeTimestamp);
         break;
@@ -639,10 +704,25 @@ async function applyConvoVolatileUpdateFromWrapper(
   }
 
   try {
-    // window.log.debug(
-    //   `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
-    // );
-    // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
+    // TODO legacy messages support will be removed in a future release
+    if (foundConvo.isPrivate() && !foundConvo.isMe() && foundConvo.getExpireTimer() > 0) {
+      const messagesExpiring = await Data.getUnreadDisappearingByConversation(
+        convoId,
+        lastReadMessageTimestamp
+      );
+
+      const messagesExpiringAfterRead = messagesExpiring.filter(
+        m => m.getExpirationType() === 'deleteAfterRead' && m.getExpireTimerSeconds() > 0
+      );
+
+      const messageIdsToFetchExpiriesFor = compact(messagesExpiringAfterRead.map(m => m.id));
+
+      if (messageIdsToFetchExpiriesFor.length) {
+        await FetchMsgExpirySwarm.queueNewJobIfNeeded(messageIdsToFetchExpiriesFor);
+      }
+    }
+
+    // this mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
     await foundConvo.markReadFromConfigMessage(lastReadMessageTimestamp);
     // this commits to the DB, if needed
     await foundConvo.markAsUnread(forcedUnread, true);
@@ -841,14 +921,19 @@ async function handleConfigMessagesViaLibSession(
   await processMergingResults(incomingMergeResult);
 }
 
-async function updateOurProfileLegacyOrViaLibSession(
-  sentAt: number,
-  displayName: string,
-  profileUrl: string | null,
-  profileKey: Uint8Array | null,
-  priority: number | null // passing null means to not update the priority at all (used for legacy config message for now)
-) {
-  await ProfileManager.updateOurProfileSync(displayName, profileUrl, profileKey, priority);
+async function updateOurProfileLegacyOrViaLibSession({
+  sentAt,
+  displayName,
+  profileUrl,
+  profileKey,
+  priority,
+}: Profile & { sentAt: number }) {
+  await ProfileManager.updateOurProfileSync({
+    displayName,
+    profileUrl,
+    profileKey,
+    priority,
+  });
 
   await setLastProfileUpdateTimestamp(toNumber(sentAt));
   // do not trigger a signin by linking if the display name is empty
@@ -875,13 +960,13 @@ async function handleOurProfileUpdateLegacy(
     );
     const { profileKey, profilePicture, displayName } = configMessage;
 
-    await updateOurProfileLegacyOrViaLibSession(
-      toNumber(sentAt),
+    await updateOurProfileLegacyOrViaLibSession({
+      sentAt: toNumber(sentAt),
       displayName,
-      profilePicture,
+      profileUrl: profilePicture,
       profileKey,
-      null // passing null to say do not the prioroti, as we do not get one from the legacy config message
-    );
+      priority: null, // passing null to say do not set the priority, as we do not get one from the legacy config message
+    });
   }
 }
 
@@ -918,12 +1003,6 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
 
   await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, envelopeTimestamp);
 
-  // we only want to apply changes to closed groups if we never got them
-  // new opengroups get added when we get a new closed group message from someone, or a sync'ed message from outself creating the group
-  if (!lastConfigTimestamp) {
-    await handleClosedGroupsFromConfigLegacy(configMessage.closedGroups, envelope);
-  }
-
   void handleOpenGroupsFromConfigLegacy(configMessage.openGroups);
 
   if (configMessage.contacts?.length) {
@@ -958,43 +1037,6 @@ const handleOpenGroupsFromConfigLegacy = async (openGroups: Array<string>) => {
       void joinOpenGroupV2WithUIEvents(currentOpenGroupUrl, false, true);
     }
   }
-};
-
-/**
- * Trigger a join for all closed groups which doesn't exist yet
- * @param openGroups string array of open group urls
- */
-const handleClosedGroupsFromConfigLegacy = async (
-  closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
-  envelope: EnvelopePlus
-) => {
-  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
-
-  if (userConfigLibsession && Registration.isDone()) {
-    return;
-  }
-  const numberClosedGroup = closedGroups?.length || 0;
-
-  window?.log?.info(
-    `Received ${numberClosedGroup} closed group on configuration. Creating them... `
-  );
-  await Promise.all(
-    closedGroups.map(async c => {
-      const groupUpdate = new SignalService.DataMessage.ClosedGroupControlMessage({
-        type: SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW,
-        encryptionKeyPair: c.encryptionKeyPair,
-        name: c.name,
-        admins: c.admins,
-        members: c.members,
-        publicKey: c.publicKey,
-      });
-      try {
-        await handleNewClosedGroup(envelope, groupUpdate, true);
-      } catch (e) {
-        window?.log?.warn('failed to handle a new closed group from configuration message');
-      }
-    })
-  );
 };
 
 /**

@@ -32,6 +32,9 @@ async function toggleLinkPreviews(isToggleOn: boolean, forceUpdate: () => void) 
           await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
           forceUpdate();
         },
+        onClickClose: () => {
+          window.inboxStore?.dispatch(updateConfirmModal(null));
+        },
       })
     );
   } else {

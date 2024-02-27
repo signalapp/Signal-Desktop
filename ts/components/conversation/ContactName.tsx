@@ -3,7 +3,10 @@ import classNames from 'classnames';
 import { CSSProperties } from 'styled-components';
 
 import { Emojify } from './Emojify';
-import { useConversationUsernameOrShorten, useIsPrivate } from '../../hooks/useParamSelector';
+import {
+  useNicknameOrProfileNameOrShortenedPubkey,
+  useIsPrivate,
+} from '../../hooks/useParamSelector';
 
 type Props = {
   pubkey: string;
@@ -19,7 +22,7 @@ export const ContactName = (props: Props) => {
   const { pubkey, name, profileName, module, boldProfileName, compact, shouldShowPubkey } = props;
   const prefix = module || 'module-contact-name';
 
-  const convoName = useConversationUsernameOrShorten(pubkey);
+  const convoName = useNicknameOrProfileNameOrShortenedPubkey(pubkey);
   const isPrivate = useIsPrivate(pubkey);
   const shouldShowProfile = Boolean(convoName || profileName || name);
   const styles = (boldProfileName

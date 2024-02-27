@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import storage from 'redux-persist/lib/storage';
 
-import { createLogger } from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
+import { createLogger } from 'redux-logger';
 
 import { persistReducer } from 'redux-persist';
 
@@ -16,7 +16,6 @@ const directConsole = {
   group: console.group,
   groupEnd: console.groupEnd,
   warn: console.warn,
-
   error: console.error,
 };
 

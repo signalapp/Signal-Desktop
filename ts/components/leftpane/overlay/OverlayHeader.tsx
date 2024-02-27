@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { setOverlayMode } from '../../../state/ducks/section';
+import { setLeftOverlayMode } from '../../../state/ducks/section';
 import { Flex } from '../../basic/Flex';
 import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
@@ -45,7 +45,7 @@ const StyledSubTitle = styled.h3`
 export const OverlayHeader = ({ subtitle, title }: { title: string; subtitle: string }) => {
   const dispatch = useDispatch();
   const returnToActionChooser = () => {
-    dispatch(setOverlayMode('choose-action'));
+    dispatch(setLeftOverlayMode('choose-action'));
   };
 
   return (

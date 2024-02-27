@@ -16,10 +16,13 @@ import {
   useIsPrivate,
   useIsPrivateAndFriend,
   useIsPublic,
+  useLastMessage,
   useNotificationSetting,
   useWeAreAdmin,
 } from '../../hooks/useParamSelector';
 import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
   approveConvoAndSendResponse,
   blockConvoById,
   clearNickNameByConvoId,
@@ -32,6 +35,7 @@ import {
   showBanUserByConvoId,
   showInviteContactByConvoId,
   showLeaveGroupByConvoId,
+  showLeavePrivateConversationbyConvoId,
   showRemoveModeratorsByConvoId,
   showUnbanUserByConvoId,
   showUpdateGroupNameByConvoId,
@@ -132,67 +136,28 @@ export const DeletePrivateContactMenuItem = () => {
   return null;
 };
 
-export const DeleteGroupOrCommunityMenuItem = () => {
-  const dispatch = useDispatch();
+export const LeaveGroupOrCommunityMenuItem = () => {
   const convoId = useConvoIdFromContext();
-  const isPublic = useIsPublic(convoId);
+  const username = useConversationUsername(convoId) || convoId;
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const isPrivate = useIsPrivate(convoId);
-  const isGroup = !isPrivate && !isPublic;
-
-  // You need to have left a closed group first to be able to delete it completely as there is a leaving message to send first.
-  // A community can just be removed right away.
-  if (isPublic || (isGroup && (isLeft || isKickedFromGroup))) {
-    const menuItemText = isPublic ? window.i18n('leaveGroup') : window.i18n('editMenuDeleteGroup');
-
-    const onClickClose = () => {
-      dispatch(updateConfirmModal(null));
-    };
-
-    const showConfirmationModal = () => {
-      dispatch(
-        updateConfirmModal({
-          title: menuItemText,
-          message: window.i18n('leaveGroupConfirmation'),
-          onClickClose,
-          okTheme: SessionButtonColor.Danger,
-          onClickOk: async () => {
-            if (isPublic) {
-              await getConversationController().deleteCommunity(convoId, {
-                fromSyncMessage: false,
-              });
-            } else {
-              await getConversationController().deleteClosedGroup(convoId, {
-                fromSyncMessage: false,
-                sendLeaveMessage: true,
-              });
-            }
-          },
-        })
-      );
-    };
-
-    return <Item onClick={showConfirmationModal}>{menuItemText}</Item>;
-  }
-  return null;
-};
-
-export const LeaveGroupMenuItem = () => {
-  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
-  const isLeft = useIsLeft(convoId);
-  const isKickedFromGroup = useIsKickedFromGroup(convoId);
-  const isPrivate = useIsPrivate(convoId);
+  const lastMessage = useLastMessage(convoId);
 
-  if (!isKickedFromGroup && !isLeft && !isPrivate && !isPublic) {
+  if (!isKickedFromGroup && !isLeft && !isPrivate) {
     return (
       <Item
         onClick={() => {
-          showLeaveGroupByConvoId(convoId);
+          void showLeaveGroupByConvoId(convoId, username);
         }}
       >
-        {window.i18n('leaveGroup')}
+        {isPublic
+          ? window.i18n('leaveCommunity')
+          : lastMessage?.interactionType === ConversationInteractionType.Leave &&
+            lastMessage?.interactionStatus === ConversationInteractionStatus.Error
+          ? window.i18n('deleteConversation')
+          : window.i18n('leaveGroup')}
       </Item>
     );
   }
@@ -453,8 +418,10 @@ export const DeleteMessagesMenuItem = () => {
  */
 export const DeletePrivateConversationMenuItem = () => {
   const convoId = useConvoIdFromContext();
+  const username = useConversationUsername(convoId) || convoId;
   const isRequest = useIsIncomingRequest(convoId);
   const isPrivate = useIsPrivate(convoId);
+  const isMe = useIsMe(convoId);
 
   if (!convoId || !isPrivate || isRequest) {
     return null;
@@ -463,13 +430,10 @@ export const DeletePrivateConversationMenuItem = () => {
   return (
     <Item
       onClick={() => {
-        void getConversationController().delete1o1(convoId, {
-          fromSyncMessage: false,
-          justHidePrivate: true,
-        });
+        showLeavePrivateConversationbyConvoId(convoId, username);
       }}
     >
-      {window.i18n('deleteConversation')}
+      {isMe ? window.i18n('hideConversation') : window.i18n('deleteConversation')}
     </Item>
   );
 };
@@ -487,7 +451,7 @@ export const AcceptMsgRequestMenuItem = () => {
         onClick={async () => {
           await convo.setDidApproveMe(true);
           await convo.addOutgoingApprovalMessage(Date.now());
-          await approveConvoAndSendResponse(convoId, true);
+          await approveConvoAndSendResponse(convoId);
         }}
       >
         {window.i18n('accept')}

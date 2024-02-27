@@ -4,6 +4,7 @@ import { ContentMessage } from '../ContentMessage';
 import { MessageParams } from '../Message';
 import { buildProfileForOutgoingMessage } from '../visibleMessage/VisibleMessage';
 
+// Note: a MessageRequestResponse message should not expire at all on the recipient side/nor our side.
 export interface MessageRequestResponseParams extends MessageParams {
   lokiProfile?: LokiProfile;
 }

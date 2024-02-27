@@ -9,7 +9,7 @@ import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { showLightBox } from '../../state/ducks/conversations';
 import { GoogleChrome } from '../../util';
 import { Flex } from '../basic/Flex';
-import { SessionIconButton, SessionIconType } from '../icon';
+import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import * as MIME from '../../types/MIME';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 
@@ -147,6 +147,7 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
   };
   let iconRotation = 0;
   let iconType: SessionIconType = 'chevron';
+  let iconSize: SessionIconSize = 'huge';
   switch (type) {
     case 'next':
       iconRotation = 270;
@@ -158,9 +159,8 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
       iconType = 'exit';
       break;
     case 'save':
-      iconType = 'upload';
-      iconRotation = 180;
-
+      iconType = 'save';
+      iconSize = 'huge2';
       break;
     default:
       assertUnreachable(type, `Invalid button type: ${type}`);
@@ -170,7 +170,7 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
     <StyledIconButton>
       <SessionIconButton
         iconType={iconType}
-        iconSize={'huge'}
+        iconSize={iconSize}
         iconRotation={iconRotation}
         // the lightbox has a dark background
         iconColor="var(--lightbox-icon-stroke-color)"

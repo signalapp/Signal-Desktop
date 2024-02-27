@@ -1,25 +1,21 @@
-import { v4 as uuid } from 'uuid';
-
-import { SignalService } from '../../../../protobuf';
-import { MessageParams } from '../Message';
-import { ContentMessage } from '..';
-import { PubKey } from '../../../types';
 import { getMessageQueue } from '../../..';
-import { getConversationController } from '../../../conversations';
-import { UserUtils } from '../../../utils';
-import { SettingsKey } from '../../../../data/settings-key';
-import { Storage } from '../../../../util/storage';
+import { SignalService } from '../../../../protobuf';
 import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
+import { getConversationController } from '../../../conversations';
+import { DisappearingMessages } from '../../../disappearing_messages';
+import { PubKey } from '../../../types';
+import { UserUtils } from '../../../utils';
+import { ExpirableMessage, ExpirableMessageParams } from '../ExpirableMessage';
 
-interface DataExtractionNotificationMessageParams extends MessageParams {
+interface DataExtractionNotificationMessageParams extends ExpirableMessageParams {
   referencedAttachmentTimestamp: number;
 }
 
-export class DataExtractionNotificationMessage extends ContentMessage {
+export class DataExtractionNotificationMessage extends ExpirableMessage {
   public readonly referencedAttachmentTimestamp: number;
 
   constructor(params: DataExtractionNotificationMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
+    super(params);
     this.referencedAttachmentTimestamp = params.referencedAttachmentTimestamp;
     // this does not make any sense
     if (!this.referencedAttachmentTimestamp) {
@@ -28,15 +24,15 @@ export class DataExtractionNotificationMessage extends ContentMessage {
   }
 
   public contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      dataExtractionNotification: this.dataExtractionProto(),
-    });
+    const content = super.contentProto();
+    content.dataExtractionNotification = this.dataExtractionProto();
+    return content;
   }
 
   protected dataExtractionProto(): SignalService.DataExtractionNotification {
     const ACTION_ENUM = SignalService.DataExtractionNotification.Type;
 
-    const action = ACTION_ENUM.MEDIA_SAVED; // we cannot know when user screenshots, so it can only be a media saved
+    const action = ACTION_ENUM.MEDIA_SAVED; // we cannot know when user screenshots, so it can only be a media saved on desktop
 
     return new SignalService.DataExtractionNotification({
       type: action,
@@ -54,22 +50,23 @@ export const sendDataExtractionNotification = async (
   referencedAttachmentTimestamp: number
 ) => {
   const convo = getConversationController().get(conversationId);
-  if (
-    !convo ||
-    !convo.isPrivate() ||
-    convo.isMe() ||
-    UserUtils.isUsFromCache(attachmentSender) ||
-    !Storage.get(SettingsKey.settingsReadReceipt)
-  ) {
+  if (!convo || !convo.isPrivate() || convo.isMe() || UserUtils.isUsFromCache(attachmentSender)) {
     window.log.warn('Not sending saving attachment notification for', attachmentSender);
     return;
   }
-
+  const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
+    convo
+  );
+  // DataExtractionNotification are expiring with a forced DaR timer if a DaS is set.
+  // It's because we want the DataExtractionNotification to stay in the swarm as much as possible,
+  // but also expire on the recipient's side (and synced) once read.
   const dataExtractionNotificationMessage = new DataExtractionNotificationMessage({
     referencedAttachmentTimestamp,
-    identifier: uuid(),
     timestamp: Date.now(),
+    expirationType,
+    expireTimer,
   });
+
   const pubkey = PubKey.cast(conversationId);
   window.log.info(
     `Sending DataExtractionNotification to ${conversationId} about attachment: ${referencedAttachmentTimestamp}`

@@ -6,6 +6,7 @@ import { Flex } from '../../../basic/Flex';
 import { SpacerSM, Text } from '../../../basic/Text';
 import { ReadableMessage } from './ReadableMessage';
 
+// Note this should not respond to the disappearing message conversation setting so we use the ReadableMessage
 export const MessageRequestResponse = (props: PropsForMessageRequestResponse) => {
   const { messageId, isUnread, receivedAt, conversationId } = props;
 
@@ -26,6 +27,7 @@ export const MessageRequestResponse = (props: PropsForMessageRequestResponse) =>
       messageId={messageId}
       receivedAt={receivedAt}
       isUnread={isUnread}
+      dataTestId="message-request-response-message"
       key={`readable-message-${messageId}`}
     >
       <Flex

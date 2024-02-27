@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Avatar, AvatarSize, CrownIcon } from './avatar/Avatar';
-import { useConversationUsernameOrShorten } from '../hooks/useParamSelector';
+import { useNicknameOrProfileNameOrShortenedPubkey } from '../hooks/useParamSelector';
 import { SessionRadio } from './basic/SessionRadio';
 
 const AvatarContainer = styled.div`
@@ -91,7 +91,7 @@ export const MemberListItem = (props: {
     dataTestId,
   } = props;
 
-  const memberName = useConversationUsernameOrShorten(pubkey);
+  const memberName = useNicknameOrProfileNameOrShortenedPubkey(pubkey);
 
   return (
     <StyledSessionMemberItem

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useIsIncomingRequest } from '../../hooks/useParamSelector';
 import {
   getSelectedHasMessages,
   hasSelectedConversationIncomingMessages,
@@ -9,12 +10,11 @@ import {
   getSelectedCanWrite,
   useSelectedConversationKey,
   useSelectedHasDisabledBlindedMsgRequests,
+  useSelectedIsNoteToSelf,
   useSelectedNicknameOrProfileNameOrShortenedPubkey,
-  useSelectedisNoteToSelf,
 } from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
-import { useIsIncomingRequest } from '../../hooks/useParamSelector';
 
 const Container = styled.div`
   display: flex;
@@ -60,10 +60,10 @@ export const NoMessageInConversation = () => {
 
   const hasMessage = useSelector(getSelectedHasMessages);
 
-  const isMe = useSelectedisNoteToSelf();
+  const isMe = useSelectedIsNoteToSelf();
   const canWrite = useSelector(getSelectedCanWrite);
   const privateBlindedAndBlockingMsgReqs = useSelectedHasDisabledBlindedMsgRequests();
-  // TODOLATER use this selector accross the whole application (left pane excluded)
+  // TODOLATER use this selector across the whole application (left pane excluded)
   const nameToRender = useSelectedNicknameOrProfileNameOrShortenedPubkey();
 
   if (!selectedConversation || hasMessage) {

@@ -207,6 +207,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   await conversation.commit();
 
   const user = {
+    ourDisplayNameInProfile: displayName,
     ourNumber: getOurPubKeyStrFromCache(),
     ourPrimary: ourPubkey,
   };
