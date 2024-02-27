@@ -642,25 +642,18 @@ async function initialize({
 }
 
 async function close(): Promise<void> {
+  globalReadonlyInstance?.close();
+  globalReadonlyInstance = undefined;
+
   // SQLLite documentation suggests that we run `PRAGMA optimize` right
   // before closing the database connection.
   globalWritableInstance?.pragma('optimize');
 
   globalWritableInstance?.close();
   globalWritableInstance = undefined;
-  globalReadonlyInstance?.close();
-  globalReadonlyInstance = undefined;
 }
 
 async function removeDB(): Promise<void> {
-  if (globalWritableInstance) {
-    try {
-      globalWritableInstance.close();
-    } catch (error) {
-      logger.error('removeDB: Failed to close database:', error.stack);
-    }
-    globalWritableInstance = undefined;
-  }
   if (globalReadonlyInstance) {
     try {
       globalReadonlyInstance.close();
@@ -668,6 +661,14 @@ async function removeDB(): Promise<void> {
       logger.error('removeDB: Failed to close readonly database:', error.stack);
     }
     globalReadonlyInstance = undefined;
+  }
+  if (globalWritableInstance) {
+    try {
+      globalWritableInstance.close();
+    } catch (error) {
+      logger.error('removeDB: Failed to close database:', error.stack);
+    }
+    globalWritableInstance = undefined;
   }
   if (!databaseFilePath) {
     throw new Error(
