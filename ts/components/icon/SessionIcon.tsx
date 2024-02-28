@@ -15,6 +15,9 @@ export type SessionIconProps = {
   glowStartDelay?: number;
   noScale?: boolean;
   backgroundColor?: string;
+  fill?: string;
+  clipRule?: ClipRule;
+  fillRule?: FillRule;
   dataTestId?: string;
 };
 
@@ -42,6 +45,9 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
   }
 };
 
+type ClipRule = 'nonzero' | 'evenodd' | 'inherit';
+type FillRule = 'nonzero' | 'evenodd';
+
 type StyledSvgProps = {
   width: string | number;
   height: string | number;
@@ -54,6 +60,9 @@ type StyledSvgProps = {
   noScale?: boolean;
   iconColor?: string;
   backgroundColor?: string;
+  fill?: string;
+  clipRule?: ClipRule;
+  filleRule?: FillRule;
 };
 
 const rotate = keyframes`
@@ -132,22 +141,13 @@ const Svg = memo(styled.svg<StyledSvgProps>`
   transition: inherit;
 `);
 
-const SessionSvg = (props: {
-  viewBox: string;
-  path: string | Array<string>;
-  width: string | number;
-  height: string | number;
-  iconRotation: number;
-  iconColor?: string;
-  rotateDuration?: number;
-  glowDuration?: number;
-  glowStartDelay?: number;
-  noScale?: boolean;
-  borderRadius?: string;
-  backgroundColor?: string;
-  iconPadding?: string;
-  dataTestId?: string;
-}) => {
+const SessionSvg = (
+  props: StyledSvgProps & {
+    viewBox: string;
+    path: string | Array<string>;
+    dataTestId?: string;
+  }
+) => {
   const colorSvg = props.iconColor ? props.iconColor : '--button-icon-stroke-color';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
   const propsToPick = {
@@ -163,6 +163,9 @@ const SessionSvg = (props: {
     backgroundColor: props.backgroundColor,
     borderRadius: props.borderRadius,
     iconPadding: props.iconPadding,
+    fill: props.fill,
+    clipRule: props.clipRule,
+    fillRule: props.filleRule,
     dataTestId: props.dataTestId,
   };
 
@@ -186,6 +189,9 @@ export const SessionIcon = (props: SessionIconProps) => {
     noScale,
     backgroundColor,
     iconPadding,
+    fill,
+    clipRule = 'nonzero',
+    fillRule = 'nonzero',
     dataTestId,
   } = props;
   let { iconSize, iconRotation } = props;
@@ -211,6 +217,9 @@ export const SessionIcon = (props: SessionIconProps) => {
       iconColor={iconColor}
       backgroundColor={backgroundColor}
       iconPadding={iconPadding}
+      fill={fill}
+      clipRule={clipRule}
+      filleRule={fillRule}
       dataTestId={dataTestId}
     />
   );
