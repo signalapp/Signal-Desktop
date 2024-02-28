@@ -39,6 +39,7 @@ import packageJson from '../package.json';
 import * as GlobalErrors from './global_errors';
 import { setup as setupCrashReports } from './crashReports';
 import { setup as setupSpellChecker } from './spell_check';
+import { getDNSFallback } from './dns-fallback';
 import { redactAll, addSensitivePath } from '../ts/util/privacy';
 import { createSupportUrl } from '../ts/util/createSupportUrl';
 import { missingCaseError } from '../ts/util/missingCaseError';
@@ -55,7 +56,6 @@ import { explodePromise } from '../ts/util/explodePromise';
 
 import './startup_config';
 
-import type { ConfigType } from './config';
 import type { RendererConfigType } from '../ts/types/RendererConfig';
 import {
   directoryConfigSchema,
@@ -115,6 +115,7 @@ import { HourCyclePreference } from '../ts/types/I18N';
 import { DBVersionFromFutureError } from '../ts/sql/migrations';
 import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
 import { parseSignalRoute } from '../ts/util/signalRoutes';
+import * as dns from '../ts/util/dns';
 import { ZoomFactorService } from '../ts/services/ZoomFactorService';
 
 const STICKER_CREATOR_PARTITION = 'sticker-creator';
@@ -1737,6 +1738,8 @@ if (DISABLE_GPU) {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  dns.setFallback(await getDNSFallback());
+
   const [userDataPath, crashDumpsPath, installPath] = await Promise.all([
     realpath(app.getPath('userData')),
     realpath(app.getPath('crashDumps')),
@@ -2452,15 +2455,17 @@ ipc.on('get-config', async event => {
     updatesUrl: config.get<string>('updatesUrl'),
     resourcesUrl: config.get<string>('resourcesUrl'),
     artCreatorUrl: config.get<string>('artCreatorUrl'),
-    cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
-    cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
-    cdnUrl3: config.get<ConfigType>('cdn').get<string>('3'),
+    cdnUrl0: config.get<string>('cdn.0'),
+    cdnUrl2: config.get<string>('cdn.2'),
+    cdnUrl3: config.get<string>('cdn.3'),
     certificateAuthority: config.get<string>('certificateAuthority'),
     environment:
       !isTestEnvironment(getEnvironment()) && ciMode
         ? Environment.Production
         : getEnvironment(),
     ciMode,
+    // Should be already computed and cached at this point
+    dnsFallback: await getDNSFallback(),
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),

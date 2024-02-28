@@ -3,6 +3,7 @@ node_modules_bkp
 .sass-cache
 coverage/*
 build/curve25519_compiled.js
+build/dns-fallback.json
 stylesheets/*.css.map
 /dist
 .DS_Store
