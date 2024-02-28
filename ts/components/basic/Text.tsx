@@ -31,13 +31,17 @@ export const TextWithChildren = (props: Omit<TextProps, 'text'> & { children: Re
 };
 
 type SpacerProps = {
-  size: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   style?: CSSProperties;
 };
 
 const SpacerStyled = styled.div<SpacerProps>`
   height: ${props =>
-    props.size === 'xl'
+    props.size === '3xl'
+      ? 'var(--margins-3xl)'
+      : props.size === '2xl'
+      ? 'var(--margins-2xl)'
+      : props.size === 'xl'
       ? 'var(--margins-xl)'
       : props.size === 'lg'
       ? 'var(--margins-lg)'
@@ -48,7 +52,11 @@ const SpacerStyled = styled.div<SpacerProps>`
       : 'var(--margins-xs)'};
 
   width: ${props =>
-    props.size === 'xl'
+    props.size === '3xl'
+      ? 'var(--margins-3xl)'
+      : props.size === '2xl'
+      ? 'var(--margins-2xl)'
+      : props.size === 'xl'
       ? 'var(--margins-xl)'
       : props.size === 'lg'
       ? 'var(--margins-lg)'
@@ -63,23 +71,39 @@ const Spacer = (props: SpacerProps) => {
   return <SpacerStyled {...props} />;
 };
 
-export const SpacerXL = (props: { style?: CSSProperties }) => {
-  return <Spacer size="xl" style={props.style} />;
+/** 5px */
+export const SpacerXS = (props: { style?: CSSProperties }) => {
+  return <Spacer size="xs" style={props.style} />;
 };
 
-export const SpacerLG = (props: { style?: CSSProperties }) => {
-  return <Spacer size="lg" style={props.style} />;
-};
-
-export const SpacerMD = (props: { style?: CSSProperties }) => {
-  return <Spacer size="md" style={props.style} />;
-};
+/** 10px */
 export const SpacerSM = (props: { style?: CSSProperties }) => {
   return <Spacer size="sm" style={props.style} />;
 };
 
-export const SpacerXS = (props: { style?: CSSProperties }) => {
-  return <Spacer size="xs" style={props.style} />;
+/** 15px */
+export const SpacerMD = (props: { style?: CSSProperties }) => {
+  return <Spacer size="md" style={props.style} />;
+};
+
+/** 20px */
+export const SpacerLG = (props: { style?: CSSProperties }) => {
+  return <Spacer size="lg" style={props.style} />;
+};
+
+/** 25px */
+export const SpacerXL = (props: { style?: CSSProperties }) => {
+  return <Spacer size="xl" style={props.style} />;
+};
+
+/** 30px */
+export const Spacer2XL = (props: { style?: CSSProperties }) => {
+  return <Spacer size="2xl" style={props.style} />;
+};
+
+/** 35px */
+export const Spacer3XL = (props: { style?: CSSProperties }) => {
+  return <Spacer size="3xl" style={props.style} />;
 };
 
 type H3Props = {

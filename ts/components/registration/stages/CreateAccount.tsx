@@ -50,7 +50,7 @@ function sanitizeDisplayNameOrToast(
     setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
   } catch (e) {
     setDisplayName(displayName);
-    setDisplayNameError(window.i18n('invalidDisplayNameTooLong'));
+    setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter'));
   }
 }
 

@@ -24,6 +24,7 @@ export type ThemeGlobals = {
   '--margins-lg': string;
   '--margins-xl': string;
   '--margins-2xl': string;
+  '--margins-3xl': string;
 
   /* Padding */
   '--padding-message-content': string;
@@ -115,6 +116,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--margins-lg': '20px',
   '--margins-xl': '25px',
   '--margins-2xl': '30px',
+  '--margins-3xl': '35px',
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below

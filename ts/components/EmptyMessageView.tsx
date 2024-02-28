@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { Flex } from './basic/Flex';
+import { Spacer2XL, SpacerXS } from './basic/Text';
 
 const StyledPlaceholder = styled(Flex)`
   margin: auto;
@@ -31,22 +32,40 @@ const StyledPartyPopper = styled.img`
   -webkit-user-drag: none;
 `;
 
-const StyledHeading = styled.p`
-  padding: 0;
+const StyledP = styled.p`
   margin: 0;
-  font-size: var(--font-size-h1);
+  padding: 0;
+  text-align: center;
+`;
+
+const StyledHeading = styled(StyledP)`
+  margin: 0 0 var(--margins-md);
+  line-height: 1;
+  font-size: 48px;
   font-weight: 700;
 `;
 
-const StyledSessionWelcome = styled.p`
-  padding: 0;
-  margin: 0;
+const StyledSessionWelcome = styled(StyledP)`
+  line-height: 1;
   color: var(--primary-color);
-  font-size: var(--font-size-h2);
+  font-size: 32px;
+`;
+
+const StyledHR = styled.hr`
+  color: var(--text-secondary-color);
+  opacity: 0.5;
+  width: 300px;
+  border-width: 0.5px;
+  margin: 40px 0 var(--margins-lg);
+`;
+
+const StyledNoConversations = styled(StyledP)`
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 export const EmptyMessageView = () => {
-  const [newAccountCreated, setNewAccountCreated] = useState(false);
+  const [newAccountCreated, setNewAccountCreated] = useState(true);
 
   useMount(() => {
     const launchCount = window.getSettingValue('launch-count');
@@ -57,25 +76,6 @@ export const EmptyMessageView = () => {
     }
   });
 
-  if (newAccountCreated) {
-    return (
-      <StyledPlaceholder
-        container={true}
-        className="content"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        margin="auto"
-      >
-        <StyledPartyPopper src="images/party-popper.svg" alt="party popper emoji" />
-        <StyledHeading>{window.i18n('onboardingAccountCreated')}</StyledHeading>
-        <StyledSessionWelcome>
-          {window.i18n('onboardingBubbleWelcomeToSession')}
-        </StyledSessionWelcome>
-      </StyledPlaceholder>
-    );
-  }
-
   return (
     <StyledPlaceholder
       container={true}
@@ -85,17 +85,32 @@ export const EmptyMessageView = () => {
       alignItems="center"
       margin="auto"
     >
-      <StyledSessionFullLogo
-        container={true}
-        className="content"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        margin="auto"
-      >
-        <img src="images/session/brand.svg" alt="full-brand-logo" />
-        <img src="images/session/session-text.svg" alt="full-brand-text" />
-      </StyledSessionFullLogo>
+      {newAccountCreated ? (
+        <>
+          <StyledPartyPopper src="images/party-popper.svg" alt="party popper emoji" />
+          <Spacer2XL />
+          <StyledHeading>{window.i18n('onboardingAccountCreated')}</StyledHeading>
+          <StyledSessionWelcome>
+            {window.i18n('onboardingBubbleWelcomeToSession')}
+          </StyledSessionWelcome>
+        </>
+      ) : (
+        <StyledSessionFullLogo
+          container={true}
+          className="content"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          margin="auto"
+        >
+          <img src="images/session/brand.svg" alt="full-brand-logo" />
+          <img src="images/session/session-text.svg" alt="full-brand-text" />
+        </StyledSessionFullLogo>
+      )}
+      <StyledHR />
+      <StyledNoConversations>{window.i18n('conversationsNone')}</StyledNoConversations>
+      <SpacerXS />
+      <StyledP>{window.i18n('onboardingHitThePlusButton')}</StyledP>
     </StyledPlaceholder>
   );
 };
