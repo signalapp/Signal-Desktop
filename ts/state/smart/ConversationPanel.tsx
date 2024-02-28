@@ -58,7 +58,9 @@ function doAnimate({
   onAnimationStarted: () => unknown;
   onAnimationDone: () => unknown;
   overlay: AnimationProps<{ backgroundColor: string }>;
-  panel: AnimationProps<{ transform: string }>;
+  panel: AnimationProps<
+    { transform: string } | { left: string } | { right: string }
+  >;
 }) {
   const animateNode = panel.ref.current;
   if (!animateNode) {
@@ -176,8 +178,11 @@ export function ConversationPanel({
         panel: {
           ref: animateRef,
           keyframes: [
-            { transform: isRTL ? 'translateX(-100%)' : 'translateX(100%)' },
-            { transform: 'translateX(0%)' },
+            // Note that we can't use translateX here because it breaks
+            // gradients for the message in message details screen.
+            // See: https://issues.chromium.org/issues/327027598
+            isRTL ? { right: '100%' } : { left: '100%' },
+            isRTL ? { right: '0' } : { left: '0' },
           ],
         },
       });
