@@ -27,7 +27,6 @@ import type {
   ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
-import { isAciString } from '../../util/isAciString';
 import type { AciString } from '../../types/ServiceId';
 import { CallMode, CallState } from '../../types/Calling';
 import type { CallLinkType } from '../../types/CallLink';
@@ -193,11 +192,6 @@ const mapStateToActiveCallProp = (
       ) {
         return;
       }
-
-      strictAssert(
-        isAciString(conversation.serviceId),
-        'Conversation must have aci'
-      );
 
       return {
         ...baseResult,

@@ -127,6 +127,7 @@ import {
 } from '../util/callDisposition';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { LocalCallEvent } from '../types/CallDisposition';
+import { isServiceIdString } from '../types/ServiceId';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 import {
   getRoomIdFromRootKey,
@@ -2287,7 +2288,10 @@ export class CallingClass {
       Boolean(message.offer);
 
     try {
-      assertDev(isAciString(remoteUserId), 'remoteUserId is not a aci');
+      assertDev(
+        isServiceIdString(remoteUserId),
+        'remoteUserId is not a service id'
+      );
       const result = await handleMessageSend(
         window.textsecure.messaging.sendCallingMessage(
           remoteUserId,
