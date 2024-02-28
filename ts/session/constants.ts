@@ -71,6 +71,6 @@ export const REACT_LIMIT = 6;
 export const MAX_USERNAME_BYTES = 64;
 
 export const FEATURE_RELEASE_TIMESTAMPS = {
-  DISAPPEARING_MESSAGES_V2: 1710198000000, // 12/03/2024 10:00 Melbourne time
+  DISAPPEARING_MESSAGES_V2: 1710284400000, // 13/03/2024 10:00 Melbourne time
   USER_CONFIG: 1690761600000, // Monday July 31st at 10am Melbourne time
 };
