@@ -1,4 +1,5 @@
 import { SignalService } from '../../../../protobuf';
+import { TTL_DEFAULT } from '../../../constants';
 import { PubKey } from '../../../types';
 import { StringUtils } from '../../../utils';
 import { DataMessage } from '../DataMessage';
@@ -59,5 +60,12 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     }
 
     return data;
+  }
+
+  public ttl(): number {
+    if (this.groupId) {
+      return TTL_DEFAULT.CONTENT_MESSAGE;
+    }
+    return super.ttl();
   }
 }
