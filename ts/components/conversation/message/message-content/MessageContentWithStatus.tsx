@@ -34,13 +34,13 @@ type Props = {
   enableReactions: boolean;
 };
 
-const StyledMessageContentContainer = styled.div<{ isIncoming: boolean }>`
+const StyledMessageContentContainer = styled.div<{ isIncoming: boolean; isDetailView: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
-  padding-left: ${props => (props.isIncoming ? 0 : '25%')};
-  padding-right: ${props => (props.isIncoming ? '25%' : 0)};
+  padding-left: ${props => (props.isDetailView || props.isIncoming ? 0 : '25%')};
+  padding-right: ${props => (props.isDetailView || !props.isIncoming ? 0 : '25%')};
   width: 100%;
   margin-right: var(--margins-md);
 `;
@@ -119,6 +119,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   return (
     <StyledMessageContentContainer
       isIncoming={isIncoming}
+      isDetailView={isDetailView}
       onMouseLeave={() => {
         setPopupReaction('');
       }}
