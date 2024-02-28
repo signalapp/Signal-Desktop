@@ -9,7 +9,7 @@ import z from 'zod';
 
 import type { LoggerType } from '../ts/types/Logging';
 import * as Errors from '../ts/types/errors';
-import { isAlpha } from '../ts/util/version';
+import { isProduction } from '../ts/util/version';
 import OS from '../ts/util/os/osMain';
 
 const dumpSchema = z
@@ -68,7 +68,7 @@ export function setup(
   showDebugLogWindow: () => Promise<void>,
   forceEnable = false
 ): void {
-  const isEnabled = isAlpha(app.getVersion()) || forceEnable;
+  const isEnabled = !isProduction(app.getVersion()) || forceEnable;
 
   if (isEnabled) {
     getLogger().info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);
