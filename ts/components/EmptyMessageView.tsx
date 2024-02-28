@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
 import styled from 'styled-components';
+import { getLeftPaneConversationIdsCount } from '../state/selectors/conversations';
 import { Flex } from './basic/Flex';
 import { Spacer2XL, SpacerXS } from './basic/Text';
 
@@ -65,12 +67,12 @@ const StyledNoConversations = styled(StyledP)`
 `;
 
 export const EmptyMessageView = () => {
-  const [newAccountCreated, setNewAccountCreated] = useState(true);
+  const conversationCount = useSelector(getLeftPaneConversationIdsCount);
+
+  const [newAccountCreated, setNewAccountCreated] = useState(false);
 
   useMount(() => {
     const launchCount = window.getSettingValue('launch-count');
-    window.log.debug(`WIP: [launch-count] ${launchCount}`);
-
     if (!launchCount || launchCount < 1) {
       setNewAccountCreated(true);
     }
@@ -101,16 +103,20 @@ export const EmptyMessageView = () => {
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          margin="auto"
+          margin="0 auto"
         >
           <img src="images/session/brand.svg" alt="full-brand-logo" />
           <img src="images/session/session-text.svg" alt="full-brand-text" />
         </StyledSessionFullLogo>
       )}
-      <StyledHR />
-      <StyledNoConversations>{window.i18n('conversationsNone')}</StyledNoConversations>
-      <SpacerXS />
-      <StyledP style={{ width: '360px' }}>{window.i18n('onboardingHitThePlusButton')}</StyledP>
+      {!conversationCount ? (
+        <>
+          <StyledHR />
+          <StyledNoConversations>{window.i18n('conversationsNone')}</StyledNoConversations>
+          <SpacerXS />
+          <StyledP style={{ width: '360px' }}>{window.i18n('onboardingHitThePlusButton')}</StyledP>
+        </>
+      ) : null}
     </StyledPlaceholder>
   );
 };
