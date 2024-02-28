@@ -2,6 +2,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 import { memo } from 'react';
 import { icons, SessionIconSize, SessionIconType } from '.';
+import { ClipRule, FillRule } from './Icons';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
@@ -15,9 +16,6 @@ export type SessionIconProps = {
   glowStartDelay?: number;
   noScale?: boolean;
   backgroundColor?: string;
-  fill?: string;
-  clipRule?: ClipRule;
-  fillRule?: FillRule;
   dataTestId?: string;
 };
 
@@ -44,9 +42,6 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
       return 20;
   }
 };
-
-type ClipRule = 'nonzero' | 'evenodd' | 'inherit';
-type FillRule = 'nonzero' | 'evenodd';
 
 type StyledSvgProps = {
   width: string | number;
@@ -189,9 +184,6 @@ export const SessionIcon = (props: SessionIconProps) => {
     noScale,
     backgroundColor,
     iconPadding,
-    fill,
-    clipRule = 'nonzero',
-    fillRule = 'nonzero',
     dataTestId,
   } = props;
   let { iconSize, iconRotation } = props;
@@ -201,6 +193,9 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
+  const fill = iconDef?.fill || undefined;
+  const clipRule = iconDef?.clipRule || 'nonzero';
+  const fillRule = iconDef?.fillRule || 'nonzero';
 
   return (
     <SessionSvg
