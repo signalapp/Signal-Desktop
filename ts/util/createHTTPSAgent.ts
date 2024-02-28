@@ -40,6 +40,7 @@ const HOST_LOG_ALLOWLIST = new Set([
   'cdsi.signal.org',
   'cdn.signal.org',
   'cdn2.signal.org',
+  'cdn3.signal.org',
   'create.signal.art',
 
   // Staging

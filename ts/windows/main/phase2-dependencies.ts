@@ -12,6 +12,7 @@ import { textsecure } from '../../textsecure';
 import * as Attachments from '../attachments';
 import { setup } from '../../signal';
 import { addSensitivePath } from '../../util/privacy';
+import * as dns from '../../util/dns';
 import * as log from '../../logging/log';
 import { SignalContext } from '../context';
 
@@ -71,6 +72,8 @@ addSensitivePath(window.BasePaths.attachments);
 if (config.crashDumpsPath) {
   addSensitivePath(config.crashDumpsPath);
 }
+
+dns.setFallback(SignalContext.config.dnsFallback);
 
 window.Signal = setup({
   Attachments,

@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { Environment } from '../environment';
 import { themeSettingSchema } from './StorageUIKeys';
 import { HourCyclePreferenceSchema } from './I18N';
+import { DNSFallbackSchema } from './DNSFallback';
 
 const environmentSchema = z.nativeEnum(Environment);
 
@@ -40,6 +41,7 @@ export const rendererConfigSchema = z.object({
   contentProxyUrl: configRequiredStringSchema,
   crashDumpsPath: configRequiredStringSchema,
   ciMode: z.enum(['full', 'benchmark']).or(z.literal(false)),
+  dnsFallback: DNSFallbackSchema,
   environment: environmentSchema,
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,

@@ -12,35 +12,16 @@ import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 
 import { strictAssert } from './assert';
 import { drop } from './drop';
+import type { DNSFallbackType } from '../types/DNSFallback';
 
-const FALLBACK_ADDRS: ReadonlyMap<
-  string,
-  ReadonlyArray<ResolvedEndpoint>
-> = new Map([
-  [
-    'cdsi.signal.org',
-    [
-      { family: 'ipv4', address: '40.122.45.194' },
-      { family: 'ipv6', address: '2603:1030:7::1' },
-    ],
-  ],
-  [
-    'chat.signal.org',
-    [
-      { family: 'ipv4', address: '13.248.212.111' },
-      { family: 'ipv4', address: '76.223.92.165' },
-      { family: 'ipv6', address: '2600:9000:a507:ab6d:4ce3:2f58:25d7:9cbf' },
-      { family: 'ipv6', address: '2600:9000:a61f:527c:d5eb:a431:5239:3232' },
-    ],
-  ],
-  [
-    'sfu.voip.signal.org',
-    [
-      { family: 'ipv4', address: '34.49.5.136' },
-      { family: 'ipv6', address: '2600:1901:0:9c39::' },
-    ],
-  ],
-]);
+const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();
+
+export function setFallback(dnsFallback: DNSFallbackType): void {
+  fallbackAddrs.clear();
+  for (const { domain, endpoints } of dnsFallback) {
+    fallbackAddrs.set(domain, endpoints);
+  }
+}
 
 function lookupAll(
   hostname: string,
@@ -80,7 +61,7 @@ function lookupAll(
         );
       }
     } catch (error) {
-      const fallback = FALLBACK_ADDRS.get(hostname);
+      const fallback = fallbackAddrs.get(hostname);
       if (fallback) {
         result = { endpoints: fallback.slice() };
       } else {
