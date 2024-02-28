@@ -487,9 +487,6 @@
   "areYouSureDeleteDeviceOnly": "Are you sure you want to delete your device data only?",
   "areYouSureDeleteEntireAccount": "Are you sure you want to delete your data from the network? If you continue, you will not be able to restore your messages or contacts.",
   "iAmSure": "I am sure",
-  "recoveryPhraseSecureTitle": "You're almost finished!",
-  "recoveryPhraseRevealMessage": "Secure your account by saving your recovery phrase. Reveal your recovery phrase then store it safely to secure it.",
-  "recoveryPhraseRevealButtonText": "Reveal Recovery Phrase",
   "notificationSubtitle": "Notifications - $setting$",
   "surveyTitle": "We'd Love Your Feedback",
   "faq": "FAQ",
@@ -590,5 +587,7 @@
   "onboardingAccountCreated": "Account Created",
   "onboardingBubbleWelcomeToSession": "Welcome to Session",
   "conversationsNone": "You don't have any conversations yet",
-  "onboardingHitThePlusButton": "Hit the plus button to start a chat, create a group, or join an official community!"
+  "onboardingHitThePlusButton": "Hit the plus button to start a chat, create a group, or join an official community!",
+  "saveRecoveryPassword": "Save your recovery password",
+  "saveRecoveryPasswordDescription": "Save your recovery password to make sure you don't lose access to your account."
 }

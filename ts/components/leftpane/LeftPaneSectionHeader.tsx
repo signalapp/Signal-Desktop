@@ -8,7 +8,9 @@ import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
+import { SpacerMD } from '../basic/Text';
 import { MenuButton } from '../buttons';
+import { SessionIcon } from '../icon';
 
 const SectionTitle = styled.h1`
   padding-top: var(--margins-xs);
@@ -26,66 +28,55 @@ const StyledProgressBarContainer = styled.div`
 
 const StyledProgressBarInner = styled.div`
   background: var(--primary-color);
-  width: 90%;
+  width: 100%;
   transition: width 0.5s ease-in;
   height: 100%;
 `;
 
-export const StyledBannerTitle = styled.div`
-  line-height: 1.3;
-  font-size: var(--font-size-md);
-  font-weight: bold;
-  margin: var(--margins-sm) var(--margins-sm) 0 var(--margins-sm);
+const StyledBanner = styled(Flex)`
+  p {
+    padding: 0;
+    margin: 0;
+    line-height: 1.2;
+  }
 
-  span {
-    color: var(--primary-color);
+  p:nth-child(2) {
+    font-size: 12px;
+  }
+
+  .session-button {
+    width: 100%;
+  }
+
+  svg {
+    margin-top: -3px;
+    margin-left: var(--margins-xs);
   }
 `;
 
-export const StyledLeftPaneBanner = styled.div`
-  background: var(--background-primary-color);
+const StyledBannerTitle = styled.p`
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  line-height: 1;
+`;
+
+const StyledLeftPaneBanner = styled.div`
+  background: var(--background-secondary-color);
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid var(--border-color);
 `;
 
-const StyledBannerInner = styled.div`
-  p {
-    margin: 0;
-  }
+export const LeftPaneBanner = () => {
+  const section = useSelector(getFocusedSection);
+  const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
 
-  .left-pane-banner___phrase {
-    margin-top: var(--margins-md);
-  }
-
-  .session-button {
-    margin-top: var(--margins-md);
-  }
-`;
-
-const BannerInner = () => {
   const dispatch = useDispatch();
 
   const showRecoveryPhraseModal = () => {
     dispatch(disableRecoveryPhrasePrompt());
     dispatch(recoveryPhraseModal({}));
   };
-
-  return (
-    <StyledBannerInner>
-      <p>{window.i18n('recoveryPhraseRevealMessage')}</p>
-      <SessionButton
-        text={window.i18n('recoveryPhraseRevealButtonText')}
-        onClick={showRecoveryPhraseModal}
-        dataTestId="reveal-recovery-phrase"
-      />
-    </StyledBannerInner>
-  );
-};
-
-export const LeftPaneBanner = () => {
-  const section = useSelector(getFocusedSection);
-  const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
 
   if (section !== SectionType.Message || isSignInWithRecoveryPhrase) {
     return null;
@@ -96,12 +87,29 @@ export const LeftPaneBanner = () => {
       <StyledProgressBarContainer>
         <StyledProgressBarInner />
       </StyledProgressBarContainer>
-      <StyledBannerTitle>
-        {window.i18n('recoveryPhraseSecureTitle')} <span>90%</span>
-      </StyledBannerTitle>
-      <Flex flexDirection="column" justifyContent="space-between" padding={'var(--margins-sm)'}>
-        <BannerInner />
-      </Flex>
+      <StyledBanner
+        container={true}
+        width={'100%'}
+        flexDirection="column"
+        alignItems={'flex-start'}
+        padding={'var(--margins-md)'}
+      >
+        <Flex container={true} width={'100%'} alignItems="flex-start">
+          <StyledBannerTitle>{window.i18n('saveRecoveryPassword')}</StyledBannerTitle>
+          <SessionIcon
+            iconType="recoveryPassword"
+            iconSize="medium"
+            iconColor="var(--text-primary-color)"
+          />
+        </Flex>
+        <p>{window.i18n('saveRecoveryPasswordDescription')}</p>
+        <SpacerMD />
+        <SessionButton
+          text={window.i18n('continue')}
+          onClick={showRecoveryPhraseModal}
+          dataTestId="reveal-recovery-phrase"
+        />
+      </StyledBanner>
     </StyledLeftPaneBanner>
   );
 };
