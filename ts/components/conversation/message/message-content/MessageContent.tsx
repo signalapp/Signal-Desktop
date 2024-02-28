@@ -93,7 +93,7 @@ export const MessageContent = (props: Props) => {
 
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
   const selectedIsPrivate = useSelectedIsPrivate();
-  const hideAvatar = useHideAvatarInMsgList(props.messageId);
+  const hideAvatar = useHideAvatarInMsgList(props.messageId, props.isDetailView);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -164,14 +164,11 @@ export const MessageContent = (props: Props) => {
       title={toolTipTitle}
       msgDirection={direction}
     >
-      <StyledAvatarContainer>
-        <MessageAvatar
-          messageId={props.messageId}
-          hideAvatar={hideAvatar}
-          isPrivate={selectedIsPrivate}
-          isDetailView={props.isDetailView}
-        />
-      </StyledAvatarContainer>
+      {hideAvatar ? null : (
+        <StyledAvatarContainer>
+          <MessageAvatar messageId={props.messageId} isPrivate={selectedIsPrivate} />
+        </StyledAvatarContainer>
+      )}
 
       <InView
         id={`inview-content-${props.messageId}`}
