@@ -7,7 +7,7 @@ import { Flex } from './basic/Flex';
 import { Spacer2XL, SpacerXS } from './basic/Text';
 
 const StyledPlaceholder = styled(Flex)`
-  margin: auto;
+  background-color: var(--background-secondary-color);
   height: 100%;
 `;
 
@@ -81,11 +81,11 @@ export const EmptyMessageView = () => {
   return (
     <StyledPlaceholder
       container={true}
+      width={'100%'}
       className="content"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      margin="auto"
     >
       {newAccountCreated ? (
         <>
