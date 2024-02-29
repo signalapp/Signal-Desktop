@@ -32,6 +32,7 @@ import {
   getRandomBytes,
   decryptDeviceName,
   encryptDeviceName,
+  deriveStorageServiceKey,
 } from '../Crypto';
 import {
   generateKeyPair,
@@ -1237,6 +1238,10 @@ export default class AccountManager extends EventTarget {
     }
     if (masterKey) {
       await storage.put('masterKey', Bytes.toBase64(masterKey));
+      await storage.put(
+        'storageKey',
+        Bytes.toBase64(deriveStorageServiceKey(masterKey))
+      );
     }
 
     await storage.put('read-receipt-setting', Boolean(readReceipts));
