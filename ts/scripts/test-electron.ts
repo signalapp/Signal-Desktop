@@ -29,11 +29,10 @@ function launchElectron(attempt: number): string {
       cwd: ROOT_DIR,
       env: {
         ...process.env,
-        NODE_ENV: 'test',
-        // Setting TEST_ELECTRON_SCRIPT to test triggers main.ts to load
+        // Setting NODE_ENV to test triggers main.ts to load
         // 'test/index.html' instead of 'background.html', which loads the tests
         // via `test.js`
-        TEST_ELECTRON_SCRIPT: 'on',
+        NODE_ENV: 'test',
         TEST_QUIT_ON_COMPLETE: 'on',
       },
       encoding: 'utf8',

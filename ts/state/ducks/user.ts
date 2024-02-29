@@ -129,7 +129,6 @@ export function getEmptyState(): UserStateType {
     i18n: Object.assign(intlNotSetup, {
       getLocale: intlNotSetup,
       getIntl: intlNotSetup,
-      isLegacyFormat: intlNotSetup,
       getLocaleMessages: intlNotSetup,
       getLocaleDirection: intlNotSetup,
       getHourCyclePreference: intlNotSetup,
