@@ -22,7 +22,7 @@ export const Start = () => {
           dispatch(setAccountCreationStep(AccountCreation.DisplayName));
           dispatch(setOnboardingStep(Onboarding.CreateAccount));
         }}
-        text={window.i18n('createAccount')}
+        text={window.i18n('onboardingAccountCreate')}
       />
       <SpacerLG />
       <SessionButton
@@ -31,18 +31,8 @@ export const Start = () => {
           dispatch(setOnboardingStep(Onboarding.RestoreAccount));
           dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
         }}
-        text={window.i18n('restoreUsingRecoveryPhrase')}
+        text={window.i18n('onboardingAccountExists')}
         dataTestId="restore-using-recovery"
-      />
-      <SpacerLG />
-      <SessionButton
-        buttonColor={SessionButtonColor.White}
-        onClick={() => {
-          dispatch(setOnboardingStep(Onboarding.RestoreAccount));
-          dispatch(setAccountRestorationStep(AccountRestoration.LinkDevice));
-        }}
-        text={window.i18n('linkDevice')}
-        dataTestId="link-device"
       />
       <SpacerLG />
       <TermsAndConditions />

@@ -100,7 +100,7 @@ export const OverlayMessage = () => {
     try {
       const resolvedSessionID = await ONSResolve.getSessionIDForOnsName(pubkeyorOnsTrimmed);
       if (PubKey.validateWithErrorNoBlinding(resolvedSessionID)) {
-        throw new Error('Got a resolved ONS but the returned entry is not a vlaid SessionID');
+        throw new Error('Got a resolved ONS but the returned entry is not a valid SessionID');
       }
       // this is a pubkey
       await openConvoOnceResolved(resolvedSessionID);

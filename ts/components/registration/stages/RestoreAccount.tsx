@@ -1,114 +1,88 @@
 import { useState } from 'react';
-import { AccountRestoration } from '../../../state/onboarding/ducks/registration';
-import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
 import { Flex } from '../../basic/Flex';
-import { SessionButton } from '../../basic/SessionButton';
-import { SessionSpinner } from '../../loading';
-import { signInWithLinking, signInWithRecovery } from '../RegistrationStages';
-import { RegistrationUserDetails } from '../RegistrationUserDetails';
-import { TermsAndConditions } from '../TermsAndConditions';
-
-const ContinueYourSessionButton = (props: {
-  handleContinueYourSessionClick: () => any;
-  disabled: boolean;
-}) => {
-  return (
-    <SessionButton
-      onClick={props.handleContinueYourSessionClick}
-      text={window.i18n('continueYourSession')}
-      disabled={props.disabled}
-      dataTestId="continue-session-button"
-    />
-  );
-};
-
-const SignInContinueButton = (props: {
-  accountRestorationStep: AccountRestoration;
-  disabled: boolean;
-  handleContinueYourSessionClick: () => any;
-}) => {
-  if (props.accountRestorationStep === AccountRestoration.Start) {
-    return null;
-  }
-  return (
-    <ContinueYourSessionButton
-      handleContinueYourSessionClick={props.handleContinueYourSessionClick}
-      disabled={props.disabled}
-    />
-  );
-};
+import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
+import { SpacerLG, SpacerSM } from '../../basic/Text';
+import { SessionIcon } from '../../icon';
+import { SessionInput } from '../../inputs';
+import { signInWithLinking } from '../RegistrationStages';
+import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
+import { BackButtonWithininContainer } from '../components/BackButton';
 
 export const RestoreAccount = () => {
-  const step = useOnboardAccountRestorationStep();
+  // const step = useOnboardAccountRestorationStep();
 
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
-  const [displayName, setDisplayName] = useState('');
-  const [displayNameError, setDisplayNameError] = useState<string | undefined>('');
   const [loading, setIsLoading] = useState(false);
 
-  const isRecovery = step === AccountRestoration.RecoveryPassword;
-  const isLinking = step === AccountRestoration.LinkDevice;
-  const showTermsAndConditions = step !== AccountRestoration.Start;
-
-  // show display name input only if we are trying to recover from seed.
-  // We don't need a display name when we link a device, as the display name
-  // from the configuration message will be used.
-  const showDisplayNameField = isRecovery;
-
-  // Display name is required only on isRecoveryMode
-  const displayNameOK = (isRecovery && !displayNameError && !!displayName) || isLinking;
-
   // Seed is mandatory no matter which mode
-  const seedOK = recoveryPhrase && !recoveryPhraseError;
+  const seedOK = !!recoveryPhrase && !recoveryPhraseError;
 
-  const activateContinueButton = seedOK && displayNameOK && !loading;
+  const activateContinueButton = seedOK && !loading;
 
-  const continueYourSession = async () => {
-    if (isRecovery) {
-      await signInWithRecovery({
-        displayName,
-        userRecoveryPhrase: recoveryPhrase,
-      });
-    } else if (isLinking) {
-      setIsLoading(true);
-      await signInWithLinking({
-        userRecoveryPhrase: recoveryPhrase,
-      });
-      setIsLoading(false);
-    }
+  const continueYourSession = () => {
+    // TODO better error handling
+    // if (isRecovery) {
+    //   void signInWithRecovery({
+    //     displayName,
+    //     userRecoveryPhrase: recoveryPhrase,
+    //   });
+    // }
+    // else if (isLinking) {
+    setIsLoading(true);
+    void signInWithLinking({
+      userRecoveryPhrase: recoveryPhrase,
+    });
+    setIsLoading(false);
   };
 
   return (
-    <>
-      {step !== AccountRestoration.Start && (
-        <>
-          <RegistrationUserDetails
-            showDisplayNameField={showDisplayNameField}
-            showSeedField={true}
-            displayName={displayName}
-            handlePressEnter={continueYourSession}
-            onDisplayNameChanged={(name: string) => {
-              // NOTE this is just dummy code for later
-              setDisplayName(name);
-              setDisplayNameError(name);
-              window.log.debug(`WIP: [displayName] ${displayName} `);
-            }}
-            onSeedChanged={(seed: string) => {
+    <OnboardContainer>
+      <BackButtonWithininContainer margin={'2px 0 0 -36px'}>
+        <Flex
+          container={true}
+          width="100%"
+          flexDirection="column"
+          alignItems="flex-start"
+          margin={'0 0 0 8px'}
+        >
+          <Flex container={true} width={'100%'} alignItems="center">
+            <OnboardHeading>{window.i18n('sessionRecoveryPassword')}</OnboardHeading>
+            <SessionIcon
+              iconType="recoveryPassword"
+              iconSize="large"
+              iconColor="var(--text-primary-color)"
+              style={{ margin: '-4px 0 0 8px' }}
+            />
+          </Flex>
+          <SpacerSM />
+          <OnboardDescription>{window.i18n('onboardingRecoveryPassword')}</OnboardDescription>
+          <SpacerLG />
+          <SessionInput
+            autoFocus={true}
+            type="password"
+            placeholder={window.i18n('enterRecoveryPhrase')}
+            value={recoveryPhrase}
+            onValueChanged={(seed: string) => {
               setRecoveryPhrase(seed);
               setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
             }}
-            recoveryPhrase={recoveryPhrase}
-            stealAutoFocus={true}
+            onEnterPressed={continueYourSession}
+            error={recoveryPhraseError}
+            enableShowHide={true}
+            inputDataTestId="recovery-phrase-input"
           />
-        </>
-      )}
-      <SignInContinueButton
-        accountRestorationStep={step}
-        handleContinueYourSessionClick={continueYourSession}
-        disabled={!activateContinueButton}
-      />
-      {loading && (
+          <SpacerLG />
+          <SessionButton
+            buttonColor={SessionButtonColor.White}
+            onClick={continueYourSession}
+            text={window.i18n('continue')}
+            disabled={!activateContinueButton}
+            dataTestId="continue-session-button"
+          />
+        </Flex>
+        {/* TODO[epic=898] Replace with new Session Progress Loader */}
+        {/* {loading && (
         <Flex
           container={true}
           justifyContent="center"
@@ -126,9 +100,8 @@ export const RestoreAccount = () => {
         >
           <SessionSpinner loading={true} />
         </Flex>
-      )}
-
-      {showTermsAndConditions ? <TermsAndConditions /> : null}
-    </>
+      )} */}
+      </BackButtonWithininContainer>
+    </OnboardContainer>
   );
 };

@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css, CSSProperties, keyframes } from 'styled-components';
 
 import { memo } from 'react';
 import { icons, SessionIconSize, SessionIconType } from '.';
@@ -16,6 +16,7 @@ export type SessionIconProps = {
   glowStartDelay?: number;
   noScale?: boolean;
   backgroundColor?: string;
+  style?: CSSProperties;
   dataTestId?: string;
 };
 
@@ -140,6 +141,7 @@ const SessionSvg = (
   props: StyledSvgProps & {
     viewBox: string;
     path: string | Array<string>;
+    style?: CSSProperties;
     dataTestId?: string;
   }
 ) => {
@@ -161,6 +163,7 @@ const SessionSvg = (
     fill: props.fill,
     clipRule: props.clipRule,
     fillRule: props.filleRule,
+    style: props.style,
     dataTestId: props.dataTestId,
   };
 
@@ -184,6 +187,7 @@ export const SessionIcon = (props: SessionIconProps) => {
     noScale,
     backgroundColor,
     iconPadding,
+    style,
     dataTestId,
   } = props;
   let { iconSize, iconRotation } = props;
@@ -215,6 +219,7 @@ export const SessionIcon = (props: SessionIconProps) => {
       fill={fill}
       clipRule={clipRule}
       filleRule={fillRule}
+      style={style}
       dataTestId={dataTestId}
     />
   );

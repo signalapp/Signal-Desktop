@@ -17,8 +17,6 @@ export enum AccountCreation {
 }
 
 export enum AccountRestoration {
-  /** TODO to be removed - current starting screen */
-  Start,
   /** starting screen */
   RecoveryPassword,
   /** fetching account details */
@@ -43,7 +41,7 @@ const initialState: OnboardingState = {
   generatedRecoveryPhrase: '',
   hexGeneratedPubKey: '',
   step: Onboarding.Start,
-  accountRestorationStep: AccountRestoration.Start,
+  accountRestorationStep: AccountRestoration.RecoveryPassword,
   accountCreationStep: AccountCreation.DisplayName,
 };
 

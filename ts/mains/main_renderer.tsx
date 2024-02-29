@@ -590,6 +590,7 @@ class TextScramble {
 }
 window.Session = window.Session || {};
 
+// TODO[ses-50] remove this since we no longer show the session id in onboarding
 window.Session.setNewSessionID = (sessionID: string) => {
   const el = document.querySelector('.session-id-editable-textarea');
   const fx = new TextScramble(el);

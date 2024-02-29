@@ -386,7 +386,6 @@
   "noModeratorsToRemove": "no admins to remove",
   "onlyAdminCanRemoveMembers": "You are not the creator",
   "onlyAdminCanRemoveMembersDesc": "Only the creator of the group can remove users",
-  "createAccount": "Create account",
   "startInTrayTitle": "Keep in System Tray",
   "startInTrayDescription": "Keep Session running in the background when you close the window.",
   "yourUniqueSessionID": "Say hello to your Session ID",
@@ -589,5 +588,9 @@
   "conversationsNone": "You don't have any conversations yet",
   "onboardingHitThePlusButton": "Hit the plus button to start a chat, create a group, or join an official community!",
   "saveRecoveryPassword": "Save your recovery password",
-  "saveRecoveryPasswordDescription": "Save your recovery password to make sure you don't lose access to your account."
+  "saveRecoveryPasswordDescription": "Save your recovery password to make sure you don't lose access to your account.",
+  "onboardingAccountCreate": "Create account",
+  "onboardingAccountExists": "I have an account",
+  "sessionRecoveryPassword": "Recovery Password",
+  "onboardingRecoveryPassword": "Enter your recovery password to load your account. If you haven't saved it, you can find it in your app settings."
 }

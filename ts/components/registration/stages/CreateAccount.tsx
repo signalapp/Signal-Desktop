@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
@@ -21,22 +20,8 @@ import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { resetRegistration } from '../RegistrationStages';
+import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
-
-const StyledContainer = styled.div`
-  width: 100%;
-`;
-
-const StyledHeading = styled.h3`
-  padding: 0;
-  margin: 0;
-  font-size: var(--font-size-h2);
-`;
-
-const StyledDescription = styled.p`
-  padding: 0;
-  margin: 0;
-`;
 
 function sanitizeDisplayNameOrToast(
   displayName: string,
@@ -125,12 +110,18 @@ export const CreateAccount = () => {
   };
 
   return (
-    <StyledContainer>
-      <BackButtonWithininContainer margin={'0 0 0 -28px'}>
-        <Flex container={true} width="100%" flexDirection="column" alignItems="flex-start">
-          <StyledHeading>{window.i18n('displayNamePick')}</StyledHeading>
+    <OnboardContainer>
+      <BackButtonWithininContainer margin={'2px 0 0 -36px'}>
+        <Flex
+          container={true}
+          width="100%"
+          flexDirection="column"
+          alignItems="flex-start"
+          margin={'0 0 0 8px'}
+        >
+          <OnboardHeading>{window.i18n('displayNamePick')}</OnboardHeading>
           <SpacerSM />
-          <StyledDescription>{window.i18n('displayNameDescription')}</StyledDescription>
+          <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
           <SpacerLG />
           <SessionInput
             autoFocus={true}
@@ -152,6 +143,6 @@ export const CreateAccount = () => {
           />
         </Flex>
       </BackButtonWithininContainer>
-    </StyledContainer>
+    </OnboardContainer>
   );
 };

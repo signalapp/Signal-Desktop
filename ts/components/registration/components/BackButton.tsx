@@ -37,10 +37,9 @@ export const BackButton = () => {
       iconType="chevron"
       iconColor="var(--color-text-primary)"
       iconRotation={90}
-      iconPadding="5px"
       onClick={() => {
         dispatch(setOnboardingStep(Onboarding.Start));
-        dispatch(setAccountRestorationStep(AccountRestoration.Start));
+        dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
         dispatch(setAccountCreationStep(AccountCreation.DisplayName));
       }}
     />
