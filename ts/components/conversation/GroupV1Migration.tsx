@@ -126,7 +126,7 @@ function renderUsers(
     );
   }
 
-  const count = members.length.toString();
+  const count = members.length;
 
   return (
     <p>

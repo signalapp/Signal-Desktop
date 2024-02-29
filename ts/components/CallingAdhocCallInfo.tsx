@@ -59,7 +59,7 @@ export function CallingAdhocCallInfo({
               i18n('icu:calling__in-this-call--one')}
             {participants.length > 1 &&
               i18n('icu:calling__in-this-call--many', {
-                people: String(participants.length),
+                people: participants.length,
               })}
           </div>
           <button

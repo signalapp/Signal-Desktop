@@ -37,7 +37,7 @@ export function CallParticipantCount({
   }
   if (!innerText) {
     innerText = i18n('icu:CallControls__InfoDisplay--participants', {
-      count: String(count),
+      count,
     });
   }
 
@@ -46,7 +46,7 @@ export function CallParticipantCount({
     return (
       <span
         aria-label={i18n('icu:calling__participants', {
-          people: String(count),
+          people: count,
         })}
         className="CallControls__Status--InactiveCallParticipantCount"
       >
@@ -58,7 +58,7 @@ export function CallParticipantCount({
   return (
     <button
       aria-label={i18n('icu:calling__participants', {
-        people: String(count),
+        people: count,
       })}
       className="CallControls__Status--ParticipantCount"
       onClick={toggleParticipants}
