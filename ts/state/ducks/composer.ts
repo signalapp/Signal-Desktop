@@ -749,7 +749,18 @@ export function setQuoteByMessageId(
     }
 
     const draftEditMessage = conversation.get('draftEditMessage');
-    if (draftEditMessage) {
+    // We can remove quotes, but we can't add them
+    if (draftEditMessage && messageId) {
+      return;
+    }
+    if (draftEditMessage && draftEditMessage.quote) {
+      conversation.set({
+        draftEditMessage: {
+          ...draftEditMessage,
+          quote: undefined,
+        },
+      });
+      dispatch(setComposerFocus(conversation.id));
       return;
     }
 
