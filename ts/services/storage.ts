@@ -14,6 +14,7 @@ import {
   encryptProfile,
   decryptProfile,
   deriveMasterKeyFromGroupV1,
+  deriveStorageServiceKey,
 } from '../Crypto';
 import {
   mergeAccountRecord,
@@ -1725,7 +1726,18 @@ async function sync(
   ignoreConflicts = false
 ): Promise<Proto.ManifestRecord | undefined> {
   if (!window.storage.get('storageKey')) {
-    throw new Error('storageService.sync: Cannot start; no storage key!');
+    const masterKeyBase64 = window.storage.get('masterKey');
+    if (!masterKeyBase64) {
+      throw new Error(
+        'storageService.sync: Cannot start; no storage or master key!'
+      );
+    }
+
+    const masterKey = Bytes.fromBase64(masterKeyBase64);
+    const storageKeyBase64 = Bytes.toBase64(deriveStorageServiceKey(masterKey));
+    await window.storage.put('storageKey', storageKeyBase64);
+
+    log.warn('storageService.sync: fixed storage key');
   }
 
   log.info(
