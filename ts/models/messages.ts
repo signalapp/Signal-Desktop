@@ -2506,6 +2506,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           'handleReaction: targetConversation not found'
         );
 
+        window.MessageCache.toMessageAttributes(generatedMessage.attributes);
         generatedMessage.set({
           expireTimer: isDirectConversation(targetConversation.attributes)
             ? targetConversation.get('expireTimer')
