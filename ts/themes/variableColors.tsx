@@ -31,6 +31,9 @@ export type ThemeColorVariables = {
   '--menu-button-background-color': string;
   '--menu-button-background-hover-color': string;
   '--menu-button-icon-color': string;
+  '--menu-button-icon-hover-color': string;
+  '--menu-button-border-color': string;
+  '--menu-button-border-hover-color': string;
 
   /* Chat (Interaction) Buttons */
   /* Also used for Reaction Bar Buttons */

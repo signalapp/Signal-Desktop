@@ -25,9 +25,12 @@ export const oceanLight: ThemeColorVariables = {
   '--message-bubbles-sent-text-color': 'var(--text-primary-color)',
   '--message-bubbles-received-text-color': 'var(--text-primary-color)',
 
-  '--menu-button-background-color': 'var(--primary-color)',
-  '--menu-button-background-hover-color': THEMES.OCEAN_LIGHT.COLOR3,
-  '--menu-button-icon-color': THEMES.OCEAN_LIGHT.COLOR1,
+  '--menu-button-background-color': 'transparent',
+  '--menu-button-background-hover-color': 'var(--primary-color)',
+  '--menu-button-icon-color': 'var(--primary-color)',
+  '--menu-button-icon-hover-color': THEMES.OCEAN_LIGHT.COLOR5,
+  '--menu-button-border-color': 'var(--primary-color)',
+  '--menu-button-border-hover-color': 'var(--primary-color)',
 
   '--chat-buttons-background-color': THEMES.OCEAN_LIGHT.COLOR5,
   '--chat-buttons-background-hover-color': THEMES.OCEAN_LIGHT.COLOR3,
