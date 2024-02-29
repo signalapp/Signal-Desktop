@@ -644,10 +644,7 @@ export function LeftPane({
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       preferredLeftPaneWidth={preferredWidthFromStorage}
-      requiresFullWidth={
-        modeSpecificProps.mode !== LeftPaneMode.Inbox ||
-        modeSpecificProps.isAboutToSearch
-      }
+      requiresFullWidth={helper.requiresFullWidth()}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       renderToastManager={renderToastManager}
       actions={
