@@ -5,12 +5,13 @@ import React from 'react';
 import type { IntlShape } from 'react-intl';
 import { createIntl, createIntlCache } from 'react-intl';
 import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import { strictAssert } from './assert';
 import { Emojify } from '../components/conversation/Emojify';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { Environment, getEnvironment } from '../environment';
+import { bidiIsolate } from './unicodeBidi';
 
 export function isLocaleMessageType(
   value: unknown
@@ -76,6 +77,23 @@ export function createCachedIntl(
   return intl;
 }
 
+function normalizeSubstitutions(
+  substitutions?: ReplacementValuesType
+): ReplacementValuesType | undefined {
+  if (!substitutions) {
+    return;
+  }
+  const normalized: ReplacementValuesType = {};
+  for (const [key, value] of Object.entries(substitutions)) {
+    if (typeof value === 'string') {
+      normalized[key] = bidiIsolate(value);
+    } else {
+      normalized[key] = value;
+    }
+  }
+  return normalized;
+}
+
 export function setupI18n(
   locale: string,
   messages: LocaleMessagesType
@@ -100,7 +118,10 @@ export function setupI18n(
       `i18n: Substitutions must be an object for ICU message "${key}"`
     );
 
-    const result = intl.formatMessage({ id: key }, substitutions);
+    const result = intl.formatMessage(
+      { id: key },
+      normalizeSubstitutions(substitutions)
+    );
 
     strictAssert(
       typeof result === 'string',
