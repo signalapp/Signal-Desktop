@@ -1020,7 +1020,7 @@
     "description": "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "icu:signalDesktopStickerCreator": {
-    "messageformat": "Créateur de paquet d’autocollants",
+    "messageformat": "Outil de création de packs de stickers",
     "description": "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "icu:aboutSignalDesktop": {
@@ -1096,7 +1096,7 @@
     "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
   },
   "icu:findByPhoneNumberHeader": {
-    "messageformat": "Trouver par numéro de téléphone",
+    "messageformat": "Rechercher par numéro de téléphone",
     "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
   },
   "icu:welcomeToSignal": {
@@ -1396,7 +1396,7 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "Vous",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
@@ -1776,6 +1776,54 @@
   "icu:calling__call-is-full": {
     "messageformat": "L’appel est complet",
     "description": "Text in the call lobby when you can't join because the call is full"
+  },
+  "icu:calling__cant-join": {
+    "messageformat": "Can't join call",
+    "description": "Modal dialog title when you can't join a call"
+  },
+  "icu:calling__dialog-already-in-call": {
+    "messageformat": "You are already in a call.",
+    "description": "Error message when clicking a call link to join a call, but you're in a call already."
+  },
+  "icu:calling__call-link-connection-issues": {
+    "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
+    "description": "Error message when unable to fetch call link info from server."
+  },
+  "icu:calling__call-link-copied": {
+    "messageformat": "Call link copied.",
+    "description": "Toast shown when a call link is copied to the clipboard."
+  },
+  "icu:calling__call-link-no-longer-valid": {
+    "messageformat": "This call link is no longer valid.",
+    "description": "Error message when a call link has been revoked or expires."
+  },
+  "icu:calling__call-link-default-title": {
+    "messageformat": "Signal Call",
+    "description": "Default title for Signal call links."
+  },
+  "icu:calling__join-request-denied": {
+    "messageformat": "Your request to join this call has been denied.",
+    "description": "Error message when a request to join a call link call was rejected by a call admin."
+  },
+  "icu:calling__join-request-denied-title": {
+    "messageformat": "Join request denied",
+    "description": "Title of error when a request to join a call link call was rejected by a call admin."
+  },
+  "icu:calling__removed-from-call": {
+    "messageformat": "Someone has removed you from the call.",
+    "description": "Error message when in a call then a call admin removes you."
+  },
+  "icu:calling__removed-from-call-title": {
+    "messageformat": "Removed from call",
+    "description": "Title of error when in a call then a call admin removes you."
+  },
+  "icu:CallingLobby__CallLinkNotice": {
+    "messageformat": "Anyone who joins this call via the link will see your name and photo.",
+    "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
+  },
+  "icu:CallingLobby__CallLinkNotice--phone-sharing": {
+    "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
+    "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Rejoindre",
@@ -2444,7 +2492,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} n’utilise pas Signal. Le nom d’utilisateur saisi est peut-être incomplet.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -2692,6 +2740,10 @@
     "messageformat": "Certaines pièces jointes sont trop volumineuses pour être affichées.",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
+  "icu:message--call-link-description": {
+    "messageformat": "Use this link to join a Signal call",
+    "description": "Shown in message previews for Signal call links."
+  },
   "icu:donation--missing": {
     "messageformat": "Impossible de récupérer les détails du don",
     "description": "Aria label for donation when we can't fetch the details."
@@ -2781,11 +2833,11 @@
     "description": "The description of the outgoing donation badge detail dialog"
   },
   "icu:stickers--toast--InstallFailed": {
-    "messageformat": "Le paquet d’autocollants n’a pas pu être installé",
+    "messageformat": "Impossible d’installer le pack de stickers",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
   "icu:stickers--StickerManager--title": {
-    "messageformat": "Autocollants",
+    "messageformat": "Stickers",
     "description": "Title for the sticker manager"
   },
   "icu:stickers--StickerManager--Available": {
@@ -2797,7 +2849,7 @@
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "icu:stickers--StickerManager--InstalledPacks--Empty": {
-    "messageformat": "Aucun autocollant n’est installé",
+    "messageformat": "Aucun sticker n’est installé",
     "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
   },
   "icu:stickers--StickerManager--BlessedPacks": {
@@ -2805,11 +2857,11 @@
     "description": "Shown in the sticker pack manager above the default sticker packs."
   },
   "icu:stickers--StickerManager--BlessedPacks--Empty": {
-    "messageformat": "Aucun autocollant d’artiste Signal n’est proposé",
+    "messageformat": "Aucun sticker d’artiste Signal n’est disponible",
     "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
   },
   "icu:stickers--StickerManager--ReceivedPacks": {
-    "messageformat": "Autocollants que vous avez reçus",
+    "messageformat": "Stickers reçus",
     "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
@@ -2825,27 +2877,27 @@
     "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
   },
   "icu:stickers--StickerManager--UninstallWarning": {
-    "messageformat": "Vous ne pourrez peut-être pas réinstaller ce paquet d’autocollants si vous n’avez plus le message source.",
+    "messageformat": "Vous ne pourrez peut-être pas réinstaller ce pack de stickers si vous ne disposez plus du message source.",
     "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
   },
   "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "Nous présentons les autocollants : Bandit le chat",
+    "messageformat": "Nouveaux stickers : Bandit le chat",
     "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
   },
   "icu:stickers--StickerManager--Introduction--Title": {
-    "messageformat": "Nous présentons les autocollants",
+    "messageformat": "Nouveaux stickers",
     "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
   },
   "icu:stickers--StickerManager--Introduction--Body": {
-    "messageformat": "Pourquoi utiliser des mots quand vous pouvez utiliser des autocollants ?",
+    "messageformat": "Les mots, c’est bien. Mais avec des stickers, c’est encore mieux.",
     "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
   },
   "icu:stickers--StickerPicker--Open": {
-    "messageformat": "Ouvrir le sélecteur d’autocollants",
+    "messageformat": "Ouvrir le sélecteur de stickers",
     "description": "Label for the open button for the sticker picker"
   },
   "icu:stickers--StickerPicker--AddPack": {
-    "messageformat": "Ajouter un paquet d’autocollants",
+    "messageformat": "Ajouter un pack de stickers",
     "description": "Label for the add pack button in the sticker picker"
   },
   "icu:stickers--StickerPicker--NextPage": {
@@ -2857,31 +2909,31 @@
     "description": "Label for the previous page button in the sticker picker"
   },
   "icu:stickers--StickerPicker--Recents": {
-    "messageformat": "Autocollant récent",
+    "messageformat": "Sticker récent",
     "description": "Label for the recent stickers button in the sticker picker"
   },
   "icu:stickers--StickerPicker--DownloadError": {
-    "messageformat": "Certains autocollants n’ont pas pu être téléchargés.",
+    "messageformat": "Impossible de télécharger certains stickers.",
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Installation du paquet d’autocollants…",
+    "messageformat": "Installation du pack de stickers…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "icu:stickers--StickerPicker--Empty": {
-    "messageformat": "Aucun autocollant n’a été trouvé",
+    "messageformat": "Aucun sticker à afficher",
     "description": "Shown in the sticker picker when there are no stickers to show."
   },
   "icu:stickers--StickerPicker--Hint": {
-    "messageformat": "De nouveaux paquets d’autocollants de vos messages sont prêts à être installés",
+    "messageformat": "Vous avez reçu de nouveaux packs de stickers par message et pouvez les installer.",
     "description": "Shown in the sticker picker the first time you have received new packs you can install."
   },
   "icu:stickers--StickerPicker--NoPacks": {
-    "messageformat": "Aucun paquet d’autocollants n’a été trouvé",
+    "messageformat": "Aucun pack de stickers à afficher",
     "description": "Shown in the sticker picker when there are no installed sticker packs."
   },
   "icu:stickers--StickerPicker--NoRecents": {
-    "messageformat": "Les autocollants utilisés récemment apparaîtront ici.",
+    "messageformat": "Les stickers récemment utilisés s’affichent ici.",
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
   "icu:stickers__StickerPicker__recent": {
@@ -2897,11 +2949,11 @@
     "description": "aria-label for the analog time sticker"
   },
   "icu:stickers--StickerPreview--Title": {
-    "messageformat": "Paquet d’autocollants",
+    "messageformat": "Pack de stickers",
     "description": "The title that appears in the sticker pack preview modal."
   },
   "icu:stickers--StickerPreview--Error": {
-    "messageformat": "Erreur d’ouverture du paquets d’autocollants. Veuillez vérifier votre connexion à Internet et réessayer.",
+    "messageformat": "L’ouverture du pack de stickers a généré une erreur. Veuillez vérifier votre connexion Internet et réessayer.",
     "description": "The message that appears in the sticker preview modal when there is an error."
   },
   "icu:EmojiPicker--empty": {
@@ -3101,7 +3153,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-sticker-chooser": {
-    "messageformat": "Ouvrir le sélecteur d’autocollants",
+    "messageformat": "Ouvrir le sélecteur de stickers",
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--begin-recording-voice-note": {
@@ -3361,7 +3413,7 @@
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Souhaitez-vous ouvrir l’outil de création de packs d’autocollants ?",
+    "messageformat": "Ouvrir l’outil de création de packs de stickers ?",
     "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
   },
   "icu:AuthArtCreator--dialog--confirm": {
@@ -3664,6 +3716,14 @@
     "messageformat": "Appel audio",
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
+  "icu:CallControls__InfoDisplay--adhoc-call": {
+    "messageformat": "Call link",
+    "description": "Shown in the call lobby for a call link."
+  },
+  "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
+    "messageformat": "Waiting to be let in",
+    "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
+  },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
     "messageformat": "Terminer",
     "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
@@ -3803,6 +3863,10 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Une fenêtre",
     "description": "Title for the select your screen sharing sources modal"
+  },
+  "icu:CallingAdhocCallInfo__CopyLink": {
+    "messageformat": "Copy link",
+    "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vidéo",
@@ -5644,6 +5708,10 @@
     "messageformat": "Les séries comportant plus de 2 chiffres ne peuvent pas commencer par un 0",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Vous avez dépassé le nombre de tentatives autorisées. Veuillez réessayer ultérieurement.",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Nom d’utilisateur indisponible",
     "description": "Shown if the username is not available for registration"
@@ -5723,6 +5791,14 @@
   "icu:ConfirmDiscardDialog--discard": {
     "messageformat": "Voulez-vous abandonner ces changements ?",
     "description": "ConfirmationDialog text for discarding changes"
+  },
+  "icu:ConfirmationDialog__Title--in-call-close-requested": {
+    "messageformat": "Close Signal and end the call?",
+    "description": "ConfirmationDialog title when trying to close the app while in a call."
+  },
+  "icu:ConfirmationDialog__Title--close-requested-not-now": {
+    "messageformat": "Not Now",
+    "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
   },
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "Modifier la photo",
@@ -5899,6 +5975,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Choisissez qui peut voir votre numéro de téléphone et qui peut vous contacter sur Signal avec celui-ci.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Modifier...",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Qui peut voir mon numéro de téléphone",
@@ -6137,7 +6217,7 @@
     "description": "Label for the text button in the media editor"
   },
   "icu:MediaEditor__control--sticker": {
-    "messageformat": "Autocollants",
+    "messageformat": "Stickers",
     "description": "Label for the sticker button in the media editor"
   },
   "icu:MediaEditor__control--crop": {
@@ -6900,6 +6980,10 @@
     "messageformat": "A réagi à une Story de {name}",
     "description": "Label for when a person reacts to a story"
   },
+  "icu:Quote__story-reaction--you": {
+    "messageformat": "Reacted to your story",
+    "description": "Label for when someone reacts to your story"
+  },
   "icu:Quote__story-reaction--single": {
     "messageformat": "A réagi à une Story",
     "description": "Used whenever we can't find a user's first name"
@@ -7252,22 +7336,7 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Désormais, la lecture audio et vidéo s’interrompt lorsque vous fermez la fenêtre Signal et la réduisez dans la zone de notification. Besoin de tranquillité ? Il suffit de cliquer sur X."
-  },
-  "icu:WhatsNew__v6.48--1": {
-    "messageformat": "À la demande générale, des émoticônes comme « :-) » se transforment en émojis comme « <emojify>🙂</emojify> ». Mais si cela vous rend « :-( », vous pouvez désactiver cette fonctionnalité dans la section « Conversations » des paramètres de Signal Desktop."
-  },
-  "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
-  },
-  "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
-  },
-  "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
-  },
-  "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+  "icu:WhatsNew__v7.1--0": {
+    "messageformat": "This update enables support for all of the new emoji characters in Emoji version 15.1. People keep asking us what our favorite new emoji is, but answering that question is a “lime” we won't cross."
   }
 }

@@ -45,7 +45,7 @@
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
-    "messageformat": "தேடல்",
+    "messageformat": "தேடு",
     "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
@@ -341,7 +341,7 @@
     "description": "Text of the button displayed when clicking compose button in left pane"
   },
   "icu:LeftPane__compose__findByPhoneNumber": {
-    "messageformat": "தொலைபேசி எண் மூலம் கண்டுபிடிக்கவும்",
+    "messageformat": "தொலைபேசி எண் மூலம் தேடு",
     "description": "Text of the button displayed when clicking compose button in left pane"
   },
   "icu:LeftPaneFindByHelper__title--findByUsername": {
@@ -349,7 +349,7 @@
     "description": "Title of the left pane when looking up someone by username"
   },
   "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
-    "messageformat": "தொலைபேசி எண் மூலம் கண்டுபிடிக்கவும்",
+    "messageformat": "தொலைபேசி எண் மூலம் தேடு",
     "description": "Title of the left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
@@ -361,7 +361,7 @@
     "description": "Placeholder of the search input in left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "புள்ளி மற்றும் அதன் எண்களின் தொகுப்பைத் தொடர்ந்து பயனர்பெயரை உள்ளிடவும்.",
+    "messageformat": "ஒரு புள்ளி மற்றும் அதன் எண்களின் தொகுப்பைத் தொடர்ந்து பயனர் பெயரை உள்ளிடவும்.",
     "description": "Description displayed under search input in left pane when looking up someone by username"
   },
   "icu:CountryCodeSelect__placeholder": {
@@ -1396,11 +1396,11 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "நீங்கள்",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
-    "messageformat": "சரிபார்க்கப்பட்ட",
+    "messageformat": "சரிபார்க்கப்பட்டது",
     "description": "Text of a button on About modal leading to a safety number modal"
   },
   "icu:AboutContactModal__blocked": {
@@ -1412,7 +1412,7 @@
     "description": "Text of a row on About modal when user is in message request state"
   },
   "icu:AboutContactModal__no-dms": {
-    "messageformat": "உங்களுக்கும் {name}க்கும் இடையில் எந்த மெசேஜ்களும் இல்லை",
+    "messageformat": "உங்களுக்கும் {name}க்கும் இடையில் எந்த நேரடி மெசேஜ்களும் இல்லை",
     "description": "Text of a row on About modal when there are no direct messages with a user"
   },
   "icu:AboutContactModal__signal-connection": {
@@ -1776,6 +1776,54 @@
   "icu:calling__call-is-full": {
     "messageformat": "அழைப்பு நிரம்பியுள்ளது",
     "description": "Text in the call lobby when you can't join because the call is full"
+  },
+  "icu:calling__cant-join": {
+    "messageformat": "Can't join call",
+    "description": "Modal dialog title when you can't join a call"
+  },
+  "icu:calling__dialog-already-in-call": {
+    "messageformat": "You are already in a call.",
+    "description": "Error message when clicking a call link to join a call, but you're in a call already."
+  },
+  "icu:calling__call-link-connection-issues": {
+    "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
+    "description": "Error message when unable to fetch call link info from server."
+  },
+  "icu:calling__call-link-copied": {
+    "messageformat": "Call link copied.",
+    "description": "Toast shown when a call link is copied to the clipboard."
+  },
+  "icu:calling__call-link-no-longer-valid": {
+    "messageformat": "This call link is no longer valid.",
+    "description": "Error message when a call link has been revoked or expires."
+  },
+  "icu:calling__call-link-default-title": {
+    "messageformat": "Signal Call",
+    "description": "Default title for Signal call links."
+  },
+  "icu:calling__join-request-denied": {
+    "messageformat": "Your request to join this call has been denied.",
+    "description": "Error message when a request to join a call link call was rejected by a call admin."
+  },
+  "icu:calling__join-request-denied-title": {
+    "messageformat": "Join request denied",
+    "description": "Title of error when a request to join a call link call was rejected by a call admin."
+  },
+  "icu:calling__removed-from-call": {
+    "messageformat": "Someone has removed you from the call.",
+    "description": "Error message when in a call then a call admin removes you."
+  },
+  "icu:calling__removed-from-call-title": {
+    "messageformat": "Removed from call",
+    "description": "Title of error when in a call then a call admin removes you."
+  },
+  "icu:CallingLobby__CallLinkNotice": {
+    "messageformat": "Anyone who joins this call via the link will see your name and photo.",
+    "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
+  },
+  "icu:CallingLobby__CallLinkNotice--phone-sharing": {
+    "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
+    "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "இணைக",
@@ -2444,7 +2492,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} ஒரு சிக்னல் பயனர் அல்ல. நீங்கள் முழுமையான பயனர் பெயரை உள்ளிட்டுள்ளதை உறுதிசெய்து கொள்ளவும்.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -2691,6 +2739,10 @@
   "icu:message--attachmentTooBig--multiple": {
     "messageformat": "சில இணைப்புகள் காட்ட முடியாத அளவுக்கு பெரிதாக உள்ளன.",
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--call-link-description": {
+    "messageformat": "Use this link to join a Signal call",
+    "description": "Shown in message previews for Signal call links."
   },
   "icu:donation--missing": {
     "messageformat": "நன்கொடை விவரங்களைப் பெற முடியவில்லை",
@@ -3664,6 +3716,14 @@
     "messageformat": "ஆடியோ அழைப்பு",
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
+  "icu:CallControls__InfoDisplay--adhoc-call": {
+    "messageformat": "Call link",
+    "description": "Shown in the call lobby for a call link."
+  },
+  "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
+    "messageformat": "Waiting to be let in",
+    "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
+  },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
     "messageformat": "முடிவு",
     "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
@@ -3803,6 +3863,10 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "ஒரு ஜன்னல்",
     "description": "Title for the select your screen sharing sources modal"
+  },
+  "icu:CallingAdhocCallInfo__CopyLink": {
+    "messageformat": "Copy link",
+    "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "காணொளி",
@@ -5644,6 +5708,10 @@
     "messageformat": "2 இலக்கஙளுக்கு மேல் உள்ள எண்கள் 0 இல் தொடங்க முடியாது",
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "பல முயற்சிகள் எடுக்கப்பட்டுள்ளன, தயவுசெய்து பிறகு மீண்டும் முயற்சிக்கவும்",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
+  },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "இந்தப் பயனர் பெயர் கிடைக்கவில்லை",
     "description": "Shown if the username is not available for registration"
@@ -5689,7 +5757,7 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "உங்கள் பயனர்பெயரை அழிக்க, உங்கள் போனில் சிக்னலைத் திறந்து, அமைப்புகள் > புரொஃபைலுக்குச் செல்லவும்.",
+    "messageformat": "உங்கள் பயனர் பெயரை நீக்க, உங்கள் ஃபோனில் சிக்னலைத் திறந்து, அமைப்புகள் > புரொஃபைலுக்குச் செல்லவும்.",
     "description": "Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
@@ -5723,6 +5791,14 @@
   "icu:ConfirmDiscardDialog--discard": {
     "messageformat": "இந்த மாற்றங்களை நிராகரிக்க விரும்புகிறீர்களா?",
     "description": "ConfirmationDialog text for discarding changes"
+  },
+  "icu:ConfirmationDialog__Title--in-call-close-requested": {
+    "messageformat": "Close Signal and end the call?",
+    "description": "ConfirmationDialog title when trying to close the app while in a call."
+  },
+  "icu:ConfirmationDialog__Title--close-requested-not-now": {
+    "messageformat": "Not Now",
+    "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
   },
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "படத்தை திருத்த",
@@ -5899,6 +5975,10 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "உங்கள் தொலைபேசி எண்ணை யார் பார்க்கலாம் மற்றும் யார் உங்களை சிக்னலில் தொடர்பு கொள்ளலாம் என்பதைத் தேர்வுசெய்யவும்.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
+  },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "மாற்று…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "எனது எண்ணை யார் பார்க்கலாம்",
@@ -6900,6 +6980,10 @@
     "messageformat": "{name} -இடமிருந்து ஒரு ஸ்டோரிக்கு எதிர்வினையாற்றினார்",
     "description": "Label for when a person reacts to a story"
   },
+  "icu:Quote__story-reaction--you": {
+    "messageformat": "Reacted to your story",
+    "description": "Label for when someone reacts to your story"
+  },
   "icu:Quote__story-reaction--single": {
     "messageformat": "ஒரு ஸ்டோரிக்கு எதிர்வினையாற்றினார்",
     "description": "Used whenever we can't find a user's first name"
@@ -7252,22 +7336,7 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.48--0": {
-    "messageformat": "சிக்னல் சாளரம் மூடப்படும் போது மற்றும் திரை அளவு சிஸ்டம் ட்ரேயில் சிறிதாக்கப்படும் போதெல்லாம் வீடியோ மற்றும் ஆடியோ பிளேபேக் இப்போது இடைநிறுத்தப்படும்."
-  },
-  "icu:WhatsNew__v6.48--1": {
-    "messageformat": "நீங்கள் (“:-)” → &quot;<emojify>🙂</emojify>&quot;— என்று டைப் செய்யும் போது எமோடிகான்கள் தானாகவே எமோஜியாக மாறும். உங்கள் சிக்னல் டெஸ்க்டாப் அமைப்புகளின் &quot;சாட்ஸ்&quot; பிரிவில் இந்த அம்சத்தை நீங்கள் இயக்கலாம்."
-  },
-  "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
-  },
-  "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
-  },
-  "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
-  },
-  "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+  "icu:WhatsNew__v7.1--0": {
+    "messageformat": "This update enables support for all of the new emoji characters in Emoji version 15.1. People keep asking us what our favorite new emoji is, but answering that question is a “lime” we won't cross."
   }
 }
