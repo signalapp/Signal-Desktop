@@ -26,11 +26,11 @@ export const classicLight: ThemeColorVariables = {
   '--message-bubbles-received-text-color': 'var(--text-primary-color)',
 
   '--menu-button-background-color': 'transparent',
-  '--menu-button-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR1,
+  '--menu-button-background-hover-color': 'var(--text-primary-color)',
   '--menu-button-icon-color': 'var(--text-primary-color)',
   '--menu-button-icon-hover-color': THEMES.CLASSIC_LIGHT.COLOR6,
   '--menu-button-border-color': 'var(--text-primary-color)',
-  '--menu-button-border-hover-color': THEMES.CLASSIC_LIGHT.COLOR1,
+  '--menu-button-border-hover-color': 'var(--text-primary-color)',
 
   '--chat-buttons-background-color': THEMES.CLASSIC_LIGHT.COLOR4,
   '--chat-buttons-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR3,
