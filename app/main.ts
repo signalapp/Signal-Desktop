@@ -986,7 +986,7 @@ async function createWindow() {
 
   await safeLoadURL(
     mainWindow,
-    process.env.TEST_ELECTRON_SCRIPT != null
+    getEnvironment() === Environment.Test
       ? await prepareFileUrl([__dirname, '../test/index.html'])
       : await prepareFileUrl([__dirname, '../background.html'])
   );

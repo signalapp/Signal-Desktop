@@ -24,7 +24,6 @@ export type ReplacementValuesType = {
 export type LocalizerType = {
   (key: string, values?: ReplacementValuesType): string;
   getIntl(): IntlShape;
-  isLegacyFormat(key: string): boolean;
   getLocale(): string;
   getLocaleMessages(): LocaleMessagesType;
   getLocaleDirection(): LocaleDirection;

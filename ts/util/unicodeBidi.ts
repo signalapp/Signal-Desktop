@@ -1,8 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Environment, getEnvironment } from '../environment';
-
 /**
  * Left-to-Right Isolate
  * Sets direction to LTR and isolates the embedded content from the surrounding text
@@ -210,7 +208,7 @@ export function _bidiIsolate(text: string): string {
  * ```
  */
 export function bidiIsolate(text: string): string {
-  if (getEnvironment() === Environment.Test) {
+  if (process.env.IS_TESTS != null) {
     // Turn this off in tests to make it easier to compare strings
     return text;
   }
