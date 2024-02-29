@@ -192,7 +192,7 @@ export const MessageContent = (props: Props) => {
             >
               {!isDeleted && (
                 <>
-                  <MessageQuote messageId={props.messageId} />
+                  <MessageQuote messageId={props.messageId} isDetailView={props.isDetailView} />
                   <MessageLinkPreview
                     messageId={props.messageId}
                     handleImageError={handleImageError}

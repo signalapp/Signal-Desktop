@@ -3,10 +3,10 @@ import React, { MouseEvent, useState } from 'react';
 import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { useIsMessageSelectionMode } from '../../../../../state/selectors/selectedConversation';
+import * as MIME from '../../../../../types/MIME';
 import { QuoteAuthor } from './QuoteAuthor';
 import { QuoteIconContainer } from './QuoteIconContainer';
 import { QuoteText } from './QuoteText';
-import * as MIME from '../../../../../types/MIME';
 
 const StyledQuoteContainer = styled.div`
   min-width: 300px; // if the quoted content is small it doesn't look very good so we set a minimum
@@ -50,6 +50,7 @@ export type QuoteProps = {
   referencedMessageNotFound: boolean;
   text?: string;
   attachment?: QuotedAttachmentType;
+  isDetailView?: boolean;
 
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
@@ -70,7 +71,7 @@ export interface QuotedAttachmentType {
 
 export const Quote = (props: QuoteProps) => {
   const isSelectionMode = useIsMessageSelectionMode();
-  const { isIncoming, attachment, text, referencedMessageNotFound, onClick } = props;
+  const { isIncoming, attachment, text, isDetailView, referencedMessageNotFound, onClick } = props;
 
   const [imageBroken, setImageBroken] = useState(false);
   const handleImageErrorBound = () => {
@@ -95,7 +96,7 @@ export const Quote = (props: QuoteProps) => {
           referencedMessageNotFound={referencedMessageNotFound}
         />
         <StyledQuoteTextContent>
-          <QuoteAuthor author={props.author} isIncoming={isIncoming} />
+          <QuoteAuthor author={props.author} isIncoming={isIncoming} isDetailView={isDetailView} />
           <QuoteText
             isIncoming={isIncoming}
             text={text}

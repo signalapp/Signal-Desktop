@@ -12,6 +12,7 @@ import { Quote } from './quote/Quote';
 
 type Props = {
   messageId: string;
+  isDetailView?: boolean;
 };
 
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;
@@ -97,6 +98,7 @@ export const MessageQuote = (props: Props) => {
       author={quote.author}
       referencedMessageNotFound={quoteNotFound}
       isFromMe={Boolean(quote.isFromMe)}
+      isDetailView={props.isDetailView}
     />
   );
 };
