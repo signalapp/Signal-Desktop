@@ -16,10 +16,16 @@ export async function mochaGlobalSetup(): Promise<void> {
   debug('Launching app before running all tests');
   const bootstrap = new Bootstrap();
   await bootstrap.init();
-  const app = await bootstrap.link();
 
-  debug('Closing app before running all tests');
-  await app.close();
-  await bootstrap.teardown();
-  debug('Done');
+  try {
+    const app = await bootstrap.link();
+
+    debug('Closing app before running all tests');
+    await app.close();
+    await bootstrap.teardown();
+    debug('Done');
+  } catch (error) {
+    await bootstrap.saveLogs();
+    throw error;
+  }
 }
