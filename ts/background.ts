@@ -1368,6 +1368,7 @@ export async function startApp(): Promise<void> {
 
   async function runStorageService() {
     StorageService.enableStorageService();
+    StorageService.runStorageServiceSyncJob();
   }
 
   async function start() {
