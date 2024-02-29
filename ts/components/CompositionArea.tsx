@@ -930,13 +930,9 @@ export function CompositionArea({
                   ? () => scrollToMessage(conversationId, quotedMessageId)
                   : undefined
               }
-              onClose={
-                draftEditMessage
-                  ? undefined
-                  : () => {
-                      setQuoteByMessageId(conversationId, undefined);
-                    }
-              }
+              onClose={() => {
+                setQuoteByMessageId(conversationId, undefined);
+              }}
             />
           </div>
         )}
