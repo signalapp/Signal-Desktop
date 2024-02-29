@@ -7335,22 +7335,7 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.48--0": {
-    "messageformat": "Video and audio playback will now pause whenever the Signal window is closed and minimized in the system tray. If you’re looking for silence, X marks the spot."
-  },
-  "icu:WhatsNew__v6.48--1": {
-    "messageformat": "By popular demand, emoticons like “:-)” now automatically become emoji like “<emojify>🙂</emojify>” — but if this makes you “:-(“ you can disable this feature in the “Chats” section of your Signal Desktop settings."
-  },
-  "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
-  },
-  "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
-  },
-  "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
-  },
-  "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+  "icu:WhatsNew__v7.1--0": {
+    "messageformat": "This update enables support for all of the new emoji characters in Emoji version 15.1. People keep asking us what our favorite new emoji is, but answering that question is a “lime” we won't cross."
   }
 }
