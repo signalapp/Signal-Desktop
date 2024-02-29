@@ -1984,7 +1984,7 @@ export function initialize({
         contentType: 'application/octet-stream',
         proxyUrl,
         responseType: 'bytes',
-        timeout: 0,
+        timeout: 90 * SECOND,
         type: 'GET',
         redactUrl: (href: string) => {
           const pattern = RegExp(escapeRegExp(path), 'g');
