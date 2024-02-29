@@ -1396,7 +1396,7 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "আপনি",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
@@ -2444,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} Signal ব্যবহারকারী নন। নিশ্চিত করুন যে আপনি সম্পূর্ণ ব্যবহারকারীর নাম লিখেছেন।",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5645,7 +5645,7 @@
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Too many attempts made, please try again later",
+    "messageformat": "অনেকবার চেষ্টা করা হয়ে গেছে, অনুগ্রহ করে পরে আবার চেষ্টা করুন",
     "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5905,7 +5905,7 @@
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--button": {
-    "messageformat": "Change…",
+    "messageformat": "পরিবর্তন করবেন…",
     "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -7267,15 +7267,15 @@
     "messageformat": "আপনি টাইপ করার সময় ইমোটিকনগুলো এখন ডিফল্টরূপে ইমোজিতে পরিণত হয় (“:-)” → “<emojify>🙂</emojify>”) — আপনি আপনার Signal ডেস্কটপ সেটিংসের &quot;চ্যাট&quot; বিভাগে এই ফিচারটি সাজাতে পারবেন।"
   },
   "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+    "messageformat": "আমরা Signal-এ আপনার ফোন নম্বর গোপন রাখার নতুন উপায় প্রবর্তন করছি।"
   },
   "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+    "messageformat": "আপনার ফোন নম্বরটি Signal-এর সর্বশেষ সংস্করণে আর কারো কাছে দৃশ্যমান হবে না, যদি না তারা এটি তাদের ফোনের কন্টাক্টে সেভ করে থাকেন। আপনি সেটিংস থেকে এটি পরিবর্তন করতে পারবেন।"
   },
   "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+    "messageformat": "আপনি এখন একটি ঐচ্ছিক ব্যবহারকারীর নাম নির্ধারণ করতে পারবেন ও শেয়ার করতে পারবেন, যাতে কাউকে আপনার ফোন নম্বর না দিয়েই আপনার সাথে চ্যাট করতে পারেন।"
   },
   "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+    "messageformat": "Signal-এ আপনার ফোন নম্বর দিয়ে কে আপনাকে খুঁজে পাবেন তা আপনি নতুন গোপনীয়তার সেটিংস থেকে নিয়ন্ত্রণ করতে পারবেন।"
   }
 }

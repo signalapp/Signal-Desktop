@@ -1396,7 +1396,7 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "మీరు",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
@@ -2444,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} Signal యూజర్ కాదు. మీరు పూర్తి యూజర్‌నేమ్‌ను ఎంటర్ చేశారని నిర్ధారించుకోండి.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5645,7 +5645,7 @@
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Too many attempts made, please try again later",
+    "messageformat": "చాలా ప్రయత్నాలు చేశారు, దయచేసి తర్వాత మళ్ళీ ప్రయత్నించండి",
     "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5905,7 +5905,7 @@
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--button": {
-    "messageformat": "Change…",
+    "messageformat": "మార్చండి…",
     "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -7267,15 +7267,15 @@
     "messageformat": "మీరు (“:-)” → “<emojify>🙂</emojify>”) టైప్ చేస్తున్నప్పుడు ఎమోటికాన్zwnjలు ఇప్పుడు డిఫాల్ట్zwnjగా ఎమోజీగా మారతాయి. మీ Signal డెస్క్zwnjటాప్ సెట్టింగ్zwnjలలోని &quot;చాట్zwnjలు&quot; విభాగంలో ఈ విలక్షణతను మీరు కాన్ఫిగర్ చేయవచ్చు."
   },
   "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+    "messageformat": "మీ ఫోన్ నంబర్‌ను Signal లో ప్రైవేట్‌గా ఉంచడానికి మేము కొత్త మార్గాలను ప్రవేశపెడుతున్నాము."
   },
   "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+    "messageformat": "వ్యక్తులు వారి ఫోన్ కాంటాక్ట్‌లలో మీ ఫోన్ నంబర్‌ను సేవ్ చేసికుని ఉంటే తప్ప, అది ఇకపై Signal యొక్క తాజా వెర్షన్‌లో ఎవరికీ కనిపించదు. మీరు దీన్ని సెట్టింగ్‌లలో మార్చవచ్చు."
   },
   "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+    "messageformat": "వ్యక్తులకు మీ ఫోన్ నంబర్ ఇవ్వకుండా వారు మీతో చాట్ చేయగలిగేలా ఇప్పుడు మీరు ఐచ్ఛిక యూజర్‌నేమ్‌ను సెట్ చేసి, పంచవచ్చు."
   },
   "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+    "messageformat": "కొత్త గోప్యతా సెట్టింగ్‌తో Signal లో మీ ఫోన్ నంబర్ ద్వారా మిమ్మల్ని ఎవరు కనుగొనవచ్చో మీరు నియంత్రించవచ్చు."
   }
 }

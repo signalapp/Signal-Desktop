@@ -1396,7 +1396,7 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "Сіз",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
@@ -2444,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} Signal пайдаланушысы емес. Толық пайдаланушы атын енгізіңіз.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5645,7 +5645,7 @@
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Too many attempts made, please try again later",
+    "messageformat": "Тым көп рет қате дерек енгіздіңіз, біраздан кейін қайталап көріңіз",
     "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5905,7 +5905,7 @@
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--button": {
-    "messageformat": "Change…",
+    "messageformat": "Өзгерту…",
     "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -7267,15 +7267,15 @@
     "messageformat": "Көпшіліктің сұрауы бойынша “:-)” сияқты эмотикондар енді автоматты түрде “<emojify>🙂</emojify>” сияқты эмодзиге айналады. Егер бұл функция сізге ұнамаса, Signal Desktop параметрлеріндегі &quot;Чаттар&quot; бөлімінде оны өшіріп қоюыңызға болады."
   },
   "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+    "messageformat": "Signal қолданбасында телефон нөміріңізді құпия сақтаудың жаңа жолдарын ұсынамыз."
   },
   "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+    "messageformat": "Телефон нөміріңізді өзінің контактілерінде сақтап қоймаса, Signal-дың соңғы нұсқасында ешкім сіздің телефон нөміріңізді көре алмайды. Оны \"Параметрлер\" бөліміне кіріп өзгерте аласыз."
   },
   "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+    "messageformat": "Енді адамдарға телефон нөміріңізді бермей-ақ, қосымша пайдаланушы атыңызбен сөйлесе беруіңізге болады."
   },
   "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+    "messageformat": "Жаңа құпиялылық параметрі Signal-дағы телефон нөміріңізді кім таба алатынын басқаруға мүмкіндік береді."
   }
 }

@@ -445,7 +445,7 @@
     "description": "Shown as aria label for context menu for a contact"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Bericht versturen",
+    "messageformat": "Bericht",
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
@@ -1396,7 +1396,7 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "Jij",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
@@ -2348,7 +2348,7 @@
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
   "icu:ConversationDetails__HeaderButton--Message": {
-    "messageformat": "Bericht versturen",
+    "messageformat": "Bericht",
     "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
@@ -2444,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} is geen Signal-gebruiker. Controleer of je de volledige gebruikersnaam hebt ingevoerd.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -2476,7 +2476,7 @@
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "icu:chooseGroupMembers__maximum-group-size__body": {
-    "messageformat": "Signalgroepen kunnen maximaal {max,number} leden omvatten.",
+    "messageformat": "Signal-groepen kunnen maximaal {max,number} leden omvatten.",
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__title": {
@@ -2589,7 +2589,7 @@
     "description": "Shown in the conversation history when you update a group"
   },
   "icu:updatedGroupAvatar": {
-    "messageformat": "De groepsafbeeldig is aangepast.",
+    "messageformat": "De groepsafbeelding is aangepast.",
     "description": "Shown in the conversation history when someone updates the group"
   },
   "icu:titleIsNow": {
@@ -2973,7 +2973,7 @@
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
-    "messageformat": "Bericht versturen",
+    "messageformat": "Bericht",
     "description": "aria-roledescription of a message"
   },
   "icu:MessageBody--read-more": {
@@ -2991,7 +2991,7 @@
     "messageformat": "Nu je een actuele versie van Signal gebruikt kun je {contact} vragen om dit bericht opnieuw te verzenden."
   },
   "icu:Message--from-me-unsupported-message": {
-    "messageformat": "Een van je apparaten heeft een bericht verstuurd welke niet kan worden verwerkt of niet kan worden weergegeven omdat dat bericht gebruik maakt van een nieuwe funcie van Signal."
+    "messageformat": "Een van je apparaten heeft een bericht verstuurd welke niet kan worden verwerkt of niet kan worden weergegeven omdat dat bericht gebruik maakt van een nieuwe functie van Signal."
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
     "messageformat": "Nu je een actuele versie van Signal gebruikt zullen toekomstige berichten die vergelijkbaar zijn met deze worden gesynchroniseerd."
@@ -4321,7 +4321,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
-    "messageformat": "Één persoon, die door {memberName} was uitgenodigd, heeft de uitnodiging verworpen.",
+    "messageformat": "Eén persoon, die door {memberName} was uitgenodigd, heeft de uitnodiging verworpen.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--you": {
@@ -4333,7 +4333,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--unknown": {
-    "messageformat": "Één persoon heeft een uitnodiging om lid te worden van de groep verworpen.",
+    "messageformat": "Eén persoon heeft een uitnodiging om lid te worden van de groep verworpen.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--one--other": {
@@ -4373,7 +4373,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--you": {
-    "messageformat": "Je hebt voor één persoon de uitnodiging, welke door door {memberName} is verzonden, ingetrokken.",
+    "messageformat": "Je hebt voor één persoon de uitnodiging, welke door {memberName} is verzonden, ingetrokken.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
@@ -4413,7 +4413,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "Een beheerder heeft {count,number} uitnodigingen om lid te worden van de de groep, welke jij hebt verzonden, ingetrokken.",
+    "messageformat": "Een beheerder heeft {count,number} uitnodigingen om lid te worden van de groep, welke jij hebt verzonden, ingetrokken.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
@@ -4433,7 +4433,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--you": {
-    "messageformat": "Je hebt het verzoek van {joinerName} om lid te te worden van de groep geweigerd.",
+    "messageformat": "Je hebt het verzoek van {joinerName} om lid te worden van de groep geweigerd.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--own": {
@@ -4953,7 +4953,7 @@
     "description": "This is the modal content when confirming denying a group request to join"
   },
   "icu:PendingRequests--deny-for--with-link": {
-    "messageformat": "Wil je het lidmaatschapverzoek van “{name}” afwijzen? Als je dit doet dan kan deze persoon niet opnieuw via de groepslink verzoeken om lid te worden van de groep.",
+    "messageformat": "Wil je het lidmaatschapsverzoek van “{name}” afwijzen? Als je dit doet dan kan deze persoon niet opnieuw via de groepslink verzoeken om lid te worden van de groep.",
     "description": "This is the modal content when confirming denying a group request to join"
   },
   "icu:PendingInvites--invites": {
@@ -5645,7 +5645,7 @@
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Too many attempts made, please try again later",
+    "messageformat": "Je hebt te veel pogingen gedaan. Probeer het later opnieuw",
     "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5905,7 +5905,7 @@
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--button": {
-    "messageformat": "Change…",
+    "messageformat": "Aanpassen…",
     "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -6101,11 +6101,11 @@
     "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "icu:CrashReportDialog__title": {
-    "messageformat": "De applicatie is gecrashed",
+    "messageformat": "De applicatie is gecrasht",
     "description": "A title of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__body": {
-    "messageformat": "Signal is herstart nadat het is gecrashed. Je kunt een crashrapport uploaden om de ontwikkelaars te helpen het probleem te vinden en te verhelpen.",
+    "messageformat": "Signal is herstart nadat het is gecrasht. Je kunt een crashrapport uploaden om de ontwikkelaars te helpen het probleem te vinden en te verhelpen.",
     "description": "The body of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__submit": {
@@ -7267,15 +7267,15 @@
     "messageformat": "Op veler verzoek worden emoticons zoals “:-)” nu automatisch een emoji zoals “<emojify>🙂</emojify>”. Maar als je hier “:-(” van wordt, kun je deze functie uitschakelen in het gedeelte ‘Chats’ van je Signal Desktop-instellingen."
   },
   "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+    "messageformat": "We introduceren nieuwe manieren om je telefoonnummer privé te houden op Signal."
   },
   "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+    "messageformat": "In de nieuwste Signal-versie is je telefoonnummer voor niemand meer zichtbaar, tenzij het is opgeslagen in de contacten van hun telefoon. Dit kun je wijzigen in Instellingen."
   },
   "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+    "messageformat": "Je kunt nu een optionele gebruikersnaam instellen en delen, zodat mensen met je kunnen chatten zonder je telefoonnummer."
   },
   "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+    "messageformat": "Dankzij een nieuwe privacyinstelling bepaal je zelf wie jou via je telefoonnummer kan vinden op Signal."
   }
 }

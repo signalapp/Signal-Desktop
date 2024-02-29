@@ -93,7 +93,7 @@
     "description": "Shown in the about box for the link to software acknowledgments"
   },
   "icu:privacyPolicy": {
-    "messageformat": "ನಿಯಮಗಳು ಮತ್ತು ಖಾಸಗಿತನದ ನೀತಿ",
+    "messageformat": "ನಿಯಮಗಳು ಮತ್ತು ಗೌಪ್ಯತೆಯ ನೀತಿ",
     "description": "Shown in the about box for the link to https://signal.org/legal"
   },
   "icu:appleSilicon": {
@@ -101,7 +101,7 @@
     "description": "Shown in the about box for Apple silicon product name"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "ದೋಷವನ್ನು ಪ್ರತಿ ಮಾಡಿ ತ್ಯಜಿಸು",
+    "messageformat": "ದೋಷವನ್ನು ಪ್ರತಿ ಮಾಡಿ ತ್ಯಜಿಸಿ",
     "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
   },
   "icu:unknownContact": {
@@ -145,19 +145,19 @@
     "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuEdit": {
-    "messageformat": "ತಿದ್ದಿ",
+    "messageformat": "&ತಿದ್ದಿ",
     "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuView": {
-    "messageformat": "ತೋರಿಸು",
+    "messageformat": "&ತೋರಿಸಿ",
     "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuWindow": {
-    "messageformat": "ಕಿಟಕಿ",
+    "messageformat": "&ಕಿಟಕಿ",
     "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuHelp": {
-    "messageformat": "ಸಹಾಯ",
+    "messageformat": "&ಸಹಾಯ",
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuSettings": {
@@ -169,43 +169,43 @@
     "description": "Application menu item for macOS 'Services'"
   },
   "icu:appMenuHide": {
-    "messageformat": "ಅಡಗಿಸು",
+    "messageformat": "ಅಡಗಿಸಿ",
     "description": "Application menu command to hide the window"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "ಇತರರನ್ನು ಅಡಗಿಸು",
+    "messageformat": "ಇತರರನ್ನು ಅಡಗಿಸಿ",
     "description": "Application menu command to hide all other windows"
   },
   "icu:appMenuUnhide": {
-    "messageformat": "ಎಲ್ಲಾದನ್ನು ತೋರಿಸು",
+    "messageformat": "ಎಲ್ಲವನ್ನು ತೋರಿಸಿ",
     "description": "Application menu command to show all application windows"
   },
   "icu:appMenuQuit": {
-    "messageformat": "Signalಅನ್ನು ತ್ಯಜಿಸು",
+    "messageformat": "Signalಅನ್ನು ತ್ಯಜಿಸಿ",
     "description": "Application menu command to close the application"
   },
   "icu:editMenuUndo": {
-    "messageformat": "ರದ್ದುಗೊಳಿಸು",
+    "messageformat": "ರದ್ದುಗೊಳಿಸಿ",
     "description": "Edit menu command to remove recently-typed text"
   },
   "icu:editMenuRedo": {
-    "messageformat": "ಮತ್ತೆ ಮಾಡು",
+    "messageformat": "ಮತ್ತೆ ಮಾಡಿ",
     "description": "Edit menu command to restore previously undone typed text"
   },
   "icu:editMenuCut": {
-    "messageformat": "ಕತ್ತರಿಸು",
+    "messageformat": "ಕತ್ತರಿಸಿ",
     "description": "Edit menu command to remove selected text and add it to clipboard"
   },
   "icu:editMenuCopy": {
-    "messageformat": "ನಕಲಿಸು",
+    "messageformat": "ನಕಲಿಸಿ",
     "description": "Edit menu command to add selected text to clipboard"
   },
   "icu:editMenuPaste": {
-    "messageformat": "ಅಂಟಿಸು",
+    "messageformat": "ಅಂಟಿಸಿ",
     "description": "Edit menu command to insert text from clipboard at cursor location"
   },
   "icu:editMenuPasteAndMatchStyle": {
-    "messageformat": "ಅಂಟಿಸು ಹಾಗೂ ಶೈಲಿಯನ್ನು ಹೊಂದಾಣಿಸು",
+    "messageformat": "ಅಂಟಿಸಿ ಹಾಗೂ ಶೈಲಿಯನ್ನು ಹೊಂದಿಸಿ",
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "icu:editMenuDelete": {
@@ -217,15 +217,15 @@
     "description": "Edit menu command to select all of the text in selected text box"
   },
   "icu:editMenuStartSpeaking": {
-    "messageformat": "ಮಾತಾಡುವುದನ್ನು ಆರಂಭಿಸು",
+    "messageformat": "ಮಾತಾಡುವುದನ್ನು ಆರಂಭಿಸಿ",
     "description": "Edit menu item under 'speech' to start dictation"
   },
   "icu:editMenuStopSpeaking": {
-    "messageformat": "ಮಾತಾಡುವುದನ್ನು ನಿಲ್ಲಿಸು",
+    "messageformat": "ಮಾತಾಡುವುದನ್ನು ನಿಲ್ಲಿಸಿ",
     "description": "Edit menu item under 'speech' to stop dictation"
   },
   "icu:windowMenuClose": {
-    "messageformat": "ಕಿಟಕಿಯನ್ನು ಮುಚ್ಚು",
+    "messageformat": "ಕಿಟಕಿಯನ್ನು ಮುಚ್ಚಿ",
     "description": "Window menu command to close the current window"
   },
   "icu:windowMenuMinimize": {
@@ -245,11 +245,11 @@
     "description": "View menu command to go back to the default zoom"
   },
   "icu:viewMenuZoomIn": {
-    "messageformat": "ಇನ್ನು ಹತ್ತಿರವಾಗಿಸು",
+    "messageformat": "ಜೂಮ್ ಇನ್ ಮಾಡಿ",
     "description": "View menu command to make everything bigger"
   },
   "icu:viewMenuZoomOut": {
-    "messageformat": "ಇನ್ನು ದೂರವಾಗಿಸು",
+    "messageformat": "ಜೂಮ್ ಔಟ್ ಮಾಡಿ",
     "description": "View menu command to make everything smaller"
   },
   "icu:viewMenuToggleFullScreen": {
@@ -341,7 +341,7 @@
     "description": "Text of the button displayed when clicking compose button in left pane"
   },
   "icu:LeftPane__compose__findByPhoneNumber": {
-    "messageformat": "ಫೋನ್ ನಂಬರ್‌ನಿಂದ ಹುಡುಕಿ",
+    "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆಯಿಂದ ಹುಡುಕಿ",
     "description": "Text of the button displayed when clicking compose button in left pane"
   },
   "icu:LeftPaneFindByHelper__title--findByUsername": {
@@ -349,7 +349,7 @@
     "description": "Title of the left pane when looking up someone by username"
   },
   "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
-    "messageformat": "ಫೋನ್ ನಂಬರ್‌ನಿಂದ ಹುಡುಕಿ",
+    "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆಯಿಂದ ಹುಡುಕಿ",
     "description": "Title of the left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
@@ -361,7 +361,7 @@
     "description": "Placeholder of the search input in left pane when looking up someone by phone number"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "ಯೂಸರ್ನೇಮ್ ಬಳಿಕ ಒಂದು ಬಿಂದು ಮತ್ತು ಅದರ ಸಂಖ್ಯೆಗಳ ಸೆಟ್ ನಮೂದಿಸಿ.",
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ ಬಳಿಕ ಒಂದು ಬಿಂದು ಮತ್ತು ಅದರ ಸಂಖ್ಯೆಗಳ ಸೆಟ್ ನಮೂದಿಸಿ.",
     "description": "Description displayed under search input in left pane when looking up someone by username"
   },
   "icu:CountryCodeSelect__placeholder": {
@@ -653,7 +653,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {ಸ್ಟೋರಿ {story} ನಿಂದ 1 ಸ್ವೀಕೃತಿದಾರರನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?} other {ಸ್ಟೋರಿ {story} ನಿಂದ {count,number} ಸ್ವೀಕೃತಿದಾರರನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?}}",
+    "messageformat": "{count, plural, one {ಸ್ಟೋರಿ {story} ನಿಂದ {count,number} ಸ್ವೀಕೃತಿದಾರರನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?} other {ಸ್ಟೋರಿ {story} ನಿಂದ {count,number} ಸ್ವೀಕೃತಿದಾರರನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
@@ -1396,7 +1396,7 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "ನೀವು",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
@@ -2444,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} ಅವರು Signal ಬಳಕೆದಾರರಲ್ಲ. ನೀವು username ಅನ್ನು ಪೂರ್ತಿಯಾಗಿ enter ಮಾಡಿದ್ದೀರೋ ಇಲ್ಲವೋ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5645,7 +5645,7 @@
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Too many attempts made, please try again later",
+    "messageformat": "ತುಂಬಾ ಹೆಚ್ಚು ಪ್ರಯತ್ನಗಳನ್ನು ಮಾಡಿದ್ದೀರಿ, ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5905,7 +5905,7 @@
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--button": {
-    "messageformat": "Change…",
+    "messageformat": "ಬದಲಿಸಿ...",
     "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -7267,15 +7267,15 @@
     "messageformat": "ಜನಪ್ರಿಯ ಬೇಡಿಕೆಯಿಂದಾಗಿ, &quot;:-)&quot; ನಂತಹ ಎಮೋಟಿಕಾನ್‌ಗಳು ಈಗ ಸ್ವಯಂಚಾಲಿತವಾಗಿ “<emojify>🙂</emojify>” ಎಮೋಜಿ ಆಗುತ್ತವೆ — ಆದರೆ ಇದು ನಿಮ್ಮನ್ನು “:-(“ ಮಾಡುತ್ತದೆ ಎಂದರೆ, ನಿಮ್ಮ Signal Desktop ಸೆಟ್ಟಿಂಗ್‌ಗಳ “ಚಾಟ್‌ಗಳು” ವಿಭಾಗದಲ್ಲಿ ನೀವು ಈ ಫೀಚರ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಬಹುದು."
   },
   "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+    "messageformat": "Signal‌ನಲ್ಲಿ ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ಖಾಸಗಿಯಾಗಿಡಲು ಹೊಸ ವಿಧಾನಗಳನ್ನು ಪರಿಚಯಿಸುತ್ತಿದ್ದೇವೆ."
   },
   "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+    "messageformat": "• Signal‌ನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಯಲ್ಲಿ, ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ತಮ್ಮ ಫೋನ್‌ನ ಸಂಪರ್ಕಗಳಲ್ಲಿ ಉಳಿಸದ ಹೊರತು ಯಾರಿಗೂ ಕಾಣಿಸುವುದಿಲ್ಲ. ನೀವು ಇದನ್ನು Settings ನಲ್ಲಿ ಬದಲಾಯಿಸಬಹುದು."
   },
   "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+    "messageformat": "• ನಿಮ್ಮ ಫೋನ್ ನಂಬರ್ ನೀಡದೇ ಐಚ್ಛಿಕ username ಒಂದನ್ನು set ಹಾಗು share ಮಾಡಿ, ಜನರೊಂದಿಗೆ ನೀವು chat ಮಾಡಬಹುದು."
   },
   "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+    "messageformat": "• ಫೋನ್ ಸಂಖ್ಯೆಯ ಮೂಲಕ ನಿಮ್ಮನ್ನು ಯಾರು ಹುಡುಕಬಹುದು ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಲು Signal‌ನ ಹೊಸ privacy setting ನಲ್ಲಿ ಅವಕಾಶವಿದೆ."
   }
 }

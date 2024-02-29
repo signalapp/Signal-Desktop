@@ -1396,7 +1396,7 @@
     "description": "Title of About modal"
   },
   "icu:AboutContactModal__title--myself": {
-    "messageformat": "You",
+    "messageformat": "나",
     "description": "Title of About modal when viewing your own information"
   },
   "icu:AboutContactModal__verified": {
@@ -2444,7 +2444,7 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
+    "messageformat": "{atUsername} 님은 Signal 사용자가 아닙니다. 전체 사용자 이름을 입력했는지 확인하세요.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -5645,7 +5645,7 @@
     "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Too many attempts made, please try again later",
+    "messageformat": "너무 많이 시도했습니다. 나중에 다시 시도해 주세요.",
     "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
   },
   "icu:ProfileEditor--username--unavailable": {
@@ -5905,7 +5905,7 @@
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--button": {
-    "messageformat": "Change…",
+    "messageformat": "변경…",
     "description": "Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -7267,15 +7267,15 @@
     "messageformat": "이제 입력할 때 이모티콘이 기본적으로 이모지로 변경됩니다(“:-)” → “<emojify>🙂</emojify>”). 이 기능은 Signal 데스크톱 설정의 '대화' 섹션에서 구성할 수 있습니다."
   },
   "icu:WhatsNew__v7.0--header": {
-    "messageformat": "We're introducing new ways to keep your phone number private on Signal."
+    "messageformat": "Signal에서 전화번호를 비공개로 유지하는 새로운 방법을 도입했습니다."
   },
   "icu:WhatsNew__v7.0--0": {
-    "messageformat": "Your phone number will no longer be visible to anyone on the latest version of Signal unless they have it saved in their phone’s contacts. You can change this in Settings."
+    "messageformat": "최신 버전 Signal에서는 내 전화번호를 연락처에 저장한 사람을 제외하고 더 이상 다른 사람에게 내 전화번호가 표시되지 않습니다. 설정에서 이 옵션을 변경할 수 있습니다."
   },
   "icu:WhatsNew__v7.0--1": {
-    "messageformat": "You can now set and share an optional username to let people chat with you without giving them your phone number."
+    "messageformat": "이제 선택적 사용자 이름을 설정하고 공유하여 전화번호를 공유하지 않고도 다른 사람과 대화할 수 있습니다."
   },
   "icu:WhatsNew__v7.0--2": {
-    "messageformat": "A new privacy setting lets you control who can find you by your phone number on Signal."
+    "messageformat": "새로운 개인정보 보호 설정을 사용하면 Signal에서 전화번호를 사용하여 나를 찾을 수 있는 사용자를 컨트롤할 수 있습니다."
   }
 }
