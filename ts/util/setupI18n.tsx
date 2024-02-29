@@ -84,7 +84,13 @@ function normalizeSubstitutions(
     return;
   }
   const normalized: ReplacementValuesType = {};
-  for (const [key, value] of Object.entries(substitutions)) {
+  const keys = Object.keys(substitutions);
+  if (keys.length === 0) {
+    return;
+  }
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    const value = substitutions[key];
     if (typeof value === 'string') {
       normalized[key] = bidiIsolate(value);
     } else {
@@ -108,24 +114,9 @@ export function setupI18n(
   const intl = createCachedIntl(locale, filterLegacyMessages(messages));
 
   const localizer: LocalizerType = (key, substitutions) => {
-    strictAssert(
-      !localizer.isLegacyFormat(key),
-      `i18n: Legacy message format is no longer supported "${key}"`
-    );
-
-    strictAssert(
-      !Array.isArray(substitutions),
-      `i18n: Substitutions must be an object for ICU message "${key}"`
-    );
-
     const result = intl.formatMessage(
       { id: key },
       normalizeSubstitutions(substitutions)
-    );
-
-    strictAssert(
-      typeof result === 'string',
-      'i18n: Formatted translation result must be a string, must use <Intl/> component to render JSX'
     );
 
     strictAssert(result !== key, `i18n: missing translation for "${key}"`);
@@ -135,9 +126,6 @@ export function setupI18n(
 
   localizer.getIntl = () => {
     return intl;
-  };
-  localizer.isLegacyFormat = (key: string) => {
-    return !key.startsWith('icu:');
   };
   localizer.getLocale = () => locale;
   localizer.getLocaleMessages = () => messages;
