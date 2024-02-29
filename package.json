@@ -43,7 +43,7 @@
     "test-electron": "node ts/scripts/test-electron.js",
     "test-release": "node ts/scripts/test-release.js",
     "test-node": "cross-env LANG=en-us electron-mocha --timeout 10000 --file test/setup-test-node.js --recursive test/modules ts/test-node ts/test-both",
-    "test-mock": "mocha --require ts/test-mock/setup-ci.js ts/test-mock/**/*_test.js",
+    "test-mock": "cross-env NODE_ENV=test mocha --require ts/test-mock/setup-ci.js ts/test-mock/**/*_test.js",
     "test-eslint": "mocha .eslint/rules/**/*.test.js --ignore-leaks",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/modules ts/test-node ts/test-both",
     "test-lint-intl": "ts-node ./build/intl-linter/linter.ts --test",
