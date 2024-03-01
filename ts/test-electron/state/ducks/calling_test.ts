@@ -2102,6 +2102,20 @@ describe('calling duck', () => {
           assert.strictEqual(call.ringId, BigInt(987));
           assert.strictEqual(call.ringerAci, ringerAci);
         });
+
+        it('enables outgoingRing for a group call when there is no existing call', async () => {
+          const result = await getState(getEmptyState(), {
+            callMode: CallMode.Group,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.NotJoined,
+            peekInfo: undefined,
+            remoteParticipants: [],
+          });
+
+          assert.isTrue(result.activeCallState?.outgoingRing);
+        });
       });
     });
 
