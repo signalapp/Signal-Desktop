@@ -11253,7 +11253,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-core 0.1.0, partial-default-derive 0.1.0, regex-aot 0.1.0, ringrtc 2.38.0
+## libsignal-core 0.1.0, partial-default-derive 0.1.0, regex-aot 0.1.0, ringrtc 2.39.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -12018,7 +12018,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## libloading 0.6.7
+## libloading 0.8.1
 
 ```
 Copyright © 2015, Simonas Kazlauskas
@@ -12215,7 +12215,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 2.4.1, log 0.4.20, regex 1.10.2, regex-automata 0.4.3, regex-syntax 0.8.2, semver 0.9.0
+## bitflags 2.4.1, log 0.4.20, regex 1.10.2, regex-automata 0.4.3, regex-syntax 0.8.2
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -12340,7 +12340,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## neon 0.10.1, neon-build 0.10.1, neon-macros 0.10.1, neon-runtime 0.10.1
+## neon-macros 1.0.0
 
 ```
 Copyright (c) 2015 David Herman
@@ -12608,37 +12608,6 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 Copyright (c) 2016 Amanieu d'Antras
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-```
-
-## semver-parser 0.7.0
-
-```
-Copyright (c) 2016 Steve Klabnik
 
 Permission is hereby granted, free of charge, to any
 person obtaining a copy of this software and associated
@@ -13693,7 +13662,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.0
+## curve25519-dalek-derive 0.1.0, neon 1.0.0
 
 ```
 MIT License
@@ -13733,7 +13702,7 @@ SOFTWARE.
 
 ```
 
-## anyhow 1.0.75, fastrand 2.0.1, home 0.5.5, itoa 1.0.10, linux-raw-sys 0.4.12, num_enum 0.6.1, num_enum 0.7.1, num_enum_derive 0.6.1, num_enum_derive 0.7.1, once_cell 1.19.0, pin-project-lite 0.2.13, prettyplease 0.2.15, proc-macro-crate 1.3.1, proc-macro-crate 2.0.1, proc-macro2 1.0.70, quote 1.0.33, rustix 0.38.28, semver 1.0.20, serde 1.0.193, serde_derive 1.0.193, serde_json 1.0.108, syn 1.0.109, syn 2.0.41, syn-mid 0.5.4, thiserror 1.0.50, thiserror-impl 1.0.50, unicode-ident 1.0.12
+## anyhow 1.0.75, fastrand 2.0.1, home 0.5.5, itoa 1.0.10, linux-raw-sys 0.4.12, num_enum 0.6.1, num_enum 0.7.1, num_enum_derive 0.6.1, num_enum_derive 0.7.1, once_cell 1.19.0, pin-project-lite 0.2.13, prettyplease 0.2.15, proc-macro-crate 1.3.1, proc-macro-crate 2.0.1, proc-macro2 1.0.70, quote 1.0.33, rustix 0.38.28, semver 1.0.20, send_wrapper 0.6.0, serde 1.0.193, serde_derive 1.0.193, serde_json 1.0.108, syn 1.0.109, syn 2.0.41, syn-mid 0.6.0, thiserror 1.0.50, thiserror-impl 1.0.50, unicode-ident 1.0.12
 
 ```
 Permission is hereby granted, free of charge, to any
