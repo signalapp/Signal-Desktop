@@ -2137,14 +2137,23 @@ export function reducer(
           remoteParticipants,
           ...ringState,
         };
-        newAdhocCalls =
-          callMode === CallMode.Adhoc
-            ? {
-                ...adhocCalls,
-                [conversationId]: call,
-              }
-            : adhocCalls;
-        outgoingRing = false;
+
+        if (callMode === CallMode.Group) {
+          outgoingRing =
+            !ringState.ringId &&
+            !call.peekInfo?.acis.length &&
+            !call.remoteParticipants.length &&
+            !action.payload.isConversationTooBigToRing;
+          newAdhocCalls = adhocCalls;
+        } else if (callMode === CallMode.Adhoc) {
+          outgoingRing = false;
+          newAdhocCalls = {
+            ...adhocCalls,
+            [conversationId]: call,
+          };
+        } else {
+          throw missingCaseError(action.payload);
+        }
         break;
       }
       default:
