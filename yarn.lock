@@ -3973,10 +3973,10 @@
     bindings "^1.5.0"
     tar "^6.1.0"
 
-"@signalapp/libsignal-client@0.40.0":
-  version "0.40.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.40.0.tgz#2997f44b69d4d73aa474550243998b628d0d3a1a"
-  integrity sha512-RrVe46KDHSfspvz+rmqkP2KMrlctWb6voejEFzhxSB8yXbnmEQuwEu7bqJj+uYsLhv8nKpIfC1qniNQc0SDPeA==
+"@signalapp/libsignal-client@0.40.1":
+  version "0.40.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.40.1.tgz#07ed6d3da9d2458aa7e66f5a71a8a7ef6b4a467a"
+  integrity sha512-5BLDpOrP7eXT9U1Vf8F3HVOt4dnLeFMCzalkSyGdFgzD59i/wva3PHtQtbfKhxX7pNaXwhele1tAbIXsKYtXUQ==
   dependencies:
     node-gyp-build "^4.2.3"
     type-fest "^3.5.0"
