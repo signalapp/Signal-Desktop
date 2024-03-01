@@ -50,6 +50,12 @@ jobs:
     - run: yarn lint
     - run: yarn lint-deps
     - run: yarn lint-license-comments
+
+    - name: Check acknowledgments file is up to date
+      run: yarn build:acknowledgments
+      env:
+        REQUIRE_SIGNAL_LIB_FILES: 1
+
     - run: git diff --exit-code
 
     - name: Update cached .eslintcache and tsconfig.tsbuildinfo
