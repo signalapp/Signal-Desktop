@@ -289,7 +289,7 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       const { size } = attachment;
       const sizeInKib = size / KIBIBYTE;
 
-      if (!size || sizeInKib > maxInKib) {
+      if (!Number.isFinite(size) || size < 0 || sizeInKib > maxInKib) {
         throw new AttachmentSizeError(
           `Attachment Job ${id}: Attachment was ${sizeInKib}kib, max is ${maxInKib}kib`
         );
