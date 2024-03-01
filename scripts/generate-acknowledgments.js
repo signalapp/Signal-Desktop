@@ -7,6 +7,11 @@ const { join } = require('path');
 const pMap = require('p-map');
 const prettier = require('prettier');
 
+// During development, you might use local versions of dependencies which are missing
+// acknowledgment files. In this case we'll skip rebuilding the acknowledgment files.
+// Enable this flag to throw an error.
+const REQUIRE_SIGNAL_LIB_FILES = Boolean(process.env.REQUIRE_SIGNAL_LIB_FILES);
+
 const {
   dependencies = {},
   optionalDependencies = {},
@@ -76,12 +81,28 @@ async function getMarkdownForSignalLib(dependencyName) {
     'dist',
     'acknowledgments.md'
   );
-  const licenseBody = (await fs.promises.readFile(licenseFilePath, 'utf8'))
-    .replace(/^# Acknowledgments/, '')
-    .trim();
-  return [`# Acknowledgements for ${dependencyName}`, '', licenseBody].join(
-    '\n'
-  );
+
+  let licenseBody;
+  try {
+    licenseBody = await fs.promises.readFile(licenseFilePath, 'utf8');
+  } catch (err) {
+    if (err) {
+      if (err.code === 'ENOENT' && !REQUIRE_SIGNAL_LIB_FILES) {
+        console.warn(
+          `Missing acknowledgments file for ${dependencyName}. Skipping generation of acknowledgments.`
+        );
+        process.exit(0);
+      }
+
+      throw err;
+    }
+  }
+
+  return [
+    `# Acknowledgements for ${dependencyName}`,
+    '',
+    licenseBody.replace(/^# Acknowledgments/, '').trim(),
+  ].join('\n');
 }
 
 async function main() {
