@@ -4,6 +4,7 @@
 import { config } from './config';
 import {
   getEnvironment,
+  isTestEnvironment,
   parseEnvironment,
   setEnvironment,
 } from '../environment';
@@ -12,4 +13,7 @@ setEnvironment(parseEnvironment(config.environment));
 
 const environment = getEnvironment();
 
-export { environment };
+const isTestOrMockEnvironment =
+  isTestEnvironment(environment) || Boolean(process.env.MOCK_TEST);
+
+export { environment, isTestOrMockEnvironment };
