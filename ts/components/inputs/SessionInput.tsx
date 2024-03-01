@@ -67,14 +67,35 @@ const ErrorItem = (props: { id: string; error: string }) => {
   );
 };
 
-const ShowHideButton = (props: { toggleForceShow: Noop }) => {
+const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop }) => {
   const htmlDirection = useHTMLDirection();
   const position =
     htmlDirection === 'ltr' ? { right: 'var(--margins-md)' } : { left: 'var(--margins-md)' };
 
+  if (props.forceShow) {
+    return (
+      <SessionIconButton
+        iconType={'eyeDisabled'}
+        iconColor={'var(--text-primary-color)'}
+        iconSize="huge"
+        iconPadding="1.25px"
+        onClick={props.toggleForceShow}
+        style={{
+          marginTop: '-0.5px',
+          marginRight: '-5px',
+          position: 'absolute',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          ...position,
+        }}
+      />
+    );
+  }
+
   return (
     <SessionIconButton
-      iconType="eye"
+      iconType={'eye'}
+      iconColor={'var(--text-primary-color)'}
       iconSize="medium"
       onClick={props.toggleForceShow}
       style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', ...position }}
@@ -146,40 +167,42 @@ export const SessionInput = (props: Props) => {
       alignItems="center"
       error={Boolean(errorString)}
     >
-      <StyledInput
-        id={id}
-        type={correctType}
-        placeholder={placeholder}
-        value={value}
-        maxLength={maxLength}
-        autoFocus={autoFocus}
-        data-testid={inputDataTestId}
-        onChange={updateInputValue}
-        style={{ paddingInlineEnd: enableShowHide ? '30px' : undefined }}
-        // just in case onChange isn't triggered
-        onBlur={updateInputValue}
-        onKeyDown={event => {
-          if (event.key === 'Enter' && props.onEnterPressed) {
-            props.onEnterPressed(inputValue);
-            setErrorString('');
-          }
-        }}
-        initial={{
-          borderColor: errorString ? 'var(--input-border-color)' : undefined,
-        }}
-        animate={{
-          borderColor: errorString ? 'var(--danger-color)' : undefined,
-        }}
-        transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
-      />
-
-      {enableShowHide && (
-        <ShowHideButton
-          toggleForceShow={() => {
-            setForceShow(!forceShow);
+      <Flex container={true} width="100%" alignItems="center" style={{ position: 'relative' }}>
+        <StyledInput
+          id={id}
+          type={correctType}
+          placeholder={placeholder}
+          value={value}
+          maxLength={maxLength}
+          autoFocus={autoFocus}
+          data-testid={inputDataTestId}
+          onChange={updateInputValue}
+          style={{ paddingInlineEnd: enableShowHide ? '30px' : undefined }}
+          // just in case onChange isn't triggered
+          onBlur={updateInputValue}
+          onKeyDown={event => {
+            if (event.key === 'Enter' && props.onEnterPressed) {
+              props.onEnterPressed(inputValue);
+              setErrorString('');
+            }
           }}
+          initial={{
+            borderColor: errorString ? 'var(--input-border-color)' : undefined,
+          }}
+          animate={{
+            borderColor: errorString ? 'var(--danger-color)' : undefined,
+          }}
+          transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
         />
-      )}
+        {enableShowHide && (
+          <ShowHideButton
+            forceShow={forceShow}
+            toggleForceShow={() => {
+              setForceShow(!forceShow);
+            }}
+          />
+        )}
+      </Flex>
 
       {ctaButton || errorString ? <SpacerMD /> : null}
       {errorString ? <ErrorItem id={id} error={errorString} /> : null}

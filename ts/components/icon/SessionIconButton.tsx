@@ -86,7 +86,7 @@ const SessionIconButtonInner = forwardRef<HTMLDivElement, SProps>((props, ref) =
       onClick={clickHandler}
       style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin || '' }}
       tabIndex={tabIndex}
-      onKeyPress={keyPressHandler}
+      onKeyDown={keyPressHandler}
       data-testid={dataTestId}
     >
       <SessionIcon
