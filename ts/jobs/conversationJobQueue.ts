@@ -249,7 +249,7 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
     return true;
   }
   if (type === 'GroupUpdate') {
-    return false;
+    return true;
   }
   if (type === 'NormalMessage') {
     return true;
@@ -269,6 +269,8 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
   if (type === 'SavedProto') {
     return false;
   }
+  // Note: this is only for out-of-band sender key distributions (see handleRetry.ts),
+  //   not the ones attached to group sends
   if (type === 'SenderKeyDistribution') {
     return false;
   }
