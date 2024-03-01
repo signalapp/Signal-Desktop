@@ -104,7 +104,7 @@ export function CallingPreCallInfo({
         subtitle = i18n('icu:calling__pre-call-info--many-people-in-call', {
           first: participantNames[0],
           second: participantNames[1],
-          others: String(participantNames.length - 2),
+          others: participantNames.length - 2,
         });
         break;
     }
@@ -171,12 +171,12 @@ export function CallingPreCallInfo({
           ? i18n('icu:calling__pre-call-info--will-ring-many', {
               first: memberNames[0],
               second: memberNames[1],
-              others: String(memberNames.length - 2),
+              others: memberNames.length - 2,
             })
           : i18n('icu:calling__pre-call-info--will-notify-many', {
               first: memberNames[0],
               second: memberNames[1],
-              others: String(memberNames.length - 2),
+              others: memberNames.length - 2,
             });
         break;
       }
