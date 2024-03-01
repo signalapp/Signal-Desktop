@@ -12,10 +12,9 @@ const {
   optionalDependencies = {},
 } = require('../package.json');
 
-const SKIPPED_DEPENDENCIES = new Set([
-  '@signalapp/libsignal-client',
-  '@signalapp/ringrtc',
-]);
+const SIGNAL_LIBS = ['@signalapp/libsignal-client', '@signalapp/ringrtc'];
+
+const SKIPPED_DEPENDENCIES = new Set(SIGNAL_LIBS);
 
 const rootDir = join(__dirname, '..');
 const nodeModulesPath = join(rootDir, 'node_modules');
@@ -70,6 +69,21 @@ async function getMarkdownForDependency(dependencyName) {
   ].join('\n');
 }
 
+async function getMarkdownForSignalLib(dependencyName) {
+  const dependencyRootPath = join(nodeModulesPath, dependencyName);
+  const licenseFilePath = join(
+    dependencyRootPath,
+    'dist',
+    'acknowledgments.md'
+  );
+  const licenseBody = (await fs.promises.readFile(licenseFilePath, 'utf8'))
+    .replace(/^# Acknowledgments/, '')
+    .trim();
+  return [`# Acknowledgements for ${dependencyName}`, '', licenseBody].join(
+    '\n'
+  );
+}
+
 async function main() {
   assert.deepStrictEqual(
     Object.keys(optionalDependencies),
@@ -94,6 +108,16 @@ async function main() {
     }
   );
 
+  // For our libraries copy the respective acknowledgement lists
+  const markdownsFromSignalLibs = await pMap(
+    SIGNAL_LIBS,
+    getMarkdownForSignalLib,
+    {
+      concurrency: 100,
+      timeout: 1000 * 60 * 2,
+    }
+  );
+
   const unformattedOutput = [
     '<!-- Copyright 2020 Signal Messenger, LLC -->',
     '<!-- SPDX-License-Identifier: AGPL-3.0-only -->',
@@ -106,6 +130,8 @@ async function main() {
     '## Kyber Patent License',
     '',
     '<https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/selected-algos-2022/nist-pqc-license-summary-and-excerpts.pdf>',
+    '',
+    markdownsFromSignalLibs.join('\n\n'),
   ].join('\n');
 
   const prettierConfig = await prettier.resolveConfig(destinationPath);
