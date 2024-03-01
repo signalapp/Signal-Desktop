@@ -31,14 +31,27 @@ describe('settings', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  it('settings window loads when opened', async () => {
+  it('settings window and all panes load when opened', async () => {
     const window = await app.getWindow();
 
     const newPagePromise = window.context().waitForEvent('page');
     await window.locator('.NavTabs__ItemIcon--Settings').click();
     const settingsWindow = await newPagePromise;
+    await settingsWindow.getByText('Device Name').waitFor();
 
     await settingsWindow.getByText('Appearance').click();
     await settingsWindow.getByText('Language').first().waitFor();
+
+    await settingsWindow.getByText('Chats').click();
+    await settingsWindow.getByText('Sent media quality').waitFor();
+
+    await settingsWindow.getByText('Calls').click();
+    await settingsWindow.getByText('Enable incoming calls').waitFor();
+
+    await settingsWindow.getByText('Notifications').click();
+    await settingsWindow.getByText('Notification content').waitFor();
+
+    await settingsWindow.getByText('Privacy').click();
+    await settingsWindow.getByText('Read receipts').waitFor();
   });
 });

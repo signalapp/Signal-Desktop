@@ -32,6 +32,7 @@ global.window = {
     getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
     getPreferredSystemLocales: () => ['en'],
     getLocaleOverride: () => null,
+    isTestOrMockEnvironment: () => true,
   },
   i18n: key => `i18n(${key})`,
   storage: {

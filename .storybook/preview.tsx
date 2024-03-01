@@ -93,6 +93,7 @@ window.SignalContext = {
     unregisterForChange: noop,
   },
 
+  isTestOrMockEnvironment: () => false,
   nativeThemeListener: {
     getSystemTheme: () => 'light',
     subscribe: noop,

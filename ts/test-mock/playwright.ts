@@ -59,6 +59,7 @@ export class App extends EventEmitter {
         args: this.options.args.slice(),
         env: {
           ...process.env,
+          MOCK_TEST: 'true',
           SIGNAL_CI_CONFIG: this.options.config,
         },
         locale: 'en',

@@ -208,7 +208,7 @@ export function _bidiIsolate(text: string): string {
  * ```
  */
 export function bidiIsolate(text: string): string {
-  if (process.env.IS_TESTS != null) {
+  if (window.SignalContext.isTestOrMockEnvironment()) {
     // Turn this off in tests to make it easier to compare strings
     return text;
   }
