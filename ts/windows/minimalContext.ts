@@ -10,7 +10,7 @@ import { activeWindowService } from '../context/activeWindowService';
 import { config } from '../context/config';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { createSetting } from '../util/preload';
-import { environment } from '../context/environment';
+import { environment, isTestOrMockEnvironment } from '../context/environment';
 import {
   localeDisplayNames,
   countryDisplayNames,
@@ -52,6 +52,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   getHourCyclePreference: () => config.hourCyclePreference,
   getPreferredSystemLocales: () => config.preferredSystemLocales,
   getLocaleOverride: () => config.localeOverride,
+  isTestOrMockEnvironment: () => isTestOrMockEnvironment,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
   restartApp: () => ipcRenderer.send('restart'),
   OS: {
