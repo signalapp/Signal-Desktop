@@ -44,7 +44,3 @@ Gruntfile.js
 
 # bad matches
 !patch-package/node_modules/yaml/dist/doc
-
-# used for build:acknowledgements
-!@signalapp/libsignal-client/dist/acknowledgments.md
-!@signalapp/ringrtc/dist/acknowledgments.md
