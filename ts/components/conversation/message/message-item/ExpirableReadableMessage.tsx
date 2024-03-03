@@ -9,6 +9,7 @@ import { getConversationController } from '../../../../session/conversations';
 import { PropsForExpiringMessage, messagesExpired } from '../../../../state/ducks/conversations';
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
+import { hasDetailView } from './Message';
 import { ReadableMessage, ReadableMessageProps } from './ReadableMessage';
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -81,10 +82,10 @@ const StyledReadableMessage = styled(ReadableMessage)<{
 `;
 
 export interface ExpirableReadableMessageProps
-  extends Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
+  extends hasDetailView,
+    Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
   messageId: string;
   isControlMessage?: boolean;
-  isDetailView?: boolean;
 }
 
 function ExpireTimerControlMessage({

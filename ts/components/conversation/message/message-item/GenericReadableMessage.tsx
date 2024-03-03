@@ -14,6 +14,7 @@ import {
 } from '../../../../state/selectors/conversations';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
+import { hasDetailView } from './Message';
 
 export type GenericReadableMessageSelectorProps = Pick<
   MessageRenderingProps,
@@ -26,10 +27,9 @@ export type GenericReadableMessageSelectorProps = Pick<
   | 'isDeleted'
 >;
 
-type Props = {
+type Props = hasDetailView & {
   messageId: string;
   ctxMenuID: string;
-  isDetailView?: boolean;
 };
 
 const highlightedMessageAnimation = keyframes`
@@ -38,11 +38,12 @@ const highlightedMessageAnimation = keyframes`
   }
 `;
 
-const StyledReadableMessage = styled.div<{
-  selected: boolean;
-  isRightClicked: boolean;
-  isDetailView?: boolean;
-}>`
+const StyledReadableMessage = styled.div<
+  hasDetailView & {
+    selected: boolean;
+    isRightClicked: boolean;
+  }
+>`
   display: flex;
   align-items: center;
   width: 100%;

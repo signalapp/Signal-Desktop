@@ -4,9 +4,10 @@ import { useQuoteAuthorName } from '../../../../../hooks/useParamSelector';
 import { PubKey } from '../../../../../session/types';
 import { useSelectedIsPublic } from '../../../../../state/selectors/selectedConversation';
 import { ContactName } from '../../../ContactName';
+import { hasDetailView } from '../../message-item/Message';
 import { QuoteProps } from './Quote';
 
-const StyledQuoteAuthor = styled.div<{ isIncoming: boolean; isDetailView?: boolean }>`
+const StyledQuoteAuthor = styled.div<hasDetailView & { isIncoming: boolean }>`
   color: ${props =>
     props.isIncoming
       ? 'var(--message-bubbles-received-text-color)'
@@ -23,7 +24,7 @@ const StyledQuoteAuthor = styled.div<{ isIncoming: boolean; isDetailView?: boole
   }
 `;
 
-type QuoteAuthorProps = Pick<QuoteProps, 'author' | 'isIncoming'> & { isDetailView?: boolean };
+type QuoteAuthorProps = Pick<QuoteProps, 'author' | 'isIncoming'> & hasDetailView;
 
 export const QuoteAuthor = (props: QuoteAuthorProps) => {
   const { author, isIncoming, isDetailView } = props;

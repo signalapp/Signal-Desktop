@@ -10,9 +10,11 @@ import { GenericReadableMessage } from './GenericReadableMessage';
 // Same as MIN_WIDTH in ImageGrid.tsx
 export const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = THUMBNAIL_SIDE;
 
-type Props = {
+/** when the message info panel is displayed for a message, we disable onClick and make some other minor UI changes */
+export type hasDetailView = { isDetailView?: boolean };
+
+type Props = hasDetailView & {
   messageId: string;
-  isDetailView?: boolean; // when the detail is shown for a message, we disable click and some other stuff
 };
 
 export const Message = (props: Props) => {

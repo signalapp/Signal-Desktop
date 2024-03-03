@@ -15,6 +15,7 @@ import {
 import { Reactions } from '../../../../util/reactions';
 import { Flex } from '../../../basic/Flex';
 import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
+import { hasDetailView } from '../message-item/Message';
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
@@ -26,15 +27,14 @@ export type MessageContentWithStatusSelectorProps = { isGroup: boolean } & Pick<
   'conversationType' | 'direction' | 'isDeleted'
 >;
 
-type Props = {
+type Props = hasDetailView & {
   messageId: string;
   ctxMenuID: string;
-  isDetailView?: boolean;
   dataTestId: string;
   enableReactions: boolean;
 };
 
-const StyledMessageContentContainer = styled.div<{ isIncoming: boolean; isDetailView: boolean }>`
+const StyledMessageContentContainer = styled.div<hasDetailView & { isIncoming: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

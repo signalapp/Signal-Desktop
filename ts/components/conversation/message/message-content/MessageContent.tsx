@@ -20,6 +20,7 @@ import {
 import { useSelectedIsPrivate } from '../../../../state/selectors/selectedConversation';
 import { canDisplayImage } from '../../../../types/Attachment';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
+import { hasDetailView } from '../message-item/Message';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageAvatar } from './MessageAvatar';
 import { MessageHighlighter } from './MessageHighlighter';
@@ -32,9 +33,8 @@ export type MessageContentSelectorProps = Pick<
   'text' | 'direction' | 'timestamp' | 'serverTimestamp' | 'previews' | 'quote' | 'attachments'
 >;
 
-type Props = {
+type Props = hasDetailView & {
   messageId: string;
-  isDetailView?: boolean;
 };
 
 // TODO not too sure what is this doing? It is not preventDefault()

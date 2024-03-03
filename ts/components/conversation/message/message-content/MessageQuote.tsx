@@ -8,11 +8,11 @@ import { openConversationToSpecificMessage } from '../../../../state/ducks/conve
 import { StateType } from '../../../../state/reducer';
 import { useMessageDirection } from '../../../../state/selectors';
 import { getMessageQuoteProps } from '../../../../state/selectors/conversations';
+import { hasDetailView } from '../message-item/Message';
 import { Quote } from './quote/Quote';
 
-type Props = {
+type Props = hasDetailView & {
   messageId: string;
-  isDetailView?: boolean;
 };
 
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;

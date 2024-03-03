@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { useIsMessageSelectionMode } from '../../../../../state/selectors/selectedConversation';
 import * as MIME from '../../../../../types/MIME';
+import { hasDetailView } from '../../message-item/Message';
 import { QuoteAuthor } from './QuoteAuthor';
 import { QuoteIconContainer } from './QuoteIconContainer';
 import { QuoteText } from './QuoteText';
@@ -43,14 +44,13 @@ const StyledQuoteTextContent = styled.div`
   justify-content: center;
 `;
 
-export type QuoteProps = {
+export type QuoteProps = hasDetailView & {
   author: string;
   isFromMe: boolean;
   isIncoming: boolean;
   referencedMessageNotFound: boolean;
   text?: string;
   attachment?: QuotedAttachmentType;
-  isDetailView?: boolean;
 
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };

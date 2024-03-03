@@ -10,9 +10,9 @@ import { useSelectedIsGroupOrCommunity } from '../../../../state/selectors/selec
 import { SpacerXS } from '../../../basic/Text';
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ExpireTimer } from '../../ExpireTimer';
+import { hasDetailView } from '../message-item/Message';
 
-type Props = {
-  isDetailView: boolean;
+type Props = hasDetailView & {
   messageId: string;
   dataTestId?: string | undefined;
 };

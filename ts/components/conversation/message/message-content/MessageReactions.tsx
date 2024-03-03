@@ -9,6 +9,7 @@ import { SortedReactionList } from '../../../../types/Reaction';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { Flex } from '../../../basic/Flex';
 import { SessionIcon } from '../../../icon';
+import { hasDetailView } from '../message-item/Message';
 import { Reaction, ReactionProps } from '../reactions/Reaction';
 import { StyledPopupContainer } from '../reactions/ReactionPopup';
 
@@ -137,7 +138,7 @@ export type MessageReactsSelectorProps = Pick<
   'convoId' | 'serverId' | 'reacts' | 'sortedReacts'
 >;
 
-type Props = {
+type Props = hasDetailView & {
   messageId: string;
   hasReactLimit?: boolean;
   onClick: (emoji: string) => void;
@@ -147,7 +148,6 @@ type Props = {
   inModal?: boolean;
   onSelected?: (emoji: string) => boolean;
   noAvatar: boolean;
-  isDetailView?: boolean;
 };
 
 export const MessageReactions = (props: Props) => {
