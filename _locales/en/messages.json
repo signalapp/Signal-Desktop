@@ -5583,14 +5583,6 @@
     "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
-  "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Delete username",
-    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
-  },
-  "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Create username",
-    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
-  },
   "icu:ProfileEditor--username--corrupted--fix-button": {
     "messageformat": "Fix now",
     "description": "Button text for creation of a new username in case of corruption"
@@ -5742,10 +5734,6 @@
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "Edit photo",
     "description": "Text of a button on profile editor that leads to the avatar editor"
-  },
-  "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
-    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
