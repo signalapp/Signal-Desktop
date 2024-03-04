@@ -2250,16 +2250,24 @@ export class CallingClass {
       });
     }
 
-    const localEvent = getLocalCallEventFromRingUpdate(update);
-    if (localEvent != null) {
+    const localEventFromRing = getLocalCallEventFromRingUpdate(update);
+    if (localEventFromRing != null) {
       const callId = getCallIdFromRing(ringId);
       const callDetails = getCallDetailsFromGroupCallMeta(groupId, {
         callId,
         ringerId: ringerUuid,
       });
+      let localEventForCall;
+      if (localEventFromRing === LocalCallEvent.Missed) {
+        localEventForCall = LocalCallEvent.Missed;
+      } else {
+        localEventForCall = shouldRing
+          ? LocalCallEvent.Ringing
+          : LocalCallEvent.Started;
+      }
       const callEvent = getCallEventDetails(
         callDetails,
-        shouldRing ? LocalCallEvent.Ringing : LocalCallEvent.Started,
+        localEventForCall,
         'CallingClass.handleGroupCallRingUpdate'
       );
       await updateCallHistoryFromLocalEvent(callEvent, null);

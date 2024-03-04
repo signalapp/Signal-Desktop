@@ -4489,6 +4489,7 @@ export class ConversationModel extends window.Backbone
   ): Promise<void> {
     await markConversationRead(this.attributes, newestUnreadAt, options);
     await this.updateUnread();
+    window.reduxActions.callHistory.updateCallHistoryUnreadCount();
   }
 
   async updateUnread(): Promise<void> {
@@ -4515,7 +4516,6 @@ export class ConversationModel extends window.Backbone
         unreadMentionsCount,
       });
       window.Signal.Data.updateConversation(this.attributes);
-      window.reduxActions.callHistory.updateCallHistoryUnreadCount();
     }
   }
 

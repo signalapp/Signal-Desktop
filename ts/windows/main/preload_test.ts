@@ -36,6 +36,7 @@ window.testUtilities = {
 
     initializeRedux({
       callsHistory: [],
+      callsHistoryUnreadCount: 0,
       initialBadgesState: { byId: {} },
       mainWindowStats: {
         isFullScreen: false,
