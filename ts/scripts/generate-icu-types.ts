@@ -11,7 +11,7 @@ import type { ICUMessageParamType } from '../util/getICUMessageParams';
 import { missingCaseError } from '../util/missingCaseError';
 import globalMessages from '../../_locales/en/messages.json';
 
-import { DELETED_REGEXP } from './remove-strings';
+import { DELETED_REGEXP } from './constants';
 
 function translateParamType(
   param: ICUMessageParamType,
