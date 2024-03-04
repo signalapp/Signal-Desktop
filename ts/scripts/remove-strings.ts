@@ -9,13 +9,12 @@ import path from 'path';
 
 import { MONTH } from '../util/durations';
 import { isOlderThan } from '../util/timestamp';
+import { DELETED_REGEXP } from './constants';
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const MESSAGES_FILE = path.join(ROOT_DIR, '_locales', 'en', 'messages.json');
 
 const limitter = pLimit(10);
-
-export const DELETED_REGEXP = /\(\s*deleted\s+(\d{2,4}\/\d{2}\/\d{2,4})\s*\)/i;
 
 async function main() {
   const messages = JSON.parse(await fs.readFile(MESSAGES_FILE, 'utf-8'));
