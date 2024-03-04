@@ -48,7 +48,7 @@ export const RestoreAccount = () => {
           <Flex container={true} width={'100%'} alignItems="center">
             <OnboardHeading>{window.i18n('sessionRecoveryPassword')}</OnboardHeading>
             <SessionIcon
-              iconType="recoveryPassword"
+              iconType="recoveryPasswordOutline"
               iconSize="large"
               iconColor="var(--text-primary-color)"
               style={{ margin: '-4px 0 0 8px' }}

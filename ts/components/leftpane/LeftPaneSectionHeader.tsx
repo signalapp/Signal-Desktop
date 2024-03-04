@@ -97,7 +97,7 @@ export const LeftPaneBanner = () => {
         <Flex container={true} width={'100%'} alignItems="flex-start">
           <StyledBannerTitle>{window.i18n('saveRecoveryPassword')}</StyledBannerTitle>
           <SessionIcon
-            iconType="recoveryPassword"
+            iconType="recoveryPasswordFill"
             iconSize="medium"
             iconColor="var(--text-primary-color)"
           />
