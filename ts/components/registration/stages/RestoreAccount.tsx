@@ -1,106 +1,127 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  AccountRestoration,
+  setAccountRestorationStep,
+} from '../../../state/onboarding/ducks/registration';
+import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
 import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
+import { SessionProgressBar } from '../../loading';
 import { signInWithLinking } from '../RegistrationStages';
 import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 
 export const RestoreAccount = () => {
-  // const step = useOnboardAccountRestorationStep();
+  const step = useOnboardAccountRestorationStep();
 
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
-  const [loading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const dispatch = useDispatch();
 
   // Seed is mandatory no matter which mode
   const seedOK = !!recoveryPhrase && !recoveryPhraseError;
 
-  const activateContinueButton = seedOK && !loading;
+  const activateContinueButton = seedOK && !(step === AccountRestoration.Loading);
 
-  const continueYourSession = () => {
-    // if (isRecovery) {
-    //   void signInWithRecovery({
-    //     displayName,
-    //     userRecoveryPhrase: recoveryPhrase,
-    //   });
-    // }
-    setIsLoading(true);
-    void signInWithLinking({
+  const continueYourSession = async () => {
+    dispatch(setAccountRestorationStep(AccountRestoration.Loading));
+    await signInWithLinking({
       userRecoveryPhrase: recoveryPhrase,
       errorCallback: setRecoveryPhraseError,
     });
-    setIsLoading(false);
+    dispatch(setAccountRestorationStep(AccountRestoration.Complete));
   };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (step === AccountRestoration.Loading) {
+      interval = setInterval(() => {
+        setProgress(oldProgress => {
+          if (oldProgress === 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          // Increment by 100 / 15 = 6.67 each second to complete in 15 seconds
+          return Math.min(oldProgress + 100 / 15, 100);
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [step]);
 
   return (
     <OnboardContainer>
-      <BackButtonWithininContainer margin={'2px 0 0 -36px'}>
+      {step === AccountRestoration.Loading ? (
         <Flex
           container={true}
-          width="100%"
           flexDirection="column"
-          alignItems="flex-start"
-          margin={'0 0 0 8px'}
-        >
-          <Flex container={true} width={'100%'} alignItems="center">
-            <OnboardHeading>{window.i18n('sessionRecoveryPassword')}</OnboardHeading>
-            <SessionIcon
-              iconType="recoveryPasswordOutline"
-              iconSize="large"
-              iconColor="var(--text-primary-color)"
-              style={{ margin: '-4px 0 0 8px' }}
-            />
-          </Flex>
-          <SpacerSM />
-          <OnboardDescription>{window.i18n('onboardingRecoveryPassword')}</OnboardDescription>
-          <SpacerLG />
-          <SessionInput
-            autoFocus={true}
-            type="password"
-            placeholder={window.i18n('enterRecoveryPhrase')}
-            value={recoveryPhrase}
-            onValueChanged={(seed: string) => {
-              setRecoveryPhrase(seed);
-              setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
-            }}
-            onEnterPressed={continueYourSession}
-            error={recoveryPhraseError}
-            enableShowHide={true}
-            inputDataTestId="recovery-phrase-input"
-          />
-          <SpacerLG />
-          <SessionButton
-            buttonColor={SessionButtonColor.White}
-            onClick={continueYourSession}
-            text={window.i18n('continue')}
-            disabled={!activateContinueButton}
-            dataTestId="continue-session-button"
-          />
-        </Flex>
-        {/* TODO[epic=898] Replace with new Session Progress Loader */}
-        {/* {loading && (
-        <Flex
-          container={true}
           justifyContent="center"
           alignItems="center"
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            pointerEvents: 'all',
-            backgroundColor: 'var(--background-primary-color)',
-          }}
+          // TODO update dataTestId
           dataTestId="three-dot-loading-animation"
         >
-          <SessionSpinner loading={true} />
+          <SessionProgressBar
+            progress={progress}
+            width={'320px'}
+            margin={'var(--margins-lg) auto'}
+            title={window.i18n('waitOneMoment')}
+            subtitle={window.i18n('loadAccountProgressMessage')}
+            showPercentage={true}
+          />
         </Flex>
-      )} */}
-      </BackButtonWithininContainer>
+      ) : (
+        <BackButtonWithininContainer margin={'2px 0 0 -36px'}>
+          <Flex
+            container={true}
+            width="100%"
+            flexDirection="column"
+            alignItems="flex-start"
+            margin={'0 0 0 8px'}
+          >
+            <Flex container={true} width={'100%'} alignItems="center">
+              <OnboardHeading>{window.i18n('sessionRecoveryPassword')}</OnboardHeading>
+              <SessionIcon
+                iconType="recoveryPasswordOutline"
+                iconSize="large"
+                iconColor="var(--text-primary-color)"
+                style={{ margin: '-4px 0 0 8px' }}
+              />
+            </Flex>
+            <SpacerSM />
+            <OnboardDescription>{window.i18n('onboardingRecoveryPassword')}</OnboardDescription>
+            <SpacerLG />
+            <SessionInput
+              autoFocus={true}
+              type="password"
+              placeholder={window.i18n('enterRecoveryPhrase')}
+              value={recoveryPhrase}
+              onValueChanged={(seed: string) => {
+                setRecoveryPhrase(seed);
+                setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
+              }}
+              onEnterPressed={continueYourSession}
+              error={recoveryPhraseError}
+              enableShowHide={true}
+              inputDataTestId="recovery-phrase-input"
+            />
+            <SpacerLG />
+            <SessionButton
+              buttonColor={SessionButtonColor.White}
+              onClick={continueYourSession}
+              text={window.i18n('continue')}
+              disabled={!activateContinueButton}
+              dataTestId="continue-session-button"
+            />
+          </Flex>
+        </BackButtonWithininContainer>
+      )}
     </OnboardContainer>
   );
 };
