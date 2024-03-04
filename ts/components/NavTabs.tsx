@@ -234,6 +234,7 @@ export function NavTabs({
   return (
     <Tabs orientation="vertical" className="NavTabs__Container">
       <nav
+        data-supertab
         className={classNames('NavTabs', {
           'NavTabs--collapsed': navTabsCollapsed,
         })}
@@ -356,7 +357,6 @@ export function NavTabs({
           <button
             type="button"
             className="NavTabs__Item NavTabs__Item--Profile"
-            data-supertab
             onClick={() => {
               onToggleProfileEditor();
             }}
