@@ -30,6 +30,7 @@ stylesheets/*.css
 preload.bundle.*
 bundles/
 ts/sql/mainWorker.bundle.js.LICENSE.txt
+build/ICUMessageParams.d.ts
 
 # React / TypeScript
 app/*.js

@@ -2,34 +2,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { ReactNode } from 'react';
 
-import type { FormatXMLElementFn } from 'intl-messageformat';
-import type { LocalizerType } from '../types/Util';
-import type { ReplacementValuesType } from '../types/I18N';
+import type {
+  LocalizerType,
+  ICUJSXMessageParamsByKeyType,
+} from '../types/Util';
 import * as log from '../logging/log';
 
-export type FullJSXType =
-  | FormatXMLElementFn<JSX.Element | string>
-  | Array<JSX.Element | string>
-  | ReactNode
-  | JSX.Element
-  | string;
-export type IntlComponentsType = undefined | ReplacementValuesType<FullJSXType>;
-
-export type Props = {
+export type Props<Key extends keyof ICUJSXMessageParamsByKeyType> = {
   /** The translation string id */
-  id: string;
+  id: Key;
   i18n: LocalizerType;
-  components?: IntlComponentsType;
-};
+} & (ICUJSXMessageParamsByKeyType[Key] extends undefined
+  ? {
+      components?: ICUJSXMessageParamsByKeyType[Key];
+    }
+  : {
+      components: ICUJSXMessageParamsByKeyType[Key];
+    });
 
-export function Intl({
+export function Intl<Key extends keyof ICUJSXMessageParamsByKeyType>({
   components,
   id,
   // Indirection for linter/migration tooling
   i18n: localizer,
-}: Props): JSX.Element | null {
+}: Props<Key>): JSX.Element | null {
   if (!id) {
     log.error('Error: Intl id prop not provided');
     return null;

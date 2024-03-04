@@ -90,7 +90,7 @@ function GroupNotificationChange({
                 <Intl
                   i18n={i18n}
                   id="icu:joinedTheGroup"
-                  components={{ name: otherPeopleWithCommas }}
+                  components={{ name: otherPeople[0] }}
                 />
               ) : (
                 <Intl
@@ -121,7 +121,7 @@ function GroupNotificationChange({
         <Intl
           id="icu:multipleLeftTheGroup"
           i18n={i18n}
-          components={{ name: otherPeopleWithCommas }}
+          components={{ name: otherPeople[0] }}
         />
       ) : (
         <Intl

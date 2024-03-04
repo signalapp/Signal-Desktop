@@ -360,7 +360,7 @@ const renderItem = ({
     conversationId=""
     item={items[messageId]}
     renderAudioAttachment={() => <div>*AudioAttachment*</div>}
-    renderContact={() => '*ContactName*'}
+    renderContact={() => <div>*ContactName*</div>}
     renderEmojiPicker={() => <div />}
     renderReactionPicker={() => <div />}
     renderUniversalTimerNotification={() => (

@@ -72,8 +72,12 @@ const renderPerson = (
     isMe?: boolean;
     title: string;
   }>
-): ReactNode =>
-  person.isMe ? i18n('icu:you') : <ContactName title={person.title} />;
+): JSX.Element =>
+  person.isMe ? (
+    <Intl i18n={i18n} id="icu:you" />
+  ) : (
+    <ContactName title={person.title} />
+  );
 
 export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
   function MessageSearchResult({

@@ -764,7 +764,7 @@ export function ProfileEditor({
           ]}
         >
           {i18n('icu:ProfileEditor--username--confirm-delete-body-2', {
-            username,
+            username: username ?? '',
           })}
         </ConfirmationDialog>
       )}

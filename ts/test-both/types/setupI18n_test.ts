@@ -14,12 +14,6 @@ describe('setupI18n', () => {
   });
 
   describe('i18n', () => {
-    it('throws an error for unknown string', () => {
-      assert.throws(() => {
-        // eslint-disable-next-line local-rules/valid-i18n-keys
-        assert.strictEqual(i18n('icu:random'), '');
-      }, /missing translation/);
-    });
     it('returns message for given string', () => {
       assert.strictEqual(i18n('icu:reportIssue'), 'Contact Support');
     });

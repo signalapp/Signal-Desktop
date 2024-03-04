@@ -53,7 +53,6 @@ import { ConversationMergeNotification } from './ConversationMergeNotification';
 import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification';
 import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
 import { SystemMessage } from './SystemMessage';
-import type { FullJSXType } from '../Intl';
 import { TimelineMessage } from './TimelineMessage';
 
 type CallHistoryType = {
@@ -165,7 +164,7 @@ type PropsLocalType = {
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
   platform: string;
-  renderContact: SmartContactRendererType<FullJSXType>;
+  renderContact: SmartContactRendererType<JSX.Element>;
   renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;

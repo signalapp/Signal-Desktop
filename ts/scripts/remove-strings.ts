@@ -15,6 +15,8 @@ const MESSAGES_FILE = path.join(ROOT_DIR, '_locales', 'en', 'messages.json');
 
 const limitter = pLimit(10);
 
+export const DELETED_REGEXP = /\(\s*deleted\s+(\d{2,4}\/\d{2}\/\d{2,4})\s*\)/i;
+
 async function main() {
   const messages = JSON.parse(await fs.readFile(MESSAGES_FILE, 'utf-8'));
 
@@ -26,7 +28,7 @@ async function main() {
         const value = messages[key];
 
         const match = (value as Record<string, string>).description?.match(
-          /\(\s*deleted\s+(\d{2,4}\/\d{2}\/\d{2,4})\s*\)/
+          DELETED_REGEXP
         );
         if (!match) {
           return;

@@ -28,10 +28,6 @@ export type LocaleMessagesType = {
   [key: string]: LocaleMessageType | SmartlingConfigType;
 };
 
-export type ReplacementValuesType<T> = {
-  [key: string]: T;
-};
-
 export type LocaleType = {
   i18n: LocalizerType;
   messages: LocaleMessagesType;

@@ -135,7 +135,7 @@ function InstallScreenQrCode(
             id="icu:Install__qr-failed-load"
             components={{
               // eslint-disable-next-line react/no-unstable-nested-components
-              retry: children => (
+              retry: (parts: Array<string | JSX.Element>) => (
                 <button
                   className={getQrCodeClassName('__link')}
                   onClick={props.retryGetQrCode}
@@ -148,7 +148,7 @@ function InstallScreenQrCode(
                   }}
                   type="button"
                 >
-                  {children}
+                  {parts}
                 </button>
               ),
             }}

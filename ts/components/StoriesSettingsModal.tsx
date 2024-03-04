@@ -231,7 +231,7 @@ function GroupStoryItem({
             {i18n('icu:StoriesSettings__group-story-subtitle')}
             &nbsp;&middot;&nbsp;
             {i18n('icu:StoriesSettings__viewers', {
-              count: groupStory.membersCount,
+              count: groupStory.membersCount ?? 0,
             })}
           </span>
         </span>

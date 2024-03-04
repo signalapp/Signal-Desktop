@@ -406,7 +406,7 @@ export function ConversationList({
                   get(lastMessage, 'text') ||
                   i18n('icu:ConversationList__last-message-undefined'),
                 title,
-                unreadCount,
+                unreadCount: unreadCount ?? 0,
               })}
               key={key}
               badge={getPreferredBadge(badges)}
