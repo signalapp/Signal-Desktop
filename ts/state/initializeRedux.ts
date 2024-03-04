@@ -14,6 +14,7 @@ import { getInitialState } from './getInitialState';
 
 export function initializeRedux({
   callsHistory,
+  callsHistoryUnreadCount,
   initialBadgesState,
   mainWindowStats,
   menuOptions,
@@ -21,6 +22,7 @@ export function initializeRedux({
   storyDistributionLists,
 }: {
   callsHistory: ReadonlyArray<CallHistoryDetails>;
+  callsHistoryUnreadCount: number;
   initialBadgesState: BadgesStateType;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;
@@ -30,6 +32,7 @@ export function initializeRedux({
   const initialState = getInitialState({
     badges: initialBadgesState,
     callsHistory,
+    callsHistoryUnreadCount,
     mainWindowStats,
     menuOptions,
     stories,

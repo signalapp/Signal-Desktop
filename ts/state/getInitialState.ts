@@ -45,6 +45,7 @@ import type { CallHistoryDetails } from '../types/CallDisposition';
 export function getInitialState({
   badges,
   callsHistory,
+  callsHistoryUnreadCount,
   stories,
   storyDistributionLists,
   mainWindowStats,
@@ -52,6 +53,7 @@ export function getInitialState({
 }: {
   badges: BadgesStateType;
   callsHistory: ReadonlyArray<CallHistoryDetails>;
+  callsHistoryUnreadCount: number;
   stories: Array<StoryDataType>;
   storyDistributionLists: Array<StoryDistributionListDataType>;
   mainWindowStats: MainWindowStatsType;
@@ -91,6 +93,7 @@ export function getInitialState({
     callHistory: {
       ...callHistory(),
       callHistoryByCallId: makeLookup(callsHistory, 'callId'),
+      unreadCount: callsHistoryUnreadCount,
     },
     calling: calling(),
     composer: composer(),

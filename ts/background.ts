@@ -178,6 +178,7 @@ import { createEventHandler } from './quill/signal-clipboard/util';
 import { onCallLogEventSync } from './util/onCallLogEventSync';
 import {
   getCallsHistoryForRedux,
+  getCallsHistoryUnreadCountForRedux,
   loadCallsHistory,
 } from './services/callHistoryLoader';
 import {
@@ -1187,6 +1188,7 @@ export async function startApp(): Promise<void> {
   }) {
     initializeRedux({
       callsHistory: getCallsHistoryForRedux(),
+      callsHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
       initialBadgesState,
       mainWindowStats,
       menuOptions,
