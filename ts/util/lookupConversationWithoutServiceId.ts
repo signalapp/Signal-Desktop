@@ -46,11 +46,13 @@ type FoundUsernameType = {
 export async function lookupConversationWithoutServiceId(
   options: LookupConversationWithoutServiceIdOptionsType
 ): Promise<string | undefined> {
-  const knownConversation = window.ConversationController.get(
-    options.type === 'e164' ? options.e164 : options.username
-  );
-  if (knownConversation && knownConversation.getServiceId()) {
-    return knownConversation.id;
+  if (options.type === 'username') {
+    const knownConversation = window.ConversationController.get(
+      options.username
+    );
+    if (knownConversation && knownConversation.getServiceId()) {
+      return knownConversation.id;
+    }
   }
 
   const identifier: UUIDFetchStateKeyType =
