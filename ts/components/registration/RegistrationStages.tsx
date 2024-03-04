@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
-import { mnDecode } from '../../session/crypto/mnemonic';
+import { InvalidWordsError, NotEnoughWordsError, mnDecode } from '../../session/crypto/mnemonic';
 import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
-import { TaskTimedOutError } from '../../session/utils/Promise';
 import { fromHex } from '../../session/utils/String';
 import { trigger } from '../../shims/events';
 import {
@@ -49,18 +48,21 @@ export async function resetRegistration() {
   await getConversationController().load();
 }
 
+type SignInDetails = {
+  userRecoveryPhrase: string;
+  displayName?: string;
+  errorCallback?: (error: string) => void;
+};
+
 /**
  * Sign in/restore from seed.
  * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
  * We will handle a ConfigurationMessage
  */
-export async function signInWithRecovery(signInDetails: {
-  displayName: string;
-  userRecoveryPhrase: string;
-}) {
+export async function signInWithRecovery(signInDetails: SignInDetails) {
   const { displayName, userRecoveryPhrase } = signInDetails;
   window?.log?.info('RESTORING FROM SEED');
-  const trimName = displayNameIsValid(displayName);
+  const trimName = displayName ? displayNameIsValid(displayName) : undefined;
   // shows toast to user about the error
   if (!trimName) {
     return;
@@ -84,8 +86,8 @@ export async function signInWithRecovery(signInDetails: {
  * This is will try to sign in with the user recovery phrase.
  * If no ConfigurationMessage is received in 60seconds, the loading will be canceled.
  */
-export async function signInWithLinking(signInDetails: { userRecoveryPhrase: string }) {
-  const { userRecoveryPhrase } = signInDetails;
+export async function signInWithLinking(signInDetails: SignInDetails) {
+  const { userRecoveryPhrase, errorCallback } = signInDetails;
   window?.log?.info('LINKING DEVICE');
 
   try {
@@ -116,16 +118,14 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
-    if (e instanceof TaskTimedOutError) {
-      ToastUtils.pushToastError(
-        'registrationError',
-        'Could not find your display name. Please Sign In by Restoring Your Account instead.'
-      );
-    } else {
-      ToastUtils.pushToastError(
-        'registrationError',
-        `Error: ${e.message || 'Something went wrong'}`
-      );
+    if (errorCallback) {
+      if (e instanceof NotEnoughWordsError) {
+        void errorCallback(window.i18n('recoveryPasswordErrorMessageShort'));
+      } else if (e instanceof InvalidWordsError) {
+        void errorCallback(window.i18n('recoveryPasswordErrorMessageIncorrect'));
+      } else {
+        void errorCallback(window.i18n('recoveryPasswordErrorMessageGeneric'));
+      }
     }
     window?.log?.warn('exception during registration:', e);
   }

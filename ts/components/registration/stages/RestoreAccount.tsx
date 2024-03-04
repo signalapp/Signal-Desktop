@@ -21,17 +21,16 @@ export const RestoreAccount = () => {
   const activateContinueButton = seedOK && !loading;
 
   const continueYourSession = () => {
-    // TODO better error handling
     // if (isRecovery) {
     //   void signInWithRecovery({
     //     displayName,
     //     userRecoveryPhrase: recoveryPhrase,
     //   });
     // }
-    // else if (isLinking) {
     setIsLoading(true);
     void signInWithLinking({
       userRecoveryPhrase: recoveryPhrase,
+      errorCallback: setRecoveryPhraseError,
     });
     setIsLoading(false);
   };

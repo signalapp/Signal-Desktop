@@ -18,6 +18,7 @@ const StyledInputContainer = styled(Flex)<{ error: boolean }>`
     color: var(--text-primary-color);
     opacity: 0;
     transition: opacity var(--default-duration);
+    text-align: center;
 
     &.filled {
       opacity: 1;
@@ -67,7 +68,7 @@ const ErrorItem = (props: { id: string; error: string }) => {
   );
 };
 
-const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop }) => {
+const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; error: boolean }) => {
   const htmlDirection = useHTMLDirection();
   const position =
     htmlDirection === 'ltr' ? { right: 'var(--margins-md)' } : { left: 'var(--margins-md)' };
@@ -76,7 +77,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop }) =>
     return (
       <SessionIconButton
         iconType={'eyeDisabled'}
-        iconColor={'var(--text-primary-color)'}
+        iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
         iconSize="huge"
         iconPadding="1.25px"
         onClick={props.toggleForceShow}
@@ -95,7 +96,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop }) =>
   return (
     <SessionIconButton
       iconType={'eye'}
-      iconColor={'var(--text-primary-color)'}
+      iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
       iconSize="medium"
       onClick={props.toggleForceShow}
       style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', ...position }}
@@ -177,7 +178,7 @@ export const SessionInput = (props: Props) => {
           autoFocus={autoFocus}
           data-testid={inputDataTestId}
           onChange={updateInputValue}
-          style={{ paddingInlineEnd: enableShowHide ? '30px' : undefined }}
+          style={{ paddingInlineEnd: enableShowHide ? '40px' : undefined }}
           // just in case onChange isn't triggered
           onBlur={updateInputValue}
           onKeyDown={event => {
@@ -200,6 +201,7 @@ export const SessionInput = (props: Props) => {
             toggleForceShow={() => {
               setForceShow(!forceShow);
             }}
+            error={Boolean(errorString)}
           />
         )}
       </Flex>
