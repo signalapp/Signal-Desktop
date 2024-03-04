@@ -6,7 +6,6 @@ import React, {
   forwardRef,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -32,7 +31,7 @@ import {
   getPanelInformation,
   getWasPanelAnimated,
 } from '../selectors/conversations';
-import { focusableSelectors } from '../../util/focusableSelectors';
+import { focusableSelector } from '../../util/focusableSelectors';
 import { missingCaseError } from '../../util/missingCaseError';
 import { useConversationsActions } from '../ducks/conversations';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
@@ -269,7 +268,6 @@ const PanelContainer = forwardRef<
   const { popPanelForConversation } = useConversationsActions();
   const conversationTitle = getConversationTitleForPanelType(i18n, panel.type);
 
-  const selectors = useMemo(() => focusableSelectors.join(','), []);
   const focusRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!isActive) {
@@ -281,12 +279,12 @@ const PanelContainer = forwardRef<
       return;
     }
 
-    const elements = focusNode.querySelectorAll<HTMLElement>(selectors);
+    const elements = focusNode.querySelectorAll<HTMLElement>(focusableSelector);
     if (!elements.length) {
       return;
     }
     elements[0]?.focus();
-  }, [isActive, panel, selectors]);
+  }, [isActive, panel]);
 
   return (
     <div className="ConversationPanel" ref={ref}>

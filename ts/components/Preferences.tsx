@@ -61,7 +61,7 @@ import {
 import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useUniqueId } from '../hooks/useUniqueId';
-import { focusableSelectors } from '../util/focusableSelectors';
+import { focusableSelector } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
 import { removeDiacritics } from '../util/removeDiacritics';
@@ -400,7 +400,6 @@ export function Preferences({
     [onSelectedMicrophoneChange, availableMicrophones]
   );
 
-  const selectors = useMemo(() => focusableSelectors.join(','), []);
   const settingsPaneRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const settingsPane = settingsPaneRef.current;
@@ -414,12 +413,12 @@ export function Preferences({
       | HTMLInputElement
       | HTMLSelectElement
       | HTMLTextAreaElement
-    >(selectors);
+    >(focusableSelector);
     if (!elements.length) {
       return;
     }
     elements[0]?.focus();
-  }, [page, selectors]);
+  }, [page]);
 
   const onAudioOutputSelectChange = useCallback(
     (value: string) => {

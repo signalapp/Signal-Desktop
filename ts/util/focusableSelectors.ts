@@ -28,3 +28,17 @@ export const focusableSelectors = [
   `[contenteditable]${not.inert}${not.negTabIndex}`,
   `[tabindex]${not.inert}${not.negTabIndex}`,
 ];
+
+export const focusableSelector = focusableSelectors.join(', ');
+
+/**
+ * Matches the first focusable element within the given element or itself if it
+ * is focusable.
+ */
+export function matchOrQueryFocusable(
+  element: HTMLElement
+): HTMLElement | null {
+  return element.matches(focusableSelector)
+    ? element
+    : element.querySelector(focusableSelector);
+}
