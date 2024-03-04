@@ -414,7 +414,7 @@ export function EditUsernameModalBody({
           }}
         >
           {i18n('icu:ProfileEditor--username--reservation-gone', {
-            username: reservation?.username ?? nickname,
+            username: reservation?.username ?? nickname ?? '',
           })}
         </ConfirmationDialog>
       )}

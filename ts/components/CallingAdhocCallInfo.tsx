@@ -54,13 +54,11 @@ export function CallingAdhocCallInfo({
       <div className="CallingAdhocCallInfo module-calling-participants-list">
         <div className="module-calling-participants-list__header">
           <div className="module-calling-participants-list__title">
-            {!participants.length && i18n('icu:calling__in-this-call--zero')}
-            {participants.length === 1 &&
-              i18n('icu:calling__in-this-call--one')}
-            {participants.length > 1 &&
-              i18n('icu:calling__in-this-call--many', {
-                people: participants.length,
-              })}
+            {participants.length
+              ? i18n('icu:calling__in-this-call', {
+                  people: participants.length,
+                })
+              : i18n('icu:calling__in-this-call--zero')}
           </div>
           <button
             type="button"

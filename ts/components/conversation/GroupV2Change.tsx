@@ -6,10 +6,11 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import * as log from '../../logging/log';
-import type { ReplacementValuesType } from '../../types/I18N';
-import type { FullJSXType } from '../Intl';
 import { Intl } from '../Intl';
-import type { LocalizerType } from '../../types/Util';
+import type {
+  LocalizerType,
+  ICUJSXMessageParamsByKeyType,
+} from '../../types/Util';
 import type {
   AciString,
   PniString,
@@ -49,19 +50,18 @@ export type PropsActionsType = {
 
 export type PropsHousekeepingType = {
   i18n: LocalizerType;
-  renderContact: SmartContactRendererType<FullJSXType>;
+  renderContact: SmartContactRendererType<JSX.Element>;
 };
 
 export type PropsType = PropsDataType &
   PropsActionsType &
   PropsHousekeepingType;
 
-function renderStringToIntl(
-  id: string,
+function renderStringToIntl<Key extends keyof ICUJSXMessageParamsByKeyType>(
+  id: Key,
   i18n: LocalizerType,
-  components?: ReplacementValuesType<FullJSXType>
-): FullJSXType {
-  // eslint-disable-next-line local-rules/valid-i18n-keys
+  components: ICUJSXMessageParamsByKeyType[Key]
+): JSX.Element {
   return <Intl id={id} i18n={i18n} components={components} />;
 }
 
@@ -168,8 +168,8 @@ function GroupV2Detail({
   i18n: LocalizerType;
   fromId?: ServiceIdString;
   ourAci: AciString | undefined;
-  renderContact: SmartContactRendererType<FullJSXType>;
-  text: FullJSXType;
+  renderContact: SmartContactRendererType<JSX.Element>;
+  text: ReactNode;
 }): JSX.Element {
   const icon = getIcon(detail, isLastText, fromId);
   let buttonNode: ReactNode;
@@ -305,12 +305,12 @@ export function GroupV2Change(props: PropsType): ReactElement {
 
   return (
     <>
-      {renderChange<FullJSXType>(change, {
+      {renderChange<JSX.Element>(change, {
         i18n,
         ourAci,
         ourPni,
         renderContact,
-        renderString: renderStringToIntl,
+        renderIntl: renderStringToIntl,
       }).map(({ detail, isLastText, text }, index) => {
         return (
           <GroupV2Detail

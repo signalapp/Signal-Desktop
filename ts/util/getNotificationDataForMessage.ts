@@ -3,7 +3,7 @@
 
 import type { RawBodyRange } from '../types/BodyRange';
 import type { MessageAttributesType } from '../model-types.d';
-import type { ReplacementValuesType } from '../types/I18N';
+import type { ICUStringMessageParamsByKeyType } from '../types/Util';
 import * as Attachment from '../types/Attachment';
 import * as EmbeddedContact from '../types/EmbeddedContact';
 import * as GroupChange from '../groupChange';
@@ -149,13 +149,13 @@ export function getNotificationDataForMessage(
           ? conversation.getTitle()
           : window.i18n('icu:unknownContact');
       },
-      renderString: (
-        key: string,
+      renderIntl: <Key extends keyof ICUStringMessageParamsByKeyType>(
+        key: Key,
         _i18n: unknown,
-        components: ReplacementValuesType<string | number> | undefined
+        components: ICUStringMessageParamsByKeyType[Key]
       ) => {
-        // eslint-disable-next-line local-rules/valid-i18n-keys
-        return window.i18n(key, components);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return window.i18n(key, components as any);
       },
     });
 

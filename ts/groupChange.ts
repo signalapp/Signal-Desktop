@@ -1,8 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LocalizerType } from './types/Util';
-import type { ReplacementValuesType } from './types/I18N';
+import type {
+  LocalizerType,
+  ICUStringMessageParamsByKeyType,
+  ICUJSXMessageParamsByKeyType,
+} from './types/Util';
 import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
 import { missingCaseError } from './util/missingCaseError';
 
@@ -10,40 +13,49 @@ import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
 import * as log from './logging/log';
 
-export type SmartContactRendererType<T> = (
-  serviceId: ServiceIdString
-) => T | string;
-export type StringRendererType<T> = (
-  id: string,
-  i18n: LocalizerType,
-  components?: ReplacementValuesType<T | string | number>
-) => T | string;
+type SelectParamsByKeyType<T extends string | JSX.Element> = T extends string
+  ? ICUStringMessageParamsByKeyType
+  : ICUJSXMessageParamsByKeyType;
 
-export type RenderOptionsType<T> = {
+export type SmartContactRendererType<T extends string | JSX.Element> = (
+  serviceId: ServiceIdString
+) => T extends string ? string : JSX.Element;
+
+type StringRendererType<
+  T extends string | JSX.Element,
+  ParamsByKeyType extends SelectParamsByKeyType<T> = SelectParamsByKeyType<T>
+> = <Key extends keyof ParamsByKeyType>(
+  id: Key,
+  i18n: LocalizerType,
+  components: ParamsByKeyType[Key]
+) => T;
+
+export type RenderOptionsType<T extends string | JSX.Element> = {
   // `from` will be a PNI when the change is "declining a PNI invite".
   from?: ServiceIdString;
   i18n: LocalizerType;
   ourAci: AciString | undefined;
   ourPni: PniString | undefined;
   renderContact: SmartContactRendererType<T>;
-  renderString: StringRendererType<T>;
+  renderIntl: StringRendererType<T>;
 };
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
-export type RenderChangeResultType<T> = ReadonlyArray<
-  Readonly<{
-    detail: GroupV2ChangeDetailType;
-    text: T | string;
+export type RenderChangeResultType<T extends string | JSX.Element> =
+  ReadonlyArray<
+    Readonly<{
+      detail: GroupV2ChangeDetailType;
+      text: T extends string ? string : JSX.Element;
 
-    // Used to differentiate between the multiple texts produced by
-    // 'admin-approval-bounce'
-    isLastText: boolean;
-  }>
->;
+      // Used to differentiate between the multiple texts produced by
+      // 'admin-approval-bounce'
+      isLastText: boolean;
+    }>
+  >;
 
-export function renderChange<T>(
+export function renderChange<T extends string | JSX.Element>(
   change: GroupV2ChangeType,
   options: RenderOptionsType<T>
 ): RenderChangeResultType<T> {
@@ -66,25 +78,32 @@ export function renderChange<T>(
   });
 }
 
-export function renderChangeDetail<T>(
+function renderChangeDetail<T extends string | JSX.Element>(
   detail: GroupV2ChangeDetailType,
   options: RenderOptionsType<T>
-): T | string | ReadonlyArray<T | string> {
+): string | T | ReadonlyArray<string | T> {
   const {
     from,
     i18n: localizer,
     ourAci,
     ourPni,
     renderContact,
-    renderString,
+    renderIntl,
   } = options;
 
-  function i18n(
-    id: string,
-    components?: ReplacementValuesType<T | number | string>
-  ) {
-    return renderString(id, localizer, components);
-  }
+  type JSXLocalizerType = <Key extends keyof ICUJSXMessageParamsByKeyType>(
+    key: Key,
+    ...values: ICUJSXMessageParamsByKeyType[Key] extends undefined
+      ? [undefined?]
+      : [ICUJSXMessageParamsByKeyType[Key]]
+  ) => string;
+
+  const i18n = (<Key extends keyof SelectParamsByKeyType<T>>(
+    id: Key,
+    components: SelectParamsByKeyType<T>[Key]
+  ): T => {
+    return renderIntl(id, localizer, components);
+  }) as JSXLocalizerType;
 
   const isOurServiceId = (serviceId?: ServiceIdString): boolean => {
     if (!serviceId) {

@@ -3,7 +3,6 @@
 
 import React from 'react';
 import moment from 'moment';
-import type { FormatXMLElementFn } from 'intl-messageformat';
 
 import type { LocalizerType } from '../types/Util';
 import { UNSUPPORTED_OS_URL } from '../types/support';
@@ -28,14 +27,14 @@ export function UnsupportedOSDialog({
   type,
   OS,
 }: PropsType): JSX.Element | null {
-  const learnMoreLink: FormatXMLElementFn<JSX.Element | string> = children => (
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
       key="signal-support"
       href={UNSUPPORTED_OS_URL}
       rel="noreferrer"
       target="_blank"
     >
-      {children}
+      {parts}
     </a>
   );
 

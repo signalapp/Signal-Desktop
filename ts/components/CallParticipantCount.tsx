@@ -45,7 +45,7 @@ export function CallParticipantCount({
   if (!isToggleVisible) {
     return (
       <span
-        aria-label={i18n('icu:calling__participants', {
+        aria-label={i18n('icu:calling__participants--pluralized', {
           people: count,
         })}
         className="CallControls__Status--InactiveCallParticipantCount"
@@ -57,7 +57,7 @@ export function CallParticipantCount({
 
   return (
     <button
-      aria-label={i18n('icu:calling__participants', {
+      aria-label={i18n('icu:calling__participants--pluralized', {
         people: count,
       })}
       className="CallControls__Status--ParticipantCount"

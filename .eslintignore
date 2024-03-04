@@ -15,6 +15,7 @@ libtextsecure/test/test.js
 test/test.js
 ts/protobuf/compiled.d.ts
 storybook-static/**
+build/ICUMessageParams.d.ts
 
 # Third-party files
 js/Mp3LameEncoder.min.js

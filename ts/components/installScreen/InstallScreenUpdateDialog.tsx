@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { noop } from 'lodash';
-import type { FormatXMLElementFn } from 'intl-messageformat';
 import formatFileSize from 'filesize';
 
 import { DialogType } from '../../types/Dialogs';
@@ -36,14 +35,14 @@ export function InstallScreenUpdateDialog({
   currentVersion,
   OS,
 }: PropsType): JSX.Element | null {
-  const learnMoreLink: FormatXMLElementFn<JSX.Element | string> = children => (
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
       key="signal-support"
       href={UNSUPPORTED_OS_URL}
       rel="noreferrer"
       target="_blank"
     >
-      {children}
+      {parts}
     </a>
   );
 

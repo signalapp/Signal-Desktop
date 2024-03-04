@@ -18,7 +18,6 @@ import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
 
 import { ErrorBoundary } from './ErrorBoundary';
-import type { FullJSXType } from '../Intl';
 import { Intl } from '../Intl';
 import { TimelineWarning } from './TimelineWarning';
 import { TimelineWarnings } from './TimelineWarnings';
@@ -980,7 +979,9 @@ export class Timeline extends React.Component<
           case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
             const { groupNameCollisions } = warning;
             const numberOfSharedNames = Object.keys(groupNameCollisions).length;
-            const reviewRequestLink: FullJSXType = parts => (
+            const reviewRequestLink = (
+              parts: Array<string | JSX.Element>
+            ): JSX.Element => (
               <TimelineWarning.Link onClick={reviewConversationNameCollision}>
                 {parts}
               </TimelineWarning.Link>

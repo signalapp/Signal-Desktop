@@ -570,20 +570,20 @@ export function CallScreen({
             );
           } else {
             message = i18n('icu:CallControls__RaiseHandsToast--one', {
-              name: names[0],
+              name: names[0] ?? '',
             });
           }
           break;
         case 2:
           message = i18n('icu:CallControls__RaiseHandsToast--two', {
-            name: names[0],
-            otherName: names[1],
+            name: names[0] ?? '',
+            otherName: names[1] ?? '',
           });
           break;
         default:
           message = i18n('icu:CallControls__RaiseHandsToast--more', {
-            name: names[0],
-            otherName: names[1],
+            name: names[0] ?? '',
+            otherName: names[1] ?? '',
             overflowCount: names.length - 2,
           });
       }

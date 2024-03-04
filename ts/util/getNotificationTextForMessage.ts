@@ -77,7 +77,7 @@ export function getNotificationTextForMessage(
   if (shouldIncludeEmoji) {
     return window.i18n('icu:message--getNotificationText--text-with-emoji', {
       text: result.body,
-      emoji,
+      emoji: emoji ?? '',
     });
   }
 

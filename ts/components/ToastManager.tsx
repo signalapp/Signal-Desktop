@@ -325,7 +325,7 @@ export function renderToast({
       >
         {i18n('icu:decryptionErrorToast', {
           name,
-          deviceId,
+          deviceId: String(deviceId),
         })}
       </Toast>
     );

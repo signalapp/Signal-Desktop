@@ -5,7 +5,10 @@ import React from 'react';
 import type { IntlShape } from 'react-intl';
 import { createIntl, createIntlCache } from 'react-intl';
 import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N';
-import type { LocalizerType, ReplacementValuesType } from '../types/Util';
+import type {
+  LocalizerType,
+  ICUStringMessageParamsByKeyType,
+} from '../types/Util';
 import { strictAssert } from './assert';
 import { Emojify } from '../components/conversation/Emojify';
 import * as log from '../logging/log';
@@ -77,27 +80,25 @@ export function createCachedIntl(
   return intl;
 }
 
-function normalizeSubstitutions(
-  substitutions?: ReplacementValuesType
-): ReplacementValuesType | undefined {
+function normalizeSubstitutions<
+  Substitutions extends Record<string, string | number | Date> | undefined
+>(substitutions?: Substitutions): Substitutions | undefined {
   if (!substitutions) {
     return;
   }
-  const normalized: ReplacementValuesType = {};
-  const keys = Object.keys(substitutions);
-  if (keys.length === 0) {
+  const normalized: Record<string, string | number | Date> = {};
+  const entries = Object.entries(substitutions);
+  if (entries.length === 0) {
     return;
   }
-  for (let i = 0; i < keys.length; i += 1) {
-    const key = keys[i];
-    const value = substitutions[key];
+  for (const [key, value] of entries) {
     if (typeof value === 'string') {
       normalized[key] = bidiIsolate(value);
     } else {
       normalized[key] = value;
     }
   }
-  return normalized;
+  return normalized as Substitutions;
 }
 
 export function setupI18n(
@@ -113,7 +114,12 @@ export function setupI18n(
 
   const intl = createCachedIntl(locale, filterLegacyMessages(messages));
 
-  const localizer: LocalizerType = (key, substitutions) => {
+  const localizer: LocalizerType = (<
+    Key extends keyof ICUStringMessageParamsByKeyType
+  >(
+    key: Key,
+    substitutions: ICUStringMessageParamsByKeyType[Key]
+  ) => {
     const result = intl.formatMessage(
       { id: key },
       normalizeSubstitutions(substitutions)
@@ -122,7 +128,7 @@ export function setupI18n(
     strictAssert(result !== key, `i18n: missing translation for "${key}"`);
 
     return result;
-  };
+  }) as LocalizerType;
 
   localizer.getIntl = () => {
     return intl;

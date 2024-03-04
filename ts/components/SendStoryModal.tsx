@@ -580,7 +580,7 @@ export function SendStoryModal({
 
                       <div className="SendStoryModal__distribution-list__description">
                         {i18n('icu:ConversationHero--members', {
-                          count: group.membersCount,
+                          count: group.membersCount ?? 0,
                         })}
                       </div>
                     </div>
@@ -853,7 +853,7 @@ export function SendStoryModal({
                     </span>
                     <span className="SendStoryModal__rtl-span">
                       {i18n('icu:ConversationHero--members', {
-                        count: group.membersCount,
+                        count: group.membersCount ?? 0,
                       })}
                     </span>
                   </div>

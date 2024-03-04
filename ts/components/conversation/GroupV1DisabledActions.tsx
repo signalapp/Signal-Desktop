@@ -25,7 +25,7 @@ export function GroupV1DisabledActions({
           components={{
             // This is a render prop, not a component
             // eslint-disable-next-line react/no-unstable-nested-components
-            learnMoreLink: (...parts) => {
+            learnMoreLink: parts => {
               return (
                 <a
                   href="https://support.signal.org/hc/articles/360007319331"
