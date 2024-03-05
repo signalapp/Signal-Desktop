@@ -3471,9 +3471,16 @@ async function getCallHistoryUnreadCount(): Promise<number> {
 
 async function markCallHistoryRead(callId: string): Promise<void> {
   const db = await getWritableInstance();
+
+  const jsonPatch = JSON.stringify({
+    seenStatus: SeenStatus.Seen,
+  });
+
   const [query, params] = sql`
     UPDATE messages
-    SET seenStatus = ${SEEN_STATUS_UNSEEN}
+    SET
+      seenStatus = ${SEEN_STATUS_UNSEEN}
+      json = json_patch(json, ${jsonPatch})
     WHERE type IS 'call-history'
     AND callId IS ${callId}
   `;
@@ -3497,9 +3504,15 @@ async function markAllCallHistoryRead(): Promise<ReadonlyArray<string>> {
 
     const conversationIds = db.prepare(selectQuery).pluck().all(selectParams);
 
+    const jsonPatch = JSON.stringify({
+      seenStatus: SeenStatus.Seen,
+    });
+
     const [updateQuery, updateParams] = sql`
       UPDATE messages
-      SET seenStatus = ${SEEN_STATUS_SEEN}
+      SET
+        seenStatus = ${SEEN_STATUS_SEEN},
+        json = json_patch(json, ${jsonPatch})
       ${where};
     `;
 
