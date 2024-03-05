@@ -74,10 +74,11 @@ import { updateToSchemaVersion950 } from './950-fts5-secure-delete';
 import { updateToSchemaVersion960 } from './960-untag-pni';
 import { updateToSchemaVersion970 } from './970-fts5-optimize';
 import { updateToSchemaVersion980 } from './980-reaction-timestamp';
+import { updateToSchemaVersion990 } from './990-phone-number-sharing';
 import {
   version as MAX_VERSION,
-  updateToSchemaVersion990,
-} from './990-phone-number-sharing';
+  updateToSchemaVersion1000,
+} from './1000-mark-unread-call-history-messages-as-unseen';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2019,6 +2020,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion970,
   updateToSchemaVersion980,
   updateToSchemaVersion990,
+  updateToSchemaVersion1000,
 ];
 
 export class DBVersionFromFutureError extends Error {
