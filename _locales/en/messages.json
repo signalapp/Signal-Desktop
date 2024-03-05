@@ -1917,7 +1917,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "In this call · {people, plural, one {# person} other {# people}} people",
+    "messageformat": "In this call · {people, plural, one {# person} other {# people}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
