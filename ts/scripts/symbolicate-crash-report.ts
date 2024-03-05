@@ -39,6 +39,10 @@ async function main(): Promise<void> {
     if (filename.startsWith('signal-desktop-')) {
       return 'electron';
     }
+
+    if (filename.startsWith('Signal') && filename.endsWith('.exe')) {
+      return 'electron.exe.pdb';
+    }
     return filename;
   }
 

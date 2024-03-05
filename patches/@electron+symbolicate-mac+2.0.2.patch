@@ -1,0 +1,14 @@
+diff --git a/node_modules/@electron/symbolicate-mac/index.js b/node_modules/@electron/symbolicate-mac/index.js
+index 36287bb..239564a 100755
+--- a/node_modules/@electron/symbolicate-mac/index.js
++++ b/node_modules/@electron/symbolicate-mac/index.js
+@@ -60,7 +60,8 @@ const symbolicate = async (options) => {
+   async function symbolicateOne({image, offset}) {
+     const { debugId, path: modulePath } = image
+     if (!symbolCache.has(debugId)) {
+-      const parsed = await getSymbolFile(debugId.replace(/-/g, '') + '0', path.basename(modulePath))
++      const suffix = path.extname(modulePath) === '.pdb' ? '1' : '0';
++      const parsed = await getSymbolFile(debugId.replace(/-/g, '') + suffix, path.basename(modulePath))
+       symbolCache.set(debugId, parsed)
+     }
+     const parsed = symbolCache.get(debugId)
