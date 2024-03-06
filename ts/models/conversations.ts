@@ -161,6 +161,7 @@ import { deriveProfileKeyVersion } from '../util/zkgroup';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import OS from '../util/os/osMain';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
+import { downscaleOutgoingAttachment } from '../util/attachments';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -3818,7 +3819,7 @@ export class ConversationModel extends window.Backbone
 
     // If there are link previews present in the message we shouldn't include
     // any attachments as well.
-    const attachmentsToSend = preview && preview.length ? [] : attachments;
+    let attachmentsToSend = preview && preview.length ? [] : attachments;
 
     if (preview && preview.length) {
       attachments.forEach(attachment => {
@@ -3826,6 +3827,33 @@ export class ConversationModel extends window.Backbone
           void deleteAttachmentData(attachment.path);
         }
       });
+    }
+
+    /**
+     * At this point, all attachments have been processed and written to disk as draft
+     * attachments, via processAttachments. All transcodable images have been re-encoded
+     * via canvas to remove EXIF data. Images above the high-quality threshold size have
+     * been scaled to high-quality JPEGs.
+     *
+     * If we choose to send images in standard quality, we need to scale them down
+     * (potentially for the second time). When we do so, we also delete the current
+     * draft attachment on disk for cleanup.
+     *
+     * All draft attachments (with a path or just in-memory) will be written to disk for
+     * real in `upgradeMessageSchema`.
+     */
+    if (!sendHQImages) {
+      attachmentsToSend = await Promise.all(
+        attachmentsToSend.map(async attachment => {
+          const downscaledAttachment = await downscaleOutgoingAttachment(
+            attachment
+          );
+          if (downscaledAttachment !== attachment && attachment.path) {
+            drop(deleteAttachmentData(attachment.path));
+          }
+          return downscaledAttachment;
+        })
+      );
     }
 
     // Here we move attachments to disk

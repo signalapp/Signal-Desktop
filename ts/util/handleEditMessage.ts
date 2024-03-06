@@ -135,10 +135,7 @@ export async function handleEditMessage(
   }
 
   const upgradedEditedMessageData =
-    await window.Signal.Migrations.upgradeMessageSchema(
-      editAttributes.message,
-      { keepOnDisk: true }
-    );
+    await window.Signal.Migrations.upgradeMessageSchema(editAttributes.message);
 
   // Copies over the attachments from the main message if they're the same
   // and they have already been downloaded.
