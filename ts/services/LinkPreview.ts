@@ -351,6 +351,7 @@ async function getPreview(
           type: fullSizeImage.contentType,
         }),
         fileName: title,
+        highQuality: true,
       });
 
       const data = await fileToBytes(withBlob.file);
