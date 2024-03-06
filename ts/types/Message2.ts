@@ -5,7 +5,6 @@ import { isFunction, isObject, isString, omit } from 'lodash';
 
 import * as Contact from './EmbeddedContact';
 import type { AttachmentType, AttachmentWithHydratedData } from './Attachment';
-import { autoOrientJPEG } from '../util/attachments';
 import {
   captureDimensionsAndScreenshot,
   hasData,
@@ -52,7 +51,6 @@ export type ContextType = {
     height: number;
   }>;
   getRegionCode: () => string | undefined;
-  keepOnDisk?: boolean;
   logger: LoggerType;
   makeImageThumbnail: (params: {
     size: number;
@@ -369,37 +367,18 @@ export const _mapPreviewAttachments =
     return { ...message, preview };
   };
 
+const noopUpgrade = async (message: MessageAttributesType) => message;
+
 const toVersion0 = async (
   message: MessageAttributesType,
   context: ContextType
 ) => initializeSchemaVersion({ message, logger: context.logger });
+
 const toVersion1 = _withSchemaVersion({
   schemaVersion: 1,
-  upgrade: _mapAttachments(
-    async (
-      attachment: AttachmentType,
-      context,
-      options
-    ): Promise<AttachmentType> => {
-      const { deleteOnDisk, keepOnDisk } = context;
-      const rotatedAttachment = await autoOrientJPEG(
-        attachment,
-        context,
-        options
-      );
-
-      if (
-        !keepOnDisk &&
-        attachment !== rotatedAttachment &&
-        rotatedAttachment.data &&
-        attachment.path
-      ) {
-        await deleteOnDisk(attachment.path);
-      }
-
-      return rotatedAttachment;
-    }
-  ),
+  // NOOP: We no longer need to run autoOrientJPEG on incoming JPEGs since Chromium
+  // respects the EXIF orientation for us when displaying the image
+  upgrade: noopUpgrade,
 });
 const toVersion2 = _withSchemaVersion({
   schemaVersion: 2,
@@ -506,7 +485,6 @@ export const upgradeSchema = async (
     makeVideoScreenshot,
     writeNewStickerData,
     deleteOnDisk,
-    keepOnDisk,
     logger,
     maxVersion = CURRENT_SCHEMA_VERSION,
   }: ContextType
@@ -566,7 +544,6 @@ export const upgradeSchema = async (
       getImageDimensions,
       makeImageThumbnail,
       makeVideoScreenshot,
-      keepOnDisk,
       logger,
       getAbsoluteStickerPath,
       getRegionCode,
@@ -590,7 +567,6 @@ export const processNewAttachment = async (
     getImageDimensions,
     makeImageThumbnail,
     makeVideoScreenshot,
-    deleteOnDisk,
     logger,
   }: Pick<
     ContextType,
@@ -630,42 +606,16 @@ export const processNewAttachment = async (
     throw new TypeError('context.logger is required');
   }
 
-  const rotatedAttachment = await autoOrientJPEG(
-    attachment,
-    { logger },
-    {
-      isIncoming: true,
-    }
-  );
-
-  let onDiskAttachment = rotatedAttachment;
-
-  // If we rotated the attachment, then `data` will be the actual bytes of the attachment,
-  //   in memory. We want that updated attachment to go back to disk.
-  if (rotatedAttachment.data) {
-    onDiskAttachment = await migrateDataToFileSystem(rotatedAttachment, {
-      writeNewAttachmentData,
-      logger,
-    });
-
-    if (rotatedAttachment !== attachment && attachment.path) {
-      await deleteOnDisk(attachment.path);
-    }
-  }
-
-  const finalAttachment = await captureDimensionsAndScreenshot(
-    onDiskAttachment,
-    {
-      writeNewAttachmentData,
-      getAbsoluteAttachmentPath,
-      makeObjectUrl,
-      revokeObjectUrl,
-      getImageDimensions,
-      makeImageThumbnail,
-      makeVideoScreenshot,
-      logger,
-    }
-  );
+  const finalAttachment = await captureDimensionsAndScreenshot(attachment, {
+    writeNewAttachmentData,
+    getAbsoluteAttachmentPath,
+    makeObjectUrl,
+    revokeObjectUrl,
+    getImageDimensions,
+    makeImageThumbnail,
+    makeVideoScreenshot,
+    logger,
+  });
 
   return finalAttachment;
 };
