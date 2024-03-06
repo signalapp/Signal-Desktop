@@ -16,18 +16,6 @@
       }
     ]
   },
-  "icu:AddCaptionModal__title": {
-    "messageformat": "ഒരു സന്ദേശം ചേര്‍ക്കുക",
-    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
-  },
-  "icu:AddCaptionModal__placeholder": {
-    "messageformat": "സന്ദേശം",
-    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
-  },
-  "icu:AddCaptionModal__submit-button": {
-    "messageformat": "ചെയ്‌തു",
-    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
-  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
@@ -759,26 +747,6 @@
     "messageformat": "സ്വീകരിക്കുക",
     "description": "Label for a button to accept a new safety number"
   },
-  "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "സുരക്ഷാ നമ്പറുകൾ അപ്ഡേറ്റ് ചെയ്യുകയാണ്.",
-    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "കൂടുതൽ അറിയുക",
-    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "മുമ്പത്തെ സുരക്ഷാ നമ്പർ",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "അടുത്ത സുരക്ഷാ നമ്പർ",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "സുരക്ഷാ നമ്പർ പതിപ്പ്, {total,number}-ൽ {index,number}",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
-  },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
@@ -794,34 +762,6 @@
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "കൂടുതൽ അറിയുക",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
-  },
-  "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "{name} എന്നയാളുമായി ആദ്യാവസാനം എൻക്രിപ്റ്റ് ചെയ്യൽ പരിശോധിച്ചുറപ്പിക്കാൻ, അവരുടെ ഉപകരണവുമായി മുകളിലുള്ള കളർ കാർഡ് പൊരുത്തപ്പെടുത്തുകയും അക്കങ്ങൾ താരതമ്യം ചെയ്യുകയും ചെയ്യൂ. ഇവ പൊരുത്തപ്പെടുന്നില്ലെങ്കിൽ, സുരക്ഷാ നമ്പറുകളുടെ അടുത്ത പെയർ പരീക്ഷിച്ചു നോക്കുക. ഒരു പെയർ പൊരുത്തപ്പെട്ടാൽ മതി.",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
-  },
-  "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "{name} എന്നയാളുമായി ആദ്യവസാനം എൻക്രിപ്റ്റ് ചെയ്യൽ പരിശോധിച്ചുറപ്പിക്കാൻ അവരുടെ ഉപകരണവുമായി മുകളിലുള്ള അക്കങ്ങൾ താരതമ്യം ചെയ്യുക. അവരുടെ ഉപകരണം ഉപയോഗിച്ച് നിങ്ങളുടെ കോഡ് സ്‌കാൻ ചെയ്യുകയും ചെയ്യാം.",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
-  },
-  "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "സുരക്ഷാ നമ്പറുകളിലെ മാറ്റങ്ങൾ",
-    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Signal-ൽ വരാനിരിക്കുന്ന സ്വകാര്യതാ നയങ്ങൾ പ്രവർത്തനക്ഷമമാക്കാൻ സുരക്ഷാ നമ്പറുകൾ കാലാനുസൃതമായി അപ്ഡേറ്റ് ചെയ്യുന്നു.",
-    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "സുരക്ഷാ നമ്പറുകൾ പരിശോധിച്ചുറപ്പിക്കാൻ, നിങ്ങളുടെ കോൺടാക്റ്റിന്റെ ഉപകരണവുമായി കളർ കാർഡ് പൊരുത്തപ്പെടുത്തുക. ഇവ പൊരുത്തപ്പെടുന്നില്ലെങ്കിൽ, സുരക്ഷാ നമ്പറുകളുടെ അടുത്ത പെയർ പരീക്ഷിച്ചു നോക്കുക. ഒരു പെയർ പൊരുത്തപ്പെട്ടാൽ മതി.",
-    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "സഹായം ആവശ്യമുണ്ടോ?",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "മനസ്സിലായി",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയുമായി സന്ദേശങ്ങൾ കൈമാറി കഴിയുമ്പോൾ സുരക്ഷാ നമ്പർ സൃഷ്ടിക്കപ്പെടും.",
@@ -923,10 +863,6 @@
   "icu:stagedImageAttachment": {
     "messageformat": "ഇമേജ് അറ്റാച്ച്മെന്റ് ഡ്രാഫ്റ്റ് ചെയ്യുക: {path}",
     "description": "Alt text for staged attachments"
-  },
-  "icu:cdsMirroringErrorToast": {
-    "messageformat": "ഡെസ്‌ക്‌ടോപ്പ് ഒരു കോൺടാക്റ്റ് കണ്ടെത്തൽ സേവന പൊരുത്തക്കേട്  നേരിട്ടു.",
-    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "ഡെസ്‌ക്‌ടോപ്പ്  {name},  {deviceId} എന്ന ഉപകരണത്തിൽ നിന്ന് ഒരു ഡിക്രിപ്‌ഷൻ പിശക് നേരിട്ടു.",
@@ -1778,51 +1714,51 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:calling__cant-join": {
-    "messageformat": "Can't join call",
+    "messageformat": "കോളിൽ ചേരാനാകില്ല",
     "description": "Modal dialog title when you can't join a call"
   },
   "icu:calling__dialog-already-in-call": {
-    "messageformat": "You are already in a call.",
+    "messageformat": "നിങ്ങൾ ഇതിനകം തന്നെ ഒരു കോളിലാണ്.",
     "description": "Error message when clicking a call link to join a call, but you're in a call already."
   },
   "icu:calling__call-link-connection-issues": {
-    "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
+    "messageformat": "കോൾ ലിങ്ക് വിവരങ്ങൾ ലഭ്യമാക്കാനായില്ല. നിങ്ങളുടെ നെറ്റ്‌വർക്ക് കണക്ഷൻ പരിശോധിച്ചശേഷം വീണ്ടും ശ്രമിക്കുക.",
     "description": "Error message when unable to fetch call link info from server."
   },
   "icu:calling__call-link-copied": {
-    "messageformat": "Call link copied.",
+    "messageformat": "കോൾ ലിങ്ക് പകർത്തി.",
     "description": "Toast shown when a call link is copied to the clipboard."
   },
   "icu:calling__call-link-no-longer-valid": {
-    "messageformat": "This call link is no longer valid.",
+    "messageformat": "ഈ ലിങ്കിന് ഇനി സാധുതയില്ല.",
     "description": "Error message when a call link has been revoked or expires."
   },
   "icu:calling__call-link-default-title": {
-    "messageformat": "Signal Call",
+    "messageformat": "Signal കോൾ",
     "description": "Default title for Signal call links."
   },
   "icu:calling__join-request-denied": {
-    "messageformat": "Your request to join this call has been denied.",
+    "messageformat": "കോളിൽ ചേരാനുള്ള നിങ്ങളുടെ അഭ്യർത്ഥന നിരസിച്ചു.",
     "description": "Error message when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__join-request-denied-title": {
-    "messageformat": "Join request denied",
+    "messageformat": "ചേരാനുള്ള അഭ്യർത്ഥന നിരസിച്ചു",
     "description": "Title of error when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__removed-from-call": {
-    "messageformat": "Someone has removed you from the call.",
+    "messageformat": "നിങ്ങളെ ആരോ കോളിൽ നിന്ന് നീക്കം ചെയ്‌തു.",
     "description": "Error message when in a call then a call admin removes you."
   },
   "icu:calling__removed-from-call-title": {
-    "messageformat": "Removed from call",
+    "messageformat": "കോളിൽ നിന്ന് നീക്കം ചെയ്‌തു",
     "description": "Title of error when in a call then a call admin removes you."
   },
   "icu:CallingLobby__CallLinkNotice": {
-    "messageformat": "Anyone who joins this call via the link will see your name and photo.",
+    "messageformat": "ലിങ്ക് വഴി ഈ കോളിൽ ചേരുന്ന ആർക്കും നിങ്ങളുടെ പേരും ഫോട്ടോയും കാണാനാകും.",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
   },
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
-    "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
+    "messageformat": "ലിങ്കിലൂടെ ഈ കോളിൽ ചേരുന്ന ആർക്കും നിങ്ങളുടെ പേര്, ഫോട്ടോ, ഫോൺ നമ്പർ എന്നിവ കാണാനാകും.",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
   },
   "icu:CallingLobbyJoinButton--join": {
@@ -1975,10 +1911,14 @@
   },
   "icu:calling__in-this-call--one": {
     "messageformat": "ഈ  കോളിൽ - 1 ആളുണ്ട് ",
-    "description": "Shown in the participants list to describe how many people are in the call"
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call--many": {
     "messageformat": "ഈ സംഭാഷണത്തിൽ {people} ആളുകൾ ",
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
+  },
+  "icu:calling__in-this-call": {
+    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2741,7 +2681,7 @@
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--call-link-description": {
-    "messageformat": "Use this link to join a Signal call",
+    "messageformat": "Signal കോളിൽ ചേരാൻ ഈ ലിങ്ക് ഉപയോഗിക്കുക",
     "description": "Shown in message previews for Signal call links."
   },
   "icu:donation--missing": {
@@ -3717,11 +3657,11 @@
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
-    "messageformat": "Call link",
+    "messageformat": "കോൾ ലിങ്ക്",
     "description": "Shown in the call lobby for a call link."
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
-    "messageformat": "Waiting to be let in",
+    "messageformat": "പ്രവേശനം അനുവദിക്കാൻ കാത്തിരിക്കുന്നു",
     "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
@@ -3786,6 +3726,10 @@
   },
   "icu:calling__participants": {
     "messageformat": "{people} കോളിൽ",
+    "description": "(Deleted 2024/02/29) Title for participants list toggle"
+  },
+  "icu:calling__participants--pluralized": {
+    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3865,7 +3809,7 @@
     "description": "Title for the select your screen sharing sources modal"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy link",
+    "messageformat": "ലിങ്ക് പകർത്തുക",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
   "icu:callingDeviceSelection__label--video": {
@@ -5336,10 +5280,6 @@
     "messageformat": "{count, plural, one {ഈ ഗ്രൂപ്പിൽ പേരുമായി ബന്ധപ്പെട്ട് {count,number} കോൺഫ്ളിക്റ്റ് കണ്ടെത്തി. ചുവടെ അംഗങ്ങളെ അവലോകനം ചെയ്യുക അല്ലെങ്കിൽ നടപടിയെടുക്കുക.} other {ഈ ഗ്രൂപ്പിൽ പേരുമായി ബന്ധപ്പെട്ട് {count,number} കോൺഫ്ളിക്റ്റുകൾ കണ്ടെത്തി. ചുവടെ അംഗങ്ങളെ അവലോകനം ചെയ്യുക അല്ലെങ്കിൽ നടപടിയെടുക്കുക.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
-  "icu:ContactSpoofingReviewDialog__group__members-header": {
-    "messageformat": "അംഗങ്ങൾ",
-    "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
-  },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "പൊതുവായി മറ്റ് ഗ്രൂപ്പുകളൊന്നുമില്ല",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
@@ -5644,14 +5584,6 @@
     "messageformat": "നിങ്ങളുടെ ഉപയോക്തൃനാമവുമായി ബന്ധപ്പെട്ട് എന്തോ പിശകുണ്ടായി, ഇത് നിലവിൽ നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് അസൈൻ ചെയ്തിട്ടില്ല. നിങ്ങൾക്കത് വീണ്ടും സജ്ജമാക്കാൻ ശ്രമിക്കാം അല്ലെങ്കിൽ പുതിയൊരെണ്ണം തിരഞ്ഞെടുക്കാം.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
-  "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "ഉപയോക്തൃനാമം ഇല്ലാതാക്കുക",
-    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
-  },
-  "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "ഉപയോക്തൃനാമം സൃഷ്ടിക്കുക",
-    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
-  },
   "icu:ProfileEditor--username--corrupted--fix-button": {
     "messageformat": "ഇപ്പോൾ പരിഹരിക്കുക",
     "description": "Button text for creation of a new username in case of corruption"
@@ -5793,20 +5725,16 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ConfirmationDialog__Title--in-call-close-requested": {
-    "messageformat": "Close Signal and end the call?",
+    "messageformat": "Signal അടച്ച് കോൾ അവസാനിപ്പിക്കണോ?",
     "description": "ConfirmationDialog title when trying to close the app while in a call."
   },
   "icu:ConfirmationDialog__Title--close-requested-not-now": {
-    "messageformat": "Not Now",
+    "messageformat": "ഇപ്പോൾ വേണ്ട",
     "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
   },
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "ഫോട്ടോ എഡിറ്റ് ചെയ്യുക",
     "description": "Text of a button on profile editor that leads to the avatar editor"
-  },
-  "icu:ProfileEditor--info--link": {
-    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ എൻക്രിപ്റ്റഡാണ്. നിങ്ങൾ പുതിയ ചാറ്റുകൾ തുടങ്ങുമ്പോഴും സ്വീകരിക്കുമ്പോഴും ഉൾപ്പെടെ നിങ്ങളുടെ പ്രൊഫൈലും അതിലെ മാറ്റങ്ങളും നിങ്ങളുടെ കോൺടാക്റ്റുകൾക്ക് കാണാനാകും. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>",
-    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "നിങ്ങളുടെ പ്രൊഫൈലും അതിലെ മാറ്റങ്ങളും നിങ്ങൾ സന്ദേശമയയ്ക്കുന്ന ആളുകൾക്കും കോൺടാക്റ്റുകൾക്കും ഗ്രൂപ്പുകൾക്കും ദൃശ്യമാകും.",
@@ -6981,7 +6909,7 @@
     "description": "Label for when a person reacts to a story"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "Reacted to your story",
+    "messageformat": "നിങ്ങളുടെ സ്റ്റോറിയോട് പ്രതികരിച്ചു",
     "description": "Label for when someone reacts to your story"
   },
   "icu:Quote__story-reaction--single": {
@@ -7123,22 +7051,6 @@
   "icu:UsernameOnboardingModalBody__row__qr__body": {
     "messageformat": "ഉപയോക്തൃനാമങ്ങൾക്ക് തനതായൊരു QR കോഡും ലിങ്കും ഉണ്ടാകും, നിങ്ങളുമായി എളുപ്പത്തിൽ ചാറ്റ് ചെയ്ത് തുടങ്ങാൻ ഇത് സുഹൃത്തുക്കളുമായി പങ്കിടാനാകും.",
     "description": "Body of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "ഉപയോക്തൃനാമങ്ങൾ ചില അക്കങ്ങളുമായി ജോടിയാക്കുന്നു, അവ നിങ്ങളുടെ പ്രൊഫൈലിൽ പങ്കിടില്ല",
-    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "ഓരോ ഉപയോക്തൃനാമത്തിനും തനതായൊരു QR കോഡ് ഉണ്ടാകും, നിങ്ങളുമായി ചാറ്റ് ചെയ്ത് തുടങ്ങാൻ ഇത് സുഹൃത്തുക്കളുമായി പങ്കിടാനാകും",
-    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "മറ്റുള്ളവർക്ക് നിങ്ങളെ കോൺടാക്റ്റ് ചെയ്യാനുള്ള പ്രാഥമിക മാർഗം ഉപയോക്തൃനാമമാക്കാൻ ക്രമീകരണം > ഫോൺ നമ്പർ > ആർക്കൊക്കെ എന്‍റെ നമ്പർ കണ്ടെത്താനാകും എന്നതിലേക്ക് പോയി ഫോൺ നമ്പർ ഡിസ്‌ക്കവറി ഓഫാക്കുക.",
-    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "കൂടുതലറിയുക",
-    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "ഉപയോക്തൃനാമം സജ്ജീകരിക്കുക",
@@ -7337,6 +7249,9 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__v7.1--0": {
-    "messageformat": "This update enables support for all of the new emoji characters in Emoji version 15.1. People keep asking us what our favorite new emoji is, but answering that question is a “lime” we won't cross."
+    "messageformat": "ഈ അപ്‌ഡേറ്റ്, ഇമോജി പതിപ്പ് 15.1-ലെ എല്ലാ പുതിയ ഇമോജി പ്രതീകങ്ങൾക്കും പിന്തുണ പ്രാപ്‌തമാക്കുന്നു. ഞങ്ങളുടെ പ്രിയപ്പെട്ട പുതിയ ഇമോജി എന്താണെന്ന് ആളുകൾ ഞങ്ങളോട് ചോദിക്കുന്നു, എന്നാൽ ആ ചോദ്യത്തിന് ഉത്തരം പറയാൻ ഞങ്ങൾ ആഗ്രഹിക്കുന്നില്ല."
+  },
+  "icu:WhatsNew__v7.2--0": {
+    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
   }
 }
