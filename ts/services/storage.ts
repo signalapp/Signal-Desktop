@@ -67,6 +67,7 @@ import type {
 import { MY_STORY_ID } from '../types/Stories';
 import { isNotNil } from '../util/isNotNil';
 import { isSignalConversation } from '../util/isSignalConversation';
+import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -103,22 +104,6 @@ const conflictBackOff = new BackOff([
   5 * durations.SECOND,
   30 * durations.SECOND,
 ]);
-
-function redactStorageID(
-  storageID: string,
-  version?: number,
-  conversation?: ConversationModel
-): string {
-  const convoId = conversation ? ` ${conversation?.idForLogging()}` : '';
-  return `${version ?? '?'}:${storageID.substring(0, 3)}${convoId}`;
-}
-
-function redactExtendedStorageID({
-  storageID,
-  storageVersion,
-}: ExtendedStorageID): string {
-  return redactStorageID(storageID, storageVersion);
-}
 
 function encryptRecord(
   storageID: string | undefined,
@@ -942,6 +927,10 @@ async function mergeRecord(
   itemToMerge: MergeableItemType
 ): Promise<MergedRecordType> {
   const { itemType, storageID, storageRecord } = itemToMerge;
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
 
   const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
 
@@ -953,7 +942,10 @@ async function mergeRecord(
 
   try {
     if (itemType === ITEM_TYPE.UNKNOWN) {
-      log.warn('storageService.mergeRecord: Unknown item type', storageID);
+      log.warn(
+        'storageService.mergeRecord: Unknown item type',
+        redactedStorageID
+      );
     } else if (itemType === ITEM_TYPE.CONTACT && storageRecord.contact) {
       mergeResult = await mergeContactRecord(
         storageID,
@@ -999,10 +991,7 @@ async function mergeRecord(
     } else {
       isUnsupported = true;
       log.warn(
-        `storageService.merge(${redactStorageID(
-          storageID,
-          storageVersion
-        )}): unknown item type=${itemType}`
+        `storageService.merge(${redactedStorageID}): unknown item type=${itemType}`
       );
     }
 
@@ -1430,9 +1419,13 @@ async function fetchRemoteRecords(
 
       const remoteRecord = remoteOnlyRecords.get(base64ItemID);
       if (!remoteRecord) {
+        const redactedStorageID = redactExtendedStorageID({
+          storageID: base64ItemID,
+          storageVersion,
+        });
         throw new Error(
           "Got a remote record that wasn't requested with " +
-            `storageID: ${base64ItemID}`
+            `storageID: ${redactedStorageID}`
         );
       }
 
