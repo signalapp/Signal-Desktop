@@ -28,7 +28,7 @@ import type { ProcessedAttachment } from './Types.d';
 import type { WebAPIType } from './WebAPI';
 import { createName, getRelativePath } from '../windows/attachments';
 
-function getCdn(attachment: ProcessedAttachment) {
+export function getCdn(attachment: ProcessedAttachment): string {
   const { cdnId, cdnKey } = attachment;
   const cdn = cdnId || cdnKey;
   strictAssert(cdn, 'Attachment was missing cdnId or cdnKey');

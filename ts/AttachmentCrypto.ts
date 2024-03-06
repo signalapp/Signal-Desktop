@@ -525,7 +525,7 @@ export async function addPlaintextHashToAttachment(
   };
 }
 
-async function getPlaintextHashForAttachmentOnDisk(
+export async function getPlaintextHashForAttachmentOnDisk(
   absolutePath: string
 ): Promise<string | undefined> {
   let readFd;
