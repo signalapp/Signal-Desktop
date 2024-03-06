@@ -16,18 +16,6 @@
       }
     ]
   },
-  "icu:AddCaptionModal__title": {
-    "messageformat": "Pridajte správu",
-    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
-  },
-  "icu:AddCaptionModal__placeholder": {
-    "messageformat": "Správa",
-    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
-  },
-  "icu:AddCaptionModal__submit-button": {
-    "messageformat": "Hotovo",
-    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
-  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Pridať do skupiny",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
@@ -759,26 +747,6 @@
     "messageformat": "Potvrdiť",
     "description": "Label for a button to accept a new safety number"
   },
-  "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "Bezpečnostné čísla sa aktualizujú.",
-    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Zistiť viac",
-    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Predchádzajúce bezpečnostné číslo",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Ďalšie bezpečnostné číslo",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Verzia bezpečnostného čísla, {index,number} z {total,number}",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
-  },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Označiť ako overené",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
@@ -794,34 +762,6 @@
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Zistiť viac",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
-  },
-  "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "Ak chcete overiť end-to-end šifrovanie s používateľom {name}, priraďte farebnú kartu vyššie k ich zariadeniu a porovnajte zobrazené čísla. Ak sa tieto čísla nezhodujú, skúste ďalší pár bezpečnostných čísel. Musí sa zhodovať iba jeden pár.",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
-  },
-  "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "Ak chcete overiť end-to-end šifrovanie s používateľom {name}, porovnajte vyššie uvedené čísla s ich zariadením. Môžu tiež naskenovať váš kód pomocou svojho zariadenia.",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
-  },
-  "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "Zmeny v bezpečnostných číslach",
-    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Aktualizácia bezpečnostných čísel bude prebiehať počas prechodnej fázy, čo umožní zavedenie nových funkcií súkromia pre Signal.",
-    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "Ak chcete overiť bezpečnostné čísla, porovnajte farebnú kartu so zariadením vášho kontaktu. Ak sa tieto čísla nezhodujú, skúste ďalší pár bezpečnostných čísel. Musí sa zhodovať iba jeden pár.",
-    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "Potrebujete pomôcť?",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "Rozumiem",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Po výmene správ s touto osobou sa vytvorí bezpečnostné číslo.",
@@ -923,10 +863,6 @@
   "icu:stagedImageAttachment": {
     "messageformat": "Koncept príhohy obrázku: {path}",
     "description": "Alt text for staged attachments"
-  },
-  "icu:cdsMirroringErrorToast": {
-    "messageformat": "Desktop zistil nekonzistentnosť služby zisťovania kontaktov.",
-    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "Signal Desktop narazil na chybu dešifrovania z {name}, zariadenie {deviceId}",
@@ -1778,51 +1714,51 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:calling__cant-join": {
-    "messageformat": "Can't join call",
+    "messageformat": "Nedá sa pripojiť k hovoru",
     "description": "Modal dialog title when you can't join a call"
   },
   "icu:calling__dialog-already-in-call": {
-    "messageformat": "You are already in a call.",
+    "messageformat": "Už sa zúčastňujete hovoru.",
     "description": "Error message when clicking a call link to join a call, but you're in a call already."
   },
   "icu:calling__call-link-connection-issues": {
-    "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
+    "messageformat": "Nepodarilo sa načítať informácie o odkaze na hovor. Skontrolujte pripojenie k sieti a skúste to znova.",
     "description": "Error message when unable to fetch call link info from server."
   },
   "icu:calling__call-link-copied": {
-    "messageformat": "Call link copied.",
+    "messageformat": "Odkaz na hovor bol skopírovaný.",
     "description": "Toast shown when a call link is copied to the clipboard."
   },
   "icu:calling__call-link-no-longer-valid": {
-    "messageformat": "This call link is no longer valid.",
+    "messageformat": "Tento odkaz na hovor už nie je platný.",
     "description": "Error message when a call link has been revoked or expires."
   },
   "icu:calling__call-link-default-title": {
-    "messageformat": "Signal Call",
+    "messageformat": "Signal hovor",
     "description": "Default title for Signal call links."
   },
   "icu:calling__join-request-denied": {
-    "messageformat": "Your request to join this call has been denied.",
+    "messageformat": "Vaša žiadosť o pripojenie k tomuto hovoru bola zamietnutá.",
     "description": "Error message when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__join-request-denied-title": {
-    "messageformat": "Join request denied",
+    "messageformat": "Žiadosť o pripojenie bola zamietnutá",
     "description": "Title of error when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__removed-from-call": {
-    "messageformat": "Someone has removed you from the call.",
+    "messageformat": "Niekto vás odstránil z hovoru.",
     "description": "Error message when in a call then a call admin removes you."
   },
   "icu:calling__removed-from-call-title": {
-    "messageformat": "Removed from call",
+    "messageformat": "Odstránenie z hovoru",
     "description": "Title of error when in a call then a call admin removes you."
   },
   "icu:CallingLobby__CallLinkNotice": {
-    "messageformat": "Anyone who joins this call via the link will see your name and photo.",
+    "messageformat": "Každý, kto sa pripojí k tomuto hovoru prostredníctvom odkazu, uvidí vaše meno a fotku.",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
   },
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
-    "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
+    "messageformat": "Každý, kto sa pripojí k tomuto hovoru prostredníctvom odkazu, uvidí vaše meno, fotku a telefónne číslo.",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
   },
   "icu:CallingLobbyJoinButton--join": {
@@ -1975,10 +1911,14 @@
   },
   "icu:calling__in-this-call--one": {
     "messageformat": "V tomto hovore · 1 osoba",
-    "description": "Shown in the participants list to describe how many people are in the call"
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call--many": {
     "messageformat": "V tomto hovore · {people} ľudia",
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
+  },
+  "icu:calling__in-this-call": {
+    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2741,7 +2681,7 @@
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--call-link-description": {
-    "messageformat": "Use this link to join a Signal call",
+    "messageformat": "Na pripojenie k Signal hovoru použite tento odkaz",
     "description": "Shown in message previews for Signal call links."
   },
   "icu:donation--missing": {
@@ -3717,11 +3657,11 @@
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
-    "messageformat": "Call link",
+    "messageformat": "Odkaz na hovor",
     "description": "Shown in the call lobby for a call link."
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
-    "messageformat": "Waiting to be let in",
+    "messageformat": "Čakajú na pridanie sa k hovoru",
     "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
@@ -3786,6 +3726,10 @@
   },
   "icu:calling__participants": {
     "messageformat": "{people} v hovore",
+    "description": "(Deleted 2024/02/29) Title for participants list toggle"
+  },
+  "icu:calling__participants--pluralized": {
+    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3865,7 +3809,7 @@
     "description": "Title for the select your screen sharing sources modal"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy link",
+    "messageformat": "Skopírovať odkaz",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
   "icu:callingDeviceSelection__label--video": {
@@ -5336,10 +5280,6 @@
     "messageformat": "{count, plural, one {V tejto skupine sa vyskytol {count,number} konflikt mien. Overte členov nižšie alebo vykonajte akciu.} few {V tejto skupine sa vyskytli {count,number} konflikty mien. Overte členov nižšie alebo vykonajte akciu.} many {V tejto skupine sa vyskytlo {count,number} konfliktu mien. Overte členov nižšie alebo vykonajte akciu.} other {V tejto skupine sa vyskytlo {count,number} konfliktov mien. Overte členov nižšie alebo vykonajte akciu.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
-  "icu:ContactSpoofingReviewDialog__group__members-header": {
-    "messageformat": "Členovia",
-    "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
-  },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "Žiadne ďalšie spoločné skupiny",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
@@ -5644,14 +5584,6 @@
     "messageformat": "Vyskytol sa problém s vaším používateľským menom. Už nie je priradené k vášmu účtu. Môžete si ho skúsiť nastaviť znova alebo si vybrať nové.",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
-  "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "Odstrániť používateľské meno",
-    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
-  },
-  "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "Vytvoriť používateľské meno",
-    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
-  },
   "icu:ProfileEditor--username--corrupted--fix-button": {
     "messageformat": "Opraviť teraz",
     "description": "Button text for creation of a new username in case of corruption"
@@ -5793,20 +5725,16 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ConfirmationDialog__Title--in-call-close-requested": {
-    "messageformat": "Close Signal and end the call?",
+    "messageformat": "Zatvoriť Signal a ukončiť hovor?",
     "description": "ConfirmationDialog title when trying to close the app while in a call."
   },
   "icu:ConfirmationDialog__Title--close-requested-not-now": {
-    "messageformat": "Not Now",
+    "messageformat": "Teraz nie",
     "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
   },
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "Upraviť fotografiu",
     "description": "Text of a button on profile editor that leads to the avatar editor"
-  },
-  "icu:ProfileEditor--info--link": {
-    "messageformat": "Váš profil je šifrovaný. Váš profil a zmeny v ňom sa zobrazia vašim kontaktom a pri začatí alebo prijatí nového rozhovoru. <learnMoreLink>Zistiť viac</learnMoreLink>",
-    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "Váš profil a zmeny v ňom sa zobrazia ľuďom, ktorým posielate správy, kontaktom a skupinám.",
@@ -6981,7 +6909,7 @@
     "description": "Label for when a person reacts to a story"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "Reacted to your story",
+    "messageformat": "Reagoval/a na váš príbeh",
     "description": "Label for when someone reacts to your story"
   },
   "icu:Quote__story-reaction--single": {
@@ -7123,22 +7051,6 @@
   "icu:UsernameOnboardingModalBody__row__qr__body": {
     "messageformat": "Používateľské mená majú jedinečný QR kód a odkaz, ktorý môžete zdieľať so svojimi priateľmi, aby ste mohli rýchlo začať četovať.",
     "description": "Body of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Používateľské mená sú spárované so súpravou číslic a nezdieľajú sa vo vašom profile",
-    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Každé používateľské meno má jedinečný QR kód a odkaz, ktorý môžete zdieľať so svojimi priateľmi, aby ste mohli začať četovať",
-    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Vypnite vyhľadávanie podľa telefónneho čísla v časti Nastavenia > Súkromie > Telefónne číslo > Kto môže nájsť moje číslo, aby bolo vaše používateľské meno primárnym spôsobom, ako vás ostatní môžu kontaktovať.",
-    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Zistiť viac",
-    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "Nastaviť používateľské meno",
@@ -7337,6 +7249,9 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__v7.1--0": {
-    "messageformat": "This update enables support for all of the new emoji characters in Emoji version 15.1. People keep asking us what our favorite new emoji is, but answering that question is a “lime” we won't cross."
+    "messageformat": "Táto aktualizácia pridáva podporu pre všetky nové symboly emoji vo verzii Emoji 15.1."
+  },
+  "icu:WhatsNew__v7.2--0": {
+    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
   }
 }

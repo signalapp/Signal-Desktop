@@ -16,18 +16,6 @@
       }
     ]
   },
-  "icu:AddCaptionModal__title": {
-    "messageformat": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်",
-    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
-  },
-  "icu:AddCaptionModal__placeholder": {
-    "messageformat": "မက်ဆေ့ချ်",
-    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
-  },
-  "icu:AddCaptionModal__submit-button": {
-    "messageformat": "ပြီးပါပြီ",
-    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
-  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "အဖွဲ့တစ်ဖွဲ့ထဲသို့ ထည့်မယ်",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
@@ -759,26 +747,6 @@
     "messageformat": "လက်ခံသည်",
     "description": "Label for a button to accept a new safety number"
   },
-  "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "လုံခြုံရေးနံပါတ်များကို အပ်ဒိတ်ပြုလုပ်နေပါသည်။",
-    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "ထပ်မံလေ့လာရန်",
-    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "ယခင် လုံခြုံရေးနံပါတ်",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "နောက်လာမည့် လုံခြုံရေးနံပါတ်",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "လုံခြုံရေးနံပါတ် ဗားရှင်း၊ {total,number} ခုထဲမှ {index,number} ခုမြောက်",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
-  },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "အတည်ပြုပြီး အမှတ်အသား",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
@@ -794,34 +762,6 @@
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "ပိုမိုသိရှိရန်",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
-  },
-  "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "{name} နှင့် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားခြင်းကို စိစစ်အတည်ပြုရန် အထက်ပါ အရောင်ကတ်ပြားကို ၎င်း၏စက်နှင့် ယှဉ်ကြည့်ပြီး နံပါတ်များကို နှိုင်းယှဉ်ပါ။ ထိုနံပါတ်များ မကိုက်ညီပါက လုံခြုံရေးနံပါတ် နောက်တစ်တွဲဖြင့် စမ်းကြည့်ပါ။ နံပါတ်အတွဲတစ်တွဲသာလျှင် ကိုက်ညီရန် လိုအပ်ပါသည်။",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
-  },
-  "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "{name} နှင့် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားခြင်းကို စိစစ်အတည်ပြုရန် အထက်ပါနံပါတ်များကို ၎င်း၏စက်နှင့် နှိုင်းယှဉ်ပါ။ ၎င်းအနေဖြင့် သင့်ကုဒ်ကိုလည်း ၎င်း၏စက်ဖြင့် စကန်ဖတ်နိုင်ပါသည်။",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
-  },
-  "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "လုံခြုံရေးနံပါတ်များဆိုင်ရာ အပြောင်းအလဲများ",
-    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Signal တွင် ပါဝင်လာမည့် ကိုယ်ပိုင်အချက်အလက်ဆိုင်ရာ အင်္ဂါရပ်များကို ဖွင့်နိုင်ရန်အတွက် လုံခြုံရေးနံပါတ်များကို အကူးအပြောင်းကာလတစ်ခုအတွင်း အပ်ဒိတ်ပြုလုပ်နေပါသည်။",
-    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "လုံခြုံရေးနံပါတ်များကို စိစစ်အတည်ပြုရန် အရောင်ကတ်ပြားကို သင့်အဆက်အသွယ်၏စက်နှင့် ယှဉ်ကြည့်ပါ။ ထိုနံပါတ်များ မကိုက်ညီပါက လုံခြုံရေးနံပါတ် နောက်တစ်တွဲဖြင့် စမ်းကြည့်ပါ။ နံပါတ်အတွဲတစ်တွဲသာလျှင် ကိုက်ညီရန် လိုအပ်ပါသည်။",
-    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "အကူအညီ လိုအပ်ပါသလား?",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "ရပြီ",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "ဤပုဂ္ဂိုလ်နှင့် သင် မက်ဆေ့ချ်များ အပြန်အလှန်ပေးပို့ပြီးသောအခါ ၎င်းနှင့်သက်ဆိုင်သော လုံခြုံရေးနံပါတ်တစ်ခုကို ဖန်တီးလိုက်ပါမည်။",
@@ -923,10 +863,6 @@
   "icu:stagedImageAttachment": {
     "messageformat": "ပုံကြမ်း ပူးတွဲဖိုင်- {path}",
     "description": "Alt text for staged attachments"
-  },
-  "icu:cdsMirroringErrorToast": {
-    "messageformat": "Desktop တွင် အဆက်အသွယ် ရှာဖွေရေး ဝန်ဆောင်မှု မညီညွတ်ခြင်းဖြစ်ပေါ်နေသည်။",
-    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop သည် {name} ၊ စက် {deviceId} မှ ကုဒ်ဖြေရာတွင် ချို့ယွင်းချက် ဖြစ်ပေါ်ခဲ့ပါသည်",
@@ -1778,51 +1714,51 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:calling__cant-join": {
-    "messageformat": "Can't join call",
+    "messageformat": "ကောလ်တွင် ပါဝင်၍ မရနိုင်ပါ",
     "description": "Modal dialog title when you can't join a call"
   },
   "icu:calling__dialog-already-in-call": {
-    "messageformat": "You are already in a call.",
+    "messageformat": "သင်သည် ကောလ်ထဲတွင် ရှိပြီးဖြစ်သည်။",
     "description": "Error message when clicking a call link to join a call, but you're in a call already."
   },
   "icu:calling__call-link-connection-issues": {
-    "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
+    "messageformat": "ကောလ်လင့်ခ် အချက်အလက်ကို ရယူနိုင်ခြင်းမရှိပါ။ သင့်ကွန်ရက် ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။",
     "description": "Error message when unable to fetch call link info from server."
   },
   "icu:calling__call-link-copied": {
-    "messageformat": "Call link copied.",
+    "messageformat": "ကောလ် လင့်ခ် ကူးယူပြီး။",
     "description": "Toast shown when a call link is copied to the clipboard."
   },
   "icu:calling__call-link-no-longer-valid": {
-    "messageformat": "This call link is no longer valid.",
+    "messageformat": "ဤအဖွဲ့လင့်ခ်သည် အကျုံးမဝင်တော့ပါ။",
     "description": "Error message when a call link has been revoked or expires."
   },
   "icu:calling__call-link-default-title": {
-    "messageformat": "Signal Call",
+    "messageformat": "Signal ခေါ်ဆိုမှု",
     "description": "Default title for Signal call links."
   },
   "icu:calling__join-request-denied": {
-    "messageformat": "Your request to join this call has been denied.",
+    "messageformat": "ဤကောလ်တွင် ပါဝင်ရန် သင့်တောင်းဆိုမှုကို ပယ်ချလိုက်ပါသည်။",
     "description": "Error message when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__join-request-denied-title": {
-    "messageformat": "Join request denied",
+    "messageformat": "ပါဝင်ရန် တောင်းဆိုမှု ပယ်ချခံရခြင်း",
     "description": "Title of error when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__removed-from-call": {
-    "messageformat": "Someone has removed you from the call.",
+    "messageformat": "တစ်စုံတစ်ဦးက သင့်ကို ကောလ်မှ ဖယ်ရှားလိုက်ပါသည်။",
     "description": "Error message when in a call then a call admin removes you."
   },
   "icu:calling__removed-from-call-title": {
-    "messageformat": "Removed from call",
+    "messageformat": "ကောလ်မှ ဖယ်ရှားခံရခြင်း",
     "description": "Title of error when in a call then a call admin removes you."
   },
   "icu:CallingLobby__CallLinkNotice": {
-    "messageformat": "Anyone who joins this call via the link will see your name and photo.",
+    "messageformat": "လင့်ခ်မှတစ်ဆင့် ဤကောလ်တွင် ပါဝင်လာသူတိုင်းသည် သင့်အမည်နှင့် ဓာတ်ပုံကို မြင်တွေ့ရပါမည်။",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
   },
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
-    "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
+    "messageformat": "လင့်ခ်မှတစ်ဆင့် ဤကောလ်တွင် ပါဝင်လာသူမှန်သမျှသည် သင့်အမည်၊ ဓာတ်ပုံနှင့် ဖုန်းနံပါတ်တို့ကို မြင်တွေ့ရပါမည်။",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
   },
   "icu:CallingLobbyJoinButton--join": {
@@ -1975,10 +1911,14 @@
   },
   "icu:calling__in-this-call--one": {
     "messageformat": "၎င်းခေါ်ဆိုမှုထဲတွင် - ၁ ယောက်",
-    "description": "Shown in the participants list to describe how many people are in the call"
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call--many": {
     "messageformat": "ဤကောလ်တွင် လူ {people} ဦး",
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
+  },
+  "icu:calling__in-this-call": {
+    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2741,7 +2681,7 @@
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--call-link-description": {
-    "messageformat": "Use this link to join a Signal call",
+    "messageformat": "Signal ကောလ်တွင် ပါဝင်ရန် ဤလင့်ခ်ကို သုံးပါ",
     "description": "Shown in message previews for Signal call links."
   },
   "icu:donation--missing": {
@@ -3717,11 +3657,11 @@
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
-    "messageformat": "Call link",
+    "messageformat": "ကောလ်လင့်ခ်",
     "description": "Shown in the call lobby for a call link."
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
-    "messageformat": "Waiting to be let in",
+    "messageformat": "ပါဝင်ခွင့်ရရန် စောင့်ဆိုင်းနေဆဲ",
     "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
@@ -3786,6 +3726,10 @@
   },
   "icu:calling__participants": {
     "messageformat": "ကောလ်တွင် {people} ရှိ",
+    "description": "(Deleted 2024/02/29) Title for participants list toggle"
+  },
+  "icu:calling__participants--pluralized": {
+    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3865,7 +3809,7 @@
     "description": "Title for the select your screen sharing sources modal"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy link",
+    "messageformat": "လင့်ခ် ကူးရန်",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
   "icu:callingDeviceSelection__label--video": {
@@ -5336,10 +5280,6 @@
     "messageformat": "{count, plural, other {ဤအဖွဲ့တွင် အမည်ကွဲလွဲမှု {count,number} ခုကို တွေ့ရှိခဲ့ပါသည်။ အောက်တွင် မန်ဘာများကို ပြန်လည်သုံးသပ်ပါ သို့မဟုတ် အရေးယူဆောင်ရွက်ရန် ရွေးချယ်ပါ။}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
-  "icu:ContactSpoofingReviewDialog__group__members-header": {
-    "messageformat": "အဖွဲ့ဝင်များ",
-    "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
-  },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "အခြား တူညီသော အဖွဲ့များမရှိပါ",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
@@ -5644,14 +5584,6 @@
     "messageformat": "သင်၏ သုံးစွဲသူအမည်နှင့်ပတ်သက်၍ တစ်စုံတစ်ခု မှားယွင်းနေပါသည်၊ ၎င်းကို သင့်အကောင့်အတွက် သတ်မှတ်ထားခြင်း မရှိတော့ပါ။ ထပ်မံကြိုးစား၍ သတ်မှတ်နိုင်ပါသည် သို့မဟုတ် အမည်အသစ်တစ်ခု ရွေးချယ်နိုင်ပါသည်။",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
-  "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "သုံးစွဲသူအမည်ကို ဖျက်ရန်",
-    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
-  },
-  "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "သုံးစွဲသူအမည် ဖန်တီးရန်",
-    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
-  },
   "icu:ProfileEditor--username--corrupted--fix-button": {
     "messageformat": "ယခု ဖြေရှင်းရန်",
     "description": "Button text for creation of a new username in case of corruption"
@@ -5793,20 +5725,16 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ConfirmationDialog__Title--in-call-close-requested": {
-    "messageformat": "Close Signal and end the call?",
+    "messageformat": "Signal ကို ပိတ်ပြီး ကောလ်ကို အဆုံးသတ်မည်လား။",
     "description": "ConfirmationDialog title when trying to close the app while in a call."
   },
   "icu:ConfirmationDialog__Title--close-requested-not-now": {
-    "messageformat": "Not Now",
+    "messageformat": "ယခု မလုပ်ပါ",
     "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
   },
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "ဓာတ်ပုံ ပြင်ရန်",
     "description": "Text of a button on profile editor that leads to the avatar editor"
-  },
-  "icu:ProfileEditor--info--link": {
-    "messageformat": "သင့်ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ သင့်ပရိုဖိုင်နှင့် ယင်း၏ ပြောင်းလဲမှုများကို ချက်(တ်)အသစ်ကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
-    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "သင့်ပရိုဖိုင်နှင့် ၎င်းရှိ ပြောင်းလဲမှုများကို သင် မက်ဆေ့ချ်ပို့ထားသူများ၊ အဆက်အသွယ်များနှင့် အဖွဲ့များက မြင်ရပါမည်။",
@@ -6981,7 +6909,7 @@
     "description": "Label for when a person reacts to a story"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "Reacted to your story",
+    "messageformat": "သင့်စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်",
     "description": "Label for when someone reacts to your story"
   },
   "icu:Quote__story-reaction--single": {
@@ -7123,22 +7051,6 @@
   "icu:UsernameOnboardingModalBody__row__qr__body": {
     "messageformat": "သုံးစွဲသူအမည်များတွင် သင်နှင့် လျင်မြန်စွာ ချက်(တ်)စတင်နိုင်ရန် မိတ်ဆွေများထံ ဝေမျှနိုင်သည့် သီးသန့် QR ကုဒ်နှင့် လင့်ခ်တစ်ခု ရှိပါသည်။",
     "description": "Body of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "သုံးစွဲသူအမည်များကို နံပါတ်တွဲတစ်ခုဖြင့် ချိတ်ပေးထားပြီး သင့်ပရိုဖိုင်တွင် ဝေမျှမထားပါ",
-    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "သုံးစွဲသူအမည်တစ်ခုစီတွင် သင်နှင့် ချက်(တ်)စတင်ရန် သင့်မိတ်ဆွေများထံ ဝေမျှနိုင်သည့် သီးသန့် QR ကုဒ်နှင့် လင့်ခ်တစ်ခု ရှိပါသည်",
-    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "သင့်သုံးစွဲသူအမည်ကို သင့်ထံ ဆက်သွယ်နိုင်သည့် ပင်မနည်းလမ်းအဖြစ် သုံးရန် ဆက်တင် > ကိုယ်ပိုင်အချက်အလက် > ဖုန်းနံပါတ် > ကျွန်ုပ်၏ ဖုန်းနံပါတ်ကို ရှာနိုင်မည့်သူများအောက်ရှိ ဖုန်းနံပါတ် ရှာဖွေရေးကို ပိတ်ပါ။",
-    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "ပိုမိုလေ့လာရန်",
-    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "သုံးစွဲသူအမည်ကို စီစဉ်သတ်မှတ်ရန်",
@@ -7337,6 +7249,9 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__v7.1--0": {
-    "messageformat": "This update enables support for all of the new emoji characters in Emoji version 15.1. People keep asking us what our favorite new emoji is, but answering that question is a “lime” we won't cross."
+    "messageformat": "ဤအပ်ဒိတ်သည် အီမိုဂျိဗားရှင်း 15.1 တွင် ပါရှိသော အီမိုဂျိစာလုံးအသစ်များအားလုံးအတွက် ပံ့ပိုးပေးပါသည်။"
+  },
+  "icu:WhatsNew__v7.2--0": {
+    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
   }
 }
