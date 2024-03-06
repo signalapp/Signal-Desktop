@@ -16,18 +16,6 @@
       }
     ]
   },
-  "icu:AddCaptionModal__title": {
-    "messageformat": "បន្ថែមសារមួយ",
-    "description": "(Deleted 12/14/2023) Shown as the title of the dialog that allows you to add a caption to a story"
-  },
-  "icu:AddCaptionModal__placeholder": {
-    "messageformat": "សារ",
-    "description": "(Deleted 12/14/2023) Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
-  },
-  "icu:AddCaptionModal__submit-button": {
-    "messageformat": "បញ្ចប់",
-    "description": "(Deleted 12/14/2023) Label on the button that submits changes to a story's caption in the add-caption dialog"
-  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "បន្ថែមទៅក្រុមមួយ",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
@@ -759,26 +747,6 @@
     "messageformat": "យល់ព្រម",
     "description": "Label for a button to accept a new safety number"
   },
-  "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "លេខសុវត្ថិភាពកំពុងត្រូវបានធ្វើបច្ចុប្បន្នភាព។",
-    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "សិក្សាបន្ថែម",
-    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "លេខសុវត្ថិភាពពីមុន",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "លេខសុវត្ថិភាពបន្ទាប់",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "កំណែលេខសុវត្ថិភាព {index,number} នៃ {total,number}",
-    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
-  },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "សម្គាល់ថាបានផ្ទៀងផ្ទាត់",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
@@ -794,34 +762,6 @@
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "ស្វែងយល់បន្ថែម",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
-  },
-  "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "ដើម្បីផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងជាមួយ {name} សូមផ្គូផ្គងកាតពណ៌ខាងលើជាមួយឧបករណ៍របស់ពួកគេ ហើយប្រៀបធៀបលេខ។ ប្រសិនបើលេខទាំងនេះមិនត្រូវគ្នាទេ សូមសាកល្បងលេខសុវត្ថិភាពគូផ្សេងទៀត។ មានតែមួយគូប៉ុណ្ណោះដែលត្រូវផ្គូផ្គង។",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
-  },
-  "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "ដើម្បីផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងជាមួយ {name} សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។ ពួកគេក៏អាចស្គែនកូដរបស់អ្នកដោយប្រើឧបករណ៍របស់ពួកគេផងដែរ។",
-    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
-  },
-  "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "ការផ្លាស់ប្តូរចំពោះលេខសុវត្ថិភាព",
-    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "លេខសុវត្ថិភាពកំពុងត្រូវបានធ្វើបច្ចុប្បន្នភាពក្នុងរយៈពេលផ្លាស់ប្តូរ ដើម្បីបើកមុខងារឯកជនភាពនាពេលខាងមុខនៅក្នុង Signal។",
-    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "ដើម្បីផ្ទៀងផ្ទាត់លេខសុវត្ថិភាព សូមផ្គូផ្គងកាតពណ៌ជាមួយឧបករណ៍នៃឈ្មោះទំនាក់ទំនងរបស់អ្នក។ ប្រសិនបើលេខទាំងនេះមិនត្រូវគ្នាទេ សូមសាកល្បងលេខសុវត្ថិភាពគូផ្សេងទៀត។ មានតែមួយគូប៉ុណ្ណោះដែលត្រូវផ្គូផ្គង។",
-    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "ត្រូវការជំនួយ?",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "យល់ហើយ",
-    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "លេខសុវត្ថិភាពមួយនឹងត្រូវបានបង្កើតឡើងជាមួយបុគ្គលនេះ បន្ទាប់ពីអ្នកផ្ញើសារទៅវិញទៅមកជាមួយគេ។",
@@ -923,10 +863,6 @@
   "icu:stagedImageAttachment": {
     "messageformat": "រូបភាពឯកសារភ្ជាប់ព្រាង៖ {path}",
     "description": "Alt text for staged attachments"
-  },
-  "icu:cdsMirroringErrorToast": {
-    "messageformat": "កុំព្យូទ័រ​បានជួបបញ្ហានៃភាពមិនស៊ីសង្វាក់គ្នា​នៅក្នុង​សេវាស្វែងរកឈ្មោះទំនាក់ទំនង។",
-    "description": "(Deleted 2024/01/22) An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "កុំព្យូទ័រលើតុបានជួបប្រទះបញ្ហាឌិគ្រីបពី {name} ឧបករណ៍ {deviceId}",
@@ -1778,51 +1714,51 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "icu:calling__cant-join": {
-    "messageformat": "Can't join call",
+    "messageformat": "មិនអាចចូលរួមការហៅទូរសព្ទទេ",
     "description": "Modal dialog title when you can't join a call"
   },
   "icu:calling__dialog-already-in-call": {
-    "messageformat": "You are already in a call.",
+    "messageformat": "អ្នកស្ថិតនៅក្នុងការហៅទូរសព្ទស្រាប់ហើយ។",
     "description": "Error message when clicking a call link to join a call, but you're in a call already."
   },
   "icu:calling__call-link-connection-issues": {
-    "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
+    "messageformat": "មិនអាចទាញយកព័ត៌មានអំពីតំណហៅទូរសព្ទបានទេ។ សូមពិនិត្យមើលការតភ្ជាប់បណ្តាញរបស់អ្នក ហើយព្យាយាមម្តងទៀត។",
     "description": "Error message when unable to fetch call link info from server."
   },
   "icu:calling__call-link-copied": {
-    "messageformat": "Call link copied.",
+    "messageformat": "បានចម្លងតំណហៅទូរសព្ទ។",
     "description": "Toast shown when a call link is copied to the clipboard."
   },
   "icu:calling__call-link-no-longer-valid": {
-    "messageformat": "This call link is no longer valid.",
+    "messageformat": "តំណសម្រាប់ការហៅនេះលែងមានសុពលភាពហើយ។",
     "description": "Error message when a call link has been revoked or expires."
   },
   "icu:calling__call-link-default-title": {
-    "messageformat": "Signal Call",
+    "messageformat": "ការហៅ Signal",
     "description": "Default title for Signal call links."
   },
   "icu:calling__join-request-denied": {
-    "messageformat": "Your request to join this call has been denied.",
+    "messageformat": "សំណើរបស់អ្នកដើម្បីចូលរួមការហៅនេះត្រូវបានបដិសេធ។",
     "description": "Error message when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__join-request-denied-title": {
-    "messageformat": "Join request denied",
+    "messageformat": "សំណើចូលរួមត្រូវបានបដិសេធ",
     "description": "Title of error when a request to join a call link call was rejected by a call admin."
   },
   "icu:calling__removed-from-call": {
-    "messageformat": "Someone has removed you from the call.",
+    "messageformat": "មាននរណាម្នាក់បានដកអ្នកចេញពីការហៅនេះ។",
     "description": "Error message when in a call then a call admin removes you."
   },
   "icu:calling__removed-from-call-title": {
-    "messageformat": "Removed from call",
+    "messageformat": "បានដកចេញពីការហៅ",
     "description": "Title of error when in a call then a call admin removes you."
   },
   "icu:CallingLobby__CallLinkNotice": {
-    "messageformat": "Anyone who joins this call via the link will see your name and photo.",
+    "messageformat": "នរណាដែលចូលរួមការហៅទូរសព្ទនេះតាមរយៈតំណនឹងមើលឃើញឈ្មោះ និងរូបថតរបស់អ្នក។",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
   },
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
-    "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
+    "messageformat": "នរណាដែលចូលរួមការហៅនេះតាមរយៈតំណនឹងឃើញឈ្មោះ រូបថត និងលេខទូរសព្ទរបស់អ្នក។",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
   },
   "icu:CallingLobbyJoinButton--join": {
@@ -1975,10 +1911,14 @@
   },
   "icu:calling__in-this-call--one": {
     "messageformat": "ក្នុងការហៅនេះ · មនុស្ស 1 នាក់",
-    "description": "Shown in the participants list to describe how many people are in the call"
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call--many": {
     "messageformat": "នៅក្នុងការហៅនេះ · មនុស្ស {people} នាក់",
+    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
+  },
+  "icu:calling__in-this-call": {
+    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2741,7 +2681,7 @@
     "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
   },
   "icu:message--call-link-description": {
-    "messageformat": "Use this link to join a Signal call",
+    "messageformat": "ប្រើតំណនេះដើម្បីចូលរួមការហៅតាម Signal",
     "description": "Shown in message previews for Signal call links."
   },
   "icu:donation--missing": {
@@ -3717,11 +3657,11 @@
     "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
-    "messageformat": "Call link",
+    "messageformat": "តំណសម្រាប់ការហៅ",
     "description": "Shown in the call lobby for a call link."
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
-    "messageformat": "Waiting to be let in",
+    "messageformat": "កំពុងរង់ចាំការអនុញ្ញាតឱ្យចូល",
     "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
@@ -3786,6 +3726,10 @@
   },
   "icu:calling__participants": {
     "messageformat": "{people} នាក់នៅក្នុងការហៅ",
+    "description": "(Deleted 2024/02/29) Title for participants list toggle"
+  },
+  "icu:calling__participants--pluralized": {
+    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3865,7 +3809,7 @@
     "description": "Title for the select your screen sharing sources modal"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy link",
+    "messageformat": "ចម្លងតំណ",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
   "icu:callingDeviceSelection__label--video": {
@@ -5336,10 +5280,6 @@
     "messageformat": "{count, plural, other {ឈ្មោះដែលជាន់គ្នា {count,number} ត្រូវបានរកឃើញនៅក្នុងក្រុមនេះ។ ពិនិត្យមើលសមាជិកខាងក្រោម ឬជ្រើសរើសចាត់វិធានការ។}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
-  "icu:ContactSpoofingReviewDialog__group__members-header": {
-    "messageformat": "សមាជិក",
-    "description": "(Deleted 01/31/2024) Header in the group contact spoofing review dialog. After this header, there will be a list of members"
-  },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "មិនមានក្រុមដទៃទៀតរួមគ្នាទេ",
     "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
@@ -5644,14 +5584,6 @@
     "messageformat": "មានអ្វីមួយមិនប្រក្រតីជាមួយឈ្មោះអ្នកប្រើរបស់អ្នក ព្រោះវាលែងកំណត់ជាឈ្មោះរបស់គណនីអ្នកទៀតហើយ។ អ្នកអាចសាកល្បង និងកំណត់វាម្តងទៀត ឬជ្រើសរើសឈ្មោះថ្មីមួយ។",
     "description": "Text of confirmation modal when the username gets corrupted"
   },
-  "icu:ProfileEditor--username--corrupted--delete-button": {
-    "messageformat": "លុបឈ្មោះអ្នកប្រើ",
-    "description": "(Deleted 02/01/2024) Button text for deletion of the username in case of corruption"
-  },
-  "icu:ProfileEditor--username--corrupted--create-button": {
-    "messageformat": "បង្កើតឈ្មោះអ្នកប្រើប្រាស់",
-    "description": "(Deleted 02/01/2024) Button text for creation of a new username in case of corruption"
-  },
   "icu:ProfileEditor--username--corrupted--fix-button": {
     "messageformat": "ដោះស្រាយឥឡូវនេះ",
     "description": "Button text for creation of a new username in case of corruption"
@@ -5793,20 +5725,16 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ConfirmationDialog__Title--in-call-close-requested": {
-    "messageformat": "Close Signal and end the call?",
+    "messageformat": "បិទ Signal ហើយបញ្ចប់ការហៅទូរសព្ទ?",
     "description": "ConfirmationDialog title when trying to close the app while in a call."
   },
   "icu:ConfirmationDialog__Title--close-requested-not-now": {
-    "messageformat": "Not Now",
+    "messageformat": "កុំទាន់",
     "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
   },
   "icu:ProfileEditor--edit-photo": {
     "messageformat": "កែប្រែរូបភាព",
     "description": "Text of a button on profile editor that leads to the avatar editor"
-  },
-  "icu:ProfileEditor--info--link": {
-    "messageformat": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ីនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរវានឹងអាចមើលឃើញបានដោយឈ្មោះទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
-    "description": "(Deleted 02/01/2024) Information shown at the bottom of the profile editor section"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរវានឹងមើលឃើញដោយមនុស្សដែលអ្នកផ្ញើសារទៅ បញ្ជីទំនាក់ទំនង និងក្រុមនានា។",
@@ -6981,7 +6909,7 @@
     "description": "Label for when a person reacts to a story"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "Reacted to your story",
+    "messageformat": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវរបស់អ្នក",
     "description": "Label for when someone reacts to your story"
   },
   "icu:Quote__story-reaction--single": {
@@ -7123,22 +7051,6 @@
   "icu:UsernameOnboardingModalBody__row__qr__body": {
     "messageformat": "ឈ្មោះអ្នកប្រើមានកូដ QR និងតំណតែមួយគត់ដែលអ្នកអាចចែករំលែកជាមួយមិត្តភក្តិ ដើម្បីចាប់ផ្តើមជជែកជាមួយអ្នកបានឆាប់រហ័ស។",
     "description": "Body of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "ឈ្មោះអ្នកប្រើត្រូវបានផ្គូផ្គងជាមួយសំណុំលេខថ្មី និងមិនត្រូវបានចែករំលែកនៅលើប្រូហ្វាល់របស់អ្នកទេ",
-    "description": "(Deleted 01/16/2023) Content of the first row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "ឈ្មោះអ្នកប្រើនីមួយៗមានកូដ QR និងតំណភ្ជាប់តែមួយគត់ដែលអ្នកអាចចែករំលែកជាមួយមិត្តភក្តិរបស់អ្នកដើម្បីចាប់ផ្តើមជជែកជាមួយអ្នក",
-    "description": "(Deleted 01/16/2023) Content of the second row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "បិទការស្វែងរកលេខទូរសព្ទនៅក្រោម ការកំណត់ > ឯកជនភាព > លេខទូរសព្ទ > អ្នកដែលអាចស្វែងរកលេខរបស់ខ្ញុំបាន ដើម្បីប្រើប្រាស់ឈ្មោះអ្នកប្រើរបស់អ្នកជាវិធីចម្បងសម្រាប់ឲ្យអ្នកដទៃអាចទាក់ទងអ្នកបាន។",
-    "description": "(Deleted 01/16/2023) Content of the third row of username onboarding modal"
-  },
-  "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "ស្វែងយល់បន្ថែម",
-    "description": "(Deleted 01/16/2023) Text that open a popup with information about username onboarding"
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "បង្កើតឈ្មោះអ្នកប្រើ",
@@ -7337,6 +7249,9 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__v7.1--0": {
-    "messageformat": "This update enables support for all of the new emoji characters in Emoji version 15.1. People keep asking us what our favorite new emoji is, but answering that question is a “lime” we won't cross."
+    "messageformat": "ការធ្វើបច្ចុប្បន្នភាពនេះធ្វើឱ្យរូបអារម្មណ៍ថ្មីៗទាំងអស់អាចប្រើបាននៅក្នុងកំណែរូបអារម្មណ៍ 15.1។ មនុស្សទាំងឡាយចេះតែសួរយើងថាតើរូបអារម្មណ៍ថ្មីមួយណាដែលយើងចូលចិត្តជាងគេ ប៉ុន្តែវាជាសំណួរ \"ដ៏ពិបាក\" មួយដែលយើងសុំមិនឆ្លើយ។"
+  },
+  "icu:WhatsNew__v7.2--0": {
+    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
   }
 }
