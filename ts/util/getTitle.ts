@@ -143,3 +143,30 @@ export function renderNumber(e164: string): string | undefined {
     return undefined;
   }
 }
+
+export function hasNumberTitle(
+  attributes: Pick<
+    ConversationAttributesType,
+    'e164' | 'type' | 'sharingPhoneNumber' | 'profileKey'
+  >
+): boolean {
+  return (
+    !getSystemName(attributes) &&
+    !getProfileName(attributes) &&
+    Boolean(getNumber(attributes))
+  );
+}
+
+export function hasUsernameTitle(
+  attributes: Pick<
+    ConversationAttributesType,
+    'e164' | 'type' | 'sharingPhoneNumber' | 'profileKey' | 'username'
+  >
+): boolean {
+  return (
+    !getSystemName(attributes) &&
+    !getProfileName(attributes) &&
+    !getNumber(attributes) &&
+    Boolean(attributes.username)
+  );
+}

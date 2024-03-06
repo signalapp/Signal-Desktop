@@ -95,6 +95,7 @@ import {
   isVerifiedChange,
   isConversationMerge,
   isPhoneNumberDiscovery,
+  isTitleTransitionNotification,
 } from '../state/selectors/message';
 import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { isInCall } from '../state/selectors/calling';
@@ -287,6 +288,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !isGroupV2Change(attributes) &&
       !isKeyChange(attributes) &&
       !isPhoneNumberDiscovery(attributes) &&
+      !isTitleTransitionNotification(attributes) &&
       !isProfileChange(attributes) &&
       !isUniversalTimerNotification(attributes) &&
       !isUnsupportedMessage(attributes) &&
@@ -616,6 +618,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isUniversalTimerNotification(attributes);
     const isConversationMergeValue = isConversationMerge(attributes);
     const isPhoneNumberDiscoveryValue = isPhoneNumberDiscovery(attributes);
+    const isTitleTransitionNotificationValue =
+      isTitleTransitionNotification(attributes);
 
     const isPayment = messageHasPaymentEvent(attributes);
 
@@ -648,7 +652,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isProfileChangeValue ||
       isUniversalTimerNotificationValue ||
       isConversationMergeValue ||
-      isPhoneNumberDiscoveryValue;
+      isPhoneNumberDiscoveryValue ||
+      isTitleTransitionNotificationValue;
 
     return !hasSomethingToDisplay;
   }

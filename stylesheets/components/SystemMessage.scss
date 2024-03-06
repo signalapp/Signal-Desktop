@@ -166,6 +166,12 @@
       @include system-message-icon('../images/icons/v3/refresh/refresh.svg');
     }
 
+    &--icon-thread::before {
+      @include system-message-icon(
+        '../images/icons/v3/thread/thread-compact.svg'
+      );
+    }
+
     &--icon-timer::before {
       @include system-message-icon(
         '../images/icons/v3/timer/timer-compact.svg'

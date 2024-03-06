@@ -1541,6 +1541,10 @@
     "messageformat": "{phoneNumber} belongs to {conversationTitle}",
     "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
+  "icu:TitleTransition--notification": {
+    "messageformat": "You started this chat with {oldTitle}",
+    "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
+  },
   "icu:quoteThumbnailAlt": {
     "messageformat": "Thumbnail of image from quoted message",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"

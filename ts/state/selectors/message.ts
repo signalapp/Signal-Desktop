@@ -29,6 +29,7 @@ import type { PropsData as TimerNotificationProps } from '../../components/conve
 import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
 import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
 import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification';
+import type { PropsData as TitleTransitionNotificationProps } from '../../components/conversation/TitleTransitionNotification';
 import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change';
 import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration';
 import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
@@ -129,6 +130,7 @@ import type { AnyPaymentEvent } from '../../types/Payment';
 import { isPaymentNotificationEvent } from '../../types/Payment';
 import {
   getTitleNoDefault,
+  getTitle,
   getNumber,
   renderNumber,
 } from '../../util/getTitle';
@@ -922,6 +924,13 @@ export function getPropsForBubble(
       timestamp,
     };
   }
+  if (isTitleTransitionNotification(message)) {
+    return {
+      type: 'titleTransitionNotification',
+      data: getPropsForTitleTransitionNotification(message),
+      timestamp,
+    };
+  }
   if (isChatSessionRefreshed(message)) {
     return {
       type: 'chatSessionRefreshed',
@@ -1487,6 +1496,31 @@ function getPropsForChangeNumberNotification(
   return {
     sender: conversationSelector(message.sourceServiceId),
     timestamp: message.sent_at,
+  };
+}
+
+// Title Transition Notification
+
+export function isTitleTransitionNotification(
+  message: MessageWithUIFieldsType
+): boolean {
+  return (
+    message.type === 'title-transition-notification' &&
+    message.titleTransition != null
+  );
+}
+
+function getPropsForTitleTransitionNotification(
+  message: MessageWithUIFieldsType
+): TitleTransitionNotificationProps {
+  strictAssert(
+    message.titleTransition != null,
+    'Invalid attributes for title-transition-notification'
+  );
+  const { renderInfo } = message.titleTransition;
+  const oldTitle = getTitle(renderInfo);
+  return {
+    oldTitle,
   };
 }
 

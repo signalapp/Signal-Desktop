@@ -20,6 +20,8 @@ import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotific
 import { DeliveryIssueNotification } from './DeliveryIssueNotification';
 import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
 import { ChangeNumberNotification } from './ChangeNumberNotification';
+import type { PropsData as TitleTransitionNotificationProps } from './TitleTransitionNotification';
+import { TitleTransitionNotification } from './TitleTransitionNotification';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage';
@@ -91,6 +93,10 @@ type ChangeNumberNotificationType = {
   type: 'changeNumberNotification';
   data: ChangeNumberNotificationProps;
 };
+type TitleTransitionNotificationType = {
+  type: 'titleTransitionNotification';
+  data: TitleTransitionNotificationProps;
+};
 type SafetyNumberNotificationType = {
   type: 'safetyNumberNotification';
   data: SafetyNumberNotificationProps;
@@ -148,6 +154,7 @@ export type TimelineItemType = (
   | SafetyNumberNotificationType
   | TimerNotificationType
   | UniversalTimerNotificationType
+  | TitleTransitionNotificationType
   | ContactRemovedNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType
@@ -291,6 +298,14 @@ export const TimelineItem = memo(function TimelineItem({
     } else if (item.type === 'changeNumberNotification') {
       notification = (
         <ChangeNumberNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'titleTransitionNotification') {
+      notification = (
+        <TitleTransitionNotification
           {...reducedProps}
           {...item.data}
           i18n={i18n}

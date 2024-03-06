@@ -93,7 +93,15 @@ describe('pnp/username', function (this: Mocha.Suite) {
         .locator(
           `[data-testid="${usernameContact.device.aci}"] >> "${USERNAME}"`
         )
-        .waitFor();
+        .click();
+
+      debug('Send message to username');
+      {
+        const compositionInput = await app.waitForEnabledComposer();
+
+        await compositionInput.type('Hello username');
+        await compositionInput.press('Enter');
+      }
 
       let state = await phone.expectStorageState('consistency check');
 
@@ -140,6 +148,31 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
         assert.strictEqual(removed[0].contact?.aci, usernameContact.device.aci);
         assert.strictEqual(removed[0].contact?.username, USERNAME);
+      }
+
+      if (type === 'system') {
+        // No notifications
+        const notifications = window.locator('.SystemMessage');
+        assert.strictEqual(
+          await notifications.count(),
+          0,
+          'notification count'
+        );
+      } else {
+        // One notification - the username transition
+        const notifications = window.locator('.SystemMessage');
+        await notifications.waitFor();
+        assert.strictEqual(
+          await notifications.count(),
+          1,
+          'notification count'
+        );
+
+        const first = await notifications.first();
+        assert.strictEqual(
+          await first.innerText(),
+          `You started this chat with ${USERNAME}`
+        );
       }
     });
   }
