@@ -2732,7 +2732,10 @@ export async function startApp(): Promise<void> {
     strictAssert(source && sourceServiceId, 'Missing user number and uuid');
 
     // Make sure destination conversation is created before we hit getMessageDescriptor
-    if (data.destinationServiceId !== sourceServiceId) {
+    if (
+      data.destinationServiceId &&
+      data.destinationServiceId !== sourceServiceId
+    ) {
       const { mergePromises } =
         window.ConversationController.maybeMergeContacts({
           e164: data.destination,
