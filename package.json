@@ -190,6 +190,7 @@
     "uuid": "3.3.2",
     "uuid-browser": "3.1.0",
     "websocket": "1.0.34",
+    "write-file-atomic": "5.0.1",
     "zod": "3.22.3"
   },
   "devDependencies": {
@@ -264,6 +265,7 @@
     "@types/terser-webpack-plugin": "5.0.3",
     "@types/uuid": "3.4.4",
     "@types/websocket": "1.0.0",
+    "@types/write-file-atomic": "4.0.3",
     "@types/yargs": "17.0.7",
     "@typescript-eslint/eslint-plugin": "6.18.1",
     "@typescript-eslint/parser": "6.18.1",
