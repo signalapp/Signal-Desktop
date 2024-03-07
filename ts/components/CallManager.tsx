@@ -104,6 +104,7 @@ export type PropsType = {
   bounceAppIconStart: () => unknown;
   bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
+  hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
   isGroupCallRaiseHandEnabled: boolean;
   isGroupCallReactionsEnabled: boolean;
@@ -581,9 +582,20 @@ function getShouldRing({
   activeCall,
   incomingCall,
   isConversationTooBigToRing,
+  hasInitialLoadCompleted,
 }: Readonly<
-  Pick<PropsType, 'activeCall' | 'incomingCall' | 'isConversationTooBigToRing'>
+  Pick<
+    PropsType,
+    | 'activeCall'
+    | 'incomingCall'
+    | 'isConversationTooBigToRing'
+    | 'hasInitialLoadCompleted'
+  >
 >): boolean {
+  if (!hasInitialLoadCompleted) {
+    return false;
+  }
+
   if (incomingCall != null) {
     // don't ring a large group
     if (isConversationTooBigToRing) {

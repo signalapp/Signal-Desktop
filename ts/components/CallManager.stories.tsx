@@ -72,6 +72,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   getPreferredBadge: () => undefined,
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up-active-call'),
+  hasInitialLoadCompleted: true,
   i18n,
   incomingCall: null,
   callLink: undefined,

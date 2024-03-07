@@ -425,6 +425,7 @@ const mapStateToProps = (state: StateType) => {
     availableCameras: state.calling.availableCameras,
     getGroupCallVideoFrameSource,
     getPreferredBadge: getPreferredBadgeSelector(state),
+    hasInitialLoadCompleted: state.app.hasInitialLoadCompleted,
     i18n: getIntl(state),
     isGroupCallRaiseHandEnabled: isGroupCallRaiseHandEnabled(),
     isGroupCallReactionsEnabled: isGroupCallReactionsEnabled(),
