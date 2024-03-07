@@ -8,9 +8,6 @@ import path from 'path';
 import { compose } from 'lodash/fp';
 import { escapeRegExp, isString, isRegExp } from 'lodash';
 
-import type { ExtendedStorageID } from '../types/StorageService.d';
-import type { ConversationModel } from '../models/conversations';
-
 export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
@@ -25,22 +22,6 @@ const CALL_LINK_ROOT_KEY_PATTERN =
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 export type RedactFunction = (value: string) => string;
-
-export function redactStorageID(
-  storageID: string,
-  version?: number,
-  conversation?: ConversationModel
-): string {
-  const convoId = conversation ? ` ${conversation?.idForLogging()}` : '';
-  return `${version ?? '?'}:${storageID.substring(0, 3)}${convoId}`;
-}
-
-export function redactExtendedStorageID({
-  storageID,
-  storageVersion,
-}: ExtendedStorageID): string {
-  return redactStorageID(storageID, storageVersion);
-}
 
 export const _redactPath = (filePath: string): RedactFunction => {
   if (!isString(filePath)) {

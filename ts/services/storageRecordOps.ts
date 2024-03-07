@@ -64,7 +64,6 @@ import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
 import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
 import { drop } from '../util/drop';
-import { redactExtendedStorageID } from '../util/privacy';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -695,12 +694,8 @@ export async function mergeGroupV1Record(
   storageVersion: number,
   groupV1Record: Proto.IGroupV1Record
 ): Promise<MergeResultType> {
-  const redactedStorageID = redactExtendedStorageID({
-    storageID,
-    storageVersion,
-  });
   if (!groupV1Record.id) {
-    throw new Error(`No ID for ${redactedStorageID}`);
+    throw new Error(`No ID for ${storageID}`);
   }
 
   const groupId = Bytes.toBinary(groupV1Record.id);
@@ -866,12 +861,8 @@ export async function mergeGroupV2Record(
   storageVersion: number,
   groupV2Record: Proto.IGroupV2Record
 ): Promise<MergeResultType> {
-  const redactedStorageID = redactExtendedStorageID({
-    storageID,
-    storageVersion,
-  });
   if (!groupV2Record.masterKey) {
-    throw new Error(`No master key for ${redactedStorageID}`);
+    throw new Error(`No master key for ${storageID}`);
   }
 
   const masterKeyBuffer = groupV2Record.masterKey;
@@ -1022,16 +1013,9 @@ export async function mergeContactRecord(
 
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
   if (conversation.getServiceId() !== serviceId) {
-    const previousStorageID = conversation.get('storageID');
-    const redactedpreviousStorageID = previousStorageID
-      ? redactExtendedStorageID({
-          storageID: previousStorageID,
-          storageVersion: conversation.get('storageVersion'),
-        })
-      : '<none>';
     log.warn(
       `mergeContactRecord: ${conversation.idForLogging()} ` +
-        `with storageId ${redactedpreviousStorageID} ` +
+        `with storageId ${conversation.get('storageID')} ` +
         `had serviceId that didn't match provided serviceId ${serviceId}`
     );
     return {
@@ -1564,14 +1548,8 @@ export async function mergeStoryDistributionListRecord(
   storageVersion: number,
   storyDistributionListRecord: Proto.IStoryDistributionListRecord
 ): Promise<MergeResultType> {
-  const redactedStorageID = redactExtendedStorageID({
-    storageID,
-    storageVersion,
-  });
   if (!storyDistributionListRecord.identifier) {
-    throw new Error(
-      `No storyDistributionList identifier for ${redactedStorageID}`
-    );
+    throw new Error(`No storyDistributionList identifier for ${storageID}`);
   }
 
   const details: Array<string> = [];
@@ -1705,12 +1683,8 @@ export async function mergeStickerPackRecord(
   storageVersion: number,
   stickerPackRecord: Proto.IStickerPackRecord
 ): Promise<MergeResultType> {
-  const redactedStorageID = redactExtendedStorageID({
-    storageID,
-    storageVersion,
-  });
   if (!stickerPackRecord.packId || Bytes.isEmpty(stickerPackRecord.packId)) {
-    throw new Error(`No stickerPackRecord identifier for ${redactedStorageID}`);
+    throw new Error(`No stickerPackRecord identifier for ${storageID}`);
   }
 
   const details: Array<string> = [];
@@ -1740,7 +1714,7 @@ export async function mergeStickerPackRecord(
       !stickerPackRecord.packKey ||
       Bytes.isEmpty(stickerPackRecord.packKey)
     ) {
-      throw new Error(`No stickerPackRecord key for ${redactedStorageID}`);
+      throw new Error(`No stickerPackRecord key for ${storageID}`);
     }
 
     stickerPack = {
