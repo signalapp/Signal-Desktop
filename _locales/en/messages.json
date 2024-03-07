@@ -5620,7 +5620,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Usernames may not begin with a number.",
+    "messageformat": "Usernames cannot begin with a number.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
