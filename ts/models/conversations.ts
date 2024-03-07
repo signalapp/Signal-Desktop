@@ -95,6 +95,8 @@ import {
   getProfileName,
   getTitle,
   getTitleNoDefault,
+  hasNumberTitle,
+  hasUsernameTitle,
   canHaveUsername,
 } from '../util/getTitle';
 import { markConversationRead } from '../util/markConversationRead';
@@ -3717,10 +3719,13 @@ export class ConversationModel extends window.Backbone
           };
 
       const isEditMessage = Boolean(message.get('editHistory'));
+      const needsTitleTransition =
+        hasNumberTitle(this.attributes) || hasUsernameTitle(this.attributes);
 
       this.set({
         ...draftProperties,
         ...(enabledProfileSharing ? { profileSharing: true } : {}),
+        ...(needsTitleTransition ? { needsTitleTransition: true } : {}),
         ...(dontAddMessage
           ? {}
           : this.incrementSentMessageCount({ dry: true })),
@@ -4013,17 +4018,38 @@ export class ConversationModel extends window.Backbone
     const ourConversationId =
       window.ConversationController.getOurConversationId();
 
+    const oldUsername = this.get('username');
+
     // Clear username once we have other information about the contact
-    if (
-      canHaveUsername(this.attributes, ourConversationId) ||
-      !this.get('username')
-    ) {
+    if (canHaveUsername(this.attributes, ourConversationId) || !oldUsername) {
       return;
     }
 
     log.info(`maybeClearUsername(${this.idForLogging()}): clearing username`);
 
     this.unset('username');
+
+    if (this.get('needsTitleTransition') && getProfileName(this.attributes)) {
+      log.info(
+        `maybeClearUsername(${this.idForLogging()}): adding a notification`
+      );
+      const { type, e164, username } = this.attributes;
+
+      this.unset('needsTitleTransition');
+
+      await this.addNotification('title-transition-notification', {
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Unseen,
+        titleTransition: {
+          renderInfo: {
+            type,
+            e164,
+            username,
+          },
+        },
+      });
+    }
+
     window.Signal.Data.updateConversation(this.attributes);
     this.captureChange('clearUsername');
   }
@@ -4684,37 +4710,63 @@ export class ConversationModel extends window.Backbone
     const oldProfileKey = this.get('profileKey');
 
     // profileKey is a string so we can compare it directly
-    if (oldProfileKey !== profileKey) {
-      log.info(
-        `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
-      );
-      this.set({
-        profileKeyCredential: null,
-        profileKeyCredentialExpiration: null,
-        accessKey: null,
-        sealedSender: SEALED_SENDER.UNKNOWN,
-      });
-
-      // Don't trigger immediate profile fetches when syncing to remote storage
-      this.set({ profileKey }, { silent: viaStorageServiceSync });
-
-      // If our profile key was cleared above, we don't tell our linked devices about it.
-      //   We want linked devices to tell us what it should be, instead of telling them to
-      //   erase their local value.
-      if (!viaStorageServiceSync && profileKey) {
-        this.captureChange('profileKey');
-      }
-
-      this.deriveAccessKeyIfNeeded();
-
-      // We will update the conversation during storage service sync
-      if (!viaStorageServiceSync) {
-        window.Signal.Data.updateConversation(this.attributes);
-      }
-
-      return true;
+    if (oldProfileKey === profileKey) {
+      return false;
     }
-    return false;
+
+    log.info(
+      `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
+    );
+    this.set({
+      profileKeyCredential: null,
+      profileKeyCredentialExpiration: null,
+      accessKey: null,
+      sealedSender: SEALED_SENDER.UNKNOWN,
+    });
+
+    // We messaged the contact when it had either phone number or username
+    // title.
+    if (this.get('needsTitleTransition')) {
+      log.info(
+        `setProfileKey(${this.idForLogging()}): adding a ` +
+          'title transition notification'
+      );
+
+      const { type, e164, username } = this.attributes;
+
+      this.unset('needsTitleTransition');
+
+      await this.addNotification('title-transition-notification', {
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Unseen,
+        titleTransition: {
+          renderInfo: {
+            type,
+            e164,
+            username,
+          },
+        },
+      });
+    }
+
+    // Don't trigger immediate profile fetches when syncing to remote storage
+    this.set({ profileKey }, { silent: viaStorageServiceSync });
+
+    // If our profile key was cleared above, we don't tell our linked devices about it.
+    //   We want linked devices to tell us what it should be, instead of telling them to
+    //   erase their local value.
+    if (!viaStorageServiceSync && profileKey) {
+      this.captureChange('profileKey');
+    }
+
+    this.deriveAccessKeyIfNeeded();
+
+    // We will update the conversation during storage service sync
+    if (!viaStorageServiceSync) {
+      window.Signal.Data.updateConversation(this.attributes);
+    }
+
+    return true;
   }
 
   hasProfileKeyCredentialExpired(): boolean {

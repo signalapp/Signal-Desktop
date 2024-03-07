@@ -191,6 +191,7 @@ export type MessageAttributesType = {
     | 'timer-notification'
     | 'universal-timer-notification'
     | 'contact-removed-notification'
+    | 'title-transition-notification'
     | 'verified-change';
   body?: string;
   attachments?: Array<AttachmentType>;
@@ -223,6 +224,9 @@ export type MessageAttributesType = {
     e164: string;
   };
   conversationMerge?: {
+    renderInfo: ConversationRenderInfoType;
+  };
+  titleTransition?: {
     renderInfo: ConversationRenderInfoType;
   };
 
@@ -338,6 +342,7 @@ export type ConversationAttributesType = {
   profileKeyCredential?: string | null;
   profileKeyCredentialExpiration?: number | null;
   lastProfile?: ConversationLastProfileType;
+  needsTitleTransition?: boolean;
   quotedMessageId?: string | null;
   sealedSender?: unknown;
   sentMessageCount?: number;

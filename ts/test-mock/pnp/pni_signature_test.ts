@@ -58,17 +58,11 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
         whitelisted: true,
         serviceE164: pniContact.device.number,
         identityKey: pniContact.getPublicKey(ServiceIdKind.PNI).serialize(),
-        givenName: 'PNI Contact',
+        givenName: undefined,
+        familyName: undefined,
       },
       ServiceIdKind.PNI
     );
-
-    state = state.addContact(pniContact, {
-      whitelisted: true,
-      serviceE164: undefined,
-      identityKey: pniContact.publicKey.serialize(),
-      profileKey: pniContact.profileKey.serialize(),
-    });
 
     // Just to make PNI Contact visible in the left pane
     state = state.pin(pniContact, ServiceIdKind.PNI);
@@ -319,6 +313,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     await pniContact.sendText(desktop, 'Hello Desktop!', {
       timestamp: bootstrap.getTimestamp(),
       withPniSignature: true,
+      withProfileKey: true,
     });
 
     debug('Wait for merge to happen');
@@ -377,15 +372,12 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 3, 'messages');
 
-      // Merge notification
+      // Title transition notification
       const notifications = window.locator('.SystemMessage');
       assert.strictEqual(await notifications.count(), 1, 'notifications');
 
       const first = await notifications.first();
-      assert.match(
-        await first.innerText(),
-        /Your message history with ACI Contact and their number .* has been merged./
-      );
+      assert.match(await first.innerText(), /You started this chat with/);
 
       assert.isEmpty(await phone.getOrphanedStorageKeys());
     }
