@@ -285,7 +285,7 @@
     "csv-parse": "5.5.2",
     "danger": "11.1.2",
     "debug": "4.3.3",
-    "electron": "29.0.0",
+    "electron": "29.1.0",
     "electron-builder": "24.6.3",
     "electron-mocha": "12.2.0",
     "endanger": "7.0.4",
