@@ -5792,6 +5792,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/write-file-atomic@4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@types/write-file-atomic/-/write-file-atomic-4.0.3.tgz#bda169b8369022e2c87028671fa4b742c08d98c9"
+  integrity sha512-qdo+vZRchyJIHNeuI1nrpsLw+hnkgqP/8mlaN6Wle/NKhydHmUN9l4p3ZE8yP90AJNJW4uB8HQhedb4f1vNayQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/ws@^8.5.1":
   version "8.5.4"
   resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.5.4.tgz#bb10e36116d6e570dd943735f86c933c1587b8a5"
@@ -20165,6 +20172,14 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+
+write-file-atomic@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-5.0.1.tgz#68df4717c55c6fa4281a7860b4c2ba0a6d2b11e7"
+  integrity sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==
+  dependencies:
+    imurmurhash "^0.1.4"
+    signal-exit "^4.0.1"
 
 write-file-atomic@^1.1.4:
   version "1.3.4"

@@ -3640,6 +3640,10 @@ Signal Desktop makes use of the following open source projects.
 
     END OF TERMS AND CONDITIONS
 
+## write-file-atomic
+
+    License: ISC
+
 ## zod
 
     MIT License
