@@ -5,11 +5,10 @@ import { ipcRenderer } from 'electron';
 import type { MenuItemConstructorOptions } from 'electron';
 
 import type { MenuOptionsType } from '../types/menu';
-import type { IPCEventsValuesType } from '../util/createIPCEvents';
 import type { LocalizerType } from '../types/Util';
 import type { LoggerType } from '../types/Logging';
 import type { NativeThemeType } from '../context/createNativeThemeListener';
-import type { SettingType } from '../util/preload';
+import type { SettingType, SettingsValuesType } from '../util/preload';
 import type { RendererConfigType } from '../types/RendererConfig';
 
 import { Bytes } from '../context/Bytes';
@@ -58,7 +57,7 @@ export type MinimalSignalContextType = {
   nativeThemeListener: NativeThemeType;
   restartApp: () => void;
   Settings: {
-    themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
+    themeSetting: SettingType<SettingsValuesType['themeSetting']>;
     waitForChange: () => Promise<void>;
   };
   OS: {

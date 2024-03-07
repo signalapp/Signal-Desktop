@@ -11,6 +11,7 @@ import type { StoryDistributionListDataType } from './ducks/storyDistributionLis
 import { actionCreators } from './actions';
 import { createStore } from './createStore';
 import { getInitialState } from './getInitialState';
+import type { ThemeType } from '../types/Util';
 
 export function initializeRedux({
   callsHistory,
@@ -20,6 +21,7 @@ export function initializeRedux({
   menuOptions,
   stories,
   storyDistributionLists,
+  theme,
 }: {
   callsHistory: ReadonlyArray<CallHistoryDetails>;
   callsHistoryUnreadCount: number;
@@ -28,6 +30,7 @@ export function initializeRedux({
   menuOptions: MenuOptionsType;
   stories: Array<StoryDataType>;
   storyDistributionLists: Array<StoryDistributionListDataType>;
+  theme: ThemeType;
 }): void {
   const initialState = getInitialState({
     badges: initialBadgesState,
@@ -37,6 +40,7 @@ export function initializeRedux({
     menuOptions,
     stories,
     storyDistributionLists,
+    theme,
   });
 
   const store = createStore(initialState);

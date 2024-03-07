@@ -127,11 +127,6 @@ const IPC: IPCType = {
   titleBarDoubleClick: () => {
     ipc.send('title-bar-double-click');
   },
-  updateSystemTraySetting: (
-    systemTraySetting /* : Readonly<SystemTraySetting> */
-  ) => {
-    void ipc.invoke('update-system-tray-setting', systemTraySetting);
-  },
   updateTrayIcon: unreadCount => ipc.send('update-tray-icon', unreadCount),
 };
 

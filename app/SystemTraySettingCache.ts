@@ -8,7 +8,6 @@ import {
   SystemTraySetting,
 } from '../ts/types/SystemTraySetting';
 import { isSystemTraySupported } from '../ts/types/Settings';
-import type { MainSQL } from '../ts/sql/main';
 import type { ConfigType } from './base_config';
 
 /**
@@ -21,7 +20,6 @@ export class SystemTraySettingCache {
   private getPromise: undefined | Promise<SystemTraySetting>;
 
   constructor(
-    private readonly sql: Pick<MainSQL, 'sqlCall'>,
     private readonly ephemeralConfig: Pick<ConfigType, 'get' | 'set'>,
     private readonly argv: Array<string>,
     private readonly appVersion: string
@@ -56,14 +54,10 @@ export class SystemTraySettingCache {
         `getSystemTraySetting saw --use-tray-icon flag. Returning ${result}`
       );
     } else if (isSystemTraySupported(OS, this.appVersion)) {
-      const fastValue = this.ephemeralConfig.get('system-tray-setting');
-      if (fastValue !== undefined) {
-        log.info('getSystemTraySetting got fast value', fastValue);
+      const value = this.ephemeralConfig.get('system-tray-setting');
+      if (value !== undefined) {
+        log.info('getSystemTraySetting got value', value);
       }
-
-      const value =
-        fastValue ??
-        (await this.sql.sqlCall('getItemById', 'system-tray-setting'))?.value;
 
       if (value !== undefined) {
         result = parseSystemTraySetting(value);
@@ -73,7 +67,7 @@ export class SystemTraySettingCache {
         log.info(`getSystemTraySetting got no value, returning ${result}`);
       }
 
-      if (result !== fastValue) {
+      if (result !== value) {
         this.ephemeralConfig.set('system-tray-setting', result);
       }
     } else {
