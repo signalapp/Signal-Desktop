@@ -194,6 +194,12 @@ export function Notification(): JSX.Element {
       },
     },
     {
+      type: 'titleTransitionNotification',
+      data: {
+        oldTitle: 'alice.01',
+      },
+    },
+    {
       type: 'callHistory',
       data: {
         // declined incoming audio

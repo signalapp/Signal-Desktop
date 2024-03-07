@@ -720,6 +720,7 @@ export class ConversationController {
       (targetOldServiceIds.pni !== pni ||
         (aci && targetOldServiceIds.aci !== aci))
     ) {
+      targetConversation.unset('needsTitleTransition');
       mergePromises.push(
         targetConversation.addPhoneNumberDiscoveryIfNeeded(
           targetOldServiceIds.pni
@@ -1056,6 +1057,8 @@ export class ConversationController {
     }
     current.set('active_at', activeAt);
 
+    const currentHadMessages = (current.get('messageCount') ?? 0) > 0;
+
     const dataToCopy: Partial<ConversationAttributesType> = pick(
       obsolete.attributes,
       [
@@ -1067,6 +1070,7 @@ export class ConversationController {
         'draftTimestamp',
         'messageCount',
         'messageRequestResponseType',
+        'needsTitleTransition',
         'profileSharing',
         'quotedMessageId',
         'sentMessageCount',
@@ -1196,7 +1200,15 @@ export class ConversationController {
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
-    if (obsoleteTitleInfo && titleIsUseful && obsoleteHadMessages) {
+    // If both conversations had messages - add merge
+    if (
+      titleIsUseful &&
+      conversationType === 'private' &&
+      currentHadMessages &&
+      obsoleteHadMessages
+    ) {
+      assertDev(obsoleteTitleInfo, 'part of titleIsUseful boolean');
+
       drop(current.addConversationMerge(obsoleteTitleInfo));
     }
 
