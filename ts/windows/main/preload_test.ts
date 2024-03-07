@@ -14,6 +14,7 @@ import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { initializeMessageCounter } from '../../util/incrementMessageCounter';
 import { initializeRedux } from '../../state/initializeRedux';
 import * as Stickers from '../../types/Stickers';
+import { ThemeType } from '../../types/Util';
 
 window.assert = assert;
 
@@ -51,6 +52,7 @@ window.testUtilities = {
       },
       stories: [],
       storyDistributionLists: [],
+      theme: ThemeType.dark,
     });
   },
 

@@ -25,7 +25,6 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'hasCompletedUsernameLinkOnboarding',
   'hide-menu-bar',
   'incoming-call-notification',
-  'localeOverride',
   'navTabsCollapsed',
   'notification-draw-attention',
   'notification-setting',
@@ -40,10 +39,7 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'showStickerPickerHint',
   'showStickersIntroduction',
   'skinTone',
-  'spell-check',
-  'system-tray-setting',
   'textFormatting',
-  'theme-setting',
   'version',
   'zoomFactor',
 ];

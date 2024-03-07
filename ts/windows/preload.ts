@@ -1,7 +1,11 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { installCallback, installSetting } from '../util/preload';
+import {
+  installCallback,
+  installSetting,
+  installEphemeralSetting,
+} from '../util/preload';
 
 // ChatColorPicker redux hookups
 installCallback('getCustomColors');
@@ -48,14 +52,10 @@ installSetting('hasStoriesDisabled');
 installSetting('hideMenuBar');
 installSetting('incomingCallNotification');
 installSetting('lastSyncTime');
-installSetting('localeOverride');
 installSetting('notificationDrawAttention');
 installSetting('notificationSetting');
-installSetting('spellCheck');
-installSetting('systemTraySetting');
 installSetting('sentMediaQualitySetting');
 installSetting('textFormatting');
-installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');
 installSetting('phoneNumberDiscoverabilitySetting');
@@ -66,3 +66,8 @@ installCallback('getAvailableIODevices');
 installSetting('preferredAudioInputDevice');
 installSetting('preferredAudioOutputDevice');
 installSetting('preferredVideoInputDevice');
+
+installEphemeralSetting('themeSetting');
+installEphemeralSetting('systemTraySetting');
+installEphemeralSetting('localeOverride');
+installEphemeralSetting('spellCheck');

@@ -41,7 +41,6 @@ import type { SocketStatus } from './types/SocketStatus';
 import type SyncRequest from './textsecure/SyncRequest';
 import type { MessageCache } from './services/MessageCache';
 import type { StateType } from './state/reducer';
-import type { SystemTraySetting } from './types/SystemTraySetting';
 import type { Address } from './types/Address';
 import type { QualifiedAddress } from './types/QualifiedAddress';
 import type { CIType } from './CI';
@@ -88,7 +87,6 @@ export type IPCType = {
   showWindowsNotification: (data: WindowsNotificationData) => Promise<void>;
   shutdown: () => void;
   titleBarDoubleClick: () => void;
-  updateSystemTraySetting: (value: SystemTraySetting) => void;
   updateTrayIcon: (count: number) => void;
 };
 

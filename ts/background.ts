@@ -190,6 +190,7 @@ import {
   updateLocalGroupCallHistoryTimestamp,
 } from './util/callDisposition';
 import { deriveStorageServiceKey } from './Crypto';
+import { getThemeType } from './util/getThemeType';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -697,25 +698,6 @@ export async function startApp(): Promise<void> {
   log.info('Storage fetch');
   drop(window.storage.fetch());
 
-  function mapOldThemeToNew(
-    theme: Readonly<
-      'system' | 'light' | 'dark' | 'android' | 'ios' | 'android-dark'
-    >
-  ): 'system' | 'light' | 'dark' {
-    switch (theme) {
-      case 'dark':
-      case 'light':
-      case 'system':
-        return theme;
-      case 'android-dark':
-        return 'dark';
-      case 'android':
-      case 'ios':
-      default:
-        return 'light';
-    }
-  }
-
   // We need this 'first' check because we don't want to start the app up any other time
   //   than the first time. And window.storage.fetch() will cause onready() to fire.
   let first = true;
@@ -925,16 +907,6 @@ export async function startApp(): Promise<void> {
         );
       }
 
-      const themeSetting = window.Events.getThemeSetting();
-      const newThemeSetting = mapOldThemeToNew(themeSetting);
-      if (window.isBeforeVersion(lastVersion, 'v1.25.0')) {
-        if (newThemeSetting === window.systemTheme) {
-          void window.Events.setThemeSetting('system');
-        } else {
-          void window.Events.setThemeSetting(newThemeSetting);
-        }
-      }
-
       if (
         window.isBeforeVersion(lastVersion, 'v1.36.0-beta.1') &&
         window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
@@ -1133,6 +1105,8 @@ export async function startApp(): Promise<void> {
       platform: 'unknown',
     };
 
+    let theme: ThemeType = window.systemTheme;
+
     try {
       // This needs to load before we prime the data because we expect
       // ConversationController to be loaded and ready to use by then.
@@ -1153,6 +1127,9 @@ export async function startApp(): Promise<void> {
         (async () => {
           menuOptions = await window.SignalContext.getMenuOptions();
         })(),
+        (async () => {
+          theme = await getThemeType();
+        })(),
       ]);
       await window.ConversationController.checkForConflicts();
     } catch (error) {
@@ -1161,7 +1138,7 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(error)
       );
     } finally {
-      setupAppState({ mainWindowStats, menuOptions });
+      setupAppState({ mainWindowStats, menuOptions, theme });
       drop(start());
       window.Signal.Services.initializeNetworkObserver(
         window.reduxActions.network
@@ -1186,9 +1163,11 @@ export async function startApp(): Promise<void> {
   function setupAppState({
     mainWindowStats,
     menuOptions,
+    theme,
   }: {
     mainWindowStats: MainWindowStatsType;
     menuOptions: MenuOptionsType;
+    theme: ThemeType;
   }) {
     initializeRedux({
       callsHistory: getCallsHistoryForRedux(),
@@ -1198,6 +1177,7 @@ export async function startApp(): Promise<void> {
       menuOptions,
       stories: getStoriesForRedux(),
       storyDistributionLists: getDistributionListsForRedux(),
+      theme,
     });
 
     // Here we set up a full redux store with initial state for our LeftPane Root
@@ -1845,18 +1825,6 @@ export async function startApp(): Promise<void> {
                 'Not running'
             );
           }
-        }
-
-        const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
-        if (
-          !hasThemeSetting &&
-          window.textsecure.storage.get('userAgent') === 'OWI'
-        ) {
-          await window.storage.put(
-            'theme-setting',
-            await window.Events.getThemeSetting()
-          );
-          themeChanged();
         }
 
         const waitForEvent = createTaskWithTimeout(

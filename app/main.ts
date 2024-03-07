@@ -292,22 +292,18 @@ const sql = new MainSQL();
 const heicConverter = getHeicConverter();
 
 async function getSpellCheckSetting(): Promise<boolean> {
-  const fastValue = ephemeralConfig.get('spell-check');
-  if (typeof fastValue === 'boolean') {
-    getLogger().info('got fast spellcheck setting', fastValue);
-    return fastValue;
+  const value = ephemeralConfig.get('spell-check');
+  if (typeof value === 'boolean') {
+    getLogger().info('got fast spellcheck setting', value);
+    return value;
   }
 
-  const json = await sql.sqlCall('getItemById', 'spell-check');
-
   // Default to `true` if setting doesn't exist yet
-  const slowValue = typeof json?.value === 'boolean' ? json.value : true;
+  ephemeralConfig.set('spell-check', true);
 
-  ephemeralConfig.set('spell-check', slowValue);
+  getLogger().info('initializing spellcheck setting', true);
 
-  getLogger().info('got slow spellcheck setting', slowValue);
-
-  return slowValue;
+  return true;
 }
 
 type GetThemeSettingOptionsType = Readonly<{
@@ -317,29 +313,22 @@ type GetThemeSettingOptionsType = Readonly<{
 async function getThemeSetting({
   ephemeralOnly = false,
 }: GetThemeSettingOptionsType = {}): Promise<ThemeSettingType> {
-  let result: unknown;
-
-  const fastValue = ephemeralConfig.get('theme-setting');
-  if (fastValue !== undefined) {
-    getLogger().info('got fast theme-setting value', fastValue);
-    result = fastValue;
+  const value = ephemeralConfig.get('theme-setting');
+  if (value !== undefined) {
+    getLogger().info('got fast theme-setting value', value);
   } else if (ephemeralOnly) {
     return 'system';
-  } else {
-    const json = await sql.sqlCall('getItemById', 'theme-setting');
-
-    result = json?.value;
   }
 
   // Default to `system` if setting doesn't exist or is invalid
   const validatedResult =
-    result === 'light' || result === 'dark' || result === 'system'
-      ? result
+    value === 'light' || value === 'dark' || value === 'system'
+      ? value
       : 'system';
 
-  if (fastValue !== validatedResult) {
+  if (value !== validatedResult) {
     ephemeralConfig.set('theme-setting', validatedResult);
-    getLogger().info('got slow theme-setting value', result);
+    getLogger().info('saving theme-setting value', validatedResult);
   }
 
   return validatedResult;
@@ -372,23 +361,19 @@ async function getBackgroundColor(
 }
 
 async function getLocaleOverrideSetting(): Promise<string | null> {
-  const fastValue = ephemeralConfig.get('localeOverride');
+  const value = ephemeralConfig.get('localeOverride');
   // eslint-disable-next-line eqeqeq -- Checking for null explicitly
-  if (typeof fastValue === 'string' || fastValue === null) {
-    getLogger().info('got fast localeOverride setting', fastValue);
-    return fastValue;
+  if (typeof value === 'string' || value === null) {
+    getLogger().info('got fast localeOverride setting', value);
+    return value;
   }
 
-  const json = await sql.sqlCall('getItemById', 'localeOverride');
-
   // Default to `null` if setting doesn't exist yet
-  const slowValue = typeof json?.value === 'string' ? json.value : null;
+  ephemeralConfig.set('localeOverride', null);
 
-  ephemeralConfig.set('localeOverride', slowValue);
+  getLogger().info('initializing localeOverride setting', null);
 
-  getLogger().info('got slow localeOverride setting', slowValue);
-
-  return slowValue;
+  return null;
 }
 
 const zoomFactorService = new ZoomFactorService({
@@ -409,7 +394,6 @@ const zoomFactorService = new ZoomFactorService({
 
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
-  sql,
   ephemeralConfig,
   process.argv,
   app.getVersion()
@@ -1811,12 +1795,7 @@ app.on('ready', async () => {
     getLogger().info(`app.ready: setting system-tray-setting to ${newValue}`);
     systemTraySettingCache.set(newValue);
 
-    // Update both stores
     ephemeralConfig.set('system-tray-setting', newValue);
-    await sql.sqlCall('createOrUpdateItem', {
-      id: 'system-tray-setting',
-      value: newValue,
-    });
 
     if (OS.isWindows()) {
       getLogger().info('app.ready: enabling open at login');
@@ -1831,6 +1810,32 @@ app.on('ready', async () => {
 
   settingsChannel = new SettingsChannel();
   settingsChannel.install();
+
+  settingsChannel.on('change:systemTraySetting', async rawSystemTraySetting => {
+    const { openAtLogin } = app.getLoginItemSettings(
+      await getDefaultLoginItemSettings()
+    );
+
+    const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
+    systemTraySettingCache.set(systemTraySetting);
+
+    if (systemTrayService) {
+      const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
+      systemTrayService.setEnabled(isEnabled);
+    }
+
+    // Default login item settings might have changed, so update the object.
+    getLogger().info('refresh-auto-launch: new value', openAtLogin);
+    app.setLoginItemSettings({
+      ...(await getDefaultLoginItemSettings()),
+      openAtLogin,
+    });
+  });
+
+  settingsChannel.on(
+    'ephemeral-setting-changed',
+    sendPreferencesChangedEventToWindows
+  );
 
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
@@ -2318,30 +2323,6 @@ ipc.on(
   }
 );
 
-ipc.handle(
-  'update-system-tray-setting',
-  async (_event, rawSystemTraySetting /* : Readonly<unknown> */) => {
-    const { openAtLogin } = app.getLoginItemSettings(
-      await getDefaultLoginItemSettings()
-    );
-
-    const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
-    systemTraySettingCache.set(systemTraySetting);
-
-    if (systemTrayService) {
-      const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
-      systemTrayService.setEnabled(isEnabled);
-    }
-
-    // Default login item settings might have changed, so update the object.
-    getLogger().info('refresh-auto-launch: new value', openAtLogin);
-    app.setLoginItemSettings({
-      ...(await getDefaultLoginItemSettings()),
-      openAtLogin,
-    });
-  }
-);
-
 ipc.on('close-screen-share-controller', () => {
   if (screenShareWindow) {
     screenShareWindow.close();
@@ -2564,13 +2545,14 @@ ipc.on('get-user-data-path', event => {
 });
 
 // Refresh the settings window whenever preferences change
-ipc.on('preferences-changed', () => {
+const sendPreferencesChangedEventToWindows = () => {
   for (const window of activeWindows) {
     if (window.webContents) {
       window.webContents.send('preferences-changed');
     }
   }
-});
+};
+ipc.on('preferences-changed', sendPreferencesChangedEventToWindows);
 
 function maybeGetIncomingSignalRoute(argv: Array<string>) {
   for (const arg of argv) {

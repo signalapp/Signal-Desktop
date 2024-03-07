@@ -37,10 +37,10 @@ import type { StoryDistributionListDataType } from './ducks/storyDistributionLis
 import OS from '../util/os/osMain';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 import { getInitialState as stickers } from '../types/Stickers';
-import { getThemeType } from '../util/getThemeType';
 import { getInteractionMode } from '../services/InteractionMode';
 import { makeLookup } from '../util/makeLookup';
 import type { CallHistoryDetails } from '../types/CallDisposition';
+import type { ThemeType } from '../types/Util';
 
 export function getInitialState({
   badges,
@@ -50,6 +50,7 @@ export function getInitialState({
   storyDistributionLists,
   mainWindowStats,
   menuOptions,
+  theme,
 }: {
   badges: BadgesStateType;
   callsHistory: ReadonlyArray<CallHistoryDetails>;
@@ -58,6 +59,7 @@ export function getInitialState({
   storyDistributionLists: Array<StoryDistributionListDataType>;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;
+  theme: ThemeType;
 }): StateType {
   const items = window.storage.getItemsState();
 
@@ -71,8 +73,6 @@ export function getInitialState({
   const ourConversationId =
     window.ConversationController.getOurConversationId();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-
-  const theme = getThemeType();
 
   let osName: 'windows' | 'macos' | 'linux' | undefined;
 

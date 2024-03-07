@@ -3,8 +3,8 @@
 
 import { ThemeType } from '../types/Util';
 
-export function getThemeType(): ThemeType {
-  const themeSetting = window.Events.getThemeSetting();
+export async function getThemeType(): Promise<ThemeType> {
+  const themeSetting = await window.Events.getThemeSetting();
 
   if (themeSetting === 'light') {
     return ThemeType.light;
