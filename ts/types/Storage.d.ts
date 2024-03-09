@@ -77,8 +77,6 @@ export type StorageAccessType = {
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean;
   identityKeyMap: IdentityKeyMap;
-  lastHeartbeat: number;
-  lastStartup: number;
   lastAttemptedToRefreshProfilesAt: number;
   lastResortKeyUpdateTime: number;
   lastResortKeyUpdateTimePNI: number;
@@ -172,6 +170,8 @@ export type StorageAccessType = {
   senderCertificateWithUuid: never;
   signaling_key: never;
   signedKeyRotationRejected: number;
+  lastHeartbeat: never;
+  lastStartup: never;
 };
 
 export type StorageInterface = {

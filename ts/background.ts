@@ -53,7 +53,7 @@ import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
 import { usernameIntegrity } from './services/usernameIntegrity';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
-import { isOlderThan, toDayMillis } from './util/timestamp';
+import { isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
 import { getContact, isIncoming } from './messages/helpers';
@@ -826,27 +826,6 @@ export async function startApp(): Promise<void> {
       window.document.body.classList.remove('window-focused')
     );
 
-    // How long since we were last running?
-    const lastHeartbeat = toDayMillis(window.storage.get('lastHeartbeat', 0));
-    const previousLastStartup = window.storage.get('lastStartup');
-    await window.storage.put('lastStartup', Date.now());
-
-    const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-    if (lastHeartbeat > 0 && isOlderThan(lastHeartbeat, THIRTY_DAYS)) {
-      log.warn(
-        `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
-      );
-      await unlinkAndDisconnect();
-    }
-
-    // Start heartbeat timer
-    await window.storage.put('lastHeartbeat', toDayMillis(Date.now()));
-    const TWELVE_HOURS = 12 * 60 * 60 * 1000;
-    setInterval(
-      () => window.storage.put('lastHeartbeat', toDayMillis(Date.now())),
-      TWELVE_HOURS
-    );
-
     const currentVersion = window.getVersion();
     lastVersion = window.storage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;
@@ -953,6 +932,11 @@ export async function startApp(): Promise<void> {
         await deleteAllLogs();
         window.SignalContext.restartApp();
         return;
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.3.0-beta.1')) {
+        await window.storage.remove('lastHeartbeat');
+        await window.storage.remove('lastStartup');
       }
     }
 
