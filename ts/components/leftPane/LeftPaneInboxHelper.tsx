@@ -25,6 +25,7 @@ export type LeftPaneInboxPropsType = {
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
   pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
   isAboutToSearch: boolean;
+  isSearchingGlobally: boolean;
   startSearchCounter: number;
   searchDisabled: boolean;
   searchTerm: string;
@@ -40,6 +41,8 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
   private readonly isAboutToSearch: boolean;
 
+  private readonly isSearchingGlobally: boolean;
+
   private readonly startSearchCounter: number;
 
   private readonly searchDisabled: boolean;
@@ -53,6 +56,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     archivedConversations,
     pinnedConversations,
     isAboutToSearch,
+    isSearchingGlobally,
     startSearchCounter,
     searchDisabled,
     searchTerm,
@@ -64,6 +68,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     this.archivedConversations = archivedConversations;
     this.pinnedConversations = pinnedConversations;
     this.isAboutToSearch = isAboutToSearch;
+    this.isSearchingGlobally = isSearchingGlobally;
     this.startSearchCounter = startSearchCounter;
     this.searchDisabled = searchDisabled;
     this.searchTerm = searchTerm;
@@ -84,12 +89,16 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
   override getSearchInput({
     clearConversationSearch,
     clearSearch,
+    endConversationSearch,
+    endSearch,
     i18n,
     showConversation,
     updateSearchTerm,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
+    endConversationSearch: () => unknown;
+    endSearch: () => unknown;
     i18n: LocalizerType;
     showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
@@ -98,8 +107,11 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
         clearSearch={clearSearch}
+        endConversationSearch={endConversationSearch}
+        endSearch={endSearch}
         disabled={this.searchDisabled}
         i18n={i18n}
+        isSearchingGlobally={this.isSearchingGlobally}
         searchConversation={this.searchConversation}
         searchTerm={this.searchTerm}
         showConversation={showConversation}

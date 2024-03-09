@@ -15,7 +15,10 @@ type PropsType = {
   clearConversationSearch: () => void;
   clearSearch: () => void;
   disabled?: boolean;
+  endConversationSearch: () => void;
+  endSearch: () => void;
   i18n: LocalizerType;
+  isSearchingGlobally: boolean;
   onEnterKeyDown?: (
     clearSearch: () => void,
     showConversation: ShowConversationType
@@ -31,7 +34,10 @@ export function LeftPaneSearchInput({
   clearConversationSearch,
   clearSearch,
   disabled,
+  endConversationSearch,
+  endSearch,
   i18n,
+  isSearchingGlobally,
   onEnterKeyDown,
   searchConversation,
   searchTerm,
@@ -46,6 +52,7 @@ export function LeftPaneSearchInput({
     searchConversation?.id
   );
   const prevSearchCounter = usePrevious(startSearchCounter, startSearchCounter);
+  const wasSearchingGlobally = usePrevious(false, isSearchingGlobally);
 
   useEffect(() => {
     // When user chooses to search in a given conversation we focus the field for them
@@ -56,7 +63,10 @@ export function LeftPaneSearchInput({
       inputRef.current?.focus();
     }
     // When user chooses to start a new search, we focus the field
-    if (startSearchCounter !== prevSearchCounter) {
+    if (
+      (isSearchingGlobally && !wasSearchingGlobally) ||
+      startSearchCounter !== prevSearchCounter
+    ) {
       inputRef.current?.select();
     }
   }, [
@@ -64,6 +74,8 @@ export function LeftPaneSearchInput({
     prevSearchCounter,
     searchConversation,
     startSearchCounter,
+    isSearchingGlobally,
+    wasSearchingGlobally,
   ]);
 
   const changeValue = (nextSearchTerm: string) => {
@@ -82,11 +94,6 @@ export function LeftPaneSearchInput({
     }
   };
 
-  const clearAndFocus = () => {
-    clearSearch();
-    inputRef.current?.focus();
-  };
-
   const label = searchConversation ? i18n('icu:searchIn') : i18n('icu:search');
 
   return (
@@ -98,7 +105,7 @@ export function LeftPaneSearchInput({
       moduleClassName="LeftPaneSearchInput"
       onBlur={() => {
         if (!searchConversation && !searchTerm) {
-          clearSearch();
+          endSearch();
         }
       }}
       onKeyDown={event => {
@@ -112,10 +119,14 @@ export function LeftPaneSearchInput({
         changeValue(event.currentTarget.value);
       }}
       onClear={() => {
-        if (searchConversation && searchTerm) {
-          changeValue('');
+        if (searchTerm) {
+          clearSearch();
+          inputRef.current?.focus();
+        } else if (searchConversation) {
+          endConversationSearch();
+          inputRef.current?.focus();
         } else {
-          clearAndFocus();
+          inputRef.current?.blur();
         }
       }}
       ref={inputRef}
@@ -151,7 +162,7 @@ export function LeftPaneSearchInput({
           <button
             aria-label={i18n('icu:clearSearch')}
             className="LeftPaneSearchInput__in-conversation-pill__x-button"
-            onClick={clearAndFocus}
+            onClick={endConversationSearch}
             type="button"
           />
         </div>

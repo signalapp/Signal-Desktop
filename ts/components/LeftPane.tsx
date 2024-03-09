@@ -121,6 +121,8 @@ export type PropsType = {
   composeReplaceAvatar: ReplaceAvatarActionType;
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
   createGroup: () => void;
+  endConversationSearch: () => void;
+  endSearch: () => void;
   navTabsCollapsed: boolean;
   openUsernameReservationModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
@@ -184,6 +186,8 @@ export function LeftPane({
   composeSaveAvatarToDisk,
   crashReportCount,
   createGroup,
+  endConversationSearch,
+  endSearch,
   getPreferredBadge,
   hasExpiredDialog,
   hasFailedStorySends,
@@ -705,6 +709,8 @@ export function LeftPane({
             {helper.getSearchInput({
               clearConversationSearch,
               clearSearch,
+              endConversationSearch,
+              endSearch,
               i18n,
               onChangeComposeSearchTerm: event => {
                 setComposeSearchTerm(event.target.value);
