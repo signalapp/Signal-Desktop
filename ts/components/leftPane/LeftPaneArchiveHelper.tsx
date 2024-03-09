@@ -23,6 +23,7 @@ import * as KeyboardLayout from '../../services/keyboardLayout';
 
 type LeftPaneArchiveBasePropsType = {
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
+  isSearchingGlobally: boolean;
   searchConversation: undefined | ConversationType;
   searchTerm: string;
   startSearchCounter: number;
@@ -34,6 +35,8 @@ export type LeftPaneArchivePropsType =
 
 export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsType> {
   private readonly archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
+
+  private readonly isSearchingGlobally: boolean;
 
   private readonly searchConversation: undefined | ConversationType;
 
@@ -47,6 +50,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     super();
 
     this.archivedConversations = props.archivedConversations;
+    this.isSearchingGlobally = props.isSearchingGlobally;
     this.searchConversation = props.searchConversation;
     this.searchTerm = props.searchTerm;
     this.startSearchCounter = props.startSearchCounter;
@@ -82,12 +86,16 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   override getSearchInput({
     clearConversationSearch,
     clearSearch,
+    endConversationSearch,
+    endSearch,
     i18n,
     updateSearchTerm,
     showConversation,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
+    endConversationSearch: () => unknown;
+    endSearch: () => unknown;
     i18n: LocalizerType;
     updateSearchTerm: (searchTerm: string) => unknown;
     showConversation: ShowConversationType;
@@ -100,7 +108,10 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
       <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
         clearSearch={clearSearch}
+        endConversationSearch={endConversationSearch}
+        endSearch={endSearch}
         i18n={i18n}
+        isSearchingGlobally={this.isSearchingGlobally}
         searchConversation={this.searchConversation}
         searchTerm={this.searchTerm}
         showConversation={showConversation}

@@ -99,7 +99,7 @@ type UpdateSearchTermActionType = ReadonlyDeep<{
 }>;
 type StartSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_START';
-  payload: { globalSearch: boolean };
+  payload: null;
 }>;
 type ClearSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_CLEAR';
@@ -107,6 +107,14 @@ type ClearSearchActionType = ReadonlyDeep<{
 }>;
 type ClearConversationSearchActionType = ReadonlyDeep<{
   type: 'CLEAR_CONVERSATION_SEARCH';
+  payload: null;
+}>;
+type EndSearchActionType = ReadonlyDeep<{
+  type: 'SEARCH_END';
+  payload: null;
+}>;
+type EndConversationSearchActionType = ReadonlyDeep<{
+  type: 'END_CONVERSATION_SEARCH';
   payload: null;
 }>;
 type SearchInConversationActionType = ReadonlyDeep<{
@@ -121,6 +129,8 @@ export type SearchActionType = ReadonlyDeep<
   | StartSearchActionType
   | ClearSearchActionType
   | ClearConversationSearchActionType
+  | EndSearchActionType
+  | EndConversationSearchActionType
   | SearchInConversationActionType
   | MessageDeletedActionType
   | RemoveAllConversationsActionType
@@ -135,6 +145,8 @@ export const actions = {
   startSearch,
   clearSearch,
   clearConversationSearch,
+  endSearch,
+  endConversationSearch,
   searchInConversation,
   updateSearchTerm,
 };
@@ -146,7 +158,7 @@ export const useSearchActions = (): BoundActionCreatorsMapObject<
 function startSearch(): StartSearchActionType {
   return {
     type: 'SEARCH_START',
-    payload: { globalSearch: true },
+    payload: null,
   };
 }
 function clearSearch(): ClearSearchActionType {
@@ -158,6 +170,18 @@ function clearSearch(): ClearSearchActionType {
 function clearConversationSearch(): ClearConversationSearchActionType {
   return {
     type: 'CLEAR_CONVERSATION_SEARCH',
+    payload: null,
+  };
+}
+function endSearch(): EndSearchActionType {
+  return {
+    type: 'SEARCH_END',
+    payload: null,
+  };
+}
+function endConversationSearch(): EndConversationSearchActionType {
+  return {
+    type: 'END_CONVERSATION_SEARCH',
     payload: null,
   };
 }
@@ -409,6 +433,15 @@ export function reducer(
     return {
       ...getEmptyState(),
       startSearchCounter: state.startSearchCounter,
+      searchConversationId: state.searchConversationId,
+      globalSearch: state.globalSearch,
+    };
+  }
+
+  if (action.type === 'SEARCH_END') {
+    return {
+      ...state,
+      globalSearch: Boolean(state.query) && !state.searchConversationId,
     };
   }
 
@@ -462,6 +495,14 @@ export function reducer(
     return {
       ...getEmptyState(),
       searchConversationId,
+    };
+  }
+
+  if (action.type === 'END_CONVERSATION_SEARCH') {
+    return {
+      ...getEmptyState(),
+      startSearchCounter: state.startSearchCounter + 1,
+      globalSearch: true,
     };
   }
 

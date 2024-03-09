@@ -40,6 +40,8 @@ export abstract class LeftPaneHelper<T> {
     _: Readonly<{
       clearConversationSearch: () => unknown;
       clearSearch: () => unknown;
+      endConversationSearch: () => unknown;
+      endSearch: () => unknown;
       i18n: LocalizerType;
       onChangeComposeSearchTerm: (
         event: ChangeEvent<HTMLInputElement>

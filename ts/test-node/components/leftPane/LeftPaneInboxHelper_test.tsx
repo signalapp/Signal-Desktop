@@ -14,6 +14,7 @@ describe('LeftPaneInboxHelper', () => {
   const defaultProps: LeftPaneInboxPropsType = {
     archivedConversations: [],
     conversations: [],
+    isSearchingGlobally: false,
     isAboutToSearch: false,
     pinnedConversations: [],
     searchConversation: undefined,

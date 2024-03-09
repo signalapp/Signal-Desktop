@@ -19,12 +19,13 @@ import { LeftPaneMode } from '../../types/leftPane';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import {
+  getHasSearchQuery,
   getIsSearching,
+  getIsSearchingGlobally,
   getQuery,
   getSearchConversation,
   getSearchResults,
   getStartSearchCounter,
-  isSearching,
 } from '../selectors/search';
 import {
   getIntl,
@@ -146,19 +147,21 @@ const getModeSpecificProps = (
         return {
           mode: LeftPaneMode.Archive,
           archivedConversations,
+          isSearchingGlobally: getIsSearchingGlobally(state),
           searchConversation,
           searchTerm,
           startSearchCounter: getStartSearchCounter(state),
           ...(searchConversation && searchTerm ? getSearchResults(state) : {}),
         };
       }
-      if (isSearching(state)) {
+      if (getHasSearchQuery(state)) {
         const primarySendsSms = Boolean(
           get(state.items, ['primarySendsSms'], false)
         );
 
         return {
           mode: LeftPaneMode.Search,
+          isSearchingGlobally: getIsSearchingGlobally(state),
           primarySendsSms,
           searchConversation: getSearchConversation(state),
           searchDisabled: state.network.challengeStatus !== 'idle',
@@ -169,6 +172,7 @@ const getModeSpecificProps = (
       return {
         mode: LeftPaneMode.Inbox,
         isAboutToSearch: getIsSearching(state),
+        isSearchingGlobally: getIsSearchingGlobally(state),
         searchConversation: getSearchConversation(state),
         searchDisabled: state.network.challengeStatus !== 'idle',
         searchTerm: getQuery(state),
@@ -263,7 +267,7 @@ const mapStateToProps = (state: StateType) => {
 
   const composerStep = getComposerStep(state);
   const showArchived = getShowArchived(state);
-  const hasSearchQuery = isSearching(state);
+  const hasSearchQuery = getHasSearchQuery(state);
 
   return {
     hasNetworkDialog: hasNetworkDialog(state),

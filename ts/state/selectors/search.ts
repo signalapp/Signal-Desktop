@@ -91,7 +91,7 @@ export const getStartSearchCounter = createSelector(
   (state: SearchStateType): number => state.startSearchCounter
 );
 
-export const isSearching = createSelector(
+export const getHasSearchQuery = createSelector(
   getQuery,
   (query: string): boolean => query.trim().length > 0
 );
