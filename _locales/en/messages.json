@@ -591,6 +591,14 @@
     "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
     "description": "Text for unread message separator, with count"
   },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Marked Unread",
+    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
+    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
+  },
   "icu:messageHistoryUnsynced": {
     "messageformat": "For your security, chat history isn't transferred to new linked devices.",
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
