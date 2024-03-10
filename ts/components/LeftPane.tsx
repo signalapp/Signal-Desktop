@@ -668,10 +668,11 @@ export function LeftPane({
             }}
             portalToRoot
           >
-            {({ openMenu, onKeyDown }) => {
+            {({ onClick, onKeyDown, ref }) => {
               return (
                 <NavSidebarActionButton
-                  onClick={openMenu}
+                  ref={ref}
+                  onClick={onClick}
                   onKeyDown={onKeyDown}
                   icon={<span className="module-left-pane__moreActionsIcon" />}
                   label="More Actions"
