@@ -23,6 +23,7 @@ export enum CallDirection {
 
 export enum CallLogEvent {
   Clear = 'Clear',
+  MarkedAsRead = 'MarkedAsRead',
 }
 
 export enum LocalCallEvent {
