@@ -1056,6 +1056,49 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
   }
 }
 
+export async function markAllCallHistoryReadAndSync(): Promise<void> {
+  try {
+    const timestamp = Date.now();
+
+    log.info(
+      `markAllCallHistoryReadAndSync: Marking call history read before ${timestamp}`
+    );
+    await window.Signal.Data.markAllCallHistoryRead(timestamp);
+
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+
+    const callLogEvent = new Proto.SyncMessage.CallLogEvent({
+      type: Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ,
+      timestamp: Long.fromNumber(timestamp),
+    });
+
+    const syncMessage = MessageSender.createSyncMessage();
+    syncMessage.callLogEvent = callLogEvent;
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    log.info('markAllCallHistoryReadAndSync: Queueing sync message');
+    await singleProtoJobQueue.add({
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: ourAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'callLogEventSync',
+      urgent: false,
+    });
+  } catch (error) {
+    log.error(
+      'markAllCallHistoryReadAndSync: Failed to mark call history read',
+      error
+    );
+  }
+}
+
 export async function updateLocalGroupCallHistoryTimestamp(
   conversationId: string,
   callId: string,

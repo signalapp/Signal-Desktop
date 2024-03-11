@@ -3487,13 +3487,16 @@ async function markCallHistoryRead(callId: string): Promise<void> {
   db.prepare(query).run(params);
 }
 
-async function markAllCallHistoryRead(): Promise<ReadonlyArray<string>> {
+async function markAllCallHistoryRead(
+  beforeTimestamp: number
+): Promise<ReadonlyArray<string>> {
   const db = await getWritableInstance();
 
   return db.transaction(() => {
     const where = sqlFragment`
       WHERE messages.type IS 'call-history'
         AND messages.seenStatus IS ${SEEN_STATUS_UNSEEN}
+        AND messages.sent_at <= ${beforeTimestamp};
     `;
 
     const [selectQuery, selectParams] = sql`

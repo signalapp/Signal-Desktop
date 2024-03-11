@@ -25,6 +25,16 @@ export async function onCallLogEventSync(
       window.reduxActions.callHistory.resetCallHistory();
     }
     confirm();
+  } else if (event === CallLogEvent.MarkedAsRead) {
+    log.info(
+      `onCallLogEventSync: Marking call history read before ${timestamp}`
+    );
+    try {
+      await window.Signal.Data.markAllCallHistoryRead(timestamp);
+    } finally {
+      window.reduxActions.callHistory.updateCallHistoryUnreadCount();
+    }
+    confirm();
   } else {
     throw missingCaseError(event);
   }

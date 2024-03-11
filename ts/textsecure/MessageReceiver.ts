@@ -3505,6 +3505,10 @@ export default class MessageReceiver
       callLogEvent.type === Proto.SyncMessage.CallLogEvent.Type.CLEAR
     ) {
       event = CallLogEvent.Clear;
+    } else if (
+      callLogEvent.type === Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ
+    ) {
+      event = CallLogEvent.MarkedAsRead;
     } else {
       throw new Error(
         `MessageReceiver.handleCallLogEvent: unknown type ${callLogEvent.type}`
