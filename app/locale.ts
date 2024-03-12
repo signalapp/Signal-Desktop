@@ -6,7 +6,8 @@ import { readFileSync } from 'fs';
 import { merge } from 'lodash';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { z } from 'zod';
-import { setupI18n } from '../ts/util/setupI18n';
+import { setupI18n } from '../ts/util/setupI18nMain';
+import { shouldNeverBeCalled } from '../ts/util/shouldNeverBeCalled';
 
 import type { LoggerType } from '../ts/types/Logging';
 import type { HourCyclePreference, LocaleMessagesType } from '../ts/types/I18N';
@@ -142,7 +143,9 @@ export function load({
 
   // We start with english, then overwrite that with anything present in locale
   const finalMessages = merge(englishMessages, matchedLocaleMessages);
-  const i18n = setupI18n(matchedLocale, finalMessages);
+  const i18n = setupI18n(matchedLocale, finalMessages, {
+    renderEmojify: shouldNeverBeCalled,
+  });
   const direction =
     localeDirectionTestingOverride ?? getLocaleDirection(matchedLocale, logger);
   logger.info(`locale: Text info direction for ${matchedLocale}: ${direction}`);
