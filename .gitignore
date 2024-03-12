@@ -8,7 +8,7 @@ stylesheets/*.css.map
 /dist
 .DS_Store
 config/local.json
-config/local-*.json
+config/local-*
 *.provisionprofile
 release/
 /dev-app-update.yml

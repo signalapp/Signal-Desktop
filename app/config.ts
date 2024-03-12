@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
+import { join, basename } from 'path';
 import { app } from 'electron';
 
 import type { IConfig } from 'config';
@@ -43,6 +43,12 @@ if (getEnvironment() === Environment.Production) {
 // See: https://github.com/evanw/esbuild/issues/2011
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const config: IConfig = require('config');
+
+if (getEnvironment() !== Environment.Production) {
+  config.util.getConfigSources().forEach(source => {
+    console.log(`config: Using config source ${basename(source.name)}`);
+  });
+}
 
 // Log resulting env vars in use by config
 [
