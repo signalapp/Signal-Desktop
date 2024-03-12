@@ -7,6 +7,7 @@
 import { z } from 'zod';
 import Long from 'long';
 import PQueue from 'p-queue';
+import pMap from 'p-map';
 import type { PlaintextContent } from '@signalapp/libsignal-client';
 import {
   Pni,
@@ -26,7 +27,11 @@ import type {
   UploadedAttachmentType,
 } from '../types/Attachment';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { ServiceIdKind, serviceIdSchema } from '../types/ServiceId';
+import {
+  ServiceIdKind,
+  serviceIdSchema,
+  isPniString,
+} from '../types/ServiceId';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
@@ -63,7 +68,7 @@ import type {
   LinkPreviewImage,
   LinkPreviewMetadata,
 } from '../linkPreviews/linkPreviewFetch';
-import { concat, isEmpty, map } from '../util/iterables';
+import { concat, isEmpty } from '../util/iterables';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend';
 import type { DurationInSeconds } from '../util/durations';
@@ -1267,8 +1272,9 @@ export default class MessageSender {
     // Though this field has 'unidentified' in the name, it should have entries for each
     //   number we sent to.
     if (!isEmpty(conversationIdsSentTo)) {
-      sentMessage.unidentifiedStatus = [
-        ...map(conversationIdsSentTo, conversationId => {
+      sentMessage.unidentifiedStatus = await pMap(
+        conversationIdsSentTo,
+        async conversationId => {
           const status =
             new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
           const conv = window.ConversationController.get(conversationId);
@@ -1281,12 +1287,22 @@ export default class MessageSender {
             if (serviceId) {
               status.destinationServiceId = serviceId;
             }
+            if (isPniString(serviceId)) {
+              const pniIdentityKey =
+                await window.textsecure.storage.protocol.loadIdentityKey(
+                  serviceId
+                );
+              if (pniIdentityKey) {
+                status.destinationPniIdentityKey = pniIdentityKey;
+              }
+            }
           }
           status.unidentified =
             conversationIdsWithSealedSender.has(conversationId);
           return status;
-        }),
-      ];
+        },
+        { concurrency: 10 }
+      );
     }
 
     const syncMessage = MessageSender.createSyncMessage();

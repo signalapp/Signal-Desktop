@@ -450,9 +450,11 @@ message Verified {
 message SyncMessage {
   message Sent {
     message UnidentifiedDeliveryStatus {
-      optional string destination     = 1;
+      optional string destination = 1;
       optional string destinationServiceId = 3;
-      optional bool   unidentified    = 2;
+      optional bool unidentified = 2;
+      reserved /* destinationPni */ 4;
+      optional bytes destinationPniIdentityKey = 5; // Only set for PNI destinations
     }
 
     message StoryMessageRecipient {
