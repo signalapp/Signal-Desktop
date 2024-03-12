@@ -1,5 +1,77 @@
+diff --git a/node_modules/app-builder-lib/out/asar/asarUtil.js b/node_modules/app-builder-lib/out/asar/asarUtil.js
+index 7f37444..1a85145 100644
+--- a/node_modules/app-builder-lib/out/asar/asarUtil.js
++++ b/node_modules/app-builder-lib/out/asar/asarUtil.js
+@@ -31,10 +31,16 @@ class AsarPackager {
+         }
+         await (0, promises_1.mkdir)(path.dirname(this.outFile), { recursive: true });
+         const unpackedFileIndexMap = new Map();
+-        for (const fileSet of fileSets) {
++        const orderedFileSets = [
++            // Write dependencies first to minimize offset changes to asar header
++            ...fileSets.slice(1),
++            // Finish with the app files that change most often
++            fileSets[0]
++        ].map(orderFileSet);
++        for (const fileSet of orderedFileSets) {
+             unpackedFileIndexMap.set(fileSet, await this.createPackageFromFiles(fileSet, packager.info));
+         }
+-        await this.writeAsarFile(fileSets, unpackedFileIndexMap);
++        await this.writeAsarFile(orderedFileSets, unpackedFileIndexMap);
+     }
+     async createPackageFromFiles(fileSet, packager) {
+         const metadata = fileSet.metadata;
+@@ -238,4 +244,47 @@ function copyFileOrData(fileCopier, data, source, destination, stats) {
+         return (0, promises_1.writeFile)(destination, data);
+     }
+ }
++function orderFileSet(fileSet) {
++    const filesAndIndices = Array.from(fileSet.files.entries());
++    filesAndIndices.sort(([, a], [, b]) => {
++        if (a === b) {
++            return 0;
++        }
++        // Place addons last because their signature change
++        const isAAddon = a.endsWith('.node');
++        const isBAddon = b.endsWith('.node');
++        if (isAAddon && !isBAddon) {
++            return 1;
++        }
++        if (isBAddon && !isAAddon) {
++            return -1;
++        }
++        // Otherwise order by name
++        return a < b ? -1 : 1;
++    });
++    let transformedFiles;
++    if (fileSet.transformedFiles) {
++        transformedFiles = new Map();
++        const indexMap = new Map();
++        for (const [newIndex, [oldIndex,]] of filesAndIndices.entries()) {
++            indexMap.set(oldIndex, newIndex);
++        }
++        for (const [oldIndex, value] of fileSet.transformedFiles) {
++            const newIndex = indexMap.get(oldIndex);
++            if (newIndex === undefined) {
++                const file = fileSet.files[oldIndex];
++                throw new Error(`Internal error: ${file} was lost while ordering asar`);
++            }
++            transformedFiles.set(newIndex, value);
++        }
++    }
++    const { src, destination, metadata, } = fileSet;
++    return {
++        src,
++        destination,
++        metadata,
++        files: filesAndIndices.map(([, file]) => file),
++        transformedFiles,
++    };
++}
+ //# sourceMappingURL=asarUtil.js.map
+\ No newline at end of file
 diff --git a/node_modules/app-builder-lib/out/macPackager.js b/node_modules/app-builder-lib/out/macPackager.js
-index 9df12c4..fd48a4f 100644
+index 9df12c4..465ffa3 100644
 --- a/node_modules/app-builder-lib/out/macPackager.js
 +++ b/node_modules/app-builder-lib/out/macPackager.js
 @@ -194,7 +194,8 @@ class MacPackager extends platformPackager_1.PlatformPackager {
