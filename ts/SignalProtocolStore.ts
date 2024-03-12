@@ -136,6 +136,11 @@ export type SessionTransactionOptions = Readonly<{
   zone?: Zone;
 }>;
 
+export type SaveIdentityOptions = Readonly<{
+  zone?: Zone;
+  noOverwrite?: boolean;
+}>;
+
 export type VerifyAlternateIdentityOptionsType = Readonly<{
   aci: AciString;
   pni: PniString;
@@ -2049,7 +2054,7 @@ export class SignalProtocolStore extends EventEmitter {
     encodedAddress: Address,
     publicKey: Uint8Array,
     nonblockingApproval = false,
-    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE, noOverwrite = false }: SaveIdentityOptions = {}
   ): Promise<boolean> {
     if (!this.identityKeys) {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
@@ -2097,6 +2102,10 @@ export class SignalProtocolStore extends EventEmitter {
             'saveIdentity'
           );
 
+          return false;
+        }
+
+        if (noOverwrite) {
           return false;
         }
 

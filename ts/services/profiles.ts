@@ -354,7 +354,8 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
     }
 
     if (profile.identityKey) {
-      await updateIdentityKey(profile.identityKey, serviceId);
+      const identityKeyBytes = Bytes.fromBase64(profile.identityKey);
+      await updateIdentityKey(identityKeyBytes, serviceId);
     }
 
     // Update accessKey to prevent race conditions. Since we run asynchronous
@@ -596,19 +597,24 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   window.Signal.Data.updateConversation(c.attributes);
 }
 
+export type UpdateIdentityKeyOptionsType = Readonly<{
+  noOverwrite?: boolean;
+}>;
+
 export async function updateIdentityKey(
-  identityKey: string,
-  serviceId: ServiceIdString
-): Promise<void> {
-  if (!identityKey) {
-    return;
+  identityKey: Uint8Array,
+  serviceId: ServiceIdString,
+  { noOverwrite = false }: UpdateIdentityKeyOptionsType = {}
+): Promise<boolean> {
+  if (!Bytes.isNotEmpty(identityKey)) {
+    return false;
   }
 
-  const identityKeyBytes = Bytes.fromBase64(identityKey);
   const changed = await window.textsecure.storage.protocol.saveIdentity(
     new Address(serviceId, 1),
-    identityKeyBytes,
-    false
+    identityKey,
+    false,
+    { noOverwrite }
   );
   if (changed) {
     log.info(`updateIdentityKey(${serviceId}): changed`);
@@ -619,4 +625,6 @@ export async function updateIdentityKey(
       new QualifiedAddress(ourAci, new Address(serviceId, 1))
     );
   }
+
+  return changed;
 }

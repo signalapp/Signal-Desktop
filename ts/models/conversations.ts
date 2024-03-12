@@ -2027,9 +2027,12 @@ export class ConversationModel extends window.Backbone
   incrementSentMessageCount({ dry = false }: { dry?: boolean } = {}):
     | Partial<ConversationAttributesType>
     | undefined {
+    const needsTitleTransition =
+      hasNumberTitle(this.attributes) || hasUsernameTitle(this.attributes);
     const update = {
       messageCount: (this.get('messageCount') || 0) + 1,
       sentMessageCount: (this.get('sentMessageCount') || 0) + 1,
+      ...(needsTitleTransition ? { needsTitleTransition: true } : {}),
     };
 
     if (dry) {
@@ -3719,13 +3722,10 @@ export class ConversationModel extends window.Backbone
           };
 
       const isEditMessage = Boolean(message.get('editHistory'));
-      const needsTitleTransition =
-        hasNumberTitle(this.attributes) || hasUsernameTitle(this.attributes);
 
       this.set({
         ...draftProperties,
         ...(enabledProfileSharing ? { profileSharing: true } : {}),
-        ...(needsTitleTransition ? { needsTitleTransition: true } : {}),
         ...(dontAddMessage
           ? {}
           : this.incrementSentMessageCount({ dry: true })),
