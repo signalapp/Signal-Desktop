@@ -9,6 +9,7 @@ import type {
   EditHistoryMessagesType,
   FormattingWarningDataType,
   ForwardMessagesPropsType,
+  MessageRequestActionsConfirmationPropsType,
   SafetyNumberChangedBlockingDataType,
   SendEditWarningDataType,
   UserNotFoundModalStateType,
@@ -59,6 +60,9 @@ export type PropsType = {
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => JSX.Element;
+  // MessageRequestActionsConfirmation
+  messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
+  renderMessageRequestActionsConfirmation: () => JSX.Element;
   // ProfileEditor
   isProfileEditorVisible: boolean;
   renderProfileEditor: () => JSX.Element;
@@ -130,6 +134,9 @@ export function GlobalModalContainer({
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
+  // MessageRequestActionsConfirmation
+  messageRequestActionsConfirmationProps,
+  renderMessageRequestActionsConfirmation,
   // ProfileEditor
   isProfileEditorVisible,
   renderProfileEditor,
@@ -221,6 +228,10 @@ export function GlobalModalContainer({
 
   if (forwardMessagesProps) {
     return renderForwardMessagesModal();
+  }
+
+  if (messageRequestActionsConfirmationProps) {
+    return renderMessageRequestActionsConfirmation();
   }
 
   if (isProfileEditorVisible) {

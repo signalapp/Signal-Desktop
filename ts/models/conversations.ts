@@ -164,6 +164,7 @@ import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import OS from '../util/os/osMain';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { downscaleOutgoingAttachment } from '../util/attachments';
+import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -2115,8 +2116,38 @@ export class ConversationModel extends window.Backbone
     } while (messages.length > 0);
   }
 
+  async addMessageRequestResponseEventMessage(
+    event: MessageRequestResponseEvent
+  ): Promise<void> {
+    const now = Date.now();
+    const message: MessageAttributesType = {
+      id: generateGuid(),
+      conversationId: this.id,
+      type: 'message-request-response-event',
+      sent_at: now,
+      received_at: incrementMessageCounter(),
+      received_at_ms: now,
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.NotApplicable,
+      timestamp: now,
+      messageRequestResponseEvent: event,
+    };
+
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
+      forceSave: true,
+    });
+    const model = new window.Whisper.Message({
+      ...message,
+      id,
+    });
+    window.MessageCache.toMessageAttributes(model.attributes);
+    this.trigger('newmessage', model);
+    drop(this.updateLastMessage());
+  }
+
   async applyMessageRequestResponse(
-    response: number,
+    response: Proto.SyncMessage.MessageRequestResponse.Type,
     { fromSync = false, viaStorageServiceSync = false, shouldSave = true } = {}
   ): Promise<void> {
     try {
@@ -2127,10 +2158,83 @@ export class ConversationModel extends window.Backbone
       const didResponseChange = response !== currentMessageRequestState;
       const wasPreviouslyAccepted = this.getAccepted();
 
+      if (didResponseChange) {
+        if (response === messageRequestEnum.ACCEPT) {
+          drop(
+            this.addMessageRequestResponseEventMessage(
+              MessageRequestResponseEvent.ACCEPT
+            )
+          );
+        }
+        if (
+          response === messageRequestEnum.BLOCK ||
+          response === messageRequestEnum.BLOCK_AND_SPAM ||
+          response === messageRequestEnum.BLOCK_AND_DELETE
+        ) {
+          drop(
+            this.addMessageRequestResponseEventMessage(
+              MessageRequestResponseEvent.BLOCK
+            )
+          );
+        }
+        if (
+          response === messageRequestEnum.SPAM ||
+          response === messageRequestEnum.BLOCK_AND_SPAM
+        ) {
+          drop(
+            this.addMessageRequestResponseEventMessage(
+              MessageRequestResponseEvent.SPAM
+            )
+          );
+        }
+      }
+
       // Apply message request response locally
       this.set({
         messageRequestResponseType: response,
       });
+
+      const rejectConversation = async ({
+        isBlock = false,
+        isDelete = false,
+        isSpam = false,
+      }: {
+        isBlock?: boolean;
+        isDelete?: boolean;
+        isSpam?: boolean;
+      }) => {
+        if (isBlock) {
+          this.block({ viaStorageServiceSync });
+        }
+
+        if (isBlock || isDelete) {
+          this.disableProfileSharing({ viaStorageServiceSync });
+        }
+
+        if (isDelete) {
+          await this.destroyMessages();
+          void this.updateLastMessage();
+        }
+
+        if (isBlock || isDelete) {
+          if (isLocalAction) {
+            window.reduxActions.conversations.onConversationClosed(
+              this.id,
+              isBlock
+                ? 'blocked from message request'
+                : 'deleted from message request'
+            );
+
+            if (isGroupV2(this.attributes)) {
+              await this.leaveGroupV2();
+            }
+          }
+        }
+
+        if (isSpam) {
+          this.set({ isReported: true });
+        }
+      };
 
       if (response === messageRequestEnum.ACCEPT) {
         this.unblock({ viaStorageServiceSync });
@@ -2188,53 +2292,15 @@ export class ConversationModel extends window.Backbone
           }
         }
       } else if (response === messageRequestEnum.BLOCK) {
-        // Block locally, other devices should block upon receiving the sync message
-        this.block({ viaStorageServiceSync });
-        this.disableProfileSharing({ viaStorageServiceSync });
-
-        if (isLocalAction) {
-          if (isGroupV2(this.attributes)) {
-            await this.leaveGroupV2();
-          }
-        }
+        await rejectConversation({ isBlock: true });
       } else if (response === messageRequestEnum.DELETE) {
-        this.disableProfileSharing({ viaStorageServiceSync });
-
-        // Delete messages locally, other devices should delete upon receiving
-        // the sync message
-        await this.destroyMessages();
-        void this.updateLastMessage();
-
-        if (isLocalAction) {
-          window.reduxActions.conversations.onConversationClosed(
-            this.id,
-            'deleted from message request'
-          );
-
-          if (isGroupV2(this.attributes)) {
-            await this.leaveGroupV2();
-          }
-        }
+        await rejectConversation({ isDelete: true });
       } else if (response === messageRequestEnum.BLOCK_AND_DELETE) {
-        // Block locally, other devices should block upon receiving the sync message
-        this.block({ viaStorageServiceSync });
-        this.disableProfileSharing({ viaStorageServiceSync });
-
-        // Delete messages locally, other devices should delete upon receiving
-        // the sync message
-        await this.destroyMessages();
-        void this.updateLastMessage();
-
-        if (isLocalAction) {
-          window.reduxActions.conversations.onConversationClosed(
-            this.id,
-            'blocked and deleted from message request'
-          );
-
-          if (isGroupV2(this.attributes)) {
-            await this.leaveGroupV2();
-          }
-        }
+        await rejectConversation({ isBlock: true, isDelete: true });
+      } else if (response === messageRequestEnum.SPAM) {
+        await rejectConversation({ isSpam: true });
+      } else if (response === messageRequestEnum.BLOCK_AND_SPAM) {
+        await rejectConversation({ isBlock: true, isSpam: true });
       }
     } finally {
       if (shouldSave) {
@@ -2485,40 +2551,6 @@ export class ConversationModel extends window.Backbone
     } else {
       log.error(
         `removeFromGroupV2: Member ${conversationId} is neither a member nor a pending member of the group`
-      );
-    }
-  }
-
-  async syncMessageRequestResponse(
-    response: number,
-    { shouldSave = true } = {}
-  ): Promise<void> {
-    // In GroupsV2, this may modify the server. We only want to continue if those
-    //   server updates were successful.
-    await this.applyMessageRequestResponse(response, { shouldSave });
-
-    const groupId = this.getGroupIdBuffer();
-
-    if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'syncMessageRequestResponse: We are primary device; not sending message request sync'
-      );
-      return;
-    }
-
-    try {
-      await singleProtoJobQueue.add(
-        MessageSender.getMessageRequestResponseSync({
-          threadE164: this.get('e164'),
-          threadAci: this.getAci(),
-          groupId,
-          type: response,
-        })
-      );
-    } catch (error) {
-      log.error(
-        'syncMessageRequestResponse: Failed to queue sync message',
-        Errors.toLogFormat(error)
       );
     }
   }

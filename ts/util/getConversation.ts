@@ -177,6 +177,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     inboxPosition,
     isArchived: attributes.isArchived,
     isBlocked: isBlocked(attributes),
+    reportingToken: attributes.reportingToken,
     removalStage: attributes.removalStage,
     isMe: isMe(attributes),
     isGroupV1AndDisabled: isGroupV1(attributes),

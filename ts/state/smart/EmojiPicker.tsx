@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import type { StateType } from '../reducer';
 import { useRecentEmojis } from '../selectors/emojis';
-import { useActions as useEmojiActions } from '../ducks/emojis';
+import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
 
 import type { Props as EmojiPickerProps } from '../../components/emoji/EmojiPicker';
 import { EmojiPicker } from '../../components/emoji/EmojiPicker';

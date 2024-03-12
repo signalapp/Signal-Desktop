@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { pick } from 'lodash';
 import type { ConversationType } from '../ducks/conversations';
@@ -37,6 +37,8 @@ import { useStoriesActions } from '../ducks/stories';
 import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall';
+import { useContactNameData } from '../../components/conversation/ContactName';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
 
 export type OwnProps = {
   id: string;
@@ -108,6 +110,11 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
     setMuteExpiration,
     setPinned,
     toggleSelectMode,
+    acceptConversation,
+    blockAndReportSpam,
+    blockConversation,
+    reportSpam,
+    deleteConversation,
   } = useConversationsActions();
   const {
     onOutgoingAudioCallInConversation,
@@ -128,6 +135,17 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
 
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const isSelectMode = selectedMessageIds != null;
+
+  const addedBy = useMemo(() => {
+    if (conversation.type === 'group') {
+      return getAddedByForOurPendingInvitation(conversation);
+    }
+    return null;
+  }, [conversation]);
+
+  const addedByName = useContactNameData(addedBy);
+  const conversationName = useContactNameData(conversation);
+  strictAssert(conversationName, 'conversationName is required');
 
   return (
     <ConversationHeader
@@ -184,6 +202,18 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
       isSelectMode={isSelectMode}
       toggleSelectMode={toggleSelectMode}
       viewUserStories={viewUserStories}
+      // MessageRequestActionsConfirmation
+      addedByName={addedByName}
+      conversationId={id}
+      conversationType={conversation.type}
+      conversationName={conversationName}
+      isBlocked={conversation.isBlocked ?? false}
+      isReported={conversation.isReported ?? false}
+      acceptConversation={acceptConversation}
+      blockAndReportSpam={blockAndReportSpam}
+      blockConversation={blockConversation}
+      reportSpam={reportSpam}
+      deleteConversation={deleteConversation}
     />
   );
 }

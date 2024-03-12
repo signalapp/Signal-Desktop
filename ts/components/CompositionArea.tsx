@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -43,6 +43,7 @@ import type { AciString } from '../types/ServiceId';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
+  ConversationRemovalStage,
   ConversationType,
   PushPanelForConversationActionType,
   ShowConversationType,
@@ -73,16 +74,16 @@ import type { ShowToastAction } from '../state/ducks/toast';
 import type { DraftEditMessageType } from '../model-types.d';
 
 export type OwnProps = Readonly<{
-  acceptedMessageRequest?: boolean;
-  removalStage?: 'justNotification' | 'messageRequest';
+  acceptedMessageRequest: boolean | null;
+  removalStage: ConversationRemovalStage | null;
   addAttachment: (
     conversationId: string,
     attachment: InMemoryAttachmentDraftType
   ) => unknown;
-  announcementsOnly?: boolean;
-  areWeAdmin?: boolean;
-  areWePending?: boolean;
-  areWePendingApproval?: boolean;
+  announcementsOnly: boolean | null;
+  areWeAdmin: boolean | null;
+  areWePending: boolean | null;
+  areWePendingApproval: boolean | null;
   cancelRecording: () => unknown;
   completeRecording: (
     conversationId: string,
@@ -93,29 +94,29 @@ export type OwnProps = Readonly<{
   ) => HydratedBodyRangesType | undefined;
   conversationId: string;
   discardEditMessage: (id: string) => unknown;
-  draftEditMessage?: DraftEditMessageType;
+  draftEditMessage: DraftEditMessageType | null;
   draftAttachments: ReadonlyArray<AttachmentDraftType>;
-  errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
+  errorDialogAudioRecorderType: ErrorDialogAudioRecorderType | null;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
   focusCounter: number;
   groupAdmins: Array<ConversationType>;
-  groupVersion?: 1 | 2;
+  groupVersion: 1 | 2 | null;
   i18n: LocalizerType;
   imageToBlurHash: typeof imageToBlurHash;
   isDisabled: boolean;
-  isFetchingUUID?: boolean;
+  isFetchingUUID: boolean | null;
   isFormattingEnabled: boolean;
-  isGroupV1AndDisabled?: boolean;
-  isMissingMandatoryProfileSharing?: boolean;
-  isSignalConversation?: boolean;
-  lastEditableMessageId?: string;
+  isGroupV1AndDisabled: boolean | null;
+  isMissingMandatoryProfileSharing: boolean | null;
+  isSignalConversation: boolean | null;
+  lastEditableMessageId: string | null;
   recordingState: RecordingState;
   messageCompositionId: string;
-  shouldHidePopovers?: boolean;
-  isSMSOnly?: boolean;
-  left?: boolean;
+  shouldHidePopovers: boolean | null;
+  isSMSOnly: boolean | null;
+  left: boolean | null;
   linkPreviewLoading: boolean;
-  linkPreviewResult?: LinkPreviewType;
+  linkPreviewResult: LinkPreviewType | null;
   onClearAttachments(conversationId: string): unknown;
   onCloseLinkPreview(conversationId: string): unknown;
   platform: string;
@@ -149,15 +150,15 @@ export type OwnProps = Readonly<{
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
     }
   ): unknown;
-  quotedMessageId?: string;
-  quotedMessageProps?: ReadonlyDeep<
+  quotedMessageId: string | null;
+  quotedMessageProps: null | ReadonlyDeep<
     Omit<
       QuoteProps,
       'i18n' | 'onClick' | 'onClose' | 'withContentAbove' | 'isCompose'
     >
   >;
-  quotedMessageAuthorAci?: AciString;
-  quotedMessageSentAt?: number;
+  quotedMessageAuthorAci: AciString | null;
+  quotedMessageSentAt: number | null;
 
   removeAttachment: (conversationId: string, filePath: string) => unknown;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
@@ -210,6 +211,7 @@ export type Props = Pick<
     | 'blessedPacks'
     | 'recentStickers'
     | 'clearInstalledStickerPack'
+    | 'showIntroduction'
     | 'clearShowIntroduction'
     | 'showPickerHint'
     | 'clearShowPickerHint'
@@ -220,7 +222,7 @@ export type Props = Pick<
     pushPanelForConversation: PushPanelForConversationActionType;
   } & OwnProps;
 
-export function CompositionArea({
+export const CompositionArea = memo(function CompositionArea({
   // Base props
   addAttachment,
   conversationId,
@@ -291,6 +293,7 @@ export function CompositionArea({
   recentStickers,
   clearInstalledStickerPack,
   sendStickerMessage,
+  showIntroduction,
   clearShowIntroduction,
   showPickerHint,
   clearShowPickerHint,
@@ -301,14 +304,18 @@ export function CompositionArea({
   conversationType,
   groupVersion,
   isBlocked,
+  isHidden,
+  isReported,
   isMissingMandatoryProfileSharing,
   left,
   removalStage,
   acceptConversation,
   blockConversation,
+  reportSpam,
   blockAndReportSpam,
   deleteConversation,
-  title,
+  conversationName,
+  addedByName,
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
   showGV2MigrationDialog,
@@ -356,8 +363,8 @@ export function CompositionArea({
           bodyRanges,
           message,
           // sent timestamp for the quote
-          quoteSentAt: quotedMessageSentAt,
-          quoteAuthorAci: quotedMessageAuthorAci,
+          quoteSentAt: quotedMessageSentAt ?? undefined,
+          quoteAuthorAci: quotedMessageAuthorAci ?? undefined,
           targetMessageId: editedMessageId,
         });
       } else {
@@ -469,12 +476,7 @@ export function CompositionArea({
     ) {
       inputApiRef.current.reset();
     }
-  }, [
-    messageCompositionId,
-    sendCounter,
-    previousMessageCompositionId,
-    previousSendCounter,
-  ]);
+  }, [messageCompositionId, sendCounter, previousMessageCompositionId, previousSendCounter]);
 
   const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {
@@ -504,7 +506,7 @@ export function CompositionArea({
 
     inputApiRef.current?.setContents(
       draftEditMessageBody ?? '',
-      draftBodyRanges,
+      draftBodyRanges ?? undefined,
       true
     );
   }, [draftBodyRanges, draftEditMessageBody, hasEditDraftChanged]);
@@ -520,7 +522,11 @@ export function CompositionArea({
       return;
     }
 
-    inputApiRef.current?.setContents(draftText, draftBodyRanges, true);
+    inputApiRef.current?.setContents(
+      draftText,
+      draftBodyRanges ?? undefined,
+      true
+    );
   }, [conversationId, draftBodyRanges, draftText, previousConversationId]);
 
   const handleToggleLarge = useCallback(() => {
@@ -637,6 +643,7 @@ export function CompositionArea({
           onPickSticker={(packId, stickerId) =>
             sendStickerMessage(conversationId, { packId, stickerId })
           }
+          showIntroduction={showIntroduction}
           clearShowIntroduction={clearShowIntroduction}
           showPickerHint={showPickerHint}
           clearShowPickerHint={clearShowPickerHint}
@@ -735,16 +742,19 @@ export function CompositionArea({
   ) {
     return (
       <MessageRequestActions
-        acceptConversation={acceptConversation}
-        blockAndReportSpam={blockAndReportSpam}
-        blockConversation={blockConversation}
-        conversationId={conversationId}
+        addedByName={addedByName}
         conversationType={conversationType}
-        deleteConversation={deleteConversation}
+        conversationId={conversationId}
+        conversationName={conversationName}
         i18n={i18n}
         isBlocked={isBlocked}
-        isHidden={removalStage !== undefined}
-        title={title}
+        isHidden={isHidden}
+        isReported={isReported}
+        acceptConversation={acceptConversation}
+        reportSpam={reportSpam}
+        blockAndReportSpam={blockAndReportSpam}
+        blockConversation={blockConversation}
+        deleteConversation={deleteConversation}
       />
     );
   }
@@ -788,14 +798,18 @@ export function CompositionArea({
   ) {
     return (
       <MandatoryProfileSharingActions
-        acceptConversation={acceptConversation}
-        blockAndReportSpam={blockAndReportSpam}
-        blockConversation={blockConversation}
+        addedByName={addedByName}
         conversationId={conversationId}
         conversationType={conversationType}
-        deleteConversation={deleteConversation}
+        conversationName={conversationName}
         i18n={i18n}
-        title={title}
+        isBlocked={isBlocked}
+        isReported={isReported}
+        acceptConversation={acceptConversation}
+        reportSpam={reportSpam}
+        blockAndReportSpam={blockAndReportSpam}
+        blockConversation={blockConversation}
+        deleteConversation={deleteConversation}
       />
     );
   }
@@ -993,7 +1007,7 @@ export function CompositionArea({
             platform={platform}
             sendCounter={sendCounter}
             shouldHidePopovers={shouldHidePopovers}
-            skinTone={skinTone}
+            skinTone={skinTone ?? null}
             sortedGroupMembers={sortedGroupMembers}
             theme={theme}
           />
@@ -1031,4 +1045,4 @@ export function CompositionArea({
       />
     </div>
   );
-}
+});

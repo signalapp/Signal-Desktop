@@ -41,6 +41,12 @@ import { PanelType } from '../../types/Panels';
 import { UserText } from '../UserText';
 import { Alert } from '../Alert';
 import { SizeObserver } from '../../hooks/useSizeObserver';
+import type { MessageRequestActionsConfirmationBaseProps } from './MessageRequestActionsConfirmation';
+import {
+  MessageRequestActionsConfirmation,
+  MessageRequestState,
+} from './MessageRequestActionsConfirmation';
+import type { ContactNameData } from './ContactName';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -60,6 +66,8 @@ export type PropsDataType = {
   isSelectMode: boolean;
   isSignalConversation?: boolean;
   theme: ThemeType;
+  addedByName: ContactNameData | null;
+  conversationName: ContactNameData;
 } & Pick<
   ConversationType,
   | 'acceptedMessageRequest'
@@ -72,6 +80,8 @@ export type PropsDataType = {
   | 'groupVersion'
   | 'id'
   | 'isArchived'
+  | 'isBlocked'
+  | 'isReported'
   | 'isMe'
   | 'isPinned'
   | 'isVerified'
@@ -81,6 +91,7 @@ export type PropsDataType = {
   | 'name'
   | 'phoneNumber'
   | 'profileName'
+  | 'removalStage'
   | 'sharedGroupNames'
   | 'title'
   | 'type'
@@ -106,7 +117,7 @@ export type PropsActionsType = {
   setMuteExpiration: (conversationId: string, seconds: number) => void;
   setPinned: (conversationId: string, value: boolean) => void;
   viewUserStories: ViewUserStoriesActionCreatorType;
-};
+} & MessageRequestActionsConfirmationBaseProps;
 
 export type PropsHousekeepingType = {
   i18n: LocalizerType;
@@ -127,6 +138,7 @@ type StateType = {
   hasCannotLeaveGroupBecauseYouAreLastAdminAlert: boolean;
   isNarrow: boolean;
   modalState: ModalState;
+  messageRequestState: MessageRequestState;
 };
 
 const TIMER_ITEM_CLASS = 'module-ConversationHeader__disappearing-timer__item';
@@ -149,12 +161,19 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       hasCannotLeaveGroupBecauseYouAreLastAdminAlert: false,
       isNarrow: false,
       modalState: ModalState.NothingOpen,
+      messageRequestState: MessageRequestState.default,
     };
 
     this.menuTriggerRef = React.createRef();
     this.headerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
   }
+
+  private handleMessageRequestStateChange = (
+    state: MessageRequestState
+  ): void => {
+    this.setState({ messageRequestState: state });
+  };
 
   private showMenu(event: React.MouseEvent<HTMLButtonElement>): void {
     if (this.menuTriggerRef.current) {
@@ -328,6 +347,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
   private renderMenu(triggerId: string): ReactNode {
     const {
+      acceptConversation,
       acceptedMessageRequest,
       canChangeTimer,
       cannotLeaveBecauseYouAreLastAdmin,
@@ -336,6 +356,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       i18n,
       id,
       isArchived,
+      isBlocked,
       isMissingMandatoryProfileSharing,
       isPinned,
       isSignalConversation,
@@ -431,6 +452,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               {i18n('icu:archiveConversation')}
             </MenuItem>
           )}
+
           <MenuItem
             onClick={() =>
               this.setState({ hasDeleteMessagesConfirmation: true })
@@ -491,98 +513,164 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         </MenuItem>
       );
     });
-
     return createPortal(
       <ContextMenu id={triggerId} rtl={isRTL}>
-        {disableTimerChanges ? null : (
-          <SubMenu hoverDelay={1} title={disappearingTitle} rtl={!isRTL}>
-            {expireDurations}
-          </SubMenu>
-        )}
-        <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
-          {muteOptions.map(item => (
+        {!acceptedMessageRequest && (
+          <>
+            {!isBlocked && (
+              <MenuItem
+                onClick={() => {
+                  this.setState({
+                    messageRequestState: MessageRequestState.blocking,
+                  });
+                }}
+              >
+                {i18n('icu:ConversationHeader__MenuItem--Block')}
+              </MenuItem>
+            )}
+            {isBlocked && (
+              <MenuItem
+                onClick={() => {
+                  this.setState({
+                    messageRequestState: MessageRequestState.unblocking,
+                  });
+                }}
+              >
+                {i18n('icu:ConversationHeader__MenuItem--Unblock')}
+              </MenuItem>
+            )}
+            {!isBlocked && (
+              <MenuItem onClick={acceptConversation}>
+                {i18n('icu:ConversationHeader__MenuItem--Accept')}
+              </MenuItem>
+            )}
             <MenuItem
-              key={item.name}
-              disabled={item.disabled}
               onClick={() => {
-                setMuteExpiration(id, item.value);
+                this.setState({
+                  messageRequestState:
+                    MessageRequestState.reportingAndMaybeBlocking,
+                });
               }}
             >
-              {item.name}
+              {i18n('icu:ConversationHeader__MenuItem--ReportSpam')}
             </MenuItem>
-          ))}
-        </SubMenu>
-        {!isGroup || hasGV2AdminEnabled ? (
-          <MenuItem
-            onClick={() =>
-              pushPanelForConversation({
-                type: PanelType.ConversationDetails,
-              })
-            }
-          >
-            {isGroup
-              ? i18n('icu:showConversationDetails')
-              : i18n('icu:showConversationDetails--direct')}
-          </MenuItem>
-        ) : null}
-        <MenuItem
-          onClick={() => pushPanelForConversation({ type: PanelType.AllMedia })}
-        >
-          {i18n('icu:viewRecentMedia')}
-        </MenuItem>
-        <MenuItem divider />
-        <MenuItem
-          onClick={() => {
-            toggleSelectMode(true);
-          }}
-        >
-          {i18n('icu:ConversationHeader__menu__selectMessages')}
-        </MenuItem>
-        <MenuItem divider />
-        {!markedUnread ? (
-          <MenuItem onClick={() => onMarkUnread(id)}>
-            {i18n('icu:markUnread')}
-          </MenuItem>
-        ) : null}
-        {isPinned ? (
-          <MenuItem onClick={() => setPinned(id, false)}>
-            {i18n('icu:unpinConversation')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={() => setPinned(id, true)}>
-            {i18n('icu:pinConversation')}
-          </MenuItem>
-        )}
-        {isArchived ? (
-          <MenuItem onClick={() => onMoveToInbox(id)}>
-            {i18n('icu:moveConversationToInbox')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={() => onArchive(id)}>
-            {i18n('icu:archiveConversation')}
-          </MenuItem>
-        )}
-        <MenuItem
-          onClick={() => this.setState({ hasDeleteMessagesConfirmation: true })}
-        >
-          {i18n('icu:deleteMessagesInConversation')}
-        </MenuItem>
-        {isGroup && (
-          <MenuItem
-            onClick={() => {
-              if (cannotLeaveBecauseYouAreLastAdmin) {
+            <MenuItem
+              onClick={() => {
                 this.setState({
-                  hasCannotLeaveGroupBecauseYouAreLastAdminAlert: true,
+                  messageRequestState: MessageRequestState.deleting,
                 });
-              } else {
-                this.setState({ hasLeaveGroupConfirmation: true });
-              }
-            }}
-          >
-            {i18n(
-              'icu:ConversationHeader__ContextMenu__LeaveGroupAction__title'
+              }}
+            >
+              {i18n('icu:ConversationHeader__MenuItem--DeleteChat')}
+            </MenuItem>
+          </>
+        )}
+        {acceptedMessageRequest && (
+          <>
+            {disableTimerChanges ? null : (
+              <SubMenu hoverDelay={1} title={disappearingTitle} rtl={!isRTL}>
+                {expireDurations}
+              </SubMenu>
             )}
-          </MenuItem>
+            <SubMenu hoverDelay={1} title={muteTitle} rtl={!isRTL}>
+              {muteOptions.map(item => (
+                <MenuItem
+                  key={item.name}
+                  disabled={item.disabled}
+                  onClick={() => {
+                    setMuteExpiration(id, item.value);
+                  }}
+                >
+                  {item.name}
+                </MenuItem>
+              ))}
+            </SubMenu>
+            {!isGroup || hasGV2AdminEnabled ? (
+              <MenuItem
+                onClick={() =>
+                  pushPanelForConversation({
+                    type: PanelType.ConversationDetails,
+                  })
+                }
+              >
+                {isGroup
+                  ? i18n('icu:showConversationDetails')
+                  : i18n('icu:showConversationDetails--direct')}
+              </MenuItem>
+            ) : null}
+            <MenuItem
+              onClick={() =>
+                pushPanelForConversation({ type: PanelType.AllMedia })
+              }
+            >
+              {i18n('icu:viewRecentMedia')}
+            </MenuItem>
+            <MenuItem divider />
+            <MenuItem
+              onClick={() => {
+                toggleSelectMode(true);
+              }}
+            >
+              {i18n('icu:ConversationHeader__menu__selectMessages')}
+            </MenuItem>
+            <MenuItem divider />
+            {!markedUnread ? (
+              <MenuItem onClick={() => onMarkUnread(id)}>
+                {i18n('icu:markUnread')}
+              </MenuItem>
+            ) : null}
+            {isPinned ? (
+              <MenuItem onClick={() => setPinned(id, false)}>
+                {i18n('icu:unpinConversation')}
+              </MenuItem>
+            ) : (
+              <MenuItem onClick={() => setPinned(id, true)}>
+                {i18n('icu:pinConversation')}
+              </MenuItem>
+            )}
+            {isArchived ? (
+              <MenuItem onClick={() => onMoveToInbox(id)}>
+                {i18n('icu:moveConversationToInbox')}
+              </MenuItem>
+            ) : (
+              <MenuItem onClick={() => onArchive(id)}>
+                {i18n('icu:archiveConversation')}
+              </MenuItem>
+            )}
+            <MenuItem
+              onClick={() => {
+                this.setState({
+                  messageRequestState: MessageRequestState.blocking,
+                });
+              }}
+            >
+              {i18n('icu:ConversationHeader__MenuItem--Block')}
+            </MenuItem>
+            <MenuItem
+              onClick={() =>
+                this.setState({ hasDeleteMessagesConfirmation: true })
+              }
+            >
+              {i18n('icu:deleteMessagesInConversation')}
+            </MenuItem>
+            {isGroup && (
+              <MenuItem
+                onClick={() => {
+                  if (cannotLeaveBecauseYouAreLastAdmin) {
+                    this.setState({
+                      hasCannotLeaveGroupBecauseYouAreLastAdminAlert: true,
+                    });
+                  } else {
+                    this.setState({ hasLeaveGroupConfirmation: true });
+                  }
+                }}
+              >
+                {i18n(
+                  'icu:ConversationHeader__ContextMenu__LeaveGroupAction__title'
+                )}
+              </MenuItem>
+            )}
+          </>
         )}
       </ContextMenu>,
       document.body
@@ -751,25 +839,35 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
   public override render(): ReactNode {
     const {
+      addedByName,
       announcementsOnly,
       areWeAdmin,
+      conversationName,
       expireTimer,
       hasPanelShowing,
       i18n,
       id,
+      isBlocked,
+      isReported,
       isSMSOnly,
       isSignalConversation,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
       outgoingCallButtonStyle,
       setDisappearingMessages,
+      type,
+      acceptConversation,
+      blockAndReportSpam,
+      blockConversation,
+      reportSpam,
+      deleteConversation,
     } = this.props;
 
     if (hasPanelShowing) {
       return null;
     }
 
-    const { isNarrow, modalState } = this.state;
+    const { isNarrow, modalState, messageRequestState } = this.state;
     const triggerId = `conversation-${id}`;
 
     let modalNode: ReactNode;
@@ -829,6 +927,22 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               {this.renderSearchButton()}
               {this.renderMoreButton(triggerId)}
               {this.renderMenu(triggerId)}
+              <MessageRequestActionsConfirmation
+                i18n={i18n}
+                conversationId={id}
+                conversationType={type}
+                addedByName={addedByName}
+                conversationName={conversationName}
+                isBlocked={isBlocked ?? false}
+                isReported={isReported ?? false}
+                state={messageRequestState}
+                acceptConversation={acceptConversation}
+                blockAndReportSpam={blockAndReportSpam}
+                blockConversation={blockConversation}
+                reportSpam={reportSpam}
+                deleteConversation={deleteConversation}
+                onChangeState={this.handleMessageRequestStateChange}
+              />
             </div>
           )}
         </SizeObserver>

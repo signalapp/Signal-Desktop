@@ -56,6 +56,11 @@ import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from 
 import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
 import { SystemMessage } from './SystemMessage';
 import { TimelineMessage } from './TimelineMessage';
+import {
+  MessageRequestResponseNotification,
+  type MessageRequestResponseNotificationData,
+} from './MessageRequestResponseNotification';
+import type { MessageRequestState } from './MessageRequestActionsConfirmation';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -137,6 +142,10 @@ type PaymentEventType = {
   type: 'paymentEvent';
   data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
 };
+type MessageRequestResponseNotificationType = {
+  type: 'messageRequestResponse';
+  data: MessageRequestResponseNotificationData;
+};
 
 export type TimelineItemType = (
   | CallHistoryType
@@ -159,6 +168,7 @@ export type TimelineItemType = (
   | UnsupportedMessageType
   | VerificationNotificationType
   | PaymentEventType
+  | MessageRequestResponseNotificationType
 ) & { timestamp: number };
 
 type PropsLocalType = {
@@ -166,10 +176,12 @@ type PropsLocalType = {
   conversationId: string;
   item?: TimelineItemType;
   id: string;
+  isBlocked: boolean;
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
+  onOpenMessageRequestActionsConfirmation(state: MessageRequestState): void;
   platform: string;
   renderContact: SmartContactRendererType<JSX.Element>;
   renderUniversalTimerNotification: () => JSX.Element;
@@ -203,9 +215,11 @@ export const TimelineItem = memo(function TimelineItem({
   getPreferredBadge,
   i18n,
   id,
+  isBlocked,
   isNextItemCallingNotification,
   isTargeted,
   item,
+  onOpenMessageRequestActionsConfirmation,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   platform,
@@ -377,6 +391,17 @@ export const TimelineItem = memo(function TimelineItem({
           {...reducedProps}
           {...item.data}
           i18n={i18n}
+        />
+      );
+    } else if (item.type === 'messageRequestResponse') {
+      notification = (
+        <MessageRequestResponseNotification
+          {...item.data}
+          i18n={i18n}
+          isBlocked={isBlocked}
+          onOpenMessageRequestActionsConfirmation={
+            onOpenMessageRequestActionsConfirmation
+          }
         />
       );
     } else {

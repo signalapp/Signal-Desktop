@@ -25,6 +25,7 @@ import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { SmartDeleteMessagesModal } from './DeleteMessagesModal';
+import { SmartMessageRequestActionsConfirmation } from './MessageRequestActionsConfirmation';
 
 function renderEditHistoryMessagesModal(): JSX.Element {
   return <SmartEditHistoryMessagesModal />;
@@ -48,6 +49,10 @@ function renderDeleteMessagesModal(): JSX.Element {
 
 function renderForwardMessagesModal(): JSX.Element {
   return <SmartForwardMessagesModal />;
+}
+
+function renderMessageRequestActionsConfirmation(): JSX.Element {
+  return <SmartMessageRequestActionsConfirmation />;
 }
 
 function renderStoriesSettings(): JSX.Element {
@@ -83,6 +88,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     errorModalProps,
     formattingWarningData,
     forwardMessagesProps,
+    messageRequestActionsConfirmationProps,
     isAuthorizingArtCreator,
     isProfileEditorVisible,
     isShortcutGuideModalVisible,
@@ -163,6 +169,9 @@ export function SmartGlobalModalContainer(): JSX.Element {
       deleteMessagesProps={deleteMessagesProps}
       formattingWarningData={formattingWarningData}
       forwardMessagesProps={forwardMessagesProps}
+      messageRequestActionsConfirmationProps={
+        messageRequestActionsConfirmationProps
+      }
       hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
       hideUserNotFoundModal={hideUserNotFoundModal}
       hideWhatsNewModal={hideWhatsNewModal}
@@ -180,6 +189,9 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderErrorModal={renderErrorModal}
       renderDeleteMessagesModal={renderDeleteMessagesModal}
       renderForwardMessagesModal={renderForwardMessagesModal}
+      renderMessageRequestActionsConfirmation={
+        renderMessageRequestActionsConfirmation
+      }
       renderProfileEditor={renderProfileEditor}
       renderUsernameOnboarding={renderUsernameOnboarding}
       renderSafetyNumber={renderSafetyNumber}

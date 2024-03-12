@@ -121,6 +121,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.PinnedConversationsFull };
     case ToastType.ReactionFailed:
       return { toastType: ToastType.ReactionFailed };
+    case ToastType.ReportedSpam:
+      return { toastType: ToastType.ReportedSpam };
     case ToastType.ReportedSpamAndBlocked:
       return { toastType: ToastType.ReportedSpamAndBlocked };
     case ToastType.StickerPackInstallFailed:

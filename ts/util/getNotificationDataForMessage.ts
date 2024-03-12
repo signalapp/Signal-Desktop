@@ -45,12 +45,15 @@ import {
   isTapToView,
   isUnsupportedMessage,
   isConversationMerge,
+  isMessageRequestResponse,
 } from '../state/selectors/message';
 import {
   getContact,
   messageHasPaymentEvent,
   getPaymentEventNotificationText,
 } from '../messages/helpers';
+import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
+import { missingCaseError } from './missingCaseError';
 
 function getNameForNumber(e164: string): string {
   const conversation = window.ConversationController.get(e164);
@@ -174,6 +177,34 @@ export function getNotificationDataForMessage(
         window.i18n
       ),
       emoji: '💳',
+    };
+  }
+
+  if (isMessageRequestResponse(attributes)) {
+    const { messageRequestResponseEvent: event } = attributes;
+    strictAssert(
+      event,
+      'getNotificationData: isMessageRequestResponse true, but no messageRequestResponseEvent!'
+    );
+    let text: string;
+    if (event === MessageRequestResponseEvent.ACCEPT) {
+      text = window.i18n(
+        'icu:MessageRequestResponseNotification__Message--Accepted'
+      );
+    } else if (event === MessageRequestResponseEvent.SPAM) {
+      text = window.i18n(
+        'icu:MessageRequestResponseNotification__Message--Reported'
+      );
+    } else if (event === MessageRequestResponseEvent.BLOCK) {
+      text = window.i18n(
+        'icu:MessageRequestResponseNotification__Message--Blocked'
+      );
+    } else {
+      throw missingCaseError(event);
+    }
+
+    return {
+      text,
     };
   }
 

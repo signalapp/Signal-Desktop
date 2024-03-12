@@ -4,9 +4,9 @@
 import { assertDev } from '../../util/assert';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import * as log from '../../logging/log';
-import type { ConversationAttributesType } from '../../model-types.d';
 import { isAciString } from '../../util/isAciString';
 import type { reportSpamJobQueue } from '../reportSpamJobQueue';
+import type { ConversationType } from '../../state/ducks/conversations';
 
 export async function addReportSpamJob({
   conversation,
@@ -14,10 +14,7 @@ export async function addReportSpamJob({
   jobQueue,
 }: Readonly<{
   conversation: Readonly<
-    Pick<
-      ConversationAttributesType,
-      'id' | 'type' | 'serviceId' | 'reportingToken'
-    >
+    Pick<ConversationType, 'id' | 'type' | 'serviceId' | 'reportingToken'>
   >;
   getMessageServerGuidsForSpam: (
     conversationId: string

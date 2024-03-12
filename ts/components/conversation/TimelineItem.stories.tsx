@@ -59,6 +59,7 @@ const getDefaultProps = () => ({
   id: 'asdf',
   isNextItemCallingNotification: false,
   isTargeted: false,
+  isBlocked: false,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
   platform: 'darwin',
@@ -118,6 +119,9 @@ const getDefaultProps = () => ({
   viewStory: action('viewStory'),
 
   onReplyToMessage: action('onReplyToMessage'),
+  onOpenMessageRequestActionsConfirmation: action(
+    'onOpenMessageRequestActionsConfirmation'
+  ),
 });
 
 export default {

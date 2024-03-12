@@ -14,6 +14,7 @@ import { toUntaggedPni } from '../../types/ServiceId';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import { expectSystemMessages } from '../helpers';
 
 export const debug = createDebug('mock:test:merge');
 
@@ -147,13 +148,9 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         const messages = window.locator('.module-message__text');
         assert.strictEqual(await messages.count(), 0, 'message count');
 
-        // No notifications
-        const notifications = window.locator('.SystemMessage');
-        assert.strictEqual(
-          await notifications.count(),
-          0,
-          'notification count'
-        );
+        await expectSystemMessages(window, [
+          'You accepted the message request',
+        ]);
       }
 
       if (withPNIMessage) {
@@ -210,20 +207,25 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           'message count'
         );
 
-        // One notification - the merge
-        const notifications = window.locator('.SystemMessage');
-        assert.strictEqual(
-          await notifications.count(),
-          withPNIMessage ? 1 : 0,
-          'notification count'
-        );
-
-        if (withPNIMessage && !pniSignatureVerified) {
-          const first = await notifications.first();
-          assert.match(
-            await first.innerText(),
-            /Your message history with ACI Contact and their number .* has been merged./
-          );
+        if (withPNIMessage) {
+          if (pniSignatureVerified) {
+            await expectSystemMessages(window, [
+              'You accepted the message request',
+              'You accepted the message request',
+              /Your message history with ACI Contact and their number .* has been merged\./,
+            ]);
+          } else {
+            await expectSystemMessages(window, [
+              'You accepted the message request',
+              'You accepted the message request',
+              /Your message history with ACI Contact and their number .* has been merged\./,
+            ]);
+          }
+        } else {
+          await expectSystemMessages(window, [
+            'You accepted the message request',
+            'You accepted the message request',
+          ]);
         }
       }
     });

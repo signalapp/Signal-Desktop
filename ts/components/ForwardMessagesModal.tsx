@@ -470,7 +470,7 @@ function ForwardMessageEditor({
       ) : null}
 
       <RenderCompositionTextArea
-        bodyRanges={draft.bodyRanges}
+        bodyRanges={draft.bodyRanges ?? null}
         draftText={draft.messageBody ?? ''}
         onChange={onChange}
         onSubmit={onSubmit}

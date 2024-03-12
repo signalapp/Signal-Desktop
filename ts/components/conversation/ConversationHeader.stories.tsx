@@ -29,8 +29,15 @@ type ItemsType = Array<{
   props: Omit<ComponentProps<typeof ConversationHeader>, 'theme'>;
 }>;
 
+const commonConversation = getDefaultConversation();
 const commonProps = {
-  ...getDefaultConversation(),
+  ...commonConversation,
+  conversationId: commonConversation.id,
+  conversationType: commonConversation.type,
+  conversationName: commonConversation,
+  addedByName: null,
+  isBlocked: commonConversation.isBlocked ?? false,
+  isReported: commonConversation.isReported ?? false,
 
   cannotLeaveBecauseYouAreLastAdmin: false,
   showBackButton: false,
@@ -59,6 +66,12 @@ const commonProps = {
   setMuteExpiration: action('onSetMuteNotifications'),
   setPinned: action('setPinned'),
   viewUserStories: action('viewUserStories'),
+
+  acceptConversation: action('acceptConversation'),
+  blockAndReportSpam: action('blockAndReportSpam'),
+  blockConversation: action('blockConversation'),
+  reportSpam: action('reportSpam'),
+  deleteConversation: action('deleteConversation'),
 };
 
 export function PrivateConvo(): JSX.Element {

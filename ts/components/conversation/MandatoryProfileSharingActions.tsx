@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import type { PropsType as ContactNameProps } from './ContactName';
 import { ContactName } from './ContactName';
 import { Button, ButtonVariant } from '../Button';
-import type { Props as MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation';
+import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
@@ -15,17 +14,20 @@ import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   i18n: LocalizerType;
-  firstName?: string;
-} & Omit<ContactNameProps, 'module'> &
-  Pick<
-    MessageRequestActionsConfirmationProps,
-    | 'acceptConversation'
-    | 'blockAndReportSpam'
-    | 'blockConversation'
-    | 'conversationId'
-    | 'conversationType'
-    | 'deleteConversation'
-  >;
+} & Pick<
+  MessageRequestActionsConfirmationProps,
+  | 'addedByName'
+  | 'conversationId'
+  | 'conversationType'
+  | 'conversationName'
+  | 'isBlocked'
+  | 'isReported'
+  | 'acceptConversation'
+  | 'reportSpam'
+  | 'blockAndReportSpam'
+  | 'blockConversation'
+  | 'deleteConversation'
+>;
 
 const learnMoreLink = (parts: Array<JSX.Element | string>) => (
   <a
@@ -39,15 +41,18 @@ const learnMoreLink = (parts: Array<JSX.Element | string>) => (
 );
 
 export function MandatoryProfileSharingActions({
-  acceptConversation,
-  blockAndReportSpam,
-  blockConversation,
+  addedByName,
   conversationId,
   conversationType,
-  deleteConversation,
-  firstName,
+  conversationName,
   i18n,
-  title,
+  isBlocked,
+  isReported,
+  acceptConversation,
+  reportSpam,
+  blockAndReportSpam,
+  blockConversation,
+  deleteConversation,
 }: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
@@ -56,7 +61,7 @@ export function MandatoryProfileSharingActions({
       key="name"
       className="module-message-request-actions__message__name"
     >
-      <ContactName firstName={firstName} title={title} preferFirstName />
+      <ContactName {...conversationName} preferFirstName />
     </strong>
   );
 
@@ -64,19 +69,23 @@ export function MandatoryProfileSharingActions({
     <>
       {mrState !== MessageRequestState.default ? (
         <MessageRequestActionsConfirmation
+          addedByName={addedByName}
+          conversationId={conversationId}
+          conversationType={conversationType}
+          conversationName={conversationName}
+          i18n={i18n}
+          isBlocked={isBlocked}
+          isReported={isReported}
+          state={mrState}
           acceptConversation={() => {
             throw new Error(
               'Should not be able to unblock from MandatoryProfileSharingActions'
             );
           }}
           blockConversation={blockConversation}
-          conversationId={conversationId}
           deleteConversation={deleteConversation}
-          i18n={i18n}
+          reportSpam={reportSpam}
           blockAndReportSpam={blockAndReportSpam}
-          title={title}
-          conversationType={conversationType}
-          state={mrState}
           onChangeState={setMrState}
         />
       ) : null}

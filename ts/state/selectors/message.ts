@@ -140,6 +140,7 @@ import { CallMode } from '../../types/Calling';
 import { CallDirection } from '../../types/CallDisposition';
 import { getCallIdFromEra } from '../../util/callDisposition';
 import { LONG_MESSAGE } from '../../types/MIME';
+import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -971,6 +972,14 @@ export function getPropsForBubble(
     };
   }
 
+  if (isMessageRequestResponse(message)) {
+    return {
+      type: 'messageRequestResponse',
+      data: getPropsForMessageRequestResponse(message),
+      timestamp,
+    };
+  }
+
   const data = getPropsForMessage(message, options);
 
   return {
@@ -1459,6 +1468,24 @@ function getPropsForProfileChange(
     changedContact,
     change,
   } as ProfileChangeNotificationPropsType;
+}
+
+// Message Request Response Event
+
+export function isMessageRequestResponse(
+  message: MessageAttributesType
+): boolean {
+  return message.type === 'message-request-response-event';
+}
+
+function getPropsForMessageRequestResponse(
+  message: MessageAttributesType
+): MessageRequestResponseNotificationData {
+  const { messageRequestResponseEvent } = message;
+  if (!messageRequestResponseEvent) {
+    throw new Error('getPropsForMessageRequestResponse: event is missing!');
+  }
+  return { messageRequestResponseEvent };
 }
 
 // Universal Timer Notification
