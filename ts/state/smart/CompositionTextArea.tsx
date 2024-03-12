@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import type { CompositionTextAreaProps } from '../../components/CompositionTextArea';
 import { CompositionTextArea } from '../../components/CompositionTextArea';
 import { getIntl, getPlatform } from '../selectors/user';
-import { useActions as useEmojiActions } from '../ducks/emojis';
+import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
 import { useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useComposerActions } from '../ducks/composer';

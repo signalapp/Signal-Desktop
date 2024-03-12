@@ -32,7 +32,7 @@ import { isSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { strictAssert } from '../../util/assert';
 import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
-import { useActions as useEmojisActions } from '../ducks/emojis';
+import { useEmojisActions } from '../ducks/emojis';
 import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useItemsActions } from '../ducks/items';

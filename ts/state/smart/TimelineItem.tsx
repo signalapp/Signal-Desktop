@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
@@ -35,11 +35,13 @@ import { isSameDay } from '../../util/timestamp';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
+import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
 
 export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
+  isBlocked: boolean;
   isOldestTimelineItem: boolean;
   messageId: string;
   nextMessageId: undefined | string;
@@ -59,6 +61,7 @@ export function SmartTimelineItem(props: SmartTimelineItemProps): JSX.Element {
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
+    isBlocked,
     isOldestTimelineItem,
     messageId,
     nextMessageId,
@@ -136,22 +139,26 @@ export function SmartTimelineItem(props: SmartTimelineItemProps): JSX.Element {
   const {
     showContactModal,
     showEditHistoryModal,
+    toggleMessageRequestActionsConfirmation,
     toggleDeleteMessagesModal,
     toggleForwardMessagesModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
-
   const { checkForAccount } = useAccountsActions();
-
   const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
-
   const { viewStory } = useStoriesActions();
-
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
     returnToActiveCall,
   } = useCallingActions();
+
+  const onOpenMessageRequestActionsConfirmation = useCallback(
+    (state: MessageRequestState) => {
+      toggleMessageRequestActionsConfirmation({ conversationId, state });
+    },
+    [conversationId, toggleMessageRequestActionsConfirmation]
+  );
 
   return (
     <TimelineItem
@@ -175,6 +182,7 @@ export function SmartTimelineItem(props: SmartTimelineItemProps): JSX.Element {
       showEditHistoryModal={showEditHistoryModal}
       i18n={i18n}
       interactionMode={interactionMode}
+      isBlocked={isBlocked}
       theme={theme}
       platform={platform}
       blockGroupLinkRequests={blockGroupLinkRequests}
@@ -188,6 +196,9 @@ export function SmartTimelineItem(props: SmartTimelineItemProps): JSX.Element {
       pushPanelForConversation={pushPanelForConversation}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
+      onOpenMessageRequestActionsConfirmation={
+        onOpenMessageRequestActionsConfirmation
+      }
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       retryDeleteForEveryone={retryDeleteForEveryone}

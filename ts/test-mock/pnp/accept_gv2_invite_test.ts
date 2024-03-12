@@ -13,6 +13,7 @@ import {
 } from '../../util/libphonenumberInstance';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import { expectSystemMessages } from '../helpers';
 
 export const debug = createDebug('mock:test:gv2');
 
@@ -114,11 +115,13 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Checking that notifications are present');
     await window
-      .locator(`"${first.profileName} invited you to the group."`)
+      .locator(
+        `.SystemMessage:has-text("${first.profileName} invited you to the group.")`
+      )
       .waitFor();
     await window
       .locator(
-        `"You accepted an invitation to the group from ${first.profileName}."`
+        `.SystemMessage:has-text("You accepted an invitation to the group from ${first.profileName}.")`
       )
       .waitFor();
 
@@ -130,7 +133,9 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     assert(group.getPendingMemberByServiceId(desktop.pni));
 
     await window
-      .locator(`"${second.profileName} invited you to the group."`)
+      .locator(
+        `.SystemMessage:has-text("${second.profileName} invited you to the group.")`
+      )
       .waitFor();
 
     debug('Verify that message request state is not visible');
@@ -179,11 +184,11 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Declining');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Delete"')
+      .locator('.module-message-request-actions button >> "Block"')
       .click();
 
     debug('waiting for confirmation modal');
-    await window.locator('.module-Modal button >> "Delete and Leave"').click();
+    await window.locator('.module-Modal button >> "Block"').click();
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
@@ -217,7 +222,9 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Waiting for the PNI invite');
     await window
-      .locator(`text=${first.profileName} invited you to the group.`)
+      .locator(
+        `.SystemMessage:has-text("${first.profileName} invited you to the group.")`
+      )
       .waitFor();
 
     debug('Inviting ACI from another contact');
@@ -229,7 +236,9 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Waiting for the ACI invite');
     await window
-      .locator(`text=${second.profileName} invited you to the group.`)
+      .locator(
+        `.SystemMessage:has-text("${second.profileName} invited you to the group.")`
+      )
       .waitFor();
 
     debug('Accepting');
@@ -240,8 +249,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     debug('Checking final notification');
     await window
       .locator(
-        '.SystemMessage >> text=You accepted an invitation to the group from ' +
-          `${second.profileName}.`
+        `.SystemMessage:has-text("You accepted an invitation to the group from ${second.profileName}.")`
       )
       .waitFor();
 
@@ -291,11 +299,11 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Declining');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Delete"')
+      .locator('.module-message-request-actions button >> "Block"')
       .click();
 
     debug('waiting for confirmation modal');
-    await window.locator('.module-Modal button >> "Delete and Leave"').click();
+    await window.locator('.module-Modal button >> "Block"').click();
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);
@@ -347,13 +355,10 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       sendUpdateTo: [{ device: desktop }],
     });
 
-    await window
-      .locator(
-        '.SystemMessage >> ' +
-          `text=${second.profileName} accepted an invitation to the group ` +
-          `from ${first.profileName}.`
-      )
-      .waitFor();
+    await expectSystemMessages(window, [
+      'You were added to the group.',
+      `${second.profileName} accepted an invitation to the group from ${first.profileName}.`,
+    ]);
   });
 
   it('should display a e164 for a PNI invite', async () => {
@@ -398,7 +403,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     }
     const { e164 } = parsedE164;
     await window
-      .locator(`.SystemMessage >> text=You invited ${e164} to the group`)
+      .locator(`.SystemMessage:has-text("You invited ${e164} to the group")`)
       .waitFor();
 
     debug('Accepting remote invite');
@@ -408,11 +413,10 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     });
 
     debug('Waiting for accept notification');
-    await window
-      .locator(
-        '.SystemMessage >> ' +
-          `text=${unknownPniContact.profileName} accepted your invitation to the group`
-      )
-      .waitFor();
+    await expectSystemMessages(window, [
+      'You were added to the group.',
+      /^You invited .* to the group\.$/,
+      `${unknownPniContact.profileName} accepted your invitation to the group.`,
+    ]);
   });
 });

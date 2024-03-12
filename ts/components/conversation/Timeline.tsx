@@ -81,6 +81,7 @@ export type PropsDataType = {
 
 type PropsHousekeepingType = {
   id: string;
+  isBlocked: boolean;
   isConversationSelected: boolean;
   isGroupV1AndDisabled?: boolean;
   isIncomingMessageRequest: boolean;
@@ -121,6 +122,7 @@ type PropsHousekeepingType = {
     containerElementRef: RefObject<HTMLElement>;
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
+    isBlocked: boolean;
     isOldestTimelineItem: boolean;
     messageId: string;
     nextMessageId: undefined | string;
@@ -786,6 +788,7 @@ export class Timeline extends React.Component<
       i18n,
       id,
       invitedContactsForNewlyCreatedGroup,
+      isBlocked,
       isConversationSelected,
       isGroupV1AndDisabled,
       items,
@@ -928,6 +931,7 @@ export class Timeline extends React.Component<
               containerElementRef: this.containerRef,
               containerWidthBreakpoint: widthBreakpoint,
               conversationId: id,
+              isBlocked,
               isOldestTimelineItem: haveOldest && itemIndex === 0,
               messageId,
               nextMessageId,

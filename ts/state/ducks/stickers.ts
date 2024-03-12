@@ -22,6 +22,8 @@ import { ERASE_STORAGE_SERVICE } from './user';
 import type { EraseStorageServiceStateAction } from './user';
 
 import type { NoopActionType } from './noop';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 const { getRecentStickers, updateStickerLastUsed } = dataInterface;
 
@@ -153,6 +155,10 @@ export const actions = {
   uninstallStickerPack,
   useSticker,
 };
+
+export const useStickersActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function removeStickerPack(id: string): StickerPackRemovedAction {
   return {

@@ -23,7 +23,7 @@ import {
 
 // State
 
-export type AudioPlayerStateType = ReadonlyDeep<{
+export type AudioRecorderStateType = ReadonlyDeep<{
   recordingState: RecordingState;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
 }>;
@@ -211,16 +211,16 @@ function errorRecording(
 
 // Reducer
 
-export function getEmptyState(): AudioPlayerStateType {
+export function getEmptyState(): AudioRecorderStateType {
   return {
     recordingState: RecordingState.Idle,
   };
 }
 
 export function reducer(
-  state: Readonly<AudioPlayerStateType> = getEmptyState(),
+  state: Readonly<AudioRecorderStateType> = getEmptyState(),
   action: Readonly<AudioPlayerActionType>
-): AudioPlayerStateType {
+): AudioRecorderStateType {
   if (action.type === START_RECORDING) {
     return {
       ...state,

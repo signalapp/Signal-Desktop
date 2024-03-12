@@ -371,6 +371,14 @@ export function renderToast({
     return <Toast onClose={hideToast}>{i18n('icu:Reactions--error')}</Toast>;
   }
 
+  if (toastType === ToastType.ReportedSpam) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:MessageRequests--report-spam-success-toast')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.ReportedSpamAndBlocked) {
     return (
       <Toast onClose={hideToast}>

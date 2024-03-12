@@ -33,8 +33,9 @@ export const actions = {
   useEmoji,
 };
 
-export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
-  useBoundActions(actions);
+export const useEmojisActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function onUseEmoji({
   shortName,

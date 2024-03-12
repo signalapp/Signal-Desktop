@@ -32,6 +32,7 @@ import type { AnyPaymentEvent } from './types/Payment';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
+import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent';
 
 export type LastMessageStatus =
   | 'paused'
@@ -156,6 +157,7 @@ export type MessageAttributesType = {
   logger?: unknown;
   message?: unknown;
   messageTimer?: unknown;
+  messageRequestResponseEvent?: MessageRequestResponseEvent;
   profileChange?: ProfileNameChangeType;
   payment?: AnyPaymentEvent;
   quote?: QuotedMessageType;
@@ -192,7 +194,8 @@ export type MessageAttributesType = {
     | 'universal-timer-notification'
     | 'contact-removed-notification'
     | 'title-transition-notification'
-    | 'verified-change';
+    | 'verified-change'
+    | 'message-request-response-event';
   body?: string;
   attachments?: Array<AttachmentType>;
   preview?: Array<LinkPreviewType>;
@@ -359,6 +362,7 @@ export type ConversationAttributesType = {
   draftEditMessage?: DraftEditMessageType;
   hasPostedStory?: boolean;
   isArchived?: boolean;
+  isReported?: boolean;
   name?: string;
   systemGivenName?: string;
   systemFamilyName?: string;

@@ -10,6 +10,7 @@ import * as durations from '../../util/durations';
 import { generatePni, toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import { expectSystemMessages } from '../helpers';
 
 export const debug = createDebug('mock:test:pni-change');
 
@@ -97,8 +98,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 0, 'message count');
 
       // No notifications
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      await expectSystemMessages(window, ['You accepted the message request']);
     }
 
     debug('Send message to contactA');
@@ -165,11 +165,10 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 1, 'message count');
 
       // Only a PhoneNumberDiscovery notification
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notification count');
-
-      const first = await notifications.first();
-      assert.match(await first.innerText(), /.* belongs to ContactA/);
+      await expectSystemMessages(window, [
+        'You accepted the message request',
+        /.* belongs to ContactA/,
+      ]);
     }
   });
 
@@ -199,9 +198,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 0, 'message count');
 
-      // No notifications
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      await expectSystemMessages(window, ['You accepted the message request']);
     }
 
     debug('Send message to contactA');
@@ -268,14 +265,11 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 1, 'message count');
 
       // Two notifications - the safety number change and PhoneNumberDiscovery
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 2, 'notification count');
-
-      const first = await notifications.first();
-      assert.match(await first.innerText(), /.* belongs to ContactA/);
-
-      const second = await notifications.nth(1);
-      assert.match(await second.innerText(), /Safety Number has changed/);
+      await expectSystemMessages(window, [
+        'You accepted the message request',
+        /.* belongs to ContactA/,
+        /Safety Number has changed/,
+      ]);
     }
   });
 
@@ -305,9 +299,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 0, 'message count');
 
-      // No notifications
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      await expectSystemMessages(window, ['You accepted the message request']);
     }
 
     debug('Send message to contactA');
@@ -403,15 +395,12 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 2, 'message count');
 
-      // Two notifications - the safety number change and PhoneNumberDiscovery
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 2, 'notification count');
-
-      const first = await notifications.first();
-      assert.match(await first.innerText(), /.* belongs to ContactA/);
-
-      const second = await notifications.nth(1);
-      assert.match(await second.innerText(), /Safety Number has changed/);
+      // Three notifications - accepted, the safety number change and PhoneNumberDiscovery
+      await expectSystemMessages(window, [
+        'You accepted the message request',
+        /.* belongs to ContactA/,
+        /Safety Number has changed/,
+      ]);
     }
   });
 
@@ -442,8 +431,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 0, 'message count');
 
       // No notifications
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      await expectSystemMessages(window, ['You accepted the message request']);
     }
 
     debug('Send message to contactA');
@@ -563,11 +551,10 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 2, 'message count');
 
       // Only a PhoneNumberDiscovery notification
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notification count');
-
-      const first = await notifications.first();
-      assert.match(await first.innerText(), /.* belongs to ContactA/);
+      await expectSystemMessages(window, [
+        'You accepted the message request',
+        /.* belongs to ContactA/,
+      ]);
     }
   });
 });

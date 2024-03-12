@@ -258,8 +258,15 @@ export function StoryViewsNRepliesModal({
               }
               platform={platform}
               sendCounter={0}
-              sortedGroupMembers={sortedGroupMembers}
+              skinTone={skinTone ?? null}
+              sortedGroupMembers={sortedGroupMembers ?? null}
               theme={ThemeType.dark}
+              conversationId={null}
+              draftBodyRanges={null}
+              draftEditMessage={null}
+              large={null}
+              shouldHidePopovers={null}
+              linkPreviewResult={null}
             >
               <EmojiButton
                 className="StoryViewsNRepliesModal__emoji-button"

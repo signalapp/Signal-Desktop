@@ -179,6 +179,10 @@ import {
 import type { ChangeNavTabActionType } from './nav';
 import { CHANGE_NAV_TAB, NavTab, actions as navActions } from './nav';
 import { sortByMessageOrder } from '../../types/ForwardDraft';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
+import { getConversationIdForLogging } from '../../util/idForLogging';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
+import MessageSender from '../../textsecure/SendMessage';
 
 // State
 
@@ -228,6 +232,10 @@ export type DraftPreviewType = ReadonlyDeep<{
   bodyRanges?: HydratedBodyRangesType;
 }>;
 
+export type ConversationRemovalStage = ReadonlyDeep<
+  'justNotification' | 'messageRequest'
+>;
+
 export type ConversationType = ReadonlyDeep<
   {
     id: string;
@@ -265,7 +273,9 @@ export type ConversationType = ReadonlyDeep<
     hideStory?: boolean;
     isArchived?: boolean;
     isBlocked?: boolean;
-    removalStage?: 'justNotification' | 'messageRequest';
+    isReported?: boolean;
+    reportingToken?: string;
+    removalStage?: ConversationRemovalStage;
     isGroupV1AndDisabled?: boolean;
     isPinned?: boolean;
     isUntrusted?: boolean;
@@ -1026,6 +1036,7 @@ export const actions = {
   acknowledgeGroupMemberNameCollisions,
   addMembersToGroup,
   approvePendingMembershipFromGroupV2,
+  reportSpam,
   blockAndReportSpam,
   blockConversation,
   blockGroupLinkRequests,
@@ -3243,68 +3254,195 @@ function revokePendingMembershipsFromGroupV2(
   };
 }
 
+async function syncMessageRequestResponse(
+  conversationData: ConversationType,
+  response: Proto.SyncMessage.MessageRequestResponse.Type,
+  { shouldSave = true } = {}
+): Promise<void> {
+  const conversation = window.ConversationController.get(conversationData.id);
+  if (!conversation) {
+    throw new Error(
+      `syncMessageRequestResponse: No conversation found for conversation ${conversationData.id}`
+    );
+  }
+
+  // In GroupsV2, this may modify the server. We only want to continue if those
+  //   server updates were successful.
+  await conversation.applyMessageRequestResponse(response, { shouldSave });
+
+  const groupId = conversation.getGroupIdBuffer();
+
+  if (window.ConversationController.areWePrimaryDevice()) {
+    log.warn(
+      'syncMessageRequestResponse: We are primary device; not sending message request sync'
+    );
+    return;
+  }
+
+  try {
+    await singleProtoJobQueue.add(
+      MessageSender.getMessageRequestResponseSync({
+        threadE164: conversation.get('e164'),
+        threadAci: conversation.getAci(),
+        groupId,
+        type: response,
+      })
+    );
+  } catch (error) {
+    log.error(
+      'syncMessageRequestResponse: Failed to queue sync message',
+      Errors.toLogFormat(error)
+    );
+  }
+}
+
+function getConversationForReportSpam(
+  conversation: ConversationType
+): ConversationType | null {
+  if (conversation.type === 'group') {
+    const addedBy = getAddedByForOurPendingInvitation(conversation);
+    if (addedBy == null) {
+      log.error(
+        `getConversationForReportSpam: No addedBy found for ${conversation.id}`
+      );
+      return null;
+    }
+    return addedBy;
+  }
+
+  return conversation;
+}
+
+function reportSpam(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async (dispatch, getState) => {
+    const conversationSelector = getConversationSelector(getState());
+    const conversationOrGroup = conversationSelector(conversationId);
+    if (!conversationOrGroup) {
+      log.error(
+        `reportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
+      );
+      return;
+    }
+
+    const conversation = getConversationForReportSpam(conversationOrGroup);
+    if (conversation == null) {
+      return;
+    }
+
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+    const idForLogging = getConversationIdForLogging(conversation);
+
+    drop(
+      longRunningTaskWrapper({
+        name: 'reportSpam',
+        idForLogging,
+        task: async () => {
+          await Promise.all([
+            syncMessageRequestResponse(conversation, messageRequestEnum.SPAM),
+            addReportSpamJob({
+              conversation,
+              getMessageServerGuidsForSpam:
+                window.Signal.Data.getMessageServerGuidsForSpam,
+              jobQueue: reportSpamJobQueue,
+            }),
+          ]);
+
+          dispatch({
+            type: SHOW_TOAST,
+            payload: {
+              toastType: ToastType.ReportedSpam,
+            },
+          });
+        },
+      })
+    );
+  };
+}
+
 function blockAndReportSpam(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
-  return async dispatch => {
-    const conversation = window.ConversationController.get(conversationId);
-    if (!conversation) {
+  return async (dispatch, getState) => {
+    const conversationSelector = getConversationSelector(getState());
+    const conversationOrGroup = conversationSelector(conversationId);
+    if (!conversationOrGroup) {
       log.error(
         `blockAndReportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
       );
       return;
     }
 
+    const conversationForSpam =
+      getConversationForReportSpam(conversationOrGroup);
+
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-    const idForLogging = conversation.idForLogging();
+    const idForLogging = getConversationIdForLogging(conversationOrGroup);
 
-    void longRunningTaskWrapper({
-      name: 'blockAndReportSpam',
-      idForLogging,
-      task: async () => {
-        await Promise.all([
-          conversation.syncMessageRequestResponse(messageRequestEnum.BLOCK),
-          addReportSpamJob({
-            conversation: conversation.attributes,
-            getMessageServerGuidsForSpam:
-              window.Signal.Data.getMessageServerGuidsForSpam,
-            jobQueue: reportSpamJobQueue,
-          }),
-        ]);
+    drop(
+      longRunningTaskWrapper({
+        name: 'blockAndReportSpam',
+        idForLogging,
+        task: async () => {
+          await Promise.all([
+            syncMessageRequestResponse(
+              conversationOrGroup,
+              messageRequestEnum.BLOCK_AND_SPAM
+            ),
+            conversationForSpam != null &&
+              addReportSpamJob({
+                conversation: conversationForSpam,
+                getMessageServerGuidsForSpam:
+                  window.Signal.Data.getMessageServerGuidsForSpam,
+                jobQueue: reportSpamJobQueue,
+              }),
+          ]);
 
-        dispatch({
-          type: SHOW_TOAST,
-          payload: {
-            toastType: ToastType.ReportedSpamAndBlocked,
-          },
-        });
-      },
-    });
+          dispatch({
+            type: SHOW_TOAST,
+            payload: {
+              toastType: ToastType.ReportedSpamAndBlocked,
+            },
+          });
+        },
+      })
+    );
   };
 }
 
-function acceptConversation(conversationId: string): NoopActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error(
-      'acceptConversation: Expected a conversation to be found. Doing nothing'
+function acceptConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async (dispatch, getState) => {
+    const conversationSelector = getConversationSelector(getState());
+    const conversationOrGroup = conversationSelector(conversationId);
+    if (!conversationOrGroup) {
+      throw new Error(
+        'acceptConversation: Expected a conversation to be found. Doing nothing'
+      );
+    }
+
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+    const idForLogging = getConversationIdForLogging(conversationOrGroup);
+
+    drop(
+      longRunningTaskWrapper({
+        name: 'acceptConversation',
+        idForLogging,
+        task: async () => {
+          await syncMessageRequestResponse(
+            conversationOrGroup,
+            messageRequestEnum.ACCEPT
+          );
+        },
+      })
     );
-  }
 
-  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-
-  void longRunningTaskWrapper({
-    name: 'acceptConversation',
-    idForLogging: conversation.idForLogging(),
-    task: conversation.syncMessageRequestResponse.bind(
-      conversation,
-      messageRequestEnum.ACCEPT
-    ),
-  });
-
-  return {
-    type: 'NOOP',
-    payload: null,
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 
@@ -3329,53 +3467,74 @@ function removeConversation(conversationId: string): ShowToastActionType {
   };
 }
 
-function blockConversation(conversationId: string): NoopActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error(
-      'blockConversation: Expected a conversation to be found. Doing nothing'
+function blockConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return (dispatch, getState) => {
+    const conversationSelector = getConversationSelector(getState());
+    const conversation = conversationSelector(conversationId);
+
+    if (!conversation) {
+      throw new Error(
+        'blockConversation: Expected a conversation to be found. Doing nothing'
+      );
+    }
+
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+    const idForLogging = getConversationIdForLogging(conversation);
+
+    drop(
+      longRunningTaskWrapper({
+        name: 'blockConversation',
+        idForLogging,
+        task: async () => {
+          await syncMessageRequestResponse(
+            conversation,
+            messageRequestEnum.BLOCK
+          );
+        },
+      })
     );
-  }
 
-  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-
-  void longRunningTaskWrapper({
-    name: 'blockConversation',
-    idForLogging: conversation.idForLogging(),
-    task: conversation.syncMessageRequestResponse.bind(
-      conversation,
-      messageRequestEnum.BLOCK
-    ),
-  });
-
-  return {
-    type: 'NOOP',
-    payload: null,
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 
-function deleteConversation(conversationId: string): NoopActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error(
-      'deleteConversation: Expected a conversation to be found. Doing nothing'
+function deleteConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return (dispatch, getState) => {
+    const conversationSelector = getConversationSelector(getState());
+    const conversation = conversationSelector(conversationId);
+    if (!conversation) {
+      throw new Error(
+        'deleteConversation: Expected a conversation to be found. Doing nothing'
+      );
+    }
+
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+    const idForLogging = getConversationIdForLogging(conversation);
+
+    drop(
+      longRunningTaskWrapper({
+        name: 'deleteConversation',
+        idForLogging,
+        task: async () => {
+          await syncMessageRequestResponse(
+            conversation,
+            messageRequestEnum.DELETE
+          );
+        },
+      })
     );
-  }
 
-  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-
-  void longRunningTaskWrapper({
-    name: 'deleteConversation',
-    idForLogging: conversation.idForLogging(),
-    task: conversation.syncMessageRequestResponse.bind(
-      conversation,
-      messageRequestEnum.DELETE
-    ),
-  });
-
-  return {
-    type: 'NOOP',
-    payload: null,
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 

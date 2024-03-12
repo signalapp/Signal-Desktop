@@ -335,6 +335,10 @@ const actions = () => ({
   viewStory: action('viewStory'),
 
   onReplyToMessage: action('onReplyToMessage'),
+
+  onOpenMessageRequestActionsConfirmation: action(
+    'onOpenMessageRequestActionsConfirmation'
+  ),
 });
 
 const renderItem = ({
@@ -350,6 +354,7 @@ const renderItem = ({
     getPreferredBadge={() => undefined}
     id=""
     isTargeted={false}
+    isBlocked={false}
     i18n={i18n}
     interactionMode="keyboard"
     isNextItemCallingNotification={false}
@@ -442,6 +447,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   getTimestampForMessage: Date.now,
   haveNewest: overrideProps.haveNewest ?? false,
   haveOldest: overrideProps.haveOldest ?? false,
+  isBlocked: false,
   isConversationSelected: true,
   isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
   items: overrideProps.items ?? Object.keys(items),

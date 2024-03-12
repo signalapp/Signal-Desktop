@@ -228,3 +228,17 @@ export const getNavTabsCollapsed = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
 );
+
+export const getShowStickersIntroduction = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.showStickersIntroduction ?? false;
+  }
+);
+
+export const getShowStickerPickerHint = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.showStickerPickerHint ?? false;
+  }
+);

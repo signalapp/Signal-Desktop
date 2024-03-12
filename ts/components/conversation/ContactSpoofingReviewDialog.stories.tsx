@@ -21,6 +21,7 @@ export default {
 
 const getCommonProps = () => ({
   acceptConversation: action('acceptConversation'),
+  reportSpam: action('reportSpam'),
   blockAndReportSpam: action('blockAndReportSpam'),
   blockConversation: action('blockConversation'),
   conversationId: 'some-conversation-id',

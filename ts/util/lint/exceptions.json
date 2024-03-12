@@ -3374,6 +3374,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/SafetyTipsModal.tsx",
+    "line": "  const scrollEndTimer = useRef<NodeJS.Timeout | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-03-08T01:48:15.330Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Slider.tsx",
     "line": "  const diff = useRef<number>(0);",
     "reasonCategory": "usageTrusted",

@@ -42,6 +42,7 @@ import { SHOW_TOAST } from './toast';
 import type { ShowToastActionType } from './toast';
 import { isDownloaded } from '../../types/Attachment';
 import type { ButtonVariant } from '../../components/Button';
+import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
 
 // State
 
@@ -57,6 +58,10 @@ export type ForwardMessagePropsType = ReadonlyDeep<MessagePropsType>;
 export type ForwardMessagesPropsType = ReadonlyDeep<{
   messages: Array<ForwardMessagePropsType>;
   onForward?: () => void;
+}>;
+export type MessageRequestActionsConfirmationPropsType = ReadonlyDeep<{
+  conversationId: string;
+  state: MessageRequestState;
 }>;
 export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: SingleServePromise.SingleServePromiseIdString;
@@ -101,6 +106,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   isSignalConnectionsVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
+  messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   usernameOnboardingState: UsernameOnboardingState;
   profileEditorHasError: boolean;
   profileEditorInitialEditState: ProfileEditorEditState | undefined;
@@ -144,6 +150,8 @@ const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
 const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
 export const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+const TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION =
+  'globalModals/TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION';
 const SHOW_FORMATTING_WARNING_MODAL =
   'globalModals/SHOW_FORMATTING_WARNING_MODAL';
 const SHOW_SEND_EDIT_WARNING_MODAL =
@@ -316,6 +324,11 @@ export type ShowErrorModalActionType = ReadonlyDeep<{
   };
 }>;
 
+type ToggleMessageRequestActionsConfirmationActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION;
+  payload: MessageRequestActionsConfirmationPropsType | null;
+}>;
+
 type CloseShortcutGuideModalActionType = ReadonlyDeep<{
   type: typeof CLOSE_SHORTCUT_GUIDE_MODAL;
 }>;
@@ -373,6 +386,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
+  | ToggleMessageRequestActionsConfirmationActionType
   | ShowFormattingWarningModalActionType
   | ShowSendAnywayDialogActionType
   | ShowSendEditWarningModalActionType
@@ -414,6 +428,7 @@ export const actions = {
   showContactModal,
   showEditHistoryModal,
   showErrorModal,
+  toggleMessageRequestActionsConfirmation,
   showFormattingWarningModal,
   showSendEditWarningModal,
   showGV2MigrationDialog,
@@ -750,6 +765,18 @@ function showErrorModal({
   };
 }
 
+function toggleMessageRequestActionsConfirmation(
+  payload: {
+    conversationId: string;
+    state: MessageRequestState;
+  } | null
+): ToggleMessageRequestActionsConfirmationActionType {
+  return {
+    type: TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION,
+    payload,
+  };
+}
+
 function closeShortcutGuideModal(): CloseShortcutGuideModalActionType {
   return {
     type: CLOSE_SHORTCUT_GUIDE_MODAL,
@@ -908,6 +935,7 @@ export function getEmptyState(): GlobalModalsStateType {
     usernameOnboardingState: UsernameOnboardingState.NeverShown,
     profileEditorHasError: false,
     profileEditorInitialEditState: undefined,
+    messageRequestActionsConfirmationProps: null,
   };
 }
 
@@ -1129,6 +1157,13 @@ export function reducer(
     return {
       ...state,
       errorModalProps: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION) {
+    return {
+      ...state,
+      messageRequestActionsConfirmationProps: action.payload,
     };
   }
 

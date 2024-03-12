@@ -23,6 +23,7 @@ import {
   RECEIPT_BATCHER_WAIT_MS,
 } from '../../types/Receipt';
 import { sleep } from '../../util/sleep';
+import { expectSystemMessages } from '../helpers';
 
 export const debug = createDebug('mock:test:pni-signature');
 
@@ -235,9 +236,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 4, 'message count');
 
-      // No notifications
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      await expectSystemMessages(window, ['You accepted the message request']);
     }
   });
 
@@ -424,11 +423,10 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 3, 'messages');
 
       // Title transition notification
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notifications');
-
-      const first = await notifications.first();
-      assert.match(await first.innerText(), /You started this chat with/);
+      await expectSystemMessages(window, [
+        'You accepted the message request',
+        /You started this chat with/,
+      ]);
 
       assert.isEmpty(await phone.getOrphanedStorageKeys());
     }

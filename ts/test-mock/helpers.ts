@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Locator } from 'playwright';
+import { assert } from 'chai';
+import type { Locator, Page } from 'playwright';
 
 export function bufferToUuid(buffer: Buffer): string {
   const hex = buffer.toString('hex');
@@ -31,4 +32,45 @@ export async function type(input: Locator, text: string): Promise<void> {
   // Wait to ensure that the input (and react state controlling it) has actually
   // updated with the right value
   await input.locator(`:text("${currentValue}${text}")`).waitFor();
+}
+
+export async function expectItemsWithText(
+  items: Locator,
+  expected: ReadonlyArray<string | RegExp>
+): Promise<void> {
+  // Wait for each message to appear in case they're not all there yet
+  for (const [index, message] of expected.entries()) {
+    const nth = items.nth(index);
+    // eslint-disable-next-line no-await-in-loop
+    await nth.waitFor();
+    // eslint-disable-next-line no-await-in-loop
+    const text = await nth.innerText();
+    const log = `Expect item at index ${index} to match`;
+    if (typeof message === 'string') {
+      assert.strictEqual(text, message, log);
+    } else {
+      assert.match(text, message, log);
+    }
+  }
+
+  const innerTexts = await items.allInnerTexts();
+  assert.deepEqual(
+    innerTexts.length,
+    expected.length,
+    `Expect correct number of items\nActual:\n${innerTexts
+      .map(text => `  - "${text}"\n`)
+      .join('')}\nExpected:\n${expected
+      .map(text => `  - ${text.toString()}\n`)
+      .join('')}`
+  );
+}
+
+export async function expectSystemMessages(
+  context: Page | Locator,
+  expected: ReadonlyArray<string | RegExp>
+): Promise<void> {
+  await expectItemsWithText(
+    context.locator('.SystemMessage__contents'),
+    expected
+  );
 }

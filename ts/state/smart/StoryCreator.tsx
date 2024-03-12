@@ -32,7 +32,7 @@ import {
 } from '../selectors/items';
 import { imageToBlurHash } from '../../util/imageToBlurHash';
 import { processAttachment } from '../../util/processAttachment';
-import { useActions as useEmojisActions } from '../ducks/emojis';
+import { useEmojisActions } from '../ducks/emojis';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useComposerActions } from '../ducks/composer';
 import { useConversationsActions } from '../ducks/conversations';
@@ -148,6 +148,7 @@ export function SmartStoryCreator(): JSX.Element | null {
       sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
+      sortedGroupMembers={null}
       skinTone={skinTone}
       theme={ThemeType.dark}
       toggleGroupsForStorySend={toggleGroupsForStorySend}

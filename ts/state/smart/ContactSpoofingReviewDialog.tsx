@@ -44,6 +44,7 @@ export function SmartContactSpoofingReviewDialog(
 
   const {
     acceptConversation,
+    reportSpam,
     blockAndReportSpam,
     blockConversation,
     deleteConversation,
@@ -74,6 +75,7 @@ export function SmartContactSpoofingReviewDialog(
   const sharedProps = {
     ...props,
     acceptConversation,
+    reportSpam,
     blockAndReportSpam,
     blockConversation,
     deleteConversation,

@@ -50,6 +50,7 @@ function renderItem({
   containerElementRef,
   containerWidthBreakpoint,
   conversationId,
+  isBlocked,
   isOldestTimelineItem,
   messageId,
   nextMessageId,
@@ -61,6 +62,7 @@ function renderItem({
       containerElementRef={containerElementRef}
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
+      isBlocked={isBlocked}
       isOldestTimelineItem={isOldestTimelineItem}
       messageId={messageId}
       previousMessageId={previousMessageId}
@@ -163,6 +165,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       'isGroupV1AndDisabled',
       'typingContactIdTimestamps',
     ]),
+    isBlocked: conversation.isBlocked ?? false,
     isConversationSelected: state.conversations.selectedConversationId === id,
     isIncomingMessageRequest: Boolean(
       !conversation.acceptedMessageRequest &&

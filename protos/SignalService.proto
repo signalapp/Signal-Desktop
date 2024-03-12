@@ -550,6 +550,8 @@ message SyncMessage {
       DELETE           = 2;
       BLOCK            = 3;
       BLOCK_AND_DELETE = 4;
+      SPAM             = 5;
+      BLOCK_AND_SPAM   = 6;
     }
 
     optional string threadE164 = 1;
