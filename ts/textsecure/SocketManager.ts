@@ -219,6 +219,10 @@ export class SocketManager extends EventListener {
           // No reconnect attempt should be made
           return;
         }
+
+        if (code === -1) {
+          this.emit('connectError');
+        }
       }
 
       void reconnect();
@@ -706,6 +710,7 @@ export class SocketManager extends EventListener {
   ): this;
   public override on(type: 'statusChange', callback: () => void): this;
   public override on(type: 'deviceConflict', callback: () => void): this;
+  public override on(type: 'connectError', callback: () => void): this;
 
   public override on(
     type: string | symbol,
@@ -718,6 +723,7 @@ export class SocketManager extends EventListener {
   public override emit(type: 'authError', error: HTTPError): boolean;
   public override emit(type: 'statusChange'): boolean;
   public override emit(type: 'deviceConflict'): boolean;
+  public override emit(type: 'connectError'): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {

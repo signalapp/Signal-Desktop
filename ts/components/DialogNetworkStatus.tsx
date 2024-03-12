@@ -13,7 +13,10 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 
 const FIVE_SECONDS = 5 * 1000;
 
-export type PropsType = Pick<NetworkStateType, 'isOnline' | 'socketStatus'> & {
+export type PropsType = Pick<
+  NetworkStateType,
+  'isOnline' | 'isOutage' | 'socketStatus'
+> & {
   containerWidthBreakpoint: WidthBreakpoint;
   i18n: LocalizerType;
   manualReconnect: () => void;
@@ -23,6 +26,7 @@ export function DialogNetworkStatus({
   containerWidthBreakpoint,
   i18n,
   isOnline,
+  isOutage,
   socketStatus,
   manualReconnect,
 }: PropsType): JSX.Element | null {
@@ -47,6 +51,17 @@ export function DialogNetworkStatus({
     setIsConnecting(true);
     manualReconnect();
   };
+
+  if (isOutage) {
+    return (
+      <LeftPaneDialog
+        containerWidthBreakpoint={containerWidthBreakpoint}
+        type="warning"
+        icon="error"
+        subtitle={i18n('icu:DialogNetworkStatus__outage')}
+      />
+    );
+  }
 
   if (isConnecting) {
     const spinner = (

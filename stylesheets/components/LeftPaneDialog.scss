@@ -107,6 +107,11 @@
       -webkit-mask: url('../images/icons/v3/error/error-triangle.svg') no-repeat
         center;
     }
+
+    &--error {
+      -webkit-mask: url('../images/icons/v3/error/error-circle.svg') no-repeat
+        center;
+    }
   }
 
   &__action-text {

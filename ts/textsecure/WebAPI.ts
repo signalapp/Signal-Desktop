@@ -1325,6 +1325,10 @@ export function initialize({
       window.Whisper.events.trigger('unlinkAndDisconnect');
     });
 
+    socketManager.on('connectError', () => {
+      window.Whisper.events.trigger('socketConnectError');
+    });
+
     socketManager.on('deviceConflict', () => {
       window.Whisper.events.trigger('unlinkAndDisconnect');
     });

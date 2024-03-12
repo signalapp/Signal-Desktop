@@ -14,11 +14,17 @@ export const hasNetworkDialog = createSelector(
   getNetwork,
   isDone,
   (
-    { isOnline, socketStatus, withinConnectingGracePeriod }: NetworkStateType,
+    {
+      isOnline,
+      isOutage,
+      socketStatus,
+      withinConnectingGracePeriod,
+    }: NetworkStateType,
     isRegistrationDone: boolean
   ): boolean =>
     isRegistrationDone &&
     (!isOnline ||
+      isOutage ||
       (socketStatus === SocketStatus.CONNECTING &&
         !withinConnectingGracePeriod) ||
       socketStatus === SocketStatus.CLOSED ||
