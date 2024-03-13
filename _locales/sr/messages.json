@@ -428,6 +428,26 @@
     "messageformat": "Изаберите поруке",
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
+  "icu:ConversationHeader__MenuItem--Accept": {
+    "messageformat": "Accept",
+    "description": "Shown in menu for conversation, allows the user to accept a message request"
+  },
+  "icu:ConversationHeader__MenuItem--Block": {
+    "messageformat": "Block",
+    "description": "Shown in menu for conversation, allows the user to block the contact"
+  },
+  "icu:ConversationHeader__MenuItem--Unblock": {
+    "messageformat": "Unblock",
+    "description": "Shown in menu for conversation, allows the user to unblock the contact"
+  },
+  "icu:ConversationHeader__MenuItem--ReportSpam": {
+    "messageformat": "Report Spam",
+    "description": "Shown in menu for conversation, allows the user to report the conversation as spam"
+  },
+  "icu:ConversationHeader__MenuItem--DeleteChat": {
+    "messageformat": "Delete Chat",
+    "description": "Shown in menu for conversation, allows the user to delete the conversation"
+  },
   "icu:ContactListItem__menu": {
     "messageformat": "Управљање контактом",
     "description": "Shown as aria label for context menu for a contact"
@@ -465,7 +485,7 @@
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Нисмо успели да уклонимо корисника ({title})",
+    "messageformat": "Уклањање корисника {title} није успело",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
@@ -586,11 +606,19 @@
   },
   "icu:unreadMessage": {
     "messageformat": "1 непрочитана порука",
-    "description": "Text for unread message separator, just one message"
+    "description": "(Deleted 2024/03/07) Text for unread message separator, just one message"
   },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {Непрочитаних порука: {count,number}} other {Непрочитаних порука: {count,number}}}",
     "description": "Text for unread message separator, with count"
+  },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Marked Unread",
+    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}",
+    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "Због безбедности, историја ћаскања се не преноси на новоповезане уређаје.",
@@ -873,7 +901,7 @@
     "description": "Label for the decryption error toast button"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "Не можете да изаберете слике и видео снимке заједно са фајловима.",
+    "messageformat": "Није могуће изабрати слике и видео снимке заједно са фајловима.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "icu:cannotSelectMultipleFileAttachments": {
@@ -1236,7 +1264,7 @@
     "messageformat": "Одбаци"
   },
   "icu:failedToSend": {
-    "messageformat": "Неким примаоцима није послато. Проверите да ли сте повезани на интернет."
+    "messageformat": "Слање неким примаоцима није успело. Проверите да ли сте повезани на интернет."
   },
   "icu:error": {
     "messageformat": "Грешка"
@@ -1542,6 +1570,10 @@
     "messageformat": "{conversationTitle} је власник броја {phoneNumber}",
     "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
+  "icu:TitleTransition--notification": {
+    "messageformat": "You started this chat with {oldTitle}",
+    "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
+  },
   "icu:quoteThumbnailAlt": {
     "messageformat": "Сличица слике цитиране поруке",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1615,7 +1647,7 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "(deleted 2023/09/05) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "icu:Install__qr-failed-load": {
@@ -1918,7 +1950,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {У овом позиву · Учесника: {people,number}} other {У овом позиву · Учесника: {people,number}}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -1930,7 +1962,7 @@
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "Не могу да се приме аудио и видео од корисника {name}",
+    "messageformat": "Није могуће примити аудио и видео од корисника {name}",
     "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
   },
   "icu:calling__missing-media-keys-info": {
@@ -2200,7 +2232,7 @@
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "icu:syncFailed": {
-    "messageformat": "Увоз је неуспешан. И рачунар и телефон треба да буду повезани на интернет.",
+    "messageformat": "Увоз није успео. И рачунар и телефон треба да буду повезани на интернет.",
     "description": "Informational text displayed if a sync operation times out."
   },
   "icu:timestamp_s": {
@@ -2508,7 +2540,7 @@
     "description": "Shown in the modal when we want to update a group"
   },
   "icu:updateGroupAttributes__error-message": {
-    "messageformat": "Није могуће ажурирати ову групу. Проверите да ли сте повезани на интернет и пробајте поново.",
+    "messageformat": "Ажурирање групе није успело. Проверите да ли сте повезани на интернет и пробајте поново.",
     "description": "Shown in the modal when we can't update a group"
   },
   "icu:notSupportedSMS": {
@@ -2685,7 +2717,7 @@
     "description": "Shown in message previews for Signal call links."
   },
   "icu:donation--missing": {
-    "messageformat": "Нисмо успели да преузмемо детаље о донацији",
+    "messageformat": "Преузимање детаља о донацији није успело",
     "description": "Aria label for donation when we can't fetch the details."
   },
   "icu:message--donation--unopened--incoming": {
@@ -2877,7 +2909,7 @@
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
   "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Недавни",
+    "messageformat": "Недавно",
     "description": "Title for all of the recent stickers"
   },
   "icu:stickers__StickerPicker__featured": {
@@ -2913,7 +2945,7 @@
     "description": "Shown as a tooltip over the emoji tone buttons."
   },
   "icu:EmojiPicker__button--recents": {
-    "messageformat": "Недавни",
+    "messageformat": "Недавно",
     "description": "Label for recents emoji picker button"
   },
   "icu:EmojiPicker__button--emoji": {
@@ -2983,7 +3015,7 @@
     "messageformat": "Можете да затражите да вам {contact} поново пошаље ову поруку сада када користите најновију верзију Signal-а."
   },
   "icu:Message--from-me-unsupported-message": {
-    "messageformat": "Један од ваших уређаја је послао поруку која не може да се обради или прикаже јер користи нову функционалност Signal-а."
+    "messageformat": "Један од ваших уређаја је послао поруку која не може бити обрађена нити приказана јер користи нову функционалност Signal-а."
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
     "messageformat": "Будуће поруке попут ове биће сада синхронизоване пошто користите најновију верзију Signal-а."
@@ -3328,14 +3360,6 @@
     "messageformat": "Ћаскање је означено као непрочитано",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
-  "icu:SendEdit--dialog--title": {
-    "messageformat": "Само у бета верзији Signal-а",
-    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
-  },
-  "icu:SendEdit--dialog--body": {
-    "messageformat": "Измена порука је доступна само бета корисницима Signal-а. Ако измените поруку, она ће бити видљива само људима који су на најновијој бета верзији Signal-а.",
-    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
-  },
   "icu:SendEdit--dialog--title2": {
     "messageformat": "Измените поруку",
     "description": "Title of the modal shown before sending your first edit message"
@@ -3383,6 +3407,62 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "Сви",
     "description": "Shown in reaction viewer as the title for the 'all' category"
+  },
+  "icu:SafetyTipsModal__Title": {
+    "messageformat": "Safety Tips",
+    "description": "Title of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__Description": {
+    "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
+    "description": "Description of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__TipTitle--Crypto": {
+    "messageformat": "Crypto or money scams",
+    "description": "Title of the crypto safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Crypto": {
+    "messageformat": "If someone you don’t know messages about cryptocurrency (like Bitcoin) or a financial opportunity, be careful—it’s likely spam.",
+    "description": "Description of the crypto safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Vague": {
+    "messageformat": "Vague or irrelevant messages",
+    "description": "Title of the vague safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Vague": {
+    "messageformat": "Spammers often start with a simple message like “Hi” to draw you in. If you respond they may engage you further.",
+    "description": "Description of the vague safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Links": {
+    "messageformat": "Messages with links",
+    "description": "Title of the links safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Links": {
+    "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
+    "description": "Description of the links safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Business": {
+    "messageformat": "Fake businesses and institutions",
+    "description": "Title of the business safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Business": {
+    "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
+    "description": "Description of the business safety tip"
+  },
+  "icu:SafetyTipsModal__DotLabel": {
+    "messageformat": "Go to page {page,number}",
+    "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
+  },
+  "icu:SafetyTipsModal__Button--Previous": {
+    "messageformat": "Previous tip",
+    "description": "Button to go to the previous safety tip"
+  },
+  "icu:SafetyTipsModal__Button--Next": {
+    "messageformat": "Next tip",
+    "description": "Button to go to the next safety tip"
+  },
+  "icu:SafetyTipsModal__Button--Done": {
+    "messageformat": "Done",
+    "description": "Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Да ли дозвољавате да вам {name} шаље поруке и да види ваше име и слику? Неће знати да сте прочитали поруке док не прихватите.",
@@ -3448,6 +3528,42 @@
     "messageformat": "Више нећете примати поруке и новости из ове групе и чланови више неће моћи да вас поново додају у ову групу.",
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
+  "icu:MessageRequests--reportAndMaybeBlock": {
+    "messageformat": "Report...",
+    "description": "Shown as a button to let the user report a message request and maybe block the user"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
+    "messageformat": "Report as spam?",
+    "description": "Shown as the title in the modal for reporting and maybe blocking a message request"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a direct conversation"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation when the contact is unknown"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
+    "messageformat": "Signal will be notified that {name}, who invited you to this group, may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
+    "messageformat": "Report Spam",
+    "description": "Shown as a button to let the user report a message request"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock": {
+    "messageformat": "Report and Block",
+    "description": "Shown as a button to let the user report a message request and block the user"
+  },
+  "icu:MessageRequests--AcceptedOptionsModal--body": {
+    "messageformat": "You accepted a message request from {name}. If this was a mistake, you can choose an action below.",
+    "description": "Shown as the body in the modal for accepting a message request in a direct conversation"
+  },
+  "icu:MessageRequests--report-spam-success-toast": {
+    "messageformat": "Reported as spam.",
+    "description": "Shown in a toast when you successfully report a user as spam"
+  },
   "icu:MessageRequests--delete": {
     "messageformat": "Избриши",
     "description": "Shown as a button to let the user delete any message request"
@@ -3461,7 +3577,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-group-confirm-title": {
-    "messageformat": "Желите ли да избришете и напустите групу „{title}“?",
+    "messageformat": "Желите ли да избришете и напустите групу {title}?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "icu:MessageRequests--delete-direct": {
@@ -3729,7 +3845,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} у позиву} other {{people,number} у позиву}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3941,7 +4057,7 @@
     "description": "Shown if you click a group link and we can't get information about it"
   },
   "icu:GroupV2--join--link-revoked": {
-    "messageformat": "Линк за групу више није важећи.",
+    "messageformat": "Овај линк за групу више није важећи.",
     "description": "Shown if you click a group link and we can't get information about it"
   },
   "icu:GroupV2--join--link-forbidden--title": {
@@ -4225,7 +4341,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add-from-admin-approval--other--unknown": {
-    "messageformat": "Одобрен је захтев за придруживање групи од корисника {joinerName}.",
+    "messageformat": "Одобрен је захтев за придруживање групи који шаље {joinerName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-remove--other--other": {
@@ -4441,7 +4557,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--you": {
-    "messageformat": "Одбили сте захтев за придруживање групи од корисника {joinerName}.",
+    "messageformat": "Одбили сте захтев за придруживање групи који шаље {joinerName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--own": {
@@ -4449,7 +4565,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
-    "messageformat": "{adminName} је одбио/ла захтев за придруживање групи од корисника {joinerName}.",
+    "messageformat": "{adminName} је одбио/ла захтев за придруживање групи који шаље {joinerName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
@@ -4777,7 +4893,7 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Када је ова опција омогућена, послате и примљене поруке у овом ћаскању 1 на 1 нестаће након што буду приказане.",
+    "messageformat": "Када је ова опција укључена, послате и примљене поруке у овом ћаскању 1 на 1 нестаће након што буду приказане.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--notifications": {
@@ -5165,7 +5281,7 @@
     "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
   },
   "icu:cannotSelectContact": {
-    "messageformat": "Не може да се изабере контакт {name}",
+    "messageformat": "Није могуће изабрати контакт {name}",
     "description": "The label for contact checkboxes that are disabled"
   },
   "icu:alreadyAMember": {
@@ -5231,6 +5347,10 @@
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Сазнајте више",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+  },
+  "icu:MessageRequestWarning__safety-tips": {
+    "messageformat": "Safety Tips",
+    "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__dialog__details": {
     "messageformat": "Немате заједничких група са овом особом. Пажљиво прегледајте захтеве пре него што их прихватите како бисте избегли нежељене поруке.",
@@ -5617,7 +5737,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Корисничко име не може почети бројем.",
+    "messageformat": "Usernames cannot begin with a number.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -5681,7 +5801,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "Овим ћете уклонити корисничко име и онемогућити свој QR код и линк. Корисничко име „{username}“ ће бити доступно другима за преузимање. Да ли сте сигурни?",
+    "messageformat": "Овим ћете уклонити корисничко име и искључити свој QR код и линк. Корисничко име „{username}“ ће бити доступно другима за преузимање. Да ли сте сигурни?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6056,6 +6176,10 @@
     "messageformat": "Нова верзија је преузета",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:DialogNetworkStatus__outage": {
+    "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
+    "description": "The title of outage dialog during service outage."
+  },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Неопходно је ажурирање апликације",
     "description": "The title of update dialog on install screen when user OS is unsupported"
@@ -6315,6 +6439,26 @@
   "icu:payment-event-notification-check-primary-device": {
     "messageformat": "Проверите статус овог плаћања на свом примарном уређају",
     "description": "Payment event notification check device label"
+  },
+  "icu:MessageRequestResponseNotification__Message--Accepted": {
+    "messageformat": "You accepted the message request",
+    "description": "Message request response notification message when the user accepted the message request or unblocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Message--Reported": {
+    "messageformat": "Reported as spam",
+    "description": "Message request response notification message when the user reported the message request as spam"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked": {
+    "messageformat": "You blocked this person",
+    "description": "Message request response notification message when the user blocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Button--Options": {
+    "messageformat": "Options",
+    "description": "Message request response notification button to show options"
+  },
+  "icu:MessageRequestResponseNotification__Button--LearnMore": {
+    "messageformat": "Learn More",
+    "description": "Message request response notification button to learn more"
   },
   "icu:SignalConnectionsModal__title": {
     "messageformat": "Signal везе",
@@ -6737,7 +6881,7 @@
     "description": "Placeholder text for when there are no views"
   },
   "icu:StoryViewsNRepliesModal__tab--views": {
-    "messageformat": "Прегледа",
+    "messageformat": "Прегледи",
     "description": "Title for views tab"
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
@@ -6805,19 +6949,19 @@
     "description": "Description for image errors but when it is your own image"
   },
   "icu:StoryCreator__error--video-unsupported": {
-    "messageformat": "Не можемо да објавимо видео у причи јер је у формату који није подржан",
+    "messageformat": "Није могуће објавити видео у причи јер је у формату који није подржан",
     "description": "Error string for when a video post to story fails"
   },
   "icu:StoryCreator__error--video-too-long": {
-    "messageformat": "{maxDurationInSec, plural, one {Не можемо да објавимо видео у причи јер је дужи од 1 секунде.} other {Не можемо да објавимо видео у причи јер је дужи од {maxDurationInSec,number} сек.}}",
+    "messageformat": "{maxDurationInSec, plural, one {Није могуће објавити видео у причи јер је дужи од {maxDurationInSec,number} сек.} other {Није могуће објавити видео у причи јер је дужи од {maxDurationInSec,number} сек.}}",
     "description": "Error string for when a video post to story fails because video's duration is too long"
   },
   "icu:StoryCreator__error--video-too-big": {
-    "messageformat": "Не можемо да објавимо видео у причи јер је већи од {limit,number} {units}.",
+    "messageformat": "Није могуће објавити видео у причи јер је већи од {limit,number} {units}.",
     "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "icu:StoryCreator__error--video-error": {
-    "messageformat": "Нисмо успели да учитамо видео снимак",
+    "messageformat": "Учитавање видео снимка није успело",
     "description": "Error string for when a video post to story fails"
   },
   "icu:StoryCreator__text-bg--background": {
@@ -7248,10 +7392,13 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v7.1--0": {
-    "messageformat": "Ово ажурирање омогућава подршку за све нове емоџи ликове у верзији емоџија 15.1."
-  },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Побољшана је брзина отварања великих групних ћаскања."
+  },
+  "icu:WhatsNew__v7.3--0": {
+    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
+  },
+  "icu:WhatsNew__v7.3--1": {
+    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
   }
 }
