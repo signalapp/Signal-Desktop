@@ -20,6 +20,8 @@ import { OnboardContainer, OnboardDescription, OnboardHeading } from '../compone
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { sanitizeDisplayNameOrToast } from '../utils';
 
+let interval: NodeJS.Timeout;
+
 export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
 
@@ -33,18 +35,7 @@ export const RestoreAccount = () => {
 
   const dispatch = useDispatch();
 
-  // Seed is mandatory no matter which mode
-  const seedOK = !!recoveryPhrase && !recoveryPhraseError;
-  const displayNameOK = !!displayName && !displayNameError;
-
-  const activateContinueButton =
-    seedOK &&
-    !(
-      step ===
-      (AccountRestoration.Loading || AccountRestoration.Finishing || AccountRestoration.Finished)
-    );
-
-  const recoverWithoutDisplayName = async () => {
+  const recoverAndFetchDisplayName = async () => {
     setProgress(0);
     dispatch(setAccountRestorationStep(AccountRestoration.Loading));
     try {
@@ -57,8 +48,7 @@ export const RestoreAccount = () => {
     } catch (e) {
       if (e instanceof NotFoundError) {
         window.log.debug(
-          `WIP: [continueYourSession] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually error ${e.message ||
-            e}`
+          `WIP: [continueYourSession] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually. Error: ${e}`
         );
         dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
       } else {
@@ -67,12 +57,12 @@ export const RestoreAccount = () => {
     }
   };
 
-  const recoverWithDisplayName = async () => {
-    if (!displayNameOK) {
+  const recoverAndEnterDisplayName = async () => {
+    if (!(!!displayName && !displayNameError)) {
       return;
     }
 
-    void signInWithNewDisplayName({
+    await signInWithNewDisplayName({
       displayName,
       userRecoveryPhrase: recoveryPhrase,
     });
@@ -81,8 +71,6 @@ export const RestoreAccount = () => {
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-
     if (step === AccountRestoration.Loading) {
       interval = setInterval(() => {
         if (progress < 100) {
@@ -96,7 +84,7 @@ export const RestoreAccount = () => {
           clearInterval(interval);
           // if we didn't get the display name in time, we need to enter it manually
           window.log.debug(
-            `WIP: [continueYourSession] AccountRestoration.Loading We didn't get the display name in time, we need to enter it manually`
+            `WIP: [continueYourSession] AccountRestoration.Loading We didn't get the display name in time, so we need to enter it manually`
           );
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
@@ -128,7 +116,7 @@ export const RestoreAccount = () => {
           );
           dispatch(setAccountRestorationStep(AccountRestoration.Complete));
         } else {
-          dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
+          dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
           window.log.debug(
             `WIP: [continueYourSession] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually`
           );
@@ -137,6 +125,7 @@ export const RestoreAccount = () => {
     }
 
     if (step === AccountRestoration.Complete) {
+      clearInterval(interval);
       if (!isEmpty(displayName)) {
         window.log.debug(
           `WIP: [continueYourSession] AccountRestoration.Complete opening inbox for ${displayName}`
@@ -156,6 +145,7 @@ export const RestoreAccount = () => {
             container={true}
             width="100%"
             flexDirection="column"
+            justifyContent="flex-start"
             alignItems="flex-start"
             margin={'0 0 0 8px'}
           >
@@ -182,7 +172,7 @@ export const RestoreAccount = () => {
                     setRecoveryPhrase(seed);
                     setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
                   }}
-                  onEnterPressed={recoverWithoutDisplayName}
+                  onEnterPressed={recoverAndFetchDisplayName}
                   error={recoveryPhraseError}
                   enableShowHide={true}
                   inputDataTestId="recovery-phrase-input"
@@ -190,51 +180,57 @@ export const RestoreAccount = () => {
                 <SpacerLG />
                 <SessionButton
                   buttonColor={SessionButtonColor.White}
-                  onClick={recoverWithoutDisplayName}
+                  onClick={recoverAndFetchDisplayName}
                   text={window.i18n('continue')}
-                  disabled={!activateContinueButton}
+                  disabled={!(!!recoveryPhrase && !recoveryPhraseError)}
                   dataTestId="continue-session-button"
                 />
               </>
             ) : (
-              <>
-                {/* TODO this doesn't load for some reason */}
-                <Flex container={true} width="100%" flexDirection="column" alignItems="flex-start">
-                  <OnboardHeading>{window.i18n('displayNamePick')}</OnboardHeading>
-                  <SpacerSM />
-                  <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
-                  <SpacerLG />
-                  <SessionInput
-                    autoFocus={true}
-                    type="text"
-                    placeholder={window.i18n('enterDisplayName')}
-                    value={displayName}
-                    onValueChanged={(name: string) => {
-                      sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
-                    }}
-                    onEnterPressed={recoverWithDisplayName}
-                    error={displayNameError}
-                    inputDataTestId="display-name-input"
-                  />
-                  <SpacerLG />
-                  <SessionButton
-                    buttonColor={SessionButtonColor.White}
-                    onClick={recoverWithDisplayName}
-                    text={window.i18n('continue')}
-                  />
-                </Flex>
-              </>
+              <Flex container={true} width="100%" flexDirection="column" alignItems="flex-start">
+                <OnboardHeading>{window.i18n('displayNamePick')}</OnboardHeading>
+                <SpacerSM />
+                <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
+                <SpacerLG />
+                <SessionInput
+                  autoFocus={true}
+                  type="text"
+                  placeholder={window.i18n('enterDisplayName')}
+                  value={displayName}
+                  onValueChanged={(name: string) => {
+                    sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
+                  }}
+                  onEnterPressed={recoverAndEnterDisplayName}
+                  error={displayNameError}
+                  inputDataTestId="display-name-input"
+                />
+                <SpacerLG />
+                <SessionButton
+                  buttonColor={SessionButtonColor.White}
+                  onClick={recoverAndEnterDisplayName}
+                  text={window.i18n('continue')}
+                  disabled={
+                    !(
+                      !!recoveryPhrase &&
+                      !recoveryPhraseError &&
+                      !!displayName &&
+                      !displayNameError
+                    )
+                  }
+                  dataTestId="continue-session-button"
+                />
+              </Flex>
             )}
           </Flex>
         </BackButtonWithininContainer>
       ) : (
         <Flex
           container={true}
+          width="100%"
           flexDirection="column"
-          justifyContent="center"
+          justifyContent="flex-start"
           alignItems="center"
-          // TODO update dataTestId
-          dataTestId="three-dot-loading-animation"
+          margin={'0 0 0 8px'}
         >
           <SessionProgressBar
             progress={progress}
