@@ -9,11 +9,14 @@ import type {
 } from 'dns';
 import { ipcRenderer, net } from 'electron';
 import type { ResolvedHost, ResolvedEndpoint } from 'electron';
+import pTimeout from 'p-timeout';
 
 import { strictAssert } from './assert';
 import { drop } from './drop';
 import type { DNSFallbackType } from '../types/DNSFallback';
+import { SECOND } from './durations';
 
+const LOOKUP_TIMEOUT_MS = 1 * SECOND;
 const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();
 
 export function setFallback(dnsFallback: DNSFallbackType): void {
@@ -49,15 +52,19 @@ function lookupAll(
     try {
       if (net) {
         // Main process
-        result = await net.resolveHost(hostname, {
-          queryType,
-        });
+        result = await pTimeout(
+          net.resolveHost(hostname, {
+            queryType,
+          }),
+          LOOKUP_TIMEOUT_MS,
+          'lookupAll: Electron lookup timed out'
+        );
       } else {
         // Renderer
-        result = await ipcRenderer.invoke(
-          'net.resolveHost',
-          hostname,
-          queryType
+        result = await pTimeout(
+          ipcRenderer.invoke('net.resolveHost', hostname, queryType),
+          LOOKUP_TIMEOUT_MS,
+          'lookupAll: Electron lookup timed out'
         );
       }
     } catch (error) {
