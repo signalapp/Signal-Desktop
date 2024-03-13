@@ -4,11 +4,12 @@ import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
+import { ONBOARDING_TIMES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { InvalidWordsError, NotEnoughWordsError, mnDecode } from '../../session/crypto/mnemonic';
 import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
 import { fromHex } from '../../session/utils/String';
-import { trigger } from '../../shims/events';
+import { NotFoundError } from '../../session/utils/errors';
 import {
   Onboarding,
   setGeneratedRecoveryPhrase,
@@ -29,7 +30,7 @@ import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { CreateAccount, RestoreAccount, Start } from './stages';
-import { displayNameIsValid } from './stages/CreateAccount';
+import { displayNameIsValid } from './utils';
 
 const StyledRegistrationContainer = styled(Flex)`
   width: 348px;
@@ -59,22 +60,18 @@ type SignInDetails = {
  * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
  * We will handle a ConfigurationMessage
  */
-export async function signInWithRecovery(signInDetails: SignInDetails) {
+export async function signInWithNewDisplayName(signInDetails: SignInDetails) {
   const { displayName, userRecoveryPhrase } = signInDetails;
-  window?.log?.info('RESTORING FROM SEED');
+  window.log.debug(`WIP: [signInWithNewDisplayName] starting sign in with new display name....`);
   const trimName = displayName ? displayNameIsValid(displayName) : undefined;
-  // shows toast to user about the error
   if (!trimName) {
     return;
   }
 
   try {
     await resetRegistration();
-
     await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
     await setSignWithRecoveryPhrase(true);
-
-    trigger('openInbox');
   } catch (e) {
     await resetRegistration();
     ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
@@ -83,14 +80,15 @@ export async function signInWithRecovery(signInDetails: SignInDetails) {
 }
 
 /**
- * This is will try to sign in with the user recovery phrase.
- * If no ConfigurationMessage is received in 60seconds, the loading will be canceled.
+ * This will try to sign in with the user recovery phrase.
+ * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
  */
-export async function signInWithLinking(signInDetails: SignInDetails) {
+export async function signInAndFetchDisplayName(signInDetails: SignInDetails) {
   const { userRecoveryPhrase, errorCallback } = signInDetails;
-  window?.log?.info('LINKING DEVICE');
+  window.log.debug(`WIP: [signInAndFetchDisplayName] starting sign in....`);
 
   try {
+    throw new NotFoundError('Got a config message from network but without a displayName...');
     await resetRegistration();
     await signInByLinkingDevice(userRecoveryPhrase, 'english');
     let displayNameFromNetwork = '';
@@ -102,20 +100,23 @@ export async function signInWithLinking(signInDetails: SignInDetails) {
         await setSignInByLinking(false);
         await setSignWithRecoveryPhrase(true);
         done(displayName);
-
         displayNameFromNetwork = displayName;
       });
-    }, 60000);
+    }, ONBOARDING_TIMES.RECOVERY_TIMEOUT);
     if (displayNameFromNetwork.length) {
       // display name, avatars, groups and contacts should already be handled when this event was triggered.
-      window?.log?.info(`We got a displayName from network: "${displayNameFromNetwork}"`);
+      window.log.debug(
+        `WIP: [signInAndFetchDisplayName] we got a displayName from network: "${displayNameFromNetwork}"`
+      );
     } else {
-      window?.log?.info('Got a config message from network but without a displayName...');
-      throw new Error('Got a config message from network but without a displayName...');
+      window.log.debug(
+        `WIP: [signInAndFetchDisplayName] Got a config message from network but without a displayName...`
+      );
+      throw new NotFoundError('Got a config message from network but without a displayName...');
     }
     // Do not set the lastProfileUpdateTimestamp.
     // We expect to get a display name from a configuration message while we are loading messages of this user
-    trigger('openInbox');
+    return displayNameFromNetwork;
   } catch (e) {
     await resetRegistration();
     if (errorCallback) {
@@ -127,7 +128,10 @@ export async function signInWithLinking(signInDetails: SignInDetails) {
         void errorCallback(window.i18n('recoveryPasswordErrorMessageGeneric'));
       }
     }
-    window?.log?.warn('exception during registration:', e);
+    window.log.debug(
+      `WIP: [signInAndFetchDisplayName] exception during registration: ${e.message || e}`
+    );
+    return '';
   }
 }
 

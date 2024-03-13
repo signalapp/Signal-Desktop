@@ -74,7 +74,7 @@ export async function signInWithRecovery(
 }
 
 /**
- * Sign in with a recovery phrase but trying to recover display name and avatar from the first encountered configuration message.
+ * Sign in with a recovery phrase and try to recover display name and avatar from the first encountered configuration message.
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
  */
@@ -97,7 +97,7 @@ export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: 
   return pubKeyString;
 }
 /**
- * This is a signup. User has no recovery and does not try to link a device
+ * This signs up a new user account. User has no recovery and does not try to link a device
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
  * @param profileName the display name to register, character limit is MAX_NAME_LENGTH_BYTES

@@ -80,3 +80,12 @@ export const FEATURE_RELEASE_TIMESTAMPS = {
 
   USER_CONFIG: 1690761600000, // Monday July 31st at 10am Melbourne time
 };
+
+export const ONBOARDING_TIMES = {
+  /** 15 seconds */
+  RECOVERY_TIMEOUT: 15 * DURATION.SECONDS,
+  /** 0.3 seconds */
+  RECOVERY_FINISHING: 0.3 * DURATION.SECONDS,
+  /** 0.2 seconds */
+  RECOVERY_FINISHED: 0.2 * DURATION.SECONDS,
+};

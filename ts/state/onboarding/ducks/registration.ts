@@ -19,14 +19,16 @@ export enum AccountCreation {
 export enum AccountRestoration {
   /** starting screen */
   RecoveryPassword,
-  /** fetching account details */
+  /** fetching account details, so we increment progress to 100% over 15s */
   Loading,
-  /** we failed to fetch a display name in time so we choose a new one */
+  /** found account details, so we increment the remaining progress to 100% over 0.3s */
+  Finishing,
+  /** found the account details and the progress is now 100%, so we wait for 0.2s */
+  Finished,
+  /** we failed to fetch account details in time, so we enter it manually */
   DisplayName,
-  /** show conversation screen */
+  /** we have restored successfuly, show the conversation screen */
   Complete,
-  /** TODO to be removed */
-  LinkDevice,
 }
 
 export type OnboardingState = {

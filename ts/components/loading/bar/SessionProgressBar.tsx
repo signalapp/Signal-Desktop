@@ -65,7 +65,7 @@ export function SessionProgressBar(props: Props) {
       ) : null}
       <Flex container={true} width={width} justifyContent="space-between" alignItems="center">
         {subtitle ? <StyledText>{subtitle}</StyledText> : null}
-        {showPercentage ? <StyledText>{progress}%</StyledText> : null}
+        {showPercentage ? <StyledText>{Math.floor(progress)}%</StyledText> : null}
       </Flex>
       {subtitle || showPercentage ? <SpacerXL /> : null}
       <ProgressContainer color={backgroundColor} style={{ width }}>

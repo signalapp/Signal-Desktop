@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
-import { sanitizeSessionUsername } from '../../../session/utils/String';
 import { trigger } from '../../../shims/events';
 import {
   AccountCreation,
@@ -22,45 +21,13 @@ import { SessionInput } from '../../inputs';
 import { resetRegistration } from '../RegistrationStages';
 import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
-
-function sanitizeDisplayNameOrToast(
-  displayName: string,
-  setDisplayName: (sanitized: string) => void,
-  setDisplayNameError: (error: string | undefined) => void
-) {
-  try {
-    const sanitizedName = sanitizeSessionUsername(displayName);
-    const trimName = sanitizedName.trim();
-    setDisplayName(sanitizedName);
-    setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
-  } catch (e) {
-    setDisplayName(displayName);
-    setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter'));
-  }
-}
-
-/**
- * Returns undefined if an error happened, or the trim userName.
- *
- * Be sure to use the trimmed userName for creating the account.
- */
-export const displayNameIsValid = (displayName: string): undefined | string => {
-  const trimName = displayName.trim();
-
-  if (!trimName) {
-    window?.log?.warn('invalid trimmed name for registration');
-    ToastUtils.pushToastError('invalidDisplayName', window.i18n('displayNameEmpty'));
-    return undefined;
-  }
-  return trimName;
-};
+import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 
 async function signUp(signUpDetails: { displayName: string; generatedRecoveryPhrase: string }) {
   const { displayName, generatedRecoveryPhrase } = signUpDetails;
   window?.log?.info('SIGNING UP');
 
   const trimName = displayNameIsValid(displayName);
-  // shows toast to user about the error
   if (!trimName) {
     return;
   }
