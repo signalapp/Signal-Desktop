@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {ఈ కాల్‌లో · {people,number}వ్యక్తి} other {ఈ కాల్‌లో · {people,number} వ్యక్తులు}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {కాల్‌లో {people,number}} other {కాల్‌లో {people,number}}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "ఈ అప్‌డేట్ ఎమోజి వెర్షన్ 15.1 లోని అన్ని కొత్త ఎమోజీ క్యారెక్టర్‌లకు మద్దతునిస్తుంది. మాకు ఇష్టమైన కొత్త ఎమోజీ ఏమిటని వ్యక్తులు మమ్మల్ని అడుగుతూనే ఉంటారు, కానీ మేము ఆ ప్రశ్నకు సమాధానం చెప్పలేము, ఇది మేము దాటలేని సరిహద్దు."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "పెద్ద గ్రూప్ చాట్‌లను తెరిచేటప్పుడు మెరుగైన పనితీరు ఉంది. ఒకవేళ మీరు సమాంతర విశ్వాల ఉనికిని గురించి చర్చించడానికి ఇష్టపడే వందల మంది వ్యక్తులతో గ్రూపులో ఉన్నట్లయితే, మీరు ఇప్పుడు టైమ్‌లైన్‌లో నివసిస్తున్నారు, ఇక్కడ టైమ్‌లైన్‌ల గురించి మాట్లాడే వ్యక్తుల టైమ్‌లైన్‌ను చూపించడానికి చాలా తక్కువ సమయం పడుతుంది."
   }
 }

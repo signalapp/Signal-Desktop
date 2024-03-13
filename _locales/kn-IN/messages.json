@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {ಈ ಕರೆಯಲ್ಲಿ · {people,number} ಜನರು} other {ಈ ಕರೆಯಲ್ಲಿ · {people,number} ಜನರು}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} ಕಾಲ್‌ನಲ್ಲಿದ್ದಾರೆ} other {{people,number} ಕಾಲ್‌ನಲ್ಲಿದ್ದಾರೆ}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "ಈ ನವೀಕರಣವು ಇಮೋಜಿ ಆವೃತ್ತಿ 15.1 ನಲ್ಲಿ ಎಲ್ಲಾ ಹೊಸ ಎಮೋಜಿ ಅಕ್ಷರಗಳಿಗೆ ಬೆಂಬಲವನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ. ನಮ್ಮ ಮೆಚ್ಚಿನ ಹೊಸ ಇಮೋಜಿ ಯಾವುದು ಎಂದು ಜನರು ನಮ್ಮನ್ನು ಕೇಳುತ್ತಾ ಇರುತ್ತಾರೆ, ಆದರೆ ಆ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರಿಸಲು ನಾವು ಗೆರೆ ದಾಟುವಂತಿಲ್ಲ."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "ಈ ಆವೃತ್ತಿಯಲ್ಲಿನ ಕಾರ್ಯನಿರ್ವಹಣೆಯ ಸುಧಾರಣೆಗಳಿಗೆ ಧನ್ಯವಾದ, ದೊಡ್ಡ ಗುಂಪುಗಳ ಚಾಟ್‌ಗಳನ್ನು ಹಿಂದಿಗಿಂತಲೂ ಹೆಚ್ಚು ವೇಗವಾಗಿ ತೆರೆಯಬಹುದು. ಸಮಾನಾಂತರ ಬ್ರಹ್ಮಾಂಡಗಳ ಅಸ್ತಿತ್ವದ ಬಗ್ಗೆ ಚರ್ಚಿಸುವ ಸಹಸ್ರಾರು ಜನರ ಗುಂಪಿನಲ್ಲಿ ನೀವಿದ್ದರೆೆ, ಟೈಮ್‌‍ಲೈನ್‌ಗಳ ಬಗ್ಗೆ ಮಾತನಾಡುವವರ ಟೈಮ್‌‍ಲೈನ್ ತೋರಿಸಲು ಬಹಳ ಕಡಿಮೆ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳುವ ಟೈಮ್‌‍ಲೈನ್‌ನಲ್ಲಿ ನೀವು ವಾಸಿಸುತ್ತಿದ್ದೀರಿ."
   }
 }

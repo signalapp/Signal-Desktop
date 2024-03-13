@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {W tej rozmowie · {people,number} osoba} few {W tej rozmowie · {people,number} osoby} many {W tej rozmowie · {people,number} osób} other {W tej rozmowie · {people,number} osoby}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} uczestnik} few {{people,number} uczestników} many {{people,number} uczestników} other {{people,number} uczestników}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Ta aktualizacja umożliwia obsługę wszystkich nowych emoji z wersji 15.1. Pewnie zastanawiasz się, które z nowych emoji jest według nas najfajniejsze? Zaczyna się na „l”, kończy na „a”, a w środku ma „imonk”…"
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Poprawki wydajności z tej aktualizacji przyspieszają otwieranie dużych czatów grupowych. Jeśli należysz do grupy kilkuset osób lubiących debatować nad istnieniem równoległych wszechświatów, mamy dobrą wiadomość — w Twoim aktualnym wszechświecie możesz szybko i w dużym gronie omawiać istnienie alternatywnych rzeczywistości."
   }
 }

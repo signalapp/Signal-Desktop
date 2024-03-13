@@ -465,7 +465,7 @@
     "description": "Shown as the confirmation button text in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Нисмо успели да уклонимо корисника ({title})",
+    "messageformat": "Уклањање корисника {title} није успело",
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
@@ -873,7 +873,7 @@
     "description": "Label for the decryption error toast button"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "Не можете да изаберете слике и видео снимке заједно са фајловима.",
+    "messageformat": "Није могуће изабрати слике и видео снимке заједно са фајловима.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "icu:cannotSelectMultipleFileAttachments": {
@@ -1236,7 +1236,7 @@
     "messageformat": "Одбаци"
   },
   "icu:failedToSend": {
-    "messageformat": "Неким примаоцима није послато. Проверите да ли сте повезани на интернет."
+    "messageformat": "Слање неким примаоцима није успело. Проверите да ли сте повезани на интернет."
   },
   "icu:error": {
     "messageformat": "Грешка"
@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {У овом позиву · Учесника: {people,number}} other {У овом позиву · Учесника: {people,number}}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -1930,7 +1930,7 @@
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "Не могу да се приме аудио и видео од корисника {name}",
+    "messageformat": "Није могуће примити аудио и видео од корисника {name}",
     "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
   },
   "icu:calling__missing-media-keys-info": {
@@ -2200,7 +2200,7 @@
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "icu:syncFailed": {
-    "messageformat": "Увоз је неуспешан. И рачунар и телефон треба да буду повезани на интернет.",
+    "messageformat": "Увоз није успео. И рачунар и телефон треба да буду повезани на интернет.",
     "description": "Informational text displayed if a sync operation times out."
   },
   "icu:timestamp_s": {
@@ -2508,7 +2508,7 @@
     "description": "Shown in the modal when we want to update a group"
   },
   "icu:updateGroupAttributes__error-message": {
-    "messageformat": "Није могуће ажурирати ову групу. Проверите да ли сте повезани на интернет и пробајте поново.",
+    "messageformat": "Ажурирање групе није успело. Проверите да ли сте повезани на интернет и пробајте поново.",
     "description": "Shown in the modal when we can't update a group"
   },
   "icu:notSupportedSMS": {
@@ -2685,7 +2685,7 @@
     "description": "Shown in message previews for Signal call links."
   },
   "icu:donation--missing": {
-    "messageformat": "Нисмо успели да преузмемо детаље о донацији",
+    "messageformat": "Преузимање детаља о донацији није успело",
     "description": "Aria label for donation when we can't fetch the details."
   },
   "icu:message--donation--unopened--incoming": {
@@ -2877,7 +2877,7 @@
     "description": "Shown in the sticker picker when there are no recent stickers to show."
   },
   "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Недавни",
+    "messageformat": "Недавно",
     "description": "Title for all of the recent stickers"
   },
   "icu:stickers__StickerPicker__featured": {
@@ -2913,7 +2913,7 @@
     "description": "Shown as a tooltip over the emoji tone buttons."
   },
   "icu:EmojiPicker__button--recents": {
-    "messageformat": "Недавни",
+    "messageformat": "Недавно",
     "description": "Label for recents emoji picker button"
   },
   "icu:EmojiPicker__button--emoji": {
@@ -2983,7 +2983,7 @@
     "messageformat": "Можете да затражите да вам {contact} поново пошаље ову поруку сада када користите најновију верзију Signal-а."
   },
   "icu:Message--from-me-unsupported-message": {
-    "messageformat": "Један од ваших уређаја је послао поруку која не може да се обради или прикаже јер користи нову функционалност Signal-а."
+    "messageformat": "Један од ваших уређаја је послао поруку која не може бити обрађена нити приказана јер користи нову функционалност Signal-а."
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
     "messageformat": "Будуће поруке попут ове биће сада синхронизоване пошто користите најновију верзију Signal-а."
@@ -3461,7 +3461,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "icu:MessageRequests--delete-group-confirm-title": {
-    "messageformat": "Желите ли да избришете и напустите групу „{title}“?",
+    "messageformat": "Желите ли да избришете и напустите групу {title}?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "icu:MessageRequests--delete-direct": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} у позиву} other {{people,number} у позиву}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3941,7 +3941,7 @@
     "description": "Shown if you click a group link and we can't get information about it"
   },
   "icu:GroupV2--join--link-revoked": {
-    "messageformat": "Линк за групу више није важећи.",
+    "messageformat": "Овај линк за групу више није важећи.",
     "description": "Shown if you click a group link and we can't get information about it"
   },
   "icu:GroupV2--join--link-forbidden--title": {
@@ -4777,7 +4777,7 @@
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Када је ова опција омогућена, послате и примљене поруке у овом ћаскању 1 на 1 нестаће након што буду приказане.",
+    "messageformat": "Када је ова опција укључена, послате и примљене поруке у овом ћаскању 1 на 1 нестаће након што буду приказане.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--notifications": {
@@ -5165,7 +5165,7 @@
     "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
   },
   "icu:cannotSelectContact": {
-    "messageformat": "Не може да се изабере контакт {name}",
+    "messageformat": "Није могуће изабрати контакт {name}",
     "description": "The label for contact checkboxes that are disabled"
   },
   "icu:alreadyAMember": {
@@ -5681,7 +5681,7 @@
     "description": "Shown as aria label for trash icon next to username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "Овим ћете уклонити корисничко име и онемогућити свој QR код и линк. Корисничко име „{username}“ ће бити доступно другима за преузимање. Да ли сте сигурни?",
+    "messageformat": "Овим ћете уклонити корисничко име и искључити свој QR код и линк. Корисничко име „{username}“ ће бити доступно другима за преузимање. Да ли сте сигурни?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6737,7 +6737,7 @@
     "description": "Placeholder text for when there are no views"
   },
   "icu:StoryViewsNRepliesModal__tab--views": {
-    "messageformat": "Прегледа",
+    "messageformat": "Прегледи",
     "description": "Title for views tab"
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
@@ -6805,19 +6805,19 @@
     "description": "Description for image errors but when it is your own image"
   },
   "icu:StoryCreator__error--video-unsupported": {
-    "messageformat": "Не можемо да објавимо видео у причи јер је у формату који није подржан",
+    "messageformat": "Није могуће објавити видео у причи јер је у формату који није подржан",
     "description": "Error string for when a video post to story fails"
   },
   "icu:StoryCreator__error--video-too-long": {
-    "messageformat": "{maxDurationInSec, plural, one {Не можемо да објавимо видео у причи јер је дужи од 1 секунде.} other {Не можемо да објавимо видео у причи јер је дужи од {maxDurationInSec,number} сек.}}",
+    "messageformat": "{maxDurationInSec, plural, one {Није могуће објавити видео у причи јер је дужи од {maxDurationInSec,number} сек.} other {Није могуће објавити видео у причи јер је дужи од {maxDurationInSec,number} сек.}}",
     "description": "Error string for when a video post to story fails because video's duration is too long"
   },
   "icu:StoryCreator__error--video-too-big": {
-    "messageformat": "Не можемо да објавимо видео у причи јер је већи од {limit,number} {units}.",
+    "messageformat": "Није могуће објавити видео у причи јер је већи од {limit,number} {units}.",
     "description": "Error string for when a video post to story fails because video's file size is too big"
   },
   "icu:StoryCreator__error--video-error": {
-    "messageformat": "Нисмо успели да учитамо видео снимак",
+    "messageformat": "Учитавање видео снимка није успело",
     "description": "Error string for when a video post to story fails"
   },
   "icu:StoryCreator__text-bg--background": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Ово ажурирање омогућава подршку за све нове емоџи ликове у верзији емоџија 15.1."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Побољшана је брзина отварања великих групних ћаскања."
   }
 }

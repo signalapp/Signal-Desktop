@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {Dei honetan · pertsona {people,number}} other {Dei honetan · {people,number} pertsona}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} deian dago} other {{people,number} deian daude}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Eguneratze honen bidez, emojien 15.1 bertsioko emoji berri guztiak erabiltzeko aukera gehitu da. Jendeak gure emojirik gogokoena zein den galdetzen jarraitzen digu, baina ez dugu muga hori \"gurutzea\"-tuko."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Kaleratze honetako errendimendu-hobekuntzei esker, talde handietako txatak irekitzea inoiz baino azkarragoa da. Unibertso paraleloen existentziaz eztabaidatzea gustatzen zaien ehunka laguneko talde batean bazaude, orain denbora-lerroei buruz hitz egiten duen jendearen denbora-lerroa erakusteko denbora askoz gutxiago behar duen denbora-lerroan bizi zara."
   }
 }

@@ -1004,7 +1004,7 @@
     "description": "Shown in the search left pane when no results were found"
   },
   "icu:noSearchResults--sms-only": {
-    "messageformat": "Dekstop پر SMS / MMS رابطے دستیاب نہیں ہیں۔",
+    "messageformat": "Desktop پر SMS / MMS رابطے دستیاب نہیں ہیں۔",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
   "icu:noSearchResultsInConversation": {
@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {اس کال میں · {people,number} شخص} other {اس کال میں · {people,number} افراد}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {کال میں {people,number}} other {کال میں {people,number}}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "یہ اپ ڈیٹ Emoji ورژن 15.1 میں تمام نئے ایموجی کیریکٹرز کے لیے سپورٹ کو اہل بناتی ہے۔ لوگ ہم سے پوچھتے رہتے ہیں کہ ہماری نئی پسندیدہ ایموجی کون سی ہے، لیکن اس سوال کا جواب دینا ایک \"لائم\" ہے جسے ہم پار نہیں کریں گے۔"
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "بڑے گروپ کی چیٹس کھولنے پر پہلے سے بہتر کارکردگی۔"
   }
 }

@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {Në këtë thirrje · {people,number} person} other {Në këtë thirrje · {people,number} vetë}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} në telefonatë} other {{people,number} në telefonatë}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Ky përditësim mundëson ndihmë për të gjitha karakteret e emotikonave të reja në versionin Emoji 15.1. Njerëzit vazhdojnë të na pyesin se cili është emotikona jonë e re e preferuar, por përgjigjja e kësaj pyetjeje është një vijë që nuk do ta kalojmë."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Falë përmirësimeve të performancës së këtij versioni, hapja e bisedave në grupe të mëdha është më e shpejtë se kurrë. Nëse jeni në grup me disa qindra njerëz që pëlqejnë të debatojnë mbi ekzistencën e universeve paralele, je duke jetuar në një linjë kohore ku duhet shumë më pak kohë për të treguar linjën kohore të njerëzve që flasin për linjën kohore."
   }
 }

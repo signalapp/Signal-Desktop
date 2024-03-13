@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {इस कॉल में · {people,number} व्यक्ति} other {इस कॉल में · {people,number} व्यक्ति}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {कॉल में {people,number}} other {कॉल में {people,number}}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "यह अपडेट इमोजी वर्ज़न 15.1 में सभी नए इमोजी वर्णों के लिए सपोर्ट को सक्षम करता है। लोग हमसे पूछते रहते हैं कि हमारा पसंदीदा नया इमोजी कौन सा है, लेकिन उस प्रश्न का उत्तर देना एक \"नींबू\" है जिसे हम पार नहीं करेंगे।"
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "इस रिलीज़ में प्रदर्शन में सुधार के लिए धन्यवाद, बड़े समूह की चैट खोलना पहले से कहीं अधिक तेज़ है। यदि आप कई सौ लोगों के एक समूह में हैं जो समानांतर यूनिवर्स के अस्तित्व पर बहस करना पसंद करता है, तो अब आप एक ऐसी टाइमलाइन में लाइव हैं जहां टाइमलाइन के बारे में बात करने वाले लोगों की टाइमलाइन दिखाने में यह बहुत कम समय लगता है।"
   }
 }

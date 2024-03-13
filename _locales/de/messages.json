@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {In diesem Anruf · {people,number} Person} other {In diesem Anruf · {people,number} Personen}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2070,7 +2070,7 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Alle Daten und Nachrichten von dieser Signal Desktop-Version löschen? Du kannst diese Desktop-Version jederzeit neu verbinden, aber deine Nachrichten werden dann nicht wiederhergestellt. Dein Signal-Konto und die Daten auf deinem Telefon oder auf sonstigen verbundenen Geräten werden nicht gelöscht.",
+    "messageformat": "Alle Daten und Nachrichten von dieser Signal-Desktop-Version löschen? Du kannst diese Desktop-Version jederzeit neu verbinden, aber deine Nachrichten werden dann nicht wiederhergestellt. Dein Signal-Konto und die Daten auf deinem Telefon oder auf sonstigen verbundenen Geräten werden nicht gelöscht.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "icu:deleteAllDataButton": {
@@ -2372,7 +2372,7 @@
     "description": "Description for the Note to Self conversation"
   },
   "icu:notificationDrawAttention": {
-    "messageformat": "Beim Eingang von Nachrichten Aufmerksamkeit auf dieses Fenster lenken",
+    "messageformat": "Beim Eingang von Nachrichten dieses Fenster hervorheben",
     "description": "Label text for the setting that controls whether new notifications draw attention to the window"
   },
   "icu:hideMenuBar": {
@@ -3173,7 +3173,7 @@
     "description": "Key shown in shortcut combination in shortcuts guide"
   },
   "icu:Keyboard--Key--shift": {
-    "messageformat": "Umschalt",
+    "messageformat": "Shift",
     "description": "Key shown in shortcut combination in shortcuts guide"
   },
   "icu:Keyboard--Key--enter": {
@@ -3241,7 +3241,7 @@
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Nichtproportionale Schriftart",
+    "messageformat": "Monospace",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
@@ -3557,11 +3557,11 @@
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "icu:missedIncomingAudioCall": {
-    "messageformat": "Entgangener Sprachanruf",
+    "messageformat": "Verpasster Sprachanruf",
     "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "icu:missedIncomingVideoCall": {
-    "messageformat": "Entgangener Videoanruf",
+    "messageformat": "Verpasster Videoanruf",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "icu:acceptedOutgoingAudioCall": {
@@ -3625,7 +3625,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "icu:outgoingCallRinging": {
-    "messageformat": "Klingeln …",
+    "messageformat": "Klingelt…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "icu:makeOutgoingCall": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} im Anruf} other {{people,number} im Anruf}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -4757,7 +4757,7 @@
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "icu:showConversationDetails--direct": {
-    "messageformat": "Chateinstellungen",
+    "messageformat": "Chat-Einstellungen",
     "description": "This is a button in the conversation context menu to show chat settings"
   },
   "icu:ConversationDetails__unmute--title": {
@@ -5273,7 +5273,7 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {{count,number} Gruppenmitglied hat den gleichen Namen. Prüfe die folgenden Mitglieder oder handle entsprechend.} other {{count,number} Gruppenmitglieder haben den gleichen Namen. Prüfe die folgenden Mitglieder und handle gegebenenfalls.}}",
+    "messageformat": "{count, plural, one {{count,number} Gruppenmitglied hat denselben Namen. Prüfe die folgenden Mitglieder oder handle entsprechend.} other {{count,number} Gruppenmitglieder haben denselben Namen. Prüfe die folgenden Mitglieder und handle gegebenenfalls.}}",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
@@ -5917,7 +5917,7 @@
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Deine Telefonnummer ist für niemanden sichtbar, außer sie ist in den Telefonkontakten derjenigen Person gespeichert.r niemanden sichtbar, falls sie nicht in den Telefonkontakten derjenigen Person gespeichert ist.",
+    "messageformat": "Deine Telefonnummer ist für niemanden sichtbar, außer sie ist in den Telefonkontakten derjenigen Person gespeichert.",
     "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
@@ -6225,7 +6225,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "icu:MediaEditor__crop-preset--freeform": {
-    "messageformat": "Freiform",
+    "messageformat": "Freie Auswahl",
     "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
   },
   "icu:MediaEditor__crop-preset--square": {
@@ -6325,7 +6325,7 @@
     "description": "The beginning sentence to list the different ways a signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--1": {
-    "messageformat": "Einen Chat starten",
+    "messageformat": "Starten eines Chats",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--2": {
@@ -6333,7 +6333,7 @@
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "Speicherung in den Telefonkontakten",
+    "messageformat": "Speichern in den Telefonkontakten",
     "description": "A way that signal connection is formed"
   },
   "icu:SignalConnectionsModal__footer": {
@@ -7153,7 +7153,7 @@
     "description": "Calls Tab > Calls List > Search Input > Placeholder"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
-    "messageformat": "Nach Entgangen filtern",
+    "messageformat": "Verpasste Anrufe filtern",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
@@ -7197,7 +7197,7 @@
     "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Entgangener Sprachanruf} Video {Entgangener Videoanruf} Group {Entgangener Gruppenanruf} other {Entgangener Anruf}}",
+    "messageformat": "{type, select, Audio {Verpasster Sprachanruf} Video {Verpasster Videoanruf} Group {Verpasster Gruppenanruf} other {Verpasster Anruf}}",
     "description": "Call History > Short description of call > When incoming call was missed"
   },
   "icu:CallHistory__Description--Unanswered": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Dieses Update unterstützt alle neuen Emoji-Zeichen der Emoji-Version 15.1. Die Leute fragen uns immer wieder, ob wir unser neues Lieblings-Emoji verraten, aber darauf antworten wir mit dem neuen Kopfschüttel-Emoji."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Dank der Leistungsoptimierungen in dieser Version kannst du große Gruppenchats jetzt schneller als je zuvor öffnen. Wenn du in einer Gruppe mit mehreren hundert Leuten bist, die gerne über die Existenz von Paralleluniversen diskutieren, lebst du jetzt in einer Zeitlinie, in der es sehr viel schneller geht, die Zeitlinie von Leuten zu anzeigen, die gerade über Zeitlinien reden."
   }
 }

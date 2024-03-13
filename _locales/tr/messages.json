@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {Bu aramada · {people,number} kişi} other {Bu aramada · {people,number} kişi}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} aramada} other {{people,number} aramada}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Bu güncelleme, Emoji sürüm 15.1'deki tüm yeni emoji karakterleri için destek sağlar. İnsanlar bize en sevdiğimiz yeni emojinin ne olduğunu sorup duruyor ancak bu soruyu yanıtlamak bizim için gerçekten zor çünkü hepsini biz ekledik."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Büyük grup sohbetleri açmada iyileştirilmiş performans. Paralel evrenlerin varlığını tartışmayı seven birkaç yüz kişilik bir gruptaysan, artık zaman akışları hakkında konuşan insanların zaman akışını göstermenin çok daha az zaman aldığı bir zamanda yaşıyorsun demektir."
   }
 }

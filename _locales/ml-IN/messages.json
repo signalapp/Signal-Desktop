@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {ഈ കോളിൽ · {people,number} ആളുണ്ട്} other {ഈ കോളിൽ · {people,number} ആളുകളുണ്ട് }}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} കോളിൽ} other {{people,number} കോളിൽ}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "ഈ അപ്‌ഡേറ്റ്, ഇമോജി പതിപ്പ് 15.1-ലെ എല്ലാ പുതിയ ഇമോജി പ്രതീകങ്ങൾക്കും പിന്തുണ പ്രാപ്‌തമാക്കുന്നു. ഞങ്ങളുടെ പ്രിയപ്പെട്ട പുതിയ ഇമോജി എന്താണെന്ന് ആളുകൾ ഞങ്ങളോട് ചോദിക്കുന്നു, എന്നാൽ ആ ചോദ്യത്തിന് ഉത്തരം പറയാൻ ഞങ്ങൾ ആഗ്രഹിക്കുന്നില്ല."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "ഈ റിലീസിലെ പ്രകടന മെച്ചപ്പെടുത്തലുകൾക്ക് നന്ദി, വലിയ ഗ്രൂപ്പ് ചാറ്റുകൾ തുറക്കുന്നത് എന്നത്തേക്കാളും വേഗത്തിലാണ്. സമാന്തര പ്രപഞ്ചങ്ങളുടെ അസ്തിത്വത്തെക്കുറിച്ച് ചർച്ച ചെയ്യാൻ താൽപ്പര്യമുള്ള നൂറുകണക്കിന് ആളുകളുള്ള ഒരു ഗ്രൂപ്പിലാണ് നിങ്ങളെങ്കിൽ, ടൈംലൈനുകളെക്കുറിച്ച് സംസാരിക്കുന്ന ആളുകളുടെ ടൈംലൈൻ കാണിക്കാൻ വളരെ കുറച്ച് മാത്രം സമയമെടുക്കുന്ന ഒരു ടൈംലൈനിലാണ് നിങ്ങൾ ഇപ്പോൾ ജീവിക്കുന്നത്."
   }
 }

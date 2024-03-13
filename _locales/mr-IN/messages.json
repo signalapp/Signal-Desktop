@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {या कॉलमध्ये · {people,number} व्यक्ती} other {या कॉल मध्ये · {people,number} व्यक्ती}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {कॉलमध्ये {people,number}} other {कॉलमध्ये {people,number}}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "हे अद्यतन सर्व इमोजी आवृत्ती 15.1 मध्ये नवीन इमोजी वर्ण सपोर्ट सक्षम करतो. लोक आम्हाला विचारतात की आमचा आवडता इमोजी कोणता आहे, परंतु त्या प्रश्नाला उत्तरे देणे हे \"लाइम\" आहे जो आम्ही ओलांडत नाही."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "या प्रकाशनातील सुधारणांबद्दल धन्यवाद, मोठे गट चॅट्स उघडणे यापूर्वीपेक्षा अधिक जलद झाले आहे. तुम्ही समांतर विश्वाच्या अस्तित्तावर वादविवाद करायला आवडणाऱ्या शेकडो लोकांच्या गटात, असाल, तर आता आपण अशा टाइमलाइनवर राहता जिथे टाइमलाइनबद्दल बोलत असणाऱ्या लोकांची टाइमलाइन दाखवण्यासाठी खूपच कमी वेळ लागतो."
   }
 }

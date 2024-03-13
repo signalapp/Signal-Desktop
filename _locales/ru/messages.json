@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {В этом звонке · {people,number} человек} few {В этом звонке · {people,number} человека} many {В этом звонке · {people,number} человек} other {В этом звонке · {people,number} человека}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} в звонке} few {{people,number} в звонке} many {{people,number} в звонке} other {{people,number} в звонке}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Это обновление включает поддержку всех новых эмодзи версии 15.1. Люди продолжают спрашивать, какой у нас любимый новый эмодзи, но мы не будем выдавать все наши секреты."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Благодаря улучшениям производительности в этом релизе большие групповые чаты теперь открываются быстрее, чем когда-либо. Если вы находитесь в группе из нескольких сотен человек, которые любят спорить о существовании параллельных вселенных, то теперь в вашей вселенной вам требуется гораздо меньше времени, чтобы посмотреть ленту людей из всех других вселенных."
   }
 }

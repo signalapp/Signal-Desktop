@@ -129,7 +129,7 @@
     "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Створіть/завантажте пакет наліпок",
+    "messageformat": "Створити / Завантажити набір стікерів",
     "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuEdit": {
@@ -173,7 +173,7 @@
     "description": "Application menu command to close the application"
   },
   "icu:editMenuUndo": {
-    "messageformat": "Відмінити",
+    "messageformat": "Скасувати",
     "description": "Edit menu command to remove recently-typed text"
   },
   "icu:editMenuRedo": {
@@ -241,7 +241,7 @@
     "description": "View menu command to make everything smaller"
   },
   "icu:viewMenuToggleFullScreen": {
-    "messageformat": "Переключити на Повний Екран",
+    "messageformat": "На весь екран / У вікні",
     "description": "View menu command to enter or leave Full Screen mode"
   },
   "icu:viewMenuToggleDevTools": {
@@ -916,11 +916,11 @@
     "description": "Obvious instructions for when a user's computer loses its network connection"
   },
   "icu:submitDebugLog": {
-    "messageformat": "Журнал відладки",
+    "messageformat": "Журнал налагодження",
     "description": "Menu item and header text for debug log modal (sentence case)"
   },
   "icu:debugLog": {
-    "messageformat": "Журнал відладки",
+    "messageformat": "Журнал налагодження",
     "description": "View menu item to open the debug log (title case)"
   },
   "icu:forceUpdate": {
@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {У цьому виклику · {people,number} людина} few {У цьому виклику · {people,number} людини} many {У цьому виклику · {people,number} людей} other {У цьому виклику · {people,number} людини}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2364,7 +2364,7 @@
     "description": "Label text for system theme"
   },
   "icu:noteToSelf": {
-    "messageformat": "Примітка для себе",
+    "messageformat": "Нотатник",
     "description": "Name for the conversation with your own phone number"
   },
   "icu:noteToSelfHero": {
@@ -2777,7 +2777,7 @@
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
   "icu:stickers--StickerManager--title": {
-    "messageformat": "Наліпки",
+    "messageformat": "Стікери",
     "description": "Title for the sticker manager"
   },
   "icu:stickers--StickerManager--Available": {
@@ -2789,7 +2789,7 @@
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "icu:stickers--StickerManager--InstalledPacks--Empty": {
-    "messageformat": "Встановлені наліпки відсутні",
+    "messageformat": "Немає встановлених стікерів",
     "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
   },
   "icu:stickers--StickerManager--BlessedPacks": {
@@ -2801,11 +2801,11 @@
     "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
   },
   "icu:stickers--StickerManager--ReceivedPacks": {
-    "messageformat": "Отримані Вами Стікери",
+    "messageformat": "Отримані cтікери",
     "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
-    "messageformat": "Наліпки від вхідних дзвінків з'являться тут",
+    "messageformat": "Стікери від вхідних дзвінків з'являться тут",
     "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
   },
   "icu:stickers--StickerManager--Install": {
@@ -2901,11 +2901,11 @@
     "description": "Shown in the emoji picker when a search yields 0 results."
   },
   "icu:EmojiPicker--search-close": {
-    "messageformat": "Закрити пошук емодзі",
+    "messageformat": "Закрити пошук емоджі",
     "description": "Button title to cancel the emoji search."
   },
   "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Пошук Emoji",
+    "messageformat": "Пошук емоджі",
     "description": "Shown as a placeholder inside the emoji picker search field."
   },
   "icu:EmojiPicker--skin-tone": {
@@ -3089,7 +3089,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-emoji-chooser": {
-    "messageformat": "Відкрийте програму вибору смайликів",
+    "messageformat": "Відкрити панель емоджі",
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-sticker-chooser": {
@@ -3317,7 +3317,7 @@
     "description": "A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchivedUndo": {
-    "messageformat": "Відмінити",
+    "messageformat": "Скасувати",
     "description": "Undo button for archiving a conversation"
   },
   "icu:conversationReturnedToInbox": {
@@ -3493,7 +3493,7 @@
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:ConversationHero--members": {
-    "messageformat": "{count, plural, one {1 учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}",
+    "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}",
     "description": "Specifies the number of members in a group conversation"
   },
   "icu:member-of-1-group": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {У виклику {people,number}} few {У виклику {people,number}} many {У виклику {people,number}} other {У виклику {people,number}}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3965,7 +3965,7 @@
     "description": "The button to join the group, if approval is required"
   },
   "icu:GroupV2--join--cancel-request-to-join": {
-    "messageformat": "Відмінити запит",
+    "messageformat": "Відкликати запит",
     "description": "The button to cancel request to join the group"
   },
   "icu:GroupV2--join--cancel-request-to-join--confirmation": {
@@ -3981,7 +3981,7 @@
     "description": "Choosing not to continue in the cancel join confirmation dialog"
   },
   "icu:GroupV2--join--group-metadata--full": {
-    "messageformat": "{memberCount, plural, one {Група · {memberCount,number} учасник} few {Група · {memberCount,number} учасників} many {Група · {memberCount,number} учасників} other {Група · {memberCount,number} учасників}}",
+    "messageformat": "{memberCount, plural, one {Група · {memberCount,number} учасник} few {Група · {memberCount,number} учасники} many {Група · {memberCount,number} учасників} other {Група · {memberCount,number} учасника}}",
     "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "icu:GroupV2--join--requested": {
@@ -5141,7 +5141,7 @@
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "icu:AddGroupMembersModal--confirm-title--many": {
-    "messageformat": "Додати {count,number} користувачів до \"{group}\"?",
+    "messageformat": "Додати {count,number} учасників до «{group}»?",
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "icu:AddGroupMembersModal--confirm-button--one": {
@@ -5869,7 +5869,7 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Перетворювати емодзі, введені символами, на емодзі-зображення",
+    "messageformat": "Перетворювати емограми, введені символами, на емоджі",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
@@ -6121,7 +6121,7 @@
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "icu:CustomizingPreferredReactions__subtitle": {
-    "messageformat": "Натисніть, щоб замінити emoji",
+    "messageformat": "Натисніть, щоб замінити емоджі",
     "description": "Instructions in the modal for customizing the preferred reactions."
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
@@ -6145,7 +6145,7 @@
     "description": "Label for the text button in the media editor"
   },
   "icu:MediaEditor__control--sticker": {
-    "messageformat": "Наліпки",
+    "messageformat": "Стікери",
     "description": "Label for the sticker button in the media editor"
   },
   "icu:MediaEditor__control--crop": {
@@ -6153,7 +6153,7 @@
     "description": "Label for the crop & rotate button in the media editor"
   },
   "icu:MediaEditor__control--undo": {
-    "messageformat": "Відмінити",
+    "messageformat": "Скасувати",
     "description": "Label for the undo button in the media editor"
   },
   "icu:MediaEditor__control--redo": {
@@ -7249,9 +7249,9 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__v7.1--0": {
-    "messageformat": "Це оновлення додає підтримку всіх нових емодзі версії 15.1. Нас часто питають, яке нове емодзі наше улюблене. Не «залаймуйте» нам рук, ми все одно не видамо цієї таємниці!"
+    "messageformat": "Це оновлення додає підтримку всіх нових емоджі версії 15.1. Нас часто питають, який з нових емоджі наш улюблений. Не «залаймуйте» нам рук, ми все одно не видамо цієї таємниці!"
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Завдяки покращенню продуктивності групові чати з великою кількістю учасників відкриватимуться швидше. Якщо ви сидите в чатику на кількасот людей, що люблять сперечатися про існування паралельних всесвітів, то ви нарешті в цьому таймлайні: тепер треба набагато менше часу, щоб підвантажити таймлайн людей, що обговорюють таймлайни."
   }
 }

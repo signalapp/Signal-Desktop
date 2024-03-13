@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {Na tem klicu · {people,number} oseba} two {Na tem klicu · {people,number} osebi} few {Na tem klicu · {people,number} osebe} other {Na tem klicu · {people,number} ljudi}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} v klicu} two {{people,number} v klicu} few {{people,number} v klicu} other {{people,number} v klicu}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Ta posodobitev omogoča podporo za vse nove emojije v različici 15.1. Ljudje nas nenehno sprašujejo, kateri je naš najljubši novi emoji, vendar meje, ki jo zahteva odgovor na to vprašanje, ne bomo prestopili."
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Zaradi izboljšav zmogljivosti v tej izdaji je odpiranje velikih skupinskih klepetov hitrejše kot kdajkoli prej. Če ste v skupini z več sto ljudmi, ki radi razpravljajo o obstoju vzporednih vesolj, zdaj živite v časovnici, kjer je za prikaz časovnice ljudi, ki se pogovarjajo o časovnicah, potrebnega veliko manj časa."
   }
 }

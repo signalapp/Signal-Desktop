@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, other {ក្នុងការហៅនេះ · {people,number} នាក់}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, other {{people,number} នាក់នៅក្នុងការហៅ}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -7252,6 +7252,6 @@
     "messageformat": "ការធ្វើបច្ចុប្បន្នភាពនេះធ្វើឱ្យរូបអារម្មណ៍ថ្មីៗទាំងអស់អាចប្រើបាននៅក្នុងកំណែរូបអារម្មណ៍ 15.1។ មនុស្សទាំងឡាយចេះតែសួរយើងថាតើរូបអារម្មណ៍ថ្មីមួយណាដែលយើងចូលចិត្តជាងគេ ប៉ុន្តែវាជាសំណួរ \"ដ៏ពិបាក\" មួយដែលយើងសុំមិនឆ្លើយ។"
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "ដោយសារតែមានការកែលម្អទៅលើដំណើរការនៅក្នុងការចេញផ្សាយនេះ ការជជែកជាក្រុមធំអាចបើកបានកាន់តែលឿនជាងមុន។ ប្រសិនបើអ្នកស្ថិតនៅក្នុងក្រុមដែលមានសមាជិករាប់រយនាក់ដែលចូលចិត្តជជែកវែកញែកអំពីអត្ថិភាពនៃសកលលោកស្របគ្នា ឥឡូវនេះអ្នកអាចចំណាយពេលកាន់តែតិចខ្លាំងជាងមុនដើម្បីមើលឃើញពេលវេលាដែលមនុស្សទាំងឡាយពិភាក្សាអំពីប្រធានបទនោះ និងបន្ទាត់ពេលវេលានានា។"
   }
 }

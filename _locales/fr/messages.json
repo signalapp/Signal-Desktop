@@ -1039,7 +1039,7 @@
     "messageformat": "Bienvenue sur Signal"
   },
   "icu:whatsNew": {
-    "messageformat": "Consulter {whatsNew} dans cette mise à jour",
+    "messageformat": "Consulter {whatsNew} de cette mise à jour",
     "description": "Shown in the main window"
   },
   "icu:viewReleaseNotes": {
@@ -1754,7 +1754,7 @@
     "description": "Title of error when in a call then a call admin removes you."
   },
   "icu:CallingLobby__CallLinkNotice": {
-    "messageformat": "Toutes les personnes qui participent à cet appel via le lien auront accès à votre nom et votre photo.",
+    "messageformat": "Tous les utilisateurs participant à cet appel via le lien verront votre nom et votre photo.",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
   },
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
@@ -1918,7 +1918,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {{people,number} participant} other {{people,number} participants}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2993,7 +2993,7 @@
     "description": "Text for a button which will take user to Signal download page"
   },
   "icu:Message--tap-to-view-expired": {
-    "messageformat": "Visualisé",
+    "messageformat": "Vu",
     "description": "Text shown on messages with with individual timers, after user has viewed it"
   },
   "icu:Message--tap-to-view--outgoing": {
@@ -3001,7 +3001,7 @@
     "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
-    "messageformat": "Vous avez déjà visualisé ce message.",
+    "messageformat": "Vous avez déjà lu ce message.",
     "description": "Shown when user clicks on an expired incoming view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
@@ -3729,7 +3729,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {{people,number} participant} other {{people,number} participants}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -5561,7 +5561,7 @@
     "description": "In the message details screen, shown above contacts who have read this message"
   },
   "icu:MessageDetailsHeader--Viewed": {
-    "messageformat": "Visualisé par",
+    "messageformat": "Vu par",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "icu:MessageDetail--disappears-in": {
@@ -7252,6 +7252,6 @@
     "messageformat": "Cette mise à jour prend en charge tous les nouveaux émojis de la version 15.1. On nous demande souvent quel est notre émoji préféré, mais comment faire un choix ? Par contre, niveau cocktail, le mojito arrive en tête de notre classement (à consommer avec modération, bien sûr !) et nous avons hâte de pouvoir utiliser l’émoji « citron vert » très bientôt !"
   },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Côté performances, cette nouvelle version propulse les conversations de groupe dans une autre dimension. Vous faites partie d’un groupe dans lequel des centaines de personnes aiment débattre de l’existence de mondes parallèles ? Sachez que vous vivez maintenant dans un espace-temps où il vous faut moins de temps pour convaincre les sceptiques de l’existence d’autres univers."
   }
 }
