@@ -129,7 +129,7 @@
     "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Створіть/завантажте пакет наліпок",
+    "messageformat": "Створити / Завантажити набір стікерів",
     "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuEdit": {
@@ -173,7 +173,7 @@
     "description": "Application menu command to close the application"
   },
   "icu:editMenuUndo": {
-    "messageformat": "Відмінити",
+    "messageformat": "Скасувати",
     "description": "Edit menu command to remove recently-typed text"
   },
   "icu:editMenuRedo": {
@@ -241,7 +241,7 @@
     "description": "View menu command to make everything smaller"
   },
   "icu:viewMenuToggleFullScreen": {
-    "messageformat": "Переключити на Повний Екран",
+    "messageformat": "На весь екран / У вікні",
     "description": "View menu command to enter or leave Full Screen mode"
   },
   "icu:viewMenuToggleDevTools": {
@@ -428,6 +428,26 @@
     "messageformat": "Вибрати повідомлення",
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
+  "icu:ConversationHeader__MenuItem--Accept": {
+    "messageformat": "Accept",
+    "description": "Shown in menu for conversation, allows the user to accept a message request"
+  },
+  "icu:ConversationHeader__MenuItem--Block": {
+    "messageformat": "Block",
+    "description": "Shown in menu for conversation, allows the user to block the contact"
+  },
+  "icu:ConversationHeader__MenuItem--Unblock": {
+    "messageformat": "Unblock",
+    "description": "Shown in menu for conversation, allows the user to unblock the contact"
+  },
+  "icu:ConversationHeader__MenuItem--ReportSpam": {
+    "messageformat": "Report Spam",
+    "description": "Shown in menu for conversation, allows the user to report the conversation as spam"
+  },
+  "icu:ConversationHeader__MenuItem--DeleteChat": {
+    "messageformat": "Delete Chat",
+    "description": "Shown in menu for conversation, allows the user to delete the conversation"
+  },
   "icu:ContactListItem__menu": {
     "messageformat": "Керування контактом",
     "description": "Shown as aria label for context menu for a contact"
@@ -586,11 +606,19 @@
   },
   "icu:unreadMessage": {
     "messageformat": "1 непрочитане повідомлення",
-    "description": "Text for unread message separator, just one message"
+    "description": "(Deleted 2024/03/07) Text for unread message separator, just one message"
   },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} непрочитане повідомлення} few {{count,number} непрочитаних повідомлень} many {{count,number} непрочитаних повідомлень} other {{count,number} непрочитаних повідомлень}}",
     "description": "Text for unread message separator, with count"
+  },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Marked Unread",
+    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}",
+    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "Для вашої безпеки історія чатів не переноситься на нові зв'язані пристрої.",
@@ -916,11 +944,11 @@
     "description": "Obvious instructions for when a user's computer loses its network connection"
   },
   "icu:submitDebugLog": {
-    "messageformat": "Журнал відладки",
+    "messageformat": "Журнал налагодження",
     "description": "Menu item and header text for debug log modal (sentence case)"
   },
   "icu:debugLog": {
-    "messageformat": "Журнал відладки",
+    "messageformat": "Журнал налагодження",
     "description": "View menu item to open the debug log (title case)"
   },
   "icu:forceUpdate": {
@@ -1542,6 +1570,10 @@
     "messageformat": "{conversationTitle} володіє номером {phoneNumber}",
     "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
+  "icu:TitleTransition--notification": {
+    "messageformat": "You started this chat with {oldTitle}",
+    "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
+  },
   "icu:quoteThumbnailAlt": {
     "messageformat": "Мініатюрні зображення з цитованих повідомлень",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
@@ -1615,7 +1647,7 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "(deleted 2023/09/05) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "icu:Install__qr-failed-load": {
@@ -1918,7 +1950,7 @@
     "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {In this call · {people,number} person} other {In this call · {people,number} people}}",
+    "messageformat": "{people, plural, one {У цьому виклику · {people,number} людина} few {У цьому виклику · {people,number} людини} many {У цьому виклику · {people,number} людей} other {У цьому виклику · {people,number} людини}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -2364,7 +2396,7 @@
     "description": "Label text for system theme"
   },
   "icu:noteToSelf": {
-    "messageformat": "Примітка для себе",
+    "messageformat": "Нотатник",
     "description": "Name for the conversation with your own phone number"
   },
   "icu:noteToSelfHero": {
@@ -2777,7 +2809,7 @@
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
   "icu:stickers--StickerManager--title": {
-    "messageformat": "Наліпки",
+    "messageformat": "Стікери",
     "description": "Title for the sticker manager"
   },
   "icu:stickers--StickerManager--Available": {
@@ -2789,7 +2821,7 @@
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "icu:stickers--StickerManager--InstalledPacks--Empty": {
-    "messageformat": "Встановлені наліпки відсутні",
+    "messageformat": "Немає встановлених стікерів",
     "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
   },
   "icu:stickers--StickerManager--BlessedPacks": {
@@ -2801,11 +2833,11 @@
     "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
   },
   "icu:stickers--StickerManager--ReceivedPacks": {
-    "messageformat": "Отримані Вами Стікери",
+    "messageformat": "Отримані cтікери",
     "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
-    "messageformat": "Наліпки від вхідних дзвінків з'являться тут",
+    "messageformat": "Стікери від вхідних дзвінків з'являться тут",
     "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
   },
   "icu:stickers--StickerManager--Install": {
@@ -2901,11 +2933,11 @@
     "description": "Shown in the emoji picker when a search yields 0 results."
   },
   "icu:EmojiPicker--search-close": {
-    "messageformat": "Закрити пошук емодзі",
+    "messageformat": "Закрити пошук емоджі",
     "description": "Button title to cancel the emoji search."
   },
   "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Пошук Emoji",
+    "messageformat": "Пошук емоджі",
     "description": "Shown as a placeholder inside the emoji picker search field."
   },
   "icu:EmojiPicker--skin-tone": {
@@ -3089,7 +3121,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-emoji-chooser": {
-    "messageformat": "Відкрийте програму вибору смайликів",
+    "messageformat": "Відкрити панель емоджі",
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--open-sticker-chooser": {
@@ -3317,7 +3349,7 @@
     "description": "A toast that shows up when user archives a conversation"
   },
   "icu:conversationArchivedUndo": {
-    "messageformat": "Відмінити",
+    "messageformat": "Скасувати",
     "description": "Undo button for archiving a conversation"
   },
   "icu:conversationReturnedToInbox": {
@@ -3327,14 +3359,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Чат позначено як непрочитаний",
     "description": "A toast that shows up when user marks a conversation as unread"
-  },
-  "icu:SendEdit--dialog--title": {
-    "messageformat": "Тільки в бета-версії Signal",
-    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
-  },
-  "icu:SendEdit--dialog--body": {
-    "messageformat": "Редагування повідомлень доступно тільки для користувачів бета-версії Signal. Якщо ви відредагуєте повідомлення, це побачать тільки користувачі останньої бета-версії Signal.",
-    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
     "messageformat": "Змінити повідомлення",
@@ -3383,6 +3407,62 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "Всі",
     "description": "Shown in reaction viewer as the title for the 'all' category"
+  },
+  "icu:SafetyTipsModal__Title": {
+    "messageformat": "Safety Tips",
+    "description": "Title of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__Description": {
+    "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
+    "description": "Description of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__TipTitle--Crypto": {
+    "messageformat": "Crypto or money scams",
+    "description": "Title of the crypto safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Crypto": {
+    "messageformat": "If someone you don’t know messages about cryptocurrency (like Bitcoin) or a financial opportunity, be careful—it’s likely spam.",
+    "description": "Description of the crypto safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Vague": {
+    "messageformat": "Vague or irrelevant messages",
+    "description": "Title of the vague safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Vague": {
+    "messageformat": "Spammers often start with a simple message like “Hi” to draw you in. If you respond they may engage you further.",
+    "description": "Description of the vague safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Links": {
+    "messageformat": "Messages with links",
+    "description": "Title of the links safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Links": {
+    "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
+    "description": "Description of the links safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Business": {
+    "messageformat": "Fake businesses and institutions",
+    "description": "Title of the business safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Business": {
+    "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
+    "description": "Description of the business safety tip"
+  },
+  "icu:SafetyTipsModal__DotLabel": {
+    "messageformat": "Go to page {page,number}",
+    "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
+  },
+  "icu:SafetyTipsModal__Button--Previous": {
+    "messageformat": "Previous tip",
+    "description": "Button to go to the previous safety tip"
+  },
+  "icu:SafetyTipsModal__Button--Next": {
+    "messageformat": "Next tip",
+    "description": "Button to go to the next safety tip"
+  },
+  "icu:SafetyTipsModal__Button--Done": {
+    "messageformat": "Done",
+    "description": "Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Дозволити {name} надсилати вам повідомлення та ділитись своїм іменем та фото з цією людиною? Він (-а) не дізнається, що вибачили його (-ЇЇ) повідомлення, поки ви не приймете.",
@@ -3448,6 +3528,42 @@
     "messageformat": "Ви більше не будете отримувати повідомлень чи оновлень з цієї групи та її учасники не зможуть додати вас до цієї групи знов.",
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
+  "icu:MessageRequests--reportAndMaybeBlock": {
+    "messageformat": "Report...",
+    "description": "Shown as a button to let the user report a message request and maybe block the user"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
+    "messageformat": "Report as spam?",
+    "description": "Shown as the title in the modal for reporting and maybe blocking a message request"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a direct conversation"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation when the contact is unknown"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
+    "messageformat": "Signal will be notified that {name}, who invited you to this group, may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
+    "messageformat": "Report Spam",
+    "description": "Shown as a button to let the user report a message request"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock": {
+    "messageformat": "Report and Block",
+    "description": "Shown as a button to let the user report a message request and block the user"
+  },
+  "icu:MessageRequests--AcceptedOptionsModal--body": {
+    "messageformat": "You accepted a message request from {name}. If this was a mistake, you can choose an action below.",
+    "description": "Shown as the body in the modal for accepting a message request in a direct conversation"
+  },
+  "icu:MessageRequests--report-spam-success-toast": {
+    "messageformat": "Reported as spam.",
+    "description": "Shown in a toast when you successfully report a user as spam"
+  },
   "icu:MessageRequests--delete": {
     "messageformat": "Видалити",
     "description": "Shown as a button to let the user delete any message request"
@@ -3493,7 +3609,7 @@
     "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "icu:ConversationHero--members": {
-    "messageformat": "{count, plural, one {1 учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}",
+    "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}",
     "description": "Specifies the number of members in a group conversation"
   },
   "icu:member-of-1-group": {
@@ -3729,7 +3845,7 @@
     "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
-    "messageformat": "{people, plural, one {{people,number} in call} other {{people,number} in call}}",
+    "messageformat": "{people, plural, one {У виклику {people,number}} few {У виклику {people,number}} many {У виклику {people,number}} other {У виклику {people,number}}}",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3965,7 +4081,7 @@
     "description": "The button to join the group, if approval is required"
   },
   "icu:GroupV2--join--cancel-request-to-join": {
-    "messageformat": "Відмінити запит",
+    "messageformat": "Відкликати запит",
     "description": "The button to cancel request to join the group"
   },
   "icu:GroupV2--join--cancel-request-to-join--confirmation": {
@@ -3981,7 +4097,7 @@
     "description": "Choosing not to continue in the cancel join confirmation dialog"
   },
   "icu:GroupV2--join--group-metadata--full": {
-    "messageformat": "{memberCount, plural, one {Група · {memberCount,number} учасник} few {Група · {memberCount,number} учасників} many {Група · {memberCount,number} учасників} other {Група · {memberCount,number} учасників}}",
+    "messageformat": "{memberCount, plural, one {Група · {memberCount,number} учасник} few {Група · {memberCount,number} учасники} many {Група · {memberCount,number} учасників} other {Група · {memberCount,number} учасника}}",
     "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "icu:GroupV2--join--requested": {
@@ -5141,7 +5257,7 @@
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "icu:AddGroupMembersModal--confirm-title--many": {
-    "messageformat": "Додати {count,number} користувачів до \"{group}\"?",
+    "messageformat": "Додати {count,number} учасників до «{group}»?",
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "icu:AddGroupMembersModal--confirm-button--one": {
@@ -5231,6 +5347,10 @@
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Дізнатись більше",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+  },
+  "icu:MessageRequestWarning__safety-tips": {
+    "messageformat": "Safety Tips",
+    "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__dialog__details": {
     "messageformat": "У вас немає спільних груп з цією особою. Уважно розглядайте запити перед тим, як їх прийняти, щоб уникнути небажаних повідомлень.",
@@ -5617,7 +5737,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Ім'я користувача не може починатися з цифри.",
+    "messageformat": "Usernames cannot begin with a number.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -5869,7 +5989,7 @@
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Перетворювати емодзі, введені символами, на емодзі-зображення",
+    "messageformat": "Перетворювати емограми, введені символами, на емоджі",
     "description": "Title for the auto convert emoji setting"
   },
   "icu:Preferences__auto-convert-emoji--description": {
@@ -6056,6 +6176,10 @@
     "messageformat": "Оновлення завантажено",
     "description": "The title of update dialog when update download is completed."
   },
+  "icu:DialogNetworkStatus__outage": {
+    "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
+    "description": "The title of outage dialog during service outage."
+  },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Необхідне оновлення",
     "description": "The title of update dialog on install screen when user OS is unsupported"
@@ -6121,7 +6245,7 @@
     "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
   },
   "icu:CustomizingPreferredReactions__subtitle": {
-    "messageformat": "Натисніть, щоб замінити emoji",
+    "messageformat": "Натисніть, щоб замінити емоджі",
     "description": "Instructions in the modal for customizing the preferred reactions."
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
@@ -6145,7 +6269,7 @@
     "description": "Label for the text button in the media editor"
   },
   "icu:MediaEditor__control--sticker": {
-    "messageformat": "Наліпки",
+    "messageformat": "Стікери",
     "description": "Label for the sticker button in the media editor"
   },
   "icu:MediaEditor__control--crop": {
@@ -6153,7 +6277,7 @@
     "description": "Label for the crop & rotate button in the media editor"
   },
   "icu:MediaEditor__control--undo": {
-    "messageformat": "Відмінити",
+    "messageformat": "Скасувати",
     "description": "Label for the undo button in the media editor"
   },
   "icu:MediaEditor__control--redo": {
@@ -6315,6 +6439,26 @@
   "icu:payment-event-notification-check-primary-device": {
     "messageformat": "Перевірте статус цього платежу на своєму основному пристрої",
     "description": "Payment event notification check device label"
+  },
+  "icu:MessageRequestResponseNotification__Message--Accepted": {
+    "messageformat": "You accepted the message request",
+    "description": "Message request response notification message when the user accepted the message request or unblocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Message--Reported": {
+    "messageformat": "Reported as spam",
+    "description": "Message request response notification message when the user reported the message request as spam"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked": {
+    "messageformat": "You blocked this person",
+    "description": "Message request response notification message when the user blocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Button--Options": {
+    "messageformat": "Options",
+    "description": "Message request response notification button to show options"
+  },
+  "icu:MessageRequestResponseNotification__Button--LearnMore": {
+    "messageformat": "Learn More",
+    "description": "Message request response notification button to learn more"
   },
   "icu:SignalConnectionsModal__title": {
     "messageformat": "Контакти Signal",
@@ -7248,10 +7392,13 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v7.1--0": {
-    "messageformat": "Це оновлення додає підтримку всіх нових емодзі версії 15.1. Нас часто питають, яке нове емодзі наше улюблене. Не «залаймуйте» нам рук, ми все одно не видамо цієї таємниці!"
-  },
   "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
+    "messageformat": "Завдяки покращенню продуктивності групові чати з великою кількістю учасників відкриватимуться швидше. Якщо ви сидите в чатику на кількасот людей, що люблять сперечатися про існування паралельних всесвітів, то ви нарешті в цьому таймлайні: тепер треба набагато менше часу, щоб підвантажити таймлайн людей, що обговорюють таймлайни."
+  },
+  "icu:WhatsNew__v7.3--0": {
+    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
+  },
+  "icu:WhatsNew__v7.3--1": {
+    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
   }
 }
