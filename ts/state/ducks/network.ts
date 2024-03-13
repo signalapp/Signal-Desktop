@@ -10,6 +10,7 @@ import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnece
 
 export type NetworkStateType = ReadonlyDeep<{
   isOnline: boolean;
+  isOutage: boolean;
   socketStatus: SocketStatus;
   withinConnectingGracePeriod: boolean;
   challengeStatus: 'required' | 'pending' | 'idle';
@@ -21,6 +22,7 @@ const CHECK_NETWORK_STATUS = 'network/CHECK_NETWORK_STATUS';
 const CLOSE_CONNECTING_GRACE_PERIOD = 'network/CLOSE_CONNECTING_GRACE_PERIOD';
 const RELINK_DEVICE = 'network/RELINK_DEVICE';
 const SET_CHALLENGE_STATUS = 'network/SET_CHALLENGE_STATUS';
+const SET_OUTAGE = 'network/SET_OUTAGE';
 
 export type CheckNetworkStatusPayloadType = ReadonlyDeep<{
   isOnline: boolean;
@@ -47,11 +49,19 @@ type SetChallengeStatusActionType = ReadonlyDeep<{
   };
 }>;
 
+type SetOutageActionType = ReadonlyDeep<{
+  type: 'network/SET_OUTAGE';
+  payload: {
+    isOutage: boolean;
+  };
+}>;
+
 export type NetworkActionType = ReadonlyDeep<
   | CheckNetworkStatusAction
   | CloseConnectingGracePeriodActionType
   | RelinkDeviceActionType
   | SetChallengeStatusActionType
+  | SetOutageActionType
 >;
 
 // Action Creators
@@ -88,11 +98,19 @@ function setChallengeStatus(
   };
 }
 
+function setOutage(isOutage: boolean): SetOutageActionType {
+  return {
+    type: SET_OUTAGE,
+    payload: { isOutage },
+  };
+}
+
 export const actions = {
   checkNetworkStatus,
   closeConnectingGracePeriod,
   relinkDevice,
   setChallengeStatus,
+  setOutage,
 };
 
 // Reducer
@@ -100,6 +118,7 @@ export const actions = {
 export function getEmptyState(): NetworkStateType {
   return {
     isOnline: navigator.onLine,
+    isOutage: false,
     socketStatus: SocketStatus.OPEN,
     withinConnectingGracePeriod: true,
     challengeStatus: 'idle',
@@ -133,6 +152,17 @@ export function reducer(
       ...state,
       challengeStatus: action.payload.challengeStatus,
     };
+  }
+
+  if (action.type === SET_OUTAGE) {
+    const { isOutage } = action.payload;
+
+    // This action is dispatched frequently when offline.
+    // We avoid allocating a new object if nothing has changed to
+    // avoid an unnecessary re-render.
+    return assignWithNoUnnecessaryAllocation(state, {
+      isOutage,
+    });
   }
 
   return state;

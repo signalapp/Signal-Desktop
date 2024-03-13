@@ -201,6 +201,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         i18n={i18n}
         socketStatus={SocketStatus.CLOSED}
         isOnline={false}
+        isOutage={false}
         manualReconnect={action('manualReconnect')}
         {...overrideProps.dialogNetworkStatus}
         {...props}
