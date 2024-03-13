@@ -114,7 +114,7 @@ export type Props = Readonly<{
   sortedGroupMembers: ReadonlyArray<ConversationType> | null;
   scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
-  onEditorStateChange?(options: {
+  onEditorStateChange(options: {
     bodyRanges: DraftBodyRanges;
     caretLocation?: number;
     conversationId: string | undefined;

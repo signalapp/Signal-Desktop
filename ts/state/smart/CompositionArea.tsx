@@ -221,6 +221,7 @@ export function SmartCompositionArea({ id }: { id: string }): JSX.Element {
     useGlobalModalActions();
   const { clearInstalledStickerPack } = useStickersActions();
   const { showToast } = useToastActions();
+  const { onEditorStateChange } = useComposerActions();
 
   return (
     <CompositionArea
@@ -243,6 +244,7 @@ export function SmartCompositionArea({ id }: { id: string }): JSX.Element {
       pushPanelForConversation={pushPanelForConversation}
       discardEditMessage={discardEditMessage}
       onCloseLinkPreview={onCloseLinkPreview}
+      onEditorStateChange={onEditorStateChange}
       // AudioCapture
       errorDialogAudioRecorderType={errorDialogAudioRecorderType ?? null}
       recordingState={recordingState}
