@@ -21,3 +21,43 @@ export const isShowingAnyModal = createSelector(
       return Boolean(value);
     })
 );
+
+export const getContactModalState = createSelector(
+  getGlobalModalsState,
+  ({ contactModalState }) => contactModalState
+);
+
+export const getIsStoriesSettingsVisible = createSelector(
+  getGlobalModalsState,
+  ({ isStoriesSettingsVisible }) => isStoriesSettingsVisible
+);
+
+export const getSafetyNumberChangedBlockingData = createSelector(
+  getGlobalModalsState,
+  ({ safetyNumberChangedBlockingData }) => safetyNumberChangedBlockingData
+);
+
+export const getDeleteMessagesProps = createSelector(
+  getGlobalModalsState,
+  ({ deleteMessagesProps }) => deleteMessagesProps
+);
+
+export const getEditHistoryMessages = createSelector(
+  getGlobalModalsState,
+  ({ editHistoryMessages }) => editHistoryMessages
+);
+
+export const getForwardMessagesProps = createSelector(
+  getGlobalModalsState,
+  ({ forwardMessagesProps }) => forwardMessagesProps
+);
+
+export const getProfileEditorHasError = createSelector(
+  getGlobalModalsState,
+  ({ profileEditorHasError }) => profileEditorHasError
+);
+
+export const getProfileEditorInitialEditState = createSelector(
+  getGlobalModalsState,
+  ({ profileEditorInitialEditState }) => profileEditorInitialEditState
+);

@@ -1,13 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
-import type { GetConversationByIdType } from '../selectors/conversations';
-import type { LocalizerType } from '../../types/Util';
-import type { StateType } from '../reducer';
-import type { SelectedStoryDataType } from '../ducks/stories';
 import { StoryViewer } from '../../components/StoryViewer';
 import { ToastType } from '../../types/Toast';
 import { useToastActions } from '../ducks/toast';
@@ -41,7 +36,7 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 
-export function SmartStoryViewer(): JSX.Element | null {
+export const SmartStoryViewer = memo(function SmartStoryViewer() {
   const storiesActions = useStoriesActions();
   const { onUseEmoji } = useEmojisActions();
   const {
@@ -56,40 +51,24 @@ export function SmartStoryViewer(): JSX.Element | null {
 
   const isWindowActive = useIsWindowActive();
 
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
+  const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const preferredReactionEmoji = useSelector<StateType, ReadonlyArray<string>>(
-    getPreferredReactionEmoji
-  );
-
-  const selectedStoryData = useSelector<
-    StateType,
-    SelectedStoryDataType | undefined
-  >(getSelectedStoryData);
-
-  const internalUser = useSelector<StateType, boolean>(isInternalUser);
+  const preferredReactionEmoji = useSelector(getPreferredReactionEmoji);
+  const selectedStoryData = useSelector(getSelectedStoryData);
+  const internalUser = useSelector(isInternalUser);
 
   strictAssert(selectedStoryData, 'StoryViewer: !selectedStoryData');
 
-  const conversationSelector = useSelector<StateType, GetConversationByIdType>(
-    getConversationSelector
-  );
+  const conversationSelector = useSelector(getConversationSelector);
 
   const getStoryById = useSelector(getStoryByIdSelector);
-
   const recentEmojis = useRecentEmojis();
-  const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
+  const skinTone = useSelector(getEmojiSkinTone);
   const replyState = useSelector(getStoryReplies);
-  const hasAllStoriesUnmuted = useSelector<StateType, boolean>(
-    getHasAllStoriesUnmuted
-  );
-
+  const hasAllStoriesUnmuted = useSelector(getHasAllStoriesUnmuted);
   const hasActiveCall = useSelector(isInFullScreenCall);
-  const hasViewReceiptSetting = useSelector<StateType, boolean>(
-    getHasStoryViewReceiptSetting
-  );
-
+  const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
 
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
@@ -161,4 +140,4 @@ export function SmartStoryViewer(): JSX.Element | null {
       {...storiesActions}
     />
   );
-}
+});

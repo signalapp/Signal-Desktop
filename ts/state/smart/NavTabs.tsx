@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { NavTabPanelProps } from '../../components/NavTabs';
 import { NavTabs } from '../../components/NavTabs';
@@ -33,7 +33,7 @@ export type SmartNavTabsProps = Readonly<{
   renderStoriesTab(props: NavTabPanelProps): JSX.Element;
 }>;
 
-export function SmartNavTabs({
+export const SmartNavTabs = memo(function SmartNavTabs({
   navTabsCollapsed,
   onToggleNavTabsCollapse,
   renderCallsTab,
@@ -91,4 +91,4 @@ export function SmartNavTabs({
       unreadStoriesCount={unreadStoriesCount}
     />
   );
-}
+});

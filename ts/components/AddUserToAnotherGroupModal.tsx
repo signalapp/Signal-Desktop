@@ -6,7 +6,7 @@ import React, { useCallback } from 'react';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType, ThemeType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { ToastType } from '../types/Toast';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -25,7 +25,6 @@ import { SizeObserver } from '../hooks/useSizeObserver';
 
 type OwnProps = {
   i18n: LocalizerType;
-  theme: ThemeType;
   contact: Pick<ConversationType, 'id' | 'title' | 'serviceId' | 'pni'>;
   candidateConversations: ReadonlyArray<ConversationType>;
   regionCode: string | undefined;

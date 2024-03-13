@@ -1,9 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
 import { AboutContactModal } from '../../components/conversation/AboutContactModal';
 import { isSignalConnection } from '../../util/getSignalConnections';
 import { getIntl } from '../selectors/user';
@@ -12,7 +10,7 @@ import { getConversationSelector } from '../selectors/conversations';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 
-export function SmartAboutContactModal(): JSX.Element | null {
+export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
   const i18n = useSelector(getIntl);
   const globalModals = useSelector(getGlobalModalsState);
   const { aboutContactModalContactId: contactId } = globalModals;
@@ -44,4 +42,4 @@ export function SmartAboutContactModal(): JSX.Element | null {
       onClose={toggleAboutContactModal}
     />
   );
-}
+});

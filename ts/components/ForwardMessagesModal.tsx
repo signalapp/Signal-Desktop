@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ComponentType } from 'react';
 import React, {
   useCallback,
   useEffect,
@@ -61,9 +62,7 @@ export type DataPropsType = {
     caretLocation?: number
   ) => unknown;
   regionCode: string | undefined;
-  RenderCompositionTextArea: (
-    props: SmartCompositionTextAreaProps
-  ) => JSX.Element;
+  RenderCompositionTextArea: ComponentType<SmartCompositionTextAreaProps>;
   showToast: ShowToastAction;
   theme: ThemeType;
 };
@@ -413,9 +412,7 @@ type ForwardMessageEditorProps = Readonly<{
   draft: MessageForwardDraft;
   linkPreview: LinkPreviewType | null | void;
   removeLinkPreview(): void;
-  RenderCompositionTextArea: (
-    props: SmartCompositionTextAreaProps
-  ) => JSX.Element;
+  RenderCompositionTextArea: ComponentType<SmartCompositionTextAreaProps>;
   onChange: (
     messageText: string,
     bodyRanges: HydratedBodyRangesType,

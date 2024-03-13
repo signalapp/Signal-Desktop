@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { pick } from 'lodash';
 import type { ConversationType } from '../ducks/conversations';
@@ -78,7 +78,9 @@ const getOutgoingCallButtonStyle = (
   }
 };
 
-export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
+export const SmartConversationHeader = memo(function SmartConversationHeader({
+  id,
+}: OwnProps) {
   const conversationSelector = useSelector(getConversationSelector);
   const conversation = conversationSelector(id);
   if (!conversation) {
@@ -91,11 +93,10 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
   const badgeSelector = useSelector(getPreferredBadgeSelector);
   const badge = badgeSelector(conversation.badges);
   const i18n = useSelector(getIntl);
-  const hasPanelShowing = useSelector<StateType, boolean>(getHasPanelOpen);
-  const outgoingCallButtonStyle = useSelector<
-    StateType,
-    OutgoingCallButtonStyle
-  >(state => getOutgoingCallButtonStyle(conversation, state));
+  const hasPanelShowing = useSelector(getHasPanelOpen);
+  const outgoingCallButtonStyle = useSelector((state: StateType) => {
+    return getOutgoingCallButtonStyle(conversation, state);
+  });
   const theme = useSelector(getTheme);
 
   const {
@@ -216,4 +217,4 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
       deleteConversation={deleteConversation}
     />
   );
-}
+});

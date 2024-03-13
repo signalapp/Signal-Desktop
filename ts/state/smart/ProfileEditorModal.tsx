@@ -1,93 +1,130 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React from 'react';
-
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
-import type { PropsDataType as ProfileEditorModalPropsType } from '../../components/ProfileEditorModal';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { ProfileEditorModal } from '../../components/ProfileEditorModal';
-import type { PropsDataType } from '../../components/ProfileEditor';
-import { SmartEditUsernameModalBody } from './EditUsernameModalBody';
-import type { StateType } from '../reducer';
-import { getIntl } from '../selectors/user';
+import { useConversationsActions } from '../ducks/conversations';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { useItemsActions } from '../ducks/items';
+import { useToastActions } from '../ducks/toast';
+import { useUsernameActions } from '../ducks/username';
+import { getMe } from '../selectors/conversations';
+import { selectRecentEmojis } from '../selectors/emojis';
+import {
+  getProfileEditorHasError,
+  getProfileEditorInitialEditState,
+} from '../selectors/globalModals';
 import {
   getEmojiSkinTone,
   getHasCompletedUsernameLinkOnboarding,
   getUsernameCorrupted,
-  getUsernameLinkColor,
   getUsernameLink,
+  getUsernameLinkColor,
   getUsernameLinkCorrupted,
   isInternalUser,
 } from '../selectors/items';
-import { getMe } from '../selectors/conversations';
-import { selectRecentEmojis } from '../selectors/emojis';
+import { getIntl } from '../selectors/user';
 import {
   getUsernameEditState,
   getUsernameLinkState,
 } from '../selectors/username';
+import type { SmartEditUsernameModalBodyProps } from './EditUsernameModalBody';
+import { SmartEditUsernameModalBody } from './EditUsernameModalBody';
 
-function renderEditUsernameModalBody(props: {
-  isRootModal: boolean;
-  onClose: () => void;
-}): JSX.Element {
+function renderEditUsernameModalBody(
+  props: SmartEditUsernameModalBodyProps
+): JSX.Element {
   return <SmartEditUsernameModalBody {...props} />;
 }
 
-function mapStateToProps(
-  state: StateType
-): Omit<PropsDataType, 'onEditStateChange' | 'onProfileChanged'> &
-  ProfileEditorModalPropsType {
+export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
+  const i18n = useSelector(getIntl);
   const {
-    profileAvatarPath,
+    aboutEmoji,
+    aboutText,
     avatars: userAvatarData = [],
-    aboutText,
-    aboutEmoji,
     color,
+    familyName,
     firstName,
-    familyName,
     id: conversationId,
-    username,
-  } = getMe(state);
-  const recentEmojis = selectRecentEmojis(state);
-  const skinTone = getEmojiSkinTone(state);
-  const hasCompletedUsernameLinkOnboarding =
-    getHasCompletedUsernameLinkOnboarding(state);
-  const usernameEditState = getUsernameEditState(state);
-  const usernameLinkState = getUsernameLinkState(state);
-  const usernameLinkColor = getUsernameLinkColor(state);
-  const usernameLink = getUsernameLink(state);
-  const usernameCorrupted = getUsernameCorrupted(state);
-  const usernameLinkCorrupted = getUsernameLinkCorrupted(state);
-
-  return {
-    aboutEmoji,
-    aboutText,
     profileAvatarPath,
-    color,
-    conversationId,
-    familyName,
-    firstName: String(firstName),
-    hasCompletedUsernameLinkOnboarding,
-    hasError: state.globalModals.profileEditorHasError,
-    initialEditState: state.globalModals.profileEditorInitialEditState,
-    i18n: getIntl(state),
-    recentEmojis,
-    skinTone,
-    userAvatarData,
     username,
-    usernameCorrupted,
-    usernameEditState,
-    usernameLinkState,
-    usernameLinkColor,
-    usernameLinkCorrupted,
-    usernameLink,
-    isUsernameDeletionEnabled: isInternalUser(state),
+  } = useSelector(getMe);
+  const hasCompletedUsernameLinkOnboarding = useSelector(
+    getHasCompletedUsernameLinkOnboarding
+  );
+  const hasError = useSelector(getProfileEditorHasError);
+  const initialEditState = useSelector(getProfileEditorInitialEditState);
+  const isUsernameDeletionEnabled = useSelector(isInternalUser);
+  const recentEmojis = useSelector(selectRecentEmojis);
+  const skinTone = useSelector(getEmojiSkinTone);
+  const usernameCorrupted = useSelector(getUsernameCorrupted);
+  const usernameEditState = useSelector(getUsernameEditState);
+  const usernameLink = useSelector(getUsernameLink);
+  const usernameLinkColor = useSelector(getUsernameLinkColor);
+  const usernameLinkCorrupted = useSelector(getUsernameLinkCorrupted);
+  const usernameLinkState = useSelector(getUsernameLinkState);
 
-    renderEditUsernameModalBody,
-  };
-}
+  const {
+    replaceAvatar,
+    saveAvatarToDisk,
+    saveAttachment,
+    deleteAvatarFromDisk,
+    myProfileChanged,
+  } = useConversationsActions();
+  const {
+    resetUsernameLink,
+    setUsernameLinkColor,
+    setUsernameEditState,
+    openUsernameReservationModal,
+    markCompletedUsernameLinkOnboarding,
+    deleteUsername,
+  } = useUsernameActions();
+  const { toggleProfileEditor, toggleProfileEditorHasError } =
+    useGlobalModalActions();
+  const { showToast } = useToastActions();
+  const { onSetSkinTone } = useItemsActions();
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartProfileEditorModal = smart(ProfileEditorModal);
+  return (
+    <ProfileEditorModal
+      aboutEmoji={aboutEmoji}
+      aboutText={aboutText}
+      color={color}
+      conversationId={conversationId}
+      deleteAvatarFromDisk={deleteAvatarFromDisk}
+      deleteUsername={deleteUsername}
+      familyName={familyName}
+      firstName={firstName ?? ''}
+      hasCompletedUsernameLinkOnboarding={hasCompletedUsernameLinkOnboarding}
+      hasError={hasError}
+      i18n={i18n}
+      initialEditState={initialEditState}
+      isUsernameDeletionEnabled={isUsernameDeletionEnabled}
+      markCompletedUsernameLinkOnboarding={markCompletedUsernameLinkOnboarding}
+      myProfileChanged={myProfileChanged}
+      onSetSkinTone={onSetSkinTone}
+      openUsernameReservationModal={openUsernameReservationModal}
+      profileAvatarPath={profileAvatarPath}
+      recentEmojis={recentEmojis}
+      renderEditUsernameModalBody={renderEditUsernameModalBody}
+      replaceAvatar={replaceAvatar}
+      resetUsernameLink={resetUsernameLink}
+      saveAttachment={saveAttachment}
+      saveAvatarToDisk={saveAvatarToDisk}
+      setUsernameEditState={setUsernameEditState}
+      setUsernameLinkColor={setUsernameLinkColor}
+      showToast={showToast}
+      skinTone={skinTone}
+      toggleProfileEditor={toggleProfileEditor}
+      toggleProfileEditorHasError={toggleProfileEditorHasError}
+      userAvatarData={userAvatarData}
+      username={username}
+      usernameCorrupted={usernameCorrupted}
+      usernameEditState={usernameEditState}
+      usernameLink={usernameLink}
+      usernameLinkColor={usernameLinkColor}
+      usernameLinkCorrupted={usernameLinkCorrupted}
+      usernameLinkState={usernameLinkState}
+    />
+  );
+});

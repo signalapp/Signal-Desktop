@@ -1,6 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import { MessageAudio } from '../../components/conversation/MessageAudio';
@@ -26,10 +26,10 @@ export type Props = Omit<MessageAudioOwnProps, 'active' | 'onPlayMessage'> & {
   renderingContext: string;
 };
 
-export function SmartMessageAudio({
+export const SmartMessageAudio = memo(function SmartMessageAudio({
   renderingContext,
   ...props
-}: Props): JSX.Element | null {
+}: Props) {
   const active = useSelector(selectAudioPlayerActive);
   const { loadVoiceNoteAudio, setIsPlaying, setPlaybackRate, setPosition } =
     useAudioPlayerActions();
@@ -100,4 +100,4 @@ export function SmartMessageAudio({
       {...props}
     />
   );
-}
+});

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
-import React, { useCallback } from 'react';
+import React, { useCallback, memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
@@ -56,7 +56,9 @@ function renderContact(contactId: string): JSX.Element {
 function renderUniversalTimerNotification(): JSX.Element {
   return <SmartUniversalTimerNotification />;
 }
-export function SmartTimelineItem(props: SmartTimelineItemProps): JSX.Element {
+export const SmartTimelineItem = memo(function SmartTimelineItem(
+  props: SmartTimelineItemProps
+): JSX.Element {
   const {
     containerElementRef,
     containerWidthBreakpoint,
@@ -224,4 +226,4 @@ export function SmartTimelineItem(props: SmartTimelineItemProps): JSX.Element {
       toggleSelectMessage={toggleSelectMessage}
     />
   );
-}
+});

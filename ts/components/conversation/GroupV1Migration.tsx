@@ -31,7 +31,6 @@ export type PropsType = PropsDataType & PropsHousekeepingType;
 export function GroupV1Migration(props: PropsType): React.ReactElement {
   const {
     areWeInvited,
-    conversationId,
     droppedMembers,
     getPreferredBadge,
     i18n,
@@ -80,13 +79,12 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
       {showingDialog ? (
         <GroupV1MigrationDialog
           areWeInvited={areWeInvited}
-          conversationId={conversationId}
           droppedMembers={droppedMembers}
           getPreferredBadge={getPreferredBadge}
           hasMigrated
           i18n={i18n}
           invitedMembers={invitedMembers}
-          migrate={() => log.warn('GroupV1Migration: Modal called migrate()')}
+          onMigrate={() => log.warn('GroupV1Migration: Modal called migrate()')}
           onClose={dismissDialog}
           theme={theme}
         />

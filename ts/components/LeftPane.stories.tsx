@@ -151,7 +151,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     i18n,
     isMacOS: false,
     preferredWidthFromStorage: 320,
-    regionCode: 'US',
     challengeStatus: 'idle',
     crashReportCount: 0,
 

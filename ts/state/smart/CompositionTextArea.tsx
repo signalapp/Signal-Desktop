@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { CompositionTextAreaProps } from '../../components/CompositionTextArea';
 import { CompositionTextArea } from '../../components/CompositionTextArea';
@@ -26,9 +25,9 @@ export type SmartCompositionTextAreaProps = Pick<
   | 'scrollerRef'
 >;
 
-export function SmartCompositionTextArea(
+export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
   props: SmartCompositionTextAreaProps
-): JSX.Element {
+) {
   const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
 
@@ -51,4 +50,4 @@ export function SmartCompositionTextArea(
       platform={platform}
     />
   );
-}
+});

@@ -7,7 +7,6 @@ import type {
   ForwardMessagePropsType,
   ForwardMessagesPropsType,
 } from '../ducks/globalModals';
-import type { StateType } from '../reducer';
 import * as log from '../../logging/log';
 import { ForwardMessagesModal } from '../../components/ForwardMessagesModal';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
@@ -37,6 +36,7 @@ import type {
   ForwardMessageData,
   MessageForwardDraft,
 } from '../../types/ForwardDraft';
+import { getForwardMessagesProps } from '../selectors/globalModals';
 
 function toMessageForwardDraft(
   props: ForwardMessagePropsType,
@@ -54,10 +54,7 @@ function toMessageForwardDraft(
 }
 
 export function SmartForwardMessagesModal(): JSX.Element | null {
-  const forwardMessagesProps = useSelector<
-    StateType,
-    ForwardMessagesPropsType | undefined
-  >(state => state.globalModals.forwardMessagesProps);
+  const forwardMessagesProps = useSelector(getForwardMessagesProps);
 
   if (forwardMessagesProps == null) {
     return null;

@@ -139,9 +139,23 @@ export type PropsType = {
   pauseVoiceNotePlayer: () => void;
 } & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
-type ActiveCallManagerPropsType = PropsType & {
+type ActiveCallManagerPropsType = {
   activeCall: ActiveCallType;
-};
+} & Omit<
+  PropsType,
+  | 'acceptCall'
+  | 'bounceAppIconStart'
+  | 'bounceAppIconStop'
+  | 'declineCall'
+  | 'hasInitialLoadCompleted'
+  | 'incomingCall'
+  | 'isConversationTooBigToRin'
+  | 'notifyForCall'
+  | 'playRingtone'
+  | 'setIsCallActive'
+  | 'stopRingtone'
+  | 'isConversationTooBigToRing'
+>;
 
 function ActiveCallManager({
   activeCall,
@@ -472,28 +486,69 @@ function ActiveCallManager({
   );
 }
 
-export function CallManager(props: PropsType): JSX.Element | null {
-  const {
-    acceptCall,
-    activeCall,
-    bounceAppIconStart,
-    bounceAppIconStop,
-    declineCall,
-    i18n,
-    incomingCall,
-    notifyForCall,
-    playRingtone,
-    stopRingtone,
-    setIsCallActive,
-    setOutgoingRing,
-  } = props;
-
+export function CallManager({
+  acceptCall,
+  activeCall,
+  availableCameras,
+  bounceAppIconStart,
+  bounceAppIconStop,
+  callLink,
+  cancelCall,
+  changeCallView,
+  closeNeedPermissionScreen,
+  declineCall,
+  getGroupCallVideoFrameSource,
+  getPreferredBadge,
+  getPresentingSources,
+  hangUpActiveCall,
+  hasInitialLoadCompleted,
+  i18n,
+  incomingCall,
+  isConversationTooBigToRing,
+  isGroupCallRaiseHandEnabled,
+  isGroupCallReactionsEnabled,
+  keyChangeOk,
+  me,
+  notifyForCall,
+  openSystemPreferencesAction,
+  pauseVoiceNotePlayer,
+  playRingtone,
+  renderDeviceSelection,
+  renderEmojiPicker,
+  renderReactionPicker,
+  renderSafetyNumberViewer,
+  sendGroupCallRaiseHand,
+  sendGroupCallReaction,
+  setGroupCallVideoRequest,
+  setIsCallActive,
+  setLocalAudio,
+  setLocalPreview,
+  setLocalVideo,
+  setOutgoingRing,
+  setPresenting,
+  setRendererCanvas,
+  showToast,
+  startCall,
+  stopRingtone,
+  switchFromPresentationView,
+  switchToPresentationView,
+  theme,
+  toggleParticipants,
+  togglePip,
+  toggleScreenRecordingPermissionsDialog,
+  toggleSettings,
+}: PropsType): JSX.Element | null {
   const isCallActive = Boolean(activeCall);
   useEffect(() => {
     setIsCallActive(isCallActive);
   }, [isCallActive, setIsCallActive]);
 
-  const shouldRing = getShouldRing(props);
+  const shouldRing = getShouldRing({
+    activeCall,
+    incomingCall,
+    isConversationTooBigToRing,
+    hasInitialLoadCompleted,
+  });
   useEffect(() => {
     if (shouldRing) {
       log.info('CallManager: Playing ringtone');
@@ -529,8 +584,50 @@ export function CallManager(props: PropsType): JSX.Element | null {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
     //   figure that out, so we pass it in again.
     return (
-      <CallingToastProvider i18n={props.i18n}>
-        <ActiveCallManager {...props} activeCall={activeCall} />
+      <CallingToastProvider i18n={i18n}>
+        <ActiveCallManager
+          activeCall={activeCall}
+          availableCameras={availableCameras}
+          callLink={callLink}
+          cancelCall={cancelCall}
+          changeCallView={changeCallView}
+          closeNeedPermissionScreen={closeNeedPermissionScreen}
+          getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          getPreferredBadge={getPreferredBadge}
+          getPresentingSources={getPresentingSources}
+          hangUpActiveCall={hangUpActiveCall}
+          i18n={i18n}
+          isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
+          isGroupCallReactionsEnabled={isGroupCallReactionsEnabled}
+          keyChangeOk={keyChangeOk}
+          me={me}
+          openSystemPreferencesAction={openSystemPreferencesAction}
+          pauseVoiceNotePlayer={pauseVoiceNotePlayer}
+          renderDeviceSelection={renderDeviceSelection}
+          renderEmojiPicker={renderEmojiPicker}
+          renderReactionPicker={renderReactionPicker}
+          renderSafetyNumberViewer={renderSafetyNumberViewer}
+          sendGroupCallRaiseHand={sendGroupCallRaiseHand}
+          sendGroupCallReaction={sendGroupCallReaction}
+          setGroupCallVideoRequest={setGroupCallVideoRequest}
+          setLocalAudio={setLocalAudio}
+          setLocalPreview={setLocalPreview}
+          setLocalVideo={setLocalVideo}
+          setOutgoingRing={setOutgoingRing}
+          setPresenting={setPresenting}
+          setRendererCanvas={setRendererCanvas}
+          showToast={showToast}
+          startCall={startCall}
+          switchFromPresentationView={switchFromPresentationView}
+          switchToPresentationView={switchToPresentationView}
+          theme={theme}
+          toggleParticipants={toggleParticipants}
+          togglePip={togglePip}
+          toggleScreenRecordingPermissionsDialog={
+            toggleScreenRecordingPermissionsDialog
+          }
+          toggleSettings={toggleSettings}
+        />
       </CallingToastProvider>
     );
   }

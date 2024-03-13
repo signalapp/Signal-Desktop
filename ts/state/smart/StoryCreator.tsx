@@ -1,11 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
-import { ThemeType, type LocalizerType } from '../../types/Util';
-import type { StateType } from '../reducer';
+import { ThemeType } from '../../types/Util';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { StoryCreator } from '../../components/StoryCreator';
 import {
@@ -48,7 +46,7 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export function SmartStoryCreator(): JSX.Element | null {
+export const SmartStoryCreator = memo(function SmartStoryCreator() {
   const { debouncedMaybeGrabLinkPreview } = useLinkPreviewActions();
   const {
     sendStoryModalOpenStateChanged,
@@ -75,7 +73,7 @@ export function SmartStoryCreator(): JSX.Element | null {
   const groupConversations = useSelector(getNonGroupStories);
   const groupStories = useSelector(getGroupStories);
   const hasSetMyStoriesPrivacy = useSelector(getHasSetMyStoriesPrivacy);
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
+  const i18n = useSelector(getIntl);
   const installedPacks = useSelector(getInstalledStickerPacks);
   const linkPreviewForSource = useSelector(getLinkPreview);
   const me = useSelector(getMe);
@@ -96,7 +94,7 @@ export function SmartStoryCreator(): JSX.Element | null {
   }
 
   const recentEmojis = useRecentEmojis();
-  const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
+  const skinTone = useSelector(getEmojiSkinTone);
   const { onSetSkinTone } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
@@ -155,4 +153,4 @@ export function SmartStoryCreator(): JSX.Element | null {
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );
-}
+});

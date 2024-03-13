@@ -104,7 +104,6 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   targetedMessageId: undefined | string;
-  regionCode: string | undefined;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
   crashReportCount: number;

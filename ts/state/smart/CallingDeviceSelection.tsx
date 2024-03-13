@@ -1,34 +1,42 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { CallingDeviceSelection } from '../../components/CallingDeviceSelection';
-import type { StateType } from '../reducer';
-
 import { getIntl } from '../selectors/user';
+import {
+  getAvailableCameras,
+  getAvailableMicrophones,
+  getAvailableSpeakers,
+  getSelectedCamera,
+  getSelectedMicrophone,
+  getSelectedSpeaker,
+} from '../selectors/calling';
+import { useCallingActions } from '../ducks/calling';
 
-const mapStateToProps = (state: StateType) => {
-  const {
-    availableMicrophones,
-    availableSpeakers,
-    selectedMicrophone,
-    selectedSpeaker,
-    availableCameras,
-    selectedCamera,
-  } = state.calling;
-
-  return {
-    availableCameras,
-    availableMicrophones,
-    availableSpeakers,
-    i18n: getIntl(state),
-    selectedCamera,
-    selectedMicrophone,
-    selectedSpeaker,
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartCallingDeviceSelection = smart(CallingDeviceSelection);
+export const SmartCallingDeviceSelection = memo(
+  function SmartCallingDeviceSelection() {
+    const i18n = useSelector(getIntl);
+    const availableMicrophones = useSelector(getAvailableMicrophones);
+    const selectedMicrophone = useSelector(getSelectedMicrophone);
+    const availableSpeakers = useSelector(getAvailableSpeakers);
+    const selectedSpeaker = useSelector(getSelectedSpeaker);
+    const availableCameras = useSelector(getAvailableCameras);
+    const selectedCamera = useSelector(getSelectedCamera);
+    const { changeIODevice, toggleSettings } = useCallingActions();
+    return (
+      <CallingDeviceSelection
+        availableCameras={availableCameras}
+        availableMicrophones={availableMicrophones}
+        availableSpeakers={availableSpeakers}
+        changeIODevice={changeIODevice}
+        i18n={i18n}
+        selectedCamera={selectedCamera}
+        selectedMicrophone={selectedMicrophone}
+        selectedSpeaker={selectedSpeaker}
+        toggleSettings={toggleSettings}
+      />
+    );
+  }
+);

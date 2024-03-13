@@ -513,6 +513,13 @@ export const getComposerUUIDFetchState = createSelector(
   }
 );
 
+export const getHasContactSpoofingReview = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => {
+    return state.hasContactSpoofingReview;
+  }
+);
+
 function isTrusted(conversation: ConversationType): boolean {
   if (conversation.type === 'group') {
     return true;
@@ -986,10 +993,10 @@ export function _conversationMessagesSelector(
   conversation: ConversationMessageType
 ): TimelinePropsType {
   const {
-    isNearBottom,
+    isNearBottom = null,
     messageChangeCounter,
     messageIds,
-    messageLoadingState,
+    messageLoadingState = null,
     metrics,
     scrollToMessageCounter,
     scrollToMessageId,
@@ -1009,10 +1016,10 @@ export function _conversationMessagesSelector(
 
   const oldestUnseenIndex = oldestUnseen
     ? messageIds.findIndex(id => id === oldestUnseen.id)
-    : undefined;
+    : null;
   const scrollToIndex = scrollToMessageId
     ? messageIds.findIndex(id => id === scrollToMessageId)
-    : undefined;
+    : null;
   const { totalUnseen } = metrics;
 
   return {
@@ -1025,9 +1032,9 @@ export function _conversationMessagesSelector(
     oldestUnseenIndex:
       isNumber(oldestUnseenIndex) && oldestUnseenIndex >= 0
         ? oldestUnseenIndex
-        : undefined,
+        : null,
     scrollToIndex:
-      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : undefined,
+      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : null,
     scrollToIndexCounter: scrollToMessageCounter,
     totalUnseen,
   };
@@ -1065,6 +1072,9 @@ export const getConversationMessagesSelector = createSelector(
           scrollToIndexCounter: 0,
           totalUnseen: 0,
           items: [],
+          isNearBottom: null,
+          oldestUnseenIndex: null,
+          scrollToIndex: null,
         };
       }
 

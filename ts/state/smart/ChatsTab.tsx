@@ -1,7 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { ChatsTab } from '../../components/ChatsTab';
 import { SmartConversationView } from './ConversationView';
@@ -12,7 +11,6 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { getIntl } from '../selectors/user';
 import { usePrevious } from '../../hooks/usePrevious';
 import { TargetedMessageSource } from '../ducks/conversationsEnums';
-import type { ConversationsStateType } from '../ducks/conversations';
 import { useConversationsActions } from '../ducks/conversations';
 import { useToastActions } from '../ducks/toast';
 import type { StateType } from '../reducer';
@@ -36,7 +34,7 @@ function renderMiniPlayer(options: { shouldFlow: boolean }) {
   return <SmartMiniPlayer {...options} />;
 }
 
-export function SmartChatsTab(): JSX.Element {
+export const SmartChatsTab = memo(function SmartChatsTab() {
   const i18n = useSelector(getIntl);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
@@ -44,9 +42,7 @@ export function SmartChatsTab(): JSX.Element {
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   const { selectedConversationId, targetedMessage, targetedMessageSource } =
-    useSelector<StateType, ConversationsStateType>(
-      state => state.conversations
-    );
+    useSelector((state: StateType) => state.conversations);
 
   const {
     onConversationClosed,
@@ -73,13 +69,7 @@ export function SmartChatsTab(): JSX.Element {
     ) {
       scrollToMessage(selectedConversationId, targetedMessage);
     }
-  }, [
-    onConversationOpened,
-    selectedConversationId,
-    scrollToMessage,
-    targetedMessage,
-    targetedMessageSource,
-  ]);
+  }, [onConversationOpened, selectedConversationId, scrollToMessage, targetedMessage, targetedMessageSource]);
 
   const prevConversationId = usePrevious(
     selectedConversationId,
@@ -157,4 +147,4 @@ export function SmartChatsTab(): JSX.Element {
       showWhatsNewModal={showWhatsNewModal}
     />
   );
-}
+});

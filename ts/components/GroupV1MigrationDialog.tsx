@@ -10,7 +10,6 @@ import { sortByTitle } from '../util/sortByTitle';
 import { missingCaseError } from '../util/missingCaseError';
 
 export type DataPropsType = {
-  conversationId: string;
   readonly areWeInvited: boolean;
   readonly droppedMembers: Array<ConversationType>;
   readonly hasMigrated: boolean;
@@ -20,51 +19,25 @@ export type DataPropsType = {
   readonly theme: ThemeType;
 };
 
-type ActionsPropsType =
-  | {
-      initiateMigrationToGroupV2: (conversationId: string) => unknown;
-      closeGV2MigrationDialog: () => unknown;
-    }
-  | {
-      readonly migrate: () => unknown;
-      readonly onClose: () => unknown;
-    };
+type ActionsPropsType = Readonly<{
+  onMigrate: () => unknown;
+  onClose: () => unknown;
+}>;
 
 export type PropsType = DataPropsType & ActionsPropsType;
 
 export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
-  React.memo(function GroupV1MigrationDialogInner(props: PropsType) {
-    const {
-      areWeInvited,
-      conversationId,
-      droppedMembers,
-      getPreferredBadge,
-      hasMigrated,
-      i18n,
-      invitedMembers,
-      theme,
-    } = props;
-
-    let migrateHandler;
-    if ('migrate' in props) {
-      migrateHandler = props.migrate;
-    } else if ('initiateMigrationToGroupV2' in props) {
-      migrateHandler = () => props.initiateMigrationToGroupV2(conversationId);
-    } else {
-      throw new Error(
-        'GroupV1MigrationDialog: No conversationId or migration function'
-      );
-    }
-
-    let closeHandler;
-    if ('onClose' in props) {
-      closeHandler = props.onClose;
-    } else if ('closeGV2MigrationDialog' in props) {
-      closeHandler = props.closeGV2MigrationDialog;
-    } else {
-      throw new Error('GroupV1MigrationDialog: No close function provided');
-    }
-
+  React.memo(function GroupV1MigrationDialogInner({
+    areWeInvited,
+    droppedMembers,
+    getPreferredBadge,
+    hasMigrated,
+    i18n,
+    invitedMembers,
+    theme,
+    onClose,
+    onMigrate,
+  }: PropsType) {
     const title = hasMigrated
       ? i18n('icu:GroupV1--Migration--info--title')
       : i18n('icu:GroupV1--Migration--migrate--title');
@@ -82,13 +55,13 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
         };
     if (hasMigrated) {
       primaryButtonText = i18n('icu:Confirmation--confirm');
-      onClickPrimaryButton = closeHandler;
+      onClickPrimaryButton = onClose;
     } else {
       primaryButtonText = i18n('icu:GroupV1--Migration--migrate');
-      onClickPrimaryButton = migrateHandler;
+      onClickPrimaryButton = onMigrate;
       secondaryButtonProps = {
         secondaryButtonText: i18n('icu:cancel'),
-        onClickSecondaryButton: closeHandler,
+        onClickSecondaryButton: onClose,
       };
     }
 
@@ -96,7 +69,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
       <GroupDialog
         i18n={i18n}
         onClickPrimaryButton={onClickPrimaryButton}
-        onClose={closeHandler}
+        onClose={onClose}
         primaryButtonText={primaryButtonText}
         title={title}
         {...secondaryButtonProps}

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { noop } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Waveform } from '../../components/conversation/Waveform';
 import type { ComputePeaksResult } from '../../components/VoiceNotesPlaybackContext';
 import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackContext';
@@ -96,7 +96,9 @@ function SmartWaveformImpl({
   );
 }
 
-export function SmartWaveform(props: Omit<Props, 'computePeaks'>): JSX.Element {
+export const SmartWaveform = memo(function SmartWaveform(
+  props: Omit<Props, 'computePeaks'>
+) {
   return (
     <VoiceNotesPlaybackContext.Consumer>
       {voiceNotesPlaybackProps => {
@@ -111,4 +113,4 @@ export function SmartWaveform(props: Omit<Props, 'computePeaks'>): JSX.Element {
       }}
     </VoiceNotesPlaybackContext.Consumer>
   );
-}
+});

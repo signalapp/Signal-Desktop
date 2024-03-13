@@ -21,7 +21,6 @@ import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstan
 import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
 import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
 import type { ConversationType } from '../../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../../state/selectors/badges';
 import type {
   UUIDFetchStateKeyType,
   UUIDFetchStateType,
@@ -50,7 +49,6 @@ export type StatePropsType = {
   regionCode: string | undefined;
   candidateContacts: ReadonlyArray<ConversationType>;
   conversationIdsAlreadyInGroup: Set<string>;
-  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
   maxGroupSize: number;

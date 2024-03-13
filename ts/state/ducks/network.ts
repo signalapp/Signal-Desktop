@@ -5,6 +5,8 @@ import type { ReadonlyDeep } from 'type-fest';
 import { SocketStatus } from '../../types/SocketStatus';
 import { trigger } from '../../shims/events';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
@@ -112,6 +114,10 @@ export const actions = {
   setChallengeStatus,
   setOutage,
 };
+
+export const useNetworkActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 // Reducer
 

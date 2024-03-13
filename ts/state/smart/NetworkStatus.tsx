@@ -1,23 +1,37 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { DialogNetworkStatus } from '../../components/DialogNetworkStatus';
-import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import type { WidthBreakpoint } from '../../components/_util';
+import {
+  getNetworkIsOnline,
+  getNetworkIsOutage,
+  getNetworkSocketStatus,
+} from '../selectors/network';
+import { useUserActions } from '../ducks/user';
 
-type PropsType = Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>;
+type SmartNetworkStatusProps = Readonly<{
+  containerWidthBreakpoint: WidthBreakpoint;
+}>;
 
-const mapStateToProps = (state: StateType, ownProps: PropsType) => {
-  return {
-    ...state.network,
-    i18n: getIntl(state),
-    ...ownProps,
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartNetworkStatus = smart(DialogNetworkStatus);
+export const SmartNetworkStatus = memo(function SmartNetworkStatus({
+  containerWidthBreakpoint,
+}: SmartNetworkStatusProps) {
+  const i18n = useSelector(getIntl);
+  const isOnline = useSelector(getNetworkIsOnline);
+  const isOutage = useSelector(getNetworkIsOutage);
+  const socketStatus = useSelector(getNetworkSocketStatus);
+  const { manualReconnect } = useUserActions();
+  return (
+    <DialogNetworkStatus
+      containerWidthBreakpoint={containerWidthBreakpoint}
+      i18n={i18n}
+      isOnline={isOnline}
+      isOutage={isOutage}
+      socketStatus={socketStatus}
+      manualReconnect={manualReconnect}
+    />
+  );
+});

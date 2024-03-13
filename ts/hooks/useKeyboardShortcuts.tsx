@@ -4,8 +4,6 @@
 import { useCallback, useEffect } from 'react';
 import { get } from 'lodash';
 import { useSelector } from 'react-redux';
-
-import type { StateType } from '../state/reducer';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { getHasPanelOpen } from '../state/selectors/conversations';
 import { isInFullScreenCall } from '../state/selectors/calling';
@@ -33,11 +31,11 @@ function useHasPanels(): boolean {
 }
 
 function useHasGlobalModal(): boolean {
-  return useSelector<StateType, boolean>(isShowingAnyModal);
+  return useSelector(isShowingAnyModal);
 }
 
 function useHasCalling(): boolean {
-  return useSelector<StateType, boolean>(isInFullScreenCall);
+  return useSelector(isInFullScreenCall);
 }
 
 function useHasAnyOverlay(): boolean {

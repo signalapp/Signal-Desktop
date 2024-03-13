@@ -10,6 +10,21 @@ import { SocketStatus } from '../../types/SocketStatus';
 
 const getNetwork = (state: StateType): NetworkStateType => state.network;
 
+export const getNetworkIsOnline = createSelector(
+  getNetwork,
+  ({ isOnline }) => isOnline
+);
+
+export const getNetworkIsOutage = createSelector(
+  getNetwork,
+  ({ isOutage }) => isOutage
+);
+
+export const getNetworkSocketStatus = createSelector(
+  getNetwork,
+  ({ socketStatus }) => socketStatus
+);
+
 export const hasNetworkDialog = createSelector(
   getNetwork,
   isDone,
@@ -29,6 +44,11 @@ export const hasNetworkDialog = createSelector(
         !withinConnectingGracePeriod) ||
       socketStatus === SocketStatus.CLOSED ||
       socketStatus === SocketStatus.CLOSING)
+);
+
+export const getChallengeStatus = createSelector(
+  getNetwork,
+  ({ challengeStatus }) => challengeStatus
 );
 
 export const isChallengePending = createSelector(

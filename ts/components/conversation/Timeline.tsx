@@ -70,11 +70,11 @@ export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
   messageChangeCounter: number;
-  messageLoadingState?: TimelineMessageLoadingState;
-  isNearBottom?: boolean;
+  messageLoadingState: TimelineMessageLoadingState | null;
+  isNearBottom: boolean | null;
   items: ReadonlyArray<string>;
-  oldestUnseenIndex?: number;
-  scrollToIndex?: number;
+  oldestUnseenIndex: number | null;
+  scrollToIndex: number | null;
   scrollToIndexCounter: number;
   totalUnseen: number;
 };
@@ -563,7 +563,7 @@ export class Timeline extends React.Component<
       case ScrollAnchor.ScrollToBottom:
         return { scrollBottom: 0 };
       case ScrollAnchor.ScrollToIndex:
-        if (scrollToIndex === undefined) {
+        if (scrollToIndex == null) {
           assertDev(
             false,
             '<Timeline> got "scroll to index" scroll anchor, but no index'

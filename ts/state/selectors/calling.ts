@@ -23,6 +23,36 @@ export type CallStateType = DirectCallStateType | GroupCallStateType;
 
 const getCalling = (state: StateType): CallingStateType => state.calling;
 
+export const getAvailableMicrophones = createSelector(
+  getCalling,
+  ({ availableMicrophones }) => availableMicrophones
+);
+
+export const getSelectedMicrophone = createSelector(
+  getCalling,
+  ({ selectedMicrophone }) => selectedMicrophone
+);
+
+export const getAvailableSpeakers = createSelector(
+  getCalling,
+  ({ availableSpeakers }) => availableSpeakers
+);
+
+export const getSelectedSpeaker = createSelector(
+  getCalling,
+  ({ selectedSpeaker }) => selectedSpeaker
+);
+
+export const getAvailableCameras = createSelector(
+  getCalling,
+  ({ availableCameras }) => availableCameras
+);
+
+export const getSelectedCamera = createSelector(
+  getCalling,
+  ({ selectedCamera }) => selectedCamera
+);
+
 export const getActiveCallState = createSelector(
   getCalling,
   (state: CallingStateType) => state.activeCallState

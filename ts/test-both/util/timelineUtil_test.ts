@@ -216,6 +216,9 @@ describe('<Timeline> utilities', () => {
       isSomeoneTyping: false,
       items: fakeItems(10),
       scrollToIndexCounter: 0,
+      messageLoadingState: null,
+      oldestUnseenIndex: null,
+      scrollToIndex: null,
     } as const;
 
     describe('during initial load', () => {

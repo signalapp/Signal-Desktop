@@ -119,7 +119,6 @@ const createProps = (
         candidateContacts={allCandidateContacts}
         selectedContacts={[]}
         regionCode="US"
-        getPreferredBadge={() => undefined}
         theme={ThemeType.light}
         i18n={i18n}
         lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}

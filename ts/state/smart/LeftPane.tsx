@@ -1,23 +1,71 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import { connect } from 'react-redux';
 import { get } from 'lodash';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
+import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
+import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
 import type { PropsType as LeftPanePropsType } from '../../components/LeftPane';
 import { LeftPane } from '../../components/LeftPane';
-import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
-import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
-import type { StateType } from '../reducer';
-import { missingCaseError } from '../../util/missingCaseError';
-import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
-import { isDone as isRegistrationDone } from '../../util/registration';
-import { getCountryDataForLocale } from '../../util/getCountryData';
-import { getUsernameFromSearch } from '../../util/Username';
+import type { NavTabPanelProps } from '../../components/NavTabs';
+import type { WidthBreakpoint } from '../../components/_util';
+import {
+  getGroupSizeHardLimit,
+  getGroupSizeRecommendedLimit,
+} from '../../groups/limits';
 import { LeftPaneMode } from '../../types/leftPane';
-
+import { getUsernameFromSearch } from '../../util/Username';
+import { getCountryDataForLocale } from '../../util/getCountryData';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
+import { missingCaseError } from '../../util/missingCaseError';
+import { isDone as isRegistrationDone } from '../../util/registration';
+import { useCallingActions } from '../ducks/calling';
+import { useConversationsActions } from '../ducks/conversations';
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { useItemsActions } from '../ducks/items';
+import { useNetworkActions } from '../ducks/network';
+import { useSearchActions } from '../ducks/search';
+import { useUsernameActions } from '../ducks/username';
+import type { StateType } from '../reducer';
+import { getPreferredBadgeSelector } from '../selectors/badges';
+import {
+  getComposeAvatarData,
+  getComposeGroupAvatar,
+  getComposeGroupExpireTimer,
+  getComposeGroupName,
+  getComposeSelectedContacts,
+  getComposerConversationSearchTerm,
+  getComposerSelectedRegion,
+  getComposerStep,
+  getComposerUUIDFetchState,
+  getFilteredCandidateContactsForNewGroup,
+  getFilteredComposeContacts,
+  getFilteredComposeGroups,
+  getLeftPaneLists,
+  getMaximumGroupSizeModalState,
+  getMe,
+  getRecommendedGroupSizeModalState,
+  getSelectedConversationId,
+  getShowArchived,
+  getTargetedMessage,
+  hasGroupCreationError,
+  isCreatingGroup,
+  isEditingAvatar,
+} from '../selectors/conversations';
+import { getCrashReportCount } from '../selectors/crashReports';
+import { hasExpired } from '../selectors/expiration';
+import {
+  getNavTabsCollapsed,
+  getPreferredLeftPaneWidth,
+  getUsernameCorrupted,
+  getUsernameLinkCorrupted,
+} from '../selectors/items';
+import {
+  getChallengeStatus,
+  hasNetworkDialog as getHasNetworkDialog,
+} from '../selectors/network';
 import {
   getIsSearching,
   getQuery,
@@ -27,64 +75,25 @@ import {
   isSearching,
 } from '../selectors/search';
 import {
+  isUpdateDownloaded as getIsUpdateDownloaded,
+  isOSUnsupported,
+  isUpdateDialogVisible,
+} from '../selectors/updates';
+import {
   getIntl,
+  getIsMacOS,
   getRegionCode,
   getTheme,
-  getIsMacOS,
 } from '../selectors/user';
-import { hasExpired } from '../selectors/expiration';
-import {
-  isUpdateDialogVisible,
-  isUpdateDownloaded,
-  isOSUnsupported,
-} from '../selectors/updates';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { hasNetworkDialog } from '../selectors/network';
-import {
-  getPreferredLeftPaneWidth,
-  getUsernameCorrupted,
-  getUsernameLinkCorrupted,
-  getNavTabsCollapsed,
-} from '../selectors/items';
-import {
-  getComposeAvatarData,
-  getComposeGroupAvatar,
-  getComposeGroupExpireTimer,
-  getComposeGroupName,
-  getComposerConversationSearchTerm,
-  getComposerSelectedRegion,
-  getComposerStep,
-  getComposerUUIDFetchState,
-  getComposeSelectedContacts,
-  getFilteredCandidateContactsForNewGroup,
-  getFilteredComposeContacts,
-  getFilteredComposeGroups,
-  getLeftPaneLists,
-  getMaximumGroupSizeModalState,
-  getMe,
-  getRecommendedGroupSizeModalState,
-  getSelectedConversationId,
-  getTargetedMessage,
-  getShowArchived,
-  hasGroupCreationError,
-  isCreatingGroup,
-  isEditingAvatar,
-} from '../selectors/conversations';
-import type { WidthBreakpoint } from '../../components/_util';
-import {
-  getGroupSizeRecommendedLimit,
-  getGroupSizeHardLimit,
-} from '../../groups/limits';
-
+import { SmartCaptchaDialog } from './CaptchaDialog';
+import { SmartCrashReportDialog } from './CrashReportDialog';
 import { SmartMessageSearchResult } from './MessageSearchResult';
 import { SmartNetworkStatus } from './NetworkStatus';
 import { SmartRelinkDialog } from './RelinkDialog';
-import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog';
 import { SmartToastManager } from './ToastManager';
 import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog';
+import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
-import { SmartCaptchaDialog } from './CaptchaDialog';
-import { SmartCrashReportDialog } from './CrashReportDialog';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
@@ -120,7 +129,7 @@ function renderUnsupportedOSDialog(
 ): JSX.Element {
   return <SmartUnsupportedOSDialog {...props} />;
 }
-function renderToastManager(props: {
+function renderToastManagerWithMegaphone(props: {
   containerWidthBreakpoint: WidthBreakpoint;
 }): JSX.Element {
   return <SmartToastManager {...props} />;
@@ -243,15 +252,81 @@ const getModeSpecificProps = (
   }
 };
 
-const mapStateToProps = (state: StateType) => {
-  const hasUpdateDialog = isUpdateDialogVisible(state);
-  const hasUnsupportedOS = isOSUnsupported(state);
-  const usernameCorrupted = getUsernameCorrupted(state);
-  const usernameLinkCorrupted = getUsernameLinkCorrupted(state);
+export const SmartLeftPane = memo(function SmartLeftPane({
+  hasFailedStorySends,
+  hasPendingUpdate,
+  otherTabsUnreadStats,
+}: NavTabPanelProps) {
+  const challengeStatus = useSelector(getChallengeStatus);
+  const composerStep = useSelector(getComposerStep);
+  const crashReportCount = useSelector(getCrashReportCount);
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const hasAppExpired = useSelector(hasExpired);
+  const hasNetworkDialog = useSelector(getHasNetworkDialog);
+  const hasSearchQuery = useSelector(isSearching);
+  const hasUnsupportedOS = useSelector(isOSUnsupported);
+  const hasUpdateDialog = useSelector(isUpdateDialogVisible);
+  const i18n = useSelector(getIntl);
+  const isMacOS = useSelector(getIsMacOS);
+  const isUpdateDownloaded = useSelector(getIsUpdateDownloaded);
+  const modeSpecificProps = useSelector(getModeSpecificProps);
+  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
+  const selectedConversationId = useSelector(getSelectedConversationId);
+  const showArchived = useSelector(getShowArchived);
+  const targetedMessage = useSelector(getTargetedMessage);
+  const theme = useSelector(getTheme);
+  const usernameCorrupted = useSelector(getUsernameCorrupted);
+  const usernameLinkCorrupted = useSelector(getUsernameLinkCorrupted);
+
+  const {
+    blockConversation,
+    clearGroupCreationError,
+    closeMaximumGroupSizeModal,
+    closeRecommendedGroupSizeModal,
+    composeDeleteAvatarFromDisk,
+    composeReplaceAvatar,
+    composeSaveAvatarToDisk,
+    createGroup,
+    removeConversation,
+    setComposeGroupAvatar,
+    setComposeGroupExpireTimer,
+    setComposeGroupName,
+    setComposeSearchTerm,
+    setComposeSelectedRegion,
+    setIsFetchingUUID,
+    showArchivedConversations,
+    showChooseGroupMembers,
+    showConversation,
+    showFindByPhoneNumber,
+    showFindByUsername,
+    showInbox,
+    startComposing,
+    startSettingGroupMetadata,
+    toggleComposeEditingAvatar,
+    toggleConversationInChooseMembers,
+  } = useConversationsActions();
+  const {
+    clearConversationSearch,
+    clearSearch,
+    searchInConversation,
+    startSearch,
+    updateSearchTerm,
+  } = useSearchActions();
+  const {
+    onOutgoingAudioCallInConversation,
+    onOutgoingVideoCallInConversation,
+  } = useCallingActions();
+  const { openUsernameReservationModal } = useUsernameActions();
+  const { savePreferredLeftPaneWidth, toggleNavTabsCollapse } =
+    useItemsActions();
+  const { setChallengeStatus } = useNetworkActions();
+  const { showUserNotFoundModal, toggleProfileEditor } =
+    useGlobalModalActions();
 
   let hasExpiredDialog = false;
   let unsupportedOSDialogType: 'error' | 'warning' | undefined;
-  if (hasExpired(state)) {
+  if (hasAppExpired) {
     if (hasUnsupportedOS) {
       unsupportedOSDialogType = 'error';
     } else {
@@ -261,49 +336,87 @@ const mapStateToProps = (state: StateType) => {
     unsupportedOSDialogType = 'warning';
   }
 
-  const composerStep = getComposerStep(state);
-  const showArchived = getShowArchived(state);
-  const hasSearchQuery = isSearching(state);
+  const hasRelinkDialog = !isRegistrationDone();
 
-  return {
-    hasNetworkDialog: hasNetworkDialog(state),
-    hasExpiredDialog,
-    hasRelinkDialog: !isRegistrationDone(),
-    hasUpdateDialog,
-    isUpdateDownloaded: isUpdateDownloaded(state),
-    unsupportedOSDialogType,
-    usernameCorrupted,
-    usernameLinkCorrupted,
+  const renderToastManager =
+    composerStep == null && !showArchived && !hasSearchQuery
+      ? renderToastManagerWithMegaphone
+      : renderToastManagerWithoutMegaphone;
 
-    modeSpecificProps: getModeSpecificProps(state),
-    navTabsCollapsed: getNavTabsCollapsed(state),
-    preferredWidthFromStorage: getPreferredLeftPaneWidth(state),
-    selectedConversationId: getSelectedConversationId(state),
-    targetedMessageId: getTargetedMessage(state)?.id,
-    showArchived,
-    getPreferredBadge: getPreferredBadgeSelector(state),
-    i18n: getIntl(state),
-    isMacOS: getIsMacOS(state),
-    regionCode: getRegionCode(state),
-    challengeStatus: state.network.challengeStatus,
-    crashReportCount: state.crashReports.count,
-    renderMessageSearchResult,
-    renderNetworkStatus,
-    renderRelinkDialog,
-    renderUpdateDialog,
-    renderCaptchaDialog,
-    renderCrashReportDialog,
-    renderExpiredBuildDialog,
-    renderUnsupportedOSDialog,
-    renderToastManager:
-      composerStep == null && !showArchived && !hasSearchQuery
-        ? renderToastManager
-        : renderToastManagerWithoutMegaphone,
-    lookupConversationWithoutServiceId,
-    theme: getTheme(state),
-  };
-};
+  const targetedMessageId = targetedMessage?.id;
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartLeftPane = smart(LeftPane);
+  return (
+    <LeftPane
+      blockConversation={blockConversation}
+      challengeStatus={challengeStatus}
+      clearConversationSearch={clearConversationSearch}
+      clearGroupCreationError={clearGroupCreationError}
+      clearSearch={clearSearch}
+      closeMaximumGroupSizeModal={closeMaximumGroupSizeModal}
+      closeRecommendedGroupSizeModal={closeRecommendedGroupSizeModal}
+      composeDeleteAvatarFromDisk={composeDeleteAvatarFromDisk}
+      composeReplaceAvatar={composeReplaceAvatar}
+      composeSaveAvatarToDisk={composeSaveAvatarToDisk}
+      crashReportCount={crashReportCount}
+      createGroup={createGroup}
+      getPreferredBadge={getPreferredBadge}
+      hasExpiredDialog={hasExpiredDialog}
+      hasFailedStorySends={hasFailedStorySends}
+      hasNetworkDialog={hasNetworkDialog}
+      hasPendingUpdate={hasPendingUpdate}
+      hasRelinkDialog={hasRelinkDialog}
+      hasUpdateDialog={hasUpdateDialog}
+      i18n={i18n}
+      isMacOS={isMacOS}
+      isUpdateDownloaded={isUpdateDownloaded}
+      lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
+      modeSpecificProps={modeSpecificProps}
+      navTabsCollapsed={navTabsCollapsed}
+      onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
+      onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      openUsernameReservationModal={openUsernameReservationModal}
+      otherTabsUnreadStats={otherTabsUnreadStats}
+      preferredWidthFromStorage={preferredWidthFromStorage}
+      removeConversation={removeConversation}
+      renderCaptchaDialog={renderCaptchaDialog}
+      renderCrashReportDialog={renderCrashReportDialog}
+      renderExpiredBuildDialog={renderExpiredBuildDialog}
+      renderMessageSearchResult={renderMessageSearchResult}
+      renderNetworkStatus={renderNetworkStatus}
+      renderRelinkDialog={renderRelinkDialog}
+      renderToastManager={renderToastManager}
+      renderUnsupportedOSDialog={renderUnsupportedOSDialog}
+      renderUpdateDialog={renderUpdateDialog}
+      savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+      searchInConversation={searchInConversation}
+      selectedConversationId={selectedConversationId}
+      setChallengeStatus={setChallengeStatus}
+      setComposeGroupAvatar={setComposeGroupAvatar}
+      setComposeGroupExpireTimer={setComposeGroupExpireTimer}
+      setComposeGroupName={setComposeGroupName}
+      setComposeSearchTerm={setComposeSearchTerm}
+      setComposeSelectedRegion={setComposeSelectedRegion}
+      setIsFetchingUUID={setIsFetchingUUID}
+      showArchivedConversations={showArchivedConversations}
+      showChooseGroupMembers={showChooseGroupMembers}
+      showConversation={showConversation}
+      showFindByPhoneNumber={showFindByPhoneNumber}
+      showFindByUsername={showFindByUsername}
+      showInbox={showInbox}
+      showUserNotFoundModal={showUserNotFoundModal}
+      startComposing={startComposing}
+      startSearch={startSearch}
+      startSettingGroupMetadata={startSettingGroupMetadata}
+      targetedMessageId={targetedMessageId}
+      theme={theme}
+      toggleComposeEditingAvatar={toggleComposeEditingAvatar}
+      toggleConversationInChooseMembers={toggleConversationInChooseMembers}
+      toggleNavTabsCollapse={toggleNavTabsCollapse}
+      toggleProfileEditor={toggleProfileEditor}
+      unsupportedOSDialogType={unsupportedOSDialogType}
+      updateSearchTerm={updateSearchTerm}
+      usernameCorrupted={usernameCorrupted}
+      usernameLinkCorrupted={usernameLinkCorrupted}
+    />
+  );
+});

@@ -1,53 +1,91 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { connect } from 'react-redux';
-
-import { mapDispatchToProps } from '../actions';
-import type { PropsDataType } from '../../components/ChatColorPicker';
+import React, { memo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { ChatColorPicker } from '../../components/ChatColorPicker';
-import type { StateType } from '../reducer';
 import {
   getConversationSelector,
   getConversationsWithCustomColorSelector,
 } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
-import { getDefaultConversationColor } from '../selectors/items';
+import {
+  getCustomColors,
+  getDefaultConversationColor,
+} from '../selectors/items';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
+import {
+  useConversationsActions,
+  type ConversationType,
+} from '../ducks/conversations';
+import { useItemsActions } from '../ducks/items';
 
-export type SmartChatColorPickerProps = {
+export type SmartChatColorPickerProps = Readonly<{
   conversationId?: string;
-};
+}>;
 
-const mapStateToProps = (
-  state: StateType,
-  props: SmartChatColorPickerProps
-): PropsDataType => {
-  const conversation = props.conversationId
-    ? getConversationSelector(state)(props.conversationId)
+export const SmartChatColorPicker = memo(function SmartChatColorPicker({
+  conversationId,
+}: SmartChatColorPickerProps) {
+  const i18n = useSelector(getIntl);
+  const customColors = useSelector(getCustomColors) ?? {};
+  const defaultConversationColor = useSelector(getDefaultConversationColor);
+  const conversationSelector = useSelector(getConversationSelector);
+  const conversationWithCustomColorSelector = useSelector(
+    getConversationsWithCustomColorSelector
+  );
+
+  const {
+    addCustomColor,
+    removeCustomColor,
+    setGlobalDefaultConversationColor,
+    resetDefaultChatColor,
+    editCustomColor,
+  } = useItemsActions();
+  const {
+    colorSelected,
+    resetAllChatColors,
+    removeCustomColorOnConversations,
+  } = useConversationsActions();
+
+  const conversation = conversationId
+    ? conversationSelector(conversationId)
     : {};
-  const defaultConversationColor = getDefaultConversationColor(state);
+
   const colorValues = getConversationColorAttributes(
     conversation,
     defaultConversationColor
   );
 
-  const { customColors } = state.items;
-
-  return {
-    ...props,
-    customColors: customColors ? customColors.colors : {},
-    getConversationsWithCustomColor: (colorId: string) =>
-      Promise.resolve(getConversationsWithCustomColorSelector(state)(colorId)),
-    i18n: getIntl(state),
-    selectedColor: colorValues.conversationColor,
-    selectedCustomColor: {
-      id: colorValues.customColorId,
-      value: colorValues.customColor,
-    },
+  const selectedColor = colorValues.conversationColor;
+  const selectedCustomColor = {
+    id: colorValues.customColorId,
+    value: colorValues.customColor,
   };
-};
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
+  const getConversationsWithCustomColor = useCallback(
+    async (colorId: string): Promise<Array<ConversationType>> => {
+      return conversationWithCustomColorSelector(colorId);
+    },
+    [conversationWithCustomColorSelector]
+  );
 
-export const SmartChatColorPicker = smart(ChatColorPicker);
+  return (
+    <ChatColorPicker
+      addCustomColor={addCustomColor}
+      colorSelected={colorSelected}
+      conversationId={conversationId}
+      customColors={customColors}
+      editCustomColor={editCustomColor}
+      getConversationsWithCustomColor={getConversationsWithCustomColor}
+      i18n={i18n}
+      isGlobal={false}
+      removeCustomColor={removeCustomColor}
+      removeCustomColorOnConversations={removeCustomColorOnConversations}
+      resetAllChatColors={resetAllChatColors}
+      resetDefaultChatColor={resetDefaultChatColor}
+      selectedColor={selectedColor}
+      selectedCustomColor={selectedCustomColor}
+      setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+    />
+  );
+});

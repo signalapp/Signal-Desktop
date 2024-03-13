@@ -1,9 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { AppStateType } from '../ducks/app';
 import type { StateType } from '../reducer';
 import { Inbox } from '../../components/Inbox';
 import { getIntl } from '../selectors/user';
@@ -37,19 +36,19 @@ function renderStoriesTab() {
   return <SmartStoriesTab />;
 }
 
-export function SmartInbox(): JSX.Element {
+export const SmartInbox = memo(function SmartInbox(): JSX.Element {
   const i18n = useSelector(getIntl);
   const isCustomizingPreferredReactions = useSelector(
     getIsCustomizingPreferredReactions
   );
-  const envelopeTimestamp = useSelector<StateType, number | undefined>(
-    state => state.inbox.envelopeTimestamp
+  const envelopeTimestamp = useSelector(
+    (state: StateType) => state.inbox.envelopeTimestamp
   );
-  const firstEnvelopeTimestamp = useSelector<StateType, number | undefined>(
-    state => state.inbox.firstEnvelopeTimestamp
+  const firstEnvelopeTimestamp = useSelector(
+    (state: StateType) => state.inbox.firstEnvelopeTimestamp
   );
-  const { hasInitialLoadCompleted } = useSelector<StateType, AppStateType>(
-    state => state.app
+  const { hasInitialLoadCompleted } = useSelector(
+    (state: StateType) => state.app
   );
 
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
@@ -73,4 +72,4 @@ export function SmartInbox(): JSX.Element {
       renderStoriesTab={renderStoriesTab}
     />
   );
-}
+});

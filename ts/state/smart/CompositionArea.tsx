@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { CompositionArea } from '../../components/CompositionArea';
 import { useContactNameData } from '../../components/conversation/ContactName';
@@ -78,7 +78,11 @@ function renderSmartCompositionRecordingDraft(
   return <SmartCompositionRecordingDraft {...draftProps} />;
 }
 
-export function SmartCompositionArea({ id }: { id: string }): JSX.Element {
+export const SmartCompositionArea = memo(function SmartCompositionArea({
+  id,
+}: {
+  id: string;
+}) {
   const conversationSelector = useSelector(getConversationSelector);
   const conversation = conversationSelector(id);
   strictAssert(conversation, `Conversation id ${id} not found!`);
@@ -346,4 +350,4 @@ export function SmartCompositionArea({ id }: { id: string }): JSX.Element {
       showConversation={showConversation}
     />
   );
-}
+});

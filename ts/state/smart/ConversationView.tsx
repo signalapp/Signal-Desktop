@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { StateType } from '../reducer';
 import { ConversationPanel } from './ConversationPanel';
@@ -18,51 +18,67 @@ import {
 import { useComposerActions } from '../ducks/composer';
 import { useConversationsActions } from '../ducks/conversations';
 
-export function SmartConversationView(): JSX.Element {
-  const conversationId = useSelector(getSelectedConversationId);
-
-  if (!conversationId) {
-    throw new Error('SmartConversationView: No selected conversation');
-  }
-
-  const { toggleSelectMode } = useConversationsActions();
-  const selectedMessageIds = useSelector(getSelectedMessageIds);
-  const isSelectMode = selectedMessageIds != null;
-
-  const { processAttachments } = useComposerActions();
-
-  const hasOpenModal = useSelector((state: StateType) => {
-    return (
-      state.globalModals.forwardMessagesProps != null ||
-      state.globalModals.deleteMessagesProps != null ||
-      state.globalModals.hasConfirmationModal
-    );
-  });
-
-  const shouldHideConversationView = useSelector((state: StateType) => {
-    const activePanel = getActivePanel(state);
-    const isAnimating = getIsPanelAnimating(state);
-    return activePanel && !isAnimating;
-  });
-
-  return (
-    <ConversationView
-      conversationId={conversationId}
-      hasOpenModal={hasOpenModal}
-      isSelectMode={isSelectMode}
-      onExitSelectMode={() => {
-        toggleSelectMode(false);
-      }}
-      processAttachments={processAttachments}
-      renderCompositionArea={() => <SmartCompositionArea id={conversationId} />}
-      renderConversationHeader={() => (
-        <SmartConversationHeader id={conversationId} />
-      )}
-      renderTimeline={() => (
-        <SmartTimeline key={conversationId} id={conversationId} />
-      )}
-      renderPanel={() => <ConversationPanel conversationId={conversationId} />}
-      shouldHideConversationView={shouldHideConversationView}
-    />
-  );
+function renderCompositionArea(conversationId: string) {
+  return <SmartCompositionArea id={conversationId} />;
 }
+
+function renderConversationHeader(conversationId: string) {
+  return <SmartConversationHeader id={conversationId} />;
+}
+
+function renderTimeline(conversationId: string) {
+  return <SmartTimeline key={conversationId} id={conversationId} />;
+}
+
+function renderPanel(conversationId: string) {
+  return <ConversationPanel conversationId={conversationId} />;
+}
+
+export const SmartConversationView = memo(
+  function SmartConversationView(): JSX.Element {
+    const conversationId = useSelector(getSelectedConversationId);
+
+    if (!conversationId) {
+      throw new Error('SmartConversationView: No selected conversation');
+    }
+
+    const { toggleSelectMode } = useConversationsActions();
+    const selectedMessageIds = useSelector(getSelectedMessageIds);
+    const isSelectMode = selectedMessageIds != null;
+
+    const { processAttachments } = useComposerActions();
+
+    const hasOpenModal = useSelector((state: StateType) => {
+      return (
+        state.globalModals.forwardMessagesProps != null ||
+        state.globalModals.deleteMessagesProps != null ||
+        state.globalModals.hasConfirmationModal
+      );
+    });
+
+    const shouldHideConversationView = useSelector((state: StateType) => {
+      const activePanel = getActivePanel(state);
+      const isAnimating = getIsPanelAnimating(state);
+      return activePanel && !isAnimating;
+    });
+
+    const onExitSelectMode = useCallback(() => {
+      toggleSelectMode(false);
+    }, [toggleSelectMode]);
+
+    return (
+      <ConversationView
+        conversationId={conversationId}
+        hasOpenModal={hasOpenModal}
+        isSelectMode={isSelectMode}
+        onExitSelectMode={onExitSelectMode}
+        processAttachments={processAttachments}
+        renderCompositionArea={renderCompositionArea}
+        renderConversationHeader={renderConversationHeader}
+        renderTimeline={renderTimeline}
+        renderPanel={renderPanel}
+        shouldHideConversationView={shouldHideConversationView}
+      />
+    );
+  }
+);

@@ -1,16 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps, ReactElement } from 'react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type { ComponentProps } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import pTimeout, { TimeoutError } from 'p-timeout';
-
 import { getIntl } from '../selectors/user';
 import { getUpdatesState } from '../selectors/updates';
 import { useUpdatesActions } from '../ducks/updates';
 import { hasExpired as hasExpiredSelector } from '../selectors/expiration';
-
 import * as log from '../../logging/log';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
@@ -87,7 +85,7 @@ function getInstallError(err: unknown): InstallError {
   return InstallError.UnknownError;
 }
 
-export function SmartInstallScreen(): ReactElement {
+export const SmartInstallScreen = memo(function SmartInstallScreen() {
   const i18n = useSelector(getIntl);
   const updates = useSelector(getUpdatesState);
   const { startUpdate } = useUpdatesActions();
@@ -339,4 +337,4 @@ export function SmartInstallScreen(): ReactElement {
       />
     </>
   );
-}
+});

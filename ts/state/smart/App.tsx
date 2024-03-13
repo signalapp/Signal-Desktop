@@ -1,9 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
 import type { VerificationTransport } from '../../types/VerificationTransport';
 import { App } from '../../components/App';
 import OS from '../../util/os/osMain';
@@ -30,13 +28,11 @@ function renderInbox(): JSX.Element {
   return <SmartInbox />;
 }
 
-export function SmartApp(): JSX.Element {
+export const SmartApp = memo(function SmartApp() {
   const app = useSelector((state: StateType) => state.app);
 
   const { openInbox } = useAppActions();
-
   const { scrollToMessage } = useConversationsActions();
-
   const { viewStory } = useStoriesActions();
 
   return (
@@ -84,4 +80,4 @@ export function SmartApp(): JSX.Element {
       viewStory={viewStory}
     />
   );
-}
+});

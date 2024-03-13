@@ -1,28 +1,44 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import { useSelector } from 'react-redux';
+import React, { memo } from 'react';
 import { DialogUpdate } from '../../components/DialogUpdate';
-import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
-import { getExpirationTimestamp } from '../selectors/expiration';
 import type { WidthBreakpoint } from '../../components/_util';
-import OS from '../../util/os/osMain';
+import { useUpdatesActions } from '../ducks/updates';
+import {
+  getUpdateDialogType,
+  getUpdateDownloadSize,
+  getUpdateDownloadedSize,
+  getUpdateVersion,
+} from '../selectors/updates';
 
-type PropsType = Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>;
+type SmartUpdateDialogProps = Readonly<{
+  containerWidthBreakpoint: WidthBreakpoint;
+}>;
 
-const mapStateToProps = (state: StateType, ownProps: PropsType) => {
-  return {
-    ...state.updates,
-    i18n: getIntl(state),
-    currentVersion: window.getVersion(),
-    expirationTimestamp: getExpirationTimestamp(state),
-    OS: OS.getName(),
-    ...ownProps,
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartUpdateDialog = smart(DialogUpdate);
+export const SmartUpdateDialog = memo(function SmartUpdateDialog({
+  containerWidthBreakpoint,
+}: SmartUpdateDialogProps) {
+  const i18n = useSelector(getIntl);
+  const { dismissDialog, snoozeUpdate, startUpdate } = useUpdatesActions();
+  const dialogType = useSelector(getUpdateDialogType);
+  const downloadSize = useSelector(getUpdateDownloadSize);
+  const downloadedSize = useSelector(getUpdateDownloadedSize);
+  const version = useSelector(getUpdateVersion);
+  return (
+    <DialogUpdate
+      i18n={i18n}
+      containerWidthBreakpoint={containerWidthBreakpoint}
+      dialogType={dialogType}
+      downloadSize={downloadSize}
+      downloadedSize={downloadedSize}
+      version={version}
+      currentVersion={window.getVersion()}
+      dismissDialog={dismissDialog}
+      snoozeUpdate={snoozeUpdate}
+      startUpdate={startUpdate}
+    />
+  );
+});

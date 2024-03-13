@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last } from 'lodash';
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
 import { TypingBubble } from '../../components/conversation/TypingBubble';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { getIntl, getTheme } from '../selectors/user';
@@ -19,7 +18,7 @@ type ExternalProps = {
   conversationId: string;
 };
 
-export function SmartTypingBubble({
+export const SmartTypingBubble = memo(function SmartTypingBubble({
   conversationId,
 }: ExternalProps): JSX.Element {
   const i18n = useSelector(getIntl);
@@ -65,4 +64,4 @@ export function SmartTypingBubble({
       showContactModal={showContactModal}
     />
   );
-}
+});

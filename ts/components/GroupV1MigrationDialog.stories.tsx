@@ -36,13 +36,12 @@ const contact3: ConversationType = getDefaultConversation({
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeInvited: Boolean(overrideProps.areWeInvited),
-  conversationId: '123',
   droppedMembers: overrideProps.droppedMembers || [contact3, contact1],
   getPreferredBadge: () => undefined,
   hasMigrated: Boolean(overrideProps.hasMigrated),
   i18n,
   invitedMembers: overrideProps.invitedMembers || [contact2],
-  migrate: action('migrate'),
+  onMigrate: action('onMigrate'),
   onClose: action('onClose'),
   theme: ThemeType.light,
 });
