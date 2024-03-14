@@ -119,9 +119,9 @@ export const RestoreAccount = () => {
               </>
             ) : (
               <Flex container={true} width="100%" flexDirection="column" alignItems="flex-start">
-                <OnboardHeading>{window.i18n('displayNamePick')}</OnboardHeading>
+                <OnboardHeading>{window.i18n('displayNameNew')}</OnboardHeading>
                 <SpacerSM />
-                <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
+                <OnboardDescription>{window.i18n('displayNameErrorNew')}</OnboardDescription>
                 <SpacerLG />
                 <SessionInput
                   autoFocus={true}
@@ -141,6 +141,7 @@ export const RestoreAccount = () => {
                   onClick={recoverAndEnterDisplayName}
                   text={window.i18n('continue')}
                   disabled={
+                    // TODO Fix that even if there is an error we only care if there is something in the input check Create Account
                     !(
                       !!recoveryPhrase &&
                       !recoveryPhraseError &&
@@ -160,13 +161,11 @@ export const RestoreAccount = () => {
           width="100%"
           flexDirection="column"
           justifyContent="flex-start"
-          alignItems="center"
-          margin={'0 0 0 8px'}
+          alignItems="flex-start"
         >
           <SessionProgressBar
             progress={progress}
-            width={'320px'}
-            margin={'var(--margins-lg) auto'}
+            margin={'0'}
             title={window.i18n('waitOneMoment')}
             subtitle={window.i18n('loadAccountProgressMessage')}
             showPercentage={true}

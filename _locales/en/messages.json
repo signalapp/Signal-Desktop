@@ -583,6 +583,8 @@
   "displayNamePick": "Pick your display name",
   "displayNameDescription": "It can be your real name, an alias, or anything else you like — and you can change it any time.",
   "displayNameErrorDescriptionShorter": "Please pick a shorter display name",
+  "displayNameNew": "Pick a new display name",
+  "displayNameErrorNew": "We were unable to load your display name. Please enter a new display name to continue.",
   "onboardingAccountCreated": "Account Created",
   "onboardingBubbleWelcomeToSession": "Welcome to Session",
   "conversationsNone": "You don't have any conversations yet",

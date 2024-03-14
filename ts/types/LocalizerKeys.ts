@@ -162,6 +162,8 @@ export type LocalizerKeys =
   | 'displayNameDescription'
   | 'displayNameEmpty'
   | 'displayNameErrorDescriptionShorter'
+  | 'displayNameErrorNew'
+  | 'displayNameNew'
   | 'displayNamePick'
   | 'displayNameTooLong'
   | 'document'
