@@ -114,6 +114,10 @@ export const RestoreAccount = () => {
   useRecoveryProgressEffect({ step, progress, setProgress, displayName, dispatch });
 
   const recoverAndFetchDisplayName = async () => {
+    if (!(!!recoveryPassword && !recoveryPasswordError)) {
+      return;
+    }
+
     setProgress(0);
     try {
       const displayNameFromNetwork = await signInAndFetchDisplayName({
@@ -150,6 +154,10 @@ export const RestoreAccount = () => {
   };
 
   const recoverAndEnterDisplayName = async () => {
+    if (!(!!recoveryPassword && !recoveryPasswordError) || !(!!displayName && !displayNameError)) {
+      return;
+    }
+
     setProgress(0);
     try {
       await signInWithNewDisplayName({
@@ -244,7 +252,6 @@ export const RestoreAccount = () => {
                   onClick={recoverAndEnterDisplayName}
                   text={window.i18n('continue')}
                   disabled={
-                    // TODO Fix that even if there is an error we only care if there is something in the input check Create Account
                     !(!!recoveryPassword && !recoveryPasswordError) ||
                     !(!!displayName && !displayNameError)
                   }

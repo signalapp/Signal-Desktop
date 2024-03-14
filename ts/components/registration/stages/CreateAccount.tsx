@@ -58,6 +58,10 @@ export const CreateAccount = () => {
   }, [step, hexGeneratedPubKey]);
 
   const signUpWithDetails = async () => {
+    if (!(!!displayName && !displayNameError)) {
+      return;
+    }
+
     try {
       await signUp({
         displayName,
