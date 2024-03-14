@@ -4,7 +4,7 @@
 import type { Net } from '@signalapp/libsignal-client';
 import type { AciString, PniString } from '../../types/ServiceId';
 
-export type CDSAuthType = Net.CDSAuthType;
+export type CDSAuthType = Net.ServiceAuth;
 export type CDSResponseEntryType = Net.CDSResponseEntryType<
   AciString,
   PniString

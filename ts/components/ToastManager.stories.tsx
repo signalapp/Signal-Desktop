@@ -141,6 +141,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.TapToViewExpiredIncoming };
     case ToastType.TapToViewExpiredOutgoing:
       return { toastType: ToastType.TapToViewExpiredOutgoing };
+    case ToastType.TransportError:
+      return { toastType: ToastType.TransportError };
     case ToastType.TooManyMessagesToDeleteForEveryone:
       return {
         toastType: ToastType.TooManyMessagesToDeleteForEveryone,

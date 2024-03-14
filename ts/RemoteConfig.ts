@@ -24,6 +24,8 @@ export type ConfigKeyType =
   | 'desktop.retryRespondMaxAge'
   | 'desktop.senderKey.retry'
   | 'desktop.senderKeyMaxAge'
+  | 'desktop.experimentalTransportEnabled.alpha'
+  | 'desktop.experimentalTransportEnabled.beta'
   | 'global.attachments.maxBytes'
   | 'global.attachments.maxReceiveBytes'
   | 'global.calling.maxGroupCallRingSize'

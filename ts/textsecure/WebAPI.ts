@@ -55,7 +55,6 @@ import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 import { SocketManager } from './SocketManager';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
 import { CDSI } from './cds/CDSI';
-import type WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
 
 import { HTTPError } from './Errors';
@@ -70,6 +69,7 @@ import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url';
 import { SECOND } from '../util/durations';
+import type { IWebSocketResource } from './WebsocketResources';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -1034,7 +1034,7 @@ export type WebAPIType = {
   ) => Promise<unknown>;
   getProvisioningResource: (
     handler: IRequestHandler
-  ) => Promise<WebSocketResource>;
+  ) => Promise<IWebSocketResource>;
   getArtProvisioningSocket: (token: string) => Promise<WebSocket>;
   getSenderCertificate: (
     withUuid?: boolean
@@ -3473,7 +3473,7 @@ export function initialize({
 
     function getProvisioningResource(
       handler: IRequestHandler
-    ): Promise<WebSocketResource> {
+    ): Promise<IWebSocketResource> {
       return socketManager.getProvisioningResource(handler);
     }
 

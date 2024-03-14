@@ -56,6 +56,7 @@ export enum ToastType {
   TapToViewExpiredOutgoing = 'TapToViewExpiredOutgoing',
   TooManyMessagesToDeleteForEveryone = 'TooManyMessagesToDeleteForEveryone',
   TooManyMessagesToForward = 'TooManyMessagesToForward',
+  TransportError = 'TransportError',
   UnableToLoadAttachment = 'UnableToLoadAttachment',
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
@@ -136,6 +137,7 @@ export type AnyToast =
       parameters: { count: number };
     }
   | { toastType: ToastType.TooManyMessagesToForward }
+  | { toastType: ToastType.TransportError }
   | { toastType: ToastType.UnableToLoadAttachment }
   | { toastType: ToastType.UnsupportedMultiAttachment }
   | { toastType: ToastType.UnsupportedOS }

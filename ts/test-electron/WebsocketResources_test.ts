@@ -127,9 +127,9 @@ describe('WebSocket-Resource', () => {
         }).finish(),
       });
 
-      const { status, message } = await promise;
-      assert.strictEqual(message, 'OK');
-      assert.strictEqual(status, 200);
+      const response = await promise;
+      assert.strictEqual(response.statusText, 'OK');
+      assert.strictEqual(response.status, 200);
     });
   });
 
