@@ -64,7 +64,7 @@ function getGroupsInCommonSorted(
   conversation: ConversationType,
   allComposableConversations: ReadonlyArray<ConversationType>
 ) {
-  if (conversation.type === 'direct') {
+  if (conversation.type !== 'direct') {
     return [];
   }
   const groupsInCommonUnsorted = allComposableConversations.filter(
