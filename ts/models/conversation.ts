@@ -882,15 +882,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expirationMode = 'off';
       expireTimer = 0;
     }
+    const shouldAddExpireUpdateMsgPrivate = this.isPrivate() && !fromConfigMessage;
+    const isLegacyGroup = this.isClosedGroup() && !PubKey.isClosedGroupV3(this.id);
+
+    /**
+     * it's ugly, but we want to add a message for legacy groups only when
+     * - not coming from a config message
+     * - effectively changes the setting
+     * - ignores a off setting for a legacy group (as we can get a setting from restored from configMessage, and a newgroup can still be in the swarm when linking a device
+     */
+    const shouldAddExpireUpdateMsgGroup =
+      isLegacyGroup &&
+      !fromConfigMessage &&
+      (expirationMode !== this.get('expirationMode') || expireTimer !== this.get('expireTimer')) &&
+      expirationMode !== 'off';
+
     const shouldAddExpireUpdateMessage =
-      (this.isPrivate() && !fromConfigMessage) ||
-      (this.isClosedGroup() &&
-        !PubKey.isClosedGroupV3(this.id) &&
-        !fromConfigMessage &&
-        expirationMode !== this.get('expirationMode') &&
-        expireTimer !== this.get('expireTimer') &&
-        expirationMode !== 'off' &&
-        expireTimer !== 0);
+      shouldAddExpireUpdateMsgPrivate || shouldAddExpireUpdateMsgGroup;
 
     // When we add a disappearing messages notification to the conversation, we want it
     // to be above the message that initiated that change, hence the subtraction.

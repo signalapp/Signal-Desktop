@@ -185,6 +185,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   const textToRender = useTextToRender(props);
   const isGroupOrCommunity = useSelectedIsGroupOrCommunity();
   const isGroupV2 = useSelectedIsGroupV2();
+  // renderOff is true when the update is put to off, or when we have a legacy group control message (as they are not expiring at all)
   const renderOffIcon = props.disabled || (isGroupOrCommunity && !isGroupV2);
 
   if (!textToRender || textToRender.length === 0) {

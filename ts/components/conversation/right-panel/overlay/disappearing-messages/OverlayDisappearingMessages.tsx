@@ -13,7 +13,7 @@ import {
   useSelectedConversationKey,
   useSelectedExpireTimer,
   useSelectedIsGroupOrCommunity,
-  useSelectedWeAreAdmin
+  useSelectedWeAreAdmin,
 } from '../../../../../state/selectors/selectedConversation';
 import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 import { Flex } from '../../../../basic/Flex';
