@@ -95,3 +95,35 @@ export function copyCdnFields(
     plaintextHash: uploaded.plaintextHash,
   };
 }
+/**
+ * Shortens a file name based on specified conditions.
+ * @param fileName - The original file name.
+ * @param isPlaying - If true, truncate the file name to maxLength characters and add '...' at the end.
+ *                  - If false, show the first 15 characters, add '...', and the last 15 characters.
+ * @param maxLength - The maximum length of the file name (default: 30).
+ * @returns The shortened file name.
+ */
+export function shortenFileName(
+  fileName: string | undefined,
+  isPlaying: boolean = false,
+  maxLength: number = 30
+): string {
+  if (fileName === undefined) return '';
+  if (fileName.length <= maxLength) {
+    return fileName;
+  }
+
+  if (!isPlaying) {
+    const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
+    const extension = fileName.split('.').pop();
+    const shortenedFileName = `${fileNameWithoutExtension.slice(
+      0,
+      15
+    )}...${fileNameWithoutExtension.slice(-15)}`;
+
+    return `${shortenedFileName}.${extension}`;
+  } else {
+    const truncatedFileName = `${fileName.slice(0, maxLength - 3)}...`;
+    return truncatedFileName;
+  }
+}

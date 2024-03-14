@@ -23,6 +23,7 @@ import { WaveformScrubber } from './WaveformScrubber';
 import { useComputePeaks } from '../../hooks/useComputePeaks';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText';
 import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
+import { shortenFileName } from '../../util/attachments';
 
 export type OwnProps = Readonly<{
   active:
@@ -167,7 +168,7 @@ export function MessageAudio(props: Props): JSX.Element {
   const [isPlayedDotVisible, setIsPlayedDotVisible] = React.useState(!played);
 
   const audioUrl = isDownloaded(attachment) ? attachment.url : undefined;
-
+  const fileName = (attachment.fileName && !attachment.isVoiceMessage) ? shortenFileName(attachment.fileName) : undefined;
   const { duration, hasPeaks, peaks } = useComputePeaks({
     audioUrl,
     activeDuration: active?.duration,
@@ -369,7 +370,6 @@ export function MessageAudio(props: Props): JSX.Element {
       )}
     </div>
   );
-
   return (
     <div
       className={classNames(
@@ -381,7 +381,14 @@ export function MessageAudio(props: Props): JSX.Element {
     >
       <div className={`${CSS_BASE}__button-and-waveform`}>
         {button}
-        {waveform}
+        <div>
+          <span className={`module-message__text module-message__text--${direction}`} style={{
+            fontSize: '12px',
+          }}>
+            {fileName}
+          </span>
+          {waveform}
+        </div>
       </div>
       {metadata}
     </div>

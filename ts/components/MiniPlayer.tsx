@@ -8,6 +8,7 @@ import { durationToPlaybackText } from '../util/durationToPlaybackText';
 import { PlaybackButton } from './PlaybackButton';
 import { PlaybackRateButton } from './PlaybackRateButton';
 import { UserText } from './UserText';
+import { shortenFileName } from '../util/attachments';
 
 export enum PlayerState {
   loading = 'loading',
@@ -18,6 +19,7 @@ export enum PlayerState {
 export type Props = Readonly<{
   i18n: LocalizerType;
   title: string;
+  fileName: string | undefined
   currentTime: number;
   // not available until audio has loaded
   duration: number | undefined;
@@ -34,6 +36,7 @@ export type Props = Readonly<{
 export function MiniPlayer({
   i18n,
   title,
+  fileName,
   state,
   currentTime,
   duration,
@@ -100,8 +103,9 @@ export function MiniPlayer({
       <div className="MiniPlayer__state">
         <UserText text={title} />
         <span className="MiniPlayer__middot">&middot;</span>
+        <span>{shortenFileName(fileName, true)}</span>
         {duration !== undefined && (
-          <span>
+          <span style={{marginLeft: fileName && '6px' || '0px'}}>
             {durationToPlaybackText(
               state === PlayerState.loading ? duration : currentTime
             )}
