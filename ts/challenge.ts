@@ -46,7 +46,7 @@ type Handler = Readonly<{
 }>;
 
 export type ChallengeData = Readonly<{
-  type: 'recaptcha';
+  type: 'captcha';
   token: string;
   captcha: string;
 }>;
@@ -259,7 +259,14 @@ export class ChallengeHandler {
       log.info(`${logId}: tracking ${conversationId} with no waitTime`);
     }
 
-    if (data && !data.options?.includes('recaptcha')) {
+    if (
+      data &&
+      !(
+        data.options?.includes('captcha') ||
+        // 'recaptcha' is deprecated for removal in 90 days
+        data.options?.includes('recaptcha')
+      )
+    ) {
       log.error(`${logId}: unexpected options ${JSON.stringify(data.options)}`);
     }
 
@@ -384,7 +391,7 @@ export class ChallengeHandler {
 
     try {
       await this.sendChallengeResponse({
-        type: 'recaptcha',
+        type: 'captcha',
         token: lastToken,
         captcha,
       });
