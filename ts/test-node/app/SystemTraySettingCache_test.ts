@@ -28,21 +28,16 @@ describe('SystemTraySettingCache', () => {
   });
 
   it('returns MinimizeToAndStartInSystemTray if passed the --start-in-tray argument', async () => {
-    const justOneArg = new SystemTraySettingCache(
-      config,
-      ['--start-in-tray'],
-      '1.2.3'
-    );
+    const justOneArg = new SystemTraySettingCache(config, ['--start-in-tray']);
     assert.strictEqual(
       await justOneArg.get(),
       SystemTraySetting.MinimizeToAndStartInSystemTray
     );
 
-    const bothArgs = new SystemTraySettingCache(
-      config,
-      ['--start-in-tray', '--use-tray-icon'],
-      '1.2.3'
-    );
+    const bothArgs = new SystemTraySettingCache(config, [
+      '--start-in-tray',
+      '--use-tray-icon',
+    ]);
     assert.strictEqual(
       await bothArgs.get(),
       SystemTraySetting.MinimizeToAndStartInSystemTray
@@ -53,11 +48,7 @@ describe('SystemTraySettingCache', () => {
   });
 
   it('returns MinimizeToSystemTray if passed the --use-tray-icon argument', async () => {
-    const cache = new SystemTraySettingCache(
-      config,
-      ['--use-tray-icon'],
-      '1.2.3'
-    );
+    const cache = new SystemTraySettingCache(config, ['--use-tray-icon']);
     assert.strictEqual(
       await cache.get(),
       SystemTraySetting.MinimizeToSystemTray
@@ -70,7 +61,7 @@ describe('SystemTraySettingCache', () => {
   it('returns Uninitialized if system tray is supported but no preference is stored', async () => {
     sandbox.stub(process, 'platform').value('win32');
 
-    const cache = new SystemTraySettingCache(config, [], '1.2.3');
+    const cache = new SystemTraySettingCache(config, []);
     assert.strictEqual(await cache.get(), SystemTraySetting.Uninitialized);
     assert(configGetStub.calledOnceWith('system-tray-setting'));
     assert(
@@ -86,7 +77,7 @@ describe('SystemTraySettingCache', () => {
 
     configGetStub.returns('garbage');
 
-    const cache = new SystemTraySettingCache(config, [], '1.2.3');
+    const cache = new SystemTraySettingCache(config, []);
     assert.strictEqual(await cache.get(), SystemTraySetting.Uninitialized);
     assert(configGetStub.calledOnceWith('system-tray-setting'));
     assert(
@@ -102,7 +93,7 @@ describe('SystemTraySettingCache', () => {
 
     configGetStub.returns('MinimizeToSystemTray');
 
-    const cache = new SystemTraySettingCache(config, [], '1.2.3');
+    const cache = new SystemTraySettingCache(config, []);
     assert.strictEqual(
       await cache.get(),
       SystemTraySetting.MinimizeToSystemTray
@@ -113,7 +104,7 @@ describe('SystemTraySettingCache', () => {
   it('returns DoNotUseSystemTray if system tray is unsupported and there are no CLI flags', async () => {
     sandbox.stub(process, 'platform').value('darwin');
 
-    const cache = new SystemTraySettingCache(config, [], '1.2.3');
+    const cache = new SystemTraySettingCache(config, []);
     assert.strictEqual(await cache.get(), SystemTraySetting.DoNotUseSystemTray);
 
     sinon.assert.notCalled(configGetStub);

@@ -84,7 +84,10 @@ import {
   shouldMinimizeToSystemTray,
   parseSystemTraySetting,
 } from '../ts/types/SystemTraySetting';
-import { isSystemTraySupported } from '../ts/types/Settings';
+import {
+  getDefaultSystemTraySetting,
+  isSystemTraySupported,
+} from '../ts/types/Settings';
 import * as ephemeralConfig from './ephemeral_config';
 import * as logging from '../ts/logging/main_process_logging';
 import { MainSQL } from '../ts/sql/main';
@@ -396,8 +399,7 @@ const zoomFactorService = new ZoomFactorService({
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
   ephemeralConfig,
-  process.argv,
-  app.getVersion()
+  process.argv
 );
 
 const windowFromUserConfig = userConfig.get('window');
@@ -1789,10 +1791,10 @@ app.on('ready', async () => {
   // would still show the window.
   // (User can change these settings later)
   if (
-    isSystemTraySupported(OS, app.getVersion()) &&
+    isSystemTraySupported(OS) &&
     (await systemTraySettingCache.get()) === SystemTraySetting.Uninitialized
   ) {
-    const newValue = SystemTraySetting.MinimizeToSystemTray;
+    const newValue = getDefaultSystemTraySetting(OS, app.getVersion());
     getLogger().info(`app.ready: setting system-tray-setting to ${newValue}`);
     systemTraySettingCache.set(newValue);
 

@@ -310,15 +310,9 @@ async function renderPreferences() {
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(OS),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(OS),
     isSyncSupported: !isSyncNotSupported,
-    isSystemTraySupported: Settings.isSystemTraySupported(
-      OS,
-      MinimalSignalContext.getVersion()
-    ),
+    isSystemTraySupported: Settings.isSystemTraySupported(OS),
     isMinimizeToAndStartInSystemTraySupported:
-      Settings.isMinimizeToAndStartInSystemTraySupported(
-        OS,
-        MinimalSignalContext.getVersion()
-      ),
+      Settings.isMinimizeToAndStartInSystemTraySupported(OS),
 
     // Change handlers
     onAudioNotificationsChange: attachRenderCallback(

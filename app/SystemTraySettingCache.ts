@@ -21,8 +21,7 @@ export class SystemTraySettingCache {
 
   constructor(
     private readonly ephemeralConfig: Pick<ConfigType, 'get' | 'set'>,
-    private readonly argv: Array<string>,
-    private readonly appVersion: string
+    private readonly argv: Array<string>
   ) {}
 
   async get(): Promise<SystemTraySetting> {
@@ -53,7 +52,7 @@ export class SystemTraySettingCache {
       log.info(
         `getSystemTraySetting saw --use-tray-icon flag. Returning ${result}`
       );
-    } else if (isSystemTraySupported(OS, this.appVersion)) {
+    } else if (isSystemTraySupported(OS)) {
       const value = this.ephemeralConfig.get('system-tray-setting');
       if (value !== undefined) {
         log.info('getSystemTraySetting got value', value);
