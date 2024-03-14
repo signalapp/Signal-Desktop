@@ -588,7 +588,15 @@ export default class AccountManager extends EventTarget {
         await this.server.getMyKeyCounts(serviceIdKind);
 
       let preKeys: Array<UploadPreKeyType> | undefined;
-      if (preKeyCount < PRE_KEY_MINIMUM || forceUpdate) {
+
+      // We want to generate new keys both if there are too few keys, and also if we
+      // have too many on the server (unlikely, but has happened due to bugs), since
+      // uploading new keys _should_ replace all existing ones on the server
+      if (
+        preKeyCount < PRE_KEY_MINIMUM ||
+        preKeyCount > PRE_KEY_MAX_COUNT ||
+        forceUpdate
+      ) {
         log.info(
           `${logId}: Server prekey count is ${preKeyCount}, generating a new set`
         );
@@ -596,7 +604,11 @@ export default class AccountManager extends EventTarget {
       }
 
       let pqPreKeys: Array<UploadKyberPreKeyType> | undefined;
-      if (kyberPreKeyCount < PRE_KEY_MINIMUM || forceUpdate) {
+      if (
+        kyberPreKeyCount < PRE_KEY_MINIMUM ||
+        preKeyCount > PRE_KEY_MAX_COUNT ||
+        forceUpdate
+      ) {
         log.info(
           `${logId}: Server kyber prekey count is ${kyberPreKeyCount}, generating a new set`
         );
