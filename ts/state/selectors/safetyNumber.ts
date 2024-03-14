@@ -23,5 +23,5 @@ export const getContactSafetyNumber = createSelector(
   (
     { contacts }: SafetyNumberStateType,
     contactID: string
-  ): SafetyNumberContactType => contacts[contactID]
+  ): SafetyNumberContactType | void => contacts[contactID]
 );

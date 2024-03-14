@@ -30,9 +30,9 @@ export const SmartSafetyNumberViewer = memo(function SmartSafetyNumberViewer({
       generateSafetyNumber={generateSafetyNumber}
       i18n={i18n}
       onClose={onClose}
-      safetyNumber={safetyNumberContact.safetyNumber}
+      safetyNumber={safetyNumberContact?.safetyNumber ?? null}
       toggleVerified={toggleVerified}
-      verificationDisabled={safetyNumberContact.verificationDisabled}
+      verificationDisabled={safetyNumberContact?.verificationDisabled ?? null}
     />
   );
 });
