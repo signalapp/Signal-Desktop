@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SettingsKey } from '../../../data/settings-key';
-import { ToastUtils } from '../../../session/utils';
 import { trigger } from '../../../shims/events';
 import {
   AccountCreation,
@@ -18,37 +17,33 @@ import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
-import { resetRegistration } from '../RegistrationStages';
+import { RecoverDetails, resetRegistration } from '../RegistrationStages';
 import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 
-async function signUp(signUpDetails: { displayName: string; generatedRecoveryPhrase: string }) {
-  const { displayName, generatedRecoveryPhrase } = signUpDetails;
-  window?.log?.info('SIGNING UP');
-
-  const trimName = displayNameIsValid(displayName);
-  if (!trimName) {
-    return;
-  }
+async function signUp(signUpDetails: RecoverDetails) {
+  const { displayName, recoveryPassword, errorCallback } = signUpDetails;
+  window.log.debug(`WIP: [signUp] starting sign up....`);
 
   try {
+    const trimName = displayNameIsValid(displayName);
+
     await resetRegistration();
-    await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
+    await registerSingleDevice(recoveryPassword, 'english', trimName);
     await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, Date.now());
     await setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
-
-    ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
-    window?.log?.warn('exception during registration:', e);
+    void errorCallback(e);
+    window.log.debug(`WIP: [signUp] exception during registration: ${e.message || e}`);
   }
 }
 
 export const CreateAccount = () => {
   const step = useOnboardAccountCreationStep();
-  const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();
+  const recoveryPassword = useOnboardGeneratedRecoveryPhrase();
   const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
 
   const dispatch = useDispatch();
@@ -62,18 +57,24 @@ export const CreateAccount = () => {
     }
   }, [step, hexGeneratedPubKey]);
 
-  const displayNameOK = !!displayName && !displayNameError;
-  const signUpWithDetails = () => {
-    if (!displayNameOK) {
-      return;
+  const signUpWithDetails = async () => {
+    try {
+      await signUp({
+        displayName,
+        recoveryPassword,
+        errorCallback: e => {
+          setDisplayNameError(e.message || String(e));
+          throw e;
+        },
+      });
+
+      dispatch(setAccountCreationStep(AccountCreation.Done));
+    } catch (e) {
+      window.log.debug(
+        `WIP: [recoverAndFetchDisplayName] AccountRestoration.RecoveryPassword failed to fetch display name so we need to enter it manually. Error: ${e}`
+      );
+      dispatch(setAccountCreationStep(AccountCreation.DisplayName));
     }
-
-    void signUp({
-      displayName,
-      generatedRecoveryPhrase,
-    });
-
-    dispatch(setAccountCreationStep(AccountCreation.Done));
   };
 
   return (
@@ -107,6 +108,7 @@ export const CreateAccount = () => {
             buttonColor={SessionButtonColor.White}
             onClick={signUpWithDetails}
             text={window.i18n('continue')}
+            disabled={!(!!displayName && !displayNameError)}
           />
         </Flex>
       </BackButtonWithininContainer>

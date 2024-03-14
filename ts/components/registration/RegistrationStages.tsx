@@ -3,13 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
-import { getSwarmPollingInstance } from '../../session/apis/snode_api';
-import { ONBOARDING_TIMES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
-import { InvalidWordsError, NotEnoughWordsError, mnDecode } from '../../session/crypto/mnemonic';
-import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
+import { mnDecode } from '../../session/crypto/mnemonic';
+import { StringUtils } from '../../session/utils';
 import { fromHex } from '../../session/utils/String';
-import { NotFoundError } from '../../session/utils/errors';
 import {
   Onboarding,
   setGeneratedRecoveryPhrase,
@@ -19,27 +16,12 @@ import {
   useOnboardGeneratedRecoveryPhrase,
   useOnboardStep,
 } from '../../state/onboarding/selectors/registration';
-import {
-  generateMnemonic,
-  registerSingleDevice,
-  sessionGenerateKeyPair,
-  signInByLinkingDevice,
-} from '../../util/accountManager';
-import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
+import { generateMnemonic, sessionGenerateKeyPair } from '../../util/accountManager';
+import { Storage } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { CreateAccount, RestoreAccount, Start } from './stages';
-import { displayNameIsValid } from './utils';
-
-const StyledRegistrationContainer = styled(Flex)`
-  width: 348px;
-
-  .session-button {
-    width: 100%;
-    margin: 0;
-  }
-`;
 
 export async function resetRegistration() {
   await Data.removeAll();
@@ -49,91 +31,20 @@ export async function resetRegistration() {
   await getConversationController().load();
 }
 
-type SignInDetails = {
-  userRecoveryPhrase: string;
+export type RecoverDetails = {
+  recoveryPassword: string;
+  errorCallback: (error: Error) => void;
   displayName?: string;
-  errorCallback?: (error: string) => void;
 };
 
-/**
- * Sign in/restore from seed.
- * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
- * We will handle a ConfigurationMessage
- */
-export async function signInWithNewDisplayName(signInDetails: SignInDetails) {
-  const { displayName, userRecoveryPhrase } = signInDetails;
-  window.log.debug(`WIP: [signInWithNewDisplayName] starting sign in with new display name....`);
-  const trimName = displayName ? displayNameIsValid(displayName) : undefined;
-  if (!trimName) {
-    return;
+const StyledRegistrationContainer = styled(Flex)`
+  width: 348px;
+
+  .session-button {
+    width: 100%;
+    margin: 0;
   }
-
-  try {
-    await resetRegistration();
-    await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
-    await setSignWithRecoveryPhrase(true);
-  } catch (e) {
-    await resetRegistration();
-    ToastUtils.pushToastError('registrationError', `Error: ${e.message || 'Something went wrong'}`);
-    window?.log?.warn('exception during registration:', e);
-  }
-}
-
-/**
- * This will try to sign in with the user recovery phrase.
- * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
- */
-export async function signInAndFetchDisplayName(signInDetails: SignInDetails) {
-  const { userRecoveryPhrase, errorCallback } = signInDetails;
-  window.log.debug(`WIP: [signInAndFetchDisplayName] starting sign in....`);
-
-  try {
-    throw new NotFoundError('Got a config message from network but without a displayName...');
-    await resetRegistration();
-    await signInByLinkingDevice(userRecoveryPhrase, 'english');
-    let displayNameFromNetwork = '';
-    await getSwarmPollingInstance().start();
-
-    await PromiseUtils.waitForTask(done => {
-      window.Whisper.events.on('configurationMessageReceived', async (displayName: string) => {
-        window.Whisper.events.off('configurationMessageReceived');
-        await setSignInByLinking(false);
-        await setSignWithRecoveryPhrase(true);
-        done(displayName);
-        displayNameFromNetwork = displayName;
-      });
-    }, ONBOARDING_TIMES.RECOVERY_TIMEOUT);
-    if (displayNameFromNetwork.length) {
-      // display name, avatars, groups and contacts should already be handled when this event was triggered.
-      window.log.debug(
-        `WIP: [signInAndFetchDisplayName] we got a displayName from network: "${displayNameFromNetwork}"`
-      );
-    } else {
-      window.log.debug(
-        `WIP: [signInAndFetchDisplayName] Got a config message from network but without a displayName...`
-      );
-      throw new NotFoundError('Got a config message from network but without a displayName...');
-    }
-    // Do not set the lastProfileUpdateTimestamp.
-    // We expect to get a display name from a configuration message while we are loading messages of this user
-    return displayNameFromNetwork;
-  } catch (e) {
-    await resetRegistration();
-    if (errorCallback) {
-      if (e instanceof NotEnoughWordsError) {
-        void errorCallback(window.i18n('recoveryPasswordErrorMessageShort'));
-      } else if (e instanceof InvalidWordsError) {
-        void errorCallback(window.i18n('recoveryPasswordErrorMessageIncorrect'));
-      } else {
-        void errorCallback(window.i18n('recoveryPasswordErrorMessageGeneric'));
-      }
-    }
-    window.log.debug(
-      `WIP: [signInAndFetchDisplayName] exception during registration: ${e.message || e}`
-    );
-    return '';
-  }
-}
+`;
 
 export const RegistrationStages = () => {
   const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();

@@ -77,8 +77,13 @@ export async function signInWithRecovery(
  * Sign in with a recovery phrase and try to recover display name and avatar from the first encountered configuration message.
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
+ * @param loadingAnimationCallback a callback to trigger a loading animation
  */
-export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: string) {
+export async function signInByLinkingDevice(
+  mnemonic: string,
+  mnemonicLanguage: string,
+  loadingAnimationCallback: () => void
+) {
   if (!mnemonic) {
     throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
@@ -88,6 +93,7 @@ export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: 
 
   const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
   await setSignInByLinking(true);
+  loadingAnimationCallback();
   await createAccount(identityKeyPair);
   await saveRecoveryPhrase(mnemonic);
   const pubKeyString = toHex(identityKeyPair.pubKey);

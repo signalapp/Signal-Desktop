@@ -1,4 +1,3 @@
-import { ToastUtils } from '../../../session/utils';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
 
 export function sanitizeDisplayNameOrToast(
@@ -22,13 +21,15 @@ export function sanitizeDisplayNameOrToast(
  *
  * Be sure to use the trimmed userName for creating the account.
  */
-export const displayNameIsValid = (displayName: string): undefined | string => {
-  const trimName = displayName.trim();
-
-  if (!trimName) {
-    window?.log?.warn('invalid trimmed name for registration');
-    ToastUtils.pushToastError('invalidDisplayName', window.i18n('displayNameEmpty'));
-    return undefined;
+export const displayNameIsValid = (displayName?: string): string => {
+  if (!displayName) {
+    throw new Error(window.i18n('displayNameEmpty'));
   }
+
+  const trimName = displayName.trim();
+  if (!trimName) {
+    throw new Error(window.i18n('displayNameEmpty'));
+  }
+
   return trimName;
 };

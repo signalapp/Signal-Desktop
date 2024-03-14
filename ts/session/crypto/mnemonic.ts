@@ -24,14 +24,6 @@ export class InvalidWordsError extends MnemonicError {
   }
 }
 
-export class LastWordMissingError extends MnemonicError {
-  constructor() {
-    super('You seem to be missing the last word in your private key, please try again');
-    // restore prototype chain
-    Object.setPrototypeOf(this, LastWordMissingError.prototype);
-  }
-}
-
 export class DecodingError extends MnemonicError {
   constructor() {
     super('Something went wrong when decoding your private key, please try again');
@@ -114,7 +106,10 @@ export function mnDecode(str: string, wordsetName: string = MN_DEFAULT_WORDSET):
     throw new NotEnoughWordsError();
   }
   if (wordset.prefixLen > 0 && wlist.length % 3 === 0) {
-    throw new LastWordMissingError();
+    window.log.error(
+      'mnDecode(): You seem to be missing the last word in your private key, please try again'
+    );
+    throw new NotEnoughWordsError();
   }
   if (wordset.prefixLen > 0) {
     // Pop checksum from mnemonic

@@ -1,28 +1,108 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { getSwarmPollingInstance } from '../../../session/apis/snode_api';
+import { ONBOARDING_TIMES } from '../../../session/constants';
+import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
+import { PromiseUtils } from '../../../session/utils';
 import { NotFoundError } from '../../../session/utils/errors';
 import {
   AccountRestoration,
   setAccountRestorationStep,
 } from '../../../state/onboarding/ducks/registration';
 import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
+import { registerSingleDevice, signInByLinkingDevice } from '../../../util/accountManager';
+import { setSignInByLinking, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { SessionProgressBar } from '../../loading';
-import { signInAndFetchDisplayName, signInWithNewDisplayName } from '../RegistrationStages';
+import { RecoverDetails, resetRegistration } from '../RegistrationStages';
 import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { useRecoveryProgressEffect } from '../hooks';
-import { sanitizeDisplayNameOrToast } from '../utils';
+import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
+
+/**
+ * Sign in/restore from seed.
+ * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
+ * We will handle a ConfigurationMessage
+ */
+async function signInWithNewDisplayName(signInDetails: RecoverDetails) {
+  const { displayName, recoveryPassword, errorCallback } = signInDetails;
+  window.log.debug(`WIP: [signInWithNewDisplayName] starting sign in with new display name....`);
+
+  try {
+    const trimName = displayNameIsValid(displayName);
+
+    await resetRegistration();
+    await registerSingleDevice(recoveryPassword, 'english', trimName);
+    await setSignWithRecoveryPhrase(true);
+  } catch (e) {
+    await resetRegistration();
+    void errorCallback(e);
+    window.log.debug(
+      `WIP: [signInWithNewDisplayName] exception during registration: ${e.message || e}`
+    );
+  }
+}
+
+/**
+ * This will try to sign in with the user recovery phrase.
+ * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
+ */
+async function signInAndFetchDisplayName(
+  signInDetails: RecoverDetails & {
+    /** this is used to trigger the loading animation further down the registration pipeline */
+    loadingAnimationCallback: () => void;
+  }
+) {
+  const { recoveryPassword, errorCallback, loadingAnimationCallback } = signInDetails;
+  window.log.debug(`WIP: [signInAndFetchDisplayName] starting sign in....`);
+
+  let displayNameFromNetwork = '';
+
+  try {
+    // throw new NotFoundError('Got a config message from network but without a displayName...');
+    await resetRegistration();
+    await signInByLinkingDevice(recoveryPassword, 'english', loadingAnimationCallback);
+
+    await getSwarmPollingInstance().start();
+
+    await PromiseUtils.waitForTask(done => {
+      window.Whisper.events.on('configurationMessageReceived', async (displayName: string) => {
+        window.Whisper.events.off('configurationMessageReceived');
+        await setSignInByLinking(false);
+        await setSignWithRecoveryPhrase(true);
+        done(displayName);
+        displayNameFromNetwork = displayName;
+      });
+    }, ONBOARDING_TIMES.RECOVERY_TIMEOUT);
+
+    if (!displayNameFromNetwork.length) {
+      throw new NotFoundError('Got a config message from network but without a displayName...');
+    }
+  } catch (e) {
+    await resetRegistration();
+    errorCallback(e);
+  }
+  // display name, avatars, groups and contacts should already be handled when this event was triggered.
+  window.log.debug(
+    `WIP: [signInAndFetchDisplayName] we got a displayName from network: "${displayNameFromNetwork}"`
+  );
+  // Do not set the lastProfileUpdateTimestamp.
+  // We expect to get a display name from a configuration message while we are loading messages of this user
+  return displayNameFromNetwork;
+}
 
 export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
 
-  const [recoveryPhrase, setRecoveryPhrase] = useState('');
-  const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
+  const [recoveryPassword, setRecoveryPassword] = useState('');
+  const [recoveryPasswordError, setRecoveryPasswordError] = useState(
+    undefined as string | undefined
+  );
 
   const [displayName, setDisplayName] = useState('');
   const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
@@ -35,37 +115,58 @@ export const RestoreAccount = () => {
 
   const recoverAndFetchDisplayName = async () => {
     setProgress(0);
-    dispatch(setAccountRestorationStep(AccountRestoration.Loading));
     try {
       const displayNameFromNetwork = await signInAndFetchDisplayName({
-        userRecoveryPhrase: recoveryPhrase,
-        errorCallback: setRecoveryPhraseError,
+        recoveryPassword,
+        errorCallback: e => {
+          throw e;
+        },
+        loadingAnimationCallback: () => {
+          dispatch(setAccountRestorationStep(AccountRestoration.Loading));
+        },
       });
       setDisplayName(displayNameFromNetwork);
       dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
     } catch (e) {
       if (e instanceof NotFoundError) {
         window.log.debug(
-          `WIP: [continueYourSession] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually. Error: ${e}`
+          `WIP: [recoverAndFetchDisplayName] AccountRestoration.RecoveryPassword failed to fetch display name so we need to enter it manually. Error: ${e}`
         );
         dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
-      } else {
-        dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
+        return;
       }
+      if (e instanceof NotEnoughWordsError) {
+        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageShort'));
+      } else if (e instanceof InvalidWordsError) {
+        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageIncorrect'));
+      } else {
+        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric'));
+      }
+      window.log.debug(
+        `WIP: [recoverAndFetchDisplayName] exception during registration: ${e.message || e}`
+      );
+      dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
     }
   };
 
   const recoverAndEnterDisplayName = async () => {
-    if (!(!!displayName && !displayNameError)) {
-      return;
+    setProgress(0);
+    try {
+      await signInWithNewDisplayName({
+        displayName,
+        recoveryPassword,
+        errorCallback: e => {
+          setDisplayNameError(e.message || String(e));
+          throw e;
+        },
+      });
+      dispatch(setAccountRestorationStep(AccountRestoration.Complete));
+    } catch (e) {
+      window.log.debug(
+        `WIP: [recoverAndEnterDisplayName] AccountRestoration.DisplayName failed to set the display name. Error: ${e}`
+      );
+      dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
     }
-
-    await signInWithNewDisplayName({
-      displayName,
-      userRecoveryPhrase: recoveryPhrase,
-    });
-
-    dispatch(setAccountRestorationStep(AccountRestoration.Complete));
   };
 
   return (
@@ -98,13 +199,15 @@ export const RestoreAccount = () => {
                   autoFocus={true}
                   type="password"
                   placeholder={window.i18n('enterRecoveryPhrase')}
-                  value={recoveryPhrase}
+                  value={recoveryPassword}
                   onValueChanged={(seed: string) => {
-                    setRecoveryPhrase(seed);
-                    setRecoveryPhraseError(!seed ? window.i18n('recoveryPhraseEmpty') : undefined);
+                    setRecoveryPassword(seed);
+                    setRecoveryPasswordError(
+                      !seed ? window.i18n('recoveryPhraseEmpty') : undefined
+                    );
                   }}
                   onEnterPressed={recoverAndFetchDisplayName}
-                  error={recoveryPhraseError}
+                  error={recoveryPasswordError}
                   enableShowHide={true}
                   inputDataTestId="recovery-phrase-input"
                 />
@@ -113,7 +216,7 @@ export const RestoreAccount = () => {
                   buttonColor={SessionButtonColor.White}
                   onClick={recoverAndFetchDisplayName}
                   text={window.i18n('continue')}
-                  disabled={!(!!recoveryPhrase && !recoveryPhraseError)}
+                  disabled={!(!!recoveryPassword && !recoveryPasswordError)}
                   dataTestId="continue-session-button"
                 />
               </>
@@ -142,12 +245,8 @@ export const RestoreAccount = () => {
                   text={window.i18n('continue')}
                   disabled={
                     // TODO Fix that even if there is an error we only care if there is something in the input check Create Account
-                    !(
-                      !!recoveryPhrase &&
-                      !recoveryPhraseError &&
-                      !!displayName &&
-                      !displayNameError
-                    )
+                    !(!!recoveryPassword && !recoveryPasswordError) ||
+                    !(!!displayName && !displayNameError)
                   }
                   dataTestId="continue-session-button"
                 />
