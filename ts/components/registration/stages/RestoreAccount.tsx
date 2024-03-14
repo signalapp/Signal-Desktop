@@ -64,7 +64,6 @@ async function signInAndFetchDisplayName(
   let displayNameFromNetwork = '';
 
   try {
-    // throw new NotFoundError('Got a config message from network but without a displayName...');
     await resetRegistration();
     await signInByLinkingDevice(recoveryPassword, 'english', loadingAnimationCallback);
 
