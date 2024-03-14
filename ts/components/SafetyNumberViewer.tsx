@@ -17,9 +17,9 @@ export type PropsType = {
   generateSafetyNumber: (contact: ConversationType) => void;
   i18n: LocalizerType;
   onClose: () => void;
-  safetyNumber?: SafetyNumberType;
+  safetyNumber: SafetyNumberType | null;
   toggleVerified: (contact: ConversationType) => void;
-  verificationDisabled: boolean;
+  verificationDisabled: boolean | null;
 };
 
 export function SafetyNumberViewer({
@@ -108,7 +108,7 @@ export function SafetyNumberViewer({
 
       <div className="module-SafetyNumberViewer__button">
         <Button
-          disabled={verificationDisabled}
+          disabled={verificationDisabled ?? false}
           onClick={() => {
             toggleVerified(contact);
           }}

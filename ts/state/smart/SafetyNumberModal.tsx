@@ -29,8 +29,8 @@ export const SmartSafetyNumberModal = memo(function SmartSafetyNumberModal({
     <SafetyNumberModal
       i18n={i18n}
       contact={contact}
-      safetyNumber={contactSafetyNumber.safetyNumber}
-      verificationDisabled={contactSafetyNumber.verificationDisabled}
+      safetyNumber={contactSafetyNumber?.safetyNumber ?? null}
+      verificationDisabled={contactSafetyNumber?.verificationDisabled ?? null}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       generateSafetyNumber={generateSafetyNumber}
       toggleVerified={toggleVerified}
