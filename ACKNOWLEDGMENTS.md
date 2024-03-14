@@ -4343,7 +4343,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## attest 0.1.0, device-transfer 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-core 0.1.0, libsignal-ffi 0.40.1, libsignal-jni 0.40.1, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, libsignal-node 0.40.1, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, poksho 0.7.0, signal-crypto 0.1.0, signal-media 0.1.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, signal-pin 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
+## attest 0.1.0, device-transfer 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-core 0.1.0, libsignal-ffi 0.41.2, libsignal-jni 0.41.2, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, libsignal-node 0.41.2, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, poksho 0.7.0, signal-crypto 0.1.0, signal-media 0.1.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, signal-pin 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -6069,7 +6069,7 @@ express Statement of Purpose.
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. */
 ```
 
-## libloading 0.6.7, libloading 0.8.1
+## libloading 0.8.1
 
 ```
 Copyright © 2015, Simonas Kazlauskas
@@ -6479,7 +6479,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 1.3.2, bitflags 2.4.2, glob 0.3.1, log 0.4.20, num-derive 0.4.2, num-integer 0.1.45, num-traits 0.2.17, range-map 0.2.0, regex 1.10.3, regex-automata 0.4.4, regex-syntax 0.8.2, semver 0.9.0
+## bitflags 1.3.2, bitflags 2.4.2, glob 0.3.1, log 0.4.20, num-derive 0.4.2, num-integer 0.1.45, num-traits 0.2.17, range-map 0.2.0, regex 1.10.3, regex-automata 0.4.4, regex-syntax 0.8.2
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -6681,7 +6681,7 @@ THE SOFTWARE.
 
 ```
 
-## neon 0.10.1, neon-build 0.10.1, neon-macros 0.10.1, neon-runtime 0.10.1
+## neon-macros 1.0.0
 
 ```
 Copyright (c) 2015 David Herman
@@ -7274,37 +7274,6 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 Copyright (c) 2016 Murarth
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-```
-
-## semver-parser 0.7.0
-
-```
-Copyright (c) 2016 Steve Klabnik
 
 Permission is hereby granted, free of charge, to any
 person obtaining a copy of this software and associated
@@ -9459,6 +9428,33 @@ SOFTWARE.
 
 ```
 
+## strum 0.26.1, strum_macros 0.26.1
+
+```
+MIT License
+
+Copyright (c) 2019 Peter Glotfelty
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+
 ## fslock 0.2.1
 
 ```
@@ -9674,7 +9670,7 @@ SOFTWARE.
 
 ```
 
-## cesu8 1.1.0, curve25519-dalek-derive 0.1.0, half 1.8.2, pqcrypto-internals 0.2.5, pqcrypto-kyber 0.7.9, pqcrypto-kyber 0.8.0, pqcrypto-traits 0.3.5
+## cesu8 1.1.0, curve25519-dalek-derive 0.1.0, half 1.8.2, neon 1.0.0, pqcrypto-internals 0.2.5, pqcrypto-kyber 0.7.9, pqcrypto-kyber 0.8.0, pqcrypto-traits 0.3.5
 
 ```
 MIT License
@@ -9788,7 +9784,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## adler 1.0.2, anyhow 1.0.79, async-trait 0.1.77, dyn-clone 1.0.16, fastrand 2.0.1, home 0.5.9, itoa 1.0.10, linkme 0.3.22, linkme-impl 0.3.22, linux-raw-sys 0.4.13, minimal-lexical 0.2.1, num_enum 0.6.1, num_enum_derive 0.6.1, once_cell 1.19.0, paste 1.0.14, pin-project-lite 0.2.13, prettyplease 0.2.16, proc-macro-crate 1.3.1, proc-macro2 1.0.78, quote 1.0.35, rustc-hash 1.1.0, rustix 0.38.30, semver 1.0.21, serde 1.0.195, serde_derive 1.0.195, serde_json 1.0.111, syn 1.0.109, syn 2.0.48, syn-mid 0.5.4, syn-mid 0.6.0, thiserror 1.0.56, thiserror-impl 1.0.56, unicode-ident 1.0.12, utf-8 0.7.6
+## adler 1.0.2, anyhow 1.0.79, async-trait 0.1.77, dyn-clone 1.0.16, fastrand 2.0.1, home 0.5.9, itoa 1.0.10, linkme 0.3.22, linkme-impl 0.3.22, linux-raw-sys 0.4.13, minimal-lexical 0.2.1, num_enum 0.6.1, num_enum_derive 0.6.1, once_cell 1.19.0, paste 1.0.14, pin-project-lite 0.2.13, prettyplease 0.2.16, proc-macro-crate 1.3.1, proc-macro2 1.0.78, quote 1.0.35, rustc-hash 1.1.0, rustix 0.38.30, rustversion 1.0.14, semver 1.0.21, send_wrapper 0.6.0, serde 1.0.195, serde_derive 1.0.195, serde_json 1.0.111, syn 1.0.109, syn 2.0.48, syn-mid 0.6.0, thiserror 1.0.56, thiserror-impl 1.0.56, unicode-ident 1.0.12, utf-8 0.7.6
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -10589,6 +10585,10 @@ use or other dealings in these Data Files or Software without prior
 written authorization of the copyright holder.
 
 ```
+
+## Kyber Patent License
+
+<https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/selected-algos-2022/nist-pqc-license-summary-and-excerpts.pdf>
 
 # Acknowledgements for @signalapp/ringrtc
 

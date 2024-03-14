@@ -470,6 +470,10 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.TransportError) {
+    return <Toast onClose={hideToast}>{i18n('icu:TransportError')}</Toast>;
+  }
+
   if (toastType === ToastType.UnableToLoadAttachment) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:unableToLoadAttachment')}</Toast>

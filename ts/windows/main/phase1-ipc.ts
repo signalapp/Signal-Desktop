@@ -22,6 +22,8 @@ import type {
   WindowsNotificationData,
 } from '../../services/notifications';
 import { isAdhocCallingEnabled } from '../../util/isAdhocCallingEnabled';
+import { AggregatedStats } from '../../textsecure/WebsocketResources';
+import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager';
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;
@@ -171,6 +173,15 @@ if (config.ciMode !== 'full' && config.environment !== 'test') {
   window.eval = global.eval = () => null;
 }
 
+type NetworkStatistics = {
+  signalConnectionCount?: string;
+  unauthorizedRequestsCompared?: string;
+  unauthorizedHealthcheckFailures?: string;
+  unauthorizedHealthcheckBadStatus?: string;
+  unauthorizedUnexpectedReconnects?: string;
+  unauthorizedIpVersionMismatches?: string;
+};
+
 ipc.on('additional-log-data-request', async event => {
   const ourConversation = window.ConversationController.getOurConversation();
   const ourCapabilities = ourConversation
@@ -186,6 +197,33 @@ ipc.on('additional-log-data-request', async event => {
     statistics = {};
   }
 
+  let networkStatistics: NetworkStatistics = {
+    signalConnectionCount: formatCountForLogging(getSignalConnections().length),
+  };
+  const unauthorizedStats = AggregatedStats.loadOrCreateEmpty(
+    UNAUTHENTICATED_CHANNEL_NAME
+  );
+  if (unauthorizedStats.requestsCompared > 0) {
+    networkStatistics = {
+      ...networkStatistics,
+      unauthorizedRequestsCompared: formatCountForLogging(
+        unauthorizedStats.requestsCompared
+      ),
+      unauthorizedHealthcheckFailures: formatCountForLogging(
+        unauthorizedStats.healthcheckFailures
+      ),
+      unauthorizedHealthcheckBadStatus: formatCountForLogging(
+        unauthorizedStats.healthcheckBadStatus
+      ),
+      unauthorizedUnexpectedReconnects: formatCountForLogging(
+        unauthorizedStats.unexpectedReconnects
+      ),
+      unauthorizedIpVersionMismatches: formatCountForLogging(
+        unauthorizedStats.ipVersionMismatches
+      ),
+    };
+  }
+
   const ourAci = window.textsecure.storage.user.getAci();
   const ourPni = window.textsecure.storage.user.getPni();
 
@@ -198,9 +236,7 @@ ipc.on('additional-log-data-request', async event => {
     }),
     statistics: {
       ...statistics,
-      signalConnectionCount: formatCountForLogging(
-        getSignalConnections().length
-      ),
+      ...networkStatistics,
     },
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
