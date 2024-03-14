@@ -1,3 +1,4 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -22,53 +23,24 @@ import { sanitizeDisplayNameOrToast } from '../utils';
 
 let interval: NodeJS.Timeout;
 
-export const RestoreAccount = () => {
-  const step = useOnboardAccountRestorationStep();
+type UseRecoveryProgressEffectProps = {
+  step: AccountRestoration;
+  progress: number;
+  setProgress: (progress: number) => void;
+  displayName: string;
+  dispatch: Dispatch;
+};
 
-  const [recoveryPhrase, setRecoveryPhrase] = useState('');
-  const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
-
-  const [displayName, setDisplayName] = useState('');
-  const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
-
-  const [progress, setProgress] = useState(0);
-
-  const dispatch = useDispatch();
-
-  const recoverAndFetchDisplayName = async () => {
-    setProgress(0);
-    dispatch(setAccountRestorationStep(AccountRestoration.Loading));
-    try {
-      const displayNameFromNetwork = await signInAndFetchDisplayName({
-        userRecoveryPhrase: recoveryPhrase,
-        errorCallback: setRecoveryPhraseError,
-      });
-      setDisplayName(displayNameFromNetwork);
-      dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
-    } catch (e) {
-      if (e instanceof NotFoundError) {
-        window.log.debug(
-          `WIP: [continueYourSession] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually. Error: ${e}`
-        );
-        dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
-      } else {
-        dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
-      }
-    }
-  };
-
-  const recoverAndEnterDisplayName = async () => {
-    if (!(!!displayName && !displayNameError)) {
-      return;
-    }
-
-    await signInWithNewDisplayName({
-      displayName,
-      userRecoveryPhrase: recoveryPhrase,
-    });
-
-    dispatch(setAccountRestorationStep(AccountRestoration.Complete));
-  };
+/**
+ * Effect to handle the progress rate of the recovery loading animation
+ * @param step AccountRestoration the onboarding step we are currently on
+ * @param progress number the progress of the loading bar
+ * @param setProgress (progress: number) => void function to set the progress of the loading bar
+ * @param displayName string the display name of the user
+ * @param dispatch
+ */
+const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps) => {
+  const { step, progress, setProgress, displayName, dispatch } = props;
 
   useEffect(() => {
     if (step === AccountRestoration.Loading) {
@@ -135,7 +107,58 @@ export const RestoreAccount = () => {
     }
 
     return () => clearInterval(interval);
-  }, [dispatch, displayName, progress, step]);
+  }, [dispatch, displayName, progress, setProgress, step]);
+};
+
+export const RestoreAccount = () => {
+  const step = useOnboardAccountRestorationStep();
+
+  const [recoveryPhrase, setRecoveryPhrase] = useState('');
+  const [recoveryPhraseError, setRecoveryPhraseError] = useState(undefined as string | undefined);
+
+  const [displayName, setDisplayName] = useState('');
+  const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
+
+  const [progress, setProgress] = useState(0);
+
+  const dispatch = useDispatch();
+
+  useRecoveryProgressEffect({ step, progress, setProgress, displayName, dispatch });
+
+  const recoverAndFetchDisplayName = async () => {
+    setProgress(0);
+    dispatch(setAccountRestorationStep(AccountRestoration.Loading));
+    try {
+      const displayNameFromNetwork = await signInAndFetchDisplayName({
+        userRecoveryPhrase: recoveryPhrase,
+        errorCallback: setRecoveryPhraseError,
+      });
+      setDisplayName(displayNameFromNetwork);
+      dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        window.log.debug(
+          `WIP: [continueYourSession] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually. Error: ${e}`
+        );
+        dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
+      } else {
+        dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
+      }
+    }
+  };
+
+  const recoverAndEnterDisplayName = async () => {
+    if (!(!!displayName && !displayNameError)) {
+      return;
+    }
+
+    await signInWithNewDisplayName({
+      displayName,
+      userRecoveryPhrase: recoveryPhrase,
+    });
+
+    dispatch(setAccountRestorationStep(AccountRestoration.Complete));
+  };
 
   return (
     <OnboardContainer>
