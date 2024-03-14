@@ -25,6 +25,10 @@ export class Bytes {
     return Buffer.from(data).toString('base64');
   }
 
+  public toBase64url(data: Uint8Array): string {
+    return Buffer.from(data).toString('base64url');
+  }
+
   public toHex(data: Uint8Array): string {
     return Buffer.from(data).toString('hex');
   }

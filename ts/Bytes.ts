@@ -26,6 +26,10 @@ export function toBase64(data: Uint8Array): string {
   return bytes.toBase64(data);
 }
 
+export function toBase64url(data: Uint8Array): string {
+  return bytes.toBase64url(data);
+}
+
 export function toHex(data: Uint8Array): string {
   return bytes.toHex(data);
 }

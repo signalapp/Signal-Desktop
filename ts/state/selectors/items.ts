@@ -115,7 +115,7 @@ export const getUsernameLink = createSelector(
     const content = Bytes.concatenate([entropy, serverId]);
 
     return contactByEncryptedUsernameRoute
-      .toWebUrl({ encryptedUsername: Bytes.toBase64(content) })
+      .toWebUrl({ encryptedUsername: Bytes.toBase64url(content) })
       .toString();
   }
 );
