@@ -1211,7 +1211,7 @@ export type ServerKeysType = {
 };
 
 export type ChallengeType = {
-  readonly type: 'recaptcha';
+  readonly type: 'captcha';
   readonly token: string;
   readonly captcha: string;
 };
