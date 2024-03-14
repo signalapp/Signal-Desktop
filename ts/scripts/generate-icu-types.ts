@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import fs from 'fs/promises';
+import { createHash } from 'crypto';
 import path from 'path';
 import ts from 'typescript';
 import prettier from 'prettier';
@@ -236,11 +237,26 @@ async function main() {
     'build',
     'ICUMessageParams.d.ts'
   );
+
+  let oldHash: string | undefined;
+  try {
+    oldHash = createHash('sha512')
+      .update(await fs.readFile(destinationPath))
+      .digest('hex');
+  } catch {
+    // Ignore errors
+  }
+
   const prettierConfig = await prettier.resolveConfig(destinationPath);
   const output = prettier.format(unformattedOutput, {
     ...prettierConfig,
     filepath: destinationPath,
   });
+
+  const newHash = createHash('sha512').update(output).digest('hex');
+  if (oldHash === newHash) {
+    console.log('ICUMessageParams.d.ts is unchanged');
+  }
 
   await fs.writeFile(destinationPath, output);
 }
