@@ -2163,11 +2163,15 @@ export class ConversationModel extends window.Backbone
 
       if (didResponseChange) {
         if (response === messageRequestEnum.ACCEPT) {
-          drop(
-            this.addMessageRequestResponseEventMessage(
-              MessageRequestResponseEvent.ACCEPT
-            )
-          );
+          // Only add a message when the user took an explicit action to accept
+          // the message request on one of their devices
+          if (!viaStorageServiceSync) {
+            drop(
+              this.addMessageRequestResponseEventMessage(
+                MessageRequestResponseEvent.ACCEPT
+              )
+            );
+          }
         }
         if (
           response === messageRequestEnum.BLOCK ||
