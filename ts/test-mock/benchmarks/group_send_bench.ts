@@ -114,7 +114,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const item = leftPane
       .locator(
         '.module-conversation-list__item--contact-or-conversation' +
-          '>> text="You accepted the message request"'
+          `>> text="${LAST_MESSAGE}"`
       )
       .first();
     await item.click({ timeout: 2 * MINUTE });

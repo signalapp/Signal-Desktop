@@ -96,9 +96,9 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       // No messages
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 0, 'message count');
-
-      // No notifications
-      await expectSystemMessages(window, ['You accepted the message request']);
+      await expectSystemMessages(window, [
+        // none
+      ]);
     }
 
     debug('Send message to contactA');
@@ -165,10 +165,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 1, 'message count');
 
       // Only a PhoneNumberDiscovery notification
-      await expectSystemMessages(window, [
-        'You accepted the message request',
-        /.* belongs to ContactA/,
-      ]);
+      await expectSystemMessages(window, [/.* belongs to ContactA/]);
     }
   });
 
@@ -198,7 +195,9 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 0, 'message count');
 
-      await expectSystemMessages(window, ['You accepted the message request']);
+      await expectSystemMessages(window, [
+        // 'You accepted the message request'
+      ]);
     }
 
     debug('Send message to contactA');
@@ -266,7 +265,6 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
       // Two notifications - the safety number change and PhoneNumberDiscovery
       await expectSystemMessages(window, [
-        'You accepted the message request',
         /.* belongs to ContactA/,
         /Safety Number has changed/,
       ]);
@@ -299,7 +297,9 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 0, 'message count');
 
-      await expectSystemMessages(window, ['You accepted the message request']);
+      await expectSystemMessages(window, [
+        // none
+      ]);
     }
 
     debug('Send message to contactA');
@@ -397,7 +397,6 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
       // Three notifications - accepted, the safety number change and PhoneNumberDiscovery
       await expectSystemMessages(window, [
-        'You accepted the message request',
         /.* belongs to ContactA/,
         /Safety Number has changed/,
       ]);
@@ -429,9 +428,9 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       // No messages
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 0, 'message count');
-
-      // No notifications
-      await expectSystemMessages(window, ['You accepted the message request']);
+      await expectSystemMessages(window, [
+        // none
+      ]);
     }
 
     debug('Send message to contactA');
@@ -551,10 +550,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 2, 'message count');
 
       // Only a PhoneNumberDiscovery notification
-      await expectSystemMessages(window, [
-        'You accepted the message request',
-        /.* belongs to ContactA/,
-      ]);
+      await expectSystemMessages(window, [/.* belongs to ContactA/]);
     }
   });
 });

@@ -149,7 +149,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         assert.strictEqual(await messages.count(), 0, 'message count');
 
         await expectSystemMessages(window, [
-          'You accepted the message request',
+          // none
         ]);
       }
 
@@ -210,21 +210,16 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         if (withPNIMessage) {
           if (pniSignatureVerified) {
             await expectSystemMessages(window, [
-              'You accepted the message request',
-              'You accepted the message request',
               /Your message history with ACI Contact and their number .* has been merged\./,
             ]);
           } else {
             await expectSystemMessages(window, [
-              'You accepted the message request',
-              'You accepted the message request',
               /Your message history with ACI Contact and their number .* has been merged\./,
             ]);
           }
         } else {
           await expectSystemMessages(window, [
-            'You accepted the message request',
-            'You accepted the message request',
+            // none
           ]);
         }
       }

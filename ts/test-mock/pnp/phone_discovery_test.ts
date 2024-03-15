@@ -144,10 +144,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 1, 'message count');
 
-      await expectSystemMessages(window, [
-        'You accepted the message request',
-        /.* belongs to ACI Contact/,
-      ]);
+      await expectSystemMessages(window, [/.* belongs to ACI Contact/]);
     }
   });
 });
