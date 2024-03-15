@@ -32,6 +32,7 @@ import type {
 } from '../../types/Attachment';
 import { copyCdnFields } from '../../util/attachments';
 import { LONG_MESSAGE } from '../../types/MIME';
+import { LONG_ATTACHMENT_LIMIT } from '../../types/Message';
 import type { RawBodyRange } from '../../types/BodyRange';
 import type {
   EmbeddedContactWithHydratedAvatar,
@@ -60,7 +61,6 @@ import {
 } from '../../util/editHelpers';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 
-const LONG_ATTACHMENT_LIMIT = 2048;
 const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
 
 export async function sendNormalMessage(

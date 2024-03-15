@@ -2481,6 +2481,7 @@ ipc.on('get-config', async event => {
     ciMode,
     // Should be already computed and cached at this point
     dnsFallback: await getDNSFallback(),
+    ciBackupPath: config.get<string | null>('ciBackupPath') || undefined,
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),

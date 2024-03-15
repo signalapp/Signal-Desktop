@@ -42,6 +42,7 @@ export const rendererConfigSchema = z.object({
   crashDumpsPath: configRequiredStringSchema,
   ciMode: z.enum(['full', 'benchmark']).or(z.literal(false)),
   dnsFallback: DNSFallbackSchema,
+  ciBackupPath: configOptionalStringSchema,
   environment: environmentSchema,
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,

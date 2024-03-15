@@ -88,7 +88,7 @@ export function getConversation(model: ConversationModel): ConversationType {
   const ourAci = window.textsecure.storage.user.getAci();
   const ourPni = window.textsecure.storage.user.getPni();
 
-  const color = migrateColor(attributes.color);
+  const color = migrateColor(attributes.serviceId, attributes.color);
 
   const { draftTimestamp, draftEditMessage, timestamp } = attributes;
   const draftPreview = getDraftPreview(attributes);

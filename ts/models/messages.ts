@@ -76,13 +76,11 @@ import {
   hasErrors,
   isCallHistory,
   isChatSessionRefreshed,
-  isContactRemovedNotification,
   isDeliveryIssue,
   isEndSession,
   isExpirationTimerUpdate,
   isGiftBadge,
   isGroupUpdate,
-  isGroupV1Migration,
   isGroupV2Change,
   isIncoming,
   isKeyChange,
@@ -271,29 +269,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // the message was received. If this field doesn't exist on the message
     // then we can trust received_at.
     return Number(this.get('received_at_ms') || this.get('received_at'));
-  }
-
-  isNormalBubble(): boolean {
-    const { attributes } = this;
-
-    return (
-      !isCallHistory(attributes) &&
-      !isChatSessionRefreshed(attributes) &&
-      !isContactRemovedNotification(attributes) &&
-      !isConversationMerge(attributes) &&
-      !isEndSession(attributes) &&
-      !isExpirationTimerUpdate(attributes) &&
-      !isGroupUpdate(attributes) &&
-      !isGroupV1Migration(attributes) &&
-      !isGroupV2Change(attributes) &&
-      !isKeyChange(attributes) &&
-      !isPhoneNumberDiscovery(attributes) &&
-      !isTitleTransitionNotification(attributes) &&
-      !isProfileChange(attributes) &&
-      !isUniversalTimerNotification(attributes) &&
-      !isUnsupportedMessage(attributes) &&
-      !isVerifiedChange(attributes)
-    );
   }
 
   async hydrateStoryContext(

@@ -70,7 +70,7 @@ import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentO
 import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
-import { canReply } from '../selectors/message';
+import { canReply, isNormalBubble } from '../selectors/message';
 import { getContactId } from '../../messages/helpers';
 import { getConversationSelector } from '../selectors/conversations';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
@@ -780,7 +780,7 @@ export function setQuoteByMessageId(
       return;
     }
 
-    if (message && !message.isNormalBubble()) {
+    if (message && !isNormalBubble(message.attributes)) {
       return;
     }
 

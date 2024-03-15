@@ -174,7 +174,7 @@ message AccountRecord {
   optional bool readReceipts = 6;
   optional bool sealedSenderIndicators = 7;
   optional bool typingIndicators = 8;
-  optional bool proxiedLinkPreviews = 9;
+  reserved 9; // proxiedLinkPreviews
   optional bool noteToSelfMarkedUnread = 10;
   optional bool linkPreviews = 11;
   optional PhoneNumberSharingMode phoneNumberSharingMode = 12;

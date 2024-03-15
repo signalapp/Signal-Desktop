@@ -20,6 +20,7 @@ import type AccountManager from './textsecure/AccountManager';
 import type { WebAPIConnectType } from './textsecure/WebAPI';
 import type { CallingClass } from './services/calling';
 import type * as StorageService from './services/storage';
+import type { BackupsService } from './services/backups';
 import type * as Groups from './groups';
 import type * as Crypto from './Crypto';
 import type * as Curve from './Curve';
@@ -141,6 +142,7 @@ export type SignalCoreType = {
   ScreenShareWindowProps?: ScreenShareWindowPropsType;
   Services: {
     calling: CallingClass;
+    backups: BackupsService;
     initializeGroupCredentialFetcher: () => Promise<void>;
     initializeNetworkObserver: (network: ReduxActions['network']) => void;
     initializeUpdateListener: (updates: ReduxActions['updates']) => void;

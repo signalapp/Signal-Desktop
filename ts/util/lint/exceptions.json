@@ -2875,20 +2875,6 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CallScreen.tsx",
-    "line": "  const reactButtonRef = React.useRef<null | HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-01-16T22:59:06.336Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
-    "line": "  const reactionPickerContainerRef = React.useRef<null | HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-01-16T22:59:06.336Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallScreen.tsx",
     "line": "  const burstRegionRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-12-21T11:13:56.623Z",
@@ -2901,6 +2887,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-06T00:59:20.678Z",
     "reasonDetail": "Recent reactions shown for reactions burst"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const reactButtonRef = React.useRef<null | HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-16T22:59:06.336Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "  const reactionPickerContainerRef = React.useRef<null | HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-01-16T22:59:06.336Z"
   },
   {
     "rule": "React-useRef",
@@ -3864,6 +3864,13 @@
     "line": "  const wasAnimatedRef = useRef(wasAnimated);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-20T22:14:52.008Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/state/smart/InstallScreen.tsx",
+    "line": "  const chooseBackupFilePromiseWrapperRef = useRef(",
+    "reasonCategory": "testCode",
+    "updated": "2023-11-16T23:39:21.322Z"
   },
   {
     "rule": "React-useRef",

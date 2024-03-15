@@ -4970,7 +4970,7 @@ export class ConversationModel extends window.Backbone
   }
 
   getColor(): AvatarColorType {
-    return migrateColor(this.get('color'));
+    return migrateColor(this.getServiceId(), this.get('color'));
   }
 
   getConversationColor(): ConversationColorType | undefined {

@@ -989,6 +989,27 @@ export function getPropsForBubble(
   };
 }
 
+export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
+  return (
+    !isCallHistory(message) &&
+    !isChatSessionRefreshed(message) &&
+    !isContactRemovedNotification(message) &&
+    !isConversationMerge(message) &&
+    !isEndSession(message) &&
+    !isExpirationTimerUpdate(message) &&
+    !isGroupUpdate(message) &&
+    !isGroupV1Migration(message) &&
+    !isGroupV2Change(message) &&
+    !isKeyChange(message) &&
+    !isPhoneNumberDiscovery(message) &&
+    !isTitleTransitionNotification(message) &&
+    !isProfileChange(message) &&
+    !isUniversalTimerNotification(message) &&
+    !isUnsupportedMessage(message) &&
+    !isVerifiedChange(message)
+  );
+}
+
 function getPropsForPaymentEvent(
   message: MessageAttributesWithPaymentEvent,
   { conversationSelector }: GetPropsForBubbleOptions

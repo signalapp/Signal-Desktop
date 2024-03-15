@@ -25,6 +25,7 @@ import { MAX_DEVICE_NAME_LENGTH } from '../../components/installScreen/InstallSc
 import { WidthBreakpoint } from '../../components/_util';
 import { HTTPError } from '../../textsecure/Errors';
 import { isRecord } from '../../util/isRecord';
+import type { ConfirmNumberResultType } from '../../textsecure/AccountManager';
 import * as Errors from '../../types/errors';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
 import OS from '../../util/os/osMain';
@@ -32,6 +33,7 @@ import { SECOND } from '../../util/durations';
 import { BackOff } from '../../util/BackOff';
 import { drop } from '../../util/drop';
 import { SmartToastManager } from './ToastManager';
+import { fileToBytes } from '../../util/fileToBytes';
 
 type PropsType = ComponentProps<typeof InstallScreen>;
 
@@ -47,6 +49,7 @@ type StateType =
   | {
       step: InstallScreenStep.ChoosingDeviceName;
       deviceName: string;
+      backupFile?: File;
     }
   | {
       step: InstallScreenStep.LinkInProgress;
@@ -92,6 +95,9 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
   const hasExpired = useSelector(hasExpiredSelector);
 
   const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());
+  const chooseBackupFilePromiseWrapperRef = useRef(
+    explodePromise<File | undefined>()
+  );
 
   const [state, setState] = useState<StateType>(INITIAL_STATE);
   const [retryCounter, setRetryCounter] = useState(0);
@@ -146,6 +152,21 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
     [setState]
   );
 
+  const setBackupFile = useCallback(
+    (backupFile: File) => {
+      setState(currentState => {
+        if (currentState.step !== InstallScreenStep.ChoosingDeviceName) {
+          return currentState;
+        }
+        return {
+          ...currentState,
+          backupFile,
+        };
+      });
+    },
+    [setState]
+  );
+
   const onSubmitDeviceName = useCallback(() => {
     if (state.step !== InstallScreenStep.ChoosingDeviceName) {
       return;
@@ -161,6 +182,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
       deviceName = i18n('icu:Install__choose-device-name__placeholder');
     }
     chooseDeviceNamePromiseWrapperRef.current.resolve(deviceName);
+    chooseBackupFilePromiseWrapperRef.current.resolve(state.backupFile);
 
     setState({ step: InstallScreenStep.LinkInProgress });
   }, [state, i18n]);
@@ -180,19 +202,23 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
       setProvisioningUrl(value);
     };
 
-    const confirmNumber = async (): Promise<string> => {
+    const confirmNumber = async (): Promise<ConfirmNumberResultType> => {
       if (hasCleanedUp) {
         throw new Error('Cannot confirm number; the component was unmounted');
       }
       onQrCodeScanned();
 
+      let deviceName: string;
+      let backupFileData: Uint8Array | undefined;
       if (window.SignalCI) {
-        chooseDeviceNamePromiseWrapperRef.current.resolve(
-          window.SignalCI.deviceName
-        );
-      }
+        ({ deviceName, backupData: backupFileData } = window.SignalCI);
+      } else {
+        deviceName = await chooseDeviceNamePromiseWrapperRef.current.promise;
+        const backupFile = await chooseBackupFilePromiseWrapperRef.current
+          .promise;
 
-      const result = await chooseDeviceNamePromiseWrapperRef.current.promise;
+        backupFileData = backupFile ? await fileToBytes(backupFile) : undefined;
+      }
 
       if (hasCleanedUp) {
         throw new Error('Cannot confirm number; the component was unmounted');
@@ -217,7 +243,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
         throw new Error('Cannot confirm number; the component was unmounted');
       }
 
-      return result;
+      return { deviceName, backupFile: backupFileData };
     };
 
     async function getQRCode(): Promise<void> {
@@ -314,6 +340,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
           i18n,
           deviceName: state.deviceName,
           setDeviceName,
+          setBackupFile,
           onSubmit: onSubmitDeviceName,
         },
       };

@@ -395,15 +395,30 @@ export type GetConversationRangeCenteredOnMessageResultType<Message> =
     metrics: ConversationMetricsType;
   }>;
 
-export type MessageAttachmentsCursorType = Readonly<{
+export type MessageCursorType = Readonly<{
   done: boolean;
   runId: string;
   count: number;
 }>;
 
+export type MessageAttachmentsCursorType = MessageCursorType &
+  Readonly<{
+    __message_attachments_cursor: never;
+  }>;
+
 export type GetKnownMessageAttachmentsResultType = Readonly<{
   cursor: MessageAttachmentsCursorType;
   attachments: ReadonlyArray<string>;
+}>;
+
+export type PageMessagesCursorType = MessageCursorType &
+  Readonly<{
+    __page_messages_cursor: never;
+  }>;
+
+export type PageMessagesResultType = Readonly<{
+  cursor: PageMessagesCursorType;
+  messages: ReadonlyArray<MessageAttributesType>;
 }>;
 
 export type GetAllStoriesResultType = ReadonlyArray<
@@ -427,6 +442,9 @@ export type EditedMessageType = Readonly<{
 
 export type DataInterface = {
   close: () => Promise<void>;
+  pauseWriteAccess(): Promise<void>;
+  resumeWriteAccess(): Promise<void>;
+
   removeDB: () => Promise<void>;
   removeIndexedDBFiles: () => Promise<void>;
 
@@ -541,6 +559,10 @@ export type DataInterface = {
   ) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
+  pageMessages: (
+    cursor?: PageMessagesCursorType
+  ) => Promise<PageMessagesResultType>;
+  finishPageMessages: (cursor: PageMessagesCursorType) => Promise<void>;
   getTotalUnreadForConversation: (
     conversationId: string,
     options: {

@@ -3,11 +3,15 @@
 
 import assert from 'assert';
 import fs from 'fs/promises';
+import crypto from 'crypto';
 import path from 'path';
 import os from 'os';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
+import type { Page } from 'playwright';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
 import {
@@ -18,6 +22,7 @@ import {
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
 import { drop } from '../util/drop';
+import type { RendererConfigType } from '../types/RendererConfig';
 import { App } from './playwright';
 import { CONTACT_COUNT } from './benchmarks/fixtures';
 
@@ -93,7 +98,6 @@ for (const suffix of CONTACT_SUFFIXES) {
 const MAX_CONTACTS = CONTACT_NAMES.length;
 
 export type BootstrapOptions = Readonly<{
-  extraConfig?: Record<string, unknown>;
   benchmark?: boolean;
 
   linkedDevices?: number;
@@ -104,7 +108,7 @@ export type BootstrapOptions = Readonly<{
   contactPreKeyCount?: number;
 }>;
 
-type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
+type BootstrapInternalOptions = BootstrapOptions &
   Readonly<{
     benchmark: boolean;
     linkedDevices: number;
@@ -113,6 +117,10 @@ type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
     unknownContactCount: number;
     contactNames: ReadonlyArray<string>;
   }>;
+
+function sanitizePathComponent(component: string): string {
+  return normalizePath(component.replace(/[^a-z]+/gi, '-'));
+}
 
 //
 // Bootstrap is a class that prepares mock server and desktop for running
@@ -149,8 +157,10 @@ export class Bootstrap {
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
+  private backupPath?: string;
   private timestamp: number = Date.now() - durations.WEEK;
   private lastApp?: App;
+  private readonly randomId = crypto.randomBytes(8).toString('hex');
 
   constructor(options: BootstrapOptions = {}) {
     this.server = new Server({
@@ -224,6 +234,9 @@ export class Bootstrap {
     });
 
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
+    this.backupPath = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'mock-signal-backup-')
+    );
 
     debug('setting storage path=%j', this.storagePath);
   }
@@ -244,6 +257,26 @@ export class Bootstrap {
     return path.join(this.storagePath, 'logs');
   }
 
+  public getBackupPath(fileName: string): string {
+    assert(
+      this.backupPath !== undefined,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+
+    return path.join(this.backupPath, fileName);
+  }
+
+  public async unlink(): Promise<void> {
+    assert(
+      this.storagePath !== undefined,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+
+    // Note that backupPath must remain unchanged!
+    await fs.rm(this.storagePath, { recursive: true });
+    this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
+  }
+
   public async teardown(): Promise<void> {
     debug('tearing down');
 
@@ -252,6 +285,9 @@ export class Bootstrap {
         this.storagePath
           ? fs.rm(this.storagePath, { recursive: true })
           : Promise.resolve(),
+        this.backupPath
+          ? fs.rm(this.backupPath, { recursive: true })
+          : Promise.resolve(),
         this.server.close(),
         this.lastApp?.close(),
       ]),
@@ -259,10 +295,10 @@ export class Bootstrap {
     ]);
   }
 
-  public async link(): Promise<App> {
+  public async link(extraConfig?: Partial<RendererConfigType>): Promise<App> {
     debug('linking');
 
-    const app = await this.startApp();
+    const app = await this.startApp(extraConfig);
 
     const provision = await this.server.waitForProvision();
 
@@ -302,7 +338,9 @@ export class Bootstrap {
     await app.close();
   }
 
-  public async startApp(): Promise<App> {
+  public async startApp(
+    extraConfig?: Partial<RendererConfigType>
+  ): Promise<App> {
     assert(
       this.storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
@@ -311,10 +349,10 @@ export class Bootstrap {
     debug('starting the app');
 
     const { port } = this.server.address();
-    const config = await this.generateConfig(port);
+    const config = await this.generateConfig(port, extraConfig);
 
     let startAttempts = 0;
-    const MAX_ATTEMPTS = 5;
+    const MAX_ATTEMPTS = 4;
     let app: App | undefined;
     while (!app) {
       startAttempts += 1;
@@ -360,7 +398,7 @@ export class Bootstrap {
   }
 
   public async maybeSaveLogs(
-    test?: Mocha.Test,
+    test?: Mocha.Runnable,
     app: App | undefined = this.lastApp
   ): Promise<void> {
     const { FORCE_ARTIFACT_SAVE } = process.env;
@@ -371,29 +409,18 @@ export class Bootstrap {
 
   public async saveLogs(
     app: App | undefined = this.lastApp,
-    pathPrefix?: string
+    testName?: string
   ): Promise<void> {
-    const { ARTIFACTS_DIR } = process.env;
-    if (!ARTIFACTS_DIR) {
-      // eslint-disable-next-line no-console
-      console.error('Not saving logs. Please set ARTIFACTS_DIR env variable');
+    const outDir = await this.getArtifactsDir(testName);
+    if (outDir == null) {
       return;
     }
-
-    await fs.mkdir(ARTIFACTS_DIR, { recursive: true });
-
-    const normalizedPrefix = pathPrefix
-      ? `-${normalizePath(pathPrefix.replace(/[^a-z]+/gi, '-'))}-`
-      : '';
-    const outDir = await fs.mkdtemp(
-      path.join(ARTIFACTS_DIR, `logs-${normalizedPrefix}`)
-    );
 
     // eslint-disable-next-line no-console
     console.error(`Saving logs to ${outDir}`);
 
     const { logsDir } = this;
-    await fs.rename(logsDir, outDir);
+    await fs.rename(logsDir, path.join(outDir, 'logs'));
 
     const page = await app?.getWindow();
     if (process.env.TRACING) {
@@ -406,6 +433,77 @@ export class Bootstrap {
       const screenshot = await window.screenshot();
       await fs.writeFile(path.join(outDir, 'screenshot.png'), screenshot);
     }
+  }
+
+  public async createScreenshotComparator(
+    app: App,
+    callback: (
+      page: Page,
+      snapshot: (name: string) => Promise<void>
+    ) => Promise<void>,
+    test?: Mocha.Runnable
+  ): Promise<(app: App) => Promise<void>> {
+    const snapshots = new Array<{ name: string; data: Buffer }>();
+
+    const window = await app.getWindow();
+    await callback(window, async (name: string) => {
+      debug('creating screenshot');
+      snapshots.push({ name, data: await window.screenshot() });
+    });
+
+    let index = 0;
+
+    return async (anotherApp: App): Promise<void> => {
+      const anotherWindow = await anotherApp.getWindow();
+      await callback(anotherWindow, async (name: string) => {
+        index += 1;
+
+        const before = snapshots.shift();
+        assert(before != null, 'No previous snapshot');
+        assert.strictEqual(before.name, name, 'Wrong snapshot order');
+
+        const after = await anotherWindow.screenshot();
+
+        const beforePng = PNG.sync.read(before.data);
+        const afterPng = PNG.sync.read(after);
+
+        const { width, height } = beforePng;
+        const diffPng = new PNG({ width, height });
+
+        const numPixels = pixelmatch(
+          beforePng.data,
+          afterPng.data,
+          diffPng.data,
+          width,
+          height,
+          {}
+        );
+
+        if (numPixels === 0) {
+          debug('no screenshot difference');
+          return;
+        }
+
+        debug('screenshot difference', numPixels);
+
+        const outDir = await this.getArtifactsDir(test?.fullTitle());
+        if (outDir != null) {
+          debug('saving screenshots and diff');
+          const prefix = `${index}-${sanitizePathComponent(name)}`;
+          await fs.writeFile(
+            path.join(outDir, `${prefix}-before.png`),
+            before.data
+          );
+          await fs.writeFile(path.join(outDir, `${prefix}-after.png`), after);
+          await fs.writeFile(
+            path.join(outDir, `${prefix}-diff.png`),
+            PNG.sync.write(diffPng)
+          );
+        }
+
+        assert.strictEqual(numPixels, 0, 'Expected no pixels to be different');
+      });
+    };
   }
 
   //
@@ -463,6 +561,28 @@ export class Bootstrap {
   // Private
   //
 
+  private async getArtifactsDir(
+    testName?: string
+  ): Promise<string | undefined> {
+    const { ARTIFACTS_DIR } = process.env;
+    if (!ARTIFACTS_DIR) {
+      // eslint-disable-next-line no-console
+      console.error(
+        'Not saving artifacts. Please set ARTIFACTS_DIR env variable'
+      );
+      return undefined;
+    }
+
+    const normalizedPath = testName
+      ? `${this.randomId}-${sanitizePathComponent(testName)}`
+      : this.randomId;
+
+    const outDir = path.join(ARTIFACTS_DIR, normalizedPath);
+    await fs.mkdir(outDir, { recursive: true });
+
+    return outDir;
+  }
+
   private static async runBenchmark(
     fn: (bootstrap: Bootstrap) => Promise<void>,
     timeout: number
@@ -486,7 +606,10 @@ export class Bootstrap {
     }
   }
 
-  private async generateConfig(port: number): Promise<string> {
+  private async generateConfig(
+    port: number,
+    extraConfig?: Partial<RendererConfigType>
+  ): Promise<string> {
     const url = `https://127.0.0.1:${port}`;
     return JSON.stringify({
       ...(await loadCertificates()),
@@ -510,7 +633,7 @@ export class Bootstrap {
       directoryCDSIMRENCLAVE:
         '51133fecb3fa18aaf0c8f64cb763656d3272d9faaacdb26ae7df082e414fb142',
 
-      ...this.options.extraConfig,
+      ...extraConfig,
     });
   }
 }
