@@ -54,7 +54,7 @@ import type {
   ConversationChangedActionType,
   ConversationRemovedActionType,
 } from './conversations';
-import { updateLastMessage } from './conversations';
+import { getConversationCallMode, updateLastMessage } from './conversations';
 import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { waitForOnline } from '../../util/waitForOnline';
@@ -75,6 +75,7 @@ import {
 import type { ShowErrorModalActionType } from './globalModals';
 import { SHOW_ERROR_MODAL } from './globalModals';
 import { ButtonVariant } from '../../components/Button';
+import { getConversationIdForLogging } from '../../util/idForLogging';
 
 // State
 
@@ -420,12 +421,26 @@ const doGroupCallPeek = ({
   >;
   getState: () => RootStateType;
 }) => {
-  const conversation = getOwn(
-    getState().conversations.conversationLookup,
-    conversationId
-  );
-  if (!conversation || !isGroupOrAdhocCallMode(callMode)) {
-    return;
+  let logId: string;
+  if (callMode === CallMode.Group) {
+    const conversation = getOwn(
+      getState().conversations.conversationLookup,
+      conversationId
+    );
+    if (
+      !conversation ||
+      getConversationCallMode(conversation) !== CallMode.Group
+    ) {
+      return;
+    }
+
+    logId = getConversationIdForLogging(conversation);
+  } else {
+    const callLink = getOwn(getState().calling.callLinks, conversationId);
+    if (!callLink) {
+      return;
+    }
+    logId = `adhoc(${conversationId})`;
   }
 
   let queue = peekQueueByConversation.get(conversationId);
@@ -469,6 +484,7 @@ const doGroupCallPeek = ({
       if (callMode === CallMode.Group) {
         peekInfo = await calling.peekGroupCall(conversationId);
       } else {
+        // For adhoc calls, conversationId is actually a roomId.
         const rootKey: string | undefined = getOwn(
           state.calling.callLinks,
           conversationId
@@ -484,9 +500,7 @@ const doGroupCallPeek = ({
       return;
     }
 
-    log.info(
-      `doGroupCallPeek/groupv2(${conversation.groupId}): Found ${peekInfo.deviceCount} devices`
-    );
+    log.info(`doGroupCallPeek/${logId}: Found ${peekInfo.deviceCount} devices`);
 
     if (callMode === CallMode.Group) {
       const joinState = isGroupOrAdhocCallState(existingCall)
@@ -505,6 +519,8 @@ const doGroupCallPeek = ({
           Errors.toLogFormat(error)
         );
       }
+
+      dispatch(updateLastMessage(conversationId));
     }
 
     const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(peekInfo);
@@ -517,8 +533,6 @@ const doGroupCallPeek = ({
         peekInfo: formattedPeekInfo,
       },
     });
-
-    dispatch(updateLastMessage(conversationId));
   });
 };
 
@@ -2611,13 +2625,16 @@ export function reducer(
 
   if (action.type === PEEK_GROUP_CALL_FULFILLED) {
     const { callMode, conversationId, peekInfo } = action.payload;
+    if (!isGroupOrAdhocCallMode(callMode)) {
+      return state;
+    }
 
     const existingCall: GroupCallStateType = getGroupCall(
       conversationId,
       state,
       callMode
     ) || {
-      callMode: CallMode.Group,
+      callMode,
       conversationId,
       connectionState: GroupCallConnectionState.NotConnected,
       joinState: GroupCallJoinState.NotJoined,
