@@ -3,7 +3,6 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import type { StateType } from '../reducer';
 import { ConversationPanel } from './ConversationPanel';
 import { ConversationView } from '../../components/conversation/ConversationView';
 import { SmartCompositionArea } from './CompositionArea';
@@ -17,6 +16,7 @@ import {
 } from '../selectors/conversations';
 import { useComposerActions } from '../ducks/composer';
 import { useConversationsActions } from '../ducks/conversations';
+import { isShowingAnyModal } from '../selectors/globalModals';
 
 function renderCompositionArea(conversationId: string) {
   return <SmartCompositionArea id={conversationId} />;
@@ -48,19 +48,10 @@ export const SmartConversationView = memo(
 
     const { processAttachments } = useComposerActions();
 
-    const hasOpenModal = useSelector((state: StateType) => {
-      return (
-        state.globalModals.forwardMessagesProps != null ||
-        state.globalModals.deleteMessagesProps != null ||
-        state.globalModals.hasConfirmationModal
-      );
-    });
-
-    const shouldHideConversationView = useSelector((state: StateType) => {
-      const activePanel = getActivePanel(state);
-      const isAnimating = getIsPanelAnimating(state);
-      return activePanel && !isAnimating;
-    });
+    const hasOpenModal = useSelector(isShowingAnyModal);
+    const activePanel = useSelector(getActivePanel);
+    const isPanelAnimating = useSelector(getIsPanelAnimating);
+    const shouldHideConversationView = activePanel && !isPanelAnimating;
 
     const onExitSelectMode = useCallback(() => {
       toggleSelectMode(false);

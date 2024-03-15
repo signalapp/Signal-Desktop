@@ -3,8 +3,7 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { SafetyNumberModal } from '../../components/SafetyNumberModal';
-import type { StateType } from '../reducer';
-import { getContactSafetyNumber } from '../selectors/safetyNumber';
+import { getContactSafetyNumberSelector } from '../selectors/safetyNumber';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 import { useSafetyNumberActions } from '../ducks/safetyNumber';
@@ -20,9 +19,10 @@ export const SmartSafetyNumberModal = memo(function SmartSafetyNumberModal({
   const i18n = useSelector(getIntl);
   const conversationSelector = useSelector(getConversationSelector);
   const contact = conversationSelector(contactID);
-  const contactSafetyNumber = useSelector((state: StateType) => {
-    return getContactSafetyNumber(state, { contactID });
-  });
+  const contactSafetyNumberSelector = useSelector(
+    getContactSafetyNumberSelector
+  );
+  const contactSafetyNumber = contactSafetyNumberSelector(contactID);
   const { generateSafetyNumber, toggleVerified } = useSafetyNumberActions();
   const { toggleSafetyNumberModal } = useGlobalModalActions();
   return (

@@ -5,7 +5,6 @@ import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { pick } from 'lodash';
 import type { ConversationType } from '../ducks/conversations';
-import type { StateType } from '../reducer';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
@@ -19,14 +18,13 @@ import {
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { CallMode } from '../../types/Calling';
-import { getActiveCall, useCallingActions } from '../ducks/calling';
+import { useCallingActions } from '../ducks/calling';
 import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers';
 import {
   getConversationCallMode,
   useConversationsActions,
 } from '../ducks/conversations';
 import { getHasStoriesSelector } from '../selectors/stories2';
-import { getOwn } from '../../util/getOwn';
 import { getUserACI, getIntl, getTheme } from '../selectors/user';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -39,20 +37,21 @@ import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall';
 import { useContactNameData } from '../../components/conversation/ContactName';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
+import { getActiveCallState, getCallSelector } from '../selectors/calling';
 
 export type OwnProps = {
   id: string;
 };
 
-const getOutgoingCallButtonStyle = (
-  conversation: ConversationType,
-  state: StateType
+const useOutgoingCallButtonStyle = (
+  conversation: ConversationType
 ): OutgoingCallButtonStyle => {
-  const { calling } = state;
-  const ourAci = getUserACI(state);
-  strictAssert(ourAci, 'getOutgoingCallButtonStyle missing our uuid');
+  const ourAci = useSelector(getUserACI);
+  const activeCall = useSelector(getActiveCallState);
+  const callSelector = useSelector(getCallSelector);
+  strictAssert(ourAci, 'useOutgoingCallButtonStyle missing our uuid');
 
-  if (getActiveCall(calling)) {
+  if (activeCall != null) {
     return OutgoingCallButtonStyle.None;
   }
 
@@ -64,7 +63,7 @@ const getOutgoingCallButtonStyle = (
       return OutgoingCallButtonStyle.Both;
     case CallMode.Group:
     case CallMode.Adhoc: {
-      const call = getOwn(calling.callsByConversation, conversation.id);
+      const call = callSelector(conversation.id);
       if (
         isGroupOrAdhocCallState(call) &&
         isAnybodyElseInGroupCall(call.peekInfo, ourAci)
@@ -94,9 +93,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const badge = badgeSelector(conversation.badges);
   const i18n = useSelector(getIntl);
   const hasPanelShowing = useSelector(getHasPanelOpen);
-  const outgoingCallButtonStyle = useSelector((state: StateType) => {
-    return getOutgoingCallButtonStyle(conversation, state);
-  });
+  const outgoingCallButtonStyle = useOutgoingCallButtonStyle(conversation);
   const theme = useSelector(getTheme);
 
   const {

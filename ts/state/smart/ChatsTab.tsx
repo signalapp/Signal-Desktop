@@ -13,7 +13,6 @@ import { usePrevious } from '../../hooks/usePrevious';
 import { TargetedMessageSource } from '../ducks/conversationsEnums';
 import { useConversationsActions } from '../ducks/conversations';
 import { useToastActions } from '../ducks/toast';
-import type { StateType } from '../reducer';
 import { strictAssert } from '../../util/assert';
 import { ToastType } from '../../types/Toast';
 import { getNavTabsCollapsed } from '../selectors/items';
@@ -21,6 +20,11 @@ import { useItemsActions } from '../ducks/items';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getOtherTabsUnreadStats } from '../selectors/nav';
+import {
+  getSelectedConversationId,
+  getTargetedMessage,
+  getTargetedMessageSource,
+} from '../selectors/conversations';
 
 function renderConversationView() {
   return <SmartConversationView />;
@@ -40,9 +44,9 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
-
-  const { selectedConversationId, targetedMessage, targetedMessageSource } =
-    useSelector((state: StateType) => state.conversations);
+  const selectedConversationId = useSelector(getSelectedConversationId);
+  const targetedMessage = useSelector(getTargetedMessage);
+  const targetedMessageSource = useSelector(getTargetedMessageSource);
 
   const {
     onConversationClosed,
@@ -60,14 +64,14 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     if (selectedConversationId !== lastOpenedConversationId.current) {
       lastOpenedConversationId.current = selectedConversationId;
       if (selectedConversationId) {
-        onConversationOpened(selectedConversationId, targetedMessage);
+        onConversationOpened(selectedConversationId, targetedMessage?.id);
       }
     } else if (
       selectedConversationId &&
       targetedMessage &&
       targetedMessageSource !== TargetedMessageSource.Focus
     ) {
-      scrollToMessage(selectedConversationId, targetedMessage);
+      scrollToMessage(selectedConversationId, targetedMessage?.id);
     }
   }, [onConversationOpened, selectedConversationId, scrollToMessage, targetedMessage, targetedMessageSource]);
 

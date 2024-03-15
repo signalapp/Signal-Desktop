@@ -3,7 +3,6 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { StateType } from '../reducer';
 import { Inbox } from '../../components/Inbox';
 import { getIntl } from '../selectors/user';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
@@ -15,6 +14,11 @@ import { SmartCallsTab } from './CallsTab';
 import { useItemsActions } from '../ducks/items';
 import { getNavTabsCollapsed } from '../selectors/items';
 import { SmartChatsTab } from './ChatsTab';
+import { getHasInitialLoadCompleted } from '../selectors/app';
+import {
+  getInboxEnvelopeTimestamp,
+  getInboxFirstEnvelopeTimestamp,
+} from '../selectors/inbox';
 
 function renderChatsTab() {
   return <SmartChatsTab />;
@@ -41,17 +45,11 @@ export const SmartInbox = memo(function SmartInbox(): JSX.Element {
   const isCustomizingPreferredReactions = useSelector(
     getIsCustomizingPreferredReactions
   );
-  const envelopeTimestamp = useSelector(
-    (state: StateType) => state.inbox.envelopeTimestamp
-  );
-  const firstEnvelopeTimestamp = useSelector(
-    (state: StateType) => state.inbox.firstEnvelopeTimestamp
-  );
-  const { hasInitialLoadCompleted } = useSelector(
-    (state: StateType) => state.app
-  );
-
+  const envelopeTimestamp = useSelector(getInboxEnvelopeTimestamp);
+  const firstEnvelopeTimestamp = useSelector(getInboxFirstEnvelopeTimestamp);
+  const hasInitialLoadCompleted = useSelector(getHasInitialLoadCompleted);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+
   const { toggleNavTabsCollapse } = useItemsActions();
 
   return (

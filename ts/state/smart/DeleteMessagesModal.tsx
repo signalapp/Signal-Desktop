@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
@@ -25,13 +25,17 @@ export const SmartDeleteMessagesModal = memo(
       'Cannot render delete messages modal without messages'
     );
     const { conversationId, messageIds, onDelete } = deleteMessagesProps;
-    const isMe = useSelector((state: StateType) => {
-      return getConversationSelector(state)(conversationId).isMe;
-    });
+    const conversationSelector = useSelector(getConversationSelector);
+    const conversation = conversationSelector(conversationId);
+    const { isMe } = conversation;
 
-    const canDeleteForEveryone = useSelector((state: StateType) => {
-      return canDeleteMessagesForEveryone(state, { messageIds, isMe });
-    });
+    const getCanDeleteForEveryone = useCallback(
+      (state: StateType) => {
+        return canDeleteMessagesForEveryone(state, { messageIds, isMe });
+      },
+      [messageIds, isMe]
+    );
+    const canDeleteForEveryone = useSelector(getCanDeleteForEveryone);
     const lastSelectedMessage = useSelector(getLastSelectedMessage);
     const i18n = useSelector(getIntl);
     const { toggleDeleteMessagesModal } = useGlobalModalActions();

@@ -25,3 +25,12 @@ export const getContactSafetyNumber = createSelector(
     contactID: string
   ): SafetyNumberContactType | void => contacts[contactID]
 );
+
+export const getContactSafetyNumberSelector = createSelector(
+  [getSafetyNumber],
+  ({ contacts }) => {
+    return (contactId: string) => {
+      return contacts[contactId];
+    };
+  }
+);

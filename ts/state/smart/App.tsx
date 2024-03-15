@@ -16,20 +16,20 @@ import {
   getIsMainWindowFullScreen,
 } from '../selectors/user';
 import { hasSelectedStoryData } from '../selectors/stories';
-import type { StateType } from '../reducer';
 import { useAppActions } from '../ducks/app';
 import { useConversationsActions } from '../ducks/conversations';
 import { useStoriesActions } from '../ducks/stories';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { ModalContainer } from '../../components/ModalContainer';
 import { SmartInbox } from './Inbox';
+import { getAppView } from '../selectors/app';
 
 function renderInbox(): JSX.Element {
   return <SmartInbox />;
 }
 
 export const SmartApp = memo(function SmartApp() {
-  const app = useSelector((state: StateType) => state.app);
+  const appView = useSelector(getAppView);
 
   const { openInbox } = useAppActions();
   const { scrollToMessage } = useConversationsActions();
@@ -37,7 +37,7 @@ export const SmartApp = memo(function SmartApp() {
 
   return (
     <App
-      {...app}
+      appView={appView}
       isMaximized={useSelector(getIsMainWindowMaximized)}
       isFullScreen={useSelector(getIsMainWindowFullScreen)}
       osClassName={OS.getClassName()}

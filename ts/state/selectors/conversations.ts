@@ -208,6 +208,12 @@ export const getTargetedMessage = createSelector(
     };
   }
 );
+export const getTargetedMessageSource = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    return state.targetedMessageSource;
+  }
+);
 export const getSelectedMessageIds = createSelector(
   getConversations,
   (state: ConversationsStateType): ReadonlyArray<string> | undefined => {

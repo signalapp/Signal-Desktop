@@ -4,9 +4,8 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { SafetyNumberViewer } from '../../components/SafetyNumberViewer';
-import type { StateType } from '../reducer';
 import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
-import { getContactSafetyNumber } from '../selectors/safetyNumber';
+import { getContactSafetyNumberSelector } from '../selectors/safetyNumber';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 import { useSafetyNumberActions } from '../ducks/safetyNumber';
@@ -16,9 +15,10 @@ export const SmartSafetyNumberViewer = memo(function SmartSafetyNumberViewer({
   onClose,
 }: SafetyNumberProps) {
   const i18n = useSelector(getIntl);
-  const safetyNumberContact = useSelector((state: StateType) => {
-    return getContactSafetyNumber(state, { contactID });
-  });
+  const contactSafetyNumberSelector = useSelector(
+    getContactSafetyNumberSelector
+  );
+  const safetyNumberContact = contactSafetyNumberSelector(contactID);
   const conversationSelector = useSelector(getConversationSelector);
   const contact = conversationSelector(contactID);
 

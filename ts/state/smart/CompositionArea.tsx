@@ -15,7 +15,6 @@ import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPe
 import { imageToBlurHash } from '../../util/imageToBlurHash';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { isSignalConversation } from '../../util/isSignalConversation';
-import type { StateType } from '../reducer';
 import {
   getErrorDialogAudioRecorderType,
   getRecordingState,
@@ -163,15 +162,23 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     };
   }
 
-  const quotedMessageProps = useSelector((state: StateType) => {
+  const ourConversationId = useSelector(getUserConversationId);
+  const defaultConversationColor = useSelector(getDefaultConversationColor);
+
+  const quotedMessageProps = useMemo(() => {
     return quotedMessage
       ? getPropsForQuote(quotedMessage, {
           conversationSelector,
-          ourConversationId: getUserConversationId(state),
-          defaultConversationColor: getDefaultConversationColor(state),
+          ourConversationId,
+          defaultConversationColor,
         })
       : undefined;
-  });
+  }, [
+    quotedMessage,
+    conversationSelector,
+    ourConversationId,
+    defaultConversationColor,
+  ]);
 
   const { putItem, removeItem } = useItemsActions();
 
