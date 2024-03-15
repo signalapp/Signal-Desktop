@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import { BackButton } from './BackButton';
 import { Hero } from './Hero';
-
-const OnboardContainer = styled.div`
-  width: 100%;
-`;
+import { OnboardContainer } from './OnboardingContainer';
 
 const OnboardHeading = styled.h3`
   padding: 0;

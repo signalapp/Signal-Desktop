@@ -1,4 +1,5 @@
 import { shell } from 'electron';
+import { AnimatePresence } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import styled from 'styled-components';
@@ -78,46 +79,48 @@ export const RegistrationStages = () => {
   });
 
   return (
-    <StyledRegistrationContainer container={true} flexDirection="column">
-      <Flex container={true} alignItems="center">
-        <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
-        <SpacerSM />
-        <div style={{ flexGrow: 1 }}>
-          <SessionIcon iconSize={'small'} iconType="session" />
-        </div>
+    <AnimatePresence>
+      <StyledRegistrationContainer container={true} flexDirection="column">
         <Flex container={true} alignItems="center">
-          <SessionIconButton
-            aria-label="external link to Session FAQ web page"
-            iconType="question"
-            iconSize={'medium'}
-            iconPadding="4px"
-            iconColor="var(--text-primary-color)"
-            style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
-            onClick={() => {
-              void shell.openExternal('https://getsession.org/faq');
-            }}
-          />
+          <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
           <SpacerSM />
-          <SessionIconButton
-            aria-label="external link to Session FAQ web page"
-            iconType="link"
-            iconSize="medium"
-            iconColor="var(--text-primary-color)"
-            iconPadding="4px"
-            style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
-            onClick={() => {
-              void shell.openExternal('https://getsession.org');
-            }}
-          />
+          <div style={{ flexGrow: 1 }}>
+            <SessionIcon iconSize={'small'} iconType="session" />
+          </div>
+          <Flex container={true} alignItems="center">
+            <SessionIconButton
+              aria-label="external link to Session FAQ web page"
+              iconType="question"
+              iconSize={'medium'}
+              iconPadding="4px"
+              iconColor="var(--text-primary-color)"
+              style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+              onClick={() => {
+                void shell.openExternal('https://getsession.org/faq');
+              }}
+            />
+            <SpacerSM />
+            <SessionIconButton
+              aria-label="external link to Session FAQ web page"
+              iconType="link"
+              iconSize="medium"
+              iconColor="var(--text-primary-color)"
+              iconPadding="4px"
+              style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+              onClick={() => {
+                void shell.openExternal('https://getsession.org');
+              }}
+            />
+          </Flex>
         </Flex>
-      </Flex>
 
-      <Flex container={true} flexDirection="column" alignItems="center">
-        <SpacerLG />
-        {step === Onboarding.Start ? <Start /> : null}
-        {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
-        {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}
-      </Flex>
-    </StyledRegistrationContainer>
+        <Flex container={true} flexDirection="column" alignItems="center">
+          <SpacerLG />
+          {step === Onboarding.Start ? <Start /> : null}
+          {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
+          {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}
+        </Flex>
+      </StyledRegistrationContainer>
+    </AnimatePresence>
   );
 };

@@ -14,21 +14,23 @@ import { SessionIconButton } from '../../icon';
 export const BackButtonWithininContainer = ({
   children,
   margin,
+  callback,
 }: {
   children: ReactNode;
   margin?: string;
+  callback?: () => void;
 }) => {
   return (
     <Flex container={true} width={'100%'} flexDirection="row" alignItems="flex-start">
       <div style={{ margin }}>
-        <BackButton />
+        <BackButton callback={callback} />
       </div>
       {children}
     </Flex>
   );
 };
 
-export const BackButton = () => {
+export const BackButton = ({ callback }: { callback?: () => void }) => {
   const dispatch = useDispatch();
 
   return (
@@ -41,6 +43,9 @@ export const BackButton = () => {
         dispatch(setOnboardingStep(Onboarding.Start));
         dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
         dispatch(setAccountCreationStep(AccountCreation.DisplayName));
+        if (callback) {
+          callback();
+        }
       }}
     />
   );

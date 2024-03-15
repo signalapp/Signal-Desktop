@@ -4,6 +4,7 @@ import { SettingsKey } from '../../../data/settings-key';
 import { trigger } from '../../../shims/events';
 import {
   AccountCreation,
+  Onboarding,
   setAccountCreationStep,
 } from '../../../state/onboarding/ducks/registration';
 import {
@@ -82,8 +83,17 @@ export const CreateAccount = () => {
   };
 
   return (
-    <OnboardContainer>
-      <BackButtonWithininContainer margin={'2px 0 0 -36px'}>
+    <OnboardContainer
+      key={`onboarding-${Onboarding.CreateAccount}`}
+      animate={true}
+      direction="right"
+    >
+      <BackButtonWithininContainer
+        margin={'2px 0 0 -36px'}
+        callback={() => {
+          setDisplayNameError('');
+        }}
+      >
         <Flex
           container={true}
           width="100%"

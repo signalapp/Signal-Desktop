@@ -7,6 +7,7 @@ import { PromiseUtils } from '../../../session/utils';
 import { NotFoundError } from '../../../session/utils/errors';
 import {
   AccountRestoration,
+  Onboarding,
   setAccountRestorationStep,
 } from '../../../state/onboarding/ducks/registration';
 import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
@@ -177,9 +178,20 @@ export const RestoreAccount = () => {
   };
 
   return (
-    <OnboardContainer>
+    <OnboardContainer
+      key={`onboarding-${Onboarding.RestoreAccount}`}
+      animate={true}
+      direction="right"
+    >
       {step === AccountRestoration.RecoveryPassword || step === AccountRestoration.DisplayName ? (
-        <BackButtonWithininContainer margin={'2px 0 0 -36px'}>
+        <BackButtonWithininContainer
+          margin={'2px 0 0 -36px'}
+          callback={() => {
+            setDisplayNameError('');
+            setRecoveryPasswordError('');
+            setProgress(0);
+          }}
+        >
           <Flex
             container={true}
             width="100%"
