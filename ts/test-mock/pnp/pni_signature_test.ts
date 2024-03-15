@@ -423,10 +423,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       assert.strictEqual(await messages.count(), 3, 'messages');
 
       // Title transition notification
-      await expectSystemMessages(window, [
-        'You accepted the message request',
-        /You started this chat with/,
-      ]);
+      await expectSystemMessages(window, [/You started this chat with/]);
 
       assert.isEmpty(await phone.getOrphanedStorageKeys());
     }
