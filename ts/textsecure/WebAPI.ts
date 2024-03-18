@@ -1329,10 +1329,6 @@ export function initialize({
       window.Whisper.events.trigger('socketConnectError');
     });
 
-    socketManager.on('deviceConflict', () => {
-      window.Whisper.events.trigger('unlinkAndDisconnect');
-    });
-
     if (useWebSocket) {
       void socketManager.authenticate({ username, password });
     }
