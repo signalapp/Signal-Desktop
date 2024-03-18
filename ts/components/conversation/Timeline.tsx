@@ -88,6 +88,7 @@ type PropsHousekeepingType = {
   isSomeoneTyping: boolean;
   unreadCount?: number;
   unreadMentionsCount?: number;
+  conversationType: 'direct' | 'group';
 
   targetedMessageId?: string;
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
@@ -497,21 +498,8 @@ export class Timeline extends React.Component<
     }
   }, 500);
 
-  public override componentDidMount(): void {
-    const containerEl = this.containerRef.current;
-    const messagesEl = this.messagesRef.current;
-    const { isConversationSelected } = this.props;
-    strictAssert(
-      // We don't render anything unless the conversation is selected
-      (containerEl && messagesEl) || !isConversationSelected,
-      '<Timeline> mounted without some refs'
-    );
-
-    this.updateIntersectionObserver();
-
-    window.SignalContext.activeWindowService.registerForActive(
-      this.markNewestBottomVisibleMessageRead
-    );
+  private setupGroupCallPeekTimeouts(): void {
+    this.cleanupGroupCallPeekTimeouts();
 
     this.delayedPeekTimeout = setTimeout(() => {
       const { id, peekGroupCallForTheFirstTime } = this.props;
@@ -525,19 +513,46 @@ export class Timeline extends React.Component<
     }, MINUTE);
   }
 
-  public override componentWillUnmount(): void {
+  private cleanupGroupCallPeekTimeouts(): void {
     const { delayedPeekTimeout, peekInterval } = this;
 
+    clearTimeoutIfNecessary(delayedPeekTimeout);
+    this.delayedPeekTimeout = undefined;
+
+    if (peekInterval) {
+      clearInterval(peekInterval);
+      this.peekInterval = undefined;
+    }
+  }
+
+  public override componentDidMount(): void {
+    const containerEl = this.containerRef.current;
+    const messagesEl = this.messagesRef.current;
+    const { conversationType, isConversationSelected } = this.props;
+    strictAssert(
+      // We don't render anything unless the conversation is selected
+      (containerEl && messagesEl) || !isConversationSelected,
+      '<Timeline> mounted without some refs'
+    );
+
+    this.updateIntersectionObserver();
+
+    window.SignalContext.activeWindowService.registerForActive(
+      this.markNewestBottomVisibleMessageRead
+    );
+
+    if (conversationType === 'group') {
+      this.setupGroupCallPeekTimeouts();
+    }
+  }
+
+  public override componentWillUnmount(): void {
     window.SignalContext.activeWindowService.unregisterForActive(
       this.markNewestBottomVisibleMessageRead
     );
 
     this.intersectionObserver?.disconnect();
-
-    clearTimeoutIfNecessary(delayedPeekTimeout);
-    if (peekInterval) {
-      clearInterval(peekInterval);
-    }
+    this.cleanupGroupCallPeekTimeouts();
   }
 
   public override getSnapshotBeforeUpdate(
@@ -588,11 +603,13 @@ export class Timeline extends React.Component<
     snapshot: Readonly<SnapshotType>
   ): void {
     const {
+      conversationType: previousConversationType,
       items: oldItems,
       messageChangeCounter: previousMessageChangeCounter,
       messageLoadingState: previousMessageLoadingState,
     } = prevProps;
     const {
+      conversationType,
       discardMessages,
       id,
       items: newItems,
@@ -665,6 +682,13 @@ export class Timeline extends React.Component<
     }
     if (previousMessageChangeCounter !== messageChangeCounter) {
       this.markNewestBottomVisibleMessageRead();
+    }
+
+    if (previousConversationType !== conversationType) {
+      this.cleanupGroupCallPeekTimeouts();
+      if (conversationType === 'group') {
+        this.setupGroupCallPeekTimeouts();
+      }
     }
   }
 

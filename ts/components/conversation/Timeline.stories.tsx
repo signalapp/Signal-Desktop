@@ -463,6 +463,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
   warning: overrideProps.warning,
   hasContactSpoofingReview: false,
+  conversationType: 'direct',
 
   id: uuid(),
   renderItem,
