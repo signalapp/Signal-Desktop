@@ -263,7 +263,7 @@ export class SocketManager extends EventListener {
       }
 
       if (code === 4409) {
-        this.emit('deviceConflict');
+        log.error('SocketManager: got 4409, connected on another device');
         return;
       }
 
@@ -770,7 +770,6 @@ export class SocketManager extends EventListener {
     callback: (error: HTTPError) => void
   ): this;
   public override on(type: 'statusChange', callback: () => void): this;
-  public override on(type: 'deviceConflict', callback: () => void): this;
   public override on(type: 'connectError', callback: () => void): this;
 
   public override on(
@@ -783,7 +782,6 @@ export class SocketManager extends EventListener {
 
   public override emit(type: 'authError', error: HTTPError): boolean;
   public override emit(type: 'statusChange'): boolean;
-  public override emit(type: 'deviceConflict'): boolean;
   public override emit(type: 'connectError'): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
