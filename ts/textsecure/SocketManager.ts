@@ -10,9 +10,14 @@ import EventListener from 'events';
 
 import { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
+import {
+  BackOff,
+  FIBONACCI_TIMEOUTS,
+  EXTENDED_FIBONACCI_TIMEOUTS,
+} from '../util/BackOff';
 import * as durations from '../util/durations';
 import { sleep } from '../util/sleep';
+import { drop } from '../util/drop';
 import { createProxyAgent } from '../util/createProxyAgent';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
@@ -38,6 +43,7 @@ const FIVE_MINUTES = 5 * durations.MINUTE;
 
 const JITTER = 5 * durations.SECOND;
 
+const OFFLINE_KEEPALIVE_TIMEOUT_MS = 5 * durations.SECOND;
 export const UNAUTHENTICATED_CHANNEL_NAME = 'unauthenticated';
 
 export const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
@@ -86,9 +92,15 @@ export class SocketManager extends EventListener {
 
   private incomingRequestQueue = new Array<IncomingWebSocketRequest>();
 
-  private isOffline = false;
+  private isNavigatorOffline = false;
+
+  private privIsOnline: boolean | undefined;
+
+  private isRemotelyExpired = false;
 
   private hasStoriesDisabled: boolean;
+
+  private reconnectController: AbortController | undefined;
 
   constructor(private readonly options: SocketManagerOptions) {
     super();
@@ -107,8 +119,8 @@ export class SocketManager extends EventListener {
   // Update WebAPICredentials and reconnect authenticated resource if
   // credentials changed
   public async authenticate(credentials: WebAPICredentials): Promise<void> {
-    if (this.isOffline) {
-      throw new HTTPError('SocketManager offline', {
+    if (this.isRemotelyExpired) {
+      throw new HTTPError('SocketManager remotely expired', {
         code: 0,
         headers: {},
         stack: new Error().stack,
@@ -169,6 +181,11 @@ export class SocketManager extends EventListener {
     this.authenticated = process;
 
     const reconnect = async (): Promise<void> => {
+      if (this.isRemotelyExpired) {
+        log.info('SocketManager: remotely expired, not reconnecting');
+        return;
+      }
+
       const timeout = this.backOff.getAndIncrement();
 
       log.info(
@@ -176,14 +193,22 @@ export class SocketManager extends EventListener {
           `after ${timeout}ms`
       );
 
-      await sleep(timeout);
-      if (this.isOffline) {
-        log.info('SocketManager: cancelled reconnect because we are offline');
+      const reconnectController = new AbortController();
+      this.reconnectController = reconnectController;
+
+      try {
+        await sleep(timeout, reconnectController.signal);
+      } catch {
+        log.info('SocketManager: reconnect cancelled');
         return;
+      } finally {
+        if (this.reconnectController === reconnectController) {
+          this.reconnectController = undefined;
+        }
       }
 
       if (this.authenticated) {
-        log.info('SocketManager: authenticated socket already reconnected');
+        log.info('SocketManager: authenticated socket already connecting');
         return;
       }
 
@@ -230,12 +255,13 @@ export class SocketManager extends EventListener {
           return;
         }
 
-        if (code === -1) {
-          this.emit('connectError');
+        if (code === -1 && this.privIsOnline !== false) {
+          this.privIsOnline = false;
+          this.emit('offline');
         }
       }
 
-      void reconnect();
+      drop(reconnect());
       return;
     }
 
@@ -267,7 +293,7 @@ export class SocketManager extends EventListener {
         return;
       }
 
-      void reconnect();
+      drop(reconnect());
     });
   }
 
@@ -287,6 +313,10 @@ export class SocketManager extends EventListener {
   public async getProvisioningResource(
     handler: IRequestHandler
   ): Promise<IWebSocketResource> {
+    if (this.isRemotelyExpired) {
+      throw new Error('Remotely expired, not connecting provisioning socket');
+    }
+
     return this.connectResource({
       name: 'provisioning',
       path: '/v1/websocket/provisioning/',
@@ -397,40 +427,6 @@ export class SocketManager extends EventListener {
 
   public async reconnect(): Promise<void> {
     log.info('SocketManager.reconnect: starting...');
-    this.onOffline();
-    await this.onOnline();
-    log.info('SocketManager.reconnect: complete.');
-  }
-
-  // Force keep-alive checks on WebSocketResources
-  public async check(): Promise<void> {
-    if (this.isOffline) {
-      return;
-    }
-
-    log.info('SocketManager.check');
-    await Promise.all([
-      SocketManager.checkResource(this.authenticated),
-      SocketManager.checkResource(this.unauthenticated),
-    ]);
-  }
-
-  // Puts SocketManager into "online" state and reconnects the authenticated
-  // IWebSocketResource (if there are valid credentials)
-  public async onOnline(): Promise<void> {
-    log.info('SocketManager.onOnline');
-    this.isOffline = false;
-
-    if (this.credentials) {
-      await this.authenticate(this.credentials);
-    }
-  }
-
-  // Puts SocketManager into "offline" state and gracefully disconnects both
-  // unauthenticated and authenticated resources.
-  public onOffline(): void {
-    log.info('SocketManager.onOffline');
-    this.isOffline = true;
 
     const { authenticated, unauthenticated } = this;
     if (authenticated) {
@@ -441,6 +437,54 @@ export class SocketManager extends EventListener {
       unauthenticated.abort();
       this.dropUnauthenticated(unauthenticated);
     }
+
+    if (this.credentials) {
+      this.backOff.reset();
+
+      // Cancel old reconnect attempt
+      this.reconnectController?.abort();
+
+      // Start the new attempt
+      await this.authenticate(this.credentials);
+    }
+
+    log.info('SocketManager.reconnect: complete.');
+  }
+
+  // Force keep-alive checks on WebSocketResources
+  public async check(): Promise<void> {
+    log.info('SocketManager.check');
+    await Promise.all([
+      this.checkResource(this.authenticated),
+      this.checkResource(this.unauthenticated),
+    ]);
+  }
+
+  public async onNavigatorOnline(): Promise<void> {
+    log.info('SocketManager.onNavigatorOnline');
+    this.isNavigatorOffline = false;
+    this.backOff.reset(FIBONACCI_TIMEOUTS);
+
+    // Reconnect earlier if waiting
+    if (this.credentials !== undefined) {
+      this.reconnectController?.abort();
+      await this.authenticate(this.credentials);
+    }
+  }
+
+  public async onNavigatorOffline(): Promise<void> {
+    log.info('SocketManager.onNavigatorOffline');
+    this.isNavigatorOffline = true;
+    this.backOff.reset(EXTENDED_FIBONACCI_TIMEOUTS);
+    await this.check();
+  }
+
+  public async onRemoteExpiration(): Promise<void> {
+    log.info('SocketManager.onRemoteExpiration');
+    this.isRemotelyExpired = true;
+
+    // Cancel reconnect attempt if any
+    this.reconnectController?.abort();
   }
 
   public async logout(): Promise<void> {
@@ -451,6 +495,10 @@ export class SocketManager extends EventListener {
     }
 
     this.credentials = undefined;
+  }
+
+  public get isOnline(): boolean {
+    return this.privIsOnline !== false;
   }
 
   //
@@ -464,6 +512,11 @@ export class SocketManager extends EventListener {
 
     this.status = status;
     this.emit('statusChange');
+
+    if (this.status === SocketStatus.OPEN && !this.privIsOnline) {
+      this.privIsOnline = true;
+      this.emit('online');
+    }
   }
 
   private transportOption(): TransportOption {
@@ -522,17 +575,19 @@ export class SocketManager extends EventListener {
   }
 
   private async getUnauthenticatedResource(): Promise<IWebSocketResource> {
-    if (this.isOffline) {
-      throw new HTTPError('SocketManager offline', {
+    if (this.unauthenticated) {
+      return this.unauthenticated.getResult();
+    }
+
+    if (this.isRemotelyExpired) {
+      throw new HTTPError('SocketManager remotely expired', {
         code: 0,
         headers: {},
         stack: new Error().stack,
       });
     }
 
-    if (this.unauthenticated) {
-      return this.unauthenticated.getResult();
-    }
+    log.info('SocketManager: connecting unauthenticated socket');
 
     const transportOption = this.transportOption();
     log.info(
@@ -631,7 +686,7 @@ export class SocketManager extends EventListener {
     });
   }
 
-  private static async checkResource(
+  private async checkResource(
     process?: AbortableProcess<IWebSocketResource>
   ): Promise<void> {
     if (!process) {
@@ -639,7 +694,11 @@ export class SocketManager extends EventListener {
     }
 
     const resource = await process.getResult();
-    resource.forceKeepAlive();
+
+    // Force shorter timeout if we think we might be offline
+    resource.forceKeepAlive(
+      this.isNavigatorOffline ? OFFLINE_KEEPALIVE_TIMEOUT_MS : undefined
+    );
   }
 
   private dropAuthenticated(
@@ -770,7 +829,8 @@ export class SocketManager extends EventListener {
     callback: (error: HTTPError) => void
   ): this;
   public override on(type: 'statusChange', callback: () => void): this;
-  public override on(type: 'connectError', callback: () => void): this;
+  public override on(type: 'online', callback: () => void): this;
+  public override on(type: 'offline', callback: () => void): this;
 
   public override on(
     type: string | symbol,
@@ -782,7 +842,8 @@ export class SocketManager extends EventListener {
 
   public override emit(type: 'authError', error: HTTPError): boolean;
   public override emit(type: 'statusChange'): boolean;
-  public override emit(type: 'connectError'): boolean;
+  public override emit(type: 'online'): boolean;
+  public override emit(type: 'offline'): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {

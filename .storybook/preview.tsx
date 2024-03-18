@@ -80,6 +80,7 @@ const noop = () => {};
 window.Whisper = window.Whisper || {};
 window.Whisper.events = {
   on: noop,
+  off: noop,
 };
 
 window.SignalContext = {

@@ -1154,8 +1154,10 @@ export type WebAPIType = {
   unregisterRequestHandler: (handler: IRequestHandler) => void;
   onHasStoriesDisabledChange: (newValue: boolean) => void;
   checkSockets: () => void;
-  onOnline: () => Promise<void>;
-  onOffline: () => void;
+  isOnline: () => boolean;
+  onNavigatorOnline: () => Promise<void>;
+  onNavigatorOffline: () => Promise<void>;
+  onRemoteExpiration: () => Promise<void>;
   reconnect: () => Promise<void>;
 };
 
@@ -1321,12 +1323,16 @@ export function initialize({
       window.Whisper.events.trigger('socketStatusChange');
     });
 
-    socketManager.on('authError', () => {
-      window.Whisper.events.trigger('unlinkAndDisconnect');
+    socketManager.on('online', () => {
+      window.Whisper.events.trigger('online');
     });
 
-    socketManager.on('connectError', () => {
-      window.Whisper.events.trigger('socketConnectError');
+    socketManager.on('offline', () => {
+      window.Whisper.events.trigger('offline');
+    });
+
+    socketManager.on('authError', () => {
+      window.Whisper.events.trigger('unlinkAndDisconnect');
     });
 
     if (useWebSocket) {
@@ -1442,8 +1448,10 @@ export function initialize({
       modifyGroup,
       modifyStorageRecords,
       onHasStoriesDisabledChange,
-      onOffline,
-      onOnline,
+      isOnline,
+      onNavigatorOffline,
+      onNavigatorOnline,
+      onRemoteExpiration,
       postBatchIdentityCheck,
       putEncryptedAttachment,
       putProfile,
@@ -1620,12 +1628,20 @@ export function initialize({
       void socketManager.check();
     }
 
-    async function onOnline(): Promise<void> {
-      await socketManager.onOnline();
+    function isOnline(): boolean {
+      return socketManager.isOnline;
     }
 
-    function onOffline(): void {
-      socketManager.onOffline();
+    async function onNavigatorOnline(): Promise<void> {
+      await socketManager.onNavigatorOnline();
+    }
+
+    async function onNavigatorOffline(): Promise<void> {
+      await socketManager.onNavigatorOffline();
+    }
+
+    async function onRemoteExpiration(): Promise<void> {
+      await socketManager.onRemoteExpiration();
     }
 
     async function reconnect(): Promise<void> {

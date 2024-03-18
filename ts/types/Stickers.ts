@@ -596,8 +596,13 @@ async function doDownloadStickerPack(
     return;
   }
 
+  const { server } = window.textsecure;
+  if (!server) {
+    throw new Error('server is not available!');
+  }
+
   // We don't count this as an attempt if we're offline
-  const attemptIncrement = navigator.onLine ? 1 : 0;
+  const attemptIncrement = server.isOnline() ? 1 : 0;
   const downloadAttempts =
     (existing ? existing.downloadAttempts || 0 : 0) + attemptIncrement;
   if (downloadAttempts > 3) {

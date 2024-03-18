@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { EventEmitter } from 'events';
 import * as sinon from 'sinon';
 
 import { waitForOnline } from '../../util/waitForOnline';
@@ -17,28 +18,28 @@ describe('waitForOnline', () => {
     sandbox.restore();
   });
 
-  function getFakeWindow(): EventTarget {
-    const result = new EventTarget();
-    sinon.stub(result, 'addEventListener');
-    sinon.stub(result, 'removeEventListener');
+  function getFakeEmitter(): EventEmitter {
+    const result = new EventEmitter();
+    sinon.stub(result, 'on');
+    sinon.stub(result, 'off');
     return result;
   }
 
   it("resolves immediately if you're online", async () => {
-    const fakeNavigator = { onLine: true };
-    const fakeWindow = getFakeWindow();
+    const fakeServer = { isOnline: () => true };
+    const fakeEvents = getFakeEmitter();
 
-    await waitForOnline(fakeNavigator, fakeWindow);
+    await waitForOnline({ server: fakeServer, events: fakeEvents });
 
-    sinon.assert.notCalled(fakeWindow.addEventListener as sinon.SinonStub);
-    sinon.assert.notCalled(fakeWindow.removeEventListener as sinon.SinonStub);
+    sinon.assert.notCalled(fakeEvents.on as sinon.SinonStub);
+    sinon.assert.notCalled(fakeEvents.off as sinon.SinonStub);
   });
 
   it("if you're offline, resolves as soon as you're online (and cleans up listeners)", async () => {
-    const fakeNavigator = { onLine: false };
-    const fakeWindow = getFakeWindow();
+    const fakeServer = { isOnline: () => false };
+    const fakeEvents = getFakeEmitter();
 
-    (fakeWindow.addEventListener as sinon.SinonStub)
+    (fakeEvents.on as sinon.SinonStub)
       .withArgs('online')
       .callsFake((_eventName: string, callback: () => void) => {
         setTimeout(callback, 0);
@@ -46,7 +47,7 @@ describe('waitForOnline', () => {
 
     let done = false;
     const promise = (async () => {
-      await waitForOnline(fakeNavigator, fakeWindow);
+      await waitForOnline({ server: fakeServer, events: fakeEvents });
       done = true;
     })();
 
@@ -55,37 +56,41 @@ describe('waitForOnline', () => {
     await promise;
 
     assert.isTrue(done);
-    sinon.assert.calledOnce(fakeWindow.addEventListener as sinon.SinonStub);
-    sinon.assert.calledOnce(fakeWindow.removeEventListener as sinon.SinonStub);
+    sinon.assert.calledOnce(fakeEvents.on as sinon.SinonStub);
+    sinon.assert.calledOnce(fakeEvents.off as sinon.SinonStub);
   });
 
   it("resolves immediately if you're online when passed a timeout", async () => {
-    const fakeNavigator = { onLine: true };
-    const fakeWindow = getFakeWindow();
+    const fakeServer = { isOnline: () => true };
+    const fakeEvents = getFakeEmitter();
 
-    await waitForOnline(fakeNavigator, fakeWindow, { timeout: 1234 });
+    await waitForOnline({
+      server: fakeServer,
+      events: fakeEvents,
+      timeout: 1234,
+    });
 
-    sinon.assert.notCalled(fakeWindow.addEventListener as sinon.SinonStub);
-    sinon.assert.notCalled(fakeWindow.removeEventListener as sinon.SinonStub);
+    sinon.assert.notCalled(fakeEvents.on as sinon.SinonStub);
+    sinon.assert.notCalled(fakeEvents.off as sinon.SinonStub);
   });
 
   it("resolves immediately if you're online even if passed a timeout of 0", async () => {
-    const fakeNavigator = { onLine: true };
-    const fakeWindow = getFakeWindow();
+    const fakeServer = { isOnline: () => true };
+    const fakeEvents = getFakeEmitter();
 
-    await waitForOnline(fakeNavigator, fakeWindow, { timeout: 0 });
+    await waitForOnline({ server: fakeServer, events: fakeEvents, timeout: 0 });
 
-    sinon.assert.notCalled(fakeWindow.addEventListener as sinon.SinonStub);
-    sinon.assert.notCalled(fakeWindow.removeEventListener as sinon.SinonStub);
+    sinon.assert.notCalled(fakeEvents.on as sinon.SinonStub);
+    sinon.assert.notCalled(fakeEvents.off as sinon.SinonStub);
   });
 
   it("if you're offline, resolves as soon as you're online if it happens before the timeout", async () => {
     const clock = sandbox.useFakeTimers();
 
-    const fakeNavigator = { onLine: false };
-    const fakeWindow = getFakeWindow();
+    const fakeServer = { isOnline: () => false };
+    const fakeEvents = getFakeEmitter();
 
-    (fakeWindow.addEventListener as sinon.SinonStub)
+    (fakeEvents.on as sinon.SinonStub)
       .withArgs('online')
       .callsFake((_eventName: string, callback: () => void) => {
         setTimeout(callback, 1000);
@@ -93,7 +98,11 @@ describe('waitForOnline', () => {
 
     let done = false;
     void (async () => {
-      await waitForOnline(fakeNavigator, fakeWindow, { timeout: 9999 });
+      await waitForOnline({
+        server: fakeServer,
+        events: fakeEvents,
+        timeout: 9999,
+      });
       done = true;
     })();
 
@@ -108,16 +117,18 @@ describe('waitForOnline', () => {
   it('rejects if too much time has passed, and cleans up listeners', async () => {
     const clock = sandbox.useFakeTimers();
 
-    const fakeNavigator = { onLine: false };
-    const fakeWindow = getFakeWindow();
+    const fakeServer = { isOnline: () => false };
+    const fakeEvents = getFakeEmitter();
 
-    (fakeWindow.addEventListener as sinon.SinonStub)
+    (fakeEvents.on as sinon.SinonStub)
       .withArgs('online')
       .callsFake((_eventName: string, callback: () => void) => {
         setTimeout(callback, 9999);
       });
 
-    const promise = waitForOnline(fakeNavigator, fakeWindow, {
+    const promise = waitForOnline({
+      server: fakeServer,
+      events: fakeEvents,
       timeout: 100,
     });
 
@@ -125,20 +136,24 @@ describe('waitForOnline', () => {
 
     await assert.isRejected(promise);
 
-    sinon.assert.calledOnce(fakeWindow.removeEventListener as sinon.SinonStub);
+    sinon.assert.calledOnce(fakeEvents.off as sinon.SinonStub);
   });
 
   it('rejects if offline and passed a timeout of 0', async () => {
-    const fakeNavigator = { onLine: false };
-    const fakeWindow = getFakeWindow();
+    const fakeServer = { isOnline: () => false };
+    const fakeEvents = getFakeEmitter();
 
-    (fakeWindow.addEventListener as sinon.SinonStub)
+    (fakeEvents.on as sinon.SinonStub)
       .withArgs('online')
       .callsFake((_eventName: string, callback: () => void) => {
         setTimeout(callback, 9999);
       });
 
-    const promise = waitForOnline(fakeNavigator, fakeWindow, { timeout: 0 });
+    const promise = waitForOnline({
+      server: fakeServer,
+      events: fakeEvents,
+      timeout: 100,
+    });
 
     await assert.isRejected(promise);
   });

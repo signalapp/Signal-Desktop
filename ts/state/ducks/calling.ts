@@ -477,7 +477,12 @@ const doGroupCallPeek = ({
     // If we peek right after receiving the message, we may get outdated information.
     //   This is most noticeable when someone leaves. We add a delay and then make sure
     //   to only be peeking once.
-    await Promise.all([sleep(1000), waitForOnline(navigator, window)]);
+    const { server } = window.textsecure;
+    if (!server) {
+      log.error('doGroupCallPeek: no textsecure server');
+      return;
+    }
+    await Promise.all([sleep(1000), waitForOnline()]);
 
     let peekInfo = null;
     try {

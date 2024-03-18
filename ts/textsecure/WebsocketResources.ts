@@ -42,6 +42,7 @@ import EventTarget from './EventTarget';
 
 import * as durations from '../util/durations';
 import { dropNull } from '../util/dropNull';
+import { drop } from '../util/drop';
 import { isOlderThan } from '../util/timestamp';
 import { strictAssert } from '../util/assert';
 import * as Errors from '../types/errors';
@@ -52,7 +53,6 @@ import type { IResource } from './WebSocket';
 import { isProduction, isStaging } from '../util/version';
 
 import { ToastType } from '../types/Toast';
-import { drop } from '../util/drop';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
@@ -251,7 +251,7 @@ export interface IWebSocketResource extends IResource {
 
   addEventListener(name: 'close', handler: (ev: CloseEvent) => void): void;
 
-  forceKeepAlive(): void;
+  forceKeepAlive(timeout?: number): void;
 
   shutdown(): void;
 
@@ -395,8 +395,8 @@ export class WebSocketResourceWithShadowing implements IWebSocketResource {
     this.shadowing.shutdown();
   }
 
-  public forceKeepAlive(): void {
-    this.main.forceKeepAlive();
+  public forceKeepAlive(timeout?: number): void {
+    this.main.forceKeepAlive(timeout);
   }
 
   public async sendRequest(options: SendRequestOptions): Promise<Response> {
@@ -627,11 +627,11 @@ export default class WebSocketResource
     return WebSocketResource.intoResponse(requestResult);
   }
 
-  public forceKeepAlive(): void {
+  public forceKeepAlive(timeout?: number): void {
     if (!this.keepalive) {
       return;
     }
-    void this.keepalive.send();
+    drop(this.keepalive.send(timeout));
   }
 
   public close(code = 3000, reason?: string): void {
@@ -853,7 +853,7 @@ class KeepAlive {
     this.clearTimers();
   }
 
-  public async send(): Promise<void> {
+  public async send(timeout = KEEPALIVE_TIMEOUT_MS): Promise<void> {
     this.clearTimers();
 
     const isStale = isOlderThan(this.lastAliveAt, STALE_THRESHOLD_MS);
@@ -875,7 +875,7 @@ class KeepAlive {
           verb: 'GET',
           path: this.path,
         }),
-        KEEPALIVE_TIMEOUT_MS
+        timeout
       );
 
       if (status < 200 || status >= 300) {

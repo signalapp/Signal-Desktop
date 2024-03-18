@@ -25,16 +25,14 @@ describe('SenderCertificateService', () => {
   let fakeValidEncodedCertificate: Uint8Array;
   let fakeValidCertificateExpiry: number;
   let fakeServer: any;
-  let fakeNavigator: { onLine: boolean };
-  let fakeWindow: EventTarget;
+  let fakeEvents: Pick<typeof window.Whisper.events, 'on' | 'off'>;
   let fakeStorage: any;
 
   function initializeTestService(): SenderCertificateService {
     const result = new SenderCertificateService();
     result.initialize({
       server: fakeServer,
-      navigator: fakeNavigator,
-      onlineEventTarget: fakeWindow,
+      events: fakeEvents,
       storage: fakeStorage,
     });
     return result;
@@ -51,18 +49,16 @@ describe('SenderCertificateService', () => {
       SenderCertificate.encode(fakeValidCertificate).finish();
 
     fakeServer = {
+      isOnline: () => true,
       getSenderCertificate: sinon.stub().resolves({
         certificate: Bytes.toBase64(fakeValidEncodedCertificate),
       }),
     };
 
-    fakeNavigator = { onLine: true };
-
-    fakeWindow = {
-      addEventListener: sinon.stub(),
-      dispatchEvent: sinon.stub(),
-      removeEventListener: sinon.stub(),
-    };
+    fakeEvents = {
+      on: sinon.stub(),
+      off: sinon.stub(),
+    } as unknown as typeof fakeEvents;
 
     fakeStorage = {
       get: sinon.stub(),
@@ -221,6 +217,7 @@ describe('SenderCertificateService', () => {
       let count = 0;
 
       fakeServer = {
+        isOnline: () => true,
         getSenderCertificate: sinon.spy(async () => {
           await new Promise(resolve => setTimeout(resolve, 500));
 

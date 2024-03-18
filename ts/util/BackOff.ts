@@ -15,6 +15,17 @@ export const FIBONACCI_TIMEOUTS: ReadonlyArray<number> = [
   55 * SECOND,
 ];
 
+export const EXTENDED_FIBONACCI_TIMEOUTS: ReadonlyArray<number> = [
+  ...FIBONACCI_TIMEOUTS,
+  89 * SECOND,
+  144 * SECOND,
+  233 * SECOND,
+  377 * SECOND,
+  610 * SECOND,
+  987 * SECOND,
+  1597 * SECOND, // ~26 minutes
+];
+
 export type BackOffOptionsType = Readonly<{
   jitter?: number;
 
@@ -28,7 +39,7 @@ export class BackOff {
   private count = 0;
 
   constructor(
-    private readonly timeouts: ReadonlyArray<number>,
+    private timeouts: ReadonlyArray<number>,
     private readonly options: BackOffOptionsType = {}
   ) {}
 
@@ -53,7 +64,10 @@ export class BackOff {
     return result;
   }
 
-  public reset(): void {
+  public reset(newTimeouts?: ReadonlyArray<number>): void {
+    if (newTimeouts !== undefined) {
+      this.timeouts = newTimeouts;
+    }
     this.count = 0;
   }
 

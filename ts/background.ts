@@ -478,8 +478,7 @@ export async function startApp(): Promise<void> {
 
     senderCertificateService.initialize({
       server,
-      navigator,
-      onlineEventTarget: window,
+      events: window.Whisper.events,
       storage: window.storage,
     });
 
@@ -1334,8 +1333,8 @@ export async function startApp(): Promise<void> {
     }
 
     log.warn('background: remote expiration detected, disabling reconnects');
+    drop(server?.onRemoteExpiration());
     remotelyExpired = true;
-    onOffline();
   });
 
   async function runStorageService() {
@@ -1417,12 +1416,18 @@ export async function startApp(): Promise<void> {
     log.info('Expiration start timestamp cleanup: complete');
 
     log.info('listening for registration events');
-    window.Whisper.events.on('registration_done', async () => {
+    window.Whisper.events.on('registration_done', () => {
       log.info('handling registration event');
 
       strictAssert(server !== undefined, 'WebAPI not ready');
-      await server.authenticate(
-        window.textsecure.storage.user.getWebAPICredentials()
+
+      // Once this resolves it will trigger `online` event and cause
+      // `connect()`, but with `firstRun` set to `false`. Thus it is important
+      // not to await it and let execution fall through.
+      drop(
+        server.authenticate(
+          window.textsecure.storage.user.getWebAPICredentials()
+        )
       );
 
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
@@ -1525,51 +1530,19 @@ export async function startApp(): Promise<void> {
     return syncRequest;
   };
 
-  let disconnectTimer: Timers.Timeout | undefined;
-  let reconnectTimer: Timers.Timeout | undefined;
-  function onOffline() {
-    log.info('offline');
+  function onNavigatorOffline() {
+    log.info('background: navigator offline');
 
-    window.removeEventListener('offline', onOffline);
-    window.addEventListener('online', onOnline);
-
-    // We've received logs from Linux where we get an 'offline' event, then 30ms later
-    //   we get an online event. This waits a bit after getting an 'offline' event
-    //   before disconnecting the socket manually.
-    disconnectTimer = Timers.setTimeout(disconnect, 1000);
-
-    if (challengeHandler) {
-      void challengeHandler.onOffline();
-    }
+    drop(server?.onNavigatorOffline());
   }
 
-  function onOnline() {
-    if (remotelyExpired) {
-      return;
-    }
-
-    log.info('online');
-
-    window.removeEventListener('online', onOnline);
-    window.addEventListener('offline', onOffline);
-
-    if (disconnectTimer && isSocketOnline()) {
-      log.warn('Already online. Had a blip in online/offline status.');
-      Timers.clearTimeout(disconnectTimer);
-      disconnectTimer = undefined;
-
-      if (challengeHandler) {
-        drop(challengeHandler.onOnline());
-      }
-      return;
-    }
-    if (disconnectTimer) {
-      Timers.clearTimeout(disconnectTimer);
-      disconnectTimer = undefined;
-    }
-
-    void connect();
+  function onNavigatorOnline() {
+    log.info('background: navigator online');
+    drop(server?.onNavigatorOnline());
   }
+
+  window.addEventListener('online', onNavigatorOnline);
+  window.addEventListener('offline', onNavigatorOffline);
 
   function isSocketOnline() {
     const socketStatus = window.getSocketStatus();
@@ -1579,34 +1552,47 @@ export async function startApp(): Promise<void> {
     );
   }
 
-  async function disconnect() {
-    log.info('disconnect');
-
-    // Clear timer, since we're only called when the timer is expired
-    disconnectTimer = undefined;
-
-    void AttachmentDownloads.stop();
-    if (server !== undefined) {
-      strictAssert(
-        messageReceiver !== undefined,
-        'WebAPI should be initialized together with MessageReceiver'
-      );
-      await server.onOffline();
-      await messageReceiver.drain();
+  window.Whisper.events.on('online', () => {
+    log.info('background: online');
+    if (!remotelyExpired) {
+      drop(connect());
     }
-  }
+  });
+
+  window.Whisper.events.on('offline', () => {
+    log.info('background: offline');
+
+    drop(challengeHandler?.onOffline());
+    drop(AttachmentDownloads.stop());
+    drop(messageReceiver?.drain());
+
+    if (connectCount === 0) {
+      log.info('background: offline, never connected, showing inbox');
+
+      drop(onEmpty()); // this ensures that the loading screen is dismissed
+
+      // Switch to inbox view even if contact sync is still running
+      if (window.reduxStore.getState().app.appView === AppViewType.Installer) {
+        log.info('background: offline, opening inbox');
+        window.reduxActions.app.openInbox();
+      }
+    }
+  });
 
   let connectCount = 0;
   let connecting = false;
   let remotelyExpired = false;
   async function connect(firstRun?: boolean) {
     if (connecting) {
-      log.warn('connect already running', { connectCount });
+      log.warn('background: connect already running', {
+        connectCount,
+        firstRun,
+      });
       return;
     }
 
     if (remotelyExpired) {
-      log.warn('remotely expired, not reconnecting');
+      log.warn('background: remotely expired, not reconnecting');
       return;
     }
 
@@ -1618,39 +1604,12 @@ export async function startApp(): Promise<void> {
       // Reset the flag and update it below if needed
       setIsInitialSync(false);
 
-      log.info('connect', { firstRun, connectCount });
-
-      if (reconnectTimer) {
-        Timers.clearTimeout(reconnectTimer);
-        reconnectTimer = undefined;
-      }
-
-      // Bootstrap our online/offline detection, only the first time we connect
-      if (connectCount === 0 && navigator.onLine) {
-        window.addEventListener('offline', onOffline);
-      }
-      if (connectCount === 0 && !navigator.onLine) {
-        log.warn(
-          'Starting up offline; will connect when we have network access'
-        );
-        window.addEventListener('online', onOnline);
-        void onEmpty(); // this ensures that the loading screen is dismissed
-
-        // Switch to inbox view even if contact sync is still running
-        if (
-          window.reduxStore.getState().app.appView === AppViewType.Installer
-        ) {
-          log.info('firstRun: offline, opening inbox');
-          window.reduxActions.app.openInbox();
-        } else {
-          log.info('firstRun: offline, not opening inbox');
-        }
-        return;
-      }
-
       if (!Registration.everDone()) {
+        log.info('background: registration not done, not connecting');
         return;
       }
+
+      log.info('background: connect', { firstRun, connectCount });
 
       // Update our profile key in the conversation if we just got linked.
       const profileKey = await ourProfileKeyService.get();
@@ -1710,14 +1669,11 @@ export async function startApp(): Promise<void> {
       messageReceiver.reset();
       server.registerRequestHandler(messageReceiver);
 
-      // If coming here after `offline` event - connect again.
-      if (!remotelyExpired) {
-        await server.onOnline();
-      }
-
-      void AttachmentDownloads.start({
-        logger: log,
-      });
+      drop(
+        AttachmentDownloads.start({
+          logger: log,
+        })
+      );
 
       if (connectCount === 1) {
         Stickers.downloadQueuedPacks();
@@ -2053,7 +2009,8 @@ export async function startApp(): Promise<void> {
     }
 
     log.info('manualConnect: calling connect()');
-    void connect();
+    enqueueReconnectToWebSocket();
+    drop(connect());
   }
 
   async function onConfiguration(ev: ConfigurationEvent): Promise<void> {

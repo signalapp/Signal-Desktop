@@ -3,22 +3,31 @@
 
 import { useEffect, useState } from 'react';
 
+function getOnlineStatus(): boolean {
+  if (window.textsecure) {
+    return window.textsecure.server?.isOnline() ?? true;
+  }
+
+  // Only for storybook
+  return navigator.onLine;
+}
+
 export function useIsOnline(): boolean {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(getOnlineStatus());
 
   useEffect(() => {
     const update = () => {
-      setIsOnline(navigator.onLine);
+      setIsOnline(getOnlineStatus());
     };
 
     update();
 
-    window.addEventListener('offline', update);
-    window.addEventListener('online', update);
+    window.Whisper.events.on('online', update);
+    window.Whisper.events.on('offline', update);
 
     return () => {
-      window.removeEventListener('offline', update);
-      window.removeEventListener('online', update);
+      window.Whisper.events.off('online', update);
+      window.Whisper.events.off('offline', update);
     };
   }, []);
 
