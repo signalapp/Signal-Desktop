@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { isDevProd } from '../../shared/env_vars';
+import { isCI, isDevProd } from '../../shared/env_vars';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 
 type TimerOptionsEntry = { name: string; value: number };
@@ -67,7 +67,7 @@ const VALUES: Array<number> = timerOptionsDurations.map(t => {
 });
 
 const filterOutDebugValues = (option: number) => {
-  return isDevProd() || option > 60; // when not a dev build, filter out options with less than 60s
+  return isDevProd() || isCI() || option > 60; // when not a dev build nor on CI, filter out options with less than 60s
 };
 
 const DELETE_AFTER_READ = VALUES.filter(option => {
