@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createWriteStream } from 'fs';
-import { isNumber, omit } from 'lodash';
+import { isNumber } from 'lodash';
 import type { Readable } from 'stream';
 import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
@@ -116,7 +116,7 @@ export async function downloadAttachmentV2(
   safeUnlinkSync(cipherTextAbsolutePath);
 
   return {
-    ...omit(attachment, 'key'),
+    ...attachment,
     path,
     size,
     contentType: contentType
