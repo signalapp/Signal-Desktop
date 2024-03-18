@@ -45,7 +45,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
   const selectedConversationId = useSelector(getSelectedConversationId);
-  const targetedMessage = useSelector(getTargetedMessage);
+  const targetedMessageId = useSelector(getTargetedMessage)?.id;
   const targetedMessageSource = useSelector(getTargetedMessageSource);
 
   const {
@@ -64,16 +64,16 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     if (selectedConversationId !== lastOpenedConversationId.current) {
       lastOpenedConversationId.current = selectedConversationId;
       if (selectedConversationId) {
-        onConversationOpened(selectedConversationId, targetedMessage?.id);
+        onConversationOpened(selectedConversationId, targetedMessageId);
       }
     } else if (
       selectedConversationId &&
-      targetedMessage &&
+      targetedMessageId &&
       targetedMessageSource !== TargetedMessageSource.Focus
     ) {
-      scrollToMessage(selectedConversationId, targetedMessage?.id);
+      scrollToMessage(selectedConversationId, targetedMessageId);
     }
-  }, [onConversationOpened, selectedConversationId, scrollToMessage, targetedMessage, targetedMessageSource]);
+  }, [onConversationOpened, selectedConversationId, scrollToMessage, targetedMessageId, targetedMessageSource]);
 
   const prevConversationId = usePrevious(
     selectedConversationId,
