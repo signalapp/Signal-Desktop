@@ -14,7 +14,7 @@ import {
   getAllConversations,
   getConversationSelector,
 } from '../selectors/conversations';
-import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 import type {
   CallHistoryFilter,
   CallHistoryFilterOptions,
@@ -44,7 +44,7 @@ function getCallHistoryFilter(
       return conversation.removalStage == null;
     });
 
-    const filteredConversations = filterAndSortConversationsByRecent(
+    const filteredConversations = filterAndSortConversations(
       currentConversations,
       query,
       regionCode

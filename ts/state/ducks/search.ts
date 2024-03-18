@@ -6,7 +6,7 @@ import { debounce, omit, reject } from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
-import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 import type {
   ClientSearchResultMessageType,
   ClientInterface,
@@ -337,12 +337,11 @@ async function queryConversationsAndContacts(
     }
   );
 
-  const searchResults: Array<ConversationType> =
-    filterAndSortConversationsByRecent(
-      visibleConversations,
-      normalizedQuery,
-      regionCode
-    );
+  const searchResults: Array<ConversationType> = filterAndSortConversations(
+    visibleConversations,
+    normalizedQuery,
+    regionCode
+  );
 
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];
