@@ -210,6 +210,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     typingContactIdTimestamps = {},
     unreadCount,
     unreadMentionsCount,
+    type: conversationType,
   } = conversation ?? {};
   const {
     haveNewest,
@@ -240,6 +241,7 @@ export const SmartTimeline = memo(function SmartTimeline({
       }
       clearTargetedMessage={clearTargetedMessage}
       closeContactSpoofingReview={closeContactSpoofingReview}
+      conversationType={conversationType}
       discardMessages={discardMessages}
       getPreferredBadge={getPreferredBadge}
       getTimestampForMessage={getTimestampForMessage}
