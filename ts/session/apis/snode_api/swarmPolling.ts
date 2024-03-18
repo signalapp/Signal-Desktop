@@ -180,9 +180,7 @@ export class SwarmPolling {
       const diff = now - group.lastPolledTimestamp;
 
       const loggingId =
-        getConversationController()
-          .get(group.pubkey.key)
-          ?.idForLogging() || group.pubkey.key;
+        getConversationController().get(group.pubkey.key)?.idForLogging() || group.pubkey.key;
       if (diff >= convoPollingTimeout) {
         window?.log?.debug(
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `
@@ -355,9 +353,8 @@ export class SwarmPolling {
       })
     );
 
-    const allDecryptedConfigMessages: Array<IncomingMessage<
-      SignalService.ISharedConfigMessage
-    >> = [];
+    const allDecryptedConfigMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>> =
+      [];
 
     for (let index = 0; index < extractedUserConfigMessage.length; index++) {
       const userConfigMessage = extractedUserConfigMessage[index];

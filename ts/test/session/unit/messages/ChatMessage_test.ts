@@ -131,9 +131,7 @@ describe('VisibleMessage', () => {
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
     expect(decoded.dataMessage?.preview).to.have.lengthOf(1);
-    expect(decoded.dataMessage)
-      .to.have.nested.property('preview[0].url')
-      .to.be.deep.equal('url');
+    expect(decoded.dataMessage).to.have.nested.property('preview[0].url').to.be.deep.equal('url');
     expect(decoded.dataMessage)
       .to.have.nested.property('preview[0].title')
       .to.be.deep.equal('title');

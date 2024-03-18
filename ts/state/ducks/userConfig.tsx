@@ -36,11 +36,8 @@ const userConfigSlice = createSlice({
 });
 
 const { actions, reducer } = userConfigSlice;
-export const {
-  toggleAudioAutoplay,
-  disableRecoveryPhrasePrompt,
-  hideMessageRequestBanner,
-} = actions;
+export const { toggleAudioAutoplay, disableRecoveryPhrasePrompt, hideMessageRequestBanner } =
+  actions;
 export const userConfigReducer = reducer;
 
 export function showMessageRequestBannerOutsideRedux() {

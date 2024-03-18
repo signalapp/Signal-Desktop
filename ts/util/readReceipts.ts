@@ -30,9 +30,7 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
     if (
       !convoId ||
       !getConversationController().get(convoId) ||
-      !getConversationController()
-        .get(convoId)
-        .isPrivate()
+      !getConversationController().get(convoId).isPrivate()
     ) {
       window.log.info(
         'Convo is undefined or not a private chat for read receipt in convo',

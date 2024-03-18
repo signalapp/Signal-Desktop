@@ -191,8 +191,9 @@ export async function getExpiriesFromSnode({ messageHashes }: GetExpiriesFromSno
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `[getExpiriesFromSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
-        e} by ${ourPubKey} for ${messageHashes} via snode:${snodeStr}`
+      `[getExpiriesFromSnode] ${e.code ? `${e.code} ` : ''}${
+        e.message || e
+      } by ${ourPubKey} for ${messageHashes} via snode:${snodeStr}`
     );
     throw e;
   }

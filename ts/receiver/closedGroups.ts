@@ -318,8 +318,8 @@ export async function handleNewClosedGroup(
           expireTimer === 0
             ? 'off'
             : ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-            ? 'deleteAfterSend'
-            : 'legacy',
+              ? 'deleteAfterSend'
+              : 'legacy',
         providedExpireTimer: expireTimer,
         providedSource: sender,
         receivedAt: GetNetworkTime.getNowWithNetworkOffset(),

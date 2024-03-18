@@ -48,9 +48,7 @@ import { MediaItemType } from '../../../lightbox/LightboxGallery';
 import { MediaGallery } from '../../media-gallery/MediaGallery';
 import { Header, StyledScrollContainer } from './components';
 
-async function getMediaGalleryProps(
-  conversationId: string
-): Promise<{
+async function getMediaGalleryProps(conversationId: string): Promise<{
   documents: Array<MediaItemType>;
   media: Array<MediaItemType>;
 }> {
@@ -261,13 +259,13 @@ export const OverlayRightPanelSettings = () => {
   const leaveGroupString = isPublic
     ? window.i18n('leaveCommunity')
     : lastMessage?.interactionType === ConversationInteractionType.Leave &&
-      lastMessage?.interactionStatus === ConversationInteractionStatus.Error
-    ? window.i18n('deleteConversation')
-    : isKickedFromGroup
-    ? window.i18n('youGotKickedFromGroup')
-    : left
-    ? window.i18n('youLeftTheGroup')
-    : window.i18n('leaveGroup');
+        lastMessage?.interactionStatus === ConversationInteractionStatus.Error
+      ? window.i18n('deleteConversation')
+      : isKickedFromGroup
+        ? window.i18n('youGotKickedFromGroup')
+        : left
+          ? window.i18n('youLeftTheGroup')
+          : window.i18n('leaveGroup');
 
   const showUpdateGroupNameButton = isGroup && weAreAdmin && !commonNoShow; // legacy groups non-admin cannot change groupname anymore
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
