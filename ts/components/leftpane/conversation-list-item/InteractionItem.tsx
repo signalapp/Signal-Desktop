@@ -64,15 +64,15 @@ export const InteractionItem = (props: InteractionItemProps) => {
       errorText = isCommunity
         ? window.i18n('leaveCommunityFailed')
         : isGroup
-        ? window.i18n('leaveGroupFailed')
-        : window.i18n('deleteConversationFailed');
+          ? window.i18n('leaveGroupFailed')
+          : window.i18n('deleteConversationFailed');
       text =
         interactionStatus === ConversationInteractionStatus.Error
           ? errorText
           : interactionStatus === ConversationInteractionStatus.Start ||
-            interactionStatus === ConversationInteractionStatus.Loading
-          ? window.i18n('leaving')
-          : text;
+              interactionStatus === ConversationInteractionStatus.Loading
+            ? window.i18n('leaving')
+            : text;
       break;
     default:
       assertUnreachable(

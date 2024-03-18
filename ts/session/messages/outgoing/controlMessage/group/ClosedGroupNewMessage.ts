@@ -54,7 +54,8 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
 
-    dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
+    dataMessage.closedGroupControlMessage =
+      new SignalService.DataMessage.ClosedGroupControlMessage();
 
     dataMessage.closedGroupControlMessage.type =
       SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW;

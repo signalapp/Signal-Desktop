@@ -44,10 +44,7 @@ export const Timestamp = (props: Props) => {
   // this is a hack to make the date string shorter, looks like moment does not have a localized way of doing this for now.
 
   const dateString = momentFromNow
-    ? momentValue
-        .fromNow()
-        .replace('minutes', 'mins')
-        .replace('minute', 'min')
+    ? momentValue.fromNow().replace('minutes', 'mins').replace('minute', 'min')
     : momentValue.format('lll');
 
   const title = moment(timestamp).format('llll');

@@ -378,13 +378,11 @@ async function getMessages({
     return { messagesProps: [], quotesProps: {} };
   }
 
-  const {
-    messages: messagesCollection,
-    quotes: quotesCollection,
-  } = await Data.getMessagesByConversation(conversationKey, {
-    messageId,
-    returnQuotes: true,
-  });
+  const { messages: messagesCollection, quotes: quotesCollection } =
+    await Data.getMessagesByConversation(conversationKey, {
+      messageId,
+      returnQuotes: true,
+    });
 
   const messagesProps: Array<MessageModelPropsWithoutConvoProps> = messagesCollection.models.map(
     m => m.getMessageModelProps()
@@ -1174,13 +1172,11 @@ export async function openConversationToSpecificMessage(args: {
   const { conversationKey, messageIdToNavigateTo, shouldHighlightMessage } = args;
   await unmarkAsForcedUnread(conversationKey);
 
-  const {
-    messagesProps: messagesAroundThisMessage,
-    quotesProps: quotesAroundThisMessage,
-  } = await getMessages({
-    conversationKey,
-    messageId: messageIdToNavigateTo,
-  });
+  const { messagesProps: messagesAroundThisMessage, quotesProps: quotesAroundThisMessage } =
+    await getMessages({
+      conversationKey,
+      messageId: messageIdToNavigateTo,
+    });
 
   const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 

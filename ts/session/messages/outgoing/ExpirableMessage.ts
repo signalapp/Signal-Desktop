@@ -30,10 +30,10 @@ export class ExpirableMessage extends ContentMessage {
         this.expirationType === 'deleteAfterSend'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
           : this.expirationType === 'deleteAfterRead'
-          ? SignalService.Content.ExpirationType.DELETE_AFTER_READ
-          : this.expirationType === 'unknown'
-          ? SignalService.Content.ExpirationType.UNKNOWN
-          : undefined,
+            ? SignalService.Content.ExpirationType.DELETE_AFTER_READ
+            : this.expirationType === 'unknown'
+              ? SignalService.Content.ExpirationType.UNKNOWN
+              : undefined,
       expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
     });
   }

@@ -13,7 +13,7 @@ const SettingsBoolsKeyTrackedInRedux = [
 ] as const;
 
 export type SettingsState = {
-  settingsBools: Record<typeof SettingsBoolsKeyTrackedInRedux[number], boolean>;
+  settingsBools: Record<(typeof SettingsBoolsKeyTrackedInRedux)[number], boolean>;
 };
 
 export function getSettingsInitialState() {
@@ -28,7 +28,7 @@ export function getSettingsInitialState() {
   };
 }
 
-function isTrackedBoolean(key: string): key is typeof SettingsBoolsKeyTrackedInRedux[number] {
+function isTrackedBoolean(key: string): key is (typeof SettingsBoolsKeyTrackedInRedux)[number] {
   return SettingsBoolsKeyTrackedInRedux.indexOf(key as any) !== -1;
 }
 
@@ -97,9 +97,6 @@ const settingsSlice = createSlice({
 });
 
 const { actions, reducer } = settingsSlice;
-export const {
-  updateSettingsBoolValue,
-  deleteSettingsBoolValue,
-  updateAllOnStorageReady,
-} = actions;
+export const { updateSettingsBoolValue, deleteSettingsBoolValue, updateAllOnStorageReady } =
+  actions;
 export const settingsReducer = reducer;

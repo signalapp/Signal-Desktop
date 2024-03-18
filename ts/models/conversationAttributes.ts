@@ -39,7 +39,7 @@ export function isDirectConversation(conversationType: ConversationTypeEnum) {
  * mentions_only: trigger a notification only on mentions of ourself
  */
 export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_only'] as const;
-export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
+export type ConversationNotificationSettingType = (typeof ConversationNotificationSetting)[number];
 
 /**
  * Some fields are retrieved from the database as a select, but should not be saved in a commit()

@@ -18,14 +18,14 @@ const StyledRoundedButton = styled.div<{ isFullScreen: boolean; isMuted: boolean
     props.isMuted
       ? 'var(--call-buttons-background-disabled-color)'
       : props.isFullScreen
-      ? 'var(--call-buttons-action-background-color)'
-      : 'var(--call-buttons-background-color)'};
+        ? 'var(--call-buttons-action-background-color)'
+        : 'var(--call-buttons-background-color)'};
   color: ${props =>
     props.isMuted
       ? 'var(--call-buttons-icon-disabled-color)'
       : props.isFullScreen
-      ? 'var(--call-buttons-action-icon-color)'
-      : 'var(--call-buttons-icon-color)'};
+        ? 'var(--call-buttons-action-icon-color)'
+        : 'var(--call-buttons-icon-color)'};
 
   ${props => props.isFullScreen && 'opacity: 0.4;'}
   &:hover {

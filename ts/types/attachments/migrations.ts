@@ -201,23 +201,25 @@ type CaptureDimensionType = { contentType: string; path: string };
 
 export const captureDimensionsAndScreenshot = async (
   attachment: CaptureDimensionType
-): Promise<CaptureDimensionType & {
-  width?: number;
-  height?: number;
+): Promise<
+  CaptureDimensionType & {
+    width?: number;
+    height?: number;
 
-  thumbnail: {
-    path: string;
-    contentType: string;
-    width: number;
-    height: number;
-  } | null;
-  screenshot: {
-    path: string;
-    contentType: string;
-    width: number;
-    height: number;
-  } | null;
-}> => {
+    thumbnail: {
+      path: string;
+      contentType: string;
+      width: number;
+      height: number;
+    } | null;
+    screenshot: {
+      path: string;
+      contentType: string;
+      width: number;
+      height: number;
+    } | null;
+  }
+> => {
   const { contentType } = attachment;
 
   if (
