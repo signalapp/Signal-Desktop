@@ -609,6 +609,9 @@
   flex-direction: column;
   align-items: stretch;
   overflow: hidden;
+  max-height: 100%;
+  display: flex;
+  gap: 5px;
 
   .session-icon-button:first-child {
     margin-right: var(--margins-sm);

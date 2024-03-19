@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import {
@@ -10,10 +10,10 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
+import { useIsMessageVisible } from '../../contexts/isMessageVisibleContext';
 import { useMessageSelected } from '../../state/selectors';
 import { THUMBNAIL_SIDE } from '../../types/attachments/VisualAttachment';
 import { Image } from './Image';
-import { IsMessageVisibleContext } from './message/message-content/MessageContent';
 
 type Props = {
   attachments: Array<AttachmentTypeWithPath>;
@@ -46,7 +46,7 @@ const Row = (
     totalAttachmentsCount,
     selected,
   } = props;
-  const isMessageVisible = useContext(IsMessageVisibleContext);
+  const isMessageVisible = useIsMessageVisible();
   const moreMessagesOverlay = totalAttachmentsCount > 3;
   const moreMessagesOverlayText = moreMessagesOverlay ? `+${totalAttachmentsCount - 3}` : undefined;
 

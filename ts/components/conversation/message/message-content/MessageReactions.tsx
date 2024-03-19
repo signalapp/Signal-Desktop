@@ -1,6 +1,7 @@
 import { isEmpty, isEqual } from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { REACT_LIMIT } from '../../../../session/constants';
@@ -9,7 +10,6 @@ import { SortedReactionList } from '../../../../types/Reaction';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { Flex } from '../../../basic/Flex';
 import { SessionIcon } from '../../../icon';
-import { hasDetailView } from '../message-item/Message';
 import { Reaction, ReactionProps } from '../reactions/Reaction';
 import { StyledPopupContainer } from '../reactions/ReactionPopup';
 
@@ -138,7 +138,7 @@ export type MessageReactsSelectorProps = Pick<
   'convoId' | 'serverId' | 'reacts' | 'sortedReacts'
 >;
 
-type Props = hasDetailView & {
+type Props = {
   messageId: string;
   hasReactLimit?: boolean;
   onClick: (emoji: string) => void;
@@ -151,6 +151,8 @@ type Props = hasDetailView & {
 };
 
 export const MessageReactions = (props: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const {
     messageId,
     hasReactLimit = true,
@@ -161,7 +163,6 @@ export const MessageReactions = (props: Props) => {
     inModal = false,
     onSelected,
     noAvatar,
-    isDetailView,
   } = props;
   const [reactions, setReactions] = useState<SortedReactionList>([]);
 

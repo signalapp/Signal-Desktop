@@ -4,7 +4,6 @@ import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { useIsMessageSelectionMode } from '../../../../../state/selectors/selectedConversation';
 import * as MIME from '../../../../../types/MIME';
-import { hasDetailView } from '../../message-item/Message';
 import { QuoteAuthor } from './QuoteAuthor';
 import { QuoteIconContainer } from './QuoteIconContainer';
 import { QuoteText } from './QuoteText';
@@ -44,7 +43,7 @@ const StyledQuoteTextContent = styled.div`
   justify-content: center;
 `;
 
-export type QuoteProps = hasDetailView & {
+export type QuoteProps = {
   author: string;
   isFromMe: boolean;
   isIncoming: boolean;
@@ -71,7 +70,7 @@ export interface QuotedAttachmentType {
 
 export const Quote = (props: QuoteProps) => {
   const isSelectionMode = useIsMessageSelectionMode();
-  const { isIncoming, attachment, text, isDetailView, referencedMessageNotFound, onClick } = props;
+  const { isIncoming, attachment, text, referencedMessageNotFound, onClick } = props;
 
   const [imageBroken, setImageBroken] = useState(false);
   const handleImageErrorBound = () => {
@@ -96,7 +95,7 @@ export const Quote = (props: QuoteProps) => {
           referencedMessageNotFound={referencedMessageNotFound}
         />
         <StyledQuoteTextContent>
-          <QuoteAuthor author={props.author} isIncoming={isIncoming} isDetailView={isDetailView} />
+          <QuoteAuthor author={props.author} isIncoming={isIncoming} />
           <QuoteText
             isIncoming={isIncoming}
             text={text}

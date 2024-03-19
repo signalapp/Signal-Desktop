@@ -1,10 +1,13 @@
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
-import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useScrollToLoadedMessage } from '../../../../contexts/ScrollToLoadedMessage';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
+import { IsMessageVisibleContext } from '../../../../contexts/isMessageVisibleContext';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import { StateType } from '../../../../state/reducer';
 import {
@@ -19,8 +22,6 @@ import {
 } from '../../../../state/selectors/conversations';
 import { useSelectedIsPrivate } from '../../../../state/selectors/selectedConversation';
 import { canDisplayImage } from '../../../../types/Attachment';
-import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
-import { hasDetailView } from '../message-item/Message';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageAvatar } from './MessageAvatar';
 import { MessageHighlighter } from './MessageHighlighter';
@@ -33,7 +34,7 @@ export type MessageContentSelectorProps = Pick<
   'text' | 'direction' | 'timestamp' | 'serverTimestamp' | 'previews' | 'quote' | 'attachments'
 >;
 
-type Props = hasDetailView & {
+type Props = {
   messageId: string;
 };
 
@@ -76,13 +77,13 @@ const StyledMessageOpaqueContent = styled(MessageHighlighter)<{
   ${props => props.selected && `box-shadow: var(--drop-shadow);`}
 `;
 
-export const IsMessageVisibleContext = createContext(false);
-
 const StyledAvatarContainer = styled.div`
   align-self: flex-end;
 `;
 
 export const MessageContent = (props: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const [highlight, setHighlight] = useState(false);
   const [didScroll, setDidScroll] = useState(false);
   const contentProps = useSelector((state: StateType) =>
@@ -91,9 +92,9 @@ export const MessageContent = (props: Props) => {
   const isDeleted = useMessageIsDeleted(props.messageId);
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
-  const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+  const scrollToLoadedMessage = useScrollToLoadedMessage();
   const selectedIsPrivate = useSelectedIsPrivate();
-  const hideAvatar = useHideAvatarInMsgList(props.messageId, props.isDetailView);
+  const hideAvatar = useHideAvatarInMsgList(props.messageId, isDetailView);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -153,8 +154,7 @@ export const MessageContent = (props: Props) => {
 
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
-  const isDetailViewAndSupportsAttachmentCarousel =
-    props.isDetailView && canDisplayImage(attachments);
+  const isDetailViewAndSupportsAttachmentCarousel = isDetailView && canDisplayImage(attachments);
 
   return (
     <StyledMessageContent
@@ -181,6 +181,7 @@ export const MessageContent = (props: Props) => {
           display: 'flex',
           flexDirection: 'column',
           gap: 'var(--margins-xs)',
+          maxWidth: '100%',
         }}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
@@ -192,7 +193,7 @@ export const MessageContent = (props: Props) => {
             >
               {!isDeleted && (
                 <>
-                  <MessageQuote messageId={props.messageId} isDetailView={props.isDetailView} />
+                  <MessageQuote messageId={props.messageId} />
                   <MessageLinkPreview
                     messageId={props.messageId}
                     handleImageError={handleImageError}

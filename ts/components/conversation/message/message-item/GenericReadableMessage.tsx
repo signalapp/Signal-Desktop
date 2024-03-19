@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import { StateType } from '../../../../state/reducer';
@@ -14,7 +15,6 @@ import {
 } from '../../../../state/selectors/conversations';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
-import { hasDetailView } from './Message';
 
 export type GenericReadableMessageSelectorProps = Pick<
   MessageRenderingProps,
@@ -27,7 +27,7 @@ export type GenericReadableMessageSelectorProps = Pick<
   | 'isDeleted'
 >;
 
-type Props = hasDetailView & {
+type Props = {
   messageId: string;
   ctxMenuID: string;
 };
@@ -38,12 +38,11 @@ const highlightedMessageAnimation = keyframes`
   }
 `;
 
-const StyledReadableMessage = styled.div<
-  hasDetailView & {
-    selected: boolean;
-    isRightClicked: boolean;
-  }
->`
+const StyledReadableMessage = styled.div<{
+  selected: boolean;
+  isDetailView: boolean;
+  isRightClicked: boolean;
+}>`
   display: flex;
   align-items: center;
   width: 100%;
@@ -65,7 +64,9 @@ const StyledReadableMessage = styled.div<
 `;
 
 export const GenericReadableMessage = (props: Props) => {
-  const { ctxMenuID, messageId, isDetailView } = props;
+  const isDetailView = useIsDetailMessageView();
+
+  const { ctxMenuID, messageId } = props;
 
   const [enableReactions, setEnableReactions] = useState(true);
 
@@ -149,7 +150,6 @@ export const GenericReadableMessage = (props: Props) => {
       <MessageContentWithStatuses
         ctxMenuID={ctxMenuID}
         messageId={messageId}
-        isDetailView={isDetailView}
         dataTestId={'message-content'}
         enableReactions={enableReactions}
       />

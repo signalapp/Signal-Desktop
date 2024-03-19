@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useInterval, useMount } from 'react-use';
 import styled from 'styled-components';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { Data } from '../../../../data/data';
 import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
 import { MessageModelType } from '../../../../models/messageType';
@@ -9,7 +10,6 @@ import { getConversationController } from '../../../../session/conversations';
 import { PropsForExpiringMessage, messagesExpired } from '../../../../state/ducks/conversations';
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
-import { hasDetailView } from './Message';
 import { ReadableMessage, ReadableMessageProps } from './ReadableMessage';
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -82,8 +82,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
 `;
 
 export interface ExpirableReadableMessageProps
-  extends hasDetailView,
-    Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
+  extends Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
   messageId: string;
   isControlMessage?: boolean;
 }
@@ -110,6 +109,7 @@ function ExpireTimerControlMessage({
 
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
   const selected = useMessageExpirationPropsById(props.messageId);
+  const isDetailView = useIsDetailMessageView();
 
   const { isControlMessage, onClick, onDoubleClickCapture, role, dataTestId } = props;
 
@@ -136,7 +136,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
   } = selected;
 
   // NOTE we want messages on the left in the message detail view regardless of direction
-  const direction = props.isDetailView ? 'incoming' : _direction;
+  const direction = isDetailView ? 'incoming' : _direction;
   const isIncoming = direction === 'incoming';
 
   return (
