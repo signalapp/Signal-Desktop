@@ -11,11 +11,11 @@ import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLightbox } from './Lightbox';
 import { SmartStoryViewer } from './StoryViewer';
 import {
-  getTheme,
   getIsMainWindowMaximized,
   getIsMainWindowFullScreen,
+  getTheme,
 } from '../selectors/user';
-import { hasSelectedStoryData } from '../selectors/stories';
+import { hasSelectedStoryData as getHasSelectedStoryData } from '../selectors/stories';
 import { useAppActions } from '../ducks/app';
 import { useConversationsActions } from '../ducks/conversations';
 import { useStoriesActions } from '../ducks/stories';
@@ -28,53 +28,78 @@ function renderInbox(): JSX.Element {
   return <SmartInbox />;
 }
 
+function renderCallManager(): JSX.Element {
+  return (
+    <ModalContainer className="module-calling__modal-container">
+      <SmartCallManager />
+    </ModalContainer>
+  );
+}
+
+function renderGlobalModalContainer(): JSX.Element {
+  return <SmartGlobalModalContainer />;
+}
+
+function renderLightbox(): JSX.Element {
+  return <SmartLightbox />;
+}
+
+function renderStoryViewer(closeView: () => unknown): JSX.Element {
+  return (
+    <ErrorBoundary name="App/renderStoryViewer" closeView={closeView}>
+      <SmartStoryViewer />
+    </ErrorBoundary>
+  );
+}
+
+function requestVerification(
+  number: string,
+  captcha: string,
+  transport: VerificationTransport
+): Promise<{ sessionId: string }> {
+  const { server } = window.textsecure;
+  strictAssert(server !== undefined, 'WebAPI not available');
+  return server.requestVerification(number, captcha, transport);
+}
+
+function registerSingleDevice(
+  number: string,
+  code: string,
+  sessionId: string
+): Promise<void> {
+  return window
+    .getAccountManager()
+    .registerSingleDevice(number, code, sessionId);
+}
+
 export const SmartApp = memo(function SmartApp() {
   const appView = useSelector(getAppView);
+  const isMaximized = useSelector(getIsMainWindowMaximized);
+  const isFullScreen = useSelector(getIsMainWindowFullScreen);
+  const hasSelectedStoryData = useSelector(getHasSelectedStoryData);
+  const theme = useSelector(getTheme);
 
   const { openInbox } = useAppActions();
   const { scrollToMessage } = useConversationsActions();
   const { viewStory } = useStoriesActions();
 
+  const osClassName = OS.getClassName();
+
   return (
     <App
       appView={appView}
-      isMaximized={useSelector(getIsMainWindowMaximized)}
-      isFullScreen={useSelector(getIsMainWindowFullScreen)}
-      osClassName={OS.getClassName()}
-      renderCallManager={() => (
-        <ModalContainer className="module-calling__modal-container">
-          <SmartCallManager />
-        </ModalContainer>
-      )}
-      renderGlobalModalContainer={() => <SmartGlobalModalContainer />}
-      renderLightbox={() => <SmartLightbox />}
-      hasSelectedStoryData={useSelector(hasSelectedStoryData)}
-      renderStoryViewer={(closeView: () => unknown) => (
-        <ErrorBoundary name="App/renderStoryViewer" closeView={closeView}>
-          <SmartStoryViewer />
-        </ErrorBoundary>
-      )}
+      isMaximized={isMaximized}
+      isFullScreen={isFullScreen}
+      osClassName={osClassName}
+      renderCallManager={renderCallManager}
+      renderGlobalModalContainer={renderGlobalModalContainer}
+      renderLightbox={renderLightbox}
+      hasSelectedStoryData={hasSelectedStoryData}
+      renderStoryViewer={renderStoryViewer}
       renderInbox={renderInbox}
-      requestVerification={(
-        number: string,
-        captcha: string,
-        transport: VerificationTransport
-      ): Promise<{ sessionId: string }> => {
-        const { server } = window.textsecure;
-        strictAssert(server !== undefined, 'WebAPI not available');
-
-        return server.requestVerification(number, captcha, transport);
-      }}
-      registerSingleDevice={(
-        number: string,
-        code: string,
-        sessionId: string
-      ): Promise<void> => {
-        return window
-          .getAccountManager()
-          .registerSingleDevice(number, code, sessionId);
-      }}
-      theme={useSelector(getTheme)}
+      requestVerification={requestVerification}
+      registerSingleDevice={registerSingleDevice}
+      theme={theme}
       openInbox={openInbox}
       scrollToMessage={scrollToMessage}
       viewStory={viewStory}

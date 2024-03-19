@@ -43,27 +43,41 @@ export const SmartDeleteMessagesModal = memo(
       useConversationsActions();
     const { showToast } = useToastActions();
 
+    const messageCount = deleteMessagesProps.messageIds.length;
+
+    const handleClose = useCallback(() => {
+      toggleDeleteMessagesModal(undefined);
+    }, [toggleDeleteMessagesModal]);
+
+    const handleDeleteForMe = useCallback(() => {
+      deleteMessages({
+        conversationId,
+        messageIds,
+        lastSelectedMessage,
+      });
+      onDelete?.();
+    }, [
+      conversationId,
+      deleteMessages,
+      lastSelectedMessage,
+      messageIds,
+      onDelete,
+    ]);
+
+    const handleDeleteForEveryone = useCallback(() => {
+      deleteMessagesForEveryone(messageIds);
+      onDelete?.();
+    }, [deleteMessagesForEveryone, messageIds, onDelete]);
+
     return (
       <DeleteMessagesModal
         isMe={isMe}
         canDeleteForEveryone={canDeleteForEveryone}
         i18n={i18n}
-        messageCount={deleteMessagesProps.messageIds.length}
-        onClose={() => {
-          toggleDeleteMessagesModal(undefined);
-        }}
-        onDeleteForMe={() => {
-          deleteMessages({
-            conversationId,
-            messageIds,
-            lastSelectedMessage,
-          });
-          onDelete?.();
-        }}
-        onDeleteForEveryone={() => {
-          deleteMessagesForEveryone(messageIds);
-          onDelete?.();
-        }}
+        messageCount={messageCount}
+        onClose={handleClose}
+        onDeleteForMe={handleDeleteForMe}
+        onDeleteForEveryone={handleDeleteForEveryone}
         showToast={showToast}
       />
     );

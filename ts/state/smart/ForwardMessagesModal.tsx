@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type {
   ForwardMessagePropsType,
@@ -100,67 +100,83 @@ function SmartForwardMessagesModalInner({
     }
   );
 
-  if (!drafts.length) {
-    return null;
-  }
+  const handleChange = useCallback(
+    (
+      updatedDrafts: ReadonlyArray<MessageForwardDraft>,
+      caretLocation?: number
+    ) => {
+      setDrafts(updatedDrafts);
+      const isLonelyDraft = updatedDrafts.length === 1;
+      const lonelyDraft = isLonelyDraft ? updatedDrafts[0] : null;
+      if (lonelyDraft == null) {
+        return;
+      }
+      const attachmentsLength = lonelyDraft.attachments?.length ?? 0;
+      if (attachmentsLength === 0) {
+        maybeGrabLinkPreview(
+          lonelyDraft.messageBody ?? '',
+          LinkPreviewSourceType.ForwardMessageModal,
+          { caretLocation }
+        );
+      }
+    },
+    []
+  );
 
-  function closeModal() {
+  const closeModal = useCallback(() => {
     resetLinkPreview();
     toggleForwardMessagesModal();
+  }, [toggleForwardMessagesModal]);
+
+  const doForwardMessages = useCallback(
+    async (
+      conversationIds: ReadonlyArray<string>,
+      finalDrafts: ReadonlyArray<MessageForwardDraft>
+    ) => {
+      try {
+        const messages = await Promise.all(
+          finalDrafts.map(async (draft): Promise<ForwardMessageData> => {
+            const message = await __DEPRECATED$getMessageById(
+              draft.originalMessageId
+            );
+            strictAssert(message, 'no message found');
+            return {
+              draft,
+              originalMessage: message.attributes,
+            };
+          })
+        );
+
+        const didForwardSuccessfully = await maybeForwardMessages(
+          messages,
+          conversationIds
+        );
+
+        if (didForwardSuccessfully) {
+          closeModal();
+          forwardMessagesProps?.onForward?.();
+        }
+      } catch (err) {
+        log.warn('doForwardMessage', Errors.toLogFormat(err));
+      }
+    },
+    [forwardMessagesProps, closeModal]
+  );
+
+  if (!drafts.length) {
+    return null;
   }
 
   return (
     <ForwardMessagesModal
       drafts={drafts}
       candidateConversations={candidateConversations}
-      doForwardMessages={async (conversationIds, finalDrafts) => {
-        try {
-          const messages = await Promise.all(
-            finalDrafts.map(async (draft): Promise<ForwardMessageData> => {
-              const message = await __DEPRECATED$getMessageById(
-                draft.originalMessageId
-              );
-              strictAssert(message, 'no message found');
-              return {
-                draft,
-                originalMessage: message.attributes,
-              };
-            })
-          );
-
-          const didForwardSuccessfully = await maybeForwardMessages(
-            messages,
-            conversationIds
-          );
-
-          if (didForwardSuccessfully) {
-            closeModal();
-            forwardMessagesProps?.onForward?.();
-          }
-        } catch (err) {
-          log.warn('doForwardMessage', Errors.toLogFormat(err));
-        }
-      }}
+      doForwardMessages={doForwardMessages}
       linkPreviewForSource={linkPreviewForSource}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       onClose={closeModal}
-      onChange={(updatedDrafts, caretLocation) => {
-        setDrafts(updatedDrafts);
-        const isLonelyDraft = updatedDrafts.length === 1;
-        const lonelyDraft = isLonelyDraft ? updatedDrafts[0] : null;
-        if (lonelyDraft == null) {
-          return;
-        }
-        const attachmentsLength = lonelyDraft.attachments?.length ?? 0;
-        if (attachmentsLength === 0) {
-          maybeGrabLinkPreview(
-            lonelyDraft.messageBody ?? '',
-            LinkPreviewSourceType.ForwardMessageModal,
-            { caretLocation }
-          );
-        }
-      }}
+      onChange={handleChange}
       regionCode={regionCode}
       RenderCompositionTextArea={SmartCompositionTextArea}
       removeLinkPreview={removeLinkPreview}

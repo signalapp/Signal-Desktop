@@ -4,7 +4,6 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { CompositionRecording } from '../../components/CompositionRecording';
-import { mapDispatchToProps } from '../actions';
 import { useAudioRecorderActions } from '../ducks/audioRecorder';
 import { useComposerActions } from '../ducks/composer';
 import { useToastActions } from '../ducks/toast';
@@ -21,9 +20,10 @@ export const SmartCompositionRecording = memo(
   }: SmartCompositionRecordingProps) {
     const i18n = useSelector(getIntl);
     const selectedConversationId = useSelector(getSelectedConversationId);
-    const { cancelRecording, completeRecording } = useAudioRecorderActions();
+    const { errorRecording, cancelRecording, completeRecording } =
+      useAudioRecorderActions();
 
-    const { sendMultiMediaMessage } = useComposerActions();
+    const { sendMultiMediaMessage, addAttachment } = useComposerActions();
     const { hideToast, showToast } = useToastActions();
 
     const handleCancel = useCallback(() => {
@@ -56,9 +56,9 @@ export const SmartCompositionRecording = memo(
         conversationId={selectedConversationId}
         onCancel={handleCancel}
         onSend={handleSend}
-        errorRecording={mapDispatchToProps.errorRecording}
-        addAttachment={mapDispatchToProps.addAttachment}
-        completeRecording={mapDispatchToProps.completeRecording}
+        errorRecording={errorRecording}
+        addAttachment={addAttachment}
+        completeRecording={completeRecording}
         showToast={showToast}
         hideToast={hideToast}
       />

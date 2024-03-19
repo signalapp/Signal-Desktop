@@ -49,14 +49,14 @@ export const SmartMiniPlayer = memo(function SmartMiniPlayer({
     state = active.playing ? PlayerState.playing : PlayerState.paused;
   }
 
+  const title = AudioPlayerContent.isDraft(content)
+    ? i18n('icu:you')
+    : getVoiceNoteTitle(content.current);
+
   return (
     <MiniPlayer
       i18n={i18n}
-      title={
-        AudioPlayerContent.isDraft(content)
-          ? i18n('icu:you')
-          : getVoiceNoteTitle(content.current)
-      }
+      title={title}
       onPlay={handlePlay}
       onPause={handlePause}
       onPlaybackRate={setPlaybackRate}

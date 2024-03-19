@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { SmartStoryCreator } from './StoryCreator';
 import { SmartToastManager } from './ToastManager';
@@ -33,6 +33,7 @@ import { useItemsActions } from '../ducks/items';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getOtherTabsUnreadStats } from '../selectors/nav';
 import { getIsStoriesSettingsVisible } from '../selectors/globalModals';
+import type { StoryViewType } from '../../types/Stories';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
@@ -92,6 +93,22 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
     };
   }, [storiesActions]);
 
+  const handleForwardStory = useCallback(
+    (messageId: string) => {
+      toggleForwardMessagesModal([messageId]);
+    },
+    [toggleForwardMessagesModal]
+  );
+
+  const handleSaveStory = useCallback(
+    (story: StoryViewType) => {
+      if (story.attachment) {
+        saveAttachment(story.attachment, story.timestamp);
+      }
+    },
+    [saveAttachment]
+  );
+
   return (
     <StoriesTab
       otherTabsUnreadStats={otherTabsUnreadStats}
@@ -105,14 +122,8 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
       me={me}
       myStories={myStories}
       navTabsCollapsed={navTabsCollapsed}
-      onForwardStory={messageId => {
-        toggleForwardMessagesModal([messageId]);
-      }}
-      onSaveStory={story => {
-        if (story.attachment) {
-          saveAttachment(story.attachment, story.timestamp);
-        }
-      }}
+      onForwardStory={handleForwardStory}
+      onSaveStory={handleSaveStory}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       preferredLeftPaneWidth={preferredLeftPaneWidth}

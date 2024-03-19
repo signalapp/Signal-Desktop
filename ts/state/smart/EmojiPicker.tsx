@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { forwardRef, memo } from 'react';
+import React, { useCallback, forwardRef, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
@@ -25,10 +25,9 @@ export const SmartEmojiPicker = memo(
     const skinTone = useSelector(getEmojiSkinTone);
 
     const recentEmojis = useRecentEmojis();
-
     const { onUseEmoji } = useEmojiActions();
 
-    const handlePickEmoji = React.useCallback(
+    const handlePickEmoji = useCallback(
       data => {
         onUseEmoji({ shortName: data.shortName });
         onPickEmoji(data);

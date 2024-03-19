@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeType } from '../../types/Util';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
@@ -104,6 +104,10 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const platform = useSelector(getPlatform);
 
+  const linkPreview = useMemo(() => {
+    return linkPreviewForSource(LinkPreviewSourceType.StoryCreator);
+  }, [linkPreviewForSource]);
+
   return (
     <StoryCreator
       candidateConversations={candidateConversations}
@@ -119,7 +123,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       installedPacks={installedPacks}
       isFormattingEnabled={isFormattingEnabled}
       isSending={isSending}
-      linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
+      linkPreview={linkPreview}
       me={me}
       mostRecentActiveStoryTimestampByGroupOrDistributionList={
         mostRecentActiveStoryTimestampByGroupOrDistributionList

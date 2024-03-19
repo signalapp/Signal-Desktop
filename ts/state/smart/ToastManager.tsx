@@ -32,6 +32,10 @@ export type SmartPropsType = Readonly<{
   containerWidthBreakpoint: WidthBreakpoint;
 }>;
 
+function handleShowDebugLog() {
+  window.IPC.showDebugLog();
+}
+
 export const SmartToastManager = memo(function SmartToastManager({
   disableMegaphone = false,
   containerWidthBreakpoint,
@@ -85,7 +89,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       OS={OS.getName()}
       toast={toast}
       megaphone={disableMegaphone ? undefined : megaphone}
-      onShowDebugLog={() => window.IPC.showDebugLog()}
+      onShowDebugLog={handleShowDebugLog}
       onUndoArchive={onUndoArchive}
       openFileInFolder={openFileInFolder}
       hideToast={hideToast}
