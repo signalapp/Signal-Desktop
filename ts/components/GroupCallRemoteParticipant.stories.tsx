@@ -192,3 +192,43 @@ export function NoMediaKeys(): JSX.Element {
     />
   );
 }
+
+export function NoMediaKeysBlockedIntermittent(): JSX.Element {
+  const [isBlocked, setIsBlocked] = React.useState(false);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIsBlocked(value => !value);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [isBlocked]);
+
+  const [mediaKeysReceived, setMediaKeysReceived] = React.useState(false);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setMediaKeysReceived(value => !value);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [mediaKeysReceived]);
+
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+        },
+        {
+          addedTime: Date.now() - 60 * 1000,
+          hasRemoteAudio: true,
+          mediaKeysReceived,
+          isBlocked,
+        }
+      )}
+    />
+  );
+}
