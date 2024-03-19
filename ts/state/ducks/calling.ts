@@ -1198,12 +1198,6 @@ function groupCallStateChange(
     const { ourAci } = getState().user;
     strictAssert(ourAci, 'groupCallStateChange failed to fetch our ACI');
 
-    log.info(
-      'groupCallStateChange:',
-      payload.conversationId,
-      GroupCallConnectionState[payload.connectionState],
-      GroupCallJoinState[payload.joinState]
-    );
     dispatch({
       type: GROUP_CALL_STATE_CHANGE,
       payload: {
@@ -2563,6 +2557,41 @@ export function reducer(
 
     const existingCall = getGroupCall(conversationId, state, callMode);
     const existingRingState = getGroupCallRingState(existingCall);
+
+    // Generare a better log line that would help piece together ACIs and
+    // demuxIds.
+    const currentlyInCall = new Map(
+      existingCall?.remoteParticipants.map(({ demuxId, aci }) => [
+        demuxId,
+        aci,
+      ]) ?? []
+    );
+    const nextInCall = new Map(
+      remoteParticipants.map(({ demuxId, aci }) => [demuxId, aci]) ?? []
+    );
+
+    const membersLeft = new Array<`${AciString}:${number}`>();
+    for (const [demuxId, aci] of currentlyInCall) {
+      if (!nextInCall.has(demuxId)) {
+        membersLeft.push(`${aci}:${demuxId}`);
+      }
+    }
+
+    const membersJoined = new Array<`${AciString}:${number}`>();
+    for (const [demuxId, aci] of nextInCall) {
+      if (!currentlyInCall.has(demuxId)) {
+        membersJoined.push(`${aci}:${demuxId}`);
+      }
+    }
+
+    log.info(
+      'groupCallStateChange:',
+      conversationId,
+      GroupCallConnectionState[connectionState],
+      GroupCallJoinState[joinState],
+      `joined={${membersJoined.join(', ')}}`,
+      `left={${membersLeft.join(', ')}}`
+    );
 
     const newPeekInfo = peekInfo ||
       existingCall?.peekInfo || {
