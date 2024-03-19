@@ -16,7 +16,9 @@ const StyledKnob = styled.div<{ active: boolean }>`
       ? '-2px 1px 3px var(--toggle-switch-ball-shadow-color);'
       : '2px 1px 3px var(--toggle-switch-ball-shadow-color);'};
 
-  transition: transform var(--default-duration) ease, background-color var(--default-duration) ease;
+  transition:
+    transform var(--default-duration) ease,
+    background-color var(--default-duration) ease;
 
   transform: ${props => (props.active ? 'translateX(25px)' : '')};
 `;

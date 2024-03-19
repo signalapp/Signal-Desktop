@@ -285,11 +285,7 @@ async function sendMessagesDataToSnode(
 }
 
 function encryptionBasedOnConversation(destination: PubKey) {
-  if (
-    getConversationController()
-      .get(destination.key)
-      ?.isClosedGroup()
-  ) {
+  if (getConversationController().get(destination.key)?.isClosedGroup()) {
     return SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
   }
   return SignalService.Envelope.Type.SESSION_MESSAGE;
@@ -326,10 +322,8 @@ async function encryptMessageAndWrap(
     ttl,
   } = params;
 
-  const {
-    overRiddenTimestampBuffer,
-    networkTimestamp,
-  } = overwriteOutgoingTimestampWithNetworkTimestamp({ plainTextBuffer });
+  const { overRiddenTimestampBuffer, networkTimestamp } =
+    overwriteOutgoingTimestampWithNetworkTimestamp({ plainTextBuffer });
   const recipient = PubKey.cast(destination);
 
   const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
@@ -349,11 +343,9 @@ async function encryptMessageAndWrap(
 
   const overridenNamespace = !isNil(namespace)
     ? namespace
-    : getConversationController()
-        .get(recipient.key)
-        ?.isClosedGroup()
-    ? SnodeNamespaces.ClosedGroupMessage
-    : SnodeNamespaces.UserMessages;
+    : getConversationController().get(recipient.key)?.isClosedGroup()
+      ? SnodeNamespaces.ClosedGroupMessage
+      : SnodeNamespaces.UserMessages;
 
   return {
     data64,

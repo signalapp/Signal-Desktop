@@ -111,8 +111,8 @@ const Contacts = (contacts: Array<string>, count: number) => {
           reactors === 1
             ? 'reactionPopupOne'
             : reactors === 2
-            ? 'reactionPopupTwo'
-            : 'reactionPopupThree',
+              ? 'reactionPopupTwo'
+              : 'reactionPopupThree',
           contacts
         )}{' '}
         <span>{window.i18n('reactionPopup')}</span>

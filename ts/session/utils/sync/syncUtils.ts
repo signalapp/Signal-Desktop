@@ -190,9 +190,9 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
     })
   );
 
-  const onlyValidClosedGroup = closedGroups.filter(m => m !== null) as Array<
-    ConfigurationMessageClosedGroup
-  >;
+  const onlyValidClosedGroup = closedGroups.filter(
+    m => m !== null
+  ) as Array<ConfigurationMessageClosedGroup>;
   return onlyValidClosedGroup;
 };
 
@@ -268,9 +268,8 @@ export const getCurrentConfigurationMessage = async (
   }
 
   const ourProfileKeyHex =
-    getConversationController()
-      .get(UserUtils.getOurPubKeyStrFromCache())
-      ?.get('profileKey') || null;
+    getConversationController().get(UserUtils.getOurPubKeyStrFromCache())?.get('profileKey') ||
+    null;
   const profileKey = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : undefined;
 
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;

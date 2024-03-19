@@ -59,9 +59,7 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
   }
 
   const { convoId, serverId } = msgProps;
-  const roomInfos = getConversationController()
-    .get(convoId)
-    .toOpenGroupV2();
+  const roomInfos = getConversationController().get(convoId).toOpenGroupV2();
 
   const handleClose = () => {
     dispatch(updateReactClearAllModal(null));

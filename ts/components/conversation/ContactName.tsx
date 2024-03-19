@@ -24,11 +24,13 @@ export const ContactName = (props: Props) => {
   const convoName = useNicknameOrProfileNameOrShortenedPubkey(pubkey);
   const isPrivate = useIsPrivate(pubkey);
   const shouldShowProfile = Boolean(convoName || profileName || name);
-  const styles = (boldProfileName
-    ? {
-        fontWeight: 'bold',
-      }
-    : {}) as CSSProperties;
+  const styles = (
+    boldProfileName
+      ? {
+          fontWeight: 'bold',
+        }
+      : {}
+  ) as CSSProperties;
   const textProfile = profileName || name || convoName || window.i18n('anonymous');
 
   return (

@@ -549,7 +549,8 @@ export async function innerHandleSwarmContentMessage({
 
       await handleDataExtractionNotification({
         envelope,
-        dataExtractionNotification: content.dataExtractionNotification as SignalService.DataExtractionNotification,
+        dataExtractionNotification:
+          content.dataExtractionNotification as SignalService.DataExtractionNotification,
         expireUpdate,
         messageHash,
       });

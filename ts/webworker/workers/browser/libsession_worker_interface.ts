@@ -1,6 +1,5 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
-import { join } from 'path';
 import {
   BaseWrapperActionsCalls,
   ContactInfoSet,
@@ -10,6 +9,7 @@ import {
   UserConfigWrapperActionsCalls,
   UserGroupsWrapperActionsCalls,
 } from 'libsession_util_nodejs';
+import { join } from 'path';
 
 import { getAppRootPath } from '../../../node/getRootPath';
 import { WorkerInterface } from '../../worker_interface';
@@ -30,7 +30,7 @@ const internalCallLibSessionWorker = async ([
       'workers',
       'node',
       'libsession',
-      'libsession.worker.js'
+      'libsession.worker.compiled.js'
     );
 
     libsessionWorkerInterface = new WorkerInterface(libsessionWorkerPath, 1 * 60 * 1000);

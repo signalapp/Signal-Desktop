@@ -153,15 +153,8 @@ export const MessageContent = (props: Props) => {
     return null;
   }
 
-  const {
-    direction,
-    text,
-    timestamp,
-    serverTimestamp,
-    previews,
-    quote,
-    attachments,
-  } = contentProps;
+  const { direction, text, timestamp, serverTimestamp, previews, quote, attachments } =
+    contentProps;
 
   const hasContentBeforeAttachment = !isEmpty(previews) || !isEmpty(quote) || !isEmpty(text);
 

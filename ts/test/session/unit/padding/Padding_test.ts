@@ -94,25 +94,7 @@ describe('Padding', () => {
     it('remove padding', () => {
       const expectedSize = 10;
       const paddedBuffer = new Uint8Array([
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        128,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 128, 0, 0, 0, 0, 0, 0, 0, 0,
       ]);
 
       const unpaddedMessage = removeMessagePadding(paddedBuffer);

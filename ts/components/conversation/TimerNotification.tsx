@@ -145,8 +145,8 @@ function useTextToRender(props: PropsForExpirationTimer) {
   const mode = isLegacyDisappearingModeEnabled(expirationMode)
     ? null
     : expirationMode === 'deleteAfterRead'
-    ? window.i18n('timerModeRead')
-    : window.i18n('timerModeSent');
+      ? window.i18n('timerModeRead')
+      : window.i18n('timerModeSent');
   switch (type) {
     case 'fromOther':
       return disabled
@@ -155,12 +155,12 @@ function useTextToRender(props: PropsForExpirationTimer) {
             [contact, timespanText]
           )
         : mode
-        ? window.i18n(ownSideOnly ? 'theySetTheirDisappearingMessages' : 'theyChangedTheTimer', [
-            contact,
-            timespanText,
-            mode,
-          ])
-        : window.i18n('theyChangedTheTimerLegacy', [contact, timespanText]);
+          ? window.i18n(ownSideOnly ? 'theySetTheirDisappearingMessages' : 'theyChangedTheTimer', [
+              contact,
+              timespanText,
+              mode,
+            ])
+          : window.i18n('theyChangedTheTimerLegacy', [contact, timespanText]);
     case 'fromMe':
     case 'fromSync':
       return disabled
@@ -168,11 +168,11 @@ function useTextToRender(props: PropsForExpirationTimer) {
             ownSideOnly ? 'youDisabledYourDisappearingMessages' : 'youDisabledDisappearingMessages'
           )
         : mode
-        ? window.i18n(ownSideOnly ? 'youSetYourDisappearingMessages' : 'youChangedTheTimer', [
-            timespanText,
-            mode,
-          ])
-        : window.i18n('youChangedTheTimerLegacy', [timespanText]);
+          ? window.i18n(ownSideOnly ? 'youSetYourDisappearingMessages' : 'youChangedTheTimer', [
+              timespanText,
+              mode,
+            ])
+          : window.i18n('youChangedTheTimerLegacy', [timespanText]);
     default:
       assertUnreachable(type, `TimerNotification: Missing case error "${type}"`);
   }

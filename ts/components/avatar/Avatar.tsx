@@ -110,15 +110,8 @@ const AvatarImage = (
 };
 
 const AvatarInner = (props: Props) => {
-  const {
-    base64Data,
-    size,
-    pubkey,
-    forcedAvatarPath,
-    forcedName,
-    dataTestId,
-    onAvatarClick,
-  } = props;
+  const { base64Data, size, pubkey, forcedAvatarPath, forcedName, dataTestId, onAvatarClick } =
+    props;
   const [imageBroken, setImageBroken] = useState(false);
 
   const isSelectingMessages = useSelector(isMessageSelectionMode);

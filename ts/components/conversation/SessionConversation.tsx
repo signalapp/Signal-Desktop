@@ -127,10 +127,8 @@ export class SessionConversation extends Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidUpdate(prevProps: Props, _prevState: State) {
-    const {
-      selectedConversationKey: newConversationKey,
-      selectedConversation: newConversation,
-    } = this.props;
+    const { selectedConversationKey: newConversationKey, selectedConversation: newConversation } =
+      this.props;
     const { selectedConversationKey: oldConversationKey } = prevProps;
 
     // if the convo is valid, and it changed, register for drag events

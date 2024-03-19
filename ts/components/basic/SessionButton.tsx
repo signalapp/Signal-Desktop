@@ -90,8 +90,8 @@ const StyledButton = styled.div<{
       props.buttonType === SessionButtonType.Solid
         ? 'background-color: var(--button-solid-disabled-color)'
         : props.buttonType === SessionButtonType.Outline
-        ? 'border: 1px solid var(--button-outline-disabled-color)'
-        : ''};
+          ? 'border: 1px solid var(--button-outline-disabled-color)'
+          : ''};
     color: ${props =>
       props.buttonType === SessionButtonType.Solid
         ? 'var(--button-solid-text-color)'
@@ -124,16 +124,8 @@ type Props = {
 };
 
 export const SessionButton = (props: Props) => {
-  const {
-    buttonType,
-    buttonShape,
-    dataTestId,
-    buttonColor,
-    text,
-    disabled,
-    onClick,
-    margin,
-  } = props;
+  const { buttonType, buttonShape, dataTestId, buttonColor, text, disabled, onClick, margin } =
+    props;
 
   const clickHandler = (e: any) => {
     if (onClick) {

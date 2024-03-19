@@ -170,9 +170,11 @@ export const UpdateGroupMembersDialog = (props: Props) => {
   const convoProps = useConversationPropsById(conversationId);
   const existingMembers = convoProps?.members || [];
 
-  const { addTo, removeFrom, uniqueValues: membersToKeepWithUpdate } = useSet<string>(
-    existingMembers
-  );
+  const {
+    addTo,
+    removeFrom,
+    uniqueValues: membersToKeepWithUpdate,
+  } = useSet<string>(existingMembers);
 
   const dispatch = useDispatch();
 

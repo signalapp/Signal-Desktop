@@ -556,9 +556,8 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   } else {
     // this is a reupload. no need to generate a new profileKey
     const ourConvoProfileKey =
-      getConversationController()
-        .get(UserUtils.getOurPubKeyStrFromCache())
-        ?.get('profileKey') || null;
+      getConversationController().get(UserUtils.getOurPubKeyStrFromCache())?.get('profileKey') ||
+      null;
 
     profileKey = ourConvoProfileKey ? fromHexToArray(ourConvoProfileKey) : null;
     if (!profileKey) {

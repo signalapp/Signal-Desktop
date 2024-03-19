@@ -69,14 +69,14 @@ function renderSubtitleText(
   return quoteText && quoteText !== ''
     ? quoteText
     : hasAudioAttachment
-    ? window.i18n('audio')
-    : isGenericFile
-    ? window.i18n('document')
-    : isVideo
-    ? window.i18n('video')
-    : isImage
-    ? window.i18n('image')
-    : null;
+      ? window.i18n('audio')
+      : isGenericFile
+        ? window.i18n('document')
+        : isVideo
+          ? window.i18n('video')
+          : isImage
+            ? window.i18n('image')
+            : null;
 }
 
 export const SessionQuotedMessageComposition = () => {

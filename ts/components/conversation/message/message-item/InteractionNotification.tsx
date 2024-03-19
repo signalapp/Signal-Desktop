@@ -42,8 +42,8 @@ export const InteractionNotification = (props: PropsForInteractionNotification) 
       text = isCommunity
         ? window.i18n('leaveCommunityFailedPleaseTryAgain')
         : isGroup
-        ? window.i18n('leaveGroupFailedPleaseTryAgain')
-        : window.i18n('deleteConversationFailedPleaseTryAgain');
+          ? window.i18n('leaveGroupFailedPleaseTryAgain')
+          : window.i18n('deleteConversationFailedPleaseTryAgain');
       break;
     default:
       assertUnreachable(

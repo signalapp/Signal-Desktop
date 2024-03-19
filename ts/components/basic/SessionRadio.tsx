@@ -18,8 +18,8 @@ const StyledInput = styled.input<{
       props.disabled
         ? 'var(--disabled-color)'
         : props.selectedColor
-        ? props.selectedColor
-        : 'var(--primary-color)'};
+          ? props.selectedColor
+          : 'var(--primary-color)'};
   }
 `;
 
@@ -87,7 +87,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
       container={true}
       flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
       justifyContent={radioPosition === 'left' ? 'flex-start' : 'flex-end'}
-      style={style}
+      style={{ ...style, position: 'relative' }}
     >
       <StyledInput
         type="radio"
@@ -133,8 +133,8 @@ const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }
       props.disabled
         ? 'var(--disabled-color)'
         : props.selectedColor
-        ? props.selectedColor
-        : 'var(--primary-color)'};
+          ? props.selectedColor
+          : 'var(--primary-color)'};
     outline: 1px solid transparent; /* CSS variables don't work here */
   }
 `;

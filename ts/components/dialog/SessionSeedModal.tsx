@@ -188,7 +188,6 @@ interface ModalInnerProps {
 
 const SessionSeedModalInner = (props: ModalInnerProps) => {
   const { onClickOk } = props;
-  const [loadingPassword, setLoadingPassword] = useState(true);
   const [loadingSeed, setLoadingSeed] = useState(true);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [hasPassword, setHasPassword] = useState<null | boolean>(null);
@@ -197,30 +196,22 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
   const dispatch = useDispatch();
 
   useMount(() => {
-    async function checkHasPassword() {
-      if (!loadingPassword) {
+    async function validateAccess() {
+      if (passwordHash || recoveryPhrase) {
         return;
       }
 
       const hash = await Data.getPasswordHash();
       setHasPassword(!!hash);
       setPasswordHash(hash || '');
-      setLoadingPassword(false);
-    }
-    async function getRecoveryPhrase() {
-      if (recoveryPhrase) {
-        return false;
-      }
+
       const newRecoveryPhrase = getCurrentRecoveryPhrase();
       setRecoveryPhrase(newRecoveryPhrase);
       setLoadingSeed(false);
-
-      return true;
     }
 
     setTimeout(() => (document.getElementById('seed-input-password') as any)?.focus(), 100);
-    void checkHasPassword();
-    void getRecoveryPhrase();
+    void validateAccess();
   });
 
   const onClose = () => dispatch(recoveryPhraseModal(null));

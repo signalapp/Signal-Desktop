@@ -32,8 +32,8 @@ export const MessageText = (props: Props) => {
   const contents = isDeleted
     ? window.i18n('messageDeletedPlaceholder')
     : direction === 'incoming' && status === 'error'
-    ? window.i18n('incomingError')
-    : text?.trim();
+      ? window.i18n('incomingError')
+      : text?.trim();
 
   if (!contents) {
     return null;

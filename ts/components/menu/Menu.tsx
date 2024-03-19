@@ -153,9 +153,9 @@ export const LeaveGroupOrCommunityMenuItem = () => {
         {isPublic
           ? window.i18n('leaveCommunity')
           : lastMessage?.interactionType === ConversationInteractionType.Leave &&
-            lastMessage?.interactionStatus === ConversationInteractionStatus.Error
-          ? window.i18n('deleteConversation')
-          : window.i18n('leaveGroup')}
+              lastMessage?.interactionStatus === ConversationInteractionStatus.Error
+            ? window.i18n('deleteConversation')
+            : window.i18n('leaveGroup')}
       </Item>
     );
   }
@@ -544,8 +544,8 @@ export const NotificationForConvoMenuItem = (): JSX.Element | null => {
       n === 'all' || !n
         ? 'notificationForConvo_all'
         : n === 'disabled'
-        ? 'notificationForConvo_disabled'
-        : 'notificationForConvo_mentions_only';
+          ? 'notificationForConvo_disabled'
+          : 'notificationForConvo_mentions_only';
     return { value: n, name: window.i18n(keyToUse) };
   });
 

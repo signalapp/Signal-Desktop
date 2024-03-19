@@ -51,9 +51,8 @@ export const ConversationHeaderTitle = () => {
     abbreviate: true,
   });
 
-  const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>(
-    'disappearingMessages'
-  );
+  const [visibleSubtitle, setVisibleSubtitle] =
+    useState<SubtitleStringsType>('disappearingMessages');
 
   const [subtitleStrings, setSubtitleStrings] = useState<SubtitleStrings>({});
   const [subtitleArray, setSubtitleArray] = useState<Array<SubtitleStringsType>>([]);

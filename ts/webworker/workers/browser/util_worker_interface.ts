@@ -25,7 +25,7 @@ const internalCallUtilsWorker = async (
       'workers',
       'node',
       'util',
-      'util.worker.js'
+      'util.worker.compiled.js'
     );
     utilWorkerInterface = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
   }

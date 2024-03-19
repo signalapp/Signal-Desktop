@@ -17,10 +17,7 @@ export async function getSodiumRenderer(): Promise<LibSodiumWrappers> {
 }
 
 export const sha256 = (s: string) => {
-  return crypto
-    .createHash('sha256')
-    .update(s)
-    .digest('base64');
+  return crypto.createHash('sha256').update(s).digest('base64');
 };
 
 export const concatUInt8Array = (...args: Array<Uint8Array>): Uint8Array => {

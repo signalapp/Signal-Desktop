@@ -101,15 +101,11 @@ async function refreshMappedValue(id: string, duringAppStart = false) {
   if (fromWrapper) {
     setMappedValue(fromWrapper);
     if (!duringAppStart) {
-      getConversationController()
-        .get(id)
-        ?.triggerUIRefresh();
+      getConversationController().get(id)?.triggerUIRefresh();
     }
   } else if (mappedContactWrapperValues.delete(id)) {
     if (!duringAppStart) {
-      getConversationController()
-        .get(id)
-        ?.triggerUIRefresh();
+      getConversationController().get(id)?.triggerUIRefresh();
     }
   }
 }

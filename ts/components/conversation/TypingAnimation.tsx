@@ -62,8 +62,8 @@ const StyledTypingDot = styled.div<{ index: number }>`
       props.index === 0
         ? 'typing-animation-first'
         : props.index === 1
-        ? 'typing-animation-second'
-        : 'typing-animation-third'}
+          ? 'typing-animation-second'
+          : 'typing-animation-third'}
     1600ms ease infinite;
 `;
 
