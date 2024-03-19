@@ -118,6 +118,7 @@ type Props = {
   onValueChanged?: (value: string) => any;
   onEnterPressed?: (value: string) => any;
   autoFocus?: boolean;
+  disabledOnBlur?: boolean;
   ref?: any;
   inputDataTestId?: string;
   id?: string;
@@ -126,7 +127,6 @@ type Props = {
 
 export const SessionInput = (props: Props) => {
   const {
-    autoFocus,
     placeholder,
     type = 'text',
     value,
@@ -134,6 +134,9 @@ export const SessionInput = (props: Props) => {
     enableShowHide,
     error,
     onValueChanged,
+    onEnterPressed,
+    autoFocus,
+    disabledOnBlur,
     inputDataTestId,
     id = 'session-input-floating-label',
     ctaButton,
@@ -180,10 +183,14 @@ export const SessionInput = (props: Props) => {
           onChange={updateInputValue}
           style={{ paddingInlineEnd: enableShowHide ? '40px' : undefined }}
           // just in case onChange isn't triggered
-          onBlur={updateInputValue}
+          onBlur={(event: ChangeEvent<HTMLInputElement>) => {
+            if (!disabledOnBlur) {
+              updateInputValue(event);
+            }
+          }}
           onKeyDown={event => {
-            if (event.key === 'Enter' && props.onEnterPressed) {
-              props.onEnterPressed(inputValue);
+            if (event.key === 'Enter' && onEnterPressed) {
+              onEnterPressed(inputValue);
               setErrorString('');
             }
           }}

@@ -22,6 +22,7 @@ import { Storage } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
+import { OnboardContainer } from './components';
 import { CreateAccount, RestoreAccount, Start } from './stages';
 
 export async function resetRegistration() {
@@ -116,9 +117,11 @@ export const RegistrationStages = () => {
 
         <Flex container={true} flexDirection="column" alignItems="center">
           <SpacerLG />
-          {step === Onboarding.Start ? <Start /> : null}
-          {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
-          {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}
+          <OnboardContainer key={'onboarding-container'} animate={true} direction="right">
+            {step === Onboarding.Start ? <Start /> : null}
+            {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
+            {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}
+          </OnboardContainer>
         </Flex>
       </StyledRegistrationContainer>
     </AnimatePresence>

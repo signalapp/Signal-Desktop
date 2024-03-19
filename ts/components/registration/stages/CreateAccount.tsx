@@ -4,7 +4,6 @@ import { SettingsKey } from '../../../data/settings-key';
 import { trigger } from '../../../shims/events';
 import {
   AccountCreation,
-  Onboarding,
   setAccountCreationStep,
 } from '../../../state/onboarding/ducks/registration';
 import {
@@ -19,7 +18,7 @@ import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { RecoverDetails, resetRegistration } from '../RegistrationStages';
-import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
+import { OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 
@@ -83,49 +82,43 @@ export const CreateAccount = () => {
   };
 
   return (
-    <OnboardContainer
-      key={`onboarding-${Onboarding.CreateAccount}`}
-      animate={true}
-      direction="right"
+    <BackButtonWithininContainer
+      margin={'2px 0 0 -36px'}
+      callback={() => {
+        setDisplayNameError('');
+      }}
     >
-      <BackButtonWithininContainer
-        margin={'2px 0 0 -36px'}
-        callback={() => {
-          setDisplayNameError('');
-        }}
+      <Flex
+        container={true}
+        width="100%"
+        flexDirection="column"
+        alignItems="flex-start"
+        margin={'0 0 0 8px'}
       >
-        <Flex
-          container={true}
-          width="100%"
-          flexDirection="column"
-          alignItems="flex-start"
-          margin={'0 0 0 8px'}
-        >
-          <OnboardHeading>{window.i18n('displayNamePick')}</OnboardHeading>
-          <SpacerSM />
-          <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
-          <SpacerLG />
-          <SessionInput
-            autoFocus={true}
-            type="text"
-            placeholder={window.i18n('enterDisplayName')}
-            value={displayName}
-            onValueChanged={(name: string) => {
-              sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
-            }}
-            onEnterPressed={signUpWithDetails}
-            error={displayNameError}
-            inputDataTestId="display-name-input"
-          />
-          <SpacerLG />
-          <SessionButton
-            buttonColor={SessionButtonColor.White}
-            onClick={signUpWithDetails}
-            text={window.i18n('continue')}
-            disabled={!(!!displayName && !displayNameError)}
-          />
-        </Flex>
-      </BackButtonWithininContainer>
-    </OnboardContainer>
+        <OnboardHeading>{window.i18n('displayNamePick')}</OnboardHeading>
+        <SpacerSM />
+        <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
+        <SpacerLG />
+        <SessionInput
+          autoFocus={true}
+          type="text"
+          placeholder={window.i18n('enterDisplayName')}
+          value={displayName}
+          onValueChanged={(name: string) => {
+            sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
+          }}
+          onEnterPressed={signUpWithDetails}
+          error={displayNameError}
+          inputDataTestId="display-name-input"
+        />
+        <SpacerLG />
+        <SessionButton
+          buttonColor={SessionButtonColor.White}
+          onClick={signUpWithDetails}
+          text={window.i18n('continue')}
+          disabled={!(!!displayName && !displayNameError)}
+        />
+      </Flex>
+    </BackButtonWithininContainer>
   );
 };

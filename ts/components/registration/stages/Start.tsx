@@ -10,13 +10,12 @@ import {
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
 import { TermsAndConditions } from '../TermsAndConditions';
-import { OnboardContainer } from '../components';
 
 export const Start = () => {
   const dispatch = useDispatch();
 
   return (
-    <OnboardContainer key={`onboarding-${Onboarding.Start}`} animate={true} direction="left">
+    <>
       <SessionButton
         buttonColor={SessionButtonColor.White}
         onClick={() => {
@@ -37,6 +36,6 @@ export const Start = () => {
       />
       <SpacerLG />
       <TermsAndConditions />
-    </OnboardContainer>
+    </>
   );
 };

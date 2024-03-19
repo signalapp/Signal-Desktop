@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import { getSwarmPollingInstance } from '../../../session/apis/snode_api';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
-import { PromiseUtils } from '../../../session/utils';
+import { PromiseUtils, ToastUtils } from '../../../session/utils';
+import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { NotFoundError } from '../../../session/utils/errors';
 import {
   AccountRestoration,
-  Onboarding,
   setAccountRestorationStep,
 } from '../../../state/onboarding/ducks/registration';
 import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
@@ -20,7 +20,7 @@ import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { SessionProgressBar } from '../../loading';
 import { RecoverDetails, resetRegistration } from '../RegistrationStages';
-import { OnboardContainer, OnboardDescription, OnboardHeading } from '../components';
+import { OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { useRecoveryProgressEffect } from '../hooks';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
@@ -143,6 +143,9 @@ export const RestoreAccount = () => {
         setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageShort'));
       } else if (e instanceof InvalidWordsError) {
         setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageIncorrect'));
+      } else if (e instanceof TaskTimedOutError) {
+        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric'));
+        ToastUtils.pushToastError('toolong', e.message || String(e));
       } else {
         setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric'));
       }
@@ -178,11 +181,7 @@ export const RestoreAccount = () => {
   };
 
   return (
-    <OnboardContainer
-      key={`onboarding-${Onboarding.RestoreAccount}`}
-      animate={true}
-      direction="right"
-    >
+    <>
       {step === AccountRestoration.RecoveryPassword || step === AccountRestoration.DisplayName ? (
         <BackButtonWithininContainer
           margin={'2px 0 0 -36px'}
@@ -216,6 +215,7 @@ export const RestoreAccount = () => {
                 <SpacerLG />
                 <SessionInput
                   autoFocus={true}
+                  disabledOnBlur={true}
                   type="password"
                   placeholder={window.i18n('enterRecoveryPhrase')}
                   value={recoveryPassword}
@@ -289,6 +289,6 @@ export const RestoreAccount = () => {
           />
         </Flex>
       )}
-    </OnboardContainer>
+    </>
   );
 };
