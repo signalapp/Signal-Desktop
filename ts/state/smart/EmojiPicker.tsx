@@ -38,15 +38,16 @@ export const SmartEmojiPicker = memo(
 
     return (
       <EmojiPicker
-        ref={ref}
         i18n={i18n}
-        skinTone={skinTone}
         onClickSettings={onClickSettings}
+        onClose={onClose}
         onSetSkinTone={onSetSkinTone}
         onPickEmoji={handlePickEmoji}
         recentEmojis={recentEmojis}
-        onClose={onClose}
+        ref={ref}
+        skinTone={skinTone}
         style={style}
+        wasInvokedFromKeyboard={false}
       />
     );
   })

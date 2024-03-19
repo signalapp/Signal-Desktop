@@ -91,7 +91,7 @@ export type PropsType = {
     | 'platform'
     | 'sortedGroupMembers'
   > &
-  EmojiPickerProps;
+  Omit<EmojiPickerProps, 'wasInvokedFromKeyboard'>;
 
 const INITIAL_IMAGE_STATE: ImageStateType = {
   angle: 0,

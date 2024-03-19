@@ -33,6 +33,7 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
     ref={ref}
     onClose={onClose}
     onPickEmoji={onPickEmoji}
+    wasInvokedFromKeyboard={false}
   />
 );
 

@@ -119,6 +119,7 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
     ref={ref}
     onClose={onClose}
     onPickEmoji={onPickEmoji}
+    wasInvokedFromKeyboard={false}
   />
 );
 

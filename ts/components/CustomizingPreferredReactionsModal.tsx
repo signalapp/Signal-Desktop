@@ -193,6 +193,7 @@ export function CustomizingPreferredReactionsModal({
             onClose={() => {
               deselectDraftEmoji();
             }}
+            wasInvokedFromKeyboard={false}
           />
         </div>
       )}
