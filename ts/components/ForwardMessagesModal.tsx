@@ -23,7 +23,7 @@ import type { LocalizerType, ThemeType } from '../types/Util';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
 import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
-import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../util/filterAndSortConversations';
 import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
@@ -96,7 +96,7 @@ export function ForwardMessagesModal({
   >([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredConversations, setFilteredConversations] = useState(
-    filterAndSortConversationsByRecent(candidateConversations, '', regionCode)
+    filterAndSortConversations(candidateConversations, '', regionCode)
   );
   const [isEditingMessage, setIsEditingMessage] = useState(false);
   const [cannotMessage, setCannotMessage] = useState(false);
@@ -169,7 +169,7 @@ export function ForwardMessagesModal({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredConversations(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           candidateConversations,
           normalizedSearchTerm,
           regionCode

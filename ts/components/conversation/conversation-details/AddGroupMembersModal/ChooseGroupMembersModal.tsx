@@ -19,7 +19,7 @@ import { missingCaseError } from '../../../../util/missingCaseError';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
 import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
-import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../../../util/filterAndSortConversations';
 import type { ConversationType } from '../../../../state/ducks/conversations';
 import type {
   UUIDFetchStateKeyType,
@@ -140,13 +140,13 @@ export function ChooseGroupMembersModal({
   const canContinue = Boolean(selectedContacts.length);
 
   const [filteredContacts, setFilteredContacts] = useState(
-    filterAndSortConversationsByRecent(candidateContacts, '', regionCode)
+    filterAndSortConversations(candidateContacts, '', regionCode)
   );
   const normalizedSearchTerm = searchTerm.trim();
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredContacts(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           candidateContacts,
           normalizedSearchTerm,
           regionCode

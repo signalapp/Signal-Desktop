@@ -30,10 +30,7 @@ import { deconstructLookup } from '../../util/deconstructLookup';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { assertDev } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import {
-  filterAndSortConversationsAlphabetically,
-  filterAndSortConversationsByRecent,
-} from '../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
@@ -718,11 +715,7 @@ export const getFilteredComposeContacts = createSelector(
     contacts: ReadonlyArray<ConversationType>,
     regionCode: string | undefined
   ): Array<ConversationType> => {
-    return filterAndSortConversationsAlphabetically(
-      contacts,
-      searchTerm,
-      regionCode
-    );
+    return filterAndSortConversations(contacts, searchTerm, regionCode);
   }
 );
 
@@ -744,18 +737,16 @@ export const getFilteredComposeGroups = createSelector(
       }>;
     }
   > => {
-    return filterAndSortConversationsAlphabetically(
-      groups,
-      searchTerm,
-      regionCode
-    ).map(group => ({
-      ...group,
-      // we don't disable groups when composing, already filtered
-      disabledReason: undefined,
-      // should always be populated for a group
-      membersCount: group.membersCount ?? 0,
-      memberships: group.memberships ?? [],
-    }));
+    return filterAndSortConversations(groups, searchTerm, regionCode).map(
+      group => ({
+        ...group,
+        // we don't disable groups when composing, already filtered
+        disabledReason: undefined,
+        // should always be populated for a group
+        membersCount: group.membersCount ?? 0,
+        memberships: group.memberships ?? [],
+      })
+    );
   }
 );
 
@@ -763,7 +754,7 @@ export const getFilteredCandidateContactsForNewGroup = createSelector(
   getCandidateContactsForNewGroup,
   getNormalizedComposerConversationSearchTerm,
   getRegionCode,
-  filterAndSortConversationsByRecent
+  filterAndSortConversations
 );
 
 const getGroupCreationComposerState = createSelector(

@@ -8,7 +8,7 @@ import type { ListRowProps } from 'react-virtualized';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { ToastType } from '../types/Toast';
-import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../util/filterAndSortConversations';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem';
 import {
@@ -56,7 +56,7 @@ export function AddUserToAnotherGroupModal({
 }: Props): JSX.Element | null {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [filteredConversations, setFilteredConversations] = React.useState(
-    filterAndSortConversationsByRecent(candidateConversations, '', undefined)
+    filterAndSortConversations(candidateConversations, '', undefined)
   );
 
   const [selectedGroupId, setSelectedGroupId] = React.useState<
@@ -78,7 +78,7 @@ export function AddUserToAnotherGroupModal({
   React.useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredConversations(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           candidateConversations,
           normalizedSearchTerm,
           regionCode

@@ -9,7 +9,7 @@ import { List } from 'react-virtualized';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/I18N';
 import { SearchInput } from './SearchInput';
-import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../util/filterAndSortConversations';
 import { NavSidebarSearchHeader } from './NavSidebar';
 import { ListTile } from './ListTile';
 import { strictAssert } from '../util/assert';
@@ -89,11 +89,7 @@ export function CallsNewCall({
     if (query === '') {
       return activeConversations;
     }
-    return filterAndSortConversationsByRecent(
-      activeConversations,
-      query,
-      regionCode
-    );
+    return filterAndSortConversations(activeConversations, query, regionCode);
   }, [activeConversations, query, regionCode]);
 
   const [groupConversations, directConversations] = useMemo(() => {
