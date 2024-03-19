@@ -304,8 +304,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     }
 
     let noVideoNode: ReactNode;
-    let errorDialogTitle: ReactNode;
-    let errorDialogBody = '';
     if (!hasVideoToShow) {
       const showDialogButton = (
         <button
@@ -325,18 +323,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             {showDialogButton}
           </>
         );
-        errorDialogTitle = (
-          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
-            <Intl
-              i18n={i18n}
-              id="icu:calling__you-have-blocked"
-              components={{
-                name: <ContactName key="name" title={title} />,
-              }}
-            />
-          </div>
-        );
-        errorDialogBody = i18n('icu:calling__block-info');
       } else if (showMissingMediaKeys) {
         noVideoNode = (
           <>
@@ -347,18 +333,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             {showDialogButton}
           </>
         );
-        errorDialogTitle = (
-          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
-            <Intl
-              i18n={i18n}
-              id="icu:calling__missing-media-keys"
-              components={{
-                name: <ContactName key="name" title={title} />,
-              }}
-            />
-          </div>
-        );
-        errorDialogBody = i18n('icu:calling__missing-media-keys-info');
       } else {
         noVideoNode = (
           <Avatar
@@ -378,6 +352,56 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         );
       }
     }
+
+    // Error dialog maintains state, so if you have it open and the underlying
+    // error changes or resolves, you can keep reading the same dialog info.
+    const [errorDialogTitle, setErrorDialogTitle] = useState<ReactNode | null>(
+      null
+    );
+    const [errorDialogBody, setErrorDialogBody] = useState<string>('');
+    useEffect(() => {
+      if (hasVideoToShow || showErrorDialog) {
+        return;
+      }
+
+      if (isBlocked) {
+        setErrorDialogTitle(
+          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
+            <Intl
+              i18n={i18n}
+              id="icu:calling__you-have-blocked"
+              components={{
+                name: <ContactName key="name" title={title} />,
+              }}
+            />
+          </div>
+        );
+        setErrorDialogBody(i18n('icu:calling__block-info'));
+      } else if (showMissingMediaKeys) {
+        setErrorDialogTitle(
+          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
+            <Intl
+              i18n={i18n}
+              id="icu:calling__missing-media-keys"
+              components={{
+                name: <ContactName key="name" title={title} />,
+              }}
+            />
+          </div>
+        );
+        setErrorDialogBody(i18n('icu:calling__missing-media-keys-info'));
+      } else {
+        setErrorDialogTitle(null);
+        setErrorDialogBody('');
+      }
+    }, [
+      hasVideoToShow,
+      i18n,
+      isBlocked,
+      showErrorDialog,
+      showMissingMediaKeys,
+      title,
+    ]);
 
     return (
       <>
