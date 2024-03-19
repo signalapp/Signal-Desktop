@@ -178,7 +178,10 @@ export function AboutContactModal({
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--person" />
           {i18n('icu:AboutContactModal__system-contact', {
-            name: conversation.firstName || conversation.title,
+            name:
+              conversation.systemGivenName ||
+              conversation.firstName ||
+              conversation.title,
           })}
         </div>
       ) : null}
