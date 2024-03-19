@@ -1,43 +1,45 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { pick } from 'lodash';
-import type { ConversationType } from '../ducks/conversations';
+import { useContactNameData } from '../../components/conversation/ContactName';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
 } from '../../components/conversation/ConversationHeader';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import {
-  getConversationByServiceIdSelector,
-  getConversationSelector,
-  getHasPanelOpen,
-  getSelectedMessageIds,
-  isMissingRequiredProfileSharing,
-} from '../selectors/conversations';
+import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
+import { useMinimalConversation } from '../../hooks/useMinimalConversation';
 import { CallMode } from '../../types/Calling';
+import { PanelType } from '../../types/Panels';
+import { StoryViewModeType } from '../../types/Stories';
+import { strictAssert } from '../../util/assert';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall';
+import { isSignalConversation } from '../../util/isSignalConversation';
+import { missingCaseError } from '../../util/missingCaseError';
 import { useCallingActions } from '../ducks/calling';
 import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers';
+import type { ConversationType } from '../ducks/conversations';
 import {
   getConversationCallMode,
   useConversationsActions,
 } from '../ducks/conversations';
-import { getHasStoriesSelector } from '../selectors/stories2';
-import { getUserACI, getIntl, getTheme } from '../selectors/user';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
-import { missingCaseError } from '../../util/missingCaseError';
-import { strictAssert } from '../../util/assert';
-import { isSignalConversation } from '../../util/isSignalConversation';
 import { useSearchActions } from '../ducks/search';
 import { useStoriesActions } from '../ducks/stories';
-import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
-import { getGroupMemberships } from '../../util/getGroupMemberships';
-import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall';
-import { useContactNameData } from '../../components/conversation/ContactName';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getActiveCallState, getCallSelector } from '../selectors/calling';
+import {
+  getConversationByServiceIdSelector,
+  getConversationSelector,
+  getHasPanelOpen,
+  isMissingRequiredProfileSharing as getIsMissingRequiredProfileSharing,
+  getSelectedMessageIds,
+} from '../selectors/conversations';
+import { getHasStoriesSelector } from '../selectors/stories2';
+import { getIntl, getTheme, getUserACI } from '../selectors/user';
 
 export type OwnProps = {
   id: string;
@@ -102,7 +104,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
     onArchive,
     onMarkUnread,
     onMoveToInbox,
-    popPanelForConversation,
     pushPanelForConversation,
     setDisappearingMessages,
     setMuteExpiration,
@@ -145,73 +146,149 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const conversationName = useContactNameData(conversation);
   strictAssert(conversationName, 'conversationName is required');
 
+  const isMissingMandatoryProfileSharing =
+    getIsMissingRequiredProfileSharing(conversation);
+
+  const onConversationAccept = useCallback(() => {
+    acceptConversation(conversation.id);
+  }, [acceptConversation, conversation.id]);
+
+  const onConversationArchive = useCallback(() => {
+    onArchive(conversation.id);
+  }, [onArchive, conversation.id]);
+
+  const onConversationBlock = useCallback(() => {
+    blockConversation(conversation.id);
+  }, [blockConversation, conversation.id]);
+
+  const onConversationBlockAndReportSpam = useCallback(() => {
+    blockAndReportSpam(conversation.id);
+  }, [blockAndReportSpam, conversation.id]);
+
+  const onConversationDelete = useCallback(() => {
+    deleteConversation(conversation.id);
+  }, [deleteConversation, conversation.id]);
+
+  const onConversationDeleteMessages = useCallback(() => {
+    destroyMessages(conversation.id);
+  }, [destroyMessages, conversation.id]);
+
+  const onConversationDisappearingMessagesChange = useCallback(
+    seconds => {
+      setDisappearingMessages(conversation.id, seconds);
+    },
+    [setDisappearingMessages, conversation.id]
+  );
+
+  const onConversationLeaveGroup = useCallback(() => {
+    leaveGroup(conversation.id);
+  }, [leaveGroup, conversation.id]);
+
+  const onConversationMarkUnread = useCallback(() => {
+    onMarkUnread(conversation.id);
+  }, [onMarkUnread, conversation.id]);
+
+  const onConversationMuteExpirationChange = useCallback(
+    seconds => {
+      setMuteExpiration(conversation.id, seconds);
+    },
+    [setMuteExpiration, conversation.id]
+  );
+
+  const onConversationPin = useCallback(() => {
+    setPinned(conversation.id, true);
+  }, [setPinned, conversation.id]);
+
+  const onConversationReportSpam = useCallback(() => {
+    reportSpam(conversation.id);
+  }, [reportSpam, conversation.id]);
+
+  const onConversationUnarchive = useCallback(() => {
+    onMoveToInbox(conversation.id);
+  }, [onMoveToInbox, conversation.id]);
+
+  const onConversationUnpin = useCallback(() => {
+    setPinned(conversation.id, false);
+  }, [setPinned, conversation.id]);
+
+  const onOutgoingAudioCall = useCallback(() => {
+    onOutgoingAudioCallInConversation(conversation.id);
+  }, [onOutgoingAudioCallInConversation, conversation.id]);
+
+  const onOutgoingVideoCall = useCallback(() => {
+    onOutgoingVideoCallInConversation(conversation.id);
+  }, [onOutgoingVideoCallInConversation, conversation.id]);
+
+  const onSearchInConversation = useCallback(() => {
+    searchInConversation(conversation.id);
+  }, [searchInConversation, conversation.id]);
+
+  const onSelectModeEnter = useCallback(() => {
+    toggleSelectMode(true);
+  }, [toggleSelectMode]);
+
+  const onShowMembers = useCallback(() => {
+    pushPanelForConversation({ type: PanelType.GroupV1Members });
+  }, [pushPanelForConversation]);
+
+  const onViewConversationDetails = useCallback(() => {
+    pushPanelForConversation({ type: PanelType.ConversationDetails });
+  }, [pushPanelForConversation]);
+
+  const onViewRecentMedia = useCallback(() => {
+    pushPanelForConversation({ type: PanelType.AllMedia });
+  }, [pushPanelForConversation]);
+
+  const onViewUserStories = useCallback(() => {
+    viewUserStories({
+      conversationId: conversation.id,
+      storyViewMode: StoryViewModeType.User,
+    });
+  }, [viewUserStories, conversation.id]);
+
+  const minimalConversation = useMinimalConversation(conversation);
+
   return (
     <ConversationHeader
-      {...pick(conversation, [
-        'acceptedMessageRequest',
-        'announcementsOnly',
-        'areWeAdmin',
-        'avatarPath',
-        'canChangeTimer',
-        'color',
-        'expireTimer',
-        'groupVersion',
-        'isArchived',
-        'isMe',
-        'isPinned',
-        'isVerified',
-        'left',
-        'markedUnread',
-        'muteExpiresAt',
-        'name',
-        'phoneNumber',
-        'profileName',
-        'sharedGroupNames',
-        'title',
-        'type',
-        'unblurredAvatarPath',
-      ])}
+      addedByName={addedByName}
       badge={badge}
       cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
-      destroyMessages={destroyMessages}
+      conversation={minimalConversation}
+      conversationName={conversationName}
       hasPanelShowing={hasPanelShowing}
       hasStories={hasStories}
       i18n={i18n}
-      id={id}
-      isMissingMandatoryProfileSharing={isMissingRequiredProfileSharing(
-        conversation
-      )}
+      isMissingMandatoryProfileSharing={isMissingMandatoryProfileSharing}
+      isSelectMode={isSelectMode}
       isSignalConversation={isSignalConversation(conversation)}
       isSMSOnly={isConversationSMSOnly(conversation)}
-      leaveGroup={leaveGroup}
-      onArchive={onArchive}
-      onMarkUnread={onMarkUnread}
-      onMoveToInbox={onMoveToInbox}
-      onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
-      onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      onConversationAccept={onConversationAccept}
+      onConversationArchive={onConversationArchive}
+      onConversationBlock={onConversationBlock}
+      onConversationBlockAndReportSpam={onConversationBlockAndReportSpam}
+      onConversationDelete={onConversationDelete}
+      onConversationDeleteMessages={onConversationDeleteMessages}
+      onConversationDisappearingMessagesChange={
+        onConversationDisappearingMessagesChange
+      }
+      onConversationLeaveGroup={onConversationLeaveGroup}
+      onConversationMarkUnread={onConversationMarkUnread}
+      onConversationMuteExpirationChange={onConversationMuteExpirationChange}
+      onConversationPin={onConversationPin}
+      onConversationReportSpam={onConversationReportSpam}
+      onConversationUnarchive={onConversationUnarchive}
+      onConversationUnpin={onConversationUnpin}
+      onOutgoingAudioCall={onOutgoingAudioCall}
+      onOutgoingVideoCall={onOutgoingVideoCall}
+      onSearchInConversation={onSearchInConversation}
+      onSelectModeEnter={onSelectModeEnter}
+      onShowMembers={onShowMembers}
+      onViewConversationDetails={onViewConversationDetails}
+      onViewRecentMedia={onViewRecentMedia}
+      onViewUserStories={onViewUserStories}
       outgoingCallButtonStyle={outgoingCallButtonStyle}
-      popPanelForConversation={popPanelForConversation}
-      pushPanelForConversation={pushPanelForConversation}
-      searchInConversation={searchInConversation}
-      setDisappearingMessages={setDisappearingMessages}
-      setMuteExpiration={setMuteExpiration}
-      setPinned={setPinned}
+      sharedGroupNames={conversation.sharedGroupNames}
       theme={theme}
-      isSelectMode={isSelectMode}
-      toggleSelectMode={toggleSelectMode}
-      viewUserStories={viewUserStories}
-      // MessageRequestActionsConfirmation
-      addedByName={addedByName}
-      conversationId={id}
-      conversationType={conversation.type}
-      conversationName={conversationName}
-      isBlocked={conversation.isBlocked ?? false}
-      isReported={conversation.isReported ?? false}
-      acceptConversation={acceptConversation}
-      blockAndReportSpam={blockAndReportSpam}
-      blockConversation={blockConversation}
-      reportSpam={reportSpam}
-      deleteConversation={deleteConversation}
     />
   );
 });
