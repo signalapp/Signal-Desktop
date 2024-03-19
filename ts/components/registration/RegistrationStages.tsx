@@ -1,23 +1,19 @@
 import { shell } from 'electron';
 import { AnimatePresence } from 'framer-motion';
-import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { getConversationController } from '../../session/conversations';
-import { mnDecode } from '../../session/crypto/mnemonic';
-import { StringUtils } from '../../session/utils';
-import { fromHex } from '../../session/utils/String';
 import {
+  AccountCreation,
+  AccountRestoration,
   Onboarding,
-  setGeneratedRecoveryPhrase,
-  setHexGeneratedPubKey,
 } from '../../state/onboarding/ducks/registration';
 import {
-  useOnboardGeneratedRecoveryPhrase,
+  useOnboardAccountCreationStep,
+  useOnboardAccountRestorationStep,
   useOnboardStep,
 } from '../../state/onboarding/selectors/registration';
-import { generateMnemonic, sessionGenerateKeyPair } from '../../util/accountManager';
 import { Storage } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
@@ -49,33 +45,11 @@ const StyledRegistrationContainer = styled(Flex)`
 `;
 
 export const RegistrationStages = () => {
-  const generatedRecoveryPhrase = useOnboardGeneratedRecoveryPhrase();
   const step = useOnboardStep();
-
-  const dispatch = useDispatch();
-
-  const generateMnemonicAndKeyPair = async () => {
-    if (generatedRecoveryPhrase === '') {
-      const mnemonic = await generateMnemonic();
-
-      let seedHex = mnDecode(mnemonic);
-      // handle shorter than 32 bytes seeds
-      const privKeyHexLength = 32 * 2;
-      if (seedHex.length !== privKeyHexLength) {
-        seedHex = seedHex.concat('0'.repeat(32));
-        seedHex = seedHex.substring(0, privKeyHexLength);
-      }
-      const seed = fromHex(seedHex);
-      const keyPair = await sessionGenerateKeyPair(seed);
-      const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
-
-      dispatch(setGeneratedRecoveryPhrase(mnemonic));
-      dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' sessionID
-    }
-  };
+  const creationStep = useOnboardAccountCreationStep();
+  const restorationStep = useOnboardAccountRestorationStep();
 
   useMount(() => {
-    void generateMnemonicAndKeyPair();
     void resetRegistration();
   });
 
@@ -117,7 +91,10 @@ export const RegistrationStages = () => {
 
         <Flex container={true} flexDirection="column" alignItems="center">
           <SpacerLG />
-          <OnboardContainer key={'onboarding-container'} animate={true} direction="right">
+          <OnboardContainer
+            key={`${Onboarding[step]}-${step === Onboarding.CreateAccount ? AccountCreation[creationStep] : AccountRestoration[restorationStep]}`}
+            animate={step !== Onboarding.Start}
+          >
             {step === Onboarding.Start ? <Start /> : null}
             {step === Onboarding.CreateAccount ? <CreateAccount /> : null}
             {step === Onboarding.RestoreAccount ? <RestoreAccount /> : null}

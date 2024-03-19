@@ -5,6 +5,7 @@ import {
   Onboarding,
   setAccountCreationStep,
   setAccountRestorationStep,
+  setDirection,
   setOnboardingStep,
 } from '../../../state/onboarding/ducks/registration';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
@@ -19,6 +20,7 @@ export const Start = () => {
       <SessionButton
         buttonColor={SessionButtonColor.White}
         onClick={() => {
+          dispatch(setDirection('forward'));
           dispatch(setAccountCreationStep(AccountCreation.DisplayName));
           dispatch(setOnboardingStep(Onboarding.CreateAccount));
         }}
@@ -28,6 +30,7 @@ export const Start = () => {
       <SessionButton
         buttonColor={SessionButtonColor.White}
         onClick={() => {
+          dispatch(setDirection('forward'));
           dispatch(setOnboardingStep(Onboarding.RestoreAccount));
           dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
         }}

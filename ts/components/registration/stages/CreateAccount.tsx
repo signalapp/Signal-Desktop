@@ -1,17 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useMount } from 'react-use';
 import { SettingsKey } from '../../../data/settings-key';
+import { mnDecode } from '../../../session/crypto/mnemonic';
+import { StringUtils } from '../../../session/utils';
+import { fromHex } from '../../../session/utils/String';
 import { trigger } from '../../../shims/events';
 import {
   AccountCreation,
   setAccountCreationStep,
+  setDisplayName,
+  setHexGeneratedPubKey,
+  setRecoveryPassword,
 } from '../../../state/onboarding/ducks/registration';
 import {
+  useDisplayName,
   useOnboardAccountCreationStep,
-  useOnboardGeneratedRecoveryPhrase,
   useOnboardHexGeneratedPubKey,
+  useRecoveryPassword,
 } from '../../../state/onboarding/selectors/registration';
-import { registerSingleDevice } from '../../../util/accountManager';
+import {
+  generateMnemonic,
+  registerSingleDevice,
+  sessionGenerateKeyPair,
+} from '../../../util/accountManager';
 import { Storage, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
@@ -43,16 +55,40 @@ async function signUp(signUpDetails: RecoverDetails) {
 
 export const CreateAccount = () => {
   const step = useOnboardAccountCreationStep();
-  const recoveryPassword = useOnboardGeneratedRecoveryPhrase();
+  const recoveryPassword = useRecoveryPassword();
   const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
 
   const dispatch = useDispatch();
 
-  const [displayName, setDisplayName] = useState('');
+  const displayName = useDisplayName();
   const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
 
+  const generateMnemonicAndKeyPair = async () => {
+    if (recoveryPassword === '') {
+      const mnemonic = await generateMnemonic();
+
+      let seedHex = mnDecode(mnemonic);
+      // handle shorter than 32 bytes seeds
+      const privKeyHexLength = 32 * 2;
+      if (seedHex.length !== privKeyHexLength) {
+        seedHex = seedHex.concat('0'.repeat(32));
+        seedHex = seedHex.substring(0, privKeyHexLength);
+      }
+      const seed = fromHex(seedHex);
+      const keyPair = await sessionGenerateKeyPair(seed);
+      const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
+
+      dispatch(setRecoveryPassword(mnemonic));
+      dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' sessionID
+    }
+  };
+
+  useMount(() => {
+    void generateMnemonicAndKeyPair();
+  });
+
   useEffect(() => {
-    if (step === AccountCreation.DisplayName) {
+    if (step === AccountCreation.DisplayName && hexGeneratedPubKey) {
       window.Session.setNewSessionID(hexGeneratedPubKey);
     }
   }, [step, hexGeneratedPubKey]);
@@ -85,6 +121,8 @@ export const CreateAccount = () => {
     <BackButtonWithininContainer
       margin={'2px 0 0 -36px'}
       callback={() => {
+        dispatch(setDisplayName(''));
+        dispatch(setRecoveryPassword(''));
         setDisplayNameError('');
       }}
     >
@@ -101,11 +139,13 @@ export const CreateAccount = () => {
         <SpacerLG />
         <SessionInput
           autoFocus={true}
+          disabledOnBlur={true}
           type="text"
           placeholder={window.i18n('enterDisplayName')}
           value={displayName}
-          onValueChanged={(name: string) => {
-            sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
+          onValueChanged={(_name: string) => {
+            const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError);
+            dispatch(setDisplayName(name));
           }}
           onEnterPressed={signUpWithDetails}
           error={displayNameError}

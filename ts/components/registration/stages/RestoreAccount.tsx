@@ -9,8 +9,16 @@ import { NotFoundError } from '../../../session/utils/errors';
 import {
   AccountRestoration,
   setAccountRestorationStep,
+  setDisplayName,
+  setProgress,
+  setRecoveryPassword,
 } from '../../../state/onboarding/ducks/registration';
-import { useOnboardAccountRestorationStep } from '../../../state/onboarding/selectors/registration';
+import {
+  useDisplayName,
+  useOnboardAccountRestorationStep,
+  useProgress,
+  useRecoveryPassword,
+} from '../../../state/onboarding/selectors/registration';
 import { registerSingleDevice, signInByLinkingDevice } from '../../../util/accountManager';
 import { setSignInByLinking, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
@@ -99,15 +107,15 @@ async function signInAndFetchDisplayName(
 export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
 
-  const [recoveryPassword, setRecoveryPassword] = useState('');
+  const recoveryPassword = useRecoveryPassword();
   const [recoveryPasswordError, setRecoveryPasswordError] = useState(
     undefined as string | undefined
   );
 
-  const [displayName, setDisplayName] = useState('');
+  const displayName = useDisplayName();
   const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
 
-  const [progress, setProgress] = useState(0);
+  const progress = useProgress();
 
   const dispatch = useDispatch();
 
@@ -118,7 +126,7 @@ export const RestoreAccount = () => {
       return;
     }
 
-    setProgress(0);
+    dispatch(setProgress(0));
     try {
       const displayNameFromNetwork = await signInAndFetchDisplayName({
         recoveryPassword,
@@ -129,7 +137,7 @@ export const RestoreAccount = () => {
           dispatch(setAccountRestorationStep(AccountRestoration.Loading));
         },
       });
-      setDisplayName(displayNameFromNetwork);
+      dispatch(setDisplayName(displayNameFromNetwork));
       dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
     } catch (e) {
       if (e instanceof NotFoundError) {
@@ -161,7 +169,7 @@ export const RestoreAccount = () => {
       return;
     }
 
-    setProgress(0);
+    dispatch(setProgress(0));
     try {
       await signInWithNewDisplayName({
         displayName,
@@ -186,9 +194,12 @@ export const RestoreAccount = () => {
         <BackButtonWithininContainer
           margin={'2px 0 0 -36px'}
           callback={() => {
-            setDisplayNameError('');
+            dispatch(setRecoveryPassword(''));
+            dispatch(setDisplayName(''));
+            dispatch(setProgress(0));
+
             setRecoveryPasswordError('');
-            setProgress(0);
+            setDisplayNameError('');
           }}
         >
           <Flex
@@ -220,7 +231,7 @@ export const RestoreAccount = () => {
                   placeholder={window.i18n('enterRecoveryPhrase')}
                   value={recoveryPassword}
                   onValueChanged={(seed: string) => {
-                    setRecoveryPassword(seed);
+                    dispatch(setRecoveryPassword(seed));
                     setRecoveryPasswordError(
                       !seed ? window.i18n('recoveryPhraseEmpty') : undefined
                     );
@@ -247,11 +258,13 @@ export const RestoreAccount = () => {
                 <SpacerLG />
                 <SessionInput
                   autoFocus={true}
+                  disabledOnBlur={true}
                   type="text"
                   placeholder={window.i18n('enterDisplayName')}
                   value={displayName}
-                  onValueChanged={(name: string) => {
-                    sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
+                  onValueChanged={(_name: string) => {
+                    const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError);
+                    dispatch(setDisplayName(name));
                   }}
                   onEnterPressed={recoverAndEnterDisplayName}
                   error={displayNameError}

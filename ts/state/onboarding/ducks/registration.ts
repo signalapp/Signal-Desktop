@@ -31,31 +31,45 @@ export enum AccountRestoration {
   Complete,
 }
 
+export type OnboardDirection = 'backward' | 'forward';
+
 export type OnboardingState = {
-  generatedRecoveryPhrase: string;
+  recoveryPassword: string;
   hexGeneratedPubKey: string;
+  displayName: string;
+  progress: number;
   step: Onboarding;
   accountCreationStep: AccountCreation;
   accountRestorationStep: AccountRestoration;
+  direction: OnboardDirection;
 };
 
 const initialState: OnboardingState = {
-  generatedRecoveryPhrase: '',
+  recoveryPassword: '',
   hexGeneratedPubKey: '',
+  displayName: '',
+  progress: 0,
   step: Onboarding.Start,
   accountRestorationStep: AccountRestoration.RecoveryPassword,
   accountCreationStep: AccountCreation.DisplayName,
+  direction: 'forward',
 };
 
 export const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    setGeneratedRecoveryPhrase(state, action: PayloadAction<string>) {
-      return { ...state, generatedRecoveryPhrase: action.payload };
+    setRecoveryPassword(state, action: PayloadAction<string>) {
+      return { ...state, recoveryPassword: action.payload };
     },
     setHexGeneratedPubKey(state, action: PayloadAction<string>) {
       return { ...state, hexGeneratedPubKey: action.payload };
+    },
+    setDisplayName(state, action: PayloadAction<string>) {
+      return { ...state, displayName: action.payload };
+    },
+    setProgress(state, action: PayloadAction<number>) {
+      return { ...state, progress: action.payload };
     },
     setOnboardingStep(state, action: PayloadAction<Onboarding>) {
       return { ...state, step: action.payload };
@@ -66,14 +80,20 @@ export const registrationSlice = createSlice({
     setAccountRestorationStep(state, action: PayloadAction<AccountRestoration>) {
       return { ...state, accountRestorationStep: action.payload };
     },
+    setDirection(state, action: PayloadAction<OnboardDirection>) {
+      return { ...state, direction: action.payload };
+    },
   },
 });
 
 export const {
-  setGeneratedRecoveryPhrase,
+  setRecoveryPassword,
   setHexGeneratedPubKey,
+  setDisplayName,
+  setProgress,
   setOnboardingStep,
   setAccountCreationStep,
   setAccountRestorationStep,
+  setDirection,
 } = registrationSlice.actions;
 export default registrationSlice.reducer;

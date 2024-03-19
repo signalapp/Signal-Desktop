@@ -1,4 +1,4 @@
-import { Dispatch } from '@reduxjs/toolkit';
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
 import { ONBOARDING_TIMES } from '../../../session/constants';
@@ -13,7 +13,7 @@ let interval: NodeJS.Timeout;
 type UseRecoveryProgressEffectProps = {
   step: AccountRestoration;
   progress: number;
-  setProgress: (progress: number) => void;
+  setProgress: (progress: number) => AnyAction;
   displayName: string;
   dispatch: Dispatch;
 };
@@ -22,7 +22,7 @@ type UseRecoveryProgressEffectProps = {
  * Effect to handle the progress rate of the recovery loading animation
  * @param step AccountRestoration the onboarding step we are currently on
  * @param progress number the progress of the loading bar
- * @param setProgress (progress: number) => void function to set the progress of the loading bar
+ * @param setProgress (progress: number) => AnyAction redux function to set the progress of the loading bar
  * @param displayName string the display name of the user
  * @param dispatch
  */
@@ -33,7 +33,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
     if (step === AccountRestoration.Loading) {
       interval = setInterval(() => {
         if (progress < 100) {
-          setProgress(progress + 1);
+          dispatch(setProgress(progress + 1));
         }
         window.log.debug(
           `WIP: [continueYourSession] AccountRestoration.Loading Loading progress ${progress}%`
@@ -53,7 +53,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
     if (step === AccountRestoration.Finishing) {
       interval = setInterval(() => {
         if (progress < 100) {
-          setProgress(progress + 1);
+          dispatch(setProgress(progress + 1));
         }
         window.log.debug(
           `WIP: [continueYourSession] AccountRestoration. Finishing progress ${progress}%`

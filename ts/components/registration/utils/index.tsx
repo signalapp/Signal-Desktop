@@ -2,17 +2,16 @@ import { sanitizeSessionUsername } from '../../../session/utils/String';
 
 export function sanitizeDisplayNameOrToast(
   displayName: string,
-  setDisplayName: (sanitized: string) => void,
   setDisplayNameError: (error: string | undefined) => void
 ) {
   try {
     const sanitizedName = sanitizeSessionUsername(displayName);
     const trimName = sanitizedName.trim();
-    setDisplayName(sanitizedName);
     setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+    return sanitizedName;
   } catch (e) {
-    setDisplayName(displayName);
     setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter'));
+    return displayName;
   }
 }
 
