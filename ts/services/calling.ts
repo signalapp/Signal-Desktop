@@ -1925,19 +1925,19 @@ export class CallingClass {
     envelope: ProcessedEnvelope,
     callingMessage: Proto.ICallingMessage
   ): Promise<void> {
-    log.info('CallingClass.handleCallingMessage()');
+    const logId = `CallingClass.handleCallingMessage(${envelope.timestamp})`;
 
     const enableIncomingCalls = window.Events.getIncomingCallNotification();
     if (callingMessage.offer && !enableIncomingCalls) {
       // Drop offers silently if incoming call notifications are disabled.
-      log.info('Incoming calls are disabled, ignoring call offer.');
+      log.info(`${logId}: Incoming calls are disabled, ignoring call offer.`);
       return;
     }
 
     const remoteUserId = envelope.sourceServiceId;
     const remoteDeviceId = this.parseDeviceId(envelope.sourceDevice);
     if (!remoteUserId || !remoteDeviceId || !this.localDeviceId) {
-      log.error('Missing identifier, ignoring call message.');
+      log.error(`${logId}: Missing identifier, ignoring call message.`);
       return;
     }
 
@@ -1946,7 +1946,9 @@ export class CallingClass {
     const senderIdentityRecord =
       await storage.protocol.getOrMigrateIdentityRecord(remoteUserId);
     if (!senderIdentityRecord) {
-      log.error('Missing sender identity record; ignoring call message.');
+      log.error(
+        `${logId}: Missing sender identity record; ignoring call message.`
+      );
       return;
     }
     const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
@@ -1955,14 +1957,16 @@ export class CallingClass {
 
     const receiverIdentityRecord = storage.protocol.getIdentityRecord(ourAci);
     if (!receiverIdentityRecord) {
-      log.error('Missing receiver identity record; ignoring call message.');
+      log.error(
+        `${logId}: Missing receiver identity record; ignoring call message.`
+      );
       return;
     }
     const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
-      log.error('Missing conversation; ignoring call message.');
+      log.error(`${logId}: Missing conversation; ignoring call message.`);
       return;
     }
 
@@ -1971,7 +1975,8 @@ export class CallingClass {
       !conversation.getAccepted({ ignoreEmptyConvo: true })
     ) {
       log.info(
-        'Conversation was not approved by user; rejecting call message.'
+        `${logId}: Conversation was not approved by user; ` +
+          'rejecting call message.'
       );
 
       const { callId } = callingMessage.offer;
@@ -2020,7 +2025,7 @@ export class CallingClass {
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
 
-    log.info('CallingClass.handleCallingMessage(): Handling in RingRTC');
+    log.info(`${logId}: Handling in RingRTC`);
 
     RingRTC.handleCallingMessage(
       remoteUserId,

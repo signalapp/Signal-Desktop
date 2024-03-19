@@ -2807,18 +2807,21 @@ export default class MessageReceiver
 
     this.removeFromCache(envelope);
 
+    const logId = `MessageReceiver.handleCallingMessage(${getEnvelopeId(
+      envelope
+    )})`;
+
     if (
       (envelope.source && this.isBlocked(envelope.source)) ||
       (envelope.sourceServiceId &&
         this.isServiceIdBlocked(envelope.sourceServiceId))
     ) {
-      const logId = getEnvelopeId(envelope);
-
       log.info(`${logId}: Dropping calling message from blocked sender`);
       this.removeFromCache(envelope);
       return;
     }
 
+    log.info(`${logId}: Passing to ringrtc`);
     await window.Signal.Services.calling.handleCallingMessage(
       envelope,
       callingMessage
