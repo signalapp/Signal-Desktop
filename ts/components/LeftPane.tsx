@@ -635,7 +635,7 @@ export function LeftPane({
 
   return (
     <NavSidebar
-      title="Chats"
+      title={i18n('icu:LeftPane--chats')}
       hideHeader={hideHeader}
       i18n={i18n}
       otherTabsUnreadStats={otherTabsUnreadStats}
