@@ -884,14 +884,6 @@ export function CallScreen({
               onClick={toggleAudio}
               tooltipDirection={TooltipPlacement.Top}
             />
-            <CallingButton
-              buttonType={presentingButtonType}
-              i18n={i18n}
-              onMouseEnter={onControlsMouseEnter}
-              onMouseLeave={onControlsMouseLeave}
-              onClick={togglePresenting}
-              tooltipDirection={TooltipPlacement.Top}
-            />
             {isGroupCallRaiseHandEnabled && raiseHandButtonType && (
               <CallingButton
                 buttonType={raiseHandButtonType}
@@ -902,6 +894,14 @@ export function CallScreen({
                 tooltipDirection={TooltipPlacement.Top}
               />
             )}
+            <CallingButton
+              buttonType={presentingButtonType}
+              i18n={i18n}
+              onMouseEnter={onControlsMouseEnter}
+              onMouseLeave={onControlsMouseLeave}
+              onClick={togglePresenting}
+              tooltipDirection={TooltipPlacement.Top}
+            />
             {isGroupCallReactionsEnabled && reactButtonType && (
               <div
                 className={classNames('CallControls__ReactButtonContainer', {
