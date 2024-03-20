@@ -429,23 +429,23 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ConversationHeader__MenuItem--Accept": {
-    "messageformat": "Accept",
+    "messageformat": "ஒப்புக்கொள்",
     "description": "Shown in menu for conversation, allows the user to accept a message request"
   },
   "icu:ConversationHeader__MenuItem--Block": {
-    "messageformat": "Block",
+    "messageformat": "தடைசெய்",
     "description": "Shown in menu for conversation, allows the user to block the contact"
   },
   "icu:ConversationHeader__MenuItem--Unblock": {
-    "messageformat": "Unblock",
+    "messageformat": "தடைநீக்கு",
     "description": "Shown in menu for conversation, allows the user to unblock the contact"
   },
   "icu:ConversationHeader__MenuItem--ReportSpam": {
-    "messageformat": "Report Spam",
+    "messageformat": "ஸ்பேம் எனப் புகாரளி",
     "description": "Shown in menu for conversation, allows the user to report the conversation as spam"
   },
   "icu:ConversationHeader__MenuItem--DeleteChat": {
-    "messageformat": "Delete Chat",
+    "messageformat": "சாட்டை அழி",
     "description": "Shown in menu for conversation, allows the user to delete the conversation"
   },
   "icu:ContactListItem__menu": {
@@ -613,11 +613,11 @@
     "description": "Text for unread message separator, with count"
   },
   "icu:taskbarMarkedUnread": {
-    "messageformat": "Marked Unread",
+    "messageformat": "படிக்காததாகக் குறிக்கப்பட்டது",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
   },
   "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}",
+    "messageformat": "{count, plural, one {{count,number} படிக்காத செய்தி} other {{count,number} படிக்காத செய்திகள்}}",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
@@ -1571,7 +1571,7 @@
     "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:TitleTransition--notification": {
-    "messageformat": "You started this chat with {oldTitle}",
+    "messageformat": "நீங்கள் இந்தச் சாட்டை {oldTitle} உடன் தொடங்கினீர்கள்",
     "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
   },
   "icu:quoteThumbnailAlt": {
@@ -3409,59 +3409,59 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "icu:SafetyTipsModal__Title": {
-    "messageformat": "Safety Tips",
+    "messageformat": "பாதுகாப்பு உதவிக்குறிப்புகள்",
     "description": "Title of the safety tips modal"
   },
   "icu:SafetyTipsModal__Description": {
-    "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
+    "messageformat": "உங்களுக்கு தெரியாத நபர்களிடமிருந்து பெறப்படும் மெசேஜ் கோரிக்கைகளை ஏற்கும்போது கவனமாக இருங்கள். கவனமாக இருங்கள்:",
     "description": "Description of the safety tips modal"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
-    "messageformat": "Crypto or money scams",
+    "messageformat": "கிரிப்டோ அல்லது பண மோசடிகள்",
     "description": "Title of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "If someone you don’t know messages about cryptocurrency (like Bitcoin) or a financial opportunity, be careful—it’s likely spam.",
+    "messageformat": "கிரிப்டோகரன்சி (பிட்காயின் போன்றவை) அல்லது நிதி வாய்ப்பு பற்றிய மெசேஜ்களை உங்களுக்குப் பரீட்சயமற்ற ஒருவர் அனுப்பியிருந்தால், எச்சரிக்கையுடன் இருங்கள்—அது ஸ்பேமாக இருக்கலாம்.",
     "description": "Description of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
-    "messageformat": "Vague or irrelevant messages",
+    "messageformat": "தெளிவற்ற அல்லது பொருத்தமற்ற மெசேஜ்கள்",
     "description": "Title of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
-    "messageformat": "Spammers often start with a simple message like “Hi” to draw you in. If you respond they may engage you further.",
+    "messageformat": "ஸ்பேமர்கள் உங்கள் கவனத்தை ஈர்க்க \"ஹாய்\" போன்ற வழக்கமான மெசேஜ் உடன் தொடங்குவார்கள். அதற்கு நீங்கள் பதிலளித்தால் அவர்கள் உங்களை மேற்கொண்டு உரையாடலைத் தொடரலாம்.",
     "description": "Description of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "Messages with links",
+    "messageformat": "இணைப்புகளுடன் கூடிய மெசேஜ்கள்",
     "description": "Title of the links safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
+    "messageformat": "உங்களுக்கு தெரியாத நபர்களிடமிருந்து இணையதளங்களுக்கான இணைப்புகளுடன் கூடிய மெசேஜ்களைப் பெறும்போது கவனமாக இருங்கள். உங்களுக்கு நம்பிக்கையற்றவர்கள் அனுப்பும் இணைப்புகளை ஒருபோதும் பார்வையிடாதீர்கள்.",
     "description": "Description of the links safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
-    "messageformat": "Fake businesses and institutions",
+    "messageformat": "போலி நிறுவனங்கள் மற்றும் அமைப்புகள்",
     "description": "Title of the business safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
+    "messageformat": "உங்களைத் தொடர்பு கொள்ளும் வணிகங்கள் அல்லது அரசு நிறுவனங்களிடமிருந்து கவனமாக இருங்கள். வரி ஏஜென்சிகள், கூரியர்கள் மற்றும் பலவற்றை உள்ளடக்கிய மெசேஜ்கள் ஸ்பேமாக இருக்கலாம்.",
     "description": "Description of the business safety tip"
   },
   "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "Go to page {page,number}",
+    "messageformat": "{page,number} பக்கத்திற்குச் செல்",
     "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
   },
   "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "Previous tip",
+    "messageformat": "முந்தைய உதவிக்குறிப்பு",
     "description": "Button to go to the previous safety tip"
   },
   "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "Next tip",
+    "messageformat": "அடுத்த உதவிக்குறிப்பு",
     "description": "Button to go to the next safety tip"
   },
   "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "Done",
+    "messageformat": "முடிந்தது",
     "description": "Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:MessageRequests--message-direct": {
@@ -3529,39 +3529,39 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
-    "messageformat": "Report...",
+    "messageformat": "புகாரளி...",
     "description": "Shown as a button to let the user report a message request and maybe block the user"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "Report as spam?",
+    "messageformat": "ஸ்பேம் எனப் புகாரளிப்பதா?",
     "description": "Shown as the title in the modal for reporting and maybe blocking a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "இந்த நபர் உங்களுக்கு ஸ்பேம் அனுப்புவதாக சிக்னலுக்குத் தெரிவிக்கப்படும். எந்தவொரு சாட்களின் உள்ளடக்கத்தையும் சிக்னலால் பார்க்க முடியாது.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a direct conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "உங்களை இந்தக் குழுவிற்கு அழைத்த நபர், ஸ்பேமை அனுப்பியிருக்கலாம் என்பதை சிக்னலுக்குத் தெரிவிக்கப்படும். எந்தவொரு சாட்களின் உள்ளடக்கத்தையும் சிக்னலால் பார்க்க முடியாது.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation when the contact is unknown"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
-    "messageformat": "Signal will be notified that {name}, who invited you to this group, may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "உங்களை இந்தக் குழுவிற்கு அழைத்த {name}, ஸ்பேமை அனுப்பியிருக்கலாம் என்பதை சிக்னலுக்குத் தெரிவிக்கப்படும். எந்தவொரு சாட்களின் உள்ளடக்கத்தையும் சிக்னலால் பார்க்க முடியாது.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
-    "messageformat": "Report Spam",
+    "messageformat": "ஸ்பேம் எனப் புகாரளி",
     "description": "Shown as a button to let the user report a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock": {
-    "messageformat": "Report and Block",
+    "messageformat": "புகாரளித்து தடு",
     "description": "Shown as a button to let the user report a message request and block the user"
   },
   "icu:MessageRequests--AcceptedOptionsModal--body": {
-    "messageformat": "You accepted a message request from {name}. If this was a mistake, you can choose an action below.",
+    "messageformat": "{name}இடமிருந்து பெற்ற மெசேஜ் கோரிக்கையை நீங்கள் ஏற்றுக்கொண்டீர்கள். இது தவறுதலாக நடைபெற்றிருந்தால், கீழே கொடுக்கப்பட்ட நடவடிக்கையிலிருந்து நீங்கள் ஒன்றைத் தேர்ந்தெடுக்கலாம்.",
     "description": "Shown as the body in the modal for accepting a message request in a direct conversation"
   },
   "icu:MessageRequests--report-spam-success-toast": {
-    "messageformat": "Reported as spam.",
+    "messageformat": "ஸ்பேம் எனப் புகாரளிக்கப்பட்டது.",
     "description": "Shown in a toast when you successfully report a user as spam"
   },
   "icu:MessageRequests--delete": {
@@ -5349,7 +5349,7 @@
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
   },
   "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "Safety Tips",
+    "messageformat": "பாதுகாப்பு உதவிக்குறிப்புகள்",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__dialog__details": {
@@ -5737,7 +5737,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Usernames cannot begin with a number.",
+    "messageformat": "பயனர் பெயர் எண்ணுடன் தொடங்க முடியாது.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -6177,7 +6177,7 @@
     "description": "The title of update dialog when update download is completed."
   },
   "icu:DialogNetworkStatus__outage": {
-    "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
+    "messageformat": "Signal தொழில்நுட்ப சிக்கல்களை எதிர்கொள்கிறது. சேவையை விரைவாக மீட்டெடுக்க நாங்கள் விரைவாக வேலை செய்து வருகிறோம்.",
     "description": "The title of outage dialog during service outage."
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
@@ -6441,23 +6441,23 @@
     "description": "Payment event notification check device label"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted": {
-    "messageformat": "You accepted the message request",
+    "messageformat": "நீங்கள் மெசேஜ் கோரிக்கையை ஏற்றுக்கொண்டீர்கள்",
     "description": "Message request response notification message when the user accepted the message request or unblocked another user"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
-    "messageformat": "Reported as spam",
+    "messageformat": "ஸ்பேம் எனப் புகாரளிக்கப்பட்டது",
     "description": "Message request response notification message when the user reported the message request as spam"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
-    "messageformat": "You blocked this person",
+    "messageformat": "நீங்கள் இந்த நபரை ப்ளாக் செய்துள்ளீர்கள்",
     "description": "Message request response notification message when the user blocked another user"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "Options",
+    "messageformat": "விருப்பங்கள்",
     "description": "Message request response notification button to show options"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
-    "messageformat": "Learn More",
+    "messageformat": "மேலும் அறிக",
     "description": "Message request response notification button to learn more"
   },
   "icu:SignalConnectionsModal__title": {
@@ -7396,9 +7396,9 @@
     "messageformat": "இந்த வெளியீட்டின் செயல்திறன் மேம்பாடுகளுக்கு நன்றி, பெரிய குழு சாட்களைத் திறப்பது முன்னெப்போதையும் விட விரைவாக உள்ளது."
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
+    "messageformat": "இப்போது நீங்கள் உங்கள் ஃபோனில் தவறவிட்ட அழைப்புகளை அழிக்கலாம் மற்றும் சிக்னல் டெஸ்க்டாப்பில் இருக்கும அழைப்புகள் டேபில் உள்ள பேட்ஜ் புதுப்பிக்கப்படும்."
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
+    "messageformat": "விண்டோஸில் பேட்ஜ் எண்ணிக்கை குறிகாட்டியையும் நாங்கள் மறுவடிவமைப்பு செய்துள்ளோம். இப்போது டாஸ்க்பாரில் உள்ள நிறம் சிஸ்டம் ட்ரேவில் உள்ள நிறத்துடன் பொருந்துகிறது."
   }
 }

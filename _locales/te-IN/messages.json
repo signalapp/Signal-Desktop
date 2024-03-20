@@ -429,23 +429,23 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ConversationHeader__MenuItem--Accept": {
-    "messageformat": "Accept",
+    "messageformat": "అంగీకరించండి",
     "description": "Shown in menu for conversation, allows the user to accept a message request"
   },
   "icu:ConversationHeader__MenuItem--Block": {
-    "messageformat": "Block",
+    "messageformat": "బ్లాక్ చేయండి",
     "description": "Shown in menu for conversation, allows the user to block the contact"
   },
   "icu:ConversationHeader__MenuItem--Unblock": {
-    "messageformat": "Unblock",
+    "messageformat": "అన్‌బ్లాక్",
     "description": "Shown in menu for conversation, allows the user to unblock the contact"
   },
   "icu:ConversationHeader__MenuItem--ReportSpam": {
-    "messageformat": "Report Spam",
+    "messageformat": "స్పామ్‌ను నివేదించండి",
     "description": "Shown in menu for conversation, allows the user to report the conversation as spam"
   },
   "icu:ConversationHeader__MenuItem--DeleteChat": {
-    "messageformat": "Delete Chat",
+    "messageformat": "చాట్‌ను తొలగించండి",
     "description": "Shown in menu for conversation, allows the user to delete the conversation"
   },
   "icu:ContactListItem__menu": {
@@ -613,11 +613,11 @@
     "description": "Text for unread message separator, with count"
   },
   "icu:taskbarMarkedUnread": {
-    "messageformat": "Marked Unread",
+    "messageformat": "చదవనివి మార్క్ చేయబడ్డాయి",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
   },
   "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}",
+    "messageformat": "{count, plural, one {{count,number} చదవని సందేశం} other {{count,number} చదవని సందేశాలు}}",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
@@ -1571,7 +1571,7 @@
     "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:TitleTransition--notification": {
-    "messageformat": "You started this chat with {oldTitle}",
+    "messageformat": "మీరు {oldTitle}‌తో ఈ చాట్‌ను ప్రారంభించారు",
     "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
   },
   "icu:quoteThumbnailAlt": {
@@ -3409,59 +3409,59 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "icu:SafetyTipsModal__Title": {
-    "messageformat": "Safety Tips",
+    "messageformat": "భద్రతా చిట్కాలు",
     "description": "Title of the safety tips modal"
   },
   "icu:SafetyTipsModal__Description": {
-    "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
+    "messageformat": "మీకు పరిచయం లేని వ్యక్తుల నుండి వచ్చే సందేశం అభ్యర్థనలను అంగీకరించేటప్పుడు జాగ్రత్తగా ఉండండి. కింది వాటిని గమనించండి:",
     "description": "Description of the safety tips modal"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
-    "messageformat": "Crypto or money scams",
+    "messageformat": "క్రిప్టో లేదా నగదు స్కామ్‌లు",
     "description": "Title of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "If someone you don’t know messages about cryptocurrency (like Bitcoin) or a financial opportunity, be careful—it’s likely spam.",
+    "messageformat": "మీకు పరిచయం లేని ఎవరైనా ఒకవేళ క్రిప్టోకరెన్సీ (బిట్‌కాయిన్ వంటివి) లేదా ఆర్థిక అవకాశం గురించిన సందేశాలు పంపితే, జాగ్రత్తగా ఉండండి—అది స్పామ్ కావచ్చు.",
     "description": "Description of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
-    "messageformat": "Vague or irrelevant messages",
+    "messageformat": "అస్పష్టమైన లేదా అసంబద్ధమైన సందేశాలు",
     "description": "Title of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
-    "messageformat": "Spammers often start with a simple message like “Hi” to draw you in. If you respond they may engage you further.",
+    "messageformat": "మిమ్మల్ని ఆకర్షించడానికి స్పామర్‌లు తరచుగా \"హాయ్\" వంటి సాధారణ సందేశంతో ప్రారంభిస్తారు. ఒకవేళ మీరు సమాధానం ఇస్తే, వారు మిమ్మల్ని మరింత నిమగ్నం చేయవచ్చు.",
     "description": "Description of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "Messages with links",
+    "messageformat": "లింక్‌లతో కూడి ఉన్న సందేశాలు",
     "description": "Title of the links safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
+    "messageformat": "మీకు పరిచయం లేని వ్యక్తుల నుండి వచ్చే వెబ్‌సైట్‌లకు లింక్‌లతో ఉన్న సందేశాల పట్ల జాగ్రత్తగా ఉండండి. మీరు విశ్వసించని వ్యక్తుల నుంచి వచ్చిన లింక్‌లను ఎప్పుడూ సందర్శించకండి.",
     "description": "Description of the links safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
-    "messageformat": "Fake businesses and institutions",
+    "messageformat": "నకిలీ వ్యాపారాలు మరియు సంస్థలు",
     "description": "Title of the business safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
+    "messageformat": "మిమ్మల్ని సంప్రదించే వ్యాపారాలు లేదా ప్రభుత్వ ఏజెన్సీల విషయంలో జాగ్రత్తగా ఉండండి. పన్ను ఏజెన్సీలు, కొరియర్‌లు మరియు మరిన్నింటికి సంబంధించిన సందేశాలు స్పామ్ కావచ్చు.",
     "description": "Description of the business safety tip"
   },
   "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "Go to page {page,number}",
+    "messageformat": "{page,number} పేజీకి వెళ్ళండి",
     "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
   },
   "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "Previous tip",
+    "messageformat": "మునుపటి చిట్కా",
     "description": "Button to go to the previous safety tip"
   },
   "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "Next tip",
+    "messageformat": "తర్వాతి చిట్కా",
     "description": "Button to go to the next safety tip"
   },
   "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "Done",
+    "messageformat": "పూర్తయింది",
     "description": "Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:MessageRequests--message-direct": {
@@ -3529,39 +3529,39 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
-    "messageformat": "Report...",
+    "messageformat": "నివేదించండి...",
     "description": "Shown as a button to let the user report a message request and maybe block the user"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "Report as spam?",
+    "messageformat": "స్పామ్‌గా నివేదించేదా?",
     "description": "Shown as the title in the modal for reporting and maybe blocking a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "ఈ వ్యక్తి స్పామ్‌ని పంపుతుండవచ్చని Signal కు తెలియజేయబడుతుంది. Signal ఏ చాట్‌ల కంటెంట్‌నూ చూడలేదు.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a direct conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "మిమ్మల్ని ఈ గ్రూపుకు ఆహ్వానించిన వ్యక్తి, స్పామ్‌ని పంపుతుండవచ్చని Signal కు తెలియజేయబడుతుంది. Signal ఏ చాట్‌ల కంటెంట్‌నూ చూడలేదు.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation when the contact is unknown"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
-    "messageformat": "Signal will be notified that {name}, who invited you to this group, may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "మిమ్మల్ని ఈ గ్రూపుకు ఆహ్వానించిన {name}, స్పామ్‌ని పంపుతుండవచ్చని Signal కు తెలియజేయబడుతుంది. Signal ఏ చాట్‌ల కంటెంట్‌నూ చూడలేదు.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
-    "messageformat": "Report Spam",
+    "messageformat": "స్పామ్‌ను నివేదించండి",
     "description": "Shown as a button to let the user report a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock": {
-    "messageformat": "Report and Block",
+    "messageformat": "నివేదించి, బ్లాక్ చేయండి",
     "description": "Shown as a button to let the user report a message request and block the user"
   },
   "icu:MessageRequests--AcceptedOptionsModal--body": {
-    "messageformat": "You accepted a message request from {name}. If this was a mistake, you can choose an action below.",
+    "messageformat": "{name} నుండి సందేశం అభ్యర్థనను మీరు అంగీకరించారు. ఒకవేళ ఇది పొరపాటు అయితే, మీరు కింది చర్యను ఎంచుకోవచ్చు.",
     "description": "Shown as the body in the modal for accepting a message request in a direct conversation"
   },
   "icu:MessageRequests--report-spam-success-toast": {
-    "messageformat": "Reported as spam.",
+    "messageformat": "స్పామ్‌గా నివేదించబడింది.",
     "description": "Shown in a toast when you successfully report a user as spam"
   },
   "icu:MessageRequests--delete": {
@@ -5349,7 +5349,7 @@
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
   },
   "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "Safety Tips",
+    "messageformat": "భద్రతా చిట్కాలు",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__dialog__details": {
@@ -5737,7 +5737,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Usernames cannot begin with a number.",
+    "messageformat": "వినియోగదారు పేర్లు సంఖ్యతో ప్రారంభం కావు.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -6177,7 +6177,7 @@
     "description": "The title of update dialog when update download is completed."
   },
   "icu:DialogNetworkStatus__outage": {
-    "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
+    "messageformat": "Signal సాంకేతిక సమస్యలను ఎదుర్కొంటోంది. వీలైనంత త్వరగా సేవని పునరుద్ధరించడానికి మేము కృషి చేస్తున్నాము.",
     "description": "The title of outage dialog during service outage."
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
@@ -6441,23 +6441,23 @@
     "description": "Payment event notification check device label"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted": {
-    "messageformat": "You accepted the message request",
+    "messageformat": "సందేశం అభ్యర్థనను మీరు అంగీకరించారు",
     "description": "Message request response notification message when the user accepted the message request or unblocked another user"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
-    "messageformat": "Reported as spam",
+    "messageformat": "స్పామ్‌గా నివేదించబడింది",
     "description": "Message request response notification message when the user reported the message request as spam"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
-    "messageformat": "You blocked this person",
+    "messageformat": "మీరు ఈ వ్యక్తిని బ్లాక్ చేశారు",
     "description": "Message request response notification message when the user blocked another user"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "Options",
+    "messageformat": "ఎంపికలు",
     "description": "Message request response notification button to show options"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
-    "messageformat": "Learn More",
+    "messageformat": "మరింత తెలుసుకోండి",
     "description": "Message request response notification button to learn more"
   },
   "icu:SignalConnectionsModal__title": {
@@ -7396,9 +7396,9 @@
     "messageformat": "పెద్ద గ్రూప్ చాట్‌లను తెరిచేటప్పుడు మెరుగైన పనితీరు ఉంది. ఒకవేళ మీరు సమాంతర విశ్వాల ఉనికిని గురించి చర్చించడానికి ఇష్టపడే వందల మంది వ్యక్తులతో గ్రూపులో ఉన్నట్లయితే, మీరు ఇప్పుడు టైమ్‌లైన్‌లో నివసిస్తున్నారు, ఇక్కడ టైమ్‌లైన్‌ల గురించి మాట్లాడే వ్యక్తుల టైమ్‌లైన్‌ను చూపించడానికి చాలా తక్కువ సమయం పడుతుంది."
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
+    "messageformat": "ఇప్పుడు మీరు మీ ఫోన్‌లో మిస్డ్ కాల్స్‌ను తొలగించవచ్చు మరియు Signal డెస్క్‌టాప్‌లోని కాల్స్ ట్యాబ్‌లోని బ్యాడ్జ్ కూడా అప్‌డేట్ చేయబడుతుంది."
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
+    "messageformat": "మేము Windows లో బ్యాడ్జ్ కౌంట్ సూచకమును కూడా పునఃరూపకల్పన చేశాము. ఇప్పుడు టాస్క్‌బార్‌లోని రంగు సిస్టమ్ ట్రేలోని రంగుతో సరిపోలుతుంది. ఫ్యాషన్ అనేది సమన్వయానికి సంబంధించినది, మరియు కొద్దిగా ఎరుపు రంగు వసంత ఋతువుకు సరైన రూపం."
   }
 }
