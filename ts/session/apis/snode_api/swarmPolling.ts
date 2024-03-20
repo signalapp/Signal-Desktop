@@ -180,9 +180,7 @@ export class SwarmPolling {
       const diff = now - group.lastPolledTimestamp;
 
       const loggingId =
-        getConversationController()
-          .get(group.pubkey.key)
-          ?.idForLogging() || group.pubkey.key;
+        getConversationController().get(group.pubkey.key)?.idForLogging() || group.pubkey.key;
       if (diff >= convoPollingTimeout) {
         window?.log?.debug(
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `
@@ -338,7 +336,12 @@ export class SwarmPolling {
           return;
         }
 
-        Receiver.handleRequest(content.body, isGroup ? polledPubkey : null, content.messageHash);
+        Receiver.handleRequest(
+          content.body,
+          isGroup ? polledPubkey : null,
+          content.messageHash,
+          m.expiration
+        );
       });
     }
   }
@@ -350,9 +353,8 @@ export class SwarmPolling {
       })
     );
 
-    const allDecryptedConfigMessages: Array<IncomingMessage<
-      SignalService.ISharedConfigMessage
-    >> = [];
+    const allDecryptedConfigMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>> =
+      [];
 
     for (let index = 0; index < extractedUserConfigMessage.length; index++) {
       const userConfigMessage = extractedUserConfigMessage[index];
@@ -375,7 +377,7 @@ export class SwarmPolling {
           allDecryptedConfigMessages.push(asIncomingMsg);
         } else {
           throw new Error(
-            'received a message to a namespace reserved for user config but not containign a sharedConfigMessage'
+            'received a message from the namespace reserved for user config but it did not contain a sharedConfigMessage'
           );
         }
       } catch (e) {
@@ -451,7 +453,7 @@ export class SwarmPolling {
       if (!results.length) {
         return [];
       }
-      // when we asked to extend the expiry of the config messages, exclude it from the list of results as we do not want to mess up the last hash tracking logic
+      // NOTE when we asked to extend the expiry of the config messages, exclude it from the list of results as we do not want to mess up the last hash tracking logic
       if (configHashesToBump.length) {
         try {
           const lastResult = results[results.length - 1];
@@ -528,6 +530,7 @@ export class SwarmPolling {
     const newMessages = messages.filter((m: RetrieveMessageItem) => !dupHashes.includes(m.hash));
 
     if (newMessages.length) {
+      // NOTE setting expiresAt will trigger the global function destroyExpiredMessages() on it's next interval
       const newHashes = newMessages.map((m: RetrieveMessageItem) => ({
         expiresAt: m.expiration,
         hash: m.hash,

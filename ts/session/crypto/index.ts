@@ -1,13 +1,13 @@
 import crypto from 'crypto';
 import libsodiumwrappers from 'libsodium-wrappers-sumo';
 
-import * as MessageEncrypter from './MessageEncrypter';
 import * as DecryptedAttachmentsManager from './DecryptedAttachmentsManager';
+import * as MessageEncrypter from './MessageEncrypter';
 
-import { toHex } from '../utils/String';
 import { ECKeyPair } from '../../receiver/keypairs';
+import { toHex } from '../utils/String';
 
-export { MessageEncrypter, DecryptedAttachmentsManager };
+export { DecryptedAttachmentsManager, MessageEncrypter };
 
 export type LibSodiumWrappers = typeof libsodiumwrappers;
 
@@ -17,10 +17,7 @@ export async function getSodiumRenderer(): Promise<LibSodiumWrappers> {
 }
 
 export const sha256 = (s: string) => {
-  return crypto
-    .createHash('sha256')
-    .update(s)
-    .digest('base64');
+  return crypto.createHash('sha256').update(s).digest('base64');
 };
 
 export const concatUInt8Array = (...args: Array<Uint8Array>): Uint8Array => {
@@ -66,8 +63,6 @@ export async function generateGroupV3Keypair() {
   const preprendedPubkey = new Uint8Array(33);
   preprendedPubkey.set(publicKey, 1);
   preprendedPubkey[0] = 3;
-
-  // console.warn(`generateGroupV3Keypair: pubkey${toHex(preprendedPubkey)}`);
 
   return { pubkey: toHex(preprendedPubkey), privateKey: toHex(ed25519KeyPair.privateKey) };
 }

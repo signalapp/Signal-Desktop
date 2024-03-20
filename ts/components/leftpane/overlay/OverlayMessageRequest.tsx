@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { declineConversationWithoutConfirm } from '../../../interactions/conversationInteractions';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/sync/syncUtils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
-import { resetOverlayMode } from '../../../state/ducks/section';
+import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { getConversationRequestsIds } from '../../../state/selectors/conversations';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
@@ -43,7 +43,7 @@ export const OverlayMessageRequest = () => {
   useKey('Escape', closeOverlay);
   const dispatch = useDispatch();
   function closeOverlay() {
-    dispatch(resetOverlayMode());
+    dispatch(resetLeftOverlayMode());
   }
 
   const currentlySelectedConvo = useSelectedConversationKey();
@@ -86,6 +86,9 @@ export const OverlayMessageRequest = () => {
           }
 
           await forceSyncConfigurationNowIfNeeded();
+        },
+        onClickClose: () => {
+          window.inboxStore?.dispatch(updateConfirmModal(null));
         },
       })
     );

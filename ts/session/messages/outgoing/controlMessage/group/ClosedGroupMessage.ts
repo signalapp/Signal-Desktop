@@ -1,19 +1,20 @@
 import { SignalService } from '../../../../../protobuf';
 import { PubKey } from '../../../../types';
-import { DataMessage } from '../../DataMessage';
-import { MessageParams } from '../../Message';
+import { ExpirableMessage, ExpirableMessageParams } from '../../ExpirableMessage';
 
-export interface ClosedGroupMessageParams extends MessageParams {
+export interface ClosedGroupMessageParams extends ExpirableMessageParams {
   groupId: string | PubKey;
 }
 
-export abstract class ClosedGroupMessage extends DataMessage {
+export abstract class ClosedGroupMessage extends ExpirableMessage {
   public readonly groupId: PubKey;
 
   constructor(params: ClosedGroupMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
     });
 
     this.groupId = PubKey.cast(params.groupId);
@@ -26,10 +27,24 @@ export abstract class ClosedGroupMessage extends DataMessage {
     return admins.every(a => members.includes(a));
   }
 
-  public dataProto(): SignalService.DataMessage {
-    const dataMessage = new SignalService.DataMessage();
+  public contentProto(): SignalService.Content {
+    const content = super.contentProto();
+    content.dataMessage = this.dataProto();
+    // TODO legacy messages support will be removed in a future release
+    // Closed Groups only support 'deleteAfterSend' and 'legacy'
+    content.expirationType =
+      this.expirationType === 'deleteAfterSend'
+        ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
+        : SignalService.Content.ExpirationType.UNKNOWN;
 
-    dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
+    return content;
+  }
+
+  public dataProto(): SignalService.DataMessage {
+    const dataMessage = super.dataProto();
+
+    dataMessage.closedGroupControlMessage =
+      new SignalService.DataMessage.ClosedGroupControlMessage();
 
     return dataMessage;
   }

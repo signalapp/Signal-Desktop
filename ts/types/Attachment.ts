@@ -1,11 +1,11 @@
-import moment from 'moment';
 import { isUndefined, padStart } from 'lodash';
+import moment from 'moment';
 
-import * as MIME from './MIME';
-import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
 import { ATTACHMENT_DEFAULT_MAX_SIDE } from '../util/attachmentsUtil';
+import { saveURLAsFile } from '../util/saveURLAsFile';
+import * as MIME from './MIME';
 import { THUMBNAIL_SIDE } from './attachments/VisualAttachment';
 
 const MAX_WIDTH = THUMBNAIL_SIDE;
@@ -29,6 +29,7 @@ export interface AttachmentType {
   pending?: boolean;
   width?: number;
   height?: number;
+  duration?: string;
   screenshot: {
     height: number;
     width: number;
@@ -301,7 +302,7 @@ export const save = ({
 }: {
   attachment: AttachmentType;
   document: Document;
-  index?: number;
+  index: number;
   getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {

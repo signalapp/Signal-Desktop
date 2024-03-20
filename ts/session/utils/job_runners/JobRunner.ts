@@ -1,16 +1,18 @@
 import { cloneDeep, compact, isArray, isString } from 'lodash';
 import { Data } from '../../../data/data';
+import { Storage } from '../../../util/storage';
 import { timeout } from '../Promise';
 import { persistedJobFromData } from './JobDeserialization';
-import { JobRunnerType } from './jobs/JobRunnerType';
 import {
   AvatarDownloadPersistedData,
   ConfigurationSyncPersistedData,
+  FetchMsgExpirySwarmPersistedData,
   PersistedJob,
   RunJobResult,
   TypeOfPersistedData,
+  UpdateMsgExpirySwarmPersistedData,
 } from './PersistedJob';
-import { Storage } from '../../../util/storage';
+import { JobRunnerType } from './jobs/JobRunnerType';
 
 /**
  * 'job_in_progress' if there is already a job in progress
@@ -100,7 +102,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
 
     // make sure there is no job with that same identifier already .
 
-    window.log.info(`job runner adding type :"${job.persistedData.jobType}" `);
+    window.log.debug(`job runner adding type:"${job.persistedData.jobType}"`);
     return this.addJobUnchecked(job);
   }
 
@@ -166,7 +168,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
 
   private async writeJobsToDB() {
     const serialized = this.getSerializedJobs();
-    window.log.debug(`writing to db for "${this.jobRunnerType}": `, serialized);
+
     await Storage.put(this.getJobRunnerItemId(), JSON.stringify(serialized));
   }
 
@@ -233,13 +235,16 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       global.clearTimeout(this.nextJobStartTimer);
     }
     // plan a timer to wakeup when that timer is reached.
-    this.nextJobStartTimer = global.setTimeout(() => {
-      if (this.nextJobStartTimer) {
-        global.clearTimeout(this.nextJobStartTimer);
-        this.nextJobStartTimer = null;
-      }
-      void this.runNextJob();
-    }, Math.max(nextJob.persistedData.nextAttemptTimestamp - Date.now(), 1));
+    this.nextJobStartTimer = global.setTimeout(
+      () => {
+        if (this.nextJobStartTimer) {
+          global.clearTimeout(this.nextJobStartTimer);
+          this.nextJobStartTimer = null;
+        }
+        void this.runNextJob();
+      },
+      Math.max(nextJob.persistedData.nextAttemptTimestamp - Date.now(), 1)
+    );
 
     return 'job_deferred';
   }
@@ -357,7 +362,19 @@ const avatarDownloadRunner = new PersistedJobRunner<AvatarDownloadPersistedData>
   null
 );
 
+const updateMsgExpiryRunner = new PersistedJobRunner<UpdateMsgExpirySwarmPersistedData>(
+  'UpdateMsgExpirySwarmJob',
+  null
+);
+
+const fetchSwarmMsgExpiryRunner = new PersistedJobRunner<FetchMsgExpirySwarmPersistedData>(
+  'FetchMsgExpirySwarmJob',
+  null
+);
+
 export const runners = {
   configurationSyncRunner,
+  updateMsgExpiryRunner,
+  fetchSwarmMsgExpiryRunner,
   avatarDownloadRunner,
 };

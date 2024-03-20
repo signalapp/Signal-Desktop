@@ -23,10 +23,6 @@
 
 .module-contact-name.compact {
   display: block;
-
-  span::after {
-    content: '\00a0';
-  }
 }
 
 // Module: Message
@@ -259,8 +255,6 @@
 
 .module-conversation__user,
 .module-message__author {
-  margin-top: var(--margins-sm);
-  margin-bottom: var(--margins-xs);
   font-size: var(--font-size-sm);
   font-weight: 300;
   line-height: 18px;
@@ -328,7 +322,6 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  height: 48px;
   max-width: 100%;
 }
 
@@ -343,7 +336,7 @@
 
   min-width: 0;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 26px;
   font-weight: 400;
   color: var(--text-primary-color);
 
@@ -364,86 +357,6 @@
     overflow: hidden !important;
     text-overflow: ellipsis;
   }
-}
-
-.module-conversation-header__expiration {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-inline-start: 8px;
-  padding-inline-end: 8px;
-  flex-shrink: 0;
-}
-
-.module-conversation-header__expiration__clock-icon {
-  @include color-svg('../images/timer.svg', var(--button-icon-stroke-color));
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-}
-
-.module-conversation-header__expiration__setting {
-  margin-inline-start: 5px;
-  text-align: center;
-}
-
-// Module: Message Detail
-
-.module-message-detail {
-  max-width: 650px;
-  margin-inline-start: auto;
-  margin-inline-end: auto;
-  padding: 20px;
-}
-
-.module-message-detail__message-container {
-  padding-top: 20px;
-  padding-bottom: 20px;
-
-  &:after {
-    content: '.';
-    visibility: hidden;
-    display: block;
-    height: 0;
-    clear: both;
-  }
-}
-
-.module-message-detail__label {
-  font-weight: 300;
-  padding-inline-end: 5px;
-}
-
-.module-message-detail__delete-button-container {
-  text-align: center;
-  margin-top: 10px;
-
-  .session-button {
-    width: 160px;
-    margin: 1rem auto;
-  }
-}
-
-.module-message-detail__contact-container {
-  margin: 20px 0 20px 0;
-}
-
-.module-message-detail__contact {
-  margin-bottom: 8px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-message-detail__contact__text {
-  margin-inline-start: 10px;
-  flex-grow: 1;
-  min-width: 0;
-}
-
-.module-message-detail__contact__error {
-  color: var(--danger-color);
-  font-weight: 300;
 }
 
 // Module: Media Gallery
@@ -639,7 +552,8 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  font-size: 28px;
+  margin-top: var(--margins-sm);
+  font-size: 16px;
 }
 
 // Module: Conversation List Item
@@ -705,6 +619,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: var(--margins-xs);
 }
 
 .module-conversation-list-item__header__name {
@@ -837,8 +752,8 @@
   font-size: 20px;
   font-weight: normal;
   letter-spacing: 0;
-
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .module-image__close-button {

@@ -102,7 +102,7 @@ const animation = (props: {
 }) => {
   if (props.rotateDuration) {
     return css`
-      ${rotate} ${props.rotateDuration}s linear infinite;
+      animation: ${rotate} ${props.rotateDuration}s linear infinite;
     `;
   }
   if (props.noScale) {
@@ -111,11 +111,8 @@ const animation = (props: {
 
   if (props.glowDuration !== undefined && props.glowStartDelay !== undefined && props.iconColor) {
     return css`
-      ${glow(
-        props.iconColor,
-        props.glowDuration,
-        props.glowStartDelay
-      )} ${props.glowDuration}s ease infinite;
+      animation: ${glow(props.iconColor, props.glowDuration, props.glowStartDelay)}
+        ${props.glowDuration}s ease infinite;
     `;
   }
   return undefined;
@@ -124,7 +121,7 @@ const animation = (props: {
 const Svg = React.memo(styled.svg<StyledSvgProps>`
   width: ${props => props.width};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
-  animation: ${props => animation(props)};
+  ${props => animation(props)};
   border-radius: ${props => props.borderRadius};
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : '--button-icon-background-color'};

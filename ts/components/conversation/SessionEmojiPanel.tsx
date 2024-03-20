@@ -91,7 +91,7 @@ type Props = {
   onEmojiClicked: (emoji: FixedBaseEmoji) => void;
   show: boolean;
   isModal?: boolean;
-  // NOTE Currently this doesn't work but we have a PR waiting to be merged to resolve this. William Grant 30/09/2022
+  // NOTE Currently this doesn't work but we have a PR waiting to be merged to resolve this
   onKeyDown?: (event: any) => void;
 };
 

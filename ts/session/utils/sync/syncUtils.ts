@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { UserUtils } from '..';
 import { getMessageQueue } from '../..';
@@ -8,9 +8,14 @@ import { ConversationModel } from '../../../models/conversation';
 import { SignalService } from '../../../protobuf';
 import { ECKeyPair } from '../../../receiver/keypairs';
 import { ConfigurationSyncJobDone } from '../../../shims/events';
+import { ReleasedFeatures } from '../../../util/releaseFeature';
+import { Storage } from '../../../util/storage';
+import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { DURATION } from '../../constants';
 import { getConversationController } from '../../conversations';
+import { DisappearingMessageUpdate } from '../../disappearing_messages/types';
+import { DataMessage } from '../../messages/outgoing';
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
@@ -27,11 +32,8 @@ import {
   VisibleMessage,
 } from '../../messages/outgoing/visibleMessage/VisibleMessage';
 import { PubKey } from '../../types';
-import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 import { fromBase64ToArray, fromHexToArray } from '../String';
-import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
-import { Storage } from '../../../util/storage';
-import { ReleasedFeatures } from '../../../util/releaseFeature';
+import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -188,9 +190,9 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
     })
   );
 
-  const onlyValidClosedGroup = closedGroups.filter(m => m !== null) as Array<
-    ConfigurationMessageClosedGroup
-  >;
+  const onlyValidClosedGroup = closedGroups.filter(
+    m => m !== null
+  ) as Array<ConfigurationMessageClosedGroup>;
   return onlyValidClosedGroup;
 };
 
@@ -266,9 +268,8 @@ export const getCurrentConfigurationMessage = async (
   }
 
   const ourProfileKeyHex =
-    getConversationController()
-      .get(UserUtils.getOurPubKeyStrFromCache())
-      ?.get('profileKey') || null;
+    getConversationController().get(UserUtils.getOurPubKeyStrFromCache())?.get('profileKey') ||
+    null;
   const profileKey = ourProfileKeyHex ? fromHexToArray(ourProfileKeyHex) : undefined;
 
   const profilePicture = ourConvo?.get('avatarPointer') || undefined;
@@ -292,7 +293,8 @@ const buildSyncVisibleMessage = (
   identifier: string,
   dataMessage: SignalService.DataMessage,
   timestamp: number,
-  syncTarget: string
+  syncTarget: string,
+  expireUpdate?: DisappearingMessageUpdate
 ) => {
   const body = dataMessage.body || undefined;
 
@@ -318,7 +320,7 @@ const buildSyncVisibleMessage = (
   }) as Array<AttachmentPointerWithUrl>;
   const quote = (dataMessage.quote as Quote) || undefined;
   const preview = (dataMessage.preview as Array<PreviewWithAttachmentUrl>) || [];
-  const expireTimer = dataMessage.expireTimer;
+  const dataMessageExpireTimer = dataMessage.expireTimer;
 
   return new VisibleMessage({
     identifier,
@@ -328,21 +330,23 @@ const buildSyncVisibleMessage = (
     quote,
     preview,
     syncTarget,
-    expireTimer,
+    expireTimer: expireUpdate?.expirationTimer || dataMessageExpireTimer,
+    expirationType: expireUpdate?.expirationType || null,
   });
 };
 
 const buildSyncExpireTimerMessage = (
   identifier: string,
-  dataMessage: SignalService.DataMessage,
+  expireUpdate: DisappearingMessageUpdate,
   timestamp: number,
   syncTarget: string
 ) => {
-  const expireTimer = dataMessage.expireTimer;
+  const { expirationType, expirationTimer: expireTimer } = expireUpdate;
 
   return new ExpirationTimerUpdateMessage({
     identifier,
     timestamp,
+    expirationType,
     expireTimer,
     syncTarget,
   });
@@ -358,24 +362,46 @@ export type SyncMessageType =
 
 export const buildSyncMessage = (
   identifier: string,
-  dataMessage: SignalService.DataMessage,
+  data: DataMessage | SignalService.DataMessage,
   syncTarget: string,
-  sentTimestamp: number
-): VisibleMessage | ExpirationTimerUpdateMessage => {
+  sentTimestamp: number,
+  expireUpdate?: DisappearingMessageUpdate
+): VisibleMessage | ExpirationTimerUpdateMessage | null => {
   if (
-    (dataMessage as any).constructor.name !== 'DataMessage' &&
-    !(dataMessage instanceof SignalService.DataMessage)
+    (data as any).constructor.name !== 'DataMessage' &&
+    !(data instanceof SignalService.DataMessage)
   ) {
     window?.log?.warn('buildSyncMessage with something else than a DataMessage');
   }
+
+  const dataMessage = data instanceof DataMessage ? data.dataProto() : data;
 
   if (!sentTimestamp || !_.isNumber(sentTimestamp)) {
     throw new Error('Tried to build a sync message without a sentTimestamp');
   }
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
-  if (dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
-    return buildSyncExpireTimerMessage(identifier, dataMessage, timestamp, syncTarget);
+
+  if (
+    dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
+    !isEmpty(expireUpdate)
+  ) {
+    const expireTimerSyncMessage = buildSyncExpireTimerMessage(
+      identifier,
+      expireUpdate,
+      timestamp,
+      syncTarget
+    );
+
+    return expireTimerSyncMessage;
   }
-  return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
+
+  const visibleSyncMessage = buildSyncVisibleMessage(
+    identifier,
+    dataMessage,
+    timestamp,
+    syncTarget,
+    expireUpdate
+  );
+  return visibleSyncMessage;
 };

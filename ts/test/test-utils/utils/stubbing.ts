@@ -1,12 +1,12 @@
 /* eslint-disable func-names */
 import { expect } from 'chai';
 import Sinon from 'sinon';
+import { ConfigDumpData } from '../../../data/configDump/configDump';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
-import { ConfigDumpData } from '../../../data/configDump/configDump';
 
-import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 import * as libsessionWorker from '../../../webworker/workers/browser/libsession_worker_interface';
+import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 
 const globalAny: any = global;
 
@@ -16,6 +16,12 @@ const globalAny: any = global;
 type DataFunction = typeof Data;
 type OpenGroupDataFunction = typeof OpenGroupData;
 type ConfigDumpDataFunction = typeof ConfigDumpData;
+
+export type TypedStub<T extends Record<string, unknown>, K extends keyof T> = T[K] extends (
+  ...args: any
+) => any
+  ? Sinon.SinonStub<Parameters<T[K]>, ReturnType<T[K]>>
+  : never;
 
 /**
  * Stub a function inside Data.
@@ -46,7 +52,7 @@ export function stubLibSessionWorker(value: any) {
 }
 
 export function stubCreateObjectUrl() {
-  (global as any).URL = function() {};
+  (global as any).URL = function () {};
   (global as any).URL.createObjectURL = () => {
     return `${Date.now()}:${Math.floor(Math.random() * 1000)}`;
   };

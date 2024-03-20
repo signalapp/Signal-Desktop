@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { createSelector } from '@reduxjs/toolkit';
-import { filter, isEmpty, isNumber, pick, sortBy, toNumber, isFinite } from 'lodash';
+import { filter, isEmpty, isFinite, isNumber, pick, sortBy, toNumber } from 'lodash';
 
 import {
   ConversationLookupType,
@@ -9,7 +9,6 @@ import {
   MentionsMembersType,
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
-  MessagePropsDetails,
   PropsForQuote,
   QuoteLookupType,
   ReduxConversationType,
@@ -105,7 +104,8 @@ export type MessagePropsType =
   | 'timer-notification'
   | 'regular-message'
   | 'unread-indicator'
-  | 'call-notification';
+  | 'call-notification'
+  | 'interaction-notification';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getSortedMessagesOfSelectedConversation,
@@ -121,7 +121,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
       // this is to smooth a bit the loading of older message (to avoid a jump once new messages are rendered)
       const previousMessageTimestamp =
         index + 1 >= sortedMessages.length
-          ? Number.MAX_SAFE_INTEGER
+          ? 0
           : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
             sortedMessages[index + 1].propsForMessage.timestamp;
 
@@ -189,6 +189,19 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
             messageType: 'call-notification',
             props: {
               ...msg.propsForCallNotification,
+              messageId: msg.propsForMessage.id,
+            },
+          },
+        };
+      }
+
+      if (msg.propsForInteractionNotification) {
+        return {
+          ...common,
+          message: {
+            messageType: 'interaction-notification',
+            props: {
+              ...msg.propsForInteractionNotification,
               messageId: msg.propsForMessage.id,
             },
           },
@@ -479,11 +492,7 @@ export const getGlobalUnreadMessageCount = createSelector(
   _getGlobalUnreadCount
 );
 
-export const isMessageDetailView = (state: StateType): boolean =>
-  state.conversations.messageDetailProps !== undefined;
-
-export const getMessageDetailsViewProps = (state: StateType): MessagePropsDetails | undefined =>
-  state.conversations.messageDetailProps;
+export const getMessageInfoId = (state: StateType) => state.conversations.messageInfoId;
 
 export const isRightPanelShowing = (state: StateType): boolean =>
   state.conversations.showRightPanel;
@@ -715,39 +724,40 @@ export const getMessagePropsByMessageId = createSelector(
   }
 );
 
-export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageReactsSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageReactsSelectorProps = pick(props.propsForMessage, [
-    'convoId',
-    'conversationType',
-    'reacts',
-    'serverId',
-  ]);
-
-  if (msgProps.reacts) {
-    // NOTE we don't want to render reactions that have 'senders' as an object this is a deprecated type used during development 25/08/2022
-    const oldReactions = Object.values(msgProps.reacts).filter(
-      reaction => !Array.isArray(reaction.senders)
-    );
-
-    if (oldReactions.length > 0) {
-      msgProps.reacts = undefined;
-      return msgProps;
+export const getMessageReactsProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageReactsSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
     }
 
-    const sortedReacts = Object.entries(msgProps.reacts).sort((a, b) => {
-      return a[1].index < b[1].index ? -1 : a[1].index > b[1].index ? 1 : 0;
-    });
-    msgProps.sortedReacts = sortedReacts;
-  }
+    const msgProps: MessageReactsSelectorProps = pick(props.propsForMessage, [
+      'convoId',
+      'conversationType',
+      'reacts',
+      'serverId',
+    ]);
 
-  return msgProps;
-});
+    if (msgProps.reacts) {
+      // NOTE we don't want to render reactions that have 'senders' as an object this is a deprecated type used during development 25/08/2022
+      const oldReactions = Object.values(msgProps.reacts).filter(
+        reaction => !Array.isArray(reaction.senders)
+      );
+
+      if (oldReactions.length > 0) {
+        msgProps.reacts = undefined;
+        return msgProps;
+      }
+
+      const sortedReacts = Object.entries(msgProps.reacts).sort((a, b) => {
+        return a[1].index < b[1].index ? -1 : a[1].index > b[1].index ? 1 : 0;
+      });
+      msgProps.sortedReacts = sortedReacts;
+    }
+
+    return msgProps;
+  }
+);
 
 export const getMessageQuoteProps = createSelector(
   getConversationLookup,
@@ -831,45 +841,47 @@ export const getMessageQuoteProps = createSelector(
   }
 );
 
-export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageTextSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
+export const getMessageTextProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageTextSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
 
-  const msgProps: MessageTextSelectorProps = pick(props.propsForMessage, [
-    'direction',
-    'status',
-    'text',
-    'isDeleted',
-    'conversationType',
-  ]);
-
-  return msgProps;
-});
-
-export const getMessageAttachmentProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageAttachmentSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageAttachmentSelectorProps = {
-    attachments: props.propsForMessage.attachments || [],
-    ...pick(props.propsForMessage, [
+    const msgProps: MessageTextSelectorProps = pick(props.propsForMessage, [
       'direction',
-      'isTrustedForAttachmentDownload',
-      'timestamp',
-      'serverTimestamp',
-      'sender',
-      'convoId',
-    ]),
-  };
+      'status',
+      'text',
+      'isDeleted',
+      'conversationType',
+    ]);
 
-  return msgProps;
-});
+    return msgProps;
+  }
+);
+
+export const getMessageAttachmentProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageAttachmentSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
+
+    const msgProps: MessageAttachmentSelectorProps = {
+      attachments: props.propsForMessage.attachments || [],
+      ...pick(props.propsForMessage, [
+        'direction',
+        'isTrustedForAttachmentDownload',
+        'timestamp',
+        'serverTimestamp',
+        'sender',
+        'convoId',
+      ]),
+    };
+
+    return msgProps;
+  }
+);
 
 export const getIsMessageSelected = createSelector(
   getMessagePropsByMessageId,
@@ -885,27 +897,28 @@ export const getIsMessageSelected = createSelector(
   }
 );
 
-export const getMessageContentSelectorProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageContentSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
+export const getMessageContentSelectorProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageContentSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
+
+    const msgProps: MessageContentSelectorProps = {
+      ...pick(props.propsForMessage, [
+        'direction',
+        'serverTimestamp',
+        'text',
+        'timestamp',
+        'previews',
+        'quote',
+        'attachments',
+      ]),
+    };
+
+    return msgProps;
   }
-
-  const msgProps: MessageContentSelectorProps = {
-    ...pick(props.propsForMessage, [
-      'direction',
-      'serverTimestamp',
-      'text',
-      'timestamp',
-      'previews',
-      'quote',
-      'attachments',
-    ]),
-  };
-
-  return msgProps;
-});
+);
 
 export const getMessageContentWithStatusesSelectorProps = createSelector(
   getMessagePropsByMessageId,
@@ -914,8 +927,12 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
+    const isGroup =
+      props.propsForMessage.conversationType !== 'private' && !props.propsForMessage.isPublic;
+
     const msgProps: MessageContentWithStatusSelectorProps = {
       ...pick(props.propsForMessage, ['conversationType', 'direction', 'isDeleted']),
+      isGroup,
     };
 
     return msgProps;
@@ -933,7 +950,7 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       'convoId',
       'direction',
       'conversationType',
-      'expirationLength',
+      'expirationDurationMs',
       'expirationTimestamp',
       'isExpired',
       'isUnread',

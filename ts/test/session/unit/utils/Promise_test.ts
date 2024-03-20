@@ -21,7 +21,7 @@ describe('Promise Utils', () => {
   let pollSpy: sinon.SinonSpy<
     [
       (done: (arg: any) => void) => Promise<void> | void,
-      (Partial<PromiseUtils.PollOptions> | undefined)?
+      (Partial<PromiseUtils.PollOptions> | undefined)?,
     ],
     Promise<void>
   >;

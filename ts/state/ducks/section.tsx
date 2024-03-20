@@ -1,10 +1,13 @@
+// TODOLATER move into redux slice
 import { SessionSettingCategory } from '../../components/settings/SessionSettings';
 
 export const FOCUS_SECTION = 'FOCUS_SECTION';
 export const FOCUS_SETTINGS_SECTION = 'FOCUS_SETTINGS_SECTION';
 export const IS_APP_FOCUSED = 'IS_APP_FOCUSED';
-export const OVERLAY_MODE = 'OVERLAY_MODE';
-export const RESET_OVERLAY_MODE = 'RESET_OVERLAY_MODE';
+export const LEFT_OVERLAY_MODE = 'LEFT_OVERLAY_MODE';
+export const RESET_LEFT_OVERLAY_MODE = 'RESET_OVERLAY_MODE';
+export const RIGHT_OVERLAY_MODE = 'RIGHT_OVERLAY_MODE';
+export const RESET_RIGHT_OVERLAY_MODE = 'RESET_RIGHT_OVERLAY_MODE';
 
 export enum SectionType {
   Profile,
@@ -29,13 +32,22 @@ type IsAppFocusedActionType = {
   payload: boolean;
 };
 
-type OverlayModeActionType = {
-  type: 'OVERLAY_MODE';
-  payload: OverlayMode;
+type LeftOverlayModeActionType = {
+  type: 'LEFT_OVERLAY_MODE';
+  payload: LeftOverlayMode;
 };
 
-type ResetOverlayModeActionType = {
+type ResetLeftOverlayModeActionType = {
   type: 'RESET_OVERLAY_MODE';
+};
+
+type RightOverlayModeActionType = {
+  type: 'RIGHT_OVERLAY_MODE';
+  payload: RightOverlayMode;
+};
+
+type ResetRightOverlayModeActionType = {
+  type: 'RESET_RIGHT_OVERLAY_MODE';
 };
 
 export function showLeftPaneSection(section: SectionType): FocusSectionActionType {
@@ -54,23 +66,48 @@ export function setIsAppFocused(focused: boolean): IsAppFocusedActionType {
   };
 }
 
-export type OverlayMode =
+export type LeftOverlayMode =
   | 'choose-action'
   | 'message'
   | 'open-group'
   | 'closed-group'
   | 'message-requests';
 
-export function setOverlayMode(overlayMode: OverlayMode): OverlayModeActionType {
+export function setLeftOverlayMode(overlayMode: LeftOverlayMode): LeftOverlayModeActionType {
   return {
-    type: OVERLAY_MODE,
+    type: LEFT_OVERLAY_MODE,
     payload: overlayMode,
   };
 }
 
-export function resetOverlayMode(): ResetOverlayModeActionType {
+export function resetLeftOverlayMode(): ResetLeftOverlayModeActionType {
   return {
-    type: RESET_OVERLAY_MODE,
+    type: RESET_LEFT_OVERLAY_MODE,
+  };
+}
+
+type RightPanelDefaultState = { type: 'default'; params: null };
+type RightPanelMessageInfoState = {
+  type: 'message_info';
+  params: { messageId: string; visibleAttachmentIndex: number | undefined };
+};
+type RightPanelDisappearingMessagesState = { type: 'disappearing_messages'; params: null };
+
+export type RightOverlayMode =
+  | RightPanelDefaultState
+  | RightPanelMessageInfoState
+  | RightPanelDisappearingMessagesState;
+
+export function setRightOverlayMode(overlayMode: RightOverlayMode): RightOverlayModeActionType {
+  return {
+    type: RIGHT_OVERLAY_MODE,
+    payload: overlayMode,
+  };
+}
+
+export function resetRightOverlayMode(): ResetRightOverlayModeActionType {
+  return {
+    type: RESET_RIGHT_OVERLAY_MODE,
   };
 }
 
@@ -86,22 +123,26 @@ export function showSettingsSection(
 export const actions = {
   showLeftPaneSection,
   showSettingsSection,
-  setOverlayMode,
-  resetOverlayMode,
+  setLeftOverlayMode,
+  resetLeftOverlayMode,
+  setRightOverlayMode,
+  resetRightOverlayMode,
 };
 
 export const initialSectionState: SectionStateType = {
   focusedSection: SectionType.Message,
   focusedSettingsSection: undefined,
   isAppFocused: false,
-  overlayMode: undefined,
+  leftOverlayMode: undefined,
+  rightOverlayMode: { type: 'default', params: null },
 };
 
 export type SectionStateType = {
   focusedSection: SectionType;
   focusedSettingsSection?: SessionSettingCategory;
   isAppFocused: boolean;
-  overlayMode: OverlayMode | undefined;
+  leftOverlayMode: LeftOverlayMode | undefined;
+  rightOverlayMode: RightOverlayMode | undefined;
 };
 
 export const reducer = (
@@ -118,7 +159,7 @@ export const reducer = (
     case FOCUS_SECTION:
       // if we change to something else than settings, reset the focused settings section
       // eslint-disable-next-line no-case-declarations
-      const castedPayload = (payload as unknown) as SectionType;
+      const castedPayload = payload as unknown as SectionType;
 
       if (castedPayload !== SectionType.Settings) {
         return {
@@ -145,15 +186,25 @@ export const reducer = (
         ...state,
         isAppFocused: payload,
       };
-    case OVERLAY_MODE:
+    case LEFT_OVERLAY_MODE:
       return {
         ...state,
-        overlayMode: payload,
+        leftOverlayMode: payload,
       };
-    case RESET_OVERLAY_MODE:
+    case RESET_LEFT_OVERLAY_MODE:
       return {
         ...state,
-        overlayMode: undefined,
+        leftOverlayMode: undefined,
+      };
+    case RIGHT_OVERLAY_MODE:
+      return {
+        ...state,
+        rightOverlayMode: payload,
+      };
+    case RESET_RIGHT_OVERLAY_MODE:
+      return {
+        ...state,
+        rightOverlayMode: undefined,
       };
     default:
       return state;

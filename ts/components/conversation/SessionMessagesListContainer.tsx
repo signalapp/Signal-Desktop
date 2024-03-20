@@ -22,9 +22,9 @@ import {
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
 import { getSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import { ConversationMessageRequestButtons } from './MessageRequestButtons';
 import { SessionMessagesList } from './SessionMessagesList';
 import { TypingBubble } from './TypingBubble';
-import { ConversationMessageRequestButtons } from './MessageRequestButtons';
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
@@ -54,13 +54,14 @@ type Props = SessionMessageListProps & {
 const StyledMessagesContainer = styled.div`
   display: flex;
   flex-grow: 1;
-  gap: var(--margins-xxs);
+  gap: var(--margins-sm);
   flex-direction: column-reverse;
   position: relative;
   overflow-x: hidden;
   min-width: 370px;
   scrollbar-width: 4px;
-  padding: var(--margins-sm) 0 var(--margins-lg);
+  padding-top: var(--margins-sm);
+  padding-bottom: var(--margins-xl);
 
   .session-icon-button {
     display: flex;
@@ -70,6 +71,10 @@ const StyledMessagesContainer = styled.div`
     width: 40px;
     border-radius: 50%;
   }
+`;
+
+const StyledTypingBubble = styled(TypingBubble)`
+  margin: var(--margins-xs) var(--margins-lg) 0;
 `;
 
 class SessionMessagesListContainerInner extends React.Component<Props> {
@@ -121,7 +126,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         ref={this.props.messageContainerRef}
         data-testid="messages-container"
       >
-        <TypingBubble
+        <StyledTypingBubble
           conversationType={conversation.type}
           isTyping={!!conversation.isTyping}
           key="typing-bubble"

@@ -12,4 +12,9 @@ export const getOurNumber = createSelector(
   (state: UserStateType): string => state.ourNumber
 );
 
+export const getOurDisplayNameInProfile = createSelector(
+  getUser,
+  (state: UserStateType): string => state.ourDisplayNameInProfile
+);
+
 export const getIntl = createSelector(getUser, (): LocalizerType => window.i18n);

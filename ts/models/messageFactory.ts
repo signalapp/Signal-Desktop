@@ -37,7 +37,6 @@ export function createSwarmMessageSentFromUs(args: {
   const messageData: MessageAttributesOptionals = {
     ...getSharedAttributesForSwarmMessage(args),
     ...getSharedAttributesForOutgoingMessage(),
-    expirationStartTimestamp: Math.min(args.sentAt, Date.now()),
   };
 
   return new MessageModel(messageData);
@@ -55,13 +54,14 @@ export function createSwarmMessageSentFromNotUs(args: {
   sender: string;
   conversationId: string;
 }): MessageModel {
-  const messageData: MessageAttributesOptionals = {
+  const messageAttributes: MessageAttributesOptionals = {
     ...getSharedAttributesForSwarmMessage(args),
     ...getSharedAttributesForIncomingMessage(),
     source: args.sender,
   };
 
-  return new MessageModel(messageData);
+  markAttributesAsReadIfNeeded(messageAttributes);
+  return new MessageModel(messageAttributes);
 }
 
 function getSharedAttributesForPublicMessage({
@@ -81,6 +81,7 @@ function getSharedAttributesForPublicMessage({
     isPublic: true,
     conversationId,
     messageHash: '', // we do not care of a messageHash for an opengroup message. we have serverId for that
+    // NOTE Community messages do not support disappearing messages
     expirationStartTimestamp: undefined,
   };
 }
@@ -98,7 +99,7 @@ function getSharedAttributesForOutgoingMessage() {
 
 function getSharedAttributesForIncomingMessage() {
   return {
-    unread: READ_MESSAGE_STATE.unread,
+    unread: READ_MESSAGE_STATE.unread, // default to unread, but markAttributesAsReadIfNeeded will override it if needed
     type: 'incoming' as MessageModelType,
     direction: 'incoming' as MessageModelType,
   };
@@ -116,6 +117,7 @@ export function markAttributesAsReadIfNeeded(messageAttributes: MessageAttribute
       latestUnreadForThisConvo?.lastRead &&
       sentAt <= latestUnreadForThisConvo.lastRead
     ) {
+      // The message was sent before our last read timestamp for that conversation.
       // eslint-disable-next-line no-param-reassign
       messageAttributes.unread = READ_MESSAGE_STATE.read;
     }

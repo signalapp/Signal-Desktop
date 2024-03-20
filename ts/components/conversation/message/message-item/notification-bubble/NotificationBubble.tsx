@@ -8,7 +8,7 @@ const NotificationBubbleFlex = styled.div`
   color: var(--text-primary-color);
   width: 90%;
   max-width: 700px;
-  margin: 10px auto;
+  margin: 5px auto 10px auto; // top margin is smaller that bottom one to make the stopwatch icon of expirable message closer to its content
   padding: 5px 10px;
   border-radius: 16px;
   word-break: break-word;

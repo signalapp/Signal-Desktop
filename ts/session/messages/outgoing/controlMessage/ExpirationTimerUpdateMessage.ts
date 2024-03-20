@@ -1,31 +1,44 @@
-import { DataMessage } from '..';
 import { SignalService } from '../../../../protobuf';
+import { TTL_DEFAULT } from '../../../constants';
 import { PubKey } from '../../../types';
 import { StringUtils } from '../../../utils';
-import { MessageParams } from '../Message';
+import { DataMessage } from '../DataMessage';
+import { ExpirableMessageParams } from '../ExpirableMessage';
 
-interface ExpirationTimerUpdateMessageParams extends MessageParams {
+interface ExpirationTimerUpdateMessageParams extends ExpirableMessageParams {
   groupId?: string | PubKey;
   syncTarget?: string | PubKey;
-  expireTimer: number | null;
 }
+
+// NOTE legacy messages used a data message for the expireTimer.
+// The new ones use properties on the Content Message
 
 export class ExpirationTimerUpdateMessage extends DataMessage {
   public readonly groupId?: PubKey;
   public readonly syncTarget?: string;
-  public readonly expireTimer: number | null;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
-    this.expireTimer = params.expireTimer;
+    super({
+      timestamp: params.timestamp,
+      identifier: params.identifier,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
+    });
 
-    const { groupId, syncTarget } = params;
+    const { groupId } = params;
     this.groupId = groupId ? PubKey.cast(groupId) : undefined;
-    this.syncTarget = syncTarget ? PubKey.cast(syncTarget).key : undefined;
+    this.syncTarget = params.syncTarget ? PubKey.cast(params.syncTarget).key : undefined;
+  }
+
+  public contentProto(): SignalService.Content {
+    return new SignalService.Content({
+      ...super.contentProto(),
+      dataMessage: this.dataProto(),
+    });
   }
 
   public dataProto(): SignalService.DataMessage {
-    const data = new SignalService.DataMessage();
+    const data = super.dataProto();
 
     data.flags = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
@@ -46,10 +59,13 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
       data.syncTarget = this.syncTarget;
     }
 
-    if (this.expireTimer) {
-      data.expireTimer = this.expireTimer;
-    }
-
     return data;
+  }
+
+  public ttl(): number {
+    if (this.groupId) {
+      return TTL_DEFAULT.CONTENT_MESSAGE;
+    }
+    return super.ttl();
   }
 }

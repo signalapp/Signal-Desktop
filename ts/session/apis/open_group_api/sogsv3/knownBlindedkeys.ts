@@ -238,11 +238,7 @@ export function getUsBlindedInThatServer(convo: ConversationModel | string): str
   }
   const convoId = isString(convo) ? convo : convo.id;
 
-  if (
-    !getConversationController()
-      .get(convoId)
-      ?.isOpenGroupV2()
-  ) {
+  if (!getConversationController().get(convoId)?.isOpenGroupV2()) {
     return undefined;
   }
   const room = OpenGroupData.getV2OpenGroupRoom(isString(convo) ? convo : convo.id);

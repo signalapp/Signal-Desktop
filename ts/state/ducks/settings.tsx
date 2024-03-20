@@ -8,10 +8,12 @@ const SettingsBoolsKeyTrackedInRedux = [
   SettingsKey.someDeviceOutdatedSyncing,
   SettingsKey.settingsLinkPreview,
   SettingsKey.hasBlindedMsgRequestsEnabled,
+  SettingsKey.hasFollowSystemThemeEnabled,
+  SettingsKey.hasShiftSendEnabled,
 ] as const;
 
 export type SettingsState = {
-  settingsBools: Record<typeof SettingsBoolsKeyTrackedInRedux[number], boolean>;
+  settingsBools: Record<(typeof SettingsBoolsKeyTrackedInRedux)[number], boolean>;
 };
 
 export function getSettingsInitialState() {
@@ -20,11 +22,13 @@ export function getSettingsInitialState() {
       someDeviceOutdatedSyncing: false,
       'link-preview-setting': false, // this is the value of SettingsKey.settingsLinkPreview
       hasBlindedMsgRequestsEnabled: false,
+      hasFollowSystemThemeEnabled: false,
+      hasShiftSendEnabled: false,
     },
   };
 }
 
-function isTrackedBoolean(key: string): key is typeof SettingsBoolsKeyTrackedInRedux[number] {
+function isTrackedBoolean(key: string): key is (typeof SettingsBoolsKeyTrackedInRedux)[number] {
   return SettingsBoolsKeyTrackedInRedux.indexOf(key as any) !== -1;
 }
 
@@ -47,6 +51,11 @@ const settingsSlice = createSlice({
         SettingsKey.hasBlindedMsgRequestsEnabled,
         false
       );
+      const hasFollowSystemThemeEnabled = Storage.get(
+        SettingsKey.hasFollowSystemThemeEnabled,
+        false
+      );
+      const hasShiftSendEnabled = Storage.get(SettingsKey.hasShiftSendEnabled, false);
       state.settingsBools.someDeviceOutdatedSyncing = isBoolean(outdatedSync)
         ? outdatedSync
         : false;
@@ -54,6 +63,15 @@ const settingsSlice = createSlice({
       state.settingsBools.hasBlindedMsgRequestsEnabled = isBoolean(hasBlindedMsgRequestsEnabled)
         ? hasBlindedMsgRequestsEnabled
         : false;
+
+      state.settingsBools.hasFollowSystemThemeEnabled = isBoolean(hasFollowSystemThemeEnabled)
+        ? hasFollowSystemThemeEnabled
+        : false;
+
+      state.settingsBools.hasShiftSendEnabled = isBoolean(hasShiftSendEnabled)
+        ? hasShiftSendEnabled
+        : false;
+
       return state;
     },
     updateSettingsBoolValue(state, action: PayloadAction<{ id: string; value: boolean }>) {
@@ -79,9 +97,6 @@ const settingsSlice = createSlice({
 });
 
 const { actions, reducer } = settingsSlice;
-export const {
-  updateSettingsBoolValue,
-  deleteSettingsBoolValue,
-  updateAllOnStorageReady,
-} = actions;
+export const { updateSettingsBoolValue, deleteSettingsBoolValue, updateAllOnStorageReady } =
+  actions;
 export const settingsReducer = reducer;

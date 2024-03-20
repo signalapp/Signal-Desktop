@@ -41,6 +41,18 @@ Building on Windows is a pain, but is possible see our CI/Windows build machine 
 1.  Install build tools `apt install build-essential cmake` (this installs make, g++, gcc)
 2.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
 
+In Ubuntu, you may also need to install
+```
+sudo apt install cmake
+npm install cmake-js
+```
+
+In Fedora, you may also need to install
+```
+sudo dnf install make automake gcc gcc-c++ kernel-devel
+```
+
+
 ### All platforms
 
 Now, run these commands in your preferred terminal in a good directory for development:
@@ -138,8 +150,11 @@ So you wanna make a pull request? Please observe the following guidelines.
 - Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json).
-    Other locales are generated automatically based on that file and then periodically
-    uploaded to Crowdin for translation.
+  Other locales are generated automatically based on that file and then periodically
+  uploaded to Crowdin for translation. If you add or change strings in messages.json
+  you will need to run [`tools/updateI18nKeysType.py`](tools/updateI18nKeysType.py)
+  this script generates updated TypeScript type definitions to ensure you aren't
+  using a localisation key which doesn't exist.
 - Please do not submit pull requests for pure translation fixes. Anyone can update
   the translations at [Crowdin](https://crowdin.com/project/session-desktop).
 - [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your

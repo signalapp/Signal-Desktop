@@ -216,11 +216,8 @@ async function _runJob(job: any) {
     // and tries to update the same message.
     found = await Data.getMessageById(messageId);
     if (found) {
-      const {
-        hasAttachments,
-        hasVisualMediaAttachments,
-        hasFileAttachments,
-      } = getAttachmentMetadata(found);
+      const { hasAttachments, hasVisualMediaAttachments, hasFileAttachments } =
+        getAttachmentMetadata(found);
       found.set({ hasAttachments, hasVisualMediaAttachments, hasFileAttachments });
     }
 

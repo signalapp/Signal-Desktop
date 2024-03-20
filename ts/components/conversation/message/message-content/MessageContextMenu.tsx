@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
+import { isNumber } from 'lodash';
 import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';
 import { useDispatch } from 'react-redux';
 import { useClickAway, useMouse } from 'react-use';
 import styled from 'styled-components';
-import { isNumber } from 'lodash';
 import { Data } from '../../../../data/data';
 
 import { MessageInteraction } from '../../../../interactions';
@@ -21,9 +21,11 @@ import {
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { pushUnblockToSend } from '../../../../session/utils/Toast';
 import {
-  showMessageDetailsView,
+  openRightPanel,
+  showMessageInfoView,
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
+import { setRightOverlayMode } from '../../../../state/ducks/section';
 import {
   useMessageAttachments,
   useMessageBody,
@@ -86,19 +88,29 @@ const StyledEmojiPanelContainer = styled.div<{ x: number; y: number }>`
   }
 `;
 
-const DeleteForEveryone = ({ messageId }: { messageId: string }) => {
+const DeleteItem = ({ messageId }: { messageId: string }) => {
   const convoId = useSelectedConversationKey();
+  const isPublic = useSelectedIsPublic();
+
+  const isDeletable = useMessageIsDeletable(messageId);
   const isDeletableForEveryone = useMessageIsDeletableForEveryone(messageId);
-  if (!convoId || !isDeletableForEveryone) {
+
+  const onDelete = useCallback(() => {
+    if (convoId) {
+      if (!isPublic && isDeletable) {
+        void deleteMessagesById([messageId], convoId);
+      }
+      if (isPublic && isDeletableForEveryone) {
+        void deleteMessagesByIdForEveryone([messageId], convoId);
+      }
+    }
+  }, [convoId, isDeletable, isDeletableForEveryone, isPublic, messageId]);
+
+  if (!convoId || (isPublic && !isDeletableForEveryone) || (!isPublic && !isDeletable)) {
     return null;
   }
-  const onDeleteForEveryone = () => {
-    void deleteMessagesByIdForEveryone([messageId], convoId);
-  };
 
-  const unsendMessageText = window.i18n('deleteForEveryone');
-
-  return <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>;
+  return <Item onClick={onDelete}>{window.i18n('delete')}</Item>;
 };
 
 type MessageId = { messageId: string };
@@ -162,6 +174,28 @@ const RetryItem = ({ messageId }: MessageId) => {
   return showRetry ? <Item onClick={onRetry}>{window.i18n('resend')}</Item> : null;
 };
 
+export const showMessageInfoOverlay = async ({
+  messageId,
+  dispatch,
+}: {
+  messageId: string;
+  dispatch: Dispatch<any>;
+}) => {
+  const found = await Data.getMessageById(messageId);
+  if (found) {
+    dispatch(showMessageInfoView(messageId));
+    dispatch(
+      setRightOverlayMode({
+        type: 'message_info',
+        params: { messageId, visibleAttachmentIndex: 0 },
+      })
+    );
+    dispatch(openRightPanel());
+  } else {
+    window.log.warn(`[showMessageInfoOverlay] Message ${messageId} not found in db`);
+  }
+};
+
 export const MessageContextMenu = (props: Props) => {
   const { messageId, contextMenuId, enableReactions } = props;
   const dispatch = useDispatch();
@@ -169,7 +203,6 @@ export const MessageContextMenu = (props: Props) => {
 
   const isSelectedBlocked = useSelectedIsBlocked();
   const convoId = useSelectedConversationKey();
-  const isPublic = useSelectedIsPublic();
 
   const direction = useMessageDirection(messageId);
   const status = useMessageStatus(messageId);
@@ -178,7 +211,6 @@ export const MessageContextMenu = (props: Props) => {
   const attachments = useMessageAttachments(messageId);
   const timestamp = useMessageTimestamp(messageId);
   const serverTimestamp = useMessageServerTimestamp(messageId);
-
   const sender = useMessageSender(messageId);
 
   const isOutgoing = direction === 'outgoing';
@@ -214,18 +246,7 @@ export const MessageContextMenu = (props: Props) => {
     [showEmojiPanel]
   );
 
-  const onShowDetail = async () => {
-    const found = await Data.getMessageById(messageId);
-    if (found) {
-      const messageDetailsProps = await found.getPropsForMessageDetail();
-      dispatch(showMessageDetailsView(messageDetailsProps));
-    } else {
-      window.log.warn(`Message ${messageId} not found in db`);
-    }
-  };
-
   const selectMessageText = window.i18n('selectMessage');
-  const deleteMessageJustForMeText = window.i18n('deleteJustForMe');
 
   const onReply = useCallback(() => {
     if (isSelectedBlocked) {
@@ -242,12 +263,6 @@ export const MessageContextMenu = (props: Props) => {
   const onSelect = useCallback(() => {
     dispatch(toggleSelectedMessageId(messageId));
   }, [dispatch, messageId]);
-
-  const onDelete = useCallback(() => {
-    if (convoId) {
-      void deleteMessagesById([messageId], convoId);
-    }
-  }, [convoId, messageId]);
 
   const onShowEmoji = () => {
     hideAll();
@@ -299,6 +314,7 @@ export const MessageContextMenu = (props: Props) => {
       messageTimestamp,
       messageSender: sender,
       conversationId: convoId,
+      index: targetAttachmentIndex,
     });
   };
 
@@ -352,7 +368,11 @@ export const MessageContextMenu = (props: Props) => {
         <Menu id={contextMenuId} onVisibilityChange={onVisibilityChange} animation="fade">
           {enableReactions && (
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            <MessageReactBar action={onEmojiClick} additionalAction={onShowEmoji} />
+            <MessageReactBar
+              action={onEmojiClick}
+              additionalAction={onShowEmoji}
+              messageId={messageId}
+            />
           )}
           {attachments?.length ? (
             <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
@@ -361,15 +381,16 @@ export const MessageContextMenu = (props: Props) => {
           {(isSent || !isOutgoing) && (
             <Item onClick={onReply}>{window.i18n('replyToMessage')}</Item>
           )}
-          {(!isPublic || isOutgoing) && (
-            <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
-          )}
+          <Item
+            onClick={() => {
+              void showMessageInfoOverlay({ messageId, dispatch });
+            }}
+          >
+            {window.i18n('moreInformation')}
+          </Item>
           <RetryItem messageId={messageId} />
           {isDeletable ? <Item onClick={onSelect}>{selectMessageText}</Item> : null}
-          {isDeletable && !isPublic ? (
-            <Item onClick={onDelete}>{deleteMessageJustForMeText}</Item>
-          ) : null}
-          <DeleteForEveryone messageId={messageId} />
+          <DeleteItem messageId={messageId} />
           <AdminActionItems messageId={messageId} />
         </Menu>
       </SessionContextMenuContainer>

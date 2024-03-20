@@ -1,9 +1,9 @@
-import { difference, isNumber, omit, pick } from 'lodash';
 import * as BetterSqlite3 from '@signalapp/better-sqlite3';
+import { difference, isNumber, omit, pick } from 'lodash';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   ConversationAttributesWithNotSavedOnes,
-  CONVERSATION_PRIORITIES,
 } from '../models/conversationAttributes';
 
 export const CONVERSATIONS_TABLE = 'conversations';
@@ -57,6 +57,8 @@ const allowedKeysFormatRowOfConversation = [
   'left',
   'lastMessage',
   'lastMessageStatus',
+  'lastMessageInteractionType',
+  'lastMessageInteractionStatus',
   'triggerNotificationsFor',
   'unreadCount',
   'lastJoinedTimestamp',
@@ -74,6 +76,8 @@ const allowedKeysFormatRowOfConversation = [
   'markedAsUnread',
   'blocksSogsMsgReqsTimestamp',
   'priority',
+  'expirationMode',
+  'hasOutdatedClient',
 ];
 
 export function formatRowOfConversation(
@@ -143,6 +147,14 @@ export function formatRowOfConversation(
     convo.blocksSogsMsgReqsTimestamp = 0;
   }
 
+  if (!convo.lastMessageInteractionType) {
+    convo.lastMessageInteractionType = null;
+  }
+
+  if (!convo.lastMessageInteractionStatus) {
+    convo.lastMessageInteractionStatus = null;
+  }
+
   if (!convo.triggerNotificationsFor) {
     convo.triggerNotificationsFor = 'all';
   }
@@ -180,6 +192,8 @@ const allowedKeysOfConversationAttributes = [
   'left',
   'lastMessage',
   'lastMessageStatus',
+  'lastMessageInteractionType',
+  'lastMessageInteractionStatus',
   'triggerNotificationsFor',
   'lastJoinedTimestamp',
   'expireTimer',
@@ -196,6 +210,8 @@ const allowedKeysOfConversationAttributes = [
   'markedAsUnread',
   'blocksSogsMsgReqsTimestamp',
   'priority',
+  'expirationMode',
+  'hasOutdatedClient',
 ];
 
 /**

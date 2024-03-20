@@ -1,25 +1,25 @@
-import https from 'https';
-// eslint-disable-next-line import/no-named-default
-import { default as insecureNodeFetch, RequestInit, Response } from 'node-fetch';
-import ByteBuffer from 'bytebuffer';
-import pRetry from 'p-retry';
-import { cloneDeep, isEmpty, isString, omit } from 'lodash';
 import { AbortSignal } from 'abort-controller';
+import ByteBuffer from 'bytebuffer';
+import https from 'https';
 import { to_string } from 'libsodium-wrappers-sumo';
+import { cloneDeep, isEmpty, isString, omit } from 'lodash';
+import insecureNodeFetch, { RequestInit, Response } from 'node-fetch';
+import pRetry from 'p-retry';
 // eslint-disable-next-line import/no-unresolved
 import { AbortSignal as AbortSignalNode } from 'node-fetch/externals';
 
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 
 import { OnionPaths } from '../../onions';
-import { toHex } from '../../utils/String';
 import { ed25519Str, incrementBadPathCountOrDrop } from '../../onions/onionPath';
+import { toHex } from '../../utils/String';
 
 import { Snode } from '../../../data/data';
-import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
-import { hrefPnServerProd } from '../push_notification_api/PnServer';
 import { callUtilsWorker } from '../../../webworker/workers/browser/util_worker_interface';
 import { encodeV4Request } from '../../onions/onionv4';
+import { fileServerHost } from '../file_server_api/FileServerApi';
+import { hrefPnServerProd } from '../push_notification_api/PnServer';
+import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 
 // hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
 let snodeFailureCount: Record<string, number> = {};
@@ -86,9 +86,11 @@ async function encryptOnionV4RequestForPubkey(
 ) {
   const plaintext = encodeV4Request(requestInfo);
 
-  return callUtilsWorker('encryptForPubkey', pubKeyX25519hex, plaintext) as Promise<
-    DestinationContext
-  >;
+  return callUtilsWorker(
+    'encryptForPubkey',
+    pubKeyX25519hex,
+    plaintext
+  ) as Promise<DestinationContext>;
 }
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
@@ -98,9 +100,11 @@ async function encryptForPubKey(
 ): Promise<DestinationContext> {
   const plaintext = new TextEncoder().encode(JSON.stringify(requestInfo));
 
-  return callUtilsWorker('encryptForPubkey', pubKeyX25519hex, plaintext) as Promise<
-    DestinationContext
-  >;
+  return callUtilsWorker(
+    'encryptForPubkey',
+    pubKeyX25519hex,
+    plaintext
+  ) as Promise<DestinationContext>;
 }
 
 export type DestinationRelayV2 = {
@@ -839,6 +843,7 @@ async function sendOnionRequestHandlingSnodeEject({
     response = result.response;
     if (
       !isEmpty(finalRelayOptions) &&
+      finalRelayOptions.host !== fileServerHost &&
       response.status === 502 &&
       response.statusText === 'Bad Gateway'
     ) {
@@ -848,6 +853,7 @@ async function sendOnionRequestHandlingSnodeEject({
     decodingSymmetricKey = result.decodingSymmetricKey;
   } catch (e) {
     window?.log?.warn('sendOnionRequestNoRetries error message: ', e.message);
+
     if (e.code === 'ENETUNREACH' || e.message === 'ENETUNREACH' || throwErrors) {
       throw e;
     }

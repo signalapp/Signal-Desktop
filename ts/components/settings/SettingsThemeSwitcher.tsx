@@ -1,18 +1,18 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { switchThemeTo } from '../../themes/switchTheme';
+import { getPrimaryColor } from '../../state/selectors/primaryColor';
 import { getTheme } from '../../state/selectors/theme';
+import {
+  StyleSessionSwitcher,
+  getPrimaryColors,
+  getThemeColors,
+} from '../../themes/constants/colors';
+import { switchPrimaryColorTo } from '../../themes/switchPrimaryColor';
+import { switchThemeTo } from '../../themes/switchTheme';
 import { SessionRadio, SessionRadioPrimaryColors } from '../basic/SessionRadio';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { StyledDescriptionSettingsItem, StyledTitleSettingsItem } from './SessionSettingListItem';
-import {
-  getPrimaryColors,
-  getThemeColors,
-  StyleSessionSwitcher,
-} from '../../themes/constants/colors';
-import { switchPrimaryColorTo } from '../../themes/switchPrimaryColor';
-import { getPrimaryColor } from '../../state/selectors/primaryColor';
 
 const StyledSwitcherContainer = styled.div`
   font-size: var(--font-size-md);
@@ -99,6 +99,7 @@ const Themes = () => {
             label={''}
             value={theme.id}
             inputName={'theme-switcher'}
+            style={{ padding: '0 0 0 var(--margins-lg)' }}
           />
         </ThemeContainer>
       ))}

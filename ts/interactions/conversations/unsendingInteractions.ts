@@ -1,19 +1,20 @@
 import { compact } from 'lodash';
+import { SessionButtonColor } from '../../components/basic/SessionButton';
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
 import { getMessageQueue } from '../../session';
+import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
+import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
+import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
 import { getConversationController } from '../../session/conversations';
 import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/UnsendMessage';
 import { ed25519Str } from '../../session/onions/onionPath';
-import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { resetSelectedMessageIds } from '../../state/ducks/conversations';
+import { closeRightPanel, resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { SessionButtonColor } from '../../components/basic/SessionButton';
-import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
-import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
+import { resetRightOverlayMode } from '../../state/ducks/section';
 
 /**
  * Deletes messages for everyone in a 1-1 or everyone in a closed group conversation.
@@ -204,7 +205,6 @@ export async function deleteMessageLocallyOnly({
   } else {
     // just mark the message as deleted but still show in conversation
     await message.markAsDeleted();
-    await message.markMessageAsRead(Date.now());
   }
   conversation.updateLastMessage();
 }
@@ -347,6 +347,8 @@ export async function deleteMessagesByIdForEveryone(
   const messageCount = selectedMessages.length;
   const moreThanOne = messageCount > 1;
 
+  const closeDialog = () => window.inboxStore?.dispatch(updateConfirmModal(null));
+
   window.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('deleteForEveryone'),
@@ -359,8 +361,10 @@ export async function deleteMessagesByIdForEveryone(
         await doDeleteSelectedMessages({ selectedMessages, conversation, deleteForEveryone: true });
 
         // explicitly close modal for this case.
-        window.inboxStore?.dispatch(updateConfirmModal(null));
+        closeDialog();
       },
+      onClickCancel: closeDialog,
+      onClickClose: closeDialog,
       closeAfterInput: false,
     })
   );
@@ -372,8 +376,11 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
     await Promise.all(messageIds.map(m => Data.getMessageById(m, false)))
   );
 
+  const isMe = conversation.isMe();
+
   const messageCount = selectedMessages.length;
   const moreThanOne = selectedMessages.length > 1;
+  const closeDialog = () => window.inboxStore?.dispatch(updateConfirmModal(null));
 
   window.inboxStore?.dispatch(
     updateConfirmModal({
@@ -381,17 +388,26 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
       message: moreThanOne
         ? window.i18n('deleteMessagesQuestion', [messageCount.toString()])
         : window.i18n('deleteMessageQuestion'),
+      radioOptions: !isMe
+        ? [
+            { label: window.i18n('deleteJustForMe'), value: 'deleteJustForMe' },
+            { label: window.i18n('deleteForEveryone'), value: 'deleteForEveryone' },
+          ]
+        : undefined,
       okText: window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
-      onClickOk: async () => {
+      onClickOk: async args => {
         await doDeleteSelectedMessages({
           selectedMessages,
           conversation,
-          deleteForEveryone: false,
+          deleteForEveryone: args === 'deleteForEveryone', // chosenOption from radioOptions
         });
         window.inboxStore?.dispatch(updateConfirmModal(null));
+        window.inboxStore?.dispatch(closeRightPanel());
+        window.inboxStore?.dispatch(resetRightOverlayMode());
       },
       closeAfterInput: false,
+      onClickClose: closeDialog,
     })
   );
 }

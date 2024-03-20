@@ -3,12 +3,15 @@
 import { escapeRegExp, isEmpty, isRegExp, isString } from 'lodash';
 import { compose } from 'lodash/fp';
 import { getAppRootPath } from '../node/getRootPath';
+import { isDevProd } from '../shared/env_vars';
 
 const APP_ROOT_PATH = getAppRootPath();
 const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
-const SNODE_PATTERN = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/g;
+const SNODE_PATTERN =
+  /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/g;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
-const SERVER_URL_PATTERN = /https?:\/\/[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
+const SERVER_URL_PATTERN =
+  /https?:\/\/[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 //  redactPath :: Path -> String -> String
@@ -103,7 +106,7 @@ function shouldNotRedactLogs() {
     return true;
   }
   // otherwise we don't want to redact logs when running on the devprod env
-  return (process.env.NODE_APP_INSTANCE || '').startsWith('devprod');
+  return isDevProd();
 }
 
 //      redactAll :: String -> String

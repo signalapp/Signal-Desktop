@@ -3,23 +3,37 @@ const minutes = seconds * 60;
 const hours = minutes * 60;
 const days = hours * 24;
 
+/** in milliseconds */
 export const DURATION = {
-  SECONDS: seconds, // in ms
-  MINUTES: minutes, // in ms
-  HOURS: hours, // in ms
-  DAYS: days, // in ms
+  /** 1000ms */
+  SECONDS: seconds,
+  /** 60 * 1000 = 60,000 ms */
+  MINUTES: minutes,
+  /** 60 * 60 * 1000 = 3,600,000 ms */
+  HOURS: hours,
+  /** 24 * 60 * 60 * 1000 = 86,400,000 ms */
+  DAYS: days,
+  /** 7 * 24 * 60 * 60 * 1000 = 604,800,000 ms */
+  WEEKS: days * 7,
 };
 
 export const TTL_DEFAULT = {
+  /** 20 seconds */
   TYPING_MESSAGE: 20 * DURATION.SECONDS,
+  /** 5 minutes */
   CALL_MESSAGE: 5 * 60 * DURATION.SECONDS,
-  TTL_MAX: 14 * DURATION.DAYS,
-  TTL_CONFIG: 30 * DURATION.DAYS,
+  /** 14 days */
+  CONTENT_MESSAGE: 14 * DURATION.DAYS,
+  /** 30 days */
+  CONFIG_MESSAGE: 30 * DURATION.DAYS,
 };
 
 export const SWARM_POLLING_TIMEOUT = {
+  /** 5 seconds */
   ACTIVE: DURATION.SECONDS * 5,
+  /** 1 minute */
   MEDIUM_ACTIVE: DURATION.SECONDS * 60,
+  /** 2 minutes */
   INACTIVE: DURATION.SECONDS * 120,
 };
 
@@ -51,13 +65,12 @@ export const VALIDATION = {
   CLOSED_GROUP_SIZE_LIMIT: 100,
 };
 
-export const UI = {
-  COLORS: {
-    // COMMON
-    GREEN: '#00F782',
-  },
-};
-
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
+export const REACT_LIMIT = 6;
 
 export const MAX_USERNAME_BYTES = 64;
+
+export const FEATURE_RELEASE_TIMESTAMPS = {
+  DISAPPEARING_MESSAGES_V2: 1710284400000, // 13/03/2024 10:00 Melbourne time
+  USER_CONFIG: 1690761600000, // Monday July 31st at 10am Melbourne time
+};

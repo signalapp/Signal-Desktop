@@ -1,8 +1,8 @@
 import classNames from 'classnames';
+import { isEqual } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { isEqual } from 'lodash';
 
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
@@ -48,15 +48,14 @@ const CrownWrapper = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 0%;
-  right: 12%;
-  height: 20px;
-  width: 20px;
-  transform: translate(25%, 25%);
+  bottom: 11%;
+  right: 11%;
+  height: 18px;
+  width: 18px;
+  transform: translate(20%, 20%); // getting over 23% creates a glitch
   color: #f7c347;
   background: var(--background-primary-color);
   border-radius: 50%;
-  box-shadow: var(--drop-shadow);
 `;
 
 export const CrownIcon = () => {
@@ -111,15 +110,8 @@ const AvatarImage = (
 };
 
 const AvatarInner = (props: Props) => {
-  const {
-    base64Data,
-    size,
-    pubkey,
-    forcedAvatarPath,
-    forcedName,
-    dataTestId,
-    onAvatarClick,
-  } = props;
+  const { base64Data, size, pubkey, forcedAvatarPath, forcedName, dataTestId, onAvatarClick } =
+    props;
   const [imageBroken, setImageBroken] = useState(false);
 
   const isSelectingMessages = useSelector(isMessageSelectionMode);

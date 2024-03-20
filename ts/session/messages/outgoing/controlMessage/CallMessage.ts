@@ -1,10 +1,9 @@
 import { SignalService } from '../../../../protobuf';
-import { MessageParams } from '../Message';
-import { ContentMessage } from '..';
 import { signalservice } from '../../../../protobuf/compiled';
 import { TTL_DEFAULT } from '../../../constants';
+import { ExpirableMessage, ExpirableMessageParams } from '../ExpirableMessage';
 
-interface CallMessageParams extends MessageParams {
+interface CallMessageParams extends ExpirableMessageParams {
   type: SignalService.CallMessage.Type;
   sdpMLineIndexes?: Array<number>;
   sdpMids?: Array<string>;
@@ -12,7 +11,7 @@ interface CallMessageParams extends MessageParams {
   uuid: string;
 }
 
-export class CallMessage extends ContentMessage {
+export class CallMessage extends ExpirableMessage {
   public readonly type: signalservice.CallMessage.Type;
   public readonly sdpMLineIndexes?: Array<number>;
   public readonly sdpMids?: Array<string>;
@@ -20,7 +19,7 @@ export class CallMessage extends ContentMessage {
   public readonly uuid: string;
 
   constructor(params: CallMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
+    super(params);
     this.type = params.type;
     this.sdpMLineIndexes = params.sdpMLineIndexes;
     this.sdpMids = params.sdpMids;
@@ -41,9 +40,9 @@ export class CallMessage extends ContentMessage {
   }
 
   public contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      callMessage: this.dataCallProto(),
-    });
+    const content = super.contentProto();
+    content.callMessage = this.dataCallProto();
+    return content;
   }
 
   public ttl() {

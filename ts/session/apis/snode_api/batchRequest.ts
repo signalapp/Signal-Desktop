@@ -2,7 +2,11 @@ import { isArray } from 'lodash';
 import { Snode } from '../../../data/data';
 import { processOnionRequestErrorAtDestination, SnodeResponse } from './onions';
 import { snodeRpc } from './sessionRpc';
-import { NotEmptyArrayOfBatchResults, SnodeApiSubRequests } from './SnodeRequestTypes';
+import {
+  MAX_SUBREQUESTS_COUNT,
+  NotEmptyArrayOfBatchResults,
+  SnodeApiSubRequests,
+} from './SnodeRequestTypes';
 
 /**
  * This is the equivalent to the batch send on sogs. The target node runs each sub request and returns a list of all the sub status and bodies.
@@ -21,11 +25,14 @@ export async function doSnodeBatchRequest(
   associatedWith: string | null,
   method: 'batch' | 'sequence' = 'batch'
 ): Promise<NotEmptyArrayOfBatchResults> {
-  // console.warn(
-  //   `doSnodeBatchRequest "${method}":`,
-  //   subRequests.map(m => m.method),
-  //   subRequests
-  // );
+  if (subRequests.length > MAX_SUBREQUESTS_COUNT) {
+    window.log.error(
+      `batch subRequests count cannot be more than ${MAX_SUBREQUESTS_COUNT}. Got ${subRequests.length}`
+    );
+    throw new Error(
+      `batch subRequests count cannot be more than ${MAX_SUBREQUESTS_COUNT}. Got ${subRequests.length}`
+    );
+  }
   const result = await snodeRpc({
     method,
     params: { requests: subRequests },

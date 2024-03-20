@@ -65,7 +65,7 @@ describe('ConfigurationMessage', () => {
       contacts: [],
     };
     const configMessage = new ConfigurationMessage(params);
-    expect(configMessage.ttl()).to.be.equal(TTL_DEFAULT.TTL_MAX);
+    expect(configMessage.ttl()).to.be.equal(TTL_DEFAULT.CONTENT_MESSAGE);
   });
 
   describe('ConfigurationMessageClosedGroup', () => {

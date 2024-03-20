@@ -3,7 +3,8 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 import { MessageRenderingProps } from '../../../../models/messageType';
-import { useSelectedIsGroup } from '../../../../state/selectors/selectedConversation';
+import { REACT_LIMIT } from '../../../../session/constants';
+import { useSelectedIsGroupOrCommunity } from '../../../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../../../types/Reaction';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { Flex } from '../../../basic/Flex';
@@ -26,7 +27,7 @@ export const StyledMessageReactionsContainer = styled(Flex)<{
   }
 
   // MessageAvatar width + margin-inline-end
-  ${props => !props.noAvatar && 'margin-inline-start: calc(36px + 20px);'}
+  ${props => !props.noAvatar && 'margin-inline-start: var(--width-avatar-group-msg-list);'}
 `;
 
 export const StyledMessageReactions = styled(Flex)<{ fullWidth: boolean }>`
@@ -146,9 +147,10 @@ type Props = {
   inModal?: boolean;
   onSelected?: (emoji: string) => boolean;
   noAvatar: boolean;
+  isDetailView?: boolean;
 };
 
-export const MessageReactions = (props: Props): ReactElement => {
+export const MessageReactions = (props: Props) => {
   const {
     messageId,
     hasReactLimit = true,
@@ -159,6 +161,7 @@ export const MessageReactions = (props: Props): ReactElement => {
     inModal = false,
     onSelected,
     noAvatar,
+    isDetailView,
   } = props;
   const [reactions, setReactions] = useState<SortedReactionList>([]);
 
@@ -172,7 +175,7 @@ export const MessageReactions = (props: Props): ReactElement => {
 
   const msgProps = useMessageReactsPropsById(messageId);
 
-  const inGroup = useSelectedIsGroup();
+  const inGroup = useSelectedIsGroupOrCommunity();
 
   useEffect(() => {
     if (msgProps?.sortedReacts && !isEqual(reactions, msgProps?.sortedReacts)) {
@@ -185,12 +188,14 @@ export const MessageReactions = (props: Props): ReactElement => {
   }, [msgProps?.sortedReacts, reactions]);
 
   if (!msgProps) {
-    return <></>;
+    return null;
   }
 
   const { sortedReacts } = msgProps;
 
-  const reactLimit = 6;
+  if (!sortedReacts || !sortedReacts.length) {
+    return null;
+  }
 
   const reactionsProps = {
     messageId,
@@ -199,10 +204,10 @@ export const MessageReactions = (props: Props): ReactElement => {
     inGroup,
     handlePopupX: setPopupX,
     handlePopupY: setPopupY,
-    onClick,
+    onClick: !isDetailView ? onClick : undefined,
     popupReaction,
     onSelected,
-    handlePopupReaction: setPopupReaction,
+    handlePopupReaction: !isDetailView ? setPopupReaction : undefined,
     handlePopupClick: onPopupClick,
   };
 
@@ -220,7 +225,7 @@ export const MessageReactions = (props: Props): ReactElement => {
     >
       {sortedReacts &&
         sortedReacts?.length !== 0 &&
-        (!hasReactLimit || sortedReacts.length <= reactLimit ? (
+        (!hasReactLimit || sortedReacts.length <= REACT_LIMIT ? (
           <Reactions {...reactionsProps} />
         ) : (
           <ExtendedReactions handleExpand={handleExpand} {...reactionsProps} />

@@ -1,10 +1,13 @@
-import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
+import path from 'path';
 import { getAppRootPath } from './getRootPath';
 
 function normalizeLocaleName(locale: string) {
   if (/^en-/.test(locale)) {
+    return 'en';
+  }
+  if (/^en_/.test(locale)) {
     return 'en';
   }
 

@@ -1,16 +1,23 @@
-import { compact, isEmpty, isFinite, isNumber } from 'lodash';
+import { createSelector } from '@reduxjs/toolkit';
+import { compact, isEmpty, isFinite, isNumber, pick } from 'lodash';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   hasValidIncomingRequestValues,
   hasValidOutgoingRequestValues,
 } from '../models/conversation';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { CONVERSATION } from '../session/constants';
+import { TimerOptions, TimerOptionsArray } from '../session/disappearing_messages/timerOptions';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
+import { PropsForExpiringMessage } from '../state/ducks/conversations';
 import { StateType } from '../state/reducer';
-import { getMessageReactsProps } from '../state/selectors/conversations';
+import {
+  getMessagePropsByMessageId,
+  getMessageReactsProps,
+} from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
-import { CONVERSATION } from '../session/constants';
-import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -34,11 +41,14 @@ export function useConversationUsername(convoId?: string) {
 /**
  * Returns either the nickname, displayNameInProfile, or the shorten pubkey
  */
-export function useConversationUsernameOrShorten(convoId?: string) {
+export function useNicknameOrProfileNameOrShortenedPubkey(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
 
   return (
-    convoProps?.nickname || convoProps?.displayNameInProfile || (convoId && PubKey.shorten(convoId))
+    convoProps?.nickname ||
+    convoProps?.displayNameInProfile ||
+    (convoId && PubKey.shorten(convoId)) ||
+    window.i18n('unknown')
   );
 }
 
@@ -264,17 +274,97 @@ export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
 
-export function useQuoteAuthorName(
-  authorId?: string
-): { authorName: string | undefined; isMe: boolean } {
+const getMessageExpirationProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): PropsForExpiringMessage | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
+
+    const msgProps: PropsForExpiringMessage = {
+      ...pick(props.propsForMessage, [
+        'convoId',
+        'direction',
+        'receivedAt',
+        'isUnread',
+        'expirationTimestamp',
+        'expirationDurationMs',
+        'isExpired',
+      ]),
+      messageId: props.propsForMessage.id,
+    };
+
+    return msgProps;
+  }
+);
+
+export function useMessageExpirationPropsById(messageId?: string) {
+  return useSelector((state: StateType) => {
+    if (!messageId) {
+      return null;
+    }
+    const messageExpirationProps = getMessageExpirationProps(state, messageId);
+    if (!messageExpirationProps) {
+      return null;
+    }
+    return messageExpirationProps;
+  });
+}
+
+export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyOneMode?: boolean) {
+  return useMemo(() => {
+    const options: TimerOptionsArray = [];
+    if (hasOnlyOneMode) {
+      options.push({
+        name: TimerOptions.getName(TimerOptions.VALUES[0]),
+        value: TimerOptions.VALUES[0],
+      });
+    }
+    switch (disappearingMessageMode) {
+      // TODO legacy messages support will be removed in a future release
+      case 'legacy':
+        options.push(
+          ...TimerOptions.DELETE_LEGACY.map(option => ({
+            name: TimerOptions.getName(option),
+            value: option,
+          }))
+        );
+        break;
+      case 'deleteAfterRead':
+        options.push(
+          ...TimerOptions.DELETE_AFTER_READ.map(option => ({
+            name: TimerOptions.getName(option),
+            value: option,
+          }))
+        );
+        break;
+      case 'deleteAfterSend':
+        options.push(
+          ...TimerOptions.DELETE_AFTER_SEND.map(option => ({
+            name: TimerOptions.getName(option),
+            value: option,
+          }))
+        );
+        break;
+      default:
+        return [];
+    }
+    return options;
+  }, [disappearingMessageMode, hasOnlyOneMode]);
+}
+
+export function useQuoteAuthorName(authorId?: string): {
+  authorName: string | undefined;
+  isMe: boolean;
+} {
   const convoProps = useConversationPropsById(authorId);
 
   const isMe = Boolean(authorId && isUsAnySogsFromCache(authorId));
   const authorName = isMe
     ? window.i18n('you')
     : convoProps?.nickname || convoProps?.isPrivate
-    ? convoProps?.displayNameInProfile
-    : undefined;
+      ? convoProps?.displayNameInProfile
+      : undefined;
 
   return { authorName, isMe };
 }
@@ -290,4 +380,55 @@ export function useSortedGroupMembers(convoId: string | undefined): Array<string
   }
   // we need to clone the array before being able to call sort() it
   return compact(convoProps.members?.slice()?.sort()) || [];
+}
+
+export function useDisappearingMessageSettingText({
+  convoId,
+  abbreviate,
+  separator = ' - ',
+}: {
+  convoId?: string;
+  abbreviate?: boolean;
+  separator?: string;
+}): string {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return '';
+  }
+
+  const { expirationMode, expireTimer, isMe, isPublic } = convoProps;
+
+  const isGroup = !convoProps.isPrivate && !convoProps.isPublic;
+
+  // TODO legacy messages support will be removed in a future release
+  const expirationModeText =
+    expirationMode === 'deleteAfterRead'
+      ? window.i18n('disappearingMessagesModeAfterRead')
+      : expirationMode === 'deleteAfterSend'
+        ? window.i18n('disappearingMessagesModeAfterSend')
+        : expirationMode === 'legacy'
+          ? isMe || (isGroup && !isPublic)
+            ? window.i18n('disappearingMessagesModeAfterSend')
+            : window.i18n('disappearingMessagesModeAfterRead')
+          : null;
+
+  const expireTimerText = isNumber(expireTimer)
+    ? abbreviate
+      ? TimerOptions.getAbbreviated(expireTimer)
+      : TimerOptions.getName(expireTimer)
+    : null;
+
+  return expireTimer && expirationModeText
+    ? `${expirationModeText}${expireTimerText ? `${separator}${expireTimerText}` : ''}`
+    : '';
+}
+
+export function useLastMessage(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+
+  if (!convoId || !convoProps) {
+    return null;
+  }
+
+  return convoProps.lastMessage;
 }

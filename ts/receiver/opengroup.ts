@@ -68,11 +68,7 @@ const handleOpenGroupMessage = async (
     return;
   }
 
-  if (
-    !getConversationController()
-      .get(conversationId)
-      ?.isOpenGroupV2()
-  ) {
+  if (!getConversationController().get(conversationId)?.isOpenGroupV2()) {
     window?.log?.error('Received a message for an unknown convo or not an v2. Skipping');
     return;
   }

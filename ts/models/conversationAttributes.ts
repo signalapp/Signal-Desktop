@@ -1,5 +1,10 @@
 import { defaults } from 'lodash';
+import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { LastMessageStatusType } from '../state/ducks/conversations';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../interactions/conversationInteractions';
 
 /**
  * Private chats have always the type `Private`
@@ -34,7 +39,7 @@ export function isDirectConversation(conversationType: ConversationTypeEnum) {
  * mentions_only: trigger a notification only on mentions of ourself
  */
 export const ConversationNotificationSetting = ['all', 'disabled', 'mentions_only'] as const;
-export type ConversationNotificationSettingType = typeof ConversationNotificationSetting[number];
+export type ConversationNotificationSettingType = (typeof ConversationNotificationSetting)[number];
 
 /**
  * Some fields are retrieved from the database as a select, but should not be saved in a commit()
@@ -55,7 +60,6 @@ export interface ConversationAttributes {
   // 0 means inactive (undefined and null too but we try to get rid of them and only have 0 = inactive)
   active_at: number; // this field is the one used to sort conversations in the left pane from most recent
 
-  lastMessageStatus: LastMessageStatusType;
   /**
    * lastMessage is actually just a preview of the last message text, shortened to 60 chars.
    * This is to avoid filling the redux store with a huge last message when it's only used in the
@@ -63,6 +67,9 @@ export interface ConversationAttributes {
    * The shortening is made in sql.ts directly.
    */
   lastMessage: string | null;
+  lastMessageStatus: LastMessageStatusType;
+  lastMessageInteractionType: ConversationInteractionType | null;
+  lastMessageInteractionStatus: ConversationInteractionStatus | null;
 
   avatarImageId?: number; // avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar (not only sogs I think, but our profile too?)
 
@@ -90,6 +97,7 @@ export interface ConversationAttributes {
   profileKey?: string; // Consider this being a hex string if it is set
   triggerNotificationsFor: ConversationNotificationSettingType;
   avatarPointer?: string; // this is the url of the avatar on the file server v2. we use this to detect if we need to redownload the avatar from someone (not used for opengroups)
+  /** in seconds, 0 means no expiration */
   expireTimer: number;
 
   members: Array<string>; // groups only members are all members for this group. zombies excluded (not used for communities)
@@ -103,6 +111,13 @@ export interface ConversationAttributes {
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
 
   blocksSogsMsgReqsTimestamp: number; // if the convo is blinded and the user has denied contact through sogs, this field be set to the user's latest message timestamp
+
+  /** disappearing messages setting for this conversation */
+  expirationMode: DisappearingMessageConversationModeType;
+  // TODO legacy messages support will be removed in a future release
+  // TODO we need to make a migration to remove this value from the db since the implementation is hacky
+  /** to warn the user that the person he is talking to is using an old client which might cause issues */
+  hasOutdatedClient?: string;
 }
 
 /**
@@ -120,11 +135,15 @@ export const fillConvoAttributesWithDefaults = (
     groupAdmins: [],
 
     lastJoinedTimestamp: 0,
+    expirationMode: 'off',
     expireTimer: 0,
+
     active_at: 0,
 
-    lastMessageStatus: undefined,
     lastMessage: null,
+    lastMessageStatus: undefined,
+    lastMessageInteractionType: null,
+    lastMessageInteractionStatus: null,
 
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
 

@@ -1,7 +1,7 @@
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import { app, clipboard, dialog, Notification } from 'electron';
 import fs from 'fs';
 import path from 'path';
-import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import rimraf from 'rimraf';
 
 import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
@@ -61,7 +61,10 @@ import {
 } from '../types/sqlSharedTypes';
 
 import { KNOWN_BLINDED_KEYS_ITEM, SettingsKey } from '../data/settings-key';
+import { MessageAttributes } from '../models/messageType';
+import { SignalService } from '../protobuf';
 import { Quote } from '../receiver/types';
+import { DURATION } from '../session/constants';
 import {
   getSQLCipherIntegrityCheck,
   openAndMigrateDatabase,
@@ -190,6 +193,7 @@ async function initializeSql({
     console.info('total conversation count before cleaning: ', getConversationCount());
     cleanUpOldOpengroupsOnStart();
     cleanUpUnusedNodeForKeyEntriesOnStart();
+    cleanUpUnreadExpiredDaRMessages();
     printDbStats();
 
     console.info('total message count after cleaning: ', getMessageCount());
@@ -347,9 +351,7 @@ function getById(table: string, id: string, instance?: BetterSqlite3.Database) {
 
 function removeById(table: string, id: string) {
   if (!Array.isArray(id)) {
-    assertGlobalInstance()
-      .prepare(`DELETE FROM ${table} WHERE id = $id;`)
-      .run({ id });
+    assertGlobalInstance().prepare(`DELETE FROM ${table} WHERE id = $id;`).run({ id });
     return;
   }
 
@@ -397,9 +399,7 @@ function updateSwarmNodesForPubkey(pubkey: string, snodeEdKeys: Array<string>) {
 }
 
 function getConversationCount() {
-  const row = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
-    .get();
+  const row = assertGlobalInstance().prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`).get();
   if (!row) {
     throw new Error(`getConversationCount: Unable to get count of ${CONVERSATIONS_TABLE}`);
   }
@@ -426,9 +426,13 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     profileKey,
     zombies,
     left,
+    expirationMode,
     expireTimer,
-    lastMessageStatus,
+    hasOutdatedClient,
     lastMessage,
+    lastMessageStatus,
+    lastMessageInteractionType,
+    lastMessageInteractionStatus,
     lastJoinedTimestamp,
     groupAdmins,
     isKickedFromGroup,
@@ -475,9 +479,13 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       profileKey,
       zombies: zombies && zombies.length ? arrayStrToJson(zombies) : '[]',
       left: toSqliteBoolean(left),
+      expirationMode,
       expireTimer,
+      hasOutdatedClient,
       lastMessageStatus,
       lastMessage: shortenedLastMessage,
+      lastMessageInteractionType,
+      lastMessageInteractionStatus,
 
       lastJoinedTimestamp,
       groupAdmins: groupAdmins && groupAdmins.length ? arrayStrToJson(groupAdmins) : '[]',
@@ -518,11 +526,9 @@ function fetchConvoMemoryDetails(convoId: string): SaveConversationReturn {
 
 function removeConversation(id: string | Array<string>) {
   if (!Array.isArray(id)) {
-    assertGlobalInstance()
-      .prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
-      .run({
-        id,
-      });
+    assertGlobalInstance().prepare(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).run({
+      id,
+    });
     return;
   }
 
@@ -766,9 +772,7 @@ function searchMessagesInConversation(query: string, conversationId: string, lim
 }
 
 function getMessageCount() {
-  const row = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
-    .get();
+  const row = assertGlobalInstance().prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get();
 
   if (!row) {
     throw new Error(`getMessageCount: Unable to get count of ${MESSAGES_TABLE}`);
@@ -776,11 +780,10 @@ function getMessageCount() {
   return row['count(*)'];
 }
 
-function saveMessage(data: any) {
+function saveMessage(data: MessageAttributes) {
   const {
     body,
     conversationId,
-    // eslint-disable-next-line camelcase
     expires_at,
     hasAttachments,
     hasFileAttachments,
@@ -788,16 +791,16 @@ function saveMessage(data: any) {
     id,
     serverId,
     serverTimestamp,
-    // eslint-disable-next-line camelcase
     received_at,
     sent,
-    // eslint-disable-next-line camelcase
     sent_at,
     source,
     type,
     unread,
+    expirationType,
     expireTimer,
     expirationStartTimestamp,
+    flags,
   } = data;
 
   if (!id) {
@@ -818,6 +821,7 @@ function saveMessage(data: any) {
     conversationId,
     expirationStartTimestamp,
     expires_at,
+    expirationType,
     expireTimer,
     hasAttachments,
     hasFileAttachments,
@@ -828,6 +832,7 @@ function saveMessage(data: any) {
     source,
     type: type || '',
     unread,
+    flags: flags ?? 0,
   };
 
   assertGlobalInstance()
@@ -841,6 +846,7 @@ function saveMessage(data: any) {
     conversationId,
     expirationStartTimestamp,
     expires_at,
+    expirationType,
     expireTimer,
     hasAttachments,
     hasFileAttachments,
@@ -850,7 +856,8 @@ function saveMessage(data: any) {
     sent_at,
     source,
     type,
-    unread
+    unread,
+    flags
   ) values (
     $id,
     $json,
@@ -860,6 +867,7 @@ function saveMessage(data: any) {
     $conversationId,
     $expirationStartTimestamp,
     $expires_at,
+    $expirationType,
     $expireTimer,
     $hasAttachments,
     $hasFileAttachments,
@@ -869,7 +877,8 @@ function saveMessage(data: any) {
     $sent_at,
     $source,
     $type,
-    $unread
+    $unread,
+    $flags
   );`
     )
     .run(payload);
@@ -936,23 +945,19 @@ function saveSeenMessageHash(data: any) {
 }
 
 function cleanLastHashes() {
-  assertGlobalInstance()
-    .prepare(`DELETE FROM ${LAST_HASHES_TABLE} WHERE expiresAt <= $now;`)
-    .run({
-      now: Date.now(),
-    });
+  assertGlobalInstance().prepare(`DELETE FROM ${LAST_HASHES_TABLE} WHERE expiresAt <= $now;`).run({
+    now: Date.now(),
+  });
 }
 
 function cleanSeenMessages() {
-  assertGlobalInstance()
-    .prepare('DELETE FROM seenMessages WHERE expiresAt <= $now;')
-    .run({
-      now: Date.now(),
-    });
+  assertGlobalInstance().prepare('DELETE FROM seenMessages WHERE expiresAt <= $now;').run({
+    now: Date.now(),
+  });
 }
 
-function saveMessages(arrayOfMessages: Array<any>) {
-  console.info('saveMessages of length: ', arrayOfMessages.length);
+function saveMessages(arrayOfMessages: Array<MessageAttributes>) {
+  console.info('saveMessages count: ', arrayOfMessages.length);
   assertGlobalInstance().transaction(() => {
     map(arrayOfMessages, saveMessage);
   })();
@@ -961,8 +966,6 @@ function saveMessages(arrayOfMessages: Array<any>) {
 function removeMessage(id: string, instance?: BetterSqlite3.Database) {
   if (!isString(id)) {
     throw new Error('removeMessage: only takes single message to delete!');
-
-    return;
   }
 
   assertGlobalInstanceOrInstance(instance)
@@ -998,6 +1001,48 @@ function removeAllMessagesInConversation(
   inst
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
     .run({ conversationId });
+}
+
+function cleanUpExpirationTimerUpdateHistory(
+  conversationId: string,
+  isPrivate: boolean,
+  db?: BetterSqlite3.Database
+) {
+  if (isEmpty(conversationId)) {
+    return [];
+  }
+  const rows = assertGlobalInstanceOrInstance(db)
+    .prepare(
+      `SELECT id, source FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId and flags = ${SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE} ${orderByClause}`
+    )
+    .all({ conversationId });
+
+  if (rows.length <= 1) {
+    return [];
+  }
+
+  // we want to allow 1 message at most per sender for private chats only
+  const bySender: Record<string, Array<string>> = {};
+  // we keep the order, so the first message of each array should be kept, the other ones discarded
+  rows.forEach(r => {
+    const groupedById = isPrivate ? r.source : conversationId;
+    if (!bySender[groupedById]) {
+      bySender[groupedById] = [];
+    }
+    bySender[groupedById].push(r.id);
+  });
+
+  const allMsgIdsRemoved: Array<string> = [];
+  Object.keys(bySender).forEach(k => {
+    const idsToRemove = bySender[k].slice(1); // we keep the first one
+    if (isEmpty(idsToRemove)) {
+      return;
+    }
+    removeMessagesByIds(idsToRemove, db);
+    allMsgIdsRemoved.push(...idsToRemove);
+  });
+
+  return allMsgIdsRemoved;
 }
 
 function getMessageIdsFromServerIds(serverIds: Array<string | number>, conversationId: string) {
@@ -1038,6 +1083,19 @@ function getMessageById(id: string) {
   }
 
   return jsonToObject(row.json);
+}
+
+function getMessagesById(ids: Array<string>) {
+  if (!isArray(ids)) {
+    throw new Error('getMessagesById expect an array of strings');
+  }
+  const rows = assertGlobalInstance()
+    .prepare(`SELECT json FROM ${MESSAGES_TABLE} WHERE id IN ( ${ids.map(() => '?').join(', ')} );`)
+    .all(ids);
+  if (!rows || isEmpty(rows)) {
+    return null;
+  }
+  return map(rows, row => jsonToObject(row.json));
 }
 
 // serverIds are not unique so we need the conversationId
@@ -1137,6 +1195,24 @@ function getUnreadByConversation(conversationId: string, sentBeforeTimestamp: nu
     .prepare(
       `SELECT * FROM ${MESSAGES_TABLE} WHERE
       unread = $unread AND
+      conversationId = $conversationId AND
+      COALESCE(serverTimestamp, sent_at) <= $sentBeforeTimestamp
+     ${orderByClauseASC};`
+    )
+    .all({
+      unread: toSqliteBoolean(true),
+      conversationId,
+      sentBeforeTimestamp,
+    });
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+function getUnreadDisappearingByConversation(conversationId: string, sentBeforeTimestamp: number) {
+  const rows = assertGlobalInstance()
+    .prepare(
+      `SELECT * FROM ${MESSAGES_TABLE} WHERE
+      unread = $unread AND expireTimer > 0 AND
       conversationId = $conversationId AND
       COALESCE(serverTimestamp, sent_at) <= $sentBeforeTimestamp
      ${orderByClauseASC};`
@@ -1514,7 +1590,6 @@ function getSeenMessagesByHashList(hashes: Array<string>) {
 
 function getExpiredMessages() {
   const now = Date.now();
-
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -1527,6 +1602,28 @@ function getExpiredMessages() {
     });
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+function cleanUpUnreadExpiredDaRMessages() {
+  // we cannot rely on network offset here, so we need to trust the user clock
+  const t14daysEarlier = Date.now() - 14 * DURATION.DAYS;
+  const start = Date.now();
+  const deleted = assertGlobalInstance()
+    .prepare(
+      `DELETE FROM ${MESSAGES_TABLE} WHERE
+      expirationType = 'deleteAfterRead' AND
+      unread = $unread AND
+      sent_at <= $t14daysEarlier;`
+    )
+    .run({
+      unread: toSqliteBoolean(true),
+      t14daysEarlier,
+    });
+  console.info(
+    `cleanUpUnreadExpiredDaRMessages: deleted ${
+      deleted.changes
+    } message(s) which were DaR and sent before ${t14daysEarlier} in ${Date.now() - start}ms`
+  );
 }
 
 function getOutgoingWithoutExpiresAt() {
@@ -1629,19 +1726,15 @@ const unprocessed: UnprocessedDataNode = {
   },
 
   getUnprocessedById: (id: string) => {
-    const row = assertGlobalInstance()
-      .prepare('SELECT * FROM unprocessed WHERE id = $id;')
-      .get({
-        id,
-      });
+    const row = assertGlobalInstance().prepare('SELECT * FROM unprocessed WHERE id = $id;').get({
+      id,
+    });
 
     return row;
   },
 
   getUnprocessedCount: () => {
-    const row = assertGlobalInstance()
-      .prepare('SELECT count(*) from unprocessed;')
-      .get();
+    const row = assertGlobalInstance().prepare('SELECT count(*) from unprocessed;').get();
 
     if (!row) {
       throw new Error('getMessageCount: Unable to get count of unprocessed');
@@ -1663,15 +1756,11 @@ const unprocessed: UnprocessedDataNode = {
       console.error('removeUnprocessed only supports single ids at a time');
       throw new Error('removeUnprocessed only supports single ids at a time');
     }
-    assertGlobalInstance()
-      .prepare('DELETE FROM unprocessed WHERE id = $id;')
-      .run({ id });
+    assertGlobalInstance().prepare('DELETE FROM unprocessed WHERE id = $id;').run({ id });
   },
 
   removeAllUnprocessed: () => {
-    assertGlobalInstance()
-      .prepare('DELETE FROM unprocessed;')
-      .run();
+    assertGlobalInstance().prepare('DELETE FROM unprocessed;').run();
   },
 };
 
@@ -1761,9 +1850,7 @@ function removeAll() {
 }
 
 function removeAllConversations() {
-  assertGlobalInstance()
-    .prepare(`DELETE FROM ${CONVERSATIONS_TABLE};`)
-    .run();
+  assertGlobalInstance().prepare(`DELETE FROM ${CONVERSATIONS_TABLE};`).run();
 }
 
 function getMessagesWithVisualMediaAttachments(conversationId: string, limit?: number) {
@@ -2111,9 +2198,7 @@ function removeV2OpenGroupRoom(conversationId: string) {
 
 function getEntriesCountInTable(tbl: string) {
   try {
-    const row = assertGlobalInstance()
-      .prepare(`SELECT count(*) from ${tbl};`)
-      .get();
+    const row = assertGlobalInstance().prepare(`SELECT count(*) from ${tbl};`).get();
     return row['count(*)'];
   } catch (e) {
     console.error(e);
@@ -2278,8 +2363,9 @@ function cleanUpOldOpengroupsOnStart() {
         const messagesInConvoAfter = getMessagesCountByConversation(convoId);
 
         console.info(
-          `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${Date.now() -
-            start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
+          `Cleaning ${countToRemove} messages older than 6 months in public convo: ${convoId} took ${
+            Date.now() - start
+          }ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
         );
 
         // no need to update the `unreadCount` during the migration anymore.
@@ -2389,8 +2475,10 @@ export const sqlNode = {
   saveMessages,
   removeMessage,
   removeMessagesByIds,
+  cleanUpExpirationTimerUpdateHistory,
   removeAllMessagesInConversation,
   getUnreadByConversation,
+  getUnreadDisappearingByConversation,
   markAllAsReadByConversationNoExpiration,
   getUnreadCountByConversation,
   getMessageCountByType,
@@ -2399,6 +2487,7 @@ export const sqlNode = {
   getMessagesBySenderAndSentAt,
   getMessageIdsFromServerIds,
   getMessageById,
+  getMessagesById,
   getMessagesBySentAt,
   getMessageByServerId,
   getSeenMessagesByHashList,

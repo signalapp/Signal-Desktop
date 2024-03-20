@@ -28,6 +28,7 @@ const LastSeenBarContainer = styled.div<{ darkMode?: boolean }>`
   padding-bottom: 35px;
   max-width: 300px;
   align-self: center;
+  margin: 0 auto;
   padding-top: 28px;
   display: flex;
   flex-direction: row;

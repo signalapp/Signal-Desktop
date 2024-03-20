@@ -1,4 +1,4 @@
-import { ContactInfo } from 'libsession_util_nodejs';
+import { ContactInfo, ContactInfoSet } from 'libsession_util_nodejs';
 import { ConversationModel } from '../../../models/conversation';
 import { getContactInfoFromDBValues } from '../../../types/sqlSharedTypes';
 import { ContactsWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
@@ -41,15 +41,16 @@ function isContactToStoreInWrapper(convo: ConversationModel): boolean {
  * Fetches the specified convo and updates the required field in the wrapper.
  * If that contact does not exist in the wrapper, it is created before being updated.
  */
-
-async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<void> {
+async function insertContactFromDBIntoWrapperAndRefresh(
+  id: string
+): Promise<ContactInfoSet | null> {
   const foundConvo = getConversationController().get(id);
   if (!foundConvo) {
-    return;
+    return null;
   }
 
-  if (!isContactToStoreInWrapper(foundConvo)) {
-    return;
+  if (!SessionUtilContact.isContactToStoreInWrapper(foundConvo)) {
+    return null;
   }
 
   const dbName = foundConvo.get('displayNameInProfile') || undefined;
@@ -60,8 +61,8 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   const dbApprovedMe = !!foundConvo.get('didApproveMe') || false;
   const dbBlocked = !!foundConvo.isBlocked() || false;
   const priority = foundConvo.get('priority') || 0;
-  // expiration timer is not tracked currently but will be once disappearing message is merged into userconfig
-  // const expirationTimerSeconds = foundConvo.get('expireTimer') || 0;
+  const expirationMode = foundConvo.getExpirationMode() || undefined;
+  const expireTimer = foundConvo.getExpireTimer() || 0;
 
   const wrapperContact = getContactInfoFromDBValues({
     id,
@@ -74,17 +75,21 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     dbProfileUrl,
     priority,
     dbCreatedAtSeconds: 0, // just give 0, now() will be used internally by the wrapper if the contact does not exist yet.
-    // expirationTimerSeconds,
+    expirationMode,
+    expireTimer,
   });
   try {
     window.log.debug('inserting into contact wrapper: ', JSON.stringify(wrapperContact));
     await ContactsWrapperActions.set(wrapperContact);
+    // returned for testing purposes only
+    return wrapperContact;
   } catch (e) {
     window.log.warn(`ContactsWrapperActions.set of ${id} failed with ${e.message}`);
     // we still let this go through
   }
 
   await refreshMappedValue(id);
+  return null;
 }
 
 /**
@@ -96,15 +101,11 @@ async function refreshMappedValue(id: string, duringAppStart = false) {
   if (fromWrapper) {
     setMappedValue(fromWrapper);
     if (!duringAppStart) {
-      getConversationController()
-        .get(id)
-        ?.triggerUIRefresh();
+      getConversationController().get(id)?.triggerUIRefresh();
     }
   } else if (mappedContactWrapperValues.delete(id)) {
     if (!duringAppStart) {
-      getConversationController()
-        .get(id)
-        ?.triggerUIRefresh();
+      getConversationController().get(id)?.triggerUIRefresh();
     }
   }
 }

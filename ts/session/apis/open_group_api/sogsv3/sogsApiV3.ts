@@ -1,24 +1,22 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
-import { compact, isArray, isEmpty, isFinite, isNumber, isObject, pick } from 'lodash';
 import { base64_variants, from_base64 } from 'libsodium-wrappers-sumo';
+import { compact, isArray, isEmpty, isFinite, isNumber, isObject, pick } from 'lodash';
 import { v4 } from 'uuid';
 
 import { OpenGroupData } from '../../../../data/opengroups';
-import { handleOpenGroupV4Message } from '../../../../receiver/opengroup';
-import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
-import { BatchSogsReponse, OpenGroupBatchRow, SubRequestMessagesType } from './sogsV3BatchPoll';
-import {
-  getRoomAndUpdateLastFetchTimestamp,
-  OpenGroupMessageV4,
-} from '../opengroupV2/OpenGroupServerPoller';
-import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { handleCapabilities } from './sogsCapabilities';
-import { getConversationController } from '../../../conversations';
 import { ConversationModel } from '../../../../models/conversation';
-import { filterDuplicatesFromDbAndIncomingV4 } from '../opengroupV2/SogsFilterDuplicate';
+import { handleOpenGroupV4Message } from '../../../../receiver/opengroup';
 import { callUtilsWorker } from '../../../../webworker/workers/browser/util_worker_interface';
+import { getConversationController } from '../../../conversations';
 import { PubKey } from '../../../types';
+import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
+import {
+  OpenGroupMessageV4,
+  getRoomAndUpdateLastFetchTimestamp,
+} from '../opengroupV2/OpenGroupServerPoller';
+import { filterDuplicatesFromDbAndIncomingV4 } from '../opengroupV2/SogsFilterDuplicate';
+import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
   addCachedBlindedKey,
   findCachedBlindedMatchOrLookItUp,
@@ -27,21 +25,23 @@ import {
   tryMatchBlindWithStandardKey,
 } from './knownBlindedkeys';
 import { SogsBlinding } from './sogsBlinding';
+import { handleCapabilities } from './sogsCapabilities';
+import { BatchSogsReponse, OpenGroupBatchRow, SubRequestMessagesType } from './sogsV3BatchPoll';
 
-import { UserUtils } from '../../../utils';
-import { innerHandleSwarmContentMessage } from '../../../../receiver/contentMessage';
-import { EnvelopePlus } from '../../../../receiver/types';
-import { SignalService } from '../../../../protobuf';
-import { removeMessagePadding } from '../../../crypto/BufferPadding';
-import { getSodiumRenderer } from '../../../crypto';
-import { handleOutboxMessageModel } from '../../../../receiver/dataMessage';
+import { Data } from '../../../../data/data';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { createSwarmMessageSentFromUs } from '../../../../models/messageFactory';
-import { Data } from '../../../../data/data';
-import { processMessagesUsingCache } from './sogsV3MutationCache';
-import { destroyMessagesAndUpdateRedux } from '../../../../util/expiringMessages';
-import { sogsRollingDeletions } from './sogsRollingDeletions';
+import { SignalService } from '../../../../protobuf';
+import { innerHandleSwarmContentMessage } from '../../../../receiver/contentMessage';
+import { handleOutboxMessageModel } from '../../../../receiver/dataMessage';
+import { EnvelopePlus } from '../../../../receiver/types';
 import { assertUnreachable } from '../../../../types/sqlSharedTypes';
+import { getSodiumRenderer } from '../../../crypto';
+import { removeMessagePadding } from '../../../crypto/BufferPadding';
+import { DisappearingMessages } from '../../../disappearing_messages';
+import { UserUtils } from '../../../utils';
+import { sogsRollingDeletions } from './sogsRollingDeletions';
+import { processMessagesUsingCache } from './sogsV3MutationCache';
 
 /**
  * Get the convo matching those criteria and make sure it is an opengroup convo, or return null.
@@ -182,7 +182,7 @@ const handleSogsV3DeletedMessages = async (
     });
 
     if (messageIds && messageIds.length) {
-      await destroyMessagesAndUpdateRedux(
+      await DisappearingMessages.destroyMessagesAndUpdateRedux(
         messageIds.map(messageId => ({
           conversationKey: convoId,
           messageId,
@@ -259,9 +259,8 @@ const handleMessagesResponseV4 = async (
       subrequestOption.messages.roomId
     );
 
-    const messagesWithValidSignature = await filterOutMessagesInvalidSignature(
-      messagesWithoutDeleted
-    );
+    const messagesWithValidSignature =
+      await filterOutMessagesInvalidSignature(messagesWithoutDeleted);
     // we do a first check with blinded ids. Looking to filter out messages we already received from that blinded id.
     const messagesFilteredBlindedIds = await filterDuplicatesFromDbAndIncomingV4(
       messagesWithValidSignature
@@ -427,8 +426,8 @@ async function handleInboxOutboxMessages(
             unblindedIDOrBlinded,
             ConversationTypeEnum.PRIVATE
           );
-          const serverConversationId = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl)?.[0]
-            .conversationId;
+          const serverConversationId =
+            OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl)?.[0].conversationId;
           if (!serverConversationId) {
             throw new Error('serverConversationId needs to exist');
           }
@@ -474,12 +473,13 @@ async function handleInboxOutboxMessages(
           window.log.warn('tryMatchBlindWithStandardKey could not veriyfy');
         }
 
-        await innerHandleSwarmContentMessage(
-          builtEnvelope,
-          postedAtInMs,
-          builtEnvelope.content,
-          ''
-        );
+        await innerHandleSwarmContentMessage({
+          envelope: builtEnvelope,
+          sentAtTimestamp: postedAtInMs,
+          plaintext: builtEnvelope.content,
+          messageHash: '',
+          messageExpirationFromRetrieve: null, // sogs message do not expire
+        });
       }
     } catch (e) {
       window.log.warn('handleOutboxMessages failed with:', e.message);
