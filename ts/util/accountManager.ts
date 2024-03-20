@@ -7,6 +7,7 @@ import { trigger } from '../shims/events';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SessionKeyPair } from '../receiver/keypairs';
+import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { actions as userActions } from '../state/ducks/user';
@@ -98,8 +99,10 @@ export async function signInByLinkingDevice(
   await saveRecoveryPhrase(mnemonic);
   const pubKeyString = toHex(identityKeyPair.pubKey);
 
+  const displayName = await getSwarmPollingInstance().pollForOurDisplayName();
+
   // await for the first configuration message to come in.
-  await registrationDone(pubKeyString, '');
+  await registrationDone(pubKeyString, displayName);
   return pubKeyString;
 }
 /**
@@ -197,7 +200,10 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   try {
     await LibSessionUtil.initializeLibSessionUtilWrappers();
   } catch (e) {
-    window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+    window.log.warn(
+      '[registrationDone] LibSessionUtil.initializeLibSessionUtilWrappers failed with',
+      e.message
+    );
   }
   // Ensure that we always have a conversation for ourself
   const conversation = await getConversationController().getOrCreateAndWait(

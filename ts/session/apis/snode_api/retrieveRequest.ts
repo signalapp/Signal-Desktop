@@ -111,7 +111,7 @@ async function retrieveNextMessages(
   configHashesToBump: Array<string> | null
 ): Promise<RetrieveMessagesResultsBatched> {
   if (namespaces.length !== lastHashes.length) {
-    throw new Error('namespaces and lasthashes does not match');
+    throw new Error('namespaces and last hashes does not match');
   }
 
   const retrieveRequestsParams = await buildRetrieveRequest(
@@ -182,4 +182,75 @@ async function retrieveNextMessages(
   }
 }
 
-export const SnodeAPIRetrieve = { retrieveNextMessages };
+async function retrieveDisplayName(
+  targetNode: Snode,
+  ourPubkey: string
+): Promise<RetrieveMessagesResultsBatched> {
+  const retrieveRequestsParams = await buildRetrieveRequest(
+    [],
+    ourPubkey,
+    [SnodeNamespaces.UserProfile],
+    ourPubkey,
+    []
+  );
+
+  // let exceptions bubble up
+  // no retry for this one as this a call we do every few seconds through polling
+
+  const results = await doSnodeBatchRequest(retrieveRequestsParams, targetNode, 4000, ourPubkey);
+
+  if (!results || !results.length) {
+    window?.log?.warn(
+      `retrieveDisplayName - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+    );
+    throw new Error(
+      `retrieveDisplayName - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+    );
+  }
+
+  // the +1 is to take care of the extra `expire` method added once user config is released
+  if (results.length !== 1 && results.length !== 2) {
+    throw new Error(
+      `We asked for updates about a message but got results of length ${results.length}`
+    );
+  }
+
+  // do a basic check to know if we have something kind of looking right (status 200 should always be there for a retrieve)
+  const firstResult = results[0];
+
+  if (firstResult.code !== 200) {
+    window?.log?.warn(`retrieveDisplayName result is not 200 but ${firstResult.code}`);
+    throw new Error(
+      `retrieveDisplayName - retrieve result is not 200 with ${targetNode.ip}:${targetNode.port} but ${firstResult.code}`
+    );
+  }
+
+  try {
+    // we rely on the code of the first one to check for online status
+    const bodyFirstResult = firstResult.body;
+    if (!window.inboxStore?.getState().onionPaths.isOnline) {
+      window.inboxStore?.dispatch(updateIsOnline(true));
+    }
+
+    GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', bodyFirstResult.t);
+
+    // merge results with their corresponding namespaces
+    const resultsWithNamespaces = results.map(result => ({
+      code: result.code,
+      messages: result.body as RetrieveMessagesResultsContent,
+      namespace: SnodeNamespaces.UserProfile,
+    }));
+
+    return resultsWithNamespaces;
+  } catch (e) {
+    window?.log?.warn('retrieveDisplayName:', e);
+    if (!window.inboxStore?.getState().onionPaths.isOnline) {
+      window.inboxStore?.dispatch(updateIsOnline(true));
+    }
+    throw new Error(
+      `retrieveDisplayName - exception while parsing json of nextMessage ${targetNode.ip}:${targetNode.port}: ${e?.message}`
+    );
+  }
+}
+
+export const SnodeAPIRetrieve = { retrieveNextMessages, retrieveDisplayName };

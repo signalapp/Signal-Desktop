@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getSwarmPollingInstance } from '../../../session/apis/snode_api';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
 import { PromiseUtils, ToastUtils } from '../../../session/utils';
@@ -76,10 +75,11 @@ async function signInAndFetchDisplayName(
     await resetRegistration();
     await signInByLinkingDevice(recoveryPassword, 'english', loadingAnimationCallback);
 
-    await getSwarmPollingInstance().start();
-
     await PromiseUtils.waitForTask(done => {
       window.Whisper.events.on('configurationMessageReceived', async (displayName: string) => {
+        window.log.debug(
+          `WIP: [signInAndFetchDisplayName] waitForTask done with displayName: "${displayName}"`
+        );
         window.Whisper.events.off('configurationMessageReceived');
         await setSignInByLinking(false);
         await setSignWithRecoveryPhrase(true);

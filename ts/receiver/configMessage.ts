@@ -103,7 +103,7 @@ async function mergeConfigsWithIncomingUpdates(
       }));
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         window.log.info(
-          `printDumpsForDebugging: before merge of ${variant}:`,
+          `WIP: printDumpsForDebugging: before merge of ${variant}:`,
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
         );
 
@@ -132,7 +132,7 @@ async function mergeConfigsWithIncomingUpdates(
 
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         window.log.info(
-          `printDumpsForDebugging: after merge of ${variant}:`,
+          `WIP: printDumpsForDebugging: after merge of ${variant}:`,
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
         );
       }
@@ -821,9 +821,11 @@ async function handleConvoInfoVolatileUpdate(
   return result;
 }
 
-async function processMergingResults(results: Map<ConfigWrapperObjectTypes, IncomingConfResult>) {
+async function processMergingResults(
+  results: Map<ConfigWrapperObjectTypes, IncomingConfResult>
+): Promise<IncomingConfResult | undefined> {
   if (!results || !results.size) {
-    return;
+    return undefined;
   }
 
   const keys = [...results.keys()];
@@ -858,6 +860,7 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
             window.log.warn('assertUnreachable failed', e.message);
           }
       }
+
       const variant = LibSessionUtil.kindToVariant(kind);
       try {
         await updateLibsessionLatestProcessedUserTimestamp(
@@ -882,9 +885,11 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
       if (incomingResult.needsPush) {
         anyNeedsPush = true;
       }
+
+      return incomingResult;
     } catch (e) {
       window.log.error(`processMergingResults failed with ${e.message}`);
-      return;
+      return undefined;
     }
   }
   // Now that the local state has been updated, trigger a config sync (this will push any
@@ -892,19 +897,21 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
   if (anyNeedsPush) {
     await ConfigurationSync.queueNewJobIfNeeded();
   }
+  return undefined;
 }
 
 async function handleConfigMessagesViaLibSession(
-  configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
-) {
+  configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>,
+  returnAndKeepInMemory?: boolean
+): Promise<IncomingConfResult | undefined> {
   const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
   if (!userConfigLibsession) {
-    return;
+    return undefined;
   }
 
   if (isEmpty(configMessages)) {
-    return;
+    return undefined;
   }
 
   window?.log?.debug(
@@ -918,7 +925,20 @@ async function handleConfigMessagesViaLibSession(
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
-  await processMergingResults(incomingMergeResult);
+  window.log.debug(
+    `WIP: [handleConfigMessagesViaLibSession] incomingMergeResult:`,
+    incomingMergeResult
+  );
+
+  if (returnAndKeepInMemory) {
+    // TODO[epic=899] we should return the display name and keep it in memory
+    return incomingMergeResult.get('UserConfig');
+    // const dump = await GenericWrapperActions.dump('UserConfig');
+    // return dump;
+  }
+
+  const result = await processMergingResults(incomingMergeResult);
+  return result;
 }
 
 async function updateOurProfileLegacyOrViaLibSession({

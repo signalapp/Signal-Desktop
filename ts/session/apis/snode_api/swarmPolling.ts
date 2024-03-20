@@ -346,7 +346,10 @@ export class SwarmPolling {
     }
   }
 
-  private async handleSharedConfigMessages(userConfigMessagesMerged: Array<RetrieveMessageItem>) {
+  private async handleSharedConfigMessages(
+    userConfigMessagesMerged: Array<RetrieveMessageItem>,
+    returnAndKeepInMemory?: boolean
+  ): Promise<string> {
     const extractedUserConfigMessage = compact(
       userConfigMessagesMerged.map((m: RetrieveMessageItem) => {
         return extractWebSocketContent(m.data, m.hash);
@@ -391,7 +394,36 @@ export class SwarmPolling {
         window.log.info(
           `handleConfigMessagesViaLibSession of "${allDecryptedConfigMessages.length}" messages with libsession`
         );
-        await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
+
+        if (returnAndKeepInMemory) {
+          try {
+            // TODO[epic=899]  trying to create a dump in memory for the userconfig
+            const ourKeyPair = await UserUtils.getIdentityKeyPair();
+            if (ourKeyPair) {
+              await GenericWrapperActions.init(
+                'UserConfig',
+                new Uint8Array(ourKeyPair.privKey),
+                null
+              );
+              // save the newly created dump to the database even if it is empty, just so we do not need to recreate one next run
+
+              // const dump = await GenericWrapperActions.dump('UserConfig');
+            }
+            // await LibSessionUtil.initializeLibSessionUtilWrappers();
+          } catch (e) {
+            window.log.warn(
+              '[SwarmPolling] LibSessionUtil.initializeLibSessionUtilWrappers failed with',
+              e.message
+            );
+          }
+        }
+
+        const result = await ConfigMessageHandler.handleConfigMessagesViaLibSession(
+          allDecryptedConfigMessages,
+          returnAndKeepInMemory
+        );
+        window.log.debug(`WIP: [handleSharedConfigMessages] result ${JSON.stringify(result)} `);
+        return String(result);
       } catch (e) {
         const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
         window.log.warn(
@@ -399,6 +431,7 @@ export class SwarmPolling {
         );
       }
     }
+    return '';
   }
 
   // Fetches messages for `pubkey` from `node` potentially updating
@@ -604,5 +637,93 @@ export class SwarmPolling {
     }
     // return the cached value
     return this.lastHashes[nodeEdKey][pubkey][namespace];
+  }
+
+  /**
+   * Only exposed as public for testing
+   */
+  public async pollOnceForDisplayName(pubkey: PubKey) {
+    const polledPubkey = pubkey.key;
+    const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
+
+    // Select nodes for which we already have lastHashes
+    const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
+    let toPollFrom = alreadyPolled.length ? alreadyPolled[0] : null;
+
+    // If we need more nodes, select randomly from the remaining nodes:
+    if (!toPollFrom) {
+      const notPolled = difference(swarmSnodes, alreadyPolled);
+      toPollFrom = sample(notPolled) as Snode;
+    }
+
+    let resultsFromUserProfile: RetrieveMessagesResultsBatched | null;
+
+    try {
+      resultsFromUserProfile = await SnodeAPIRetrieve.retrieveDisplayName(
+        toPollFrom,
+        UserUtils.getOurPubKeyStrFromCache()
+      );
+      window.log.debug(
+        `WIP: [resultsFromUserProfile] resultsFromUserProfile: ${JSON.stringify(resultsFromUserProfile)}`
+      );
+    } catch (e) {
+      if (e.message === ERROR_CODE_NO_CONNECT) {
+        if (window.inboxStore?.getState().onionPaths.isOnline) {
+          window.inboxStore?.dispatch(updateIsOnline(false));
+        }
+      } else if (!window.inboxStore?.getState().onionPaths.isOnline) {
+        window.inboxStore?.dispatch(updateIsOnline(true));
+      }
+
+      window.log.warn(
+        `pollOnceForDisplayName of ${pubkey} namespace: SnodeNamespaces.UserProfile failed with: ${e.message}`
+      );
+      resultsFromUserProfile = null;
+    }
+
+    // check if we just fetched the details from the config namespaces.
+    // If yes, merge them together and exclude them from the rest of the messages.
+    if (resultsFromUserProfile?.length) {
+      const userConfigMessages = resultsFromUserProfile
+        .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
+        .map(r => r.messages.messages);
+
+      const userConfigMessagesMerged = flatten(compact(userConfigMessages));
+
+      if (userConfigMessagesMerged.length) {
+        window.log.info(
+          `[pollOnceForDisplayName] received userConfigMessages count: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
+        );
+        try {
+          const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
+          window.log.debug(`WIP: [pollForOurDisplayName] displayName ${displayName}`);
+          return displayName;
+        } catch (e) {
+          window.log.warn(
+            `handleSharedConfigMessages of ${userConfigMessagesMerged.length} failed with ${e.message}`
+          );
+          // not rethrowing
+        }
+      }
+    }
+    return '';
+  }
+
+  // TODO[epic=ses-899] add a function that only polls for the display name?
+  public async pollForOurDisplayName(): Promise<string> {
+    if (!window.getGlobalOnlineStatus()) {
+      window?.log?.error('pollForOurDisplayName: offline');
+      // Very important to set up a new polling call so we do retry at some point
+      setTimeout(this.pollForOurDisplayName.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+      return '';
+    }
+
+    try {
+      const displayName = await this.pollOnceForDisplayName(UserUtils.getOurPubKeyFromCache());
+      return displayName;
+    } catch (e) {
+      window?.log?.warn('pollForOurDisplayName exception: ', e);
+      return '';
+    }
   }
 }
