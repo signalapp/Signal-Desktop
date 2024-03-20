@@ -3,6 +3,9 @@ import _ from 'lodash';
 
 import { Attachment } from '../../types/Attachment';
 
+import { encryptAttachment } from '../../util/crypto/attachmentsEncrypter';
+import { uploadFileToFsWithOnionV4 } from '../apis/file_server_api/FileServerApi';
+import { addAttachmentPadding } from '../crypto/BufferPadding';
 import {
   AttachmentPointer,
   AttachmentPointerWithUrl,
@@ -10,9 +13,6 @@ import {
   Quote,
   QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { addAttachmentPadding } from '../crypto/BufferPadding';
-import { encryptAttachment } from '../../util/crypto/attachmentsEncrypter';
-import { uploadFileToFsWithOnionV4 } from '../apis/file_server_api/FileServerApi';
 
 interface UploadParams {
   attachment: Attachment;
@@ -107,7 +107,9 @@ export async function uploadLinkPreviewToFileServer(
 ): Promise<PreviewWithAttachmentUrl | undefined> {
   // some links do not have an image associated, and it makes the whole message fail to send
   if (!preview?.image) {
-    window.log.warn('tried to upload file to FileServer without image.. skipping');
+    if (!preview) {
+      window.log.warn('tried to upload file to FileServer without image.. skipping');
+    }
     return preview as any;
   }
   const image = await uploadToFileServer({

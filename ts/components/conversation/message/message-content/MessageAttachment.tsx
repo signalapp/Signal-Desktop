@@ -19,7 +19,7 @@ import {
 import {
   AttachmentType,
   AttachmentTypeWithPath,
-  canDisplayImage,
+  canDisplayImagePreview,
   getExtensionForDisplay,
   hasImage,
   hasVideoScreenshot,
@@ -131,7 +131,7 @@ export const MessageAttachment = (props: Props) => {
   }
 
   const firstAttachment = attachments[0];
-  const displayImage = canDisplayImage(attachments);
+  const displayImage = canDisplayImagePreview(attachments);
 
   if (!isTrustedForAttachmentDownload) {
     return <ClickToTrustSender messageId={messageId} />;

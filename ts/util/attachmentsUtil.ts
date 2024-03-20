@@ -218,13 +218,24 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     blob.size <= maxSize &&
     !makeSquare
   ) {
+    if (DEBUG_ATTACHMENTS_SCALE) {
+      window.log.info('canvasScaled used right away as width, height and size are fine', {
+        canvasScaledWidth: canvasScaled.width,
+        canvasScaledHeight: canvasScaled.height,
+        maxWidth,
+        maxHeight,
+        blobsize: blob.size,
+        maxSize,
+        makeSquare,
+      });
+    }
     // the canvas has a size of whatever was given by the caller of autoscale().
     // so we have to return those measures as the loaded file has now those measures.
     return {
-      ...attachment,
+      blob,
+      contentType: attachment.contentType,
       width: canvasScaled.width,
       height: canvasScaled.height,
-      blob,
     };
   }
   if (DEBUG_ATTACHMENTS_SCALE) {

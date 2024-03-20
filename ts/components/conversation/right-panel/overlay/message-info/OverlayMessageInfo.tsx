@@ -28,7 +28,7 @@ import {
   useMessageTimestamp,
 } from '../../../../../state/selectors';
 import { useSelectedConversationKey } from '../../../../../state/selectors/selectedConversation';
-import { canDisplayImage } from '../../../../../types/Attachment';
+import { canDisplayImagePreview } from '../../../../../types/Attachment';
 import { isAudio } from '../../../../../types/MIME';
 import {
   getAudioDuration,
@@ -219,7 +219,7 @@ export const OverlayMessageInfo = () => {
   const { errors, attachments } = messageInfo;
 
   const hasAttachments = attachments && attachments.length > 0;
-  const supportsAttachmentCarousel = canDisplayImage(attachments);
+  const supportsAttachmentCarousel = canDisplayImagePreview(attachments);
   const hasErrors = errors && errors.length > 0;
 
   const handleChangeAttachment = (changeDirection: 1 | -1) => {
