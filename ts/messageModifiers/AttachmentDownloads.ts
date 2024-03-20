@@ -221,6 +221,7 @@ async function _maybeStartJob(): Promise<void> {
         const logId = `attachment_downloads/_maybeStartJob/postProcess/${job.id}`;
         try {
           await promise;
+          log.info(`${logId}: job has finished running`);
           if (_activeAttachmentDownloadJobs[job.id]) {
             throw new Error(
               `${logId}: Active attachments jobs list still has this job!`
@@ -341,6 +342,10 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       return;
     }
 
+    logger.info(
+      `attachment_downloads/_runJob(${id}): processing new attachment` +
+        ` of type: ${type}`
+    );
     const upgradedAttachment =
       await window.Signal.Migrations.processNewAttachment(downloaded);
 
@@ -470,6 +475,10 @@ async function _finishJob(
     await saveMessage(message.attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
+  } else {
+    logger.info(
+      `attachment_downloads/_finishJob for job id: ${id} without message`
+    );
   }
 
   await removeAttachmentDownloadJob(id);
@@ -515,6 +524,8 @@ async function _addAttachmentToMessage(
 
   const logPrefix = `${message.idForLogging()} (type: ${type}, index: ${index})`;
   const attachmentSignature = getAttachmentSignature(attachment);
+
+  log.info(`${logPrefix}: _addAttachmentToMessage: starting`);
 
   if (type === 'long-message') {
     let handledAnywhere = false;
@@ -601,6 +612,7 @@ async function _addAttachmentToMessage(
           `${logPrefix}: Long message attachment found no matching place to apply`
         );
       }
+      log.info(`${logPrefix}: _addAttachmentToMessage finished`);
     }
     return;
   }

@@ -100,8 +100,11 @@ export async function downloadAttachmentV2(
     dropNull(cdnNumber),
     options
   );
+  log.info(`${logId} got download stream`);
 
   const cipherTextRelativePath = await downloadToDisk({ downloadStream, size });
+  log.info(`${logId} downloaded encrypted file to disk`);
+
   const cipherTextAbsolutePath =
     window.Signal.Migrations.getAbsoluteAttachmentPath(cipherTextRelativePath);
 
@@ -112,6 +115,7 @@ export async function downloadAttachmentV2(
     size,
     theirDigest: Bytes.fromBase64(digest),
   });
+  log.info(`${logId} successfully decrypted`);
 
   safeUnlinkSync(cipherTextAbsolutePath);
 
