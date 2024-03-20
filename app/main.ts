@@ -117,7 +117,6 @@ import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
 import { parseSignalRoute } from '../ts/util/signalRoutes';
 import * as dns from '../ts/util/dns';
 import { ZoomFactorService } from '../ts/services/ZoomFactorService';
-import { getMarkedUnreadIcon, getUnreadIcon } from '../ts/util/unreadIcon';
 
 const STICKER_CREATOR_PARTITION = 'sticker-creator';
 
@@ -2269,43 +2268,9 @@ ipc.on(
       if (process.platform === 'darwin') {
         // Will show a ● on macOS when undefined
         app.setBadgeCount(undefined);
-      } else if (process.platform === 'win32') {
-        // setBadgeCount is unsupported on Windows, so we use setOverlayIcon
-        let description;
-        try {
-          description = getResolvedMessagesLocale().i18n(
-            'icu:taskbarMarkedUnread'
-          );
-        } catch {
-          description = 'Unread';
-        }
-        mainWindow?.setOverlayIcon(getMarkedUnreadIcon(), description);
       } else {
         // All other OS's need a number
         app.setBadgeCount(1);
-      }
-      return;
-    }
-
-    if (process.platform === 'win32') {
-      if (!mainWindow) {
-        return;
-      }
-
-      let description;
-      try {
-        description = getResolvedMessagesLocale().i18n(
-          'icu:taskbarUnreadMessages',
-          { count: badge }
-        );
-      } catch {
-        description = String(badge);
-      }
-
-      if (badge === 0) {
-        mainWindow.setOverlayIcon(null, '');
-      } else {
-        mainWindow.setOverlayIcon(getUnreadIcon(badge), description);
       }
     } else {
       app.setBadgeCount(badge);
