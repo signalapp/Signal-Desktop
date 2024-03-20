@@ -345,7 +345,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
         encryptedUsername: Buffer.concat([
           entropy,
           uuidToBytes(serverId),
-        ]).toString('base64'),
+        ]).toString('base64url'),
       })
       .toString();
 
