@@ -15,6 +15,7 @@ import { strictAssert } from '../util/assert';
 import { wrapEventEmitterOnce } from '../util/wrapEventEmitterOnce';
 import type { LoggerType } from '../types/Logging';
 import { getGotOptions } from './got';
+import type { GotOptions } from './got';
 import { checkIntegrity } from './util';
 
 const gunzip = promisify(nativeGunzip);
@@ -74,7 +75,7 @@ export type DownloadOptionsType = Readonly<{
   logger?: LoggerType;
 
   // Testing
-  gotOptions?: ReturnType<typeof getGotOptions>;
+  gotOptions?: GotOptions;
 }>;
 
 export type DownloadRangesOptionsType = Readonly<{
@@ -86,7 +87,7 @@ export type DownloadRangesOptionsType = Readonly<{
   chunkStatusCallback: (chunkSize: number) => void;
 
   // Testing
-  gotOptions?: ReturnType<typeof getGotOptions>;
+  gotOptions?: GotOptions;
 }>;
 
 export function getBlockMapFileName(fileName: string): string {
@@ -212,7 +213,7 @@ export async function prepareDownload({
 
   const newBlockMapData = await got(
     getBlockMapFileName(newUrl),
-    getGotOptions()
+    await getGotOptions()
   ).buffer();
 
   const newBlockMap = await parseBlockMap(newBlockMapData);
@@ -343,7 +344,7 @@ export async function downloadRanges(
     logger,
     abortSignal,
     chunkStatusCallback,
-    gotOptions = getGotOptions(),
+    gotOptions = await getGotOptions(),
   } = options;
 
   logger?.info('updater/downloadRanges: downloading ranges', ranges.length);

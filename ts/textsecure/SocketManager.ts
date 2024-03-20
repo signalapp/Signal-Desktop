@@ -19,6 +19,7 @@ import * as durations from '../util/durations';
 import { sleep } from '../util/sleep';
 import { drop } from '../util/drop';
 import { createProxyAgent } from '../util/createProxyAgent';
+import type { ProxyAgent } from '../util/createProxyAgent';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
@@ -84,7 +85,7 @@ export class SocketManager extends EventListener {
 
   private credentials?: WebAPICredentials;
 
-  private readonly proxyAgent?: ReturnType<typeof createProxyAgent>;
+  private proxyAgent?: ProxyAgent;
 
   private status = SocketStatus.CLOSED;
 
@@ -104,10 +105,6 @@ export class SocketManager extends EventListener {
 
   constructor(private readonly options: SocketManagerOptions) {
     super();
-
-    if (options.proxyUrl) {
-      this.proxyAgent = createProxyAgent(options.proxyUrl);
-    }
 
     this.hasStoriesDisabled = options.hasStoriesDisabled;
   }
@@ -338,6 +335,11 @@ export class SocketManager extends EventListener {
     url: string;
     extraHeaders?: Record<string, string>;
   }): Promise<WebSocket> {
+    // Create proxy agent lazily
+    if (this.options.proxyUrl && !this.proxyAgent) {
+      this.proxyAgent = await createProxyAgent(this.options.proxyUrl);
+    }
+
     return connectWebSocket({
       name: 'art-creator-provisioning',
       url,

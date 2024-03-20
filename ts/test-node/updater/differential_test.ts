@@ -338,7 +338,7 @@ describe('updater/differential', () => {
       await assert.isRejected(
         download(outFile, data, {
           gotOptions: {
-            ...getGotOptions(),
+            ...(await getGotOptions()),
             timeout: {
               connect: 0.5 * durations.SECOND,
               lookup: 0.5 * durations.SECOND,

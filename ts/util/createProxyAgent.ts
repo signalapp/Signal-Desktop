@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ProxyAgent } from 'proxy-agent';
 import net from 'net';
+import type { ProxyAgent } from 'proxy-agent';
 import { URL } from 'url';
 import type { LookupOptions, LookupAddress } from 'dns';
 import { lookup } from 'dns/promises';
@@ -25,7 +25,9 @@ const SOCKS_PROTOCOLS = new Set([
   'socks5h:',
 ]);
 
-export function createProxyAgent(proxyUrl: string): ProxyAgent {
+export type { ProxyAgent };
+
+export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
   const { port: portStr, hostname: proxyHost, protocol } = new URL(proxyUrl);
   let defaultPort: number | undefined;
   if (protocol === 'http:') {
@@ -95,6 +97,8 @@ export function createProxyAgent(proxyUrl: string): ProxyAgent {
       callback(error, '', -1);
     }
   }
+
+  const { ProxyAgent } = await import('proxy-agent');
 
   return new ProxyAgent({
     lookup:

@@ -31,6 +31,7 @@ import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import { createProxyAgent } from '../util/createProxyAgent';
+import type { ProxyAgent } from '../util/createProxyAgent';
 import type { SocketStatus } from '../types/SocketStatus';
 import { VerificationTransport } from '../types/VerificationTransport';
 import { toLogFormat } from '../types/errors';
@@ -120,7 +121,7 @@ const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * durations.SECOND;
 type AgentCacheType = {
   [name: string]: {
     timestamp: number;
-    agent: ReturnType<typeof createProxyAgent> | Agent;
+    agent: ProxyAgent | Agent;
   };
 };
 const agents: AgentCacheType = {};
@@ -259,7 +260,7 @@ async function _promiseAjax(
     }
     agents[cacheKey] = {
       agent: proxyUrl
-        ? createProxyAgent(proxyUrl)
+        ? await createProxyAgent(proxyUrl)
         : createHTTPSAgent({
             keepAlive: !options.disableSessionResumption,
             maxCachedSessions: options.disableSessionResumption ? 0 : undefined,
@@ -1382,17 +1383,23 @@ export function initialize({
       log.warn(`${logId}: Done`);
     }
 
-    let fetchAgent: Agent;
-    if (proxyUrl) {
-      fetchAgent = createProxyAgent(proxyUrl);
-    } else {
-      fetchAgent = createHTTPSAgent({
-        keepAlive: false,
-        maxCachedSessions: 0,
-      });
-    }
-    const fetchForLinkPreviews: linkPreviewFetch.FetchFn = (href, init) =>
-      fetch(href, { ...init, agent: fetchAgent });
+    let fetchAgent: Agent | undefined;
+    const fetchForLinkPreviews: linkPreviewFetch.FetchFn = async (
+      href,
+      init
+    ) => {
+      if (!fetchAgent) {
+        if (proxyUrl) {
+          fetchAgent = await createProxyAgent(proxyUrl);
+        } else {
+          fetchAgent = createHTTPSAgent({
+            keepAlive: false,
+            maxCachedSessions: 0,
+          });
+        }
+      }
+      return fetch(href, { ...init, agent: fetchAgent });
+    };
 
     // Thanks, function hoisting!
     return {
