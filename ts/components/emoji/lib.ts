@@ -237,7 +237,24 @@ export function createSearch(localeEmoji: SearchEmojiListType): SearchFnType {
     return cachedSearchFn.fn;
   }
 
-  const fuse = new Fuse(localeEmoji, {
+  const knownSet = new Set<string>();
+
+  const knownEmoji = localeEmoji.filter(({ shortName }) => {
+    knownSet.add(shortName);
+    return dataByShortName[shortName] != null;
+  });
+
+  for (const entry of data) {
+    if (!knownSet.has(entry.short_name)) {
+      knownEmoji.push({
+        shortName: entry.short_name,
+        rank: 0,
+        tags: entry.short_names,
+      });
+    }
+  }
+
+  const fuse = new Fuse(knownEmoji, {
     shouldSort: true,
     threshold: 0.2,
     minMatchCharLength: 1,
@@ -245,7 +262,7 @@ export function createSearch(localeEmoji: SearchEmojiListType): SearchFnType {
     includeScore: true,
   });
 
-  const fuseExactPrefix = new Fuse(localeEmoji, {
+  const fuseExactPrefix = new Fuse(knownEmoji, {
     shouldSort: true,
     threshold: 0, // effectively a prefix search
     minMatchCharLength: 2,
@@ -264,7 +281,7 @@ export function createSearch(localeEmoji: SearchEmojiListType): SearchFnType {
       const rank = entry.item.rank || 1e9;
 
       return {
-        score: (entry.score ?? 0) + rank / localeEmoji.length,
+        score: (entry.score ?? 0) + rank / knownEmoji.length,
         item: entry.item,
       };
     });

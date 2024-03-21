@@ -168,7 +168,7 @@ describe('emojiCompletion', () => {
       });
 
       it('stores the results and renders', () => {
-        assert.equal(emojiCompletion.results.length, 2);
+        assert.equal(emojiCompletion.results.length, 10);
         assert.equal((emojiCompletion.render as sinon.SinonStub).called, true);
       });
     });
