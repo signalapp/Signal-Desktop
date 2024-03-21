@@ -21,10 +21,11 @@ import {
 import FocusTrap from 'focus-trap-react';
 
 import { Emoji } from './Emoji';
-import { dataByCategory, search } from './lib';
+import { dataByCategory } from './lib';
 import type { LocalizerType } from '../../types/Util';
 import { isSingleGrapheme } from '../../util/grapheme';
 import { missingCaseError } from '../../util/missingCaseError';
+import { useEmojiSearch } from '../../hooks/useEmojiSearch';
 
 export type EmojiPickDataType = {
   skinTone?: number;
@@ -107,6 +108,8 @@ export const EmojiPicker = React.memo(
       const [searchText, setSearchText] = React.useState('');
       const [scrollToRow, setScrollToRow] = React.useState(0);
       const [selectedTone, setSelectedTone] = React.useState(skinTone);
+
+      const search = useEmojiSearch(i18n.getLocale());
 
       const handleToggleSearch = React.useCallback(
         (
@@ -261,10 +264,7 @@ export const EmojiPicker = React.memo(
 
       const emojiGrid = React.useMemo(() => {
         if (searchText) {
-          return chunk(
-            search(searchText).map(e => e.short_name),
-            COL_COUNT
-          );
+          return chunk(search(searchText), COL_COUNT);
         }
 
         const chunks = flatMap(renderableCategories, cat =>
@@ -275,7 +275,7 @@ export const EmojiPicker = React.memo(
         );
 
         return [...chunk(firstRecent, COL_COUNT), ...chunks];
-      }, [firstRecent, renderableCategories, searchText]);
+      }, [firstRecent, renderableCategories, searchText, search]);
 
       const rowCount = emojiGrid.length;
 

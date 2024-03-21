@@ -5,6 +5,8 @@ import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
 import type { MenuOptionsType } from '../types/menu';
+import type { LocaleEmojiListType } from '../types/emoji';
+import { LocaleEmojiListSchema } from '../types/emoji';
 import type { MainWindowStatsType, MinimalSignalContextType } from './context';
 import { activeWindowService } from '../context/activeWindowService';
 import { config } from '../context/config';
@@ -17,6 +19,8 @@ import {
   localeMessages,
 } from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
+
+const emojiListCache = new Map<string, LocaleEmojiListType>();
 
 export const MinimalSignalContext: MinimalSignalContextType = {
   activeWindowService,
@@ -39,6 +43,21 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   },
   async getMenuOptions(): Promise<MenuOptionsType> {
     return ipcRenderer.invoke('getMenuOptions');
+  },
+  async getLocalizedEmojiList(locale: string) {
+    const cached = emojiListCache.get(locale);
+    if (cached) {
+      return cached;
+    }
+
+    const buf = await ipcRenderer.invoke(
+      'OptionalResourceService:getData',
+      `emoji-index-${locale}.json`
+    );
+    const json = JSON.parse(Buffer.from(buf).toString());
+    const result = LocaleEmojiListSchema.parse(json);
+    emojiListCache.set(locale, result);
+    return result;
   },
   getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,

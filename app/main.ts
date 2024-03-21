@@ -79,6 +79,7 @@ import { updateDefaultSession } from './updateDefaultSession';
 import { PreventDisplaySleepService } from './PreventDisplaySleepService';
 import { SystemTrayService, focusAndForceToTop } from './SystemTrayService';
 import { SystemTraySettingCache } from './SystemTraySettingCache';
+import { OptionalResourceService } from './OptionalResourceService';
 import {
   SystemTraySetting,
   shouldMinimizeToSystemTray,
@@ -1758,6 +1759,8 @@ app.on('ready', async () => {
 
   // Write buffered information into newly created logger.
   consoleLogger.writeBufferInto(logger);
+
+  OptionalResourceService.create(join(userDataPath, 'optionalResources'));
 
   sqlInitPromise = initializeSQL(userDataPath);
 

@@ -10,13 +10,8 @@ import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
-import type { EmojiData } from '../../components/emoji/lib';
-import {
-  search,
-  convertShortName,
-  isShortName,
-  convertShortNameToData,
-} from '../../components/emoji/lib';
+import { convertShortName, isShortName } from '../../components/emoji/lib';
+import type { SearchFnType } from '../../components/emoji/lib';
 import { Emoji } from '../../components/emoji/Emoji';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
@@ -29,10 +24,11 @@ type EmojiPickerOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
   setEmojiPickerElement: (element: JSX.Element | null) => void;
   skinTone: number;
+  search: SearchFnType;
 };
 
 export class EmojiCompletion {
-  results: Array<EmojiData>;
+  results: Array<string>;
 
   index: number;
 
@@ -132,8 +128,8 @@ export class EmojiCompletion {
     const [leftTokenTextMatch, rightTokenTextMatch] = matchBlotTextPartitions(
       blot,
       index,
-      /(?<=^|\s):([-+0-9a-zA-Z_]*)(:?)$/,
-      /^([-+0-9a-zA-Z_]*):/
+      /(?<=^|\s):([-+0-9\p{Alpha}_]*)(:?)$/iu,
+      /^([-+0-9\p{Alpha}_]*):/iu
     );
 
     if (leftTokenTextMatch) {
@@ -141,25 +137,17 @@ export class EmojiCompletion {
 
       if (isSelfClosing || justPressedColon) {
         if (isShortName(leftTokenText)) {
-          const emojiData = convertShortNameToData(
-            leftTokenText,
-            this.options.skinTone
-          );
-
           const numberOfColons = isSelfClosing ? 2 : 1;
 
-          if (emojiData) {
-            this.insertEmoji(
-              emojiData,
-              range.index - leftTokenText.length - numberOfColons,
-              leftTokenText.length + numberOfColons
-            );
-            return INTERCEPT;
-          }
-        } else {
-          this.reset();
-          return PASS_THROUGH;
+          this.insertEmoji(
+            leftTokenText,
+            range.index - leftTokenText.length - numberOfColons,
+            leftTokenText.length + numberOfColons
+          );
+          return INTERCEPT;
         }
+        this.reset();
+        return PASS_THROUGH;
       }
 
       if (rightTokenTextMatch) {
@@ -167,19 +155,12 @@ export class EmojiCompletion {
         const tokenText = leftTokenText + rightTokenText;
 
         if (isShortName(tokenText)) {
-          const emojiData = convertShortNameToData(
+          this.insertEmoji(
             tokenText,
-            this.options.skinTone
+            range.index - leftTokenText.length - 1,
+            tokenText.length + 2
           );
-
-          if (emojiData) {
-            this.insertEmoji(
-              emojiData,
-              range.index - leftTokenText.length - 1,
-              tokenText.length + 2
-            );
-            return INTERCEPT;
-          }
+          return INTERCEPT;
         }
       }
 
@@ -188,7 +169,7 @@ export class EmojiCompletion {
         return PASS_THROUGH;
       }
 
-      const showEmojiResults = search(leftTokenText, 10);
+      const showEmojiResults = this.options.search(leftTokenText, 10);
 
       if (showEmojiResults.length > 0) {
         this.results = showEmojiResults;
@@ -223,7 +204,7 @@ export class EmojiCompletion {
     const emoji = this.results[this.index];
     const [leafText] = this.getCurrentLeafTextPartitions();
 
-    const tokenTextMatch = /:([-+0-9a-z_]*)(:?)$/.exec(leafText);
+    const tokenTextMatch = /:([-+0-9\p{Alpha}_]*)(:?)$/iu.exec(leafText);
 
     if (tokenTextMatch == null) {
       return;
@@ -240,12 +221,12 @@ export class EmojiCompletion {
   }
 
   insertEmoji(
-    emojiData: EmojiData,
+    shortName: string,
     index: number,
     range: number,
     withTrailingSpace = false
   ): void {
-    const emoji = convertShortName(emojiData.short_name, this.options.skinTone);
+    const emoji = convertShortName(shortName, this.options.skinTone);
 
     const delta = new Delta()
       .retain(index)
@@ -265,7 +246,7 @@ export class EmojiCompletion {
     }
 
     this.options.onPickEmoji({
-      shortName: emojiData.short_name,
+      shortName,
       skinTone: this.options.skinTone,
     });
 
@@ -344,17 +325,15 @@ export class EmojiCompletion {
             role="listbox"
             aria-expanded
             aria-activedescendant={`emoji-result--${
-              emojiResults.length
-                ? emojiResults[emojiResultsIndex].short_name
-                : ''
+              emojiResults.length ? emojiResults[emojiResultsIndex] : ''
             }`}
             tabIndex={0}
           >
             {emojiResults.map((emoji, index) => (
               <button
                 type="button"
-                key={emoji.short_name}
-                id={`emoji-result--${emoji.short_name}`}
+                key={emoji}
+                id={`emoji-result--${emoji}`}
                 role="option button"
                 aria-selected={emojiResultsIndex === index}
                 onClick={() => {
@@ -369,12 +348,12 @@ export class EmojiCompletion {
                 )}
               >
                 <Emoji
-                  shortName={emoji.short_name}
+                  shortName={emoji}
                   size={16}
                   skinTone={this.options.skinTone}
                 />
                 <div className="module-composition-input__suggestions__row__short-name">
-                  :{emoji.short_name}:
+                  :{emoji}:
                 </div>
               </button>
             ))}

@@ -22,6 +22,7 @@ import { initialize as initializeLogging } from '../logging/set_up_renderer_logg
 import { MinimalSignalContext } from './minimalContext';
 import type { LocaleDirection } from '../../app/locale';
 import type { HourCyclePreference } from '../types/I18N';
+import type { LocaleEmojiListType } from '../types/emoji';
 
 strictAssert(Boolean(window.SignalContext), 'context must be defined');
 
@@ -48,6 +49,9 @@ export type MinimalSignalContextType = {
   getResolvedMessagesLocale: () => string;
   getPreferredSystemLocales: () => Array<string>;
   getLocaleOverride: () => string | null;
+  getLocalizedEmojiList: (
+    locale: string
+  ) => Promise<LocaleEmojiListType | undefined>;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;

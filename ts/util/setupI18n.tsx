@@ -10,6 +10,7 @@ import {
   createCachedIntl as createCachedIntlMain,
   setupI18n as setupI18nMain,
 } from './setupI18nMain';
+import type { SetupI18nOptionsType } from './setupI18nMain';
 import { strictAssert } from './assert';
 
 export { isLocaleMessageType } from './setupI18nMain';
@@ -30,7 +31,8 @@ export function createCachedIntl(
 
 export function setupI18n(
   locale: string,
-  messages: LocaleMessagesType
+  messages: LocaleMessagesType,
+  options: Omit<SetupI18nOptionsType, 'renderEmojify'> = {}
 ): LocalizerType {
-  return setupI18nMain(locale, messages, { renderEmojify });
+  return setupI18nMain(locale, messages, { ...options, renderEmojify });
 }

@@ -3693,6 +3693,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/hooks/useEmojiSearch.ts",
+    "line": "  const searchRef = useRef(defaultSearch);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-03-16T18:34:38.165Z",
+    "reasonDetail": "Quill requires an immutable reference to the search function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/hooks/useIntersectionObserver.ts",
     "line": "  const unobserveRef = useRef<(() => unknown) | null>(null);",
     "reasonCategory": "usageTrusted",
