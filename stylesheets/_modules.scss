@@ -4670,7 +4670,7 @@ button.module-image__border-overlay:focus {
       width: 100%;
 
       .module-conversation-list--width-narrow & {
-        padding-inline: 14px 0;
+        padding-inline: 10px 0;
       }
 
       #{$unread-indicator} {
@@ -5483,11 +5483,11 @@ button.module-image__border-overlay:focus {
 }
 
 .module-left-pane__list--wrapper {
-  position: relative;
+  position: absolute;
 }
 
 .module-left-pane__list {
-  position: absolute;
+  position: relative;
   outline: none;
 }
 
