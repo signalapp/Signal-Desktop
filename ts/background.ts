@@ -1325,7 +1325,7 @@ export async function startApp(): Promise<void> {
   });
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
-    void unlinkAndDisconnect();
+    drop(unlinkAndDisconnect());
   });
 
   window.Whisper.events.on('httpResponse499', () => {
@@ -2970,6 +2970,14 @@ export async function startApp(): Promise<void> {
       window.getConversations().forEach(conversation => {
         conversation.unset('senderKeyInfo');
       });
+
+      // We use username for integrity check
+      const ourConversation =
+        window.ConversationController.getOurConversation();
+      if (ourConversation) {
+        ourConversation.unset('username');
+        window.Signal.Data.updateConversation(ourConversation.attributes);
+      }
 
       // Then make sure outstanding conversation saves are flushed
       await window.Signal.Data.flushUpdateConversationBatcher();
