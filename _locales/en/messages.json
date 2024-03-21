@@ -1650,10 +1650,6 @@
     "messageformat": "Tap {plusButton} (Android) or {linkNewDevice} (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "icu:Install__qr-failed": {
-    "messageformat": "The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
-    "description": "(Deleted 2023/09/05) Shown on the install screen if the QR code fails to load"
-  },
   "icu:Install__qr-failed-load": {
     "messageformat": "The QR code couldn't load. Check your internet and try again. <retry>Retry</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
@@ -3512,7 +3508,7 @@
   },
   "icu:MessageRequests--block-and-report-spam": {
     "messageformat": "Report Spam and Block",
-    "description": "Shown as a button to let the user block a message request and report spam"
+    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Reported as spam and blocked.",
@@ -7416,10 +7412,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
+    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
+    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
