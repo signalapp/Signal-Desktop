@@ -23,7 +23,7 @@
     "build-release": "yarn run build",
     "sign-release": "node ts/updater/generateSignature.js",
     "notarize": "echo 'No longer necessary'",
-    "get-strings": "ts-node ts/scripts/get-strings.ts && ts-node ts/scripts/gen-nsis-script.ts && ts-node ts/scripts/gen-locales-config.ts && run-p get-strings:locales get-strings:countries get-strings:emoji mark-unusued-strings-deleted && run-p build:complact-locales",
+    "get-strings": "ts-node ts/scripts/get-strings.ts && ts-node ts/scripts/gen-nsis-script.ts && ts-node ts/scripts/gen-locales-config.ts && run-p get-strings:locales get-strings:countries get-strings:emoji mark-unusued-strings-deleted && run-p build:compact-locales",
     "get-strings:locales": "ts-node ./ts/scripts/build-localized-display-names.ts locales ts/scripts/locale-data/locale-display-names.csv build/locale-display-names.json",
     "get-strings:countries": "ts-node ./ts/scripts/build-localized-display-names.ts countries ts/scripts/locale-data/country-display-names.csv build/country-display-names.json",
     "get-strings:emoji": "ts-node ./ts/scripts/get-emoji-locales.ts",
