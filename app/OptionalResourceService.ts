@@ -171,7 +171,7 @@ export class OptionalResourceService {
     decl: OptionalResourceType,
     destPath: string
   ): Promise<Buffer> {
-    const result = await got(decl.url, getGotOptions()).buffer();
+    const result = await got(decl.url, await getGotOptions()).buffer();
 
     this.cache.set(name, result);
 
