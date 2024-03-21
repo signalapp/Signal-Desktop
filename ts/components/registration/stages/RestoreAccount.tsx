@@ -75,6 +75,7 @@ async function signInAndFetchDisplayName(
     await resetRegistration();
     await signInByLinkingDevice(recoveryPassword, 'english', loadingAnimationCallback);
 
+    // TODO[epic-899] do we still need this? Should I change the polling timeout to ONBOARDING_RECOVERY_TIMEOUT?
     await PromiseUtils.waitForTask(done => {
       window.Whisper.events.on('configurationMessageReceived', async (displayName: string) => {
         window.log.debug(

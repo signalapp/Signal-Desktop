@@ -98,10 +98,9 @@ export async function signInByLinkingDevice(
   await createAccount(identityKeyPair);
   await saveRecoveryPhrase(mnemonic);
   const pubKeyString = toHex(identityKeyPair.pubKey);
-
+  // fetch configuration message to get the user's display name.
   const displayName = await getSwarmPollingInstance().pollForOurDisplayName();
 
-  // await for the first configuration message to come in.
   await registrationDone(pubKeyString, displayName);
   return pubKeyString;
 }

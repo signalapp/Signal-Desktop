@@ -17,6 +17,7 @@ import { updateIsOnline } from '../../../state/ducks/onion';
 import { ReleasedFeatures } from '../../../util/releaseFeature';
 import {
   GenericWrapperActions,
+  UserConfigWrapperActions,
   UserGroupsWrapperActions,
 } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../../constants';
@@ -397,33 +398,40 @@ export class SwarmPolling {
 
         if (returnAndKeepInMemory) {
           try {
-            // TODO[epic=899]  trying to create a dump in memory for the userconfig
             const ourKeyPair = await UserUtils.getIdentityKeyPair();
-            if (ourKeyPair) {
-              await GenericWrapperActions.init(
-                'UserConfig',
-                new Uint8Array(ourKeyPair.privKey),
-                null
-              );
-              // save the newly created dump to the database even if it is empty, just so we do not need to recreate one next run
-
-              // const dump = await GenericWrapperActions.dump('UserConfig');
+            if (!ourKeyPair) {
+              throw new Error('ourKeyPair not found');
             }
-            // await LibSessionUtil.initializeLibSessionUtilWrappers();
+
+            // we take the lastest config message to create the wrapper in memory
+            const configMessage = allDecryptedConfigMessages.at(-1)?.message;
+            window.log.debug(`WIP: [SwarmPolling] configMessage: ${JSON.stringify(configMessage)}`);
+            await GenericWrapperActions.init(
+              'UserConfig',
+              new Uint8Array(ourKeyPair.privKey),
+              configMessage?.data || null
+            );
+            window.log.debug(
+              `WIP: [SwarmPolling] dump: ${StringUtils.toHex(await GenericWrapperActions.dump('UserConfig'))}`
+            );
+            // TODO[epic=899] this is still not working
+            const userInfo = await UserConfigWrapperActions.getUserInfo();
+            window.log.debug(`WIP: [SwarmPolling] userInfo: ${JSON.stringify(userInfo)}`);
+            if (!userInfo) {
+              throw new Error('UserInfo not found');
+            }
+            return userInfo.name;
           } catch (e) {
             window.log.warn(
               '[SwarmPolling] LibSessionUtil.initializeLibSessionUtilWrappers failed with',
               e.message
             );
+          } finally {
+            await GenericWrapperActions.free('UserConfig');
           }
         }
 
-        const result = await ConfigMessageHandler.handleConfigMessagesViaLibSession(
-          allDecryptedConfigMessages,
-          returnAndKeepInMemory
-        );
-        window.log.debug(`WIP: [handleSharedConfigMessages] result ${JSON.stringify(result)} `);
-        return String(result);
+        await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
       } catch (e) {
         const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
         window.log.warn(
@@ -696,7 +704,9 @@ export class SwarmPolling {
         );
         try {
           const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
-          window.log.debug(`WIP: [pollForOurDisplayName] displayName ${displayName}`);
+          window.log.debug(
+            `WIP: [pollForOurDisplayName] displayName ${JSON.stringify(displayName)}`
+          );
           return displayName;
         } catch (e) {
           window.log.warn(

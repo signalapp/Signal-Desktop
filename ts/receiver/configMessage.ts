@@ -821,11 +821,9 @@ async function handleConvoInfoVolatileUpdate(
   return result;
 }
 
-async function processMergingResults(
-  results: Map<ConfigWrapperObjectTypes, IncomingConfResult>
-): Promise<IncomingConfResult | undefined> {
+async function processMergingResults(results: Map<ConfigWrapperObjectTypes, IncomingConfResult>) {
   if (!results || !results.size) {
-    return undefined;
+    return;
   }
 
   const keys = [...results.keys()];
@@ -885,11 +883,9 @@ async function processMergingResults(
       if (incomingResult.needsPush) {
         anyNeedsPush = true;
       }
-
-      return incomingResult;
     } catch (e) {
       window.log.error(`processMergingResults failed with ${e.message}`);
-      return undefined;
+      return;
     }
   }
   // Now that the local state has been updated, trigger a config sync (this will push any
@@ -897,21 +893,19 @@ async function processMergingResults(
   if (anyNeedsPush) {
     await ConfigurationSync.queueNewJobIfNeeded();
   }
-  return undefined;
 }
 
 async function handleConfigMessagesViaLibSession(
-  configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>,
-  returnAndKeepInMemory?: boolean
-): Promise<IncomingConfResult | undefined> {
+  configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
+) {
   const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
   if (!userConfigLibsession) {
-    return undefined;
+    return;
   }
 
   if (isEmpty(configMessages)) {
-    return undefined;
+    return;
   }
 
   window?.log?.debug(
@@ -925,20 +919,8 @@ async function handleConfigMessagesViaLibSession(
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
-  window.log.debug(
-    `WIP: [handleConfigMessagesViaLibSession] incomingMergeResult:`,
-    incomingMergeResult
-  );
 
-  if (returnAndKeepInMemory) {
-    // TODO[epic=899] we should return the display name and keep it in memory
-    return incomingMergeResult.get('UserConfig');
-    // const dump = await GenericWrapperActions.dump('UserConfig');
-    // return dump;
-  }
-
-  const result = await processMergingResults(incomingMergeResult);
-  return result;
+  await processMergingResults(incomingMergeResult);
 }
 
 async function updateOurProfileLegacyOrViaLibSession({
