@@ -57,11 +57,10 @@ import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
 import { SessionSpinner } from '../basic/SessionSpinner';
+import { deleteMessagesByIdForEveryone } from '../../interactions/conversations/unsendingInteractions';
 import { RightPanel, StyledRightPanelContainer } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
-import { deleteMessagesByIdForEveryone } from '../../interactions/conversations/unsendingInteractions';
-// tslint:disable: jsx-curly-spacing
 interface State {
   isDraggingFile: boolean;
 }
@@ -353,11 +352,14 @@ export class SessionConversation extends React.Component<Props, State> {
           if (selectionMode) {
             window.inboxStore?.dispatch(resetSelectedMessageIds());
           }
-	  break;
+          break;
         case 'Backspace':
         case 'Delete':
           if (selectionMode) {
-            void deleteMessagesByIdForEveryone(this.props.selectedMessages, this.props.selectedConversationKey);
+            void deleteMessagesByIdForEveryone(
+              this.props.selectedMessages,
+              this.props.selectedConversationKey
+            );
           }
           break;
         default:

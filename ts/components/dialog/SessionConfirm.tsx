@@ -2,6 +2,7 @@ import { shell } from 'electron';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import useKey from 'react-use/lib/useKey';
 import { useLastMessage } from '../../hooks/useParamSelector';
 import { MessageInteraction } from '../../interactions';
 import {
@@ -118,6 +119,14 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
       dispatch(updateConfirmModal(null));
     }
   };
+
+  useKey('Enter', () => {
+    void onClickOkHandler();
+  });
+
+  useKey('Escape', () => {
+    onClickCancelHandler();
+  });
 
   useEffect(() => {
     if (isLoading) {
