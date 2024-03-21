@@ -278,11 +278,11 @@
   },
   "icu:avatarMenuChatColors": {
     "messageformat": "대화창 색상",
-    "description": "One of the menu options available in the Avatar popup menu"
+    "description": "(Deleted 2024/03/07) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuUpdateAvailable": {
     "messageformat": "시그널 최신 버전으로 업데이트",
-    "description": "One of the menu options available in the Avatar popup menu"
+    "description": "(Deleted 2024/03/07) One of the menu options available in the Avatar popup menu"
   },
   "icu:loading": {
     "messageformat": "불러오는 중",
@@ -429,23 +429,23 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ConversationHeader__MenuItem--Accept": {
-    "messageformat": "Accept",
+    "messageformat": "수락",
     "description": "Shown in menu for conversation, allows the user to accept a message request"
   },
   "icu:ConversationHeader__MenuItem--Block": {
-    "messageformat": "Block",
+    "messageformat": "차단",
     "description": "Shown in menu for conversation, allows the user to block the contact"
   },
   "icu:ConversationHeader__MenuItem--Unblock": {
-    "messageformat": "Unblock",
+    "messageformat": "차단 해제",
     "description": "Shown in menu for conversation, allows the user to unblock the contact"
   },
   "icu:ConversationHeader__MenuItem--ReportSpam": {
-    "messageformat": "Report Spam",
+    "messageformat": "스팸 신고",
     "description": "Shown in menu for conversation, allows the user to report the conversation as spam"
   },
   "icu:ConversationHeader__MenuItem--DeleteChat": {
-    "messageformat": "Delete Chat",
+    "messageformat": "대화 삭제",
     "description": "Shown in menu for conversation, allows the user to delete the conversation"
   },
   "icu:ContactListItem__menu": {
@@ -510,63 +510,63 @@
   },
   "icu:chooseDirectory": {
     "messageformat": "폴더 선택",
-    "description": "Button to allow the user to find a folder on disk"
+    "description": "(Deleted 2024/03/07) Button to allow the user to find a folder on disk"
   },
   "icu:chooseFile": {
     "messageformat": "파일 선택",
-    "description": "Button to allow the user to find a file on disk"
+    "description": "(Deleted 2024/03/07) Button to allow the user to find a file on disk"
   },
   "icu:loadDataHeader": {
     "messageformat": "데이터 불러오기",
-    "description": "Header shown on the first screen in the data import process"
+    "description": "(Deleted 2024/03/07) Header shown on the first screen in the data import process"
   },
   "icu:loadDataDescription": {
     "messageformat": "내보내기 단계를 완료했으며 이 컴퓨터에 연락처와 메시지를 불러왔습니다. Signal 데이터를 저장하고 있는 폴더를 선택하세요.",
-    "description": "Introduction to the process of importing messages and contacts from disk"
+    "description": "(Deleted 2024/03/07) Introduction to the process of importing messages and contacts from disk"
   },
   "icu:importChooserTitle": {
     "messageformat": "내보낸 데이터가 있는 디렉터리 선택",
-    "description": "Title of the popup window used to select data previously exported"
+    "description": "(Deleted 2024/03/07) Title of the popup window used to select data previously exported"
   },
   "icu:importErrorHeader": {
     "messageformat": "오류가 발생했습니다!",
-    "description": "Header of the error screen after a failed import"
+    "description": "(Deleted 2024/03/07) Header of the error screen after a failed import"
   },
   "icu:importingHeader": {
     "messageformat": "연락처와 메시지 불러오는 중",
-    "description": "Header of screen shown as data is import"
+    "description": "(Deleted 2024/03/07) Header of screen shown as data is import"
   },
   "icu:importErrorFirst": {
     "messageformat": "Signal 데이터가 있는 올바른 디렉터리를 선택하세요. 'Signal Export'로 시작하는 폴더입니다. Chrome 앱에서 새로운 데이터 복사본을 가져와 저장할 수도 있습니다.",
-    "description": "Message shown if the import went wrong; first paragraph"
+    "description": "(Deleted 2024/03/07) Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
     "messageformat": "만약 가져오기가 제대로 동작하지 않는다면, 디버그 로그(보기 -> 디버그 로그)를 보내주세요!",
-    "description": "Message shown if the import went wrong; second paragraph"
+    "description": "(Deleted 2024/03/07) Message shown if the import went wrong; second paragraph"
   },
   "icu:importAgain": {
     "messageformat": "폴더를 선택한 후 다시 시도하세요",
-    "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    "description": "(Deleted 2024/03/07) Button shown if the user runs into an error during import, allowing them to start over"
   },
   "icu:importCompleteHeader": {
     "messageformat": "성공!",
-    "description": "Header shown on the screen at the end of a successful import process"
+    "description": "(Deleted 2024/03/07) Header shown on the screen at the end of a successful import process"
   },
   "icu:importCompleteStartButton": {
     "messageformat": "Signal Desktop 시작하기",
-    "description": "Button shown at end of successful import process, nothing left but a restart"
+    "description": "(Deleted 2024/03/07) Button shown at end of successful import process, nothing left but a restart"
   },
   "icu:importCompleteLinkButton": {
     "messageformat": "이 기기를 휴대전화와 연결하기",
-    "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    "description": "(Deleted 2024/03/07) Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "icu:selectedLocation": {
     "messageformat": "선택한 경로",
-    "description": "Message shown as the export location if we didn't capture the target directory"
+    "description": "(Deleted 2024/03/07) Message shown as the export location if we didn't capture the target directory"
   },
   "icu:upgradingDatabase": {
     "messageformat": "데이터베이스 업그레이드 중입니다. 시간이 다소 소요됩니다…",
-    "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    "description": "(Deleted 2024/03/07) Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, other {{daysAgo,number}일 전 메시지를 로딩하는 중...}}",
@@ -613,11 +613,11 @@
     "description": "Text for unread message separator, with count"
   },
   "icu:taskbarMarkedUnread": {
-    "messageformat": "Marked Unread",
+    "messageformat": "읽지 않음으로 표시",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
   },
   "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}",
+    "messageformat": "{count, plural, other {읽지 않은 메시지 {count,number}개}}",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
@@ -642,7 +642,7 @@
   },
   "icu:membersNeedingVerification": {
     "messageformat": "이 그룹 멤버와의 안전 번호가 마지막으로 검증된 이후 변경되었습니다. 그룹 멤버를 클릭해 새 안전 번호를 확인하세요.",
-    "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+    "description": "(Deleted 2024/03/07) When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "확인하려고 하시는 안전 번호가 변경되었습니다. {name1} 님으로 새 안전 번호를 검토하세요. 이 변경 사항은 누군가가 내 통신 내용을 가로채려고 했을 수도, {name2} 님이 단순히 Signal을 다시 설치했을 수도 있습니다.",
@@ -694,7 +694,7 @@
   },
   "icu:identityKeyErrorOnSend": {
     "messageformat": "{name1} 님의 안전 번호가 변경되었습니다. 이 변경 사항은 누군가가 내 통신 내용을 가로채려고 했을 수도, {name2} 님이 단순히 Signal을 다시 설치했을 수도 있습니다. 이 연락처로 안전 번호를 확인할 수 있습니다.",
-    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
+    "description": "(Deleted 2024/03/07) Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "icu:sendAnyway": {
     "messageformat": "그냥 보내기",
@@ -722,11 +722,11 @@
   },
   "icu:noLongerVerified": {
     "messageformat": "{name}와의 안전 번호가 변경되었으며 검증이 취소되었습니다. 클릭하여 자세히 알아보세요.",
-    "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
+    "description": "(Deleted 2024/03/07) Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "icu:multipleNoLongerVerified": {
     "messageformat": "여러 그룹 멤버의 안전 번호가 변경되었으며 검증이 취소되었습니다. 클릭하여 자세히 알아보세요.",
-    "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    "description": "(Deleted 2024/03/07) Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
     "messageformat": "제출을 클릭하면 게시되지 않은 고유 URL에서 로그가 30일 동안 온라인에 게시됩니다. 로컬로 먼저 저장할 수 있습니다.",
@@ -766,14 +766,14 @@
   },
   "icu:gotIt": {
     "messageformat": "확인",
-    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    "description": "(Deleted 2024/03/07) Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "icu:submit": {
     "messageformat": "제출"
   },
   "icu:acceptNewKey": {
     "messageformat": "수락",
-    "description": "Label for a button to accept a new safety number"
+    "description": "(Deleted 2024/03/07) Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "검증으로 표시",
@@ -801,11 +801,11 @@
   },
   "icu:isVerified": {
     "messageformat": "{name}와의 안전 번호를 검증했습니다.",
-    "description": "Summary state shown at top of the safety number screen if user has verified contact."
+    "description": "(Deleted 2024/03/07) Summary state shown at top of the safety number screen if user has verified contact."
   },
   "icu:isNotVerified": {
     "messageformat": "{name}와의 안전 번호를 검증하지 않았습니다.",
-    "description": "Summary state shown at top of the safety number screen if user has not verified contact."
+    "description": "(Deleted 2024/03/07) Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "icu:verified": {
     "messageformat": "검증됨"
@@ -815,7 +815,8 @@
     "description": "Header for a key change dialog"
   },
   "icu:identityChanged": {
-    "messageformat": "이 연락처와의 안전 번호가 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다. 새 안전 번호가 서로 일치하는지 확인해보세요."
+    "messageformat": "이 연락처와의 안전 번호가 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다. 새 안전 번호가 서로 일치하는지 확인해보세요.",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:incomingError": {
     "messageformat": "받은 메시지 처리 중 오류 발생"
@@ -862,11 +863,11 @@
   },
   "icu:clickToSave": {
     "messageformat": "클릭하여 저장",
-    "description": "Hover text for attachment filenames"
+    "description": "(Deleted 2024/03/07) Hover text for attachment filenames"
   },
   "icu:unnamedFile": {
     "messageformat": "이름 없는 파일",
-    "description": "Hover text for attachment filenames"
+    "description": "(Deleted 2024/03/07) Hover text for attachment filenames"
   },
   "icu:voiceMessage": {
     "messageformat": "음성 메시지",
@@ -1144,7 +1145,7 @@
   },
   "icu:messageFoundButNotLoaded": {
     "messageformat": "원본 메시지를 찾았으나 불러오지 못했습니다. 위로 스크롤하여 불러올 수 있습니다.",
-    "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    "description": "(Deleted 2024/03/07) Shown in toast if user clicks on quote references messages not loaded in view, but in database"
   },
   "icu:voiceRecording--start": {
     "messageformat": "음성 메시지 녹음 시작",
@@ -1152,11 +1153,11 @@
   },
   "icu:voiceRecording--complete": {
     "messageformat": "음성 메시지 완료 및 보내기",
-    "description": "Tooltip for green complete voice message and send"
+    "description": "(Deleted 2024/03/07) Tooltip for green complete voice message and send"
   },
   "icu:voiceRecording--cancel": {
     "messageformat": "음성 메시지 취소",
-    "description": "Tooltip for red button to cancel voice message"
+    "description": "(Deleted 2024/03/07) Tooltip for red button to cancel voice message"
   },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "음성 통화 녹음 시간이 다 되어서 녹음을 종료했습니다.",
@@ -1164,7 +1165,7 @@
   },
   "icu:voiceRecordingInterruptedBlur": {
     "messageformat": "다른 앱으로 전환했기 때문에 음성 메시지 녹음이 중단되었습니다.",
-    "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    "description": "(Deleted 2024/03/07) Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
   },
   "icu:voiceNoteLimit": {
     "messageformat": "음성 메시지는 1시간으로 제한됩니다. 다른 앱으로 전환하면 녹음이 중단됩니다.",
@@ -1192,7 +1193,7 @@
   },
   "icu:replyingTo": {
     "messageformat": "{name}에게 답장",
-    "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
+    "description": "(Deleted 2024/03/07) Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "icu:audioPermissionNeeded": {
     "messageformat": "Signal Desktop에서 음성 메시지를 보내려면 마이크 권한이 필요합니다.",
@@ -1212,7 +1213,7 @@
   },
   "icu:showSettings": {
     "messageformat": "설정 보이기",
-    "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    "description": "(Deleted 2024/03/07) A button shown in dialog requesting the user to turn on audio permissions"
   },
   "icu:audio": {
     "messageformat": "오디오",
@@ -1236,7 +1237,7 @@
   },
   "icu:muted": {
     "messageformat": "알림 꺼짐",
-    "description": "Shown in a button when a conversation is muted"
+    "description": "(Deleted 2024/03/07) Shown in a button when a conversation is muted"
   },
   "icu:mute": {
     "messageformat": "음소거",
@@ -1264,13 +1265,15 @@
     "messageformat": "버리기"
   },
   "icu:failedToSend": {
-    "messageformat": "일부 수신자에게 송신을 실패했습니다. 네트워크 연결을 확인하세요."
+    "messageformat": "일부 수신자에게 송신을 실패했습니다. 네트워크 연결을 확인하세요.",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:error": {
     "messageformat": "오류"
   },
   "icu:messageDetail": {
-    "messageformat": "메시지 세부 정보"
+    "messageformat": "메시지 세부 정보",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:delete": {
     "messageformat": "삭제"
@@ -1316,7 +1319,7 @@
   },
   "icu:to": {
     "messageformat": "받는이:",
-    "description": "Label for the receiver of a message"
+    "description": "(Deleted 2024/03/07) Label for the receiver of a message"
   },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "보낸 사람: {sender} 님, 받는 사람: {receiverGroup}",
@@ -1347,7 +1350,8 @@
     "description": "Placeholder text in the message entry field"
   },
   "icu:groupMembers": {
-    "messageformat": "그룹 멤버"
+    "messageformat": "그룹 멤버",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:showMembers": {
     "messageformat": "멤버 보이기"
@@ -1389,14 +1393,15 @@
   },
   "icu:ContactModal__showSafetyNumber": {
     "messageformat": "안전 번호 보기",
-    "description": "Contact modal, label for button to show safety number modal"
+    "description": "(Deleted 2024/03/07) Contact modal, label for button to show safety number modal"
   },
   "icu:viewRecentMedia": {
     "messageformat": "최근 미디어 보기",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:theirIdentityUnknown": {
-    "messageformat": "아직 이 연락처와 메시지를 주고받은 적이 없습니다. 안전 번호는 첫 번째 메시지를 주거나 받은 이후 이용 가능합니다."
+    "messageformat": "아직 이 연락처와 메시지를 주고받은 적이 없습니다. 안전 번호는 첫 번째 메시지를 주거나 받은 이후 이용 가능합니다.",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:back": {
     "messageformat": "뒤로",
@@ -1571,12 +1576,12 @@
     "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:TitleTransition--notification": {
-    "messageformat": "You started this chat with {oldTitle}",
+    "messageformat": "{oldTitle} 님과 이 대화를 시작했습니다.",
     "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "인용된 메시지의 이미지 섬네일",
-    "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    "description": "(Deleted 2024/03/07) Used in alt tag of thumbnail images inside of an embedded message quote"
   },
   "icu:imageAttachmentAlt": {
     "messageformat": "메시지에 첨부된 이미지",
@@ -1604,15 +1609,15 @@
   },
   "icu:fileIconAlt": {
     "messageformat": "파일 아이콘",
-    "description": "Used in the media gallery documents tab to visually represent a file"
+    "description": "(Deleted 2024/03/07) Used in the media gallery documents tab to visually represent a file"
   },
   "icu:installWelcome": {
     "messageformat": "Signal Desktop에 오신 것을 환영합니다",
-    "description": "Welcome title on the install page"
+    "description": "(Deleted 2024/03/07) Welcome title on the install page"
   },
   "icu:installTagline": {
     "messageformat": "개인정보 지키기, Signal과 함께라면 아주 쉽습니다.",
-    "description": "Tagline displayed under 'installWelcome' string on the install page"
+    "description": "(Deleted 2024/03/07) Tagline displayed under 'installWelcome' string on the install page"
   },
   "icu:linkedDevices": {
     "messageformat": "연결된 기기",
@@ -1645,10 +1650,6 @@
   "icu:Install__instructions__3": {
     "messageformat": "Android는 {plusButton}, iPhone은 {linkNewDevice}을(를) 탭하세요.",
     "description": "Instructions on the device link screen"
-  },
-  "icu:Install__qr-failed": {
-    "messageformat": "(deleted 2023/09/05) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
-    "description": "Shown on the install screen if the QR code fails to load"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR 코드를 로드할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요. <retry>다시 시도하기</retry>",
@@ -1851,11 +1852,11 @@
   },
   "icu:calling__button--ring__off": {
     "messageformat": "알리지만 전화벨은 안 울림",
-    "description": "Button tooltip label for turning ringing off"
+    "description": "(Deleted 2024/03/07) Button tooltip label for turning ringing off"
   },
   "icu:calling__button--ring__on": {
     "messageformat": "전화벨 사용",
-    "description": "Button tooltip label for turning ringing on"
+    "description": "(Deleted 2024/03/07) Button tooltip label for turning ringing on"
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "통화 끄기",
@@ -2055,7 +2056,7 @@
   },
   "icu:general": {
     "messageformat": "일반 설정",
-    "description": "Header for general options on the settings screen"
+    "description": "(Deleted 2024/03/07) Header for general options on the settings screen"
   },
   "icu:spellCheckDescription": {
     "messageformat": "메시지 작성란에 입력한 텍스트 맞춤법 검사",
@@ -2107,7 +2108,7 @@
   },
   "icu:deleteAllDataButton": {
     "messageformat": "모든 데이터 삭제",
-    "description": "Text of the button that deletes all data"
+    "description": "(Deleted 2024/03/07) Text of the button that deletes all data"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "연결 해제 및 모든 데이터 삭제 중",
@@ -2123,15 +2124,15 @@
   },
   "icu:notifications": {
     "messageformat": "알림",
-    "description": "Header for notification settings"
+    "description": "(Deleted 2024/03/07) Header for notification settings"
   },
   "icu:notificationSettingsDialog": {
     "messageformat": "메시지가 도착할 때 다음 알림 보이기:",
-    "description": "Explain the purpose of the notification settings"
+    "description": "(Deleted 2024/03/07) Explain the purpose of the notification settings"
   },
   "icu:disableNotifications": {
     "messageformat": "알림 끄기",
-    "description": "Label for disabling notifications"
+    "description": "(Deleted 2024/03/07) Label for disabling notifications"
   },
   "icu:nameAndMessage": {
     "messageformat": "이름, 내용 및 작업",
@@ -2185,15 +2186,15 @@
   },
   "icu:showMore": {
     "messageformat": "세부 정보",
-    "description": "Displays the details of a key change"
+    "description": "(Deleted 2024/03/07) Displays the details of a key change"
   },
   "icu:showLess": {
     "messageformat": "세부 정보 숨기기",
-    "description": "Hides the details of a key change"
+    "description": "(Deleted 2024/03/07) Hides the details of a key change"
   },
   "icu:learnMore": {
     "messageformat": "안전 번호 검증에 대해 자세히 알아보기",
-    "description": "Text that links to a support article on verifying safety numbers"
+    "description": "(Deleted 2024/03/07) Text that links to a support article on verifying safety numbers"
   },
   "icu:expiredWarning": {
     "messageformat": "이 버전의 Signal Desktop이 만료되었습니다. 계속 메시지를 보내려면 최신 버전으로 업데이트하세요.",
@@ -2209,7 +2210,7 @@
   },
   "icu:unregisteredUser": {
     "messageformat": "번호가 등록되지 않음",
-    "description": "Error message displayed when sending to an unregistered user."
+    "description": "(Deleted 2024/03/07) Error message displayed when sending to an unregistered user."
   },
   "icu:sync": {
     "messageformat": "연락처 가져오기",
@@ -2221,7 +2222,7 @@
   },
   "icu:lastSynced": {
     "messageformat": "마지막으로 가져온 시간:",
-    "description": "Label for date and time of last sync operation"
+    "description": "(Deleted 2024/03/07) Label for date and time of last sync operation"
   },
   "icu:syncNow": {
     "messageformat": "지금 가져오기",
@@ -2381,7 +2382,7 @@
   },
   "icu:yourSafetyNumberWith": {
     "messageformat": "{name1} 님의 안전 번호:",
-    "description": "Heading for safety number view"
+    "description": "(Deleted 2024/03/07) Heading for safety number view"
   },
   "icu:themeLight": {
     "messageformat": "밝게",
@@ -2413,7 +2414,7 @@
   },
   "icu:startConversation": {
     "messageformat": "새 대화 시작",
-    "description": "Label underneath number a user enters that is not an existing contact"
+    "description": "(Deleted 2024/03/07) Label underneath number a user enters that is not an existing contact"
   },
   "icu:newConversation": {
     "messageformat": "새 대화",
@@ -2545,15 +2546,15 @@
   },
   "icu:notSupportedSMS": {
     "messageformat": "SMS/MMS 메시지는 지원되지 않습니다.",
-    "description": "Label underneath number informing user that SMS is not supported on desktop"
+    "description": "(Deleted 2024/03/07) Label underneath number informing user that SMS is not supported on desktop"
   },
   "icu:newPhoneNumber": {
     "messageformat": "연락처를 추가하려면 전화번호를 입력하세요.",
-    "description": "Placeholder for adding a new number to a contact"
+    "description": "(Deleted 2024/03/07) Placeholder for adding a new number to a contact"
   },
   "icu:invalidNumberError": {
     "messageformat": "잘못된 번호",
-    "description": "When a person inputs a number that is invalid"
+    "description": "(Deleted 2024/03/07) When a person inputs a number that is invalid"
   },
   "icu:unlinkedWarning": {
     "messageformat": "클릭하여 Signal Desktop을 모바일 기기에 다시 연결하고 메시지를 계속 사용하세요."
@@ -2562,7 +2563,8 @@
     "messageformat": "연결 해제됨"
   },
   "icu:relink": {
-    "messageformat": "재연결"
+    "messageformat": "재연결",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "사용할 수 있는 업데이트가 있습니다."
@@ -2587,7 +2589,8 @@
     "messageformat": "Signal 재시작"
   },
   "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "나중에"
+    "messageformat": "나중에",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "업데이트 무시"
@@ -2778,7 +2781,7 @@
   },
   "icu:message--giftBadge--view": {
     "messageformat": "보기",
-    "description": "Shown when you've sent a gift badge to someone then opened it"
+    "description": "(Deleted 2024/03/07) Shown when you've sent a gift badge to someone then opened it"
   },
   "icu:message--donation--view": {
     "messageformat": "보기",
@@ -2810,7 +2813,7 @@
   },
   "icu:stickers--StickerManager--title": {
     "messageformat": "스티커",
-    "description": "Title for the sticker manager"
+    "description": "(Deleted 2024/03/07) Title for the sticker manager"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "사용 가능",
@@ -3409,59 +3412,59 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "icu:SafetyTipsModal__Title": {
-    "messageformat": "Safety Tips",
+    "messageformat": "안전 팁",
     "description": "Title of the safety tips modal"
   },
   "icu:SafetyTipsModal__Description": {
-    "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
+    "messageformat": "모르는 사람이 보내는 메시지 요청을 수락할 때 조심하세요. 다음에 유의하세요.",
     "description": "Description of the safety tips modal"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
-    "messageformat": "Crypto or money scams",
+    "messageformat": "암호화폐 또는 금융 사기",
     "description": "Title of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "If someone you don’t know messages about cryptocurrency (like Bitcoin) or a financial opportunity, be careful—it’s likely spam.",
+    "messageformat": "모르는 사람이 암호화폐(예: 비트코인) 또는 금융 기회에 관해 메시지 할 경우 조심하세요. 사기일 가능성이 높습니다.",
     "description": "Description of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
-    "messageformat": "Vague or irrelevant messages",
+    "messageformat": "모호하거나 관련이 없는 메시지",
     "description": "Title of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
-    "messageformat": "Spammers often start with a simple message like “Hi” to draw you in. If you respond they may engage you further.",
+    "messageformat": "스팸을 보내는 사람은 상대의 주의를 끌기 위해 '안녕하세요'와 같은 간단한 메시지로 대화를 시작합니다. 반응할 경우 대화에 더 말려들 수 있습니다.",
     "description": "Description of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "Messages with links",
+    "messageformat": "링크가 있는 메시지",
     "description": "Title of the links safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
+    "messageformat": "모르는 사람이 보내는 링크나 웹사이트가 있는 메시지를 조심하세요. 신뢰할 수 없는 사람이 보내는 링크를 절대 방문하지 마세요.",
     "description": "Description of the links safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
-    "messageformat": "Fake businesses and institutions",
+    "messageformat": "가짜 비즈니스 또는 기관",
     "description": "Title of the business safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
+    "messageformat": "비즈니스 또는 정부 기관에서 오는 연락을 조심하세요. 국세청, 배송 업체 등과 관련된 메시지는 스팸일 수 있습니다.",
     "description": "Description of the business safety tip"
   },
   "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "Go to page {page,number}",
+    "messageformat": "{page,number}페이지로 이동",
     "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
   },
   "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "Previous tip",
+    "messageformat": "이전 팁",
     "description": "Button to go to the previous safety tip"
   },
   "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "Next tip",
+    "messageformat": "다음 팁",
     "description": "Button to go to the next safety tip"
   },
   "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "Done",
+    "messageformat": "확인",
     "description": "Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:MessageRequests--message-direct": {
@@ -3529,39 +3532,39 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
-    "messageformat": "Report...",
+    "messageformat": "신고...",
     "description": "Shown as a button to let the user report a message request and maybe block the user"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "Report as spam?",
+    "messageformat": "스팸으로 신고할까요?",
     "description": "Shown as the title in the modal for reporting and maybe blocking a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "Signal에 이 사람이 스팸을 보내는 것 같다는 알림이 전송됩니다. Signal은 대화의 내용을 볼 수 없습니다.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a direct conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "Signal에 나를 이 그룹에 초대한 사람이 스팸을 보내는 것 같다는 알림이 전송됩니다. Signal은 대화의 내용을 볼 수 없습니다.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation when the contact is unknown"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
-    "messageformat": "Signal will be notified that {name}, who invited you to this group, may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "Signal에 나를 이 그룹에 초대한 {name} 님이 스팸을 보내는 것 같다는 알림이 전송됩니다. Signal은 대화의 내용을 볼 수 없습니다.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
-    "messageformat": "Report Spam",
+    "messageformat": "스팸 신고",
     "description": "Shown as a button to let the user report a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock": {
-    "messageformat": "Report and Block",
+    "messageformat": "신고 및 차단",
     "description": "Shown as a button to let the user report a message request and block the user"
   },
   "icu:MessageRequests--AcceptedOptionsModal--body": {
-    "messageformat": "You accepted a message request from {name}. If this was a mistake, you can choose an action below.",
+    "messageformat": "{name} 님이 보낸 메시지 요청을 수락했습니다. 실수로 수락한 경우 아래에서 조치를 선택할 수 있습니다.",
     "description": "Shown as the body in the modal for accepting a message request in a direct conversation"
   },
   "icu:MessageRequests--report-spam-success-toast": {
-    "messageformat": "Reported as spam.",
+    "messageformat": "스팸으로 신고했습니다.",
     "description": "Shown in a toast when you successfully report a user as spam"
   },
   "icu:MessageRequests--delete": {
@@ -3634,7 +3637,7 @@
   },
   "icu:ConversationHero--membership-added": {
     "messageformat": "{name} 님이 나를 그룹에 추가했습니다.",
-    "description": "Shown Indicates that you were added to a group by a given individual."
+    "description": "(Deleted 2024/03/07) Shown Indicates that you were added to a group by a given individual."
   },
   "icu:no-groups-in-common": {
     "messageformat": "공통 그룹 없음",
@@ -4838,7 +4841,7 @@
   },
   "icu:ContactModal--message": {
     "messageformat": "메시지",
-    "description": "Button text for send message button in Group Contact Details modal"
+    "description": "(Deleted 2024/03/07) Button text for send message button in Group Contact Details modal"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "권리자 권한으로 제거",
@@ -5082,7 +5085,7 @@
   },
   "icu:PendingInvites--invites": {
     "messageformat": "당신에 의해 초대됨",
-    "description": "This is the title list of all invites"
+    "description": "(Deleted 2024/03/07) This is the title list of all invites"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "당신에 의해 초대됨",
@@ -5198,23 +5201,23 @@
   },
   "icu:AvatarInput--no-photo-label--group": {
     "messageformat": "그룹 사진 추가하기",
-    "description": "The label for the avatar uploader when no group photo is selected"
+    "description": "(Deleted 2024/03/07) The label for the avatar uploader when no group photo is selected"
   },
   "icu:AvatarInput--no-photo-label--profile": {
     "messageformat": "사진 추가",
-    "description": "The label for the avatar uploader when no profile photo is selected"
+    "description": "(Deleted 2024/03/07) The label for the avatar uploader when no profile photo is selected"
   },
   "icu:AvatarInput--change-photo-label": {
     "messageformat": "사진 변경하기",
-    "description": "The label for the avatar uploader when a photo is selected"
+    "description": "(Deleted 2024/03/07) The label for the avatar uploader when a photo is selected"
   },
   "icu:AvatarInput--upload-photo-choice": {
     "messageformat": "사진 업로드하기",
-    "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    "description": "(Deleted 2024/03/07) The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "icu:AvatarInput--remove-photo-choice": {
     "messageformat": "사진 제거",
-    "description": "The button text when you click on an uploaded avatar and want to remove it"
+    "description": "(Deleted 2024/03/07) The button text when you click on an uploaded avatar and want to remove it"
   },
   "icu:ContactPill--remove": {
     "messageformat": "연락처 제거",
@@ -5222,7 +5225,7 @@
   },
   "icu:ComposeErrorDialog--close": {
     "messageformat": "확인",
-    "description": "The text on the button when there's an error in the composer"
+    "description": "(Deleted 2024/03/07) The text on the button when there's an error in the composer"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, other {{count,number}에게 초대가 전송됨}}",
@@ -5349,7 +5352,7 @@
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
   },
   "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "Safety Tips",
+    "messageformat": "안전 팁",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__dialog__details": {
@@ -5470,7 +5473,7 @@
   },
   "icu:ChatColorPicker__global-chat-color": {
     "messageformat": "모두 적용되는 대화창 색상",
-    "description": "Modal title for the chat color picker and editor for all conversations"
+    "description": "(Deleted 2024/03/07) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "대화창 색상",
@@ -5737,7 +5740,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Usernames cannot begin with a number.",
+    "messageformat": "사용자 이름은 숫자로 시작할 수 없습니다.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -5770,7 +5773,7 @@
   },
   "icu:ProfileEditor--username--check-username-taken": {
     "messageformat": "사용 중인 사용자 이름입니다.",
-    "description": "Shown if user has attempted to save a username which is not available"
+    "description": "(Deleted 2024/03/07) Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "사용자명을 저장하지 못했습니다. 연결을 확인하고 다시 시도하세요.",
@@ -5798,7 +5801,7 @@
   },
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "사용자 이름 삭제",
-    "description": "Shown as aria label for trash icon next to username"
+    "description": "(Deleted 2024/03/07) Shown as aria label for trash icon next to username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "사용자 이름이 제거되고 QR 코드와 링크를 사용할 수 없게 되며, ''{username}'을(를) 다른 사용자가 사용할 수 있게 됩니다. 계속할까요?",
@@ -5822,7 +5825,7 @@
   },
   "icu:ProfileEditor--username--copy-link": {
     "messageformat": "링크 복사",
-    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+    "description": "(Deleted 2024/03/07) Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "삭제",
@@ -6082,11 +6085,11 @@
   },
   "icu:Preferences--see-me": {
     "messageformat": "내 전화번호 보기",
-    "description": "Label for the see my phone number setting"
+    "description": "(Deleted 2024/03/07) Label for the see my phone number setting"
   },
   "icu:Preferences--find-me": {
     "messageformat": "전화번호로 나 찾기",
-    "description": "Label for the find me by my phone number setting"
+    "description": "(Deleted 2024/03/07) Label for the find me by my phone number setting"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "읽은 메시지",
@@ -6177,7 +6180,7 @@
     "description": "The title of update dialog when update download is completed."
   },
   "icu:DialogNetworkStatus__outage": {
-    "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
+    "messageformat": "Signal에 기술적 문제가 발생했습니다. 문제를 최대한 신속하게 처리하겠습니다.",
     "description": "The title of outage dialog during service outage."
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
@@ -6202,27 +6205,33 @@
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "Signal을 종료하지 못했습니다.",
-    "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation.",
+    "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
     "messageformat": "수동으로 종료하고 다시 시도를 클릭하여 계속하세요.",
-    "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation.",
+    "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
     "messageformat": "{appName}을(를) 실행 중입니다.\n확인을 클릭하여 종료하세요.\n종료할 수 없다면 수동으로 종료해 보세요.",
-    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines"
+    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+    "ignoreUnused": true
   },
   "icu:NSIS__decompressionFailed": {
     "messageformat": "파일 압축을 풀지 못했습니다. 설치 프로그램을 실행하여 다시 시도하세요.",
-    "description": "Displayed when Windows installer cannot decompress application files"
+    "description": "Displayed when Windows installer cannot decompress application files",
+    "ignoreUnused": true
   },
   "icu:NSIS__uninstallFailed": {
     "messageformat": "이전 애플리케이션 파일을 제거하지 못했습니다. 설치 프로그램을 실행하여 다시 시도하세요.",
-    "description": "Displayed when Windows installer cannot uninstall the old application"
+    "description": "Displayed when Windows installer cannot uninstall the old application",
+    "ignoreUnused": true
   },
   "icu:NSIS__semver-downgrade": {
     "messageformat": "Signal 최신 버전을 이미 설치했습니다. 계속할까요?",
-    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version.",
+    "ignoreUnused": true
   },
   "icu:CrashReportDialog__title": {
     "messageformat": "애플리케이션 작동이 중단되었습니다.",
@@ -6270,7 +6279,7 @@
   },
   "icu:MediaEditor__control--sticker": {
     "messageformat": "스티커",
-    "description": "Label for the sticker button in the media editor"
+    "description": "(Deleted 2024/03/07) Label for the sticker button in the media editor"
   },
   "icu:MediaEditor__control--crop": {
     "messageformat": "자르기 및 회전",
@@ -6298,7 +6307,7 @@
   },
   "icu:MediaEditor__text--underline": {
     "messageformat": "밑줄",
-    "description": "Describes what attribute the color picker will change on the text"
+    "description": "(Deleted 2024/03/07) Describes what attribute the color picker will change on the text"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "펜",
@@ -6342,11 +6351,11 @@
   },
   "icu:MediaEditor__crop--crop": {
     "messageformat": "자르기",
-    "description": "Performs the crop"
+    "description": "(Deleted 2024/03/07) Performs the crop"
   },
   "icu:MediaEditor__caption-button": {
     "messageformat": "메시지 추가",
-    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+    "description": "(Deleted 2024/03/07) Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "자유형",
@@ -6441,23 +6450,23 @@
     "description": "Payment event notification check device label"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted": {
-    "messageformat": "You accepted the message request",
+    "messageformat": "메시지 요청을 수락했습니다.",
     "description": "Message request response notification message when the user accepted the message request or unblocked another user"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
-    "messageformat": "Reported as spam",
+    "messageformat": "스팸으로 신고함",
     "description": "Message request response notification message when the user reported the message request as spam"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
-    "messageformat": "You blocked this person",
+    "messageformat": "이 사용자를 차단했습니다.",
     "description": "Message request response notification message when the user blocked another user"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "Options",
+    "messageformat": "옵션",
     "description": "Message request response notification button to show options"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
-    "messageformat": "Learn More",
+    "messageformat": "자세히 알아보기",
     "description": "Message request response notification button to learn more"
   },
   "icu:SignalConnectionsModal__title": {
@@ -6570,7 +6579,7 @@
   },
   "icu:StoriesSettings__new-list--visibility": {
     "messageformat": "이 스토리의 이름은 나에게만 표시됩니다.",
-    "description": "Explanation about the visibility of custom distribution list names"
+    "description": "(Deleted 2024/03/07) Explanation about the visibility of custom distribution list names"
   },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "사용자 지정 스토리",
@@ -6646,7 +6655,7 @@
   },
   "icu:StoriesSettings__mine__all--description": {
     "messageformat": "모든 커넥션과 공유",
-    "description": "Description of button StoriesSettings__mine__all--label"
+    "description": "(Deleted 2024/03/07) Description of button StoriesSettings__mine__all--label"
   },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "다음을 제외한 모든 사용자…",
@@ -6654,7 +6663,7 @@
   },
   "icu:StoriesSettings__mine__exclude--description": {
     "messageformat": "{num, plural, other {{num,number}명을 제외함}}",
-    "description": "Description of how many people are excluded in a list"
+    "description": "(Deleted 2024/03/07) Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "다음 사용자와만 공유…",
@@ -6662,11 +6671,11 @@
   },
   "icu:StoriesSettings__mine__only--description": {
     "messageformat": "선택한 사용자와만 공유",
-    "description": "Description of button StoriesSettings__mine__only--label"
+    "description": "(Deleted 2024/03/07) Description of button StoriesSettings__mine__only--label"
   },
   "icu:StoriesSettings__mine__only--description--people": {
     "messageformat": "{num,number}명",
-    "description": "Description of how many people are in the exclusive allow list"
+    "description": "(Deleted 2024/03/07) Description of how many people are in the exclusive allow list"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "스토리를 볼 수 있는 사람을 선택하세요. 이미 전송한 스토리에는 변경 내용이 적용되지 않습니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>",
@@ -6778,19 +6787,19 @@
   },
   "icu:SendStoryModal__my-stories-description-all": {
     "messageformat": "{viewersCount, plural, other {모든 Signal 커넥션 · 볼 수 있는 사람 {viewersCount,number}명}}",
-    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
     "messageformat": "{excludedCount, plural, other {모든 Signal 커넥션 · {excludedCount,number}명 제외}}",
-    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
     "messageformat": "{viewersCount, plural, other {비공개 스토리 · 볼 수 있는 사람 {viewersCount,number}명}}",
-    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle of each private story in the send-story-to dialog"
   },
   "icu:SendStoryModal__group-story-description": {
     "messageformat": "{membersCount, plural, other {그룹 스토리 · 멤버 {membersCount,number}명}}",
-    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle of each group story in the send-story-to dialog"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "스토리 공유 및 보기",
@@ -6990,7 +6999,7 @@
   },
   "icu:StoryCreator__input-placeholder": {
     "messageformat": "텍스트 추가",
-    "description": "Placeholder to add text"
+    "description": "(Deleted 2024/03/07) Placeholder to add text"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "보통",
@@ -7356,6 +7365,10 @@
     "messageformat": "{count, plural, other {{count,number}명이 입력하는 중입니다.}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:TransportError": {
+    "messageformat": "Experimental WebSocket Transport is seeing too many errors. Please submit a debug log",
+    "description": "A toast that is shown to alpha/beta version users when an experimental transport is seeing too many errors"
+  },
   "icu:WhoCanFindMeReadOnlyToast": {
     "messageformat": "이 설정을 바꾸려면 '내 전화번호를 볼 수 있는 사람'을 '아무도 보지 못함'으로 설정하세요.",
     "description": "A toast displayed when user clicks disabled option in settings window"
@@ -7366,39 +7379,46 @@
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--1": {
     "messageformat": "추가적인 사소한 변경 사항과 버그 수정, 성능 업데이트가 적용되었습니다. Signal을 이용해 주셔서 감사합니다!",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
     "messageformat": "앱의 원활한 사용을 위해 몇 가지 수정 사항을 적용했습니다. 앞으로 있을 더 많은 변경 사항을 기대해 주세요! ",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. 계속해서 평소처럼 문자와 통화, 화상 통화를 즐기세요.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
     "messageformat": "앱의 원활한 실행을 위한 버그 수정과 성능 개선에 최선을 다하고 있습니다. ",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--5": {
     "messageformat": "사소한 추가 변경 사항과 버그 수정, 다양한 미래 계획.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
-    "description": "Release notes for releases that only include bug fixes"
-  },
-  "icu:WhatsNew__v7.2--0": {
-    "messageformat": "큰 그룹 대화를 열 때 성능을 개선했습니다."
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
+    "messageformat": "이제 휴대폰에서 부재중 전화와 배지를 지울 수 있으며, 그러면 Signal 데스크톱 통화 탭의 배지가 업데이트됩니다."
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
+    "messageformat": "Windows의 배지 수 표시기 디자인도 업데이트했습니다. 이제 작업 표시줄의 색이 시스템 트레이의 색과 일치합니다."
+  },
+  "icu:WhatsNew__v7.4--0": {
+    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
   }
 }

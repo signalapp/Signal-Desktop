@@ -278,11 +278,11 @@
   },
   "icu:avatarMenuChatColors": {
     "messageformat": "Samtalefarge",
-    "description": "One of the menu options available in the Avatar popup menu"
+    "description": "(Deleted 2024/03/07) One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuUpdateAvailable": {
     "messageformat": "Oppdater Signal",
-    "description": "One of the menu options available in the Avatar popup menu"
+    "description": "(Deleted 2024/03/07) One of the menu options available in the Avatar popup menu"
   },
   "icu:loading": {
     "messageformat": "Laster inn …",
@@ -429,23 +429,23 @@
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
   },
   "icu:ConversationHeader__MenuItem--Accept": {
-    "messageformat": "Accept",
+    "messageformat": "Godta",
     "description": "Shown in menu for conversation, allows the user to accept a message request"
   },
   "icu:ConversationHeader__MenuItem--Block": {
-    "messageformat": "Block",
+    "messageformat": "Blokker",
     "description": "Shown in menu for conversation, allows the user to block the contact"
   },
   "icu:ConversationHeader__MenuItem--Unblock": {
-    "messageformat": "Unblock",
+    "messageformat": "Fjern blokkering",
     "description": "Shown in menu for conversation, allows the user to unblock the contact"
   },
   "icu:ConversationHeader__MenuItem--ReportSpam": {
-    "messageformat": "Report Spam",
+    "messageformat": "Rapporter som søppelpost",
     "description": "Shown in menu for conversation, allows the user to report the conversation as spam"
   },
   "icu:ConversationHeader__MenuItem--DeleteChat": {
-    "messageformat": "Delete Chat",
+    "messageformat": "Slett samtalen",
     "description": "Shown in menu for conversation, allows the user to delete the conversation"
   },
   "icu:ContactListItem__menu": {
@@ -510,63 +510,63 @@
   },
   "icu:chooseDirectory": {
     "messageformat": "Velg mappe",
-    "description": "Button to allow the user to find a folder on disk"
+    "description": "(Deleted 2024/03/07) Button to allow the user to find a folder on disk"
   },
   "icu:chooseFile": {
     "messageformat": "Velg fil",
-    "description": "Button to allow the user to find a file on disk"
+    "description": "(Deleted 2024/03/07) Button to allow the user to find a file on disk"
   },
   "icu:loadDataHeader": {
     "messageformat": "Last inn din data",
-    "description": "Header shown on the first screen in the data import process"
+    "description": "(Deleted 2024/03/07) Header shown on the first screen in the data import process"
   },
   "icu:loadDataDescription": {
     "messageformat": "Du har akkurat gått igjennom eksportprosessen og dine kontaker og meldinger venter tålmodig på din datamaskin. Velg mappen som inneholder dine lagrede Signal data.",
-    "description": "Introduction to the process of importing messages and contacts from disk"
+    "description": "(Deleted 2024/03/07) Introduction to the process of importing messages and contacts from disk"
   },
   "icu:importChooserTitle": {
     "messageformat": "Velg mappe med eksporterte data",
-    "description": "Title of the popup window used to select data previously exported"
+    "description": "(Deleted 2024/03/07) Title of the popup window used to select data previously exported"
   },
   "icu:importErrorHeader": {
     "messageformat": "Noe gikk galt!",
-    "description": "Header of the error screen after a failed import"
+    "description": "(Deleted 2024/03/07) Header of the error screen after a failed import"
   },
   "icu:importingHeader": {
     "messageformat": "Laster kontaker og meldinger",
-    "description": "Header of screen shown as data is import"
+    "description": "(Deleted 2024/03/07) Header of screen shown as data is import"
   },
   "icu:importErrorFirst": {
     "messageformat": "Vær sikker på at du har valgt mappen som inneholder dine lagrede Signal-data. Navnet skal begynne med «Signal Export». Du kan også lagre en ny kopi av dine data fra den gamle Chrome-appen.",
-    "description": "Message shown if the import went wrong; first paragraph"
+    "description": "(Deleted 2024/03/07) Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
     "messageformat": "Hvis disse stegene ikke fungerte for deg, send oss en feilsøkingslogg (Vis -> Feilsøkingslogg) slik at vi kan hjelpe deg med migreringen.",
-    "description": "Message shown if the import went wrong; second paragraph"
+    "description": "(Deleted 2024/03/07) Message shown if the import went wrong; second paragraph"
   },
   "icu:importAgain": {
     "messageformat": "Velg mappe og prøv igjen",
-    "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    "description": "(Deleted 2024/03/07) Button shown if the user runs into an error during import, allowing them to start over"
   },
   "icu:importCompleteHeader": {
     "messageformat": "Fullført!",
-    "description": "Header shown on the screen at the end of a successful import process"
+    "description": "(Deleted 2024/03/07) Header shown on the screen at the end of a successful import process"
   },
   "icu:importCompleteStartButton": {
     "messageformat": "Start å bruke Signal Desktop",
-    "description": "Button shown at end of successful import process, nothing left but a restart"
+    "description": "(Deleted 2024/03/07) Button shown at end of successful import process, nothing left but a restart"
   },
   "icu:importCompleteLinkButton": {
     "messageformat": "Koble denne enheten til telefonen din",
-    "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    "description": "(Deleted 2024/03/07) Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "icu:selectedLocation": {
     "messageformat": "din valgte posisjon",
-    "description": "Message shown as the export location if we didn't capture the target directory"
+    "description": "(Deleted 2024/03/07) Message shown as the export location if we didn't capture the target directory"
   },
   "icu:upgradingDatabase": {
     "messageformat": "Oppgraderer databasen. Dette kan ta litt tid …",
-    "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    "description": "(Deleted 2024/03/07) Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Laster inn meldinger fra det siste døgnet …} other {Laster inn meldinger fra de siste {daysAgo,number} dagene …}}",
@@ -613,11 +613,11 @@
     "description": "Text for unread message separator, with count"
   },
   "icu:taskbarMarkedUnread": {
-    "messageformat": "Marked Unread",
+    "messageformat": "Merket som ulest",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
   },
   "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}",
+    "messageformat": "{count, plural, one {{count,number} ulest melding} other {{count,number} uleste meldinger}}",
     "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
@@ -642,7 +642,7 @@
   },
   "icu:membersNeedingVerification": {
     "messageformat": "Sikkerhetsnummeret du deler med disse gruppemedlemmene er endret siden sist dere bekreftet hverandre. Trykk på et gruppemedlem for å vise det nye sikkerhetsnummeret du deler med dem.",
-    "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+    "description": "(Deleted 2024/03/07) When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Nummeret du forsøker å verifisere har endret seg. Vennligst sjekk ditt nye sikkerhetsnummer med {name1}. Husk, dette kan bety at noen forsøker å få tilgang til din kommunikasjon eller at {name2} har reinstallert Signal.",
@@ -694,7 +694,7 @@
   },
   "icu:identityKeyErrorOnSend": {
     "messageformat": "Ditt sikkerhetsnummer med {name1}har endret seg. Dette kan bety at noen forsøker å få tilgang til din kommunikasjon, eller at {name2}har reinstallert Signal. Du bør forsøke å verifisere ditt sikkerhetsnummer med denne kontakten.",
-    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
+    "description": "(Deleted 2024/03/07) Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "icu:sendAnyway": {
     "messageformat": "Send likevel",
@@ -722,11 +722,11 @@
   },
   "icu:noLongerVerified": {
     "messageformat": "Sikkerhetsnummeret du deler med {name} er endret og ikke lenger bekreftet. Trykk for å vise nummeret.",
-    "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
+    "description": "(Deleted 2024/03/07) Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "icu:multipleNoLongerVerified": {
     "messageformat": "Sikkerhetsnummeret du deler med flere gruppemedlemmer er endret og er ikke lenger bekreftet. Trykk for å vise.",
-    "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    "description": "(Deleted 2024/03/07) Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
     "messageformat": "Når du klikker på Send inn, legges loggen din ut i 30 dager på en unik og upublisert nettadresse. Du kan også lagre den lokalt først.",
@@ -766,14 +766,14 @@
   },
   "icu:gotIt": {
     "messageformat": "Skjønner",
-    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    "description": "(Deleted 2024/03/07) Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "icu:submit": {
     "messageformat": "Send"
   },
   "icu:acceptNewKey": {
     "messageformat": "Godta",
-    "description": "Label for a button to accept a new safety number"
+    "description": "(Deleted 2024/03/07) Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Merk som bekreftet",
@@ -801,11 +801,11 @@
   },
   "icu:isVerified": {
     "messageformat": "Du har bekreftet sikkerhetsnummeret du deler med {name}.",
-    "description": "Summary state shown at top of the safety number screen if user has verified contact."
+    "description": "(Deleted 2024/03/07) Summary state shown at top of the safety number screen if user has verified contact."
   },
   "icu:isNotVerified": {
     "messageformat": "Du har ikke bekreftet sikkerhetsnummeret du deler med {name}.",
-    "description": "Summary state shown at top of the safety number screen if user has not verified contact."
+    "description": "(Deleted 2024/03/07) Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "icu:verified": {
     "messageformat": "Bekreftet"
@@ -815,7 +815,8 @@
     "description": "Header for a key change dialog"
   },
   "icu:identityChanged": {
-    "messageformat": "Sikkerhetsnummeret du deler med denne kontakten er endret. Dette kan enten bety at noen forsøker å overvåke kommunikasjonen deres, eller bare at kontakten har installert Signal på nytt. Du kan bekrefte det nye sikkerhetsnummeret med kontakten."
+    "messageformat": "Sikkerhetsnummeret du deler med denne kontakten er endret. Dette kan enten bety at noen forsøker å overvåke kommunikasjonen deres, eller bare at kontakten har installert Signal på nytt. Du kan bekrefte det nye sikkerhetsnummeret med kontakten.",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:incomingError": {
     "messageformat": "Feil ved håndtering av innkommende melding"
@@ -862,11 +863,11 @@
   },
   "icu:clickToSave": {
     "messageformat": "Trykk for å lagre",
-    "description": "Hover text for attachment filenames"
+    "description": "(Deleted 2024/03/07) Hover text for attachment filenames"
   },
   "icu:unnamedFile": {
     "messageformat": "Fil uten navn",
-    "description": "Hover text for attachment filenames"
+    "description": "(Deleted 2024/03/07) Hover text for attachment filenames"
   },
   "icu:voiceMessage": {
     "messageformat": "Talemelding",
@@ -1144,7 +1145,7 @@
   },
   "icu:messageFoundButNotLoaded": {
     "messageformat": "Originalmelding funnet, men ikke lastet. Rull opp for å laste den.",
-    "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    "description": "(Deleted 2024/03/07) Shown in toast if user clicks on quote references messages not loaded in view, but in database"
   },
   "icu:voiceRecording--start": {
     "messageformat": "Ta opp talemelding",
@@ -1152,11 +1153,11 @@
   },
   "icu:voiceRecording--complete": {
     "messageformat": "Fullfør talemeldingen og send",
-    "description": "Tooltip for green complete voice message and send"
+    "description": "(Deleted 2024/03/07) Tooltip for green complete voice message and send"
   },
   "icu:voiceRecording--cancel": {
     "messageformat": "Avbryt talemelding",
-    "description": "Tooltip for red button to cancel voice message"
+    "description": "(Deleted 2024/03/07) Tooltip for red button to cancel voice message"
   },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Opptak av talemeldinger stoppet fordi maksimal tidsgrense var nådd.",
@@ -1164,7 +1165,7 @@
   },
   "icu:voiceRecordingInterruptedBlur": {
     "messageformat": "Innspilling av talemeldinger stoppet fordi du byttet til en annen app.",
-    "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    "description": "(Deleted 2024/03/07) Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Talemeldinger kan vare i opptil én time. Opptaket stoppes hvis du bytter til en annen app.",
@@ -1192,7 +1193,7 @@
   },
   "icu:replyingTo": {
     "messageformat": "Svarer til {name}",
-    "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
+    "description": "(Deleted 2024/03/07) Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "icu:audioPermissionNeeded": {
     "messageformat": "For å sende talemeldinger må du gi Signal Desktop tilgang til mikrofonen din.",
@@ -1212,7 +1213,7 @@
   },
   "icu:showSettings": {
     "messageformat": "Vis Innstillnger",
-    "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    "description": "(Deleted 2024/03/07) A button shown in dialog requesting the user to turn on audio permissions"
   },
   "icu:audio": {
     "messageformat": "Lyd",
@@ -1236,7 +1237,7 @@
   },
   "icu:muted": {
     "messageformat": "Dempet",
-    "description": "Shown in a button when a conversation is muted"
+    "description": "(Deleted 2024/03/07) Shown in a button when a conversation is muted"
   },
   "icu:mute": {
     "messageformat": "Demp",
@@ -1264,13 +1265,15 @@
     "messageformat": "Kast"
   },
   "icu:failedToSend": {
-    "messageformat": "Klarte ikke sende til enkelte mottakere. Se til at du er koblet til internett."
+    "messageformat": "Klarte ikke sende til enkelte mottakere. Se til at du er koblet til internett.",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:error": {
     "messageformat": "Feil"
   },
   "icu:messageDetail": {
-    "messageformat": "Meldingsdetaljer"
+    "messageformat": "Meldingsdetaljer",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:delete": {
     "messageformat": "Slett"
@@ -1316,7 +1319,7 @@
   },
   "icu:to": {
     "messageformat": "Til",
-    "description": "Label for the receiver of a message"
+    "description": "(Deleted 2024/03/07) Label for the receiver of a message"
   },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} til {receiverGroup}",
@@ -1347,7 +1350,8 @@
     "description": "Placeholder text in the message entry field"
   },
   "icu:groupMembers": {
-    "messageformat": "Gruppemedlemmer"
+    "messageformat": "Gruppemedlemmer",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:showMembers": {
     "messageformat": "Vis medlemmer"
@@ -1389,14 +1393,15 @@
   },
   "icu:ContactModal__showSafetyNumber": {
     "messageformat": "Vis sikkerhetsnummer",
-    "description": "Contact modal, label for button to show safety number modal"
+    "description": "(Deleted 2024/03/07) Contact modal, label for button to show safety number modal"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Vis nyere media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:theirIdentityUnknown": {
-    "messageformat": "Du har ikke utvekslet meldinger med denne kontakten ennå. Sikkerhetsnummeret dere deler vil være tilgjengelig etter den første meldingen."
+    "messageformat": "Du har ikke utvekslet meldinger med denne kontakten ennå. Sikkerhetsnummeret dere deler vil være tilgjengelig etter den første meldingen.",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:back": {
     "messageformat": "Tilbake",
@@ -1571,12 +1576,12 @@
     "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:TitleTransition--notification": {
-    "messageformat": "You started this chat with {oldTitle}",
+    "messageformat": "Du startet denne samtalen med {oldTitle}",
     "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "Miniatyrbilde i sitert melding",
-    "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    "description": "(Deleted 2024/03/07) Used in alt tag of thumbnail images inside of an embedded message quote"
   },
   "icu:imageAttachmentAlt": {
     "messageformat": "Bilde lagt ved i melding",
@@ -1604,15 +1609,15 @@
   },
   "icu:fileIconAlt": {
     "messageformat": "Filikon",
-    "description": "Used in the media gallery documents tab to visually represent a file"
+    "description": "(Deleted 2024/03/07) Used in the media gallery documents tab to visually represent a file"
   },
   "icu:installWelcome": {
     "messageformat": "Velkommen til Signal Desktop",
-    "description": "Welcome title on the install page"
+    "description": "(Deleted 2024/03/07) Welcome title on the install page"
   },
   "icu:installTagline": {
     "messageformat": "Personvern er mulig. Signal gjør det lett.",
-    "description": "Tagline displayed under 'installWelcome' string on the install page"
+    "description": "(Deleted 2024/03/07) Tagline displayed under 'installWelcome' string on the install page"
   },
   "icu:linkedDevices": {
     "messageformat": "Koblede enheter",
@@ -1645,10 +1650,6 @@
   "icu:Install__instructions__3": {
     "messageformat": "Trykk på {plusButton} (Android) eller {linkNewDevice} (iPhone)",
     "description": "Instructions on the device link screen"
-  },
-  "icu:Install__qr-failed": {
-    "messageformat": "(deleted 2023/09/05) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
-    "description": "Shown on the install screen if the QR code fails to load"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR-koden kunne ikke lastes inn. Sjekk internettilkoblingen og prøv igjen. <retry>Prøv på nytt</retry>",
@@ -1851,11 +1852,11 @@
   },
   "icu:calling__button--ring__off": {
     "messageformat": "Varsle, ikke ring",
-    "description": "Button tooltip label for turning ringing off"
+    "description": "(Deleted 2024/03/07) Button tooltip label for turning ringing off"
   },
   "icu:calling__button--ring__on": {
     "messageformat": "Slå på ringing",
-    "description": "Button tooltip label for turning ringing on"
+    "description": "(Deleted 2024/03/07) Button tooltip label for turning ringing on"
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "Slå av ringing",
@@ -2055,7 +2056,7 @@
   },
   "icu:general": {
     "messageformat": "Generelt",
-    "description": "Header for general options on the settings screen"
+    "description": "(Deleted 2024/03/07) Header for general options on the settings screen"
   },
   "icu:spellCheckDescription": {
     "messageformat": "Slå på stavekontroll av teksten du skriver i meldingsvinduet",
@@ -2107,7 +2108,7 @@
   },
   "icu:deleteAllDataButton": {
     "messageformat": "Slett alle dataene",
-    "description": "Text of the button that deletes all data"
+    "description": "(Deleted 2024/03/07) Text of the button that deletes all data"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Kobler fra og sletter alle data",
@@ -2123,15 +2124,15 @@
   },
   "icu:notifications": {
     "messageformat": "Varslinger",
-    "description": "Header for notification settings"
+    "description": "(Deleted 2024/03/07) Header for notification settings"
   },
   "icu:notificationSettingsDialog": {
     "messageformat": "Når du mottar meldinger, vis varslinger som avslører:",
-    "description": "Explain the purpose of the notification settings"
+    "description": "(Deleted 2024/03/07) Explain the purpose of the notification settings"
   },
   "icu:disableNotifications": {
     "messageformat": "Slå av varslinger",
-    "description": "Label for disabling notifications"
+    "description": "(Deleted 2024/03/07) Label for disabling notifications"
   },
   "icu:nameAndMessage": {
     "messageformat": "Navn, innhold og handlinger",
@@ -2185,15 +2186,15 @@
   },
   "icu:showMore": {
     "messageformat": "Detaljer",
-    "description": "Displays the details of a key change"
+    "description": "(Deleted 2024/03/07) Displays the details of a key change"
   },
   "icu:showLess": {
     "messageformat": "Skjul detaljer",
-    "description": "Hides the details of a key change"
+    "description": "(Deleted 2024/03/07) Hides the details of a key change"
   },
   "icu:learnMore": {
     "messageformat": "Les mer om bekrefting av sikkerhetsnummer",
-    "description": "Text that links to a support article on verifying safety numbers"
+    "description": "(Deleted 2024/03/07) Text that links to a support article on verifying safety numbers"
   },
   "icu:expiredWarning": {
     "messageformat": "Denne versjonen av Signal Desktop er utdatert. Oppdater til den nyeste versjonen for å fortsette å sende meldinger.",
@@ -2209,7 +2210,7 @@
   },
   "icu:unregisteredUser": {
     "messageformat": "Nummeret er ikke registrert",
-    "description": "Error message displayed when sending to an unregistered user."
+    "description": "(Deleted 2024/03/07) Error message displayed when sending to an unregistered user."
   },
   "icu:sync": {
     "messageformat": "Importer kontakter",
@@ -2221,7 +2222,7 @@
   },
   "icu:lastSynced": {
     "messageformat": "Siste import",
-    "description": "Label for date and time of last sync operation"
+    "description": "(Deleted 2024/03/07) Label for date and time of last sync operation"
   },
   "icu:syncNow": {
     "messageformat": "Importer nå",
@@ -2381,7 +2382,7 @@
   },
   "icu:yourSafetyNumberWith": {
     "messageformat": "Ditt sikkerhetsnummer er {name1};",
-    "description": "Heading for safety number view"
+    "description": "(Deleted 2024/03/07) Heading for safety number view"
   },
   "icu:themeLight": {
     "messageformat": "Lyst",
@@ -2413,7 +2414,7 @@
   },
   "icu:startConversation": {
     "messageformat": "Start en ny samtale",
-    "description": "Label underneath number a user enters that is not an existing contact"
+    "description": "(Deleted 2024/03/07) Label underneath number a user enters that is not an existing contact"
   },
   "icu:newConversation": {
     "messageformat": "Ny samtale",
@@ -2545,15 +2546,15 @@
   },
   "icu:notSupportedSMS": {
     "messageformat": "SMS/MMS meldinger støttes ikke.",
-    "description": "Label underneath number informing user that SMS is not supported on desktop"
+    "description": "(Deleted 2024/03/07) Label underneath number informing user that SMS is not supported on desktop"
   },
   "icu:newPhoneNumber": {
     "messageformat": "Skriv inn et telefonnummer for å legge til en kontakt.",
-    "description": "Placeholder for adding a new number to a contact"
+    "description": "(Deleted 2024/03/07) Placeholder for adding a new number to a contact"
   },
   "icu:invalidNumberError": {
     "messageformat": "Ugyldig nummer",
-    "description": "When a person inputs a number that is invalid"
+    "description": "(Deleted 2024/03/07) When a person inputs a number that is invalid"
   },
   "icu:unlinkedWarning": {
     "messageformat": "Klikk for å koble Signal Desktop til mobilenheten din for å fortsette samtalene."
@@ -2562,7 +2563,8 @@
     "messageformat": "Frakoblet enhet"
   },
   "icu:relink": {
-    "messageformat": "Koble til på nytt"
+    "messageformat": "Koble til på nytt",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "En oppdatering er tilgjengelig"
@@ -2587,7 +2589,8 @@
     "messageformat": "Start Signal på nytt"
   },
   "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Senere"
+    "messageformat": "Senere",
+    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Ignorer oppdateringen"
@@ -2778,7 +2781,7 @@
   },
   "icu:message--giftBadge--view": {
     "messageformat": "Vis",
-    "description": "Shown when you've sent a gift badge to someone then opened it"
+    "description": "(Deleted 2024/03/07) Shown when you've sent a gift badge to someone then opened it"
   },
   "icu:message--donation--view": {
     "messageformat": "Vis",
@@ -2810,7 +2813,7 @@
   },
   "icu:stickers--StickerManager--title": {
     "messageformat": "Klistremerker",
-    "description": "Title for the sticker manager"
+    "description": "(Deleted 2024/03/07) Title for the sticker manager"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Tilgjengelig",
@@ -3409,59 +3412,59 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "icu:SafetyTipsModal__Title": {
-    "messageformat": "Safety Tips",
+    "messageformat": "Sikkerhetstips",
     "description": "Title of the safety tips modal"
   },
   "icu:SafetyTipsModal__Description": {
-    "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
+    "messageformat": "Vær forsiktig når du godtar meldingsforespørsler fra personer du ikke kjenner. Vær forsiktig med:",
     "description": "Description of the safety tips modal"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
-    "messageformat": "Crypto or money scams",
+    "messageformat": "Krypto- og pengesvindel",
     "description": "Title of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "If someone you don’t know messages about cryptocurrency (like Bitcoin) or a financial opportunity, be careful—it’s likely spam.",
+    "messageformat": "Hvis noen du ikke kjenner sender deg meldinger om kryptovaluta (f.eks. Bitcoin) eller økonomiske tilbud, må du være forsiktig – det er mest sannsynlig søppelpost.",
     "description": "Description of the crypto safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
-    "messageformat": "Vague or irrelevant messages",
+    "messageformat": "Vage eller irrelevante meldinger",
     "description": "Title of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
-    "messageformat": "Spammers often start with a simple message like “Hi” to draw you in. If you respond they may engage you further.",
+    "messageformat": "Svindlere starter ofte samtalen med enkle meldinger, som «Hei». Hvis du svarer på meldingen, går de ofte videre for å lure deg.",
     "description": "Description of the vague safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "Messages with links",
+    "messageformat": "Meldinger med nettlenker",
     "description": "Title of the links safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
+    "messageformat": "Vær forsiktig med meldinger fra folk du ikke kjenner, som har lenker til nettsteder. Du bør aldri trykke på lenker fra personer du ikke kjenner eller stoler på.",
     "description": "Description of the links safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
-    "messageformat": "Fake businesses and institutions",
+    "messageformat": "Falske virksomheter og organisasjoner",
     "description": "Title of the business safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
+    "messageformat": "Vær forsiktig hvis du blir kontaktet av virksomheter eller offentlige etater. Meldinger som omhandler skattebetalinger, forsendelser og lignende er ofte søppelpost.",
     "description": "Description of the business safety tip"
   },
   "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "Go to page {page,number}",
+    "messageformat": "Gå til side {page,number}",
     "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
   },
   "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "Previous tip",
+    "messageformat": "Forrige tips",
     "description": "Button to go to the previous safety tip"
   },
   "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "Next tip",
+    "messageformat": "Neste tips",
     "description": "Button to go to the next safety tip"
   },
   "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "Done",
+    "messageformat": "Ferdig",
     "description": "Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:MessageRequests--message-direct": {
@@ -3529,39 +3532,39 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
-    "messageformat": "Report...",
+    "messageformat": "Rapporter …",
     "description": "Shown as a button to let the user report a message request and maybe block the user"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "Report as spam?",
+    "messageformat": "Vil du rapportere dette som søppelpost?",
     "description": "Shown as the title in the modal for reporting and maybe blocking a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "Signal får beskjed om at denne personen kan ha sendt søppelpost. Signal kan ikke se innholdet i samtaler.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a direct conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "Signal får beskjed om at personen som inviterte deg inn i gruppen, kan ha sendt søppelpost. Signal kan ikke se innholdet i samtaler.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation when the contact is unknown"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
-    "messageformat": "Signal will be notified that {name}, who invited you to this group, may be sending spam. Signal can’t see the content of any chats.",
+    "messageformat": "Signal får beskjed om at {name}, som inviterte deg til gruppen, kan ha sendt søppelpost. Signal kan ikke se innholdet i samtaler.",
     "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
-    "messageformat": "Report Spam",
+    "messageformat": "Rapporter som søppelpost",
     "description": "Shown as a button to let the user report a message request"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock": {
-    "messageformat": "Report and Block",
+    "messageformat": "Rapporter og blokker",
     "description": "Shown as a button to let the user report a message request and block the user"
   },
   "icu:MessageRequests--AcceptedOptionsModal--body": {
-    "messageformat": "You accepted a message request from {name}. If this was a mistake, you can choose an action below.",
+    "messageformat": "Du godtok meldingsforespørselen fra {name}. Dersom dette skjedde ved en feil, kan du velge en av handlingene nedenfor.",
     "description": "Shown as the body in the modal for accepting a message request in a direct conversation"
   },
   "icu:MessageRequests--report-spam-success-toast": {
-    "messageformat": "Reported as spam.",
+    "messageformat": "Rapportert som søppelpost.",
     "description": "Shown in a toast when you successfully report a user as spam"
   },
   "icu:MessageRequests--delete": {
@@ -3634,7 +3637,7 @@
   },
   "icu:ConversationHero--membership-added": {
     "messageformat": "{name} la deg til gruppen.",
-    "description": "Shown Indicates that you were added to a group by a given individual."
+    "description": "(Deleted 2024/03/07) Shown Indicates that you were added to a group by a given individual."
   },
   "icu:no-groups-in-common": {
     "messageformat": "Ingen grupper til felles",
@@ -4838,7 +4841,7 @@
   },
   "icu:ContactModal--message": {
     "messageformat": "Melding",
-    "description": "Button text for send message button in Group Contact Details modal"
+    "description": "(Deleted 2024/03/07) Button text for send message button in Group Contact Details modal"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Fjern som administrator",
@@ -5082,7 +5085,7 @@
   },
   "icu:PendingInvites--invites": {
     "messageformat": "Invitert av deg",
-    "description": "This is the title list of all invites"
+    "description": "(Deleted 2024/03/07) This is the title list of all invites"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Invitert av deg",
@@ -5198,23 +5201,23 @@
   },
   "icu:AvatarInput--no-photo-label--group": {
     "messageformat": "Legg til gruppefoto",
-    "description": "The label for the avatar uploader when no group photo is selected"
+    "description": "(Deleted 2024/03/07) The label for the avatar uploader when no group photo is selected"
   },
   "icu:AvatarInput--no-photo-label--profile": {
     "messageformat": "Legg til bilde",
-    "description": "The label for the avatar uploader when no profile photo is selected"
+    "description": "(Deleted 2024/03/07) The label for the avatar uploader when no profile photo is selected"
   },
   "icu:AvatarInput--change-photo-label": {
     "messageformat": "Endre foto",
-    "description": "The label for the avatar uploader when a photo is selected"
+    "description": "(Deleted 2024/03/07) The label for the avatar uploader when a photo is selected"
   },
   "icu:AvatarInput--upload-photo-choice": {
     "messageformat": "Last opp foto",
-    "description": "The button text when you click on an uploaded avatar and want to upload a new one"
+    "description": "(Deleted 2024/03/07) The button text when you click on an uploaded avatar and want to upload a new one"
   },
   "icu:AvatarInput--remove-photo-choice": {
     "messageformat": "Fjern bildet",
-    "description": "The button text when you click on an uploaded avatar and want to remove it"
+    "description": "(Deleted 2024/03/07) The button text when you click on an uploaded avatar and want to remove it"
   },
   "icu:ContactPill--remove": {
     "messageformat": "Fjern kontakten",
@@ -5222,7 +5225,7 @@
   },
   "icu:ComposeErrorDialog--close": {
     "messageformat": "Greit",
-    "description": "The text on the button when there's an error in the composer"
+    "description": "(Deleted 2024/03/07) The text on the button when there's an error in the composer"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Invitasjonen er sendt} other {{count,number} invitasjoner er sendt}}",
@@ -5349,7 +5352,7 @@
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
   },
   "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "Safety Tips",
+    "messageformat": "Sikkerhetstips",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__dialog__details": {
@@ -5470,7 +5473,7 @@
   },
   "icu:ChatColorPicker__global-chat-color": {
     "messageformat": "Standard samtalefarge",
-    "description": "Modal title for the chat color picker and editor for all conversations"
+    "description": "(Deleted 2024/03/07) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Samtalefarge",
@@ -5737,7 +5740,7 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Usernames cannot begin with a number.",
+    "messageformat": "Brukernavn kan ikke begynne med et tall.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
@@ -5770,7 +5773,7 @@
   },
   "icu:ProfileEditor--username--check-username-taken": {
     "messageformat": "Dette brukernavnet er tatt.",
-    "description": "Shown if user has attempted to save a username which is not available"
+    "description": "(Deleted 2024/03/07) Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Brukernavnet ditt kunne ikke lagres. Sjekk internettilkoblingen, og prøv igjen.",
@@ -5798,7 +5801,7 @@
   },
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "Slett brukernavnet",
-    "description": "Shown as aria label for trash icon next to username"
+    "description": "(Deleted 2024/03/07) Shown as aria label for trash icon next to username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Brukernavnet fjernes, og QR-koden og profillenken din deaktiveres. Brukernavnet «{username}» kan brukes av andre. Er du sikker?",
@@ -5822,7 +5825,7 @@
   },
   "icu:ProfileEditor--username--copy-link": {
     "messageformat": "Kopier lenken",
-    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+    "description": "(Deleted 2024/03/07) Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Slett",
@@ -6082,11 +6085,11 @@
   },
   "icu:Preferences--see-me": {
     "messageformat": "Se mitt telefonnummer",
-    "description": "Label for the see my phone number setting"
+    "description": "(Deleted 2024/03/07) Label for the see my phone number setting"
   },
   "icu:Preferences--find-me": {
     "messageformat": "Finn meg via telefonnummer",
-    "description": "Label for the find me by my phone number setting"
+    "description": "(Deleted 2024/03/07) Label for the find me by my phone number setting"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Lesebekreftelser",
@@ -6177,7 +6180,7 @@
     "description": "The title of update dialog when update download is completed."
   },
   "icu:DialogNetworkStatus__outage": {
-    "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
+    "messageformat": "Signal opplever tekniske problemer. Vi jobber for å løse problemet.",
     "description": "The title of outage dialog during service outage."
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
@@ -6202,27 +6205,33 @@
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "Signal kunne ikke avsluttes.",
-    "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation.",
+    "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
     "messageformat": "Lukk appen manuelt og trykk på Prøv igjen for å fortsette.",
-    "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation.",
+    "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
     "messageformat": "{appName} kjører.\nTrykk på OK for å lukke den.\nLukk den manuelt om det ikke går.",
-    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines"
+    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+    "ignoreUnused": true
   },
   "icu:NSIS__decompressionFailed": {
     "messageformat": "Kunne ikke dekomprimere filene. Kjør installasjonsprogrammet på nytt.",
-    "description": "Displayed when Windows installer cannot decompress application files"
+    "description": "Displayed when Windows installer cannot decompress application files",
+    "ignoreUnused": true
   },
   "icu:NSIS__uninstallFailed": {
     "messageformat": "Kunne ikke avinstallere de gamle programfilene. Kjør installasjonsprogrammet på nytt.",
-    "description": "Displayed when Windows installer cannot uninstall the old application"
+    "description": "Displayed when Windows installer cannot uninstall the old application",
+    "ignoreUnused": true
   },
   "icu:NSIS__semver-downgrade": {
     "messageformat": "En nyere versjon av Signal er allerede installert. Er du sikker på at du vil fortsette?",
-    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version.",
+    "ignoreUnused": true
   },
   "icu:CrashReportDialog__title": {
     "messageformat": "Programmet krasjet",
@@ -6270,7 +6279,7 @@
   },
   "icu:MediaEditor__control--sticker": {
     "messageformat": "Klistremerker",
-    "description": "Label for the sticker button in the media editor"
+    "description": "(Deleted 2024/03/07) Label for the sticker button in the media editor"
   },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Beskjær og roter",
@@ -6298,7 +6307,7 @@
   },
   "icu:MediaEditor__text--underline": {
     "messageformat": "Understrek",
-    "description": "Describes what attribute the color picker will change on the text"
+    "description": "(Deleted 2024/03/07) Describes what attribute the color picker will change on the text"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Penn",
@@ -6342,11 +6351,11 @@
   },
   "icu:MediaEditor__crop--crop": {
     "messageformat": "Beskjær",
-    "description": "Performs the crop"
+    "description": "(Deleted 2024/03/07) Performs the crop"
   },
   "icu:MediaEditor__caption-button": {
     "messageformat": "Legg til en melding",
-    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+    "description": "(Deleted 2024/03/07) Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Friform",
@@ -6441,23 +6450,23 @@
     "description": "Payment event notification check device label"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted": {
-    "messageformat": "You accepted the message request",
+    "messageformat": "Du godtok meldingsforespørselen",
     "description": "Message request response notification message when the user accepted the message request or unblocked another user"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
-    "messageformat": "Reported as spam",
+    "messageformat": "Rapportert som søppelpost",
     "description": "Message request response notification message when the user reported the message request as spam"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
-    "messageformat": "You blocked this person",
+    "messageformat": "Du har blokkert denne personen",
     "description": "Message request response notification message when the user blocked another user"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "Options",
+    "messageformat": "Alternativer",
     "description": "Message request response notification button to show options"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
-    "messageformat": "Learn More",
+    "messageformat": "Les mer",
     "description": "Message request response notification button to learn more"
   },
   "icu:SignalConnectionsModal__title": {
@@ -6570,7 +6579,7 @@
   },
   "icu:StoriesSettings__new-list--visibility": {
     "messageformat": "Navnet på denne storyen vises bare for deg.",
-    "description": "Explanation about the visibility of custom distribution list names"
+    "description": "(Deleted 2024/03/07) Explanation about the visibility of custom distribution list names"
   },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Egendefinert story",
@@ -6646,7 +6655,7 @@
   },
   "icu:StoriesSettings__mine__all--description": {
     "messageformat": "Del med alle på kontaktlisten",
-    "description": "Description of button StoriesSettings__mine__all--label"
+    "description": "(Deleted 2024/03/07) Description of button StoriesSettings__mine__all--label"
   },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Alle unntatt …",
@@ -6654,7 +6663,7 @@
   },
   "icu:StoriesSettings__mine__exclude--description": {
     "messageformat": "{num, plural, one {{num,number} person er ekskludert} other {{num,number} personer er ekskludert}}",
-    "description": "Description of how many people are excluded in a list"
+    "description": "(Deleted 2024/03/07) Description of how many people are excluded in a list"
   },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Del kun med …",
@@ -6662,11 +6671,11 @@
   },
   "icu:StoriesSettings__mine__only--description": {
     "messageformat": "Del kun med utvalgte personer",
-    "description": "Description of button StoriesSettings__mine__only--label"
+    "description": "(Deleted 2024/03/07) Description of button StoriesSettings__mine__only--label"
   },
   "icu:StoriesSettings__mine__only--description--people": {
     "messageformat": "{num,number} personer",
-    "description": "Description of how many people are in the exclusive allow list"
+    "description": "(Deleted 2024/03/07) Description of how many people are in the exclusive allow list"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Velg hvem som kan se storyen din. Dette vil ikke påvirke storyer som du allerede har lagt ut. <learnMoreLink>Les mer</learnMoreLink>",
@@ -6778,19 +6787,19 @@
   },
   "icu:SendStoryModal__my-stories-description-all": {
     "messageformat": "{viewersCount, plural, one {Alle Signal-kontakter · Sett av {viewersCount,number}} other {Alle Signal-kontakter · Sett av {viewersCount,number}}}",
-    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
     "messageformat": "{excludedCount, plural, one {Alle Signal-kontakter · {excludedCount,number} ekskludert} other {Alle Signal-kontakter · {excludedCount,number} ekskludert}}",
-    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
     "messageformat": "{viewersCount, plural, one {Privat story · Sett av {viewersCount,number}} other {Privat story · Sett av {viewersCount,number}}}",
-    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle of each private story in the send-story-to dialog"
   },
   "icu:SendStoryModal__group-story-description": {
     "messageformat": "{membersCount, plural, one {Gruppestory · {membersCount,number} medlem} other {Gruppestory · {membersCount,number} medlemmer}}",
-    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+    "description": "(Deleted 2024/03/07) Shown as a subtitle of each group story in the send-story-to dialog"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Del og se storyer",
@@ -6990,7 +6999,7 @@
   },
   "icu:StoryCreator__input-placeholder": {
     "messageformat": "Legg til tekst",
-    "description": "Placeholder to add text"
+    "description": "(Deleted 2024/03/07) Placeholder to add text"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Vanlig",
@@ -7356,6 +7365,10 @@
     "messageformat": "{count, plural, one {{count,number} annen person skriver.} other {{count,number} andre personer skriver.}}",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
   },
+  "icu:TransportError": {
+    "messageformat": "Experimental WebSocket Transport is seeing too many errors. Please submit a debug log",
+    "description": "A toast that is shown to alpha/beta version users when an experimental transport is seeing too many errors"
+  },
   "icu:WhoCanFindMeReadOnlyToast": {
     "messageformat": "For å endre dette velger du «Ingen» under «Hvem kan se telefonnummeret mitt?».",
     "description": "A toast displayed when user clicks disabled option in settings window"
@@ -7366,39 +7379,46 @@
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--1": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
     "messageformat": "Et knippe feilrettinger som sørger for at appen fungerer optimalt. Flere spennende oppdateringer er i vente. ",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
     "messageformat": "Justeringer, feilrettinger og ytelsesforbedringer. Du kan tekste, ringe og videochatte som vanlig.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
     "messageformat": "Jobber iherdig med å fikse feil og andre ytelsesforbedringer som sørger for at appen fungerer optimalt. ",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--5": {
     "messageformat": "Et par ekstra justeringer, feilrettinger og diverse planer for fremtiden.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
-    "description": "Release notes for releases that only include bug fixes"
-  },
-  "icu:WhatsNew__v7.2--0": {
-    "messageformat": "I denne utgaven går det raskere å åpne store gruppesamtaler enn tidligere."
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
+    "messageformat": "Nå kan du fjerne alle de tapte anropene på telefonen din og samtidig tømme telleren i anropsoversikten i Signal Desktop."
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
+    "messageformat": "Vi har også endret designet på telleren i Windows, slik at fargen på oppgavelinjen matcher systemstatusfeltet."
+  },
+  "icu:WhatsNew__v7.4--0": {
+    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
   }
 }
