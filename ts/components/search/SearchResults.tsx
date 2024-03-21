@@ -1,8 +1,8 @@
+import { isString } from 'lodash';
 import React from 'react';
-import styled, { CSSProperties } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { AutoSizer, List } from 'react-virtualized';
-import { isString } from 'lodash';
+import styled, { CSSProperties } from 'styled-components';
 
 import { ConversationListItem } from '../leftpane/conversation-list-item/ConversationListItem';
 import { MessageSearchResult } from './MessageSearchResults';
@@ -65,14 +65,14 @@ const VirtualizedList = () => {
               return null;
             }
             if (isString(row)) {
-              return <SectionHeader title={row} style={style} key={key} />;
+              return <SectionHeader title={row} style={style as CSSProperties} key={key} />;
             }
             if (isContact(row)) {
               return (
                 <ConversationListItem conversationId={row.contactConvoId} style={style} key={key} />
               );
             }
-            return <MessageSearchResult style={style} key={key} {...row} />;
+            return <MessageSearchResult style={style as CSSProperties} key={key} {...row} />;
           }}
           width={width}
           autoHeight={false}

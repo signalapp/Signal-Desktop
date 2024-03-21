@@ -68,7 +68,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
   }
 
   if (DEBUG_ATTACHMENTS_SCALE) {
-    window.log.info('autoscale for avatar', maxMeasurements);
+    window.log.debug('autoscale for avatar', maxMeasurements);
   }
   return autoScale(attachment, maxMeasurements);
 }
@@ -96,7 +96,7 @@ export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
   }
 
   if (DEBUG_ATTACHMENTS_SCALE) {
-    window.log.info('autoscale for incoming avatar', maxMeasurements);
+    window.log.debug('autoscale for incoming avatar', maxMeasurements);
   }
 
   return autoScale(
@@ -121,7 +121,7 @@ export async function autoScaleForThumbnail<T extends { contentType: string; blo
   };
 
   if (DEBUG_ATTACHMENTS_SCALE) {
-    window.log.info('autoScaleForThumbnail', maxMeasurements);
+    window.log.debug('autoScaleForThumbnail', maxMeasurements);
   }
 
   return autoScale(attachment, maxMeasurements);
@@ -199,7 +199,6 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
       crop: !!makeSquare,
       cover: !!makeSquare,
       orientation: 1,
-      // aspectRatio: makeSquare ? 1 : undefined,
       canvas: true,
       imageSmoothingQuality: 'medium',
       meta: false,
@@ -219,7 +218,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     !makeSquare
   ) {
     if (DEBUG_ATTACHMENTS_SCALE) {
-      window.log.info('canvasScaled used right away as width, height and size are fine', {
+      window.log.debug('canvasScaled used right away as width, height and size are fine', {
         canvasScaledWidth: canvasScaled.width,
         canvasScaledHeight: canvasScaled.height,
         maxWidth,
@@ -239,7 +238,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     };
   }
   if (DEBUG_ATTACHMENTS_SCALE) {
-    window.log.info('canvasOri.originalWidth', {
+    window.log.debug('canvasOri.originalWidth', {
       canvasOriginalWidth: canvasScaled.width,
       canvasOriginalHeight: canvasScaled.height,
       maxWidth,
@@ -255,7 +254,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   do {
     i -= 1;
     if (DEBUG_ATTACHMENTS_SCALE) {
-      window.log.info(`autoscale iteration: [${i}] for:`, JSON.stringify(readAndResizedBlob.size));
+      window.log.debug(`autoscale iteration: [${i}] for:`, JSON.stringify(readAndResizedBlob.size));
     }
     // eslint-disable-next-line no-await-in-loop
     const tempBlob = await canvasToBlob(canvasScaled, 'image/jpeg', quality);

@@ -166,7 +166,7 @@
     "@types/rimraf": "2.0.2",
     "@types/semver": "5.5.0",
     "@types/sinon": "9.0.4",
-    "@types/styled-components": "^5.1.4",
+    "@types/styled-components": "5.1.1",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "7.1.0",
     "@typescript-eslint/parser": "7.1.0",
