@@ -7415,13 +7415,13 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.2--0": {
-    "messageformat": "Thanks to the performance improvements in this release, opening large group chats is faster than ever. If you're in a group with several hundred people that likes to debate the existence of parallel universes, you now live in a timeline where it takes a lot less time to show the timeline of people talking about timelines."
-  },
   "icu:WhatsNew__v7.3--0": {
     "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too."
   },
   "icu:WhatsNew__v7.3--1": {
     "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring."
+  },
+  "icu:WhatsNew__v7.4--0": {
+    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
   }
 }
