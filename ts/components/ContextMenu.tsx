@@ -25,7 +25,7 @@ export type ContextMenuOptionType<T> = Readonly<{
 }>;
 
 type RenderButtonProps = Readonly<{
-  openMenu: (ev: React.MouseEvent) => void;
+  onClick: (ev: React.MouseEvent) => void;
   onKeyDown: (ev: KeyboardEvent) => void;
   isMenuShowing: boolean;
   ref: React.Ref<HTMLButtonElement> | null;
@@ -207,10 +207,15 @@ export function ContextMenu<T>({
   };
 
   const handleClick = (ev: React.MouseEvent) => {
-    closeCurrentOpenContextMenu?.();
-    closeCurrentOpenContextMenu = () => setIsMenuShowing(false);
-    virtualElement.current = generateVirtualElement(ev.clientX, ev.clientY);
-    setIsMenuShowing(true);
+    if (isMenuShowing && ev.type !== 'contextmenu') {
+      setIsMenuShowing(false);
+      closeCurrentOpenContextMenu = undefined;
+    } else {
+      closeCurrentOpenContextMenu?.();
+      closeCurrentOpenContextMenu = () => setIsMenuShowing(false);
+      virtualElement.current = generateVirtualElement(ev.clientX, ev.clientY);
+      setIsMenuShowing(true);
+    }
     ev.stopPropagation();
     ev.preventDefault();
   };
@@ -316,7 +321,7 @@ export function ContextMenu<T>({
     buttonNode = (
       <>
         {(children as (props: RenderButtonProps) => JSX.Element)({
-          openMenu: onClick || handleClick,
+          onClick: onClick || handleClick,
           onKeyDown: handleKeyDown,
           isMenuShowing,
           ref: setReferenceElement,

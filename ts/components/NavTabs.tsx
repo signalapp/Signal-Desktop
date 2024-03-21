@@ -307,7 +307,7 @@ export function NavTabs({
             }}
             portalToRoot
           >
-            {({ openMenu, onKeyDown, ref }) => {
+            {({ onClick, onKeyDown, ref }) => {
               return (
                 <button
                   type="button"
@@ -319,7 +319,7 @@ export function NavTabs({
                   }}
                   onClick={event => {
                     if (hasPendingUpdate) {
-                      openMenu(event);
+                      onClick(event);
                     } else {
                       onShowSettings();
                     }
