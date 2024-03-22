@@ -27,7 +27,7 @@ export type PropsType = {
   toast?: AnyToast;
   megaphone?: AnyActionableMegaphone;
   centerToast?: boolean;
-  containerWidthBreakpoint: WidthBreakpoint;
+  containerWidthBreakpoint: WidthBreakpoint | null;
   isCompositionAreaVisible?: boolean;
 };
 

@@ -12,7 +12,6 @@ import * as log from '../logging/log';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
 import { ToastManager } from './ToastManager';
-import { WidthBreakpoint } from './_util';
 import { createSupportUrl } from '../util/createSupportUrl';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
@@ -157,7 +156,7 @@ export function DebugLogWindow({
           onUndoArchive={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
           toast={toast}
-          containerWidthBreakpoint={WidthBreakpoint.Narrow}
+          containerWidthBreakpoint={null}
         />
       </div>
     );
@@ -213,7 +212,7 @@ export function DebugLogWindow({
         onUndoArchive={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
         toast={toast}
-        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        containerWidthBreakpoint={null}
       />
     </div>
   );
