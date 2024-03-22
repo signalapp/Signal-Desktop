@@ -3525,7 +3525,7 @@ async function markCallHistoryRead(callId: string): Promise<void> {
   const [query, params] = sql`
     UPDATE messages
     SET
-      seenStatus = ${SEEN_STATUS_UNSEEN}
+      seenStatus = ${SEEN_STATUS_SEEN},
       json = json_patch(json, ${jsonPatch})
     WHERE type IS 'call-history'
     AND callId IS ${callId}
