@@ -21,6 +21,7 @@ ts/util/lint/exceptions.json
 storybook-static
 build/locale-display-names.json
 build/country-display-names.json
+build/compact-locales/**/*.json
 
 # Third-party files
 node_modules/**
