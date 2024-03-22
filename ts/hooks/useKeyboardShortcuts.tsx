@@ -21,9 +21,10 @@ export function isCmdOrCtrl(ev: KeyboardEvent): boolean {
 
 function isCtrlOrAlt(ev: KeyboardEvent): boolean {
   const { altKey, ctrlKey } = ev;
-  const controlKey = get(window, 'platform') === 'darwin' && ctrlKey;
+  // For macOS, check both ctrlKey and altKey, as users might expect the Option key to function similarly to Alt
+  const controlOrAltKeyOnMac = get(window, 'platform') === 'darwin' && (ctrlKey || altKey);
   const theAltKey = get(window, 'platform') !== 'darwin' && altKey;
-  return controlKey || theAltKey;
+  return controlOrAltKeyOnMac || theAltKey;
 }
 
 function useHasPanels(): boolean {
