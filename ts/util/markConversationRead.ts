@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit, isNumber } from 'lodash';
+import { isNumber, pick } from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d';
 import { hasErrors } from '../state/selectors/message';
@@ -105,9 +105,9 @@ export async function markConversationRead(
       const message = window.MessageCache.__DEPRECATED$getById(
         messageSyncData.id
       );
-      // we update the in-memory MessageModel with the fresh database call data
+      // we update the in-memory MessageModel with fresh read/seen status
       if (message) {
-        message.set(omit(messageSyncData, 'originalReadStatus'));
+        message.set(pick(messageSyncData, 'readStatus', 'seenStatus'));
       }
 
       const {
