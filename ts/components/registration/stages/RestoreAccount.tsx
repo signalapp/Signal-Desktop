@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
-import { PromiseUtils, ToastUtils } from '../../../session/utils';
+import { PromiseUtils } from '../../../session/utils';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { NotFoundError } from '../../../session/utils/errors';
 import {
@@ -53,7 +53,7 @@ async function signInWithNewDisplayName(signInDetails: RecoverDetails) {
     await setSignWithRecoveryPhrase(true);
   } catch (e) {
     await resetRegistration();
-    void errorCallback(e);
+    errorCallback(e);
     window.log.debug(
       `WIP: [signInWithNewDisplayName] exception during registration: ${e.message || e}`
     );
@@ -70,45 +70,45 @@ async function signInAndFetchDisplayName(
     loadingAnimationCallback: () => void;
   }
 ) {
-  const { recoveryPassword, errorCallback, loadingAnimationCallback } = signInDetails;
+  const { recoveryPassword, loadingAnimationCallback } = signInDetails;
   window.log.debug(`WIP: [signInAndFetchDisplayName] starting sign in....`);
 
   let displayNameFromNetwork = '';
+  let ourPubkey = '';
 
   try {
     await resetRegistration();
-    void signInByLinkingDevice(recoveryPassword, 'english', loadingAnimationCallback);
+    const promiseLink = signInByLinkingDevice(
+      recoveryPassword,
+      'english',
+      loadingAnimationCallback
+    );
 
-    await PromiseUtils.waitForTask(() => {
+    const promiseWait = PromiseUtils.waitForTask(done => {
       window.Whisper.events.on(
         'configurationMessageReceived',
         async (displayName: string, pubkey: string) => {
-          window.log.debug(
-            `WIP: [signInAndFetchDisplayName] waitForTask done with displayName: "${displayName}"`
-          );
           window.Whisper.events.off('configurationMessageReceived');
           await setSignInByLinking(false);
           await setSignWithRecoveryPhrase(true);
+
           displayNameFromNetwork = displayName;
-          await registrationDone(pubkey, displayName);
+          ourPubkey = pubkey;
+          done(displayName);
         }
       );
     }, ONBOARDING_TIMES.RECOVERY_TIMEOUT);
 
-    if (!displayNameFromNetwork.length) {
-      throw new NotFoundError('Got a config message from network but without a displayName...');
-    }
+    await Promise.all([promiseLink, promiseWait]);
   } catch (e) {
     await resetRegistration();
-    errorCallback(e);
+    throw e;
   }
-  // display name, avatars, groups and contacts should already be handled when this event was triggered.
-  window.log.debug(
-    `WIP: [signInAndFetchDisplayName] we got a displayName from network: "${displayNameFromNetwork}"`
-  );
 
-  // Do not set the lastProfileUpdateTimestamp.
-  return displayNameFromNetwork;
+  window.log.debug(
+    `WIP: [signInAndFetchDisplayName] signed in with displayName: "${displayNameFromNetwork}" and pubkey: "${ourPubkey}`
+  );
+  return { displayNameFromNetwork, ourPubkey };
 }
 
 export const RestoreAccount = () => {
@@ -135,7 +135,7 @@ export const RestoreAccount = () => {
 
     dispatch(setProgress(0));
     try {
-      const displayNameFromNetwork = await signInAndFetchDisplayName({
+      const { displayNameFromNetwork, ourPubkey } = await signInAndFetchDisplayName({
         recoveryPassword,
         errorCallback: e => {
           throw e;
@@ -145,29 +145,35 @@ export const RestoreAccount = () => {
         },
       });
       dispatch(setDisplayName(displayNameFromNetwork));
+      await registrationDone(ourPubkey, displayName);
       dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
     } catch (e) {
-      if (e instanceof NotFoundError) {
+      window.log.debug(`WIP: [recoverAndFetchDisplayName] error ${JSON.stringify(e)} `);
+      if (e instanceof NotFoundError || e instanceof TaskTimedOutError) {
         window.log.debug(
-          `WIP: [recoverAndFetchDisplayName] AccountRestoration.RecoveryPassword failed to fetch display name so we need to enter it manually. Error: ${e}`
+          `WIP: [recoverAndFetchDisplayName] AccountRestoration.RecoveryPassword failed to get a display name so we need to enter it manually. Error: ${e}`
         );
         dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         return;
       }
+
       if (e instanceof NotEnoughWordsError) {
         setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageShort'));
       } else if (e instanceof InvalidWordsError) {
         setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageIncorrect'));
-      } else if (e instanceof TaskTimedOutError) {
-        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric'));
-        ToastUtils.pushToastError('toolong', e.message || String(e));
       } else {
         setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric'));
       }
       window.log.debug(
-        `WIP: [recoverAndFetchDisplayName] exception during registration: ${e.message || e}`
+        `WIP: [recoverAndFetchDisplayName] exception during registration: ${e.message || e} type ${typeof e}`
+      );
+      window.log.debug(
+        `WIP: [recoverAndFetchDisplayName] recoveryPasswordError before: ${recoveryPasswordError}`
       );
       dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
+      window.log.debug(
+        `WIP: [recoverAndFetchDisplayName] recoveryPasswordError after: ${recoveryPasswordError}`
+      );
     }
   };
 

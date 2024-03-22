@@ -3,38 +3,42 @@ import crc32 from 'buffer-crc32';
 class MnemonicError extends Error {
   constructor(message: string) {
     super(message);
+    this.name = this.constructor.name; // Set the error name to the class name
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
     // restore prototype chain
     Object.setPrototypeOf(this, MnemonicError.prototype);
   }
 }
 
 export class NotEnoughWordsError extends MnemonicError {
-  constructor() {
-    super("You've entered too few words, please try again");
+  constructor(message = "You've entered too few words, please try again") {
+    super(message);
     // restore prototype chain
     Object.setPrototypeOf(this, NotEnoughWordsError.prototype);
   }
 }
 
 export class InvalidWordsError extends MnemonicError {
-  constructor() {
-    super('invalid word in mnemonic');
+  constructor(message = "You've entered too few words, please try again") {
+    super(message);
     // restore prototype chain
     Object.setPrototypeOf(this, InvalidWordsError.prototype);
   }
 }
 
 export class DecodingError extends MnemonicError {
-  constructor() {
-    super('Something went wrong when decoding your private key, please try again');
+  constructor(message = 'Something went wrong when decoding your private key, please try again') {
+    super(message);
     // restore prototype chain
     Object.setPrototypeOf(this, DecodingError.prototype);
   }
 }
 
 export class VerificationError extends MnemonicError {
-  constructor() {
-    super('Your private key could not be verified, please verify the checksum word');
+  constructor(message = 'Your private key could not be verified, please verify the checksum word') {
+    super(message);
     // restore prototype chain
     Object.setPrototypeOf(this, VerificationError.prototype);
   }

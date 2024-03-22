@@ -712,21 +712,14 @@ export class SwarmPolling {
         window.log.info(
           `[pollOnceForDisplayName] received userConfigMessages count: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
         );
-        try {
-          const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
-          return displayName;
-        } catch (e) {
-          window.log.warn(
-            `handleSharedConfigMessages of ${userConfigMessagesMerged.length} failed with ${e.message}`
-          );
-          // not rethrowing
-        }
+
+        const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
+        return displayName;
       }
     }
     return '';
   }
 
-  // TODO[epic=ses-899] add a function that only polls for the display name?
   public async pollForOurDisplayName(): Promise<string> {
     if (!window.getGlobalOnlineStatus()) {
       window?.log?.error('pollForOurDisplayName: offline');
@@ -741,7 +734,7 @@ export class SwarmPolling {
       return displayName;
     } catch (e) {
       window?.log?.warn('pollForOurDisplayName exception: ', e);
-      return '';
+      throw e;
     }
   }
 }

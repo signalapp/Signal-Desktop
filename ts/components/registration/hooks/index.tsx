@@ -35,9 +35,9 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
         if (progress < 100) {
           dispatch(setProgress(progress + 1));
         }
-        window.log.debug(
-          `WIP: [continueYourSession] AccountRestoration.Loading Loading progress ${progress}%`
-        );
+        // window.log.debug(
+        //   `WIP: [continueYourSession] AccountRestoration.Loading Loading progress ${progress}%`
+        // );
 
         if (progress >= 100) {
           clearInterval(interval);

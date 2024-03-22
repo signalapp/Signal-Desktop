@@ -1,14 +1,16 @@
+import { isEmpty } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
-import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { configurationMessageReceived, trigger } from '../shims/events';
 
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SessionKeyPair } from '../receiver/keypairs';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
-import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
+import { NotEnoughWordsError, mnDecode, mnEncode } from '../session/crypto/mnemonic';
+import { getOurPubKeyStrFromCache } from '../session/utils/User';
+import { NotFoundError } from '../session/utils/errors';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { actions as userActions } from '../state/ducks/user';
 import { Registration } from './registration';
@@ -102,6 +104,16 @@ export async function signInByLinkingDevice(
   const pubKeyString = toHex(identityKeyPair.pubKey);
   // fetch configuration message to get the user's display name.
   const displayName = await getSwarmPollingInstance().pollForOurDisplayName();
+  // TODO remove later
+  throw new NotEnoughWordsError('fml');
+
+  if (isEmpty(displayName)) {
+    throw new NotFoundError('Got a config message from network but without a displayName...');
+  }
+  if (isEmpty(pubKeyString)) {
+    throw new NotFoundError('Got a display name from the network but no a pubkey...');
+  }
+
   trigger(configurationMessageReceived, displayName, pubKeyString);
 }
 /**
@@ -190,7 +202,9 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
  * @param displayName the display name entered by the user, if any. This is not a display name found from a config message in the network.
  */
 export async function registrationDone(ourPubkey: string, displayName: string) {
-  window?.log?.info(`registration done with user provided displayName "${displayName}"`);
+  window?.log?.info(
+    `registration done with user provided displayName "${displayName}" and pubkey "${ourPubkey}"`
+  );
 
   // initializeLibSessionUtilWrappers needs our publicKey to be set
   await Storage.put('primaryDevicePubKey', ourPubkey);
