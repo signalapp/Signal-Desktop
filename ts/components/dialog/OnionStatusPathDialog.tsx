@@ -1,9 +1,7 @@
-import { shell } from 'electron';
-import { readFileSync } from 'fs';
-import path from 'path';
-import React from 'react';
+import { ipcRenderer, shell } from 'electron';
+import React, { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import useHover from 'react-use/lib/useHover';
 import styled from 'styled-components';
 
@@ -11,16 +9,18 @@ import { CityResponse, Reader } from 'maxmind';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
-  getFirstOnionPath,
-  getFirstOnionPathLength,
-  getIsOnline,
-  getOnionPathsCount,
+  useFirstOnionPath,
+  useFirstOnionPathLength,
+  useIsOnline,
+  useOnionPathsCount,
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
 
+import { isEmpty, isTypedArray } from 'lodash';
+import { useMount } from 'react-use';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconButton } from '../icon';
-import { SessionWrapperModal } from '../SessionWrapperModal';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -77,10 +77,27 @@ const OnionCountryDisplay = ({ labelText, snodeIp }: { snodeIp?: string; labelTe
   return hoverable;
 };
 
+let reader: Reader<CityResponse> | null;
+const lang = 'en';
+
 const OnionPathModalInner = () => {
-  const onionPath = useSelector(getFirstOnionPath);
-  const isOnline = useSelector(getIsOnline);
+  const onionPath = useFirstOnionPath();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_dataLoaded, setDataLoaded] = useState(false);
+  const isOnline = useIsOnline();
+
   const glowDuration = onionPath.length + 2;
+
+  useMount(() => {
+    ipcRenderer.once('load-maxmind-data-reply', (_event, content) => {
+      const asArrayBuffer = content as Uint8Array;
+      if (asArrayBuffer && isTypedArray(asArrayBuffer) && !isEmpty(asArrayBuffer)) {
+        reader = new Reader<CityResponse>(Buffer.from(asArrayBuffer.buffer));
+        setDataLoaded(true); // retrigger a rerender
+      }
+    });
+    ipcRenderer.send('load-maxmind-data');
+  });
 
   if (!isOnline || !onionPath || onionPath.length === 0) {
     return <SessionSpinner loading={true} />;
@@ -95,13 +112,6 @@ const OnionPathModalInner = () => {
       label: window.i18n('destination'),
     },
   ];
-
-  const binPath = (process.env.NODE_APP_INSTANCE || '').startsWith('devprod')
-    ? path.resolve(`${__dirname}/../../..`)
-    : path.resolve(`${process.resourcesPath}/..`);
-  const buffer = readFileSync(`${binPath}/mmdb/GeoLite2-Country.mmdb`);
-  const reader = new Reader<CityResponse>(buffer);
-  const lang = 'en';
 
   return (
     <>
@@ -126,13 +136,13 @@ const OnionPathModalInner = () => {
           </StyledLightsContainer>
           <Flex container={true} flexDirection="column" alignItems="flex-start">
             {nodes.map((snode: Snode | any) => {
-              const geoLookup = reader.get(snode.ip || '0.0.0.0');
-              const countryName = geoLookup?.country?.names[lang] || window.i18n('unknownCountry');
-              const labelText = snode.label || countryName;
+              const countryName =
+                reader?.get(snode.ip || '0.0.0.0')?.country?.names[lang] ||
+                window.i18n('unknownCountry');
 
               return (
                 <OnionCountryDisplay
-                  labelText={labelText}
+                  labelText={countryName}
                   snodeIp={snode.ip}
                   key={`country-${snode.ip}`}
                 />
@@ -197,9 +207,9 @@ export const ActionPanelOnionStatusLight = (props: {
 }) => {
   const { isSelected, handleClick, id } = props;
 
-  const onionPathsCount = useSelector(getOnionPathsCount);
-  const firstPathLength = useSelector(getFirstOnionPathLength);
-  const isOnline = useSelector(getIsOnline);
+  const onionPathsCount = useOnionPathsCount();
+  const firstPathLength = useFirstOnionPathLength();
+  const isOnline = useIsOnline();
 
   // Set icon color based on result
   const errorColor = 'var(--button-path-error-color)';
