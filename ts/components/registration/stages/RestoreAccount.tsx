@@ -18,7 +18,11 @@ import {
   useProgress,
   useRecoveryPassword,
 } from '../../../state/onboarding/selectors/registration';
-import { registerSingleDevice, signInByLinkingDevice } from '../../../util/accountManager';
+import {
+  registerSingleDevice,
+  registrationDone,
+  signInByLinkingDevice,
+} from '../../../util/accountManager';
 import { setSignInByLinking, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
@@ -73,20 +77,22 @@ async function signInAndFetchDisplayName(
 
   try {
     await resetRegistration();
-    await signInByLinkingDevice(recoveryPassword, 'english', loadingAnimationCallback);
+    void signInByLinkingDevice(recoveryPassword, 'english', loadingAnimationCallback);
 
-    // TODO[epic-899] do we still need this? Should I change the polling timeout to ONBOARDING_RECOVERY_TIMEOUT?
-    await PromiseUtils.waitForTask(done => {
-      window.Whisper.events.on('configurationMessageReceived', async (displayName: string) => {
-        window.log.debug(
-          `WIP: [signInAndFetchDisplayName] waitForTask done with displayName: "${displayName}"`
-        );
-        window.Whisper.events.off('configurationMessageReceived');
-        await setSignInByLinking(false);
-        await setSignWithRecoveryPhrase(true);
-        done(displayName);
-        displayNameFromNetwork = displayName;
-      });
+    await PromiseUtils.waitForTask(() => {
+      window.Whisper.events.on(
+        'configurationMessageReceived',
+        async (displayName: string, pubkey: string) => {
+          window.log.debug(
+            `WIP: [signInAndFetchDisplayName] waitForTask done with displayName: "${displayName}"`
+          );
+          window.Whisper.events.off('configurationMessageReceived');
+          await setSignInByLinking(false);
+          await setSignWithRecoveryPhrase(true);
+          displayNameFromNetwork = displayName;
+          await registrationDone(pubkey, displayName);
+        }
+      );
     }, ONBOARDING_TIMES.RECOVERY_TIMEOUT);
 
     if (!displayNameFromNetwork.length) {
@@ -100,8 +106,8 @@ async function signInAndFetchDisplayName(
   window.log.debug(
     `WIP: [signInAndFetchDisplayName] we got a displayName from network: "${displayNameFromNetwork}"`
   );
+
   // Do not set the lastProfileUpdateTimestamp.
-  // We expect to get a display name from a configuration message while we are loading messages of this user
   return displayNameFromNetwork;
 }
 

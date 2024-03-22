@@ -2,7 +2,7 @@ import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
-import { trigger } from '../shims/events';
+import { configurationMessageReceived, trigger } from '../shims/events';
 
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
@@ -79,6 +79,8 @@ export async function signInWithRecovery(
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
  * @param loadingAnimationCallback a callback to trigger a loading animation
+ *
+ * @returns the display name of the user if found on the network
  */
 export async function signInByLinkingDevice(
   mnemonic: string,
@@ -100,9 +102,7 @@ export async function signInByLinkingDevice(
   const pubKeyString = toHex(identityKeyPair.pubKey);
   // fetch configuration message to get the user's display name.
   const displayName = await getSwarmPollingInstance().pollForOurDisplayName();
-
-  await registrationDone(pubKeyString, displayName);
-  return pubKeyString;
+  trigger(configurationMessageReceived, displayName, pubKeyString);
 }
 /**
  * This signs up a new user account. User has no recovery and does not try to link a device
@@ -189,7 +189,7 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
  * @param ourPubkey the pubkey recovered from the seed
  * @param displayName the display name entered by the user, if any. This is not a display name found from a config message in the network.
  */
-async function registrationDone(ourPubkey: string, displayName: string) {
+export async function registrationDone(ourPubkey: string, displayName: string) {
   window?.log?.info(`registration done with user provided displayName "${displayName}"`);
 
   // initializeLibSessionUtilWrappers needs our publicKey to be set

@@ -397,30 +397,38 @@ export class SwarmPolling {
         );
 
         if (returnAndKeepInMemory) {
+          let displayName = '';
+
           try {
-            const ourKeyPair = await UserUtils.getIdentityKeyPair();
-            if (!ourKeyPair) {
-              throw new Error('ourKeyPair not found');
+            const keypair = await UserUtils.getUserED25519KeyPairBytes();
+            if (!keypair || !keypair.privKeyBytes) {
+              throw new Error('edkeypair not found for current user');
             }
 
+            const privateKeyEd25519 = keypair.privKeyBytes;
+
             // we take the lastest config message to create the wrapper in memory
-            const configMessage = allDecryptedConfigMessages.at(-1)?.message;
-            window.log.debug(`WIP: [SwarmPolling] configMessage: ${JSON.stringify(configMessage)}`);
-            await GenericWrapperActions.init(
-              'UserConfig',
-              new Uint8Array(ourKeyPair.privKey),
-              configMessage?.data || null
-            );
+            const incomingConfigMessage = allDecryptedConfigMessages.at(-1);
             window.log.debug(
-              `WIP: [SwarmPolling] dump: ${StringUtils.toHex(await GenericWrapperActions.dump('UserConfig'))}`
+              `WIP: [SwarmPolling] configMessage: ${JSON.stringify(incomingConfigMessage)}`
             );
-            // TODO[epic=899] this is still not working
+            if (!incomingConfigMessage) {
+              throw new Error('incomingConfigMessage not found');
+            }
+            await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
+            await GenericWrapperActions.merge('UserConfig', [
+              {
+                data: incomingConfigMessage.message.data,
+                hash: incomingConfigMessage.messageHash,
+              },
+            ]);
+
             const userInfo = await UserConfigWrapperActions.getUserInfo();
             window.log.debug(`WIP: [SwarmPolling] userInfo: ${JSON.stringify(userInfo)}`);
             if (!userInfo) {
               throw new Error('UserInfo not found');
             }
-            return userInfo.name;
+            displayName = userInfo.name;
           } catch (e) {
             window.log.warn(
               '[SwarmPolling] LibSessionUtil.initializeLibSessionUtilWrappers failed with',
@@ -429,6 +437,8 @@ export class SwarmPolling {
           } finally {
             await GenericWrapperActions.free('UserConfig');
           }
+
+          return displayName;
         }
 
         await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
@@ -650,7 +660,7 @@ export class SwarmPolling {
   /**
    * Only exposed as public for testing
    */
-  public async pollOnceForDisplayName(pubkey: PubKey) {
+  public async pollOnceForDisplayName(pubkey: PubKey): Promise<string> {
     const polledPubkey = pubkey.key;
     const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
 
@@ -704,9 +714,6 @@ export class SwarmPolling {
         );
         try {
           const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
-          window.log.debug(
-            `WIP: [pollForOurDisplayName] displayName ${JSON.stringify(displayName)}`
-          );
           return displayName;
         } catch (e) {
           window.log.warn(
@@ -730,6 +737,7 @@ export class SwarmPolling {
 
     try {
       const displayName = await this.pollOnceForDisplayName(UserUtils.getOurPubKeyFromCache());
+      window.log.debug(`WIP: [pollForOurDisplayName] displayName ${displayName}`);
       return displayName;
     } catch (e) {
       window?.log?.warn('pollForOurDisplayName exception: ', e);
