@@ -1077,12 +1077,14 @@ ipc.on('close-debug-log', () => {
 ipc.on('save-debug-log', saveDebugLog);
 ipc.on('load-maxmind-data', async (event: IpcMainEvent) => {
   try {
-    const appRoot = app.isPackaged ? process.resourcesPath : app.getAppPath();
+    const appRoot =
+      app.isPackaged && process.resourcesPath ? process.resourcesPath : app.getAppPath();
     const fileToRead = path.join(appRoot, 'mmdb', 'GeoLite2-Country.mmdb');
+    console.info(`loading maxmind data from file:"${fileToRead}"`);
     const buffer = await readFile(fileToRead);
-    event.reply('load-maxmind-data-reply', new Uint8Array(buffer.buffer));
+    event.reply('load-maxmind-data-complete', new Uint8Array(buffer.buffer));
   } catch (e) {
-    event.reply('load-maxmind-data-reply', null);
+    event.reply('load-maxmind-data-complete', null);
   }
 });
 

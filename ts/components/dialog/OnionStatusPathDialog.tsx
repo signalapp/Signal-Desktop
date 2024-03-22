@@ -5,7 +5,9 @@ import { useDispatch } from 'react-redux';
 import useHover from 'react-use/lib/useHover';
 import styled from 'styled-components';
 
+import { isEmpty, isTypedArray } from 'lodash';
 import { CityResponse, Reader } from 'maxmind';
+import { useMount } from 'react-use';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
@@ -16,8 +18,6 @@ import {
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
 
-import { isEmpty, isTypedArray } from 'lodash';
-import { useMount } from 'react-use';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconButton } from '../icon';
@@ -78,7 +78,6 @@ const OnionCountryDisplay = ({ labelText, snodeIp }: { snodeIp?: string; labelTe
 };
 
 let reader: Reader<CityResponse> | null;
-const lang = 'en';
 
 const OnionPathModalInner = () => {
   const onionPath = useFirstOnionPath();
@@ -89,7 +88,7 @@ const OnionPathModalInner = () => {
   const glowDuration = onionPath.length + 2;
 
   useMount(() => {
-    ipcRenderer.once('load-maxmind-data-reply', (_event, content) => {
+    ipcRenderer.once('load-maxmind-data-complete', (_event, content) => {
       const asArrayBuffer = content as Uint8Array;
       if (asArrayBuffer && isTypedArray(asArrayBuffer) && !isEmpty(asArrayBuffer)) {
         reader = new Reader<CityResponse>(Buffer.from(asArrayBuffer.buffer));
@@ -136,8 +135,16 @@ const OnionPathModalInner = () => {
           </StyledLightsContainer>
           <Flex container={true} flexDirection="column" alignItems="flex-start">
             {nodes.map((snode: Snode | any) => {
+              const country = reader?.get(snode.ip || '0.0.0.0')?.country;
+              const locale = (window.i18n as any).getLocale() as string;
+
+              // typescript complains that the [] operator cannot be used with the 'string' coming from getLocale()
+              const countryNamesAsAny = country?.names as any;
               const countryName =
-                reader?.get(snode.ip || '0.0.0.0')?.country?.names[lang] ||
+                snode.label || // to take care of the "Device" case
+                countryNamesAsAny?.[locale] || // try to find the country name based on the user local first
+                // eslint-disable-next-line dot-notation
+                countryNamesAsAny?.['en'] || // if not found, fallback to the country in english
                 window.i18n('unknownCountry');
 
               return (

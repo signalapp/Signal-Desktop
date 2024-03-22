@@ -5363,13 +5363,13 @@ matcher@^3.0.0:
   dependencies:
     escape-string-regexp "^4.0.0"
 
-maxmind@^4.3.6:
-  version "4.3.16"
-  resolved "https://registry.yarnpkg.com/maxmind/-/maxmind-4.3.16.tgz#2bc0cef9e55f439933a256d14ac731fcfe1819b4"
-  integrity sha512-bfmiULzt9vO3tZ0SvQOX6cMZMqPCWtncbtNUefeSspoScf8S7n6qB66uOFQN00IWaJUr9oLjtlx3d6M8/KatuQ==
+maxmind@^4.3.18:
+  version "4.3.18"
+  resolved "https://registry.yarnpkg.com/maxmind/-/maxmind-4.3.18.tgz#ad83f38d718ca5395c5d722933a109b7cb009226"
+  integrity sha512-5b9utU7ZxcGYTBaO7hCF0FXyfw3IpankLn+FnLW4RZS1zi97RBeSdfXJFJlk5UxNsMiFZlsdMT3lzvD+bD8MLQ==
   dependencies:
-    mmdb-lib "2.0.2"
-    tiny-lru "11.2.3"
+    mmdb-lib "2.1.0"
+    tiny-lru "11.2.5"
 
 mdn-data@2.0.14:
   version "2.0.14"
@@ -5541,10 +5541,10 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-mmdb-lib@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/mmdb-lib/-/mmdb-lib-2.0.2.tgz#fe60404142c0456c19607c72caa15821731ae957"
-  integrity sha512-shi1I+fCPQonhTi7qyb6hr7hi87R7YS69FlfJiMFuJ12+grx0JyL56gLNzGTYXPU7EhAPkMLliGeyHer0K+AVA==
+mmdb-lib@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/mmdb-lib/-/mmdb-lib-2.1.0.tgz#c2456caaf4c7ffa056f77575da6d40988e9e878b"
+  integrity sha512-tdDTZmnI5G4UoSctv2KxM/3VQt2XRj4CmR5R4VsAWsOUcS3LysHR34wtixWm/pXxXdkBDuN92auxkC0T2+qd1Q==
 
 mocha@10.0.0:
   version "10.0.0"
@@ -7516,10 +7516,10 @@ through2@^4.0.0:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==
 
-tiny-lru@11.2.3:
-  version "11.2.3"
-  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-11.2.3.tgz#9dc04c9bd48b1e196e999e11eee71bc249466145"
-  integrity sha512-mF9jPTrvN7UHk0bekOk3RlFdFwfyS4CJYVsGc7nInL3pVgUCYj5r9X6GpZBFQgLr0TKJo8Dp+F3oRvYzxU9xiA==
+tiny-lru@11.2.5:
+  version "11.2.5"
+  resolved "https://registry.yarnpkg.com/tiny-lru/-/tiny-lru-11.2.5.tgz#b138b99022aa26c567fa51a8dbf9e3e2959b2b30"
+  integrity sha512-JpqM0K33lG6iQGKiigcwuURAKZlq6rHXfrgeL4/I8/REoyJTGU+tEMszvT/oTRVHG2OiylhGDjqPp1jWMlr3bw==
 
 tmp-promise@^3.0.2:
   version "3.0.3"
