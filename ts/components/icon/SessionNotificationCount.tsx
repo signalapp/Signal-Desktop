@@ -4,15 +4,14 @@ import styled from 'styled-components';
 type Props = {
   count?: number;
 };
-const StyledCountContainer = styled.div<{ shouldRender: boolean; unreadCount?: number }>`
+const StyledCountContainer = styled.div<{ centeredOnTop: boolean }>`
   position: absolute;
   font-size: 18px;
   line-height: 1.2;
-  top: ${props => (props.unreadCount ? '-10px' : '27px')};
-  left: ${props => (props.unreadCount ? '50%' : '28px')};
-  transform: ${props => (props.unreadCount ? 'translateX(-50%)' : 'none')};
-  padding: ${props => (props.unreadCount ? '3px 3px' : '1px 4px')};
-  opacity: ${props => (props.shouldRender ? 1 : 0)};
+  top: ${props => (props.centeredOnTop ? '-10px' : '27px')};
+  left: ${props => (props.centeredOnTop ? '50%' : '28px')};
+  transform: ${props => (props.centeredOnTop ? 'translateX(-50%)' : 'none')};
+  padding: ${props => (props.centeredOnTop ? '3px 3px' : '1px 4px')};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,43 +22,46 @@ const StyledCountContainer = styled.div<{ shouldRender: boolean; unreadCount?: n
   transition: var(--default-duration);
   text-align: center;
   color: var(--unread-messages-alert-text-color);
-  white-space: ${props => (props.unreadCount ? 'nowrap' : 'normal')};
+  white-space: ${props => (props.centeredOnTop ? 'nowrap' : 'normal')};
 `;
 
-const StyledCount = styled.div<{ unreadCount?: number }>`
+const StyledCount = styled.div<{ centeredOnTop: boolean }>`
   position: relative;
-  font-size: ${props => (props.unreadCount ? 'var(--font-size-xs)' : '0.6rem')};
+  font-size: ${props => (props.centeredOnTop ? 'var(--font-size-xs)' : '0.6rem')};
 `;
 
-export const SessionNotificationCount = (props: Props) => {
-  const { count } = props;
-  const overflow = Boolean(count && count > 99);
-  const shouldRender = Boolean(count && count > 0);
-
-  if (overflow) {
-    return (
-      <StyledCountContainer shouldRender={shouldRender}>
-        <StyledCount>
-          {99}
-          <span>+</span>
-        </StyledCount>
-      </StyledCountContainer>
-    );
-  }
+const OverflowingAt = (props: { overflowingAt: number }) => {
   return (
-    <StyledCountContainer shouldRender={shouldRender}>
-      <StyledCount>{count}</StyledCount>
+    <>
+      {props.overflowingAt}
+      <span>+</span>
+    </>
+  );
+};
+
+const NotificationOrUnreadCount = ({
+  centeredOnTop,
+  overflowingAt,
+  count,
+}: Props & { overflowingAt: number; centeredOnTop: boolean }) => {
+  if (!count) {
+    return null;
+  }
+  const overflowing = count > overflowingAt;
+
+  return (
+    <StyledCountContainer centeredOnTop={centeredOnTop}>
+      <StyledCount centeredOnTop={centeredOnTop}>
+        {overflowing ? <OverflowingAt overflowingAt={overflowingAt} /> : count}
+      </StyledCount>
     </StyledCountContainer>
   );
 };
 
-export const SessionUnreadCount = (props: Props) => {
-  const { count } = props;
-  const shouldRender = Boolean(count && count > 0);
+export const SessionNotificationCount = (props: Props) => {
+  return <NotificationOrUnreadCount centeredOnTop={false} overflowingAt={99} count={props.count} />;
+};
 
-  return (
-    <StyledCountContainer shouldRender={shouldRender} unreadCount={count}>
-      <StyledCount unreadCount={count}>{count}</StyledCount>
-    </StyledCountContainer>
-  );
+export const SessionUnreadCount = (props: Props) => {
+  return <NotificationOrUnreadCount centeredOnTop={true} overflowingAt={999} count={props.count} />;
 };

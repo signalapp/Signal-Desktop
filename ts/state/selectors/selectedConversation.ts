@@ -60,6 +60,10 @@ const getIsSelectedActive = (state: StateType): boolean => {
   return Boolean(getSelectedConversation(state)?.activeAt) || false;
 };
 
+const getSelectedUnreadCount = (state: StateType) => {
+  return getSelectedConversation(state)?.unreadCount || 0;
+};
+
 const getIsSelectedNoteToSelf = (state: StateType): boolean => {
   return getSelectedConversation(state)?.isMe || false;
 };
@@ -300,6 +304,10 @@ export function useSelectedIsPrivateFriend() {
 
 export function useSelectedIsActive() {
   return useSelector(getIsSelectedActive);
+}
+
+export function useSelectedUnreadCount() {
+  return useSelector(getSelectedUnreadCount);
 }
 
 export function useSelectedIsNoteToSelf() {

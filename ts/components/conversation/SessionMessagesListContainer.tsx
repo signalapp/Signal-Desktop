@@ -152,7 +152,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClickScrollBottom={this.props.scrollToNow}
           key="scroll-down-button"
-          unreadCount={conversation.unreadCount || 0}
         />
       </StyledMessagesContainer>
     );
