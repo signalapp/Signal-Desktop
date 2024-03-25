@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Constants } from '../../session';
 
 type Props = {
   overflowingAt: number;
@@ -57,9 +58,21 @@ const NotificationOrUnreadCount = ({ centeredOnTop, overflowingAt, count }: Prop
 };
 
 export const SessionNotificationCount = (props: Pick<Props, 'count'>) => {
-  return <NotificationOrUnreadCount centeredOnTop={false} overflowingAt={99} count={props.count} />;
+  return (
+    <NotificationOrUnreadCount
+      centeredOnTop={false}
+      overflowingAt={Constants.CONVERSATION.MAX_GLOBAL_UNREAD_COUNT}
+      count={props.count}
+    />
+  );
 };
 
 export const SessionUnreadCount = (props: Pick<Props, 'count'>) => {
-  return <NotificationOrUnreadCount centeredOnTop={true} overflowingAt={999} count={props.count} />;
+  return (
+    <NotificationOrUnreadCount
+      centeredOnTop={true}
+      overflowingAt={Constants.CONVERSATION.MAX_CONVO_UNREAD_COUNT}
+      count={props.count}
+    />
+  );
 };

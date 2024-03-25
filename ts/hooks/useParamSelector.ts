@@ -7,7 +7,6 @@ import {
   hasValidOutgoingRequestValues,
 } from '../models/conversation';
 import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { CONVERSATION } from '../session/constants';
 import { TimerOptions, TimerOptionsArray } from '../session/disappearing_messages/timerOptions';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
@@ -241,12 +240,11 @@ export function useMessageReactsPropsById(messageId?: string) {
 
 /**
  * Returns the unread count of that conversation, or 0 if none are found.
- * Note: returned value is capped at a max of CONVERSATION.MAX_UNREAD_COUNT
+ * Note: returned value is capped at a max of CONVERSATION.MAX_CONVO_UNREAD_COUNT
  */
 export function useUnreadCount(conversationId?: string): number {
   const convoProps = useConversationPropsById(conversationId);
-  const convoUnreadCount = convoProps?.unreadCount || 0;
-  return Math.min(CONVERSATION.MAX_UNREAD_COUNT, convoUnreadCount);
+  return convoProps?.unreadCount || 0;
 }
 
 export function useHasUnread(conversationId?: string): boolean {

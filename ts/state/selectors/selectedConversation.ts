@@ -1,5 +1,6 @@
 import { isString } from 'lodash';
 import { useSelector } from 'react-redux';
+import { useUnreadCount } from '../../hooks/useParamSelector';
 import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 import {
   DisappearingMessageConversationModeType,
@@ -58,10 +59,6 @@ const getSelectedApprovedMe = (state: StateType): boolean => {
  */
 const getIsSelectedActive = (state: StateType): boolean => {
   return Boolean(getSelectedConversation(state)?.activeAt) || false;
-};
-
-const getSelectedUnreadCount = (state: StateType) => {
-  return getSelectedConversation(state)?.unreadCount || 0;
 };
 
 const getIsSelectedNoteToSelf = (state: StateType): boolean => {
@@ -307,7 +304,8 @@ export function useSelectedIsActive() {
 }
 
 export function useSelectedUnreadCount() {
-  return useSelector(getSelectedUnreadCount);
+  const selectedConversation = useSelectedConversationKey();
+  return useUnreadCount(selectedConversation);
 }
 
 export function useSelectedIsNoteToSelf() {
