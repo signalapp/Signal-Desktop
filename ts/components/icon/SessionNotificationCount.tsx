@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 type Props = {
+  overflowingAt: number;
+  centeredOnTop: boolean;
   count?: number;
 };
 const StyledCountContainer = styled.div<{ centeredOnTop: boolean }>`
@@ -39,11 +41,7 @@ const OverflowingAt = (props: { overflowingAt: number }) => {
   );
 };
 
-const NotificationOrUnreadCount = ({
-  centeredOnTop,
-  overflowingAt,
-  count,
-}: Props & { overflowingAt: number; centeredOnTop: boolean }) => {
+const NotificationOrUnreadCount = ({ centeredOnTop, overflowingAt, count }: Props) => {
   if (!count) {
     return null;
   }
@@ -58,10 +56,10 @@ const NotificationOrUnreadCount = ({
   );
 };
 
-export const SessionNotificationCount = (props: Props) => {
+export const SessionNotificationCount = (props: Pick<Props, 'count'>) => {
   return <NotificationOrUnreadCount centeredOnTop={false} overflowingAt={99} count={props.count} />;
 };
 
-export const SessionUnreadCount = (props: Props) => {
+export const SessionUnreadCount = (props: Pick<Props, 'count'>) => {
   return <NotificationOrUnreadCount centeredOnTop={true} overflowingAt={999} count={props.count} />;
 };
