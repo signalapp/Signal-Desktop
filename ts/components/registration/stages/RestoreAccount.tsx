@@ -236,8 +236,10 @@ export const RestoreAccount = () => {
                   value={recoveryPassword}
                   onValueChanged={(seed: string) => {
                     dispatch(setRecoveryPassword(seed));
-                    setRecoveryPasswordError(
-                      !seed ? window.i18n('recoveryPhraseEmpty') : undefined
+                    dispatch(
+                      setRecoveryPasswordError(
+                        !seed ? window.i18n('recoveryPhraseEmpty') : undefined
+                      )
                     );
                   }}
                   onEnterPressed={recoverAndFetchDisplayName}
