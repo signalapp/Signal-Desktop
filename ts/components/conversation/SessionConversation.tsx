@@ -53,11 +53,14 @@ import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 
+import {
+  deleteMessagesById,
+  deleteMessagesByIdForEveryone,
+} from '../../interactions/conversations/unsendingInteractions';
 import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { deleteMessagesByIdForEveryone } from '../../interactions/conversations/unsendingInteractions';
 import { RightPanel, StyledRightPanelContainer } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
@@ -85,6 +88,7 @@ interface Props {
 
   stagedAttachments: Array<StagedAttachmentType>;
   isSelectedConvoInitialLoadingInProgress: boolean;
+  isPublic: boolean;
 }
 
 const StyledSpinnerContainer = styled.div`
@@ -345,6 +349,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
     const selectionMode = !!this.props.selectedMessages.length;
+    const { selectedConversationKey, selectedMessages, isPublic } = this.props;
 
     if (event.target.classList.contains('conversation-content')) {
       switch (event.key) {
@@ -355,11 +360,15 @@ export class SessionConversation extends React.Component<Props, State> {
           break;
         case 'Backspace':
         case 'Delete':
-          if (selectionMode) {
-            void deleteMessagesByIdForEveryone(
-              this.props.selectedMessages,
-              this.props.selectedConversationKey
-            );
+          if (selectionMode && this.props.selectedConversationKey) {
+            if (isPublic) {
+              void deleteMessagesByIdForEveryone(selectedMessages, selectedConversationKey);
+            } else {
+              void deleteMessagesById(
+                this.props.selectedMessages,
+                this.props.selectedConversationKey
+              );
+            }
           }
           break;
         default:
