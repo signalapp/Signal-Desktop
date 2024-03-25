@@ -1,16 +1,18 @@
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
 
 export function sanitizeDisplayNameOrToast(
   displayName: string,
-  setDisplayNameError: (error: string | undefined) => void
+  setDisplayNameError: (error: string | undefined) => AnyAction,
+  dispatch: Dispatch
 ) {
   try {
     const sanitizedName = sanitizeSessionUsername(displayName);
     const trimName = sanitizedName.trim();
-    setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+    dispatch(setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined));
     return sanitizedName;
   } catch (e) {
-    setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter'));
+    dispatch(setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter')));
     return displayName;
   }
 }

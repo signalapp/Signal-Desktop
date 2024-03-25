@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
@@ -9,14 +8,18 @@ import {
   AccountRestoration,
   setAccountRestorationStep,
   setDisplayName,
+  setDisplayNameError,
   setProgress,
   setRecoveryPassword,
+  setRecoveryPasswordError,
 } from '../../../state/onboarding/ducks/registration';
 import {
   useDisplayName,
+  useDisplayNameError,
   useOnboardAccountRestorationStep,
   useProgress,
   useRecoveryPassword,
+  useRecoveryPasswordError,
 } from '../../../state/onboarding/selectors/registration';
 import {
   registerSingleDevice,
@@ -113,15 +116,10 @@ async function signInAndFetchDisplayName(
 
 export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
-
   const recoveryPassword = useRecoveryPassword();
-  const [recoveryPasswordError, setRecoveryPasswordError] = useState(
-    undefined as string | undefined
-  );
-
+  const recoveryPasswordError = useRecoveryPasswordError();
   const displayName = useDisplayName();
-  const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
-
+  const displayNameError = useDisplayNameError();
   const progress = useProgress();
 
   const dispatch = useDispatch();
@@ -148,7 +146,6 @@ export const RestoreAccount = () => {
       await registrationDone(ourPubkey, displayName);
       dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
     } catch (e) {
-      window.log.debug(`WIP: [recoverAndFetchDisplayName] error ${JSON.stringify(e)} `);
       if (e instanceof NotFoundError || e instanceof TaskTimedOutError) {
         window.log.debug(
           `WIP: [recoverAndFetchDisplayName] AccountRestoration.RecoveryPassword failed to get a display name so we need to enter it manually. Error: ${e}`
@@ -158,22 +155,16 @@ export const RestoreAccount = () => {
       }
 
       if (e instanceof NotEnoughWordsError) {
-        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageShort'));
+        dispatch(setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageShort')));
       } else if (e instanceof InvalidWordsError) {
-        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageIncorrect'));
+        dispatch(setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageIncorrect')));
       } else {
-        setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric'));
+        dispatch(setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric')));
       }
       window.log.debug(
-        `WIP: [recoverAndFetchDisplayName] exception during registration: ${e.message || e} type ${typeof e}`
-      );
-      window.log.debug(
-        `WIP: [recoverAndFetchDisplayName] recoveryPasswordError before: ${recoveryPasswordError}`
+        `WIP: [recoverAndFetchDisplayName] exception during registration: ${e.message || e} type ${typeof JSON.stringify(e)}`
       );
       dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
-      window.log.debug(
-        `WIP: [recoverAndFetchDisplayName] recoveryPasswordError after: ${recoveryPasswordError}`
-      );
     }
   };
 
@@ -188,7 +179,7 @@ export const RestoreAccount = () => {
         displayName,
         recoveryPassword,
         errorCallback: e => {
-          setDisplayNameError(e.message || String(e));
+          dispatch(setDisplayNameError(e.message || String(e)));
           throw e;
         },
       });
@@ -211,8 +202,8 @@ export const RestoreAccount = () => {
             dispatch(setDisplayName(''));
             dispatch(setProgress(0));
 
-            setRecoveryPasswordError('');
-            setDisplayNameError('');
+            dispatch(setRecoveryPasswordError(undefined));
+            dispatch(setDisplayNameError(undefined));
           }}
         >
           <Flex
@@ -276,7 +267,7 @@ export const RestoreAccount = () => {
                   placeholder={window.i18n('enterDisplayName')}
                   value={displayName}
                   onValueChanged={(_name: string) => {
-                    const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError);
+                    const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError, dispatch);
                     dispatch(setDisplayName(name));
                   }}
                   onEnterPressed={recoverAndEnterDisplayName}

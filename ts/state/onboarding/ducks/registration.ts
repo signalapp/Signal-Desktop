@@ -35,8 +35,10 @@ export type OnboardDirection = 'backward' | 'forward';
 
 export type OnboardingState = {
   recoveryPassword: string;
+  recoveryPasswordError: string | undefined;
   hexGeneratedPubKey: string;
   displayName: string;
+  displayNameError: string | undefined;
   progress: number;
   step: Onboarding;
   accountCreationStep: AccountCreation;
@@ -46,8 +48,10 @@ export type OnboardingState = {
 
 const initialState: OnboardingState = {
   recoveryPassword: '',
+  recoveryPasswordError: undefined,
   hexGeneratedPubKey: '',
   displayName: '',
+  displayNameError: undefined,
   progress: 0,
   step: Onboarding.Start,
   accountRestorationStep: AccountRestoration.RecoveryPassword,
@@ -59,14 +63,23 @@ export const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
+    resetOnboardingState() {
+      return { ...initialState };
+    },
     setRecoveryPassword(state, action: PayloadAction<string>) {
       return { ...state, recoveryPassword: action.payload };
+    },
+    setRecoveryPasswordError(state, action: PayloadAction<string | undefined>) {
+      return { ...state, recoveryPasswordError: action.payload };
     },
     setHexGeneratedPubKey(state, action: PayloadAction<string>) {
       return { ...state, hexGeneratedPubKey: action.payload };
     },
     setDisplayName(state, action: PayloadAction<string>) {
       return { ...state, displayName: action.payload };
+    },
+    setDisplayNameError(state, action: PayloadAction<string | undefined>) {
+      return { ...state, displayNameError: action.payload };
     },
     setProgress(state, action: PayloadAction<number>) {
       return { ...state, progress: action.payload };
@@ -87,9 +100,12 @@ export const registrationSlice = createSlice({
 });
 
 export const {
+  resetOnboardingState,
   setRecoveryPassword,
+  setRecoveryPasswordError,
   setHexGeneratedPubKey,
   setDisplayName,
+  setDisplayNameError,
   setProgress,
   setOnboardingStep,
   setAccountCreationStep,

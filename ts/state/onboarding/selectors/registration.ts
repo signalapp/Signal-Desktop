@@ -19,6 +19,11 @@ const getRecoveryPassword = createSelector(
   (state: OnboardingState): string => state.recoveryPassword
 );
 
+const getRecoveryPasswordError = createSelector(
+  getRegistration,
+  (state: OnboardingState): string | undefined => state.recoveryPasswordError
+);
+
 const getHexGeneratedPubKey = createSelector(
   getRegistration,
   (state: OnboardingState): string => state.hexGeneratedPubKey
@@ -27,6 +32,11 @@ const getHexGeneratedPubKey = createSelector(
 const getDisplayName = createSelector(
   getRegistration,
   (state: OnboardingState): string => state.displayName
+);
+
+const getDisplayNameError = createSelector(
+  getRegistration,
+  (state: OnboardingState): string | undefined => state.displayNameError
 );
 
 const getProgress = createSelector(
@@ -60,12 +70,20 @@ export const useRecoveryPassword = () => {
   return useSelector(getRecoveryPassword);
 };
 
+export const useRecoveryPasswordError = () => {
+  return useSelector(getRecoveryPasswordError);
+};
+
 export const useOnboardHexGeneratedPubKey = () => {
   return useSelector(getHexGeneratedPubKey);
 };
 
 export const useDisplayName = () => {
   return useSelector(getDisplayName);
+};
+
+export const useDisplayNameError = () => {
+  return useSelector(getDisplayNameError);
 };
 
 export const useProgress = () => {

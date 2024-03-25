@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import { SettingsKey } from '../../../data/settings-key';
@@ -10,11 +10,13 @@ import {
   AccountCreation,
   setAccountCreationStep,
   setDisplayName,
+  setDisplayNameError,
   setHexGeneratedPubKey,
   setRecoveryPassword,
 } from '../../../state/onboarding/ducks/registration';
 import {
   useDisplayName,
+  useDisplayNameError,
   useOnboardAccountCreationStep,
   useOnboardHexGeneratedPubKey,
   useRecoveryPassword,
@@ -57,11 +59,10 @@ export const CreateAccount = () => {
   const step = useOnboardAccountCreationStep();
   const recoveryPassword = useRecoveryPassword();
   const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
+  const displayName = useDisplayName();
+  const displayNameError = useDisplayNameError();
 
   const dispatch = useDispatch();
-
-  const displayName = useDisplayName();
-  const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
 
   const generateMnemonicAndKeyPair = async () => {
     if (recoveryPassword === '') {
@@ -103,7 +104,7 @@ export const CreateAccount = () => {
         displayName,
         recoveryPassword,
         errorCallback: e => {
-          setDisplayNameError(e.message || String(e));
+          dispatch(setDisplayNameError(e.message || String(e)));
           throw e;
         },
       });
@@ -123,7 +124,7 @@ export const CreateAccount = () => {
       callback={() => {
         dispatch(setDisplayName(''));
         dispatch(setRecoveryPassword(''));
-        setDisplayNameError('');
+        dispatch(setDisplayNameError(undefined));
       }}
     >
       <Flex
@@ -144,7 +145,7 @@ export const CreateAccount = () => {
           placeholder={window.i18n('enterDisplayName')}
           value={displayName}
           onValueChanged={(_name: string) => {
-            const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError);
+            const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError, dispatch);
             dispatch(setDisplayName(name));
           }}
           onEnterPressed={signUpWithDetails}

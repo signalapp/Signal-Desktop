@@ -5,6 +5,7 @@ import { ONBOARDING_TIMES } from '../../../session/constants';
 import { trigger } from '../../../shims/events';
 import {
   AccountRestoration,
+  resetOnboardingState,
   setAccountRestorationStep,
 } from '../../../state/onboarding/ducks/registration';
 
@@ -89,6 +90,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
         window.log.debug(
           `WIP: [continueYourSession] AccountRestoration.Complete opening inbox for ${displayName}`
         );
+        dispatch(resetOnboardingState());
         trigger('openInbox');
       }
     }

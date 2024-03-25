@@ -111,7 +111,7 @@ async function retrieveNextMessages(
   configHashesToBump: Array<string> | null
 ): Promise<RetrieveMessagesResultsBatched> {
   if (namespaces.length !== lastHashes.length) {
-    throw new Error('namespaces and last hashes does not match');
+    throw new Error('namespaces and last hashes do not match');
   }
 
   const retrieveRequestsParams = await buildRetrieveRequest(

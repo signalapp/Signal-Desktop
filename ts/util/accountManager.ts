@@ -8,7 +8,7 @@ import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SessionKeyPair } from '../receiver/keypairs';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
-import { NotEnoughWordsError, mnDecode, mnEncode } from '../session/crypto/mnemonic';
+import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { NotFoundError } from '../session/utils/errors';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
@@ -104,8 +104,6 @@ export async function signInByLinkingDevice(
   const pubKeyString = toHex(identityKeyPair.pubKey);
   // fetch configuration message to get the user's display name.
   const displayName = await getSwarmPollingInstance().pollForOurDisplayName();
-  // TODO remove later
-  throw new NotEnoughWordsError('fml');
 
   if (isEmpty(displayName)) {
     throw new NotFoundError('Got a config message from network but without a displayName...');
