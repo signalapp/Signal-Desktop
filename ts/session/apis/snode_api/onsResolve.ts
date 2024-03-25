@@ -103,7 +103,7 @@ async function getSessionIDForOnsName(onsNameCase: string) {
       throw new Error('ONSresolve: Validation failed');
     }
 
-    // assert all the returned session ids are the same
+    // assert all the returned account ids are the same
     if (_.uniq(allResolvedSessionIds).length !== 1) {
       throw new Error('ONSresolve: Validation failed');
     }

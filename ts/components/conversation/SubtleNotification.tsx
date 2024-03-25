@@ -46,7 +46,7 @@ export const ConversationRequestExplanation = () => {
 
   return (
     <Container>
-      <TextInner>{window.i18n('respondingToRequestWarning')}</TextInner>
+      <TextInner>{window.i18n('messageRequestsAcceptDescription')}</TextInner>
     </Container>
   );
 };
