@@ -23,6 +23,8 @@ import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirma
 import { missingCaseError } from '../../util/missingCaseError';
 import { UserText } from '../UserText';
 import { Button, ButtonIconType, ButtonVariant } from '../Button';
+import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { InContactsIcon } from '../InContactsIcon';
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
@@ -200,7 +202,6 @@ export function ContactModal({
   switch (view) {
     case ContactModalView.Default: {
       const preferredBadge: undefined | BadgeType = badges[0];
-
       return (
         <Modal
           modalName="ContactModal"
@@ -249,6 +250,15 @@ export function ContactModal({
             >
               <div className="ContactModal__name__text">
                 <UserText text={contact.title} />
+                {isInSystemContacts(contact) && (
+                  <span>
+                    {' '}
+                    <InContactsIcon
+                      className="ContactModal__name__contact-icon"
+                      i18n={i18n}
+                    />
+                  </span>
+                )}
               </div>
               <i className="ContactModal__name__chevron" />
             </button>

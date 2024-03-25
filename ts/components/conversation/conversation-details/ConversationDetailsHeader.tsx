@@ -15,6 +15,8 @@ import { assertDev } from '../../../util/assert';
 import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
 import { UserText } from '../../UserText';
+import { isInSystemContacts } from '../../../util/isInSystemContacts';
+import { InContactsIcon } from '../../InContactsIcon';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -211,7 +213,15 @@ export function ConversationDetailsHeader({
       >
         <div className="ConversationDetailsHeader__title">
           <UserText text={conversation.title} />
-
+          {isInSystemContacts(conversation) && (
+            <span>
+              {' '}
+              <InContactsIcon
+                className="ConversationDetailsHeader__title-contact-icon"
+                i18n={i18n}
+              />
+            </span>
+          )}
           <span className="ConversationDetailsHeader__about-icon" />
         </div>
       </button>

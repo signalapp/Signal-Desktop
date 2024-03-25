@@ -142,6 +142,22 @@ export function Basic(): JSX.Element {
   return <ConversationDetails {...props} />;
 }
 
+export function SystemContact(): JSX.Element {
+  const props = createProps();
+  const contact = getDefaultConversation();
+
+  return (
+    <ConversationDetails
+      {...props}
+      isGroup={false}
+      conversation={{
+        ...contact,
+        systemGivenName: contact.title,
+      }}
+    />
+  );
+}
+
 export function AsAdmin(): JSX.Element {
   const props = createProps();
 

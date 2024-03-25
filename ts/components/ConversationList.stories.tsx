@@ -140,6 +140,20 @@ export function ContactDirect(): JSX.Element {
   );
 }
 
+export function ContactInSystemContacts(): JSX.Element {
+  const contact = defaultConversations[0];
+  return (
+    <Wrapper
+      rows={[
+        {
+          type: RowType.Contact,
+          contact: { ...contact, systemGivenName: contact.title },
+        },
+      ]}
+    />
+  );
+}
+
 export function ContactDirectWithContextMenu(): JSX.Element {
   return (
     <Wrapper

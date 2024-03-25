@@ -119,3 +119,11 @@ WithUnreadStories.args = {
   hasStories: HasStories.Unread,
 };
 WithUnreadStories.storyName = 'Unread Stories';
+
+export const InSystemContacts = Template.bind({});
+InSystemContacts.args = {
+  contact: {
+    ...defaultContact,
+    systemGivenName: defaultContact.title,
+  },
+};
