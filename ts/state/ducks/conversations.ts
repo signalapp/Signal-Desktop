@@ -2741,7 +2741,11 @@ function getProfilesForConversation(conversationId: string): NoopActionType {
     throw new Error('getProfilesForConversation: no conversation found');
   }
 
-  void conversation.getProfiles();
+  drop(
+    conversation.getProfiles().catch(() => {
+      /* nothing to do here; logging already happened */
+    })
+  );
 
   return {
     type: 'NOOP',
@@ -2765,7 +2769,11 @@ function conversationStoppedByMissingVerification(payload: {
     }
 
     // Intentionally not awaiting here
-    void conversation.getProfiles();
+    drop(
+      conversation.getProfiles().catch(() => {
+        /* nothing to do here; logging already happened */
+      })
+    );
   });
 
   return {
@@ -4274,7 +4282,9 @@ function onConversationOpened(
         conversation.throttledGetProfiles !== undefined,
         'Conversation model should be initialized'
       );
-      await conversation.throttledGetProfiles();
+      await conversation.throttledGetProfiles().catch(() => {
+        /* nothing to do here; logging already happened */
+      });
     }
 
     drop(conversation.updateVerified());

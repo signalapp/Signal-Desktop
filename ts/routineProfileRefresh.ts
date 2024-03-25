@@ -142,10 +142,17 @@ export async function routineProfileRefresh({
       );
       successCount += 1;
     } catch (err) {
-      log.error(
-        `${logId}: refreshed profile for ${conversation.idForLogging()}`,
-        Errors.toLogFormat(err)
-      );
+      if ('code' in err) {
+        log.warn(
+          `${logId}: refreshed profile for ${conversation.idForLogging()},`,
+          `got error code ${err.code}`
+        );
+      } else {
+        log.error(
+          `${logId}: refreshed profile for ${conversation.idForLogging()}`,
+          Errors.toLogFormat(err)
+        );
+      }
     }
   }
 

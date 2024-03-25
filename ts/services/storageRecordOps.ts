@@ -1064,7 +1064,11 @@ export async function mergeContactRecord(
   ) {
     // Local name doesn't match remote name, fetch profile
     if (localName) {
-      void conversation.getProfiles();
+      drop(
+        conversation.getProfiles().catch(() => {
+          /* nothing to do here; logging already happened */
+        })
+      );
       details.push('refreshing profile');
     } else {
       conversation.set({
