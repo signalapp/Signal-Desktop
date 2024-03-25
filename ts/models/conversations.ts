@@ -4173,16 +4173,23 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const currentTimestamp = this.get('timestamp') || null;
-
-    let timestamp = currentTimestamp;
+    let timestamp = this.get('timestamp') || null;
+    let lastMessageReceivedAt = this.get('lastMessageReceivedAt');
+    let lastMessageReceivedAtMs = this.get('lastMessageReceivedAtMs');
     if (activityMessage) {
-      const receivedAt = activityMessage.get('received_at_ms');
-      timestamp = receivedAt
-        ? Math.min(activityMessage.get('sent_at'), receivedAt)
-        : activityMessage.get('sent_at');
+      timestamp =
+        activityMessage.get('editMessageTimestamp') ||
+        activityMessage.get('sent_at') ||
+        timestamp;
+      lastMessageReceivedAt =
+        activityMessage.get('editMessageReceivedAt') ||
+        activityMessage.get('received_at') ||
+        lastMessageReceivedAt;
+      lastMessageReceivedAtMs =
+        activityMessage.get('editMessageReceivedAtMs') ||
+        activityMessage.get('received_at_ms') ||
+        lastMessageReceivedAtMs;
     }
-    timestamp = timestamp || currentTimestamp;
 
     const notificationData = previewMessage?.getNotificationData();
 
@@ -4196,6 +4203,8 @@ export class ConversationModel extends window.Backbone
         (previewMessage
           ? getMessagePropStatus(previewMessage.attributes, ourConversationId)
           : null) || null,
+      lastMessageReceivedAt,
+      lastMessageReceivedAtMs,
       timestamp,
       lastMessageDeletedForEveryone: previewMessage
         ? previewMessage.get('deletedForEveryone')

@@ -129,10 +129,14 @@ describe('MessageReceipts', () => {
         {
           sendStateByConversationId: defaultSendState,
           timestamp: editedSentAt,
+          received_at: 2,
+          received_at_ms: Date.now(),
         },
         {
           sendStateByConversationId: defaultSendState,
           timestamp: sentAt,
+          received_at: 1,
+          received_at_ms: Date.now(),
         },
       ],
     };
