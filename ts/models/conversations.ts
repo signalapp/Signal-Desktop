@@ -4645,7 +4645,11 @@ export class ConversationModel extends window.Backbone
 
   onChangeProfileKey(): void {
     if (isDirectConversation(this.attributes)) {
-      void this.getProfiles();
+      drop(
+        this.getProfiles().catch(() => {
+          /* nothing to do here; logging already happened */
+        })
+      );
     }
   }
 

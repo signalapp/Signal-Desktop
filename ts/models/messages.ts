@@ -1073,7 +1073,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       switch (error.name) {
         case 'OutgoingIdentityKeyError': {
           if (conversation) {
-            promises.push(conversation.getProfiles());
+            promises.push(
+              conversation.getProfiles().catch(() => {
+                /* nothing to do here; logging already happened */
+              })
+            );
           }
           break;
         }
