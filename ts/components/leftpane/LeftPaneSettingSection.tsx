@@ -72,8 +72,8 @@ const getCategories = () => {
       title: window.i18n('helpSettingsTitle'),
     },
     {
-      id: SessionSettingCategory.RecoveryPhrase,
-      title: window.i18n('recoveryPhrase'),
+      id: SessionSettingCategory.RecoveryPassword,
+      title: window.i18n('sessionRecoveryPassword'),
     },
     {
       id: SessionSettingCategory.ClearData,
@@ -107,7 +107,7 @@ const LeftPaneSettingsCategoryRow = (props: {
             dispatch(setLeftOverlayMode('message-requests'));
             dispatch(resetConversationExternal());
             break;
-          case SessionSettingCategory.RecoveryPhrase:
+          case SessionSettingCategory.RecoveryPassword:
             dispatch(recoveryPhraseModal({}));
             break;
           case SessionSettingCategory.ClearData:

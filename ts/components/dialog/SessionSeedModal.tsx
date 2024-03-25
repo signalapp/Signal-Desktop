@@ -220,7 +220,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
     <>
       {!loadingSeed && (
         <SessionWrapperModal
-          title={window.i18n('showRecoveryPhrase')}
+          title={window.i18n('sessionRecoveryPassword')}
           onClose={onClose}
           showExitIcon={true}
         >

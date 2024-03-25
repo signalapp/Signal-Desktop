@@ -45,7 +45,7 @@ export const SettingsHeader = (props: Props) => {
       break;
     case SessionSettingCategory.ClearData:
     case SessionSettingCategory.MessageRequests:
-    case SessionSettingCategory.RecoveryPhrase:
+    case SessionSettingCategory.RecoveryPassword:
       throw new Error(`no header for should be tried to be rendered for "${category}"`);
 
     default:

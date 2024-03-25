@@ -58,7 +58,7 @@ async function signInWithNewDisplayName(signInDetails: RecoverDetails) {
 }
 
 /**
- * This will try to sign in with the user recovery phrase.
+ * This will try to sign in with the user recovery password.
  * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
  */
 async function signInAndFetchDisplayName(
@@ -228,12 +228,12 @@ export const RestoreAccount = () => {
                   autoFocus={true}
                   disabledOnBlur={true}
                   type="password"
-                  placeholder={window.i18n('enterRecoveryPhrase')}
+                  placeholder={window.i18n('recoveryPasswordEnter')}
                   value={recoveryPassword}
                   onValueChanged={(seed: string) => {
                     dispatch(setRecoveryPassword(seed));
                     setRecoveryPasswordError(
-                      !seed ? window.i18n('recoveryPhraseEmpty') : undefined
+                      !seed ? window.i18n('recoveryPasswordEnter') : undefined
                     );
                   }}
                   onEnterPressed={recoverAndFetchDisplayName}

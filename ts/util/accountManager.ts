@@ -60,7 +60,7 @@ const generateKeypair = async (
 };
 
 /**
- * Sign in with a recovery phrase. We won't try to recover an existing profile name
+ * Sign in with a recovery password. We won't try to recover an existing profile name
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
  * @param profileName the displayName to use for this user
@@ -74,7 +74,7 @@ export async function signInWithRecovery(
 }
 
 /**
- * Sign in with a recovery phrase and try to recover display name and avatar from the first encountered configuration message.
+ * Sign in with a recovery password and try to recover display name and avatar from the first encountered configuration message.
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
  * @param loadingAnimationCallback a callback to trigger a loading animation

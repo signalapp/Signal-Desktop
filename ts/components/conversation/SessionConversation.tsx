@@ -209,8 +209,8 @@ export class SessionConversation extends Component<Props, State> {
     if (msg.body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
       window.inboxStore?.dispatch(
         updateConfirmModal({
-          title: window.i18n('sendRecoveryPhraseTitle'),
-          message: window.i18n('sendRecoveryPhraseMessage'),
+          title: window.i18n('warning'),
+          message: window.i18n('recoveryPasswordWarningSendDescription'),
           okTheme: SessionButtonColor.Danger,
           onClickOk: () => {
             void sendAndScroll();
