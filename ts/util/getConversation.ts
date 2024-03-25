@@ -186,6 +186,8 @@ export function getConversation(model: ConversationModel): ConversationType {
     isVerified: model.isVerified(),
     isFetchingUUID: model.isFetchingUUID,
     lastMessage: getLastMessage(attributes),
+    lastMessageReceivedAt: attributes.lastMessageReceivedAt,
+    lastMessageReceivedAtMs: attributes.lastMessageReceivedAtMs,
     lastUpdated: dropNull(timestamp),
     left: Boolean(attributes.left),
     markedUnread: attributes.markedUnread,

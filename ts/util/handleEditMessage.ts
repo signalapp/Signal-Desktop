@@ -121,6 +121,8 @@ export async function handleEditMessage(
       quote: mainMessage.quote,
       sendStateByConversationId: { ...mainMessage.sendStateByConversationId },
       timestamp: mainMessage.timestamp,
+      received_at: mainMessage.received_at,
+      received_at_ms: mainMessage.received_at_ms,
     },
   ];
 
@@ -253,6 +255,8 @@ export async function handleEditMessage(
     sendStateByConversationId:
       upgradedEditedMessageData.sendStateByConversationId,
     timestamp: upgradedEditedMessageData.timestamp,
+    received_at: upgradedEditedMessageData.received_at,
+    received_at_ms: upgradedEditedMessageData.received_at_ms,
     quote: nextEditedMessageQuote,
   };
 
@@ -268,6 +272,8 @@ export async function handleEditMessage(
     bodyRanges: editedMessage.bodyRanges,
     editHistory,
     editMessageTimestamp: upgradedEditedMessageData.timestamp,
+    editMessageReceivedAt: upgradedEditedMessageData.received_at,
+    editMessageReceivedAtMs: upgradedEditedMessageData.received_at_ms,
     preview: editedMessage.preview,
     quote: editedMessage.quote,
   });

@@ -116,7 +116,8 @@ export type MessageReactionType = {
 };
 
 // Note: when adding to the set of things that can change via edits, sendNormalMessage.ts
-//   needs more usage of get/setPropForTimestamp.
+//   needs more usage of get/setPropForTimestamp. Also, these fields must match the fields
+//   in MessageAttributesType.
 export type EditHistoryType = {
   attachments?: Array<AttachmentType>;
   body?: string;
@@ -126,6 +127,8 @@ export type EditHistoryType = {
   quote?: QuotedMessageType;
   sendStateByConversationId?: SendStateByConversationId;
   timestamp: number;
+  received_at: number;
+  received_at_ms?: number;
 };
 
 export type MessageAttributesType = {
@@ -152,6 +155,8 @@ export type MessageAttributesType = {
   isViewOnce?: boolean;
   editHistory?: Array<EditHistoryType>;
   editMessageTimestamp?: number;
+  editMessageReceivedAt?: number;
+  editMessageReceivedAtMs?: number;
   key_changed?: string;
   local?: boolean;
   logger?: unknown;
@@ -334,6 +339,8 @@ export type ConversationAttributesType = {
   lastMessagePrefix?: string;
   lastMessageAuthor?: string | null;
   lastMessageStatus?: LastMessageStatus | null;
+  lastMessageReceivedAt?: number;
+  lastMessageReceivedAtMs?: number;
   markedUnread?: boolean;
   messageCount?: number;
   messageCountBeforeMessageRequests?: number | null;

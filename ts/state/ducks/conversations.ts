@@ -282,6 +282,8 @@ export type ConversationType = ReadonlyDeep<
     isVerified?: boolean;
     activeAt?: number;
     timestamp?: number;
+    lastMessageReceivedAt?: number;
+    lastMessageReceivedAtMs?: number;
     inboxPosition?: number;
     left?: boolean;
     lastMessage?: LastMessageType;

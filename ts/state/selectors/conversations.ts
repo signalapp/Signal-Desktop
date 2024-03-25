@@ -303,8 +303,9 @@ const collator = new Intl.Collator();
 //   phone numbers and contacts from scratch here again.
 export const _getConversationComparator = () => {
   return (left: ConversationType, right: ConversationType): number => {
-    const leftTimestamp = left.timestamp;
-    const rightTimestamp = right.timestamp;
+    // These two fields can be sorted with each other; they are timestamps
+    const leftTimestamp = left.lastMessageReceivedAtMs || left.timestamp;
+    const rightTimestamp = right.lastMessageReceivedAtMs || right.timestamp;
     if (leftTimestamp && !rightTimestamp) {
       return -1;
     }
@@ -313,6 +314,19 @@ export const _getConversationComparator = () => {
     }
     if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
       return rightTimestamp - leftTimestamp;
+    }
+
+    // This field looks like a timestamp, but is actually a counter
+    const leftCounter = left.lastMessageReceivedAt;
+    const rightCounter = right.lastMessageReceivedAt;
+    if (leftCounter && !rightCounter) {
+      return -1;
+    }
+    if (rightCounter && !leftCounter) {
+      return 1;
+    }
+    if (leftCounter && rightCounter && leftCounter !== rightCounter) {
+      return rightCounter - leftCounter;
     }
 
     if (
