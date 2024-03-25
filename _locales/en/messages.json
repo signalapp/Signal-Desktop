@@ -376,7 +376,7 @@
   "orJoinOneOfThese": "Or join one of these...",
   "otherPlural": "$number$ others",
   "otherSingular": "$number$ other",
-  "password": "Password",
+  "lockApp": "Lock App",
   "passwordCharacterError": "Password must only contain letters, numbers and symbols",
   "passwordLengthError": "Password must be between 6 and 64 characters long",
   "passwordsDoNotMatch": "Passwords do not match",
