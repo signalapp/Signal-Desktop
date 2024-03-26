@@ -63,20 +63,6 @@ const generateKeypair = async (
 };
 
 /**
- * Sign in with a recovery password. We won't try to recover an existing profile name
- * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
- * @param mnemonicLanguage 'english' only is supported
- * @param profileName the displayName to use for this user
- */
-export async function signInWithRecovery(
-  mnemonic: string,
-  mnemonicLanguage: string,
-  profileName: string
-) {
-  return registerSingleDevice(mnemonic, mnemonicLanguage, profileName);
-}
-
-/**
  * Sign in with a recovery password and try to recover display name and avatar from the first encountered configuration message.
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
@@ -115,20 +101,20 @@ export async function signInByLinkingDevice(
   trigger(configurationMessageReceived, displayName, pubKeyString);
 }
 /**
- * This signs up a new user account. User has no recovery and does not try to link a device
+ * This registers a user account. If a user recovery fails and does not try to link a device it can also be used
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
- * @param profileName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
+ * @param displayName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
  */
 export async function registerSingleDevice(
   generatedMnemonic: string,
   mnemonicLanguage: string,
-  profileName: string
+  displayName: string
 ) {
   if (!generatedMnemonic) {
     throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
-  if (!profileName) {
+  if (!displayName) {
     throw new Error('We always needs a profileName');
   }
   if (!mnemonicLanguage) {
@@ -142,7 +128,7 @@ export async function registerSingleDevice(
   await setLastProfileUpdateTimestamp(Date.now());
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
-  await registrationDone(pubKeyString, profileName);
+  await registrationDone(pubKeyString, displayName);
 }
 
 export async function generateMnemonic() {
@@ -237,6 +223,6 @@ export async function registrationDone(ourPubkey: string, displayName: string) {
   window.inboxStore?.dispatch(userActions.userChanged(user));
 
   window?.log?.info('dispatching registration event');
-  // this will make the poller start fetching messages, needed to find a configuration message
+  // this will make the poller start fetching messages
   trigger('registration_done');
 }

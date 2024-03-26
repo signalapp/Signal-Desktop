@@ -79,8 +79,6 @@ export const FEATURE_RELEASE_TIMESTAMPS = {
 export const ONBOARDING_TIMES = {
   /** 15 seconds */
   RECOVERY_TIMEOUT: 15 * DURATION.SECONDS,
-  // TODO remove later
-  // RECOVERY_TIMEOUT: 3 * DURATION.SECONDS,
   /** 0.3 seconds */
   RECOVERY_FINISHING: 0.3 * DURATION.SECONDS,
   /** 0.2 seconds */

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import { SettingsKey } from '../../../data/settings-key';
@@ -17,8 +16,6 @@ import {
 import {
   useDisplayName,
   useDisplayNameError,
-  useOnboardAccountCreationStep,
-  useOnboardHexGeneratedPubKey,
   useRecoveryPassword,
 } from '../../../state/onboarding/selectors/registration';
 import {
@@ -56,9 +53,7 @@ async function signUp(signUpDetails: RecoverDetails) {
 }
 
 export const CreateAccount = () => {
-  const step = useOnboardAccountCreationStep();
   const recoveryPassword = useRecoveryPassword();
-  const hexGeneratedPubKey = useOnboardHexGeneratedPubKey();
   const displayName = useDisplayName();
   const displayNameError = useDisplayNameError();
 
@@ -87,12 +82,6 @@ export const CreateAccount = () => {
   useMount(() => {
     void generateMnemonicAndKeyPair();
   });
-
-  useEffect(() => {
-    if (step === AccountCreation.DisplayName && hexGeneratedPubKey) {
-      window.Session.setNewSessionID(hexGeneratedPubKey);
-    }
-  }, [step, hexGeneratedPubKey]);
 
   const signUpWithDetails = async () => {
     if (!(!!displayName && !displayNameError)) {
