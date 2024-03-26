@@ -21,10 +21,6 @@ const StyledInput = styled.input<{
           ? props.selectedColor
           : 'var(--primary-color)'};
   }
-
-  :focus-within + label:before {
-    outline: 1px var(--primary-color) dashed;
-  }
 `;
 
 // NOTE (Will): We don't use a transition because it's too slow and creates flickering when changing buttons.
@@ -87,37 +83,39 @@ export const SessionRadio = (props: SessionRadioProps) => {
   const outlineOffset = 2;
 
   return (
-    <Flex
-      container={true}
-      flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
-      justifyContent={radioPosition === 'left' ? 'flex-start' : 'flex-end'}
-      style={{ ...style, position: 'relative' }}
-    >
-      <StyledInput
-        type="radio"
-        name={inputName || ''}
-        value={value}
-        aria-checked={active}
-        checked={active}
-        onChange={clickHandler}
-        filledSize={filledSize * 2}
-        outlineOffset={outlineOffset}
-        disabled={disabled}
-        data-testid={`input-${value.replaceAll(' ', '-')}`} // data-testid cannot have spaces
-      />
-      <StyledLabel
-        role="button"
-        onClick={clickHandler}
-        filledSize={filledSize - 1}
-        outlineOffset={outlineOffset}
-        beforeMargins={beforeMargins}
-        aria-label={label}
-        disabled={disabled}
-        data-testid={`label-${value}`}
+    <button>
+      <Flex
+        container={true}
+        flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
+        justifyContent={radioPosition === 'left' ? 'flex-start' : 'flex-end'}
+        style={{ ...style, position: 'relative' }}
       >
-        {label}
-      </StyledLabel>
-    </Flex>
+        <StyledInput
+          type="radio"
+          name={inputName || ''}
+          value={value}
+          aria-checked={active}
+          checked={active}
+          onChange={clickHandler}
+          filledSize={filledSize * 2}
+          outlineOffset={outlineOffset}
+          disabled={disabled}
+          data-testid={`input-${value.replaceAll(' ', '-')}`} // data-testid cannot have spaces
+        />
+        <StyledLabel
+          role="button"
+          onClick={clickHandler}
+          filledSize={filledSize - 1}
+          outlineOffset={outlineOffset}
+          beforeMargins={beforeMargins}
+          aria-label={label}
+          disabled={disabled}
+          data-testid={`label-${value}`}
+        >
+          {label}
+        </StyledLabel>
+      </Flex>
+    </button>
   );
 };
 

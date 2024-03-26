@@ -67,10 +67,6 @@ const StyledButton = styled.button<{
     'box-shadow: 0px 0px 6px var(--button-solid-shadow-color);'}
   border-radius: ${props => (props.buttonShape === SessionButtonShape.Round ? '17px' : '6px')};
 
-  :focus-within {
-    outline: 1px var(--primary-color) dashed;
-  }
-
   .session-icon {
     fill: var(--background-primary-color);
   }

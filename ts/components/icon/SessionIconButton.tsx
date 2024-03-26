@@ -37,10 +37,6 @@ const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boo
   &:hover svg path {
     ${props => !props.color && 'fill: var(--button-icon-stroke-hover-color);'}
   }
-
-  :focus-within {
-    outline: 1px var(--primary-color) dashed;
-  }
 `;
 
 // eslint-disable-next-line react/display-name

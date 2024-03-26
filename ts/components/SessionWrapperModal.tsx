@@ -64,14 +64,18 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
   };
 
   return (
-    <FocusTrap focusTrapOptions={{ initialFocus: '#focus-trap-start' }}>
+    <FocusTrap focusTrapOptions={{ initialFocus: '#focus-trap-start-wrapper' }}>
       <div
         className={classNames('loki-dialog modal', additionalClassName || null)}
         onClick={handleClick}
         role="dialog"
       >
         {/* FocusTrap needs a button always mounted as a start, which is apparently not our case */}
-        <button id="focus-trap-start" style={{ opacity: 0, width: 0, height: 0 }} />
+        <div
+          role="button"
+          id="focus-trap-start-wrapper"
+          style={{ opacity: 0, width: 0, height: 0 }}
+        />
         <div className="session-confirm-wrapper">
           <div ref={modalRef} className="session-modal">
             {showHeader ? (
