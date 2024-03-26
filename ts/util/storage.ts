@@ -129,10 +129,6 @@ export async function setSignWithRecoveryPhrase(isRecoveryPhraseUsed: boolean) {
   await put('is_sign_in_recovery_phrase', isRecoveryPhraseUsed);
 }
 
-export function getLastProfileUpdateTimestamp() {
-  return get('last_profile_update_timestamp');
-}
-
 export async function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
   if (await ReleasedFeatures.checkIsUserConfigFeatureReleased()) {
     return;
