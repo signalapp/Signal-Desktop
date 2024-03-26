@@ -1,9 +1,6 @@
 import { shell } from 'electron';
 import { AnimatePresence } from 'framer-motion';
-import { useMount } from 'react-use';
 import styled from 'styled-components';
-import { Data } from '../../data/data';
-import { getConversationController } from '../../session/conversations';
 import {
   AccountCreation,
   AccountRestoration,
@@ -14,20 +11,11 @@ import {
   useOnboardAccountRestorationStep,
   useOnboardStep,
 } from '../../state/onboarding/selectors/registration';
-import { Storage } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { OnboardContainer } from './components';
 import { CreateAccount, RestoreAccount, Start } from './stages';
-
-export async function resetRegistration() {
-  await Data.removeAll();
-  Storage.reset();
-  await Storage.fetch();
-  getConversationController().reset();
-  await getConversationController().load();
-}
 
 export type RecoverDetails = {
   recoveryPassword: string;
@@ -37,7 +25,6 @@ export type RecoverDetails = {
 
 const StyledRegistrationContainer = styled(Flex)`
   width: 348px;
-
   .session-button {
     width: 100%;
     margin: 0;
@@ -48,10 +35,6 @@ export const RegistrationStages = () => {
   const step = useOnboardStep();
   const creationStep = useOnboardAccountCreationStep();
   const restorationStep = useOnboardAccountRestorationStep();
-
-  useMount(() => {
-    void resetRegistration();
-  });
 
   return (
     <AnimatePresence>

@@ -28,27 +28,24 @@ import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
-import { RecoverDetails, resetRegistration } from '../RegistrationStages';
+import { RecoverDetails } from '../RegistrationStages';
 import { OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
-import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
+import { displayNameIsValid, resetRegistration, sanitizeDisplayNameOrToast } from '../utils';
 
 async function signUp(signUpDetails: RecoverDetails) {
   const { displayName, recoveryPassword, errorCallback } = signUpDetails;
-  window.log.debug(`WIP: [signUp] starting sign up....`);
 
   try {
-    const trimName = displayNameIsValid(displayName);
-
+    const validDisplayName = displayNameIsValid(displayName);
     await resetRegistration();
-    await registerSingleDevice(recoveryPassword, 'english', trimName);
+    await registerSingleDevice(recoveryPassword, 'english', validDisplayName);
     await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, Date.now());
     await setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
     void errorCallback(e);
-    window.log.debug(`WIP: [signUp] exception during registration: ${e.message || e}`);
   }
 }
 
@@ -89,6 +86,9 @@ export const CreateAccount = () => {
     }
 
     try {
+      window.log.debug(
+        `WIP: [onboarding] create account: signUp() is starting display name: ${displayName} recoveryPassword: ${recoveryPassword}`
+      );
       await signUp({
         displayName,
         recoveryPassword,
@@ -101,7 +101,7 @@ export const CreateAccount = () => {
       dispatch(setAccountCreationStep(AccountCreation.Done));
     } catch (e) {
       window.log.debug(
-        `WIP: [recoverAndFetchDisplayName] AccountRestoration.RecoveryPassword failed to fetch display name so we need to enter it manually. Error: ${e}`
+        `WIP: [onboarding] create account: creation failed! Error: ${e.message || e}`
       );
       dispatch(setAccountCreationStep(AccountCreation.DisplayName));
     }

@@ -285,7 +285,7 @@ async function start() {
 
   window.log.info('listening for registration events');
   WhisperEvents.on('registration_done', () => {
-    window.log.info('handling registration event');
+    window.log.info('WIP: [onboarding] handling registration event');
     void connect();
   });
 

@@ -1,8 +1,10 @@
 import { useDispatch } from 'react-redux';
+import { useMount } from 'react-use';
 import {
   AccountCreation,
   AccountRestoration,
   Onboarding,
+  resetOnboardingState,
   setAccountCreationStep,
   setAccountRestorationStep,
   setDirection,
@@ -11,9 +13,15 @@ import {
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
 import { TermsAndConditions } from '../TermsAndConditions';
+import { resetRegistration } from '../utils';
 
 export const Start = () => {
   const dispatch = useDispatch();
+
+  useMount(() => {
+    dispatch(resetOnboardingState());
+    void resetRegistration();
+  });
 
   return (
     <>

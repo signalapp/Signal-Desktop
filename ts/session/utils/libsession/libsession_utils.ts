@@ -36,6 +36,9 @@ export type OutgoingConfResult = {
   oldMessageHashes: Array<string>;
 };
 
+/**
+ * Initializes the libsession wrappers for the required user variants if the dumps are not already in the database. It will use an empty dump if the dump is not found.
+ */
 async function initializeLibSessionUtilWrappers() {
   const keypair = await UserUtils.getUserED25519KeyPairBytes();
   if (!keypair || !keypair.privKeyBytes) {

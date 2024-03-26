@@ -4,11 +4,14 @@ import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
 import { ConfigurationSyncJobDone } from '../../../../shims/events';
+import { ReleasedFeatures } from '../../../../util/releaseFeature';
+import { isSignInByLinking } from '../../../../util/storage';
 import { GenericWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { NotEmptyArrayOfBatchResults } from '../../../apis/snode_api/SnodeRequestTypes';
 import { getConversationController } from '../../../conversations';
 import { SharedConfigMessage } from '../../../messages/outgoing/controlMessage/SharedConfigMessage';
 import { MessageSender } from '../../../sending/MessageSender';
+import { allowOnlyOneAtATime } from '../../Promise';
 import { LibSessionUtil, OutgoingConfResult } from '../../libsession/libsession_utils';
 import { runners } from '../JobRunner';
 import {
@@ -17,9 +20,6 @@ import {
   PersistedJob,
   RunJobResult,
 } from '../PersistedJob';
-import { ReleasedFeatures } from '../../../../util/releaseFeature';
-import { allowOnlyOneAtATime } from '../../Promise';
-import { isSignInByLinking } from '../../../../util/storage';
 
 const defaultMsBetweenRetries = 15000; // a long time between retries, to avoid running multiple jobs at the same time, when one was postponed at the same time as one already planned (5s)
 const defaultMaxAttempts = 2;
