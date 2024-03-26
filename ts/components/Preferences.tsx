@@ -363,6 +363,8 @@ export function Preferences({
   >(localeOverride);
   const [languageSearchInput, setLanguageSearchInput] = useState('');
   const [toast, setToast] = useState<AnyToast | undefined>();
+  const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
+    useState(false);
 
   function closeLanguageDialog() {
     setLanguageDialog(null);
@@ -1484,7 +1486,13 @@ export function Preferences({
           title={i18n('icu:Preferences__pnp__discoverability--title')}
         >
           <SettingsRadio
-            onChange={onWhoCanFindMeChange}
+            onChange={value => {
+              if (value === PhoneNumberDiscoverability.NotDiscoverable) {
+                setConfirmPnpNoDiscoverable(true);
+              } else {
+                onWhoCanFindMeChange(value);
+              }
+            }}
             options={[
               {
                 text: i18n('icu:Preferences__pnp__discoverability__everyone'),
@@ -1515,6 +1523,43 @@ export function Preferences({
             </div>
           </div>
         </SettingsRow>
+        {confirmPnpNotDiscoverable && (
+          <ConfirmationDialog
+            i18n={i18n}
+            title={i18n(
+              'icu:Preferences__pnp__discoverability__nobody__confirmModal__title'
+            )}
+            dialogName="Preference.turnPnpDiscoveryOff"
+            onClose={() => {
+              setConfirmPnpNoDiscoverable(false);
+            }}
+            actions={[
+              {
+                action: () =>
+                  onWhoCanFindMeChange(
+                    PhoneNumberDiscoverability.NotDiscoverable
+                  ),
+                style: 'affirmative',
+                text: i18n('icu:ok'),
+              },
+            ]}
+          >
+            {i18n(
+              'icu:Preferences__pnp__discoverability__nobody__confirmModal__description',
+              {
+                // This is a rare instance where we want to interpolate the exact
+                // text of the string into quotes in the translation as an
+                // explanation.
+                settingTitle: i18n(
+                  'icu:Preferences__pnp__discoverability--title'
+                ),
+                nobodyLabel: i18n(
+                  'icu:Preferences__pnp__discoverability__nobody'
+                ),
+              }
+            )}
+          </ConfirmationDialog>
+        )}
       </>
     );
   }
