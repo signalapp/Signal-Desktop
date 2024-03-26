@@ -1,6 +1,7 @@
 import { isEmpty, isEqual } from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { REACT_LIMIT } from '../../../../session/constants';
@@ -147,10 +148,11 @@ type Props = {
   inModal?: boolean;
   onSelected?: (emoji: string) => boolean;
   noAvatar: boolean;
-  isDetailView?: boolean;
 };
 
 export const MessageReactions = (props: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const {
     messageId,
     hasReactLimit = true,
@@ -161,7 +163,6 @@ export const MessageReactions = (props: Props) => {
     inModal = false,
     onSelected,
     noAvatar,
-    isDetailView,
   } = props;
   const [reactions, setReactions] = useState<SortedReactionList>([]);
 

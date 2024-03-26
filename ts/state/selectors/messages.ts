@@ -160,10 +160,10 @@ export const useMessageText = (messageId: string | undefined): string | undefine
   return useMessagePropsByMessageId(messageId)?.propsForMessage.text;
 };
 
-export function useHideAvatarInMsgList(messageId?: string) {
+export function useHideAvatarInMsgList(messageId?: string, isDetailView?: boolean) {
   const msgProps = useMessagePropsByMessageId(messageId);
   const selectedIsPrivate = useSelectedIsPrivate();
-  return msgProps?.propsForMessage.direction === 'outgoing' || selectedIsPrivate;
+  return isDetailView || msgProps?.propsForMessage.direction === 'outgoing' || selectedIsPrivate;
 }
 
 export function useMessageSelected(messageId?: string) {
