@@ -330,7 +330,6 @@ export function ProfileEditor({
           i18n={i18n}
           maxLengthCount={26}
           maxByteCount={128}
-          whenToShowRemainingCount={0}
           onChange={newFirstName => {
             setStagedProfile(profileData => ({
               ...profileData,
@@ -345,7 +344,6 @@ export function ProfileEditor({
           i18n={i18n}
           maxLengthCount={26}
           maxByteCount={128}
-          whenToShowRemainingCount={0}
           onChange={newFamilyName => {
             setStagedProfile(profileData => ({
               ...profileData,

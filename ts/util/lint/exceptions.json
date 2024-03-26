@@ -2775,6 +2775,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/AutoSizeTextArea.tsx",
+    "line": "  const ownRef = useRef<HTMLTextAreaElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-03-26T17:14:14.370Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarTextEditor.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",

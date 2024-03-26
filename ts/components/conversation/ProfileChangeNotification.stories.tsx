@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -30,6 +31,7 @@ export function FromContact(): JSX.Element {
         oldName: 'Mr. Fire 🔥 Old',
         newName: 'Mr. Fire 🔥 New',
       }}
+      onOpenEditNicknameAndNoteModal={action('onOpenEditNicknameAndNoteModal')}
     />
   );
 }
@@ -48,6 +50,7 @@ export function FromNonContact(): JSX.Element {
         oldName: 'Mr. Fire 🔥 Old',
         newName: 'Mr. Fire 🔥 New',
       }}
+      onOpenEditNicknameAndNoteModal={action('onOpenEditNicknameAndNoteModal')}
     />
   );
 }
@@ -66,6 +69,7 @@ export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
         oldName: '💅🤷🏽‍♀️🏯'.repeat(50),
         newName: '☎️🎉🏝'.repeat(50),
       }}
+      onOpenEditNicknameAndNoteModal={action('onOpenEditNicknameAndNoteModal')}
     />
   );
 }

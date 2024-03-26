@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { AboutContactModal } from '../../components/conversation/AboutContactModal';
 import { isSignalConnection } from '../../util/getSignalConnections';
@@ -9,6 +9,7 @@ import { getGlobalModalsState } from '../selectors/globalModals';
 import { getConversationSelector } from '../selectors/conversations';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { strictAssert } from '../../util/assert';
 
 export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
   const i18n = useSelector(getIntl);
@@ -18,17 +19,24 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
 
   const { updateSharedGroups, unblurAvatar } = useConversationsActions();
 
+  const conversation = getConversation(contactId);
+  const { id: conversationId } = conversation ?? {};
+
   const {
     toggleAboutContactModal,
     toggleSignalConnectionsModal,
     toggleSafetyNumberModal,
+    toggleNotePreviewModal,
   } = useGlobalModalActions();
 
-  if (!contactId) {
+  const handleOpenNotePreviewModal = useCallback(() => {
+    strictAssert(conversationId != null, 'conversationId is required');
+    toggleNotePreviewModal({ conversationId });
+  }, [toggleNotePreviewModal, conversationId]);
+
+  if (conversation == null) {
     return null;
   }
-
-  const conversation = getConversation(contactId);
 
   return (
     <AboutContactModal
@@ -40,6 +48,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       isSignalConnection={isSignalConnection(conversation)}
       onClose={toggleAboutContactModal}
+      onOpenNotePreviewModal={handleOpenNotePreviewModal}
     />
   );
 });

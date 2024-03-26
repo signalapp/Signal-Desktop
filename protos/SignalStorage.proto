@@ -77,6 +77,11 @@ message ContactRecord {
     UNVERIFIED = 2;
   }
 
+  message Name {
+    optional string given = 1;
+    optional string family = 2;
+  }
+
   optional string aci = 1;
   optional string serviceE164 = 2;
   optional string pni = 15;
@@ -98,6 +103,8 @@ message ContactRecord {
   optional string systemNickname = 19;
   optional bool hidden = 20;
   optional bool pniSignatureVerified = 21;
+  optional Name nickname = 22;
+  optional string note = 23;
 }
 
 message GroupV1Record {

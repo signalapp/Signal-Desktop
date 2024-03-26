@@ -7,6 +7,7 @@ import type {
   ContactModalStateType,
   DeleteMessagesPropsType,
   EditHistoryMessagesType,
+  EditNicknameAndNoteModalPropsType,
   FormattingWarningDataType,
   ForwardMessagesPropsType,
   MessageRequestActionsConfirmationPropsType,
@@ -40,6 +41,9 @@ export type PropsType = {
   // EditHistoryMessagesModal
   editHistoryMessages: EditHistoryMessagesType | undefined;
   renderEditHistoryMessagesModal: () => JSX.Element;
+  // EditNicknameAndNoteModal
+  editNicknameAndNoteModalProps: EditNicknameAndNoteModalPropsType | null;
+  renderEditNicknameAndNoteModal: () => JSX.Element;
   // ErrorModal
   errorModalProps:
     | { buttonVariant?: ButtonVariant; description?: string; title?: string }
@@ -63,6 +67,9 @@ export type PropsType = {
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   renderMessageRequestActionsConfirmation: () => JSX.Element;
+  // NotePreviewModal
+  notePreviewModalProps: { conversationId: string } | null;
+  renderNotePreviewModal: () => JSX.Element;
   // ProfileEditor
   isProfileEditorVisible: boolean;
   renderProfileEditor: () => JSX.Element;
@@ -122,6 +129,9 @@ export function GlobalModalContainer({
   // EditHistoryMessages
   editHistoryMessages,
   renderEditHistoryMessagesModal,
+  // EditNicknameAndNoteModal
+  editNicknameAndNoteModalProps,
+  renderEditNicknameAndNoteModal,
   // ErrorModal
   errorModalProps,
   renderErrorModal,
@@ -137,6 +147,9 @@ export function GlobalModalContainer({
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps,
   renderMessageRequestActionsConfirmation,
+  // NotePreviewModal
+  notePreviewModalProps,
+  renderNotePreviewModal,
   // ProfileEditor
   isProfileEditorVisible,
   renderProfileEditor,
@@ -205,6 +218,10 @@ export function GlobalModalContainer({
     return renderEditHistoryMessagesModal();
   }
 
+  if (editNicknameAndNoteModalProps) {
+    return renderEditNicknameAndNoteModal();
+  }
+
   if (deleteMessagesProps) {
     return renderDeleteMessagesModal();
   }
@@ -232,6 +249,10 @@ export function GlobalModalContainer({
 
   if (messageRequestActionsConfirmationProps) {
     return renderMessageRequestActionsConfirmation();
+  }
+
+  if (notePreviewModalProps) {
+    return renderNotePreviewModal();
   }
 
   if (isProfileEditorVisible) {

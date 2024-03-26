@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { sortBy } from 'lodash';
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
@@ -114,6 +114,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     setMuteExpiration,
     showConversation,
     updateGroupAttributes,
+    updateNicknameAndNote,
   } = useConversationsActions();
   const {
     onOutgoingAudioCallInConversation,
@@ -124,6 +125,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     showContactModal,
     toggleAboutContactModal,
     toggleAddUserToAnotherGroupModal,
+    toggleEditNicknameAndNoteModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
   const { showLightboxWithMedia } = useLightboxActions();
@@ -162,6 +164,14 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const maxRecommendedGroupSize = getGroupSizeRecommendedLimit(151);
   const userAvatarData = conversation.avatars ?? [];
 
+  const handleDeleteNicknameAndNote = useCallback(() => {
+    updateNicknameAndNote(conversationId, { nickname: null, note: null });
+  }, [conversationId, updateNicknameAndNote]);
+
+  const handleOpenEditNicknameAndNoteModal = useCallback(() => {
+    toggleEditNicknameAndNoteModal({ conversationId });
+  }, [conversationId, toggleEditNicknameAndNoteModal]);
+
   return (
     <ConversationDetails
       acceptConversation={acceptConversation}
@@ -187,6 +197,8 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       maxGroupSize={maxGroupSize}
       maxRecommendedGroupSize={maxRecommendedGroupSize}
       memberships={memberships}
+      onDeleteNicknameAndNote={handleDeleteNicknameAndNote}
+      onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       pendingApprovalMemberships={pendingApprovalMemberships}

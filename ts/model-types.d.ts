@@ -374,6 +374,9 @@ export type ConversationAttributesType = {
   systemGivenName?: string;
   systemFamilyName?: string;
   systemNickname?: string;
+  nicknameGivenName?: string | null;
+  nicknameFamilyName?: string | null;
+  note?: string | null;
   needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
   profileSharing?: boolean;
@@ -469,6 +472,8 @@ export type ConversationRenderInfoType = Pick<
   | 'systemGivenName'
   | 'systemFamilyName'
   | 'systemNickname'
+  | 'nicknameGivenName'
+  | 'nicknameFamilyName'
   | 'type'
   | 'username'
 >;

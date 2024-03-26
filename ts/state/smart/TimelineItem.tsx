@@ -143,6 +143,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     showEditHistoryModal,
     toggleMessageRequestActionsConfirmation,
     toggleDeleteMessagesModal,
+    toggleEditNicknameAndNoteModal,
     toggleForwardMessagesModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
@@ -154,6 +155,10 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     onOutgoingVideoCallInConversation,
     returnToActiveCall,
   } = useCallingActions();
+
+  const onOpenEditNicknameAndNoteModal = useCallback(() => {
+    toggleEditNicknameAndNoteModal({ conversationId });
+  }, [conversationId, toggleEditNicknameAndNoteModal]);
 
   const onOpenMessageRequestActionsConfirmation = useCallback(
     (state: MessageRequestState) => {
@@ -198,6 +203,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       pushPanelForConversation={pushPanelForConversation}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
+      onOpenEditNicknameAndNoteModal={onOpenEditNicknameAndNoteModal}
       onOpenMessageRequestActionsConfirmation={
         onOpenMessageRequestActionsConfirmation
       }

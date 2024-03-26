@@ -9,16 +9,40 @@ import { SystemMessage } from './SystemMessage';
 import { Emojify } from './Emojify';
 import type { ProfileNameChangeType } from '../../util/getStringForProfileChange';
 import { getStringForProfileChange } from '../../util/getStringForProfileChange';
+import { Button, ButtonSize, ButtonVariant } from '../Button';
+import { areNicknamesEnabled } from '../../util/nicknames';
 
 export type PropsType = {
   change: ProfileNameChangeType;
   changedContact: ConversationType;
   i18n: LocalizerType;
+  onOpenEditNicknameAndNoteModal: () => void;
 };
 
-export function ProfileChangeNotification(props: PropsType): JSX.Element {
-  const { change, changedContact, i18n } = props;
+export function ProfileChangeNotification({
+  change,
+  changedContact,
+  i18n,
+  onOpenEditNicknameAndNoteModal,
+}: PropsType): JSX.Element {
   const message = getStringForProfileChange(change, changedContact, i18n);
 
-  return <SystemMessage icon="profile" contents={<Emojify text={message} />} />;
+  return (
+    <SystemMessage
+      icon="profile"
+      contents={<Emojify text={message} />}
+      button={
+        areNicknamesEnabled() &&
+        changedContact.nicknameGivenName != null && (
+          <Button
+            onClick={onOpenEditNicknameAndNoteModal}
+            size={ButtonSize.Small}
+            variant={ButtonVariant.SystemMessage}
+          >
+            {i18n('icu:update')}
+          </Button>
+        )
+      }
+    />
+  );
 }

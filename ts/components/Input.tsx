@@ -23,9 +23,11 @@ export type PropsType = {
   disabled?: boolean;
   disableSpellcheck?: boolean;
   expandable?: boolean;
+  forceTextarea?: boolean;
   hasClearButton?: boolean;
   i18n: LocalizerType;
   icon?: ReactNode;
+  id?: string;
   maxByteCount?: number;
   maxLengthCount?: number;
   moduleClassName?: string;
@@ -34,6 +36,7 @@ export type PropsType = {
   placeholder: string;
   value?: string;
   whenToShowRemainingCount?: number;
+  whenToWarnRemainingCount?: number;
   children?: ReactNode;
 };
 
@@ -64,9 +67,11 @@ export const Input = forwardRef<
     disabled,
     disableSpellcheck,
     expandable,
+    forceTextarea,
     hasClearButton,
     i18n,
     icon,
+    id,
     maxByteCount = 0,
     maxLengthCount = 0,
     moduleClassName,
@@ -75,6 +80,7 @@ export const Input = forwardRef<
     placeholder,
     value = '',
     whenToShowRemainingCount = Infinity,
+    whenToWarnRemainingCount = Infinity,
     children,
   },
   ref
@@ -195,14 +201,17 @@ export const Input = forwardRef<
   const lengthCount = maxLengthCount ? countLength(value) : -1;
   const getClassName = getClassNamesFor('Input', moduleClassName);
 
+  const isTextarea = expandable || forceTextarea;
+
   const inputProps = {
     className: classNames(
       getClassName('__input'),
       icon && getClassName('__input--with-icon'),
       isLarge && getClassName('__input--large'),
-      expandable && getClassName('__input--expandable')
+      isTextarea && getClassName('__input--textarea')
     ),
     disabled: Boolean(disabled),
+    id,
     spellCheck: !disableSpellcheck,
     onChange: handleChange,
     onKeyDown: handleKeyDown,
@@ -228,7 +237,12 @@ export const Input = forwardRef<
     ) : null;
 
   const lengthCountElement = lengthCount >= whenToShowRemainingCount && (
-    <div className={getClassName('__remaining-count')}>
+    <div
+      className={classNames(getClassName('__remaining-count'), {
+        [getClassName('__remaining-count--warn')]:
+          lengthCount >= whenToWarnRemainingCount,
+      })}
+    >
       {maxLengthCount - lengthCount}
     </div>
   );
@@ -242,7 +256,7 @@ export const Input = forwardRef<
       )}
     >
       {icon ? <div className={getClassName('__icon')}>{icon}</div> : null}
-      {expandable ? (
+      {isTextarea || forceTextarea ? (
         <textarea dir="auto" rows={1} {...inputProps} />
       ) : (
         <input dir="auto" {...inputProps} />

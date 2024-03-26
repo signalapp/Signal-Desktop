@@ -76,7 +76,7 @@
       height: 280px;
     }
 
-    &--expandable {
+    &--textarea {
       margin-top: 4px;
     }
 
@@ -128,6 +128,10 @@
       inset-inline-end: 0;
 
       margin: 12px;
+    }
+
+    &--warn {
+      color: $color-accent-red;
     }
   }
 }

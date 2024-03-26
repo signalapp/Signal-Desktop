@@ -1366,6 +1366,10 @@
     "messageformat": "You",
     "description": "Title of About modal when viewing your own information"
   },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>",
+    "description": "Title of conversation when there is a nickname, example: 'Jim (James Smith)'"
+  },
   "icu:AboutContactModal__verified": {
     "messageformat": "Verified",
     "description": "Text of a button on About modal leading to a safety number modal"
@@ -1389,6 +1393,10 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} is in your system contacts",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
+  },
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Note",
+    "description": "Title of Note Preview modal"
   },
   "icu:ContactModal__showSafetyNumber": {
     "messageformat": "View safety number",
@@ -4898,6 +4906,26 @@
     "messageformat": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Nickname",
+    "description": "This is the label for the nickname setting panel"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Actions",
+    "description": "This is the label for the nickname actions panel"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Delete",
+    "description": "This is the label for the delete nickname action"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Delete nickname?",
+    "description": "Title for the modal to confirm deleting a nickname"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "This will permanently delete this nickname and note.",
+    "description": "Description for the modal to confirm deleting a nickname"
+  },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Notifications",
     "description": "This is the label for notifications in the conversation details screen"
@@ -5021,6 +5049,38 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "See all",
     "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Nickname",
+    "description": "Title for the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Nicknames & notes are stored using Signal’s end-to-end encrypted storage service. They are only visible to you.",
+    "description": "Description for the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "First name",
+    "description": "Label for the first name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "First name",
+    "description": "Input placeholder for the first name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Last name",
+    "description": "Label for the last name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Last name",
+    "description": "Input placeholder for the last name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Note",
+    "description": "Label for the note input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Note",
+    "description": "Input placeholder for the note input in the edit nickname and note modal"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions",
