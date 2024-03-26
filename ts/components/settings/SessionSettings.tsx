@@ -1,6 +1,6 @@
+import autoBind from 'auto-bind';
 import { shell } from 'electron';
 import React from 'react';
-import autoBind from 'auto-bind';
 import styled from 'styled-components';
 
 import { SettingsHeader } from './SessionSettingsHeader';
@@ -9,15 +9,15 @@ import { SessionIconButton } from '../icon';
 
 import { SessionNotificationGroupSettings } from './SessionNotificationGroupSettings';
 
-import { CategoryConversations } from './section/CategoryConversations';
-import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
-import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { Data } from '../../data/data';
-import { SettingsCategoryPermissions } from './section/CategoryPermissions';
-import { SettingsCategoryHelp } from './section/CategoryHelp';
 import { sessionPassword } from '../../state/ducks/modalDialog';
-import { PasswordAction } from '../dialog/SessionPasswordDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
+import { PasswordAction } from '../dialog/SessionPasswordDialog';
+import { SettingsCategoryAppearance } from './section/CategoryAppearance';
+import { CategoryConversations } from './section/CategoryConversations';
+import { SettingsCategoryHelp } from './section/CategoryHelp';
+import { SettingsCategoryPermissions } from './section/CategoryPermissions';
+import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 
 export function displayPasswordModal(
   passwordAction: PasswordAction,
@@ -55,11 +55,6 @@ export enum SessionSettingCategory {
 
 export interface SettingsViewProps {
   category: SessionSettingCategory;
-}
-
-interface State {
-  hasPassword: boolean | null;
-  shouldLockSettings: boolean | null;
 }
 
 const StyledVersionInfo = styled.div`
@@ -110,30 +105,27 @@ const SessionInfo = () => {
 
 const SettingInCategory = (props: {
   category: SessionSettingCategory;
-  hasPassword: boolean;
   onPasswordUpdated: (action: string) => void;
+  hasPassword: boolean;
 }) => {
-  const { category, hasPassword, onPasswordUpdated } = props;
+  const { category, onPasswordUpdated, hasPassword } = props;
 
-  if (hasPassword === null) {
-    return null;
-  }
   switch (category) {
     // special case for blocked user
     case SessionSettingCategory.Conversations:
       return <CategoryConversations />;
     case SessionSettingCategory.Appearance:
-      return <SettingsCategoryAppearance hasPassword={hasPassword} />;
+      return <SettingsCategoryAppearance />;
     case SessionSettingCategory.Notifications:
-      return <SessionNotificationGroupSettings hasPassword={hasPassword} />;
+      return <SessionNotificationGroupSettings />;
     case SessionSettingCategory.Privacy:
       return (
         <SettingsCategoryPrivacy onPasswordUpdated={onPasswordUpdated} hasPassword={hasPassword} />
       );
     case SessionSettingCategory.Help:
-      return <SettingsCategoryHelp hasPassword={hasPassword} />;
+      return <SettingsCategoryHelp />;
     case SessionSettingCategory.Permissions:
-      return <SettingsCategoryPermissions hasPassword={hasPassword} />;
+      return <SettingsCategoryPermissions />;
 
     // these three down there have no options, they are just a button
     case SessionSettingCategory.ClearData:
@@ -159,19 +151,18 @@ const StyledSettingsList = styled.div`
   flex-direction: column;
 `;
 
-export class SessionSettingsView extends React.Component<SettingsViewProps, State> {
+export class SessionSettingsView extends React.Component<
+  SettingsViewProps,
+  { hasPassword: boolean }
+> {
   public settingsViewRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
     super(props);
 
-    this.state = {
-      hasPassword: null,
-      shouldLockSettings: true,
-    };
-
     this.settingsViewRef = React.createRef();
     autoBind(this);
+    this.state = { hasPassword: true };
 
     // eslint-disable-next-line more/no-then
     void Data.getPasswordHash().then(hash => {
@@ -181,48 +172,22 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     });
   }
 
-  public componentDidUpdate(_: SettingsViewProps, _prevState: State) {
-    const oldShouldRenderPasswordLock = _prevState.shouldLockSettings && _prevState.hasPassword;
-    const newShouldRenderPasswordLock = this.state.shouldLockSettings && this.state.hasPassword;
-
-    if (
-      newShouldRenderPasswordLock &&
-      newShouldRenderPasswordLock !== oldShouldRenderPasswordLock
-    ) {
-      displayPasswordModal('enter', action => {
-        if (action === 'enter') {
-          // Unlocked settings
-          this.setState({
-            shouldLockSettings: false,
-          });
-        }
-      });
-    }
-  }
-
   public render() {
     const { category } = this.props;
-    const shouldRenderPasswordLock = this.state.shouldLockSettings && this.state.hasPassword;
 
     return (
       <div className="session-settings">
-        {shouldRenderPasswordLock ? (
-          <></>
-        ) : (
-          <>
-            <SettingsHeader category={category} />
-            <StyledSettingsView>
-              <StyledSettingsList ref={this.settingsViewRef}>
-                <SettingInCategory
-                  category={category}
-                  onPasswordUpdated={this.onPasswordUpdated}
-                  hasPassword={Boolean(this.state.hasPassword)}
-                />
-              </StyledSettingsList>
-              <SessionInfo />
-            </StyledSettingsView>
-          </>
-        )}
+        <SettingsHeader category={category} />
+        <StyledSettingsView>
+          <StyledSettingsList ref={this.settingsViewRef}>
+            <SettingInCategory
+              category={category}
+              onPasswordUpdated={this.onPasswordUpdated}
+              hasPassword={this.state.hasPassword}
+            />
+          </StyledSettingsList>
+          <SessionInfo />
+        </StyledSettingsView>
       </div>
     );
   }
@@ -231,7 +196,6 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     if (action === 'set' || action === 'change') {
       this.setState({
         hasPassword: true,
-        shouldLockSettings: true,
       });
       window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Message));
     }

@@ -53,54 +53,51 @@ async function toggleStartInTray() {
   }
 }
 
-export const SettingsCategoryPermissions = (props: { hasPassword: boolean | null }) => {
+export const SettingsCategoryPermissions = () => {
   const forceUpdate = useUpdate();
   const isStartInTrayActive = Boolean(window.getSettingValue(SettingsKey.settingsStartInTray));
 
-  if (props.hasPassword !== null) {
-    return (
-      <>
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            await window.toggleMediaPermissions();
-            forceUpdate();
-          }}
-          title={window.i18n('mediaPermissionsTitle')}
-          description={window.i18n('mediaPermissionsDescription')}
-          active={Boolean(window.getSettingValue('media-permissions'))}
-          dataTestId="enable-microphone"
-        />
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            await toggleCallMediaPermissions(forceUpdate);
-            forceUpdate();
-          }}
-          title={window.i18n('callMediaPermissionsTitle')}
-          description={window.i18n('callMediaPermissionsDescription')}
-          active={Boolean(window.getCallMediaPermissions())}
-          dataTestId="enable-calls"
-        />
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            const old = Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate));
-            await window.setSettingValue(SettingsKey.settingsAutoUpdate, !old);
-            forceUpdate();
-          }}
-          title={window.i18n('autoUpdateSettingTitle')}
-          description={window.i18n('autoUpdateSettingDescription')}
-          active={Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate))}
-        />
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            await toggleStartInTray();
-            forceUpdate();
-          }}
-          title={window.i18n('startInTrayTitle')}
-          description={window.i18n('startInTrayDescription')}
-          active={isStartInTrayActive}
-        />
-      </>
-    );
-  }
-  return null;
+  return (
+    <>
+      <SessionToggleWithDescription
+        onClickToggle={async () => {
+          await window.toggleMediaPermissions();
+          forceUpdate();
+        }}
+        title={window.i18n('mediaPermissionsTitle')}
+        description={window.i18n('mediaPermissionsDescription')}
+        active={Boolean(window.getSettingValue('media-permissions'))}
+        dataTestId="enable-microphone"
+      />
+      <SessionToggleWithDescription
+        onClickToggle={async () => {
+          await toggleCallMediaPermissions(forceUpdate);
+          forceUpdate();
+        }}
+        title={window.i18n('callMediaPermissionsTitle')}
+        description={window.i18n('callMediaPermissionsDescription')}
+        active={Boolean(window.getCallMediaPermissions())}
+        dataTestId="enable-calls"
+      />
+      <SessionToggleWithDescription
+        onClickToggle={async () => {
+          const old = Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate));
+          await window.setSettingValue(SettingsKey.settingsAutoUpdate, !old);
+          forceUpdate();
+        }}
+        title={window.i18n('autoUpdateSettingTitle')}
+        description={window.i18n('autoUpdateSettingDescription')}
+        active={Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate))}
+      />
+      <SessionToggleWithDescription
+        onClickToggle={async () => {
+          await toggleStartInTray();
+          forceUpdate();
+        }}
+        title={window.i18n('startInTrayTitle')}
+        description={window.i18n('startInTrayDescription')}
+        active={isStartInTrayActive}
+      />
+    </>
+  );
 };
