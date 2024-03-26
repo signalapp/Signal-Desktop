@@ -14,13 +14,7 @@ import { NotFoundError } from '../session/utils/errors';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { actions as userActions } from '../state/ducks/user';
 import { Registration } from './registration';
-import {
-  Storage,
-  saveRecoveryPhrase,
-  setLastProfileUpdateTimestamp,
-  setLocalPubKey,
-  setSignInByLinking,
-} from './storage';
+import { Storage, saveRecoveryPhrase, setLocalPubKey } from './storage';
 
 /**
  * Might throw
@@ -63,10 +57,10 @@ const generateKeypair = async (
 };
 
 /**
- * Sign in with a recovery password and try to recover display name and avatar from the first encountered configuration message.
+ * Restores a users account with their recovery password and try to recover display name and avatar from the first encountered configuration message.
  * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
  * @param mnemonicLanguage 'english' only is supported
- * @param loadingAnimationCallback a callback to trigger a loading animation
+ * @param loadingAnimationCallback a callback to trigger a loading animation while fetching
  *
  * @returns the display name of the user if found on the network
  */
@@ -83,25 +77,27 @@ export async function signInByLinkingDevice(
   }
 
   const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
-  await setSignInByLinking(true);
+
   loadingAnimationCallback();
   await createAccount(identityKeyPair);
   await saveRecoveryPhrase(mnemonic);
+
   const pubKeyString = toHex(identityKeyPair.pubKey);
-  // fetch configuration message to get the user's display name.
   const displayName = await getSwarmPollingInstance().pollForOurDisplayName();
+
+  if (isEmpty(pubKeyString)) {
+    throw new Error("We don't have a pubkey from the recovery password...");
+  }
 
   if (isEmpty(displayName)) {
     throw new NotFoundError('Got a config message from network but without a displayName...');
   }
-  if (isEmpty(pubKeyString)) {
-    throw new NotFoundError('Got a display name from the network but no a pubkey...');
-  }
 
-  trigger(configurationMessageReceived, displayName, pubKeyString);
+  // NOTE the registration is not yet finished until the configurationMessageReceived event has been processed
+  trigger(configurationMessageReceived, pubKeyString, displayName);
 }
 /**
- * This registers a user account. If a user recovery fails and does not try to link a device it can also be used
+ * This registers a user account. It can also be used if an account restore fails and the user instead registers a new display name
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
  * @param displayName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
@@ -112,20 +108,19 @@ export async function registerSingleDevice(
   displayName: string
 ) {
   if (!generatedMnemonic) {
-    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
-  }
-  if (!displayName) {
-    throw new Error('We always needs a profileName');
+    throw new Error('Session always need a mnemonic. Either generated or given by the user');
   }
   if (!mnemonicLanguage) {
-    throw new Error('We always needs a mnemonicLanguage');
+    throw new Error('We always need a mnemonicLanguage');
+  }
+  if (!displayName) {
+    throw new Error('We always need a displayName');
   }
 
   const identityKeyPair = await generateKeypair(generatedMnemonic, mnemonicLanguage);
 
   await createAccount(identityKeyPair);
   await saveRecoveryPhrase(generatedMnemonic);
-  await setLastProfileUpdateTimestamp(Date.now());
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
   await registrationDone(pubKeyString, displayName);
@@ -181,13 +176,13 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
 }
 
 /**
- *
+ * When a user sucessfully registers, we need to initialise the libession wrappers and create a conversation for the user
  * @param ourPubkey the pubkey recovered from the seed
- * @param displayName the display name entered by the user, if any. This is not a display name found from a config message in the network.
+ * @param displayName the display name entered by the user. Can be what is fetched from the last config message or what is entered manually by the user
  */
 export async function registrationDone(ourPubkey: string, displayName: string) {
   window?.log?.info(
-    `registration done with user provided displayName "${displayName}" and pubkey "${ourPubkey}"`
+    `WIP: [onboarding] registration done with user provided displayName "${displayName}" and pubkey "${ourPubkey}"`
   );
 
   // initializeLibSessionUtilWrappers needs our publicKey to be set
@@ -198,10 +193,12 @@ export async function registrationDone(ourPubkey: string, displayName: string) {
     await LibSessionUtil.initializeLibSessionUtilWrappers();
   } catch (e) {
     window.log.warn(
-      '[registrationDone] LibSessionUtil.initializeLibSessionUtilWrappers failed with',
-      e.message
+      '[onboarding] registration done but LibSessionUtil.initializeLibSessionUtilWrappers failed with',
+      e.message || e
     );
+    throw e;
   }
+
   // Ensure that we always have a conversation for ourself
   const conversation = await getConversationController().getOrCreateAndWait(
     ourPubkey,
@@ -222,7 +219,7 @@ export async function registrationDone(ourPubkey: string, displayName: string) {
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
 
-  window?.log?.info('dispatching registration event');
+  window?.log?.info('WIP: [onboarding] dispatching registration event');
   // this will make the poller start fetching messages
   trigger('registration_done');
 }

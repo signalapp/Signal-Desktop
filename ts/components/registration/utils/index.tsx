@@ -1,5 +1,5 @@
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import { Data } from 'emoji-mart';
+import { Data } from '../../../data/data';
 import { getConversationController } from '../../../session/conversations';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
 import { Storage } from '../../../util/storage';

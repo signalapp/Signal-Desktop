@@ -72,7 +72,7 @@ export const CreateAccount = () => {
       const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       dispatch(setRecoveryPassword(mnemonic));
-      dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' sessionID
+      dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' account ID
     }
   };
 
