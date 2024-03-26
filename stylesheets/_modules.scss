@@ -57,6 +57,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
   padding: 10px;
   border-radius: var(--border-radius-message-box);
 
@@ -73,7 +74,6 @@
 
 .module-message__generic-attachment__icon-container {
   position: relative;
-  cursor: pointer;
 }
 .module-message__generic-attachment__spinner-container {
   padding-inline-start: 4px;
