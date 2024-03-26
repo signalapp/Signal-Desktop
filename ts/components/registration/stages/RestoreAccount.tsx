@@ -247,7 +247,7 @@ export const RestoreAccount = () => {
                   onClick={recoverAndFetchDisplayName}
                   text={window.i18n('continue')}
                   disabled={!(!!recoveryPassword && !recoveryPasswordError)}
-                  dataTestId="continue-session-button"
+                  dataTestId="continue-button"
                 />
               </>
             ) : (
@@ -279,7 +279,7 @@ export const RestoreAccount = () => {
                     !(!!recoveryPassword && !recoveryPasswordError) ||
                     !(!!displayName && !displayNameError)
                   }
-                  dataTestId="continue-session-button"
+                  dataTestId="continue-button"
                 />
               </Flex>
             )}

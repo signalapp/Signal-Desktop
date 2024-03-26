@@ -90,6 +90,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
           transform: 'translateY(-50%)',
           ...position,
         }}
+        dataTestId="reveal-recovery-phrase-toggle"
       />
     );
   }
@@ -101,6 +102,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
       iconSize="medium"
       onClick={props.toggleForceShow}
       style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', ...position }}
+      dataTestId="reveal-recovery-phrase-toggle"
     />
   );
 };
