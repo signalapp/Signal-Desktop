@@ -62,6 +62,7 @@ const ErrorItem = (props: { id: string; error: string }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
+      data-testid="session-error-message"
     >
       {props.error}
     </motion.label>
