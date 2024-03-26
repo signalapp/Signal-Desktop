@@ -5032,6 +5032,7 @@ export class ConversationModel extends window.Backbone
   // [X] verified!
   // [-] profileName
   // [-] profileFamilyName
+  // [X] nicknameAndNote
   // [X] blocked
   // [X] whitelisted
   // [X] archived

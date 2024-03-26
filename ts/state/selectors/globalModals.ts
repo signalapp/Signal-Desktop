@@ -61,3 +61,13 @@ export const getProfileEditorInitialEditState = createSelector(
   getGlobalModalsState,
   ({ profileEditorInitialEditState }) => profileEditorInitialEditState
 );
+
+export const getEditNicknameAndNoteModalProps = createSelector(
+  getGlobalModalsState,
+  ({ editNicknameAndNoteModalProps }) => editNicknameAndNoteModalProps
+);
+
+export const getNotePreviewModalProps = createSelector(
+  getGlobalModalsState,
+  ({ notePreviewModalProps }) => notePreviewModalProps
+);

@@ -63,6 +63,8 @@ import {
 } from '../../../types/CallDisposition';
 import { formatDate, formatTime } from '../../../util/timestamp';
 import { NavTab } from '../../../state/ducks/nav';
+import { ContextMenu } from '../../ContextMenu';
+import { areNicknamesEnabled } from '../../../util/nicknames';
 
 function describeCallHistory(
   i18n: LocalizerType,
@@ -86,11 +88,12 @@ function describeCallHistory(
 }
 
 enum ModalState {
-  NothingOpen,
+  AddingGroupMembers,
+  ConfirmDeleteNicknameAndNote,
   EditingGroupDescription,
   EditingGroupTitle,
-  AddingGroupMembers,
   MuteNotifications,
+  NothingOpen,
   UnmuteNotifications,
 }
 
@@ -140,6 +143,8 @@ type ActionProps = {
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
   loadRecentMediaItems: (id: string, limit: number) => void;
+  onDeleteNicknameAndNote: () => void;
+  onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
   pushPanelForConversation: PushPanelForConversationActionType;
@@ -207,6 +212,8 @@ export function ConversationDetails({
   memberships,
   maxGroupSize,
   maxRecommendedGroupSize,
+  onDeleteNicknameAndNote,
+  onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   pendingApprovalMemberships,
@@ -344,6 +351,30 @@ export function ConversationDetails({
         />
       );
       break;
+    case ModalState.ConfirmDeleteNicknameAndNote:
+      modalNode = (
+        <ConfirmationDialog
+          dialogName="ConversationDetails.ConfirmDeleteNicknameAndNote"
+          actions={[
+            {
+              action: onDeleteNicknameAndNote,
+              style: 'negative',
+              text: i18n('icu:delete'),
+            },
+          ]}
+          hasXButton
+          i18n={i18n}
+          title={i18n(
+            'icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title'
+          )}
+          onClose={onCloseModal}
+        >
+          {i18n(
+            'icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description'
+          )}
+        </ConfirmationDialog>
+      );
+      break;
     case ModalState.MuteNotifications:
       modalNode = (
         <ConversationNotificationsModal
@@ -375,6 +406,7 @@ export function ConversationDetails({
         </ConfirmationDialog>
       );
       break;
+
     default:
       throw missingCaseError(modalState);
   }
@@ -534,6 +566,57 @@ export function ConversationDetails({
             }
           />
         ) : null}
+        {areNicknamesEnabled() && !isGroup && (
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:ConversationDetails--nickname-label')}
+                icon={IconType.edit}
+              />
+            }
+            label={i18n('icu:ConversationDetails--nickname-label')}
+            onClick={onOpenEditNicknameAndNoteModal}
+            actions={
+              (conversation.nicknameGivenName ||
+                conversation.nicknameFamilyName ||
+                conversation.note) && (
+                <ContextMenu
+                  i18n={i18n}
+                  portalToRoot
+                  popperOptions={{
+                    placement: 'bottom',
+                    strategy: 'absolute',
+                  }}
+                  menuOptions={[
+                    {
+                      icon: 'ConversationDetails--nickname-actions--delete',
+                      label: i18n(
+                        'icu:ConversationDetails--nickname-actions--delete'
+                      ),
+                      onClick: () => {
+                        setModalState(ModalState.ConfirmDeleteNicknameAndNote);
+                      },
+                    },
+                  ]}
+                >
+                  {({ openMenu }) => {
+                    return (
+                      <button
+                        type="button"
+                        className="ConversationDetails--nickname-actions"
+                        onClick={openMenu}
+                      >
+                        <span className="ConversationDetails--nickname-actions-label">
+                          {i18n('icu:ConversationDetails--nickname-actions')}
+                        </span>
+                      </button>
+                    );
+                  }}
+                </ContextMenu>
+              )
+            }
+          />
+        )}
         {selectedNavTab === NavTab.Chats && (
           <PanelRow
             icon={

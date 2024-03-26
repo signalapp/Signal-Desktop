@@ -59,6 +59,7 @@ export default {
   args: {
     i18n,
     onClose: action('onClose'),
+    onOpenNotePreviewModal: action('onOpenNotePreviewModal'),
     toggleSignalConnectionsModal: action('toggleSignalConnections'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     updateSharedGroups: action('updateSharedGroups'),

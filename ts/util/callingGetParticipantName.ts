@@ -7,11 +7,16 @@ export function getParticipantName(
   participant: Readonly<
     Pick<
       ConversationType,
-      'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+      | 'firstName'
+      | 'systemGivenName'
+      | 'systemNickname'
+      | 'title'
+      | 'nicknameGivenName'
     >
   >
 ): string {
   return (
+    participant.nicknameGivenName ||
     participant.systemNickname ||
     participant.systemGivenName ||
     participant.firstName ||

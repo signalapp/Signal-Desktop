@@ -24,9 +24,15 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { SmartDeleteMessagesModal } from './DeleteMessagesModal';
 import { SmartMessageRequestActionsConfirmation } from './MessageRequestActionsConfirmation';
 import { getGlobalModalsState } from '../selectors/globalModals';
+import { SmartEditNicknameAndNoteModal } from './EditNicknameAndNoteModal';
+import { SmartNotePreviewModal } from './NotePreviewModal';
 
 function renderEditHistoryMessagesModal(): JSX.Element {
   return <SmartEditHistoryMessagesModal />;
+}
+
+function renderEditNicknameAndNoteModal(): JSX.Element {
+  return <SmartEditNicknameAndNoteModal />;
 }
 
 function renderProfileEditor(): JSX.Element {
@@ -51,6 +57,10 @@ function renderForwardMessagesModal(): JSX.Element {
 
 function renderMessageRequestActionsConfirmation(): JSX.Element {
   return <SmartMessageRequestActionsConfirmation />;
+}
+
+function renderNotePreviewModal(): JSX.Element {
+  return <SmartNotePreviewModal />;
 }
 
 function renderStoriesSettings(): JSX.Element {
@@ -84,10 +94,12 @@ export const SmartGlobalModalContainer = memo(
       contactModalState,
       deleteMessagesProps,
       editHistoryMessages,
+      editNicknameAndNoteModalProps,
       errorModalProps,
       formattingWarningData,
       forwardMessagesProps,
       messageRequestActionsConfirmationProps,
+      notePreviewModalProps,
       isAuthorizingArtCreator,
       isProfileEditorVisible,
       isShortcutGuideModalVisible,
@@ -166,6 +178,7 @@ export const SmartGlobalModalContainer = memo(
         }
         contactModalState={contactModalState}
         editHistoryMessages={editHistoryMessages}
+        editNicknameAndNoteModalProps={editNicknameAndNoteModalProps}
         errorModalProps={errorModalProps}
         deleteMessagesProps={deleteMessagesProps}
         formattingWarningData={formattingWarningData}
@@ -173,6 +186,7 @@ export const SmartGlobalModalContainer = memo(
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
         }
+        notePreviewModalProps={notePreviewModalProps}
         hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
         hideUserNotFoundModal={hideUserNotFoundModal}
         hideWhatsNewModal={hideWhatsNewModal}
@@ -187,12 +201,14 @@ export const SmartGlobalModalContainer = memo(
         renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
         renderContactModal={renderContactModal}
         renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}
+        renderEditNicknameAndNoteModal={renderEditNicknameAndNoteModal}
         renderErrorModal={renderErrorModal}
         renderDeleteMessagesModal={renderDeleteMessagesModal}
         renderForwardMessagesModal={renderForwardMessagesModal}
         renderMessageRequestActionsConfirmation={
           renderMessageRequestActionsConfirmation
         }
+        renderNotePreviewModal={renderNotePreviewModal}
         renderProfileEditor={renderProfileEditor}
         renderUsernameOnboarding={renderUsernameOnboarding}
         renderSafetyNumber={renderSafetyNumber}

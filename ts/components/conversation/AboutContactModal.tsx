@@ -11,10 +11,19 @@ import { Modal } from '../Modal';
 import { UserText } from '../UserText';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { About } from './About';
+import { Intl } from '../Intl';
+import { areNicknamesEnabled } from '../../util/nicknames';
+
+function muted(parts: Array<string | JSX.Element>) {
+  return (
+    <span className="AboutContactModal__TitleWithoutNickname">{parts}</span>
+  );
+}
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
   onClose: () => void;
+  onOpenNotePreviewModal: () => void;
   conversation: ConversationType;
   isSignalConnection: boolean;
   toggleSignalConnectionsModal: () => void;
@@ -32,6 +41,7 @@ export function AboutContactModal({
   updateSharedGroups,
   unblurAvatar,
   onClose,
+  onOpenNotePreviewModal,
 }: PropsType): JSX.Element {
   const { isMe } = conversation;
 
@@ -135,7 +145,26 @@ export function AboutContactModal({
 
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
-        <UserText text={conversation.title} />
+
+        {areNicknamesEnabled() &&
+        conversation.nicknameGivenName &&
+        conversation.titleNoNickname ? (
+          <span>
+            <Intl
+              i18n={i18n}
+              id="icu:AboutContactModal__TitleAndTitleWithoutNickname"
+              components={{
+                nickname: <UserText text={conversation.title} />,
+                titleNoNickname: (
+                  <UserText text={conversation.titleNoNickname} />
+                ),
+                muted,
+              }}
+            />
+          </span>
+        ) : (
+          <UserText text={conversation.title} />
+        )}
       </div>
 
       {!isMe && conversation.isVerified ? (
@@ -166,7 +195,7 @@ export function AboutContactModal({
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--connections" />
           <button
             type="button"
-            className="AboutContactModal__signal-connection"
+            className="AboutContactModal__button"
             onClick={onSignalConnectionClick}
           >
             {i18n('icu:AboutContactModal__signal-connection')}
@@ -202,6 +231,21 @@ export function AboutContactModal({
               sharedGroupNames={conversation.sharedGroupNames || []}
             />
           </div>
+        </div>
+      )}
+
+      {areNicknamesEnabled() && conversation.note && (
+        <div className="AboutContactModal__row">
+          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--note" />
+          <button
+            type="button"
+            className="AboutContactModal__button"
+            onClick={onOpenNotePreviewModal}
+          >
+            <div className="AboutContactModal__OneLineEllipsis">
+              <UserText text={conversation.note} />
+            </div>
+          </button>
         </div>
       )}
 

@@ -493,3 +493,42 @@
 .ConversationDetails__CallHistoryGroup__ItemTimestamp {
   flex-shrink: 0;
 }
+
+.ConversationDetails--nickname-actions {
+  @include button-reset;
+  width: 32px;
+  height: 32px;
+  &::before {
+    display: inline-block;
+    content: '';
+    width: 20px;
+    height: 20px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-down.svg',
+        $color-black
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-down.svg',
+        $color-white
+      );
+    }
+  }
+}
+
+.ConversationDetails--nickname-actions-label {
+  @include sr-only;
+}
+
+.ConversationDetails--nickname-actions--delete {
+  width: 16px;
+  height: 16px;
+  @include light-theme {
+    @include color-svg('../images/icons/v3/trash/trash.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/trash/trash.svg', $color-white);
+  }
+}

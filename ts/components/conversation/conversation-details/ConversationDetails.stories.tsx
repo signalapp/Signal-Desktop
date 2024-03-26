@@ -104,6 +104,8 @@ const createProps = (
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   toggleAboutContactModal: action('toggleAboutContactModal'),
   toggleAddUserToAnotherGroupModal: action('toggleAddUserToAnotherGroup'),
+  onDeleteNicknameAndNote: action('onDeleteNicknameAndNote'),
+  onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),

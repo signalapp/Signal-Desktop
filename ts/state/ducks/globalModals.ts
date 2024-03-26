@@ -49,6 +49,9 @@ import type { MessageRequestState } from '../../components/conversation/MessageR
 export type EditHistoryMessagesType = ReadonlyDeep<
   Array<MessageAttributesType>
 >;
+export type EditNicknameAndNoteModalPropsType = ReadonlyDeep<{
+  conversationId: string;
+}>;
 export type DeleteMessagesPropsType = ReadonlyDeep<{
   conversationId: string;
   messageIds: ReadonlyArray<string>;
@@ -62,6 +65,9 @@ export type ForwardMessagesPropsType = ReadonlyDeep<{
 export type MessageRequestActionsConfirmationPropsType = ReadonlyDeep<{
   conversationId: string;
   state: MessageRequestState;
+}>;
+export type NotePreviewModalPropsType = ReadonlyDeep<{
+  conversationId: string;
 }>;
 export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: SingleServePromise.SingleServePromiseIdString;
@@ -91,6 +97,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
   editHistoryMessages?: EditHistoryMessagesType;
+  editNicknameAndNoteModalProps: EditNicknameAndNoteModalPropsType | null;
   errorModalProps?: {
     buttonVariant?: ButtonVariant;
     description?: string;
@@ -107,6 +114,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
+  notePreviewModalProps: NotePreviewModalPropsType | null;
   usernameOnboardingState: UsernameOnboardingState;
   profileEditorHasError: boolean;
   profileEditorInitialEditState: ProfileEditorEditState | undefined;
@@ -133,6 +141,7 @@ const TOGGLE_DELETE_MESSAGES_MODAL =
   'globalModals/TOGGLE_DELETE_MESSAGES_MODAL';
 const TOGGLE_FORWARD_MESSAGES_MODAL =
   'globalModals/TOGGLE_FORWARD_MESSAGES_MODAL';
+const TOGGLE_NOTE_PREVIEW_MODAL = 'globalModals/TOGGLE_NOTE_PREVIEW_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
@@ -150,6 +159,8 @@ const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
 const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
 export const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+const TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL =
+  'globalModals/TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL';
 const TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION =
   'globalModals/TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION';
 const SHOW_FORMATTING_WARNING_MODAL =
@@ -219,6 +230,11 @@ type ToggleDeleteMessagesModalActionType = ReadonlyDeep<{
 type ToggleForwardMessagesModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_FORWARD_MESSAGES_MODAL;
   payload: ForwardMessagesPropsType | undefined;
+}>;
+
+type ToggleNotePreviewModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_NOTE_PREVIEW_MODAL;
+  payload: NotePreviewModalPropsType | null;
 }>;
 
 type ToggleProfileEditorActionType = ReadonlyDeep<{
@@ -324,6 +340,11 @@ export type ShowErrorModalActionType = ReadonlyDeep<{
   };
 }>;
 
+type ToggleEditNicknameAndNoteModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL;
+  payload: EditNicknameAndNoteModalPropsType | null;
+}>;
+
 type ToggleMessageRequestActionsConfirmationActionType = ReadonlyDeep<{
   type: typeof TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION;
   payload: MessageRequestActionsConfirmationPropsType | null;
@@ -386,6 +407,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
+  | ToggleEditNicknameAndNoteModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
   | ShowFormattingWarningModalActionType
   | ShowSendAnywayDialogActionType
@@ -401,6 +423,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleConfirmationModalActionType
   | ToggleDeleteMessagesModalActionType
   | ToggleForwardMessagesModalActionType
+  | ToggleNotePreviewModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType
@@ -428,6 +451,7 @@ export const actions = {
   showContactModal,
   showEditHistoryModal,
   showErrorModal,
+  toggleEditNicknameAndNoteModal,
   toggleMessageRequestActionsConfirmation,
   showFormattingWarningModal,
   showSendEditWarningModal,
@@ -442,6 +466,7 @@ export const actions = {
   toggleConfirmationModal,
   toggleDeleteMessagesModal,
   toggleForwardMessagesModal,
+  toggleNotePreviewModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
@@ -626,6 +651,15 @@ function toggleForwardMessagesModal(
   };
 }
 
+function toggleNotePreviewModal(
+  payload: NotePreviewModalPropsType | null
+): ToggleNotePreviewModalActionType {
+  return {
+    type: TOGGLE_NOTE_PREVIEW_MODAL,
+    payload,
+  };
+}
+
 function toggleProfileEditor(
   initialEditState?: ProfileEditorEditState
 ): ToggleProfileEditorActionType {
@@ -762,6 +796,15 @@ function showErrorModal({
       description,
       title,
     },
+  };
+}
+
+function toggleEditNicknameAndNoteModal(
+  payload: EditNicknameAndNoteModalPropsType | null
+): ToggleEditNicknameAndNoteModalActionType {
+  return {
+    type: TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL,
+    payload,
   };
 }
 
@@ -927,6 +970,7 @@ function copyOverMessageAttributesIntoForwardMessages(
 export function getEmptyState(): GlobalModalsStateType {
   return {
     hasConfirmationModal: false,
+    editNicknameAndNoteModalProps: null,
     isProfileEditorVisible: false,
     isShortcutGuideModalVisible: false,
     isSignalConnectionsVisible: false,
@@ -936,6 +980,7 @@ export function getEmptyState(): GlobalModalsStateType {
     profileEditorHasError: false,
     profileEditorInitialEditState: undefined,
     messageRequestActionsConfirmationProps: null,
+    notePreviewModalProps: null,
   };
 }
 
@@ -947,6 +992,13 @@ export function reducer(
     return {
       ...state,
       aboutContactModalContactId: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_NOTE_PREVIEW_MODAL) {
+    return {
+      ...state,
+      notePreviewModalProps: action.payload,
     };
   }
 
@@ -1157,6 +1209,13 @@ export function reducer(
     return {
       ...state,
       errorModalProps: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL) {
+    return {
+      ...state,
+      editNicknameAndNoteModalProps: action.payload,
     };
   }
 
