@@ -84,7 +84,7 @@ export async function signInByLinkingDevice(
   await saveRecoveryPhrase(mnemonic);
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
-  const displayName = await getSwarmPollingInstance().pollForOurDisplayName();
+  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName();
 
   if (isEmpty(pubKeyString)) {
     throw new Error("We don't have a pubkey from the recovery password...");
