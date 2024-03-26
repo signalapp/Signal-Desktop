@@ -51,6 +51,7 @@ const StyledMessageWithAuthor = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 0;
+  gap: var(--margins-xs);
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
