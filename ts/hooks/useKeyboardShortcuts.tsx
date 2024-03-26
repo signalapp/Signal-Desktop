@@ -26,6 +26,59 @@ function isCtrlOrAlt(ev: KeyboardEvent): boolean {
   return controlKey || theAltKey;
 }
 
+type Mods = {
+  // Mac: Meta (Command), Windows: Control
+  controlOrMeta: boolean;
+  // Shift
+  shift: boolean;
+  // Mac: Option, Windows: Alt
+  alt: boolean;
+};
+
+const defaultsMods: Mods = {
+  controlOrMeta: false,
+  shift: false,
+  alt: false,
+};
+
+/**
+ * Checks if a keyboard event has the exact modifiers specified in the options,
+ * and no others currently pressed.
+ */
+function hasExactModifiers(
+  event: KeyboardEvent,
+  options: Mods | 'none'
+): boolean {
+  const mods = options === 'none' ? defaultsMods : options;
+  const isApple = get(window, 'platform') === 'darwin';
+
+  if (isApple) {
+    if (event.metaKey !== mods.controlOrMeta) {
+      return false;
+    }
+    if (event.ctrlKey) {
+      return false;
+    }
+  } else {
+    if (event.ctrlKey !== mods.controlOrMeta) {
+      return false;
+    }
+    if (event.metaKey) {
+      return false;
+    }
+  }
+
+  if (event.shiftKey !== mods.shift) {
+    return false;
+  }
+
+  if (event.altKey !== mods.alt) {
+    return false;
+  }
+
+  return true;
+}
+
 function useHasPanels(): boolean {
   return useSelector(getHasPanelOpen);
 }
@@ -269,8 +322,8 @@ export function useEditLastMessageSent(
 
       const key = KeyboardLayout.lookup(ev);
 
-      const { shiftKey } = ev;
-      if (shiftKey || isCtrlOrAlt(ev)) {
+      // None of the modifiers should be pressed
+      if (!hasExactModifiers(ev, 'none')) {
         return false;
       }
 
