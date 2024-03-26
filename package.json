@@ -83,7 +83,6 @@
     "bytebuffer": "^5.0.1",
     "classnames": "2.2.5",
     "config": "1.28.1",
-    "country-code-lookup": "^0.0.19",
     "curve25519-js": "https://github.com/oxen-io/curve25519-js",
     "date-fns": "^3.3.1",
     "dompurify": "^2.0.7",
@@ -95,12 +94,12 @@
     "fs-extra": "9.0.0",
     "glob": "7.1.2",
     "image-type": "^4.1.0",
-    "ip2country": "1.0.1",
     "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.1/libsession_util_nodejs-v0.3.1.tar.gz",
     "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "^4.0.1",
     "lodash": "^4.17.21",
     "long": "^4.0.0",
+    "maxmind": "^4.3.18",
     "mic-recorder-to-mp3": "^2.2.2",
     "moment": "^2.29.4",
     "node-fetch": "^2.6.7",
@@ -216,10 +215,11 @@
     "afterSign": "build/notarize.js",
     "afterPack": "build/afterPackHook.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
-    "extraResources": {
+    "extraResources": [{
       "from": "./build/launcher-script.sh",
       "to": "./launcher-script.sh"
     },
+    "mmdb/GeoLite2-Country.mmdb"],
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icon-mac.icns",
