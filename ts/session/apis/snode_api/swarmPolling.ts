@@ -419,17 +419,13 @@ export class SwarmPolling {
             const privateKeyEd25519 = keypair.privKeyBytes;
 
             // we take the lastest config message to create the wrapper in memory
-            const incomingConfigMessage = allDecryptedConfigMessages.at(-1);
-            if (!incomingConfigMessage) {
-              throw new Error('incomingConfigMessage not found');
-            }
+            const incomingConfigMessages = allDecryptedConfigMessages.map(m => ({
+              data: m.message.data,
+              hash: m.messageHash,
+            }));
+
             await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
-            await GenericWrapperActions.merge('UserConfig', [
-              {
-                data: incomingConfigMessage.message.data,
-                hash: incomingConfigMessage.messageHash,
-              },
-            ]);
+            await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
 
             const userInfo = await UserConfigWrapperActions.getUserInfo();
             if (!userInfo) {
