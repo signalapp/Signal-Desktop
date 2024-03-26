@@ -1,8 +1,9 @@
-import autoBind from 'auto-bind';
 import { shell } from 'electron';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { useDispatch } from 'react-redux';
+import useMount from 'react-use/lib/useMount';
 import { SettingsHeader } from './SessionSettingsHeader';
 
 import { SessionIconButton } from '../icon';
@@ -151,59 +152,48 @@ const StyledSettingsList = styled.div`
   flex-direction: column;
 `;
 
-export class SessionSettingsView extends React.Component<
-  SettingsViewProps,
-  { hasPassword: boolean }
-> {
-  public settingsViewRef: React.RefObject<HTMLDivElement>;
+export const SessionSettingsView = (props: SettingsViewProps) => {
+  const { category } = props;
+  const dispatch = useDispatch();
 
-  public constructor(props: any) {
-    super(props);
-
-    this.settingsViewRef = React.createRef();
-    autoBind(this);
-    this.state = { hasPassword: true };
-
+  const [hasPassword, setHasPassword] = useState(true);
+  useMount(() => {
+    let isMounted = true;
     // eslint-disable-next-line more/no-then
     void Data.getPasswordHash().then(hash => {
-      this.setState({
-        hasPassword: !!hash,
-      });
+      if (isMounted) {
+        setHasPassword(!!hash);
+      }
     });
-  }
+    return () => {
+      isMounted = false;
+    };
+  });
 
-  public render() {
-    const { category } = this.props;
-
-    return (
-      <div className="session-settings">
-        <SettingsHeader category={category} />
-        <StyledSettingsView>
-          <StyledSettingsList ref={this.settingsViewRef}>
-            <SettingInCategory
-              category={category}
-              onPasswordUpdated={this.onPasswordUpdated}
-              hasPassword={this.state.hasPassword}
-            />
-          </StyledSettingsList>
-          <SessionInfo />
-        </StyledSettingsView>
-      </div>
-    );
-  }
-
-  public onPasswordUpdated(action: string) {
+  function onPasswordUpdated(action: string) {
     if (action === 'set' || action === 'change') {
-      this.setState({
-        hasPassword: true,
-      });
-      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Message));
+      setHasPassword(true);
+      dispatch(showLeftPaneSection(SectionType.Message));
     }
 
     if (action === 'remove') {
-      this.setState({
-        hasPassword: false,
-      });
+      setHasPassword(false);
     }
   }
-}
+
+  return (
+    <div className="session-settings">
+      <SettingsHeader category={category} />
+      <StyledSettingsView>
+        <StyledSettingsList>
+          <SettingInCategory
+            category={category}
+            onPasswordUpdated={onPasswordUpdated}
+            hasPassword={hasPassword}
+          />
+        </StyledSettingsList>
+        <SessionInfo />
+      </StyledSettingsView>
+    </div>
+  );
+};
