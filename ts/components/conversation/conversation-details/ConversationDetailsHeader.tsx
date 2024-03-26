@@ -9,7 +9,6 @@ import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { GroupDescription } from '../GroupDescription';
 import { About } from '../About';
-import type { GroupV2Membership } from './ConversationDetailsMembershipList';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import { assertDev } from '../../../util/assert';
 import { BadgeDialog } from '../../BadgeDialog';
@@ -24,7 +23,7 @@ export type Props = {
   i18n: LocalizerType;
   isGroup: boolean;
   isMe: boolean;
-  memberships: ReadonlyArray<GroupV2Membership>;
+  membersCount: number | null;
   startEditing: (isGroupTitle: boolean) => void;
   toggleAboutContactModal: (contactId: string) => void;
   theme: ThemeType;
@@ -43,7 +42,7 @@ export function ConversationDetailsHeader({
   i18n,
   isGroup,
   isMe,
-  memberships,
+  membersCount,
   startEditing,
   toggleAboutContactModal,
   theme,
@@ -69,7 +68,7 @@ export function ConversationDetailsHeader({
       subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
       subtitle = i18n('icu:ConversationDetailsHeader--members', {
-        number: memberships.length,
+        number: membersCount ?? 0,
       });
     }
   } else if (!isMe) {
