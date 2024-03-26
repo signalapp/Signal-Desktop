@@ -68,7 +68,7 @@ export function SessionProgressBar(props: Props) {
         {showPercentage ? <StyledText>{Math.floor(progress)}%</StyledText> : null}
       </Flex>
       {subtitle || showPercentage ? <SpacerXL /> : null}
-      <ProgressContainer color={backgroundColor} style={{ width }}>
+      <ProgressContainer color={backgroundColor} style={{ width }} data-testid="loading-animation">
         <Progress
           color={color}
           initial={{ width: 0 }}

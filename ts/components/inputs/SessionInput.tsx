@@ -62,6 +62,7 @@ const ErrorItem = (props: { id: string; error: string }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
+      data-testid="session-error-message"
     >
       {props.error}
     </motion.label>
@@ -89,6 +90,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
           transform: 'translateY(-50%)',
           ...position,
         }}
+        dataTestId="reveal-recovery-phrase-toggle"
       />
     );
   }
@@ -100,6 +102,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
       iconSize="medium"
       onClick={props.toggleForceShow}
       style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', ...position }}
+      dataTestId="reveal-recovery-phrase-toggle"
     />
   );
 };

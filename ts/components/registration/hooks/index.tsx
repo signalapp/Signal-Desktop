@@ -44,7 +44,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
           clearInterval(interval);
           // if we didn't get the display name in time, we need to enter it manually
           window.log.debug(
-            `WIP: [continueYourSession] AccountRestoration.Loading We didn't get the display name in time, so we need to enter it manually`
+            `WIP: [useRecoveryProgressEffect] AccountRestoration.Loading We didn't get the display name in time, so we need to enter it manually`
           );
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
@@ -57,7 +57,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
           dispatch(setProgress(progress + 1));
         }
         window.log.debug(
-          `WIP: [continueYourSession] AccountRestoration. Finishing progress ${progress}%`
+          `WIP: [useRecoveryProgressEffect] AccountRestoration. Finishing progress ${progress}%`
         );
 
         if (progress >= 100) {
@@ -72,13 +72,13 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
         clearInterval(interval);
         if (!isEmpty(displayName)) {
           window.log.debug(
-            `WIP: [continueYourSession] AccountRestoration.Complete Finished progress`
+            `WIP: [useRecoveryProgressEffect] AccountRestoration.Complete Finished progress`
           );
           dispatch(setAccountRestorationStep(AccountRestoration.Complete));
         } else {
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
           window.log.debug(
-            `WIP: [continueYourSession] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually`
+            `WIP: [useRecoveryProgressEffect] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually`
           );
         }
       }, ONBOARDING_TIMES.RECOVERY_FINISHED);
@@ -88,7 +88,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
       clearInterval(interval);
       if (!isEmpty(displayName)) {
         window.log.debug(
-          `WIP: [continueYourSession] AccountRestoration.Complete opening inbox for ${displayName}`
+          `WIP: [useRecoveryProgressEffect] AccountRestoration.Complete opening inbox for ${displayName}`
         );
         dispatch(resetOnboardingState());
         trigger('openInbox');

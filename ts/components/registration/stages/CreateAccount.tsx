@@ -158,6 +158,7 @@ export const CreateAccount = () => {
           onClick={signUpWithDetails}
           text={window.i18n('continue')}
           disabled={!(!!displayName && !displayNameError)}
+          dataTestId="continue-button"
         />
       </Flex>
     </BackButtonWithininContainer>

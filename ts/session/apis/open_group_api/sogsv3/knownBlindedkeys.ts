@@ -1,20 +1,20 @@
-import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
 import { crypto_sign_curve25519_pk_to_ed25519 } from 'curve25519-js';
+import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
 import { cloneDeep, flatten, isEmpty, isEqual, isString, uniqBy } from 'lodash';
 
+import { Data } from '../../../../data/data';
+import { OpenGroupData } from '../../../../data/opengroups';
+import { KNOWN_BLINDED_KEYS_ITEM } from '../../../../data/settings-key';
+import { ConversationModel } from '../../../../models/conversation';
+import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
+import { Storage } from '../../../../util/storage';
 import { getConversationController } from '../../../conversations';
 import { LibSodiumWrappers } from '../../../crypto';
 import { KeyPrefixType, PubKey } from '../../../types';
-import { Data } from '../../../../data/data';
-import { combineKeys, generateBlindingFactor } from '../../../utils/SodiumUtils';
-import { OpenGroupData } from '../../../../data/opengroups';
-import { ConversationModel } from '../../../../models/conversation';
 import { UserUtils } from '../../../utils';
-import { SogsBlinding } from './sogsBlinding';
+import { combineKeys, generateBlindingFactor } from '../../../utils/SodiumUtils';
 import { fromHexToArray } from '../../../utils/String';
-import { KNOWN_BLINDED_KEYS_ITEM } from '../../../../data/settings-key';
-import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
-import { Storage } from '../../../../util/storage';
+import { SogsBlinding } from './sogsBlinding';
 
 export type BlindedIdMapping = {
   blindedId: string;
@@ -157,7 +157,7 @@ export function tryMatchBlindWithStandardKey(
     const blindedIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(blindedSessionId).key);
     const kBytes = generateBlindingFactor(serverPubKey, sodium);
 
-    // From the session id (ignoring 05 prefix) we have two possible ed25519 pubkeys; the first is
+    // From the account id (ignoring 05 prefix) we have two possible ed25519 pubkeys; the first is
     // the positive(which is what Signal's XEd25519 conversion always uses)
 
     const inbin = from_hex(sessionIdNoPrefix);

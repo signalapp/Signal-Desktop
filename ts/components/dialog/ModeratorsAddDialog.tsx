@@ -86,7 +86,7 @@ export const AddModeratorsDialog = (props: Props) => {
         <SessionHeaderSearchInput
           type="text"
           darkMode={darkMode}
-          placeholder={i18n('enterSessionID')}
+          placeholder={i18n('accountIdEnter')}
           dir="auto"
           onChange={onPubkeyBoxChanges}
           disabled={addingInProgress}

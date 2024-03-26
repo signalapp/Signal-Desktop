@@ -48,7 +48,7 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
             onClick={() => {
               void shell.openExternal('https://getsession.org/terms-of-service');
             }}
-            dataTestId="session-tos-button"
+            dataTestId="terms-of-service-button"
           />
           <SessionButton
             text={window.i18n('privacyPolicy')}
@@ -57,7 +57,7 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
             onClick={() => {
               void shell.openExternal('https://getsession.org/privacy-policy');
             }}
-            dataTestId="session-privacy-policy-button"
+            dataTestId="privacy-policy-button"
           />
         </ConfirmButtonContainer>
       </div>

@@ -62,7 +62,7 @@ export const MessageAvatar = (props: Props) => {
       return;
     }
     if (isPublic && !PubKey.isBlinded(sender)) {
-      // public chat but session id not blinded. disable showing user details if we do not have an active convo with that user.
+      // public chat but account id not blinded. disable showing user details if we do not have an active convo with that user.
       // an unactive convo with that user means that we never chatted with that id directyly, but only through a sogs
       const convoWithSender = getConversationController().get(sender);
       if (!convoWithSender || !convoWithSender.get('active_at')) {

@@ -27,7 +27,7 @@ export const YourSessionIDPill = () => {
   return (
     <StyledPillDivider>
       <StyledPillDividerLine />
-      <StyledPillSpan>{window.i18n('yourSessionID')}</StyledPillSpan>
+      <StyledPillSpan>{window.i18n('accountIdYours')}</StyledPillSpan>
       <StyledPillDividerLine />
     </StyledPillDivider>
   );

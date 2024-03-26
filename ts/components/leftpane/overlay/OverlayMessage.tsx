@@ -51,8 +51,8 @@ export const OverlayMessage = () => {
 
   const title = window.i18n('newMessage');
   const buttonText = window.i18n('next');
-  const subtitle = window.i18n('enterSessionID');
-  const placeholder = window.i18n('enterSessionIDOrONSName');
+  const subtitle = window.i18n('accountIdEnter');
+  const placeholder = window.i18n('accountIdEnterYourFriends');
 
   const disableNextButton = !pubkeyOrOns || loading;
 
@@ -80,7 +80,7 @@ export const OverlayMessage = () => {
 
   async function handleMessageButtonClick() {
     if ((!pubkeyOrOns && !pubkeyOrOns.length) || !pubkeyOrOns.trim().length) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError')); // or ons name
+      ToastUtils.pushToastError('invalidPubKey', window.i18n('onsErrorNotRecognised')); // or ons name
       return;
     }
     const pubkeyorOnsTrimmed = pubkeyOrOns.trim();
@@ -93,7 +93,7 @@ export const OverlayMessage = () => {
     // this might be an ONS, validate the regex first
     const mightBeOnsName = new RegExp(ONSResolve.onsNameRegex, 'g').test(pubkeyorOnsTrimmed);
     if (!mightBeOnsName) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError'));
+      ToastUtils.pushToastError('invalidPubKey', window.i18n('onsErrorNotRecognised'));
       return;
     }
     setLoading(true);
@@ -126,7 +126,7 @@ export const OverlayMessage = () => {
 
       <SessionSpinner loading={loading} />
 
-      <SessionIDDescription>{window.i18n('startNewConversationBy...')}</SessionIDDescription>
+      <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
 
       <Flex container={true} width="100%">
         <SpacerMD />
