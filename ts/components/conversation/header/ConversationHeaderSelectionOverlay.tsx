@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useKey } from 'react-use';
+import useKey from 'react-use/lib/useKey';
 import {
   deleteMessagesById,
   deleteMessagesByIdForEveryone,
@@ -35,28 +35,41 @@ export const SelectionOverlay = () => {
   const isPublic = useSelectedIsPublic();
   const dispatch = useDispatch();
 
-  useKey('Delete', event => {
-    const selectionMode = !!selectedMessageIds.length;
-
-    switch (event.key) {
-      case 'Escape':
-        if (selectionMode) {
-          dispatch(resetSelectedMessageIds());
-        }
-        break;
-      case 'Backspace':
-      case 'Delete':
-        if (selectionMode && selectedConversationKey) {
-          void deleteMessagesForX(selectedMessageIds, selectedConversationKey, isPublic);
-        }
-        break;
-      default:
-    }
-  });
-
   function onCloseOverlay() {
     dispatch(resetSelectedMessageIds());
   }
+  /**
+   * This is a duplicate with the onKeyDown of SessionConversation.
+   * At some point we'll make a global handler to deal with the key presses
+   * and handle them depending on what is visible, but that's not part of this PR
+   */
+  useKey(
+    shouldProcess => {
+      return (
+        shouldProcess.code === 'Escape' ||
+        shouldProcess.code === 'Backspace' ||
+        shouldProcess.code === 'Delete'
+      );
+    },
+    event => {
+      const selectionMode = !!selectedMessageIds.length;
+      switch (event.key) {
+        case 'Escape':
+          if (selectionMode) {
+            onCloseOverlay();
+          }
+          return true;
+        case 'Backspace':
+        case 'Delete':
+          if (selectionMode && selectedConversationKey) {
+            void deleteMessagesForX(selectedMessageIds, selectedConversationKey, isPublic);
+          }
+          return true;
+        default:
+      }
+      return false;
+    }
+  );
 
   const isOnlyServerDeletable = isPublic;
 

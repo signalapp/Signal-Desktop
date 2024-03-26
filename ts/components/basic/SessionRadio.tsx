@@ -2,6 +2,11 @@ import React, { ChangeEvent } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from './Flex';
 
+const StyledButton = styled.button<{ disabled: boolean }>`
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  min-height: 30px;
+`;
+
 const StyledInput = styled.input<{
   filledSize: number;
   outlineOffset: number;
@@ -9,7 +14,6 @@ const StyledInput = styled.input<{
 }>`
   opacity: 0;
   position: absolute;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   width: ${props => props.filledSize + props.outlineOffset}px;
   height: ${props => props.filledSize + props.outlineOffset}px;
 
@@ -71,7 +75,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
     style,
   } = props;
 
-  const clickHandler = (e: ChangeEvent<any>) => {
+  const clickHandler = (e: React.SyntheticEvent<any>) => {
     if (!disabled && onClick) {
       // let something else catch the event if our click handler is not set
       e.stopPropagation();
@@ -83,7 +87,15 @@ export const SessionRadio = (props: SessionRadioProps) => {
   const outlineOffset = 2;
 
   return (
-    <button>
+    <StyledButton
+      onKeyDown={e => {
+        if (e.code === 'Space') {
+          clickHandler(e);
+        }
+      }}
+      onClick={clickHandler}
+      disabled={disabled}
+    >
       <Flex
         container={true}
         flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
@@ -97,6 +109,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
           aria-checked={active}
           checked={active}
           onChange={clickHandler}
+          tabIndex={-1} // clickHandler is on the parent button, so we need to skip this input while pressing Tab
           filledSize={filledSize * 2}
           outlineOffset={outlineOffset}
           disabled={disabled}
@@ -115,7 +128,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
           {label}
         </StyledLabel>
       </Flex>
-    </button>
+    </StyledButton>
   );
 };
 
