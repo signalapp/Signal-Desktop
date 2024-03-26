@@ -409,9 +409,6 @@ export class SwarmPolling {
 
             // we take the lastest config message to create the wrapper in memory
             const incomingConfigMessage = allDecryptedConfigMessages.at(-1);
-            window.log.debug(
-              `WIP: [SwarmPolling] configMessage: ${JSON.stringify(incomingConfigMessage)}`
-            );
             if (!incomingConfigMessage) {
               throw new Error('incomingConfigMessage not found');
             }
@@ -681,9 +678,6 @@ export class SwarmPolling {
         toPollFrom,
         UserUtils.getOurPubKeyStrFromCache()
       );
-      window.log.debug(
-        `WIP: [resultsFromUserProfile] resultsFromUserProfile: ${JSON.stringify(resultsFromUserProfile)}`
-      );
     } catch (e) {
       if (e.message === ERROR_CODE_NO_CONNECT) {
         if (window.inboxStore?.getState().onionPaths.isOnline) {
@@ -709,10 +703,6 @@ export class SwarmPolling {
       const userConfigMessagesMerged = flatten(compact(userConfigMessages));
 
       if (userConfigMessagesMerged.length) {
-        window.log.info(
-          `[pollOnceForDisplayName] received userConfigMessages count: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
-        );
-
         const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
         return displayName;
       }

@@ -89,7 +89,7 @@ async function signInAndFetchDisplayName(
         'configurationMessageReceived',
         async (ourPubkey: string, displayName: string) => {
           window.Whisper.events.off('configurationMessageReceived');
-          await setSignInByLinking(true);
+          await setSignInByLinking(false);
           await setSignWithRecoveryPhrase(false);
           dispatch(setHexGeneratedPubKey(ourPubkey));
           dispatch(setDisplayName(displayName));

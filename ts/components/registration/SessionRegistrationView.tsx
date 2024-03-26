@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
 
+import { useMount } from 'react-use';
 import { onboardingStore } from '../../state/onboarding/store';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { setSignInByLinking } from '../../util/storage';
@@ -56,9 +56,9 @@ const StyledSessionContent = styled(Flex)`
 `;
 
 export const SessionRegistrationView = () => {
-  useEffect(() => {
+  useMount(() => {
     void setSignInByLinking(false);
-  }, []);
+  });
 
   return (
     <Provider store={onboardingStore}>

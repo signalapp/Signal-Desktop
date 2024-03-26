@@ -113,6 +113,7 @@ export function isSignInByLinking() {
   return isByLinking;
 }
 
+/** this is a loading state to prevent config sync jobs while we are trying to sign in through link a device. It should be set to false after the linking is complete */
 export async function setSignInByLinking(isLinking: boolean) {
   await put('is_sign_in_by_linking', isLinking);
 }

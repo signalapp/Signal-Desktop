@@ -14,7 +14,7 @@ import { NotFoundError } from '../session/utils/errors';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { actions as userActions } from '../state/ducks/user';
 import { Registration } from './registration';
-import { Storage, saveRecoveryPhrase, setLocalPubKey } from './storage';
+import { Storage, saveRecoveryPhrase, setLocalPubKey, setSignInByLinking } from './storage';
 
 /**
  * Might throw
@@ -78,6 +78,7 @@ export async function signInByLinkingDevice(
 
   const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
 
+  await setSignInByLinking(true);
   loadingAnimationCallback();
   await createAccount(identityKeyPair);
   await saveRecoveryPhrase(mnemonic);
