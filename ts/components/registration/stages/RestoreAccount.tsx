@@ -1,3 +1,4 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
@@ -9,6 +10,7 @@ import {
   setAccountRestorationStep,
   setDisplayName,
   setDisplayNameError,
+  setHexGeneratedPubKey,
   setProgress,
   setRecoveryPassword,
   setRecoveryPasswordError,
@@ -17,15 +19,12 @@ import {
   useDisplayName,
   useDisplayNameError,
   useOnboardAccountRestorationStep,
+  useOnboardHexGeneratedPubKey,
   useProgress,
   useRecoveryPassword,
   useRecoveryPasswordError,
 } from '../../../state/onboarding/selectors/registration';
-import {
-  registerSingleDevice,
-  registrationDone,
-  signInByLinkingDevice,
-} from '../../../util/accountManager';
+import { registerSingleDevice, signInByLinkingDevice } from '../../../util/accountManager';
 import { setSignInByLinking, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
@@ -53,6 +52,7 @@ async function signInWithNewDisplayName(signInDetails: RecoverDetails) {
 
     await resetRegistration();
     await registerSingleDevice(recoveryPassword, 'english', trimName);
+    await setSignInByLinking(false);
     await setSignWithRecoveryPhrase(true);
   } catch (e) {
     await resetRegistration();
@@ -71,13 +71,10 @@ async function signInAndFetchDisplayName(
   signInDetails: RecoverDetails & {
     /** this is used to trigger the loading animation further down the registration pipeline */
     loadingAnimationCallback: () => void;
-  }
+  },
+  dispatch: Dispatch
 ) {
   const { recoveryPassword, loadingAnimationCallback } = signInDetails;
-  window.log.debug(`WIP: [signInAndFetchDisplayName] starting sign in....`);
-
-  let displayNameFromNetwork = '';
-  let ourPubkey = '';
 
   try {
     await resetRegistration();
@@ -90,13 +87,13 @@ async function signInAndFetchDisplayName(
     const promiseWait = PromiseUtils.waitForTask(done => {
       window.Whisper.events.on(
         'configurationMessageReceived',
-        async (displayName: string, pubkey: string) => {
+        async (ourPubkey: string, displayName: string) => {
           window.Whisper.events.off('configurationMessageReceived');
-          await setSignInByLinking(false);
-          await setSignWithRecoveryPhrase(true);
-
-          displayNameFromNetwork = displayName;
-          ourPubkey = pubkey;
+          await setSignInByLinking(true);
+          await setSignWithRecoveryPhrase(false);
+          dispatch(setHexGeneratedPubKey(ourPubkey));
+          dispatch(setDisplayName(displayName));
+          dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
           done(displayName);
         }
       );
@@ -107,49 +104,55 @@ async function signInAndFetchDisplayName(
     await resetRegistration();
     throw e;
   }
-
-  window.log.debug(
-    `WIP: [signInAndFetchDisplayName] signed in with displayName: "${displayNameFromNetwork}" and pubkey: "${ourPubkey}`
-  );
-  return { displayNameFromNetwork, ourPubkey };
 }
 
 export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
   const recoveryPassword = useRecoveryPassword();
   const recoveryPasswordError = useRecoveryPasswordError();
+  const ourPubkey = useOnboardHexGeneratedPubKey();
   const displayName = useDisplayName();
   const displayNameError = useDisplayNameError();
   const progress = useProgress();
 
   const dispatch = useDispatch();
 
-  useRecoveryProgressEffect({ step, progress, setProgress, displayName, dispatch });
+  useRecoveryProgressEffect({
+    step,
+    progress,
+    setProgress,
+    ourPubkey,
+    displayName,
+  });
 
   const recoverAndFetchDisplayName = async () => {
     if (!(!!recoveryPassword && !recoveryPasswordError)) {
       return;
     }
 
-    dispatch(setProgress(0));
     try {
-      const { displayNameFromNetwork, ourPubkey } = await signInAndFetchDisplayName({
-        recoveryPassword,
-        errorCallback: e => {
-          throw e;
+      window.log.debug(
+        `WIP: [onboarding] restore account: recoverAndFetchDisplayName() is starting recoveryPassword: ${recoveryPassword}`
+      );
+      dispatch(setProgress(0));
+      await signInAndFetchDisplayName(
+        {
+          recoveryPassword,
+          errorCallback: e => {
+            throw e;
+          },
+          loadingAnimationCallback: () => {
+            dispatch(setAccountRestorationStep(AccountRestoration.Loading));
+          },
         },
-        loadingAnimationCallback: () => {
-          dispatch(setAccountRestorationStep(AccountRestoration.Loading));
-        },
-      });
-      dispatch(setDisplayName(displayNameFromNetwork));
-      await registrationDone(ourPubkey, displayName);
-      dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
+        dispatch
+      );
     } catch (e) {
+      window.log.debug(
+        `WIP: [onboarding] restore account: restoration failed! Error: ${e.message || e}`
+      );
+
       if (e instanceof NotFoundError || e instanceof TaskTimedOutError) {
-        window.log.debug(
-          `WIP: [recoverAndFetchDisplayName] AccountRestoration.RecoveryPassword failed to get a display name so we need to enter it manually. Error: ${e}`
-        );
         dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         return;
       }
@@ -161,9 +164,6 @@ export const RestoreAccount = () => {
       } else {
         dispatch(setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric')));
       }
-      window.log.debug(
-        `WIP: [recoverAndFetchDisplayName] exception during registration: ${e.message || e} type ${typeof JSON.stringify(e)}`
-      );
       dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
     }
   };
@@ -173,8 +173,11 @@ export const RestoreAccount = () => {
       return;
     }
 
-    dispatch(setProgress(0));
     try {
+      window.log.debug(
+        `WIP: [onboarding] restore account: recoverAndEnterDisplayName() is starting recoveryPassword: ${recoveryPassword} displayName: ${displayName}`
+      );
+      dispatch(setProgress(0));
       await signInWithNewDisplayName({
         displayName,
         recoveryPassword,
@@ -186,7 +189,7 @@ export const RestoreAccount = () => {
       dispatch(setAccountRestorationStep(AccountRestoration.Complete));
     } catch (e) {
       window.log.debug(
-        `WIP: [recoverAndEnterDisplayName] AccountRestoration.DisplayName failed to set the display name. Error: ${e}`
+        `WIP: [onboarding] restore account: restoration with new display name failed! Error: ${e.message || e}`
       );
       dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
     }

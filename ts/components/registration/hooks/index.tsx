@@ -1,13 +1,14 @@
-import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import { AnyAction } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { trigger } from '../../../shims/events';
 import {
   AccountRestoration,
-  resetOnboardingState,
   setAccountRestorationStep,
 } from '../../../state/onboarding/ducks/registration';
+import { registrationDone } from '../../../util/accountManager';
 
 let interval: NodeJS.Timeout;
 
@@ -15,8 +16,8 @@ type UseRecoveryProgressEffectProps = {
   step: AccountRestoration;
   progress: number;
   setProgress: (progress: number) => AnyAction;
+  ourPubkey: string;
   displayName: string;
-  dispatch: Dispatch;
 };
 
 /**
@@ -24,11 +25,13 @@ type UseRecoveryProgressEffectProps = {
  * @param step AccountRestoration the onboarding step we are currently on
  * @param progress number the progress of the loading bar
  * @param setProgress (progress: number) => AnyAction redux function to set the progress of the loading bar
- * @param displayName string the display name of the user
- * @param dispatch
+ * @param ourPubkey: string the public key of the user
+ * @param displayName: string the display name of the user
  */
 export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps) => {
-  const { step, progress, setProgress, displayName, dispatch } = props;
+  const { step, progress, setProgress, ourPubkey, displayName } = props;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (step === AccountRestoration.Loading) {
@@ -36,9 +39,6 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
         if (progress < 100) {
           dispatch(setProgress(progress + 1));
         }
-        // window.log.debug(
-        //   `WIP: [continueYourSession] AccountRestoration.Loading Loading progress ${progress}%`
-        // );
 
         if (progress >= 100) {
           clearInterval(interval);
@@ -56,9 +56,6 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
         if (progress < 100) {
           dispatch(setProgress(progress + 1));
         }
-        window.log.debug(
-          `WIP: [useRecoveryProgressEffect] AccountRestoration. Finishing progress ${progress}%`
-        );
 
         if (progress >= 100) {
           clearInterval(interval);
@@ -78,7 +75,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
         } else {
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
           window.log.debug(
-            `WIP: [useRecoveryProgressEffect] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually`
+            `WIP: [onboarding] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually`
           );
         }
       }, ONBOARDING_TIMES.RECOVERY_FINISHED);
@@ -86,15 +83,21 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
 
     if (step === AccountRestoration.Complete) {
       clearInterval(interval);
-      if (!isEmpty(displayName)) {
+      if (!isEmpty(ourPubkey) && !isEmpty(displayName)) {
         window.log.debug(
-          `WIP: [useRecoveryProgressEffect] AccountRestoration.Complete opening inbox for ${displayName}`
+          `WIP: [onboarding] AccountRestoration.Complete opening inbox for ${displayName}`
         );
-        dispatch(resetOnboardingState());
-        trigger('openInbox');
+
+        // eslint-disable-next-line more/no-then
+        void registrationDone(ourPubkey, displayName).then(() => trigger('openInbox'));
+      } else {
+        window.log.debug(
+          `WIP: [onboarding] AccountRestoration.Complete failed to find the pubkey and display name`
+        );
+        dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
       }
     }
 
     return () => clearInterval(interval);
-  }, [dispatch, displayName, progress, setProgress, step]);
+  }, [dispatch, displayName, ourPubkey, progress, setProgress, step]);
 };
