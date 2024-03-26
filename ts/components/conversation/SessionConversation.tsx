@@ -53,10 +53,7 @@ import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 
-import {
-  deleteMessagesById,
-  deleteMessagesByIdForEveryone,
-} from '../../interactions/conversations/unsendingInteractions';
+import { deleteMessagesForX } from '../../interactions/conversations/unsendingInteractions';
 import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
@@ -361,14 +358,7 @@ export class SessionConversation extends React.Component<Props, State> {
         case 'Backspace':
         case 'Delete':
           if (selectionMode && this.props.selectedConversationKey) {
-            if (isPublic) {
-              void deleteMessagesByIdForEveryone(selectedMessages, selectedConversationKey);
-            } else {
-              void deleteMessagesById(
-                this.props.selectedMessages,
-                this.props.selectedConversationKey
-              );
-            }
+            void deleteMessagesForX(selectedMessages, selectedConversationKey, isPublic);
           }
           break;
         default:

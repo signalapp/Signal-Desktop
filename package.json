@@ -92,6 +92,7 @@
     "emoji-mart": "^5.5.2",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
+    "focus-trap-react": "^10.2.3",
     "fs-extra": "9.0.0",
     "glob": "7.1.2",
     "image-type": "^4.1.0",

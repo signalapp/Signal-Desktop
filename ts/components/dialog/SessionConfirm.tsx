@@ -1,8 +1,8 @@
 import { shell } from 'electron';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 import { useLastMessage } from '../../hooks/useParamSelector';
 import { MessageInteraction } from '../../interactions';
 import {

@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
 import classNames from 'classnames';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 export enum SessionButtonType {
@@ -28,7 +28,7 @@ export enum SessionButtonColor {
   None = 'transparent',
 }
 
-const StyledButton = styled.div<{
+const StyledButton = styled.button<{
   color: string | undefined;
   buttonType: SessionButtonType;
   buttonShape: SessionButtonShape;
@@ -66,6 +66,10 @@ const StyledButton = styled.div<{
     props.buttonType === SessionButtonType.Solid &&
     'box-shadow: 0px 0px 6px var(--button-solid-shadow-color);'}
   border-radius: ${props => (props.buttonShape === SessionButtonShape.Round ? '17px' : '6px')};
+
+  :focus-within {
+    outline: 1px var(--primary-color) dashed;
+  }
 
   .session-icon {
     fill: var(--background-primary-color);

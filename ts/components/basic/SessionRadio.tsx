@@ -21,6 +21,10 @@ const StyledInput = styled.input<{
           ? props.selectedColor
           : 'var(--primary-color)'};
   }
+
+  :focus-within + label:before {
+    outline: 1px var(--primary-color) dashed;
+  }
 `;
 
 // NOTE (Will): We don't use a transition because it's too slow and creates flickering when changing buttons.

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SessionIconButton } from '../../icon';
 import { Noop } from '../../../types/Util';
+import { SessionIconButton } from '../../icon';
 
 const StyledChatButtonContainer = styled.div`
   .session-icon-button {
@@ -50,7 +50,7 @@ export const StartRecordingButton = (props: { onClick: Noop }) => {
 };
 
 // eslint-disable-next-line react/display-name
-export const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: Noop }>(
+export const ToggleEmojiButton = React.forwardRef<HTMLButtonElement, { onClick: Noop }>(
   (props, ref) => {
     return (
       <StyledChatButtonContainer>
