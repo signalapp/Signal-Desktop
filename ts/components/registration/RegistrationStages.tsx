@@ -70,18 +70,20 @@ export const RegistrationStages = () => {
               iconPadding="4px"
               iconColor="var(--text-primary-color)"
               style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+              dataTestId="session-faq-link"
               onClick={() => {
                 void shell.openExternal('https://getsession.org/faq');
               }}
             />
             <SpacerSM />
             <SessionIconButton
-              aria-label="external link to Session FAQ web page"
+              aria-label="external link to Session website"
               iconType="link"
               iconSize="medium"
               iconColor="var(--text-primary-color)"
               iconPadding="4px"
               style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
+              dataTestId="session-website-link"
               onClick={() => {
                 void shell.openExternal('https://getsession.org');
               }}

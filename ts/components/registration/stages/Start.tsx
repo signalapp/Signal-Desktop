@@ -25,6 +25,7 @@ export const Start = () => {
           dispatch(setOnboardingStep(Onboarding.CreateAccount));
         }}
         text={window.i18n('onboardingAccountCreate')}
+        dataTestId="create-account-button"
       />
       <SpacerLG />
       <SessionButton
@@ -35,7 +36,7 @@ export const Start = () => {
           dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
         }}
         text={window.i18n('onboardingAccountExists')}
-        dataTestId="restore-using-recovery"
+        dataTestId="existing-account-button"
       />
       <SpacerLG />
       <TermsAndConditions />
