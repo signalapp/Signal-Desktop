@@ -6078,6 +6078,14 @@
     "messageformat": "Nobody",
     "description": "Option for letting nobody discover you by phone number"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?",
+    "description": "Title for the confirmation modal when turning the phone number discoverability setting to nobody"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal.",
+    "description": "Description for the confirmation modal when turning the phone number discoverability setting to nobody"
+  },
   "icu:Preferences--messaging": {
     "messageformat": "Messaging",
     "description": "Title for the messaging settings"
