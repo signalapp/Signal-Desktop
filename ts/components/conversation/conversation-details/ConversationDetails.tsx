@@ -391,7 +391,7 @@ export function ConversationDetails({
         i18n={i18n}
         isMe={conversation.isMe}
         isGroup={isGroup}
-        memberships={memberships}
+        membersCount={conversation.membersCount ?? null}
         startEditing={(isGroupTitle: boolean) => {
           setModalState(
             isGroupTitle
