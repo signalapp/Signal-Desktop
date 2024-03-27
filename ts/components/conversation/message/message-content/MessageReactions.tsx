@@ -1,5 +1,5 @@
 import { isEmpty, isEqual } from 'lodash';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
@@ -66,7 +66,7 @@ const StyledReadLess = styled.span`
 
 type ReactionsProps = Omit<ReactionProps, 'emoji'>;
 
-const Reactions = (props: ReactionsProps): ReactElement => {
+const Reactions = (props: ReactionsProps) => {
   const { messageId, reactions, inModal } = props;
   return (
     <StyledMessageReactions
@@ -86,7 +86,7 @@ interface ExpandReactionsProps extends ReactionsProps {
   handleExpand: () => void;
 }
 
-const CompressedReactions = (props: ExpandReactionsProps): ReactElement => {
+const CompressedReactions = (props: ExpandReactionsProps) => {
   const { messageId, reactions, inModal, handleExpand } = props;
   return (
     <StyledMessageReactions
@@ -120,7 +120,7 @@ const CompressedReactions = (props: ExpandReactionsProps): ReactElement => {
   );
 };
 
-const ExpandedReactions = (props: ExpandReactionsProps): ReactElement => {
+const ExpandedReactions = (props: ExpandReactionsProps) => {
   const { handleExpand } = props;
   return (
     <Flex container={true} flexDirection={'column'} alignItems={'center'} margin="4px 0 0">

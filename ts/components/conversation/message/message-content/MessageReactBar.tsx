@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { isEmpty } from 'lodash';
@@ -160,7 +160,7 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
   );
 };
 
-export const MessageReactBar = ({ action, additionalAction, messageId }: Props): ReactElement => {
+export const MessageReactBar = ({ action, additionalAction, messageId }: Props) => {
   const recentReactions = getRecentReactions();
   const expirationTimestamp = useIsRenderedExpiresInItem(messageId);
 

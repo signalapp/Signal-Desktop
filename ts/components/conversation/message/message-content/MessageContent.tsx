@@ -21,7 +21,7 @@ import {
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
 import { useSelectedIsPrivate } from '../../../../state/selectors/selectedConversation';
-import { canDisplayImage } from '../../../../types/Attachment';
+import { canDisplayImagePreview } from '../../../../types/Attachment';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageAvatar } from './MessageAvatar';
 import { MessageHighlighter } from './MessageHighlighter';
@@ -154,7 +154,8 @@ export const MessageContent = (props: Props) => {
 
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
-  const isDetailViewAndSupportsAttachmentCarousel = isDetailView && canDisplayImage(attachments);
+  const isDetailViewAndSupportsAttachmentCarousel =
+    isDetailView && canDisplayImagePreview(attachments);
 
   return (
     <StyledMessageContent
