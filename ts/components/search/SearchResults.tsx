@@ -64,14 +64,14 @@ const VirtualizedList = () => {
               return null;
             }
             if (isString(row)) {
-              return <SectionHeader title={row} style={style} key={key} />;
+              return <SectionHeader title={row} style={style as CSSProperties} key={key} />;
             }
             if (isContact(row)) {
               return (
                 <ConversationListItem conversationId={row.contactConvoId} style={style} key={key} />
               );
             }
-            return <MessageSearchResult style={style} key={key} {...row} />;
+            return <MessageSearchResult style={style as CSSProperties} key={key} {...row} />;
           }}
           width={width}
           autoHeight={false}

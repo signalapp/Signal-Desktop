@@ -15,6 +15,7 @@ interface SProps extends SessionIconProps {
   dataTestId?: string;
   dataTestIdIcon?: string;
   id?: string;
+  title?: string;
   style?: object;
   tabIndex?: number;
 }
@@ -57,6 +58,7 @@ const SessionIconButtonInner = forwardRef<HTMLDivElement, SProps>((props, ref) =
     iconPadding,
     margin,
     id,
+    title,
     dataTestId,
     dataTestIdIcon,
     style,
@@ -83,6 +85,7 @@ const SessionIconButtonInner = forwardRef<HTMLDivElement, SProps>((props, ref) =
       role="button"
       ref={ref}
       id={id}
+      title={title}
       onClick={clickHandler}
       style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin || '' }}
       tabIndex={tabIndex}

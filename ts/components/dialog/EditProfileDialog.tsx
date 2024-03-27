@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-named-default
-import { ChangeEvent, MouseEvent, ReactElement, useState } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
 import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
@@ -69,7 +69,7 @@ type ProfileAvatarProps = {
   ourId: string;
 };
 
-export const ProfileAvatar = (props: ProfileAvatarProps): ReactElement => {
+export const ProfileAvatar = (props: ProfileAvatarProps) => {
   const { newAvatarObjectUrl, avatarPath, profileName, ourId } = props;
   return (
     <Avatar
@@ -86,7 +86,7 @@ type ProfileHeaderProps = ProfileAvatarProps & {
   setMode: (mode: ProfileDialogModes) => void;
 };
 
-const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
+const ProfileHeader = (props: ProfileHeaderProps) => {
   const { avatarPath, profileName, ourId, onClick, setMode } = props;
 
   return (
@@ -114,7 +114,8 @@ const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
 };
 
 type ProfileDialogModes = 'default' | 'edit' | 'qr';
-export const EditProfileDialog = (): ReactElement => {
+
+export const EditProfileDialog = () => {
   const dispatch = useDispatch();
 
   const _profileName = useOurConversationUsername() || '';

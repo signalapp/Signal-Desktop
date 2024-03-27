@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useConvoIdFromContext } from '../../../contexts/ConvoIdContext';
 import {
   useConversationRealName,
   useConversationUsername,
@@ -8,7 +9,6 @@ import {
 import { PubKey } from '../../../session/types';
 import { isSearching } from '../../../state/selectors/search';
 import { ContactName } from '../../conversation/ContactName';
-import { useConvoIdFromContext } from './ConvoIdContext';
 
 export const UserItem = () => {
   const conversationId = useConvoIdFromContext();
@@ -35,15 +35,13 @@ export const UserItem = () => {
   }
 
   return (
-    <div className="module-conversation__user">
-      <ContactName
-        pubkey={displayedPubkey}
-        name={username}
-        profileName={displayName}
-        module="module-conversation__user"
-        boldProfileName={true}
-        shouldShowPubkey={shouldShowPubkey}
-      />
-    </div>
+    <ContactName
+      pubkey={displayedPubkey}
+      name={username}
+      profileName={displayName}
+      module="module-conversation__user"
+      boldProfileName={true}
+      shouldShowPubkey={shouldShowPubkey}
+    />
   );
 };

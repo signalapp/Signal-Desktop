@@ -10,6 +10,7 @@ import { getMessageInfoId } from '../../../../../state/selectors/conversations';
 import { Flex } from '../../../../basic/Flex';
 import { Header, HeaderTitle, StyledScrollContainer } from '../components';
 
+import { IsDetailMessageViewContext } from '../../../../../contexts/isDetailViewContext';
 import { Data } from '../../../../../data/data';
 import { useRightOverlayMode } from '../../../../../hooks/useUI';
 import {
@@ -28,7 +29,7 @@ import {
   useMessageTimestamp,
 } from '../../../../../state/selectors';
 import { useSelectedConversationKey } from '../../../../../state/selectors/selectedConversation';
-import { canDisplayImage } from '../../../../../types/Attachment';
+import { canDisplayImagePreview } from '../../../../../types/Attachment';
 import { isAudio } from '../../../../../types/MIME';
 import {
   getAudioDuration,
@@ -71,9 +72,11 @@ const MessageBody = ({
   }
 
   return (
-    <StyledMessageBody>
-      <Message messageId={messageId} isDetailView={true} />
-    </StyledMessageBody>
+    <IsDetailMessageViewContext.Provider value={true}>
+      <StyledMessageBody>
+        <Message messageId={messageId} />
+      </StyledMessageBody>
+    </IsDetailMessageViewContext.Provider>
   );
 };
 
@@ -219,7 +222,7 @@ export const OverlayMessageInfo = () => {
   const { errors, attachments } = messageInfo;
 
   const hasAttachments = attachments && attachments.length > 0;
-  const supportsAttachmentCarousel = canDisplayImage(attachments);
+  const supportsAttachmentCarousel = canDisplayImagePreview(attachments);
   const hasErrors = errors && errors.length > 0;
 
   const handleChangeAttachment = (changeDirection: 1 | -1) => {

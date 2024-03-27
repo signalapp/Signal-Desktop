@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
@@ -142,7 +142,7 @@ type Props = {
   onClick: (...args: Array<any>) => void;
 };
 
-export const ReactionPopup = (props: Props): ReactElement => {
+export const ReactionPopup = (props: Props) => {
   const { messageId, emoji, count, senders, tooltipPosition = 'center', onClick } = props;
 
   const [contacts, setContacts] = useState<Array<string>>([]);

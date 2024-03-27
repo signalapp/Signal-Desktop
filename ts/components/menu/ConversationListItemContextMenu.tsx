@@ -1,12 +1,12 @@
 import { Item, Menu } from 'react-contexify';
 
 import { useSelector } from 'react-redux';
+import { useConvoIdFromContext } from '../../contexts/ConvoIdContext';
 import { useIsPinned, useIsPrivate, useIsPrivateAndFriend } from '../../hooks/useParamSelector';
 import { getConversationController } from '../../session/conversations';
 import { isSearching } from '../../state/selectors/search';
 import { getIsMessageSection } from '../../state/selectors/section';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
-import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
 import {
   AcceptMsgRequestMenuItem,
   BanMenuItem,

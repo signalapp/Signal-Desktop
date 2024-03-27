@@ -17,6 +17,7 @@ const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
   .module-contact-name {
     font-weight: bold;
   }

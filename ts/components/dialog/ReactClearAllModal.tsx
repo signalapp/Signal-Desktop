@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
@@ -46,7 +46,7 @@ const StyledReactClearAllContainer = styled(Flex)`
   }
 `;
 
-export const ReactClearAllModal = (props: Props): ReactElement => {
+export const ReactClearAllModal = (props: Props) => {
   const { reaction, messageId } = props;
 
   const [clearingInProgress, setClearingInProgress] = useState(false);

@@ -26,6 +26,7 @@ import { Message } from './message/message-item/Message';
 import { MessageRequestResponse } from './message/message-item/MessageRequestResponse';
 import { CallNotification } from './message/message-item/notification-bubble/CallNotification';
 
+import { IsDetailMessageViewContext } from '../../contexts/isDetailViewContext';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { TimerNotification } from './TimerNotification';
 import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
@@ -98,7 +99,7 @@ export const SessionMessagesList = (props: {
   }
 
   return (
-    <>
+    <IsDetailMessageViewContext.Provider value={false}>
       {messagesProps.map(messageProps => {
         const messageId = messageProps.message.props.messageId;
         const unreadIndicator = messageProps.showUnreadIndicator ? (
@@ -170,6 +171,6 @@ export const SessionMessagesList = (props: {
 
         return [<Message messageId={messageId} key={messageId} />, ...componentToMerge];
       })}
-    </>
+    </IsDetailMessageViewContext.Provider>
   );
 };

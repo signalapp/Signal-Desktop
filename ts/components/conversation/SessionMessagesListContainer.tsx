@@ -3,7 +3,7 @@ import { contextMenu } from 'react-contexify';
 import { connect } from 'react-redux';
 
 import autoBind from 'auto-bind';
-import { Component, RefObject, createContext } from 'react';
+import { Component, RefObject } from 'react';
 import styled from 'styled-components';
 import {
   ReduxConversationType,
@@ -14,6 +14,10 @@ import {
 } from '../../state/ducks/conversations';
 import { SessionScrollButton } from '../SessionScrollButton';
 
+import {
+  ScrollToLoadedMessageContext,
+  ScrollToLoadedReasons,
+} from '../../contexts/ScrollToLoadedMessage';
 import { StateType } from '../../state/reducer';
 import {
   getQuotedMessageToAnimate,
@@ -29,17 +33,6 @@ export type SessionMessageListProps = {
   messageContainerRef: RefObject<HTMLDivElement>;
 };
 export const messageContainerDomID = 'messages-container';
-
-export type ScrollToLoadedReasons =
-  | 'quote-or-search-result'
-  | 'go-to-bottom'
-  | 'unread-indicator'
-  | 'load-more-top'
-  | 'load-more-bottom';
-
-export const ScrollToLoadedMessageContext = createContext(
-  (_loadedMessageIdToScrollTo: string, _reason: ScrollToLoadedReasons) => {}
-);
 
 type Props = SessionMessageListProps & {
   conversationKey?: string;

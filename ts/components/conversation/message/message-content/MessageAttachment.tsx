@@ -19,7 +19,7 @@ import {
 import {
   AttachmentType,
   AttachmentTypeWithPath,
-  canDisplayImage,
+  canDisplayImagePreview,
   getExtensionForDisplay,
   hasImage,
   hasVideoScreenshot,
@@ -96,7 +96,7 @@ export const MessageAttachment = (props: Props) => {
     (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      if (!attachmentProps?.attachments?.length) {
+      if (!attachmentProps?.attachments?.length || attachmentProps?.attachments[0]?.pending) {
         return;
       }
 
@@ -131,7 +131,7 @@ export const MessageAttachment = (props: Props) => {
   }
 
   const firstAttachment = attachments[0];
-  const displayImage = canDisplayImage(attachments);
+  const displayImage = canDisplayImagePreview(attachments);
 
   if (!isTrustedForAttachmentDownload) {
     return <ClickToTrustSender messageId={messageId} />;
@@ -186,6 +186,7 @@ export const MessageAttachment = (props: Props) => {
       highlight={highlight}
       selected={selected}
       className={'module-message__generic-attachment'}
+      onClick={onClickOnGenericAttachment}
     >
       {pending ? (
         <div className="module-message__generic-attachment__spinner-container">
@@ -193,11 +194,7 @@ export const MessageAttachment = (props: Props) => {
         </div>
       ) : (
         <div className="module-message__generic-attachment__icon-container">
-          <div
-            role="button"
-            className="module-message__generic-attachment__icon"
-            onClick={onClickOnGenericAttachment}
-          >
+          <div role="button" className="module-message__generic-attachment__icon">
             {extension ? (
               <div className="module-message__generic-attachment__icon__extension">{extension}</div>
             ) : null}

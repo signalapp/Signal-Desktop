@@ -1,18 +1,20 @@
-import { shell } from 'electron';
+import { ipcRenderer, shell } from 'electron';
+import { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import useHover from 'react-use/lib/useHover';
 import styled from 'styled-components';
 
-import countryLookup from 'country-code-lookup';
-import ip2country from 'ip2country';
+import { isEmpty, isTypedArray } from 'lodash';
+import { CityResponse, Reader } from 'maxmind';
+import { useMount } from 'react-use';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
-  getFirstOnionPath,
-  getFirstOnionPathLength,
-  getIsOnline,
-  getOnionPathsCount,
+  useFirstOnionPath,
+  useFirstOnionPathLength,
+  useIsOnline,
+  useOnionPathsCount,
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
 
@@ -75,11 +77,27 @@ const OnionCountryDisplay = ({ labelText, snodeIp }: { snodeIp?: string; labelTe
   return hoverable;
 };
 
+let reader: Reader<CityResponse> | null;
+
 const OnionPathModalInner = () => {
-  const onionPath = useSelector(getFirstOnionPath);
-  const isOnline = useSelector(getIsOnline);
-  // including the device and destination in calculation
+  const onionPath = useFirstOnionPath();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_dataLoaded, setDataLoaded] = useState(false);
+  const isOnline = useIsOnline();
+
   const glowDuration = onionPath.length + 2;
+
+  useMount(() => {
+    ipcRenderer.once('load-maxmind-data-complete', (_event, content) => {
+      const asArrayBuffer = content as Uint8Array;
+      if (asArrayBuffer && isTypedArray(asArrayBuffer) && !isEmpty(asArrayBuffer)) {
+        reader = new Reader<CityResponse>(Buffer.from(asArrayBuffer.buffer));
+        setDataLoaded(true); // retrigger a rerender
+      }
+    });
+    ipcRenderer.send('load-maxmind-data');
+  });
+
   if (!isOnline || !onionPath || onionPath.length === 0) {
     return <SessionSpinner loading={true} />;
   }
@@ -103,7 +121,6 @@ const OnionPathModalInner = () => {
         <Flex container={true}>
           <StyledLightsContainer>
             <StyledVerticalLine />
-
             <Flex container={true} flexDirection="column" alignItems="center" height="100%">
               {nodes.map((_snode: Snode | any, index: number) => {
                 return (
@@ -118,19 +135,25 @@ const OnionPathModalInner = () => {
           </StyledLightsContainer>
           <Flex container={true} flexDirection="column" alignItems="flex-start">
             {nodes.map((snode: Snode | any) => {
-              let labelText = snode.label
-                ? snode.label
-                : countryLookup.byIso(ip2country(snode.ip))?.country;
-              if (!labelText) {
-                labelText = window.i18n('unknownCountry');
-              }
-              return labelText ? (
+              const country = reader?.get(snode.ip || '0.0.0.0')?.country;
+              const locale = (window.i18n as any).getLocale() as string;
+
+              // typescript complains that the [] operator cannot be used with the 'string' coming from getLocale()
+              const countryNamesAsAny = country?.names as any;
+              const countryName =
+                snode.label || // to take care of the "Device" case
+                countryNamesAsAny?.[locale] || // try to find the country name based on the user local first
+                // eslint-disable-next-line dot-notation
+                countryNamesAsAny?.['en'] || // if not found, fallback to the country in english
+                window.i18n('unknownCountry');
+
+              return (
                 <OnionCountryDisplay
-                  labelText={labelText}
+                  labelText={countryName}
                   snodeIp={snode.ip}
                   key={`country-${snode.ip}`}
                 />
-              ) : null;
+              );
             })}
           </Flex>
         </Flex>
@@ -191,9 +214,9 @@ export const ActionPanelOnionStatusLight = (props: {
 }) => {
   const { isSelected, handleClick, id } = props;
 
-  const onionPathsCount = useSelector(getOnionPathsCount);
-  const firstPathLength = useSelector(getFirstOnionPathLength);
-  const isOnline = useSelector(getIsOnline);
+  const onionPathsCount = useOnionPathsCount();
+  const firstPathLength = useFirstOnionPathLength();
+  const isOnline = useIsOnline();
 
   // Set icon color based on result
   const errorColor = 'var(--button-path-error-color)';

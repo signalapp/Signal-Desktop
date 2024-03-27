@@ -38,10 +38,10 @@ export type MessageAvatarSelectorProps = Pick<
   'sender' | 'isSenderAdmin' | 'lastMessageOfSeries'
 >;
 
-type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean; isDetailView?: boolean };
+type Props = { messageId: string; isPrivate: boolean };
 
 export const MessageAvatar = (props: Props) => {
-  const { messageId, hideAvatar, isPrivate, isDetailView } = props;
+  const { messageId, isPrivate } = props;
 
   const dispatch = useDispatch();
   const selectedConvoKey = useSelectedConversationKey();
@@ -137,13 +137,9 @@ export const MessageAvatar = (props: Props) => {
   // The styledAvatar, when rendered needs to have a width with margins included of var(--width-avatar-group-msg-list).
   // This is so that the other message is still aligned when the avatar is not rendered (we need to make up for the space used by the avatar, and we use a margin of width-avatar-group-msg-list)
   return (
-    <StyledAvatar
-      style={{
-        visibility: hideAvatar ? 'hidden' : undefined,
-      }}
-    >
+    <StyledAvatar>
       <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
-      {!isDetailView && isSenderAdmin ? <CrownIcon /> : null}
+      {isSenderAdmin ? <CrownIcon /> : null}
     </StyledAvatar>
   );
 };

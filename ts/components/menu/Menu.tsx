@@ -1,5 +1,6 @@
 import { Item, Submenu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
+import { useConvoIdFromContext } from '../../contexts/ConvoIdContext';
 import {
   useAvatarPath,
   useConversationUsername,
@@ -54,7 +55,6 @@ import { getIsMessageSection } from '../../state/selectors/section';
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButtonColor } from '../basic/SessionButton';
-import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
 
 /** Menu items standardized */
 

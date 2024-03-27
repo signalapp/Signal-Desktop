@@ -2,7 +2,7 @@ import { isString } from 'lodash';
 
 import { useSelector } from 'react-redux';
 import { AutoSizer, Index, List, ListRowProps } from 'react-virtualized';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import {
   DirectContactsByNameType,
   getDirectContactsByName,
@@ -51,10 +51,10 @@ const renderRow = (props: ListRowProps) => {
   }
 
   if (isString(item)) {
-    return <ContactRowBreak style={style} key={key} char={item} />;
+    return <ContactRowBreak style={style as CSSProperties} key={key} char={item} />;
   }
 
-  return <ContactRow style={style} key={key} {...item} />;
+  return <ContactRow style={style as CSSProperties} key={key} {...item} />;
 };
 
 const unknownSection = 'unknown';

@@ -57,6 +57,7 @@ const StyledResultText = styled.div`
   display: inline-flex;
   flex-direction: column;
   align-items: stretch;
+  min-width: 0;
 `;
 
 const ResultsHeader = styled.div`

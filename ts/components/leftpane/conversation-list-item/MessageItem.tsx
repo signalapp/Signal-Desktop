@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
 import { useSelector } from 'react-redux';
+import { useConvoIdFromContext } from '../../../contexts/ConvoIdContext';
 import {
   useHasUnread,
   useIsPrivate,
@@ -15,7 +16,6 @@ import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { SessionIcon } from '../../icon';
-import { useConvoIdFromContext } from './ConvoIdContext';
 import { InteractionItem } from './InteractionItem';
 
 export const MessageItem = () => {

@@ -1,5 +1,5 @@
 import { isEmpty, isEqual } from 'lodash';
-import { ReactElement, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
@@ -218,7 +218,7 @@ const handleSenders = (senders: Array<string>, me: string) => {
   return updatedSenders;
 };
 
-export const ReactListModal = (props: Props): ReactElement => {
+export const ReactListModal = (props: Props) => {
   const { reaction, messageId } = props;
 
   const dispatch = useDispatch();

@@ -13,6 +13,7 @@ import {
   useMessageHash,
   useMessageReceivedAt,
   useMessageSender,
+  useMessageSenderIsAdmin,
   useMessageServerId,
   useMessageServerTimestamp,
   useMessageTimestamp,
@@ -110,6 +111,7 @@ export const MessageInfo = ({ messageId, errors }: { messageId: string; errors: 
   const sentAt = useMessageTimestamp(messageId);
   const serverTimestamp = useMessageServerTimestamp(messageId);
   const receivedAt = useMessageReceivedAt(messageId);
+  const isSenderAdmin = useMessageSenderIsAdmin(messageId);
 
   if (!messageId || !sender) {
     return null;
@@ -136,7 +138,7 @@ export const MessageInfo = ({ messageId, errors }: { messageId: string; errors: 
         <LabelWithInfo label={`${window.i18n('received')}:`} info={receivedAtStr} />
       ) : null}
       <SpacerSM />
-      <MessageFrom sender={sender} />
+      <MessageFrom sender={sender} isSenderAdmin={isSenderAdmin} />
       {hasError && (
         <>
           <SpacerSM />
