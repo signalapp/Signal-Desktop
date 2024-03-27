@@ -1,10 +1,9 @@
-import React, { KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+import React, { KeyboardEvent } from 'react';
 import styled from 'styled-components';
-
 import { SessionIcon, SessionIconProps } from '.';
-import { SessionNotificationCount } from './SessionNotificationCount';
+import { SessionNotificationCount, SessionUnreadCount } from './SessionNotificationCount';
 
 interface SProps extends SessionIconProps {
   onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
@@ -61,6 +60,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     dataTestIdIcon,
     style,
     tabIndex,
+    unreadCount,
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {
@@ -103,6 +103,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
         dataTestId={dataTestIdIcon}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
+      {Boolean(unreadCount) && <SessionUnreadCount count={unreadCount} />}
     </StyledSessionIconButton>
   );
 });
