@@ -182,6 +182,7 @@ export const RestoreAccount = () => {
       window.log.debug(
         `WIP: [onboarding] restore account: recoverAndEnterDisplayName() is starting recoveryPassword: ${recoveryPassword} displayName: ${displayName}`
       );
+      dispatch(setProgress(0));
       await signInWithNewDisplayName({
         displayName,
         recoveryPassword,
@@ -191,8 +192,8 @@ export const RestoreAccount = () => {
       window.log.debug(
         `WIP: [onboarding] restore account: restoration with new display name failed! Error: ${e.message || e}`
       );
-      dispatch(setDisplayNameError(e.message || String(e)));
       dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
+      dispatch(setDisplayNameError(e.message || String(e)));
     }
   };
 

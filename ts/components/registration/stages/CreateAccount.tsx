@@ -103,8 +103,8 @@ export const CreateAccount = () => {
       window.log.debug(
         `WIP: [onboarding] create account: creation failed! Error: ${e.message || e}`
       );
-      dispatch(setDisplayNameError(e.message || String(e)));
       dispatch(setAccountCreationStep(AccountCreation.DisplayName));
+      dispatch(setDisplayNameError(e.message || String(e)));
     }
   };
 

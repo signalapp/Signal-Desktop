@@ -72,7 +72,12 @@ export const RegistrationStages = () => {
           <SpacerLG />
           <OnboardContainer
             key={`${Onboarding[step]}-${step === Onboarding.CreateAccount ? AccountCreation[creationStep] : AccountRestoration[restorationStep]}`}
-            animate={step !== Onboarding.Start}
+            animate={
+              step !== Onboarding.Start &&
+              restorationStep !== AccountRestoration.Finishing &&
+              restorationStep !== AccountRestoration.Finished &&
+              restorationStep !== AccountRestoration.Complete
+            }
           >
             {step === Onboarding.Start ? <Start /> : null}
             {step === Onboarding.CreateAccount ? <CreateAccount /> : null}

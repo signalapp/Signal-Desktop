@@ -31,6 +31,7 @@ type UseRecoveryProgressEffectProps = {
  */
 export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps) => {
   const { step, progress, setProgress, ourPubkey, displayName } = props;
+  const totalProgress = 100;
 
   const dispatch = useDispatch();
 
@@ -38,18 +39,22 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
     await setSignWithRecoveryPhrase(true);
     await registrationDone(ourPubkey, displayName);
 
-    window.log.debug(`WIP: [onboarding] restore account: loggin in for ${displayName}`);
+    window.log.debug(`WIP: [onboarding] restore account: logging in for ${displayName}`);
     trigger('openInbox');
   }, [displayName, ourPubkey]);
 
   useEffect(() => {
     if (step === AccountRestoration.Loading) {
       interval = setInterval(() => {
-        if (progress < 100) {
+        window.log.debug(
+          `WIP: [onboarding] restore account: progress ${progress} state ${AccountRestoration[step]}`
+        );
+
+        if (progress < totalProgress) {
           dispatch(setProgress(progress + 1));
         }
 
-        if (progress >= 100) {
+        if (progress >= totalProgress) {
           clearInterval(interval);
           // if we didn't get the display name in time, we need to enter it manually
           window.log.debug(
@@ -57,20 +62,20 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
           );
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
-      }, ONBOARDING_TIMES.RECOVERY_TIMEOUT / 100);
+      }, ONBOARDING_TIMES.RECOVERY_TIMEOUT / totalProgress);
     }
 
     if (step === AccountRestoration.Finishing) {
       interval = setInterval(() => {
-        if (progress < 100) {
+        if (progress < totalProgress) {
           dispatch(setProgress(progress + 1));
         }
 
-        if (progress >= 100) {
+        if (progress >= totalProgress) {
           clearInterval(interval);
           dispatch(setAccountRestorationStep(AccountRestoration.Finished));
         }
-      }, ONBOARDING_TIMES.RECOVERY_FINISHING / 100);
+      }, ONBOARDING_TIMES.RECOVERY_FINISHING / totalProgress);
     }
 
     if (step === AccountRestoration.Finished) {
