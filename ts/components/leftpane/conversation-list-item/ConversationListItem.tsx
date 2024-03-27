@@ -11,6 +11,10 @@ import { openConversationWithMessages } from '../../../state/ducks/conversations
 import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 
 import {
+  ContextConversationProvider,
+  useConvoIdFromContext,
+} from '../../../contexts/ConvoIdContext';
+import {
   useAvatarPath,
   useConversationUsername,
   useHasUnread,
@@ -21,7 +25,6 @@ import {
 import { isSearching } from '../../../state/selectors/search';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
-import { ContextConversationProvider, useConvoIdFromContext } from './ConvoIdContext';
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
 

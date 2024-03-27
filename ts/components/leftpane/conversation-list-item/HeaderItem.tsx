@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useConvoIdFromContext } from '../../../contexts/ConvoIdContext';
 import { Data } from '../../../data/data';
 import {
   useActiveAt,
@@ -20,7 +21,6 @@ import { isSearching } from '../../../state/selectors/search';
 import { getIsMessageSection } from '../../../state/selectors/section';
 import { Timestamp } from '../../conversation/Timestamp';
 import { SessionIcon } from '../../icon';
-import { useConvoIdFromContext } from './ConvoIdContext';
 import { UserItem } from './UserItem';
 
 const NotificationSettingIcon = () => {
