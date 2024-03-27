@@ -659,8 +659,13 @@ export class SwarmPolling {
     // return the cached value
     return this.lastHashes[nodeEdKey][pubkey][namespace];
   }
-  public async pollOnceForOurDisplayName(): Promise<string> {
+
+  public async pollOnceForOurDisplayName(abortSignal?: AbortSignal): Promise<string> {
     try {
+      if (abortSignal?.aborted) {
+        throw new NotFoundError('[pollOnceForOurDisplayName] aborted right away');
+      }
+
       const pubkey = UserUtils.getOurPubKeyFromCache();
       const polledPubkey = pubkey.key;
       const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
@@ -675,6 +680,12 @@ export class SwarmPolling {
         toPollFrom = sample(notPolled) as Snode;
       }
 
+      if (abortSignal?.aborted) {
+        throw new NotFoundError(
+          '[pollOnceForOurDisplayName] aborted after selecting nodes to poll from'
+        );
+      }
+
       const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveDisplayName(
         toPollFrom,
         pubkey.key
@@ -683,7 +694,13 @@ export class SwarmPolling {
       // check if we just fetched the details from the config namespaces.
       // If yes, merge them together and exclude them from the rest of the messages.
       if (!resultsFromUserProfile?.length) {
-        throw new Error('resultsFromUserProfile is empty');
+        throw new NotFoundError('resultsFromUserProfile is empty');
+      }
+
+      if (abortSignal?.aborted) {
+        throw new NotFoundError(
+          '[pollOnceForOurDisplayName] aborted after retrieving user profile config messages'
+        );
       }
 
       const userConfigMessages = resultsFromUserProfile
@@ -692,7 +709,7 @@ export class SwarmPolling {
 
       const userConfigMessagesMerged = flatten(compact(userConfigMessages));
       if (!userConfigMessagesMerged.length) {
-        throw new Error('after merging there are no user config messages');
+        throw new NotFoundError('after merging there are no user config messages');
       }
       const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
 
@@ -700,7 +717,7 @@ export class SwarmPolling {
         throw new NotFoundError('Got a config message from network but without a displayName...');
       }
 
-      window.log.debug(`WIP: [pollOnceForOurDisplayName] displayName ${displayName}`);
+      // window.log.debug(`[pollOnceForOurDisplayName] displayName found ${displayName}`);
       return displayName;
     } catch (e) {
       if (e.message === ERROR_CODE_NO_CONNECT) {
@@ -710,7 +727,6 @@ export class SwarmPolling {
       } else if (!window.inboxStore?.getState().onionPaths.isOnline) {
         window.inboxStore?.dispatch(updateIsOnline(true));
       }
-      window.log.debug(`WIP: [pollOnceForOurDisplayName] no displayName found`, e);
       throw e;
     }
   }

@@ -118,6 +118,8 @@ export async function setSignInByLinking(isLinking: boolean) {
   await put('is_sign_in_by_linking', isLinking);
 }
 
+/** if we sign in with an existing recovery password, then we don't need to show any of the onboarding ui once we login
+ */
 export function isSignWithRecoveryPhrase() {
   const isRecoveryPhraseUsed = get('is_sign_in_recovery_phrase');
   if (isRecoveryPhraseUsed === undefined) {

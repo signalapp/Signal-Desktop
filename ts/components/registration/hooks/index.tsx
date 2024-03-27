@@ -1,6 +1,6 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { trigger } from '../../../shims/events';
@@ -9,6 +9,7 @@ import {
   setAccountRestorationStep,
 } from '../../../state/onboarding/ducks/registration';
 import { registrationDone } from '../../../util/accountManager';
+import { setSignWithRecoveryPhrase } from '../../../util/storage';
 
 let interval: NodeJS.Timeout;
 
@@ -33,6 +34,14 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
 
   const dispatch = useDispatch();
 
+  const recoveryComplete = useCallback(async () => {
+    await setSignWithRecoveryPhrase(true);
+    await registrationDone(ourPubkey, displayName);
+
+    window.log.debug(`WIP: [onboarding] restore account: loggin in for ${displayName}`);
+    trigger('openInbox');
+  }, [displayName, ourPubkey]);
+
   useEffect(() => {
     if (step === AccountRestoration.Loading) {
       interval = setInterval(() => {
@@ -44,7 +53,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
           clearInterval(interval);
           // if we didn't get the display name in time, we need to enter it manually
           window.log.debug(
-            `WIP: [useRecoveryProgressEffect] AccountRestoration.Loading We didn't get the display name in time, so we need to enter it manually`
+            `WIP: [onboarding] restore account: We failed with a time out when fetching a display, so we had to enter it manually`
           );
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
@@ -68,15 +77,12 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
       interval = setInterval(() => {
         clearInterval(interval);
         if (!isEmpty(displayName)) {
-          window.log.debug(
-            `WIP: [useRecoveryProgressEffect] AccountRestoration.Complete Finished progress`
-          );
           dispatch(setAccountRestorationStep(AccountRestoration.Complete));
         } else {
-          dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
           window.log.debug(
-            `WIP: [onboarding] AccountRestoration.DisplayName failed to fetch display name so we need to enter it manually`
+            `WIP: [onboarding] restore account: We failed with an error when fetching a display name, so we had to enter it manually`
           );
+          dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
       }, ONBOARDING_TIMES.RECOVERY_FINISHED);
     }
@@ -84,20 +90,15 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
     if (step === AccountRestoration.Complete) {
       clearInterval(interval);
       if (!isEmpty(ourPubkey) && !isEmpty(displayName)) {
-        window.log.debug(
-          `WIP: [onboarding] AccountRestoration.Complete opening inbox for ${displayName}`
-        );
-
-        // eslint-disable-next-line more/no-then
-        void registrationDone(ourPubkey, displayName).then(() => trigger('openInbox'));
+        void recoveryComplete();
       } else {
         window.log.debug(
-          `WIP: [onboarding] AccountRestoration.Complete failed to find the pubkey and display name`
+          `WIP: [onboarding] restore account: We don't have a pubkey or display name`
         );
         dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
       }
     }
 
     return () => clearInterval(interval);
-  }, [dispatch, displayName, ourPubkey, progress, setProgress, step]);
+  }, [dispatch, displayName, ourPubkey, progress, recoveryComplete, setProgress, step]);
 };

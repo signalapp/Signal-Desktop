@@ -67,12 +67,13 @@ const generateKeypair = async (
 export async function signInByLinkingDevice(
   mnemonic: string,
   mnemonicLanguage: string,
-  loadingAnimationCallback: () => void
+  loadingAnimationCallback: () => void,
+  abortSignal: AbortSignal
 ) {
-  if (!mnemonic) {
+  if (isEmpty(mnemonic)) {
     throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
-  if (!mnemonicLanguage) {
+  if (isEmpty(mnemonicLanguage)) {
     throw new Error('We always needs a mnemonicLanguage');
   }
 
@@ -84,7 +85,7 @@ export async function signInByLinkingDevice(
   await saveRecoveryPhrase(mnemonic);
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
-  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName();
+  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName(abortSignal);
 
   if (isEmpty(pubKeyString)) {
     throw new Error("We don't have a pubkey from the recovery password...");
@@ -106,15 +107,16 @@ export async function signInByLinkingDevice(
 export async function registerSingleDevice(
   generatedMnemonic: string,
   mnemonicLanguage: string,
-  displayName: string
+  displayName: string,
+  restoreCallback?: (pubkey: string) => Promise<void>
 ) {
-  if (!generatedMnemonic) {
+  if (isEmpty(generatedMnemonic)) {
     throw new Error('Session always need a mnemonic. Either generated or given by the user');
   }
-  if (!mnemonicLanguage) {
+  if (isEmpty(mnemonicLanguage)) {
     throw new Error('We always need a mnemonicLanguage');
   }
-  if (!displayName) {
+  if (isEmpty(displayName)) {
     throw new Error('We always need a displayName');
   }
 
@@ -124,7 +126,16 @@ export async function registerSingleDevice(
   await saveRecoveryPhrase(generatedMnemonic);
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
-  await registrationDone(pubKeyString, displayName);
+  if (isEmpty(pubKeyString)) {
+    throw new Error("We don't have a pubkey from the recovery password...");
+  }
+
+  if (restoreCallback) {
+    // when restoring an account completing the registration is handled by the RestoreAccount component
+    await restoreCallback(pubKeyString);
+  } else {
+    await registrationDone(pubKeyString, displayName);
+  }
 }
 
 export async function generateMnemonic() {

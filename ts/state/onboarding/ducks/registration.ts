@@ -34,29 +34,29 @@ export enum AccountRestoration {
 export type OnboardDirection = 'backward' | 'forward';
 
 export type OnboardingState = {
+  step: Onboarding;
+  direction: OnboardDirection;
+  accountCreationStep: AccountCreation;
+  accountRestorationStep: AccountRestoration;
+  progress: number;
   recoveryPassword: string;
   recoveryPasswordError: string | undefined;
   hexGeneratedPubKey: string;
   displayName: string;
   displayNameError: string | undefined;
-  progress: number;
-  step: Onboarding;
-  accountCreationStep: AccountCreation;
-  accountRestorationStep: AccountRestoration;
-  direction: OnboardDirection;
 };
 
 const initialState: OnboardingState = {
+  step: Onboarding.Start,
+  direction: 'forward',
+  accountCreationStep: AccountCreation.DisplayName,
+  accountRestorationStep: AccountRestoration.RecoveryPassword,
+  progress: 0,
   recoveryPassword: '',
   recoveryPasswordError: undefined,
   hexGeneratedPubKey: '',
   displayName: '',
   displayNameError: undefined,
-  progress: 0,
-  step: Onboarding.Start,
-  accountRestorationStep: AccountRestoration.RecoveryPassword,
-  accountCreationStep: AccountCreation.DisplayName,
-  direction: 'forward',
 };
 
 export const registrationSlice = createSlice({
@@ -66,6 +66,21 @@ export const registrationSlice = createSlice({
     resetOnboardingState() {
       window.log.debug(`WIP: [onboarding] resetOnboardingState() called`);
       return { ...initialState };
+    },
+    setOnboardingStep(state, action: PayloadAction<Onboarding>) {
+      return { ...state, step: action.payload };
+    },
+    setDirection(state, action: PayloadAction<OnboardDirection>) {
+      return { ...state, direction: action.payload };
+    },
+    setAccountCreationStep(state, action: PayloadAction<AccountCreation>) {
+      return { ...state, accountCreationStep: action.payload };
+    },
+    setAccountRestorationStep(state, action: PayloadAction<AccountRestoration>) {
+      return { ...state, accountRestorationStep: action.payload };
+    },
+    setProgress(state, action: PayloadAction<number>) {
+      return { ...state, progress: action.payload };
     },
     setRecoveryPassword(state, action: PayloadAction<string>) {
       return { ...state, recoveryPassword: action.payload };
@@ -82,35 +97,20 @@ export const registrationSlice = createSlice({
     setDisplayNameError(state, action: PayloadAction<string | undefined>) {
       return { ...state, displayNameError: action.payload };
     },
-    setProgress(state, action: PayloadAction<number>) {
-      return { ...state, progress: action.payload };
-    },
-    setOnboardingStep(state, action: PayloadAction<Onboarding>) {
-      return { ...state, step: action.payload };
-    },
-    setAccountCreationStep(state, action: PayloadAction<AccountCreation>) {
-      return { ...state, accountCreationStep: action.payload };
-    },
-    setAccountRestorationStep(state, action: PayloadAction<AccountRestoration>) {
-      return { ...state, accountRestorationStep: action.payload };
-    },
-    setDirection(state, action: PayloadAction<OnboardDirection>) {
-      return { ...state, direction: action.payload };
-    },
   },
 });
 
 export const {
   resetOnboardingState,
+  setOnboardingStep,
+  setDirection,
+  setAccountCreationStep,
+  setAccountRestorationStep,
+  setProgress,
   setRecoveryPassword,
   setRecoveryPasswordError,
   setHexGeneratedPubKey,
   setDisplayName,
   setDisplayNameError,
-  setProgress,
-  setOnboardingStep,
-  setAccountCreationStep,
-  setAccountRestorationStep,
-  setDirection,
 } = registrationSlice.actions;
 export default registrationSlice.reducer;
