@@ -53,7 +53,6 @@ import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 
-import { deleteMessagesForX } from '../../interactions/conversations/unsendingInteractions';
 import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
@@ -85,7 +84,6 @@ interface Props {
 
   stagedAttachments: Array<StagedAttachmentType>;
   isSelectedConvoInitialLoadingInProgress: boolean;
-  isPublic: boolean;
 }
 
 const StyledSpinnerContainer = styled.div`
@@ -346,7 +344,6 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
     const selectionMode = !!this.props.selectedMessages.length;
-    const { selectedConversationKey, selectedMessages, isPublic } = this.props;
 
     if (event.target.classList.contains('conversation-content')) {
       switch (event.key) {
@@ -355,13 +352,8 @@ export class SessionConversation extends React.Component<Props, State> {
             window.inboxStore?.dispatch(resetSelectedMessageIds());
           }
           break;
-        case 'Backspace':
-        case 'Delete':
-          if (selectionMode && this.props.selectedConversationKey) {
-            void deleteMessagesForX(selectedMessages, selectedConversationKey, isPublic);
-          }
-          break;
         default:
+          break;
       }
     }
   }

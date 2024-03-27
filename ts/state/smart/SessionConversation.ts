@@ -12,10 +12,7 @@ import {
   getSortedMessagesOfSelectedConversation,
   isRightPanelShowing,
 } from '../selectors/conversations';
-import {
-  getSelectedConversationIsPublic,
-  getSelectedConversationKey,
-} from '../selectors/selectedConversation';
+import { getSelectedConversationKey } from '../selectors/selectedConversation';
 import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 import { getTheme } from '../selectors/theme';
 import { getOurDisplayNameInProfile, getOurNumber } from '../selectors/user';
@@ -39,7 +36,6 @@ const mapStateToProps = (state: StateType, ownProps: SmartSessionConversationOwn
     hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
     isSelectedConvoInitialLoadingInProgress: getIsSelectedConvoInitialLoadingInProgress(state),
     htmlDirection: ownProps.htmlDirection,
-    isPublic: getSelectedConversationIsPublic(state),
   };
 };
 
