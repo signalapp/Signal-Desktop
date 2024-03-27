@@ -1,9 +1,10 @@
 import { isEmpty, isEqual } from 'lodash';
-import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
+import { findAndFormatContact } from '../../models/message';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../../session/utils';
 import {
@@ -18,6 +19,7 @@ import {
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
@@ -25,8 +27,6 @@ import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { ContactName } from '../conversation/ContactName';
 import { MessageReactions } from '../conversation/message/message-content/MessageReactions';
 import { SessionIconButton } from '../icon';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { findAndFormatContact } from '../../models/message';
 
 const StyledReactListContainer = styled(Flex)`
   width: 376px;
@@ -218,7 +218,7 @@ const handleSenders = (senders: Array<string>, me: string) => {
   return updatedSenders;
 };
 
-export const ReactListModal = (props: Props): ReactElement => {
+export const ReactListModal = (props: Props) => {
   const { reaction, messageId } = props;
 
   const dispatch = useDispatch();

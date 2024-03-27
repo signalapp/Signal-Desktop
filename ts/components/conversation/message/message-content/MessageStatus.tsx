@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
 import { useMessageStatus } from '../../../../state/selectors';
 
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { getMostRecentMessageId } from '../../../../state/selectors/conversations';
 import { useSelectedIsGroupOrCommunity } from '../../../../state/selectors/selectedConversation';
 import { SpacerXS } from '../../../basic/Text';
@@ -12,7 +13,6 @@ import { SessionIcon, SessionIconType } from '../../../icon';
 import { ExpireTimer } from '../../ExpireTimer';
 
 type Props = {
-  isDetailView: boolean;
   messageId: string;
   dataTestId?: string | undefined;
 };
@@ -30,7 +30,9 @@ type Props = {
  *        - if the message is incoming: do not show anything (3)
  *        - if the message is outgoing: show the text for the last message, or a message sending, or in the error state. (4)
  */
-export const MessageStatus = ({ isDetailView, messageId, dataTestId }: Props) => {
+export const MessageStatus = ({ messageId, dataTestId }: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const status = useMessageStatus(messageId);
   const selected = useMessageExpirationPropsById(messageId);
 

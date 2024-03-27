@@ -39,7 +39,7 @@ export const MessageRequestResponse = (props: PropsForMessageRequestResponse) =>
         id={`msg-${messageId}`}
       >
         <SpacerSM />
-        <Text text={msgText} subtle={true} ellipsisOverflow={true} />
+        <Text text={msgText} subtle={true} ellipsisOverflow={false} textAlign="center" />
       </Flex>
     </ReadableMessage>
   );

@@ -15,6 +15,10 @@ import {
 } from '../../state/ducks/conversations';
 import { SessionScrollButton } from '../SessionScrollButton';
 
+import {
+  ScrollToLoadedMessageContext,
+  ScrollToLoadedReasons,
+} from '../../contexts/ScrollToLoadedMessage';
 import { StateType } from '../../state/reducer';
 import {
   getQuotedMessageToAnimate,
@@ -30,17 +34,6 @@ export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
 };
 export const messageContainerDomID = 'messages-container';
-
-export type ScrollToLoadedReasons =
-  | 'quote-or-search-result'
-  | 'go-to-bottom'
-  | 'unread-indicator'
-  | 'load-more-top'
-  | 'load-more-bottom';
-
-export const ScrollToLoadedMessageContext = React.createContext(
-  (_loadedMessageIdToScrollTo: string, _reason: ScrollToLoadedReasons) => {}
-);
 
 type Props = SessionMessageListProps & {
   conversationKey?: string;

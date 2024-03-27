@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useMouse } from 'react-use';
 import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../../hooks/useUI';
@@ -62,7 +62,7 @@ export type ReactionProps = {
   handlePopupClick?: () => void;
 };
 
-export const Reaction = (props: ReactionProps): ReactElement => {
+export const Reaction = (props: ReactionProps) => {
   const {
     emoji,
     messageId,

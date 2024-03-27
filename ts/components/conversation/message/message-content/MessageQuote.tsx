@@ -1,6 +1,7 @@
 import { isEmpty, toNumber } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { ToastUtils } from '../../../../session/utils';
@@ -19,6 +20,7 @@ export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'd
 export const MessageQuote = (props: Props) => {
   const selected = useSelector((state: StateType) => getMessageQuoteProps(state, props.messageId));
   const direction = useMessageDirection(props.messageId);
+  const isMessageDetailView = useIsDetailMessageView();
 
   if (!selected || isEmpty(selected)) {
     return null;
@@ -37,6 +39,10 @@ export const MessageQuote = (props: Props) => {
   const onQuoteClick = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (isMessageDetailView) {
+      return;
+    }
 
     if (!quote) {
       ToastUtils.pushOriginalNotFound();
