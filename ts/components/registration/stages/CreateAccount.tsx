@@ -28,13 +28,17 @@ import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
-import { RecoverDetails } from '../RegistrationStages';
 import { OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { displayNameIsValid, resetRegistration, sanitizeDisplayNameOrToast } from '../utils';
 
-async function signUp(signUpDetails: RecoverDetails) {
-  const { displayName, recoveryPassword, errorCallback } = signUpDetails;
+export type AccountDetails = {
+  recoveryPassword: string;
+  displayName?: string;
+};
+
+async function signUp(signUpDetails: AccountDetails) {
+  const { displayName, recoveryPassword } = signUpDetails;
 
   try {
     const validDisplayName = displayNameIsValid(displayName);
@@ -45,7 +49,7 @@ async function signUp(signUpDetails: RecoverDetails) {
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
-    void errorCallback(e);
+    throw e;
   }
 }
 
@@ -92,10 +96,6 @@ export const CreateAccount = () => {
       await signUp({
         displayName,
         recoveryPassword,
-        errorCallback: e => {
-          dispatch(setDisplayNameError(e.message || String(e)));
-          throw e;
-        },
       });
 
       dispatch(setAccountCreationStep(AccountCreation.Done));
@@ -103,6 +103,7 @@ export const CreateAccount = () => {
       window.log.debug(
         `WIP: [onboarding] create account: creation failed! Error: ${e.message || e}`
       );
+      dispatch(setDisplayNameError(e.message || String(e)));
       dispatch(setAccountCreationStep(AccountCreation.DisplayName));
     }
   };

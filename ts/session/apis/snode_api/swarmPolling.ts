@@ -694,7 +694,7 @@ export class SwarmPolling {
       // check if we just fetched the details from the config namespaces.
       // If yes, merge them together and exclude them from the rest of the messages.
       if (!resultsFromUserProfile?.length) {
-        throw new NotFoundError('resultsFromUserProfile is empty');
+        throw new NotFoundError('[pollOnceForOurDisplayName] resultsFromUserProfile is empty');
       }
 
       if (abortSignal?.aborted) {
@@ -709,12 +709,16 @@ export class SwarmPolling {
 
       const userConfigMessagesMerged = flatten(compact(userConfigMessages));
       if (!userConfigMessagesMerged.length) {
-        throw new NotFoundError('after merging there are no user config messages');
+        throw new NotFoundError(
+          '[pollOnceForOurDisplayName] after merging there are no user config messages'
+        );
       }
       const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
 
       if (isEmpty(displayName)) {
-        throw new NotFoundError('Got a config message from network but without a displayName...');
+        throw new NotFoundError(
+          '[pollOnceForOurDisplayName] Got a config message from network but without a displayName...'
+        );
       }
 
       // window.log.debug(`[pollOnceForOurDisplayName] displayName found ${displayName}`);

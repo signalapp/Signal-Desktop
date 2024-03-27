@@ -53,7 +53,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
           clearInterval(interval);
           // if we didn't get the display name in time, we need to enter it manually
           window.log.debug(
-            `WIP: [onboarding] restore account: We failed with a time out when fetching a display, so we had to enter it manually`
+            `WIP: [onboarding] restore account: We failed with a time out when fetching a display name, so we restored manually`
           );
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
@@ -80,7 +80,7 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
           dispatch(setAccountRestorationStep(AccountRestoration.Complete));
         } else {
           window.log.debug(
-            `WIP: [onboarding] restore account: We failed with an error when fetching a display name, so we had to enter it manually`
+            `WIP: [onboarding] restore account: We failed with an error when fetching a display name, so we restored manually`
           );
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }

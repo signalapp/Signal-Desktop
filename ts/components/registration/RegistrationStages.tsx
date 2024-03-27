@@ -17,12 +17,6 @@ import { SessionIcon, SessionIconButton } from '../icon';
 import { OnboardContainer } from './components';
 import { CreateAccount, RestoreAccount, Start } from './stages';
 
-export type RecoverDetails = {
-  recoveryPassword: string;
-  errorCallback: (error: Error) => void;
-  displayName?: string;
-};
-
 const StyledRegistrationContainer = styled(Flex)`
   width: 348px;
   .session-button {

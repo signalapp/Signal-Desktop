@@ -32,19 +32,21 @@ import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { SessionProgressBar } from '../../loading';
-import { RecoverDetails } from '../RegistrationStages';
 import { OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { useRecoveryProgressEffect } from '../hooks';
 import { displayNameIsValid, resetRegistration, sanitizeDisplayNameOrToast } from '../utils';
+import { AccountDetails } from './CreateAccount';
+
+type AccountRestoreDetails = AccountDetails & { dispatch: Dispatch };
 
 /**
  * Sign in/restore from seed.
  * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
  * We will handle a ConfigurationMessage
  */
-async function signInWithNewDisplayName(signInDetails: RecoverDetails, dispatch: Dispatch) {
-  const { displayName, recoveryPassword, errorCallback } = signInDetails;
+async function signInWithNewDisplayName(args: AccountRestoreDetails) {
+  const { displayName, recoveryPassword, dispatch } = args;
 
   try {
     const validDisplayName = displayNameIsValid(displayName);
@@ -62,7 +64,7 @@ async function signInWithNewDisplayName(signInDetails: RecoverDetails, dispatch:
     );
   } catch (e) {
     await resetRegistration();
-    void errorCallback(e);
+    throw e;
   }
 }
 
@@ -71,14 +73,13 @@ async function signInWithNewDisplayName(signInDetails: RecoverDetails, dispatch:
  * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
  */
 async function signInAndFetchDisplayName(
-  signInDetails: RecoverDetails & {
+  args: AccountRestoreDetails & {
     /** this is used to trigger the loading animation further down the registration pipeline */
     loadingAnimationCallback: () => void;
-  },
-  abortSignal: AbortSignal,
-  dispatch: Dispatch
+    abortSignal: AbortSignal;
+  }
 ) {
-  const { recoveryPassword, loadingAnimationCallback } = signInDetails;
+  const { recoveryPassword, loadingAnimationCallback, dispatch, abortSignal } = args;
 
   try {
     await resetRegistration();
@@ -141,30 +142,22 @@ export const RestoreAccount = () => {
         `WIP: [onboarding] restore account: recoverAndFetchDisplayName() is starting recoveryPassword: ${recoveryPassword}`
       );
       dispatch(setProgress(0));
-      await signInAndFetchDisplayName(
-        {
-          recoveryPassword,
-          errorCallback: e => {
-            throw e;
-          },
-          loadingAnimationCallback: () => {
-            dispatch(setAccountRestorationStep(AccountRestoration.Loading));
-          },
+      await signInAndFetchDisplayName({
+        recoveryPassword,
+        loadingAnimationCallback: () => {
+          dispatch(setAccountRestorationStep(AccountRestoration.Loading));
         },
-        abortController.signal,
-        dispatch
-      );
+        dispatch,
+        abortSignal: abortController.signal,
+      });
     } catch (e) {
       window.log.debug(
         `WIP: [onboarding] restore account: restoration failed! Error: ${e.message || e}`
       );
 
       if (e instanceof NotFoundError || e instanceof TaskTimedOutError) {
-        if (e instanceof TaskTimedOutError) {
-          // abort fetching the display name from our swarm
-          window.log.debug(`WIP: [onboarding] restore account: aborting!`);
-          abortController.abort();
-        }
+        // abort the loading animation or display name polling if we get these errors. Now we enter a display name manually
+        abortController.abort();
         dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         return;
       }
@@ -189,21 +182,16 @@ export const RestoreAccount = () => {
       window.log.debug(
         `WIP: [onboarding] restore account: recoverAndEnterDisplayName() is starting recoveryPassword: ${recoveryPassword} displayName: ${displayName}`
       );
-      await signInWithNewDisplayName(
-        {
-          displayName,
-          recoveryPassword,
-          errorCallback: e => {
-            dispatch(setDisplayNameError(e.message || String(e)));
-            throw e;
-          },
-        },
-        dispatch
-      );
+      await signInWithNewDisplayName({
+        displayName,
+        recoveryPassword,
+        dispatch,
+      });
     } catch (e) {
       window.log.debug(
         `WIP: [onboarding] restore account: restoration with new display name failed! Error: ${e.message || e}`
       );
+      dispatch(setDisplayNameError(e.message || String(e)));
       dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
     }
   };

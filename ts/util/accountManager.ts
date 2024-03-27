@@ -10,7 +10,6 @@ import { SessionKeyPair } from '../receiver/keypairs';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
-import { NotFoundError } from '../session/utils/errors';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { actions as userActions } from '../state/ducks/user';
 import { Registration } from './registration';
@@ -85,15 +84,12 @@ export async function signInByLinkingDevice(
   await saveRecoveryPhrase(mnemonic);
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
-  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName(abortSignal);
 
   if (isEmpty(pubKeyString)) {
     throw new Error("We don't have a pubkey from the recovery password...");
   }
 
-  if (isEmpty(displayName)) {
-    throw new NotFoundError('Got a config message from network but without a displayName...');
-  }
+  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName(abortSignal);
 
   // NOTE the registration is not yet finished until the configurationMessageReceived event has been processed
   trigger(configurationMessageReceived, pubKeyString, displayName);
