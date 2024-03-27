@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
-import classNames from 'classnames';
 import autoBind from 'auto-bind';
+import classNames from 'classnames';
+import React from 'react';
 
-import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SpacerMD } from '../basic/Text';
-import { updateGroupNameModal } from '../../state/ducks/modalDialog';
 import { ConversationModel } from '../../models/conversation';
+import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { initiateOpenGroupUpdate } from '../../session/group/open-group';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
+import { initiateOpenGroupUpdate } from '../../session/group/open-group';
+import { updateGroupNameModal } from '../../state/ducks/modalDialog';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerMD } from '../basic/Text';
 
 type Props = {
   conversationId: string;
@@ -57,6 +58,12 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     const trimmedGroupName = groupName?.trim();
     if (!trimmedGroupName) {
       this.onShowError(window.i18n('emptyGroupNameError'));
+
+      return;
+    }
+
+    if (trimmedGroupName.length > Constants.VALIDATION.MAX_GROUP_NAME_LENGTH) {
+      this.onShowError(window.i18n('invalidGroupNameTooLong'));
 
       return;
     }
@@ -122,6 +129,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
             required={true}
             aria-required={true}
             autoFocus={true}
+            maxLength={Constants.VALIDATION.MAX_GROUP_NAME_LENGTH}
             data-testid="group-name-input"
           />
         ) : null}
