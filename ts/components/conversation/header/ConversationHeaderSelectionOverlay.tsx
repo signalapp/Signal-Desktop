@@ -1,6 +1,8 @@
+import FocusTrap from 'focus-trap-react';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
+
 import {
   deleteMessagesById,
   deleteMessagesByIdForEveryone,
@@ -73,32 +75,36 @@ export const SelectionOverlay = () => {
 
   const isOnlyServerDeletable = isPublic;
 
-  return (
-    <div className="message-selection-overlay">
-      <div className="close-button">
-        <SessionIconButton iconType="exit" iconSize="medium" onClick={onCloseOverlay} />
-      </div>
+  const classNameAndId = 'message-selection-overlay';
 
-      <div className="button-group">
-        <SessionButton
-          buttonColor={SessionButtonColor.Danger}
-          buttonShape={SessionButtonShape.Square}
-          buttonType={SessionButtonType.Solid}
-          text={window.i18n('delete')}
-          onClick={() => {
-            if (selectedConversationKey) {
-              if (isOnlyServerDeletable) {
-                void onDeleteSelectedMessagesForEveryone(
-                  selectedConversationKey,
-                  selectedMessageIds
-                );
-              } else {
-                void deleteMessagesById(selectedMessageIds, selectedConversationKey);
+  return (
+    <FocusTrap focusTrapOptions={{ fallbackFocus: `#${classNameAndId}`, allowOutsideClick: true }}>
+      <div className={classNameAndId} id={classNameAndId}>
+        <div className="close-button">
+          <SessionIconButton iconType="exit" iconSize="medium" onClick={onCloseOverlay} />
+        </div>
+
+        <div className="button-group">
+          <SessionButton
+            buttonColor={SessionButtonColor.Danger}
+            buttonShape={SessionButtonShape.Square}
+            buttonType={SessionButtonType.Solid}
+            text={window.i18n('delete')}
+            onClick={() => {
+              if (selectedConversationKey) {
+                if (isOnlyServerDeletable) {
+                  void onDeleteSelectedMessagesForEveryone(
+                    selectedConversationKey,
+                    selectedMessageIds
+                  );
+                } else {
+                  void deleteMessagesById(selectedMessageIds, selectedConversationKey);
+                }
               }
-            }
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </FocusTrap>
   );
 };
