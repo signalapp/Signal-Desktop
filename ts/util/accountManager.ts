@@ -66,8 +66,7 @@ const generateKeypair = async (
 export async function signInByLinkingDevice(
   mnemonic: string,
   mnemonicLanguage: string,
-  loadingAnimationCallback: () => void,
-  abortSignal: AbortSignal
+  abortSignal?: AbortSignal
 ) {
   if (isEmpty(mnemonic)) {
     throw new Error('Session always needs a mnemonic. Either generated or given by the user');
@@ -79,7 +78,6 @@ export async function signInByLinkingDevice(
   const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
 
   await setSignInByLinking(true);
-  loadingAnimationCallback();
   await createAccount(identityKeyPair);
   await saveRecoveryPhrase(mnemonic);
 
@@ -99,12 +97,13 @@ export async function signInByLinkingDevice(
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
  * @param displayName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
+ * @param registerCallback when restoring an account, registration completion is handled elsewhere so we need to pass the pubkey back up to the caller
  */
 export async function registerSingleDevice(
   generatedMnemonic: string,
   mnemonicLanguage: string,
   displayName: string,
-  restoreCallback?: (pubkey: string) => Promise<void>
+  registerCallback?: (pubkey: string) => Promise<void>
 ) {
   if (isEmpty(generatedMnemonic)) {
     throw new Error('Session always need a mnemonic. Either generated or given by the user');
@@ -126,9 +125,8 @@ export async function registerSingleDevice(
     throw new Error("We don't have a pubkey from the recovery password...");
   }
 
-  if (restoreCallback) {
-    // when restoring an account completing the registration is handled by the RestoreAccount component
-    await restoreCallback(pubKeyString);
+  if (registerCallback) {
+    await registerCallback(pubKeyString);
   } else {
     await registrationDone(pubKeyString, displayName);
   }

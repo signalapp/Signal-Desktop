@@ -26,6 +26,8 @@ const StyledTitle = styled(StyledText)`
 
 type Props = {
   /** a percentage value */
+  initialValue: number;
+  /** a percentage value */
   progress: number;
   color?: string;
   backgroundColor?: string;
@@ -39,6 +41,7 @@ type Props = {
 
 export function SessionProgressBar(props: Props) {
   const {
+    initialValue,
     progress,
     width = '100%',
     backgroundColor = 'var(--border-color)',
@@ -71,7 +74,7 @@ export function SessionProgressBar(props: Props) {
       <ProgressContainer color={backgroundColor} style={{ width }} data-testid="loading-animation">
         <Progress
           color={color}
-          initial={{ width: 0 }}
+          initial={{ width: `${initialValue}%` }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5 }}
         />

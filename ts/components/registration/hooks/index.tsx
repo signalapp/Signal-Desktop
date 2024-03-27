@@ -3,13 +3,11 @@ import { isEmpty } from 'lodash';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
-import { trigger } from '../../../shims/events';
 import {
   AccountRestoration,
   setAccountRestorationStep,
 } from '../../../state/onboarding/ducks/registration';
-import { registrationDone } from '../../../util/accountManager';
-import { setSignWithRecoveryPhrase } from '../../../util/storage';
+import { finishRestore } from '../stages/RestoreAccount';
 
 let interval: NodeJS.Timeout;
 
@@ -36,18 +34,14 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
   const dispatch = useDispatch();
 
   const recoveryComplete = useCallback(async () => {
-    await setSignWithRecoveryPhrase(true);
-    await registrationDone(ourPubkey, displayName);
-
-    window.log.debug(`WIP: [onboarding] restore account: logging in for ${displayName}`);
-    trigger('openInbox');
+    await finishRestore(ourPubkey, displayName);
   }, [displayName, ourPubkey]);
 
   useEffect(() => {
     if (step === AccountRestoration.Loading) {
       interval = setInterval(() => {
         window.log.debug(
-          `WIP: [onboarding] restore account: progress ${progress} state ${AccountRestoration[step]}`
+          `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
         );
 
         if (progress < totalProgress) {
@@ -57,9 +51,6 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
         if (progress >= totalProgress) {
           clearInterval(interval);
           // if we didn't get the display name in time, we need to enter it manually
-          window.log.debug(
-            `WIP: [onboarding] restore account: We failed with a time out when fetching a display name, so we restored manually`
-          );
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
       }, ONBOARDING_TIMES.RECOVERY_TIMEOUT / totalProgress);
@@ -67,6 +58,10 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
 
     if (step === AccountRestoration.Finishing) {
       interval = setInterval(() => {
+        window.log.debug(
+          `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
+        );
+
         if (progress < totalProgress) {
           dispatch(setProgress(progress + 1));
         }
@@ -80,19 +75,24 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
 
     if (step === AccountRestoration.Finished) {
       interval = setInterval(() => {
+        window.log.debug(
+          `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
+        );
+
         clearInterval(interval);
         if (!isEmpty(displayName)) {
           dispatch(setAccountRestorationStep(AccountRestoration.Complete));
         } else {
-          window.log.debug(
-            `WIP: [onboarding] restore account: We failed with an error when fetching a display name, so we restored manually`
-          );
+          // if we didn't get the display name in time, we need to enter it manually
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
       }, ONBOARDING_TIMES.RECOVERY_FINISHED);
     }
 
     if (step === AccountRestoration.Complete) {
+      window.log.debug(
+        `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
+      );
       clearInterval(interval);
       if (!isEmpty(ourPubkey) && !isEmpty(displayName)) {
         void recoveryComplete();

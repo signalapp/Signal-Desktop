@@ -5,6 +5,7 @@ import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/
 import { PromiseUtils } from '../../../session/utils';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { NotFoundError } from '../../../session/utils/errors';
+import { trigger } from '../../../shims/events';
 import {
   AccountRestoration,
   setAccountRestorationStep,
@@ -24,8 +25,12 @@ import {
   useRecoveryPassword,
   useRecoveryPasswordError,
 } from '../../../state/onboarding/selectors/registration';
-import { registerSingleDevice, signInByLinkingDevice } from '../../../util/accountManager';
-import { setSignInByLinking } from '../../../util/storage';
+import {
+  registerSingleDevice,
+  registrationDone,
+  signInByLinkingDevice,
+} from '../../../util/accountManager';
+import { setSignInByLinking, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
@@ -38,7 +43,46 @@ import { useRecoveryProgressEffect } from '../hooks';
 import { displayNameIsValid, resetRegistration, sanitizeDisplayNameOrToast } from '../utils';
 import { AccountDetails } from './CreateAccount';
 
-type AccountRestoreDetails = AccountDetails & { dispatch: Dispatch };
+type AccountRestoreDetails = AccountDetails & { dispatch: Dispatch; abortSignal?: AbortSignal };
+
+export async function finishRestore(pubkey: string, displayName: string) {
+  await setSignWithRecoveryPhrase(true);
+  await registrationDone(pubkey, displayName);
+
+  window.log.debug(`WIP: [onboarding] restore account: logging in for ${displayName}`);
+  trigger('openInbox');
+}
+
+/**
+ * This will try to sign in with the user recovery password.
+ * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
+ */
+async function signInAndFetchDisplayName(args: AccountRestoreDetails) {
+  const { recoveryPassword, dispatch, abortSignal } = args;
+
+  try {
+    await resetRegistration();
+    const promiseLink = signInByLinkingDevice(recoveryPassword, 'english', abortSignal);
+    const promiseWait = PromiseUtils.waitForTask(done => {
+      window.Whisper.events.on(
+        'configurationMessageReceived',
+        async (ourPubkey: string, displayName: string) => {
+          window.Whisper.events.off('configurationMessageReceived');
+          await setSignInByLinking(false);
+          dispatch(setHexGeneratedPubKey(ourPubkey));
+          dispatch(setDisplayName(displayName));
+          dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
+          done(displayName);
+        }
+      );
+    }, ONBOARDING_TIMES.RECOVERY_TIMEOUT);
+
+    await Promise.all([promiseLink, promiseWait]);
+  } catch (e) {
+    await resetRegistration();
+    throw e;
+  }
+}
 
 /**
  * Sign in/restore from seed.
@@ -59,53 +103,9 @@ async function signInWithNewDisplayName(args: AccountRestoreDetails) {
       async (pubkey: string) => {
         dispatch(setHexGeneratedPubKey(pubkey));
         dispatch(setDisplayName(validDisplayName));
-        dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
+        await finishRestore(pubkey, validDisplayName);
       }
     );
-  } catch (e) {
-    await resetRegistration();
-    throw e;
-  }
-}
-
-/**
- * This will try to sign in with the user recovery password.
- * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
- */
-async function signInAndFetchDisplayName(
-  args: AccountRestoreDetails & {
-    /** this is used to trigger the loading animation further down the registration pipeline */
-    loadingAnimationCallback: () => void;
-    abortSignal: AbortSignal;
-  }
-) {
-  const { recoveryPassword, loadingAnimationCallback, dispatch, abortSignal } = args;
-
-  try {
-    await resetRegistration();
-
-    const promiseLink = signInByLinkingDevice(
-      recoveryPassword,
-      'english',
-      loadingAnimationCallback,
-      abortSignal
-    );
-
-    const promiseWait = PromiseUtils.waitForTask(done => {
-      window.Whisper.events.on(
-        'configurationMessageReceived',
-        async (ourPubkey: string, displayName: string) => {
-          window.Whisper.events.off('configurationMessageReceived');
-          await setSignInByLinking(false);
-          dispatch(setHexGeneratedPubKey(ourPubkey));
-          dispatch(setDisplayName(displayName));
-          dispatch(setAccountRestorationStep(AccountRestoration.Finishing));
-          done(displayName);
-        }
-      );
-    }, ONBOARDING_TIMES.RECOVERY_TIMEOUT);
-
-    await Promise.all([promiseLink, promiseWait]);
   } catch (e) {
     await resetRegistration();
     throw e;
@@ -142,23 +142,21 @@ export const RestoreAccount = () => {
         `WIP: [onboarding] restore account: recoverAndFetchDisplayName() is starting recoveryPassword: ${recoveryPassword}`
       );
       dispatch(setProgress(0));
+      dispatch(setAccountRestorationStep(AccountRestoration.Loading));
       await signInAndFetchDisplayName({
         recoveryPassword,
-        loadingAnimationCallback: () => {
-          dispatch(setAccountRestorationStep(AccountRestoration.Loading));
-        },
         dispatch,
         abortSignal: abortController.signal,
       });
     } catch (e) {
-      window.log.debug(
-        `WIP: [onboarding] restore account: restoration failed! Error: ${e.message || e}`
-      );
-
       if (e instanceof NotFoundError || e instanceof TaskTimedOutError) {
-        // abort the loading animation or display name polling if we get these errors. Now we enter a display name manually
-        abortController.abort();
-        dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
+        // abort display name polling if we get either error
+        if (!abortController.signal.aborted) {
+          abortController.abort();
+        }
+        window.log.debug(
+          `WIP: [onboarding] restore account: We failed when fetching a display name, so we will enter it manually. Error: ${e.message || e} `
+        );
         return;
       }
 
@@ -169,6 +167,9 @@ export const RestoreAccount = () => {
       } else {
         dispatch(setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric')));
       }
+      window.log.debug(
+        `WIP: [onboarding] restore account: there is a problem with the display nam. Error: ${e.message || e}`
+      );
       dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
     }
   };
@@ -182,7 +183,6 @@ export const RestoreAccount = () => {
       window.log.debug(
         `WIP: [onboarding] restore account: recoverAndEnterDisplayName() is starting recoveryPassword: ${recoveryPassword} displayName: ${displayName}`
       );
-      dispatch(setProgress(0));
       await signInWithNewDisplayName({
         displayName,
         recoveryPassword,
@@ -206,7 +206,6 @@ export const RestoreAccount = () => {
             dispatch(setRecoveryPassword(''));
             dispatch(setDisplayName(''));
             dispatch(setProgress(0));
-
             dispatch(setRecoveryPasswordError(undefined));
             dispatch(setDisplayNameError(undefined));
           }}
@@ -305,6 +304,9 @@ export const RestoreAccount = () => {
           alignItems="flex-start"
         >
           <SessionProgressBar
+            initialValue={
+              step !== AccountRestoration.Finished && step !== AccountRestoration.Complete ? 0 : 100
+            }
             progress={progress}
             margin={'0'}
             title={window.i18n('waitOneMoment')}
