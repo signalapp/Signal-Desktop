@@ -27,6 +27,7 @@ export type ConfigKeyType =
   | 'desktop.senderKeyMaxAge'
   | 'desktop.experimentalTransportEnabled.alpha'
   | 'desktop.experimentalTransportEnabled.beta'
+  | 'desktop.cdsiViaLibsignal'
   | 'global.attachments.maxBytes'
   | 'global.attachments.maxReceiveBytes'
   | 'global.calling.maxGroupCallRingSize'
