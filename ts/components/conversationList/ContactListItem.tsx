@@ -17,6 +17,7 @@ import { Intl } from '../Intl';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { InContactsIcon } from '../InContactsIcon';
 
 export type ContactListItemConversationType = Pick<
   ConversationType,
@@ -281,7 +282,25 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
             />
           }
           trailing={trailing}
-          title={headerName}
+          title={
+            <>
+              {headerName}
+              {isInSystemContacts({
+                type,
+                name,
+                systemGivenName,
+                systemFamilyName,
+              }) && (
+                <span>
+                  {' '}
+                  <InContactsIcon
+                    className="ContactListItem__contact-icon"
+                    i18n={i18n}
+                  />
+                </span>
+              )}
+            </>
+          }
           subtitle={messageText}
           subtitleMaxLines={1}
           onClick={onClick ? () => onClick(id) : undefined}
