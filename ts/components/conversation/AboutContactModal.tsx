@@ -12,7 +12,10 @@ import { UserText } from '../UserText';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { About } from './About';
 import { Intl } from '../Intl';
-import { areNicknamesEnabled } from '../../util/nicknames';
+import {
+  areNicknamesEnabled,
+  canHaveNicknameAndNote,
+} from '../../util/nicknames';
 
 function muted(parts: Array<string | JSX.Element>) {
   return (
@@ -146,7 +149,7 @@ export function AboutContactModal({
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
 
-        {areNicknamesEnabled() &&
+        {canHaveNicknameAndNote(conversation) &&
         conversation.nicknameGivenName &&
         conversation.titleNoNickname ? (
           <span>

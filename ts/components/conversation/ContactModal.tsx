@@ -25,7 +25,7 @@ import { UserText } from '../UserText';
 import { Button, ButtonIconType, ButtonVariant } from '../Button';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { InContactsIcon } from '../InContactsIcon';
-import { areNicknamesEnabled } from '../../util/nicknames';
+import { canHaveNicknameAndNote } from '../../util/nicknames';
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
@@ -306,7 +306,7 @@ export function ContactModal({
             )}
             <div className="ContactModal__divider" />
             <div className="ContactModal__button-container">
-              {areNicknamesEnabled() && !contact.isMe && (
+              {canHaveNicknameAndNote(contact) && (
                 <button
                   type="button"
                   className="ContactModal__button ContactModal__block"
