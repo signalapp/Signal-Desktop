@@ -335,6 +335,24 @@ const doDeleteSelectedMessages = async ({
   // #endregion
 };
 
+/**
+ * Either delete for everyone or not, based on the props
+ */
+export async function deleteMessagesForX(
+  messageIds: Array<string>,
+  conversationId: string,
+  isPublic: boolean
+) {
+  if (conversationId) {
+    if (!isPublic) {
+      void deleteMessagesById(messageIds, conversationId);
+    }
+    if (isPublic) {
+      void deleteMessagesByIdForEveryone(messageIds, conversationId);
+    }
+  }
+}
+
 export async function deleteMessagesByIdForEveryone(
   messageIds: Array<string>,
   conversationId: string

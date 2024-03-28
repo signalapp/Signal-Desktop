@@ -10,10 +10,7 @@ import { Data } from '../../../../data/data';
 
 import { MessageInteraction } from '../../../../interactions';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
-import {
-  deleteMessagesById,
-  deleteMessagesByIdForEveryone,
-} from '../../../../interactions/conversations/unsendingInteractions';
+import { deleteMessagesForX } from '../../../../interactions/conversations/unsendingInteractions';
 import {
   addSenderAsModerator,
   removeSenderFromModerator,
@@ -97,14 +94,9 @@ const DeleteItem = ({ messageId }: { messageId: string }) => {
 
   const onDelete = useCallback(() => {
     if (convoId) {
-      if (!isPublic && isDeletable) {
-        void deleteMessagesById([messageId], convoId);
-      }
-      if (isPublic && isDeletableForEveryone) {
-        void deleteMessagesByIdForEveryone([messageId], convoId);
-      }
+      void deleteMessagesForX([messageId], convoId, isPublic);
     }
-  }, [convoId, isDeletable, isDeletableForEveryone, isPublic, messageId]);
+  }, [convoId, isPublic, messageId]);
 
   if (!convoId || (isPublic && !isDeletableForEveryone) || (!isPublic && !isDeletable)) {
     return null;
