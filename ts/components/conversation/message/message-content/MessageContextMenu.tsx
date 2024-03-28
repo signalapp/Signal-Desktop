@@ -91,12 +91,15 @@ const DeleteItem = ({ messageId }: { messageId: string }) => {
 
   const isDeletable = useMessageIsDeletable(messageId);
   const isDeletableForEveryone = useMessageIsDeletableForEveryone(messageId);
+  const messageStatus = useMessageStatus(messageId);
+
+  const enforceDeleteServerSide = isPublic && messageStatus !== 'error';
 
   const onDelete = useCallback(() => {
     if (convoId) {
-      void deleteMessagesForX([messageId], convoId, isPublic);
+      void deleteMessagesForX([messageId], convoId, enforceDeleteServerSide);
     }
-  }, [convoId, isPublic, messageId]);
+  }, [convoId, enforceDeleteServerSide, messageId]);
 
   if (!convoId || (isPublic && !isDeletableForEveryone) || (!isPublic && !isDeletable)) {
     return null;

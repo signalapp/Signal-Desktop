@@ -303,7 +303,7 @@ const doDeleteSelectedMessages = async ({
   }
 
   const isAllOurs = selectedMessages.every(message => ourDevicePubkey === message.getSource());
-  if (conversation.isPublic()) {
+  if (conversation.isPublic() && deleteForEveryone) {
     await doDeleteSelectedMessagesInSOGS(selectedMessages, conversation, isAllOurs);
     return;
   }
@@ -341,14 +341,14 @@ const doDeleteSelectedMessages = async ({
 export async function deleteMessagesForX(
   messageIds: Array<string>,
   conversationId: string,
-  isPublic: boolean
+  /** should only be enforced for messages successfully sent on communities */
+  enforceDeleteServerSide: boolean
 ) {
   if (conversationId) {
-    if (!isPublic) {
-      void deleteMessagesById(messageIds, conversationId);
-    }
-    if (isPublic) {
-      void deleteMessagesByIdForEveryone(messageIds, conversationId);
+    if (enforceDeleteServerSide) {
+      await deleteMessagesByIdForEveryone(messageIds, conversationId);
+    } else {
+      await deleteMessagesById(messageIds, conversationId);
     }
   }
 }
