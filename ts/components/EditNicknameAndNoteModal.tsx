@@ -14,6 +14,7 @@ import type {
 import { Input } from './Input';
 import { AutoSizeTextArea } from './AutoSizeTextArea';
 import { Button, ButtonVariant } from './Button';
+import { strictAssert } from '../util/assert';
 
 const formSchema = z.object({
   nickname: z
@@ -43,6 +44,11 @@ export function EditNicknameAndNoteModal({
   onSave,
   onClose,
 }: EditNicknameAndNoteModalProps): JSX.Element {
+  strictAssert(
+    conversation.type === 'direct',
+    'Expected a direct conversation'
+  );
+
   const [givenName, setGivenName] = useState(
     conversation.nicknameGivenName ?? ''
   );

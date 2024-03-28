@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { ContactModal } from '../../components/conversation/ContactModal';
 import { getAreWeASubscriber } from '../selectors/items';
@@ -15,6 +15,7 @@ import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useCallingActions } from '../ducks/calling';
 import { getContactModalState } from '../selectors/globalModals';
+import { strictAssert } from '../../util/assert';
 
 export const SmartContactModal = memo(function SmartContactModal() {
   const i18n = useSelector(getIntl);
@@ -56,11 +57,17 @@ export const SmartContactModal = memo(function SmartContactModal() {
     toggleAddUserToAnotherGroupModal,
     toggleSafetyNumberModal,
     hideContactModal,
+    toggleEditNicknameAndNoteModal,
   } = useGlobalModalActions();
   const {
     onOutgoingVideoCallInConversation,
     onOutgoingAudioCallInConversation,
   } = useCallingActions();
+
+  const handleOpenEditNicknameAndNoteModal = useCallback(() => {
+    strictAssert(contactId != null, 'Expected conversationId to be set');
+    toggleEditNicknameAndNoteModal({ conversationId: contactId });
+  }, [toggleEditNicknameAndNoteModal, contactId]);
 
   return (
     <ContactModal
@@ -76,6 +83,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
       i18n={i18n}
       isAdmin={isAdmin}
       isMember={isMember}
+      onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       removeMemberFromGroup={removeMemberFromGroup}

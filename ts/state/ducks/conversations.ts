@@ -4698,6 +4698,11 @@ function updateNicknameAndNote(
       'updateNicknameAndNote: Conversation not found'
     );
 
+    strictAssert(
+      isDirectConversation(conversationModel.attributes),
+      'updateNicknameAndNote: Conversation is not a group'
+    );
+
     conversationModel.set({
       nicknameGivenName: nickname?.givenName,
       nicknameFamilyName: nickname?.familyName,
