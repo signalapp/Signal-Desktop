@@ -181,7 +181,7 @@ type PropsLocalType = {
   isTargeted: boolean;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
-  onOpenEditNicknameAndNoteModal: () => void;
+  onOpenEditNicknameAndNoteModal: (contactId: string) => void;
   onOpenMessageRequestActionsConfirmation(state: MessageRequestState): void;
   platform: string;
   renderContact: SmartContactRendererType<JSX.Element>;

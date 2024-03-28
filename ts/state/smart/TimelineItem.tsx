@@ -156,9 +156,12 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     returnToActiveCall,
   } = useCallingActions();
 
-  const onOpenEditNicknameAndNoteModal = useCallback(() => {
-    toggleEditNicknameAndNoteModal({ conversationId });
-  }, [conversationId, toggleEditNicknameAndNoteModal]);
+  const onOpenEditNicknameAndNoteModal = useCallback(
+    (contactId: string) => {
+      toggleEditNicknameAndNoteModal({ conversationId: contactId });
+    },
+    [toggleEditNicknameAndNoteModal]
+  );
 
   const onOpenMessageRequestActionsConfirmation = useCallback(
     (state: MessageRequestState) => {

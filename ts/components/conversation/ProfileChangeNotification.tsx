@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import type { LocalizerType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
@@ -16,7 +16,7 @@ export type PropsType = {
   change: ProfileNameChangeType;
   changedContact: ConversationType;
   i18n: LocalizerType;
-  onOpenEditNicknameAndNoteModal: () => void;
+  onOpenEditNicknameAndNoteModal: (contactId: string) => void;
 };
 
 export function ProfileChangeNotification({
@@ -26,6 +26,11 @@ export function ProfileChangeNotification({
   onOpenEditNicknameAndNoteModal,
 }: PropsType): JSX.Element {
   const message = getStringForProfileChange(change, changedContact, i18n);
+  const { id: contactId } = changedContact;
+
+  const handleOpenEditNicknameAndNoteModal = useCallback(() => {
+    onOpenEditNicknameAndNoteModal(contactId);
+  }, [contactId, onOpenEditNicknameAndNoteModal]);
 
   return (
     <SystemMessage
@@ -35,7 +40,7 @@ export function ProfileChangeNotification({
         areNicknamesEnabled() &&
         changedContact.nicknameGivenName != null && (
           <Button
-            onClick={onOpenEditNicknameAndNoteModal}
+            onClick={handleOpenEditNicknameAndNoteModal}
             size={ButtonSize.Small}
             variant={ButtonVariant.SystemMessage}
           >
