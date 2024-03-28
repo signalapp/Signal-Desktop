@@ -592,6 +592,14 @@
     "messageformat": "Este grupo da problemas. Crea un nuevo grupo.",
     "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Marcado como no leído",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} mensaje sin leer} other {{count,number} mensajes sin leer}}",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
+  },
   "icu:scrollDown": {
     "messageformat": "Desplazarse al final del chat",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -611,14 +619,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} mensaje sin leer} other {{count,number} mensajes sin leer}}",
     "description": "Text for unread message separator, with count"
-  },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Marcado como no leído",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} mensaje sin leer} other {{count,number} mensajes sin leer}}",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "Por tu seguridad, el historial de chats no se transfiere a dispositivos recién enlazados.",
@@ -3509,7 +3509,7 @@
   },
   "icu:MessageRequests--block-and-report-spam": {
     "messageformat": "Denunciar como spam y bloquear",
-    "description": "Shown as a button to let the user block a message request and report spam"
+    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Denunciado como spam y bloqueado.",
@@ -7413,12 +7413,14 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Ahora puedes borrar las llamadas perdidas en tu teléfono y la insignia en la pestaña de llamadas en Signal para Escritorio también se actualizará."
+    "messageformat": "Ahora puedes borrar las llamadas perdidas en tu teléfono y la insignia en la pestaña de llamadas en Signal para Escritorio también se actualizará.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "También hemos rediseñado el indicador de recuento de insignias en Windows. Ahora el color de la barra de tareas coincide con el color de la bandeja del sistema."
+    "messageformat": "También hemos rediseñado el indicador de recuento de insignias en Windows. Ahora el color de la barra de tareas coincide con el color de la bandeja del sistema.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Esta actualización corrige algunos errores, que incluyen una lógica más coherente a la hora de ordenar conversaciones, y un mejor funcionamiento de la app si esta encuentra tiempos de espera de búsqueda de DNS debido a una conectividad de red deficiente."
   }
 }

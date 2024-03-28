@@ -592,6 +592,14 @@
     "messageformat": "Tato skupina není platná. Vytvořte prosím novou skupinu.",
     "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Označeno jako nepřečtené",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} nepřečtená zpráva} few {{count,number} nepřečtené zprávy} many {{count,number} nepřečtených zpráv} other {{count,number} nepřečtených zpráv}}",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
+  },
   "icu:scrollDown": {
     "messageformat": "Přejít na konec chatu",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -611,14 +619,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} nepřečtená zpráva} few {{count,number} nepřečtené zprávy} many {{count,number} nepřečtených zpráv} other {{count,number} nepřečtených zpráv}}",
     "description": "Text for unread message separator, with count"
-  },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Označeno jako nepřečtené",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} nepřečtená zpráva} few {{count,number} nepřečtené zprávy} many {{count,number} nepřečtených zpráv} other {{count,number} nepřečtených zpráv}}",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "Z důvodu vaší bezpečnosti se historie chatů nepřenáší do nově připojených zařízení.",
@@ -3509,7 +3509,7 @@
   },
   "icu:MessageRequests--block-and-report-spam": {
     "messageformat": "Nahlásit spam a zablokovat",
-    "description": "Shown as a button to let the user block a message request and report spam"
+    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Nahlášeno jako spam a zablokováno.",
@@ -7413,12 +7413,14 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Teď můžete smazat zmeškané hovory v telefonu,  aktualizuje se také ikona na kartě hovorů v aplikaci Signal Desktop."
+    "messageformat": "Teď můžete smazat zmeškané hovory v telefonu,  aktualizuje se také ikona na kartě hovorů v aplikaci Signal Desktop.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "Přepracovali jsme také ikonu uvádějící počet oznámení v systému Windows. Barva na hlavním panelu se nyní shoduje s barvou na systémové liště."
+    "messageformat": "Přepracovali jsme také ikonu uvádějící počet oznámení v systému Windows. Barva na hlavním panelu se nyní shoduje s barvou na systémové liště.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Tato aktualizace opravuje několik chyb, včetně konzistentnější logiky řazení konverzací a vylepšeného chování v případě, že aplikace narazí na výpadky vyhledávání DNS z důvodu špatného připojení k síti."
   }
 }

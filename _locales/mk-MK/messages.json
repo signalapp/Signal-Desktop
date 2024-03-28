@@ -592,6 +592,14 @@
     "messageformat": "Оваа група е погрешна. Ве молиме да создадете нова група.",
     "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Означено како непрочитано",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} непрочитана порака} other {{count,number} непрочитани пораки}}",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
+  },
   "icu:scrollDown": {
     "messageformat": "Оди најдолу во разговорот",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -611,14 +619,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} непрочитана порака} other {{count,number} непрочитани пораки}}",
     "description": "Text for unread message separator, with count"
-  },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Означено како непрочитано",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} непрочитана порака} other {{count,number} непрочитани пораки}}",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "За ваша безбедност, историјата од разговорите не се пренесува на нови поврзани уреди.",
@@ -3509,7 +3509,7 @@
   },
   "icu:MessageRequests--block-and-report-spam": {
     "messageformat": "Пријавете како спам и блокирајте",
-    "description": "Shown as a button to let the user block a message request and report spam"
+    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Пријавено како спам и блокирано.",
@@ -7413,12 +7413,14 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Сега можете да ги бришете пропуштените повици на вашиот телефон, а и значката на картичката за повици на Signal Desktop исто така ќе се ажурира."
+    "messageformat": "Сега можете да ги бришете пропуштените повици на вашиот телефон, а и значката на картичката за повици на Signal Desktop исто така ќе се ажурира.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "Освен тоа, го сменивме и дизајнот на индикаторот со број на известувања на Windows. Сега бојата на лентата со задачи се совпаѓа со бојата на системската лента."
+    "messageformat": "Освен тоа, го сменивме и дизајнот на индикаторот со број на известувања на Windows. Сега бојата на лентата со задачи се совпаѓа со бојата на системската лента.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Со оваа верзија се решени неколку багови, вклучувајќи и поголема доследност на логиката на подредување на разговорите и подобрено однесување доколку апликацијата наиде на грешка при пребарување на доменски именски систем (DNS) во случај на слаба мрежна поврзаност."
   }
 }

@@ -592,6 +592,14 @@
     "messageformat": "Denne gruppen er ugyldig. Vennligst lag en ny gruppe.",
     "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Merket som ulest",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} ulest melding} other {{count,number} uleste meldinger}}",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
+  },
   "icu:scrollDown": {
     "messageformat": "Gå til de nyeste meldingene i samtalen",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -611,14 +619,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} ulest melding} other {{count,number} uleste meldinger}}",
     "description": "Text for unread message separator, with count"
-  },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Merket som ulest",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} ulest melding} other {{count,number} uleste meldinger}}",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "Av sikkerhetshensyn blir ikke samtaleloggene dine overført til nye tilkoblede enheter.",
@@ -3509,7 +3509,7 @@
   },
   "icu:MessageRequests--block-and-report-spam": {
     "messageformat": "Rapporter søppelpost og blokkér",
-    "description": "Shown as a button to let the user block a message request and report spam"
+    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Rapportert som søppelpost og blokkért.",
@@ -7413,12 +7413,14 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Nå kan du fjerne alle de tapte anropene på telefonen din og samtidig tømme telleren i anropsoversikten i Signal Desktop."
+    "messageformat": "Nå kan du fjerne alle de tapte anropene på telefonen din og samtidig tømme telleren i anropsoversikten i Signal Desktop.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "Vi har også endret designet på telleren i Windows, slik at fargen på oppgavelinjen matcher systemstatusfeltet."
+    "messageformat": "Vi har også endret designet på telleren i Windows, slik at fargen på oppgavelinjen matcher systemstatusfeltet.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Denne oppdateringen retter opp i et par feil, blant annet noen småfeil i sorteringen av samtaler, og problemer med tidsavbrudd under DNS-oppslag på grunn av dårlig nettverkstilkobling."
   }
 }

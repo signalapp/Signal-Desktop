@@ -592,6 +592,14 @@
     "messageformat": "Acest grup este invalid. Te rugăm creează un grup nou.",
     "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "Marchează necitit",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} mesaj necitit} few {{count,number} mesaje necitite} other {{count,number} de mesaje necitite}}",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
+  },
   "icu:scrollDown": {
     "messageformat": "Derulează până în partea de jos a conversației",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -611,14 +619,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} mesaj necitit} few {{count,number} mesaje necitite} other {{count,number} de mesaje necitite}}",
     "description": "Text for unread message separator, with count"
-  },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Marchează necitit",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} mesaj necitit} few {{count,number} mesaje necitite} other {{count,number} de mesaje necitite}}",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "Pentru securitatea ta, istoricul conversației nu este transferat pe noile dispozitive asociate.",
@@ -3509,7 +3509,7 @@
   },
   "icu:MessageRequests--block-and-report-spam": {
     "messageformat": "Raportează spam și blochează",
-    "description": "Shown as a button to let the user block a message request and report spam"
+    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Raportat ca spam și blocat.",
@@ -7413,12 +7413,14 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Acum poți șterge apelurile ratate de pe telefon, iar insigna din fila Apeluri din Signal Desktop va fi și ea actualizată."
+    "messageformat": "Acum poți șterge apelurile ratate de pe telefon, iar insigna din fila Apeluri din Signal Desktop va fi și ea actualizată.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "De asemenea, am reproiectat indicatorul de numărare a insignelor pe Windows. Acum, culoarea din bara de activități se potrivește cu cea din bara de sistem. Moda se bazează pe coordonare, iar un pic de roșu este un look perfect pentru primăvară."
+    "messageformat": "De asemenea, am reproiectat indicatorul de numărare a insignelor pe Windows. Acum, culoarea din bara de activități se potrivește cu cea din bara de sistem. Moda se bazează pe coordonare, iar un pic de roșu este un look perfect pentru primăvară.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Această actualizare elimină câteva erori fix la timp pentru curățenia de primăvară, inclusiv o logică de sortare a conversațiilor mai coerentă și un comportament îmbunătățit în cazul în care aplicația întâmpină întârzieri în căutarea DNS din cauza unei conexiuni de rețea slabe."
   }
 }

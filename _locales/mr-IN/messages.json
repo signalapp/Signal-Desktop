@@ -592,6 +592,14 @@
     "messageformat": "हा गट अवैध आहे. कृपया एक नवीन गट तयार करा.",
     "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
+  "icu:taskbarMarkedUnread": {
+    "messageformat": "न वाचलेले म्हणून चिन्हित",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
+  },
+  "icu:taskbarUnreadMessages": {
+    "messageformat": "{count, plural, one {{count,number} न वाचलेला संदेश} other {{count,number} न वाचलेले संदेश}}",
+    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
+  },
   "icu:scrollDown": {
     "messageformat": "चॅट्सच्या तळाशी स्क्रोल करा",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -611,14 +619,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} न वाचलेला संदेश} other {{count,number} न वाचलेले संदेश}}",
     "description": "Text for unread message separator, with count"
-  },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "न वाचलेले म्हणून चिन्हित",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} न वाचलेला संदेश} other {{count,number} न वाचलेले संदेश}}",
-    "description": "On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
   },
   "icu:messageHistoryUnsynced": {
     "messageformat": "आपल्या सुरक्षिततेसाठी, नवीन लिंंक केलेली डिव्हाइसेस वर चॅट्स इतिहास अंतरित केला नाही.",
@@ -3509,7 +3509,7 @@
   },
   "icu:MessageRequests--block-and-report-spam": {
     "messageformat": "स्पॅम म्हणून रिपोर्ट करा आणि अवरोधित करा",
-    "description": "Shown as a button to let the user block a message request and report spam"
+    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "स्पॅम म्हणून रिपोर्ट केले आणि अवरोधित केले.",
@@ -7413,12 +7413,14 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.3--0": {
-    "messageformat": "आता आपण आपल्या फोनवरील मिस्ड कॉल क्लिअर करू शकता आणि Signal डेस्कटॉपवरील कॉल टॅबवरील बॅज देखील अपडेट केला जाईल."
+    "messageformat": "आता आपण आपल्या फोनवरील मिस्ड कॉल क्लिअर करू शकता आणि Signal डेस्कटॉपवरील कॉल टॅबवरील बॅज देखील अपडेट केला जाईल.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.3--1": {
-    "messageformat": "आम्ही Windows वरील बॅज गणना निर्देशकाचे देखील पुन्हा डिझाइन केले आहे. आता टास्कबारमधील रंग सिस्टिम ट्रे मधील रंगांशी जुळतो. फॅशन ही सर्व समन्वयाबद्दल आहे, आणि लाल रंगाची थोडीशी उधळण वसंत ऋतुसाठी परिपूर्ण दृश्य असते."
+    "messageformat": "आम्ही Windows वरील बॅज गणना निर्देशकाचे देखील पुन्हा डिझाइन केले आहे. आता टास्कबारमधील रंग सिस्टिम ट्रे मधील रंगांशी जुळतो. फॅशन ही सर्व समन्वयाबद्दल आहे, आणि लाल रंगाची थोडीशी उधळण वसंत ऋतुसाठी परिपूर्ण दृश्य असते.",
+    "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "जर ॲपला खराब नेटवर्क कनेक्टिव्हिटीमुळे DNS लुकअप टाइमआउटचा सामना करावा लागत असल्यास अधिक सुसंगत संभाषण क्रम तर्कशास्त्र आणि सुधारलेल्या वर्तनासह वेळेत स्प्रिंग क्लिनिंग करण्यासारखे काही दोष हे अपडेट दूर करते."
   }
 }
