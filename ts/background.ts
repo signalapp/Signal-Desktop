@@ -1554,7 +1554,18 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('online', () => {
     log.info('background: online');
-    if (!remotelyExpired) {
+
+    strictAssert(server !== undefined, 'WebAPI not initialized');
+    strictAssert(
+      messageReceiver !== undefined,
+      'MessageReceiver not initialized'
+    );
+    messageReceiver.reset();
+    server.registerRequestHandler(messageReceiver);
+
+    // The first call to connect should be done via start(), ensuring that the app is
+    // ready first
+    if (!remotelyExpired && connectCount > 0) {
       drop(connect());
     }
   });
@@ -1566,6 +1577,9 @@ export async function startApp(): Promise<void> {
     drop(AttachmentDownloads.stop());
     drop(messageReceiver?.drain());
 
+    if (messageReceiver) {
+      server?.unregisterRequestHandler(messageReceiver);
+    }
     if (connectCount === 0) {
       log.info('background: offline, never connected, showing inbox');
 
@@ -1660,14 +1674,6 @@ export async function startApp(): Promise<void> {
       notificationService.disable();
 
       void window.Signal.Services.initializeGroupCredentialFetcher();
-
-      strictAssert(server !== undefined, 'WebAPI not initialized');
-      strictAssert(
-        messageReceiver !== undefined,
-        'MessageReceiver not initialized'
-      );
-      messageReceiver.reset();
-      server.registerRequestHandler(messageReceiver);
 
       drop(
         AttachmentDownloads.start({
