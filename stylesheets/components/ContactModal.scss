@@ -107,6 +107,19 @@
     width: 20px;
   }
 
+  &__nickname__bubble-icon {
+    height: 20px;
+    width: 20px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v3/edit/edit.svg', $color-gray-75);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v3/edit/edit.svg', $color-gray-15);
+    }
+  }
+
   &__send-message__bubble-icon {
     height: 20px;
     width: 20px;

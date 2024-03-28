@@ -4846,6 +4846,10 @@
     "messageformat": "Include muted chats in badge count",
     "description": "Description for counting muted conversations in badge setting"
   },
+  "icu:ContactModal--nickname": {
+    "messageformat": "Nickname",
+    "description": "Label for the nickname field in the Group Contact Details modal"
+  },
   "icu:ContactModal--message": {
     "messageformat": "Message",
     "description": "(Deleted 2024/03/07) Button text for send message button in Group Contact Details modal"
