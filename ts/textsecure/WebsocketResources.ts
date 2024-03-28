@@ -359,7 +359,7 @@ export class WebSocketResourceWithShadowing implements IWebSocketResource {
 
   private updateStats(name: string) {
     const storedStats = AggregatedStats.loadOrCreateEmpty(name);
-    const updatedStats = AggregatedStats.add(storedStats, this.stats);
+    let updatedStats = AggregatedStats.add(storedStats, this.stats);
     if (
       this.shadowingWithReporting &&
       AggregatedStats.shouldReportError(updatedStats) &&
@@ -368,6 +368,11 @@ export class WebSocketResourceWithShadowing implements IWebSocketResource {
       window.reduxActions.toast.showToast({
         toastType: ToastType.TransportError,
       });
+      log.warn(
+        `${this.logId}: experimental transport toast displayed, flushing transport statistics before resetting`,
+        updatedStats
+      );
+      updatedStats = AggregatedStats.createEmpty();
       updatedStats.lastToastTimestamp = Date.now();
     }
     AggregatedStats.store(updatedStats, name);
