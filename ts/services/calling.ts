@@ -2613,12 +2613,20 @@ export class CallingClass {
     const isContactUntrusted = !isInSystemContacts(conversation.attributes);
 
     const callSettings = {
+      // only include hostname with urlsWithIps
+      // proritize ice servers with IPs to avoid DNS
       iceServers: [
+        {
+          hostname: iceServer.hostname,
+          username: iceServer.username,
+          password: iceServer.password,
+          urls: (iceServer.urlsWithIps ?? []).slice(),
+        },
         {
           hostname: '',
           username: iceServer.username,
           password: iceServer.password,
-          urls: iceServer.urls.slice(),
+          urls: (iceServer.urls ?? []).slice(),
         },
       ],
       hideIp: shouldRelayCalls || isContactUntrusted,

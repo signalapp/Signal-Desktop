@@ -503,7 +503,7 @@ const URL_CALLS = {
   discovery: 'v1/discovery',
   getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/auth/group',
-  getIceServers: 'v1/accounts/turn',
+  getIceServers: 'v1/calling/relays',
   getOnboardingStoryManifest:
     'dynamic/desktop/stories/onboarding/manifest.json',
   getStickerPackUpload: 'v1/sticker/pack/form',
@@ -735,6 +735,8 @@ export type GetIceServersResultType = Readonly<{
   username: string;
   password: string;
   urls: ReadonlyArray<string>;
+  urlsWithIps: ReadonlyArray<string>;
+  hostname: string;
 }>;
 
 export type GetDevicesResultType = ReadonlyArray<
