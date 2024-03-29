@@ -53,6 +53,12 @@ export function toUntaggedPni(pni: PniString): UntaggedPniString {
   return pni.replace(/^PNI:/i, '') as UntaggedPniString;
 }
 
+const INVALID_SERVICE_ID_PATTERN = /^.*(.{3})/;
+
+function redactInvalidServiceId(input: string): string {
+  return input.replace(INVALID_SERVICE_ID_PATTERN, '[REDACTED]$1');
+}
+
 export function normalizeServiceId(
   rawServiceId: string,
   context: string,
@@ -77,8 +83,10 @@ export function normalizeServiceId(
   const result = rawServiceId.toLowerCase().replace(/^pni:/, 'PNI:');
 
   if (!isAciString(result) && !isPniString(result)) {
+    const before = redactInvalidServiceId(rawServiceId);
+    const after = redactInvalidServiceId(result);
     logger.warn(
-      `Normalizing invalid serviceId: ${rawServiceId} to ${result} in context "${context}"`
+      `Normalizing invalid serviceId: ${before} to ${after} in context "${context}"`
     );
 
     // Cast anyway we don't want to throw here
