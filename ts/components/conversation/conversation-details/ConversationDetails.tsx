@@ -64,7 +64,7 @@ import {
 import { formatDate, formatTime } from '../../../util/timestamp';
 import { NavTab } from '../../../state/ducks/nav';
 import { ContextMenu } from '../../ContextMenu';
-import { areNicknamesEnabled } from '../../../util/nicknames';
+import { canHaveNicknameAndNote } from '../../../util/nicknames';
 
 function describeCallHistory(
   i18n: LocalizerType,
@@ -566,7 +566,7 @@ export function ConversationDetails({
             }
           />
         ) : null}
-        {areNicknamesEnabled() && !isGroup && (
+        {canHaveNicknameAndNote(conversation) && (
           <PanelRow
             icon={
               <ConversationDetailsIcon
