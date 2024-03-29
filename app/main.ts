@@ -207,13 +207,9 @@ const defaultWebPrefs = {
 const DISABLE_GPU =
   OS.isLinux() && !process.argv.some(arg => arg === '--enable-gpu');
 
-const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
-  arg => arg === '--enable-crash-reports'
-);
-
 const CLI_LANG = cliOptions.lang as string | undefined;
 
-setupCrashReports(getLogger, showDebugLogWindow, FORCE_ENABLE_CRASH_REPORTS);
+setupCrashReports(getLogger, showDebugLogWindow);
 
 let sendDummyKeystroke: undefined | (() => void);
 if (OS.isWindows()) {
