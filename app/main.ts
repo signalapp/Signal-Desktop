@@ -23,6 +23,7 @@ import {
   nativeTheme,
   net,
   powerSaveBlocker,
+  safeStorage,
   screen,
   session,
   shell,
@@ -1522,8 +1523,25 @@ async function initializeSQL(
 ): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
   let key: string | undefined;
   const keyFromConfig = userConfig.get('key');
+  if (
+    OS.isLinux() &&
+    safeStorage.getSelectedStorageBackend() === 'basic_text'
+  ) {
+    getLogger().warn(
+      'key/initialize: Linux desktop environment not recognised, storing encryption key in plain text'
+    );
+    safeStorage.setUsePlainTextEncryption(true);
+  }
   if (typeof keyFromConfig === 'string') {
-    key = keyFromConfig;
+    try {
+      key = safeStorage.decryptString(Buffer.from(keyFromConfig, 'hex'));
+    } catch (error) {
+      getLogger().warn(
+        'key/initialize: Encrypted key retrieval failed, falling back to plain text key from config',
+        Errors.toLogFormat(error)
+      );
+      key = keyFromConfig;
+    }
   } else if (keyFromConfig) {
     getLogger().warn(
       "initializeSQL: got key from config, but it wasn't a string"
@@ -1535,7 +1553,15 @@ async function initializeSQL(
     );
     // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
     key = randomBytes(32).toString('hex');
-    userConfig.set('key', key);
+    try {
+      userConfig.set('key', safeStorage.encryptString(key).toString('hex'));
+    } catch (error) {
+      getLogger().warn(
+        'key/initialize: Encrypted key storage failed, falling back to plain text storage in config',
+        Errors.toLogFormat(error)
+      );
+      userConfig.set('key', key);
+    }
   }
 
   sqlInitTimeStart = Date.now();
