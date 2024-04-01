@@ -129,7 +129,6 @@ export function getCallingNotificationText(
     return getGroupCallNotificationText(groupCallEnded, callCreator, i18n);
   }
   if (callHistory.mode === CallMode.Adhoc) {
-    // TODO: DESKTOP-6653
     return null;
   }
   throw missingCaseError(callHistory.mode);

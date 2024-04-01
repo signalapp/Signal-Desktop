@@ -12,6 +12,7 @@ import {
   RingUpdate,
 } from '@signalapp/ringrtc';
 import { v4 as generateGuid } from 'uuid';
+import { isEqual } from 'lodash';
 import { strictAssert } from './assert';
 import { SignalService as Proto } from '../protobuf';
 import { bytesToUuid, uuidToBytes } from './uuidToBytes';
@@ -57,6 +58,7 @@ import {
   RemoteCallEvent,
   callHistoryDetailsSchema,
   callDetailsSchema,
+  AdhocCallStatus,
 } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationModel } from '../models/conversations';
@@ -467,6 +469,21 @@ export function getCallDetailsFromGroupCallMeta(
   });
 }
 
+export function getCallDetailsForAdhocCall(
+  peerId: AciString | string,
+  callId: string
+): CallDetails {
+  return callDetailsSchema.parse({
+    callId,
+    peerId,
+    ringerId: null,
+    mode: CallMode.Adhoc,
+    type: CallType.Group,
+    direction: CallDirection.Outgoing,
+    timestamp: Date.now(),
+  });
+}
+
 // Call Event Details
 // ------------------
 
@@ -500,7 +517,7 @@ export function transitionCallHistory(
   }
 
   const prevStatus = callHistory?.status ?? null;
-  let status: DirectCallStatus | GroupCallStatus;
+  let status: CallStatus;
 
   if (mode === CallMode.Direct) {
     status = transitionDirectCallStatus(
@@ -515,8 +532,11 @@ export function transitionCallHistory(
       direction
     );
   } else if (mode === CallMode.Adhoc) {
-    // TODO: DESKTOP-6653
-    strictAssert(false, 'cannot transitionCallHistory for adhoc calls yet');
+    status = transitionAdhocCallStatus(
+      prevStatus as AdhocCallStatus | null,
+      event,
+      direction
+    );
   } else {
     throw missingCaseError(mode);
   }
@@ -557,7 +577,8 @@ function transitionTimestamp(
   // Deleted call history should never be changed
   if (
     callHistory.status === DirectCallStatus.Deleted ||
-    callHistory.status === GroupCallStatus.Deleted
+    callHistory.status === GroupCallStatus.Deleted ||
+    callHistory.status === AdhocCallStatus.Deleted
   ) {
     return callHistory.timestamp;
   }
@@ -567,7 +588,8 @@ function transitionTimestamp(
   if (
     callHistory.status === DirectCallStatus.Accepted ||
     callHistory.status === GroupCallStatus.Accepted ||
-    callHistory.status === GroupCallStatus.Joined
+    callHistory.status === GroupCallStatus.Joined ||
+    callHistory.status === AdhocCallStatus.Joined
   ) {
     if (callEvent.event === RemoteCallEvent.Accepted) {
       return latestTimestamp;
@@ -595,7 +617,8 @@ function transitionTimestamp(
     callHistory.status === GroupCallStatus.OutgoingRing ||
     callHistory.status === GroupCallStatus.Ringing ||
     callHistory.status === DirectCallStatus.Missed ||
-    callHistory.status === GroupCallStatus.Missed
+    callHistory.status === GroupCallStatus.Missed ||
+    callHistory.status === AdhocCallStatus.Pending
   ) {
     return latestTimestamp;
   }
@@ -750,6 +773,57 @@ function transitionGroupCallStatus(
   throw missingCaseError(event);
 }
 
+function transitionAdhocCallStatus(
+  status: AdhocCallStatus | null,
+  callEvent: CallEvent,
+  direction: CallDirection
+): AdhocCallStatus {
+  log.info(
+    `transitionAdhocCallStatus: status=${status} callEvent=${callEvent} direction=${direction}`
+  );
+
+  // In all cases if we get a delete event, we need to delete the call, and never
+  // transition from deleted.
+  if (
+    callEvent === RemoteCallEvent.Delete ||
+    callEvent === LocalCallEvent.Delete ||
+    status === AdhocCallStatus.Deleted
+  ) {
+    return AdhocCallStatus.Deleted;
+  }
+
+  // The Accepted event is used to indicate we have fully joined an adhoc call.
+  // If admin approval was required for a call link, this event indicates approval
+  // was granted.
+  if (
+    callEvent === RemoteCallEvent.Accepted ||
+    callEvent === LocalCallEvent.Accepted
+  ) {
+    return AdhocCallStatus.Joined;
+  }
+
+  if (status === AdhocCallStatus.Joined) {
+    return status;
+  }
+
+  // For Adhoc calls, ringing and corresponding events are not supported currently.
+  // However we handle those events here to be exhaustive.
+  if (
+    callEvent === RemoteCallEvent.NotAccepted ||
+    callEvent === LocalCallEvent.Missed ||
+    callEvent === LocalCallEvent.Declined ||
+    callEvent === LocalCallEvent.Hangup ||
+    callEvent === LocalCallEvent.RemoteHangup ||
+    callEvent === LocalCallEvent.Started ||
+    // never actually happens, but need for exhaustive check
+    callEvent === LocalCallEvent.Ringing
+  ) {
+    return AdhocCallStatus.Pending;
+  }
+
+  throw missingCaseError(callEvent);
+}
+
 // actions
 // -------
 
@@ -807,6 +881,70 @@ async function updateLocalCallHistory(
       return updatedCallHistory;
     }
   );
+}
+
+export async function updateLocalAdhocCallHistory(
+  callEvent: CallEventDetails
+): Promise<CallHistoryDetails | null> {
+  log.info(
+    'updateLocalAdhocCallHistory: Processing call event:',
+    formatCallEvent(callEvent)
+  );
+
+  const prevCallHistory =
+    (await window.Signal.Data.getCallHistory(
+      callEvent.callId,
+      callEvent.peerId
+    )) ?? null;
+
+  if (prevCallHistory != null) {
+    log.info(
+      'updateLocalAdhocCallHistory: Found previous call history:',
+      formatCallHistory(prevCallHistory)
+    );
+  } else {
+    log.info('updateLocalAdhocCallHistory: No previous call history');
+  }
+
+  let callHistory: CallHistoryDetails;
+  try {
+    callHistory = transitionCallHistory(prevCallHistory, callEvent);
+  } catch (error) {
+    log.error(
+      "updateLocalAdhocCallHistory: Couldn't transition call history:",
+      formatCallEvent(callEvent),
+      Errors.toLogFormat(error)
+    );
+    return null;
+  }
+
+  strictAssert(
+    callHistory.status === AdhocCallStatus.Pending ||
+      callHistory.status === AdhocCallStatus.Joined ||
+      callHistory.status === AdhocCallStatus.Deleted,
+    `updateLocalAdhocCallHistory: callHistory must have adhoc status (was ${callHistory.status})`
+  );
+
+  const isDeleted = callHistory.status === AdhocCallStatus.Deleted;
+  if (prevCallHistory != null && isEqual(prevCallHistory, callHistory)) {
+    log.info(
+      'updateLocalAdhocCallHistory: Next call history is identical, skipping save'
+    );
+  } else {
+    log.info(
+      'updateLocalAdhocCallHistory: Saving call history:',
+      formatCallHistory(callHistory)
+    );
+    await window.Signal.Data.saveCallHistory(callHistory);
+  }
+
+  if (isDeleted) {
+    window.reduxActions.callHistory.removeCallHistory(callHistory.callId);
+  } else {
+    window.reduxActions.callHistory.addCallHistory(callHistory);
+  }
+
+  return callHistory;
 }
 
 async function saveCallHistory(

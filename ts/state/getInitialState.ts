@@ -41,9 +41,11 @@ import { getInteractionMode } from '../services/InteractionMode';
 import { makeLookup } from '../util/makeLookup';
 import type { CallHistoryDetails } from '../types/CallDisposition';
 import type { ThemeType } from '../types/Util';
+import type { CallLinkType } from '../types/CallLink';
 
 export function getInitialState({
   badges,
+  callLinks,
   callsHistory,
   callsHistoryUnreadCount,
   stories,
@@ -53,6 +55,7 @@ export function getInitialState({
   theme,
 }: {
   badges: BadgesStateType;
+  callLinks: ReadonlyArray<CallLinkType>;
   callsHistory: ReadonlyArray<CallHistoryDetails>;
   callsHistoryUnreadCount: number;
   stories: Array<StoryDataType>;
@@ -95,7 +98,10 @@ export function getInitialState({
       callHistoryByCallId: makeLookup(callsHistory, 'callId'),
       unreadCount: callsHistoryUnreadCount,
     },
-    calling: calling(),
+    calling: {
+      ...calling(),
+      callLinks: makeLookup(callLinks, 'roomId'),
+    },
     composer: composer(),
     conversations: {
       ...conversations(),

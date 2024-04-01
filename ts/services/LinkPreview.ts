@@ -586,7 +586,7 @@ async function getCallLinkPreview(
 
   const callLinkRootKey = CallLinkRootKey.parse(parsedUrl.args.key);
   const callLinkState = await calling.readCallLink({ callLinkRootKey });
-  if (!callLinkState) {
+  if (!callLinkState || callLinkState.revoked) {
     return null;
   }
 

@@ -36,6 +36,7 @@ window.testUtilities = {
     await Stickers.load();
 
     initializeRedux({
+      callLinks: [],
       callsHistory: [],
       callsHistoryUnreadCount: 0,
       initialBadgesState: { byId: {} },

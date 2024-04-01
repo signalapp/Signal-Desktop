@@ -85,13 +85,9 @@ export const getCallLinkSelector = createSelector(
         return;
       }
 
-      const { name, restrictions, rootKey, expiration } = callLinkState;
       return {
         roomId,
-        name,
-        restrictions,
-        rootKey,
-        expiration,
+        ...callLinkState,
       };
     }
 );

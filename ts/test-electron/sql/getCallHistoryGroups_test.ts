@@ -12,8 +12,10 @@ import type { ServiceIdString } from '../../types/ServiceId';
 import type {
   CallHistoryDetails,
   CallHistoryGroup,
+  CallStatus,
 } from '../../types/CallDisposition';
 import {
+  AdhocCallStatus,
   CallDirection,
   CallHistoryFilterStatus,
   CallType,
@@ -22,8 +24,13 @@ import {
 import { strictAssert } from '../../util/assert';
 import type { ConversationAttributesType } from '../../model-types';
 
-const { removeAll, getCallHistoryGroups, saveCallHistory, saveConversation } =
-  dataInterface;
+const {
+  removeAll,
+  getCallHistoryGroups,
+  getCallHistoryGroupsCount,
+  saveCallHistory,
+  saveConversation,
+} = dataInterface;
 
 function toGroup(calls: Array<CallHistoryDetails>): CallHistoryGroup {
   const firstCall = calls.at(0);
@@ -38,6 +45,19 @@ function toGroup(calls: Array<CallHistoryDetails>): CallHistoryGroup {
     children: calls.map(call => {
       return { callId: call.callId, timestamp: call.timestamp };
     }),
+  };
+}
+
+function toAdhocGroup(call: CallHistoryDetails): CallHistoryGroup {
+  strictAssert(call != null, 'needs call');
+  return {
+    peerId: call.peerId,
+    mode: call.mode,
+    type: call.type,
+    direction: call.direction,
+    timestamp: call.timestamp,
+    status: call.status,
+    children: [],
   };
 }
 
@@ -254,5 +274,159 @@ describe('sql/getCallHistoryGroups', () => {
     );
 
     assert.deepEqual(groups, [toGroup([call])]);
+  });
+
+  it('should support Missed status filter', async () => {
+    const now = Date.now();
+    const conversationId = generateUuid();
+
+    function toCall(
+      callId: string,
+      timestamp: number,
+      type: CallType,
+      status: CallStatus
+    ) {
+      return {
+        callId,
+        peerId: conversationId,
+        ringerId: generateAci(),
+        mode: CallMode.Direct,
+        type,
+        direction: CallDirection.Incoming,
+        timestamp,
+        status,
+      };
+    }
+
+    const call1 = toCall(
+      '1',
+      now - 10,
+      CallType.Video,
+      DirectCallStatus.Accepted
+    );
+    const call2 = toCall('2', now, CallType.Audio, DirectCallStatus.Missed);
+
+    await saveCallHistory(call1);
+    await saveCallHistory(call2);
+
+    const groups = await getCallHistoryGroups(
+      { status: CallHistoryFilterStatus.Missed, conversationIds: null },
+      { offset: 0, limit: 0 }
+    );
+
+    assert.deepEqual(groups, [toGroup([call2])]);
+  });
+
+  it('should only return the newest call for an adhoc call roomId', async () => {
+    const now = Date.now();
+    const roomId = generateUuid();
+
+    function toCall(callId: string, timestamp: number, type: CallType) {
+      return {
+        callId,
+        peerId: roomId,
+        ringerId: null,
+        mode: CallMode.Adhoc,
+        type,
+        direction: CallDirection.Outgoing,
+        timestamp,
+        status: AdhocCallStatus.Joined,
+      };
+    }
+
+    const call1 = toCall('1', now - 10, CallType.Group);
+    const call2 = toCall('2', now, CallType.Group);
+
+    await saveCallHistory(call1);
+    await saveCallHistory(call2);
+
+    const groups = await getCallHistoryGroups(
+      { status: CallHistoryFilterStatus.All, conversationIds: null },
+      { offset: 0, limit: 0 }
+    );
+
+    assert.deepEqual(groups, [toAdhocGroup(call2)]);
+  });
+});
+
+describe('sql/getCallHistoryGroupsCount', () => {
+  beforeEach(async () => {
+    await removeAll();
+  });
+
+  it('counts', async () => {
+    const now = Date.now();
+    const conversationId = generateUuid();
+
+    function toCall(callId: string, timestamp: number, type: CallType) {
+      return {
+        callId,
+        peerId: conversationId,
+        ringerId: generateAci(),
+        mode: CallMode.Direct,
+        type,
+        direction: CallDirection.Incoming,
+        timestamp,
+        status: DirectCallStatus.Accepted,
+      };
+    }
+
+    const call1 = toCall('1', now - 30, CallType.Video);
+    const call2 = toCall('2', now - 20, CallType.Video);
+    const call3 = toCall('3', now - 10, CallType.Audio);
+    const call4 = toCall('4', now, CallType.Video);
+
+    await saveCallHistory(call1);
+    await saveCallHistory(call2);
+    await saveCallHistory(call3);
+    await saveCallHistory(call4);
+
+    const result = await getCallHistoryGroupsCount({
+      status: CallHistoryFilterStatus.All,
+      conversationIds: null,
+    });
+
+    assert.equal(result, 3);
+  });
+
+  it('should only count each call link roomId once if it had multiple calls', async () => {
+    const now = Date.now();
+    const roomId1 = generateUuid();
+    const roomId2 = generateUuid();
+
+    function toCall(
+      callId: string,
+      roomId: string,
+      timestamp: number,
+      type: CallType
+    ) {
+      return {
+        callId,
+        peerId: roomId,
+        ringerId: null,
+        mode: CallMode.Adhoc,
+        type,
+        direction: CallDirection.Outgoing,
+        timestamp,
+        status: AdhocCallStatus.Joined,
+      };
+    }
+
+    const call1 = toCall('1', roomId1, now - 20, CallType.Group);
+    const call2 = toCall('2', roomId1, now - 10, CallType.Group);
+    const call3 = toCall('3', roomId1, now, CallType.Group);
+    const call4 = toCall('4', roomId2, now, CallType.Group);
+
+    await saveCallHistory(call1);
+    await saveCallHistory(call2);
+    await saveCallHistory(call3);
+    await saveCallHistory(call4);
+
+    const result = await getCallHistoryGroupsCount({
+      status: CallHistoryFilterStatus.All,
+      conversationIds: null,
+    });
+
+    assert.equal(result, 2);
   });
 });

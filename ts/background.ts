@@ -188,6 +188,10 @@ import {
   loadCallsHistory,
 } from './services/callHistoryLoader';
 import {
+  getCallLinksForRedux,
+  loadCallLinks,
+} from './services/callLinksLoader';
+import {
   getCallIdFromEra,
   updateLocalGroupCallHistoryTimestamp,
 } from './util/callDisposition';
@@ -1105,6 +1109,7 @@ export async function startApp(): Promise<void> {
         loadStories(),
         loadDistributionLists(),
         loadCallsHistory(),
+        loadCallLinks(),
         window.textsecure.storage.protocol.hydrateCaches(),
         (async () => {
           mainWindowStats = await window.SignalContext.getMainWindowStats();
@@ -1155,6 +1160,7 @@ export async function startApp(): Promise<void> {
     theme: ThemeType;
   }) {
     initializeRedux({
+      callLinks: getCallLinksForRedux(),
       callsHistory: getCallsHistoryForRedux(),
       callsHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
       initialBadgesState,

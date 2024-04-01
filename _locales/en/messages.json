@@ -7408,6 +7408,10 @@
     "messageformat": "Group call",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Call link",
+    "description": "On the Calls Tab, the subtitle text for a Call Link entry."
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "No recent conversations.",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"

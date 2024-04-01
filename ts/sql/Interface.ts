@@ -30,6 +30,7 @@ import type {
   CallHistoryGroup,
   CallHistoryPagination,
 } from '../types/CallDisposition';
+import type { CallLinkType, CallLinkRestrictions } from '../types/CallLink';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -696,6 +697,16 @@ export type DataInterface = {
   getRecentStaleRingsAndMarkOlderMissed(): Promise<
     ReadonlyArray<MaybeStaleCallHistory>
   >;
+  callLinkExists(roomId: string): Promise<boolean>;
+  getAllCallLinks: () => Promise<ReadonlyArray<CallLinkType>>;
+  insertCallLink(callLink: CallLinkType): Promise<void>;
+  updateCallLinkState(
+    roomId: string,
+    name: string,
+    restrictions: CallLinkRestrictions,
+    expiration: number | null,
+    revoked: boolean
+  ): Promise<void>;
   migrateConversationMessages: (
     obsoleteId: string,
     currentId: string
