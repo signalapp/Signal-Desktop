@@ -4328,6 +4328,7 @@ function onConversationClosed(
           draftChanged: false,
           draftTimestamp: now,
           timestamp: now,
+          lastMessageReceivedAtMs: now,
         });
       } else {
         log.info(`${logId}: clearing draft info`);
