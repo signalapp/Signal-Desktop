@@ -3,7 +3,7 @@
 
 import * as RemoteConfig from '../RemoteConfig';
 import type { ConversationType } from '../state/ducks/conversations';
-import { isSignalConnection } from './getSignalConnections';
+import { isSignalConversation } from './isSignalConversation';
 
 export function areNicknamesEnabled(): boolean {
   return RemoteConfig.getValue('desktop.nicknames') === 'TRUE';
@@ -14,8 +14,8 @@ export function canHaveNicknameAndNote(
 ): boolean {
   return (
     areNicknamesEnabled() &&
-    conversation.type === 'group' &&
-    !isSignalConnection(conversation) &&
+    conversation.type !== 'group' &&
+    !isSignalConversation(conversation) &&
     !conversation.isMe
   );
 }
