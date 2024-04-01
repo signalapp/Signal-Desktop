@@ -25,7 +25,7 @@ import type { ConversationType } from '../ducks/conversations';
 import { SmartConversationDetails } from './ConversationDetails';
 import { SmartToastManager } from './ToastManager';
 import { useCallingActions } from '../ducks/calling';
-import { getActiveCallState } from '../selectors/calling';
+import { getActiveCallState, getCallLinkSelector } from '../selectors/calling';
 import { useCallHistoryActions } from '../ducks/callHistory';
 import { getCallHistoryEdition } from '../selectors/callHistory';
 import { getHasPendingUpdate } from '../selectors/updates';
@@ -97,6 +97,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const allConversations = useSelector(getAllConversations);
   const regionCode = useSelector(getRegionCode);
   const getConversation = useSelector(getConversationSelector);
+  const getCallLink = useSelector(getCallLinkSelector);
 
   const activeCall = useSelector(getActiveCallState);
   const callHistoryEdition = useSelector(getCallHistoryEdition);
@@ -108,6 +109,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
+    startCallLinkLobbyByRoomId,
   } = useCallingActions();
   const {
     clearAllCallHistory: clearCallHistory,
@@ -167,6 +169,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       getConversation={getConversation}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}
       getCallHistoryGroups={getCallHistoryGroups}
+      getCallLink={getCallLink}
       callHistoryEdition={callHistoryEdition}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
@@ -182,6 +185,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       renderToastManager={renderToastManager}
       regionCode={regionCode}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+      startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}
     />
   );
 });

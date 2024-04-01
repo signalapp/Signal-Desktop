@@ -18,6 +18,7 @@ import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { UnreadStats } from '../util/countUnreadStats';
 import type { WidthBreakpoint } from './_util';
+import type { CallLinkType } from '../types/CallLink';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -36,6 +37,7 @@ type CallsTabProps = Readonly<{
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
   callHistoryEdition: number;
+  getCallLink: (id: string) => CallLinkType | undefined;
   getConversation: (id: string) => ConversationType | void;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
@@ -56,6 +58,7 @@ type CallsTabProps = Readonly<{
   }) => JSX.Element;
   regionCode: string | undefined;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
+  startCallLinkLobbyByRoomId: (roomId: string) => void;
 }>;
 
 export function CallsTab({
@@ -65,6 +68,7 @@ export function CallsTab({
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   callHistoryEdition,
+  getCallLink,
   getConversation,
   hasFailedStorySends,
   hasPendingUpdate,
@@ -80,6 +84,7 @@ export function CallsTab({
   renderToastManager,
   regionCode,
   savePreferredLeftPaneWidth,
+  startCallLinkLobbyByRoomId,
 }: CallsTabProps): JSX.Element {
   const [sidebarView, setSidebarView] = useState(
     CallsTabSidebarView.CallsListView
@@ -230,6 +235,7 @@ export function CallsTab({
               getCallHistoryGroupsCount={getCallHistoryGroupsCount}
               getCallHistoryGroups={getCallHistoryGroups}
               callHistoryEdition={callHistoryEdition}
+              getCallLink={getCallLink}
               getConversation={getConversation}
               i18n={i18n}
               selectedCallHistoryGroup={selected?.callHistoryGroup ?? null}
@@ -240,6 +246,7 @@ export function CallsTab({
               onOutgoingVideoCallInConversation={
                 handleOutgoingVideoCallInConversation
               }
+              startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}
             />
           )}
           {sidebarView === CallsTabSidebarView.NewCallView && (

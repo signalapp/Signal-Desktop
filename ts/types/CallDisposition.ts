@@ -65,7 +65,13 @@ export enum GroupCallStatus {
   Deleted = DirectCallStatus.Deleted,
 }
 
-export type CallStatus = DirectCallStatus | GroupCallStatus;
+export enum AdhocCallStatus {
+  Pending = DirectCallStatus.Pending,
+  Joined = GroupCallStatus.Joined,
+  Deleted = DirectCallStatus.Deleted,
+}
+
+export type CallStatus = DirectCallStatus | GroupCallStatus | AdhocCallStatus;
 
 export type CallDetails = Readonly<{
   callId: string;
@@ -133,6 +139,7 @@ const callEventSchema = z.union([
 const callStatusSchema = z.union([
   z.nativeEnum(DirectCallStatus),
   z.nativeEnum(GroupCallStatus),
+  z.nativeEnum(AdhocCallStatus),
 ]);
 
 export const callDetailsSchema = z.object({

@@ -76,6 +76,7 @@ import type { ShowErrorModalActionType } from './globalModals';
 import { SHOW_ERROR_MODAL } from './globalModals';
 import { ButtonVariant } from '../../components/Button';
 import { getConversationIdForLogging } from '../../util/idForLogging';
+import dataInterface from '../../sql/Client';
 
 // State
 
@@ -171,12 +172,14 @@ export type AdhocCallsType = {
 export type CallLinkStateType = ReadonlyDeep<{
   name: string;
   restrictions: CallLinkRestrictions;
-  expiration: number;
+  expiration: number | null;
+  revoked: boolean;
 }>;
 
 export type CallLinksByRoomIdStateType = ReadonlyDeep<
   CallLinkStateType & {
     rootKey: string;
+    adminKey: string | null;
   }
 >;
 
@@ -330,6 +333,19 @@ export type StartCallingLobbyType = ReadonlyDeep<{
 export type StartCallLinkLobbyType = ReadonlyDeep<{
   rootKey: string;
 }>;
+
+export type StartCallLinkLobbyByRoomIdType = ReadonlyDeep<{
+  roomId: string;
+}>;
+
+type StartCallLinkLobbyThunkActionType = ReadonlyDeep<
+  ThunkAction<
+    void,
+    RootStateType,
+    unknown,
+    StartCallLinkLobbyActionType | ShowErrorModalActionType
+  >
+>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 type StartCallingLobbyPayloadType =
@@ -513,7 +529,7 @@ const doGroupCallPeek = ({
         : null;
 
       try {
-        await calling.updateCallHistoryForGroupCall(
+        await calling.updateCallHistoryForGroupCallOnPeek(
           conversationId,
           joinState,
           peekInfo
@@ -1717,85 +1733,146 @@ function onOutgoingAudioCallInConversation(
   };
 }
 
-function startCallLinkLobby({
-  rootKey,
-}: StartCallLinkLobbyType): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  StartCallLinkLobbyActionType | ShowErrorModalActionType
-> {
+function startCallLinkLobbyByRoomId(
+  roomId: string
+): StartCallLinkLobbyThunkActionType {
   return async (dispatch, getState) => {
     const state = getState();
+    const callLink = getOwn(state.calling.callLinks, roomId);
 
-    if (state.calling.activeCallState) {
-      const i18n = getIntl(getState());
-      dispatch({
-        type: SHOW_ERROR_MODAL,
-        payload: {
-          title: i18n('icu:calling__cant-join'),
-          description: i18n('icu:calling__dialog-already-in-call'),
-          buttonVariant: ButtonVariant.Primary,
-        },
-      });
-      return;
-    }
+    strictAssert(
+      callLink,
+      `startCallLinkLobbyByRoomId(${roomId}): call link not found`
+    );
 
-    const callLinkRootKey = CallLinkRootKey.parse(rootKey);
-
-    const callLinkState = await calling.readCallLink({ callLinkRootKey });
-    if (!callLinkState) {
-      const i18n = getIntl(getState());
-      dispatch({
-        type: SHOW_ERROR_MODAL,
-        payload: {
-          title: i18n('icu:calling__cant-join'),
-          description: i18n('icu:calling__call-link-connection-issues'),
-          buttonVariant: ButtonVariant.Primary,
-        },
-      });
-      return;
-    }
-    if (callLinkState.revoked || callLinkState.expiration < new Date()) {
-      const i18n = getIntl(getState());
-      dispatch({
-        type: SHOW_ERROR_MODAL,
-        payload: {
-          title: i18n('icu:calling__cant-join'),
-          description: i18n('icu:calling__call-link-no-longer-valid'),
-          buttonVariant: ButtonVariant.Primary,
-        },
-      });
-      return;
-    }
-
-    const roomId = getRoomIdFromRootKey(callLinkRootKey);
-    const groupCall = getGroupCall(roomId, state.calling, CallMode.Adhoc);
-    const groupCallDeviceCount =
-      groupCall?.peekInfo?.deviceCount ||
-      groupCall?.remoteParticipants.length ||
-      0;
-
-    const callLobbyData = await calling.startCallLinkLobby({
-      callLinkRootKey,
-      hasLocalAudio: groupCallDeviceCount < 8,
-    });
-    if (!callLobbyData) {
-      return;
-    }
-
-    dispatch({
-      type: START_CALL_LINK_LOBBY,
-      payload: {
-        ...callLobbyData,
-        callLinkState: calling.formatCallLinkStateForRedux(callLinkState),
-        callLinkRootKey: rootKey,
-        conversationId: roomId,
-        isConversationTooBigToRing: false,
-      },
-    });
+    const { rootKey } = callLink;
+    await _startCallLinkLobby({ rootKey, dispatch, getState });
   };
 }
+
+function startCallLinkLobby({
+  rootKey,
+}: StartCallLinkLobbyType): StartCallLinkLobbyThunkActionType {
+  return async (dispatch, getState) => {
+    await _startCallLinkLobby({ rootKey, dispatch, getState });
+  };
+}
+
+const _startCallLinkLobby = async ({
+  rootKey,
+  dispatch,
+  getState,
+}: {
+  rootKey: string;
+  dispatch: ThunkDispatch<
+    RootStateType,
+    unknown,
+    StartCallLinkLobbyActionType | ShowErrorModalActionType
+  >;
+  getState: () => RootStateType;
+}) => {
+  const state = getState();
+
+  if (state.calling.activeCallState) {
+    const i18n = getIntl(getState());
+    dispatch({
+      type: SHOW_ERROR_MODAL,
+      payload: {
+        title: i18n('icu:calling__cant-join'),
+        description: i18n('icu:calling__dialog-already-in-call'),
+        buttonVariant: ButtonVariant.Primary,
+      },
+    });
+    return;
+  }
+
+  const callLinkRootKey = CallLinkRootKey.parse(rootKey);
+
+  const callLinkState = await calling.readCallLink({ callLinkRootKey });
+  if (!callLinkState) {
+    const i18n = getIntl(getState());
+    dispatch({
+      type: SHOW_ERROR_MODAL,
+      payload: {
+        title: i18n('icu:calling__cant-join'),
+        description: i18n('icu:calling__call-link-connection-issues'),
+        buttonVariant: ButtonVariant.Primary,
+      },
+    });
+    return;
+  }
+  if (callLinkState.revoked || callLinkState.expiration < new Date()) {
+    const i18n = getIntl(getState());
+    dispatch({
+      type: SHOW_ERROR_MODAL,
+      payload: {
+        title: i18n('icu:calling__cant-join'),
+        description: i18n('icu:calling__call-link-no-longer-valid'),
+        buttonVariant: ButtonVariant.Primary,
+      },
+    });
+    return;
+  }
+
+  const roomId = getRoomIdFromRootKey(callLinkRootKey);
+  const formattedCallLinkState =
+    calling.formatCallLinkStateForRedux(callLinkState);
+  try {
+    const { name, restrictions, expiration, revoked } = formattedCallLinkState;
+    const callLinkExists = await dataInterface.callLinkExists(roomId);
+    if (callLinkExists) {
+      await dataInterface.updateCallLinkState(
+        roomId,
+        name,
+        restrictions,
+        expiration,
+        revoked
+      );
+      log.info('startCallLinkLobby: Updated existing call link', roomId);
+    } else {
+      await dataInterface.insertCallLink({
+        roomId,
+        rootKey,
+        adminKey: null,
+        name,
+        restrictions,
+        revoked,
+        expiration,
+      });
+      log.info('startCallLinkLobby: Saved new call link', roomId);
+    }
+  } catch (err) {
+    log.error(
+      'startCallLinkLobby: Call link DB error',
+      Errors.toLogFormat(err)
+    );
+  }
+
+  const groupCall = getGroupCall(roomId, state.calling, CallMode.Adhoc);
+  const groupCallDeviceCount =
+    groupCall?.peekInfo?.deviceCount ||
+    groupCall?.remoteParticipants.length ||
+    0;
+
+  const callLobbyData = await calling.startCallLinkLobby({
+    callLinkRootKey,
+    hasLocalAudio: groupCallDeviceCount < 8,
+  });
+  if (!callLobbyData) {
+    return;
+  }
+
+  dispatch({
+    type: START_CALL_LINK_LOBBY,
+    payload: {
+      ...callLobbyData,
+      callLinkState: formattedCallLinkState,
+      callLinkRootKey: rootKey,
+      conversationId: roomId,
+      isConversationTooBigToRing: false,
+    },
+  });
+};
 
 function startCallingLobby({
   conversationId,
@@ -2010,6 +2087,7 @@ export const actions = {
   setRendererCanvas,
   startCall,
   startCallLinkLobby,
+  startCallLinkLobbyByRoomId,
   startCallingLobby,
   switchToPresentationView,
   switchFromPresentationView,
@@ -2194,6 +2272,7 @@ export function reducer(
               [conversationId]: {
                 ...action.payload.callLinkState,
                 rootKey: action.payload.callLinkRootKey,
+                adminKey: null,
               },
             }
           : callLinks,
@@ -2287,18 +2366,8 @@ export function reducer(
       case CallMode.Direct:
         return removeConversationFromState(state, activeCall.conversationId);
       case CallMode.Group:
+      case CallMode.Adhoc:
         return omit(state, 'activeCallState');
-      case CallMode.Adhoc: {
-        // TODO: When call links persist in the DB, we can remove the removal logic here.
-        log.info(
-          `Removing active adhoc call with roomId ${activeCall.conversationId}`
-        );
-        const { callLinks } = state;
-        return {
-          ...omit(state, 'activeCallState'),
-          callLinks: omit(callLinks, activeCall.conversationId),
-        };
-      }
       default:
         throw missingCaseError(activeCall);
     }

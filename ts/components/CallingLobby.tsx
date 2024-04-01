@@ -206,7 +206,7 @@ export function CallingLobby({
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.CallIsFull;
   } else if (isCallConnecting) {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Loading;
-  } else if (peekedParticipants.length) {
+  } else if (peekedParticipants.length || callMode === CallMode.Adhoc) {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Join;
   } else {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Start;

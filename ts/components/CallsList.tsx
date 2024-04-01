@@ -43,6 +43,10 @@ import { formatCallHistoryGroup } from '../util/callDisposition';
 import { CallsNewCallButton } from './CallsNewCall';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
+import type { CallingConversationType } from '../types/Calling';
+import { CallMode } from '../types/Calling';
+import type { CallLinkType } from '../types/CallLink';
+import { callLinkToConversation } from '../util/callLinks';
 
 function Timestamp({
   i18n,
@@ -112,6 +116,7 @@ type CallsListProps = Readonly<{
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
   callHistoryEdition: number;
+  getCallLink: (id: string) => CallLinkType | undefined;
   getConversation: (id: string) => ConversationType | void;
   i18n: LocalizerType;
   selectedCallHistoryGroup: CallHistoryGroup | null;
@@ -121,6 +126,7 @@ type CallsListProps = Readonly<{
     conversationId: string,
     selectedCallHistoryGroup: CallHistoryGroup
   ) => void;
+  startCallLinkLobbyByRoomId: (roomId: string) => void;
 }>;
 
 const CALL_LIST_ITEM_ROW_HEIGHT = 62;
@@ -141,12 +147,14 @@ export function CallsList({
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   callHistoryEdition,
+  getCallLink,
   getConversation,
   i18n,
   selectedCallHistoryGroup,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   onSelectCallHistoryGroup,
+  startCallLinkLobbyByRoomId,
 }: CallsListProps): JSX.Element {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
   const listRef = useRef<List>(null);
@@ -301,7 +309,16 @@ export function CallsList({
   const rowRenderer = useCallback(
     ({ key, index, style }: ListRowProps) => {
       const item = searchState.results?.items.at(index) ?? null;
-      const conversation = item != null ? getConversation(item.peerId) : null;
+      const isAdhoc = item?.mode === CallMode.Adhoc;
+      const callLink = isAdhoc ? getCallLink(item.peerId) : null;
+
+      const conversation: CallingConversationType | null =
+        // eslint-disable-next-line no-nested-ternary
+        item
+          ? callLink
+            ? callLinkToConversation(callLink, i18n)
+            : getConversation(item.peerId) ?? null
+          : null;
 
       if (
         searchState.state === 'pending' ||
@@ -337,6 +354,8 @@ export function CallsList({
       let statusText;
       if (wasMissed) {
         statusText = i18n('icu:CallsList__ItemCallInfo--Missed');
+      } else if (callLink) {
+        statusText = i18n('icu:CallsList__ItemCallInfo--CallLink');
       } else if (item.type === CallType.Group) {
         statusText = i18n('icu:CallsList__ItemCallInfo--GroupCall');
       } else if (item.direction === CallDirection.Outgoing) {
@@ -363,7 +382,7 @@ export function CallsList({
               <Avatar
                 acceptedMessageRequest
                 avatarPath={conversation.avatarPath}
-                conversationType="group"
+                conversationType={conversation.type}
                 i18n={i18n}
                 isMe={false}
                 title={conversation.title}
@@ -378,10 +397,14 @@ export function CallsList({
                 callType={item.type}
                 hasActiveCall={hasActiveCall}
                 onClick={() => {
-                  if (item.type === CallType.Audio) {
-                    onOutgoingAudioCallInConversation(conversation.id);
-                  } else {
-                    onOutgoingVideoCallInConversation(conversation.id);
+                  if (callLink) {
+                    startCallLinkLobbyByRoomId(callLink.roomId);
+                  } else if (conversation) {
+                    if (item.type === CallType.Audio) {
+                      onOutgoingAudioCallInConversation(conversation.id);
+                    } else {
+                      onOutgoingVideoCallInConversation(conversation.id);
+                    }
                   }
                 }}
               />
@@ -403,6 +426,10 @@ export function CallsList({
               </span>
             }
             onClick={() => {
+              if (callLink) {
+                return;
+              }
+
               onSelectCallHistoryGroup(conversation.id, item);
             }}
           />
@@ -412,11 +439,13 @@ export function CallsList({
     [
       hasActiveCall,
       searchState,
+      getCallLink,
       getConversation,
       selectedCallHistoryGroup,
       onSelectCallHistoryGroup,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
+      startCallLinkLobbyByRoomId,
       i18n,
     ]
   );

@@ -1314,10 +1314,11 @@ describe('calling duck', () => {
           callingService,
           'peekGroupCall'
         );
-        this.callingServiceUpdateCallHistoryForGroupCall = this.sandbox.stub(
-          callingService,
-          'updateCallHistoryForGroupCall'
-        );
+        this.callingServiceUpdateCallHistoryForGroupCallOnPeek =
+          this.sandbox.stub(
+            callingService,
+            'updateCallHistoryForGroupCallOnPeek'
+          );
         this.clock = this.sandbox.useFakeTimers();
       });
 

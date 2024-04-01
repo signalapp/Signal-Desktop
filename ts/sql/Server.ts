@@ -166,6 +166,13 @@ import {
   GroupCallStatus,
   CallType,
 } from '../types/CallDisposition';
+import {
+  callLinkExists,
+  getAllCallLinks,
+  insertCallLink,
+  updateCallLinkState,
+} from './server/callLinks';
+import { CallMode } from '../types/Calling';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -328,6 +335,10 @@ const dataInterface: ServerInterface = {
   hasGroupCallHistoryMessage,
   markCallHistoryMissed,
   getRecentStaleRingsAndMarkOlderMissed,
+  callLinkExists,
+  getAllCallLinks,
+  insertCallLink,
+  updateCallLinkState,
   migrateConversationMessages,
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
@@ -439,7 +450,7 @@ type DatabaseQueryCache = Map<string, Statement<Array<unknown>>>;
 
 const statementCache = new WeakMap<Database, DatabaseQueryCache>();
 
-function prepare<T extends Array<unknown> | Record<string, unknown>>(
+export function prepare<T extends Array<unknown> | Record<string, unknown>>(
   db: Database,
   query: string,
   { pluck = false }: { pluck?: boolean } = {}
@@ -732,7 +743,7 @@ async function removeIndexedDBFiles(): Promise<void> {
   indexedDBPath = undefined;
 }
 
-function getReadonlyInstance(): Database {
+export function getReadonlyInstance(): Database {
   if (!globalReadonlyInstance) {
     throw new Error('getReadonlyInstance: globalReadonlyInstance not set!');
   }
@@ -742,7 +753,7 @@ function getReadonlyInstance(): Database {
 
 const WRITABLE_INSTANCE_MAX_WAIT = 5 * durations.MINUTE;
 
-async function getWritableInstance(): Promise<Database> {
+export async function getWritableInstance(): Promise<Database> {
   if (pausedWriteQueue) {
     const { promise, resolve } = explodePromise<void>();
     pausedWriteQueue.push(resolve);
@@ -3499,6 +3510,7 @@ const SEEN_STATUS_SEEN = sqlConstant(SeenStatus.Seen);
 const CALL_STATUS_MISSED = sqlConstant(DirectCallStatus.Missed);
 const CALL_STATUS_DELETED = sqlConstant(DirectCallStatus.Deleted);
 const CALL_STATUS_INCOMING = sqlConstant(CallDirection.Incoming);
+const CALL_MODE_ADHOC = sqlConstant(CallMode.Adhoc);
 const FOUR_HOURS_IN_MS = sqlConstant(4 * 60 * 60 * 1000);
 
 async function getCallHistoryUnreadCount(): Promise<number> {
@@ -3581,6 +3593,7 @@ function getCallHistoryGroupDataSync(
     const { limit, offset } = pagination;
     const { status, conversationIds } = filter;
 
+    // TODO: DESKTOP-6827 Search Calls Tab for adhoc calls
     if (conversationIds != null) {
       strictAssert(conversationIds.length > 0, "can't filter by empty array");
 
@@ -3632,8 +3645,15 @@ function getCallHistoryGroupDataSync(
     const offsetLimit =
       limit > 0 ? sqlFragment`LIMIT ${limit} OFFSET ${offset}` : sqlFragment``;
 
+    // COUNT(*) OVER(): As a result of GROUP BY in the query (to limit adhoc call history
+    // to the single latest call), COUNT(*) changes to counting each group's counts rather
+    // than the total number of rows. Example: Say we have 2 group calls (A and B) and
+    // 10 adhoc calls on a single link. COUNT(*) ... GROUP BY returns [1, 1, 10]
+    // corresponding with callId A, callId B, adhoc peerId (the GROUP conditions).
+    // However we want COUNT(*) to do the normal thing and return total rows
+    // (so in the example above we want 3). COUNT(*) OVER achieves this.
     const projection = isCount
-      ? sqlFragment`COUNT(*) AS count`
+      ? sqlFragment`COUNT(*) OVER() AS count`
       : sqlFragment`peerId, ringerId, mode, type, direction, status, timestamp, possibleChildren, inPeriod`;
 
     const [query, params] = sql`
@@ -3697,6 +3717,8 @@ function getCallHistoryGroupDataSync(
                 -- Desktop Constraints:
                 AND callsHistory.status IS c.status
                 AND ${filterClause}
+                -- Skip grouping logic for adhoc calls
+                AND callsHistory.mode IS NOT ${CALL_MODE_ADHOC}
               ORDER BY timestamp DESC
             ) as possibleChildren,
 
@@ -3731,6 +3753,12 @@ function getCallHistoryGroupDataSync(
         FROM callAndGroupInfo
       ) AS parentCallAndGroupInfo
       WHERE parent = parentCallAndGroupInfo.callId
+      GROUP BY
+        CASE
+          -- By spec, limit adhoc call history to the most recent call
+          WHEN mode IS ${CALL_MODE_ADHOC} THEN peerId
+          ELSE callId
+        END
       ORDER BY parentCallAndGroupInfo.timestamp DESC
       ${offsetLimit};
     `;
