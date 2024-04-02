@@ -2122,17 +2122,26 @@ export class ConversationModel extends window.Backbone
   async addMessageRequestResponseEventMessage(
     event: MessageRequestResponseEvent
   ): Promise<void> {
-    const now = Date.now();
+    const timestamp = Date.now();
+    const lastMessageTimestamp =
+      // Fallback to `timestamp` since `lastMessageReceivedAtMs` is new
+      this.get('lastMessageReceivedAtMs') ?? this.get('timestamp') ?? timestamp;
+
+    const maybeLastMessageTimestamp =
+      event === MessageRequestResponseEvent.ACCEPT
+        ? timestamp
+        : lastMessageTimestamp;
+
     const message: MessageAttributesType = {
       id: generateGuid(),
       conversationId: this.id,
       type: 'message-request-response-event',
-      sent_at: now,
+      sent_at: maybeLastMessageTimestamp,
       received_at: incrementMessageCounter(),
-      received_at_ms: now,
+      received_at_ms: maybeLastMessageTimestamp,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
-      timestamp: now,
+      timestamp,
       messageRequestResponseEvent: event,
     };
 

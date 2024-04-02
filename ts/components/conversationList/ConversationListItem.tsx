@@ -45,6 +45,7 @@ export type PropsData = Pick<
   | 'draftPreview'
   | 'groupId'
   | 'id'
+  | 'isBlocked'
   | 'isMe'
   // NOTE: Passed for CI, not used for rendering
   | 'isPinned'
@@ -89,6 +90,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     groupId,
     i18n,
     id,
+    isBlocked,
     isMe,
     isSelected,
     lastMessage,
@@ -135,7 +137,13 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     let messageText: ReactNode = null;
     let messageStatusIcon: ReactNode = null;
 
-    if (!acceptedMessageRequest && removalStage !== 'justNotification') {
+    if (isBlocked) {
+      messageText = (
+        <span className={`${MESSAGE_TEXT_CLASS_NAME}__blocked`}>
+          {i18n('icu:ConversationListItem--blocked')}
+        </span>
+      );
+    } else if (!acceptedMessageRequest && removalStage !== 'justNotification') {
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
           {i18n('icu:ConversationListItem--message-request')}
