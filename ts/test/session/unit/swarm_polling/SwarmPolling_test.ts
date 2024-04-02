@@ -448,4 +448,11 @@ describe('SwarmPolling', () => {
       });
     });
   });
+
+  describe('pollOnceForOurDisplayName', () => {
+    // Arrange
+    // TODO
+    // Act
+    // Assert
+  });
 });
