@@ -4948,6 +4948,22 @@ button.module-image__border-overlay:focus {
               height: 36px; // two lines
             }
 
+            &__blocked {
+              display: flex;
+              align-items: center;
+              &::before {
+                content: '';
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                margin-inline-end: 4px;
+                @include color-svg(
+                  '../images/icons/v3/block/block.svg',
+                  currentColor
+                );
+              }
+            }
+
             &__message-request {
               @include font-body-2-bold;
 

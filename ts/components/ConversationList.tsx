@@ -377,6 +377,7 @@ export function ConversationList({
             'draftPreview',
             'groupId',
             'id',
+            'isBlocked',
             'isMe',
             'isSelected',
             'isPinned',
