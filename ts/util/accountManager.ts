@@ -188,7 +188,7 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
  */
 export async function registrationDone(ourPubkey: string, displayName: string) {
   window?.log?.info(
-    `WIP: [onboarding] registration done with user provided displayName "${displayName}" and pubkey "${ourPubkey}"`
+    `[onboarding] registration done with user provided displayName "${displayName}" and pubkey "${ourPubkey}"`
   );
 
   // initializeLibSessionUtilWrappers needs our publicKey to be set
@@ -225,7 +225,7 @@ export async function registrationDone(ourPubkey: string, displayName: string) {
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
 
-  window?.log?.info('WIP: [onboarding] dispatching registration event');
+  window?.log?.info('[onboarding] dispatching registration event');
   // this will make the poller start fetching messages
   trigger('registration_done');
 }

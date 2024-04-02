@@ -98,7 +98,7 @@ async function mergeConfigsWithIncomingUpdates(
       }));
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         window.log.info(
-          `WIP: printDumpsForDebugging: before merge of ${variant}:`,
+          `printDumpsForDebugging: before merge of ${variant}:`,
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
         );
 
@@ -127,7 +127,7 @@ async function mergeConfigsWithIncomingUpdates(
 
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         window.log.info(
-          `WIP: printDumpsForDebugging: after merge of ${variant}:`,
+          `printDumpsForDebugging: after merge of ${variant}:`,
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
         );
       }

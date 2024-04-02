@@ -1,5 +1,6 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { debounce } from 'lodash';
-import { Dispatch, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';

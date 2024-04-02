@@ -22,8 +22,8 @@ type UseRecoveryProgressEffectProps = {
 /**
  * Effect to handle the progress rate of the recovery loading animation
  * @param step AccountRestoration the onboarding step we are currently on
- * @param progress number the progress of the loading bar
- * @param setProgress (progress: number) => AnyAction redux function to set the progress of the loading bar
+ * @param progress number the progress % of the loading bar
+ * @param setProgress (progress: number) => AnyAction redux function to set the progress % of the loading bar
  * @param ourPubkey: string the public key of the user
  * @param displayName: string the display name of the user
  */
@@ -40,10 +40,6 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
   useEffect(() => {
     if (step === AccountRestoration.Loading) {
       interval = setInterval(() => {
-        window.log.debug(
-          `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
-        );
-
         if (progress < totalProgress) {
           dispatch(setProgress(progress + 1));
         }
@@ -58,10 +54,6 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
 
     if (step === AccountRestoration.Finishing) {
       interval = setInterval(() => {
-        window.log.debug(
-          `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
-        );
-
         if (progress < totalProgress) {
           dispatch(setProgress(progress + 1));
         }
@@ -75,10 +67,6 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
 
     if (step === AccountRestoration.Finished) {
       interval = setInterval(() => {
-        window.log.debug(
-          `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
-        );
-
         clearInterval(interval);
         if (!isEmpty(displayName)) {
           dispatch(setAccountRestorationStep(AccountRestoration.Complete));
@@ -90,16 +78,11 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
     }
 
     if (step === AccountRestoration.Complete) {
-      window.log.debug(
-        `WIP: [onboarding] restore account: ${AccountRestoration[step]} ${progress}%`
-      );
       clearInterval(interval);
       if (!isEmpty(ourPubkey) && !isEmpty(displayName)) {
         void recoveryComplete();
       } else {
-        window.log.debug(
-          `WIP: [onboarding] restore account: We don't have a pubkey or display name`
-        );
+        window.log.debug(`[onboarding] restore account: We don't have a pubkey or display name`);
         dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
       }
     }
