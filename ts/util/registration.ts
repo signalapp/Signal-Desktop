@@ -1,6 +1,5 @@
 import { Storage } from './storage';
 
-// TODO[epic=ses-50] possible to remove this code and any surrounding logic?
 async function markDone() {
   await Storage.put('chromiumRegistrationDoneEver', '');
   await Storage.put('chromiumRegistrationDone', '');
