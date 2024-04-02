@@ -4,7 +4,7 @@
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
 export type WaitForOnlineOptionsType = Readonly<{
-  server?: Readonly<{ isOnline: () => boolean }>;
+  server?: Readonly<{ isOnline: () => boolean | undefined }>;
   events?: {
     on: (event: 'online', fn: () => void) => void;
     off: (event: 'online', fn: () => void) => void;

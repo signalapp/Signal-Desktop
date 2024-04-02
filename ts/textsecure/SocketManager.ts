@@ -499,8 +499,8 @@ export class SocketManager extends EventListener {
     this.credentials = undefined;
   }
 
-  public get isOnline(): boolean {
-    return this.privIsOnline !== false;
+  public get isOnline(): boolean | undefined {
+    return this.privIsOnline;
   }
 
   //
