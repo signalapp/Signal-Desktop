@@ -26,6 +26,7 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { StickersStateType } from '../state/ducks/stickers';
 import { MINUTE } from '../util/durations';
+import { drop } from '../util/drop';
 
 export type StickerType = {
   packId: string;
@@ -173,6 +174,7 @@ export function getInstalledStickerPacks(): Array<StickerPackType> {
 }
 
 export function downloadQueuedPacks(): void {
+  log.info('downloadQueuedPacks');
   strictAssert(packsToDownload, 'Stickers not initialized');
 
   const ids = Object.keys(packsToDownload);
@@ -180,10 +182,12 @@ export function downloadQueuedPacks(): void {
     const { key, status } = packsToDownload[id];
 
     // The queuing is done inside this function, no need to await here
-    void downloadStickerPack(id, key, {
-      finalStatus: status,
-      suppressError: true,
-    });
+    drop(
+      downloadStickerPack(id, key, {
+        finalStatus: status,
+        suppressError: true,
+      })
+    );
   }
 
   packsToDownload = {};

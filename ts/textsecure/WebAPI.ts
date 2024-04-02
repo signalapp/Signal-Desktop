@@ -1155,7 +1155,7 @@ export type WebAPIType = {
   unregisterRequestHandler: (handler: IRequestHandler) => void;
   onHasStoriesDisabledChange: (newValue: boolean) => void;
   checkSockets: () => void;
-  isOnline: () => boolean;
+  isOnline: () => boolean | undefined;
   onNavigatorOnline: () => Promise<void>;
   onNavigatorOffline: () => Promise<void>;
   onRemoteExpiration: () => Promise<void>;
@@ -1635,7 +1635,7 @@ export function initialize({
       void socketManager.check();
     }
 
-    function isOnline(): boolean {
+    function isOnline(): boolean | undefined {
       return socketManager.isOnline;
     }
 

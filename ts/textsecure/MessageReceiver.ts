@@ -305,6 +305,8 @@ export default class MessageReceiver
 
   private pniIdentityKeyCheckRequired?: boolean;
 
+  private isAppReadyForProcessing: boolean = false;
+
   constructor({ server, storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
 
@@ -351,6 +353,15 @@ export default class MessageReceiver
       wait: 75,
       maxSize: 30,
       processBatch: this.cacheRemoveBatch.bind(this),
+    });
+
+    window.Whisper.events.on('app-ready-for-processing', () => {
+      this.isAppReadyForProcessing = true;
+      this.reset();
+    });
+
+    window.Whisper.events.on('online', () => {
+      this.reset();
     });
   }
 
@@ -467,27 +478,36 @@ export default class MessageReceiver
   }
 
   public reset(): void {
-    // We always process our cache before processing a new websocket message
-    drop(
-      this.incomingQueue.add(
-        createTaskWithTimeout(
-          async () => this.queueAllCached(),
-          'incomingQueue/queueAllCached',
-          {
-            timeout: 10 * durations.MINUTE,
-          }
-        )
-      )
-    );
-
+    log.info('MessageReceiver.reset');
     this.count = 0;
     this.isEmptied = false;
     this.stoppingProcessing = false;
+
+    if (!this.isAppReadyForProcessing) {
+      log.info('MessageReceiver.reset: not ready yet, returning early');
+      return;
+    }
+
+    drop(this.addCachedMessagesToQueue());
+  }
+
+  private addCachedMessagesToQueue(): Promise<void> {
+    log.info('MessageReceiver.addCachedMessagesToQueue');
+    return this.incomingQueue.add(
+      createTaskWithTimeout(
+        async () => this.queueAllCached(),
+        'incomingQueue/queueAllCached',
+        {
+          timeout: 10 * durations.MINUTE,
+        }
+      )
+    );
   }
 
   public stopProcessing(): void {
     log.info('MessageReceiver.stopProcessing');
     this.stoppingProcessing = true;
+    this.isAppReadyForProcessing = false;
   }
 
   public hasEmptied(): boolean {
