@@ -225,18 +225,7 @@ export class SwarmPolling {
     namespaces: Array<SnodeNamespaces>
   ) {
     const polledPubkey = pubkey.key;
-
-    const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
-
-    // Select nodes for which we already have lastHashes
-    const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
-    let toPollFrom = alreadyPolled.length ? alreadyPolled[0] : null;
-
-    // If we need more nodes, select randomly from the remaining nodes:
-    if (!toPollFrom) {
-      const notPolled = difference(swarmSnodes, alreadyPolled);
-      toPollFrom = sample(notPolled) as Snode;
-    }
+    const toPollFrom = await this.getNodesToPollFrom(pubkey.key);
 
     let resultsFromAllNamespaces: RetrieveMessagesResultsBatched | null;
     try {
@@ -558,6 +547,22 @@ export class SwarmPolling {
     }
   }
 
+  private async getNodesToPollFrom(polledPubkey: string) {
+    const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
+
+    // Select nodes for which we already have lastHashes
+    const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
+    let toPollFrom = alreadyPolled.length ? alreadyPolled[0] : null;
+
+    // If we need more nodes, select randomly from the remaining nodes:
+    if (!toPollFrom) {
+      const notPolled = difference(swarmSnodes, alreadyPolled);
+      toPollFrom = sample(notPolled) as Snode;
+    }
+
+    return toPollFrom;
+  }
+
   private loadGroupIds() {
     const convos = getConversationController().getConversations();
 
@@ -667,18 +672,7 @@ export class SwarmPolling {
       }
 
       const pubkey = UserUtils.getOurPubKeyFromCache();
-      const polledPubkey = pubkey.key;
-      const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
-
-      // Select nodes for which we already have lastHashes
-      const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
-      let toPollFrom = alreadyPolled.length ? alreadyPolled[0] : null;
-
-      // If we need more nodes, select randomly from the remaining nodes:
-      if (!toPollFrom) {
-        const notPolled = difference(swarmSnodes, alreadyPolled);
-        toPollFrom = sample(notPolled) as Snode;
-      }
+      const toPollFrom = await this.getNodesToPollFrom(pubkey.key);
 
       if (abortSignal?.aborted) {
         throw new NotFoundError(
@@ -686,9 +680,13 @@ export class SwarmPolling {
         );
       }
 
-      const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveDisplayName(
+      const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveNextMessages(
         toPollFrom,
-        pubkey.key
+        [''],
+        pubkey.key,
+        [SnodeNamespaces.UserProfile],
+        pubkey.key,
+        null
       );
 
       // check if we just fetched the details from the config namespaces.
@@ -721,7 +719,6 @@ export class SwarmPolling {
         );
       }
 
-      // window.log.debug(`[pollOnceForOurDisplayName] displayName found ${displayName}`);
       return displayName;
     } catch (e) {
       if (e.message === ERROR_CODE_NO_CONNECT) {
