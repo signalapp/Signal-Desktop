@@ -266,7 +266,11 @@ export class Bootstrap {
     return path.join(this.backupPath, fileName);
   }
 
-  public async unlink(): Promise<void> {
+  public unlink(): Promise<void> {
+    return this.resetAppStorage();
+  }
+
+  private async resetAppStorage(): Promise<void> {
     assert(
       this.storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
@@ -349,7 +353,6 @@ export class Bootstrap {
     debug('starting the app');
 
     const { port } = this.server.address();
-    const config = await this.generateConfig(port, extraConfig);
 
     let startAttempts = 0;
     const MAX_ATTEMPTS = 4;
@@ -361,11 +364,16 @@ export class Bootstrap {
           `App failed to start after ${MAX_ATTEMPTS} times, giving up`
         );
       }
+
+      // eslint-disable-next-line no-await-in-loop
+      const config = await this.generateConfig(port, extraConfig);
+
       const startedApp = new App({
         main: ELECTRON,
         args: [CI_SCRIPT],
         config,
       });
+
       try {
         // eslint-disable-next-line no-await-in-loop
         await startedApp.start();
@@ -375,6 +383,9 @@ export class Bootstrap {
           `Failed to start the app, attempt ${startAttempts}, retrying`,
           error
         );
+
+        // eslint-disable-next-line no-await-in-loop
+        await this.resetAppStorage();
         continue;
       }
 
