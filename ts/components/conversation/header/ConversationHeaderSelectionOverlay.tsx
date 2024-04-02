@@ -3,11 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 
-import {
-  deleteMessagesById,
-  deleteMessagesByIdForEveryone,
-  deleteMessagesForX,
-} from '../../../interactions/conversations/unsendingInteractions';
+import { deleteMessagesForX } from '../../../interactions/conversations/unsendingInteractions';
 import { resetSelectedMessageIds } from '../../../state/ducks/conversations';
 import { getSelectedMessageIds } from '../../../state/selectors/conversations';
 import {
@@ -21,15 +17,6 @@ import {
   SessionButtonType,
 } from '../../basic/SessionButton';
 import { SessionIconButton } from '../../icon';
-
-function onDeleteSelectedMessagesForEveryone(
-  selectedConversationKey: string,
-  selectedMessageIds: Array<string>
-) {
-  if (selectedConversationKey) {
-    void deleteMessagesByIdForEveryone(selectedMessageIds, selectedConversationKey);
-  }
-}
 
 export const SelectionOverlay = () => {
   const selectedMessageIds = useSelector(getSelectedMessageIds);
@@ -73,7 +60,11 @@ export const SelectionOverlay = () => {
     }
   );
 
-  const isOnlyServerDeletable = isPublic;
+  // `enforceDeleteServerSide` should check for message statuses too, but when we have multiple selected,
+  // some might be sent and some in an error state. We default to trying to delete all of them server side first,
+  // which might fail. If that fails, the user will need to do a delete for all the ones sent already, and a manual delete
+  // for each ones which is in an error state.
+  const enforceDeleteServerSide = isPublic;
 
   const classNameAndId = 'message-selection-overlay';
 
@@ -90,16 +81,13 @@ export const SelectionOverlay = () => {
             buttonShape={SessionButtonShape.Square}
             buttonType={SessionButtonType.Solid}
             text={window.i18n('delete')}
-            onClick={() => {
+            onClick={async () => {
               if (selectedConversationKey) {
-                if (isOnlyServerDeletable) {
-                  void onDeleteSelectedMessagesForEveryone(
-                    selectedConversationKey,
-                    selectedMessageIds
-                  );
-                } else {
-                  void deleteMessagesById(selectedMessageIds, selectedConversationKey);
-                }
+                await deleteMessagesForX(
+                  selectedMessageIds,
+                  selectedConversationKey,
+                  enforceDeleteServerSide
+                );
               }
             }}
           />
