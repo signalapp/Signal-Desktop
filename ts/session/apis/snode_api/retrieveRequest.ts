@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { isArray, omit } from 'lodash';
 import { Snode } from '../../../data/data';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { doSnodeBatchRequest } from './batchRequest';
@@ -7,6 +7,7 @@ import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 
 import { TTL_DEFAULT } from '../../constants';
 import { UserUtils } from '../../utils';
+import { sleepFor } from '../../utils/Promise';
 import {
   RetrieveLegacyClosedGroupSubRequestType,
   RetrieveSubRequestType,
@@ -123,14 +124,12 @@ async function retrieveNextMessages(
   );
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
-
-  const results = await doSnodeBatchRequest(
-    retrieveRequestsParams,
-    targetNode,
-    4000,
-    associatedWith
-  );
-  if (!results || !results.length) {
+  const timeOutMs = 4 * 1000;
+  const results = await Promise.race([
+    async () => doSnodeBatchRequest(retrieveRequestsParams, targetNode, timeOutMs, associatedWith),
+    async () => sleepFor(timeOutMs), // just to make sure that we don't hang for more than 4s
+  ]);
+  if (!results || !isArray(results) || !results.length) {
     window?.log?.warn(
       `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
