@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { createSelector } from '@reduxjs/toolkit';
-import { filter, isEmpty, isFinite, isNumber, pick, sortBy, toNumber } from 'lodash';
+import { filter, first, isEmpty, isFinite, isNumber, pick, sortBy, toNumber } from 'lodash';
 
 import {
   ConversationLookupType,
@@ -592,6 +592,14 @@ function sortMessages(
 export const getMostRecentMessageId = (state: StateType): string | null => {
   return state.conversations.mostRecentMessageId;
 };
+
+export const getMostRecentOutgoingMessageId = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
+    return first(messages.filter(m => m.propsForMessage.direction === 'outgoing'))?.propsForMessage
+      .id;
+  }
+);
 
 export const getOldestMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,

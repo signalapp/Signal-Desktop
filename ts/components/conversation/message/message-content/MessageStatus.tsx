@@ -6,7 +6,7 @@ import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelecto
 import { useMessageStatus } from '../../../../state/selectors';
 
 import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
-import { getMostRecentMessageId } from '../../../../state/selectors/conversations';
+import { getMostRecentOutgoingMessageId } from '../../../../state/selectors/conversations';
 import { useSelectedIsGroupOrCommunity } from '../../../../state/selectors/selectedConversation';
 import { SpacerXS } from '../../../basic/Text';
 import { SessionIcon, SessionIconType } from '../../../icon';
@@ -122,10 +122,9 @@ function useIsExpiring(messageId: string) {
   );
 }
 
-function useIsMostRecentMessage(messageId: string) {
-  const mostRecentMessageId = useSelector(getMostRecentMessageId);
-  const isMostRecentMessage = mostRecentMessageId === messageId;
-  return isMostRecentMessage;
+function useIsMostRecentOutgoingMessage(messageId: string) {
+  const mostRecentOutgoingMessageId = useSelector(getMostRecentOutgoingMessageId);
+  return mostRecentOutgoingMessageId === messageId;
 }
 
 function MessageStatusExpireTimer(props: Pick<Props, 'messageId'>) {
@@ -180,11 +179,11 @@ function IconForExpiringMessageId({
 
 const MessageStatusSent = ({ dataTestId, messageId }: Omit<Props, 'isDetailView'>) => {
   const isExpiring = useIsExpiring(messageId);
-  const isMostRecentMessage = useIsMostRecentMessage(messageId);
+  const isMostRecentOutgoingMessage = useIsMostRecentOutgoingMessage(messageId);
   const isGroup = useSelectedIsGroupOrCommunity();
 
-  // we hide a "sent" message status which is not expiring except for the most recent message
-  if (!isExpiring && !isMostRecentMessage) {
+  // we hide the "sent" message status for a non-expiring message unless if it's the most recent outgoing message
+  if (!isExpiring && !isMostRecentOutgoingMessage) {
     return null;
   }
   return (
@@ -208,10 +207,10 @@ const MessageStatusRead = ({
   const isExpiring = useIsExpiring(messageId);
   const isGroup = useSelectedIsGroupOrCommunity();
 
-  const isMostRecentMessage = useIsMostRecentMessage(messageId);
+  const isMostRecentOutgoingMessage = useIsMostRecentOutgoingMessage(messageId);
 
   // we hide an outgoing "read" message status which is not expiring except for the most recent message
-  if (!isIncoming && !isExpiring && !isMostRecentMessage) {
+  if (!isIncoming && !isExpiring && !isMostRecentOutgoingMessage) {
     return null;
   }
 
