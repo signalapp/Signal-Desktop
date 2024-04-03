@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron';
-import { sqlNode } from './sql'; // checked - only node
-import { userConfig } from './config/user_config'; // checked - only node
 import { ephemeralConfig } from './config/ephemeral_config'; // checked - only node
+import { userConfig } from './config/user_config'; // checked - only node
+import { sqlNode } from './sql'; // checked - only node
 
 let initialized = false;
 
@@ -31,8 +31,20 @@ export function initializeSqlChannel() {
 
   ipcMain.on(ERASE_SQL_KEY, event => {
     try {
-      userConfig.remove();
-      ephemeralConfig.remove();
+      try {
+        userConfig.remove();
+      } catch (e) {
+        if (e.code !== 'ENOENT') {
+          throw e;
+        }
+      }
+      try {
+        ephemeralConfig.remove();
+      } catch (e) {
+        if (e.code !== 'ENOENT') {
+          throw e;
+        }
+      }
       event.sender.send(`${ERASE_SQL_KEY}-done`);
     } catch (error) {
       const errorForDisplay = error && error.stack ? error.stack : error;
