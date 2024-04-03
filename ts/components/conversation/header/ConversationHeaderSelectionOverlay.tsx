@@ -69,7 +69,7 @@ export const SelectionOverlay = () => {
   const classNameAndId = 'message-selection-overlay';
 
   return (
-    <FocusTrap focusTrapOptions={{ fallbackFocus: `#${classNameAndId}`, allowOutsideClick: true }}>
+    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true }}>
       <div className={classNameAndId} id={classNameAndId}>
         <div className="close-button">
           <SessionIconButton iconType="exit" iconSize="medium" onClick={onCloseOverlay} />
