@@ -50,6 +50,8 @@
     &::after {
       $size: 24px;
 
+      display: inline-block;
+      vertical-align: middle;
       content: '';
       height: $size;
       inset-inline-start: $size + 13px;
