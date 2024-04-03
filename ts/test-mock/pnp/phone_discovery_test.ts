@@ -12,7 +12,7 @@ import { MY_STORY_ID } from '../../types/Stories';
 import { toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { expectSystemMessages } from '../helpers';
+import { expectSystemMessages, typeIntoInput } from '../helpers';
 
 export const debug = createDebug('mock:test:merge');
 
@@ -99,7 +99,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello PNI');
+      await typeIntoInput(compositionInput, 'Hello PNI');
       await compositionInput.press('Enter');
     }
 

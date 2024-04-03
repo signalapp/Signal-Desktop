@@ -12,7 +12,7 @@ import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { bufferToUuid } from '../helpers';
+import { bufferToUuid, typeIntoInput } from '../helpers';
 import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 export const debug = createDebug('mock:test:username');
@@ -99,7 +99,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
       {
         const compositionInput = await app.waitForEnabledComposer();
 
-        await compositionInput.type('Hello username');
+        await typeIntoInput(compositionInput, 'Hello username');
         await compositionInput.press('Enter');
       }
 
@@ -191,7 +191,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('entering new username');
     const usernameField = profileEditor.locator('.Input__input');
-    await usernameField.type(NICKNAME);
+    await typeIntoInput(usernameField, NICKNAME);
 
     debug('waiting for generated discriminator');
     const discriminator = profileEditor.locator(
@@ -308,16 +308,18 @@ describe('pnp/username', function (this: Mocha.Suite) {
     await window.getByRole('button', { name: 'New chat' }).click();
 
     const searchInput = window.locator('.module-SearchInput__container input');
-    await searchInput.type(CARL_USERNAME);
+    await typeIntoInput(searchInput, CARL_USERNAME);
 
     debug('starting lookup');
-    await window.locator(`div.ListTile >> "${CARL_USERNAME}"`).click();
+    await window
+      .locator(`div.ListTile >> "${CARL_USERNAME}"`)
+      .click({ timeout: 2000 });
 
     debug('sending a message');
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello Carl');
+      await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');
 
       const { body, source } = await carl.waitForMessage();
@@ -374,7 +376,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello Carl');
+      await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');
 
       const { body, source } = await carl.waitForMessage();
