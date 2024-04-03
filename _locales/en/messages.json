@@ -7505,5 +7505,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
-  }
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "We added support for custom nicknames and notes for anyone you're chatting with on Signal, even if they aren't in your system contacts. Whether you're adding the missing letters in a lazy friend's profile name, or a reminder about where you met, notes and nicknames provide a convenient and secure way to jot down additional details about your Signal Connections — and they're end-to-end encrypted and protected by your Signal PIN so they can be securely restored if you lose your phone too."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Now you can minimize Signal to your system tray on Linux. If your taskbar is the right shade of gray, it’s like your messages are waiting for you on a silver platter."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "For users on Windows, this update re-enables support for detailed unread message counts on the Signal icon. Say goodbye to “9+” because now the icon goes to 11 (or higher)."
+  }  
 }
