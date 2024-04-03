@@ -11,6 +11,7 @@ interface SProps extends SessionIconProps {
   isSelected?: boolean;
   isHidden?: boolean;
   margin?: string;
+  padding?: string;
   dataTestId?: string;
   dataTestIdIcon?: string;
   id?: string;
@@ -56,6 +57,7 @@ const SessionIconButtonInner = forwardRef<HTMLButtonElement, SProps>((props, ref
     borderRadius,
     iconPadding,
     margin,
+    padding,
     id,
     title,
     dataTestId,
@@ -86,7 +88,12 @@ const SessionIconButtonInner = forwardRef<HTMLButtonElement, SProps>((props, ref
       id={id}
       title={title}
       onClick={clickHandler}
-      style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin || '' }}
+      style={{
+        ...style,
+        display: isHidden ? 'none' : 'flex',
+        margin: margin || '',
+        padding: padding || '',
+      }}
       tabIndex={tabIndex}
       onKeyDown={keyPressHandler}
       data-testid={dataTestId}

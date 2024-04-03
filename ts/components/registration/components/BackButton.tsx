@@ -45,6 +45,7 @@ export const BackButton = ({ callback }: { callback?: () => void }) => {
       iconType="chevron"
       iconColor="var(--color-text-primary)"
       iconRotation={90}
+      padding={'0'}
       onClick={() => {
         dispatch(setDirection('backward'));
         if (step === Onboarding.CreateAccount) {

@@ -57,6 +57,7 @@ export const RegistrationStages = () => {
               iconSize={'medium'}
               iconPadding="4px"
               iconColor="var(--text-primary-color)"
+              padding={'0'}
               style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
               dataTestId="session-faq-link"
               onClick={() => {
@@ -70,6 +71,7 @@ export const RegistrationStages = () => {
               iconSize="medium"
               iconColor="var(--text-primary-color)"
               iconPadding="4px"
+              padding={'0'}
               style={{ border: '2px solid var(--text-primary-color)', borderRadius: '9999px' }}
               dataTestId="session-website-link"
               onClick={() => {

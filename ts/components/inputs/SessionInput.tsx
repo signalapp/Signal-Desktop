@@ -81,6 +81,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
         iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
         iconSize="huge"
         iconPadding="1.25px"
+        padding={'0'}
         onClick={props.toggleForceShow}
         style={{
           marginTop: '-0.5px',
