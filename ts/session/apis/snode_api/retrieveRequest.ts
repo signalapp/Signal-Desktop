@@ -125,10 +125,12 @@ async function retrieveNextMessages(
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
   const timeOutMs = 4 * 1000;
-  const results = await Promise.race([
-    async () => doSnodeBatchRequest(retrieveRequestsParams, targetNode, timeOutMs, associatedWith),
-    async () => sleepFor(timeOutMs), // just to make sure that we don't hang for more than 4s
-  ]);
+  const timeoutPromise = async () => sleepFor(timeOutMs);
+  const fetchPromise = async () =>
+    doSnodeBatchRequest(retrieveRequestsParams, targetNode, timeOutMs, associatedWith);
+
+  // just to make sure that we don't hang for more than timeOutMs
+  const results = await Promise.race([timeoutPromise(), fetchPromise()]);
   if (!results || !isArray(results) || !results.length) {
     window?.log?.warn(
       `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
