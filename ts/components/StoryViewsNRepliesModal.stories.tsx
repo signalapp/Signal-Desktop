@@ -188,7 +188,7 @@ export const InAGroupNoReplies = Template.bind({});
 InAGroupNoReplies.args = {
   group: {},
 };
-InAGroupNoReplies.storyName = 'In a group (no replies)';
+InAGroupNoReplies.storyName = 'In a group (no replies, can reply)';
 
 export const InAGroup = Template.bind({});
 {

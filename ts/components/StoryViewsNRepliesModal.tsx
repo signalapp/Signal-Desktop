@@ -440,18 +440,16 @@ export function StoryViewsNRepliesModal({
       <Modal
         modalName="StoryViewsNRepliesModal"
         i18n={i18n}
-        moduleClassName="StoryViewsNRepliesModal"
+        moduleClassName={classNames({
+          StoryViewsNRepliesModal: true,
+          'StoryViewsNRepliesModal--group': Boolean(group),
+        })}
         onClose={onClose}
         padded={false}
         useFocusTrap={Boolean(composerElement)}
         theme={Theme.Dark}
       >
-        <div
-          className={classNames({
-            StoryViewsNRepliesModal__content: true,
-            'StoryViewsNRepliesModal--group': Boolean(group),
-          })}
-        >
+        <div className="StoryViewsNRepliesModal__content">
           {tabsElement || (
             <>
               {viewsElement || repliesElement}
