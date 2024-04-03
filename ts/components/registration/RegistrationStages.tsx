@@ -1,7 +1,7 @@
 import { shell } from 'electron';
-import { Data } from 'emoji-mart';
 import { AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
+import { Data } from '../../data/data';
 import { getConversationController } from '../../session/conversations';
 import {
   AccountCreation,

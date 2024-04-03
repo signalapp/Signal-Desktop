@@ -60,66 +60,66 @@ export const SettingsCategoryPrivacy = (props: {
   const isLinkPreviewsOn = useHasLinkPreviewEnabled();
   const areBlindedRequestsEnabled = useHasBlindedMsgRequestsEnabled();
 
-  if (props.hasPassword !== null) {
-    return (
-      <>
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            const old = Boolean(window.getSettingValue(SettingsKey.settingsReadReceipt));
-            await window.setSettingValue(SettingsKey.settingsReadReceipt, !old);
-            forceUpdate();
-          }}
-          title={window.i18n('readReceiptSettingTitle')}
-          description={window.i18n('readReceiptSettingDescription')}
-          active={window.getSettingValue(SettingsKey.settingsReadReceipt)}
-          dataTestId="enable-read-receipts"
-        />
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            const old = Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator));
-            await window.setSettingValue(SettingsKey.settingsTypingIndicator, !old);
-            forceUpdate();
-          }}
-          title={window.i18n('typingIndicatorsSettingTitle')}
-          description={window.i18n('typingIndicatorsSettingDescription')}
-          active={Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator))}
-          childrenDescription={<TypingBubbleItem />}
-        />
-        <SessionToggleWithDescription
-          onClickToggle={() => {
-            void toggleLinkPreviews(isLinkPreviewsOn, forceUpdate);
-          }}
-          title={window.i18n('linkPreviewsTitle')}
-          description={window.i18n('linkPreviewDescription')}
-          active={isLinkPreviewsOn}
-        />
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            const toggledValue = !areBlindedRequestsEnabled;
-            await window.setSettingValue(SettingsKey.hasBlindedMsgRequestsEnabled, toggledValue);
-            await SessionUtilUserProfile.insertUserProfileIntoWrapper(
-              UserUtils.getOurPubKeyStrFromCache()
-            );
-            await ConfigurationSync.queueNewJobIfNeeded();
-            forceUpdate();
-          }}
-          title={window.i18n('blindedMsgReqsSettingTitle')}
-          description={window.i18n('blindedMsgReqsSettingDesc')}
-          active={areBlindedRequestsEnabled}
-        />
+  return (
+    <>
+      <SessionToggleWithDescription
+        onClickToggle={async () => {
+          const old = Boolean(window.getSettingValue(SettingsKey.settingsReadReceipt));
+          await window.setSettingValue(SettingsKey.settingsReadReceipt, !old);
+          forceUpdate();
+        }}
+        title={window.i18n('readReceiptSettingTitle')}
+        description={window.i18n('readReceiptSettingDescription')}
+        active={window.getSettingValue(SettingsKey.settingsReadReceipt)}
+        dataTestId="enable-read-receipts"
+      />
+      <SessionToggleWithDescription
+        onClickToggle={async () => {
+          const old = Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator));
+          await window.setSettingValue(SettingsKey.settingsTypingIndicator, !old);
+          forceUpdate();
+        }}
+        title={window.i18n('typingIndicatorsSettingTitle')}
+        description={window.i18n('typingIndicatorsSettingDescription')}
+        active={Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator))}
+        childrenDescription={<TypingBubbleItem />}
+      />
+      <SessionToggleWithDescription
+        onClickToggle={() => {
+          void toggleLinkPreviews(isLinkPreviewsOn, forceUpdate);
+        }}
+        title={window.i18n('linkPreviewsTitle')}
+        description={window.i18n('linkPreviewDescription')}
+        active={isLinkPreviewsOn}
+      />
+      <SessionToggleWithDescription
+        onClickToggle={async () => {
+          const toggledValue = !areBlindedRequestsEnabled;
+          await window.setSettingValue(SettingsKey.hasBlindedMsgRequestsEnabled, toggledValue);
+          await SessionUtilUserProfile.insertUserProfileIntoWrapper(
+            UserUtils.getOurPubKeyStrFromCache()
+          );
+          await ConfigurationSync.queueNewJobIfNeeded();
+          forceUpdate();
+        }}
+        title={window.i18n('blindedMsgReqsSettingTitle')}
+        description={window.i18n('blindedMsgReqsSettingDesc')}
+        active={areBlindedRequestsEnabled}
+      />
 
-        {!props.hasPassword && (
-          <SessionSettingButtonItem
-            title={window.i18n('setAccountPasswordTitle')}
-            description={window.i18n('setAccountPasswordDescription')}
-            onClick={() => {
-              displayPasswordModal('set', props.onPasswordUpdated);
-            }}
-            buttonText={window.i18n('setPassword')}
-            dataTestId={'set-password-button'}
-          />
-        )}
-        {props.hasPassword && (
+      {!props.hasPassword ? (
+        <SessionSettingButtonItem
+          title={window.i18n('setAccountPasswordTitle')}
+          description={window.i18n('setAccountPasswordDescription')}
+          onClick={() => {
+            displayPasswordModal('set', props.onPasswordUpdated);
+          }}
+          buttonText={window.i18n('setPassword')}
+          dataTestId={'set-password-button'}
+        />
+      ) : (
+        <>
+          {/* We have a password, let's show the 'change' and 'remove' password buttons */}
           <SessionSettingButtonItem
             title={window.i18n('changeAccountPasswordTitle')}
             description={window.i18n('changeAccountPasswordDescription')}
@@ -129,8 +129,6 @@ export const SettingsCategoryPrivacy = (props: {
             buttonText={window.i18n('changePassword')}
             dataTestId="change-password-settings-button"
           />
-        )}
-        {props.hasPassword && (
           <SessionSettingButtonItem
             title={window.i18n('removeAccountPasswordTitle')}
             description={window.i18n('removeAccountPasswordDescription')}
@@ -141,9 +139,8 @@ export const SettingsCategoryPrivacy = (props: {
             buttonText={window.i18n('removePassword')}
             dataTestId="remove-password-settings-button"
           />
-        )}
-      </>
-    );
-  }
-  return null;
+        </>
+      )}
+    </>
+  );
 };

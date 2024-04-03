@@ -50,7 +50,7 @@ export const StartRecordingButton = (props: { onClick: Noop }) => {
 };
 
 // eslint-disable-next-line react/display-name
-export const ToggleEmojiButton = forwardRef<HTMLDivElement, { onClick: Noop }>((props, ref) => {
+export const ToggleEmojiButton = forwardRef<HTMLButtonElement, { onClick: Noop }>((props, ref) => {
   return (
     <StyledChatButtonContainer>
       <SessionIconButton

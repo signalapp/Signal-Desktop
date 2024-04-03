@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-
 import autoBind from 'auto-bind';
 import classNames from 'classnames';
 
 import { Component } from 'react';
 import { ConversationModel } from '../../models/conversation';
+import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
 import { initiateOpenGroupUpdate } from '../../session/group/open-group';
@@ -58,6 +58,12 @@ export class UpdateGroupNameDialog extends Component<Props, State> {
     const trimmedGroupName = groupName?.trim();
     if (!trimmedGroupName) {
       this.onShowError(window.i18n('emptyGroupNameError'));
+
+      return;
+    }
+
+    if (trimmedGroupName.length > Constants.VALIDATION.MAX_GROUP_NAME_LENGTH) {
+      this.onShowError(window.i18n('invalidGroupNameTooLong'));
 
       return;
     }
@@ -123,6 +129,7 @@ export class UpdateGroupNameDialog extends Component<Props, State> {
             required={true}
             aria-required={true}
             autoFocus={true}
+            maxLength={Constants.VALIDATION.MAX_GROUP_NAME_LENGTH}
             data-testid="group-name-input"
           />
         ) : null}

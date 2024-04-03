@@ -1,6 +1,11 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, SyntheticEvent } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from './Flex';
+
+const StyledButton = styled.button<{ disabled: boolean }>`
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  min-height: 30px;
+`;
 
 const StyledInput = styled.input<{
   filledSize: number;
@@ -9,7 +14,6 @@ const StyledInput = styled.input<{
 }>`
   opacity: 0;
   position: absolute;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   width: ${props => props.filledSize + props.outlineOffset}px;
   height: ${props => props.filledSize + props.outlineOffset}px;
 
@@ -71,7 +75,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
     style,
   } = props;
 
-  const clickHandler = (e: ChangeEvent<any>) => {
+  const clickHandler = (e: SyntheticEvent<any>) => {
     if (!disabled && onClick) {
       // let something else catch the event if our click handler is not set
       e.stopPropagation();
@@ -83,37 +87,48 @@ export const SessionRadio = (props: SessionRadioProps) => {
   const outlineOffset = 2;
 
   return (
-    <Flex
-      container={true}
-      flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
-      justifyContent={radioPosition === 'left' ? 'flex-start' : 'flex-end'}
-      style={{ ...style, position: 'relative' }}
+    <StyledButton
+      onKeyDown={e => {
+        if (e.code === 'Space') {
+          clickHandler(e);
+        }
+      }}
+      onClick={clickHandler}
+      disabled={disabled}
     >
-      <StyledInput
-        type="radio"
-        name={inputName || ''}
-        value={value}
-        aria-checked={active}
-        checked={active}
-        onChange={clickHandler}
-        filledSize={filledSize * 2}
-        outlineOffset={outlineOffset}
-        disabled={disabled}
-        data-testid={`input-${value.replaceAll(' ', '-')}`} // data-testid cannot have spaces
-      />
-      <StyledLabel
-        role="button"
-        onClick={clickHandler}
-        filledSize={filledSize - 1}
-        outlineOffset={outlineOffset}
-        beforeMargins={beforeMargins}
-        aria-label={label}
-        disabled={disabled}
-        data-testid={`label-${value}`}
+      <Flex
+        container={true}
+        flexDirection={radioPosition === 'left' ? 'row' : 'row-reverse'}
+        justifyContent={radioPosition === 'left' ? 'flex-start' : 'flex-end'}
+        style={{ ...style, position: 'relative' }}
       >
-        {label}
-      </StyledLabel>
-    </Flex>
+        <StyledInput
+          type="radio"
+          name={inputName || ''}
+          value={value}
+          aria-checked={active}
+          checked={active}
+          onChange={clickHandler}
+          tabIndex={-1} // clickHandler is on the parent button, so we need to skip this input while pressing Tab
+          filledSize={filledSize * 2}
+          outlineOffset={outlineOffset}
+          disabled={disabled}
+          data-testid={`input-${value.replaceAll(' ', '-')}`} // data-testid cannot have spaces
+        />
+        <StyledLabel
+          role="button"
+          onClick={clickHandler}
+          filledSize={filledSize - 1}
+          outlineOffset={outlineOffset}
+          beforeMargins={beforeMargins}
+          aria-label={label}
+          disabled={disabled}
+          data-testid={`label-${value}`}
+        >
+          {label}
+        </StyledLabel>
+      </Flex>
+    </StyledButton>
   );
 };
 

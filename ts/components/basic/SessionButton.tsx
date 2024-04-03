@@ -30,7 +30,7 @@ export enum SessionButtonColor {
   None = 'transparent',
 }
 
-const StyledButton = styled.div<{
+const StyledButton = styled.button<{
   color: string | undefined;
   buttonType: SessionButtonType;
   buttonShape: SessionButtonShape;

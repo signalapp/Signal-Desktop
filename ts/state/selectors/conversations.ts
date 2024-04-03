@@ -336,7 +336,6 @@ const _getGlobalUnreadCount = (sortedConversations: Array<ReduxConversationType>
     }
 
     if (
-      globalUnreadCount < 100 &&
       isNumber(conversation.unreadCount) &&
       isFinite(conversation.unreadCount) &&
       conversation.unreadCount > 0 &&
@@ -345,7 +344,6 @@ const _getGlobalUnreadCount = (sortedConversations: Array<ReduxConversationType>
       globalUnreadCount += conversation.unreadCount;
     }
   }
-
   return globalUnreadCount;
 };
 

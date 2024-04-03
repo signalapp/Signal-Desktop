@@ -29,7 +29,7 @@ export const ContactName = (props: Props) => {
     'min-width': 0,
     'text-overflow': 'ellipsis',
     overflow: 'hidden',
-  } as React.CSSProperties;
+  } as CSSProperties;
 
   const styles = (
     boldProfileName

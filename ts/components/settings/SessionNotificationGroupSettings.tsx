@@ -24,12 +24,8 @@ const StyledButtonContainer = styled.div`
   padding-inline-start: var(--margins-lg);
 `;
 
-export const SessionNotificationGroupSettings = (props: { hasPassword: boolean | null }) => {
+export const SessionNotificationGroupSettings = () => {
   const forceUpdate = useUpdate();
-
-  if (props.hasPassword === null) {
-    return null;
-  }
 
   const initialNotificationEnabled =
     window.getSettingValue(SettingsKey.settingsNotification) || NOTIFICATION.MESSAGE;

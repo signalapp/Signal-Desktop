@@ -353,6 +353,7 @@ export class SessionConversation extends Component<Props, State> {
           }
           break;
         default:
+          break;
       }
     }
   }

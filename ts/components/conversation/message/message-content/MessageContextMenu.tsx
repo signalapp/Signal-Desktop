@@ -10,10 +10,7 @@ import { Data } from '../../../../data/data';
 
 import { MessageInteraction } from '../../../../interactions';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
-import {
-  deleteMessagesById,
-  deleteMessagesByIdForEveryone,
-} from '../../../../interactions/conversations/unsendingInteractions';
+import { deleteMessagesForX } from '../../../../interactions/conversations/unsendingInteractions';
 import {
   addSenderAsModerator,
   removeSenderFromModerator,
@@ -94,17 +91,15 @@ const DeleteItem = ({ messageId }: { messageId: string }) => {
 
   const isDeletable = useMessageIsDeletable(messageId);
   const isDeletableForEveryone = useMessageIsDeletableForEveryone(messageId);
+  const messageStatus = useMessageStatus(messageId);
+
+  const enforceDeleteServerSide = isPublic && messageStatus !== 'error';
 
   const onDelete = useCallback(() => {
     if (convoId) {
-      if (!isPublic && isDeletable) {
-        void deleteMessagesById([messageId], convoId);
-      }
-      if (isPublic && isDeletableForEveryone) {
-        void deleteMessagesByIdForEveryone([messageId], convoId);
-      }
+      void deleteMessagesForX([messageId], convoId, enforceDeleteServerSide);
     }
-  }, [convoId, isDeletable, isDeletableForEveryone, isPublic, messageId]);
+  }, [convoId, enforceDeleteServerSide, messageId]);
 
   if (!convoId || (isPublic && !isDeletableForEveryone) || (!isPublic && !isDeletable)) {
     return null;
