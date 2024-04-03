@@ -22,6 +22,7 @@ import {
 import { stats } from '../../util/benchmark/stats';
 import { sleep } from '../../util/sleep';
 import { MINUTE } from '../../util/durations';
+import { typeIntoInput } from '../helpers';
 
 const LAST_MESSAGE = 'start sending messages now';
 
@@ -171,7 +172,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     });
 
     debug('entering message text');
-    await input.type(`my message ${runId}`);
+    await typeIntoInput(input, `my message ${runId}`);
     await input.press('Enter');
 
     debug('waiting for message on server side');

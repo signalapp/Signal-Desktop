@@ -16,7 +16,7 @@ import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import { generateAci } from '../../types/ServiceId';
 import { IMAGE_GIF } from '../../types/MIME';
-import { type } from '../helpers';
+import { typeIntoInput } from '../helpers';
 import type { MessageAttributesType } from '../../model-types';
 import { sleep } from '../../util/sleep';
 
@@ -94,6 +94,21 @@ describe('editing', function (this: Mocha.Suite) {
 
   let bootstrap: Bootstrap;
   let app: App;
+
+  async function sendEditedMessage(
+    page: Page,
+    timestamp: number,
+    additionalText: string
+  ) {
+    await page
+      .getByTestId(`${timestamp}`)
+      .locator('.module-message__buttons__menu')
+      .click();
+    await page.getByRole('menuitem', { name: 'Edit' }).click();
+    const input = await app.waitForEnabledComposer();
+    await typeIntoInput(input, additionalText);
+    await input.press('Enter');
+  }
 
   beforeEach(async () => {
     bootstrap = new Bootstrap();
@@ -309,7 +324,7 @@ describe('editing', function (this: Mocha.Suite) {
         const input = await app.waitForEnabledComposer();
 
         debug('entering original message text');
-        await input.type('edit message 1');
+        await typeIntoInput(input, 'edit message 1');
         await input.press('Enter');
       }
 
@@ -317,23 +332,11 @@ describe('editing', function (this: Mocha.Suite) {
       const { dataMessage: originalMessage } = await friend.waitForMessage();
       assert.strictEqual(originalMessage.body, 'edit message 1');
 
-      const message = window.locator(
-        `.module-message[data-testid="${originalMessage.timestamp}"]`
+      await sendEditedMessage(
+        window,
+        originalMessage.timestamp?.toNumber() ?? 0,
+        '.2'
       );
-      await message.waitFor();
-
-      debug('opening context menu');
-      await message.locator('[aria-label="More actions"]').click();
-
-      debug('starting message edit');
-      await window.locator('.module-message__context__edit-message').click();
-
-      {
-        const input = await app.waitForEnabledComposer();
-        await input.press('Backspace');
-        await input.type('2');
-        await input.press('Enter');
-      }
 
       debug("waiting for friend's edit message");
       const { editMessage: firstEdit } = await friend.waitForEditMessage();
@@ -341,30 +344,20 @@ describe('editing', function (this: Mocha.Suite) {
         firstEdit.targetSentTimestamp?.toNumber(),
         originalMessage.timestamp?.toNumber()
       );
-      assert.strictEqual(firstEdit.dataMessage?.body, 'edit message 2');
+      assert.strictEqual(firstEdit.dataMessage?.body, 'edit message 1.2');
 
-      debug('opening context menu again');
-      const firstEditMessage = window.locator(
-        `.module-message[data-testid="${firstEdit.dataMessage?.timestamp?.toNumber()}"]`
+      await sendEditedMessage(
+        window,
+        firstEdit.dataMessage?.timestamp?.toNumber() ?? 0,
+        '.3'
       );
-      await firstEditMessage.locator('[aria-label="More actions"]').click();
-
-      debug('starting second message edit');
-      await window.locator('.module-message__context__edit-message').click();
-
-      {
-        const input = await app.waitForEnabledComposer();
-        await input.press('Backspace');
-        await input.type('3');
-        await input.press('Enter');
-      }
 
       const { editMessage: secondEdit } = await friend.waitForEditMessage();
       assert.strictEqual(
         secondEdit.targetSentTimestamp?.toNumber(),
         firstEdit.dataMessage?.timestamp?.toNumber()
       );
-      assert.strictEqual(secondEdit.dataMessage?.body, 'edit message 3');
+      assert.strictEqual(secondEdit.dataMessage?.body, 'edit message 1.2.3');
 
       debug('opening edit history');
       const secondEditMessage = window.locator(
@@ -380,8 +373,8 @@ describe('editing', function (this: Mocha.Suite) {
       assert.strictEqual(await history.count(), 3);
 
       assert.isTrue(await history.locator('"edit message 1"').isVisible());
-      assert.isTrue(await history.locator('"edit message 2"').isVisible());
-      assert.isTrue(await history.locator('"edit message 3"').isVisible());
+      assert.isTrue(await history.locator('"edit message 1.2"').isVisible());
+      assert.isTrue(await history.locator('"edit message 1.2.3"').isVisible());
     });
 
     it('is fine with out of order edit processing', async () => {
@@ -517,20 +510,6 @@ describe('editing', function (this: Mocha.Suite) {
         return messages[0];
       }
 
-      async function editMessage(
-        page: Page,
-        timestamp: number,
-        additionalText: string
-      ) {
-        await page
-          .getByTestId(`${timestamp}`)
-          .locator('.module-message__buttons__menu')
-          .click();
-        await page.getByRole('menuitem', { name: 'Edit' }).click();
-        const input = await app.waitForEnabledComposer();
-        await type(input, additionalText);
-        await input.press('Enter');
-      }
       const { contacts, desktop } = bootstrap;
 
       const [friend] = contacts;
@@ -566,7 +545,7 @@ describe('editing', function (this: Mocha.Suite) {
         const input = await app.waitForEnabledComposer();
 
         debug('sending message desktop -> friend');
-        await input.type(originalText);
+        await typeIntoInput(input, originalText);
         await input.press('Enter');
       }
 
@@ -636,7 +615,7 @@ describe('editing', function (this: Mocha.Suite) {
       debug('finding composition input and clicking it v2');
 
       debug('sending edit message v2 desktop -> friend');
-      await editMessage(page, originalMessageTimestamp, '2');
+      await sendEditedMessage(page, originalMessageTimestamp, '2');
 
       {
         const readReceiptTimestamp = bootstrap.getTimestamp();
@@ -688,7 +667,7 @@ describe('editing', function (this: Mocha.Suite) {
       // v3 will be read after we receive v4
       const editMessageV3Text = '123';
       debug('sending edit message v3 desktop -> friend');
-      await editMessage(
+      await sendEditedMessage(
         page,
         editMessageV2.dataMessage?.timestamp?.toNumber() ?? 0,
         '3'
@@ -709,7 +688,7 @@ describe('editing', function (this: Mocha.Suite) {
       // testing send state of the full message
       const editMessageV4Text = '1234';
       debug('sending edit message v4 desktop -> friend');
-      await editMessage(
+      await sendEditedMessage(
         page,
         editMessageV3.dataMessage?.timestamp?.toNumber() ?? 0,
         '4'

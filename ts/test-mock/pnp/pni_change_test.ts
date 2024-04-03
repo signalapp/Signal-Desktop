@@ -10,7 +10,7 @@ import * as durations from '../../util/durations';
 import { generatePni, toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { expectSystemMessages } from '../helpers';
+import { expectSystemMessages, typeIntoInput } from '../helpers';
 
 export const debug = createDebug('mock:test:pni-change');
 
@@ -105,7 +105,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
     }
 
@@ -204,7 +204,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
     }
 
@@ -306,7 +306,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
     }
 
@@ -362,7 +362,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('message to contactB');
+      await typeIntoInput(compositionInput, 'message to contactB');
       await compositionInput.press('Enter');
 
       // We get a safety number change warning, because we get a different identity key!
@@ -437,7 +437,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA');
       await compositionInput.press('Enter');
     }
 
@@ -523,7 +523,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('second message to contactA');
+      await typeIntoInput(compositionInput, 'second message to contactA');
       await compositionInput.press('Enter');
     }
 

@@ -14,7 +14,7 @@ import { toUntaggedPni } from '../../types/ServiceId';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { expectSystemMessages } from '../helpers';
+import { expectSystemMessages, typeIntoInput } from '../helpers';
 
 export const debug = createDebug('mock:test:merge');
 
@@ -130,7 +130,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       {
         const compositionInput = await app.waitForEnabledComposer();
 
-        await compositionInput.type('Hello ACI');
+        await typeIntoInput(compositionInput, 'Hello ACI');
         await compositionInput.press('Enter');
       }
 
@@ -157,7 +157,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         debug('Send message to PNI');
         const compositionInput = await app.waitForEnabledComposer();
 
-        await compositionInput.type('Hello PNI');
+        await typeIntoInput(compositionInput, 'Hello PNI');
         await compositionInput.press('Enter');
       }
 
@@ -270,7 +270,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       {
         const compositionInput = await app.waitForEnabledComposer();
 
-        await compositionInput.type('Hello merged');
+        await typeIntoInput(compositionInput, 'Hello merged');
         await compositionInput.press('Enter');
       }
 
@@ -380,7 +380,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello merged');
+      await typeIntoInput(compositionInput, 'Hello merged');
       await compositionInput.press('Enter');
     }
 
