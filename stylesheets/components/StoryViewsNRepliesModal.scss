@@ -3,13 +3,16 @@
 
 .StoryViewsNRepliesModal {
   min-width: 320px;
-  min-height: min(400px, 80vh);
   max-height: 80vh;
 
   &--group {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    min-height: min(400px, 80vh);
+
+    .StoryViewsNRepliesModal__content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
   }
 
   &__body {
@@ -27,6 +30,13 @@
   &__content {
     &:not(:has(.Tabs)) {
       padding-block-start: 16px;
+    }
+
+    // When picking from full emoji set, compensate for for hidden quick picker
+    &:has(.module-emoji-picker)::before {
+      content: '';
+      display: block;
+      height: 52px;
     }
 
     padding-block-end: 16px;
@@ -249,8 +259,9 @@
   }
 
   .module-emoji-picker {
-    bottom: 55px;
     position: absolute;
+    bottom: 55px;
+    max-height: calc(100vh - 100px);
   }
 }
 
