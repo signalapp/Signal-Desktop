@@ -5585,6 +5585,6 @@
     "messageformat": "Abbiamo cambiato il design dell'icona delle chiamate perse su Windows. D'ora in poi il colore dell'icona nella barra delle applicazioni corrisponderà ai colori del sistema. Ci piace migliorare e aggiungere un tocco di stile a Signal, un aggiornamento alla volta!"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Per le pulizie di primavera, abbiamo ripulito Signal da un po' di bug: abbiamo migliorato logica di ordinamento delle chat e il comportamento dell'app in caso di timeout di ricerca per il DNS per via di una connessione Internet poco stabile."
   }
 }

@@ -5585,6 +5585,6 @@
     "messageformat": "हमने विंडोज पर बैज काउंट इंडिकेटर को भी फिर से डिज़ाइन किया है। अब टास्कबार में रंग सिस्टम ट्रे के रंग से मेल खाता है। फैशन समन्वय के बारे में है, और लाल रंग का एक छोटा सा पॉप वसंत के लिए एकदम सही लुक है।"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "यदि ऐप खराब नेटवर्क कनेक्टिविटी के कारण DNS लुकअप टाइमआउट का सामना करता है, तो यह अपडेट वसंत की सफाई के लिए कुछ बग को ठीक समय पर साफ़ करता है, जिसमें अधिक सुसंगत वार्तालाप सॉर्ट तर्क और बेहतर व्यवहार शामिल है।"
   }
 }

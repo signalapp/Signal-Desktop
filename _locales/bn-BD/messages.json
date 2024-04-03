@@ -5585,6 +5585,6 @@
     "messageformat": "আমরা Windows-এ ব্যাজ গণনা করার ইন্ডিকেটরটিকেও নতুন করে ডিজাইন করেছি। এখন টাস্কবারের রঙটি সিস্টেম ট্রে-এর রঙের সাথে মিলে যায়।"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "দুর্বল নেটওয়ার্ক সংযোগের কারণে অ্যাপটি যদি DNS লুকআপ টাইমআউটের সম্মুখীন হয় তবে এই আপডেটটি আরো সঙ্গতিপূর্ণ কথোপকথন সমাধানের লজিক এবং উন্নত কাজের ধারা সহ কয়েকটি বাগ সংশোধন করে।"
   }
 }

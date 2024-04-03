@@ -5585,6 +5585,6 @@
     "messageformat": "Pia tumebuni upya kiashiria cha kuhesabu beji kwenye Windows. Sasa rangi kwenye upau-kazi unafanana na trei ya mfumo. Mtindo unahusu uratibu, na rangi kidogo kwa mwonekano mzuri wa majira ya mchepuo."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Sasisho hili huondoa hitilafu chache kwa wakati muafaka kusafisha majira ya kuchipua, ikiwa ni pamoja na mantiki thabiti ya kupanga mazungumzo na tabia iliyoboreshwa ikiwa programu itakumbana na muda wa kutafuta DNS kwa sababu ya muunganisho duni wa mtandao."
   }
 }

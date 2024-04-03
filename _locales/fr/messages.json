@@ -537,13 +537,13 @@
     "messageformat": "Après avoir cliqué sur Envoyer, votre journal sera publié en ligne pendant 30 jours sur une URL unique et non publiée. Vous pouvez d’abord l’enregistrer localement."
   },
   "icu:debugLogError": {
-    "messageformat": "Un problème est survenu lors du téléversement ! Veuillez nous envoyer un courriel à support@signal.org et joindre votre journal comme fichier texte."
+    "messageformat": "Un problème s’est produit lors de l’importation. Merci de nous envoyer le journal au format texte à l’adresse suivante : support@signal.org."
   },
   "icu:debugLogSuccess": {
     "messageformat": "Journal de débogage envoyé"
   },
   "icu:debugLogSuccessNextSteps": {
-    "messageformat": "Le journal de débogage a été téléversé. Quand vous contacterez l’assistance, copiez l’URL ci-dessous et joignez-la avec une description du problème rencontré ainsi que les étapes pour le reproduire."
+    "messageformat": "Le journal de débogage a bien été importé. Pensez à copier l’URL ci-dessous et à la communiquer au service d’assitance lorsque vous le contacterez. N’oubliez pas non plus de décrire le problème rencontré, ainsi que les étapes à suivre pour le reproduire."
   },
   "icu:debugLogLogIsIncomplete": {
     "messageformat": "… pour visualiser le journal entier, cliquez sur Enregistrer"
@@ -1215,10 +1215,10 @@
     "messageformat": "La confidentialité est possible. Signal la facilite."
   },
   "icu:linkedDevices": {
-    "messageformat": "Appareils reliés"
+    "messageformat": "Appareils associés"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Relier un nouvel appareil"
+    "messageformat": "Associer un nouvel appareil"
   },
   "icu:Install__learn-more": {
     "messageformat": "En savoir plus"
@@ -1245,7 +1245,7 @@
     "messageformat": "Besoin d’aide ?"
   },
   "icu:Install__choose-device-name__description": {
-    "messageformat": "Ce nom apparaîtra sous « Appareils reliés » sur votre téléphone"
+    "messageformat": "Sur votre téléphone, ce nom apparaîtra sous « Appareils associés »"
   },
   "icu:Install__choose-device-name__placeholder": {
     "messageformat": "Mon ordinateur"
@@ -1806,7 +1806,7 @@
     "messageformat": "Notes perso"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Vous pouvez ajouter des notes à votre attention dans cette conversation. Si des appareils sont reliés à votre compte, les nouvelles notes seront synchronisées."
+    "messageformat": "Cette conversation est dédiée à vos notes personnelles. Si des appareils sont associés à votre compte, les nouvelles notes que vous ajoutez ici sont synchronisées sur tous vos appareils."
   },
   "icu:notificationDrawAttention": {
     "messageformat": "Attirer l’attention sur cette fenêtre quand une notification arrive"
@@ -3924,7 +3924,7 @@
     "messageformat": "Changer de photo"
   },
   "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Téléverser une photo"
+    "messageformat": "Importer une photo"
   },
   "icu:AvatarInput--remove-photo-choice": {
     "messageformat": "Retirer la photo"
@@ -4011,10 +4011,10 @@
     "messageformat": "0,5"
   },
   "icu:emptyInboxMessage": {
-    "messageformat": "Cliquez sur {composeIcon} ci-dessus et cherchez des contacts ou des groupes à joindre."
+    "messageformat": "Cliquez sur le {composeIcon} ci-dessus et recherchez des contacts ou des groupes à joindre."
   },
   "icu:composeIcon": {
-    "messageformat": "bouton de rédaction"
+    "messageformat": "bouton « Nouveau message »"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Transférer à"
@@ -5585,6 +5585,6 @@
     "messageformat": "Nous avons également repensé la pastille affichant le nombre d’appels manqués sous Windows. L’icône de la barre des tâches est désormais de la même couleur que l’icône de la zone de notification. La mode est avant tout une question de coordination : quoi de mieux qu’une note de rouge pour annoncer le printemps ?"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "C'est l’heure du grand nettoyage de printemps ! Cette mise à jour corrige quelques bugs et apporte des améliorations. Entre autres, la logique de tri des conversations gagne en cohérence, et en cas de mauvaise connectivité réseau, l’application réagit mieux aux éventuels délais d’attente des recherches DNS."
   }
 }

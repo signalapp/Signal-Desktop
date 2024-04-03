@@ -1548,7 +1548,7 @@
     "messageformat": "సాధారణం"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "స్పెల్ చెక్ టెక్ట్స్ సందేశం కంపోజిషన్ బాక్స్‌లో నమోదు చేయబడింది."
+    "messageformat": "సందేశం కంపోజిషన్ బాక్స్‌లో ఎంటర్ చేసిన టెక్స్ట్ స్పెల్ చెక్ చేయండి"
   },
   "icu:textFormattingDescription": {
     "messageformat": "టెక్స్ట్ ఎంచుకోబడినప్పుడు టెక్స్ట్ ఫార్మాటింగ్ పాప్‌ఓవర్‌ను చూపించండి"
@@ -5585,6 +5585,6 @@
     "messageformat": "మేము Windows లో బ్యాడ్జ్ కౌంట్ సూచకమును కూడా పునఃరూపకల్పన చేశాము. ఇప్పుడు టాస్క్‌బార్‌లోని రంగు సిస్టమ్ ట్రేలోని రంగుతో సరిపోలుతుంది. ఫ్యాషన్ అనేది సమన్వయానికి సంబంధించినది, మరియు కొద్దిగా ఎరుపు రంగు వసంత ఋతువుకు సరైన రూపం."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "బలహీనమైన నెట్‌వర్క్ కనెక్టివిటీ కారణంగా DNS లుక్అప్ టైమ్‌అవుట్‌లను ఒకవేళ యాప్ ఎదుర్కొంటే మరింత స్థిరమైన సంభాషణ క్రమబద్ధీకరణ లాజిక్, మెరుగైన ప్రవర్తనతో సహా కొన్ని బగ్‌లను ఈ అప్‌డేట్ పరిష్కరిస్తుంది."
   }
 }

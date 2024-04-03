@@ -5585,6 +5585,6 @@
     "messageformat": "Tamén redeseñamos o indicador de notificacións para Windows. Agora a cor da barra de tarefas coincide coa cor da bandexa do sistema."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Esta actualización elimina algúns erros, ademais de arranxar a lóxica de ordenación de conversas para que sexa máis coherente e mellorar o comportamento se a aplicación se atopa con tempos de espera de busca de DNS por mor dunha mala conectividade de rede."
   }
 }

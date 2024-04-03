@@ -1548,7 +1548,7 @@
     "messageformat": "Жалпы"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "Билдирүүнүн курамы кутучасына киргизилген орфографияны текшерүү тексти"
+    "messageformat": "Билдирүү кутучасына киргизилген тексттин туура жазылганы текшерилет"
   },
   "icu:textFormattingDescription": {
     "messageformat": "Текст тандалганда, аны форматтоо менюсу чыга калат"
@@ -5585,6 +5585,6 @@
     "messageformat": "Windows'тогу төшбелгилердин санын көрсөткүч өзгөрдү. Эми тапшырмалар тилкесинин түсү системдик тактанын түсүнө окшош болуп калды. Мода дүйнөсүндөгүдөй, бири-бирине өңдөшүп турса жакшы да."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Бул жаңы версияда бир катар мүчүлүштүктөр тазаланып, сүйлөшүүлөр иргелди. Эми байланыштын начардыгы менен шартталган DNS тайм-ауттарында колдонмо ыкчам аракеттерди көрөт."
   }
 }

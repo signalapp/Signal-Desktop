@@ -5585,6 +5585,6 @@
     "messageformat": "A jelvényszámlálót is újraterveztük Windowson. Mostantól a tálcán lévő szín is megegyezik a paneltálcán lévő színnel."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Ez a frissítés kijavít néhány hibát, beleértve a konzisztensebb beszélgetésrendezési logikát és a jobb viselkedést, ha az alkalmazás rossz hálózati kapcsolat miatt DNS-keresési időtúllépést észlel."
   }
 }

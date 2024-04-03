@@ -5585,6 +5585,6 @@
     "messageformat": "ਅਸੀਂ Windows ਉੱਤੇ ਬੈਜ ਗਿਣਤੀ ਸੂਚਕ ਨੂੰ ਵੀ ਮੁੜ ਡਿਜ਼ਾਈਨ ਕੀਤਾ ਹੈ। ਹੁਣ ਟਾਸਕਬਾਰ ਦਾ ਰੰਗ ਸਿਸਟਮ ਟਰੇ ਦੇ ਰੰਗ ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ।"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਕੁਝ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ, ਜਿਸ ਵਿੱਚ ਗੱਲਬਾਤ ਦੇ ਲਈ ਵਧੇਰੇ ਇਕਸਾਰ ਸੌਰਟ ਲੌਜਿਕ ਦਾ ਇਸਤੇਮਾਲ ਸ਼ਾਮਲ ਹੈ ਅਤੇ ਖਰਾਬ ਨੈੱਟਵਰਕ ਕਾਰਨ ਐਪ ਵਿੱਚ DNS ਲੁੱਕਅਪ ਟਾਈਮਆਊਟ ਪੇਸ਼ ਆਉਣ 'ਤੇ ਉਸਨੂੰ ਬਿਹਤਰ ਢੰਗ ਨਾਲ ਹੱਲ ਕਰਨਾ ਸ਼ਾਮਲ ਹੈ।"
   }
 }

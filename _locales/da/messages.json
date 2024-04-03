@@ -1548,7 +1548,7 @@
     "messageformat": "Generelt"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "Lav stavekontrol af tekst, der indtastes i besked-skrivefeltet"
+    "messageformat": "Lav stavekontrol af tekst, der indtastes i beskedskrivefeltet"
   },
   "icu:textFormattingDescription": {
     "messageformat": "Vis popover-menu til tekstformatering, når tekst er valgt"
@@ -5585,6 +5585,6 @@
     "messageformat": "Vi har også redesignet indikatoren for antal badges på Windows. Nu matcher farven på proceslinjen farven i systembakken. Mode handler om koordination, og lidt rød er et perfekt look til foråret."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Denne opdatering retter et par fejl. Den giver blandt andet mere konsekvent sorteringslogik for samtaler og forbedret adfærd, hvis appen støder på timeouts for DNS-opslag som følge af dårlig netværksforbindelse."
   }
 }

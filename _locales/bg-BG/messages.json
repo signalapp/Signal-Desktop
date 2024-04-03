@@ -5585,6 +5585,6 @@
     "messageformat": "Също така променихме дизайна на индикатора за брой значки в Windows. Цветът в лентата за задачи вече съвпада с цвета в системната област."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Тази актуализация коригира няколко бъга, включително по-уеднаквена логика на сортиране на разговорите и подобрено поведение, ако приложението срещне таймаут на търсене на DNS поради слаба мрежова връзка."
   }
 }

@@ -5585,6 +5585,6 @@
     "messageformat": "Həmçinin biz Windows-da nişan sayı göstəricisini yenidən dizayn etdik. Artıq tapşırıq panelinin rəngi ilə sistem sahəsinin rəngi uyğunlaşır. Moda koordinasiya ilə bağlıdır və bir az qırmızı əlavə etmək yaz üçün mükəmməl bir görünüşdür."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Tətbiq zəif şəbəkə bağlantısı səbəbilə DNS axtarışında zaman aşımlarına məruz qaldıqda, bu yeniləmə bəzi nasazlıqları, o cümlədən danışıqların təsnif edilməsində daha ardıcıl məntiqi və təkmilləşdirilmiş davranışı düzəldir."
   }
 }

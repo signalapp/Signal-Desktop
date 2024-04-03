@@ -1548,7 +1548,7 @@
     "messageformat": "പൊതുവായ"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "സന്ദേശ രചനാ ബോക്‌സിൽ ചേര്‍ത്ത ടെക്സ്റ്റ്‌ സ്പെല്‍ചെക്ക് ചെയ്യുക"
+    "messageformat": "സന്ദേശ രചനാ ബോക്‌സിൽ ചേർത്ത ടെക്സ്റ്റ്‌ അക്ഷരത്തെറ്റ് പരിശോധിക്കുക"
   },
   "icu:textFormattingDescription": {
     "messageformat": "ടെക്‌സ്റ്റ് തിരഞ്ഞെടുക്കുമ്പോൾ ടെക്‌സ്റ്റ് ഫോർമാറ്റിംഗ് പോപ്പോവർ കാണിക്കുക"
@@ -5585,6 +5585,6 @@
     "messageformat": "Windows-ലെ ബാഡ്ജ് കൗണ്ട് ഇൻഡിക്കേറ്ററും ഞങ്ങൾ പുനർരൂപകൽപ്പന ചെയ്തു. ഇപ്പോൾ ടാസ്ക്ബാറിലെ നിറം സിസ്റ്റം ട്രേയിലെ നിറവുമായി പൊരുത്തപ്പെടുന്നു. ഫാഷൻ, ഏകോപനത്തെ കുറിച്ചുള്ളതാണ്, ചുവന്ന നിറത്തിലുള്ള ഒരു ചെറിയ പോപ്പ് വസന്തകാലത്തിന് അനുയോജ്യമായ രൂപമാണ്."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "മോശം നെറ്റ്‌വർക്ക് കണക്റ്റിവിറ്റി കാരണം ആപ്പിന് DNS ലുക്കപ്പ് ടൈംഔട്ടുകൾ നേരിടേണ്ടി വന്നാൽ, കൂടുതൽ സ്ഥിരതയുള്ള സംഭാഷണം തരംതിരിക്കൽ ലോജിക്കും മെച്ചപ്പെട്ട പെരുമാറ്റവും ഉൾപ്പെടെ സ്പ്രിംഗ് ക്ലീനിംഗ് സമയത്തുതന്നെ ഈ അപ്‌ഡേറ്റ് കുറച്ച് ബഗ്ഗുുകൾ പരിഹരിക്കുന്നു."
   }
 }

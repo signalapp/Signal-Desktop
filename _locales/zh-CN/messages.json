@@ -5585,6 +5585,6 @@
     "messageformat": "我们还重新设计了 Windows 上的标记计数指示器。现在任务栏的颜色可以与系统盘的颜色保持一致。"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "此次更新修复了一些漏洞，包括使对话排序逻辑更统一和当应用在网络连接不畅时遇到 DNS 查找超时的情况下对行为进行优化。"
   }
 }

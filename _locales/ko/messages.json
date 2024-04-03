@@ -5585,6 +5585,6 @@
     "messageformat": "Windows의 배지 수 표시기 디자인도 업데이트했습니다. 이제 작업 표시줄의 색이 시스템 트레이의 색과 일치합니다."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "이 업데이트는 더욱 일관성 있는 대화 정렬 논리와 네트워크 연결이 약해져 앱의 DNS 조회 시간이 초과될 경우 행동 개선을 비롯해 몇 가지 버그를 수정합니다."
   }
 }

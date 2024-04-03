@@ -5585,6 +5585,6 @@
     "messageformat": "Suunnittelimme merkkien määrän ilmaisimen Windowsissa myös uudelleen. Nyt tehtäväpalkin väri vastaa ilmaisinalueen väriä."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Tämä päivitys poistaa muutamia virheitä ja tuo mm. johdonmukaisemman keskustelujen lajittelulogiikan sekä paremman toiminnan, jos sovellus kohtaa DNS-haun aikakatkaisun huonon verkkoyhteyden vuoksi."
   }
 }

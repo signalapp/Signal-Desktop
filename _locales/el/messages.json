@@ -5585,6 +5585,6 @@
     "messageformat": "Επίσης, επανασχεδιάσαμε την ένδειξη μέτρησης σημάτων στα Windows. Τώρα το χρώμα στη γραμμή εργασιών ταιριάζει με το χρώμα στη γραμμή εργασιών. Μόδα σημαίνει συντονισμός και μια μικρή κόκκινη νότα είναι η τέλεια εμφάνιση για την άνοιξη."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Αυτή η ενημέρωση εξαλείφει μερικά σφάλματα, συμπεριλαμβανομένης μιας πιο συνεπούς λογικής ταξινόμησης συνομιλιών και βελτιωμένης συμπεριφοράς εάν η εφαρμογή αντιμετωπίζει διακοπές αναζήτησης DNS λόγω κακής συνδεσιμότητας δικτύου."
   }
 }

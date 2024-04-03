@@ -5585,6 +5585,6 @@
     "messageformat": "Taip pat perkūrėme „Windows“ ženklelių skaičiaus indikatorių. Dabar užduočių juostos spalva atitinka spalvą sistemos dėkle."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Šiuo naujiniu pašalinama keletas klaidų, taip pat įdiegiama nuoseklesnė pokalbių rūšiavimo logika ir geresnis veikimas programėlei susiduriant su DNS paieškos laiko limitais dėl prasto tinklo ryšio."
   }
 }

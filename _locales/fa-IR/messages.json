@@ -1548,7 +1548,7 @@
     "messageformat": "عمومی"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "غلط‌یابی متن وارد شده در جعبهٔ نگارش پیام"
+    "messageformat": "غلط‌یابی متن وارد شده در جعبۀ نگارش پیام"
   },
   "icu:textFormattingDescription": {
     "messageformat": "با انتخاب متن، کادر ظاهرشونده قالب‌بندی متن نشان داده شود"
@@ -5585,6 +5585,6 @@
     "messageformat": "نشانگر تعداد نشان در ویندوز را نیز از نو طراحی کردیم. حالا دیگر رنگ نوار وظیفه با رنگ نوار سیستم همخوانی دارد."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "چند اشکال در این نسخه جدید برطرف شده است؛ از جمله اینکه اگر برنامه به‌دلیل ضعف شبکه با اختلال در اتصال DNS روبرو شود، منطق مرتب‌سازی مکالمه و رفتار آن بهبود یافته است."
   }
 }

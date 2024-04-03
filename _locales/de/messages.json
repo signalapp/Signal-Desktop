@@ -5585,6 +5585,6 @@
     "messageformat": "Außerdem haben wir den Zähler unter Windows neu gestaltet. Jetzt stimmt die Farbe in der Taskleiste mit der Farbe in der Systemleiste überein. In der Mode dreht sich alles um das richtige Zusammenspiel – da kommt ein kleiner roter Farbtupfer im Frühling doch wie gerufen."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Mit diesem Update werden gerade rechtzeitig zum Frühjahrsputz einige Fehler behoben. Wir bieten jetzt eine einheitlichere Sortierlogik für Unterhaltungen und ein verbessertes Verhalten, wenn bei schlechter Netzwerkverbindung eine Zeitüberschreitung beim DNS-Lookup auftritt."
   }
 }

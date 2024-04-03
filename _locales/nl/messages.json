@@ -513,7 +513,7 @@
     "messageformat": "Toch verzenden"
   },
   "icu:safetyNumberChangeDialog_send": {
-    "messageformat": "Uploaden"
+    "messageformat": "Verzenden"
   },
   "icu:safetyNumberChangeDialog_done": {
     "messageformat": "Klaar"
@@ -5585,6 +5585,6 @@
     "messageformat": "We hebben de teller in Windows ook een nieuwe look gegeven. De kleur ervan in de taakbalk matcht nu met die in het systeemvak. Mode is matchen en een rood accent past perfect bij je lentelook."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Deze update lost een paar bugs op, net op tijd voor de grote voorjaarsschoonmaak. Gesprekken worden nu logischer gesorteerd en de app reageert beter op time-outs tijdens DNS-zoekopdrachten als gevolg van een slechte netwerkverbinding."
   }
 }

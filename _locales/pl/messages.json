@@ -5585,6 +5585,6 @@
     "messageformat": "Przeprojektowaliśmy również licznik w systemie Windows. Od teraz jego kolor w pasku zadań odpowiada kolorowi w obszarze powiadomień. Bo styl to podstawa, również w Signal!"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "W ramach wiosennych porządków umieściliśmy w tej wersji kilka poprawek: uspójniliśmy system sortowania rozmów i ulepszyliśmy zachowanie aplikacji w sytuacji, gdy zostanie przekroczony limitu czasu wyszukiwania DNS z powodu słabej łączności sieciowej."
   }
 }

@@ -5585,6 +5585,6 @@
     "messageformat": "També hem redissenyat l'indicador de recompte d'insígnies a Windows. Ara, el color de la barra de tasques coincideix amb el color de la safata del sistema."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Aquesta actualització corregeix alguns errors, que inclouen una lògica més coherent a l'hora d'ordenar converses, i un millor funcionament de l'app si hi ha problemes d'espera de busca DNS a causa d'una mala connexió."
   }
 }

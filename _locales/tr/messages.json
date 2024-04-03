@@ -5585,6 +5585,6 @@
     "messageformat": "Windows'taki rozet sayısı göstergesini de yeniden tasarladık. Artık görev çubuğundaki renk, sistem tepsisindeki renkle eşleşiyor. Moda sırf uyumla ilgilidir ve küçük bir kırmızı ilavesi bahara mükemmel uyum sağlar."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Bu güncelleme, uygulamanın zayıf ağ bağlantısı nedeniyle DNS arama zaman aşımlarıyla karşılaşması halinde, daha tutarlı konuşma sıralama mantığı ve iyileştirilmiş davranış dahil olmak üzere birkaç hatayı ortadan kaldırmaktadır."
   }
 }

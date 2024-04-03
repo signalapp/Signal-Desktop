@@ -5585,6 +5585,6 @@
     "messageformat": "ನಾವು Windows ನಲ್ಲಿನ ಬ್ಯಾಡ್ಜ್ ಸಂಖ್ಯೆ ಸೂಚಕವನ್ನು ಕೂಡ ಮರುವಿನ್ಯಾಸ ಮಾಡಿದ್ದೇವೆ. ಈಗ ಟಾಸ್ಕ್‌ಬಾರ್‌ನಲ್ಲಿನ ಬಣ್ಣ ಸಿಸ್ಟಂ ಟ್ರೇನಲ್ಲಿನ ಬಣ್ಣಕ್ಕೆ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ. ಫ್ಯಾಶನ್‌ನಲ್ಲಿ ಅತಿ ಮುಖ್ಯವಾದುದು ಹೊಂದಾಣಿಕೆ, ಮತ್ತು ಸ್ವಲ್ಪ ಕೆಂಪು ಬಣ್ಣ ಸೇರಿದರೆ ವಸಂತ ಋತುವಿಗೆ ಸೂಕ್ತವಾದ ಪರ್ಫೆಕ್ಟ್ ಲುಕ್ ಕೊಡುತ್ತದೆ."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "ಕಳಪೆ ನೆಟ್‌ವರ್ಕ್ ಸಂಪರ್ಕದಿಂದಾಗಿ ಆ್ಯಪ್ DNS ಲುಕಪ್ ಟೈಮ್‌ಔಟ್‌ಗಳನ್ನು ಎದುರಿಸಿದರೆ, ಹೆಚ್ಚು ಸ್ಥಿರವಾದ ಸಂಭಾಷಣೆ ವಿಂಗಡಣೆಯ ಲಾಜಿಕ್ ಮತ್ತು ಸುಧಾರಿತ ನಡವಳಿಕೆಯನ್ನು ಒಳಗೊಂಡಂತೆ ಸ್ಪ್ರಿಂಗ್ ಕ್ಲೀನಿಂಗ್‌ಗಾಗಿ, ಈ ಅಪ್‌ಡೇಟ್ ಸರಿಯಾದ ಸಮಯದಲ್ಲಿ ಕೆಲವು ಬಗ್‌ಗಳನ್ನು ತೆರವು ಮಾಡುತ್ತದೆ."
   }
 }

@@ -5585,6 +5585,6 @@
     "messageformat": "Ons het ook die wapentelling-aanwyser in Windows herontwerp. Nou pas die kleur in die taakbalk by die kleur in die stelsellaai."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Hierdie opdatering maak 'n paar regstellings net betyds vir jou lente-opruiming; dit sluit in meer konsekwente gespreksorteringslogika en verbeterde werkverrigting indien die toepassing sluitings a.g.v. onaktiwiteit van DNS-opsoek ondervind wat deur 'n swak netwerkverbinding veroorsaak word."
   }
 }

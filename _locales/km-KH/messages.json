@@ -5585,6 +5585,6 @@
     "messageformat": "យើងក៏បានរចនាឡើងវិញនូវសញ្ញាបង្ហាញចំនួនស្លាកនៅលើ Windows ផងដែរ។ ឥឡូវនេះ ពណ៌នៅថាសបារត្រូវគ្នានឹងពណ៌នៅក្នុងផ្ទាំងកម្មវិធីរបស់ប្រព័ន្ធ។ ម៉ូដសំដៅលើការជ្រើសរើសពណ៌ឱ្យស៊ីគ្នា ហើយការបន្ថែមពណ៌ក្រហមបន្តិចគឺល្អឥតខ្ចោះសម្រាប់និទាឃរដូវ។"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "ការធ្វើបច្ចុប្បន្នភាពនេះដោះស្រាយបញ្ហាមួយចំនួនបានទាន់ពេលសម្រាប់និទាឃរដូវ រួមទាំងការតម្រៀបការសន្ទនាតាមលំដាប់លំដោយ និងដំណើរការកាន់តែល្អប្រសើរជាងមុន ប្រសិនបើកម្មវិធីនេះជួបបញ្ហាអស់ពេលក្នុងការស្វែងរកតាម DNS ដោយសារការភ្ជាប់បណ្តាញមិនសូវល្អ។"
   }
 }

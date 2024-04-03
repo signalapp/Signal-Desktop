@@ -5585,6 +5585,6 @@
     "messageformat": "Preoblikovali smo tudi kazalnik števila značk v operacijskem sistemu Windows. Zdaj se barva v opravilni vrstici ujema z barvo v sistemski plošči. V modi je pomembna usklajenost in dodatek rdeče barve ustvari popoln pomladni videz."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Ta posodobitev odpravlja nekaj napak ravno v času spomladanskega čiščenja, vključno z doslednejšo logiko razvrščanja pogovorov in izboljšanim obnašanjem, če aplikacija zaradi slabega omrežja naleti na izpad iskanja DNS."
   }
 }

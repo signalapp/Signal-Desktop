@@ -5585,6 +5585,6 @@
     "messageformat": "Vi har også endret designet på telleren i Windows, slik at fargen på oppgavelinjen matcher systemstatusfeltet."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Denne oppdateringen retter opp i et par feil, blant annet noen småfeil i sorteringen av samtaler, og problemer med tidsavbrudd under DNS-oppslag på grunn av dårlig nettverkstilkobling."
   }
 }

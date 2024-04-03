@@ -5585,6 +5585,6 @@
     "messageformat": "आम्ही Windows वरील बॅज गणना निर्देशकाचे देखील पुन्हा डिझाइन केले आहे. आता टास्कबारमधील रंग सिस्टिम ट्रे मधील रंगांशी जुळतो. फॅशन ही सर्व समन्वयाबद्दल आहे, आणि लाल रंगाची थोडीशी उधळण वसंत ऋतुसाठी परिपूर्ण दृश्य असते."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "जर ॲपला खराब नेटवर्क कनेक्टिव्हिटीमुळे DNS लुकअप टाइमआउटचा सामना करावा लागत असल्यास अधिक सुसंगत संभाषण क्रम तर्कशास्त्र आणि सुधारलेल्या वर्तनासह वेळेत स्प्रिंग क्लिनिंग करण्यासारखे काही दोष हे अपडेट दूर करते."
   }
 }

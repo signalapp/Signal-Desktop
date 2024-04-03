@@ -5585,6 +5585,6 @@
     "messageformat": "Windows жүйесіндегі таңба санының индикаторын да қайта жасап шықтық. Енді тапсырмалар тақтасының түсі мен жүйе науасының түсі бірдей болды. Сәннің негізгі факторы – үйлесімділік және аздаған қызыл түс – көктемнің тамаша көрінісі."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Бұл жаңартылған нұсқада біраз ақау түзетілді, оның ішінде интернет жылдамдығының баяу болуына байланысты қолданбаның DNS серверін іздеуге берілген уақыты бітіп қалған жағдайда әңгімені сұрыптау логикасы біріздірек келеді және дұрыс жұмыс істейді."
   }
 }

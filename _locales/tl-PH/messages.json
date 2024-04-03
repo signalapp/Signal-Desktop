@@ -5585,6 +5585,6 @@
     "messageformat": "Binago rin namin ang design sa badge count indicator sa Windows. Kakulay na ng taskbar ang kulay ng system tray."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Inayos ng update na ito ang ilang bugs, kasama na ang mas consistent na logic sa pag-aayos ng conversation at improved behavior ng app kung maka-encounter ito ng DNS lookup timeouts dahil sa mahinang network connection."
   }
 }

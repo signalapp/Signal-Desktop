@@ -5585,6 +5585,6 @@
     "messageformat": "ဝင်းဒိုးရှိ ဘဲ့ဂျ်အရေအတွက် အချက်ပြမှုပုံစံ ဒီဇိုင်းကိုလည်း ပြင်ထားသည်။ ယခုအခါ System Tray ရှိအရောင်နှင့် Taskbar ရှိအရောင် ကိုက်ညီသွားပါပြီ။ ဖက်ရှင်သည် ပေါင်းစပ်ညှိနှိုင်းမှုသာဖြစ်ပြီး တောက်ပသောအနီရောင်အနည်းငယ်သည် နွေဦးအတွက် ပြီးပြည့်စုံသော အသွင်အပြင်ဖြစ်သည်။"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "ဤအပ်ဒိတ်သည် ပို၍တသမတ်တည်းကျသည့် စကားအပြန်အလှန်ပြောဆိုမှုများကို ရွေးထုတ်စီစဉ်ခြင်းနှင့် ကွန်ရက်ချိတ်ဆက်မှုမကောင်းခြင်းကြောင့် DNS ရှာဖွေမှု အချိန်ကုန်သွားခြင်းများတွေ့ကြုံရပါက လုပ်ဆောင်မှုပိုမိုကောင်းမွန်စေခြင်းတို့အပါအဝင် နွေဦးအမှီ ရှင်းလင်းရေးပြုလုပ်ပေးပါသည်။"
   }
 }
