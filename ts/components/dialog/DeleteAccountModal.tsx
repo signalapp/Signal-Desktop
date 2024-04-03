@@ -18,11 +18,22 @@ import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
   window.persistStore?.purge();
+  window?.log?.info('store purged');
+
   await deleteAllLogs();
+  window?.log?.info('ladelete logs');
+
   await Data.removeAll();
+  window?.log?.info('data removeall');
+
   await Data.close();
+  window?.log?.info('db closed');
   await Data.removeDB();
+  window?.log?.info('db removed');
+
   await Data.removeOtherData();
+  window?.log?.info('otherdata removed');
+
   window.localStorage.setItem('restart-reason', 'delete-account');
 };
 
