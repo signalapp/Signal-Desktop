@@ -21,18 +21,18 @@ const deleteDbLocally = async () => {
   window?.log?.info('store purged');
 
   await deleteAllLogs();
-  window?.log?.info('ladelete logs');
+  window?.log?.info('deleteAllLogs: done');
 
   await Data.removeAll();
-  window?.log?.info('data removeall');
+  window?.log?.info('Data.removeAll: done');
 
   await Data.close();
-  window?.log?.info('db closed');
+  window?.log?.info('Data.close: done');
   await Data.removeDB();
-  window?.log?.info('db removed');
+  window?.log?.info('Data.removeDB: done');
 
   await Data.removeOtherData();
-  window?.log?.info('otherdata removed');
+  window?.log?.info('Data.removeOtherData: done');
 
   window.localStorage.setItem('restart-reason', 'delete-account');
 };

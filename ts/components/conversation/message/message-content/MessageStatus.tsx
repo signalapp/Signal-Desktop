@@ -182,7 +182,7 @@ const MessageStatusSent = ({ dataTestId, messageId }: Omit<Props, 'isDetailView'
   const isMostRecentOutgoingMessage = useIsMostRecentOutgoingMessage(messageId);
   const isGroup = useSelectedIsGroupOrCommunity();
 
-  // we hide the "sent" message status for a non-expiring message unless if it's the most recent outgoing message
+  // we hide the "sent" message status for a non-expiring messages unless it's the most recent outgoing message
   if (!isExpiring && !isMostRecentOutgoingMessage) {
     return null;
   }
