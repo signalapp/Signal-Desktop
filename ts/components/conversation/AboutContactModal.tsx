@@ -16,6 +16,7 @@ import {
   areNicknamesEnabled,
   canHaveNicknameAndNote,
 } from '../../util/nicknames';
+import { Tooltip, TooltipPlacement } from '../Tooltip';
 
 function muted(parts: Array<string | JSX.Element>) {
   return (
@@ -150,7 +151,7 @@ export function AboutContactModal({
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
 
         {canHaveNicknameAndNote(conversation) &&
-        conversation.nicknameGivenName &&
+        (conversation.nicknameGivenName || conversation.nicknameFamilyName) &&
         conversation.titleNoNickname ? (
           <span>
             <Intl
@@ -159,7 +160,24 @@ export function AboutContactModal({
               components={{
                 nickname: <UserText text={conversation.title} />,
                 titleNoNickname: (
-                  <UserText text={conversation.titleNoNickname} />
+                  <Tooltip
+                    className="AboutContactModal__TitleWithoutNickname__Tooltip"
+                    direction={TooltipPlacement.Top}
+                    content={
+                      <Intl
+                        i18n={i18n}
+                        id="icu:AboutContactModal__TitleWithoutNickname__Tooltip"
+                        components={{
+                          title: (
+                            <UserText text={conversation.titleNoNickname} />
+                          ),
+                        }}
+                      />
+                    }
+                    delay={0}
+                  >
+                    <UserText text={conversation.titleNoNickname} />
+                  </Tooltip>
                 ),
                 muted,
               }}

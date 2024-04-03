@@ -38,7 +38,8 @@ export function ProfileChangeNotification({
       contents={<Emojify text={message} />}
       button={
         areNicknamesEnabled() &&
-        changedContact.nicknameGivenName != null && (
+        (changedContact.nicknameGivenName != null ||
+          changedContact.nicknameFamilyName != null) && (
           <Button
             onClick={handleOpenEditNicknameAndNoteModal}
             size={ButtonSize.Small}

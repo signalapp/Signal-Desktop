@@ -7,6 +7,8 @@ import type { LocalizerType } from '../types/I18N';
 import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { Linkify } from './conversation/Linkify';
+import type { RenderTextCallbackType } from '../types/Util';
+import { Emojify } from './conversation/Emojify';
 
 export type NotePreviewModalProps = Readonly<{
   conversation: ConversationType;
@@ -14,6 +16,10 @@ export type NotePreviewModalProps = Readonly<{
   onClose: () => void;
   onEdit: () => void;
 }>;
+
+const renderNonLink: RenderTextCallbackType = ({ key, text }) => {
+  return <Emojify key={key} text={text} />;
+};
 
 export function NotePreviewModal({
   conversation,
@@ -40,7 +46,7 @@ export function NotePreviewModal({
       }
     >
       <div dir="auto">
-        <Linkify text={conversation.note ?? ''} />
+        <Linkify text={conversation.note ?? ''} renderNonLink={renderNonLink} />
       </div>
     </Modal>
   );

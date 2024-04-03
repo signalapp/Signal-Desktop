@@ -203,8 +203,8 @@ export async function toContactRecord(
     contactRecord.familyName = profileFamilyName;
   }
   const nicknameGivenName = conversation.get('nicknameGivenName');
-  if (nicknameGivenName) {
-    const nicknameFamilyName = conversation.get('nicknameFamilyName');
+  const nicknameFamilyName = conversation.get('nicknameFamilyName');
+  if (nicknameGivenName || nicknameFamilyName) {
     contactRecord.nickname = {
       given: nicknameGivenName,
       family: nicknameFamilyName,
