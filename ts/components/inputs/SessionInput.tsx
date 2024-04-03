@@ -85,7 +85,7 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
         onClick={props.toggleForceShow}
         style={{
           marginTop: '-0.5px',
-          marginRight: '-5px',
+          marginRight: '0.25px',
           position: 'absolute',
           top: '50%',
           transform: 'translateY(-50%)',
@@ -185,7 +185,7 @@ export const SessionInput = (props: Props) => {
           autoFocus={autoFocus}
           data-testid={inputDataTestId}
           onChange={updateInputValue}
-          style={{ paddingInlineEnd: enableShowHide ? '40px' : undefined }}
+          style={{ paddingInlineEnd: enableShowHide ? '48px' : undefined }}
           // just in case onChange isn't triggered
           onBlur={(event: ChangeEvent<HTMLInputElement>) => {
             if (!disabledOnBlur) {
