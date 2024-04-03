@@ -19,7 +19,7 @@ import { strictAssert } from '../util/assert';
 const formSchema = z.object({
   nickname: z
     .object({
-      givenName: z.string(),
+      givenName: z.string().nullable(),
       familyName: z.string().nullable(),
     })
     .nullable(),

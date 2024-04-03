@@ -4670,7 +4670,7 @@ export function updateLastMessage(
 
 export type NicknameAndNote = ReadonlyDeep<{
   nickname: {
-    givenName: string;
+    givenName: string | null;
     familyName: string | null;
   } | null;
   note: string | null;

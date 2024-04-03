@@ -1370,6 +1370,10 @@
     "messageformat": "{nickname} <muted>({titleNoNickname})</muted>",
     "description": "Title of conversation when there is a nickname, example: 'Jim (James Smith)'"
   },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "“{title}” is the profile name this person set for themselves in Signal.",
+    "description": "Tooltip for the non-nickname title of a conversation."
+  },
   "icu:AboutContactModal__verified": {
     "messageformat": "Verified",
     "description": "Text of a button on About modal leading to a safety number modal"
