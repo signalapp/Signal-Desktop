@@ -40,31 +40,31 @@ const SpacerStyled = styled.div<SpacerProps>`
     props.size === '3xl'
       ? 'var(--margins-3xl)'
       : props.size === '2xl'
-      ? 'var(--margins-2xl)'
-      : props.size === 'xl'
-      ? 'var(--margins-xl)'
-      : props.size === 'lg'
-        ? 'var(--margins-lg)'
-        : props.size === 'md'
-          ? 'var(--margins-md)'
-          : props.size === 'sm'
-            ? 'var(--margins-sm)'
-            : 'var(--margins-xs)'};
+        ? 'var(--margins-2xl)'
+        : props.size === 'xl'
+          ? 'var(--margins-xl)'
+          : props.size === 'lg'
+            ? 'var(--margins-lg)'
+            : props.size === 'md'
+              ? 'var(--margins-md)'
+              : props.size === 'sm'
+                ? 'var(--margins-sm)'
+                : 'var(--margins-xs)'};
 
   width: ${props =>
     props.size === '3xl'
       ? 'var(--margins-3xl)'
       : props.size === '2xl'
-      ? 'var(--margins-2xl)'
-      : props.size === 'xl'
-      ? 'var(--margins-xl)'
-      : props.size === 'lg'
-        ? 'var(--margins-lg)'
-        : props.size === 'md'
-          ? 'var(--margins-md)'
-          : props.size === 'sm'
-            ? 'var(--margins-sm)'
-            : 'var(--margins-xs)'};
+        ? 'var(--margins-2xl)'
+        : props.size === 'xl'
+          ? 'var(--margins-xl)'
+          : props.size === 'lg'
+            ? 'var(--margins-lg)'
+            : props.size === 'md'
+              ? 'var(--margins-md)'
+              : props.size === 'sm'
+                ? 'var(--margins-sm)'
+                : 'var(--margins-xs)'};
 `;
 
 const Spacer = (props: SpacerProps) => {

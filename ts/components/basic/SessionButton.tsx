@@ -72,8 +72,8 @@ const StyledButton = styled.div<{
     props.buttonShape === SessionButtonShape.Round
       ? '17px'
       : props.buttonShape === SessionButtonShape.Square
-      ? '6px'
-      : '0px'};
+        ? '6px'
+        : '0px'};
 
   .session-icon {
     fill: var(--background-primary-color);
