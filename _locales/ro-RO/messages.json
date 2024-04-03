@@ -5585,6 +5585,6 @@
     "messageformat": "De asemenea, am reproiectat indicatorul de numărare a insignelor pe Windows. Acum, culoarea din bara de activități se potrivește cu cea din bara de sistem. Moda se bazează pe coordonare, iar un pic de roșu este un look perfect pentru primăvară."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Această actualizare elimină câteva erori fix la timp pentru curățenia de primăvară, inclusiv o logică de sortare a conversațiilor mai coerentă și un comportament îmbunătățit în cazul în care aplicația întâmpină întârzieri în căutarea DNS din cauza unei conexiuni de rețea slabe."
   }
 }

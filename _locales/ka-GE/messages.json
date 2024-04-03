@@ -5585,6 +5585,6 @@
     "messageformat": "ასევე, Windows-ზე დათვლის მაჩვენებელის ემბლემა განვაახლეთ. ახლა დავალების ზოლის ფერი სისტემის უჯრის ფერს ემთხვევა."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "ამ განახლებაში რამდენიმე შეცდომაა გამოსწორებული, მათ შორის საუბრის უფრო თანმიმდევრული სორტირების ლოგიკა და გაუმჯობესებული პერფორმანსი იმ შემთხვევებში, როცა აპი ცუდი ინტერნეტ კავშირის გამო DNS-ის მოძიების დროის ამოწურვის პრობლემას გადააწყდება."
   }
 }

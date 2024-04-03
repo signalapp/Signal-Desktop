@@ -5585,6 +5585,6 @@
     "messageformat": "Samuti uuendasime Windowsi jaoks märkide loenduri indikaatorit. Tegumiribal olev värv ühtib nüüd süsteemisalves oleva värviga."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Selle värskendusega kõrvaldatakse mõned vead, sh muudetakse vestluste sorteerimist ühtlasemaks ning parandatakse rakenduse toimimist olukorras kui DNS-i otsingud kehva võrguühenduse tõttu aeguvad."
   }
 }

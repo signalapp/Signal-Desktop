@@ -1548,7 +1548,7 @@
     "messageformat": "عام"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "پیغام تحریر کرنے کے خانے میں املاء چیک کرنے والا متن داخل کیا گیا ہے"
+    "messageformat": "میسج تحریر کرنے کے خانے میں املاء چیک کرنے والا متن داخل کیا گیا"
   },
   "icu:textFormattingDescription": {
     "messageformat": "متن منتخب کرتے وقت متن فارمیٹنگ پاپ اوور ظاہر کریں"
@@ -4521,7 +4521,7 @@
     "messageformat": "اطلاعی مواد"
   },
   "icu:Preferences--blocked": {
-    "messageformat": "بلاک کر دیا گیا"
+    "messageformat": "بلاک شدہ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} رابطہ} other {{num,number} روابط}}"
@@ -5585,6 +5585,6 @@
     "messageformat": "ہم نے Windows پر بیج شمار کرنے والا انڈیکٹیر بھی از سر نو ڈیزائن کر دیا ہے۔ اب ٹاسک بار کا رنگ سسٹم ٹرے کے رنگ سے ممالث ہے۔"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "یہ اپ ڈیٹ چند ایک بگز کو ٹھیک کرتی ہے جن میں شامل ہیں گفتگو کے زیادہ ہموار سارٹ لاجک اور ایپ کا پہلے سے بہتر برتاؤ اگر ناقص کنکٹیوٹی کے باعث اسے DNS لک اپ ٹائم آؤٹس کا سامنا ہوتا ہے۔"
   }
 }

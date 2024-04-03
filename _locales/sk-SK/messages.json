@@ -5585,6 +5585,6 @@
     "messageformat": "Prepracovali sme tiež odznak s počtom notifikácií v systéme Windows. Farba na paneli úloh sa teraz zhoduje s farbou na systémovej lište."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Táto aktualizácia opravuje niekoľko chýb vrátane konzistentnejšej logiky triedenia konverzácií a vylepšeného správania, ak aplikácia narazí na časové limity vyhľadávania DNS z dôvodu slabého sieťového pripojenia."
   }
 }

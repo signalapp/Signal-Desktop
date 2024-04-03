@@ -5585,6 +5585,6 @@
     "messageformat": "我們也重新設計了 Windows 上的通知標記計數器。現在工作列中的顏色與系統匣中的顏色相符，能増加色彩的舒服協調感。"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "此更新清除了一些錯誤，包括使對話排序邏輯更一致，以及改進了當應用程式因網路連線不佳而遇到網域名稱系統 (DNS) 查找逾時的表現。"
   }
 }

@@ -852,7 +852,7 @@
     "messageformat": "元のメッセージを見つけたが、ロードされていません。ロードするのにスクロールアップして下さい。"
   },
   "icu:voiceRecording--start": {
-    "messageformat": "音声メッセージの録音を開始"
+    "messageformat": "音声メッセージの録音を開始する"
   },
   "icu:voiceRecording--complete": {
     "messageformat": "音声メッセージを送信"
@@ -1353,7 +1353,7 @@
     "messageformat": "参加する"
   },
   "icu:CallingLobbyJoinButton--start": {
-    "messageformat": "開始"
+    "messageformat": "開始する"
   },
   "icu:CallingLobbyJoinButton--call-full": {
     "messageformat": "定員オーバーです"
@@ -2364,7 +2364,7 @@
     "messageformat": "ステッカー選択画面を開く"
   },
   "icu:Keyboard--begin-recording-voice-note": {
-    "messageformat": "音声メモの録音を開始"
+    "messageformat": "音声メモの録音を開始する"
   },
   "icu:Keyboard--default-message-action": {
     "messageformat": "選択したメッセージの既定アクション"
@@ -2505,7 +2505,7 @@
     "messageformat": "音声通話を開始する"
   },
   "icu:Keyboard--start-video-call": {
-    "messageformat": "ビデオ通話を開始"
+    "messageformat": "ビデオ通話を開始する"
   },
   "icu:Keyboard--decline-call": {
     "messageformat": "拒否する"
@@ -2751,7 +2751,7 @@
     "messageformat": "共通のグループはありません。慎重に申請を確認してください。"
   },
   "icu:acceptCall": {
-    "messageformat": "通話を開始"
+    "messageformat": "通話を開始する"
   },
   "icu:acceptCallWithoutVideo": {
     "messageformat": "ビデオなしで通話に応答する"
@@ -2826,10 +2826,10 @@
     "messageformat": "呼び出しています…"
   },
   "icu:makeOutgoingCall": {
-    "messageformat": "通話を開始"
+    "messageformat": "通話を開始する"
   },
   "icu:makeOutgoingVideoCall": {
-    "messageformat": "ビデオ通話を開始"
+    "messageformat": "ビデオ通話を開始する"
   },
   "icu:joinOngoingCall": {
     "messageformat": "参加する"
@@ -2949,7 +2949,7 @@
     "messageformat": "あなたの画面を共有"
   },
   "icu:calling__SelectPresentingSourcesModal--confirm": {
-    "messageformat": "共有を開始"
+    "messageformat": "共有を開始する"
   },
   "icu:calling__SelectPresentingSourcesModal--entireScreen": {
     "messageformat": "画面全体"
@@ -5585,6 +5585,6 @@
     "messageformat": "Windowsでのアイコン上の通知数表示もデザインを変更しました。タスクバーの色とシステムトレイの色が一致するようになりました。"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "このアップデートでは、会話の並べ替えロジックの一貫性の向上、ネットワーク接続不良によるアプリのDNSルックアップのタイムアウトが発生した場合の動作改善、などいくつかのバグの修正がおこなわれました。"
   }
 }

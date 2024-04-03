@@ -5585,6 +5585,6 @@
     "messageformat": "Vi har även gjort om antalsindikatorn i märken på Windows. Nu matchar aktivitetsfältets och systemfältets färg varandra."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Den här uppdateringen åtgärdar några buggar, inklusive mer konsekvent logik för konversationssortering och förbättrat beteende om appen stöter på tidsgränser för DNS-uppslagning på grund av dålig nätverksanslutning."
   }
 }

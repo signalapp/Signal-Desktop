@@ -1548,7 +1548,7 @@
     "messageformat": "Vispārīgi"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "Ziņas sastādīšanas laukā ievadītā teksta pareizrakstības pārbaude"
+    "messageformat": "Pārbaudīt ziņu pareizrakstību teksta ievades laukā"
   },
   "icu:textFormattingDescription": {
     "messageformat": "Rādīt teksta formatēšanas uznirstošo izvēlni, kad ir atlasīts teksts"
@@ -5585,6 +5585,6 @@
     "messageformat": "Mēs arī pārveidojām nozīmītes skaita indikatora dizainu operētājsistēmā Windows. Tagad uzdevumjoslas krāsa atbilst sistēmas ikonjoslas krāsai. Saskaņotas krāsas ir modē, un nelieli sarkani akcenti lieliski saskan ar tuvojošos pavasari."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Tuvojoties pavasara tīrīšanai, šis atjauninājums atrisina dažas kļūdas, tostarp ir ieviesta konsekventāka sarunu kārtošana un uzlabota lietotnes darbība brīžos, kad rodas DNS meklēšanas noilgumi nestabila tīkla savienojuma dēļ."
   }
 }

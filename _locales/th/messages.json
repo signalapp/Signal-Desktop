@@ -5585,6 +5585,6 @@
     "messageformat": "นอกจากนั้น เรายังปรับสีสัญลักษณ์ที่แสดงจำนวนการแจ้งเตือนบน Windows ในแถบงาน (Taskbar) ให้เป็นสีเดียวกับในถาดระบบ"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กหลายตัวเพื่อปรับปรุงรูปแบบการจัดเรียงบทสนทนาให้ตอบโจทย์การใช้งานยิ่งขึ้น รวมถึงพัฒนาการตอบสนองของแอปในกรณี DNS Lookup Timeout ที่มีสาเหตุมาจากปัญหาสัญญาณอินเทอร์เน็ต"
   }
 }

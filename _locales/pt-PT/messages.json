@@ -5585,6 +5585,6 @@
     "messageformat": "Também redesenhámos o crachá de indicador de contagem no Windows. Agora a cor da barra de tarefas combina com a cor da bandeja do sistema. Um pouquinho de vermelho para um ar primaveril."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Esta atualização corrige alguns erros, incluindo uma ordenação de conversas mais consistente e melhorias de comportamento da app caso esta se depare com tempos limite de pesquisa de DNS devido a uma fraca conectividade de rede."
   }
 }

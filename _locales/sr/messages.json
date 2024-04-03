@@ -5585,6 +5585,6 @@
     "messageformat": "Такође смо редизајнирали индикатор броја обавештења на Windows-у. Сада се боја на траци задатака поклапа са бојом у системској палети."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "У овом ажурирању је уклоњено неколико грешака, укључујући конзистентнију логику сортирања разговора и побољшано понашање апликације ако наиђе на истек времена при тражењу DNS-а због лоше мрежне повезаности."
   }
 }

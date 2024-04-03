@@ -5585,6 +5585,6 @@
     "messageformat": "Chúng tôi đã thiết kế lại biểu tượng đếm số trên Windows. Hiện tại, màu sắc của thanh tác vụ khớp với màu của khay hệ thống."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Bản cập nhật này sửa một số lỗi, với cách sắp xếp cuộc trò chuyện trở nên nhất quán hơn và cải thiện cách ứng dụng phản ứng trong trường hợp giai đoạn tìm kiếm DNS có lỗi hết thời gian vì chất lượng kết nối mạng kém."
   }
 }

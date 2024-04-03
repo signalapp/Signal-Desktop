@@ -5585,6 +5585,6 @@
     "messageformat": "Também mudamos o design do indicador de contagem de selos no Windows. Agora a cor na barra de tarefas é igual à cor na bandeja do sistema."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Essa atualização elimina alguns bugs, incluindo uma lógica de organização de conversas mais consistente e melhorias no desempenho do app ao encontrar tempos limite de consulta de DNS devido a uma conexão de rede ruim."
   }
 }

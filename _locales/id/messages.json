@@ -5585,6 +5585,6 @@
     "messageformat": "Kami juga mendesain ulang indikator hitungan lencana di Windows. Kini, warna bilah tugas sama dengan warna di baki sistem."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Pembaruan kali ini memperbaiki beberapa bug, termasuk logika penyortiran percakapan yang lebih konsisten dan penyempurnaan reaksi ketika aplikasi mengalami habis-waktu pencarian DNS karena konektivitas jaringan yang buruk."
   }
 }

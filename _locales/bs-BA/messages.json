@@ -5585,6 +5585,6 @@
     "messageformat": "Također smo redizajnirali indikator broja znački u sustavu Windows. Sada boja na programskoj traci odgovara boji u paleti sustava"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Ovo ažuriranje ispravlja nekoliko grešaka, uključujući dosljedniju logiku sortiranja razgovora i poboljšano ponašanje ako aplikacija naiđe na isteke DNS pretraživanja zbog loše mrežne veze."
   }
 }

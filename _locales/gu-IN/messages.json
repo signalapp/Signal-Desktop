@@ -5585,6 +5585,6 @@
     "messageformat": "અમે Windows પરના બૅજ કાઉન્ટ ઇન્ડિકેટરને પણ ફરીથી ડિઝાઇન કર્યું છે. હવે ટાસ્કબારનો રંગ સિસ્ટમ ટ્રેના રંગ સાથે મેચ થાય છે."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "આ અપડેટમાં થોડા બગ ઠીક કરવામાં આવ્યા છે, જેમાં શામેલ છે ઍપને નબળી નેટવર્ક કનેક્ટિવિટીને કારણે DNS લૂકઅપ ટાઇમઆઉટનો સામનો કરવો પડે તેવા કિસ્સામાં વાતચીતને વધુ સાતત્ય સાથે સોર્ટ કરવાનો તર્ક અને સુધારેલ વર્તણૂક."
   }
 }

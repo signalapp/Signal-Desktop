@@ -5585,6 +5585,6 @@
     "messageformat": "விண்டோஸில் பேட்ஜ் எண்ணிக்கை குறிகாட்டியையும் நாங்கள் மறுவடிவமைப்பு செய்துள்ளோம். இப்போது டாஸ்க்பாரில் உள்ள நிறம் சிஸ்டம் ட்ரேவில் உள்ள நிறத்துடன் பொருந்துகிறது."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "மோசமான நெட்வொர்க் இணைப்பின் காரணமாக ஆப் ஆனது DNS லுக்-அப் டைம்அவுட்ஸை எதிர்கொண்டால், மேலும் நிலையான உரையாடல் சார்ட் லாஜிக் மற்றும் மேம்படுத்தப்பட்ட நடத்தை உட்பட சில பிழைகளை இந்தப் புதுப்பிப்பு நீக்குகிறது."
   }
 }

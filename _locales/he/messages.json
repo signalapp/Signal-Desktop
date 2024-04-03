@@ -5585,6 +5585,6 @@
     "messageformat": "בנוסף, עיצבנו מחדש את מחוון הספירה של התג ב–Windows. עכשיו, הצבע בשורת המשימות תואם לצבע במגש המערכת."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "העדכון הזה מתקן כמה באגים, כולל מיון שיחות עקבי יותר והתמודדות משופרת של האפליקציה עם מקרים של הפסקות בחיפוש DNS עקב חיבור אינטרנט חלש."
   }
 }

@@ -1353,7 +1353,7 @@
     "messageformat": "Войти"
   },
   "icu:CallingLobbyJoinButton--start": {
-    "messageformat": "Начало"
+    "messageformat": "Начать"
   },
   "icu:CallingLobbyJoinButton--call-full": {
     "messageformat": "Звонок заполнен"
@@ -5585,6 +5585,6 @@
     "messageformat": "Мы также изменили дизайн индикатора количества звонков в Windows. Теперь его цвет на панели задач совпадает с цветом в системном трее. Задача моды - создать гармоничный образ, и немного красного цвета идеально подойдет для весны."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "В этом обновлении – как раз к весенней уборке – устранены несколько ошибок, в том числе в логике при сортировке бесед – теперь она более последовательна, и улучшена функциональность на тот случай, когда из-за плохого подключения к сети приложение сталкивается с тайм-аутами при DNS-поиске."
   }
 }

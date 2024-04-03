@@ -1953,14 +1953,6 @@
     "messageformat": "No one else is here",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "In this call · 1 person",
-    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "In this call · {people} people",
-    "description": "(Deleted 2024/02/29) Shown in the participants list to describe how many people are in the call"
-  },
   "icu:calling__in-this-call": {
     "messageformat": "In this call · {people, plural, one {# person} other {# people}}",
     "description": "Shown in the participants list to describe how many people are in the call"
@@ -3857,10 +3849,6 @@
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Settings",
     "description": "Title for device selection settings"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} in call",
-    "description": "(Deleted 2024/02/29) Title for participants list toggle"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {#} other {#}} in call",
@@ -7496,7 +7484,8 @@
     "description": "(Deleted 2024/03/20)"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity.",
+    "description": "(Deleted 2024/04/03)"
   },
   "icu:WhatsNew__v7.5--0": {
     "messageformat": "We added support for custom nicknames and notes for anyone you're chatting with on Signal, even if they aren't in your system contacts. Whether you're adding the missing letters in a lazy friend's profile name, or a reminder about where you met, notes and nicknames provide a convenient and secure way to jot down additional details about your Signal Connections — and they're end-to-end encrypted and protected by your Signal PIN so they can be securely restored if you lose your phone too."
@@ -7506,5 +7495,5 @@
   },
   "icu:WhatsNew__v7.5--2": {
     "messageformat": "For users on Windows, this update re-enables support for detailed unread message counts on the Signal icon. Say goodbye to “9+” because now the icon goes to 11 (or higher)."
-  }  
+  }
 }

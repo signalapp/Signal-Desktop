@@ -5585,6 +5585,6 @@
     "messageformat": "Ne gjithashtu riprojektuam treguesin e numërimit të distinktivit në Windows. Tani ngjyra në shiritin e detyrave përputhet me ngjyrën në shiritin e sistemit. Moda lidhet ngushtë me koordinimin, dhe pakëz pikë të kuqe është pamja e përkryer për pranverën."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Përditësimi rregullon disa gabime pikërisht në kohën e pastrimit pranveror, duke përfshirë logjikën më të qëndrueshme të renditjes së bisedave dhe përmirësimin e sjelljes në rastet kur aplikacioni ndesh afate të shkurtra kohore kërkimeve DNS për shkak të lidhjes së dobët të rrjetit."
   }
 }

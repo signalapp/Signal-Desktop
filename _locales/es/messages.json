@@ -5585,6 +5585,6 @@
     "messageformat": "También hemos rediseñado el indicador de recuento de insignias en Windows. Ahora el color de la barra de tareas coincide con el color de la bandeja del sistema."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Esta actualización corrige algunos errores, que incluyen una lógica más coherente a la hora de ordenar conversaciones, y un mejor funcionamiento de la app si esta encuentra tiempos de espera de búsqueda de DNS debido a una conectividad de red deficiente."
   }
 }

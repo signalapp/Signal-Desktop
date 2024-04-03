@@ -5585,6 +5585,6 @@
     "messageformat": "Promijenili smo izgled ikone propuštenih poziva u sustavu Windows. Od sada će boja ikone na programskoj traci odgovarati bojama sustava."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Ovo ažuriranje ispravlja nekoliko pogrešaka: sada će sortiranje razgovora biti dosljednije, a aplikacija će biti stabilnija ako dođe do prekida u DNS pretraživanju zbog loše mrežne povezanosti."
   }
 }

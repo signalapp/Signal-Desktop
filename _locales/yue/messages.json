@@ -5585,6 +5585,6 @@
     "messageformat": "我哋仲重新設計咗 Windows 嘅標記數量指標，而家工作列嘅顏色會襯返系統匣嘅顏色，咁睇落就更加順眼啦！"
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "呢次更新清走咗一啲錯誤，包括令對話排序邏輯更一致，同埋改善咗因為網絡連線問題而出現網域名稱系統 (DNS) 搜尋超時嘅表現。"
   }
 }

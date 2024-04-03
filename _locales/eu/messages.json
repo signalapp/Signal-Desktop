@@ -5585,6 +5585,6 @@
     "messageformat": "Windows-en bereizgarri kopuruaren adierazlea ere birmoldatu dugu. Orain ataza-barrako kolorea sistemaren erretiluko kolorearekin bat dator. Moda koordinazioan datza, eta udaberriari ukitu gorria ematea ideia bikaina da."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Eguneratze honen bidez, akats batzuk konpondu dira; esaterako, elkarrizketak ordenatzeko logika koherenteagoa da orain, eta, aplikazio-elkartzeetan DNSak bilatzeko denbora-mugak konexio txarrak direla-eta gainditzean, Signal-ek duen portaera hobetu da."
   }
 }

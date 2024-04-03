@@ -5585,6 +5585,6 @@
     "messageformat": "Rinneamar athdhearadh ar tháscaire an chomhairimh suaitheantais ar Windows freisin. Tá an dath ar an tascbharra ag teacht leis an dath i dtráidire an chórais anois."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "Réitíonn an nuashonrú seo cúpla fabht, ina measc loighic sórtála comhráite níos comhsheasmhaí agus iompar feabhsaithe má bhíonn am istigh ar chuardaigh DNS ag an aip mar gheall ar nascacht líonra lag."
   }
 }

@@ -5585,6 +5585,6 @@
     "messageformat": "Windows دىكى ئىزنەك سانى كۆرسەتكۈچىنى قايتا لايىھەلىدۇق. ھازىر ۋەزىپە بالدىقىنىڭ رەڭگى سىستېما تەخسىسىنىڭ رەڭگى بىلەن ماس كېلىدىغان بولدى."
   },
   "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity."
+    "messageformat": "بۇ يېڭىلاشتا بەزى كاشىلىلار ھەل قىلىندى، بۇ تېخىمۇ ئىزچىل بولغان سۆھبەت تىزىش لوگىكىسى ۋە تور ئۇلىنىشى راۋان بولماسلىق سەۋەبىدىن كېلىپ چىققان ئەپنىڭ DNS ئىزدەش ۋاقتى ئېشىپ كېتىش قاتارلىق مەسىلىلەرنى ئ‍ۆز ئىچىگە ئالىدۇ."
   }
 }
