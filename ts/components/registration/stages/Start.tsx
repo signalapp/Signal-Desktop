@@ -12,8 +12,8 @@ import {
 } from '../../../state/onboarding/ducks/registration';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
+import { resetRegistration } from '../RegistrationStages';
 import { TermsAndConditions } from '../TermsAndConditions';
-import { resetRegistration } from '../utils';
 
 export const Start = () => {
   const dispatch = useDispatch();

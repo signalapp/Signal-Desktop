@@ -28,9 +28,10 @@ import { Flex } from '../../basic/Flex';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
+import { resetRegistration } from '../RegistrationStages';
 import { OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
-import { displayNameIsValid, resetRegistration, sanitizeDisplayNameOrToast } from '../utils';
+import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 
 export type AccountDetails = {
   recoveryPassword: string;

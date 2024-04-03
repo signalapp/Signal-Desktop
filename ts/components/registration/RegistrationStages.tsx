@@ -1,6 +1,8 @@
 import { shell } from 'electron';
+import { Data } from 'emoji-mart';
 import { AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
+import { getConversationController } from '../../session/conversations';
 import {
   AccountCreation,
   AccountRestoration,
@@ -11,11 +13,20 @@ import {
   useOnboardAccountRestorationStep,
   useOnboardStep,
 } from '../../state/onboarding/selectors/registration';
+import { Storage } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { OnboardContainer } from './components';
 import { CreateAccount, RestoreAccount, Start } from './stages';
+
+export async function resetRegistration() {
+  await Data.removeAll();
+  Storage.reset();
+  await Storage.fetch();
+  getConversationController().reset();
+  await getConversationController().load();
+}
 
 const StyledRegistrationContainer = styled(Flex)`
   width: 348px;

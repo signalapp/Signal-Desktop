@@ -37,10 +37,11 @@ import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { SessionProgressBar } from '../../loading';
+import { resetRegistration } from '../RegistrationStages';
 import { OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithininContainer } from '../components/BackButton';
 import { useRecoveryProgressEffect } from '../hooks';
-import { displayNameIsValid, resetRegistration, sanitizeDisplayNameOrToast } from '../utils';
+import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 import { AccountDetails } from './CreateAccount';
 
 type AccountRestoreDetails = AccountDetails & { dispatch: Dispatch; abortSignal?: AbortSignal };

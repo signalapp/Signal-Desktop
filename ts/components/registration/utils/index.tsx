@@ -1,17 +1,5 @@
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import { Data } from '../../../data/data';
-import { getConversationController } from '../../../session/conversations';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
-import { Storage } from '../../../util/storage';
-
-export async function resetRegistration() {
-  await Data.removeAll();
-  Storage.reset();
-  await Storage.fetch();
-  getConversationController().reset();
-  await getConversationController().load();
-  // TODO[epic=ses-899] onboarding reset here?
-}
 
 export function sanitizeDisplayNameOrToast(
   displayName: string,
