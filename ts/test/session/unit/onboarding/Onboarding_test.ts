@@ -1,6 +1,8 @@
 import Sinon from 'sinon';
 
-describe('Registration', () => {
+describe('Onboarding', () => {
+  // stubWindowLog();
+  // stubI18n();
   // TODO set mnemonic generateMnemonic() ?
 
   beforeEach(() => {});
@@ -10,11 +12,16 @@ describe('Registration', () => {
   });
 
   describe('displayNameIsValid', () => {
-    // Arrange
     // TODO different display names for testing
     // const validDisplayName = displayNameIsValid(displayName);
-    // Act
-    // Assert
+    // it('it should throw an error if the display name is undefined', async () => {
+    //   try {
+    //     displayNameIsValid(undefined);
+    //   } catch (error) {
+    //     error.should.be.an.instanceOf(Error);
+    //     error.message.should.equal(window.i18n('displayNameEmpty'));
+    //   }
+    // });
   });
 
   describe('sanitizeDisplayNameOrToast', () => {
