@@ -1739,10 +1739,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const conversationId = this.id;
-    const isLegacyGroup = this.isGroup() && !this.isPublic() && this.id.startsWith('05');
+    const isLegacyGroup = this.isClosedGroup() && this.id.startsWith('05');
 
     let friendRequestText;
-    // NOTE: legacy groups are never approved, so we don't should not cancel notifications
+    // NOTE: legacy groups are never approved, so we should not cancel notifications
     if (!this.isApproved() && !isLegacyGroup) {
       window?.log?.info('notification cancelled for unapproved convo', this.idForLogging());
       const hadNoRequestsPrior =
