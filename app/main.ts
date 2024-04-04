@@ -2426,6 +2426,9 @@ ipc.on('get-config', async event => {
     preferredSystemLocales: getPreferredSystemLocales(),
     localeOverride: getLocaleOverride(),
     version: app.getVersion(),
+    libsignalNetEnvironment: config.has('libsignalNetEnvironment')
+      ? config.get<string>('libsignalNetEnvironment')
+      : undefined,
     buildCreation: config.get<number>('buildCreation'),
     buildExpiration: config.get<number>('buildExpiration'),
     challengeUrl: config.get<string>('challengeUrl'),

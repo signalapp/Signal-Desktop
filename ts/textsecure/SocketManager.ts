@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Net } from '@signalapp/libsignal-client';
 import URL from 'url';
 import type { RequestInit, Response } from 'node-fetch';
 import { Headers } from 'node-fetch';
@@ -103,7 +104,10 @@ export class SocketManager extends EventListener {
 
   private reconnectController: AbortController | undefined;
 
-  constructor(private readonly options: SocketManagerOptions) {
+  constructor(
+    private readonly libsignalNet: Net.Net,
+    private readonly options: SocketManagerOptions
+  ) {
     super();
 
     this.hasStoriesDisabled = options.hasStoriesDisabled;
@@ -565,14 +569,9 @@ export class SocketManager extends EventListener {
   }
 
   private connectLibsignalUnauthenticated(): AbortableProcess<IWebSocketResource> {
-    return new AbortableProcess<IWebSocketResource>(
-      `WebSocket.connect(libsignal.${UNAUTHENTICATED_CHANNEL_NAME})`,
-      {
-        abort() {
-          // noop
-        },
-      },
-      Promise.resolve(new LibsignalWebSocketResource(this.options.version))
+    return LibsignalWebSocketResource.connect(
+      this.libsignalNet,
+      UNAUTHENTICATED_CHANNEL_NAME
     );
   }
 
@@ -666,7 +665,8 @@ export class SocketManager extends EventListener {
     const url = `${this.options.url}${path}?${qs.encode(queryWithDefaults)}`;
     const { version } = this.options;
 
-    return connectWebSocket({
+    const start = performance.now();
+    const webSocketResourceConnection = connectWebSocket({
       name,
       url,
       version,
@@ -675,17 +675,69 @@ export class SocketManager extends EventListener {
 
       extraHeaders,
 
-      createResource(socket: WebSocket): IWebSocketResource {
-        return !resourceOptions.transportOption ||
-          resourceOptions.transportOption === TransportOption.Original
-          ? new WebSocketResource(socket, resourceOptions)
-          : new WebSocketResourceWithShadowing(
-              socket,
-              resourceOptions,
-              version
-            );
+      createResource(socket: WebSocket): WebSocketResource {
+        const duration = (performance.now() - start).toFixed(1);
+        log.info(
+          `WebSocketResource(${resourceOptions.name}) connected in ${duration}ms`
+        );
+        return new WebSocketResource(socket, resourceOptions);
       },
     });
+
+    const shadowingModeEnabled =
+      !resourceOptions.transportOption ||
+      resourceOptions.transportOption === TransportOption.Original;
+    return shadowingModeEnabled
+      ? webSocketResourceConnection
+      : this.connectWithShadowing(webSocketResourceConnection, resourceOptions);
+  }
+
+  /**
+   * A method that takes in an `AbortableProcess<>` that establishes
+   * a `WebSocketResource` connection and wraps it in a process
+   * that also tries to establish a `LibsignalWebSocketResource` connection.
+   *
+   * The shadowing connection will not block the main one (e.g. if it takes
+   * longer to connect) and an error in the shadowing connection will not
+   * affect the overall behavior.
+   *
+   * @param mainConnection an `AbortableProcess<WebSocketResource>` responsible
+   * for establishing a Desktop system WebSocket connection.
+   * @param options `WebSocketResourceOptions` options
+   * @private
+   */
+  private connectWithShadowing(
+    mainConnection: AbortableProcess<WebSocketResource>,
+    options: WebSocketResourceOptions
+  ): AbortableProcess<IWebSocketResource> {
+    // creating an `AbortableProcess` of libsignal websocket connection
+    const shadowingConnection = LibsignalWebSocketResource.connect(
+      this.libsignalNet,
+      options.name
+    );
+    const shadowWrapper = async () => {
+      // if main connection results in an error,
+      // it's propagated as the error of the resulting process
+      const mainSocket = await mainConnection.resultPromise;
+      // here, we're not awaiting on `shadowingConnection.resultPromise`
+      // and just letting `WebSocketResourceWithShadowing`
+      // initiate and handle the result of the shadowing connection attempt
+      return new WebSocketResourceWithShadowing(
+        mainSocket,
+        shadowingConnection,
+        options
+      );
+    };
+    return new AbortableProcess<IWebSocketResource>(
+      `WebSocketResourceWithShadowing.connect(${options.name})`,
+      {
+        abort() {
+          mainConnection.abort();
+          shadowingConnection.abort();
+        },
+      },
+      shadowWrapper()
+    );
   }
 
   private async checkResource(
