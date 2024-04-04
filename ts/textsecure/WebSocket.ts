@@ -17,6 +17,7 @@ import { ConnectTimeoutError, HTTPError } from './Errors';
 import { handleStatusCode, translateError } from './Utils';
 
 const TEN_SECONDS = 10 * durations.SECOND;
+const WEBSOCKET_CONNECT_TIMEOUT = TEN_SECONDS;
 const KEEPALIVE_INTERVAL_MS = TEN_SECONDS;
 
 export type IResource = {
@@ -42,7 +43,7 @@ export function connect<Resource extends IResource>({
   version,
   proxyAgent,
   extraHeaders = {},
-  timeout = TEN_SECONDS,
+  timeout = WEBSOCKET_CONNECT_TIMEOUT,
   createResource,
 }: ConnectOptionsType<Resource>): AbortableProcess<Resource> {
   const fixedScheme = url

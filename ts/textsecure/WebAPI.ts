@@ -16,6 +16,7 @@ import { z } from 'zod';
 import type { Readable } from 'stream';
 import type { connection as WebSocket } from 'websocket';
 
+import { Net } from '@signalapp/libsignal-client';
 import { assertDev, strictAssert } from '../util/assert';
 import { isRecord } from '../util/isRecord';
 import * as durations from '../util/durations';
@@ -71,12 +72,39 @@ import * as log from '../logging/log';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url';
 import { SECOND } from '../util/durations';
 import type { IWebSocketResource } from './WebsocketResources';
+import { Environment, getEnvironment } from '../environment';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
 //   debugging failed requests.
 const DEBUG = false;
 const DEFAULT_TIMEOUT = 30 * SECOND;
+
+// Libsignal has internally configured values for domain names
+// (and other connectivity params) of the services.
+function resolveLibsignalNetEnvironment(
+  appEnv: Environment,
+  libsignalNetEnv: string | undefined
+): Net.Environment {
+  switch (appEnv) {
+    case Environment.Production:
+      return Net.Environment.Production;
+    case Environment.Development:
+      // In the case of the `Development` Desktop env,
+      // we should be checking the provided string value
+      // of `libsignalNetEnv`
+      switch (libsignalNetEnv) {
+        case 'production':
+          return Net.Environment.Production;
+        default:
+          return Net.Environment.Staging;
+      }
+    case Environment.Test:
+    case Environment.Staging:
+    default:
+      return Net.Environment.Staging;
+  }
+}
 
 function _createRedactor(
   ...toReplace: ReadonlyArray<string | undefined>
@@ -588,6 +616,7 @@ type InitializeOptionsType = {
   proxyUrl: string | undefined;
   version: string;
   directoryConfig: DirectoryConfigType;
+  libsignalNetEnvironment: string | undefined;
 };
 
 export type MessageType = Readonly<{
@@ -1249,6 +1278,7 @@ export function initialize({
   contentProxyUrl,
   proxyUrl,
   version,
+  libsignalNetEnvironment,
 }: InitializeOptionsType): WebAPIConnectType {
   if (!isString(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
@@ -1290,6 +1320,17 @@ export function initialize({
     throw new Error('WebAPI.initialize: Invalid version');
   }
 
+  // `libsignalNet` is an instance of a class from libsignal that is responsible
+  // for providing network layer API and related functionality.
+  // It's important to have a single instance of this class as it holds
+  // resources that are shared across all other use cases.
+  const env = resolveLibsignalNetEnvironment(
+    getEnvironment(),
+    libsignalNetEnvironment
+  );
+  log.info(`libsignal net environment resolved to [${Net.Environment[env]}]`);
+  const libsignalNet = new Net.Net(env);
+
   // Thanks to function-hoisting, we can put this return statement before all of the
   //   below function definitions.
   return {
@@ -1313,7 +1354,7 @@ export function initialize({
 
     let activeRegistration: ExplodePromiseResultType<void> | undefined;
 
-    const socketManager = new SocketManager({
+    const socketManager = new SocketManager(libsignalNet, {
       url,
       artCreatorUrl,
       certificateAuthority,
@@ -1344,7 +1385,7 @@ export function initialize({
 
     const { directoryUrl, directoryMRENCLAVE } = directoryConfig;
 
-    const cds = new CDSI({
+    const cds = new CDSI(libsignalNet, {
       logger: log,
       proxyUrl,
 

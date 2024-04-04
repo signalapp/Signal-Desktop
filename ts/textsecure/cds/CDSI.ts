@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Net } from '@signalapp/libsignal-client';
 import type { connection as WebSocket } from 'websocket';
 
 import * as Bytes from '../../Bytes';
@@ -16,8 +17,8 @@ export type CDSIOptionsType = Readonly<{
 export class CDSI extends CDSSocketManagerBase<CDSISocket, CDSIOptionsType> {
   private readonly mrenclave: Buffer;
 
-  constructor(options: CDSIOptionsType) {
-    super(options);
+  constructor(libsignalNet: Net.Net, options: CDSIOptionsType) {
+    super(libsignalNet, options);
 
     this.mrenclave = Buffer.from(Bytes.fromHex(options.mrenclave));
   }

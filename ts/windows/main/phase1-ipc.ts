@@ -175,6 +175,7 @@ if (config.ciMode !== 'full' && config.environment !== 'test') {
 
 type NetworkStatistics = {
   signalConnectionCount?: string;
+  unauthorizedConnectionFailures?: string;
   unauthorizedRequestsCompared?: string;
   unauthorizedHealthcheckFailures?: string;
   unauthorizedHealthcheckBadStatus?: string;
@@ -206,6 +207,9 @@ ipc.on('additional-log-data-request', async event => {
   if (unauthorizedStats.requestsCompared > 0) {
     networkStatistics = {
       ...networkStatistics,
+      unauthorizedConnectionFailures: formatCountForLogging(
+        unauthorizedStats.connectionFailures
+      ),
       unauthorizedRequestsCompared: formatCountForLogging(
         unauthorizedStats.requestsCompared
       ),

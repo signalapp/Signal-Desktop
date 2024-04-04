@@ -1,9 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RateLimitedError as NetRateLimitedError } from '@signalapp/libsignal-client';
-import {
+import type {
+  RateLimitedError as NetRateLimitedError,
   Net,
+} from '@signalapp/libsignal-client';
+import {
   ErrorCode as LibSignalErrorCode,
   LibSignalErrorBase,
 } from '@signalapp/libsignal-client';
@@ -25,7 +27,6 @@ import type {
 } from './Types.d';
 import { RateLimitedError } from './RateLimitedError';
 import { connect as connectWebSocket } from '../WebSocket';
-import { Environment, getEnvironment } from '../../environment';
 
 const REQUEST_TIMEOUT = 10 * SECOND;
 
@@ -41,6 +42,10 @@ export abstract class CDSSocketManagerBase<
   Options extends CDSSocketManagerBaseOptionsType
 > extends CDSBase<Options> {
   private retryAfter?: number;
+
+  constructor(private readonly libsignalNet: Net.Net, options: Options) {
+    super(options);
+  }
 
   public async request(
     options: CDSRequestOptionsType
@@ -106,24 +111,22 @@ export abstract class CDSSocketManagerBase<
     options: CDSRequestOptionsType
   ): Promise<CDSResponseType> {
     const log = this.logger;
-    const {
-      acisAndAccessKeys,
-      e164s,
-      timeout = REQUEST_TIMEOUT,
-      returnAcisWithoutUaks = false,
-    } = options;
+    const { acisAndAccessKeys, e164s, returnAcisWithoutUaks = false } = options;
     const auth = await this.getAuth();
 
     log.info('CDSSocketManager: making request via libsignal');
-    const net = new Net.Net(this.libsignalNetEnvironment());
     try {
       log.info('CDSSocketManager: starting lookup request');
-      const response = await net.cdsiLookup(auth, {
-        acisAndAccessKeys,
-        e164s,
-        timeout,
-        returnAcisWithoutUaks,
-      });
+
+      const { timeout = REQUEST_TIMEOUT } = options;
+      const response = await pTimeout(
+        this.libsignalNet.cdsiLookup(auth, {
+          acisAndAccessKeys,
+          e164s,
+          returnAcisWithoutUaks,
+        }),
+        timeout
+      );
 
       log.info('CDSSocketManager: lookup request finished');
       return response as CDSResponseType;
@@ -139,19 +142,6 @@ export abstract class CDSSocketManagerBase<
         );
       }
       throw error;
-    }
-  }
-
-  private libsignalNetEnvironment(): Net.Environment {
-    const env = getEnvironment();
-    switch (env) {
-      case Environment.Production:
-        return Net.Environment.Production;
-      case Environment.Development:
-      case Environment.Test:
-      case Environment.Staging:
-      default:
-        return Net.Environment.Staging;
     }
   }
 
