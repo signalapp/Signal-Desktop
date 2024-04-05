@@ -56,43 +56,6 @@ const generateKeypair = async (
 };
 
 /**
- * Restores a users account with their recovery password and try to recover display name and avatar from the first encountered configuration message.
- * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
- * @param mnemonicLanguage 'english' only is supported
- * @param loadingAnimationCallback a callback to trigger a loading animation while fetching
- *
- * @returns the display name of the user if found on the network
- */
-export async function signInByLinkingDevice(
-  mnemonic: string,
-  mnemonicLanguage: string,
-  abortSignal?: AbortSignal
-) {
-  if (isEmpty(mnemonic)) {
-    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
-  }
-  if (isEmpty(mnemonicLanguage)) {
-    throw new Error('We always needs a mnemonicLanguage');
-  }
-
-  const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
-
-  await setSignInByLinking(true);
-  await createAccount(identityKeyPair);
-  await saveRecoveryPhrase(mnemonic);
-
-  const pubKeyString = toHex(identityKeyPair.pubKey);
-
-  if (isEmpty(pubKeyString)) {
-    throw new Error("We don't have a pubkey from the recovery password...");
-  }
-
-  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName(abortSignal);
-
-  // NOTE the registration is not yet finished until the configurationMessageReceived event has been processed
-  trigger(configurationMessageReceived, pubKeyString, displayName);
-}
-/**
  * This registers a user account. It can also be used if an account restore fails and the user instead registers a new display name
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
@@ -130,6 +93,46 @@ export async function registerSingleDevice(
   } else {
     await registrationDone(pubKeyString, displayName);
   }
+}
+
+/**
+ * Restores a users account with their recovery password and try to recover display name and avatar from the first encountered configuration message.
+ * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
+ * @param mnemonicLanguage 'english' only is supported
+ * @param loadingAnimationCallback a callback to trigger a loading animation while fetching
+ *
+ * @returns the display name of the user if found on the network
+ */
+export async function signInByLinkingDevice(
+  mnemonic: string,
+  mnemonicLanguage: string,
+  abortSignal?: AbortSignal
+) {
+  if (isEmpty(mnemonic)) {
+    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
+  }
+  if (isEmpty(mnemonicLanguage)) {
+    throw new Error('We always needs a mnemonicLanguage');
+  }
+
+  const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
+
+  await setSignInByLinking(true);
+  await createAccount(identityKeyPair);
+  await saveRecoveryPhrase(mnemonic);
+
+  const pubKeyString = toHex(identityKeyPair.pubKey);
+
+  if (isEmpty(pubKeyString)) {
+    throw new Error("We don't have a pubkey from the recovery password...");
+  }
+
+  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName(abortSignal);
+
+  // NOTE the registration is not yet finished until the configurationMessageReceived event has been processed
+  trigger(configurationMessageReceived, pubKeyString, displayName);
+  // for testing purposes
+  return { displayName, pubKeyString };
 }
 
 export async function generateMnemonic() {

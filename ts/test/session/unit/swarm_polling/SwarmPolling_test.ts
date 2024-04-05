@@ -451,7 +451,7 @@ describe('SwarmPolling', () => {
 
   describe('pollOnceForOurDisplayName', () => {
     // Arrange
-    // TODO
+    // TODO[epic=ses-1560] needs doing
     // Act
     // Assert
   });

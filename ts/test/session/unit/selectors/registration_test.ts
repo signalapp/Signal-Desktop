@@ -1,4 +1,4 @@
-// TODO convert to match the registration selectors
+// TODO[epic=ses-1560] convert to match the registration selectors
 // describe('state/selectors/conversations', () => {
 //   describe('#getSortedConversationsList', () => {
 //     it('sorts conversations based on timestamp then by intl-friendly title', () => {
