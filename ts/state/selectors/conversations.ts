@@ -336,7 +336,6 @@ const _getGlobalUnreadCount = (sortedConversations: Array<ReduxConversationType>
     }
 
     if (
-      globalUnreadCount < 100 &&
       isNumber(conversation.unreadCount) &&
       isFinite(conversation.unreadCount) &&
       conversation.unreadCount > 0 &&
@@ -345,7 +344,6 @@ const _getGlobalUnreadCount = (sortedConversations: Array<ReduxConversationType>
       globalUnreadCount += conversation.unreadCount;
     }
   }
-
   return globalUnreadCount;
 };
 
@@ -595,6 +593,13 @@ export const getMostRecentMessageId = (state: StateType): string | null => {
   return state.conversations.mostRecentMessageId;
 };
 
+export const getMostRecentOutgoingMessageId = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
+    return messages.find(m => m.propsForMessage.direction === 'outgoing')?.propsForMessage.id;
+  }
+);
+
 export const getOldestMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
   (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
@@ -724,39 +729,40 @@ export const getMessagePropsByMessageId = createSelector(
   }
 );
 
-export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageReactsSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageReactsSelectorProps = pick(props.propsForMessage, [
-    'convoId',
-    'conversationType',
-    'reacts',
-    'serverId',
-  ]);
-
-  if (msgProps.reacts) {
-    // NOTE we don't want to render reactions that have 'senders' as an object this is a deprecated type used during development 25/08/2022
-    const oldReactions = Object.values(msgProps.reacts).filter(
-      reaction => !Array.isArray(reaction.senders)
-    );
-
-    if (oldReactions.length > 0) {
-      msgProps.reacts = undefined;
-      return msgProps;
+export const getMessageReactsProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageReactsSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
     }
 
-    const sortedReacts = Object.entries(msgProps.reacts).sort((a, b) => {
-      return a[1].index < b[1].index ? -1 : a[1].index > b[1].index ? 1 : 0;
-    });
-    msgProps.sortedReacts = sortedReacts;
-  }
+    const msgProps: MessageReactsSelectorProps = pick(props.propsForMessage, [
+      'convoId',
+      'conversationType',
+      'reacts',
+      'serverId',
+    ]);
 
-  return msgProps;
-});
+    if (msgProps.reacts) {
+      // NOTE we don't want to render reactions that have 'senders' as an object this is a deprecated type used during development 25/08/2022
+      const oldReactions = Object.values(msgProps.reacts).filter(
+        reaction => !Array.isArray(reaction.senders)
+      );
+
+      if (oldReactions.length > 0) {
+        msgProps.reacts = undefined;
+        return msgProps;
+      }
+
+      const sortedReacts = Object.entries(msgProps.reacts).sort((a, b) => {
+        return a[1].index < b[1].index ? -1 : a[1].index > b[1].index ? 1 : 0;
+      });
+      msgProps.sortedReacts = sortedReacts;
+    }
+
+    return msgProps;
+  }
+);
 
 export const getMessageQuoteProps = createSelector(
   getConversationLookup,
@@ -840,45 +846,47 @@ export const getMessageQuoteProps = createSelector(
   }
 );
 
-export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageTextSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
+export const getMessageTextProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageTextSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
 
-  const msgProps: MessageTextSelectorProps = pick(props.propsForMessage, [
-    'direction',
-    'status',
-    'text',
-    'isDeleted',
-    'conversationType',
-  ]);
-
-  return msgProps;
-});
-
-export const getMessageAttachmentProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageAttachmentSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageAttachmentSelectorProps = {
-    attachments: props.propsForMessage.attachments || [],
-    ...pick(props.propsForMessage, [
+    const msgProps: MessageTextSelectorProps = pick(props.propsForMessage, [
       'direction',
-      'isTrustedForAttachmentDownload',
-      'timestamp',
-      'serverTimestamp',
-      'sender',
-      'convoId',
-    ]),
-  };
+      'status',
+      'text',
+      'isDeleted',
+      'conversationType',
+    ]);
 
-  return msgProps;
-});
+    return msgProps;
+  }
+);
+
+export const getMessageAttachmentProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageAttachmentSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
+
+    const msgProps: MessageAttachmentSelectorProps = {
+      attachments: props.propsForMessage.attachments || [],
+      ...pick(props.propsForMessage, [
+        'direction',
+        'isTrustedForAttachmentDownload',
+        'timestamp',
+        'serverTimestamp',
+        'sender',
+        'convoId',
+      ]),
+    };
+
+    return msgProps;
+  }
+);
 
 export const getIsMessageSelected = createSelector(
   getMessagePropsByMessageId,
@@ -894,27 +902,28 @@ export const getIsMessageSelected = createSelector(
   }
 );
 
-export const getMessageContentSelectorProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageContentSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
+export const getMessageContentSelectorProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): MessageContentSelectorProps | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
+
+    const msgProps: MessageContentSelectorProps = {
+      ...pick(props.propsForMessage, [
+        'direction',
+        'serverTimestamp',
+        'text',
+        'timestamp',
+        'previews',
+        'quote',
+        'attachments',
+      ]),
+    };
+
+    return msgProps;
   }
-
-  const msgProps: MessageContentSelectorProps = {
-    ...pick(props.propsForMessage, [
-      'direction',
-      'serverTimestamp',
-      'text',
-      'timestamp',
-      'previews',
-      'quote',
-      'attachments',
-    ]),
-  };
-
-  return msgProps;
-});
+);
 
 export const getMessageContentWithStatusesSelectorProps = createSelector(
   getMessagePropsByMessageId,

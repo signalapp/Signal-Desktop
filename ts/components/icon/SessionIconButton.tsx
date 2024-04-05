@@ -1,13 +1,12 @@
-import React, { KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+import React, { KeyboardEvent } from 'react';
 import styled from 'styled-components';
-
 import { SessionIcon, SessionIconProps } from '.';
-import { SessionNotificationCount } from './SessionNotificationCount';
+import { SessionNotificationCount, SessionUnreadCount } from './SessionNotificationCount';
 
 interface SProps extends SessionIconProps {
-  onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   notificationCount?: number;
   isSelected?: boolean;
   isHidden?: boolean;
@@ -19,7 +18,7 @@ interface SProps extends SessionIconProps {
   tabIndex?: number;
 }
 
-const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolean }>`
+const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boolean }>`
   background-color: var(--button-icon-background-color);
 
   svg path {
@@ -40,7 +39,7 @@ const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolea
 `;
 
 // eslint-disable-next-line react/display-name
-const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, ref) => {
+const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((props, ref) => {
   const {
     iconType,
     iconSize,
@@ -61,14 +60,15 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     dataTestIdIcon,
     style,
     tabIndex,
+    unreadCount,
   } = props;
-  const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+  const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClick) {
       e.stopPropagation();
       props.onClick(e);
     }
   };
-  const keyPressHandler = (e: KeyboardEvent<HTMLDivElement>) => {
+  const keyPressHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.currentTarget.tabIndex > -1 && e.key === 'Enter' && props.onClick) {
       e.stopPropagation();
       props.onClick();
@@ -80,7 +80,6 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
       color={iconColor}
       isSelected={isSelected}
       className={classNames('session-icon-button', iconSize)}
-      role="button"
       ref={ref}
       id={id}
       onClick={clickHandler}
@@ -103,6 +102,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
         dataTestId={dataTestIdIcon}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
+      {Boolean(unreadCount) && <SessionUnreadCount count={unreadCount} />}
     </StyledSessionIconButton>
   );
 });

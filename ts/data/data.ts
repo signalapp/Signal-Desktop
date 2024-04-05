@@ -176,9 +176,8 @@ async function removeConversation(id: string): Promise<void> {
 }
 
 async function getAllConversations(): Promise<Array<ConversationModel>> {
-  const conversationsAttrs = (await channels.getAllConversations()) as Array<
-    ConversationAttributes
-  >;
+  const conversationsAttrs =
+    (await channels.getAllConversations()) as Array<ConversationAttributes>;
 
   return conversationsAttrs.map(attr => new ConversationModel(attr));
 }
@@ -547,23 +546,26 @@ async function removeAllMessagesInConversation(conversationId: string): Promise<
       await message.cleanup();
     }
     window.log.info(
-      `removeAllMessagesInConversation messages.cleanup() ${conversationId} took ${Date.now() -
-        start}ms`
+      `removeAllMessagesInConversation messages.cleanup() ${conversationId} took ${
+        Date.now() - start
+      }ms`
     );
     start = Date.now();
 
     // eslint-disable-next-line no-await-in-loop
     await channels.removeMessagesByIds(ids);
     window.log.info(
-      `removeAllMessagesInConversation: removeMessagesByIds ${conversationId} took ${Date.now() -
-        start}ms`
+      `removeAllMessagesInConversation: removeMessagesByIds ${conversationId} took ${
+        Date.now() - start
+      }ms`
     );
   } while (messages.length);
 
   await channels.removeAllMessagesInConversation(conversationId);
   window.log.info(
-    `removeAllMessagesInConversation: complete time ${conversationId} took ${Date.now() -
-      startFunction}ms`
+    `removeAllMessagesInConversation: complete time ${conversationId} took ${
+      Date.now() - startFunction
+    }ms`
   );
 }
 

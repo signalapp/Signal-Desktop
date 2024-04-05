@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useConvoIdFromContext } from '../../../contexts/ConvoIdContext';
 import { Data } from '../../../data/data';
 import {
   useActiveAt,
@@ -12,6 +13,7 @@ import {
   useMentionedUs,
   useUnreadCount,
 } from '../../../hooks/useParamSelector';
+import { Constants } from '../../../session';
 import {
   openConversationToSpecificMessage,
   openConversationWithMessages,
@@ -20,7 +22,6 @@ import { isSearching } from '../../../state/selectors/search';
 import { getIsMessageSection } from '../../../state/selectors/section';
 import { Timestamp } from '../../conversation/Timestamp';
 import { SessionIcon } from '../../icon';
-import { useConvoIdFromContext } from './ConvoIdContext';
 import { UserItem } from './UserItem';
 
 const NotificationSettingIcon = () => {
@@ -160,8 +161,14 @@ const UnreadCount = ({ convoId }: { convoId: string }) => {
   const unreadMsgCount = useUnreadCount(convoId);
   const forcedUnread = useIsForcedUnreadWithoutUnreadMsg(convoId);
 
+  const unreadWithOverflow =
+    unreadMsgCount > Constants.CONVERSATION.MAX_CONVO_UNREAD_COUNT
+      ? `${Constants.CONVERSATION.MAX_CONVO_UNREAD_COUNT}+`
+      : unreadMsgCount || ' ';
+
+  // TODO would be good to merge the style of this with SessionNotificationCount or SessionUnreadCount at some point.
   return unreadMsgCount > 0 || forcedUnread ? (
-    <p className="module-conversation-list-item__unread-count">{unreadMsgCount || ' '}</p>
+    <p className="module-conversation-list-item__unread-count">{unreadWithOverflow}</p>
   ) : null;
 };
 

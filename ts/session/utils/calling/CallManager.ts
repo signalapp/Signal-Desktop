@@ -425,9 +425,8 @@ async function createOfferAndSendIt(recipient: string, msgIdentifier: string | n
       );
 
       // Note: we are forcing callMessages to be DaR if DaS, using the same timer
-      const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
-        convo
-      );
+      const { expirationType, expireTimer } =
+        DisappearingMessages.forcedDeleteAfterReadMsgSetting(convo);
 
       const offerMessage = new CallMessage({
         identifier: msgIdentifier || undefined,
@@ -946,9 +945,8 @@ export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUI
   rejectedCallUUIDS.add(forcedUUID);
 
   // Note: we are forcing callMessages to be DaR if DaS, using the same timer
-  const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
-    convo
-  );
+  const { expirationType, expireTimer } =
+    DisappearingMessages.forcedDeleteAfterReadMsgSetting(convo);
 
   const rejectCallMessage = new CallMessage({
     type: SignalService.CallMessage.Type.END_CALL,
@@ -980,9 +978,8 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
       throw new Error('USER_rejectIncomingCallRequest not existing convo');
     }
     // Note: we are forcing callMessages to be DaR if DaS, using the same timer
-    const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
-      convo
-    );
+    const { expirationType, expireTimer } =
+      DisappearingMessages.forcedDeleteAfterReadMsgSetting(convo);
 
     const endCallMessage = new CallMessage({
       type: SignalService.CallMessage.Type.END_CALL,
@@ -1032,9 +1029,8 @@ export async function USER_hangup(fromSender: string) {
     throw new Error('USER_hangup not existing convo');
   }
   // Note: we are forcing callMessages to be DaR if DaS, using the same timer
-  const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
-    convo
-  );
+  const { expirationType, expireTimer } =
+    DisappearingMessages.forcedDeleteAfterReadMsgSetting(convo);
   rejectedCallUUIDS.add(currentCallUUID);
   const endCallMessage = new CallMessage({
     type: SignalService.CallMessage.Type.END_CALL,
@@ -1117,9 +1113,8 @@ async function buildAnswerAndSendIt(sender: string, msgIdentifier: string | null
       throw new Error('buildAnswerAndSendIt not existing convo');
     }
     // Note: we are forcing callMessages to be DaR if DaS, using the same timer
-    const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
-      convo
-    );
+    const { expirationType, expireTimer } =
+      DisappearingMessages.forcedDeleteAfterReadMsgSetting(convo);
     const answerSdp = answer.sdp;
     const callAnswerMessage = new CallMessage({
       identifier: msgIdentifier || undefined,
@@ -1157,9 +1152,7 @@ function getCachedMessageFromCallMessage(
 }
 
 async function isUserApprovedOrWeSentAMessage(user: string) {
-  const isApproved = getConversationController()
-    .get(user)
-    ?.isApproved();
+  const isApproved = getConversationController().get(user)?.isApproved();
 
   if (isApproved) {
     return true;
@@ -1524,10 +1517,7 @@ function pushCallMessageToCallCache(
   callMessage: CachedCallMessageType
 ) {
   createCallCacheForPubkeyAndUUID(sender, uuid);
-  callCache
-    .get(sender)
-    ?.get(uuid)
-    ?.push(callMessage);
+  callCache.get(sender)?.get(uuid)?.push(callMessage);
 }
 
 /**

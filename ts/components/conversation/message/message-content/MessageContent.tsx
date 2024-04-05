@@ -1,10 +1,13 @@
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
-import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useScrollToLoadedMessage } from '../../../../contexts/ScrollToLoadedMessage';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
+import { IsMessageVisibleContext } from '../../../../contexts/isMessageVisibleContext';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import { StateType } from '../../../../state/reducer';
 import {
@@ -18,8 +21,7 @@ import {
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
 import { useSelectedIsPrivate } from '../../../../state/selectors/selectedConversation';
-import { canDisplayImage } from '../../../../types/Attachment';
-import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
+import { canDisplayImagePreview } from '../../../../types/Attachment';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageAvatar } from './MessageAvatar';
 import { MessageHighlighter } from './MessageHighlighter';
@@ -34,7 +36,6 @@ export type MessageContentSelectorProps = Pick<
 
 type Props = {
   messageId: string;
-  isDetailView?: boolean;
 };
 
 // TODO not too sure what is this doing? It is not preventDefault()
@@ -76,13 +77,13 @@ const StyledMessageOpaqueContent = styled(MessageHighlighter)<{
   ${props => props.selected && `box-shadow: var(--drop-shadow);`}
 `;
 
-export const IsMessageVisibleContext = createContext(false);
-
 const StyledAvatarContainer = styled.div`
   align-self: flex-end;
 `;
 
 export const MessageContent = (props: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const [highlight, setHighlight] = useState(false);
   const [didScroll, setDidScroll] = useState(false);
   const contentProps = useSelector((state: StateType) =>
@@ -91,9 +92,9 @@ export const MessageContent = (props: Props) => {
   const isDeleted = useMessageIsDeleted(props.messageId);
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
-  const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+  const scrollToLoadedMessage = useScrollToLoadedMessage();
   const selectedIsPrivate = useSelectedIsPrivate();
-  const hideAvatar = useHideAvatarInMsgList(props.messageId);
+  const hideAvatar = useHideAvatarInMsgList(props.messageId, isDetailView);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -146,22 +147,15 @@ export const MessageContent = (props: Props) => {
     return null;
   }
 
-  const {
-    direction,
-    text,
-    timestamp,
-    serverTimestamp,
-    previews,
-    quote,
-    attachments,
-  } = contentProps;
+  const { direction, text, timestamp, serverTimestamp, previews, quote, attachments } =
+    contentProps;
 
   const hasContentBeforeAttachment = !isEmpty(previews) || !isEmpty(quote) || !isEmpty(text);
 
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
   const isDetailViewAndSupportsAttachmentCarousel =
-    props.isDetailView && canDisplayImage(attachments);
+    isDetailView && canDisplayImagePreview(attachments);
 
   return (
     <StyledMessageContent
@@ -171,14 +165,11 @@ export const MessageContent = (props: Props) => {
       title={toolTipTitle}
       msgDirection={direction}
     >
-      <StyledAvatarContainer>
-        <MessageAvatar
-          messageId={props.messageId}
-          hideAvatar={hideAvatar}
-          isPrivate={selectedIsPrivate}
-          isDetailView={props.isDetailView}
-        />
-      </StyledAvatarContainer>
+      {hideAvatar ? null : (
+        <StyledAvatarContainer>
+          <MessageAvatar messageId={props.messageId} isPrivate={selectedIsPrivate} />
+        </StyledAvatarContainer>
+      )}
 
       <InView
         id={`inview-content-${props.messageId}`}
@@ -191,6 +182,7 @@ export const MessageContent = (props: Props) => {
           display: 'flex',
           flexDirection: 'column',
           gap: 'var(--margins-xs)',
+          maxWidth: '100%',
         }}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>

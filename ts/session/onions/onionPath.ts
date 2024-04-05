@@ -375,9 +375,9 @@ export async function selectGuardNodes(): Promise<Array<Snode>> {
 
     // Test all three nodes at once, wait for all to resolve or reject
     // eslint-disable-next-line no-await-in-loop
-    const idxOk = (
-      await Promise.allSettled(candidateNodes.map(OnionPaths.testGuardNode))
-    ).flatMap(p => (p.status === 'fulfilled' ? p.value : null));
+    const idxOk = (await Promise.allSettled(candidateNodes.map(OnionPaths.testGuardNode))).flatMap(
+      p => (p.status === 'fulfilled' ? p.value : null)
+    );
 
     const goodNodes = _.zip(idxOk, candidateNodes)
       .filter(x => x[0])

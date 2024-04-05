@@ -59,9 +59,7 @@ async function destroyMessagesAndUpdateRedux(
 
   // trigger a refresh the last message for all those uniq conversation
   conversationWithChanges.forEach(convoIdToUpdate => {
-    getConversationController()
-      .get(convoIdToUpdate)
-      ?.updateLastMessage();
+    getConversationController().get(convoIdToUpdate)?.updateLastMessage();
   });
 }
 
@@ -91,12 +89,8 @@ async function destroyExpiredMessages() {
     window.log.info('destroyExpiredMessages: convosToRefresh:', convosToRefresh);
     await Promise.all(
       convosToRefresh.map(async c => {
-        getConversationController()
-          .get(c)
-          ?.updateLastMessage();
-        return getConversationController()
-          .get(c)
-          ?.refreshInMemoryDetails();
+        getConversationController().get(c)?.updateLastMessage();
+        return getConversationController().get(c)?.refreshInMemoryDetails();
       })
     );
   } catch (error) {
@@ -278,9 +272,10 @@ function changeToDisappearingMessageType(
  * This should only be used for DataExtractionNotification and CallMessages (the ones saved to the DB) currently.
  * Note: this can only be called for private conversations, excluding ourselves as it throws otherwise (this wouldn't be right)
  * */
-function forcedDeleteAfterReadMsgSetting(
-  convo: ConversationModel
-): { expirationType: Exclude<DisappearingMessageType, 'deleteAfterSend'>; expireTimer: number } {
+function forcedDeleteAfterReadMsgSetting(convo: ConversationModel): {
+  expirationType: Exclude<DisappearingMessageType, 'deleteAfterSend'>;
+  expireTimer: number;
+} {
   if (convo.isMe() || !convo.isPrivate()) {
     throw new Error(
       'forcedDeleteAfterReadMsgSetting can only be called with a private chat (excluding ourselves)'
@@ -304,9 +299,10 @@ function forcedDeleteAfterReadMsgSetting(
  * This should only be used for the outgoing CallMessages that we keep locally only (not synced, just the "you started a call" notification)
  * Note: this can only be called for private conversations, excluding ourselves as it throws otherwise (this wouldn't be right)
  * */
-function forcedDeleteAfterSendMsgSetting(
-  convo: ConversationModel
-): { expirationType: Exclude<DisappearingMessageType, 'deleteAfterRead'>; expireTimer: number } {
+function forcedDeleteAfterSendMsgSetting(convo: ConversationModel): {
+  expirationType: Exclude<DisappearingMessageType, 'deleteAfterRead'>;
+  expireTimer: number;
+} {
   if (convo.isMe() || !convo.isPrivate()) {
     throw new Error(
       'forcedDeleteAfterSendMsgSetting can only be called with a private chat (excluding ourselves)'
@@ -359,7 +355,8 @@ async function checkForExpireUpdateInContentMessage(
 ): Promise<DisappearingMessageUpdate | undefined> {
   const dataMessage = content.dataMessage as SignalService.DataMessage | undefined;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
-  const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
+  const isDisappearingMessagesV2Released =
+    await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
 
   const couldBeLegacyContentMessage = couldBeLegacyDisappearingMessageContent(content);
   const isLegacyDataMessage =
@@ -559,9 +556,9 @@ function getMessageReadyToDisappear(
     if (msgExpirationWasAlreadyUpdated) {
       const expirationStartTimestamp = messageExpirationFromRetrieve - expireTimer * 1000;
       window.log.debug(
-        `incoming DaR message already read by another device, forcing readAt ${(Date.now() -
-          expirationStartTimestamp) /
-          1000}s ago, so with ${(messageExpirationFromRetrieve - Date.now()) / 1000}s left`
+        `incoming DaR message already read by another device, forcing readAt ${
+          (Date.now() - expirationStartTimestamp) / 1000
+        }s ago, so with ${(messageExpirationFromRetrieve - Date.now()) / 1000}s left`
       );
       messageModel.set({
         expirationStartTimestamp,

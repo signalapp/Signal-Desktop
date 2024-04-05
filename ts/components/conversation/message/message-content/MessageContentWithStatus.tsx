@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';
@@ -29,30 +30,33 @@ export type MessageContentWithStatusSelectorProps = { isGroup: boolean } & Pick<
 type Props = {
   messageId: string;
   ctxMenuID: string;
-  isDetailView?: boolean;
   dataTestId: string;
   enableReactions: boolean;
 };
 
-const StyledMessageContentContainer = styled.div<{ isIncoming: boolean }>`
+const StyledMessageContentContainer = styled.div<{ isIncoming: boolean; isDetailView: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
-  padding-left: ${props => (props.isIncoming ? 0 : '25%')};
-  padding-right: ${props => (props.isIncoming ? '25%' : 0)};
+  padding-left: ${props => (props.isDetailView || props.isIncoming ? 0 : '25%')};
+  padding-right: ${props => (props.isDetailView || !props.isIncoming ? 0 : '25%')};
   width: 100%;
+  max-width: '100%';
   margin-right: var(--margins-md);
 `;
 
 const StyledMessageWithAuthor = styled.div`
-  max-width: '100%';
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  gap: var(--margins-xs);
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const contentProps = useSelector((state: StateType) =>
     getMessageContentWithStatusesSelectorProps(state, props.messageId)
   );
@@ -91,7 +95,7 @@ export const MessageContentWithStatuses = (props: Props) => {
     }
   };
 
-  const { messageId, ctxMenuID, isDetailView = false, dataTestId, enableReactions } = props;
+  const { messageId, ctxMenuID, dataTestId, enableReactions } = props;
   const [popupReaction, setPopupReaction] = useState('');
 
   if (!contentProps) {
@@ -119,6 +123,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   return (
     <StyledMessageContentContainer
       isIncoming={isIncoming}
+      isDetailView={isDetailView}
       onMouseLeave={() => {
         setPopupReaction('');
       }}
@@ -127,21 +132,22 @@ export const MessageContentWithStatuses = (props: Props) => {
         messageId={messageId}
         className={classNames('module-message', `module-message--${direction}`)}
         role={'button'}
-        isDetailView={isDetailView}
         onClick={onClickOnMessageOuterContainer}
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         dataTestId={dataTestId}
       >
-        <Flex container={true} flexDirection="column" flexShrink={0} alignItems="flex-end">
+        <Flex
+          container={true}
+          flexDirection="column"
+          flexShrink={0}
+          alignItems="flex-end"
+          maxWidth="100%"
+        >
           <StyledMessageWithAuthor>
             {!isDetailView && <MessageAuthorText messageId={messageId} />}
-            <MessageContent messageId={messageId} isDetailView={isDetailView} />
+            <MessageContent messageId={messageId} />
           </StyledMessageWithAuthor>
-          <MessageStatus
-            dataTestId="msg-status"
-            messageId={messageId}
-            isDetailView={isDetailView}
-          />
+          <MessageStatus dataTestId="msg-status" messageId={messageId} />
         </Flex>
         {!isDeleted && (
           <MessageContextMenu
@@ -160,7 +166,6 @@ export const MessageContentWithStatuses = (props: Props) => {
           setPopupReaction={setPopupReaction}
           onPopupClick={handlePopupClick}
           noAvatar={hideAvatar}
-          isDetailView={isDetailView}
         />
       ) : null}
     </StyledMessageContentContainer>

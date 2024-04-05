@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
   root: true,
   settings: {
@@ -9,6 +11,11 @@ module.exports = {
     },
     react: {
       version: 'detect',
+    },
+    'import/resolver': {
+      node: {
+        paths: [path.resolve(__dirname)],
+      },
     },
   },
 

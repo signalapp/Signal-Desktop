@@ -104,9 +104,11 @@ export function isAudio(attachments?: Array<AttachmentType>) {
   );
 }
 
-export function canDisplayImage(attachments?: Array<AttachmentType>) {
+export function canDisplayImagePreview(attachments?: Array<AttachmentType>) {
+  // Note: when we display an image we usually display the preview.
+  // The preview is usually downscaled
   const { height, width } =
-    attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
+    attachments && attachments[0]?.thumbnail ? attachments[0].thumbnail : { height: 0, width: 0 };
 
   return Boolean(
     height &&

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { MessageInfoLabel } from '.';
 import { useConversationUsername } from '../../../../../../hooks/useParamSelector';
-import { Avatar, AvatarSize } from '../../../../../avatar/Avatar';
+import { Avatar, AvatarSize, CrownIcon } from '../../../../../avatar/Avatar';
 
 const StyledFromContainer = styled.div`
   display: flex;
@@ -30,8 +30,12 @@ const StyledMessageInfoAuthor = styled.div`
   font-size: var(--font-size-lg);
 `;
 
-export const MessageFrom = (props: { sender: string }) => {
-  const { sender } = props;
+const StyledAvatar = styled.div`
+  position: relative;
+`;
+
+export const MessageFrom = (props: { sender: string; isSenderAdmin: boolean }) => {
+  const { sender, isSenderAdmin } = props;
   const profileName = useConversationUsername(sender);
   const from = window.i18n('from');
 
@@ -39,7 +43,10 @@ export const MessageFrom = (props: { sender: string }) => {
     <StyledMessageInfoAuthor>
       <MessageInfoLabel>{from}</MessageInfoLabel>
       <StyledFromContainer>
-        <Avatar size={AvatarSize.M} pubkey={sender} onAvatarClick={undefined} />
+        <StyledAvatar>
+          <Avatar size={AvatarSize.M} pubkey={sender} onAvatarClick={undefined} />
+          {isSenderAdmin ? <CrownIcon /> : null}
+        </StyledAvatar>
         <StyledAuthorNamesContainer>
           {!!profileName && <Name>{profileName}</Name>}
           <Pubkey>{sender}</Pubkey>

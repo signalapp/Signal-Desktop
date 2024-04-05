@@ -12,7 +12,6 @@ export const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = THUMBNAIL_SIDE;
 
 type Props = {
   messageId: string;
-  isDetailView?: boolean; // when the detail is shown for a message, we disable click and some other stuff
 };
 
 export const Message = (props: Props) => {
@@ -26,11 +25,5 @@ export const Message = (props: Props) => {
     return null;
   }
 
-  return (
-    <GenericReadableMessage
-      ctxMenuID={ctxMenuID}
-      messageId={props.messageId}
-      isDetailView={props.isDetailView}
-    />
-  );
+  return <GenericReadableMessage ctxMenuID={ctxMenuID} messageId={props.messageId} />;
 };

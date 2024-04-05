@@ -299,10 +299,7 @@ const getLinkHrefAttribute = (
 ): string | null => {
   for (let i = 0; i < rels.length; i += 1) {
     const rel = rels[i];
-    const href = document
-      .querySelector(`link[rel="${rel}"]`)
-      ?.getAttribute('href')
-      ?.trim();
+    const href = document.querySelector(`link[rel="${rel}"]`)?.getAttribute('href')?.trim();
     if (href) {
       return href;
     }

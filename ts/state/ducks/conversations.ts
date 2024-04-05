@@ -353,6 +353,10 @@ export type MentionsMembersType = Array<{
   authorProfileName: string;
 }>;
 
+function buildQuoteId(sender: string, timestamp: number) {
+  return `${timestamp}-${sender}`;
+}
+
 /**
  * Fetches the messages for a conversation to put into redux.
  * @param conversationKey - the id of the conversation
@@ -378,13 +382,11 @@ async function getMessages({
     return { messagesProps: [], quotesProps: {} };
   }
 
-  const {
-    messages: messagesCollection,
-    quotes: quotesCollection,
-  } = await Data.getMessagesByConversation(conversationKey, {
-    messageId,
-    returnQuotes: true,
-  });
+  const { messages: messagesCollection, quotes: quotesCollection } =
+    await Data.getMessagesByConversation(conversationKey, {
+      messageId,
+      returnQuotes: true,
+    });
 
   const messagesProps: Array<MessageModelPropsWithoutConvoProps> = messagesCollection.models.map(
     m => m.getMessageModelProps()
@@ -409,7 +411,7 @@ async function getMessages({
           const timestamp = quotedMessage.propsForMessage.timestamp;
           const sender = quotedMessage.propsForMessage.sender;
           if (timestamp && sender) {
-            quotesProps[`${timestamp}-${sender}`] = quotedMessage;
+            quotesProps[buildQuoteId(sender, timestamp)] = quotedMessage;
           }
         }
       }
@@ -611,10 +613,10 @@ function handleMessageExpiredOrDeleted(
       if (timestamp && sender) {
         const message2Delete = lookupQuote(editedQuotes, editedMessages, timestamp, sender);
         window.log.debug(
-          `Deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
+          `Deleting quote {${buildQuoteId(sender, timestamp)}} ${JSON.stringify(message2Delete)}`
         );
 
-        delete editedQuotes[`${timestamp}-${sender}`];
+        delete editedQuotes[buildQuoteId(sender, timestamp)];
       }
 
       return {
@@ -907,6 +909,23 @@ const conversationsSlice = createSlice({
         oldBottomMessageId: null,
       };
     },
+    pushQuotedMessageDetails(
+      state: ConversationsStateType,
+      action: PayloadAction<MessageModelPropsWithoutConvoProps>
+    ) {
+      const { payload } = action;
+      if (state.selectedConversation === payload.propsForMessage.convoId) {
+        const builtId = buildQuoteId(
+          payload.propsForMessage.sender,
+          payload.propsForMessage.timestamp
+        );
+        if (state.quotes[builtId]) {
+          return state;
+        }
+        state.quotes[builtId] = payload;
+      }
+      return state;
+    },
     resetOldTopMessageId(state: ConversationsStateType) {
       state.oldTopMessageId = null;
       return state;
@@ -1113,6 +1132,7 @@ export const {
   resetOldTopMessageId,
   resetOldBottomMessageId,
   markConversationFullyRead,
+  pushQuotedMessageDetails,
   // layout stuff
   showMessageInfoView,
   openRightPanel,
@@ -1174,13 +1194,11 @@ export async function openConversationToSpecificMessage(args: {
   const { conversationKey, messageIdToNavigateTo, shouldHighlightMessage } = args;
   await unmarkAsForcedUnread(conversationKey);
 
-  const {
-    messagesProps: messagesAroundThisMessage,
-    quotesProps: quotesAroundThisMessage,
-  } = await getMessages({
-    conversationKey,
-    messageId: messageIdToNavigateTo,
-  });
+  const { messagesProps: messagesAroundThisMessage, quotesProps: quotesAroundThisMessage } =
+    await getMessages({
+      conversationKey,
+      messageId: messageIdToNavigateTo,
+    });
 
   const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
@@ -1211,23 +1229,17 @@ export function lookupQuote(
   timestamp: number,
   author: string
 ): MessageModelPropsWithoutConvoProps | undefined {
-  let sourceMessage = quotes[`${timestamp}-${author}`];
+  const sourceMessage = quotes[buildQuoteId(author, timestamp)];
 
-  // NOTE If a quote is processed but we haven't triggered a render, the quote might not be in the lookup map yet so we check the messages in memory.
-  if (!sourceMessage) {
-    const quotedMessages = messages.filter(message => {
-      const msgProps = message.propsForMessage;
-      return msgProps.timestamp === timestamp && msgProps.sender === author;
-    });
-
-    if (quotedMessages?.length) {
-      for (const quotedMessage of quotedMessages) {
-        if (quotedMessage) {
-          sourceMessage = quotedMessage;
-        }
-      }
-    }
+  if (sourceMessage) {
+    return sourceMessage;
   }
 
-  return sourceMessage;
+  // NOTE If a quote is processed but we haven't triggered a render, the quote might not be in the lookup map yet so we check the messages in memory.
+  const foundMessageToQuote = messages.find(message => {
+    const msgProps = message.propsForMessage;
+    return msgProps.timestamp === timestamp && msgProps.sender === author;
+  });
+
+  return foundMessageToQuote;
 }

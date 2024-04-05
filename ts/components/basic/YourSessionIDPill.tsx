@@ -41,6 +41,7 @@ const StyledYourSessionIDSelectable = styled.p`
   font-weight: 300;
   font-size: var(--font-size-sm);
   color: var(--text-primary-color);
+  flex-shrink: 0;
 `;
 
 export const YourSessionIDSelectable = () => {

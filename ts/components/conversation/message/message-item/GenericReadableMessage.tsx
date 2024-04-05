@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import { StateType } from '../../../../state/reducer';
@@ -29,7 +30,6 @@ export type GenericReadableMessageSelectorProps = Pick<
 type Props = {
   messageId: string;
   ctxMenuID: string;
-  isDetailView?: boolean;
 };
 
 const highlightedMessageAnimation = keyframes`
@@ -40,8 +40,8 @@ const highlightedMessageAnimation = keyframes`
 
 const StyledReadableMessage = styled.div<{
   selected: boolean;
+  isDetailView: boolean;
   isRightClicked: boolean;
-  isDetailView?: boolean;
 }>`
   display: flex;
   align-items: center;
@@ -64,7 +64,9 @@ const StyledReadableMessage = styled.div<{
 `;
 
 export const GenericReadableMessage = (props: Props) => {
-  const { ctxMenuID, messageId, isDetailView } = props;
+  const isDetailView = useIsDetailMessageView();
+
+  const { ctxMenuID, messageId } = props;
 
   const [enableReactions, setEnableReactions] = useState(true);
 
@@ -148,7 +150,6 @@ export const GenericReadableMessage = (props: Props) => {
       <MessageContentWithStatuses
         ctxMenuID={ctxMenuID}
         messageId={messageId}
-        isDetailView={isDetailView}
         dataTestId={'message-content'}
         enableReactions={enableReactions}
       />

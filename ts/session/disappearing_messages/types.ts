@@ -1,5 +1,5 @@
 // NOTE this must match Content.ExpirationType in the protobuf
-export type DisappearingMessageType = typeof DisappearingMessageMode[number];
+export type DisappearingMessageType = (typeof DisappearingMessageMode)[number];
 export const DisappearingMessageMode = ['unknown', 'deleteAfterRead', 'deleteAfterSend'] as const;
 export type DisappearAfterSendOnly = Exclude<DisappearingMessageType, 'deleteAfterRead'>;
 
@@ -11,7 +11,8 @@ export const DisappearingMessageConversationModes = [
   // TODO legacy messages support will be removed in a future release
   'legacy',
 ] as const;
-export type DisappearingMessageConversationModeType = typeof DisappearingMessageConversationModes[number];
+export type DisappearingMessageConversationModeType =
+  (typeof DisappearingMessageConversationModes)[number];
 
 // TODO legacy messages support will be removed in a future release
 // expirationType will no longer have an undefined option

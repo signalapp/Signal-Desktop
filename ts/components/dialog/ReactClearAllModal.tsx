@@ -1,14 +1,14 @@
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
 import { clearSogsReactionByServerId } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearReaction';
 import { getConversationController } from '../../session/conversations';
 import { updateReactClearAllModal } from '../../state/ducks/modalDialog';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionWrapperModal } from '../SessionWrapperModal';
 
 type Props = {
   reaction: string;
@@ -46,7 +46,7 @@ const StyledReactClearAllContainer = styled(Flex)`
   }
 `;
 
-export const ReactClearAllModal = (props: Props): ReactElement => {
+export const ReactClearAllModal = (props: Props) => {
   const { reaction, messageId } = props;
 
   const [clearingInProgress, setClearingInProgress] = useState(false);
@@ -59,9 +59,7 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
   }
 
   const { convoId, serverId } = msgProps;
-  const roomInfos = getConversationController()
-    .get(convoId)
-    .toOpenGroupV2();
+  const roomInfos = getConversationController().get(convoId).toOpenGroupV2();
 
   const handleClose = () => {
     dispatch(updateReactClearAllModal(null));

@@ -235,13 +235,16 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       global.clearTimeout(this.nextJobStartTimer);
     }
     // plan a timer to wakeup when that timer is reached.
-    this.nextJobStartTimer = global.setTimeout(() => {
-      if (this.nextJobStartTimer) {
-        global.clearTimeout(this.nextJobStartTimer);
-        this.nextJobStartTimer = null;
-      }
-      void this.runNextJob();
-    }, Math.max(nextJob.persistedData.nextAttemptTimestamp - Date.now(), 1));
+    this.nextJobStartTimer = global.setTimeout(
+      () => {
+        if (this.nextJobStartTimer) {
+          global.clearTimeout(this.nextJobStartTimer);
+          this.nextJobStartTimer = null;
+        }
+        void this.runNextJob();
+      },
+      Math.max(nextJob.persistedData.nextAttemptTimestamp - Date.now(), 1)
+    );
 
     return 'job_deferred';
   }

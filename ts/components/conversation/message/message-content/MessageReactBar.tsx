@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { isEmpty } from 'lodash';
@@ -21,7 +21,9 @@ type Props = {
 const StyledMessageReactBar = styled.div`
   background-color: var(--emoji-reaction-bar-background-color);
   border-radius: 25px;
-  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 2px 16px 0 rgba(0, 0, 0, 0.2),
+    0 0px 20px 0 rgba(0, 0, 0, 0.19);
 
   padding: 4px 8px;
   white-space: nowrap;
@@ -158,7 +160,7 @@ const ExpiresInItem = ({ expirationTimestamp }: { expirationTimestamp?: number |
   );
 };
 
-export const MessageReactBar = ({ action, additionalAction, messageId }: Props): ReactElement => {
+export const MessageReactBar = ({ action, additionalAction, messageId }: Props) => {
   const recentReactions = getRecentReactions();
   const expirationTimestamp = useIsRenderedExpiresInItem(messageId);
 

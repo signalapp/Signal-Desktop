@@ -67,9 +67,8 @@ describe('libsession_user_profile', () => {
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
 
-      const wrapperUserProfile = await SessionUtilUserProfile.insertUserProfileIntoWrapper(
-        ourNumber
-      );
+      const wrapperUserProfile =
+        await SessionUtilUserProfile.insertUserProfileIntoWrapper(ourNumber);
 
       expect(wrapperUserProfile, 'something should be returned from the wrapper').to.not.be.null;
       if (!wrapperUserProfile) {
@@ -123,9 +122,8 @@ describe('libsession_user_profile', () => {
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
 
-      const wrapperUserProfile = await SessionUtilUserProfile.insertUserProfileIntoWrapper(
-        ourNumber
-      );
+      const wrapperUserProfile =
+        await SessionUtilUserProfile.insertUserProfileIntoWrapper(ourNumber);
 
       expect(wrapperUserProfile, 'something should be returned from the wrapper').to.not.be.null;
       if (!wrapperUserProfile) {

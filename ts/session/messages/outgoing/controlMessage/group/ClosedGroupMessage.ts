@@ -43,7 +43,8 @@ export abstract class ClosedGroupMessage extends ExpirableMessage {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = super.dataProto();
 
-    dataMessage.closedGroupControlMessage = new SignalService.DataMessage.ClosedGroupControlMessage();
+    dataMessage.closedGroupControlMessage =
+      new SignalService.DataMessage.ClosedGroupControlMessage();
 
     return dataMessage;
   }

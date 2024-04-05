@@ -42,23 +42,23 @@ const SpacerStyled = styled.div<SpacerProps>`
     props.size === 'xl'
       ? 'var(--margins-xl)'
       : props.size === 'lg'
-      ? 'var(--margins-lg)'
-      : props.size === 'md'
-      ? 'var(--margins-md)'
-      : props.size === 'sm'
-      ? 'var(--margins-sm)'
-      : 'var(--margins-xs)'};
+        ? 'var(--margins-lg)'
+        : props.size === 'md'
+          ? 'var(--margins-md)'
+          : props.size === 'sm'
+            ? 'var(--margins-sm)'
+            : 'var(--margins-xs)'};
 
   width: ${props =>
     props.size === 'xl'
       ? 'var(--margins-xl)'
       : props.size === 'lg'
-      ? 'var(--margins-lg)'
-      : props.size === 'md'
-      ? 'var(--margins-md)'
-      : props.size === 'sm'
-      ? 'var(--margins-sm)'
-      : 'var(--margins-xs)'};
+        ? 'var(--margins-lg)'
+        : props.size === 'md'
+          ? 'var(--margins-md)'
+          : props.size === 'sm'
+            ? 'var(--margins-sm)'
+            : 'var(--margins-xs)'};
 `;
 
 const Spacer = (props: SpacerProps) => {

@@ -259,9 +259,8 @@ const handleMessagesResponseV4 = async (
       subrequestOption.messages.roomId
     );
 
-    const messagesWithValidSignature = await filterOutMessagesInvalidSignature(
-      messagesWithoutDeleted
-    );
+    const messagesWithValidSignature =
+      await filterOutMessagesInvalidSignature(messagesWithoutDeleted);
     // we do a first check with blinded ids. Looking to filter out messages we already received from that blinded id.
     const messagesFilteredBlindedIds = await filterDuplicatesFromDbAndIncomingV4(
       messagesWithValidSignature
@@ -427,8 +426,8 @@ async function handleInboxOutboxMessages(
             unblindedIDOrBlinded,
             ConversationTypeEnum.PRIVATE
           );
-          const serverConversationId = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl)?.[0]
-            .conversationId;
+          const serverConversationId =
+            OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl)?.[0].conversationId;
           if (!serverConversationId) {
             throw new Error('serverConversationId needs to exist');
           }
