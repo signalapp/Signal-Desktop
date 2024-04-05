@@ -1184,6 +1184,8 @@ $message-padding-horizontal: 12px;
   &--inline {
     float: inline-end;
     margin-top: -14px;
+    position: relative;
+    z-index: $z-index-base;
   }
 }
 
