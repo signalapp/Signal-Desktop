@@ -43,13 +43,6 @@ describe('Onboarding', () => {
     });
   });
 
-  describe('sanitizeDisplayNameOrToast', () => {
-    // Arrange
-    // const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError, dispatch);
-    // Act
-    // Assert
-  });
-
   describe('signInByLinkingDevice', () => {
     // Arrange
     // TODO generated recoverypassword
