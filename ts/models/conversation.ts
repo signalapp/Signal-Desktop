@@ -1739,9 +1739,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const conversationId = this.id;
+    const isLegacyGroup = this.isClosedGroup() && this.id.startsWith('05');
 
     let friendRequestText;
-    if (!this.isApproved()) {
+    // NOTE: legacy groups are never approved, so we should not cancel notifications
+    if (!this.isApproved() && !isLegacyGroup) {
       window?.log?.info('notification cancelled for unapproved convo', this.idForLogging());
       const hadNoRequestsPrior =
         getConversationController()
