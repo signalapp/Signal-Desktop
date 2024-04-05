@@ -5,6 +5,8 @@ import { ConfigDumpData } from '../../../data/configDump/configDump';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 
+import { load } from '../../../node/locale';
+import { setupi18n } from '../../../util/i18n';
 import * as libsessionWorker from '../../../webworker/workers/browser/libsession_worker_interface';
 import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 
@@ -84,7 +86,7 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
   };
 }
 
-export const enableLogRedirect = false;
+export const enableLogRedirect = true;
 
 export const stubWindowLog = () => {
   stubWindow('log', {
@@ -108,3 +110,9 @@ export async function expectAsyncToThrow(toAwait: () => Promise<any>, errorMessa
     expect(e.message).to.be.eq(errorMessageToCatch);
   }
 }
+
+/** You must call stubWindowLog() before using */
+export const stubI18n = () => {
+  const locale = load({ appLocale: 'en', logger: window.log });
+  stubWindow('i18n', setupi18n('en', locale.messages));
+};
