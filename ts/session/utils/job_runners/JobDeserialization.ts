@@ -16,13 +16,13 @@ export function persistedJobFromData<T extends TypeOfPersistedData>(
 
   switch (data.jobType) {
     case 'ConfigurationSyncJobType':
-      return (new ConfigurationSync.ConfigurationSyncJob(data) as unknown) as PersistedJob<T>;
+      return new ConfigurationSync.ConfigurationSyncJob(data) as unknown as PersistedJob<T>;
     case 'AvatarDownloadJobType':
-      return (new AvatarDownload.AvatarDownloadJob(data) as unknown) as PersistedJob<T>;
+      return new AvatarDownload.AvatarDownloadJob(data) as unknown as PersistedJob<T>;
     case 'FakeSleepForJobType':
-      return (new FakeSleepForJob(data) as unknown) as PersistedJob<T>;
+      return new FakeSleepForJob(data) as unknown as PersistedJob<T>;
     case 'FakeSleepForJobMultiType':
-      return (new FakeSleepForMultiJob(data) as unknown) as PersistedJob<T>;
+      return new FakeSleepForMultiJob(data) as unknown as PersistedJob<T>;
     default:
       window?.log?.error('unknown persisted job type:', (data as any).jobType);
       return null;

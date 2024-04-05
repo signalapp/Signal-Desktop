@@ -6,9 +6,7 @@ export interface ClosedGroupEncryptionPairMessageParams extends ClosedGroupMessa
 }
 
 export class ClosedGroupEncryptionPairMessage extends ClosedGroupMessage {
-  private readonly encryptedKeyPairs: Array<
-    SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
-  >;
+  private readonly encryptedKeyPairs: Array<SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper>;
 
   constructor(params: ClosedGroupEncryptionPairMessageParams) {
     super(params);

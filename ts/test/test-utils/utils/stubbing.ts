@@ -52,7 +52,7 @@ export function stubLibSessionWorker(value: any) {
 }
 
 export function stubCreateObjectUrl() {
-  (global as any).URL = function() {};
+  (global as any).URL = function () {};
   (global as any).URL.createObjectURL = () => {
     return `${Date.now()}:${Math.floor(Math.random() * 1000)}`;
   };

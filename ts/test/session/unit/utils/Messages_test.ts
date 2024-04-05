@@ -199,9 +199,8 @@ describe('Message Utils', () => {
     it('passing ClosedGroupEncryptionPairMessage returns ClosedGroup', async () => {
       const device = TestUtils.generateFakePubKey();
 
-      const fakeWrappers = new Array<
-        SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
-      >();
+      const fakeWrappers =
+        new Array<SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper>();
       fakeWrappers.push(
         new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper({
           publicKey: new Uint8Array(8),
@@ -221,9 +220,8 @@ describe('Message Utils', () => {
     it('passing ClosedGroupEncryptionKeyPairReply returns Fallback', async () => {
       const device = TestUtils.generateFakePubKey();
 
-      const fakeWrappers = new Array<
-        SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper
-      >();
+      const fakeWrappers =
+        new Array<SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper>();
       fakeWrappers.push(
         new SignalService.DataMessage.ClosedGroupControlMessage.KeyPairWrapper({
           publicKey: new Uint8Array(8),

@@ -16,6 +16,7 @@ export type SessionIconProps = {
   noScale?: boolean;
   backgroundColor?: string;
   dataTestId?: string;
+  unreadCount?: number;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {

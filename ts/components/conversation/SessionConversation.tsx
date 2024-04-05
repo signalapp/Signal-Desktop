@@ -60,7 +60,6 @@ import { SessionSpinner } from '../basic/SessionSpinner';
 import { RightPanel, StyledRightPanelContainer } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
-
 interface State {
   isDraggingFile: boolean;
 }
@@ -127,10 +126,8 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidUpdate(prevProps: Props, _prevState: State) {
-    const {
-      selectedConversationKey: newConversationKey,
-      selectedConversation: newConversation,
-    } = this.props;
+    const { selectedConversationKey: newConversationKey, selectedConversation: newConversation } =
+      this.props;
     const { selectedConversationKey: oldConversationKey } = prevProps;
 
     // if the convo is valid, and it changed, register for drag events
@@ -356,6 +353,7 @@ export class SessionConversation extends React.Component<Props, State> {
           }
           break;
         default:
+          break;
       }
     }
   }

@@ -47,6 +47,12 @@ sudo apt install cmake
 npm install cmake-js
 ```
 
+In Fedora, you may also need to install
+```
+sudo dnf install make automake gcc gcc-c++ kernel-devel
+```
+
+
 ### All platforms
 
 Now, run these commands in your preferred terminal in a good directory for development:

@@ -44,9 +44,8 @@ describe('ExpireRequest', () => {
     };
 
     it('builds a request with just the messageHash and expireTimer of 1 minute', async () => {
-      const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequestSingleExpiry(
-        props
-      );
+      const request: UpdateExpiryOnNodeSubRequest | null =
+        await buildExpireRequestSingleExpiry(props);
 
       expect(request, 'should not return null').to.not.be.null;
       expect(request, 'should not return undefined').to.not.be.undefined;

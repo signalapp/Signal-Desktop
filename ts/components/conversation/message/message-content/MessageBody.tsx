@@ -33,7 +33,7 @@ const renderNewLines: RenderTextCallbackType = ({ text: textWithNewLines, key, i
     <AddNewLines
       key={key}
       text={textWithNewLines}
-      renderNonNewLine={isGroup ? renderMentions : renderTextDefault}
+      renderNonNewLine={renderMentions}
       isGroup={isGroup}
     />
   );

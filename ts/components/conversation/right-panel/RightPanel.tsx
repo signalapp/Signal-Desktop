@@ -21,11 +21,13 @@ export const StyledRightPanelContainer = styled.div`
 
   background-color: var(--background-primary-color);
   border-left: 1px solid var(--border-color);
+  visibility: hidden;
 
   &.show {
     transform: none;
     transition: transform 0.3s ease-in-out;
     z-index: 3;
+    visibility: visible;
   }
 `;
 

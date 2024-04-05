@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
 import { useMessageStatus } from '../../../../state/selectors';
 
-import { getMostRecentMessageId } from '../../../../state/selectors/conversations';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
+import { getMostRecentOutgoingMessageId } from '../../../../state/selectors/conversations';
 import { useSelectedIsGroupOrCommunity } from '../../../../state/selectors/selectedConversation';
 import { SpacerXS } from '../../../basic/Text';
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ExpireTimer } from '../../ExpireTimer';
 
 type Props = {
-  isDetailView: boolean;
   messageId: string;
   dataTestId?: string | undefined;
 };
@@ -30,7 +30,9 @@ type Props = {
  *        - if the message is incoming: do not show anything (3)
  *        - if the message is outgoing: show the text for the last message, or a message sending, or in the error state. (4)
  */
-export const MessageStatus = ({ isDetailView, messageId, dataTestId }: Props) => {
+export const MessageStatus = ({ messageId, dataTestId }: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const status = useMessageStatus(messageId);
   const selected = useMessageExpirationPropsById(messageId);
 
@@ -120,10 +122,9 @@ function useIsExpiring(messageId: string) {
   );
 }
 
-function useIsMostRecentMessage(messageId: string) {
-  const mostRecentMessageId = useSelector(getMostRecentMessageId);
-  const isMostRecentMessage = mostRecentMessageId === messageId;
-  return isMostRecentMessage;
+function useIsMostRecentOutgoingMessage(messageId: string) {
+  const mostRecentOutgoingMessageId = useSelector(getMostRecentOutgoingMessageId);
+  return mostRecentOutgoingMessageId === messageId;
 }
 
 function MessageStatusExpireTimer(props: Pick<Props, 'messageId'>) {
@@ -178,11 +179,11 @@ function IconForExpiringMessageId({
 
 const MessageStatusSent = ({ dataTestId, messageId }: Omit<Props, 'isDetailView'>) => {
   const isExpiring = useIsExpiring(messageId);
-  const isMostRecentMessage = useIsMostRecentMessage(messageId);
+  const isMostRecentOutgoingMessage = useIsMostRecentOutgoingMessage(messageId);
   const isGroup = useSelectedIsGroupOrCommunity();
 
-  // we hide a "sent" message status which is not expiring except for the most recent message
-  if (!isExpiring && !isMostRecentMessage) {
+  // we hide the "sent" message status for a non-expiring messages unless it's the most recent outgoing message
+  if (!isExpiring && !isMostRecentOutgoingMessage) {
     return null;
   }
   return (
@@ -206,10 +207,10 @@ const MessageStatusRead = ({
   const isExpiring = useIsExpiring(messageId);
   const isGroup = useSelectedIsGroupOrCommunity();
 
-  const isMostRecentMessage = useIsMostRecentMessage(messageId);
+  const isMostRecentOutgoingMessage = useIsMostRecentOutgoingMessage(messageId);
 
   // we hide an outgoing "read" message status which is not expiring except for the most recent message
-  if (!isIncoming && !isExpiring && !isMostRecentMessage) {
+  if (!isIncoming && !isExpiring && !isMostRecentOutgoingMessage) {
     return null;
   }
 

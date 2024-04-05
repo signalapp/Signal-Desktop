@@ -21,9 +21,8 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [localStreamVideoIsMuted, setLocalStreamVideoIsMuted] = useState(true);
   const [ourAudioIsMuted, setOurAudioIsMuted] = useState(false);
-  const [currentSelectedAudioOutput, setCurrentSelectedAudioOutput] = useState(
-    DEVICE_DISABLED_DEVICE_ID
-  );
+  const [currentSelectedAudioOutput, setCurrentSelectedAudioOutput] =
+    useState(DEVICE_DISABLED_DEVICE_ID);
   const [remoteStreamVideoIsMuted, setRemoteStreamVideoIsMuted] = useState(true);
   const mountedStateFunc = useMountedState();
   const mountedState = mountedStateFunc();

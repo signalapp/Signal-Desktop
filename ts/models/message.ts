@@ -273,9 +273,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       (pubkeysInDesc || []).forEach((pubkeyWithAt: string) => {
         const pubkey = pubkeyWithAt.slice(1);
         const isUS = isUsAnySogsFromCache(pubkey);
-        const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
-          pubkey
-        );
+        const displayName =
+          getConversationController().getContactProfileNameOrShortenedPubKey(pubkey);
         if (isUS) {
           description = description?.replace(pubkeyWithAt, `@${window.i18n('you')}`);
         } else if (displayName && displayName.length) {
@@ -742,9 +741,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const quoteWithData = await loadQuoteData(this.get('quote'));
     const previewWithData = await loadPreviewData(this.get('preview'));
 
-    const { hasAttachments, hasVisualMediaAttachments, hasFileAttachments } = getAttachmentMetadata(
-      this
-    );
+    const { hasAttachments, hasVisualMediaAttachments, hasFileAttachments } =
+      getAttachmentMetadata(this);
     this.set({ hasAttachments, hasVisualMediaAttachments, hasFileAttachments });
     await this.commit();
 
@@ -795,8 +793,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     window.log.info(
-      `Upload of message data for message ${this.idForLogging()} is finished in ${Date.now() -
-        start}ms.`
+      `Upload of message data for message ${this.idForLogging()} is finished in ${
+        Date.now() - start
+      }ms.`
     );
     return {
       body,
@@ -1238,18 +1237,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const left: Array<string> | undefined = Array.isArray(groupUpdate.left)
       ? groupUpdate.left
       : groupUpdate.left
-      ? [groupUpdate.left]
-      : undefined;
+        ? [groupUpdate.left]
+        : undefined;
     const kicked: Array<string> | undefined = Array.isArray(groupUpdate.kicked)
       ? groupUpdate.kicked
       : groupUpdate.kicked
-      ? [groupUpdate.kicked]
-      : undefined;
+        ? [groupUpdate.kicked]
+        : undefined;
     const joined: Array<string> | undefined = Array.isArray(groupUpdate.joined)
       ? groupUpdate.joined
       : groupUpdate.joined
-      ? [groupUpdate.joined]
-      : undefined;
+        ? [groupUpdate.joined]
+        : undefined;
 
     const forcedArrayUpdate: MessageGroupUpdate = {};
 
@@ -1381,8 +1380,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
               return isCommunity
                 ? window.i18n('leaveCommunityFailed')
                 : isGroup
-                ? window.i18n('leaveGroupFailed')
-                : window.i18n('deleteConversationFailed');
+                  ? window.i18n('leaveGroupFailed')
+                  : window.i18n('deleteConversationFailed');
             default:
               assertUnreachable(
                 interactionType,

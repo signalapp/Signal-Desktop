@@ -1,9 +1,10 @@
 import { MessageModel } from '../../models/message';
 import * as Attachment from '../Attachment';
 
-const hasAttachmentInMessage = (predicate: (value: Attachment.Attachment) => boolean) => (
-  message: MessageModel
-): boolean => Boolean((message.get('attachments') || []).some(predicate));
+const hasAttachmentInMessage =
+  (predicate: (value: Attachment.Attachment) => boolean) =>
+  (message: MessageModel): boolean =>
+    Boolean((message.get('attachments') || []).some(predicate));
 
 export const hasFileAttachmentInMessage = hasAttachmentInMessage(Attachment.isFile);
 export const hasVisualMediaAttachmentInMessage = hasAttachmentInMessage(Attachment.isVisualMedia);

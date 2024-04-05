@@ -1739,9 +1739,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const conversationId = this.id;
+    const isLegacyGroup = this.isClosedGroup() && this.id.startsWith('05');
 
     let friendRequestText;
-    if (!this.isApproved()) {
+    // NOTE: legacy groups are never approved, so we should not cancel notifications
+    if (!this.isApproved() && !isLegacyGroup) {
       window?.log?.info('notification cancelled for unapproved convo', this.idForLogging());
       const hadNoRequestsPrior =
         getConversationController()
@@ -2104,8 +2106,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const interactionNotification = lastMessageModel.getInteractionNotification();
 
     const lastMessageInteractionType = interactionNotification?.interactionType;
-    const lastMessageInteractionStatus = lastMessageModel.getInteractionNotification()
-      ?.interactionStatus;
+    const lastMessageInteractionStatus =
+      lastMessageModel.getInteractionNotification()?.interactionStatus;
     const lastMessageStatus = lastMessageModel.getMessagePropStatus() || undefined;
     const lastMessageNotificationText = lastMessageModel.getNotificationText() || undefined;
     // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
@@ -2473,10 +2475,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       mode === 'deleteAfterRead'
         ? ours === 'deleteAfterRead'
         : mode === 'deleteAfterSend'
-        ? ours === 'deleteAfterSend'
-        : mode === 'off'
-        ? ours === 'off'
-        : false;
+          ? ours === 'deleteAfterSend'
+          : mode === 'off'
+            ? ours === 'off'
+            : false;
 
     return success;
   }

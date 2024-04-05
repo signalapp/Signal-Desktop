@@ -305,9 +305,8 @@ describe('DisappearingMessage', () => {
     });
     it('if the type and expireTimer are undefined then the conversation mode is off', async () => {
       const conversation = new ConversationModel({ ...conversationArgs });
-      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
-        conversation
-      );
+      const conversationMode =
+        DisappearingMessages.changeToDisappearingConversationMode(conversation);
 
       expect(conversationMode, 'returns off').to.be.eq('off');
     });

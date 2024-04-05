@@ -309,14 +309,8 @@ function insertLegacyGroupIntoWrapper(
 ) {
   checkTargetMigration(version, targetVersion);
 
-  const {
-    priority,
-    id,
-    groupAdmins,
-    members,
-    displayNameInProfile,
-    lastJoinedTimestamp,
-  } = legacyGroup;
+  const { priority, id, groupAdmins, members, displayNameInProfile, lastJoinedTimestamp } =
+    legacyGroup;
 
   const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
     legacyGroup.id,

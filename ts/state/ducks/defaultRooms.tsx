@@ -52,9 +52,6 @@ const defaultRoomsSlice = createSlice({
 });
 
 const { actions, reducer } = defaultRoomsSlice;
-export const {
-  updateDefaultRooms,
-  updateDefaultBase64RoomData,
-  updateDefaultRoomsInProgress,
-} = actions;
+export const { updateDefaultRooms, updateDefaultBase64RoomData, updateDefaultRoomsInProgress } =
+  actions;
 export const defaultRoomReducer = reducer;

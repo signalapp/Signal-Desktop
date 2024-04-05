@@ -5,7 +5,7 @@ const util = require('util');
 const renameAsync = util.promisify(fs.rename);
 const unlinkAsync = util.promisify(fs.unlink);
 
-module.exports = async function(context) {
+module.exports = async function (context) {
   // Replace the app launcher on linux only.
   if (process.platform !== 'linux') {
     return;

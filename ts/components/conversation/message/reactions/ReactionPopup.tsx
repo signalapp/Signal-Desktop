@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
+import { findAndFormatContact } from '../../../../models/message';
 import { PubKey } from '../../../../session/types/PubKey';
 import { isDarkTheme } from '../../../../state/selectors/theme';
 import { nativeEmojiData } from '../../../../util/emoji';
-import { findAndFormatContact } from '../../../../models/message';
 
 export type TipPosition = 'center' | 'left' | 'right';
 
@@ -111,8 +111,8 @@ const Contacts = (contacts: Array<string>, count: number) => {
           reactors === 1
             ? 'reactionPopupOne'
             : reactors === 2
-            ? 'reactionPopupTwo'
-            : 'reactionPopupThree',
+              ? 'reactionPopupTwo'
+              : 'reactionPopupThree',
           contacts
         )}{' '}
         <span>{window.i18n('reactionPopup')}</span>
@@ -142,7 +142,7 @@ type Props = {
   onClick: (...args: Array<any>) => void;
 };
 
-export const ReactionPopup = (props: Props): ReactElement => {
+export const ReactionPopup = (props: Props) => {
   const { messageId, emoji, count, senders, tooltipPosition = 'center', onClick } = props;
 
   const [contacts, setContacts] = useState<Array<string>>([]);

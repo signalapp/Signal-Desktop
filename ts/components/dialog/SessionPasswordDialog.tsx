@@ -82,10 +82,10 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       passwordAction === 'change'
         ? 'changePassword'
         : passwordAction === 'remove'
-        ? 'removePassword'
-        : passwordAction === 'enter'
-        ? 'passwordViewTitle'
-        : 'setPassword';
+          ? 'removePassword'
+          : passwordAction === 'enter'
+            ? 'passwordViewTitle'
+            : 'setPassword';
 
     return (
       <SessionWrapperModal title={window.i18n(localizedKeyAction)} onClose={this.closeDialog}>
@@ -295,11 +295,8 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
   private async setPassword() {
     const { passwordAction } = this.props;
-    const {
-      currentPasswordEntered,
-      currentPasswordConfirmEntered,
-      currentPasswordRetypeEntered,
-    } = this.state;
+    const { currentPasswordEntered, currentPasswordConfirmEntered, currentPasswordRetypeEntered } =
+      this.state;
 
     // Trim leading / trailing whitespace for UX
     const firstPasswordEntered = (currentPasswordEntered || '').trim();

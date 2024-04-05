@@ -51,8 +51,9 @@ export const CONVERSATION = {
   // Maximum voice message duraton of 5 minutes
   // which equates to 1.97 MB
   MAX_VOICE_MESSAGE_DURATION: 300,
-  MAX_UNREAD_COUNT: 999,
-};
+  MAX_CONVO_UNREAD_COUNT: 999,
+  MAX_GLOBAL_UNREAD_COUNT: 99, // the global one does not look good with 4 digits (999+) so we have a smaller one for it
+} as const;
 
 /**
  * The file server and onion request max upload size is 10MB precisely.

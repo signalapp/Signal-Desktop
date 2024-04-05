@@ -17,14 +17,8 @@ export const createTemplate = (
     throw new TypeError('`options.platform` must be a string');
   }
 
-  const {
-    openReleaseNotes,
-    openSupportPage,
-    platform,
-    showAbout,
-    showDebugLog,
-    showWindow,
-  } = options;
+  const { openReleaseNotes, openSupportPage, platform, showAbout, showDebugLog, showWindow } =
+    options;
 
   const template = [
     {

@@ -54,9 +54,8 @@ export const sendDataExtractionNotification = async (
     window.log.warn('Not sending saving attachment notification for', attachmentSender);
     return;
   }
-  const { expirationType, expireTimer } = DisappearingMessages.forcedDeleteAfterReadMsgSetting(
-    convo
-  );
+  const { expirationType, expireTimer } =
+    DisappearingMessages.forcedDeleteAfterReadMsgSetting(convo);
   // DataExtractionNotification are expiring with a forced DaR timer if a DaS is set.
   // It's because we want the DataExtractionNotification to stay in the swarm as much as possible,
   // but also expire on the recipient's side (and synced) once read.

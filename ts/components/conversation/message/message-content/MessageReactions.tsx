@@ -1,6 +1,7 @@
 import { isEmpty, isEqual } from 'lodash';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { REACT_LIMIT } from '../../../../session/constants';
@@ -27,7 +28,7 @@ export const StyledMessageReactionsContainer = styled(Flex)<{
   }
 
   // MessageAvatar width + margin-inline-end
-  ${props => !props.noAvatar && 'margin-inline-start: calc(36px + 20px);'}
+  ${props => !props.noAvatar && 'margin-inline-start: var(--width-avatar-group-msg-list);'}
 `;
 
 export const StyledMessageReactions = styled(Flex)<{ fullWidth: boolean }>`
@@ -65,7 +66,7 @@ const StyledReadLess = styled.span`
 
 type ReactionsProps = Omit<ReactionProps, 'emoji'>;
 
-const Reactions = (props: ReactionsProps): ReactElement => {
+const Reactions = (props: ReactionsProps) => {
   const { messageId, reactions, inModal } = props;
   return (
     <StyledMessageReactions
@@ -85,7 +86,7 @@ interface ExpandReactionsProps extends ReactionsProps {
   handleExpand: () => void;
 }
 
-const CompressedReactions = (props: ExpandReactionsProps): ReactElement => {
+const CompressedReactions = (props: ExpandReactionsProps) => {
   const { messageId, reactions, inModal, handleExpand } = props;
   return (
     <StyledMessageReactions
@@ -119,7 +120,7 @@ const CompressedReactions = (props: ExpandReactionsProps): ReactElement => {
   );
 };
 
-const ExpandedReactions = (props: ExpandReactionsProps): ReactElement => {
+const ExpandedReactions = (props: ExpandReactionsProps) => {
   const { handleExpand } = props;
   return (
     <Flex container={true} flexDirection={'column'} alignItems={'center'} margin="4px 0 0">
@@ -147,10 +148,11 @@ type Props = {
   inModal?: boolean;
   onSelected?: (emoji: string) => boolean;
   noAvatar: boolean;
-  isDetailView?: boolean;
 };
 
 export const MessageReactions = (props: Props) => {
+  const isDetailView = useIsDetailMessageView();
+
   const {
     messageId,
     hasReactLimit = true,
@@ -161,7 +163,6 @@ export const MessageReactions = (props: Props) => {
     inModal = false,
     onSelected,
     noAvatar,
-    isDetailView,
   } = props;
   const [reactions, setReactions] = useState<SortedReactionList>([]);
 

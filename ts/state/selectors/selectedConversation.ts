@@ -1,5 +1,6 @@
 import { isString } from 'lodash';
 import { useSelector } from 'react-redux';
+import { useUnreadCount } from '../../hooks/useParamSelector';
 import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 import {
   DisappearingMessageConversationModeType,
@@ -300,6 +301,11 @@ export function useSelectedIsPrivateFriend() {
 
 export function useSelectedIsActive() {
   return useSelector(getIsSelectedActive);
+}
+
+export function useSelectedUnreadCount() {
+  const selectedConversation = useSelectedConversationKey();
+  return useUnreadCount(selectedConversation);
 }
 
 export function useSelectedIsNoteToSelf() {

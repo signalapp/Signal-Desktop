@@ -7,7 +7,6 @@ import {
   hasValidOutgoingRequestValues,
 } from '../models/conversation';
 import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { CONVERSATION } from '../session/constants';
 import { TimerOptions, TimerOptionsArray } from '../session/disappearing_messages/timerOptions';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
@@ -241,12 +240,11 @@ export function useMessageReactsPropsById(messageId?: string) {
 
 /**
  * Returns the unread count of that conversation, or 0 if none are found.
- * Note: returned value is capped at a max of CONVERSATION.MAX_UNREAD_COUNT
+ * Note: returned value is capped at a max of CONVERSATION.MAX_CONVO_UNREAD_COUNT
  */
 export function useUnreadCount(conversationId?: string): number {
   const convoProps = useConversationPropsById(conversationId);
-  const convoUnreadCount = convoProps?.unreadCount || 0;
-  return Math.min(CONVERSATION.MAX_UNREAD_COUNT, convoUnreadCount);
+  return convoProps?.unreadCount || 0;
 }
 
 export function useHasUnread(conversationId?: string): boolean {
@@ -274,28 +272,29 @@ export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
 
-const getMessageExpirationProps = createSelector(getMessagePropsByMessageId, (props):
-  | PropsForExpiringMessage
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
+const getMessageExpirationProps = createSelector(
+  getMessagePropsByMessageId,
+  (props): PropsForExpiringMessage | undefined => {
+    if (!props || isEmpty(props)) {
+      return undefined;
+    }
+
+    const msgProps: PropsForExpiringMessage = {
+      ...pick(props.propsForMessage, [
+        'convoId',
+        'direction',
+        'receivedAt',
+        'isUnread',
+        'expirationTimestamp',
+        'expirationDurationMs',
+        'isExpired',
+      ]),
+      messageId: props.propsForMessage.id,
+    };
+
+    return msgProps;
   }
-
-  const msgProps: PropsForExpiringMessage = {
-    ...pick(props.propsForMessage, [
-      'convoId',
-      'direction',
-      'receivedAt',
-      'isUnread',
-      'expirationTimestamp',
-      'expirationDurationMs',
-      'isExpired',
-    ]),
-    messageId: props.propsForMessage.id,
-  };
-
-  return msgProps;
-});
+);
 
 export function useMessageExpirationPropsById(messageId?: string) {
   return useSelector((state: StateType) => {
@@ -352,17 +351,18 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyO
   }, [disappearingMessageMode, hasOnlyOneMode]);
 }
 
-export function useQuoteAuthorName(
-  authorId?: string
-): { authorName: string | undefined; isMe: boolean } {
+export function useQuoteAuthorName(authorId?: string): {
+  authorName: string | undefined;
+  isMe: boolean;
+} {
   const convoProps = useConversationPropsById(authorId);
 
   const isMe = Boolean(authorId && isUsAnySogsFromCache(authorId));
   const authorName = isMe
     ? window.i18n('you')
     : convoProps?.nickname || convoProps?.isPrivate
-    ? convoProps?.displayNameInProfile
-    : undefined;
+      ? convoProps?.displayNameInProfile
+      : undefined;
 
   return { authorName, isMe };
 }
@@ -403,12 +403,12 @@ export function useDisappearingMessageSettingText({
     expirationMode === 'deleteAfterRead'
       ? window.i18n('disappearingMessagesModeAfterRead')
       : expirationMode === 'deleteAfterSend'
-      ? window.i18n('disappearingMessagesModeAfterSend')
-      : expirationMode === 'legacy'
-      ? isMe || (isGroup && !isPublic)
         ? window.i18n('disappearingMessagesModeAfterSend')
-        : window.i18n('disappearingMessagesModeAfterRead')
-      : null;
+        : expirationMode === 'legacy'
+          ? isMe || (isGroup && !isPublic)
+            ? window.i18n('disappearingMessagesModeAfterSend')
+            : window.i18n('disappearingMessagesModeAfterRead')
+          : null;
 
   const expireTimerText = isNumber(expireTimer)
     ? abbreviate
