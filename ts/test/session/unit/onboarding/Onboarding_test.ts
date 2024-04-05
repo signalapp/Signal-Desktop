@@ -1,8 +1,11 @@
+import { expect } from 'chai';
 import Sinon from 'sinon';
+import { displayNameIsValid } from '../../../../components/registration/utils';
+import { stubI18n, stubWindowLog } from '../../../test-utils/utils';
 
 describe('Onboarding', () => {
-  // stubWindowLog();
-  // stubI18n();
+  stubWindowLog();
+  stubI18n();
   // TODO set mnemonic generateMnemonic() ?
 
   beforeEach(() => {});
@@ -12,16 +15,32 @@ describe('Onboarding', () => {
   });
 
   describe('displayNameIsValid', () => {
-    // TODO different display names for testing
-    // const validDisplayName = displayNameIsValid(displayName);
-    // it('it should throw an error if the display name is undefined', async () => {
-    //   try {
-    //     displayNameIsValid(undefined);
-    //   } catch (error) {
-    //     error.should.be.an.instanceOf(Error);
-    //     error.message.should.equal(window.i18n('displayNameEmpty'));
-    //   }
-    // });
+    it('should throw an error if the display name is undefined', async () => {
+      try {
+        displayNameIsValid(undefined);
+      } catch (error) {
+        error.should.be.an.instanceOf(Error);
+        error.message.should.equal(window.i18n('displayNameEmpty'));
+      }
+    });
+    it('should throw an error if the display name is empty after trimming', async () => {
+      try {
+        displayNameIsValid('    ');
+      } catch (error) {
+        error.should.be.an.instanceOf(Error);
+        error.message.should.equal(window.i18n('displayNameEmpty'));
+      }
+    });
+    it('if the display name is valid it should be returned', async () => {
+      try {
+        const displayName = 'Hello World';
+        const validDisplayName = displayNameIsValid(displayName);
+        expect(validDisplayName, `should equal ${displayName}`).to.equal(displayName);
+      } catch (error) {
+        error.should.not.be.an.instanceOf(Error);
+        error.message.should.not.equal(window.i18n('displayNameEmpty'));
+      }
+    });
   });
 
   describe('sanitizeDisplayNameOrToast', () => {
