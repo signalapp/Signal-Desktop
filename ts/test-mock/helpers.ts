@@ -32,14 +32,16 @@ export async function typeIntoInput(
     currentValue = (await input.textContent()) ?? '';
   }
 
-  await input.type(text, { delay: 30 });
+  const newValue = `${currentValue}${text}`;
+
+  await input.fill(newValue);
 
   // Wait to ensure that the input (and react state controlling it) has actually
   // updated with the right value
   if (isInputElement) {
-    await expect(input).toHaveValue(`${currentValue}${text}`);
+    await expect(input).toHaveValue(newValue);
   } else {
-    await input.locator(`:text("${currentValue}${text}")`).waitFor();
+    await input.locator(`:text("${newValue}")`).waitFor();
   }
 }
 

@@ -117,11 +117,7 @@ describe('storage service', function (this: Mocha.Suite) {
     }
 
     debug('Enter message text');
-    const composeArea = window.locator(
-      '.composition-area-wrapper, .Inbox__conversation .ConversationView'
-    );
-    const input = composeArea.locator('[data-testid=CompositionInput]');
-
+    const input = await app.waitForEnabledComposer();
     await typeIntoInput(input, 'hello stranger!');
     await input.press('Enter');
 
