@@ -2,12 +2,10 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import React, { KeyboardEvent } from 'react';
 import styled from 'styled-components';
-import { SessionIcon, SessionIconProps } from '.';
-import { SessionNotificationCount, SessionUnreadCount } from './SessionNotificationCount';
+import { SessionIcon, SessionIconProps } from './SessionIcon';
 
 interface SProps extends SessionIconProps {
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-  notificationCount?: number;
   isSelected?: boolean;
   isHidden?: boolean;
   margin?: string;
@@ -16,6 +14,7 @@ interface SProps extends SessionIconProps {
   id?: string;
   style?: object;
   tabIndex?: number;
+  children?: React.ReactNode;
 }
 
 const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boolean }>`
@@ -46,7 +45,6 @@ const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((prop
     iconColor,
     iconRotation,
     isSelected,
-    notificationCount,
     glowDuration,
     glowStartDelay,
     noScale,
@@ -60,7 +58,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((prop
     dataTestIdIcon,
     style,
     tabIndex,
-    unreadCount,
+    children,
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClick) {
@@ -101,8 +99,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((prop
         iconPadding={iconPadding}
         dataTestId={dataTestIdIcon}
       />
-      {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
-      {Boolean(unreadCount) && <SessionUnreadCount count={unreadCount} />}
+      {children}
     </StyledSessionIconButton>
   );
 });
