@@ -33,7 +33,7 @@ import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { UserUtils } from '../../session/utils';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
-import { SessionIconButton } from '../icon';
+import { SessionIconButton } from '../icon/SessionIconButton';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 
 import { SettingsKey } from '../../data/settings-key';
@@ -48,6 +48,7 @@ import { ensureThemeConsistency } from '../../themes/SessionTheme';
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { getOppositeTheme } from '../../util/theme';
+import { SessionNotificationCount } from '../icon/SessionNotificationCount';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -103,10 +104,11 @@ const Section = (props: { type: SectionType }) => {
           iconSize="medium"
           dataTestId="message-section"
           iconType={'chatBubble'}
-          notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
-        />
+        >
+          {Boolean(unreadToShow) && <SessionNotificationCount count={unreadToShow} />}
+        </SessionIconButton>
       );
     case SectionType.Settings:
       return (
