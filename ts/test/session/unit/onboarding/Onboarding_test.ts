@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { displayNameIsValid } from '../../../../components/registration/utils';
+import { getSwarmPollingInstance } from '../../../../session/apis/snode_api';
 import { PubKey } from '../../../../session/types';
 import {
   generateMnemonic,
@@ -8,16 +9,16 @@ import {
   signInByLinkingDevice,
 } from '../../../../util/accountManager';
 import { TestUtils } from '../../../test-utils';
-import { stubI18n, stubWindow, stubWindowLog } from '../../../test-utils/utils';
+import { stubWindow } from '../../../test-utils/utils';
 
 describe('Onboarding', () => {
-  stubWindowLog();
-  stubI18n();
-  // TODO[epic=ses-1560] set mnemonic generateMnemonic() ?
-
   beforeEach(() => {
-    TestUtils.stubData('removeItemById').resolves();
+    TestUtils.stubWindowLog();
+    TestUtils.stubWindowWhisper();
+    TestUtils.stubStorage();
+    TestUtils.stubI18n();
     TestUtils.stubData('createOrUpdateItem').resolves();
+    TestUtils.stubData('removeItemById').resolves();
     stubWindow('setOpengroupPruning', () => {});
   });
 
@@ -111,6 +112,9 @@ describe('Onboarding', () => {
   });
 
   describe('signInByLinkingDevice', () => {
+    const polledDisplayName = 'Hello World';
+    Sinon.stub(getSwarmPollingInstance(), 'pollOnceForOurDisplayName').resolves(polledDisplayName);
+
     const abortController = new AbortController();
 
     it('should return a valid pubkey/account id and display name given a valid recovery password', async () => {
@@ -122,12 +126,12 @@ describe('Onboarding', () => {
         'english',
         abortController.signal
       );
-
       expect(pubKeyString, 'should not be null').to.not.be.null;
       expect(pubKeyString, 'should be a string').to.be.a('string');
       expect(PubKey.validate(pubKeyString!), 'should be a valid pubkey').to.equal(true);
       expect(displayName, 'should not be null').to.not.be.null;
       expect(displayName, 'should be a string').to.be.a('string');
+      expect(displayName, `should equal ${polledDisplayName}`).to.equal(polledDisplayName);
     });
   });
 });
