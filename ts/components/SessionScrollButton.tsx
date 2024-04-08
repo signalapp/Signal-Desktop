@@ -5,6 +5,7 @@ import { getShowScrollButton } from '../state/selectors/conversations';
 
 import { useSelectedUnreadCount } from '../state/selectors/selectedConversation';
 import { SessionIconButton } from './icon';
+import { SessionUnreadCount } from './icon/SessionNotificationCount';
 
 const SessionScrollButtonDiv = styled.div`
   position: fixed;
@@ -30,8 +31,9 @@ export const SessionScrollButton = (props: { onClickScrollBottom: () => void }) 
         isHidden={!show}
         onClick={props.onClickScrollBottom}
         dataTestId="scroll-to-bottom-button"
-        unreadCount={unreadCount}
-      />
+      >
+        {Boolean(unreadCount) && <SessionUnreadCount count={unreadCount} />}
+      </SessionIconButton>
     </SessionScrollButtonDiv>
   );
 };
