@@ -8,23 +8,32 @@ type Props = {
   count?: number;
 };
 const StyledCountContainer = styled.div<{ centeredOnTop: boolean }>`
+  background: var(--unread-messages-alert-background-color);
+  color: var(--unread-messages-alert-text-color);
+  text-align: center;
+
+  padding: ${props => (props.centeredOnTop ? '1px 3px 0' : '1px 4px')};
+
   position: absolute;
-  font-size: 18px;
-  line-height: 1.2;
   top: ${props => (props.centeredOnTop ? '-10px' : '27px')};
   left: ${props => (props.centeredOnTop ? '50%' : '28px')};
-  transform: ${props => (props.centeredOnTop ? 'translateX(-50%)' : 'none')};
-  padding: ${props => (props.centeredOnTop ? '3px 3px' : '1px 4px')};
+
+  font-size: var(--font-size-xs);
+  font-family: var(--font-default);
+  font-weight: 700;
+
+  height: 16px;
+  min-width: 16px;
+  line-height: 16px;
+  border-radius: 8px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-default);
-  border-radius: 58px;
-  font-weight: 700;
-  background: var(--unread-messages-alert-background-color);
+  flex-shrink: 0;
+
   transition: var(--default-duration);
-  text-align: center;
-  color: var(--unread-messages-alert-text-color);
+  transform: ${props => (props.centeredOnTop ? 'translateX(-50%)' : 'none')};
   white-space: ${props => (props.centeredOnTop ? 'nowrap' : 'normal')};
 `;
 
