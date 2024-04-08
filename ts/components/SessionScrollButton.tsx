@@ -5,6 +5,7 @@ import { getShowScrollButton } from '../state/selectors/conversations';
 
 import { useSelectedUnreadCount } from '../state/selectors/selectedConversation';
 import { SessionIconButton } from './icon';
+import { SessionUnreadCount } from './icon/SessionNotificationCount';
 
 const SessionScrollButtonDiv = styled.div`
   position: fixed;
