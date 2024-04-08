@@ -12,6 +12,8 @@ import { TestUtils } from '../../../test-utils';
 import { stubWindow } from '../../../test-utils/utils';
 
 describe('Onboarding', () => {
+  const polledDisplayName = 'Hello World';
+
   beforeEach(() => {
     TestUtils.stubWindowLog();
     TestUtils.stubWindowWhisper();
@@ -20,6 +22,7 @@ describe('Onboarding', () => {
     TestUtils.stubData('createOrUpdateItem').resolves();
     TestUtils.stubData('removeItemById').resolves();
     stubWindow('setOpengroupPruning', () => {});
+    Sinon.stub(getSwarmPollingInstance(), 'pollOnceForOurDisplayName').resolves(polledDisplayName);
   });
 
   afterEach(() => {
@@ -83,7 +86,7 @@ describe('Onboarding', () => {
       } catch (error) {
         error.should.be.an.instanceOf(Error);
         error.message.should.equal(
-          'Session always need a mnemonic. Either generated or given by the user'
+          'Session always needs a mnemonic. Either generated or given by the user'
         );
       }
     });
@@ -112,14 +115,9 @@ describe('Onboarding', () => {
   });
 
   describe('signInByLinkingDevice', () => {
-    const polledDisplayName = 'Hello World';
-    Sinon.stub(getSwarmPollingInstance(), 'pollOnceForOurDisplayName').resolves(polledDisplayName);
-
     const abortController = new AbortController();
 
     it('should return a valid pubkey/account id and display name given a valid recovery password', async () => {
-      // TODO[epic=ses-1560]  still needs stubbing to pass tests and it error conditions
-      // TODO[epic=ses-1560] remember to stub polling
       const recoveryPassword = await generateMnemonic();
       const { displayName, pubKeyString } = await signInByLinkingDevice(
         recoveryPassword,
@@ -132,6 +130,25 @@ describe('Onboarding', () => {
       expect(displayName, 'should not be null').to.not.be.null;
       expect(displayName, 'should be a string').to.be.a('string');
       expect(displayName, `should equal ${polledDisplayName}`).to.equal(polledDisplayName);
+    });
+    it('should throw an error if the recovery password is empty', async () => {
+      try {
+        await signInByLinkingDevice('', 'english', abortController.signal);
+      } catch (error) {
+        error.should.be.an.instanceOf(Error);
+        error.message.should.equal(
+          'Session always needs a mnemonic. Either generated or given by the user'
+        );
+      }
+    });
+    it('should throw an error if the mnemonicLanguage is empty', async () => {
+      try {
+        const recoveryPassword = await generateMnemonic();
+        await signInByLinkingDevice(recoveryPassword, '', abortController.signal);
+      } catch (error) {
+        error.should.be.an.instanceOf(Error);
+        error.message.should.equal('We always need a mnemonicLanguage');
+      }
     });
   });
 });

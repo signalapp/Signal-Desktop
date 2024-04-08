@@ -69,7 +69,7 @@ export async function registerSingleDevice(
   registerCallback?: (pubkey: string) => Promise<void>
 ) {
   if (isEmpty(generatedMnemonic)) {
-    throw new Error('Session always need a mnemonic. Either generated or given by the user');
+    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
   if (isEmpty(mnemonicLanguage)) {
     throw new Error('We always need a mnemonicLanguage');
@@ -112,7 +112,7 @@ export async function signInByLinkingDevice(
     throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
   if (isEmpty(mnemonicLanguage)) {
-    throw new Error('We always needs a mnemonicLanguage');
+    throw new Error('We always need a mnemonicLanguage');
   }
 
   const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);

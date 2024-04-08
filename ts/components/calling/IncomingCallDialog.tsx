@@ -72,6 +72,7 @@ export const IncomingCallDialog = () => {
   if (!hasIncomingCall || !incomingCallFromPubkey) {
     return null;
   }
+  // #endregion
 
   if (hasIncomingCall) {
     return (
