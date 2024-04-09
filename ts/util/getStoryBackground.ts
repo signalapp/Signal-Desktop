@@ -15,6 +15,24 @@ export function getBackgroundColor({
   color,
   gradient,
 }: Pick<TextAttachmentType, 'color' | 'gradient'>): string {
+  if (
+    gradient?.colors?.length &&
+    gradient?.colors.length === gradient?.positions?.length
+  ) {
+    const values = [`${gradient.angle}deg`];
+    for (const [i, step] of gradient.colors.entries()) {
+      const position = gradient.positions[i] ?? 1;
+      const stepHex = getHexFromNumber(step || COLOR_WHITE_INT);
+      if (position == null) {
+        values.push(stepHex);
+      } else {
+        values.push(`${stepHex} ${position * 100}%`);
+      }
+    }
+
+    return `linear-gradient(${values.join(', ')}) border-box`;
+  }
+
   if (gradient) {
     return `linear-gradient(${gradient.angle}deg, ${getHexFromNumber(
       gradient.startColor || COLOR_WHITE_INT
