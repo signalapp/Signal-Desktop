@@ -46,11 +46,11 @@ async function main() {
     'json',
 
     `--${boundaryString}`,
-    'Content-Disposition: form-data; name="file"',
+    'Content-Disposition: form-data; name="file"; filename="_locales/en/messages.json"',
     'Content-Type: text/plain',
     '',
     await readFile('_locales/en/messages.json', 'utf8'),
-    `--${boundaryString}`,
+    `--${boundaryString}--`,
     '',
   ];
 
