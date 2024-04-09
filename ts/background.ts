@@ -2474,7 +2474,11 @@ export async function startApp(): Promise<void> {
       data.source
     );
 
-    await conversation.setProfileKey(data.profileKey);
+    const hasChanged = await conversation.setProfileKey(data.profileKey);
+
+    if (hasChanged) {
+      drop(conversation.getProfiles());
+    }
 
     confirm();
   }
