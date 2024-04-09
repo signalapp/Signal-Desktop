@@ -195,6 +195,7 @@ declare global {
     getServerPublicParams: () => string;
     getGenericServerPublicParams: () => string;
     getSfuUrl: () => string;
+    getIceServerOverride: () => string;
     getSocketStatus: () => SocketStatus;
     getSyncRequest: (timeoutMillis?: number) => SyncRequest;
     getTitle: () => string;

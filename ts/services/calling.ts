@@ -156,6 +156,8 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
 
 const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = 10 * durations.MINUTE;
 
+const ICE_SERVER_IS_IP_LIKE = /(turn|turns|stun):[.\d]+/;
+
 // We send group call update messages to tell other clients to peek, which triggers
 //   notifications, timeline messages, big green "Join" buttons, and so on. This enum
 //   represents the three possible states we can be in. This helps ensure that we don't
@@ -314,6 +316,8 @@ export class CallingClass {
   private reduxInterface?: CallingReduxInterface;
 
   public _sfuUrl?: string;
+
+  public _iceServerOverride?: string;
 
   private lastMediaDeviceSettings?: MediaDeviceSettings;
 
@@ -2598,23 +2602,36 @@ export class CallingClass {
     // If the peer is not in the user's system contacts, force IP hiding.
     const isContactUntrusted = !isInSystemContacts(conversation.attributes);
 
+    // only include hostname with urlsWithIps
+    const iceServers = this._iceServerOverride
+      ? [
+          {
+            hostname: ICE_SERVER_IS_IP_LIKE.test(this._iceServerOverride)
+              ? iceServer.hostname
+              : '',
+            username: iceServer.username,
+            password: iceServer.password,
+            urls: [this._iceServerOverride.toString()],
+          },
+        ]
+      : // proritize ice servers with IPs to avoid DNS
+        [
+          {
+            hostname: iceServer.hostname,
+            username: iceServer.username,
+            password: iceServer.password,
+            urls: (iceServer.urlsWithIps ?? []).slice(),
+          },
+          {
+            hostname: '',
+            username: iceServer.username,
+            password: iceServer.password,
+            urls: (iceServer.urls ?? []).slice(),
+          },
+        ];
+
     const callSettings = {
-      // only include hostname with urlsWithIps
-      // proritize ice servers with IPs to avoid DNS
-      iceServers: [
-        {
-          hostname: iceServer.hostname,
-          username: iceServer.username,
-          password: iceServer.password,
-          urls: (iceServer.urlsWithIps ?? []).slice(),
-        },
-        {
-          hostname: '',
-          username: iceServer.username,
-          password: iceServer.password,
-          urls: (iceServer.urls ?? []).slice(),
-        },
-      ],
+      iceServers,
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
       // TODO: DESKTOP-3101
