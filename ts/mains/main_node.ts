@@ -790,8 +790,20 @@ async function removeDB() {
   try {
     console.error('Remove DB: removing.', userDir);
 
-    userConfig.remove();
-    ephemeralConfig.remove();
+    try {
+      userConfig.remove();
+    } catch (e) {
+      if (e.code !== 'ENOENT') {
+        throw e;
+      }
+    }
+    try {
+      ephemeralConfig.remove();
+    } catch (e) {
+      if (e.code !== 'ENOENT') {
+        throw e;
+      }
+    }
   } catch (e) {
     console.error('Remove DB: Failed to remove configs.', e);
   }

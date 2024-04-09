@@ -63,15 +63,12 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     }
   };
 
-  const fallbackFocusId = 'session-wrapper-modal';
-
   return (
-    <FocusTrap focusTrapOptions={{ fallbackFocus: `#${fallbackFocusId}`, allowOutsideClick: true }}>
+    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true }}>
       <div
         className={classNames('loki-dialog modal', additionalClassName || null)}
         onClick={handleClick}
         role="dialog"
-        id={fallbackFocusId}
       >
         <div className="session-confirm-wrapper">
           <div ref={modalRef} className="session-modal">

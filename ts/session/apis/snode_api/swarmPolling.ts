@@ -229,11 +229,20 @@ export class SwarmPolling {
 
     let resultsFromAllNamespaces: RetrieveMessagesResultsBatched | null;
     try {
+      // Note: always print something so we know if the polling is hanging
+      window.log.info(
+        `about to pollNodeForKey of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${namespaces} `
+      );
       resultsFromAllNamespaces = await this.pollNodeForKey(
         toPollFrom,
         pubkey,
         namespaces,
         !isGroup
+      );
+
+      // Note: always print something so we know if the polling is hanging
+      window.log.info(
+        `pollNodeForKey of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${namespaces} returned: ${resultsFromAllNamespaces?.length}`
       );
     } catch (e) {
       window.log.warn(
@@ -518,6 +527,9 @@ export class SwarmPolling {
         return last(r.messages.messages);
       });
 
+      window.log.info(
+        `updating last hashes for ${ed25519Str(pubkey.key)}: ${ed25519Str(snodeEdkey)}  ${lastMessages.map(m => m?.hash || '')}`
+      );
       await Promise.all(
         lastMessages.map(async (lastMessage, index) => {
           if (!lastMessage) {

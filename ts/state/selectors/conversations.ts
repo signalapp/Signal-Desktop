@@ -600,6 +600,13 @@ export const getMostRecentMessageId = (state: StateType): string | null => {
   return state.conversations.mostRecentMessageId;
 };
 
+export const getMostRecentOutgoingMessageId = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
+    return messages.find(m => m.propsForMessage.direction === 'outgoing')?.propsForMessage.id;
+  }
+);
+
 export const getOldestMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
   (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {

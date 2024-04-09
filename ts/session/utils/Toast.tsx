@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import { SessionToast, SessionToastType } from '../../components/basic/SessionToast';
-import { SessionIconType } from '../../components/icon';
 import { SessionSettingCategory } from '../../components/settings/SessionSettings';
 import { SectionType, showLeftPaneSection, showSettingsSection } from '../../state/ducks/section';
 
@@ -37,19 +36,9 @@ export function pushToastInfo(
   );
 }
 
-export function pushToastSuccess(
-  id: string,
-  title: string,
-  description?: string,
-  icon?: SessionIconType
-) {
+export function pushToastSuccess(id: string, title: string, description?: string) {
   toast.success(
-    <SessionToast
-      title={title}
-      description={description}
-      type={SessionToastType.Success}
-      icon={icon}
-    />,
+    <SessionToast title={title} description={description} type={SessionToastType.Success} />,
     { toastId: id, updateId: id }
   );
 }
@@ -209,12 +198,7 @@ export function someDeletionsFailed() {
 }
 
 export function pushDeleted(messageCount: number) {
-  pushToastSuccess(
-    'deleted',
-    window.i18n('deleted', [messageCount.toString()]),
-    undefined,
-    'check'
-  );
+  pushToastSuccess('deleted', window.i18n('deleted', [messageCount.toString()]), undefined);
 }
 
 export function pushCannotRemoveCreatorFromGroup() {
