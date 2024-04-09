@@ -1,27 +1,21 @@
 import FocusTrap from 'focus-trap-react';
-import React from 'react';
-import styled from 'styled-components';
-
-const DefaultFocusButton = styled.button`
-  opacity: 0;
-  width: 0;
-  height: 0;
-`;
+import React, { useState } from 'react';
+import { useMount } from 'react-use';
 
 /**
- * The FocusTrap always require at least one element to be tabbable.
- * On some dialogs, we don't have any until the content is loaded, and depending on what is loaded, we might not have any tabbable elements in it.
- * This component renders the children inside a FocusTrap and always adds an invisible button to make FocusTrap happy.
+ * Focus trap which activates on mount.
  */
-export function SessionDialogFocusTrap(props: { children: React.ReactNode }) {
-  // FocusTrap needs a single child so props.children and the default button needs to be wrapped in a container.
-  // This might cause some styling issues, but I didn't find any with our current dialogs
+export function SessionFocusTrap(props: { children: React.ReactNode }) {
+  const [active, setActive] = useState(false);
+
+  // Activate the trap on mount so we **should** have a button to tab through. focus-trap-react will throw if we don't have a button when the trap becomes active.
+  // We might still have an issue for dialogs which have buttons added with a useEffect, or asynchronously but have no buttons on mount.
+  // If that happens we will need to force those dialogs to have at least one button so focus-trap-react does not throw.
+  useMount(() => setActive(true));
+
   return (
-    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true }}>
-      <div style={{ position: 'absolute' }}>
-        <DefaultFocusButton />
-        {props.children}
-      </div>
+    <FocusTrap active={active} focusTrapOptions={{ initialFocus: false, allowOutsideClick: true }}>
+      {props.children}
     </FocusTrap>
   );
 }
