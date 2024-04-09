@@ -5055,7 +5055,7 @@
     "description": "Title for the edit nickname and note modal"
   },
   "icu:EditNicknameAndNoteModal__Description": {
-    "messageformat": "Nicknames & notes are stored using Signal’s end-to-end encrypted storage service. They are only visible to you.",
+    "messageformat": "Nicknames & notes are stored with Signal and end-to-end encrypted. They are only visible to you.",
     "description": "Description for the edit nickname and note modal"
   },
   "icu:EditNicknameAndNoteModal__FirstName__Label": {
