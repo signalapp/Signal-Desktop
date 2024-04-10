@@ -11,8 +11,8 @@ import {
   randomBytes,
 } from 'crypto';
 import type { Decipher, Hash, Hmac } from 'crypto';
-import type { TransformCallback } from 'stream';
 import { Transform } from 'stream';
+import type { Readable } from 'stream';
 import { pipeline } from 'stream/promises';
 import { ensureFile } from 'fs-extra';
 import * as log from './logging/log';
@@ -55,12 +55,10 @@ export type DecryptedAttachmentV2 = {
 export async function encryptAttachmentV2({
   keys,
   plaintextAbsolutePath,
-  size,
   dangerousTestOnlyIv,
 }: {
   keys: Readonly<Uint8Array>;
   plaintextAbsolutePath: string;
-  size: number;
   dangerousTestOnlyIv?: Readonly<Uint8Array>;
 }): Promise<EncryptedAttachmentV2> {
   const logId = 'encryptAttachmentV2';
@@ -98,7 +96,7 @@ export async function encryptAttachmentV2({
     await pipeline(
       readFd.createReadStream(),
       peekAndUpdateHash(plaintextHash),
-      appendPadding(size),
+      appendPadding(),
       createCipheriv(CipherType.AES256CBC, aesKey, iv),
       prependIv(iv),
       appendMac(macKey),
@@ -402,51 +400,56 @@ function* generatePadding(size: number) {
   }
 }
 
+// Push as much padding as we can. If we reach the end
+// of the padding, return true.
+function pushPadding(
+  paddingIterator: Iterator<Uint8Array>,
+  readable: Readable
+): boolean {
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const result = paddingIterator.next();
+    if (result.done) {
+      break;
+    }
+    const keepGoing = readable.push(result.value);
+    if (!keepGoing) {
+      return false;
+    }
+  }
+  return true;
+}
+
 /**
  * Appends zero-padding to the stream to a target bucket size.
  */
-function appendPadding(fileSize: number) {
-  const iterator = generatePadding(fileSize);
-  let bytesWritten = 0;
-  let finalCallback: TransformCallback;
-
-  // Push as much padding as we can. If we reach the end
-  // of the padding, call the callback.
-  function pushPadding(transform: Transform) {
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const result = iterator.next();
-      if (result.done) {
-        break;
-      }
-      const keepGoing = transform.push(result.value);
-      if (!keepGoing) {
-        return;
-      }
-    }
-    finalCallback();
-  }
+function appendPadding() {
+  let onReadableDrained: undefined | (() => void);
+  let fileSize = 0;
 
   return new Transform({
     read(size) {
       // When in the process of pushing padding, we pause and wait for
       // read to be called again.
-      if (finalCallback != null) {
-        pushPadding(this);
+      if (onReadableDrained != null) {
+        onReadableDrained();
       }
       // Always call _read, even if we're done.
       Transform.prototype._read.call(this, size);
     },
     transform(chunk, _encoding, callback) {
-      bytesWritten += chunk.byteLength;
-      // Once we reach the end of the file, start pushing padding.
-      if (bytesWritten >= fileSize) {
-        this.push(chunk);
-        finalCallback = callback;
-        pushPadding(this);
-        return;
-      }
+      fileSize += chunk.byteLength;
       callback(null, chunk);
+    },
+    flush(callback) {
+      const iterator = generatePadding(fileSize);
+
+      onReadableDrained = () => {
+        if (pushPadding(iterator, this)) {
+          callback();
+        }
+      };
+      onReadableDrained();
     },
   });
 }
