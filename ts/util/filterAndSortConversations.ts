@@ -8,6 +8,7 @@ import { WEEK } from './durations';
 import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
 import { countConversationUnreadStats, hasUnread } from './countUnreadStats';
 import { getE164 } from './getE164';
+import { removeDiacritics } from './removeDiacritics';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -116,7 +117,7 @@ function searchConversations(
   });
 
   // Escape the search term
-  let extendedSearchTerm = searchTerm;
+  let extendedSearchTerm = removeDiacritics(searchTerm);
 
   // OR phoneNumber
   if (phoneNumber) {
