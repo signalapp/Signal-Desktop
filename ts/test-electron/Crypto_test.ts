@@ -1,8 +1,6 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import { assert } from 'chai';
 import { readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
@@ -30,6 +28,7 @@ import {
   deriveMasterKeyFromGroupV1,
   encryptSymmetric,
   decryptSymmetric,
+  sha256,
   hmacSha256,
   verifyHmacSha256,
   randomInt,
@@ -609,7 +608,7 @@ describe('Crypto', () => {
   describe('attachments', () => {
     const FILE_PATH = join(__dirname, '../../fixtures/ghost-kitty.mp4');
     const FILE_CONTENTS = readFileSync(FILE_PATH);
-    let tempDir: string | undefined;
+    let tempDir: string;
 
     function generateAttachmentKeys(): Uint8Array {
       return randomBytes(KEY_SET_LENGTH);
@@ -643,7 +642,7 @@ describe('Crypto', () => {
 
     it('v1 -> v2 (memory -> disk)', async () => {
       const keys = generateAttachmentKeys();
-      const ciphertextPath = join(tempDir!, 'file');
+      const ciphertextPath = join(tempDir, 'file');
       let plaintextPath;
 
       try {
@@ -679,7 +678,7 @@ describe('Crypto', () => {
       }
     });
 
-    it('v2 roundtrips (all on disk)', async () => {
+    it('v2 roundtrips smaller file (all on disk)', async () => {
       const keys = generateAttachmentKeys();
       let plaintextPath;
       let ciphertextPath;
@@ -688,7 +687,6 @@ describe('Crypto', () => {
         const encryptedAttachment = await encryptAttachmentV2({
           keys,
           plaintextAbsolutePath: FILE_PATH,
-          size: FILE_CONTENTS.byteLength,
         });
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
           encryptedAttachment.path
@@ -720,6 +718,60 @@ describe('Crypto', () => {
       }
     });
 
+    it('v2 roundtrips random data (all on disk)', async () => {
+      const sourcePath = join(tempDir, 'random');
+      // Get sufficient large file to have more than 64kb of padding and
+      // trigger push back on the streams.
+      const data = getRandomBytes(5 * 1024 * 1024);
+      const digest = sha256(data);
+
+      writeFileSync(sourcePath, data);
+
+      const keys = generateAttachmentKeys();
+      let plaintextPath;
+      let ciphertextPath;
+
+      try {
+        const encryptedAttachment = await encryptAttachmentV2({
+          keys,
+          plaintextAbsolutePath: sourcePath,
+        });
+        ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
+          encryptedAttachment.path
+        );
+        const decryptedAttachment = await decryptAttachmentV2({
+          ciphertextPath,
+          id: 'test',
+          keys,
+          size: data.byteLength,
+          theirDigest: encryptedAttachment.digest,
+        });
+        plaintextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
+          decryptedAttachment.path
+        );
+        const plaintext = readFileSync(plaintextPath);
+        assert.isTrue(constantTimeEqual(data, plaintext));
+        assert.strictEqual(
+          encryptedAttachment.plaintextHash,
+          Bytes.toHex(digest)
+        );
+        assert.strictEqual(
+          decryptedAttachment.plaintextHash,
+          encryptedAttachment.plaintextHash
+        );
+      } finally {
+        if (sourcePath) {
+          unlinkSync(sourcePath);
+        }
+        if (plaintextPath) {
+          unlinkSync(plaintextPath);
+        }
+        if (ciphertextPath) {
+          unlinkSync(ciphertextPath);
+        }
+      }
+    });
+
     it('v2 -> v1 (disk -> memory)', async () => {
       const keys = generateAttachmentKeys();
       let ciphertextPath;
@@ -728,7 +780,6 @@ describe('Crypto', () => {
         const encryptedAttachment = await encryptAttachmentV2({
           keys,
           plaintextAbsolutePath: FILE_PATH,
-          size: FILE_CONTENTS.byteLength,
         });
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
           encryptedAttachment.path
@@ -782,7 +833,6 @@ describe('Crypto', () => {
         const encryptedAttachmentV2 = await encryptAttachmentV2({
           keys,
           plaintextAbsolutePath: FILE_PATH,
-          size: FILE_CONTENTS.byteLength,
           dangerousTestOnlyIv,
         });
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
