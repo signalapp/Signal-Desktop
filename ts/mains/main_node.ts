@@ -428,7 +428,7 @@ async function createWindow() {
     }, 5000);
   }
 
-  if (isDevProd()) {
+  if (isDevProd() && !isTestIntegration()) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools({
       mode: 'bottom',
