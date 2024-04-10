@@ -679,7 +679,13 @@ export default class MessageSender {
     }
 
     if (attachmentAttrs.gradient) {
-      textAttachment.gradient = attachmentAttrs.gradient;
+      const { colors, positions, ...rest } = attachmentAttrs.gradient;
+
+      textAttachment.gradient = {
+        ...rest,
+        colors: colors?.slice(),
+        positions: positions?.slice(),
+      };
       textAttachment.background = 'gradient';
     } else {
       textAttachment.color = attachmentAttrs.color;

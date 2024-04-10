@@ -120,6 +120,8 @@ export type TextAttachmentType = {
     startColor?: number | null;
     endColor?: number | null;
     angle?: number | null;
+    colors?: ReadonlyArray<number> | null;
+    positions?: ReadonlyArray<number> | null;
   } | null;
   color?: number | null;
 };
