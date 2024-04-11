@@ -74,6 +74,9 @@ if (config.crashDumpsPath) {
   addSensitivePath(config.crashDumpsPath);
 }
 
+if (SignalContext.config.disableIPv6) {
+  dns.setIPv6Enabled(false);
+}
 dns.setFallback(SignalContext.config.dnsFallback);
 
 window.Signal = setup({

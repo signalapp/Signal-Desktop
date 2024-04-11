@@ -26,6 +26,12 @@ export function setFallback(dnsFallback: DNSFallbackType): void {
   }
 }
 
+let ipv6Enabled = true;
+
+export function setIPv6Enabled(value: boolean): void {
+  ipv6Enabled = value;
+}
+
 function lookupAll(
   hostname: string,
   opts: LookupOneOptions | LookupAllOptions,
@@ -77,7 +83,7 @@ function lookupAll(
       }
     }
 
-    const addresses = result.endpoints.map(({ address, family }) => {
+    let addresses = result.endpoints.map(({ address, family }) => {
       let numericFamily = -1;
       if (family === 'ipv4') {
         numericFamily = 4;
@@ -89,6 +95,13 @@ function lookupAll(
         family: numericFamily,
       };
     });
+
+    if (!ipv6Enabled) {
+      const ipv4Only = addresses.filter(({ family }) => family !== 6);
+      if (ipv4Only.length !== 0) {
+        addresses = ipv4Only;
+      }
+    }
 
     if (!opts.all) {
       const random = addresses.at(Math.floor(Math.random() * addresses.length));
