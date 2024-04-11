@@ -75,6 +75,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     setOutgoingRing: action('set-outgoing-ring'),
     showParticipantsList: overrideProps.showParticipantsList ?? false,
     toggleParticipants: action('toggle-participants'),
+    togglePip: action('toggle-pip'),
     toggleSettings: action('toggle-settings'),
   };
 };

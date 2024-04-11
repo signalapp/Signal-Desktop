@@ -14,7 +14,7 @@ import type {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
 } from '../types/Calling';
-import { CallMode } from '../types/Calling';
+import { CallMode, GroupCallJoinState } from '../types/Calling';
 import { AvatarColors } from '../types/Colors';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
@@ -41,6 +41,7 @@ function NoVideo({
     acceptedMessageRequest,
     avatarPath,
     color,
+    type: conversationType,
     isMe,
     phoneNumber,
     profileName,
@@ -58,7 +59,7 @@ function NoVideo({
             badge={undefined}
             color={color || AvatarColors[0]}
             noteToSelf={false}
-            conversationType="direct"
+            conversationType={conversationType}
             i18n={i18n}
             isMe={isMe}
             phoneNumber={phoneNumber}
@@ -100,6 +101,10 @@ export function CallingPipRemoteVideo({
   const activeGroupCallSpeaker: undefined | GroupCallRemoteParticipantType =
     useMemo(() => {
       if (!isGroupOrAdhocActiveCall(activeCall)) {
+        return undefined;
+      }
+
+      if (activeCall.joinState !== GroupCallJoinState.Joined) {
         return undefined;
       }
 

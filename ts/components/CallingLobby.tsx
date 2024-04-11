@@ -75,6 +75,7 @@ export type PropsType = {
   setOutgoingRing: (_: boolean) => void;
   showParticipantsList: boolean;
   toggleParticipants: () => void;
+  togglePip: () => void;
   toggleSettings: () => void;
 };
 
@@ -98,6 +99,7 @@ export function CallingLobby({
   setLocalVideo,
   setOutgoingRing,
   toggleParticipants,
+  togglePip,
   toggleSettings,
   outgoingRing,
 }: PropsType): JSX.Element {
@@ -118,6 +120,10 @@ export function CallingLobby({
   const toggleOutgoingRing = React.useCallback((): void => {
     setOutgoingRing(!outgoingRing);
   }, [outgoingRing, setOutgoingRing]);
+
+  const togglePipForCallingHeader = isAdhocJoinRequestPending
+    ? togglePip
+    : undefined;
 
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
@@ -155,7 +161,9 @@ export function CallingLobby({
 
   const isOnline = useIsOnline();
 
-  const [isCallConnecting, setIsCallConnecting] = React.useState(false);
+  const [isCallConnecting, setIsCallConnecting] = React.useState(
+    isAdhocJoinRequestPending || false
+  );
 
   // eslint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
@@ -266,6 +274,7 @@ export function CallingLobby({
           i18n={i18n}
           isGroupCall={isGroupOrAdhocCall}
           participantCount={peekedParticipants.length}
+          togglePip={togglePipForCallingHeader}
           toggleSettings={toggleSettings}
           onCancel={onCallCanceled}
         />

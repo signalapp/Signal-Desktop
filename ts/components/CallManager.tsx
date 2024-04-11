@@ -311,6 +311,24 @@ function ActiveCallManager({
       throw missingCaseError(activeCall);
   }
 
+  if (pip) {
+    return (
+      <CallingPip
+        activeCall={activeCall}
+        getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
+        hangUpActiveCall={hangUpActiveCall}
+        hasLocalVideo={hasLocalVideo}
+        i18n={i18n}
+        setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
+        setLocalPreview={setLocalPreview}
+        setRendererCanvas={setRendererCanvas}
+        switchToPresentationView={switchToPresentationView}
+        switchFromPresentationView={switchFromPresentationView}
+        togglePip={togglePip}
+      />
+    );
+  }
+
   if (showCallLobby) {
     return (
       <>
@@ -336,6 +354,7 @@ function ActiveCallManager({
           setOutgoingRing={setOutgoingRing}
           showParticipantsList={showParticipantsList}
           toggleParticipants={toggleParticipants}
+          togglePip={togglePip}
           toggleSettings={toggleSettings}
         />
         {settingsDialogOpen && renderDeviceSelection()}
@@ -358,24 +377,6 @@ function ActiveCallManager({
             />
           ))}
       </>
-    );
-  }
-
-  if (pip) {
-    return (
-      <CallingPip
-        activeCall={activeCall}
-        getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
-        hangUpActiveCall={hangUpActiveCall}
-        hasLocalVideo={hasLocalVideo}
-        i18n={i18n}
-        setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
-        setLocalPreview={setLocalPreview}
-        setRendererCanvas={setRendererCanvas}
-        switchToPresentationView={switchToPresentationView}
-        switchFromPresentationView={switchFromPresentationView}
-        togglePip={togglePip}
-      />
     );
   }
 
