@@ -207,6 +207,8 @@ const defaultWebPrefs = {
 const DISABLE_GPU =
   OS.isLinux() && !process.argv.some(arg => arg === '--enable-gpu');
 
+const DISABLE_IPV6 = process.argv.some(arg => arg === '--disable-ipv6');
+
 const CLI_LANG = cliOptions.lang as string | undefined;
 
 setupCrashReports(getLogger, showDebugLogWindow);
@@ -1719,6 +1721,9 @@ if (DISABLE_GPU) {
 let ready = false;
 app.on('ready', async () => {
   dns.setFallback(await getDNSFallback());
+  if (DISABLE_IPV6) {
+    dns.setIPv6Enabled(false);
+  }
 
   const [userDataPath, crashDumpsPath, installPath] = await Promise.all([
     realpath(app.getPath('userData')),
@@ -2448,6 +2453,7 @@ ipc.on('get-config', async event => {
     ciMode,
     // Should be already computed and cached at this point
     dnsFallback: await getDNSFallback(),
+    disableIPv6: DISABLE_IPV6,
     ciBackupPath: config.get<string | null>('ciBackupPath') || undefined,
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
