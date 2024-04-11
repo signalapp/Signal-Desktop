@@ -62,6 +62,7 @@ const Password = (props: PasswordProps) => {
         <input
           type="password"
           id="seed-input-password"
+          data-testid="password-input"
           placeholder={i18n('enterPassword')}
           onKeyUp={onEnter}
         />
@@ -77,12 +78,14 @@ const Password = (props: PasswordProps) => {
           text={i18n('done')}
           buttonType={SessionButtonType.Simple}
           onClick={confirmPassword}
+          dataTestId="session-confirm-ok-button"
         />
         <SessionButton
           text={i18n('cancel')}
           buttonType={SessionButtonType.Simple}
           buttonColor={SessionButtonColor.Danger}
           onClick={onClose}
+          dataTestId="session-confirm-cancel-button"
         />
       </div>
     </>

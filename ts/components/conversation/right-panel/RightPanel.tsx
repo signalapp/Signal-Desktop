@@ -13,7 +13,7 @@ export const StyledRightPanelContainer = styled.div`
   height: var(--right-panel-height);
   right: 0vw;
 
-  transition: transform 0.3s ease-in-out;
+  transition: transform var(--default-duration) ease-in-out;
   transform: translateX(100%);
   will-change: transform;
   width: var(--right-panel-width);
@@ -25,7 +25,7 @@ export const StyledRightPanelContainer = styled.div`
 
   &.show {
     transform: none;
-    transition: transform 0.3s ease-in-out;
+    transition: transform var(--default-duration) ease-in-out;
     z-index: 3;
     visibility: visible;
   }

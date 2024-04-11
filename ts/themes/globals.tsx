@@ -1,3 +1,4 @@
+import { isTestIntegration } from '../shared/env_vars';
 import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS } from './constants/colors';
 
@@ -126,7 +127,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--composition-container-height': '60px',
   '--search-input-height': '34px',
 
-  '--default-duration': '0.25s',
+  '--default-duration': isTestIntegration() ? '0s' : '0.25s',
 
   '--green-color': COLORS.PRIMARY.GREEN,
   '--blue-color': COLORS.PRIMARY.BLUE,

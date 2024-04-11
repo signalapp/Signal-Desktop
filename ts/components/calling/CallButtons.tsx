@@ -355,7 +355,7 @@ const StyledCallWindowControls = styled.div<{ isFullScreen: boolean; makeVisible
   margin-right: auto;
   left: 0;
   right: 0;
-  transition: all 0.25s ease-in-out;
+  transition: all var(--default-duration) ease-in-out;
 
   display: flex;
   justify-content: center;

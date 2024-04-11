@@ -1,7 +1,7 @@
 import React from 'react';
 import { SuggestionDataItem } from 'react-mentions';
-import { MemberListItem } from '../../MemberListItem';
 import { HTMLDirection } from '../../../util/i18n';
+import { MemberListItem } from '../../MemberListItem';
 
 const listRTLStyle = { position: 'absolute', bottom: '0px', right: '100%' };
 
@@ -21,7 +21,7 @@ export const styleForCompositionBoxSuggestions = (dir: HTMLDirection = 'ltr') =>
         paddingBottom: '5px',
         backgroundColor: 'var(--suggestions-background-color)',
         color: 'var(--suggestions-text-color)',
-        transition: '0.25s',
+        transition: 'var(--default-duration)',
 
         '&focused': {
           backgroundColor: 'var(--suggestions-background-hover-color)',
