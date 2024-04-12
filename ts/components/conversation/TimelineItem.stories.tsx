@@ -61,6 +61,7 @@ const getDefaultProps = () => ({
   isNextItemCallingNotification: false,
   isTargeted: false,
   isBlocked: false,
+  isGroup: false,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
   platform: 'darwin',

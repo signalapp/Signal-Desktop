@@ -42,6 +42,7 @@ export type SmartTimelineItemProps = {
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
   isBlocked: boolean;
+  isGroup: boolean;
   isOldestTimelineItem: boolean;
   messageId: string;
   nextMessageId: undefined | string;
@@ -64,6 +65,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     containerWidthBreakpoint,
     conversationId,
     isBlocked,
+    isGroup,
     isOldestTimelineItem,
     messageId,
     nextMessageId,
@@ -193,6 +195,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       i18n={i18n}
       interactionMode={interactionMode}
       isBlocked={isBlocked}
+      isGroup={isGroup}
       theme={theme}
       platform={platform}
       blockGroupLinkRequests={blockGroupLinkRequests}

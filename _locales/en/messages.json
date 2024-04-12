@@ -6528,6 +6528,18 @@
     "messageformat": "You blocked this person",
     "description": "Message request response notification message when the user blocked another user"
   },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group",
+    "description": "Message request response notification message when the user blocked a group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person",
+    "description": "Message request response notification message when the user unblocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group",
+    "description": "Message request response notification message when the user unblocked a group"
+  },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Options",
     "description": "Message request response notification button to show options"

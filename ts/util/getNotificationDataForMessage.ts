@@ -25,7 +25,7 @@ import { getStringForConversationMerge } from './getStringForConversationMerge';
 import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTitleNoDefault, getNumber } from './getTitle';
 import { findAndFormatContact } from './findAndFormatContact';
-import { isMe } from './whatTypeOfConversation';
+import { isGroup, isMe } from './whatTypeOfConversation';
 import { strictAssert } from './assert';
 import {
   getPropsForCallHistory,
@@ -186,6 +186,14 @@ export function getNotificationDataForMessage(
       event,
       'getNotificationData: isMessageRequestResponse true, but no messageRequestResponseEvent!'
     );
+    const conversation = window.ConversationController.get(
+      attributes.conversationId
+    );
+    strictAssert(
+      conversation,
+      'getNotificationData/isConversationMerge/conversation'
+    );
+    const isGroupConversation = isGroup(conversation.attributes);
     let text: string;
     if (event === MessageRequestResponseEvent.ACCEPT) {
       text = window.i18n(
@@ -196,9 +204,25 @@ export function getNotificationDataForMessage(
         'icu:MessageRequestResponseNotification__Message--Reported'
       );
     } else if (event === MessageRequestResponseEvent.BLOCK) {
-      text = window.i18n(
-        'icu:MessageRequestResponseNotification__Message--Blocked'
-      );
+      if (isGroupConversation) {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Blocked--Group'
+        );
+      } else {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Blocked'
+        );
+      }
+    } else if (event === MessageRequestResponseEvent.UNBLOCK) {
+      if (isGroupConversation) {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Unblocked--Group'
+        );
+      } else {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Unblocked'
+        );
+      }
     } else {
       throw missingCaseError(event);
     }

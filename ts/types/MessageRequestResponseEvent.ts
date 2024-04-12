@@ -3,5 +3,6 @@
 export enum MessageRequestResponseEvent {
   ACCEPT = 'ACCEPT',
   BLOCK = 'BLOCK',
+  UNBLOCK = 'UNBLOCK',
   SPAM = 'SPAM',
 }
