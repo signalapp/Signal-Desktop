@@ -16,12 +16,14 @@ export type MessageRequestResponseNotificationProps =
   MessageRequestResponseNotificationData & {
     i18n: LocalizerType;
     isBlocked: boolean;
+    isGroup: boolean;
     onOpenMessageRequestActionsConfirmation(state: MessageRequestState): void;
   };
 
 export function MessageRequestResponseNotification({
   i18n,
   isBlocked,
+  isGroup,
   messageRequestResponseEvent: event,
   onOpenMessageRequestActionsConfirmation,
 }: MessageRequestResponseNotificationProps): JSX.Element | null {
@@ -58,9 +60,27 @@ export function MessageRequestResponseNotification({
       {event === MessageRequestResponseEvent.BLOCK && (
         <SystemMessage
           icon="block"
-          contents={i18n(
-            'icu:MessageRequestResponseNotification__Message--Blocked'
-          )}
+          contents={
+            isGroup
+              ? i18n(
+                  'icu:MessageRequestResponseNotification__Message--Blocked--Group'
+                )
+              : i18n('icu:MessageRequestResponseNotification__Message--Blocked')
+          }
+        />
+      )}
+      {event === MessageRequestResponseEvent.UNBLOCK && (
+        <SystemMessage
+          icon="thread"
+          contents={
+            isGroup
+              ? i18n(
+                  'icu:MessageRequestResponseNotification__Message--Unblocked--Group'
+                )
+              : i18n(
+                  'icu:MessageRequestResponseNotification__Message--Unblocked'
+                )
+          }
         />
       )}
       {event === MessageRequestResponseEvent.SPAM && (

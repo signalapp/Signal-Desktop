@@ -124,6 +124,7 @@ type PropsHousekeepingType = {
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
     isBlocked: boolean;
+    isGroup: boolean;
     isOldestTimelineItem: boolean;
     messageId: string;
     nextMessageId: undefined | string;
@@ -804,6 +805,7 @@ export class Timeline extends React.Component<
       acknowledgeGroupMemberNameCollisions,
       clearInvitedServiceIdsForNewlyCreatedGroup,
       closeContactSpoofingReview,
+      conversationType,
       hasContactSpoofingReview,
       getPreferredBadge,
       getTimestampForMessage,
@@ -847,6 +849,7 @@ export class Timeline extends React.Component<
       return null;
     }
 
+    const isGroup = conversationType === 'group';
     const areThereAnyMessages = items.length > 0;
     const areAnyMessagesUnread = Boolean(unreadCount);
     const areAnyMessagesBelowCurrentPosition =
@@ -956,6 +959,7 @@ export class Timeline extends React.Component<
               containerWidthBreakpoint: widthBreakpoint,
               conversationId: id,
               isBlocked,
+              isGroup,
               isOldestTimelineItem: haveOldest && itemIndex === 0,
               messageId,
               nextMessageId,

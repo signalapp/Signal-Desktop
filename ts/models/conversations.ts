@@ -2170,6 +2170,9 @@ export class ConversationModel extends window.Backbone
       const didResponseChange = response !== currentMessageRequestState;
       const wasPreviouslyAccepted = this.getAccepted();
 
+      const didUnblock =
+        response === messageRequestEnum.ACCEPT && this.isBlocked();
+
       if (didResponseChange) {
         if (response === messageRequestEnum.ACCEPT) {
           // Only add a message when the user took an explicit action to accept
@@ -2177,7 +2180,9 @@ export class ConversationModel extends window.Backbone
           if (!viaStorageServiceSync) {
             drop(
               this.addMessageRequestResponseEventMessage(
-                MessageRequestResponseEvent.ACCEPT
+                didUnblock
+                  ? MessageRequestResponseEvent.UNBLOCK
+                  : MessageRequestResponseEvent.ACCEPT
               )
             );
           }

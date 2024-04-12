@@ -177,6 +177,7 @@ type PropsLocalType = {
   item?: TimelineItemType;
   id: string;
   isBlocked: boolean;
+  isGroup: boolean;
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
   targetMessage: (messageId: string, conversationId: string) => unknown;
@@ -217,6 +218,7 @@ export const TimelineItem = memo(function TimelineItem({
   i18n,
   id,
   isBlocked,
+  isGroup,
   isNextItemCallingNotification,
   isTargeted,
   item,
@@ -401,6 +403,7 @@ export const TimelineItem = memo(function TimelineItem({
         <MessageRequestResponseNotification
           {...item.data}
           i18n={i18n}
+          isGroup={isGroup}
           isBlocked={isBlocked}
           onOpenMessageRequestActionsConfirmation={
             onOpenMessageRequestActionsConfirmation
