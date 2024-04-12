@@ -34,7 +34,7 @@ type PropsHousekeeping = {
 
 type Props = { conversationId: string } & PropsHousekeeping;
 
-const Portal = ({ children }: { children: any }) => {
+const Portal = ({ children }: { children: React.ReactNode }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 

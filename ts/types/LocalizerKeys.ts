@@ -162,6 +162,7 @@ export type LocalizerKeys =
   | 'disappears'
   | 'displayName'
   | 'displayNameEmpty'
+  | 'displayNameErrorNew'
   | 'displayNameTooLong'
   | 'document'
   | 'documents'

@@ -578,5 +578,6 @@
   "resolution": "Resolution",
   "duration": "Duration",
   "notApplicable": "N/A",
-  "unknownError": "Unknown Error"
+  "unknownError": "Unknown Error",
+  "displayNameErrorNew": "We were unable to load your display name. Please enter a new display name to continue."
 }
