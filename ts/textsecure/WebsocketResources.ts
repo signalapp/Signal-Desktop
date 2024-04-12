@@ -447,6 +447,7 @@ export class WebSocketResourceWithShadowing implements IWebSocketResource {
     this.main.close();
     if (this.shadowing) {
       this.shadowing.close();
+      this.shadowing = undefined;
     } else {
       this.shadowingConnection.abort();
     }
@@ -456,6 +457,7 @@ export class WebSocketResourceWithShadowing implements IWebSocketResource {
     this.main.shutdown();
     if (this.shadowing) {
       this.shadowing.shutdown();
+      this.shadowing = undefined;
     } else {
       this.shadowingConnection.abort();
     }
@@ -482,11 +484,12 @@ export class WebSocketResourceWithShadowing implements IWebSocketResource {
   }
 
   private async sendShadowRequest(): Promise<void> {
-    // it could be that we're still connecting libsignal websocket
-    // in which case we're skipping the check
+    // In the shadowing mode, it could be that we're either
+    // still connecting libsignal websocket or have already closed it.
+    // In those cases we're not running shadowing check.
     if (!this.shadowing) {
       log.info(
-        `${this.logId}: skipping healthcheck - websocket not connected yet`
+        `${this.logId}: skipping healthcheck - websocket not connected or already closed`
       );
       return;
     }
