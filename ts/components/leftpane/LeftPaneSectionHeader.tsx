@@ -28,7 +28,7 @@ const StyledProgressBarContainer = styled.div`
 const StyledProgressBarInner = styled.div`
   background: var(--primary-color);
   width: 90%;
-  transition: width 0.5s ease-in;
+  transition: width var(--default-duration) ease-in;
   height: 100%;
 `;
 

@@ -1,12 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { SignUpMode, SignUpTab } from './SignUpTab';
-import { SignInMode, SignInTab } from './SignInTab';
 import { Data } from '../../data/data';
+import { SettingsKey } from '../../data/settings-key';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
 import { mnDecode } from '../../session/crypto/mnemonic';
 import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
-import { TaskTimedOutError } from '../../session/utils/Promise';
+import { fromHex } from '../../session/utils/String';
 import { trigger } from '../../shims/events';
 import {
   generateMnemonic,
@@ -14,9 +13,9 @@ import {
   sessionGenerateKeyPair,
   signInByLinkingDevice,
 } from '../../util/accountManager';
-import { fromHex } from '../../session/utils/String';
-import { setSignInByLinking, setSignWithRecoveryPhrase, Storage } from '../../util/storage';
-import { SettingsKey } from '../../data/settings-key';
+import { Storage, setSignInByLinking, setSignWithRecoveryPhrase } from '../../util/storage';
+import { SignInMode, SignInTab } from './SignInTab';
+import { SignUpMode, SignUpTab } from './SignUpTab';
 
 export async function resetRegistration() {
   await Data.removeAll();
@@ -104,7 +103,10 @@ export async function signInWithRecovery(signInDetails: {
  * This is will try to sign in with the user recovery phrase.
  * If no ConfigurationMessage is received in 60seconds, the loading will be canceled.
  */
-export async function signInWithLinking(signInDetails: { userRecoveryPhrase: string }) {
+export async function signInWithLinking(
+  signInDetails: { userRecoveryPhrase: string },
+  setSignInMode: (phase: SignInMode) => void
+) {
   const { userRecoveryPhrase } = signInDetails;
   window?.log?.info('LINKING DEVICE');
 
@@ -136,18 +138,14 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
-    if (e instanceof TaskTimedOutError) {
-      ToastUtils.pushToastError(
-        'registrationError',
-        'Could not find your display name. Please Sign In by Restoring Your Account instead.'
-      );
-    } else {
-      ToastUtils.pushToastError(
-        'registrationError',
-        `Error: ${e.message || 'Something went wrong'}`
-      );
-    }
-    window?.log?.warn('exception during registration:', e);
+    ToastUtils.pushToastError('registrationError', window.i18n('displayNameErrorNew'));
+    window?.log?.error(
+      '[signInWithLinking] Error during sign in by linking lets try and sign in by recovery phrase',
+      e.message || e
+    );
+    getSwarmPollingInstance().stop(e);
+    await setSignWithRecoveryPhrase(false);
+    setSignInMode(SignInMode.UsingRecoveryPhrase);
   }
 }
 
