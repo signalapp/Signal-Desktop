@@ -123,7 +123,7 @@ export const SignInTab = () => {
   // from the configuration message will be used.
   const showDisplayNameField = isRecovery;
 
-  // Display name is required only on isRecoveryMode
+  // Display name is required only on isRecoveryMode or if linking a device fails
   const displayNameOK = (isRecovery && !displayNameError && !!displayName) || isLinking;
 
   // Seed is mandatory no matter which mode
@@ -139,9 +139,12 @@ export const SignInTab = () => {
       });
     } else if (isLinking) {
       setIsLoading(true);
-      await signInWithLinking({
-        userRecoveryPhrase: recoveryPhrase,
-      });
+      await signInWithLinking(
+        {
+          userRecoveryPhrase: recoveryPhrase,
+        },
+        setSignInMode
+      );
       setIsLoading(false);
     }
   };
