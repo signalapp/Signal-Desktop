@@ -4568,6 +4568,7 @@ export class ConversationModel extends window.Backbone
 
     await window.Signal.Data.saveMessage(model.attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
+      forceSave: true,
     });
 
     const message = window.MessageCache.__DEPRECATED$register(
