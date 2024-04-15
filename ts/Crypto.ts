@@ -7,9 +7,10 @@ import { HKDF } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { calculateAgreement, generateKeyPair } from './Curve';
-import { HashType, CipherType } from './types/Crypto';
+import { HashType, CipherType, UUID_BYTE_SIZE } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
 import { getBytesSubarray } from './util/uuidToBytes';
+import { logPadSize } from './util/logPadding';
 import { Environment } from './environment';
 
 export { HashType, CipherType };
@@ -138,6 +139,78 @@ export function deriveStorageManifestKey(
   version: Long = Long.fromNumber(0)
 ): Uint8Array {
   return hmacSha256(storageServiceKey, Bytes.fromString(`Manifest_${version}`));
+}
+
+const BACKUP_KEY_LEN = 32;
+const BACKUP_KEY_INFO = '20231003_Signal_Backups_GenerateBackupKey';
+
+export function deriveBackupKey(masterKey: Uint8Array): Uint8Array {
+  const hkdf = HKDF.new(3);
+  return hkdf.deriveSecrets(
+    BACKUP_KEY_LEN,
+    Buffer.from(masterKey),
+    Buffer.from(BACKUP_KEY_INFO),
+    Buffer.alloc(0)
+  );
+}
+
+const BACKUP_ID_LEN = 16;
+const BACKUP_ID_INFO = '20231003_Signal_Backups_GenerateBackupId';
+
+export function deriveBackupId(
+  backupKey: Uint8Array,
+  aciBytes: Uint8Array
+): Uint8Array {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveBackupId: invalid backup key length');
+  }
+
+  if (aciBytes.byteLength !== UUID_BYTE_SIZE) {
+    throw new Error('deriveBackupId: invalid aci length');
+  }
+
+  const hkdf = HKDF.new(3);
+  return hkdf.deriveSecrets(
+    BACKUP_ID_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_ID_INFO),
+    Buffer.from(aciBytes)
+  );
+}
+
+export type BackupKeyMaterialType = Readonly<{
+  macKey: Uint8Array;
+  aesKey: Uint8Array;
+}>;
+
+const BACKUP_AES_KEY_LEN = 32;
+const BACKUP_MAC_KEY_LEN = 32;
+const BACKUP_MATERIAL_INFO = '20231003_Signal_Backups_EncryptMessageBackup';
+
+export function deriveBackupKeyMaterial(
+  backupKey: Uint8Array,
+  backupId: Uint8Array
+): BackupKeyMaterialType {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveBackupId: invalid backup key length');
+  }
+
+  if (backupId.byteLength !== BACKUP_ID_LEN) {
+    throw new Error('deriveBackupId: invalid backup id length');
+  }
+
+  const hkdf = HKDF.new(3);
+  const material = hkdf.deriveSecrets(
+    BACKUP_AES_KEY_LEN + BACKUP_MAC_KEY_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_MATERIAL_INFO),
+    Buffer.from(backupId)
+  );
+
+  return {
+    macKey: material.slice(0, BACKUP_MAC_KEY_LEN),
+    aesKey: material.slice(BACKUP_MAC_KEY_LEN),
+  };
 }
 
 export function deriveStorageItemKey(
@@ -462,13 +535,6 @@ export function encryptAttachment({
   };
 }
 
-export function getAttachmentSizeBucket(size: number): number {
-  return Math.max(
-    541,
-    Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
-  );
-}
-
 export function padAndEncryptAttachment({
   plaintext,
   keys,
@@ -479,7 +545,7 @@ export function padAndEncryptAttachment({
   dangerousTestOnlyIv?: Readonly<Uint8Array>;
 }): EncryptedAttachment {
   const size = plaintext.byteLength;
-  const paddedSize = getAttachmentSizeBucket(size);
+  const paddedSize = logPadSize(size);
   const padding = getZeroes(paddedSize - size);
 
   return {

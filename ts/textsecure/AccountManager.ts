@@ -4,6 +4,7 @@
 import PQueue from 'p-queue';
 import { isNumber, omit, orderBy } from 'lodash';
 import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
+import { Readable } from 'stream';
 
 import EventTarget from './EventTarget';
 import type {
@@ -1331,7 +1332,7 @@ export default class AccountManager extends EventTarget {
     ]);
 
     if (backupFile !== undefined) {
-      await backupsService.importBackup(backupFile);
+      await backupsService.importBackup(() => Readable.from(backupFile));
     }
   }
 

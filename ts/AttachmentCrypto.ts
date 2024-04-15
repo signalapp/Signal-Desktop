@@ -12,13 +12,15 @@ import {
 } from 'crypto';
 import type { Decipher, Hash, Hmac } from 'crypto';
 import { Transform } from 'stream';
-import type { Readable } from 'stream';
 import { pipeline } from 'stream/promises';
 import { ensureFile } from 'fs-extra';
 import * as log from './logging/log';
 import { HashType, CipherType } from './types/Crypto';
 import { createName, getRelativePath } from './windows/attachments';
-import { constantTimeEqual, getAttachmentSizeBucket } from './Crypto';
+import { constantTimeEqual } from './Crypto';
+import { appendPaddingStream, logPadSize } from './util/logPadding';
+import { prependStream } from './util/prependStream';
+import { appendMacStream } from './util/appendMacStream';
 import { Environment } from './environment';
 import type { AttachmentType } from './types/Attachment';
 import type { ContextType } from './types/Message2';
@@ -96,10 +98,10 @@ export async function encryptAttachmentV2({
     await pipeline(
       readFd.createReadStream(),
       peekAndUpdateHash(plaintextHash),
-      appendPadding(),
+      appendPaddingStream(),
       createCipheriv(CipherType.AES256CBC, aesKey, iv),
       prependIv(iv),
-      appendMac(macKey),
+      appendMacStream(macKey),
       peekAndUpdateHash(digest),
       writeFd.createWriteStream()
     );
@@ -266,10 +268,10 @@ function peekAndUpdateHash(hash: Hash) {
  * Updates an hmac with the stream except for the last ATTACHMENT_MAC_LENGTH
  * bytes. The last ATTACHMENT_MAC_LENGTH bytes are passed to the callback.
  */
-function getMacAndUpdateHmac(
+export function getMacAndUpdateHmac(
   hmac: Hmac,
   onTheirMac: (theirMac: Uint8Array) => void
-) {
+): Transform {
   // Because we don't have a view of the entire stream, we don't know when we're
   // at the end. We need to omit the last ATTACHMENT_MAC_LENGTH bytes from
   // `hmac.update` so we only push what we know is not the mac.
@@ -310,7 +312,7 @@ function getMacAndUpdateHmac(
  * Gets the IV from the start of the stream and creates a decipher.
  * Then deciphers the rest of the stream.
  */
-function getIvAndDecipher(aesKey: Uint8Array) {
+export function getIvAndDecipher(aesKey: Uint8Array): Transform {
   let maybeIvBytes: Buffer | null = Buffer.alloc(0);
   let decipher: Decipher | null = null;
   return new Transform({
@@ -377,81 +379,8 @@ function trimPadding(size: number) {
 export function getAttachmentDownloadSize(size: number): number {
   return (
     // Multiply this by 1.05 to allow some variance
-    getAttachmentSizeBucket(size) * 1.05 + IV_LENGTH + ATTACHMENT_MAC_LENGTH
+    logPadSize(size) * 1.05 + IV_LENGTH + ATTACHMENT_MAC_LENGTH
   );
-}
-
-const PADDING_CHUNK_SIZE = 64 * 1024;
-
-/**
- * Creates iterator that yields zero-filled padding chunks.
- */
-function* generatePadding(size: number) {
-  const targetLength = getAttachmentSizeBucket(size);
-  const paddingSize = targetLength - size;
-  const paddingChunks = Math.floor(paddingSize / PADDING_CHUNK_SIZE);
-  const paddingChunk = new Uint8Array(PADDING_CHUNK_SIZE); // zero-filled
-  const paddingRemainder = new Uint8Array(paddingSize % PADDING_CHUNK_SIZE);
-  for (let i = 0; i < paddingChunks; i += 1) {
-    yield paddingChunk;
-  }
-  if (paddingRemainder.byteLength > 0) {
-    yield paddingRemainder;
-  }
-}
-
-// Push as much padding as we can. If we reach the end
-// of the padding, return true.
-function pushPadding(
-  paddingIterator: Iterator<Uint8Array>,
-  readable: Readable
-): boolean {
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    const result = paddingIterator.next();
-    if (result.done) {
-      break;
-    }
-    const keepGoing = readable.push(result.value);
-    if (!keepGoing) {
-      return false;
-    }
-  }
-  return true;
-}
-
-/**
- * Appends zero-padding to the stream to a target bucket size.
- */
-function appendPadding() {
-  let onReadableDrained: undefined | (() => void);
-  let fileSize = 0;
-
-  return new Transform({
-    read(size) {
-      // When in the process of pushing padding, we pause and wait for
-      // read to be called again.
-      if (onReadableDrained != null) {
-        onReadableDrained();
-      }
-      // Always call _read, even if we're done.
-      Transform.prototype._read.call(this, size);
-    },
-    transform(chunk, _encoding, callback) {
-      fileSize += chunk.byteLength;
-      callback(null, chunk);
-    },
-    flush(callback) {
-      const iterator = generatePadding(fileSize);
-
-      onReadableDrained = () => {
-        if (pushPadding(iterator, this)) {
-          callback();
-        }
-      };
-      onReadableDrained();
-    },
-  });
 }
 
 /**
@@ -462,43 +391,7 @@ function prependIv(iv: Uint8Array) {
     iv.byteLength === IV_LENGTH,
     `prependIv: iv should be ${IV_LENGTH} bytes, got ${iv.byteLength} bytes`
   );
-  return new Transform({
-    construct(callback) {
-      this.push(iv);
-      callback();
-    },
-    transform(chunk, _encoding, callback) {
-      callback(null, chunk);
-    },
-  });
-}
-
-/**
- * Appends the mac to the end of the stream.
- */
-function appendMac(macKey: Uint8Array) {
-  strictAssert(
-    macKey.byteLength === KEY_LENGTH,
-    `macKey should be ${KEY_LENGTH} bytes, got ${macKey.byteLength} bytes`
-  );
-  const hmac = createHmac(HashType.size256, macKey);
-  return new Transform({
-    transform(chunk, _encoding, callback) {
-      try {
-        hmac.update(chunk);
-        callback(null, chunk);
-      } catch (error) {
-        callback(error);
-      }
-    },
-    flush(callback) {
-      try {
-        callback(null, hmac.digest());
-      } catch (error) {
-        callback(error);
-      }
-    },
-  });
+  return prependStream(iv);
 }
 
 /**
