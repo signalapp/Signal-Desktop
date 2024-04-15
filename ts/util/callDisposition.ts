@@ -85,7 +85,8 @@ export function formatCallEvent(callEvent: CallEventDetails): string {
 export function formatCallHistory(callHistory: CallHistoryDetails): string {
   const { callId, peerId, direction, status, type, mode, timestamp, ringerId } =
     callHistory;
-  return `CallHistory (${callId}, ${peerId}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId})`;
+  const peerIdLog = mode === CallMode.Group ? `groupv2(${peerId})` : peerId;
+  return `CallHistory (${callId}, ${peerIdLog}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId})`;
 }
 
 export function formatCallHistoryGroup(
