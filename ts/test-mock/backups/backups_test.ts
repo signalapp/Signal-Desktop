@@ -3,6 +3,7 @@
 
 import createDebug from 'debug';
 import Long from 'long';
+import { StorageState } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
@@ -19,6 +20,34 @@ describe('backups', function (this: Mocha.Suite) {
   beforeEach(async () => {
     bootstrap = new Bootstrap();
     await bootstrap.init();
+
+    let state = StorageState.getEmpty();
+
+    const { phone, contacts } = bootstrap;
+    const [friend, pinned] = contacts;
+
+    state = state.updateAccount({
+      profileKey: phone.profileKey.serialize(),
+      e164: phone.device.number,
+      givenName: phone.profileName,
+      readReceipts: true,
+      hasCompletedUsernameOnboarding: true,
+    });
+
+    state = state.addContact(friend, {
+      identityKey: friend.publicKey.serialize(),
+      profileKey: friend.profileKey.serialize(),
+    });
+
+    state = state.addContact(pinned, {
+      identityKey: pinned.publicKey.serialize(),
+      profileKey: pinned.profileKey.serialize(),
+    });
+
+    state = state.pin(pinned);
+
+    await phone.setStorageState(state);
+
     app = await bootstrap.link();
   });
 
@@ -34,7 +63,19 @@ describe('backups', function (this: Mocha.Suite) {
 
   it('exports and imports backup', async function () {
     const { contacts, phone, desktop, server } = bootstrap;
-    const [friend] = contacts;
+    const [friend, pinned] = contacts;
+
+    debug('wait for storage service sync to finish');
+    {
+      const window = await app.getWindow();
+
+      const leftPane = window.locator('#LeftPane');
+      await leftPane
+        .locator(
+          `[data-testid="${pinned.device.aci}"] >> "${pinned.profileName}"`
+        )
+        .waitFor();
+    }
 
     for (let i = 0; i < 5; i += 1) {
       const theirTimestamp = bootstrap.getTimestamp();
