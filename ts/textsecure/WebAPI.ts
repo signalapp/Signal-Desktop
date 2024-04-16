@@ -3196,7 +3196,7 @@ export function initialize({
         urlParameters:
           `?redemptionStartSeconds=${startDayInSeconds}&` +
           `redemptionEndSeconds=${endDayInSeconds}&` +
-          'pniAsServiceId=true',
+          'zkcCredential=true',
         httpType: 'GET',
         responseType: 'json',
       })) as GetGroupCredentialsResultType;
