@@ -1722,11 +1722,11 @@ export default class MessageSender {
   async sendCallingMessage(
     serviceId: ServiceIdString,
     callingMessage: Readonly<Proto.ICallingMessage>,
+    timestamp: number,
     urgent: boolean,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const recipients = [serviceId];
-    const finalTimestamp = Date.now();
 
     const contentMessage = new Proto.Content();
     contentMessage.callingMessage = callingMessage;
@@ -1736,13 +1736,13 @@ export default class MessageSender {
     addPniSignatureMessageToProto({
       conversation,
       proto: contentMessage,
-      reason: `sendCallingMessage(${finalTimestamp})`,
+      reason: `sendCallingMessage(${timestamp})`,
     });
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendMessageProtoAndWait({
-      timestamp: finalTimestamp,
+      timestamp,
       recipients,
       proto: contentMessage,
       contentHint: ContentHint.DEFAULT,

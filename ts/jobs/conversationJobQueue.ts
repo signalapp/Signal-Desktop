@@ -12,7 +12,9 @@ import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { JOB_STATUS, JobQueue } from './JobQueue';
 
 import { sendNormalMessage } from './helpers/sendNormalMessage';
+import { sendCallingMessage } from './helpers/sendCallingMessage';
 import { sendDirectExpirationTimerUpdate } from './helpers/sendDirectExpirationTimerUpdate';
+import { sendGroupCallUpdate } from './helpers/sendGroupCallUpdate';
 import { sendGroupUpdate } from './helpers/sendGroupUpdate';
 import { sendDeleteForEveryone } from './helpers/sendDeleteForEveryone';
 import { sendDeleteStoryForEveryone } from './helpers/sendDeleteStoryForEveryone';
@@ -51,9 +53,11 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
 export const conversationQueueJobEnum = z.enum([
+  'CallingMessage',
   'DeleteForEveryone',
   'DeleteStoryForEveryone',
   'DirectExpirationTimerUpdate',
+  'GroupCallUpdate',
   'GroupUpdate',
   'NormalMessage',
   'NullMessage',
@@ -66,6 +70,17 @@ export const conversationQueueJobEnum = z.enum([
   'Receipts',
 ]);
 type ConversationQueueJobEnum = z.infer<typeof conversationQueueJobEnum>;
+
+const callingMessageJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.CallingMessage),
+  conversationId: z.string(),
+  protoBase64: z.string(),
+  urgent: z.boolean(),
+  // These two are group-only
+  recipients: z.array(serviceIdSchema).optional(),
+  isPartialSend: z.boolean().optional(),
+});
+export type CallingMessageJobData = z.infer<typeof callingMessageJobDataSchema>;
 
 const deleteForEveryoneJobDataSchema = z.object({
   type: z.literal(conversationQueueJobEnum.enum.DeleteForEveryone),
@@ -106,6 +121,16 @@ const expirationTimerUpdateJobDataSchema = z.object({
 });
 export type ExpirationTimerUpdateJobData = z.infer<
   typeof expirationTimerUpdateJobDataSchema
+>;
+
+const groupCallUpdateJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.GroupCallUpdate),
+  conversationId: z.string(),
+  eraId: z.string(),
+  urgent: z.boolean(),
+});
+export type GroupCallUpdateJobData = z.infer<
+  typeof groupCallUpdateJobDataSchema
 >;
 
 const groupUpdateJobDataSchema = z.object({
@@ -208,9 +233,11 @@ const receiptsJobDataSchema = z.object({
 export type ReceiptsJobData = z.infer<typeof receiptsJobDataSchema>;
 
 export const conversationQueueJobDataSchema = z.union([
+  callingMessageJobDataSchema,
   deleteForEveryoneJobDataSchema,
   deleteStoryForEveryoneJobDataSchema,
   expirationTimerUpdateJobDataSchema,
+  groupCallUpdateJobDataSchema,
   groupUpdateJobDataSchema,
   normalMessageSendJobDataSchema,
   nullMessageJobDataSchema,
@@ -239,6 +266,9 @@ const MAX_RETRY_TIME = durations.DAY;
 const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(MAX_RETRY_TIME);
 
 function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
+  if (type === 'CallingMessage') {
+    return true;
+  }
   if (type === 'DeleteForEveryone') {
     return true;
   }
@@ -246,6 +276,9 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
     return true;
   }
   if (type === 'DirectExpirationTimerUpdate') {
+    return true;
+  }
+  if (type === 'GroupCallUpdate') {
     return true;
   }
   if (type === 'GroupUpdate') {
@@ -263,6 +296,9 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
   if (type === 'Reaction') {
     return false;
   }
+  if (type === 'Receipts') {
+    return false;
+  }
   if (type === 'ResendRequest') {
     return false;
   }
@@ -276,9 +312,6 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
   }
   if (type === 'Story') {
     return true;
-  }
-  if (type === 'Receipts') {
-    return false;
   }
 
   throw missingCaseError(type);
@@ -785,6 +818,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
 
     try {
       switch (type) {
+        case jobSet.CallingMessage:
+          await sendCallingMessage(conversation, jobBundle, data);
+          break;
         case jobSet.DeleteForEveryone:
           await sendDeleteForEveryone(conversation, jobBundle, data);
           break;
@@ -793,6 +829,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           break;
         case jobSet.DirectExpirationTimerUpdate:
           await sendDirectExpirationTimerUpdate(conversation, jobBundle, data);
+          break;
+        case jobSet.GroupCallUpdate:
+          await sendGroupCallUpdate(conversation, jobBundle, data);
           break;
         case jobSet.GroupUpdate:
           await sendGroupUpdate(conversation, jobBundle, data);

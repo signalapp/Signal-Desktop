@@ -69,7 +69,6 @@ describe('state/selectors/calling', () => {
       localAudioLevel: 0,
       viewMode: CallViewMode.Paginated,
       showParticipantsList: false,
-      safetyNumberChangedAcis: [],
       outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,

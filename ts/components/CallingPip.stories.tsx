@@ -131,7 +131,6 @@ export function GroupCall(args: PropsType): JSX.Element {
         ...getCommonActiveCallData({}),
         callMode: CallMode.Group as CallMode.Group,
         connectionState: GroupCallConnectionState.Connected,
-        conversationsWithSafetyNumberChanges: [],
         conversationsByDemuxId: new Map<number, ConversationType>(),
         groupMembers: times(3, () => getDefaultConversation()),
         isConversationTooBigToRing: false,
