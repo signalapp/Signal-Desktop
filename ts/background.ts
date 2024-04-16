@@ -1547,23 +1547,37 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.on('online', onOnline);
 
     const onOffline = () => {
-      log.info('background: offline');
+      const { hasInitialLoadCompleted, appView } =
+        window.reduxStore.getState().app;
+
+      const hasAppEverBeenRegistered = Registration.everDone();
+
+      log.info('background: offline', {
+        connectCount,
+        hasInitialLoadCompleted,
+        appView,
+        hasAppEverBeenRegistered,
+      });
 
       drop(challengeHandler?.onOffline());
       drop(AttachmentDownloadManager.stop());
       drop(messageReceiver?.drain());
 
-      if (connectCount === 0) {
-        log.info('background: offline, never connected, showing inbox');
-
-        drop(onEmpty()); // this ensures that the loading screen is dismissed
-
-        // Switch to inbox view even if contact sync is still running
+      if (hasAppEverBeenRegistered) {
         if (
           window.reduxStore.getState().app.appView === AppViewType.Installer
         ) {
-          log.info('background: offline, opening inbox');
+          log.info(
+            'background: offline, but app has been registered before; opening inbox'
+          );
           window.reduxActions.app.openInbox();
+        }
+
+        if (!hasInitialLoadCompleted) {
+          log.info(
+            'background: offline; initial load not completed; triggering onEmpty'
+          );
+          drop(onEmpty()); // this ensures that the inbox loading progress bar is dismissed
         }
       }
     };
