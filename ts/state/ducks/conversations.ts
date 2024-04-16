@@ -183,6 +183,7 @@ import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPe
 import { getConversationIdForLogging } from '../../util/idForLogging';
 import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 import MessageSender from '../../textsecure/SendMessage';
+import { AttachmentDownloadUrgency } from '../../jobs/AttachmentDownloadManager';
 
 // State
 
@@ -2174,7 +2175,9 @@ function kickOffAttachmentDownload(
         `kickOffAttachmentDownload: Message ${options.messageId} missing!`
       );
     }
-    const didUpdateValues = await message.queueAttachmentDownloads();
+    const didUpdateValues = await message.queueAttachmentDownloads(
+      AttachmentDownloadUrgency.IMMEDIATE
+    );
 
     if (didUpdateValues) {
       drop(

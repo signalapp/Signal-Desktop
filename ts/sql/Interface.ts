@@ -10,7 +10,6 @@ import type { StoredJob } from '../jobs/types';
 import type { ReactionType, ReactionReadStatus } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { StorageAccessType } from '../types/Storage.d';
-import type { AttachmentType } from '../types/Attachment';
 import type { BytesToStrings } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
@@ -31,6 +30,7 @@ import type {
   CallHistoryPagination,
 } from '../types/CallDisposition';
 import type { CallLinkType, CallLinkRestrictions } from '../types/CallLink';
+import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -51,24 +51,6 @@ export type GetNearbyMessageFromDeletedSetOptionsType = Readonly<{
   includeStoryReplies: boolean;
 }>;
 
-export type AttachmentDownloadJobTypeType =
-  | 'long-message'
-  | 'attachment'
-  | 'preview'
-  | 'contact'
-  | 'quote'
-  | 'sticker';
-
-export type AttachmentDownloadJobType = {
-  attachment: AttachmentType;
-  attempts: number;
-  id: string;
-  index: number;
-  messageId: string;
-  pending: number;
-  timestamp: number;
-  type: AttachmentDownloadJobTypeType;
-};
 export type MessageMetricsType = {
   id: string;
   received_at: number;
@@ -741,21 +723,22 @@ export type DataInterface = {
   /** only for testing */
   removeAllUnprocessed: () => Promise<void>;
 
-  getAttachmentDownloadJobById: (
-    id: string
-  ) => Promise<AttachmentDownloadJobType | undefined>;
-  getNextAttachmentDownloadJobs: (
-    limit?: number,
-    options?: { timestamp?: number }
-  ) => Promise<Array<AttachmentDownloadJobType>>;
+  getAttachmentDownloadJob(
+    job: Pick<
+      AttachmentDownloadJobType,
+      'messageId' | 'attachmentType' | 'digest'
+    >
+  ): AttachmentDownloadJobType;
+  getNextAttachmentDownloadJobs: (options: {
+    limit: number;
+    prioritizeMessageIds?: Array<string>;
+    timestamp?: number;
+  }) => Promise<Array<AttachmentDownloadJobType>>;
   saveAttachmentDownloadJob: (job: AttachmentDownloadJobType) => Promise<void>;
-  resetAttachmentDownloadPending: () => Promise<void>;
-  setAttachmentDownloadJobPending: (
-    id: string,
-    pending: boolean
+  resetAttachmentDownloadActive: () => Promise<void>;
+  removeAttachmentDownloadJob: (
+    job: AttachmentDownloadJobType
   ) => Promise<void>;
-  removeAttachmentDownloadJob: (id: string) => Promise<number>;
-  removeAllAttachmentDownloadJobs: () => Promise<number>;
 
   createOrUpdateStickerPack: (pack: StickerPackType) => Promise<void>;
   updateStickerPackStatus: (

@@ -16,6 +16,7 @@ import { notificationService } from '../services/notifications';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { generateCacheKey } from './generateCacheKey';
+import { AttachmentDownloadUrgency } from '../jobs/AttachmentDownloadManager';
 
 export type ViewSyncAttributesType = {
   envelopeId: string;
@@ -127,7 +128,8 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
       const attachments = message.get('attachments');
       if (!attachments?.every(isDownloaded)) {
         const updatedFields = await queueAttachmentDownloads(
-          message.attributes
+          message.attributes,
+          AttachmentDownloadUrgency.STANDARD
         );
         if (updatedFields) {
           message.set(updatedFields);

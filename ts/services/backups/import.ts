@@ -96,6 +96,7 @@ export class BackupImportStream extends Writable {
         forceSave: true,
         ourAci,
       });
+      // TODO (DESKTOP-6845): after we save messages, queue their attachment downloads
     },
   });
   private ourConversation?: ConversationAttributesType;
@@ -626,6 +627,7 @@ export class BackupImportStream extends Writable {
   ): Partial<MessageAttributesType> {
     return {
       body: data.text?.body ?? '',
+      // TODO (DESKTOP-6845): add attachments
       reactions: data.reactions?.map(
         ({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
           strictAssert(emoji != null, 'reaction must have an emoji');

@@ -96,6 +96,8 @@ export async function downloadAttachmentV2(
   strictAssert(key, `${logId}: missing key`);
   strictAssert(isNumber(size), `${logId}: missing size`);
 
+  // TODO (DESKTOP-6845): download attachments differentially based on their
+  // media tier (i.e. transit tier or backup tier)
   const downloadStream = await server.getAttachmentV2(
     cdn,
     dropNull(cdnNumber),

@@ -35,7 +35,6 @@ import { ipcInvoke, doShutdown } from './channels';
 import type {
   AdjacentMessagesByConversationOptionsType,
   AllItemsType,
-  AttachmentDownloadJobType,
   ClientInterface,
   ClientExclusiveInterface,
   ClientSearchResultMessageType,
@@ -66,6 +65,7 @@ import { getMessageIdForLogging } from '../util/idForLogging';
 import type { MessageAttributesType } from '../model-types';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { generateSnippetAroundMention } from '../util/search';
+import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';

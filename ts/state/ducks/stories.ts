@@ -512,10 +512,9 @@ function queueStoryDownload(
       return;
     }
 
-    // isDownloading checks for the downloadJobId which is set by
-    // queueAttachmentDownloads but we optimistically set story.startedDownload
-    // in redux to prevent race conditions from queuing up multiple attachment
-    // downloads before the attachment save takes place.
+    // isDownloading checks if the download is pending but we optimistically set
+    // story.startedDownload in redux to prevent race conditions from queuing up multiple
+    // attachment downloads before the attachment save takes place.
     if (isDownloading(attachment) || story.startedDownload) {
       return;
     }

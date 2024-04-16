@@ -1,7 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import { z } from 'zod';
 
-export type MIMEType = string & { _mimeTypeBrand: never };
+export const MIMETypeSchema = z.string().brand('mimeType');
+export type MIMEType = z.infer<typeof MIMETypeSchema>;
 
 export const stringToMIMEType = (value: string): MIMEType => {
   return value as MIMEType;

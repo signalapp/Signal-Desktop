@@ -70,7 +70,6 @@ export type AttachmentType = {
   flags?: number;
   thumbnail?: ThumbnailType;
   isCorrupted?: boolean;
-  downloadJobId?: string;
   cdnNumber?: number;
   cdnId?: string;
   cdnKey?: string;
@@ -696,7 +695,7 @@ export function hasNotResolved(attachment?: AttachmentType): boolean {
 
 export function isDownloading(attachment?: AttachmentType): boolean {
   const resolved = resolveNestedAttachment(attachment);
-  return Boolean(resolved && resolved.downloadJobId && resolved.pending);
+  return Boolean(resolved && resolved.pending);
 }
 
 export function hasFailed(attachment?: AttachmentType): boolean {

@@ -88,7 +88,6 @@ import { updateSchema } from './migrations';
 import type {
   AdjacentMessagesByConversationOptionsType,
   StoredAllItemsType,
-  AttachmentDownloadJobType,
   ConversationMetricsType,
   ConversationType,
   DeleteSentProtoRecipientOptionsType,
@@ -173,6 +172,10 @@ import {
   updateCallLinkState,
 } from './server/callLinks';
 import { CallMode } from '../types/Calling';
+import {
+  attachmentDownloadJobSchema,
+  type AttachmentDownloadJobType,
+} from '../types/AttachmentDownload';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -353,13 +356,11 @@ const dataInterface: ServerInterface = {
   removeUnprocessed,
   removeAllUnprocessed,
 
-  getAttachmentDownloadJobById,
+  getAttachmentDownloadJob,
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,
-  resetAttachmentDownloadPending,
-  setAttachmentDownloadJobPending,
+  resetAttachmentDownloadActive,
   removeAttachmentDownloadJob,
-  removeAllAttachmentDownloadJobs,
 
   createOrUpdateStickerPack,
   updateStickerPackStatus,
@@ -4403,127 +4404,184 @@ async function removeAllUnprocessed(): Promise<void> {
 
 // Attachment Downloads
 
-const ATTACHMENT_DOWNLOADS_TABLE = 'attachment_downloads';
-async function getAttachmentDownloadJobById(
-  id: string
-): Promise<AttachmentDownloadJobType | undefined> {
-  return getById(getReadonlyInstance(), ATTACHMENT_DOWNLOADS_TABLE, id);
+function getAttachmentDownloadJob(
+  job: Pick<
+    AttachmentDownloadJobType,
+    'messageId' | 'attachmentType' | 'digest'
+  >
+): AttachmentDownloadJobType {
+  const db = getReadonlyInstance();
+  const [query, params] = sql`
+    SELECT * FROM attachment_downloads
+    WHERE
+      messageId = ${job.messageId}
+    AND 
+      attachmentType = ${job.attachmentType}
+    AND 
+      digest = ${job.digest};
+  `;
+
+  return db.prepare(query).get(params);
 }
-async function getNextAttachmentDownloadJobs(
-  limit?: number,
-  options: { timestamp?: number } = {}
-): Promise<Array<AttachmentDownloadJobType>> {
+
+async function getNextAttachmentDownloadJobs({
+  limit = 3,
+  prioritizeMessageIds,
+  timestamp = Date.now(),
+  maxLastAttemptForPrioritizedMessages,
+}: {
+  limit: number;
+  prioritizeMessageIds?: Array<string>;
+  timestamp?: number;
+  maxLastAttemptForPrioritizedMessages?: number;
+}): Promise<Array<AttachmentDownloadJobType>> {
   const db = await getWritableInstance();
-  const timestamp =
-    options && options.timestamp ? options.timestamp : Date.now();
 
-  const rows: Array<{ json: string; id: string }> = db
-    .prepare<Query>(
-      `
-      SELECT id, json
-      FROM attachment_downloads
-      WHERE pending = 0 AND timestamp <= $timestamp
-      ORDER BY timestamp DESC
-      LIMIT $limit;
-      `
-    )
-    .all({
-      limit: limit || 3,
-      timestamp,
-    });
+  let priorityJobs = [];
 
-  const INNER_ERROR = 'jsonToObject error';
+  // First, try to get jobs for prioritized messages (e.g. those currently user-visible)
+  if (prioritizeMessageIds?.length) {
+    const [priorityQuery, priorityParams] = sql`
+      SELECT * FROM attachment_downloads
+      -- very few rows will match messageIds, so in this case we want to optimize
+      -- the WHERE clause rather than the ORDER BY
+      INDEXED BY attachment_downloads_active_messageId
+      WHERE
+        active = 0
+      AND
+        -- for priority messages, we want to retry based on the last attempt, rather than retryAfter
+        (lastAttemptTimestamp is NULL OR lastAttemptTimestamp <= ${
+          maxLastAttemptForPrioritizedMessages ?? timestamp - durations.HOUR
+        })
+      AND
+        messageId IN (${sqlJoin(prioritizeMessageIds)})
+      -- for priority messages, let's load them oldest first; this helps, e.g. for stories where we 
+      -- want the oldest one first
+      ORDER BY receivedAt ASC
+      LIMIT ${limit}
+    `;
+    priorityJobs = db.prepare(priorityQuery).all(priorityParams);
+  }
+
+  // Next, get any other jobs, sorted by receivedAt
+  const numJobsRemaining = limit - priorityJobs.length;
+  let standardJobs = [];
+  if (numJobsRemaining > 0) {
+    const [query, params] = sql`
+      SELECT * FROM attachment_downloads
+      WHERE
+        active = 0
+      AND
+        (retryAfter is NULL OR retryAfter <= ${timestamp})
+      ORDER BY receivedAt DESC
+      LIMIT ${numJobsRemaining}
+    `;
+
+    standardJobs = db.prepare(query).all(params);
+  }
+
+  const allJobs = priorityJobs.concat(standardJobs);
+  const INNER_ERROR = 'jsonToObject or SchemaParse error';
   try {
-    return rows.map(row => {
+    return allJobs.map(row => {
       try {
-        return jsonToObject(row.json);
+        return attachmentDownloadJobSchema.parse({
+          ...row,
+          active: Boolean(row.active),
+          attachment: jsonToObject(row.attachmentJson),
+        });
       } catch (error) {
         logger.error(
-          `getNextAttachmentDownloadJobs: Error with job '${row.id}', deleting. ` +
-            `JSON: '${row.json}' ` +
-            `Error: ${Errors.toLogFormat(error)}`
+          `getNextAttachmentDownloadJobs: Error with job for message ${row.messageId}, deleting.`
         );
-        removeAttachmentDownloadJobSync(db, row.id);
-        throw new Error(INNER_ERROR);
+
+        removeAttachmentDownloadJobSync(db, row);
+        throw new Error(error);
       }
     });
   } catch (error) {
     if ('message' in error && error.message === INNER_ERROR) {
-      return getNextAttachmentDownloadJobs(limit, { timestamp });
+      return getNextAttachmentDownloadJobs({
+        limit,
+        prioritizeMessageIds,
+        timestamp,
+        maxLastAttemptForPrioritizedMessages,
+      });
     }
     throw error;
   }
 }
+
 async function saveAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
   const db = await getWritableInstance();
-  const { id, pending, timestamp } = job;
-  if (!id) {
-    throw new Error(
-      'saveAttachmentDownloadJob: Provided job did not have a truthy id'
-    );
-  }
 
-  db.prepare<Query>(
-    `
+  const [query, params] = sql`
     INSERT OR REPLACE INTO attachment_downloads (
-      id,
-      pending,
-      timestamp,
-      json
-    ) values (
-      $id,
-      $pending,
-      $timestamp,
-      $json
-    )
-    `
-  ).run({
-    id,
-    pending,
-    timestamp,
-    json: objectToJSON(job),
-  });
+      messageId,
+      attachmentType,
+      digest,
+      receivedAt,
+      sentAt,
+      contentType,
+      size,
+      active,
+      attempts,
+      retryAfter,
+      lastAttemptTimestamp,
+      attachmentJson
+    ) VALUES (
+      ${job.messageId},
+      ${job.attachmentType},
+      ${job.digest},
+      ${job.receivedAt},
+      ${job.sentAt},
+      ${job.contentType},
+      ${job.size},
+      ${job.active ? 1 : 0},
+      ${job.attempts},
+      ${job.retryAfter},
+      ${job.lastAttemptTimestamp},
+      ${objectToJSON(job.attachment)}
+    );
+  `;
+  db.prepare(query).run(params);
 }
-async function setAttachmentDownloadJobPending(
-  id: string,
-  pending: boolean
-): Promise<void> {
-  const db = await getWritableInstance();
-  db.prepare<Query>(
-    `
-    UPDATE attachment_downloads
-    SET pending = $pending
-    WHERE id = $id;
-    `
-  ).run({
-    id,
-    pending: pending ? 1 : 0,
-  });
-}
-async function resetAttachmentDownloadPending(): Promise<void> {
+
+async function resetAttachmentDownloadActive(): Promise<void> {
   const db = await getWritableInstance();
   db.prepare<EmptyQuery>(
     `
     UPDATE attachment_downloads
-    SET pending = 0
-    WHERE pending != 0;
+    SET active = 0
+    WHERE active != 0;
     `
   ).run();
 }
-function removeAttachmentDownloadJobSync(db: Database, id: string): number {
-  return removeById(db, ATTACHMENT_DOWNLOADS_TABLE, id);
+
+function removeAttachmentDownloadJobSync(
+  db: Database,
+  job: AttachmentDownloadJobType
+): void {
+  const [query, params] = sql`
+    DELETE FROM attachment_downloads
+    WHERE 
+      messageId = ${job.messageId}
+    AND
+      attachmentType = ${job.attachmentType} 
+    AND 
+      digest = ${job.digest};
+  `;
+
+  db.prepare(query).run(params);
 }
-async function removeAttachmentDownloadJob(id: string): Promise<number> {
+
+async function removeAttachmentDownloadJob(
+  job: AttachmentDownloadJobType
+): Promise<void> {
   const db = await getWritableInstance();
-  return removeAttachmentDownloadJobSync(db, id);
-}
-async function removeAllAttachmentDownloadJobs(): Promise<number> {
-  return removeAllFromTable(
-    await getWritableInstance(),
-    ATTACHMENT_DOWNLOADS_TABLE
-  );
+  return removeAttachmentDownloadJobSync(db, job);
 }
 
 // Stickers

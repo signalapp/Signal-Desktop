@@ -128,7 +128,6 @@ import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnce
 import { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
-import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
@@ -197,6 +196,7 @@ import {
 } from './util/callDisposition';
 import { deriveStorageServiceKey } from './Crypto';
 import { getThemeType } from './util/getThemeType';
+import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -715,8 +715,9 @@ export async function startApp(): Promise<void> {
           'background/shutdown: shutdown requested'
         );
 
+        server?.cancelInflightRequests('shutdown');
+
         // Stop background processing
-        void AttachmentDownloads.stop();
         idleDetector.stop();
 
         // Stop processing incoming messages
@@ -792,6 +793,14 @@ export async function startApp(): Promise<void> {
           window.waitForAllBatchers(),
           window.waitForAllWaitBatchers(),
         ]);
+
+        log.info(
+          'background/shutdown: waiting for all attachment downloads to finish'
+        );
+
+        // Since we canceled the inflight requests earlier in shutdown, this should
+        // resolve quickly
+        await AttachmentDownloadManager.stop();
 
         log.info('background/shutdown: closing the database');
 
@@ -1541,7 +1550,7 @@ export async function startApp(): Promise<void> {
       log.info('background: offline');
 
       drop(challengeHandler?.onOffline());
-      drop(AttachmentDownloads.stop());
+      drop(AttachmentDownloadManager.stop());
       drop(messageReceiver?.drain());
 
       if (connectCount === 0) {
@@ -1686,11 +1695,7 @@ export async function startApp(): Promise<void> {
 
       void window.Signal.Services.initializeGroupCredentialFetcher();
 
-      drop(
-        AttachmentDownloads.start({
-          logger: log,
-        })
-      );
+      drop(AttachmentDownloadManager.start());
 
       if (connectCount === 1) {
         Stickers.downloadQueuedPacks();

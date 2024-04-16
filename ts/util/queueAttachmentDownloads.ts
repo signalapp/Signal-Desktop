@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { partition } from 'lodash';
-import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as log from '../logging/log';
 import { isLongMessage } from '../types/MIME';
 import { getMessageIdForLogging } from './idForLogging';
@@ -29,6 +28,10 @@ import {
 import type { StickerType } from '../types/Stickers';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { isNotNil } from './isNotNil';
+import {
+  AttachmentDownloadManager,
+  AttachmentDownloadUrgency,
+} from '../jobs/AttachmentDownloadManager';
 
 export type MessageAttachmentsDownloadedType = {
   bodyAttachment?: AttachmentType;
@@ -58,7 +61,8 @@ function getAttachmentSignatureSafe(
 // NOTE: If you're changing any logic in this function that deals with the
 // count then you'll also have to modify ./hasAttachmentsDownloads
 export async function queueAttachmentDownloads(
-  message: MessageAttributesType
+  message: MessageAttributesType,
+  urgency: AttachmentDownloadUrgency = AttachmentDownloadUrgency.STANDARD
 ): Promise<MessageAttachmentsDownloadedType | undefined> {
   const attachmentsToQueue = message.attachments || [];
   const messageId = message.id;
@@ -82,9 +86,11 @@ export async function queueAttachmentDownloads(
     log.error(`${idLog}: Received more than one long message attachment`);
   }
 
-  log.info(
-    `${idLog}: Queueing ${longMessageAttachments.length} long message attachment downloads`
-  );
+  if (longMessageAttachments.length > 0) {
+    log.info(
+      `${idLog}: Queueing ${longMessageAttachments.length} long message attachment downloads`
+    );
+  }
 
   if (longMessageAttachments.length > 0) {
     count += 1;
@@ -96,54 +102,77 @@ export async function queueAttachmentDownloads(
   }
 
   if (bodyAttachment) {
-    await AttachmentDownloads.addJob(bodyAttachment, {
+    await AttachmentDownloadManager.addJob({
+      attachment: bodyAttachment,
       messageId,
-      type: 'long-message',
-      index: 0,
+      attachmentType: 'long-message',
+      receivedAt: message.received_at,
+      sentAt: message.sent_at,
+      urgency,
     });
   }
 
-  log.info(
-    `${idLog}: Queueing ${normalAttachments.length} normal attachment downloads`
-  );
+  if (normalAttachments.length > 0) {
+    log.info(
+      `${idLog}: Queueing ${normalAttachments.length} normal attachment downloads`
+    );
+  }
   const { attachments, count: attachmentsCount } = await queueNormalAttachments(
-    idLog,
-    messageId,
-    normalAttachments,
-    message.editHistory?.flatMap(x => x.attachments ?? [])
+    {
+      idLog,
+      messageId,
+      attachments: normalAttachments,
+      otherAttachments: message.editHistory?.flatMap(x => x.attachments ?? []),
+      receivedAt: message.received_at,
+      sentAt: message.sent_at,
+      urgency,
+    }
   );
   count += attachmentsCount;
 
   const previewsToQueue = message.preview || [];
-  log.info(
-    `${idLog}: Queueing ${previewsToQueue.length} preview attachment downloads`
-  );
-  const { preview, count: previewCount } = await queuePreviews(
+  if (previewsToQueue.length > 0) {
+    log.info(
+      `${idLog}: Queueing ${previewsToQueue.length} preview attachment downloads`
+    );
+  }
+  const { preview, count: previewCount } = await queuePreviews({
     idLog,
     messageId,
-    previewsToQueue,
-    message.editHistory?.flatMap(x => x.preview ?? [])
-  );
+    previews: previewsToQueue,
+    otherPreviews: message.editHistory?.flatMap(x => x.preview ?? []),
+    receivedAt: message.received_at,
+    sentAt: message.sent_at,
+    urgency,
+  });
   count += previewCount;
 
-  log.info(
-    `${idLog}: Queueing ${message.quote?.attachments?.length ?? 0} ` +
-      'quote attachment downloads'
-  );
-  const { quote, count: thumbnailCount } = await queueQuoteAttachments(
+  const numQuoteAttachments = message.quote?.attachments?.length ?? 0;
+  if (numQuoteAttachments > 0) {
+    log.info(
+      `${idLog}: Queueing ${numQuoteAttachments} ` +
+        'quote attachment downloads'
+    );
+  }
+  const { quote, count: thumbnailCount } = await queueQuoteAttachments({
     idLog,
     messageId,
-    message.quote,
-    message.editHistory?.map(x => x.quote).filter(isNotNil) ?? []
-  );
+    quote: message.quote,
+    otherQuotes: message.editHistory?.map(x => x.quote).filter(isNotNil) ?? [],
+    receivedAt: message.received_at,
+    sentAt: message.sent_at,
+    urgency,
+  });
   count += thumbnailCount;
 
   const contactsToQueue = message.contact || [];
-  log.info(
-    `${idLog}: Queueing ${contactsToQueue.length} contact attachment downloads`
-  );
+  if (contactsToQueue.length > 0) {
+    log.info(
+      `${idLog}: Queueing ${contactsToQueue.length} contact attachment downloads`
+    );
+  }
   const contact = await Promise.all(
-    contactsToQueue.map(async (item, index) => {
+    contactsToQueue.map(async item => {
       if (!item.avatar || !item.avatar.avatar) {
         return item;
       }
@@ -158,10 +187,13 @@ export async function queueAttachmentDownloads(
         ...item,
         avatar: {
           ...item.avatar,
-          avatar: await AttachmentDownloads.addJob(item.avatar.avatar, {
+          avatar: await AttachmentDownloadManager.addJob({
+            attachment: item.avatar.avatar,
             messageId,
-            type: 'contact',
-            index,
+            attachmentType: 'contact',
+            receivedAt: message.received_at,
+            sentAt: message.sent_at,
+            urgency,
           }),
         },
       };
@@ -191,10 +223,13 @@ export async function queueAttachmentDownloads(
     }
     if (!data) {
       if (sticker.data) {
-        data = await AttachmentDownloads.addJob(sticker.data, {
+        data = await AttachmentDownloadManager.addJob({
+          attachment: sticker.data,
           messageId,
-          type: 'sticker',
-          index: 0,
+          attachmentType: 'sticker',
+          receivedAt: message.received_at,
+          sentAt: message.sent_at,
+          urgency,
         });
       } else {
         log.error(`${idLog}: Sticker data was missing`);
@@ -224,12 +259,15 @@ export async function queueAttachmentDownloads(
     editHistory = await Promise.all(
       editHistory.map(async edit => {
         const { attachments: editAttachments, count: editAttachmentsCount } =
-          await queueNormalAttachments(
+          await queueNormalAttachments({
             idLog,
             messageId,
-            edit.attachments,
-            attachments
-          );
+            attachments: edit.attachments,
+            otherAttachments: attachments,
+            receivedAt: message.received_at,
+            sentAt: message.sent_at,
+            urgency,
+          });
         count += editAttachmentsCount;
         if (editAttachmentsCount !== 0) {
           log.info(
@@ -239,7 +277,15 @@ export async function queueAttachmentDownloads(
         }
 
         const { preview: editPreview, count: editPreviewCount } =
-          await queuePreviews(idLog, messageId, edit.preview, preview);
+          await queuePreviews({
+            idLog,
+            messageId,
+            previews: edit.preview,
+            otherPreviews: preview,
+            receivedAt: message.received_at,
+            sentAt: message.sent_at,
+            urgency,
+          });
         count += editPreviewCount;
         if (editPreviewCount !== 0) {
           log.info(
@@ -274,12 +320,23 @@ export async function queueAttachmentDownloads(
   };
 }
 
-async function queueNormalAttachments(
-  idLog: string,
-  messageId: string,
-  attachments: MessageAttributesType['attachments'] = [],
-  otherAttachments: MessageAttributesType['attachments']
-): Promise<{
+async function queueNormalAttachments({
+  idLog,
+  messageId,
+  attachments = [],
+  otherAttachments,
+  receivedAt,
+  sentAt,
+  urgency,
+}: {
+  idLog: string;
+  messageId: string;
+  attachments: MessageAttributesType['attachments'];
+  otherAttachments: MessageAttributesType['attachments'];
+  receivedAt: number;
+  sentAt: number;
+  urgency: AttachmentDownloadUrgency;
+}): Promise<{
   attachments: Array<AttachmentType>;
   count: number;
 }> {
@@ -299,7 +356,7 @@ async function queueNormalAttachments(
 
   let count = 0;
   const nextAttachments = await Promise.all(
-    attachments.map((attachment, index) => {
+    attachments.map(attachment => {
       if (!attachment) {
         return attachment;
       }
@@ -329,10 +386,13 @@ async function queueNormalAttachments(
 
       count += 1;
 
-      return AttachmentDownloads.addJob(attachment, {
+      return AttachmentDownloadManager.addJob({
+        attachment,
         messageId,
-        type: 'attachment',
-        index,
+        attachmentType: 'attachment',
+        receivedAt,
+        sentAt,
+        urgency,
       });
     })
   );
@@ -358,12 +418,23 @@ function getLinkPreviewSignature(preview: LinkPreviewType): string | undefined {
   return `<${url}>${signature}`;
 }
 
-async function queuePreviews(
-  idLog: string,
-  messageId: string,
-  previews: MessageAttributesType['preview'] = [],
-  otherPreviews: MessageAttributesType['preview']
-): Promise<{ preview: Array<LinkPreviewType>; count: number }> {
+async function queuePreviews({
+  idLog,
+  messageId,
+  previews = [],
+  otherPreviews,
+  receivedAt,
+  sentAt,
+  urgency,
+}: {
+  idLog: string;
+  messageId: string;
+  previews: MessageAttributesType['preview'];
+  otherPreviews: MessageAttributesType['preview'];
+  receivedAt: number;
+  sentAt: number;
+  urgency: AttachmentDownloadUrgency;
+}): Promise<{ preview: Array<LinkPreviewType>; count: number }> {
   // Similar to queueNormalAttachments' logic for detecting same attachments
   // except here we also pick by link preview URL.
   const previewSignatures: Map<string, LinkPreviewType> = new Map();
@@ -378,7 +449,7 @@ async function queuePreviews(
   let count = 0;
 
   const preview = await Promise.all(
-    previews.map(async (item, index) => {
+    previews.map(async item => {
       if (!item.image) {
         return item;
       }
@@ -407,10 +478,13 @@ async function queuePreviews(
       count += 1;
       return {
         ...item,
-        image: await AttachmentDownloads.addJob(item.image, {
+        image: await AttachmentDownloadManager.addJob({
+          attachment: item.image,
           messageId,
-          type: 'preview',
-          index,
+          attachmentType: 'preview',
+          receivedAt,
+          sentAt,
+          urgency,
         }),
       };
     })
@@ -436,12 +510,23 @@ function getQuoteThumbnailSignature(
   return `<${quote.id}>${signature}`;
 }
 
-async function queueQuoteAttachments(
-  idLog: string,
-  messageId: string,
-  quote: QuotedMessageType | undefined,
-  otherQuotes: ReadonlyArray<QuotedMessageType>
-): Promise<{ quote?: QuotedMessageType; count: number }> {
+async function queueQuoteAttachments({
+  idLog,
+  messageId,
+  quote,
+  otherQuotes,
+  receivedAt,
+  sentAt,
+  urgency,
+}: {
+  idLog: string;
+  messageId: string;
+  quote: QuotedMessageType | undefined;
+  otherQuotes: ReadonlyArray<QuotedMessageType>;
+  receivedAt: number;
+  sentAt: number;
+  urgency: AttachmentDownloadUrgency;
+}): Promise<{ quote?: QuotedMessageType; count: number }> {
   let count = 0;
   if (!quote) {
     return { quote, count };
@@ -473,7 +558,7 @@ async function queueQuoteAttachments(
     quote: {
       ...quote,
       attachments: await Promise.all(
-        quote.attachments.map(async (item, index) => {
+        quote.attachments.map(async item => {
           if (!item.thumbnail) {
             return item;
           }
@@ -508,10 +593,13 @@ async function queueQuoteAttachments(
           count += 1;
           return {
             ...item,
-            thumbnail: await AttachmentDownloads.addJob(item.thumbnail, {
+            thumbnail: await AttachmentDownloadManager.addJob({
+              attachment: item.thumbnail,
               messageId,
-              type: 'quote',
-              index,
+              attachmentType: 'quote',
+              receivedAt,
+              sentAt,
+              urgency,
             }),
           };
         })

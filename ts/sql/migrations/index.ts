@@ -78,10 +78,11 @@ import { updateToSchemaVersion990 } from './990-phone-number-sharing';
 import { updateToSchemaVersion1000 } from './1000-mark-unread-call-history-messages-as-unseen';
 import { updateToSchemaVersion1010 } from './1010-call-links-table';
 import { updateToSchemaVersion1020 } from './1020-self-merges';
+import { updateToSchemaVersion1030 } from './1030-unblock-event';
 import {
+  updateToSchemaVersion1040,
   version as MAX_VERSION,
-  updateToSchemaVersion1030,
-} from './1030-unblock-event';
+} from './1040-undownloaded-backed-up-media';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2027,6 +2028,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1010,
   updateToSchemaVersion1020,
   updateToSchemaVersion1030,
+  updateToSchemaVersion1040,
 ];
 
 export class DBVersionFromFutureError extends Error {

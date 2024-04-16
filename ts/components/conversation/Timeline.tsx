@@ -112,6 +112,7 @@ type PropsHousekeepingType = {
   i18n: LocalizerType;
   theme: ThemeType;
 
+  updateVisibleMessages?: (messageIds: Array<string>) => void;
   renderCollidingAvatars: (_: {
     conversationIds: ReadonlyArray<string>;
   }) => JSX.Element;
@@ -371,6 +372,7 @@ export class Timeline extends React.Component<
 
     const intersectionRatios = new Map<Element, number>();
 
+    this.props.updateVisibleMessages?.([]);
     const intersectionObserverCallback: IntersectionObserverCallback =
       entries => {
         // The first time this callback is called, we'll get entries in observation order
@@ -384,12 +386,16 @@ export class Timeline extends React.Component<
         let oldestPartiallyVisible: undefined | Element;
         let newestPartiallyVisible: undefined | Element;
         let newestFullyVisible: undefined | Element;
-
+        const visibleMessageIds: Array<string> = [];
         for (const [element, intersectionRatio] of intersectionRatios) {
           if (intersectionRatio === 0) {
             continue;
           }
 
+          const messageId = getMessageIdFromElement(element);
+          if (messageId) {
+            visibleMessageIds.push(messageId);
+          }
           // We use this "at bottom detector" for two reasons, both for performance. It's
           //   usually faster to use an `IntersectionObserver` instead of a scroll event,
           //   and we want to do that here.
@@ -408,6 +414,8 @@ export class Timeline extends React.Component<
             }
           }
         }
+
+        this.props.updateVisibleMessages?.(visibleMessageIds);
 
         // If a message is fully visible, then you can see its bottom. If not, there's a
         //   very tall message around. We assume you can see the bottom of a message if
@@ -554,6 +562,7 @@ export class Timeline extends React.Component<
 
     this.intersectionObserver?.disconnect();
     this.cleanupGroupCallPeekTimeouts();
+    this.props.updateVisibleMessages?.([]);
   }
 
   public override getSnapshotBeforeUpdate(

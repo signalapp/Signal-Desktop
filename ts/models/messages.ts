@@ -157,6 +157,7 @@ import {
   getChangesForPropAtTimestamp,
 } from '../util/editHelpers';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import type { AttachmentDownloadUrgency } from '../jobs/AttachmentDownloadManager';
 
 /* eslint-disable more/no-then */
 
@@ -1368,8 +1369,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return hasAttachmentDownloads(this.attributes);
   }
 
-  async queueAttachmentDownloads(): Promise<boolean> {
-    const value = await queueAttachmentDownloads(this.attributes);
+  async queueAttachmentDownloads(
+    urgency?: AttachmentDownloadUrgency
+  ): Promise<boolean> {
+    const value = await queueAttachmentDownloads(this.attributes, urgency);
     if (!value) {
       return false;
     }
@@ -2279,8 +2282,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         window.Signal.Data.updateConversation(conversation.attributes);
 
-        const reduxState = window.reduxStore.getState();
-
         const giftBadge = message.get('giftBadge');
         if (giftBadge) {
           const { level } = giftBadge;
@@ -2315,35 +2316,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           }
         }
 
-        // Only queue attachments for downloads if this is a story or
-        // outgoing message or we've accepted the conversation
-        const attachments = this.get('attachments') || [];
-
-        let queueStoryForDownload = false;
-        if (isStory(message.attributes)) {
-          queueStoryForDownload = await shouldDownloadStory(
-            conversation.attributes
-          );
-        }
-
-        const shouldHoldOffDownload =
-          (isStory(message.attributes) && !queueStoryForDownload) ||
-          (!isStory(message.attributes) &&
-            (isImage(attachments) || isVideo(attachments)) &&
-            isInCall(reduxState));
-
-        if (
-          this.hasAttachmentDownloads() &&
-          (conversation.getAccepted() || isOutgoing(message.attributes)) &&
-          !shouldHoldOffDownload
-        ) {
-          if (shouldUseAttachmentDownloadQueue()) {
-            addToAttachmentDownloadQueue(idLog, message);
-          } else {
-            await message.queueAttachmentDownloads();
-          }
-        }
-
         const isFirstRun = true;
         await this.modifyTargetMessage(conversation, isFirstRun);
 
@@ -2364,6 +2336,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     await saveNewMessageBatcher.add(this.attributes);
 
     log.info('Message saved', this.get('sent_at'));
+
+    // Once the message is saved to DB, we queue attachment downloads
+    await this.handleAttachmentDownloadsForNewMessage(conversation);
 
     conversation.trigger('newmessage', this);
 
@@ -2386,6 +2361,38 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       drop(
         conversation.queueJob('updateUnread', () => conversation.updateUnread())
       );
+    }
+  }
+
+  private async handleAttachmentDownloadsForNewMessage(
+    conversation: ConversationModel
+  ) {
+    const idLog = `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ${this.idForLogging()}`;
+
+    // Only queue attachments for downloads if this is a story (with additional logic), or
+    // if it's either an outgoing message or we've accepted the conversation
+    let shouldDownloadNow = false;
+    const attachments = this.get('attachments') || [];
+    const reduxState = window.reduxStore.getState();
+
+    if (isStory(this.attributes)) {
+      shouldDownloadNow = await shouldDownloadStory(conversation.attributes);
+    } else {
+      const isVisualMediaAndUserInCall =
+        isInCall(reduxState) && (isImage(attachments) || isVideo(attachments));
+
+      shouldDownloadNow =
+        this.hasAttachmentDownloads() &&
+        (conversation.getAccepted() || isOutgoing(this.attributes)) &&
+        !isVisualMediaAndUserInCall;
+    }
+
+    if (shouldDownloadNow) {
+      if (shouldUseAttachmentDownloadQueue()) {
+        addToAttachmentDownloadQueue(idLog, this);
+      } else {
+        await this.queueAttachmentDownloads();
+      }
     }
   }
 
