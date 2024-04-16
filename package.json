@@ -211,7 +211,7 @@
     "@formatjs/intl": "2.6.7",
     "@indutny/rezip-electron": "1.3.1",
     "@mixer/parallel-prettier": "2.0.3",
-    "@signalapp/mock-server": "6.2.0",
+    "@signalapp/mock-server": "6.3.0",
     "@storybook/addon-a11y": "7.4.5",
     "@storybook/addon-actions": "7.4.5",
     "@storybook/addon-controls": "7.4.5",
