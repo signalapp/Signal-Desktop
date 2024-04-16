@@ -335,15 +335,19 @@ export class BackupExportStream extends Readable {
         throw missingCaseError(rawPhoneNumberSharingMode);
     }
 
+    const usernameLink = storage.get('usernameLink');
+
     return {
       profileKey: storage.get('profileKey'),
-      username: me.get('username'),
-      usernameLink: {
-        ...(storage.get('usernameLink') ?? {}),
+      username: me.get('username') || null,
+      usernameLink: usernameLink
+        ? {
+            ...usernameLink,
 
-        // Same numeric value, no conversion needed
-        color: storage.get('usernameLinkColor'),
-      },
+            // Same numeric value, no conversion needed
+            color: storage.get('usernameLinkColor'),
+          }
+        : null,
       givenName: me.get('profileName'),
       familyName: me.get('profileFamilyName'),
       avatarUrlPath: storage.get('avatarUrl'),
