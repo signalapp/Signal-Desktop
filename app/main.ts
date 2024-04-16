@@ -2450,6 +2450,7 @@ ipc.on('get-config', async event => {
       !isTestEnvironment(getEnvironment()) && ciMode
         ? Environment.Production
         : getEnvironment(),
+    isMockTestEnvironment: Boolean(process.env.MOCK_TEST),
     ciMode,
     // Should be already computed and cached at this point
     dnsFallback: await getDNSFallback(),

@@ -4,16 +4,15 @@
 import { config } from './config';
 import {
   getEnvironment,
-  isTestEnvironment,
   parseEnvironment,
   setEnvironment,
 } from '../environment';
 
-setEnvironment(parseEnvironment(config.environment));
+setEnvironment(
+  parseEnvironment(config.environment),
+  config.isMockTestEnvironment
+);
 
 const environment = getEnvironment();
 
-const isTestOrMockEnvironment =
-  isTestEnvironment(environment) || Boolean(process.env.MOCK_TEST);
-
-export { environment, isTestOrMockEnvironment };
+export { environment };

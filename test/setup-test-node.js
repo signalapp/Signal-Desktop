@@ -12,7 +12,7 @@ const { HourCyclePreference } = require('../ts/types/I18N');
 
 chai.use(chaiAsPromised);
 
-setEnvironment(Environment.Test);
+setEnvironment(Environment.Test, true);
 
 const storageMap = new Map();
 
@@ -32,7 +32,6 @@ global.window = {
     getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
     getPreferredSystemLocales: () => ['en'],
     getLocaleOverride: () => null,
-    isTestOrMockEnvironment: () => true,
   },
   i18n: key => `i18n(${key})`,
   storage: {
