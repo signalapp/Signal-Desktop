@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Архивди карап көрүү"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Маектин түсү"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Signal'ды жаңыртуу"
-  },
   "icu:loading": {
     "messageformat": "Жүктөлүүдө..."
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "4 чейин гана маек кадай аласыз"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Папка тандоо"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Файл тандоо"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Өз нерселериңизди жүктөңүз"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Байланыштарыңыз менен билдирүүлөрүңүздү жаңы эле компьютериңизге өткөрүп алдыңыз. Signal'дагы нерселериңиз сакталган папканы тандаңыз."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Экспорттолгон нерселер камтылган каталогду тандаңыз"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Бир жерден ката кетти!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Байланыштар менен билдирүүлөр жүктөлүүдө"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Signal'дагы нерселериңиз сакталган туура каталогду тандашыңыз керек. Анын аталышы «Signal Export» деп башталат. Кааласаңыз, Chrome колдонмосундагы нерселериңиздин жаңы көчүрмөсүн сактап койсоңуз болот."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Эгер бул кадамдарды жасагыңыз келбесе, мүчүлүштүктөрдү оңдоо таржымалын жөнөтсөңүз (Көрүнүш -> Мүчүлүштүктөрдү оңдоо таржымалы), файлдарды өткөрүп алууга жардам беребиз!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Папканы тандап, кайталап көрүңүз"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Бүттү!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Signal Desktop'ту колдонуп баштоо"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Бул түзмөктү телефонуңузга байланыштырыңыз"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "сиз тандаган жер"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Маалыматтар базасы жаңырууда. Бир аз убакыт кетиши мүмкүн..."
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, other {{daysAgo,number} күн мурунку билдирүүлөр жүктөлүүдө...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Сиз тууралуу айтып өтүүнүн жаңы жолу"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 билдирүү окула элек"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, other {{count,number} билдирүү окула элек}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "{name} менен болгон коопсуздук кодуңузду башка түзмөктөн ырастала элек деп белгиледиңиз"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Бул топтун мүчөлөрү менен коопсуздук коддору акыркы ырастоодон бери өзгөрдү. Жаңы коопсуздук номерлерин көрүү үчүн топтун мүчөлөрүн басыңыз."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Сиз текшерүүгө аракет кылып жаткан коопсуздук номери өзгөртүлдү. {name1} менен коопсуздук номериңизди карап чыгыңыз. Эске алыңыз, бул өзгөртүү кимдир-бирөө сиздин байланышыңызга бөгөт коюуга аракет кылып жатканын же жөн гана {name2} байланышы Signal'ды кайра орнотуп алганын билдириши мүмкүн."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "{story} аракеттери"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Сиздин {name1} менен коопсуздук кодуңуз өзгөрдү. Бул кимдир бирөө сиздин байланыштарыңызга жана чалууларыңызга бөгөт коюуга аракет кылып жатканын же {name2} жөн эле Signal'ды кайра орнотуп алганын билдириши мүмкүн. Балким, бул байланыш менен коопсуздук номериңизди текшерүүнү каалайсыз."
-  },
   "icu:sendAnyway": {
     "messageformat": "Баары бир жөнөтөм"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Чалууну улантуу"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Сиздин {name} менен коопсуздук кодуңуз өзгөрдү жана текшериле элек. Көрсөтүү үчүн басыңыз."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Бул топтун бир нече мүчөлөрү менен коопсуздук коддору өзгөрдү жана азырынча ырастала элек. Көрсөтүү үчүн басыңыз."
   },
   "icu:debugLogExplanation": {
     "messageformat": "\"Тапшыруу\" баскычын басканыңызда журналыңыз уникалдуу, жарыяланбаган URL дарегинде 30 күн бою онлайнда жайгаштырылат. Адегенде аны жергиликтүү түрдө сактасаңыз болот."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Кардарларды колдоо кызматына кайрылуу"
   },
-  "icu:gotIt": {
-    "messageformat": "Түшүндүм!"
-  },
   "icu:submit": {
     "messageformat": "Тапшыруу"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Кабыл алуу"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Ырасталды деп белгилөө"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Кененирээк маалымат"
   },
-  "icu:isVerified": {
-    "messageformat": "Сиз {name} менен коопсуздук кодун ырастадыңыз."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "Сиз {name} менен коопсуздук кодун ырастаган жоксуз."
-  },
   "icu:verified": {
     "messageformat": "Ырасталды"
   },
   "icu:newIdentity": {
     "messageformat": "Жаңы коопсуздук коду"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Бул байланышыңыз менен коопсуздук кодуңуз өзгөрдү. Бул кимдир бирөө сиздин байланыштарыңызга жана чалууларыңызга бөгөт коюуга аракет кылып жатканын же байланышыңыз жөн эле Signal'ды кайра орнотуп алганын билдириши мүмкүн. Балким, бул байланыш менен төмөндөгү жаңы коопсуздук кодун текшерүүнү каалайсыз."
   },
   "icu:incomingError": {
     "messageformat": "Келген билдирүүнү иштетүүдө ката кетти"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Колдоого алынбаган тиркеме түрү. Сактоо үчүн басыңыз."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Сактоо үчүн басыңыз"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Аталышы жок файл"
   },
   "icu:voiceMessage": {
     "messageformat": "Үн билдирүүсү"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Баштапкы билдирүү табылган жок"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Баштапкы билдирүү табылды, бирок жүктөлгөн жок. Аны жүктөө үчүн өйдө сыдырыңыз."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Үн билдирүүсүн жаздыра баштаңыз"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Үн билдирүүсүн бүтүрүп, жөнөтүңүз"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Үн билдирүүсүн жокко чыгаруу"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Үн билдирүүсүн жаздыруу токтотулду, анткени максималдуу убакыт чегине жетти."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Башка колдонмого которулганыңыздан улам үн билдирүү жаздыруу токтотулду."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Үн билдирүүлөрү бир саат менен чектелген. Эгер башка колдонмого которулсаңыз, жаздыруу токтойт."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Сиз"
   },
-  "icu:replyingTo": {
-    "messageformat": "{name} байланышына жооп"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Аудио билдирүүлөрдү жөнөтүү үчүн Signal Desktop'ко микрофонуңузду жеткиликтүү кылыңыз."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Кирүүгө уруксат берүү"
-  },
-  "icu:showSettings": {
-    "messageformat": "Тууралоону көрсөтүү"
   },
   "icu:audio": {
     "messageformat": "Аудио"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Жаңыртуу мүмкүн эмес"
-  },
-  "icu:muted": {
-    "messageformat": "Үнсүз"
   },
   "icu:mute": {
     "messageformat": "Үнүн басуу"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Жокко чыгаруу"
   },
-  "icu:failedToSend": {
-    "messageformat": "Кээ бир алуучуларга жөнөтүлгөн жок. Тармак байланышыңызды текшериңиз."
-  },
   "icu:error": {
     "messageformat": "Ката"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Билдирүүнүн чоо-жайы"
   },
   "icu:delete": {
     "messageformat": "Өчүрүү"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Жөнөтүүчү"
   },
-  "icu:to": {
-    "messageformat": "Алуучу"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} -> {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Билдирүү"
   },
-  "icu:groupMembers": {
-    "messageformat": "Топтун мүчөлөрү"
-  },
   "icu:showMembers": {
     "messageformat": "Мүчөлөрдү көрсөтүү"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Сиз"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "“{title}” Signal'да коюлган профилдин аталышы."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Ырасталды"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} системаңыздагы байланыштар тизмесинде"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Коопсуздук кодун көрүү"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Эскертме"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Акыркы медианы көрүү"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Сиз бул адам менен эч кандай байланышка чыккан жоксуз. Коопсуздук коду биринчи билдирүү жөнөтүлгөндөн кийин жеткиликтүү болот."
   },
   "icu:back": {
     "messageformat": "Артка"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "{oldTitle} менен маектешип баштадыңыз"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Цитаталанган билдирүүдөгү сүрөттүн эскизи"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Сүрөт билдирүүгө тиркелген"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Баштапкы абалга келтирүү"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Файл сүрөтчөсү"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Signal Desktop'ко кош келиңиз"
-  },
-  "icu:installTagline": {
-    "messageformat": "Купуялык мүмкүн. Signal аны оңой кылат."
   },
   "icu:linkedDevices": {
     "messageformat": "Байланышкан түзмөктөр"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Топ өтө чоң болгондуктан, андагыларга чала албайсыз"
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Шыңгырабаган билдирүүлөр"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Шыңгыроону иштетүү"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Шыңгырды өчүрүү"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Азырынча эч ким жок"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Бул чалууда · 1 адам"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Бул чалууда · {people} адам"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {Бул чалууда · {people,number} адам}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Камерага кирүүгө уруксат берүү"
   },
-  "icu:general": {
-    "messageformat": "Жалпы"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Билдирүү кутучасына киргизилген тексттин туура жазылганы текшерилет"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Signal Desktop'тун бул версиясындагы бардык нерселерди жана билдирүүлөрдү өчүрөсүзбү? Бул иш тактага кайра каалаган убакта туташсаңыз болот, бирок билдирүүлөрүңүз калыбына келбейт. Signal аккаунтуңуз жана телефонуңуздагы жана башка байланышкан түзмөктөрдөгү нерселер өчпөйт."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Бардык берилмелерди өчүрүү"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Өчүрүү жана бардык берилмелерди жок кылуу"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Эски берилмелерди өчүрүү"
-  },
-  "icu:notifications": {
-    "messageformat": "Билдирмелер"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Билдирүүлөр келгенде, төмөнкү билдирмелерди көрсөтүңүз:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Билдирмелерди өчүрүү"
   },
   "icu:nameAndMessage": {
     "messageformat": "Аты, мазмуну жана аракеттер"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Жарым-жартылай өчүрүлдү. Кайра аракет кылуу үчүн басыңыз."
   },
-  "icu:showMore": {
-    "messageformat": "Чоо-жайы"
-  },
-  "icu:showLess": {
-    "messageformat": "Чоо-жайын жашыруу"
-  },
-  "icu:learnMore": {
-    "messageformat": "Коопсуздук коддорун текшерүү жөнүндө көбүрөөк билип алыңыз"
-  },
   "icu:expiredWarning": {
     "messageformat": "Бул Signal Desktop версиясынын мөөнөтү бүттү. Билдирүүлөр менен бөлүшүүнү улантуу үчүн акыркы версияга жаңыртыңыз."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Медиа билдирүү"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Номер катталган эмес"
-  },
   "icu:sync": {
     "messageformat": "Байланыштарды импорттоо"
   },
   "icu:syncExplanation": {
     "messageformat": "Мобилдик түзмөгүңүздөн бардык Signal'дагы топторду жана байланыштарды импорттоо."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Акыркы импорттоо убактысы"
   },
   "icu:syncNow": {
     "messageformat": "Азыр импорттоо"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Бул колдонуучу менен билдирүү алмашмайынча аны ырастоо мүмкүн эмес."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "{name1} менен коопсуздук номериңиз:"
-  },
   "icu:themeLight": {
     "messageformat": "Ачык"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Меню тилкесин жашыруу"
-  },
-  "icu:startConversation": {
-    "messageformat": "Жаңы маек баштоо"
   },
   "icu:newConversation": {
     "messageformat": "Жаңы маек"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Топ жаңыртылган жок. Интернетке туташууңузду текшерип, кайра аракет кылыңыз."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS билдирүүлөрү колдоого алынбайт."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Байланышты кошуу үчүн телефон номурун киргизиңиз."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Жараксыз номер"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Кабарлашууну улантуу үчүн чыкылдатуу менен Signal Desktop'ту мобилдик түзмөгүңүзгө кайра туташтырыңыз."
   },
   "icu:unlinked": {
     "messageformat": "Ажыратылды"
-  },
-  "icu:relink": {
-    "messageformat": "Кайра туташтыруу"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Жаңы версия бар"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Signal'ды кайра иштетүү"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Азыр эмес"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Жаңыртууга көңүл бурбоо"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Жазышуу өтүнүчү"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Бөгөттөлдү"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Долбоор:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Мөөнөтү бүттү"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Карап көрүү"
-  },
   "icu:message--donation--view": {
     "messageformat": "Карап көрүү"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Стикерлер топтому орнотулбай койду"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Стикерлер"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Жеткиликтүү"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, other {{group1}, {group2}, {group3} жана {remainingCount,number} башка топтун мүчөсү}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} сизди топко кошту."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Орток топтор жок"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Тууралоо"
-  },
-  "icu:calling__participants": {
-    "messageformat": "Чалууда {people}"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, other {{people,number} ушул чалууда катышууда}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Төшбелгиде үнү басылган билдирүүлөрдүн саны көрүнсүн"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Билдирүү"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Ылакап ат"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Админ катары алып салуу"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Иштетилгенде, бул 1:1 маекте жөнөтүлгөн жана алынган билдирүүлөр көрүнгөндөн кийин жок болот."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Ылакап ат"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Аракеттер"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Өчүрүү"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Ылакап атты өчүрөсүзбү?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Ылакап ат менен кыска жазуу биротоло өчөт."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Билдирмелер"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Баарын көрүү"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Ылакап ат"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Ылакап аттар менен кыска жазуулар Signal'да сакталып, баштан аяк шифрленет. Аларды өзүңүз гана көрөсүз."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Аты"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Аты"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Фамилия"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Фамилия"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Эскертме"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Эскертме"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Айтып өтүүлөр"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "\"{name}\" жөнөткөн өтүнүчтү четке кагасызбы? Ал топко шилтеме аркылуу кошулууну экинчи өтүнө албай калат."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Сиз тарабынан чакырылган"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Сиз тарабынан чакырылган"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Башка дарекке 30 чейин билдирүү жөнөтө аласыз"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Топтун сүрөтүн кошуу"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Сүрөт кошуу"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Сүрөттү өзгөртүү"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Сүрөт жүктөө"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Сүрөттү алып салуу"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Байланышты алып салуу"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Макул"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, other {{count,number} чакыруу жөнөтүлдү}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, other {Бул ыңгайлаштырылган түс {num,number} маекте колдонулат. Аны бардык маектерден өчүргүңүз келеби?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Жалпы маектин түсү"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Маектин түсү"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Мындай колдонуучу ат жок"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Мындай ат бар."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Колдонуучу атыңыз сакталган жок. Интернетке туташууңузду текшерип, кайра аракет кылыңыз."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Колдонуучу аты өчүрүлүүдө"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Колдонуу атын өчүрүү"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Колдонуучу атыңыз, ошондой эле QR кодуңуз менен шилтемеңиз өчүп калат. Башкалар “{username}” колдонуучу атын талап кыла алышат. Чын элеби?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Колдонуучу атын көчүрүү"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Шилтемени көчүрүү"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Өчүрүү"
@@ -4577,12 +4382,6 @@
   "icu:Preferences--messaging": {
     "messageformat": "Билдирүү алмашуу"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "Менин телефон номеримди көрө алат"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Мени телефон номерим боюнча таба алат"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "Билдирүүнүн окулгандыгын кабарлоо"
   },
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Текст кошуу"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Стикерлер"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Кесүү жана айландыруу"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Контур"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Астын сызуу"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Калем"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Кулпулоо"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Кесүү"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Билдирүү кошуу"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Эркин форма"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Жаңы окуя"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Бул окуянын аталышы өзүңүзгө гана көрүнөт."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Жеке окуя"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Signal'дагы бардык байланыштар"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Бардык байланыштар менен бөлүшүү"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Ушулардан башкалар..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {{num,number} адамга көрүнбөйт}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Ушулар менен гана бөлүшүү..."
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Тандалган байланыштарга гана көрүнөт"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} адам"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Окуяңызды кимдер көрө алат. Өзгөрүүлөрдүн буга чейин жөнөтүлгөн окуяларга таасири тийбейт. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Администраторлор гана бул топко окуяларды жөнөтө алышат."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, other {Бардык Signal байланыштары · {viewersCount,number} көрүүчү}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, other {Бардык Signal байланыштары · {excludedCount,number} адам чыгып кетти}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, other {Жеке окуя · {viewersCount,number} жолу көрүлдү}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, other {Топтук окуя · {membersCount,number} мүчө}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Окуяларды бөлүшүү жана көрүү"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Шилтеме кошуу"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Текст кошуу"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Кадимки"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Топтук чалуу"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Чалуу шилтемеси"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Эч нерсе жок."
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "Бул жаңы версияда бир катар мүчүлүштүктөр тазаланып, сүйлөшүүлөр иргелди. Эми байланыштын начардыгы менен шартталган DNS тайм-ауттарында колдонмо ыкчам аракеттерди көрөт."
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "★ Signal'да ким менен сүйлөшпөңүз, алар системаңыздагы байланыштар тизмесинде жок болсо да, колдонуучу атыңыз менен сүйлөшө бересиз. Досуңузга ылакап ат кошуп же кайсы жерде таанышканыңарды эстеп калгыңыз келсе, кыска жазуулар жана ылакап аттар менен Signal'дагы байланыштарыңыз тууралуу кошумча маалымат сактап кое аласыз. Алар баштан аяк шифрленип, Signal'дын PIN коду менен корголгондуктан, телефонуңузду жоготуп алсаңыз да, коопсуз сакталат."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Эми Signal'ды Linux'тагы системдик суурмаңызга ылайыктап кичирейте аласыз. Тапшырмалар тактасы боз түстө болсо, анда алтын аякта сизди билдирүүлөр күтүп жатса керек."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Windows'ту колдонгондор үчүн бул жаңы версияда окула элек билдирүүлөр кайра Signal'дын сүрөтчөсүндө көрүнөт. \"9+\" деген сүрөтчө менен коштошуп, 11 (же андан жогору) тосуп алыңыз."
   }
 }

@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Skatīt arhīvu"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Sarunas krāsa"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Aktualizēt Signālu"
-  },
   "icu:loading": {
     "messageformat": "Ielādē…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Var piespraust 4 sarunas"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Izvēlēties mapi"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Izvēlēties failu"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Ielādēt datus"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Jūs tikko pabeidzāt eksportēšanas procesu, un jūsu kontaktpersonas un ziņas ir gatavas importēšanai jūsu datorā. Atlasiet mapi, kurā ir saglabāti Signal dati."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Izvēlēties direktoriju ar eksportētajiem datiem"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Kaut kas sagāja grīstē!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Kontaktpersonu un ziņu ielādēšana"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Pārliecinieties, vai izvēlējāties pareizo direktoriju, kurā ir saglabāti Signal dati. Tā nosaukumam jāsākas ar “Signal Export”. Varat arī saglabāt jaunu datu kopiju no Chrome lietotnes."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Ja šīs darbības nav efektīvas, iesniedziet atkļūdošanas žurnālu (Skatīt -> Atkļūdošanas žurnāls), lai saņemtu palīdzību migrēšanā."
-  },
-  "icu:importAgain": {
-    "messageformat": "Izvēlēties mapi un mēģināt vēlreiz"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Izdevās!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Sākt lietot Signal Desktop versiju"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Saistīt šo ierīci ar tālruni"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "jūsu atlasītā atrašanās vieta"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Jaunina datu bāzi. Šis process var ieilgt…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, zero {Notiek {daysAgo,number} dienas vecu ziņu ielāde…} one {Notiek 1 dienu vecu ziņu ielāde…} other {Notiek {daysAgo,number} dienas vecu ziņu ielāde…}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Jauni pieminējumi tālāk"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 nelasīta ziņa"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, zero {{count,number} nelasītu ziņu} one {{count,number} nelasīta ziņa} other {{count,number} nelasītas ziņas}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "Jūs atzīmējāt savu drošības kodu ar {name} kā nepārbaudītu no citas ierīces"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Kopš pēdējās verifikācijas jūsu drošības kodi ar šiem grupas dalībniekiem ir mainījušies. Noklikšķiniet uz grupas dalībnieka, lai kopā ar viņu redzētu savu jauno drošības kodu."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Jūsu drošības kods ar  ir mainījies. Pārskatiet savu jauno drošības kodu ar {name1}. Ņemiet vērā, ka šī izmaiņa var nozīmēt, ka kāds mēģina pārtvert jūsu saziņu, vai arī  {name2} savā ierīcē pārinstalēja Signal."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Darbības stāstam {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Jūsu drošības kods ar {name1} ir mainījies. Tas varētu nozīmēt vai nu to, ka kāds mēģina pārtvert jūsu saziņu, vai arī {name2} savā ierīcē pārinstalēja Signal. Iespējams, vēlaties pārbaudīt savu drošības kodu ar šo kontaktpersonu."
-  },
   "icu:sendAnyway": {
     "messageformat": "Sūtīt vienalga"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Turpināt zvanu"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Jūsu drošības kods ar {name} ir mainījies un vairs nav verificēts. Noklikšķiniet, lai parādītu."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Jūsu drošības kodi ar vairākiem šīs grupas dalībniekiem ir mainīti un vairs nav verificēti. Noklikšķiniet, lai parādītu."
   },
   "icu:debugLogExplanation": {
     "messageformat": "Kad noklikšķināsiet uz \"Iesniegt\", jūsu žurnāls tiks publicēts un 30 dienas būs pieejams tiešsaistē ar unikālu, nepublisku URL. Varat to vispirms saglabāt lokāli."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Sazināties ar atbalstu"
   },
-  "icu:gotIt": {
-    "messageformat": "Pieleca!"
-  },
   "icu:submit": {
     "messageformat": "Iesniegt"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Apstiprināt"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Atzīmēt kā apstiprinātu"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Lasīt vairāk"
   },
-  "icu:isVerified": {
-    "messageformat": "Jūs pārbaudījāt savu drošības kodu ar {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "Jūs nepārbaudījāt savu drošības kodu ar {name}."
-  },
   "icu:verified": {
     "messageformat": "Pārbaudīts(verificēts)"
   },
   "icu:newIdentity": {
     "messageformat": "Nav drošības numura"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Jūsu drošības numurs ar šo kontaktu ir mainījies. Tas varētu nozīmēt vai nu to, ka kāds mēģina pārtvert (noklausīties) jūsu saziņu, vai arī šī kontaktpersona savā ierīcē vienkārši pārinstalēja Signālu. Iespējams, vēlēsities pārbaudīt zemāk redzamo jauno drošības numuru."
   },
   "icu:incomingError": {
     "messageformat": "Kļūme, apstrādājot ienākošo ziņu"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Neatbalstīts pielikuma tips. Noklikšķināt, lai saglabātu."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Noklikšķiniet, lai saglabātu"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Fails bez nosaukuma"
   },
   "icu:voiceMessage": {
     "messageformat": "Balss ziņojums"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Oriģinālā ziņa netika atrasta"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Sākotnējā ziņa ir atrasta, bet nav ielādēta. Ritiniet uz augšu, lai to ielādētu."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Sākt ierakstīt balss ziņu"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Pabeigt un nosūtīt balss ziņu"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Atcelt balss ziņu"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Balss ziņu ierakstīšana tika pārtraukta, jo tika sasniegts maksimālais laika ierobežojums."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Balss ziņu ierakstīšana tika pārtraukta, jo pārslēdzāties uz citu lietotni."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Maksimālais balss ziņas garums ir viena stunda. Ierakstīšana tiks pārtraukta, ja atvērsiet citu lietotni."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Jūs"
   },
-  "icu:replyingTo": {
-    "messageformat": "Atbilde {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Lai nosūtītu balss ziņas, ļaujiet lietotnes Signal Desktop versijai piekļūt ierīces mikrofonam."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Atļaut piekļuvi"
-  },
-  "icu:showSettings": {
-    "messageformat": "Rādīt iestatījumus"
   },
   "icu:audio": {
     "messageformat": "Audio"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Nevar atjaunināt"
-  },
-  "icu:muted": {
-    "messageformat": "Izslēgta skaņa"
   },
   "icu:mute": {
     "messageformat": "Izslēgt"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Atcelt"
   },
-  "icu:failedToSend": {
-    "messageformat": "Neizdevās nosūtīt dažiem adresātiem. Pārbaudiet tīkla savienojumu."
-  },
   "icu:error": {
     "messageformat": "Kļūda"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Ziņas dati"
   },
   "icu:delete": {
     "messageformat": "Dzēst"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "No"
   },
-  "icu:to": {
-    "messageformat": "Kam"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} grupā {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Ziņa"
   },
-  "icu:groupMembers": {
-    "messageformat": "Grupas dalībnieki"
-  },
   "icu:showMembers": {
     "messageformat": "Rādīt dalībniekus"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Jūs"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "\"{title}\" ir šīs personas iestatīts profila nosaukums platformā Signal."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Pārbaudīts(verificēts)"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} ir jūsu kontaktpersona sistēmā"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Skatīt drošības numuru"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Piezīme"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Skatīt jaunāko multivides saturu"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Jūs vēl neesat apmainījies ar ziņām ar šo kontaktpersonu. Jūsu drošības numurs ar viņu būs pieejams pēc pirmās ziņas."
   },
   "icu:back": {
     "messageformat": "Atpakaļ"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Jūs uzsākāt šo sarunu ar {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Attēla sīktēls no citētās ziņas"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Ziņai pievienots attēls"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Atstatīt"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Faila ikona"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Sveicināti Signāla galdvirsmas (desktop) lietotnē"
-  },
-  "icu:installTagline": {
-    "messageformat": "Privātums ir iespējams. Signāls padara to viegli īstenojamu."
   },
   "icu:linkedDevices": {
     "messageformat": "Saistītās ierīces"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Grupa ir pārāk liela, lai zvanītu dalībniekiem"
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Paziņot, nezvanīt"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Ieslēgt zvana signālu"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Izslēgt zvana signālu"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Te neviena nav"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Šajā zvanā · 1 cilvēks"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Šajā zvanā · {people} cilvēki"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, zero {Šajā zvanā · {people,number} cilvēks} one {Šajā zvanā · {people,number} cilvēks} other {Šajā zvanā · {people,number} cilvēki}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Atļaut piekļuvi kamerai"
   },
-  "icu:general": {
-    "messageformat": "Vispārīgi"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Pārbaudīt ziņu pareizrakstību teksta ievades laukā"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Vai dzēst visus datus un ziņas no šīs Signal Desktop versijas? Jebkurā brīdī varat atkārtoti piesaistīt Signal šim datoram, taču ziņas netiks atjaunotas. Jūsu Signal konts un dati tālrunī vai citās piesaistītās ierīcēs netiks dzēsti."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Dzēst visus datus"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Atvienojas un dzēš visus datus"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Dzēst vecos datus"
-  },
-  "icu:notifications": {
-    "messageformat": "Paziņojumi"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Kad pienāk ziņas, parādīt paziņojumus, kuri ietver:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Atspējot paziņojumus"
   },
   "icu:nameAndMessage": {
     "messageformat": "Vārds, saturs un darbības"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Daļēji dzēsta, noklikšķiniet, lai mēģinātu vēlreiz"
   },
-  "icu:showMore": {
-    "messageformat": "Sīkāki dati"
-  },
-  "icu:showLess": {
-    "messageformat": "Slēpt sīkākos datus"
-  },
-  "icu:learnMore": {
-    "messageformat": "Uzziniet vairāk par drošības numuru verificēšanu"
-  },
   "icu:expiredWarning": {
     "messageformat": "Šī Signāla galdvirsmas (desktop) versija ir novecojusi. Lai turpinātu ziņapmaiņu, lūdzu, paaugstiniet to uz jaunāko versiju."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Multivides ziņa"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Numurs nav reģistrēts"
-  },
   "icu:sync": {
     "messageformat": "Kontaktu importēšana"
   },
   "icu:syncExplanation": {
     "messageformat": "Importējiet visas Signal grupas un kontaktpersonas no savas mobilās ierīces."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Pēdējā importēšanas reize"
   },
   "icu:syncNow": {
     "messageformat": "Importēt tūlīt"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Šo lietotāju nevar verificēt, kamēr neesat apmainījušies ar ziņām."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Jūsu drošības kods ar {name1}:"
-  },
   "icu:themeLight": {
     "messageformat": "Gaišs"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Paslēpt izvēļņu joslu"
-  },
-  "icu:startConversation": {
-    "messageformat": "Sākt jaunu sarunu"
   },
   "icu:newConversation": {
     "messageformat": "Jauna saruna"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Grupu nevarēja atjaunināt. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS ziņas nav atbalstītas."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Lai pievienotu kontaktpersonu, ievadiet tālruņa numuru."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Nederīgs numurs"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Noklišķiniet, lai no jauna savienotu Signal Desktop ar jūsu mobilo ierīci un turpinātu ziņapmaiņu."
   },
   "icu:unlinked": {
     "messageformat": "Atsaistīts"
-  },
-  "icu:relink": {
-    "messageformat": "Atkārtoti saistīt"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Pieejams atjauninājums"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Pārstartēt Signālu"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Vēlāk"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Ignorēt atjauninājumu"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Ziņas pieprasījums"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Bloķēts"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Melnraksts:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Beidzies termiņš"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Skatīt"
-  },
   "icu:message--donation--view": {
     "messageformat": "Skatīt"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Uzlīmju komplektu nevarēja instalēt"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Uzlīmes"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Pieejams(-i)"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, zero {{group1}, {group2}, {group3} un vēl {remainingCount,number} citu grupu biedrs} one {{group1}, {group2}, {group3} un vēl {remainingCount,number} citas grupas biedrs} other {{group1}, {group2}, {group3} un vēl {remainingCount,number} citu grupu biedrs}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} pievienoja jūs grupai."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Nav kopēju grupu"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Iestatījumi"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} zvanā"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, zero {Zvanā piedalās {people,number}} one {Zvanā piedalās {people,number}} other {Zvanā piedalās {people,number}}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Iekļaut apklusinātas sarunas nozīmītes skaitītājā"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Ziņa"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Segvārds"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Noņemt grupas administratoru"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Ieslēdzot šo iestatījumu, šajā individuālajā sarunā nosūtītās un saņemtās ziņas pēc skatīšanas tiks dzēstas."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Segvārds"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Darbības"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Dzēst"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Dzēst segvārdu?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Segvārds un piezīme tiks neatgriezeniski dzēsti."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Paziņojumi"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Skatīt visus"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Segvārds"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Signal segvārdus un piezīmes glabā pilnīgi šifrētā veidā. Šo informāciju redzat tikai jūs."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Vārds"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Vārds"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Uzvārds"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Uzvārds"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Piezīme"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Piezīme"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Pieminējumi"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Noraidīt lietotāja \"{name}\" pieprasījumu? Lietotājs nevarēs izveidot vēl vienu pieprasījumu pievienoties grupai ar saiti."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Uzaicinājāt jūs"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Uzaicinājāt jūs"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Iespējams pārsūtīt ne vairāk kā 30 ziņas"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Pievienot grupas fotoattēlu"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Pievienot fotoattēlu"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Mainīt fotoattēlu"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Augšupielādēt fotoattēlu"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Noņemt attēlu"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Noņemt kontaktpersonu"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Labi"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, zero {Nosūtīti {count,number} uzaicinājumi} one {Uzaicinājums nosūtīts} other {Nosūtīti {count,number} uzaicinājumi}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, zero {Šī pielāgotā krāsa tiek izmantota {num,number} sarunās. Vai vēlaties to dzēst visām sarunām?} one {Šī pielāgotā krāsa tiek izmantota {num,number} sarunā. Vai vēlaties to dzēst visām sarunām?} other {Šī pielāgotā krāsa tiek izmantota {num,number} sarunās. Vai vēlaties to dzēst visām sarunām?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Vispārējā sarunas krāsa"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Sarunas krāsa"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Šis lietotājvārds nav pieejams."
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Šis lietotājvārds ir aizņemts."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Neizdevās saglabāt jūsu lietotājvārdu. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Lietotājvārds tiek dzēsts"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Dzēst lietotājvārdu"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Tādējādi tiks dzēsts jūsu lietotājvārds un atslēgts QR kods un saite. “{username}” būs pieejams citiem lietotājiem. Vai tiešām to vēlaties?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Kopēt lietotājvārdu"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Kopēt saiti"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Dzēst"
@@ -4577,12 +4382,6 @@
   "icu:Preferences--messaging": {
     "messageformat": "Ziņapmaiņa"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "Redzēt manu tālruņa numuru"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Atrast mani pēc tālruņa numura"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "Lasīšanas apliecinājumi"
   },
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Pievienot tekstu"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Uzlīmes"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Apgriezt un pagriezt"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Kontūra"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Pasvītrojums"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Pildspalva"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Bloķēt"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Apgriezt"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Pievienojiet ziņu"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Brīva forma"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Jauns stāsts"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Tikai jūs varat redzēt šī stāsta nosaukumu."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Pielāgotais stāsts"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Visas Signal kontaktpersonas"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Kopīgot ar visiem Signal draugiem"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Visi, izņemot…"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, zero {{num,number} neiekļautas personas} one {{num,number} neiekļauta persona} other {{num,number} neiekļautas personas}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Kopīgot tikai ar…"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Kopīgot tikai ar noteiktām personām"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} personas"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Izvēlieties, kas var redzēt jūsu stāstu Izmaiņas neietekmēs stāstus, ko jau esat nosūtījis. Uzziniet vairāk."
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Tikai administratori drīkst sūtīt stāstus uz šo grupu."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, zero {Visas Signal kontaktpersonas · {viewersCount,number} skatītāju} one {Visas Signal kontaktpersonas · {viewersCount,number} skatītājs} other {Visas Signal kontaktpersonas · {viewersCount,number} skatītāji}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, zero {Visas Signal kontaktpersonas · {excludedCount,number} nav iekļautas} one {Visas Signal kontaktpersonas · {excludedCount,number} nav iekļauta} other {Visas Signal kontaktpersonas · {excludedCount,number} nav iekļautas}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, zero {Privāts stāsts · {viewersCount,number} skatītāji} one {Privāts stāsts · {viewersCount,number} skatītājs} other {Privāts stāsts · {viewersCount,number} skatītāji}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, zero {Grupas stāsts · {membersCount,number} dalībnieki} one {Grupas stāsts · 1 dalībnieks} other {Grupas stāsts · {membersCount,number} dalībnieki}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Kopīgot un skatīt stāstus"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Pievienot saiti"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Pievienot tekstu"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Parasts"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grupas zvans"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Zvana saite"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nav neseno sarunu."
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "Tuvojoties pavasara tīrīšanai, šis atjauninājums atrisina dažas kļūdas, tostarp ir ieviesta konsekventāka sarunu kārtošana un uzlabota lietotnes darbība brīžos, kad rodas DNS meklēšanas noilgumi nestabila tīkla savienojuma dēļ."
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Ieviesām iespēju iestatīt pielāgotus segvārdus un pievienot piezīmes ikvienam Signal lietotājam, ar kuru sarunājaties, pat ja šie lietotāji nav saglabāti jūsu sistēmas kontaktpersonu sarakstā. Piezīmes un segvārdi ļauj ērti un droši pierakstīt papildinformāciju par jūsu Signal kontaktpersonām. Šī informācija tiek pilnībā šifrēta un aizsargāta ar jūsu Signal PIN kodu, tāpēc to varēsiet droši atjaunot arī tad, ja pazaudēsiet savu tālruni."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Tagad varat minimizēt Signal savā Linux sistēmas rīkjoslā. Ja jūsu rīkjosla ir pelēkā krāsā, šķitīs, ka ziņas jūs gaida kā uz sudraba paplātes."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Windows lietotājiem šis atjauninājums atjauno iespēju skatīt detalizētu nelasīto ziņu skaitu Signal ikonā. Atvadieties no \"9+\", jo tagad ikona rādīs arī \"11\" (un vairāk)."
   }
 }

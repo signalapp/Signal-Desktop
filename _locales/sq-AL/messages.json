@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Shihni Arkivin"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Ngjyra e sfondit të bisedës"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Përditësoni Signal-in"
-  },
   "icu:loading": {
     "messageformat": "Po ngarkohet…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Mund të fiksoni deri në 4 biseda"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Zgjidhni dosje"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Zgjidhni kartelë"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Ngarkoni të dhënat tuaja"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Sapo kaluat nëpër procesin e eksportimit, dhe kontaktet dhe mesazhet tuaj po presin me qetësi në kompjuterin tuaj. Përzgjidhni dosjen që përmban të dhëna tuajat Signal të ruajtura."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Zgjidhni drejtorinë me të dhënat e eksportuara"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Diç shkoi ters!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Po ngarkohen kontakte dhe mesazhe"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Sigurohuni se keni zgjedhur drejtorinë e duhur që përmban të dhënat tuaja Signal të ruajtura. Emri i saj duhet të fillojë me 'Signal Export.' Mundeni edhe të ruani një kopje të re të të dhënave tuaja që nga Aplikacioni Chrome."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Nëse këto hapa s’ju bëjnë punë, ju lutemi, parashtroni një regjistrim diagnostikimi (Shihni -> Regjistër Diagnostikimesh) që t’ju ndihmojmë të migroni!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Zgjidhni dosje dhe riprovoni"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Sukses!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Filloni të përdorni Signal-in për Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Lidheni këtë pajisje me telefonin tuaj"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "te vendi juaj parazgjedhje"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Po përmirësohet baza e të dhënave. Kjo mund të hajë ca kohë…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Po ngarkohen mesazhet e 1 dite më parë...} other {Po ngarkohen mesazhet e {daysAgo,number} ditëve më parë...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Përmendjet e reja më poshtë"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 Mesazh i Palexuar"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} mesazh i palexuar} other {{count,number} mesazhe të palexuara}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "I vutë shenjë si i paverifikuar nga një pajisje tjetër Numrit tuaj të Sigurisë për {name}"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Numrat tuaj të sigurisë me këta anëtarë grupi kanë ndryshuar që nga hera e fundit që i verifikuat. Klikoni një anëtar grupi që të shihni numrin tuaj të ri të sigurisë për me ta."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Numri i sigurisë që po provoni të verifikoni ka ndryshuar. Ju lutemi, shqyrtoni numrin tuaj të ri të sigurisë me {name1}. Mos harroni, ky ndryshim mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se {name2} has simply reinstalled Signal.thjesht ka riinstaluar Signal-in."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Veprimet për postimin e përkohshëm {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Numri juaj i sigurisë me {name1} ka ndryshuar. Kjo do të mund të thoshte se dikush po rreket të përgjojë komunikimin tuaj, ose se{name2} thjesht ka riinstaluar Signal-in. Mund të donit të verifikonit numrin tuaj të sigurisë me këtë kontakt."
-  },
   "icu:sendAnyway": {
     "messageformat": "Dërgoje, sido qoftë"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Vazhdoje Thirrjen"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Numri juaj i sigurisë për me {name} ka ndryshuar dhe s’është më i verifikuar. Klikoni që të shfaqet."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Numrat tuaj të sigurisë me një numër anëtarësh të këtij grupi kanë ndryshuar dhe s'janë më të verifikuar. Klikoni që të shfaqen."
   },
   "icu:debugLogExplanation": {
     "messageformat": "Kur klikoni mbi Parashtroje, regjistri juaj do të postohet në internet për 30 ditë, te një URL unike, e pabotuar më parë. Mundeni ta Ruani lokalisht, së pari."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Lidhuni Me Asistencën"
   },
-  "icu:gotIt": {
-    "messageformat": "E mora vesh!"
-  },
   "icu:submit": {
     "messageformat": "Parashtrojeni"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Pranoje"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Vëri shenjë si i verifikuar"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Mësoni më tepër"
   },
-  "icu:isVerified": {
-    "messageformat": "E verifikuat numrin tuaj të sigurisë me {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "S’e keni verifikuar numrin tuaj të sigurisë me {name}."
-  },
   "icu:verified": {
     "messageformat": "I verifikuar"
   },
   "icu:newIdentity": {
     "messageformat": "Numër i ri sigurie"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Numri juaj i sigurisë me këtë kontakt ka ndryshuar. Kjo mund të dojë të thotë se ose dikush po rreket të përgjojë komunikimin tuaj, ose se ky kontakt thjesht riinstaloi Signal-in. Mund të donit të verifikoni numrin e ri të sigurisë më poshtë."
   },
   "icu:incomingError": {
     "messageformat": "Gabim në trajtimin e mesazhit ardhës"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Lloj bashkëngjitjeje i pambuluar. Klikoni që të ruhet."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Klikoni që të ruhet"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Kartelë Pa Emër"
   },
   "icu:voiceMessage": {
     "messageformat": "Mesazh Zanor"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "S’u gjet mesazhi origjinal"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Mesazhi origjinal u gjet, por s’u ngarkua dot. Rrëshqitni më poshtë që të ngarkohet."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Filloni të regjistroni mesazh zanor"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Plotësoni mesazhin zanor dhe dërgojeni"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Anuloni mesazh zanor"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Incizimi i mesazhit zanor u ndal, ngaqë u mbërrit në kufi kohe maksimum."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Incizimi i mesazhit zanor u ndal, ngaqë kaluat te një tjetër aplikacion."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Mesazhet zanorë kufizohen në një orë. Incizimi do të ndalet, nëse kaloni te një tjetër aplikacion."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Ju"
   },
-  "icu:replyingTo": {
-    "messageformat": "Përgjigje për {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Për të dërguar mesazhe audio, autorizo Signal Desktop të përdorë mikrofonin tënd."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Lejoje Përdorimin"
-  },
-  "icu:showSettings": {
-    "messageformat": "Shfaq parametrat"
   },
   "icu:audio": {
     "messageformat": "Audio"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "S'përditësohet Dot"
-  },
-  "icu:muted": {
-    "messageformat": "Pa zë"
   },
   "icu:mute": {
     "messageformat": "Hiqi zërin"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Hidhe tej"
   },
-  "icu:failedToSend": {
-    "messageformat": "Dështoi dërgimi te disa marrës. Kontrolloni lidhjen tuaj në rrjet."
-  },
   "icu:error": {
     "messageformat": "Gabim"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Hollësi Mesazhi"
   },
   "icu:delete": {
     "messageformat": "Fshije"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Nga"
   },
-  "icu:to": {
-    "messageformat": "Për"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} për {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Mesazh"
   },
-  "icu:groupMembers": {
-    "messageformat": "Anëtarë grupi"
-  },
   "icu:showMembers": {
     "messageformat": "Shfaq anëtarët"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Ti"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "\"{title} \" është emri i profilit që ky person i ka vendosur vetes në Signal."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "I verifikuar"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} është në kontaktet e sistemit"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Shih numrin e sigurisë"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Shënim"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Shihni media së fundi"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "S’keni shkëmbyer ende ndonjë mesazh me këtë grup. Numri juaj i sigurisë me të do të jetë i passhëm pas mesazhit të parë."
   },
   "icu:back": {
     "messageformat": "Mbrapsht"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Ke nisur bisedën me {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Miniaturë e figurës nga mesazhi i cituar"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Figurë bashkëngjitur mesazhit"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Riktheje"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Ikonë kartele"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Mirë se vini te Signal Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "Privatësia është e mundur. Signal-i e bën të lehtë."
   },
   "icu:linkedDevices": {
     "messageformat": "Pajisje të Lidhura"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Grupi është shumë i madh për t’u rënë ziles së pjesëmarrësve."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Njofto, mos i bjer ziles"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Aktivizo rënien e ziles"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Çaktivizo zilen"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "S’ka tjetër këtu"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Në këtë thirrje · 1 person"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Në këtë thirrje · {people} vetë"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Në këtë thirrje · {people,number} person} other {Në këtë thirrje · {people,number} vetë}}"
@@ -1544,11 +1403,8 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Lejo përdorim të kamerës"
   },
-  "icu:general": {
-    "messageformat": "Të përgjithshme"
-  },
   "icu:spellCheckDescription": {
-    "messageformat": "Te kuadrati i hartimit të mesazhit u dha tekst kontrollori drejtshkrimi"
+    "messageformat": "Teksti i kontrollit drejtshkrimor u fut në kutinë e përbërjes së mesazhit"
   },
   "icu:textFormattingDescription": {
     "messageformat": "Shfaq menynë e formatimit të tekstit kur përzgjidhet teksti"
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Të fshihen të gjitha të dhënat dhe mesazhet nga versioni i Signal Desktop? Mund ta rilidhësh gjithmonë këtë desktop, por mesazhet e tua nuk do të rikthehen. Llogaria jote në Signal, si dhe të dhënat që gjenden në telefonin tënd apo në pajisje të tjera të lidhura nuk do të fshihen."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Fshiji të gjitha të dhënat"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Po bëhet shkëputja dhe fshirja e krejt të dhënave"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Fshiji të Dhënat e vjetra"
-  },
-  "icu:notifications": {
-    "messageformat": "Njoftime"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Kur mbërrijnë mesazhe, shfaq njoftime që lënë të duket:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Çaktivizoji njoftimet"
   },
   "icu:nameAndMessage": {
     "messageformat": "Emër, lëndë, dhe veprime"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Fshirë pjesërisht, kliko për ta provuar sërish"
   },
-  "icu:showMore": {
-    "messageformat": "Hollësi"
-  },
-  "icu:showLess": {
-    "messageformat": "Fshihi hollësitë"
-  },
-  "icu:learnMore": {
-    "messageformat": "Mësoni më tepër rreth verifikimit të numrave të sigurisë"
-  },
   "icu:expiredWarning": {
     "messageformat": "Ky version i Signal-it për Desktop ka skaduar. Ju lutemi, që të vazhdoni të shkëmbeni mesazhe, përmirësojeni me versionin më të ri."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Mesazh media"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Numri s’është i regjistruar"
-  },
   "icu:sync": {
     "messageformat": "Importo kontakte"
   },
   "icu:syncExplanation": {
     "messageformat": "Importoni krejt grupet dhe kontaktet Signal nga pajisja juaj celulare."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Importimi i fundit më"
   },
   "icu:syncNow": {
     "messageformat": "Importoji tani"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Ky përdorues s’mund të verifikohet përpara se të keni shkëmbyer mesazhe me të."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Numri juaj i sigurisë me {name1}:"
-  },
   "icu:themeLight": {
     "messageformat": "E çelët"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Fshihe shtyllën e menusë"
-  },
-  "icu:startConversation": {
-    "messageformat": "Fillo një bisedë të re"
   },
   "icu:newConversation": {
     "messageformat": "Bisedë e re"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "S’u arrit të përditësohej grupi. Kontrolloni lidhjen tuaj dhe riprovoni."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "Mesazhet SMS/MMS nuk mbulohen."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Jepni një numër telefoni që të shtohet një kontakt."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Numër i pavlefshëm"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Klikoni që të rilidhni Signal-in për Desktop me pajisjen tuaj celulare, që të vazhdohet puna me mesazhet."
   },
   "icu:unlinked": {
     "messageformat": "Jo e lidhur"
-  },
-  "icu:relink": {
-    "messageformat": "Rilidhe"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Ka përditësim të gatshëm"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Riniseni Signal-in"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Më vonë"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Shpërfille përditësimin"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Kërkesë Mesazhi"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Bllokuar"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Skicë:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Ka skaduar"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Shih"
-  },
   "icu:message--donation--view": {
     "messageformat": "Shih"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Paketa e ngjitësve s’u instalua dot"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Ngjitës"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Në dispozicion"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {Anëtar i {group1}, {group2}, {group3} dhe {remainingCount,number} të tjerë} other {Anëtar i {group1}, {group2}, {group3} dhe {remainingCount,number} të tjerë}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} ju shtoi te grupi."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "S’ka grupe të përbashkët"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Parametrat"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} në thirrje"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} në telefonatë} other {{people,number} në telefonatë}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Përfshi bisedat pa zë në numërimin e distinktivit"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Mesazh"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Pseudonimi"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Hiqe nga përgjegjës"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Kur aktivizohet, mesazhet e dërguar dhe të marrë në këtë bisedë 1:1 do të zhduken, pasi të jenë parë."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Pseudonimi"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Veprime"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Fshije"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Të fshihet pseudonimi?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Kjo do ta fshijë përgjithmonë pseudonimin dhe shënimin."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Njoftime"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Shihi të gjithë"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Pseudonimi"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Pseudonimet dhe shënimet ruhen në Singal dhe janë të koduara nga skaji në skaj. Ato shfaqen vetëm për ty."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Emër"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Emër"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Mbiemër"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Mbiemër"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Shënim"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Shënim"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Përmendje"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Të hidhet poshtë kërkesa prej “{name}”? S’do të jetë në gjendje të kërkojë prapë të marrë pjesë përmes një lidhje grupi."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Ftuar nga ju"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Ftuar nga ju"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Mund të përcjellësh deri në 30 mesazhe"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Shtoni foto grupi"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Shtoni një foto"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Ndryshoni foto"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Ngarkoni foto"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Hiqe foton"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Hiqe kontaktin"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "OK"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Ftesa u dërgua} other {{count,number} ftesat u dërguan}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {Kjo ngjyrë e personalizuar përdoret në {num,number} bisedë. Dëshiron ta fshish nga të gjitha bisedat?} other {Kjo ngjyrë e personalizuar përdoret në {num,number} biseda. Dëshiron ta fshish nga të gjitha bisedat?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Ngjyra e sfondit të të gjitha bisedave"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Ngjyra e sfondit të bisedës"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Ky emër përdoruesi nuk është i lirë"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Ky emër përdoruesi është i zënë."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Emri i përdoruesit nuk u ruajt. Kontrollo lidhjen dhe riprovo."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Emri i përdoruesit po fshihet"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Fshij emrin e përdoruesit"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Kjo do të heqë emrin tënd të përdoruesit dhe do të çaktivizojë kodin QR dhe lidhjen tënde. \"{username}\" do të jetë i disponueshëm për tu përdorur nga të tjerët. Je i sigurt?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Kopjo emrin e përdoruesit"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Kopjo linkun"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Fshije"
@@ -4521,7 +4326,7 @@
     "messageformat": "Lëndë njoftimi"
   },
   "icu:Preferences--blocked": {
-    "messageformat": "E bllokuar"
+    "messageformat": "Bllokuar"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakte}}"
@@ -4576,12 +4381,6 @@
   },
   "icu:Preferences--messaging": {
     "messageformat": "Shkëmbim Mesazhesh"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "Shohë numrin tim të telefonit"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Gjemë që nga numri im i telefonit"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Dëftesa leximi"
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Shtoni tekst"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Ngjitës"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Qethe dhe rrotulloje"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Përvijim"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Nënvizim"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Penë"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Kyçe"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Qethe"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Shtoni një mesazh"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Freeform"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Story e re"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Vetëm ti mund ta shohësh emrin e këtij postimi të përkohshëm."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Postim i përkohshëm i personalizuar"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Të gjitha kontaktet e Signal"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Shpërndaj me të gjitha kontaktet"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Të gjithë përveç..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} persona të përjashtuar} other {{num,number}persona të përjashtuar}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Shpërndaje vetëm me…"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Shpërndaj vetëm me personat e zgjedhur"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} persona"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Zgjidh kush mund ta shohë postimin tënd të përkohshëm. Ndryshimet nuk zbatohen për postimet e përkohshme tashmë të dërguara. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Vetëm administratorët mund të dërgojnë postime të përkohshme në këtë grup."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Të gjitha kontaktet e Signal · {viewersCount,number} shikues} other {Të gjitha kontaktet e Signal · {viewersCount,number} shikuesa}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Të gjitha kontaktet e Signal · {excludedCount,number} i përjashtuar} other {Të gjitha kontaktet e Signal · {excludedCount,number} të përjashtuar}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Postim i përkohshëm privat · {viewersCount,number} shikues} other {Postim i përkohshëm privat · {viewersCount,number} shikues}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Postimet e përkohshme të grupit · 1 anëtar} other {Postimet e përkohshme të grupit · {membersCount,number} anëtarë}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Shpërnda dhe shiko postimet e përkohshme"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Shto lidhje"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Shtoni tekst"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "E rregullt"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Thirrje grupi"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Lidhja e thirrjes"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nuk ka biseda të fundit."
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "Përditësimi rregullon disa gabime pikërisht në kohën e pastrimit pranveror, duke përfshirë logjikën më të qëndrueshme të renditjes së bisedave dhe përmirësimin e sjelljes në rastet kur aplikacioni ndesh afate të shkurtra kohore kërkimeve DNS për shkak të lidhjes së dobët të rrjetit."
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Shtuam mbështetje për pseudonimet dhe shënimet e personalizuara për këdo që po bisedon në Signal, edhe nëse nuk i ke në kontaktet e sistemit. Pavarësisht nëse shton germa që mungojnë në emrin e profilit të mikut dembel apo kujtesa për vendin e takimit, shënimet dhe pseudonimet ofrojnë mënyra të përshtatshme dhe të sigurta për të shënuar detaje shtesë rreth kontakteve në Signal — janë të koduara nga skaji në skaj e të mbrojtura me PIN, që të rikthehen me siguri edhe nëse humb telefoni."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Tani mund ta minimizosh Signal në tabelën e sistemit në Linux. Nëse shiriti i detyrave ka nuancën e duhur gri, atëherë mesazhet të presin si në një pjatë argjendi."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Për përdoruesit në Windows, përditësimi rimundëson mbështetjen për numrin e detajuar të mesazheve të palexuara në ikonën Signal. Thuaj lamtumirë \"9+\" pasi ikona tani shkon në 11 (ose më lart)."
   }
 }

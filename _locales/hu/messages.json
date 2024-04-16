@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Archívum megtekintése"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Csevegés színe"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Signal frissítése"
-  },
   "icu:loading": {
     "messageformat": "Betöltés…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Max. 4 csevegést rögzíthetsz"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Mappa kiválasztása"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Fájl kiválasztása"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Adataid betöltése"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Sikeresen befejezted az exportálást, és most kontaktjaid, valamint üzeneteid türelmesen várnak számítógépeden. Válaszd ki a lementett Signal adataidat tartalmazó könyvtárat!"
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Válaszd ki az exportált adatok helyét!"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Probléma merült fel!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Kontaktok és üzenetek betöltése"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Győződj meg róla, hogy a megfelelő, Signal adataidat tartalmazó könyvtárat választottad ki! A nevének 'Signal Export'-tal kell kezdődnie. Emellett készíthetsz egy új másolatot a Chrome alkalmazás adataiból is."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Ha ezek a lépések nem segítenek, kérlek küldd el részünkre a fejlesztői naplófájlt (Nézet -> Fejlesztói napló), hogy segíthessünk az átállásban!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Könyvtár kiválasztása, újrapróbálkozás"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Siker!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "A Signal Desktop használatának megkezdése"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Jelenlegi eszköz párosítása telefonoddal"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "kiválasztott könyvtár"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Adatbázis frissítése. Ez eltarthat egy darabig…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {1 nappal ezelőtti üzenetek betöltése…} other {{daysAgo,number} nappal ezelőtti üzenetek betöltése…}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Új említések alább"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 olvasatlan üzenet"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} olvasatlan üzenet} other {{count,number} olvasatlan üzenet}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "Biztonsági számodat korábban nem hitelesnek jelölted {name} nevű partnereddel egy másik eszközön."
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Biztonsági számaid a csoport tagjaival megváltoztak az utolsó hitelesítés óta. Kattints a csoport egy tagjára, hogy megjelenítsd új biztonsági számaitokat!"
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "A hitelesítés alatt álló biztonsági szám megváltozott. Kérlek ellenőrizd új biztonsági számodat {name1} nevű partnereddel! Ez utalhat arra, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy {name2} egyszerűen csak újratelepítette a Signalt."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Műveletek a(z) {story} Történettel kapcsolatban"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Biztonsági számod {name1} nevű partnereddel megváltozott. Ez utalhat arra, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy {name2} egyszerűen csak újratelepítette a Signalt. Javasolt újraellenőrizni a partnereddel közös biztonsági számotokat."
-  },
   "icu:sendAnyway": {
     "messageformat": "Küldés így is"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Hívás folytatása"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Biztonsági számod {name} nevű partnereddel megváltozott, ezért már nincs hitelesítve. Kattints a megjelenítéshez!"
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "A korábban egyeztetett biztonsági számod egy része a csoport több tagjával is megváltozott, így már nem hitelesítettek. Kattints a megjelenítéshez!"
   },
   "icu:debugLogExplanation": {
     "messageformat": "A Küldés gombra nyomva a hibanaplód egy egyedi, nem publikus online tárhelyre kerül feltöltésre, ahonnan 30 nap után törlődik. Ha gondolod, mentsd el előbb a készülékedre is."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Kapcsolatfelvétel a támogatással"
   },
-  "icu:gotIt": {
-    "messageformat": "Rendben!"
-  },
   "icu:submit": {
     "messageformat": "Küldés"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Elfogadás"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Megjelölés ellenőrzöttként"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Tudj meg többet!"
   },
-  "icu:isVerified": {
-    "messageformat": "Biztonsági számodat {name} nevű partnereddel már hitelesítetted."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "A {name} nevű partnereddel közös biztonsági számod nincs hitelesítve."
-  },
   "icu:verified": {
     "messageformat": "Ellenőrzött"
   },
   "icu:newIdentity": {
     "messageformat": "Új biztonsági szám"
-  },
-  "icu:identityChanged": {
-    "messageformat": "A partnerhez kapcsolódó biztonsági számod megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetést. De az is előfordulhat, hogy partnered egyszerűen újratelepítette a Signalt. Lentebb lehetőséged van az új biztonsági szám hitelesítésére."
   },
   "icu:incomingError": {
     "messageformat": "Nem sikerült kezelni a bejövő üzenetet."
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Ez a csatolmánytípus nem támogatott. Kattints ide a lementéséhez!"
-  },
-  "icu:clickToSave": {
-    "messageformat": "Kattints a mentéshez!"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Névtelen fájl"
   },
   "icu:voiceMessage": {
     "messageformat": "Hangüzenet"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Az eredeti üzenet nem található"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Az eredeti üzenet ugyan létezik, de még nincs betöltve. Görgess fel a betöltéséhez!"
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Hangüzenet rögzítésének indítása"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Hangüzenet befejezése és küldése"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Hangüzenet elvetése"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "A hangüzenet rögzítése megállt, mert elérted a maximálisan rögzíthető időtartamot."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "A hangüzenet rögzítése megállt, mert átváltottál egy másik alkalmazásra."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "A hangüzenetek maximális hossza egy óra. A rögzítés megáll, ha átváltasz egy másik alkalmazásra."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Te"
   },
-  "icu:replyingTo": {
-    "messageformat": "Válasz neki: {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Hangüzenetek küldéséhez engedélyezd, hogy a Signal Desktop hozzáférjen a mikrofonodhoz!"
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Hozzáférés engedélyezése"
-  },
-  "icu:showSettings": {
-    "messageformat": "Beállítások megjelenítése"
   },
   "icu:audio": {
     "messageformat": "Hang"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Sikertelen frissítés"
-  },
-  "icu:muted": {
-    "messageformat": "Némítva"
   },
   "icu:mute": {
     "messageformat": "Némítás"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Elvetés"
   },
-  "icu:failedToSend": {
-    "messageformat": "Nem sikerült elküldeni az üzenetet néhány címzettnek. Ellenőrizd a hálózati kapcsolatot!"
-  },
   "icu:error": {
     "messageformat": "Hiba"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Üzenet részletei"
   },
   "icu:delete": {
     "messageformat": "Törlés"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Feladó"
   },
-  "icu:to": {
-    "messageformat": "Címzett"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} → {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Üzenet"
   },
-  "icu:groupMembers": {
-    "messageformat": "Csoport tagjai"
-  },
   "icu:showMembers": {
     "messageformat": "Csoporttagok megjelenítése"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Te"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "A(z) „ {title}” az a profilnév, amelyet ez a személy beállított magának a Signalban."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Ellenőrzött"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} szerepel a rendszernévjegyeid között"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Biztonsági szám megjelenítése"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Megjegyzés"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Friss médiafájlok megtekintése"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Még nem váltottál üzenetet ezzel a partnerrel. Biztonsági számod az első üzenet elküldését követően lesz elérhető."
   },
   "icu:back": {
     "messageformat": "Vissza"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Elkezdtél csevegni {oldTitle} felhasználóval"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Az idézett üzenetben megjelenített fotó előnézeti képe"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Üzenethez csatolt kép"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Visszaállítás"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Fájl ikon"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Üdvözöl a Signal Desktop!"
-  },
-  "icu:installTagline": {
-    "messageformat": "A magánélet védelme nem lehetetlen. A Signal ezt egyszerűvé teszi."
   },
   "icu:linkedDevices": {
     "messageformat": "Párosított eszközök"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "A csoport túl nagy ahhoz, hogy minden tagot fel lehessen hívni."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Értesítsen, de ne csengessen"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Csengetés engedélyezése"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Csengés kikapcsolása"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Nincs itt senki más"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Ebben a hívásban · 1 személy"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Ebben a hívásban · {people} személy"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Ebben a hívásban · {people,number} személy} other {Ebben a hívásban · {people,number} személy}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Hozzáférés engedélyezése a kamerához"
   },
-  "icu:general": {
-    "messageformat": "Általános"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Az üzenetszerkesztő dobozba gépelt szöveg helyesírás-ellenőrzése"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Törlöd az összes adatot és üzenetet a Signal Desktop ezen verziójából? Ezt az asztali számítógépet bármikor újra összekapcsolhatod, de az üzenetek nem állnak helyre. A Signal-fiókod és a telefonodon vagy más társított eszközökön lévő adatok nem törlődnek."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Összes adat törlése"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Lecsatlakozás és összes adat törlése"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Régi adatok törlése"
-  },
-  "icu:notifications": {
-    "messageformat": "Értesítések"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Amikor üzenet érkezik, jelenítse meg a következőket:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Értesítések letiltása"
   },
   "icu:nameAndMessage": {
     "messageformat": "Név, tartalom és tevékenységek"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Csak részben törölve, kattints a teljeshez"
   },
-  "icu:showMore": {
-    "messageformat": "Részletek"
-  },
-  "icu:showLess": {
-    "messageformat": "Részletek elrejtése"
-  },
-  "icu:learnMore": {
-    "messageformat": "Tudj meg többet a bizonsági számok ellenőrzéséről!"
-  },
   "icu:expiredWarning": {
     "messageformat": "A Signal Desktop ezen verziója elavult. Kérlek frissíts a legújabb verzióra, hogy folytatni tudd a beszélgetést!"
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Médiaüzenet"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "A telefonszám nincs regisztrálva"
-  },
   "icu:sync": {
     "messageformat": "Kontaktok importálása"
   },
   "icu:syncExplanation": {
     "messageformat": "Az összes Signal csoport és kontakt importálása mobileszközödről."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Utolsó importálás:"
   },
   "icu:syncNow": {
     "messageformat": "Importálás"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Ezt a felhasználót nem jelölheted ellenőrzöttnek, míg nem váltottatok üzenetet egymással."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Közös biztonsági számotok (partner: {name1}):"
-  },
   "icu:themeLight": {
     "messageformat": "Világos"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Menü elrejtése"
-  },
-  "icu:startConversation": {
-    "messageformat": "Új csevegés indítása"
   },
   "icu:newConversation": {
     "messageformat": "Új csevegés"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "A csoport frissítése nem sikerült. Ellenőrizd a hálózatodat, majd próbáld újra!"
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "Az SMS/MMS üzenetek nem támogatottak."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Telefonszám"
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Érvénytelen telefonszám"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Párosítsd újra a Signal Desktopot mobilkészülékeiddel a beszélgetés folytatásához!"
   },
   "icu:unlinked": {
     "messageformat": "Nincs párosítva"
-  },
-  "icu:relink": {
-    "messageformat": "Újrapárosítás"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Frissítés érhető el"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Signal újraindítása"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Később"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Frissítés kihagyása"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Kezdeményezett beszélgetés"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Letiltva"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Piszkozat:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Lejárt"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Megtekintés"
-  },
   "icu:message--donation--view": {
     "messageformat": "Megtekintés"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "A matricacsomagot nem sikerült telepíteni"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Matricák"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Elérhető"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {{group1}, {group2}, {group3} és további {remainingCount,number} csoport tagja} other {{group1}, {group2}, {group3} és további {remainingCount,number} csoport tagja}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} hozzáadott a csoporthoz."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Nincsenek közös csoportok"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Beállítások"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} személy a hívásban"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} személy a hívásban} other {{people,number} személy a hívásban}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Némított csevegések beszámítása az értesítésszámlálóba"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Üzenet"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Becenév"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Admin jogosultság elvétele"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Bekapcsolt állapotban az egymás közt váltott üzeneteitek megtekintésük után eltűnnek."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Becenév"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Műveletek"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Törlés"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Becenév törlése?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Ezzel véglegesen törli ezt a becenevet és jegyzetet."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Értesítések"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Összes megtekintése"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Becenév"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "A beceneveket és megjegyzéseket a rendszer Signal és végpontok közötti titkosítással tárolja. Ezek csak számodra láthatók."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Keresztnév"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Keresztnév"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Vezetéknév"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Vezetéknév"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Megjegyzés"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Megjegyzés"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Említések"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Megtagadod a kérést \"{name}\" felhasználótól? A jövőben nem lesz képes csatlakozási kérést küldeni a csoporthivatkozás segítségével."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Saját meghívottjaid"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Saját meghívottjaid"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Maximálisan 30 üzenetet továbbíthatsz"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Csoport profilkép hozzáadása"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Fotó hozzáadása"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Kép cseréje"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Kép feltöltése"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Kép eltávolítása"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Kontakt eltávolítása"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "OK"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Meghívó elküldve} other {{count,number} meghívó elküldve}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {Ezt az egyedi színt {num,number} csevegésben használod. Biztosan törölni szeretnéd az összes csevegésre vonatkozóan?} other {Ezt az egyedi színt {num,number} csevegésben használod. Biztosan törölni szeretnéd az összes csevegésre vonatkozóan?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Alapértelmezett csevegésszín"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Csevegés színe"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Ez a felhasználónév nem érhető el"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "A felhasználónév foglalt."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Felhasználónevedet nem sikerült elmenteni. Ellenőrizd a hálózati kapcsolatodat, és próbáld újra!"
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Felhasználónév törlése"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Felhasználónév törlése"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Ezzel eltávolítod a felhasználóneved, és érvénytelenné teszed a QR-kódot és a hivatkozást. A(z) {username} név elérhető lesz más felhasználók számára. Biztos vagy benne?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Felhasználónév másolása"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Hivatkozás másolása"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Törlés"
@@ -4577,12 +4382,6 @@
   "icu:Preferences--messaging": {
     "messageformat": "Üzenetküldés"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "Megtekinteni telefonszámom"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Megtalálni telefonszám alapján"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "Olvasási nyugták"
   },
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Szöveg hozzáadása"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Matricák"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Vágás és forgatás"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Körvonal"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Aláhúzás"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Toll"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Lezárás"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Kivágás"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Szöveg hozzáadása"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Szabad alakzat"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Új Történet"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Csak te láthatod ennek a Történetnek a nevét."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Egyéni Történet"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Minden Signal Névjegy"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Megosztás az összes névjeggyel"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Mindenki, kivéve…"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {Kivéve {num,number} személyt} other {Kivéve {num,number} személyt}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Megosztás kizárólag a következőkkel…"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Megosztás csak bizonyos személyekkel"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} személy"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Döntsd el, hogy ki tekintheti meg a Történeted. A módosítások nem lesznek hatással a már elküldött Történetekre. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Csak adminok küldhetnek Történetet ebbe a csoportba."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Minden Signal Névjegy · {viewersCount,number} néző} other {Minden Signal Névjegy · {viewersCount,number} néző}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Minden Signal Névjegy · Kivéve {excludedCount,number}} other {Minden Signal Névjegy · Kivéve {excludedCount,number}}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Privát Történet · {viewersCount,number} néző} other {Privát Történet · {viewersCount,number} néző}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Csoporttörténet · 1 tag} other {Csoporttörténet · {membersCount,number} tag}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Történetek megosztása és megtekintése"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Hivatkozás hozzáadása"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Szöveg hozzáadása"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Normál"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Csoporthívás"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Híváshivatkozás"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nincsenek legutóbbi beszélgetések."
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "Ez a frissítés kijavít néhány hibát, beleértve a konzisztensebb beszélgetésrendezési logikát és a jobb viselkedést, ha az alkalmazás rossz hálózati kapcsolat miatt DNS-keresési időtúllépést észlel."
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Hozzáadtuk az egyéni becenevek és megjegyzések támogatását azok számára, akikkel a Signalon cseveg, még akkor is, ha nem szerepelnek a rendszer névjegyei között. A megjegyzések és becenevek kényelmes és biztonságos módot nyújtanak arra, hogy további részleteket jegyezzen fel a Signal-névjegyekről – ráadásul végponttól végpontig titkosítva vannak, és Signal PIN-kódja védi őket, így akkor is biztonságosan visszaállíthatók, ha elveszíti telefonját. Akár egy lusta barát profilnevének hiányzó betűit, akár egy emlékeztetőt szeretne hozzáadni arról, hogy hol találkoztak, a megjegyzések és becenevek kényelmes és biztonságos módot nyújtanak arra, hogy további részleteket jegyezzen fel a Signal-névjegyekről – ráadásul végponttól végpontig titkosítva vannak, és Signal PIN-kódja védi őket, így biztonságosan visszaállíthatók akkor is, ha elveszíti a telefonját."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Mostantól minimalizálhatja a Signalt a tálcán Linuxon is. Ha tálcája megfelelő szürke árnyalatú, úgy fog tűnni, mintha üzenetei ezüsttálcán várnának Önre."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "A Windows-felhasználók számára ez a frissítés újra engedélyezi az olvasatlan üzenetek részletes számlálásának támogatását a Signal ikonon."
   }
 }

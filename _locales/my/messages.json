@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "စုဆည်းမှုကို ကြည့်ရန်"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "ချက်(တ်)အရောင်"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Signal အားအဆင့်မြှင့်မယ်"
-  },
   "icu:loading": {
     "messageformat": "လုပ်ဆောင်နေဆဲ..."
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "ချက်(တ်) 4 ခုအထိသာ ပင်တွဲနိုင်ပါသည်"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "ဖိုင်တွဲအသစ် တစ်ခုရွေးချယ်ပါ"
-  },
-  "icu:chooseFile": {
-    "messageformat": "ဖိုင် ရွေးရန်"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "သင့်ဒေတာကို ထည့်သွင်းလုပ်ဆောင်ရန်"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "တင်ပို့ခြင်း လုပ်ငန်းစဉ်အတိုင်း သွားနေခြင်းဖြစ်ပြီး သင့်အဆက်အသွယ်များနှင့် မက်ဆေ့ချ်များသည် သင့်ကွန်ပျူတာတွင် ကြာရှည်စွာ စောင့်ဆိုင်းနေကြပါသည်။ သင်၏ သိမ်းထားသော Signal ဒေတာများ ပါဝင်သည့် ဖိုင်တွဲကို ရွေးချယ်ပါ။"
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "တင်ပို့ ဒေတာများဖြင့် ဖိုင်လမ်းကြောင်းကို ရွေးရန်"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "တစ်ခုခုမှားယွင်းနေသည်။"
-  },
-  "icu:importingHeader": {
-    "messageformat": "အဆက်အသွယ်များနှင့် မက်ဆေ့ချ်များ ထည့်သွင်းလုပ်ဆောင်နေဆဲ"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "သင်၏ သိမ်းထားသော Signal ဒေတာများ ပါဝင်သည့် မှန်ကန်သော ဖိုင်လမ်းကြောင်းကို ရွေးချယ်ထားကြောင်း သေချာပါစေ။ ၎င်း၏အမည်သည် 'Signal Export' ဖြင့် စသင့်ပါသည်။ သင့်ဒေတာ မိတ္တူအသစ်ကို Chrome App မှလည်း သိမ်းနိုင်ပါသည်။"
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "ဤအဆင့်များက သင့်အတွက် အလုပ်မဖြစ်ပါက ပြစ်ချက်မှတ်တမ်း (ကြည့်ရန် -> ပြစ်ချက်မှတ်တမ်း) ပေးပို့ခြင်းဖြင့် သင်ပြောင်းရွှေ့မှုလုပ်ရာတွင် အကူအညီပေးနိုင်ပါသည်။"
-  },
-  "icu:importAgain": {
-    "messageformat": "ဖိုင်တွဲကို ရွေးချယ်ပြီး ထပ်မံကြိုးစားပါ"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "အောင်မြင်။"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Signal Desktop စတင်သုံးရန်"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "ဤစက်ကို သင့်ဖုန်းနှင့် ချိတ်ရန်"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "သင်ရွေးချယ်ထားသော တည်နေရာ"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "ဒေတာဘေ့စ် အဆင့်မြှင့်တင်နေပါသည်။ အချိန်အနည်းငယ် ကြာနိုင်ပါသည်..."
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, other {{daysAgo,number} နေ့အကြာက မက်ဆေ့များ ထည့်သွင်းလုပ်ဆောင်နေပါသည်...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "အောက်တွင် မန်းရှင်းအသစ်များ ရှိသည်"
   },
-  "icu:unreadMessage": {
-    "messageformat": "မဖတ်ရသေးသော မက်ဆေ့ချ်တစ်စောင်"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, other {မဖတ်ရသေးသည့် မက်ဆေ့ချ် {count,number}}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "{name} နှင့်အတူ သင့်လုံခြုံရေးနံပါတ်ကို အခြားစက်မှ အတည်မပြုထားဟု မှတ်သားလိုက်ပါသည်"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "ယင်းအဖွဲ့ဝင်များနှင့် သင့်လုံခြုံရေးနံပါတ်သည် သင်နောက်ဆုံးအကြိမ် အတည်ပြုပြီးနောက် ပြောင်းလဲသွားပြီဖြစ်သည်။ ၎င်းတို့နှင့် သင့် လုံခြုံရေးနံပါတ်ကိုကြည့်ရန် အဖွဲ့ဝင်တစ်ယောက်ကို နှိပ်ပါ။"
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "သင်အတည်ပြုရန် ကြိုးစားနေသော လုံခြုံရေးနံပါတ် ပြောင်းသွားပါသည်။ သင့်လုံခြုံရေးနံပါတ်အသစ်ကို {name1} နှင့်အတူ သုံးသပ်ပါ။ ဤပြောင်းလဲမှုအားဖြင့် တစ်စုံတစ်ယောက်က သင်တို့၏ ဆက်သွယ်မှုကို ကြားဖြတ်နားထောင်ရန် ကြိုးစားနေကြောင်း ဆိုလိုပါသည်၊ သို့တည်းမဟုတ် {name2} က Signal ကို ပြန်ထည့်သွင်းလိုက်ခြင်းဖြစ်ကြောင်း သတိပြုပါ။"
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "စတိုရီ {story} အတွက် လုပ်ဆောင်ချက်များ"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "သင်အတည်ပြုရန် ကြိုးစားနေသော လုံခြုံရေးနံပါတ် ပြောင်းသွားပါသည်။ သင့်လုံခြုံရေးနံပါတ်အသစ်ကို {name1} နှင့်အတူ သုံးသပ်ပါ။ ဤပြောင်းလဲမှုအားဖြင့် တစ်စုံတစ်ယောက်က သင်တို့၏ ဆက်သွယ်မှုကို ကြားဖြတ်နားထောင်ရန် ကြိုးစားနေကြောင်း ဆိုလိုပါသည်၊ သို့တည်းမဟုတ် {name2} က Signal ကို ပြန်ထည့်သွင်းလိုက်ခြင်းဖြစ်ပါသည်။ ဤအဆက်အသွယ်နှင့် သင့်လုံခြုံရေးနံပါတ်အား အတည်ပြုလိုပါက ပြုနိုင်ပါသည်။"
-  },
   "icu:sendAnyway": {
     "messageformat": "ဘာပဲဖြစ်ဖြစ်ပို့ပါ"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "ခေါ်ဆိုမှုသို့ ဆက်မယ်"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Your safety number with {name} has changed and is no longer verified. Click to show."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show."
   },
   "icu:debugLogExplanation": {
     "messageformat": "ပေးပို့ရန်ကို နှိပ်သည့်အခါ သင့်မှတ်တမ်းကို သီးခြား အများနှင့်မဆိုင်သော URL တွင် ရက် ၃၀ ကြာ ပို့စ်တင်ထားပါမည်။ ဦးစွာ ၎င်းကို စက်တွင်း သိမ်းထားနိုင်ပါသည်။"
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "ပံ့ပိုးမှုစင်တာသို့ ဆက်သွယ်ပါ"
   },
-  "icu:gotIt": {
-    "messageformat": "Got it!"
-  },
   "icu:submit": {
     "messageformat": "တင်မည်"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "လက်ခံသည်"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "အတည်ပြုပြီး အမှတ်အသား"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "ထပ်မံလေ့လာရန်"
   },
-  "icu:isVerified": {
-    "messageformat": "You have verified your safety number with {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "You have not verified your safety number with {name}."
-  },
   "icu:verified": {
     "messageformat": "အတည်ပြုပြီး"
   },
   "icu:newIdentity": {
     "messageformat": "လုံခြုံရေးနံပါတ် အသစ်"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
   },
   "icu:incomingError": {
     "messageformat": "အဝင် မက်ဆေ့ချ်ကို ကိုင်တွယ်နေစဥ် အမှားဖြစ်"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Unsupported attachment type. Click to save."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Click to save"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Unnamed File"
   },
   "icu:voiceMessage": {
     "messageformat": "အသံသတင်းစကား"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "မူရင်းမက်ဆေ့ မတွေ့ရှိပါ"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "မူရင်း မက်ဆေ့ချ် ရှာတွေ့ထားသော်လည်း ထည့်သွင်းလုပ်ဆောင်မရပါ။ လုပ်ဆောင်ရန် အပေါ်သို့ ဆွဲပါ။"
-  },
   "icu:voiceRecording--start": {
     "messageformat": "အသံမက်ဆေ့ချ် စတင်မှတ်တမ်းတင်ရန်"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "အသံမက်ဆေ့ချ် ပြီးမြောက်ပြီး ပို့ရန်"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "အသံမက်ဆေ့ချ်ကို ဖျက်ရန်"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "အများဆုံး အချိန်ကန့်သတ်ချက်သို့ ရောက်သွားသောကြောင့် အသံမက်ဆေ့ချ် မှတ်တမ်းတင်ခြင်း ရပ်သွားပါသည်။"
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "အခြားအက်ပ်သို့ ပြောင်းလိုက်သောကြောင့် အသံမက်ဆေ့ချ် မှတ်တမ်းတင်ခြင်း ရပ်သွားပါသည်။"
   },
   "icu:voiceNoteLimit": {
     "messageformat": "အသံမက်ဆေ့ချ်များကို တစ်နာရီ ကန့်သတ်ထားပါသည်။ အခြားအက်ပ်သို့ ပြောင်းသည့်အခါ မှတ်တမ်းတင်ခြင်း ရပ်ပါမည်။"
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "သင်"
   },
-  "icu:replyingTo": {
-    "messageformat": "{name} သို့ စာပြန်သည်"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "အသံမက်ဆေ့ချ်များ ပို့ရန် Signal Desktop အား သင့်မိုက်ခရိုဖုန်းကို ဝင်ရောက် သုံးစွဲခွင့်ပြုပါ။"
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "ဝင်ရောက် သုံးစွဲခွင့်ပြုရန်"
-  },
-  "icu:showSettings": {
-    "messageformat": "ဆက်တင်ကို ပြရန်"
   },
   "icu:audio": {
     "messageformat": "အသံ"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "အပ်ဒိတ်လုပ်၍ မရပါ"
-  },
-  "icu:muted": {
-    "messageformat": "အသံပိတ်ပြီး"
   },
   "icu:mute": {
     "messageformat": "အသံပိတ်ရန်"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "စွန့်ပစ်သည်"
   },
-  "icu:failedToSend": {
-    "messageformat": "Failed to send to some recipients. Check your network connection."
-  },
   "icu:error": {
     "messageformat": "အမှားဖြစ်နေသည်"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Message Detail"
   },
   "icu:delete": {
     "messageformat": "ဖျက်ရန်"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "မှ"
   },
-  "icu:to": {
-    "messageformat": "သို့"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} မှ {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "စာ"
   },
-  "icu:groupMembers": {
-    "messageformat": "အုပ်စုဝင်များ"
-  },
   "icu:showMembers": {
     "messageformat": "Show members"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "သင်"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "“{title}” သည် Signal တွင် ၎င်းကိုယ်တိုင် သတ်မှတ်ထားသော ပရိုဖိုင်အမည်ဖြစ်သည်။"
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "အတည်ပြုပြီး"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} သည် သင့်စနစ်ထဲရှိ အဆက်အသွယ်များတွင် ရှိပြီးဖြစ်သည်"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "မှတ်ချက်"
   },
   "icu:viewRecentMedia": {
     "messageformat": "မကြာမီက မီဒီယာကို ကြည့်ရန်"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "icu:back": {
     "messageformat": "နောက်သို့"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "ဤချက်(တ်)ကို {oldTitle} နှင့် သင် စတင်ခဲ့ပါသည်။"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Quote လုပ်ထားသော မက်ဆေ့ချ်မှ ပုံကြမ်း"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "မက်ဆေ့ချ်တွင် ပုံတွဲပြီး"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "ရီဆက်ချမည်"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "ဖိုင် အိုင်ကွန်"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Welcome to Signal Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "Privacy is possible. Signal makes it easy."
   },
   "icu:linkedDevices": {
     "messageformat": "ချိတ်ဆက်ထားသော ဖုန်းများ"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "ပါဝင်သူများကို ဖုန်းခေါ်ရန် အဖွဲ့သည် ကြီးလွန်းနေပါသည်။"
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "အသံမမြည်ဘဲ အသိပေးရန်"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "အချက်ပေးမြည်သံကို ဖွင့်ရန်"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "ဖုန်းမြည်သံ ပိတ်ရန်"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "အခြား မည်သူမျှ မရှိပါ"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "၎င်းခေါ်ဆိုမှုထဲတွင် - ၁ ယောက်"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "ဤကောလ်တွင် လူ {people} ဦး"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {၎င်းခေါ်ဆိုမှုထဲတွင် · {people,number} ယောက်}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "ကင်မရာ ဝင်ရောက် သုံးစွဲခွင့်ပြုရန်"
   },
-  "icu:general": {
-    "messageformat": "အ​ထွေထွေ"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "မက်ဆေ့ချ် စာစီ အကွက်တွင် ရိုက်ထည့်ထားသော စာသားကို စာလုံးပေါင်းစစ်ရန်"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "ဤ Signal Desktop ဗားရှင်းမှ ဒေတာနှင့် မက်ဆေ့ချ်အားလုံးကို ဖျက်ပါမည်လား။ ဤ Desktop ကို သင် အချိန်မရွေး ပြန်လည်ချိတ်ဆက်နိုင်သော်လည်း သင့်မက်ဆေ့ချ်များကို ပြန်သိမ်းနိုင်မည်မဟုတ်ပါ။ သင့်ဖုန်း သို့မဟုတ် အခြား ချိတ်ထားသည့် စက်များမှ သင့် Signal အကောင့်နှင့် ဒေတာကို ဖျက်မည်မဟုတ်ပါ။"
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "ဒေတာအားလုံး ဖျက်ရန်"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "ဒေတာအားလုံးကို ဖျက်ပြီး ချိတ်ဆက်မှုမှ ဖြုတ်ရန်"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "ဒေတာအဟောင်းကို ဖျက်ရန်"
-  },
-  "icu:notifications": {
-    "messageformat": "အသိပေးချက်များ"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "When messages arrive, display notifications that reveal:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Disable notifications"
   },
   "icu:nameAndMessage": {
     "messageformat": "အမည်၊ အကြောင်းအရာနှင့် လုပ်ဆောင်မှုများ"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "တစ်စိတ်တစ်ပိုင်း ဖျက်ပြီး၊ ပြန်ကြိုးစားရန် နှိပ်ပါ"
   },
-  "icu:showMore": {
-    "messageformat": "အသေးစိတ်အချက်အလက်များ"
-  },
-  "icu:showLess": {
-    "messageformat": "Hide details"
-  },
-  "icu:learnMore": {
-    "messageformat": "Learn more about verifying safety numbers"
-  },
   "icu:expiredWarning": {
     "messageformat": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "မီဒီယာ မက်ဆေ့ချ်"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Number is not registered"
-  },
   "icu:sync": {
     "messageformat": "အဆက်အသွယ်များ ထည့်သွင်းရန်"
   },
   "icu:syncExplanation": {
     "messageformat": "Import all Signal groups and contacts from your mobile device."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Last import at"
   },
   "icu:syncNow": {
     "messageformat": "Import now"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "သူနှင့် စာတိုအဆက်အသွယ်မပြုပဲ ယင်းသူကို ဆန်းစစ်အတည်ပြုမရပါ။"
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "{name1} နှင့် သင့်လုံခြုံရေးနံပါတ်-"
-  },
   "icu:themeLight": {
     "messageformat": "အလင်း"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "မီနူးဘားကို ဝှက်ရန်"
-  },
-  "icu:startConversation": {
-    "messageformat": "ချက်(တ်)အသစ် စတင်ရန်"
   },
   "icu:newConversation": {
     "messageformat": "ချက်(တ်)အသစ်"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "အဖွဲ့ကို အပ်ဒိတ်လုပ်ရန် မအောင်မြင်ပါ။ သင့်ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။"
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS မက်ဆေ့ချ်များကို မပံ့ပိုးပေးပါ။"
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Enter a phone number to add a contact."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "နံပါတ် မှားနေသည်"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "မက်ဆေ့ချ် ဆက်လုပ်ရန်အတွက် Signal Desktop ကို သင့်မိုဘိုင်းစက်နှင့် ပြန်ချိတ်ရန် နှိပ်ပါ။"
   },
   "icu:unlinked": {
     "messageformat": "Unlinked"
-  },
-  "icu:relink": {
-    "messageformat": "Relink"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "အပ်ဒိတ် ရရှိနိုင်ပါပြီ"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Restart Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "နောက်မှလုပ်မည်"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "အပ်ဒိတ်ကို လျစ်လျူရှုရန်"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "မက်ဆေ့ပို့ရန် တောင်ခံချက်"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "ဘလော့ခ်ထားပြီး"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "မူကြမ်း"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "သက်တမ်းကုန်ပြီး"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "ကြည့်ရန်"
-  },
   "icu:message--donation--view": {
     "messageformat": "ကြည့်ရန်"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "စတစ်ကာတွဲကို ထည့်သွင်းမရပါ"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "စတစ်ကာများ"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "ရရှိနိုင်ပါပြီ"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, other {{group1} ၊ {group2} ၊ {group3} နှင့် နောက်ထပ် {remainingCount,number} ဖွဲ့မှ အဖွဲ့ဝင်}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} သည် သင့်ကို အဖွဲ့ထဲသို့ ပေါင်းထည့်ခဲ့ပါသည်။"
-  },
   "icu:no-groups-in-common": {
     "messageformat": "တူညီသော အဖွဲ့များ မရှိပါ"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "အပြင်အဆင်များ"
-  },
-  "icu:calling__participants": {
-    "messageformat": "ကောလ်တွင် {people} ရှိ"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, other {ကောလ်တွင် {people,number} ဦးပါဝင်}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "ဘဲ့ဂျ်ရေတွက်မှုတွင် အသံပိတ်ထားသော ချက်(တ်)များ ထည့်ရန်"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "စာ"
+  "icu:ContactModal--nickname": {
+    "messageformat": "အမည်ပြောင်"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "အက်မင်အဖြစ်မှ ဖယ်ရှားရန်"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "ဖွင့်ထားချိန်တွင် ဤ 1:1 ချက်(တ်)၌ ပေးပို့၊ လက်ခံထားသော မက်ဆေ့ချ်များသည် ကြည့်ပြီးသည့်နောက် ပျောက်သွားပါမည်။"
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "အမည်ပြောင်"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "လုပ်ဆောင်ချက်များ"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "ဖျက်ရန်"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "အမည်ပြောင်ကို ဖျက်မည်လား။"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "၎င်းသည် ဤအမည်ပြောင်နှင့် မှတ်ချက်ကို အပြီးအပိုင် ဖျက်လိုက်ပါမည်။"
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "အသိပေးချက်များ"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "အားလုံးကြည့်မည်"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "အမည်ပြောင်"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "အမည်ပြောင်များနှင့် မှတ်ချက်များကို Signal တွင် သိမ်းဆည်းထားပြီး End-to-end ကုဒ်ပြောင်းဝှက်ထားပါသည်။ ၎င်းတို့ကို သင်သာမြင်နိုင်သည်။"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "အမည်အစ"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "အမည်အစ"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "အမည် နောက်ဆုံးစကားလုံး"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "အမည် နောက်ဆုံးစကားလုံး"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "မှတ်ချက်"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "မှတ်ချက်"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "မန်းရှင်းများ"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "\"{name}\" ထံမှ တောင်းဆိုမှုကို ငြင်းပယ်မည်လား။ ထိုသူတို့သည် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ပါဝင်ရန် ထပ်မံတောင်းဆိုနိုင်တော့မည် မဟုတ်ပါ။"
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "သင်၏ ဖိတ်ခေါ်ထားမှု"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "သင်၏ ဖိတ်ခေါ်ထားမှု"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "မက်ဆေ့ချ်အစောင် 30 အထိသာ ထပ်ဆင့်ပို့နိုင်သည်"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "အဖွဲ့ဓာတ်ပုံ ပေါင်းထည့်ရန်"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "ဓာတ်ပုံ ပေါင်းထည့်ရန်"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "ဓာတ်ပုံ ပြောင်းရန်"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "ဓာတ်ပုံ အပ်လုဒ် လုပ်ရန်"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "ပုံကို ဖယ်ရှားရန်"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "အဆက်အသွယ် ဖယ်ရှားရန်"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "အိုကေ"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, other {ဖိတ်ကြားချက်များ {count,number} ခု ပို့ခဲ့သည်။}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, other {ဤစိတ်ကြိုက်အရောင်ကို ချက်(တ်) {num,number} ခုတွင် သုံးထားပါသည်။ ချက်(တ်)များ အားလုံးအတွက် ၎င်းကို ဖျက်လိုပါသလား။}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "ချက်(တ်) အားလုံး၏ အရောင်"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "ချက်(တ်)အရောင်"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "ဤသုံးစွဲသူအမည်ကို မရရှိနိုင်ပါ"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "ဤသုံးစွဲသူအမည်ကို ယူထားပြီးပါပြီ။"
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "သင့်သုံးစွဲသူအမည်ကို သိမ်း၍ မရနိုင်ပါ။ သင်၏ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။"
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "သုံးစွဲသူအမည်ကို ဖျက်နေဆဲ"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "သုံးစွဲသူအမည်ကို ဖျက်ရန်"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "၎င်းသည် သင်၏ သုံးစွဲသူအမည်ကို ဖယ်ရှားလိုက်မည်ဖြစ်ပြီး သင့် QR ကုဒ်နှင့် လင့်ခ်ကို ဖျက်လိုက်ပါမည်။ \"{username}\" ကို အခြားသူများ အသုံးပြု၍ရသွားပါလိမ့်မည်။ သေချာပါသလား။"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "သုံးစွဲသူအမည်ကို ကူးရန်"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "လင့်ခ် ကူးရန်"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "ဖျက်ရန်"
@@ -4577,12 +4382,6 @@
   "icu:Preferences--messaging": {
     "messageformat": "မက်ဆေ့ချ်ပေးပို့ခြင်း"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "ကျွန်ုပ်ဖုန်းနံပါတ်ကိုကြည့်မည်"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "ကျွန်ုပ်၏ ဖုန်းနံပါတ်ဖြင့် ကျွန်ုပ်ကို ရှာရန်"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "ဖတ်ပြီးပြီ"
   },
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "စာသားထည့်ရန်"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "စတစ်ကာများ"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "ဖြတ်တောက်ပြီး လှည့်ရန်"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "ကောက်ကြောင်း"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "အောက်မျဉ်း"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "ဘောပင်"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "ပိတ်မည်"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "ဖြတ်တောက်ရန်"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Freeform"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "စတိုရီ အသစ်"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "ဤစတိုရီ၏ အမည်ကို သင်တစ်ဦးတည်းသာ မြင်နိုင်ပါသည်။"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "စိတ်ကြိုက်စတိုရီ"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Signal အဆက်အသွယ်များ အားလုံး"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "အဆက်အသွယ်များ အားလုံးထံ ဝေမျှရန်"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "ဖော်ပြပါတို့မှလွဲ၍ အားလုံး..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {{num,number} ဦး ဖယ်ထားပါသည်}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "ဖော်ပြပါတို့ထံသာ ဝေမျှရန်..."
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "ရွေးထားသူများထံသာ ဝေမျှရန်"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} ဦး"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "သင့်စတိုရီကို ကြည့်နိုင်မည့်သူများကို ရွေးရန် ပြောင်းလဲမှုများသည် သင့်ပေးပို့ပြီးဖြစ်သည့် စတိုရီများအပေါ် သက်ရောက်မှု ရှိမည် မဟုတ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာပါ။</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "အက်ဒ်မင်များသာလျှင် ဤအဖွဲ့သို့ မက်ဆေ့ချ်များ ပို့နိုင်ပါသည်။"
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, other {Signal အဆက်အသွယ်များအားလုံး · ကြည့်ရှုသူ {viewersCount,number} ဦး}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, other {Signal အဆက်အသွယ်များအားလုံး · {excludedCount,number} ဦး မပါဝင်ပါ}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, other {သီးသန့် စတိုရီ · ကြည့်ရှုသူ · {viewersCount,number} ဦး}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, other {အဖွဲ့ စတိုရီ · ကြည့်ရှုသူ · မန်ဘာ {membersCount,number} ဦး}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "စတိုရီများကို မျှဝေကြည့်ရှုရန်"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "လင့်ခ်ပေါင်းထည့်ရန်"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "စာသားထည့်ရန်"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "ပုံမှန်"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "အဖွဲ့လိုက် ခေါ်ဆိုမှု"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "ကောလ်လင့်ခ်"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "လတ်တလော စကားပြောဆိုမှုများ မရှိပါ။"
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "ဤအပ်ဒိတ်သည် ပို၍တသမတ်တည်းကျသည့် စကားအပြန်အလှန်ပြောဆိုမှုများကို ရွေးထုတ်စီစဉ်ခြင်းနှင့် ကွန်ရက်ချိတ်ဆက်မှုမကောင်းခြင်းကြောင့် DNS ရှာဖွေမှု အချိန်ကုန်သွားခြင်းများတွေ့ကြုံရပါက လုပ်ဆောင်မှုပိုမိုကောင်းမွန်စေခြင်းတို့အပါအဝင် နွေဦးအမှီ ရှင်းလင်းရေးပြုလုပ်ပေးပါသည်။"
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "သင့်စနစ်ထဲရှိ အဆက်အသွယ်များတွင် မရှိသော်လည်း Signal တွင် သင်နှင့်စကားပြောနေသည့် မည်သူ့အတွက်မဆို စိတ်ကြိုက်အမည်ပြောင်များနှင့် မှတ်ချက်များပေးနိုင်ရန် ပံ့ပိုးပေးထားပါသည်။ မှတ်ချက်များနှင့် အမည်ပြောင်များသည် သင့် Signal အဆက်အသွယ်များအကြောင်း  အသေးစိတ်အချက်အလက်များ ထပ်ဆောင်းရေးမှတ်ရန် အဆင်ပြေလုံခြုံသော နည်းလမ်းတစ်ခုဖြစ်သည် — ၎င်းတို့သည် End-to-end ကုဒ်ပြောင်းဝှက်ထားပြီး သင့် Signal PIN ဖြင့် ကာကွယ်ထားသောကြောင့် သင့်ဖုန်းပျောက်ဆုံးသွားစေကာမူ ၎င်းတို့ကို လုံခြုံစွာပြန်လည်ရယူနိုင်စေသည်။"
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "ယခုအခါ Linux တွင် Signal ကို System Tray ပေါ် တွင် ချုံ့ထားနိုင်ပါပြီ။"
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Window သုံးစွဲသူများအတွက် ဤအပ်ဒိတ်သည် Signal အိုင်ကွန်ပေါ်ရှိ အသေးစိတ်မဖတ်ရသေးသော မက်ဆေ့ချ်အရေအတွက် ပံ့ပိုးမှုကို ပြန်ဖွင့်ပေးပါသည်။"
   }
 }

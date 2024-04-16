@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Visa arkiv"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Chattfärg"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Uppdatera Signal"
-  },
   "icu:loading": {
     "messageformat": "Läser in …"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Du kan bara nåla upp till fyra chattar"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Välj mapp"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Välj fil"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Läs in din data"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Du har just gått igenom exportprocessen och dina kontakter och meddelanden ligger nu på din dator. Välj mappen som innehåller dina sparade data för Signal."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Välj mappen med exporterad data"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Något gick fel!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Läser in kontakter och meddelanden"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Kontrollera att du valt rätt mapp som innehåller dina sparade Signal-data. Dess namn borde börja med \"Signal Export.\" Du kan också spara en ny kopia av din data från Chrome-appen."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Om dessa steg inte funkar för dig, skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig att migrera!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Välj mapp och försök igen"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Det funkade!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Börja använd Signal Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Länka den här enheten till din telefon"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "din valda plats"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Uppgraderar databasen. Detta kan ta lite tid …"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Läser in meddelanden från 1 dag sedan ...} other {Läser in meddelanden från {daysAgo,number} dagar sedan ...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Nya omnämnanden nedan"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 oläst meddelande"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} oläst meddelande} other {{count,number} olästa meddelanden}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "Du markerade ditt Säkerhetsnummer med {name} som inte verifierat från en annan enhet"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Ditt säkerhetsnummer med dessa gruppmedlemmar har ändrats sedan du senast verifierade. Klicka på en gruppmedlem för att se ditt säkerhetsnummer med medlemmen."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Säkerhetsnumret du försöker verifiera har ändrats. Se över ditt nya säkerhetsnummer med {name1}. Kom ihåg att den här förändringen kan innebära att någon försöker avläsa din kommunikation eller att {name2} helt enkelt har installerat om Signal."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Åtgärder för storyn {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Ditt säkerhetsnummer med {name1} har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att {name2} helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med den här kontakten."
-  },
   "icu:sendAnyway": {
     "messageformat": "Skicka ändå"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Fortsätt samtalet"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Your safety number with {name} has changed and is no longer verified. Click to show."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Dina säkerhetsnycklar med flera medlemmar av den här gruppen har ändrats och är inte längre verifierade. Klicka för att visa."
   },
   "icu:debugLogExplanation": {
     "messageformat": "När du klickar på Skicka kommer din logg att läggas upp på nätet i 30 dagar på en unik, opublicerad webbadress. Du kan spara den lokalt först."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Kontakta support"
   },
-  "icu:gotIt": {
-    "messageformat": "Uppfattat!"
-  },
   "icu:submit": {
     "messageformat": "Skicka"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Acceptera"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Markera som verifierat"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Läs mer"
   },
-  "icu:isVerified": {
-    "messageformat": "Du har verifierat ditt säkerhetsnummer med {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "Du har inte verifierat ditt säkerhetsnummer med {name}."
-  },
   "icu:verified": {
     "messageformat": "Verifierat"
   },
   "icu:newIdentity": {
     "messageformat": "Nytt säkerhetsnummer"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Ditt säkerhetsnummer med den här kontakten har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation eller att kontakten helt enkelt installerat om Signal. Du kan verifiera det nya säkerhetsnumret nedan."
   },
   "icu:incomingError": {
     "messageformat": "Fel vid hantering av inkommande meddelande"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Okänd filtyp på bilaga. Klicka för att spara."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Klicka för att spara"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Namnlös fil"
   },
   "icu:voiceMessage": {
     "messageformat": "Röstmeddelande"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Originalmeddelande hittades inte"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Originalmeddelande hittades, men lästes inte in. Rulla upp för att läsa in den."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Börja spela in röstmeddelande"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Slutför röstmeddelandet och skicka"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Avbryt röstmeddelandet"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Röstmeddelandeinspelning stoppades eftersom den maximala tidsgränsen uppnåddes."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Röstmeddelandeinspelning stoppades eftersom du bytte till en annan app."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Röstmeddelanden är begränsade till en timme. Inspelningen avbryts om du byter till en annan app."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Du"
   },
-  "icu:replyingTo": {
-    "messageformat": "Svarar till {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "För att skicka röstmeddelanden, tillåt Signal Desktop att få åtkomst till din mikrofon."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Tillåt åtkomst"
-  },
-  "icu:showSettings": {
-    "messageformat": "Visa inställningar"
   },
   "icu:audio": {
     "messageformat": "Ljud"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Kan inte uppdatera"
-  },
-  "icu:muted": {
-    "messageformat": "Tystad"
   },
   "icu:mute": {
     "messageformat": "Tysta"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Kassera"
   },
-  "icu:failedToSend": {
-    "messageformat": "Det gick inte att skicka till några mottagare. Kontrollera din nätverksanslutning."
-  },
   "icu:error": {
     "messageformat": "Fel"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Meddelandedetaljer"
   },
   "icu:delete": {
     "messageformat": "Ta bort"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Från"
   },
-  "icu:to": {
-    "messageformat": "Till"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} till {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Meddelande"
   },
-  "icu:groupMembers": {
-    "messageformat": "Gruppmedlemmar"
-  },
   "icu:showMembers": {
     "messageformat": "Visa medlemmar"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Du"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "\"{title}\" är profilnamnet som den här personen har valt i Signal."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Verifierat"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} finns i dina systemkontakter"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Visa säkerhetsnummer"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Anteckning"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Visa senaste media"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Du har inte utbytt några meddelanden med den här kontakten ännu. Ditt säkerhetsnummer med kontakten är tillgänglig efter det första meddelandet."
   },
   "icu:back": {
     "messageformat": "Tillbaka"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Du startade den här chatten med {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Miniatyr av bild för citerat meddelande"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Bild bifogad till meddelandet"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Återställ"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Filikon"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Välkommen till Signal Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "Integritet är möjligt. Signal gör det lätt."
   },
   "icu:linkedDevices": {
     "messageformat": "Länkade enheter"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Gruppen är för stor för att ringa deltagarna."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Meddela, ring inte"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Aktivera ringning"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Stäng av ringsignal"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Ingen annan är här"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "I detta samtal · 1 person"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "I detta samtal · {people} personer"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {I detta samtal · {people,number} person} other {I detta samtal · {people,number} personer}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Tillåt åtkomst till kameran"
   },
-  "icu:general": {
-    "messageformat": "Allmänt"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Stavningskontrollera text som skrivs i meddelandefältet"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Ta bort alla data och meddelanden från den här versionen av Signal Desktop? Du kan alltid länka om skrivbordet, men dina meddelanden återställs inte. Ditt Signal-konto och dina data på din telefon eller andra länkade enheter raderas inte."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Ta bort alla data"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Kopplar bort och tar bort alla data"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Ta bort gamla data"
-  },
-  "icu:notifications": {
-    "messageformat": "Aviseringar"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "När du får meddelanden, visa aviseringar som visar:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Stäng av aviseringar"
   },
   "icu:nameAndMessage": {
     "messageformat": "Namn, innehåll och åtgärder"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Delvis borttagen, klicka för att försöka igen"
   },
-  "icu:showMore": {
-    "messageformat": "Detaljer"
-  },
-  "icu:showLess": {
-    "messageformat": "Dölj detaljer"
-  },
-  "icu:learnMore": {
-    "messageformat": "Lär mer om att verifiera säkerhetsnummer"
-  },
   "icu:expiredWarning": {
     "messageformat": "Den här versionen av Signal Desktop har upphört att gälla. Uppgradera till den senaste versionen för att fortsätta chatta."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Mediameddelande"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Numret är inte registrerat"
-  },
   "icu:sync": {
     "messageformat": "Importera kontakter"
   },
   "icu:syncExplanation": {
     "messageformat": "Importera alla grupper och kontakter från Signal på din mobil."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Senaste import"
   },
   "icu:syncNow": {
     "messageformat": "Importera nu"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Användaren kan inte verifieras innan du har skickat eller tagit emot meddelanden."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Ditt säkerhetsnummer med {name1}:"
-  },
   "icu:themeLight": {
     "messageformat": "Ljust"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Dölj menyrad"
-  },
-  "icu:startConversation": {
-    "messageformat": "Starta ny chatt"
   },
   "icu:newConversation": {
     "messageformat": "Ny chatt"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Det gick inte att uppdatera gruppen. Kontrollera din anslutning och försök igen."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS-meddelanden stöds inte."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Ange ett telefonnummer för att lägga till en kontakt."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Ogiltigt nummer"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Klicka för att återlänka Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden."
   },
   "icu:unlinked": {
     "messageformat": "Inte länkad"
-  },
-  "icu:relink": {
-    "messageformat": "Länka igen"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Uppdatering tillgänglig"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Starta om Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Senare"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Ignorera uppdatering"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Meddelandeförfrågan"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Blockerad"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Utkast:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Utgånget"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Visa"
-  },
   "icu:message--donation--view": {
     "messageformat": "Visa"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Klistermärkespaketet kan inte installeras"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Klistermärken"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Tillgängliga"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {Medlem i {group1}, {group2}, {group3} och {remainingCount,number} till} other {Medlem i {group1}, {group2}, {group3} och {remainingCount,number} till}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} lade dig till gruppen."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Inga grupper gemensamt"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Inställningar"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} i samtalet"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} i samtalet} other {{people,number} i samtalet}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Inkludera tystade chattar i totalt antal"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Meddelande"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Smeknamn"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Ta bort som administratör"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "När det är aktiverat försvinner meddelanden som skickas och tas emot i den här 1:1-chatten efter att de har setts."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Smeknamn"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Åtgärder"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Ta bort"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Ta bort smeknamn?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Detta kommer att radera detta smeknamn och denna notis permanent."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Aviseringar"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Se alla"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Smeknamn"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Smeknamn och anteckningar lagras hos Signal och är totalsträckskrypterade. De är endast synliga för dig."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Förnamn"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Förnamn"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Efternamn"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Efternamn"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Anteckning"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Anteckning"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Omnämnanden"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Avfärda förfrågan från \"{name}\"? De kommer inte att kunna begära att gå med via grupplänken igen."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Inbjuden av dig"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Inbjuden av dig"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Du kan bara vidarebefordra upp till 30 meddelanden"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Lägg till ett gruppfoto"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Lägg till ett foto"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Ändra foto"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Ladda upp foto"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Ta bort bild"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Ta bort kontakt"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Okej"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Inbjudan skickad} other {{count,number} inbjudningar skickade}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {Den här anpassade färgen används i {num,number} chatt. Vill du ta bort den?} other {Den här anpassade färgen används i {num,number} chattar. Vill du ta bort den för alla chattar?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Global chattfärg"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Chattfärg"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Det här användarnamnet är inte tillgängligt"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Det här användarnamnet är taget."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Ditt användarnamn kunde inte sparas. Kontrollera din anslutning och försök igen."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Tar bort användarnamn"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Ta bort användarnamn"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Detta tar bort ditt användarnamn och inaktiverar din QR-kod och länk. \"{username}\" kommer att kunna väljas av andra. Är du säker?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Kopiera användarnamn"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Kopiera länk"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Ta bort"
@@ -4577,12 +4382,6 @@
   "icu:Preferences--messaging": {
     "messageformat": "Meddelanden"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "Se mitt telefonnummer"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Hitta mig via mitt telefonnummer"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "Läskvitton"
   },
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Lägg till text"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Klistermärken"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Beskär och rotera"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Kontur"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Understrykning"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Penna"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Lås"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Beskära"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Lägg till ett meddelande"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Friform"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Ny story"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Bara du kan se namnet på den här storyn."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Anpassad story"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Alla Signal-förbindelser"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Dela med alla förbindelser"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Alla utom …"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} person exkluderad} other {{num,number} personer exkluderade}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Dela endast med …"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Dela endast med valda personer"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} personer"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Välj vilka som kan visa din story. Ändringar påverkar inte stories som du redan har skickat. <learnMoreLink>Läs mer.</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Endast administratörer kan skicka stories till denna grupp."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Alla Signal-förbindelser · {viewersCount,number} tittare} other {Alla Signal-förbindelser · {viewersCount,number} tittare}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Alla Signal-förbindelser · {excludedCount,number} exkluderad} other {Alla Signal-förbindelser · {excludedCount,number} exkluderade}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Privat story · {viewersCount,number} tittare} other {Privat story · {viewersCount,number} tittare}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Gruppstory · 1 medlem} other {Gruppstory · {membersCount,number} medlemmar}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Dela och visa Stories"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Lägg till länk"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Lägg till text"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Normal"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Gruppsamtal"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Samtalslänk"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Inga senaste konversationer."
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "Den här uppdateringen åtgärdar några buggar, inklusive mer konsekvent logik för konversationssortering och förbättrat beteende om appen stöter på tidsgränser för DNS-uppslagning på grund av dålig nätverksanslutning."
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Vi har lagt till stöd för anpassade smeknamn och anteckningar för alla som du chattar med på Signal, även om de inte finns med i dina systemkontakter. Anteckningar och smeknamn är ett bekvämt och säkert sätt att skriva ner ytterligare information om dina Signal-kontakter – och de är totalsträckskrypterade och skyddas av din Signal-pinkod så att de kan återställas på ett säkert sätt om du tappar bort din telefon."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Nu kan du minimera Signal till systemfältet i Linux."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "För Windows-användare återaktiverar den här uppdateringen stöd för detaljerat antal olästa meddelanden på Signal-ikonen."
   }
 }

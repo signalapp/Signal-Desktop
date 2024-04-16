@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Ver arquivo"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Cor das conversas"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Actualizar Signal"
-  },
   "icu:loading": {
     "messageformat": "Cargando…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Só se poden fixar 4 conversas"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Elixe un cartafol"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Elixir un ficheiro"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Cargar os teus datos"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Con isto rematou o proceso de exportación e os contactos e as mensaxes quedaron gardadas no computador. Escolle o cartafol que contén os teus datos gardados de Signal."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Escolle o cartafol cos datos de exportación"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Recoiro, algo foi mal."
-  },
-  "icu:importingHeader": {
-    "messageformat": "Cargando os contactos e as mensaxes"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Asegúrate de que seleccionaches o cartafol que contén os datos gardados de Signal. O nome debería comezar con 'Signal Export'. Tamén podes gardar unha nova copia dos datos empregando a aplicación de Chrome."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Se estes pasos non che funcionan, envía un rexistro de depuración (Ver > Rexistro de depuración) para que poidamos axudarche coa migración!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Escolle o cartafol e inténtao de novo"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Correcto!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Comezar a usar Signal Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Vincula este dispositivo co teu teléfono"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "a túa información de localización"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Actualizando a base de datos. Isto pode levar algún tempo…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Cargando as mensaxes de hai 1 día...} other {Cargando as mensaxes de hai {daysAgo,number} días...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Novas mencións abaixo"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 mensaxe sen ler"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} mensaxe sen ler} other {{count,number} mensaxes sen ler}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "Marcaches o teu número de seguranza con {name} como non verificado desde outro dispositivo"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "O número de seguranza que intentas verificar cambiou. Comproba o teu novo número con {name1}. Recorda, este cambio pode significar que alguén intenta interceptar as túas comunicacións ou que {name2} volveu instalar Signal."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Accións para a historia {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "O teu número de seguranza con {name1} cambiou. Isto pode significar que alguén intenta interceptar as túas comunicacións ou que {name2} volveu instalar Signal. Recomendámosche que verifiques o número con este contacto."
-  },
   "icu:sendAnyway": {
     "messageformat": "Enviar igualmente"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Continuar a chamada"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Your safety number with {name} has changed and is no longer verified. Click to show."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show."
   },
   "icu:debugLogExplanation": {
     "messageformat": "Cando premes Enviar, o teu rexistro publicarase durante 30 días nunha URL única privada. Podes gardalo primeiro no teu dispositivo."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Contactar con Axuda"
   },
-  "icu:gotIt": {
-    "messageformat": "Entendido!"
-  },
   "icu:submit": {
     "messageformat": "Enviar"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Aceptar"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Marcar como verificado"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Saber máis"
   },
-  "icu:isVerified": {
-    "messageformat": "You have verified your safety number with {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "You have not verified your safety number with {name}."
-  },
   "icu:verified": {
     "messageformat": "Verificado"
   },
   "icu:newIdentity": {
     "messageformat": "Novo número de seguranza"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
   },
   "icu:incomingError": {
     "messageformat": "Erro ao xestionar a mensaxe recibida"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "O tipo de anexo non se acepta. Prema para gardar."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Premer para gardar"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Ficheiro sen nome"
   },
   "icu:voiceMessage": {
     "messageformat": "Mensaxe de voz"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Non se atopou a mensaxe orixinal"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Mensaxe orixinal atopada, pero non cargada. Sube para cargala."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Comezar a gravar mensaxe de voz"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Completar mensaxe de voz e enviar"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Cancelar mensaxe de voz"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "A gravación da mensaxe de voz parouse porque se acadou o límite de tempo."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "A gravación da mensaxe de voz parouse porque cambiaches a outra aplicación."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "As mensaxes de voz limítanse a unha hora. A gravación pararase se cambias a outra aplicación."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Ti"
   },
-  "icu:replyingTo": {
-    "messageformat": "Respondéndolle a {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Para enviar mensaxes de son, permite que Signal Desktop acceda ao teu micrófono."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Permitir acceso"
-  },
-  "icu:showSettings": {
-    "messageformat": "Mostrar a configuración"
   },
   "icu:audio": {
     "messageformat": "Son"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Non se pode actualizar"
-  },
-  "icu:muted": {
-    "messageformat": "En silencio"
   },
   "icu:mute": {
     "messageformat": "Silenciar"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Descartar"
   },
-  "icu:failedToSend": {
-    "messageformat": "Erro no envío a algúns destinatarios. Comproba a túa conexión á rede."
-  },
   "icu:error": {
     "messageformat": "Erro"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Detalle da mensaxe"
   },
   "icu:delete": {
     "messageformat": "Eliminar"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "De"
   },
-  "icu:to": {
-    "messageformat": "Para"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} a {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Mensaxe"
   },
-  "icu:groupMembers": {
-    "messageformat": "Membros do grupo"
-  },
   "icu:showMembers": {
     "messageformat": "Amosar membros"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Ti"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "«{title}» é no nome de perfil que esta persoa estableceu en Signal."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Verificado"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} está na túa listaxe de contactos do sistema"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Ver número de seguranza"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Nota"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Ver contido multimedia recente"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "icu:back": {
     "messageformat": "Volver"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Comezaches esta conversa con {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Miniatura da imaxe da mensaxe citada"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Imaxe engadida á mensaxe"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Restablecer"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Icona de ficheiro"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Benvido/a a Signal Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "A privacidade é posible. Signal faina sinxela."
   },
   "icu:linkedDevices": {
     "messageformat": "Dispositivos vinculados"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "O grupo é demasiado grande para chamar a todos os membros."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Notificar sen soar"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Activar son"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Desactivar son da chamada"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Non hai ninguén máis"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Nesta chamada · 1 persoa"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Nesta chamada · {people}persoas"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Nesta chamada · {people,number} persoa} other {Nesta chamada · {people,number} persoas}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Permitir acceso á cámara"
   },
-  "icu:general": {
-    "messageformat": "Xeral"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Corrixir a ortografía ao escribir a mensaxe"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Borrar toda a información e todas as mensaxes desta versión de Signal Desktop? Sempre podes volver vincular este dispositivo, mais as mensaxes non se restaurarán. Non se borrará a túa conta de Signal nin os datos do teu teléfono ou doutros dispositivos vinculados."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Eliminar todos os datos"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Deconectando e eliminando todos os datos"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Eliminar os datos antigos"
-  },
-  "icu:notifications": {
-    "messageformat": "Notificacións"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "When messages arrive, display notifications that reveal:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Desactivar as notificacións"
   },
   "icu:nameAndMessage": {
     "messageformat": "Nome, contido e accións"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Borrado parcialmente, preme para volver intentalo"
   },
-  "icu:showMore": {
-    "messageformat": "Detalles"
-  },
-  "icu:showLess": {
-    "messageformat": "Agochar detalles"
-  },
-  "icu:learnMore": {
-    "messageformat": "Saber máis sobre a verificación dos números de seguranza"
-  },
   "icu:expiredWarning": {
     "messageformat": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Mensaxe multimedia"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Número non rexistrado"
-  },
   "icu:sync": {
     "messageformat": "Importar contactos"
   },
   "icu:syncExplanation": {
     "messageformat": "Importa todos os grupos e contactos de Signal do teu dispositivo móbil."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Última importación o"
   },
   "icu:syncNow": {
     "messageformat": "Importar agora"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Este usuario non pode verificarse ata que intercambiedes mensaxes."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Número de seguranza con {name1}:"
-  },
   "icu:themeLight": {
     "messageformat": "Claro"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Agochar a barra de menú"
-  },
-  "icu:startConversation": {
-    "messageformat": "Comezar nova conversa"
   },
   "icu:newConversation": {
     "messageformat": "Nova conversa"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Erro ao actualizar o grupo. Comproba a túa conexión e inténtao de novo."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "As mensaxes SMS/MMS nos son compatibles."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Introduce un número de teléfono para engadir un contacto."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Número non válido"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Preme para conectar Signal Desktop co teu móbil e continuar enviando mensaxes."
   },
   "icu:unlinked": {
     "messageformat": "Unlinked"
-  },
-  "icu:relink": {
-    "messageformat": "Relink"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Actualización dispoñible"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Reiniciar Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Máis tarde"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Ignorar actualización"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Solicitude de mensaxe"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Contactos bloqueados"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Borrador:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Caducado"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Ver"
-  },
   "icu:message--donation--view": {
     "messageformat": "Ver"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Non se instalou o paquete de stickers"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Stickers"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Dispoñibles"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {Membro de {group1}, {group2}, {group3} e {remainingCount,number} máis} other {Membro de {group1}, {group2}, {group3} e {remainingCount,number} máis}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} engadiuche ao grupo."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Ningún grupo en común"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Configuración"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} na chamada"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} na chamada} other {{people,number} na chamada}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Incluír conversas silenciadas no contador"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Mensaxe"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Alcume"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Eliminar de administrador"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Cando se activa, as mensaxes enviadas e recibidas nesta conversa privada desaparecerán despois de lelas."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Alcume"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Accións"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Eliminar"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Borrar alcume?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Isto borrará de xeito permanente este alcume e a nota."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Notificacións"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Ver todo"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Alcume"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Os alcumes e as notas almacénanse en Signal e encríptanse de extremo a extremo. Só ti podes consultalos."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Nome"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Nome"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Apelidos"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Apelidos"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Nota"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Nota"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mencións"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Rexeitar solicitude de «{name}»? Non poderán volver enviar unha solicitude para unirse a través da ligazón do grupo."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Invitados por ti"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Invitados por ti"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Só se poden reenviar hasta 30 mensaxes"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Engadir foto do grupo"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Engadir foto"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Cambiar foto"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Subir foto"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Eliminar fotografía"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Eliminar contacto"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "De acordo"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Invitación enviada} other {{count,number} invitacións enviadas}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {Esta cor personalizada emprégase en {num,number} conversa. Queres eliminala de todas as conversas?} other {Esta cor personalizada emprégase en {num,number} conversas. Queres eliminala de todas as conversas?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Cor da conversa global"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Cor das conversas"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Este nome de usuario non está dispoñible"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Este nome de usuario xa está en uso."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Non se gardou o teu nome de usuario. Comproba a túa conexión e inténtao de novo."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Borrando nome de usuario"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Borrar nome de usuario"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Isto eliminará o teu nome de usuario e desactivará o teu código QR e ligazón. «{username}» estará dispoñible para que outros usuarios poidan utilizalo. Queres continuar?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Copiar nome de usuario"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Copiar ligazón"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Eliminar"
@@ -4521,7 +4326,7 @@
     "messageformat": "Contido das notificacións"
   },
   "icu:Preferences--blocked": {
-    "messageformat": "Bloqueado"
+    "messageformat": "Contactos bloqueados"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contacto} other {{num,number} contactos}}"
@@ -4576,12 +4381,6 @@
   },
   "icu:Preferences--messaging": {
     "messageformat": "Mensaxería"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "Ver o meu número de teléfono"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Atópame polo meu número de teléfono"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Confirmacións de lectura"
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Engadir texto"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Stickers"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Recortar e virar"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Contorno"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Subliñado"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Bolígrafo"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Bloquear"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Recortar"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Engadir mensaxe"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Freeform"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Nova historia"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Só ti podes ver o nome desta historia."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Historia personalizada"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Todas as conexións de Signal"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Compartir con todas as conexións"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Todos agás…"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} persoa excluída} other {{num,number} persoas excluídas}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Compartir só con…"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Compartir só coas persoas seleccionadas"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} persoas"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Elixe quen pode ver a túa historia. Os cambios non afectarán ás historias que xa compartiches. <learnMoreLink>Saber máis.</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Só os administradores poden enviar historias a este grupo."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Todas as conexións de Signal · {viewersCount,number} espectador} other {Todas as conexións de Signal · {viewersCount,number} espectadores}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Todas as conexións de Signal · {excludedCount,number} excluída} other {Todas as conexións de Signal · {excludedCount,number} excluídas}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Historia privada · {viewersCount,number} espectador} other {Historia privada · {viewersCount,number} espectadores}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Historia do grupo · 1 membro} other {Historia do grupo · {membersCount,number} membros}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Compartir e ver historias"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Engadir ligazón"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Engadir texto"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Estándar"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Chamada en grupo"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Ligazón de chamada"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Sen conversas recentes."
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "Esta actualización elimina algúns erros, ademais de arranxar a lóxica de ordenación de conversas para que sexa máis coherente e mellorar o comportamento se a aplicación se atopa con tempos de espera de busca de DNS por mor dunha mala conectividade de rede."
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Engadimos funcións para crear alcumes personalizados e notas para calquera persoa coa que esteas a conversar en Signal, aínda que non estea na túa listaxe de contactos do sistema. As notas e os alcumes son unha forma máis sinxela e segura de gardar información adicional das túas conexións de Signal. Ademais, todo está encriptado de extremo a extremo e protexido polo teu PIN de Signal, polo que podes recuperar toda a información de forma segura se perdes o teléfono."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Agora podes minimizar Signal na bandexa do sistema de Linux."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Para os usuarios de Windows, esta actualización volve mostrar o número detallado das mensaxes non lidas na icona de Signal."
   }
 }

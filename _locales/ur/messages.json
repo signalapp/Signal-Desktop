@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Archive دیکھیں"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "چیٹ کا رنگ"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Signal اپ ڈیٹ کریں"
-  },
   "icu:loading": {
     "messageformat": "لوڑ ہو رہا ہے۔۔۔"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "آپ صرف 4 چیٹس تک پن کر سکتے ہیں"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "فولڈر منتخب کریں"
-  },
-  "icu:chooseFile": {
-    "messageformat": "فائل منتخب کریں"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "اپنے ڈیٹا کو لوڈ کریں"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "آپ ابھی برآمدی عمل سے گزر چکے ہیں ، اور آپ کے کنٹکٹ اور پیغامات آپ کے کمپیوٹر پر صبر سے منتظر ہیں۔ وہ فولڈر منتخب کریں جس میں آپ کا محفوظ کردہ Signal ڈیٹا موجود ہو۔"
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "برآمد شدہ ڈیٹا والی ڈائریکٹری کا انتخاب کریں"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "کچھ غلط ہو گیا!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "رابطے اور پیغامات لوڈ ہو رہے ہیں"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "یقینی بنائیں کہ آپ نے صحیح ڈائریکٹری منتخب کی ہے جس میں آپ کے محفوظ کردہ Signal ڈیٹا موجود ہیں۔ اس کا نام 'Signal Export' سے شروع ہونا چاہئے۔ آپ کروم ایپ سے اپنے ڈیٹا کی ایک نئی کاپی بھی محفوظ کرسکتے ہیں۔"
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "اگر یہ اقدامات آپ کے کام نہیں آرہے ہیں تو ، براہ کرم ڈی بگ لاگ (دیکھیں -> ڈی بگ لاگ) جمع کریں تاکہ ہم آپ کو منتقل ہونے میں مدد کرسکیں!"
-  },
-  "icu:importAgain": {
-    "messageformat": "فولڈر منتخب کریں اور دوبارہ کوشش کریں"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "کامیابی"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Signal Desktop کا استعمال شروع کریں"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "اس ڈیوائس کو اپنے فون کے ساتھ لنک کریں"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "آپکا منتخب کردہ مقام"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "database اپ گریڈ ہو رہا ہے۔ ہو سکتا ہے یہ کچھ وقت لے۔۔۔"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {1 دن پہلے کے پیغامات لوڈ ہو رہے ہیں...} other {{daysAgo,number} دن پہلے کے پیغامات لوڈ ہو رہے ہیں...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "ذیل میں نئے مینشنز"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 نا پڑھا ہوا پیغام"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number}نہ پڑھے ہوئے پیغامات} other {{count,number}نہ پڑھے ہوئے پیغامات}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "آپ نے دوسری ڈیوائس سے بطور غیر تصدیق شدہ اپنے حفاظتی نمبر کو {name} کے ساتھ نشان لگایا"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "اس گروپ کے ممبروں کے ساتھ آپ کے حفاظتی نمبر جب آپ نے آخری بار تصدیق کی تبدیل ہوگئے ہیں۔ کسی گروپ ممبر پر کلک کریں تاکہ ان کے ساتھ اپنا نیا حفاظتی نمبر دیکھ سکیں۔"
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "آپ جس حفاظتی نمبر کی تصدیق کرنے کی کوشش کر رہے ہیں وہ بدل گیا ہے۔ براہ کرم اپنے نئے حفاظتی نمبر کا جائزہ لیں{name1}۔ یاد رکھیں ، اس تبدیلی کا مطلب یہ ہوسکتا ہے کہ کوئی آپ کے مواصلات کو روکنے کی کوشش کر رہا ہے یا {name2} نے آسانی سے Signal کو دوبارہ انسٹال کیا ہے۔"
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "{story} سٹوری کے لیے کارروائیاں"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "{name1} کے ساتھ آپ کا حفاظتی نمبر بدل گیا ہے۔ اس کا مطلب یہ ہوسکتا ہے کہ کوئی آپ کے مواصلات کو روکنے کی کوشش کر رہا ہے یا {name2} نے آسانی سے Signal کو دوبارہ انسٹال کیا ہے۔ آپ اس رابطے سے اپنے حفاظتی نمبر کی تصدیق کر سکتے ہیں۔"
-  },
   "icu:sendAnyway": {
     "messageformat": "بہر حال بھیجیں"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "کال جاری رکھیں"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "{name}کے ساتھ آپ کا حفاظتی نمبر تبدیل ہوگیا ہے اور اب اس کی تصدیق نہیں ہوگی۔ دیکھنے کے لئے کلک کریں۔"
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "اس گروپ کے کئی ممبرز کے ساتھ آپ کا حفاظتی نمبر تبدیل ہوگیا ہے اور اب اس کی تصدیق نہیں ہوگی۔ دیکھنے کے لئے کلک کریں۔"
   },
   "icu:debugLogExplanation": {
     "messageformat": "آپ کے جمع کروائیں پر کلک کرنے پر، آپ کا لاگ ایک منفرد، غیر پبلش شدہ URL پر 30 دنوں کے لیے آن لائن پوسٹ کر دیا جائے گا۔ آپ پہلے اسے مقامی طور پر محفوظ کر سکتے ہیں۔"
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "سپورٹ سے رابطہ کریں"
   },
-  "icu:gotIt": {
-    "messageformat": "سمجھ گئے!"
-  },
   "icu:submit": {
     "messageformat": "جمح کریں"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "قبول کریں"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "تصدیق کے طور پر نشان لگائیں"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "مزید پڑھیں"
   },
-  "icu:isVerified": {
-    "messageformat": "{name} کے ساتھ آپ نے اپنے حفاظتی نمبر کی تصدیق کر دی ہے۔"
-  },
-  "icu:isNotVerified": {
-    "messageformat": "{name} کے ساتھ آپ نے اپنے حفاظتی نمبر کی تصدیق نہیں کی۔"
-  },
   "icu:verified": {
     "messageformat": "تصدیق شدہ"
   },
   "icu:newIdentity": {
     "messageformat": "نیا حفاظتی نمبر"
-  },
-  "icu:identityChanged": {
-    "messageformat": "اس کنٹکٹ کے ساتھ آپ کا حفاظتی نمبر بدل گیا ہے۔ اس کا مطلب یہ ہوسکتا ہے کہ کوئی آپ کے مواصلات کو روکنے کی کوشش کر رہا ہے ، یا اس کنٹکٹ  نے آسانی سے Signal کو دوبارہ انسٹال کیا ہے۔ آپ شاید نئے حفاظتی  نمبر کی تصدیق کر سکتے ہیں۔"
   },
   "icu:incomingError": {
     "messageformat": "آنے والے پیغام کو ہینڈل کرنے میں خرابی ہو رہی ہے"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "غیر معاون قسم کی اٹیچمنٹ۔ محفوظ کرنے کیلئے کلک کریں۔"
-  },
-  "icu:clickToSave": {
-    "messageformat": "محفوظ کرنے کے لئے کلک کریں"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "نا معلوم فائل"
   },
   "icu:voiceMessage": {
     "messageformat": "آواز کے ذریعے پیغام"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "اصل میسج نہیں ملا"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "اصل پیغام ملا ، لیکن لوڈ نہیں۔ اسے لوڈ کرنے کے لئے اوپر سکرول کریں۔"
-  },
   "icu:voiceRecording--start": {
     "messageformat": "صوتی پیغام ریکارڈ کرنا شروع کریں"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "صوتی پیغام مکمل کریں اور بھیجیں"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "صوتی پیغام منسوخ کریں"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "آڈیو پیغام کی ریکارڈنگ رک گئی کیونکہ زیادہ سے زیادہ وقت کی حد ہوگئی تھی۔"
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "آڈیو پیغام کی ریکارڈنگ بند ہوگئی کیونکہ آپ نے کسی اور ایپ کو تبدیل کیا ہے۔"
   },
   "icu:voiceNoteLimit": {
     "messageformat": "صوتی پیغامات ایک گھنٹے تک کے لیے محدود ہیں۔ اگر آپ کسی دوسری ایپ پر سوئچ کریں گے تو ریکارڈنگ رک جائے گی۔"
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "آپ"
   },
-  "icu:replyingTo": {
-    "messageformat": "{name} کو جواب دے رہے ہیں"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "وائس پیغامات بھیجنے کے لیے، Signal Desktop کو اپنے مائیکروفون تک رسائی کی اجازت دیں۔"
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "رسائی کی اجازت دیں"
-  },
-  "icu:showSettings": {
-    "messageformat": "ترتیبات دیکھائیں"
   },
   "icu:audio": {
     "messageformat": "آڈیو"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Update نہیں ہو سکا"
-  },
-  "icu:muted": {
-    "messageformat": "خاموش کردہ"
   },
   "icu:mute": {
     "messageformat": "خاموش کریں"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "مسترد کیجئے"
   },
-  "icu:failedToSend": {
-    "messageformat": "بعض وصول کنندگان کو پیغام بھیجنے میں ناکامی۔ اپنا نیٹ ورک کنکشن چیک کریں۔"
-  },
   "icu:error": {
     "messageformat": "غلطی ہے"
-  },
-  "icu:messageDetail": {
-    "messageformat": "پیغام کی تفصیل"
   },
   "icu:delete": {
     "messageformat": "حذف کریں"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "کی طرف سے"
   },
-  "icu:to": {
-    "messageformat": "کے لئے"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} تا {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "پیغام"
   },
-  "icu:groupMembers": {
-    "messageformat": "گروپ کے اراکین"
-  },
   "icu:showMembers": {
     "messageformat": "اراکین کو دکھائیں"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "آپ"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "\"{title}\" اس شخص کا پروفائل نیم ہے جس نے Signal میں اسے اپنے لیے سیٹ کیا ہے۔"
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "تصدیق شدہ"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} آپ کے سسٹم کانٹیکٹس میں موجود ہے"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "حفاظتی نمبر دیکھیں"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "نوٹ"
   },
   "icu:viewRecentMedia": {
     "messageformat": "حالیہ میڈیا دیکھیں"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "آپ نے ابھی تک اس کنٹکٹ کے ساتھ کسی پیغامات کا تبادلہ نہیں کیا ہے۔ ان کے ساتھ آپ کا حفاظتی نمبر پہلے پیغام کے بعد دستیاب ہوگا۔"
   },
   "icu:back": {
     "messageformat": "واپس جائیں"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "آپ نے {oldTitle} کے ساتھ یہ چیٹ شروع کی تھی"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "تصویر کے تھمب نیل سے پیغام حوالے کردیا"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "تصویر پیغام کے ساتھ منسلک ہے"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "دوبارہ بحال کریں"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "فائل آئیکن"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Signal Desktop میں خوش آمدید"
-  },
-  "icu:installTagline": {
-    "messageformat": "نجی معلومات کی حفاظت ممکن ہے۔ Signal اسے آسان بنا دیتا ہے۔"
   },
   "icu:linkedDevices": {
     "messageformat": "ڈیوائس منسلک ہو چکی"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "شرکاء کو کال کرنے کے لیے گروپ بہت بڑا ہے۔"
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "مطلع کریں، کال نہ ملائیں"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "کال کے بجنے کو فعال کریں"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "رنگنگ آف کریں"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "یہاں کوئی اور نہیں ہے"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "اس کال میں · 1 شخص"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "اس کال میں ·{people} لوگ"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {اس کال میں · {people,number} شخص} other {اس کال میں · {people,number} افراد}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "کیمرا تک رسائی کی اجازت دیں"
   },
-  "icu:general": {
-    "messageformat": "عام"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "میسج تحریر کرنے کے خانے میں املاء چیک کرنے والا متن داخل کیا گیا"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Signal ڈیسک ٹاپ کے اس ورژن سے تمام ڈیٹا اور میسجز کو حذف کریں؟ آپ کسی بھی وقت اس ڈیسک سے دوبارہ مربوط ہو سکتے ہیں، لیکن آپ کے میسجز بحال نہیں ہوں گے۔ آپ کا Signal اکاؤنٹ اور آپ کے فون یا دیگر مربوشط کردہ ڈیوائسز پر موجود ڈیٹا حذف نہیں کیا جائے گا۔"
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "تمام ڈیٹا حذف کریں"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "منطقع ہو رہا ہے اور تمام ڈیٹا حذف ہو رہا ہے"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "پرانا ڈیٹا حذف کریں"
-  },
-  "icu:notifications": {
-    "messageformat": "اطلاعات"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "جب پیغامات آتے ہیں ، تو اطلاعات ظاہر کریں جو ظاہر کرتی ہیں:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "نوٹییفکشنز کو غیر فعال بنائیں"
   },
   "icu:nameAndMessage": {
     "messageformat": "نام ، مواد اور افعال"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "جزوی طور پر حذف کر دیا گیا، دوبارہ کوشش کرنے کے لیے کلک کریں"
   },
-  "icu:showMore": {
-    "messageformat": "تفصیلات"
-  },
-  "icu:showLess": {
-    "messageformat": "تفصیلات چھپائیں"
-  },
-  "icu:learnMore": {
-    "messageformat": "حفاظتی نمبروں کی تصدیق کے بارے میں مزید معلومات حاصل کریں"
-  },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop کا یہ ورژن کی میعاد ختم ہوچکی ہے۔ مہربانی فرما کر پیغامات جاری رکھنے کے لئے حالیہ ورژن میں اپ گریڈ کریں۔"
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "میڈیا پیغام"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "نمبر رجسٹرڈ نہیں یے"
-  },
   "icu:sync": {
     "messageformat": "روابط درآمد کریں"
   },
   "icu:syncExplanation": {
     "messageformat": "اپنی موبائل ڈیوائس سے تمام Signal کروپس اور کنٹکٹس درآمد کریں۔"
-  },
-  "icu:lastSynced": {
-    "messageformat": "آخری درآمد"
   },
   "icu:syncNow": {
     "messageformat": "اب درآمد کریں"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "جب تک آپ اس صارف سے پیغامات کا تبادلہ نہیں کرتے اس صارف کی تصدیق نہیں ہو سکتی۔"
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "آپ کا حفاظتی نمبر {name1} کے ساتھ:"
-  },
   "icu:themeLight": {
     "messageformat": "روشنی"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "مینیو بار چھپائیں"
-  },
-  "icu:startConversation": {
-    "messageformat": "نئی چیٹ شروع کریں"
   },
   "icu:newConversation": {
     "messageformat": "نئی چیٹ"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "گروپ کو اپ ڈیٹ کرنے میں ناکام۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS / MMS پیغامات کی سہولت نہیں ہے۔"
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "رابطے شامل کرنے کے لئے ایک فون نمبر درج کریں۔"
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "غلط نمبر"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "پیغامات کی ترسیل جاری رکھنے کے لیے اپنے Signal Desktop کو اپنی موبائل ڈیوائس سے دوبارہ مربوط کرنے کی خاطر کلک کریں۔"
   },
   "icu:unlinked": {
     "messageformat": "لنک ختم ہو گیا ہے"
-  },
-  "icu:relink": {
-    "messageformat": "دوبارہ لنک کریں"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "اپ ڈیٹ دستیاب ہے"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Signal کو دوبارہ شروع کریں"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "بعد میں"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "اپ ڈیٹ نظر انداز کریں"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "پیغام کی درخواست"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "بلاک شدہ"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "مسودہ تیار کیا:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "زائد المیعاد"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "ویو"
-  },
   "icu:message--donation--view": {
     "messageformat": "ویو"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "اسٹیکر پیک انسٹال نہیں ہو سکتا"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "اسٹیکرز"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "دستیاب ہے"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {{group1}، {group2}، {group3} اور {remainingCount,number} مزید کا ممبر} other {{group1}، {group2}، {group3} اور {remainingCount,number} مزید کا ممبر}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} نے آپ کو گروپ میں شامل کیا۔"
-  },
   "icu:no-groups-in-common": {
     "messageformat": "مشترکہ طور پر کوئی گروپ نہیں"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "ترتیبات"
-  },
-  "icu:calling__participants": {
-    "messageformat": "کال میں {people}"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {کال میں {people,number}} other {کال میں {people,number}}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "بیج کاؤنٹ میں خاموش کردہ چیٹس شامل کریں"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "پیغام"
+  "icu:ContactModal--nickname": {
+    "messageformat": "عرفی نام"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "منتظم کی حیثیت سے ہٹائیں"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "فعال ہونے پر، اس 1:1 چیٹ میں بھیجے جانے اور موصول ہونے والے میسجز دیکھ لیے جانے کے بعد غائب ہو جائیں گے۔"
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "عرفی نام"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "افعال"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "حذف کریں"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "عرفی نام حذف کریں؟"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "اس سے یہ عرفی نام اور نوٹ مستقل طور پر حذف ہو جائے گا۔"
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "اطلاعات"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "تمام دیکھیں"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "عرفی نام"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "عرفی نام اور نوٹس Signal کے ساتھ اسٹور کیے جاتے ہیں اور کلی طور پر انکرپٹ شدہ ہوتے ہیں۔ یہ صرف آپ کو نظر آتے ہیں۔"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "پہلا نام"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "پہلا نام"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "آخری نام"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "آخری نام"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "نوٹ"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "نوٹ"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "ذکر"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "\"{name}\" سے درخواست کو مسترد کریں؟ وہ دوبارہ گروپ لنک کے ذریعے شامل ہونے کی درخواست کرنے سے قاصر ہوں گے۔"
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "آپ کے ذریعہ مدعو کیا گیا"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "آپ کے ذریعہ مدعو کیا گیا"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "آپ صرف 30 میسجز تک فارورڈ کر سکتے ہیں"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "ایک گروپ فوٹو شامل کریں"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "تصویر شامل کریں"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "تصویر تبدیل کریں"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "تصویر اپلوڈ کریں"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "تصویر ہٹائیں"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "رابطہ ہٹا دیں"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "ٹھیک ہے"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {انوائٹ چلا گیا} other {{count,number} انوائٹس چلے گئے}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {یہ حسبِ ضرورت رنگ {num,number} چیٹ میں استعمال ہوتا ہے۔ کیا آپ اسے تمام چیٹس کے لیے حذف کرنا چاہتے ہیں؟} other {یہ حسبِ ضرورت رنگ {num,number} چیٹس میں استعمال ہوتا ہے۔ کیا آپ اسے تمام چیٹس کے لیے حذف کرنا چاہتے ہیں؟}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "چیٹ کا گلوبل رنگ"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "چیٹ کا رنگ"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "یہ یوزر نیم دستیاب نہیں ہے"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "یہ یوزر نیم لے لیا گیا ہے۔"
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "آپ کا یوزر نیم محفوظ نہیں کیا جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "یوزر نیم حذف کیا جا رہا ہے"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "یوزر نیم حذف کریں"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "یہ آپ کا یوزر نیم ہٹا دے گا اور آپ کے QR کوڈ اور لنک کو غیر فعال کر دے گا۔ \"{username}\" دوسروں کو دعویٰ کرنے کے لیے دستیاب ہو گا۔ کیا آپ واقعی کرنا چاہتے ہیں؟"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "یوزر نیم کاپی کریں"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "لنک کاپی کریں"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "حذف کریں"
@@ -4577,12 +4382,6 @@
   "icu:Preferences--messaging": {
     "messageformat": "پیغام رسانی"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "میرا فون نمبر دیکھیں"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "مجھے میرے فون نمبر کے ذریعے تلاش کریں"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "رسیدیں پڑھیں"
   },
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "متن شامل کریں"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "اسٹیکرز"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "کراپ کریں اور گھمائیں"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "آؤٹ لائن"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "انڈر لائن"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "پین"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "لاک"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "کراپ کریں"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "پیغام شامل کریں"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Freeform"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "نئی سٹوری"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "صرف آپ اس سٹوری کا نام دیکھ سکتے ہیں۔"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "کسٹم سٹوری"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "تمام Signal کنیکشنز"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "تمام کنکشنز کے ساتھ شیئر کریں"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "تمام سوائے..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} فرد خارج کر دیا گیا} other {{num,number} لوگ خارج کر دیے گئے}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "صرف ان کے ساتھ شیئر کریں..."
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "صرف منتخب لوگوں کے ساتھ شیئر کریں"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} لوگ"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "انتخاب کریں کہ کون آپ کی سٹوری دیکھ سکتا ہے۔ تبدیلیاں آپ کی جانب سے پہلے سے بھیجی گئی سٹوریز کو متاثر نہیں کریں گی۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "صرف ایڈمنز اس گروپ میں سٹوریز بھیج سکتے ہیں۔"
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {تمام Signal کنیکشنز · {viewersCount,number} ناظر} other {تمام Signal کنیکشنز · {viewersCount,number} ناظرین}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {تمام Signal کنیکشنز · {excludedCount,number} خارج} other {تمام Signal کنیکشن · {excludedCount,number} خارج}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {نجی سٹوری · {viewersCount,number} ناظر} other {نجی سٹوری · {viewersCount,number} ناظرین}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {گروپ سٹوری · 1 رکن} other {گروپ سٹوری · {membersCount,number} اراکین}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "سٹوریز شیئر کریں اور دیکھیں"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "لنک شامل کریں"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "متن شامل کریں"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "عام"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "گروپ کال"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "کال کا لنک"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "کوئی حالیہ گفتگوئیں نہیں۔"
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "یہ اپ ڈیٹ چند ایک بگز کو ٹھیک کرتی ہے جن میں شامل ہیں گفتگو کے زیادہ ہموار سارٹ لاجک اور ایپ کا پہلے سے بہتر برتاؤ اگر ناقص کنکٹیوٹی کے باعث اسے DNS لک اپ ٹائم آؤٹس کا سامنا ہوتا ہے۔"
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "• ہم نے ہر اس شخص جس کے ساتھ آپ Signal پر چیٹ کرتے ہیں کے لیے حسب ضرورت عرفی ناموں اور نوٹس کی سپورٹ شامل کی ہے، چاہے وہ آپ کے سسٹم روابط میں نہ بھی ہوں۔ نوٹس اور عرفی نام آپ کے Signal کنیکشنز کی اضافی تفصیلات تحریر کرنے میں ایک آسان اور محفوظ راستہ فراہم کرتے ہیں — اور وہ کلی طور پر انکرپٹ شدہ اور آپ کی Signal کے PIN کے ذریعے محفوظ شدہ ہیں تاکہ اگر آپ اپنا فون کھو بھی دیں تو انہیں محفوظ طریقے سے بحال کیا جا سکے۔"
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "اب آپ  Linux پر اپنی سسٹم ٹرے میں Signal کو مینیمائز کر سکتے ہیں۔"
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Windows پر موجود یوزر کے لیے، یہ اپ ڈیٹ Signal آئیکن پر نہ پڑھے گئے میسج کے تفصیلی شمار کے لیے سپورٹ کو دوبارہ فعال کرتی ہے۔"
   }
 }

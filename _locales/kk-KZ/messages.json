@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Мұрағатты көру"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Чат түсі"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Signal-ды жаңарту"
-  },
   "icu:loading": {
     "messageformat": "Жүктелуде..."
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Сіз тек 4 чатқа дейін бекіте аласыз"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Қалта таңдау"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Файлды таңдау"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Деректерді жүктеу"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Жаңа ғана экспорттау процесінен өттіңіз. Енді контактілеріңіз бен хаттарыңыз компьютерде. Сақталған Signal деректерінен тұратын қалтаны таңдаңыз."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Деректері экспортталған каталогті таңдау"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Бірдеңе дұрыс болмады!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Контактілер мен хаттарды жүктеу"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Сақталған Signal деректері бар дұрыс каталогті таңдағаныңызға көз жеткізіңіз. Оның аты «Signal Export» деп басталуы керек. Сонымен қатар деректеріңіздің жаңа көшірмесін Chrome қолданбасынан сақтай аласыз."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Егер бұл қадамдар нәтиже бермесе, ақауларды түзету журналын жіберіңіз (Көру -> Ақауларды түзету журналы), сонда біз сізге көшіруге көмектесеміз!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Қалтаны таңдап, қайталап көріңіз"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Сәтті орындалды!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Signal-дың компьютерлік нұсқасын пайдалана бастау"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Осы құрылғыны телефоныңызға байланыстыру"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "сіздің таңдаған орныңыз"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Дерекқор жаңартылуда. Бұған біраз уақыт кетуі мүмкін..."
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {1 күн бұрынғы хаттар жүктелуде...} other {{daysAgo,number} күн бұрынғы хаттар жүктелуде...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Белгілеп кеткендер төменде көрсетілген"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 оқылмаған хат"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} оқылмаған хат} other {{count,number} хат оқылмаған}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "{name} деген контактімен араңыздағы қауіпсіздік нөмірін басқа құрылғыдан тексерілмеді деп белгіледіңіз"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Сіздің осы топ мүшелері араңыздағы қауіпсіздік нөмірлеріңіз соңғы рет верификация жүргізілгеннен кейін өзгертілді. Жаңа қауіпсіздік нөміріңізді көру үшін топ мүшесін басыңыз."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Сіз верификациядан өткізгіңіз келетін қауіпсіздік нөмірі өзгеріп кетті. {name1} деген контактімен араңыздағы жаңа қауіпсіздік нөмірін қараңыз. Бұл біреудің сіздің әңгімелеріңізге тыңшылық жасағысы келетінін немесе {name2} жай ғана Signal-ды қайта орнатқанын білдіретінін есте сақтаңыз."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "{story} сторисіне қатысты әрекеттер"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "{name1} деген кісімен араңыздағы қауіпсіздік нөмірі өзгерді. Бұл біреу сіздің хаттарыңызға тыңшылық жасауға әрекет жасап жатқанын немесе жай ғана {name2} Signal-ды қайта орнатқанын білдіруі мүмкін. Осы контактімен қауіпсіздік нөмірін верификациядан өткізсеңіз болады."
-  },
   "icu:sendAnyway": {
     "messageformat": "Сонда да жіберу"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Қоңырауды жалғастыру"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Сіздің {name} араңыздағы қауіпсіздік нөміріңіз өзгертілді және енді верификация жасалмайды. Көрсету үшін басыңыз."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Сіздің осы топтағы бірнеше мүшелерімен араңыздағы қауіпсізлік нөмірлеріңіз өзгертілді және енді верификация жасалмайды. Көрсету үшін басыңыз."
   },
   "icu:debugLogExplanation": {
     "messageformat": "\"Жіберу\" түймесін басқанда, сіздің журналыңыз 30 күнге бірегей жарияланбаған URL мекенжайына жарияланады. Оны алдымен жергілікті сақтап қоюыңызға болады."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Қолдау қызметіне хабарласу"
   },
-  "icu:gotIt": {
-    "messageformat": "Түсінікті!"
-  },
   "icu:submit": {
     "messageformat": "Жіберу"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Қабылдау"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Верификациядан өтті деп белгілеу"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Толық ақпарат"
   },
-  "icu:isVerified": {
-    "messageformat": "Сіздің {name} араңыздағы қауіпсіздік нөміріңізге верификация жасалды."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "Сіздің {name} араңыздағы қауіпсіздік нөміріңізге верификация жасалмады."
-  },
   "icu:verified": {
     "messageformat": "Тексерілді"
   },
   "icu:newIdentity": {
     "messageformat": "Жаңа қауіпсіздік нөмірі"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Сіздің осы контактпен араңыздағы қауіпсіздік нөміріңіз өзгертілді. Бұл біреу сіздің хаттарыңызға тыңшылық жасауға әрекет жасап жатқанын немесе жай ғана сол контактінің Signal-ды қайта орнатқанын білдіруі мүмкін. Төмендегі жаңа қауіпсіздік нөмірін верификациядан өткізсеңіз болады."
   },
   "icu:incomingError": {
     "messageformat": "Кіріс хатты өңдеу қатесі"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Тіркеме түріне қолдау көрсетілмейді. Сақтау үшін басыңыз."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Сақтау үшін басыңыз"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Атауы жоқ файл"
   },
   "icu:voiceMessage": {
     "messageformat": "Дауыстық хат"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Бастапқы хат табылмады"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Бастапқы хат табылды, бірақ жүктелмеді. Оны жүктеу үшін жоғары айналдырыңыз."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Дауыстық хатты жаза бастау"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Дауыстық хатты жазуды аяқтап, жіберу"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Дауыстық хаттан бас тарту"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Дауыстық хатты жазу тоқтатылды, себебі максималды уақыт шегіне жетті."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Дауыстық хатты жазу тоқтатылды, себебі сіз басқа қолданбаға ауысып кеттіңіз."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Дауыстық хаттарды бір сағаттан артық жаза алмайсыз. Басқа қолданбаға ауысып кетсеңіз, дауыстық хат жазу тоқтайды."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Сіз"
   },
-  "icu:replyingTo": {
-    "messageformat": "{name} деген кісіге жауап жазылуда"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Дауыстық хаттарды жіберу үшін Signal-дың компьютерлік нұсқасына микрофонды пайдалануға рұқсат етіңіз."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Пайдалануға рұқсат беру"
-  },
-  "icu:showSettings": {
-    "messageformat": "Параметрлерді көрсету"
   },
   "icu:audio": {
     "messageformat": "Аудио"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Жаңарту мүмкін емес"
-  },
-  "icu:muted": {
-    "messageformat": "Дыбысы өшірілген"
   },
   "icu:mute": {
     "messageformat": "Дыбысын өшіру"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Жою"
   },
-  "icu:failedToSend": {
-    "messageformat": "Кейбір алушыларға жіберілмеді. Желімен байланысты тексеріңіз."
-  },
   "icu:error": {
     "messageformat": "Қате"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Хат туралы мәлімет"
   },
   "icu:delete": {
     "messageformat": "Жою"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Кімнен"
   },
-  "icu:to": {
-    "messageformat": "Кімге"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} -> {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Хабарлама"
   },
-  "icu:groupMembers": {
-    "messageformat": "Топ мүшелері"
-  },
   "icu:showMembers": {
     "messageformat": "Мүшелерді көрсету"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Сіз"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "“{title}” – осы кісінің Signal-да өзіне орнатқан профиль атауы."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Тексерілді"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} сіздің жүйелік контактілеріңізде бар"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Қауіпсіздік нөмірін көру"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Ескертпе"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Соңғы мультимедианы көру"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Бұл контактімен әлі хат алмаспадыңыз. Онымен қауіпсіздік нөміріңіз бірінші хат алмасқаннан кейін болады."
   },
   "icu:back": {
     "messageformat": "Артқа"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "{oldTitle} деген кісімен осы чатты бастадыңыз"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Сілтеме жасалған хаттағы суреттің нобайы"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Хатқа сурет тіркелді"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Бастапқы күйге қайтару"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Файл белгішесі"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Signal-дың компьютерлік нұсқасына қош келдіңіз"
-  },
-  "icu:installTagline": {
-    "messageformat": "Жеке ақпаратыңыз қауіпсіздікте. Signal оған қамқорлық жасайды."
   },
   "icu:linkedDevices": {
     "messageformat": "Байланыстырылған құрылғылар"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Қатысушыларға қоңырау шалып шығу мүмкін емес. Топ өте үлкен."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Қоңырау шалмай хабарландыру жіберу"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Қоңырауды қосу"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Қоңырау дыбысын өшіру"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Бұл жерде ешкім жоқ"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Бұл қоңырауда · 1 адам"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Бұл қоңырауда · {people} адам"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Бұл қоңырауда · {people,number} адам} other {Бұл қоңырауда · {people,number} адам}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Камераны пайдалануға рұқсат ету"
   },
-  "icu:general": {
-    "messageformat": "Жалпы"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Хат жазу терезесіне енгізілген мәтіннің емлесін тексеру"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Signal Desktop-тың осы нұсқасынан барлық деректі және хатты жою керек пе? Осы жұмыс үстелін кез келген уақытта қайта байланыстыра аласыз, бірақ хаттарыңыз қалпына келмейді. Signal аккаунтыңыз және телефоныңыздағы деректер немесе басқа да байланыстырылған құрылғылар жойылмайды."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Барлық деректі жою"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Құрылғыны ажырату және барлық деректі жою"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Ескі деректі жою"
-  },
-  "icu:notifications": {
-    "messageformat": "Құлақтандырулар"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Хаттар келгенде, мыналарды көрсететін хабарландыруларды көрсетіңіз:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Хабарландыруларды өшіру"
   },
   "icu:nameAndMessage": {
     "messageformat": "Аты, мазмұны және әрекеттер"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Ішінара жойылды, қайталап көру үшін басыңыз"
   },
-  "icu:showMore": {
-    "messageformat": "Толық мәлімет"
-  },
-  "icu:showLess": {
-    "messageformat": "Толық мәліметті жасыру"
-  },
-  "icu:learnMore": {
-    "messageformat": "Қауіпсіздік нөмірлерін верификациядан өткізу туралы толық ақпарат"
-  },
   "icu:expiredWarning": {
     "messageformat": "Signal-дың компьютерлік нұсқасы ескірді. Әрі қарай хат алмасуды жалғастыру үшін соңғы нұсқаға жаңартыңыз."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Мультимедиа хаты"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Нөмір тіркелмеген"
-  },
   "icu:sync": {
     "messageformat": "Контактілерді импорттау"
   },
   "icu:syncExplanation": {
     "messageformat": "Мобильдік құрылғыңыздан барлық Signal тобы мен контактісін импорттаңыз."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Соңғы импорттау уақыты"
   },
   "icu:syncNow": {
     "messageformat": "Қазір импорттау"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Бұл пайдаланушымен хат алыспайынша, оны верификациялау мүмкін емес."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "{name1} деген кісімен араңыздағы қауіпсіздік нөмірі:"
-  },
   "icu:themeLight": {
     "messageformat": "Жарық"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Мәзір жолағын жасыру"
-  },
-  "icu:startConversation": {
-    "messageformat": "Жаңа чат бастау"
   },
   "icu:newConversation": {
     "messageformat": "Жаңа чат"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Топ жаңартылмады. Байланысты тексеріп, қайталап көріңіз."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS хаттарға қолдау көрсетілмейді."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Контактіні қосу үшін телефон нөмірін енгізіңіз."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Нөмір дұрыс емес"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Хат алмасуды жалғастыру үшін Signal-дың компьютерлік нұсқасын мобильдік құрылғыңызға қайта байланыстыру үшін басыңыз."
   },
   "icu:unlinked": {
     "messageformat": "Байланыс ажыратылды"
-  },
-  "icu:relink": {
-    "messageformat": "Қайта байланыстыру"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Жаңа нұсқасы шықты"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Signal-ды қайта іске қосу"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Кейінірек"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Жаңа нұсқаны елемеу"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Хат алмасуға өтініш"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Блокталған"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Нобай:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Мерзімі өтіп кетті"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Көру"
-  },
   "icu:message--donation--view": {
     "messageformat": "Көру"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Стикерлер жинағын орнату мүмкін болмады"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Жапсырмалар"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Қолжетімді"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {{group1}, {group2}, {group3} және тағы {remainingCount,number} топтың мүшесі} other {{group1}, {group2}, {group3} және тағы {remainingCount,number} топтың мүшесі}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} сізді топқа қосты."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Ортақ топ жоқ"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Параметрлер"
-  },
-  "icu:calling__participants": {
-    "messageformat": "Қоңырауда {people}"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {Қоңырауда {people,number}} other {Қоңырауда {people,number}}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Дыбыссыз чаттарды таңба санына қосу"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Хабарлама"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Лақап ат"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Әкімші ретінде өшіру"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Қосылған кезде осы 1:1 чатында жіберілген және алынған хаттарды көргеннен кейін олар жойылады."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Лақап ат"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Әрекеттер"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Жою"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Лақап атты өшіру керек пе?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Бұл лақап аты мен ескертпені біржола жоямыз."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Құлақтандырулар"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Барлығын көру"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Лақап ат"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Лақап аттар мен ескертпелер Signal-да сақталады және толықтай шифрланады. Ол тек сізге көрінеді."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Аты"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Аты"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Тегіңіз"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Тегіңіз"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Ескертпе"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Ескертпе"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Атап өтулер"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "\"{name}\" жіберген өтініш қабылданбасын ба? Топ сілтемесі арқылы топқа қосылуға өтінішті қайта жібере алмайтын болады."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Сіз шақырған"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Сіз шақырған"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Максимум 30 хатты басқа біреуге жібере аласыз"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Топ фотосуретін қосу"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Фотосурет қосу"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Фотосуретті өзгерту"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Фотоуретті жүктеп салу"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Фотосуретті өшіру"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Контактіні өшіру"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Жарайды"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Шақыру жіберілді} other {{count,number} шақыру жіберілді}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {{num,number} чатта осы реттелмелі түс қолданылады. Оны барлық чаттан жою керек пе?} other {{num,number} чатта осы реттелмелі түс қолданылады. Оны барлық чаттан жою керек пе?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Жалпы чат түсі"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Чат түсі"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Бұл атты пайдалана алмайсыз"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Бұл пайдаланушы аты бос емес."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Пайдаланушы атыңыз сақталмады. Қосылымды тексеріп, қайталап көріңіз."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Пайдаланушы аты жойылуда"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Пайдаланушы атын өшіру"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Ол пайдаланушы атыңызды жояды және QR кодыңыз бен сілтемені өшіреді. “{username}” басқаларға қолжетімді болады. Сенімдісіз бе?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Пайдаланушы атын көшіру"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Сілтемені көшіру"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Жою"
@@ -4577,12 +4382,6 @@
   "icu:Preferences--messaging": {
     "messageformat": "Хат алмасу"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "Телефон нөмірімді көру"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Мені менің телефон нөмірім арқылы табу"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "Оқылғандығын растау"
   },
@@ -4724,9 +4523,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Мәтін қосу"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Жапсырмалар"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Кесу және айналдыру"
   },
@@ -4744,9 +4540,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Контур"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Астыңғы сызық"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Қалам"
@@ -4777,12 +4570,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Құлыптау"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Кесу"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Хат қосу"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Freeform"
@@ -4949,9 +4736,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Жаңа сторис"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Бұл стористің атын тек сіз көре аласыз."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Реттелмелі сторис"
   },
@@ -5006,23 +4790,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Барлық Signal контактісі"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Барлық байланыспен бөлісу"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Мыналардан басқалары..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} адам шығарылды} other {{num,number} адам шығарылды}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Тек мына пайдаланушылармен бөлісу..."
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Тек таңдалған адамдармен бөлісу"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} адам"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Стористі кім көре алатынын таңдаңыз. Өзгерістер сіз жіберіп қойған стористерге әсер етпейді. <learnMoreLink>Толығырақ.</learnMoreLink>"
@@ -5104,18 +4876,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Бұл топқа стористерді тек әкімшілер жібере алады."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Барлық Signal контактісі · {viewersCount,number} көрермен} other {Барлық Signal контактісі · {viewersCount,number} көрермен}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Барлық Signal контактісі · {excludedCount,number} шығарылды} other {Барлық Signal контактісі · {excludedCount,number} шығарылды}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Жеке стористе · {viewersCount,number} көрермен} other {Жеке стористе · {viewersCount,number} көрермен}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Топтық сторис · 1 мүше} other {Топтық сторис · {membersCount,number} мүше}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Стористерді бөлісу және көру"
@@ -5263,9 +5023,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Сілтеме қосу"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Мәтін қосу"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Әдепкі"
@@ -5520,6 +5277,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Топтық қоңырау"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Қоңырау сілтемесі"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Соңғы сұхбаттар жоқ."
   },
@@ -5586,5 +5346,14 @@
   },
   "icu:WhatsNew__v7.4--0": {
     "messageformat": "Бұл жаңартылған нұсқада біраз ақау түзетілді, оның ішінде интернет жылдамдығының баяу болуына байланысты қолданбаның DNS серверін іздеуге берілген уақыты бітіп қалған жағдайда әңгімені сұрыптау логикасы біріздірек келеді және дұрыс жұмыс істейді."
+  },
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Signal-да сөйлескен кез келген адам (жүйелік контактіңізде болса да, болмаса да) үшін реттелмелі лақап аттар және жазбалар қосу функциясын қостық. Ескертпелер мен лақап аттар – Signal контактілеріңіз туралы қосымша ақпарат берудің ең ыңғайлы және қауіпсіз жолы. Олар толық шифрланған және Signal PIN кодымен қорғалған, сондықтан телефоныңызды жоғалтып алсаңыз, оңай қалпына келтіре аласыз."
+  },
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Енді Signal қолданбасын Linux жүйесіндегі науаға қарай барынша кішірейте аласыз. Тапсырмалар панелі дұрыс сүр түсті болса, бұл сіздің хаттарыңыз күтіп тұрғанын білдіреді."
+  },
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Windows жүйесін пайдаланатындар үшін бұл жаңартудың арқасында оқылмаған хат туралы мәлімет Signal белгішесінде тұрады. “9+” деген белгішемен қош айтыса беріңіз, себебі енді белгішесі 11 (не одан да жоғары) болады."
   }
 }
