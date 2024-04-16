@@ -81,9 +81,7 @@ import { dropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { handleMessageSend } from '../util/handleMessageSend';
 import { fetchMembershipProof, getMembershipList } from '../groups';
-import { wrapWithSyncMessageSend } from '../util/wrapWithSyncMessageSend';
 import type { ProcessedEnvelope } from '../textsecure/Types.d';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
@@ -94,7 +92,6 @@ import {
   REQUESTED_VIDEO_FRAMERATE,
 } from '../calling/constants';
 import { callingMessageToProto } from '../util/callingMessageToProto';
-import { getSendOptions } from '../util/getSendOptions';
 import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
 import OS from '../util/os/osMain';
 import { SignalService as Proto } from '../protobuf';
@@ -107,7 +104,6 @@ import {
 } from './notifications';
 import * as log from '../logging/log';
 import { assertDev, strictAssert } from '../util/assert';
-import { sendContentMessageToGroup, sendToGroup } from '../util/sendToGroup';
 import {
   formatLocalDeviceState,
   formatPeekInfo,
@@ -130,13 +126,14 @@ import {
 } from '../util/callDisposition';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { LocalCallEvent } from '../types/CallDisposition';
-import { isServiceIdString } from '../types/ServiceId';
+import { isServiceIdString, type ServiceIdString } from '../types/ServiceId';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 import {
   getRoomIdFromRootKey,
   getCallLinkAuthCredentialPresentation,
 } from '../util/callLinks';
 import { isAdhocCallingEnabled } from '../util/isAdhocCallingEnabled';
+import { conversationJobQueue } from '../jobs/conversationJobQueue';
 
 const {
   processGroupCallRingCancellation,
@@ -1430,53 +1427,36 @@ export class CallingClass {
   private async sendGroupCallUpdateMessage(
     conversationId: string,
     eraId: string
-  ): Promise<void> {
+  ): Promise<boolean> {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      log.error(
-        'Unable to send group call update message for non-existent conversation'
-      );
-      return;
+      log.error('sendGroupCallUpdateMessage: Conversation not found!');
+      return false;
     }
+
+    const logId = `sendGroupCallUpdateMessage/${conversation.idForLogging()}`;
 
     const groupV2 = conversation.getGroupV2Info();
-    const sendOptions = await getSendOptions(conversation.attributes);
     if (!groupV2) {
-      log.error(
-        'Unable to send group call update message for conversation that lacks groupV2 info'
-      );
-      return;
+      log.error(`${logId}: Conversation lacks groupV2 info!`);
+      return false;
     }
 
-    const timestamp = Date.now();
-
-    // We "fire and forget" because sending this message is non-essential.
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-    wrapWithSyncMessageSend({
-      conversation,
-      logId: `sendToGroup/groupCallUpdate/${conversationId}-${eraId}`,
-      messageIds: [],
-      send: () =>
-        conversation.queueJob('sendGroupCallUpdateMessage', () =>
-          sendToGroup({
-            contentHint: ContentHint.DEFAULT,
-            groupSendOptions: {
-              groupCallUpdate: { eraId },
-              groupV2,
-              timestamp,
-            },
-            messageId: undefined,
-            sendOptions,
-            sendTarget: conversation.toSenderKeyTarget(),
-            sendType: 'callingMessage',
-            urgent: true,
-          })
-        ),
-      sendType: 'callingMessage',
-      timestamp,
-    }).catch(err => {
-      log.error('Failed to send group call update:', Errors.toLogFormat(err));
-    });
+    try {
+      await conversationJobQueue.add({
+        type: 'GroupCallUpdate',
+        conversationId: conversation.id,
+        eraId,
+        urgent: true,
+      });
+      return true;
+    } catch (err) {
+      log.error(
+        `${logId}: Failed to queue call update:`,
+        Errors.toLogFormat(err)
+      );
+      return false;
+    }
   }
 
   async acceptDirectCall(
@@ -2109,50 +2089,71 @@ export class CallingClass {
   private async handleSendCallMessageToGroup(
     groupIdBytes: Buffer,
     data: Buffer,
-    urgency: CallMessageUrgency
-  ): Promise<void> {
+    urgency: CallMessageUrgency,
+    overrideRecipients: Array<Buffer> = []
+  ): Promise<boolean> {
     const groupId = groupIdBytes.toString('base64');
     const conversation = window.ConversationController.get(groupId);
     if (!conversation) {
       log.error('handleSendCallMessageToGroup(): could not find conversation');
-      return;
+      return false;
     }
-
-    const timestamp = Date.now();
-
-    const callingMessage = new CallingMessage();
-    callingMessage.opaque = new OpaqueMessage();
-    callingMessage.opaque.data = data;
-    const contentMessage = new Proto.Content();
-    contentMessage.callingMessage = callingMessageToProto(
-      callingMessage,
-      urgency
-    );
 
     // If this message isn't droppable, we'll wake up recipient devices. The important one
     //   is the first message to start the call.
     const urgent = urgency === CallMessageUrgency.HandleImmediately;
 
-    // We "fire and forget" because sending this message is non-essential.
-    // We also don't sync this message.
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-    await conversation.queueJob('handleSendCallMessageToGroup', async () =>
-      handleMessageSend(
-        sendContentMessageToGroup({
-          contentHint: ContentHint.DEFAULT,
-          contentMessage,
-          isPartialSend: false,
-          messageId: undefined,
-          recipients: conversation.getRecipients(),
-          sendOptions: await getSendOptions(conversation.attributes),
-          sendTarget: conversation.toSenderKeyTarget(),
-          sendType: 'callingMessage',
-          timestamp,
-          urgent,
-        }),
-        { messageIds: [], sendType: 'callingMessage' }
-      )
-    );
+    try {
+      let recipients: Array<ServiceIdString> = [];
+      let isPartialSend = false;
+      if (overrideRecipients.length > 0) {
+        // Send only to the overriding recipients.
+        overrideRecipients.forEach(recipient => {
+          const serviceId = bytesToUuid(recipient);
+          if (!serviceId) {
+            log.error(
+              'handleSendCallMessageToGroup(): missing recipient serviceId'
+            );
+          } else {
+            assertDev(
+              isServiceIdString(serviceId),
+              'remoteServiceId is not a serviceId'
+            );
+            recipients.push(serviceId);
+          }
+        });
+        isPartialSend = true;
+      } else {
+        // Send to all members in the group.
+        recipients = conversation.getRecipients();
+      }
+
+      const callingMessage = new CallingMessage();
+      callingMessage.opaque = new OpaqueMessage();
+      callingMessage.opaque.data = data;
+
+      const proto = callingMessageToProto(callingMessage, urgency);
+      const protoBytes = Proto.CallingMessage.encode(proto).finish();
+      const protoBase64 = Bytes.toBase64(protoBytes);
+
+      await conversationJobQueue.add({
+        type: 'CallingMessage',
+        conversationId: conversation.id,
+        protoBase64,
+        urgent,
+        isPartialSend,
+        recipients,
+      });
+
+      log.info('handleSendCallMessageToGroup() completed successfully');
+      return true;
+    } catch (err) {
+      const errorString = Errors.toLogFormat(err);
+      log.error(
+        `handleSendCallMessageToGroup() failed to queue job: ${errorString}`
+      );
+      return false;
+    }
   }
 
   private async handleGroupCallRingUpdate(
@@ -2275,15 +2276,14 @@ export class CallingClass {
     message: CallingMessage,
     urgency?: CallMessageUrgency
   ): Promise<boolean> {
-    const conversation = window.ConversationController.get(remoteUserId);
-    const sendOptions = conversation
-      ? await getSendOptions(conversation.attributes)
-      : undefined;
-
-    if (!window.textsecure.messaging) {
-      log.warn('handleOutgoingSignaling() returning false; offline');
-      return false;
-    }
+    assertDev(
+      isServiceIdString(remoteUserId),
+      'remoteUserId is not a service id'
+    );
+    const conversation = window.ConversationController.getOrCreate(
+      remoteUserId,
+      'private'
+    );
 
     // We want 1:1 call initiate messages to wake up recipient devices, but not others
     const urgent =
@@ -2291,32 +2291,23 @@ export class CallingClass {
       Boolean(message.offer);
 
     try {
-      assertDev(
-        isServiceIdString(remoteUserId),
-        'remoteUserId is not a service id'
-      );
-      const result = await handleMessageSend(
-        window.textsecure.messaging.sendCallingMessage(
-          remoteUserId,
-          callingMessageToProto(message, urgency),
-          urgent,
-          sendOptions
-        ),
-        { messageIds: [], sendType: 'callingMessage' }
-      );
+      const proto = callingMessageToProto(message, urgency);
+      const protoBytes = Proto.CallingMessage.encode(proto).finish();
+      const protoBase64 = Bytes.toBase64(protoBytes);
 
-      if (result && result.errors && result.errors.length) {
-        throw result.errors[0];
-      }
+      await conversationJobQueue.add({
+        type: 'CallingMessage',
+        conversationId: conversation.id,
+        protoBase64,
+        urgent,
+      });
 
-      log.info('handleOutgoingSignaling() completed successfully');
       return true;
     } catch (err) {
-      if (err && err.errors && err.errors.length > 0) {
-        log.error(`handleOutgoingSignaling() failed: ${err.errors[0].reason}`);
-      } else {
-        log.error('handleOutgoingSignaling() failed');
-      }
+      const errorString = Errors.toLogFormat(err);
+      log.error(
+        `handleOutgoingSignaling() failed to queue job: ${errorString}`
+      );
       return false;
     }
   }

@@ -124,7 +124,6 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   callMode: CallMode.Group as CallMode.Group,
   connectionState:
     overrideProps.connectionState || GroupCallConnectionState.Connected,
-  conversationsWithSafetyNumberChanges: [],
   conversationsByDemuxId: getConversationsByDemuxId(overrideProps),
   joinState: GroupCallJoinState.Joined,
   localDemuxId: LOCAL_DEMUX_ID,

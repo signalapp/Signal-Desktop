@@ -90,7 +90,6 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   callMode: CallMode.Group | CallMode.Adhoc;
   connectionState: GroupCallConnectionState;
   conversationsByDemuxId: ConversationsByDemuxIdType;
-  conversationsWithSafetyNumberChanges: Array<ConversationType>;
   joinState: GroupCallJoinState;
   localDemuxId: number | undefined;
   maxDevices: number;

@@ -127,7 +127,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { isIncoming, processBodyRanges } from '../selectors/message';
-import { getActiveCallState } from '../selectors/calling';
+import { getActiveCall, getActiveCallState } from '../selectors/calling';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
 import type { ShowToastActionType } from './toast';
 import { SHOW_TOAST } from './toast';
@@ -2433,7 +2433,15 @@ export function cancelConversationVerification(
     });
 
     // Start the blocked conversation queues up again
+    const activeCall = getActiveCall(state);
     conversationIdsBlocked.forEach(conversationId => {
+      if (
+        activeCall &&
+        activeCall.conversationId === conversationId &&
+        activeCall.callMode === CallMode.Direct
+      ) {
+        calling.hangup(conversationId, 'canceled conversation verification');
+      }
       conversationJobQueue.resolveVerificationWaiter(conversationId);
     });
   };

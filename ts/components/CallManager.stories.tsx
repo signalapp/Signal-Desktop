@@ -23,9 +23,7 @@ import { generateAci } from '../types/ServiceId';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setupI18n } from '../util/setupI18n';
-import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
 import enMessages from '../../_locales/en/messages.json';
-import { ThemeType } from '../types/Util';
 import { StorySendMode } from '../types/Stories';
 
 const i18n = setupI18n('en', enMessages);
@@ -69,7 +67,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   declineCall: action('decline-call'),
   getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
     fakeGetGroupCallVideoFrameSource(demuxId),
-  getPreferredBadge: () => undefined,
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up-active-call'),
   hasInitialLoadCompleted: true,
@@ -78,7 +75,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   callLink: undefined,
   isGroupCallRaiseHandEnabled: true,
   isGroupCallReactionsEnabled: true,
-  keyChangeOk: action('key-change-ok'),
   me: {
     ...getDefaultConversation({
       color: AvatarColors[0],
@@ -92,7 +88,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   renderDeviceSelection: () => <div />,
   renderEmojiPicker: () => <>EmojiPicker</>,
   renderReactionPicker: () => <div />,
-  renderSafetyNumberViewer: (_: SafetyNumberProps) => <div />,
   sendGroupCallRaiseHand: action('send-group-call-raise-hand'),
   sendGroupCallReaction: action('send-group-call-reaction'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
@@ -108,7 +103,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   stopRingtone: action('stop-ringtone'),
   switchToPresentationView: action('switch-to-presentation-view'),
   switchFromPresentationView: action('switch-from-presentation-view'),
-  theme: ThemeType.light,
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleScreenRecordingPermissionsDialog: action(
@@ -155,7 +149,6 @@ export function OngoingGroupCall(): JSX.Element {
           ...getCommonActiveCallData(),
           callMode: CallMode.Group,
           connectionState: GroupCallConnectionState.Connected,
-          conversationsWithSafetyNumberChanges: [],
           conversationsByDemuxId: new Map<number, ConversationType>(),
           deviceCount: 0,
           joinState: GroupCallJoinState.Joined,
@@ -227,38 +220,6 @@ export function CallRequestNeeded(): JSX.Element {
           remoteParticipants: [
             { hasRemoteVideo: true, presenting: false, title: 'Mike' },
           ],
-        },
-      })}
-    />
-  );
-}
-
-export function GroupCallSafetyNumberChanged(): JSX.Element {
-  return (
-    <CallManager
-      {...createProps({
-        activeCall: {
-          ...getCommonActiveCallData(),
-          callMode: CallMode.Group,
-          connectionState: GroupCallConnectionState.Connected,
-          conversationsWithSafetyNumberChanges: [
-            {
-              ...getDefaultConversation({
-                title: 'Aaron',
-              }),
-            },
-          ],
-          conversationsByDemuxId: new Map<number, ConversationType>(),
-          deviceCount: 0,
-          joinState: GroupCallJoinState.Joined,
-          localDemuxId: 1,
-          maxDevices: 5,
-          groupMembers: [],
-          isConversationTooBigToRing: false,
-          peekedParticipants: [],
-          raisedHands: new Set<number>(),
-          remoteParticipants: [],
-          remoteAudioLevels: new Map<number, number>(),
         },
       })}
     />

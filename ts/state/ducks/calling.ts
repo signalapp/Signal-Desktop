@@ -152,7 +152,6 @@ export type ActiveCallStateType = {
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: Array<PresentableSource>;
-  safetyNumberChangedAcis: Array<AciString>;
   settingsDialogOpen: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
@@ -246,14 +245,6 @@ type GroupCallStateChangeActionPayloadType =
   };
 
 type HangUpActionPayloadType = ReadonlyDeep<{
-  conversationId: string;
-}>;
-
-type KeyChangedType = ReadonlyDeep<{
-  aci: AciString;
-}>;
-
-export type KeyChangeOkType = ReadonlyDeep<{
   conversationId: string;
 }>;
 
@@ -579,8 +570,6 @@ const GROUP_CALL_REACTIONS_EXPIRED = 'calling/GROUP_CALL_REACTIONS_EXPIRED';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_DIRECT_CALL = 'calling/INCOMING_DIRECT_CALL';
 const INCOMING_GROUP_CALL = 'calling/INCOMING_GROUP_CALL';
-const MARK_CALL_TRUSTED = 'calling/MARK_CALL_TRUSTED';
-const MARK_CALL_UNTRUSTED = 'calling/MARK_CALL_UNTRUSTED';
 const OUTGOING_CALL = 'calling/OUTGOING_CALL';
 const PEEK_GROUP_CALL_FULFILLED = 'calling/PEEK_GROUP_CALL_FULFILLED';
 const RAISE_HAND_GROUP_CALL = 'calling/RAISE_HAND_GROUP_CALL';
@@ -725,19 +714,6 @@ type IncomingGroupCallActionType = ReadonlyDeep<{
   payload: IncomingGroupCallType;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-type KeyChangedActionType = {
-  type: 'calling/MARK_CALL_UNTRUSTED';
-  payload: {
-    safetyNumberChangedAcis: Array<AciString>;
-  };
-};
-
-type KeyChangeOkActionType = ReadonlyDeep<{
-  type: 'calling/MARK_CALL_TRUSTED';
-  payload: null;
-}>;
-
 type SendGroupCallRaiseHandActionType = ReadonlyDeep<{
   type: 'calling/RAISE_HAND_GROUP_CALL';
   payload: SendGroupCallRaiseHandType;
@@ -865,8 +841,6 @@ export type CallingActionType =
   | HangUpActionType
   | IncomingDirectCallActionType
   | IncomingGroupCallActionType
-  | KeyChangedActionType
-  | KeyChangeOkActionType
   | OutgoingCallActionType
   | PeekGroupCallFulfilledActionType
   | RefreshIODevicesActionType
@@ -1264,56 +1238,6 @@ function hangUpActiveCall(
         getState,
       });
     }
-  };
-}
-
-function keyChanged(
-  payload: KeyChangedType
-): ThunkAction<void, RootStateType, unknown, KeyChangedActionType> {
-  return (dispatch, getState) => {
-    const state = getState();
-    const { activeCallState } = state.calling;
-
-    const activeCall = getActiveCall(state.calling);
-    if (!activeCall || !activeCallState) {
-      return;
-    }
-
-    if (isGroupOrAdhocCallState(activeCall)) {
-      const acisChanged = new Set(activeCallState.safetyNumberChangedAcis);
-
-      // Iterate over each participant to ensure that the service id passed in
-      // matches one of the participants in the group call.
-      activeCall.remoteParticipants.forEach(participant => {
-        if (participant.aci === payload.aci) {
-          acisChanged.add(participant.aci);
-        }
-      });
-
-      const safetyNumberChangedAcis = Array.from(acisChanged);
-
-      if (safetyNumberChangedAcis.length) {
-        dispatch({
-          type: MARK_CALL_UNTRUSTED,
-          payload: {
-            safetyNumberChangedAcis,
-          },
-        });
-      }
-    }
-  };
-}
-
-function keyChangeOk(
-  payload: KeyChangeOkType
-): ThunkAction<void, RootStateType, unknown, KeyChangeOkActionType> {
-  return dispatch => {
-    calling.resendGroupCallMediaKeys(payload.conversationId);
-
-    dispatch({
-      type: MARK_CALL_TRUSTED,
-      payload: null,
-    });
   };
 }
 
@@ -2059,8 +1983,6 @@ export const actions = {
   groupCallRaisedHandsChange,
   groupCallStateChange,
   hangUpActiveCall,
-  keyChangeOk,
-  keyChanged,
   onOutgoingVideoCallInConversation,
   onOutgoingAudioCallInConversation,
   openSystemPreferencesAction,
@@ -2284,7 +2206,6 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
-        safetyNumberChangedAcis: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing,
@@ -2314,7 +2235,6 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
-        safetyNumberChangedAcis: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: true,
@@ -2343,7 +2263,6 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
-        safetyNumberChangedAcis: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: false,
@@ -2505,7 +2424,6 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
-        safetyNumberChangedAcis: [],
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: true,
@@ -3178,43 +3096,6 @@ export function reducer(
         ...activeCallState,
         viewMode:
           activeCallState.viewModeBeforePresentation ?? CallViewMode.Paginated,
-      },
-    };
-  }
-
-  if (action.type === MARK_CALL_UNTRUSTED) {
-    const { activeCallState } = state;
-    if (!activeCallState) {
-      log.warn('Cannot mark call as untrusted when there is no active call');
-      return state;
-    }
-
-    const { safetyNumberChangedAcis } = action.payload;
-
-    return {
-      ...state,
-      activeCallState: {
-        ...activeCallState,
-        pip: false,
-        safetyNumberChangedAcis,
-        settingsDialogOpen: false,
-        showParticipantsList: false,
-      },
-    };
-  }
-
-  if (action.type === MARK_CALL_TRUSTED) {
-    const { activeCallState } = state;
-    if (!activeCallState) {
-      log.warn('Cannot mark call as trusted when there is no active call');
-      return state;
-    }
-
-    return {
-      ...state,
-      activeCallState: {
-        ...activeCallState,
-        safetyNumberChangedAcis: [],
       },
     };
   }

@@ -11,8 +11,6 @@ import { CallingParticipantsList } from './CallingParticipantsList';
 import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
 import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
-import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
-import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import type {
   ActiveCallType,
   CallingConversationType,
@@ -28,13 +26,11 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type {
   AcceptCallType,
   CancelCallType,
   DeclineCallType,
   GroupCallParticipantInfoType,
-  KeyChangeOkType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
@@ -46,7 +42,7 @@ import type {
 } from '../state/ducks/calling';
 import { CallLinkRestrictions } from '../types/CallLink';
 import type { CallLinkType } from '../types/CallLink';
-import type { LocalizerType, ThemeType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 import { CallingToastProvider } from './CallingToast';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
@@ -89,15 +85,12 @@ export type PropsType = {
     conversationId: string,
     demuxId: number
   ) => VideoFrameSource;
-  getPreferredBadge: PreferredBadgeSelectorType;
   getPresentingSources: () => void;
   incomingCall: DirectIncomingCall | GroupIncomingCall | null;
-  keyChangeOk: (_: KeyChangeOkType) => void;
   renderDeviceSelection: () => JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
   ) => JSX.Element;
-  renderSafetyNumberViewer: (props: SafetyNumberProps) => JSX.Element;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
@@ -131,7 +124,6 @@ export type PropsType = {
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
   hangUpActiveCall: (reason: string) => void;
-  theme: ThemeType;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
@@ -168,16 +160,13 @@ function ActiveCallManager({
   i18n,
   isGroupCallRaiseHandEnabled,
   isGroupCallReactionsEnabled,
-  keyChangeOk,
   getGroupCallVideoFrameSource,
-  getPreferredBadge,
   getPresentingSources,
   me,
   openSystemPreferencesAction,
   renderDeviceSelection,
   renderEmojiPicker,
   renderReactionPicker,
-  renderSafetyNumberViewer,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
   setGroupCallVideoRequest,
@@ -191,7 +180,6 @@ function ActiveCallManager({
   startCall,
   switchToPresentationView,
   switchFromPresentationView,
-  theme,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
@@ -262,10 +250,6 @@ function ActiveCallManager({
       showToast({ toastType: ToastType.CopiedCallLink });
     }
   }, [callLink, showToast]);
-
-  const onSafetyNumberDialogCancel = useCallback(() => {
-    hangUpActiveCall('safety number dialog cancel');
-  }, [hangUpActiveCall]);
 
   let isCallFull: boolean;
   let showCallLobby: boolean;
@@ -463,26 +447,6 @@ function ActiveCallManager({
             participants={groupCallParticipantsForParticipantsList}
           />
         ))}
-      {isGroupOrAdhocActiveCall(activeCall) &&
-      activeCall.conversationsWithSafetyNumberChanges.length ? (
-        <SafetyNumberChangeDialog
-          confirmText={i18n('icu:continueCall')}
-          contacts={[
-            {
-              story: undefined,
-              contacts: activeCall.conversationsWithSafetyNumberChanges,
-            },
-          ]}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          onCancel={onSafetyNumberDialogCancel}
-          onConfirm={() => {
-            keyChangeOk({ conversationId: activeCall.conversation.id });
-          }}
-          renderSafetyNumber={renderSafetyNumberViewer}
-          theme={theme}
-        />
-      ) : null}
     </>
   );
 }
@@ -499,7 +463,6 @@ export function CallManager({
   closeNeedPermissionScreen,
   declineCall,
   getGroupCallVideoFrameSource,
-  getPreferredBadge,
   getPresentingSources,
   hangUpActiveCall,
   hasInitialLoadCompleted,
@@ -508,7 +471,6 @@ export function CallManager({
   isConversationTooBigToRing,
   isGroupCallRaiseHandEnabled,
   isGroupCallReactionsEnabled,
-  keyChangeOk,
   me,
   notifyForCall,
   openSystemPreferencesAction,
@@ -517,7 +479,6 @@ export function CallManager({
   renderDeviceSelection,
   renderEmojiPicker,
   renderReactionPicker,
-  renderSafetyNumberViewer,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
   setGroupCallVideoRequest,
@@ -533,7 +494,6 @@ export function CallManager({
   stopRingtone,
   switchFromPresentationView,
   switchToPresentationView,
-  theme,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
@@ -594,20 +554,17 @@ export function CallManager({
           changeCallView={changeCallView}
           closeNeedPermissionScreen={closeNeedPermissionScreen}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
-          getPreferredBadge={getPreferredBadge}
           getPresentingSources={getPresentingSources}
           hangUpActiveCall={hangUpActiveCall}
           i18n={i18n}
           isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
           isGroupCallReactionsEnabled={isGroupCallReactionsEnabled}
-          keyChangeOk={keyChangeOk}
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
           renderDeviceSelection={renderDeviceSelection}
           renderEmojiPicker={renderEmojiPicker}
           renderReactionPicker={renderReactionPicker}
-          renderSafetyNumberViewer={renderSafetyNumberViewer}
           sendGroupCallRaiseHand={sendGroupCallRaiseHand}
           sendGroupCallReaction={sendGroupCallReaction}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
@@ -621,7 +578,6 @@ export function CallManager({
           startCall={startCall}
           switchFromPresentationView={switchFromPresentationView}
           switchToPresentationView={switchToPresentationView}
-          theme={theme}
           toggleParticipants={toggleParticipants}
           togglePip={togglePip}
           toggleScreenRecordingPermissionsDialog={

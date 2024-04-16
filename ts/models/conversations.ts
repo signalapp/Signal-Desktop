@@ -3008,15 +3008,9 @@ export class ConversationModel extends window.Backbone
         'addKeyChange'
       );
 
-      const isUntrusted = await this.isUntrusted();
-
       this.trigger('newmessage', model);
 
       const serviceId = this.getServiceId();
-      // Group calls are always with folks that have a serviceId
-      if (isUntrusted && isAciString(serviceId)) {
-        window.reduxActions.calling.keyChanged({ aci: serviceId });
-      }
 
       if (isDirectConversation(this.attributes)) {
         window.reduxActions?.safetyNumber.clearSafetyNumber(this.id);
