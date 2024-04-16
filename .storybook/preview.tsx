@@ -21,6 +21,9 @@ import {
   ScrollerLockContext,
   createScrollerLock,
 } from '../ts/hooks/useScrollLock';
+import { Environment, setEnvironment } from '../ts/environment.ts';
+
+setEnvironment(Environment.Development, true);
 
 const i18n = setupI18n('en', messages);
 
@@ -94,7 +97,6 @@ window.SignalContext = {
     unregisterForChange: noop,
   },
 
-  isTestOrMockEnvironment: () => false,
   nativeThemeListener: {
     getSystemTheme: () => 'light',
     subscribe: noop,

@@ -15,9 +15,12 @@ import {
 
 // In production mode, NODE_ENV cannot be customized by the user
 if (app.isPackaged) {
-  setEnvironment(Environment.Production);
+  setEnvironment(Environment.Production, false);
 } else {
-  setEnvironment(parseEnvironment(process.env.NODE_ENV || 'development'));
+  setEnvironment(
+    parseEnvironment(process.env.NODE_ENV || 'development'),
+    Boolean(process.env.MOCK_TEST)
+  );
 }
 
 // Set environment vars to configure node-config before requiring it

@@ -44,6 +44,7 @@ export const rendererConfigSchema = z.object({
   dnsFallback: DNSFallbackSchema,
   ciBackupPath: configOptionalStringSchema,
   environment: environmentSchema,
+  isMockTestEnvironment: z.boolean(),
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,
   installPath: configRequiredStringSchema,

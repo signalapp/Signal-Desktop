@@ -10,13 +10,14 @@ import { activeWindowService } from '../context/activeWindowService';
 import { config } from '../context/config';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { createSetting } from '../util/preload';
-import { environment, isTestOrMockEnvironment } from '../context/environment';
+import { environment } from '../context/environment';
 import {
   localeDisplayNames,
   countryDisplayNames,
   localeMessages,
 } from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
+import { isTestOrMockEnvironment } from '../environment';
 
 export const MinimalSignalContext: MinimalSignalContextType = {
   activeWindowService,
@@ -52,7 +53,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   getHourCyclePreference: () => config.hourCyclePreference,
   getPreferredSystemLocales: () => config.preferredSystemLocales,
   getLocaleOverride: () => config.localeOverride,
-  isTestOrMockEnvironment: () => isTestOrMockEnvironment,
+  isTestOrMockEnvironment,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
   restartApp: () => ipcRenderer.send('restart'),
   OS: {

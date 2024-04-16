@@ -142,21 +142,20 @@ export function FromSomeoneToGroup(): JSX.Element {
 }
 
 export function LongSearchResult(): JSX.Element {
-  const snippets = [
-    'This is a really <<left>>detail<<right>>ed long line which will wrap and only be cut off after it gets to three lines. So maybe this will make it in as well?',
-    "Okay, here are the <<left>>detail<<right>>s:\n\n1355 Ridge Way\nCode: 234\n\nI'm excited!",
-  ];
-
   const props1 = useProps({
     from: someone,
     to: me,
-    snippet: snippets[0],
+    snippet:
+      'This is a really <<left>>detail<<right>>ed long line which will wrap and only be cut off after it gets to three lines. So maybe this will make it in as well?',
+    body: 'This is a really detailed long line which will wrap and only be cut off after it gets to three lines. So maybe this will make it in as well?',
   });
 
   const props2 = useProps({
     from: someone,
     to: me,
-    snippet: snippets[1],
+    snippet:
+      "Okay, here are the <<left>>detail<<right>>s:\n\n1355 Ridge Way\nCode: 234\n\nI'm excited!",
+    body: "Okay, here are the details:\n\n1355 Ridge Way\nCode: 234\n\nI'm excited!",
   });
 
   return (

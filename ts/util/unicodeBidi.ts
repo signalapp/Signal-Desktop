@@ -1,6 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isTestOrMockEnvironment } from '../environment';
+
 /**
  * Left-to-Right Isolate
  * Sets direction to LTR and isolates the embedded content from the surrounding text
@@ -208,7 +210,7 @@ export function _bidiIsolate(text: string): string {
  * ```
  */
 export function bidiIsolate(text: string): string {
-  if (window.SignalContext.isTestOrMockEnvironment()) {
+  if (isTestOrMockEnvironment()) {
     // Turn this off in tests to make it easier to compare strings
     return text;
   }
