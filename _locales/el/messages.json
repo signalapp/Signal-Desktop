@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Προβολή αρχείου"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Χρώμα συνομιλίας"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Αναβάθμιση του Signal"
-  },
   "icu:loading": {
     "messageformat": "Φορτώνει…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Μπορείς να καρφιτσώσεις μέχρι 4 συνομιλίες"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Επιλογή φακέλου"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Επιλογή αρχείου"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Φόρτωση των δεδομένων σου"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Μόλις ολοκλήρωσες τη διαδικασία εξαγωγής. Οι επαφές και τα μηνύματά σου περιμένουν υπομονετικά τον υπολογιστή σου. Επέλεξε το φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Signal."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Επέλεξε το φάκελο με τα δεδομένα που εξήχθησαν"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Κάτι πήγε στραβά!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Φόρτωση επαφών και μηνυμάτων"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Βεβαιώσου ότι έχεις επιλέξει το σωστό φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Signal. Το όνομά του θα πρέπει να ξεκινά με 'Signal Export.' Μπορείς επίσης να αποθηκεύσεις ένα νέο αντίγραφο των δεδομένων σου από την εφαρμογή Chrome."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Αν αυτά τα βήματα δεν σε βοήθησαν, παρακαλώ να υποβάλλεις ένα αρχείο καταγραφής αποσφαλμάτωσης (Προβολή -> Αρχείο Αποσφαλμάτωσης) για να μπορέσουμε να σε βοηθήσουμε με τη μεταφορά!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Επέλεξε φάκελο και προσπαθήστε ξανά"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Επιτυχία!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Ξεκίνα να χρησιμοποιείς το Signal Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Σύνδεση αυτής της συσκευής με το τηλέφωνό σου"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "η τοποθεσία που επέλεξες"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Αναβάθμιση βάσης δεδομένων. Μπορεί να διαρκέσει λίγη ώρα…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Φόρτωση μηνυμάτων από 1 ημέρα πριν...} other {Φόρτωση μηνυμάτων από {daysAgo,number} ημέρες πριν...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Νέες αναφορές παρακάτω"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 μη αναγνωσμένο μήνυμα"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} μη αναγνωσμένο μήνυμα} other {{count,number} μη αναγνωσμένα μηνύματα}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "Σημείωσες τον αριθμό ασφαλείας σας με τον/την {name} ως μη επιβεβαιωμένο από άλλη συσκευή."
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Οι αριθμοί ασφαλείας σου με αυτά τα μέλη της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Κάνε κλικ σε ένα μέλος της ομάδας για να δείς το νέο αριθμό ασφαλείας με αυτόν/ην."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Ο αριθμός ασφαλείας που προσπαθείς να επιβεβαιώσεις έχει αλλάξει. Παρακαλώ επιβεβαίωσε το νέο αριθμό ασφαλείας με τον/την {name1}. Θυμήσου, αυτή η αλλαγή μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή απλά πως ο/η {name2} επανεγκατέστησε το Signal."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Ενέργειες για την ιστορία {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Ο αριθμός ασφαλείας σου με τον/την {name1} έχει αλλάξει. Αυτό μπορεί να σημαίνει είτε ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε απλά ότι ο/η {name2} επανεγκατέστησε το Signal. Ίσως θες να επαληθεύσεις τον αριθμό ασφαλείας σου με αυτή την επαφή."
-  },
   "icu:sendAnyway": {
     "messageformat": "Αποστόλη παρ' όλα αυτά"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Συνέχεια κλήσης"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Ο αριθμός ασφαλείας σουμε τον/την {name} έχει αλλάξει και δεν είναι πλέον επιβεβαιωμένος. Κάνε κλικ για εμφάνιση."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Οι αριθμοί ασφαλείας σου με πολλαπλά μέλη αυτής της ομάδας άλλαξαν και δεν είναι πλέον επιβεβαιωμένοι. Κάνε κλικ για εμφάνιση."
   },
   "icu:debugLogExplanation": {
     "messageformat": "Όταν πατήσεις Υποβολή, το αρχείο καταγραφής θα αναρτηθεί στο διαδίκτυο για 30 ημέρες, σε ένα μοναδικό και μη δημοσιευμένο σύνδεσμο URL. Μπορείς να το αποθηκεύσεις πρώτα τοπικά."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Επικοινωνία με την υποστήριξη"
   },
-  "icu:gotIt": {
-    "messageformat": "Κατάλαβα!"
-  },
   "icu:submit": {
     "messageformat": "Υποβολή"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Αποδοχή"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Σημείωση ως επιβεβαιωμένο"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Μάθε περισσότερα"
   },
-  "icu:isVerified": {
-    "messageformat": "Επιβεβαίωσες τον αριθμό ασφαλείας με τον/την {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "Δεν έχεις επιβεβαιώσει τον αριθμό ασφαλείας με τον/την {name}."
-  },
   "icu:verified": {
     "messageformat": "Επιβεβαιωμένο"
   },
   "icu:newIdentity": {
     "messageformat": "Νέος αριθμός ασφαλείας"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Ο αριθμός ασφαλείας σου με αυτήν την επαφή έχει αλλάξει. Αυτό θα μπορούσε είτε να σημαίνει ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας, είτε αυτή η επαφή απλώς επανεγκαταστήσει το Signal. Αν θες μπορείς να επαληθεύσεις το νέο αριθμό ασφαλείας παρακάτω."
   },
   "icu:incomingError": {
     "messageformat": "Σφάλμα κατά την διαχείριση εισερχόμενου μηνύματος."
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Μη υποστηριζόμενος τύπος συνημμένου. Κάνε κλικ για αποθήκευση."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Κάνε κλικ για αποθήκευση."
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Ανώνυμο αρχείο"
   },
   "icu:voiceMessage": {
     "messageformat": "Μήνυμα φωνής"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Δεν βρέθηκε το αρχικό μήνυμα"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Το αρχικό μήνυμα βρέθηκε, αλλά δεν φορτώθηκε. Σκρόλαρε προς τα πάνω για να φορτωθεί."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Ηχογράφηση μηνύματος φωνής"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Ολοκλήρωση μηνύματος φωνής και αποστολή"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Ακύρωση μηνύματος φωνής"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Η ηχογράφηση του μηνύματος φωνής σταμάτησε γιατί ξεπεράστηκε το μέγιστο χρονικό όριο ηχογράφησης."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Η ηχογράφηση του μηνύματος φωνής σταμάτησε γιατί πήγες σε άλλη εφαρμογή."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Τα φωνητικά μηνύματα έχουν περιορισμό μίας ώρας. Η καταγραφή θα σταματήσει αν μεταβείς σε άλλη εφαρμογή."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Εσύ"
   },
-  "icu:replyingTo": {
-    "messageformat": "Απάντηση προς {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Για να στείλεις ηχητικά μηνύματα, δώσε στη Signal Desktop πρόσβαση στο μικρόφωνό σου."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Να δοθεί πρόσβαση"
-  },
-  "icu:showSettings": {
-    "messageformat": "Εμφάνιση Ρυθμίσεων"
   },
   "icu:audio": {
     "messageformat": "Ήχος"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Αδυναμία αναβάθμισης"
-  },
-  "icu:muted": {
-    "messageformat": "Σε σίγαση"
   },
   "icu:mute": {
     "messageformat": "Σίγαση"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Απόρριψη"
   },
-  "icu:failedToSend": {
-    "messageformat": "Αποτυχία αποστολής σε μερικούς παραλήπτες. Έλεγξε τη σύνδεση δικτύου."
-  },
   "icu:error": {
     "messageformat": "Σφάλμα"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Λεπτομέρειες μηνύματος"
   },
   "icu:delete": {
     "messageformat": "Διαγραφή"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Από"
   },
-  "icu:to": {
-    "messageformat": "Προς"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} προς {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Μήνυμα"
   },
-  "icu:groupMembers": {
-    "messageformat": "Μέλη ομάδας"
-  },
   "icu:showMembers": {
     "messageformat": "Εμφάνιση μελών"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Εσύ"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "«{title}» είναι το όνομα προφίλ που έχει ορίσει το άτομο αυτό στο Signal."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Επιβεβαιωμένο"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "Ο χρήστης {name} βρίσκεται στις επαφές του συστήματός σου"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Εμφάνιση αριθμού ασφαλείας"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Σημείωση"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Προβολή πρόσφατων πολυμέσων"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Δεν έχεις ανταλλάξει ακόμα μηνύματα με αυτήν την επαφή. Ο αριθμός ασφαλείας σου με αυτή θα είναι διαθέσιμος μετά το πρώτο μήνυμα."
   },
   "icu:back": {
     "messageformat": "Πίσω"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Ξεκίνησες αυτή τη συνομιλία με τον χρήστη {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Μικρογραφία της εικόνας από το αναφερόμενο μήνυμα"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Εικόνα συνημμένη στο μήνυμα"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Επαναφορά"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Εικονίδιο αρχείου"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Καλωσόρισες στο Signal Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "Η ιδιωτικότητα είναι εφικτή. Το Signal την κάνει εύκολη."
   },
   "icu:linkedDevices": {
     "messageformat": "Συνδεμένες συσκευές"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Η ομάδα είναι πολύ μεγάλη ώστε να καλέσουμε με κουδούνισμα τους συμμετέχοντες."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Ενημέρωση, όχι κουδούνισμα"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Ενεργοποίηση κουδουνίσματος"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Απενεργοποίηση κουδουνίσματος"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Δεν είναι κανένας άλλος εδώ"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Σε αυτή τη κλήση · 1 άτομο"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Σε αυτή τη κλήση · {people} άτομα"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Σε αυτή τη κλήση · {people,number} άτομο} other {Σε αυτή τη κλήση · {people,number} άτομα}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Να δοθεί πρόσβαση στην κάμερα"
   },
-  "icu:general": {
-    "messageformat": "Γενικά"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Ορθογραφικός έλεγχος κειμένου που εισάγεται στο πεδίο σύνταξης μηνυμάτων"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Να διαγραφούν όλα τα δεδομένα και τα μηνύματα από αυτή την έκδοση Signal για υπολογιστή; Μπορείς πάντα να επανασυνδέσεις τον υπολογιστή, αλλά δεν θα μπορείς να επαναφέρεις τα μηνύματά σου. Ο λογαριασμός σου στο Signal, τα δεδομένα στο τηλέφωνό σου ή σε άλλες συνδεδεμένες συσκευές δεν θα διαγραφούν."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Διαγραφή όλων των δεδομένων"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Αποσύνδεση και διαγραφή όλων των δεδομένων"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Διαγραφή παλαιών δεδομένων"
-  },
-  "icu:notifications": {
-    "messageformat": "Ειδοποιήσεις"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Κατά την λήψη μηνυμάτων, εμφάνιση ειδοποιήσεων που αποκαλύπτουν:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Απενεργοποίηση ειδοποιήσεων"
   },
   "icu:nameAndMessage": {
     "messageformat": "Όνομα, περιεχόμενο και ενέργειες"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Διαγράφηκε εν μέρει, πάτα για επανάληψη"
   },
-  "icu:showMore": {
-    "messageformat": "Λεπτομέρειες"
-  },
-  "icu:showLess": {
-    "messageformat": "Απόκρυψη λεπτομερειών"
-  },
-  "icu:learnMore": {
-    "messageformat": "Μάθε περισσότερα σχετικά με την επιβεβαίωση των αριθμών ασφαλείας"
-  },
   "icu:expiredWarning": {
     "messageformat": "Αυτή η έκδοση του Signal Desktop έχει λήξει. Αναβάθμισε στην πιο πρόσφατη έκδοση για να συνεχίσεις τις συνομιλίες σου."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Μήνυμα πολυμέσων"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Ο αριθμός δεν είναι καταχωρημένος"
-  },
   "icu:sync": {
     "messageformat": "Εισαγωγή επαφών"
   },
   "icu:syncExplanation": {
     "messageformat": "Εισαγωγή όλων των ομάδων και επαφών Signal από το κινητό σου."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Τελευταία εισαγωγή στις"
   },
   "icu:syncNow": {
     "messageformat": "Εισαγωγή τώρα"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Αυτός ο/η χρήστης/τρια δεν μπορεί να επιβεβαιωθεί μέχρι να ανταλλάξεις μηνύματα μαζί του/της."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Ο αριθμός ασφαλείας σου με τον/την {name1}:"
-  },
   "icu:themeLight": {
     "messageformat": "Φωτεινό"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Απόκρυψη γραμμής μενού"
-  },
-  "icu:startConversation": {
-    "messageformat": "Ξεκίνα νέα συνομιλία"
   },
   "icu:newConversation": {
     "messageformat": "Νέα συνομιλία"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Αδυναμία ενημέρωσης της ομάδας. Έλεγξε τη σύνδεσή σου και ξαναπροσπάθησε."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "Τα μηνύματα SMS/MMS δεν υποστηρίζονται."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Γράψε έναν αριθμό τηλεφώνου για να δημιουργήσεις μια επαφή."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Μη έγκυρος αριθμός"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Κάνε κλικ για επανασύνδεση του Signal Desktop με το κινητό σου για να συνεχίσεις να συνομιλείς."
   },
   "icu:unlinked": {
     "messageformat": "Αποσυνδεμένο"
-  },
-  "icu:relink": {
-    "messageformat": "Επανασύνδεση"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Διαθέσιμη αναβάθμιση"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Επανεκκίνηση του Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Αργότερα"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Παράλειψη αναβάθμισης"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Αίτημα μηνύματος"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Λίστα αποκλεισμού"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Πρόχειρο:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Έληξε"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Εμφάνιση"
-  },
   "icu:message--donation--view": {
     "messageformat": "Εμφάνιση"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Το πακέτο αυτοκολλήτων δεν μπόρεσε να εγκατασταθεί"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Αυτοκόλλητα"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Διαθέσιμο"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {Μέλος στις ομάδες {group1}, {group2}, {group3} και {remainingCount,number} ακόμα} other {Μέλος στις ομάδες {group1}, {group2}, {group3} και {remainingCount,number} ακόμα}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "Ο/Η {name} σε πρόσθεσε στην ομάδα."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Καμία κοινή ομάδα"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Ρυθμίσεις"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} στην κλήση"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} στην κλήση} other {{people,number} στην κλήση}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Να συμπεριλαμβάνονται οι συνομιλίες σε σίγαση στη μέτρηση σημάτων"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Μήνυμα"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Ψευδώνυμο"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Αφαίρεση διαχειριστή"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Όταν είναι ενεργοποιημένο, τα μηνύματα που αποστέλλονται και λαμβάνονται σε αυτή την προσωπική συνομιλία θα εξαφανίζονται μετά την προβολή τους."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Ψευδώνυμο"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Ενέργειες"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Διαγραφή"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Διαγραφή ψευδωνύμου;"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Αυτή η επιλογή θα διαγράψει οριστικά αυτό το ψευδώνυμο και τη σημείωση."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Ειδοποιήσεις"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Προβολή όλων"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Ψευδώνυμο"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Τα ψευδώνυμα και οι σημειώσεις αποθηκεύονται χρησιμοποιώντας την υπηρεσία κρυπτογραφημένης αποθήκευσης από άκρο σε άκρο του Signal. Είναι ορατά μόνο σε εσένα."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Όνομα"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Όνομα"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Επίθετο"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Επίθετο"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Σημείωση"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Σημείωση"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Αναφορές"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Απόρριψη αιτήματος του/της \"{name}\"; Δεν θα μπορεί να ξαναζητήσει να μπει στην ομάδα μέσω του συνδέσμου ομάδας."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Προσκεκλημένοι από εσένα"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Προσκεκλημένοι από εσένα"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Μπορείς να προωθήσεις μόνο έως και 30 μηνύματα"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Προσθήκη φωτογραφίας ομάδας"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Προσθήκη φωτογραφίας"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Αλλαγή φωτογραφίας"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Ανέβασμα φωτογραφίας"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Αφαίρεση φωτογραφίας"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Αφαίρεση επαφής"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Εντάξει"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Στάλθηκε πρόσκληση} other {Στάλθηκαν {count,number} προσκλήσεις}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {Αυτό το εξατομικευμένο χρώμα χρησιμοποιείται σε {num,number} συνομιλία. Θέλεις να το διαγράψεις από όλες τις συνομιλίες;} other {Αυτό το εξατομικευμένο χρώμα χρησιμοποιείται σε {num,number} συνομιλίες. Θέλεις να το διαγράψεις από όλες τις συνομιλίες;}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Καθολικό χρώμα συνομιλιών"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Χρώμα συνομιλίας"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Αυτό το όνομα χρήστη δεν είναι διαθέσιμο"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Αυτό το όνομα χρήστη χρησιμοποιείται ήδη."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Το όνομα χρήστη σου δεν μπόρεσε να αποθηκευτεί. Έλεγξε την σύνδεσή σου και προσπάθησε ξανά."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Διαγραφή ονόματος χρήστη"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Διαγραφή ονόματος χρήστη"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Αυτό θα καταργήσει το όνομα χρήστη σου και θα απενεργοποιήσει τον κωδικό QR και τον σύνδεσμό σου. Το όνομα χρήστη “{username}” θα είναι διαθέσιμο σε άλλους χρήστες. Είσαι σίγουρος/η;"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Αντιγραφή ονόματος χρήστη"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Αντιγραφή συνδέσμου"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Διαγραφή"
@@ -4574,14 +4379,14 @@
   "icu:Preferences__pnp__discoverability__nobody": {
     "messageformat": "Κανένας"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+  },
   "icu:Preferences--messaging": {
     "messageformat": "Συνομιλίες"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "Να δουν τον αριθμό τηλεφώνου μου"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Βρες με μέσω του αριθμού τηλεφώνου μου"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Αποδεικτικά ανάγνωσης"
@@ -4724,9 +4529,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Προσθήκη κειμένου"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Αυτοκόλλητα"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Περικοπή και περιστροφή"
   },
@@ -4744,9 +4546,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Περίγραμμα"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Υπογράμμιση"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Γραφίδα"
@@ -4777,12 +4576,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Κλείδωμα"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Περικοπή"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Προσθήκη μηνύματος"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Freeform"
@@ -4861,6 +4654,15 @@
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "Έχεις μπλοκάρει αυτό το άτομο"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Επιλογές"
@@ -4949,9 +4751,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Νέα ιστορία"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Μόνο εσύ μπορείς να δεις το όνομα αυτής της ιστορίας."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Προσαρμοσμένη ιστορία"
   },
@@ -5006,23 +4805,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Όλες οι επαφές Signal"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Κοινοποίηση σε όλες τις επαφές"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Όλα τα άτομα εκτός από…"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} αποκλεισμένο άτομο} other {{num,number} αποκλεισμένα άτομα}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Κοινοποίηση μόνο σε…"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Κοινοποίηση μόνο σε συγκεκριμένα άτομα"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} άτομα"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Επίλεξε ποια άτομα μπορούν να δουν την ιστορία σου. Οι αλλαγές δεν επηρεάζουν ιστορίες που έχεις στείλει ήδη. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
@@ -5104,18 +4891,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Μόνο οι διαχειριστές μπορούν να στέλνουν ιστορίες σε αυτήν την ομάδα."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Όλες οι επαφές Signal · {viewersCount,number} θεατής} other {Όλες οι επαφές Signal · {viewersCount,number} θεατές}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Όλες οι επαφές Signal · {excludedCount,number} αποκλεισμός} other {Όλες οι επαφές Signal · {excludedCount,number} αποκλεισμοί}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Ιδιωτική ιστορία · {viewersCount,number} θεατής} other {Ιδιωτική ιστορία · {viewersCount,number} θεατές}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Ιστορία ομάδας · {membersCount,number} μέλος} other {Ιστορία ομάδας · {membersCount,number} μέλη}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Κοινοποίηση και προβολή ιστοριών"
@@ -5263,9 +5038,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Προσθήκη συνδέσμου"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Προσθήκη κειμένου"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Κανονικό"
@@ -5520,6 +5292,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Ομαδική κλήση"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Σύνδεσμος κλήσης"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Δεν υπάρχουν πρόσφατες συνομιλίες."
   },
@@ -5578,13 +5353,13 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Τώρα μπορείς να διαγράψεις τις αναπάντητες κλήσεις στο τηλέφωνό σου και το σήμα στην καρτέλα κλήσεων στο Signal Desktop θα ενημερωθεί επίσης."
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Προσθέσαμε υποστήριξη για προσαρμοσμένα ψευδώνυμα και σημειώσεις για οποιοδήποτε άτομο συνομιλείς στο Signal, ακόμη και αν δεν βρίσκεται στις επαφές του συστήματός σου. Οι σημειώσεις και τα ψευδώνυμα παρέχουν έναν βολικό και ασφαλή τρόπο για να σημειώνεις πρόσθετες λεπτομέρειες σχετικά με τις συνδέσεις σου στο Signal, ενώ είναι κρυπτογραφημένες από άκρο σε άκρο — και προστατεύονται από το PIN σου στο Signal, ώστε να μπορούν να αποκατασταθούν με ασφάλεια αν χάσεις το τηλέφωνό σου."
   },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "Επίσης, επανασχεδιάσαμε την ένδειξη μέτρησης σημάτων στα Windows. Τώρα το χρώμα στη γραμμή εργασιών ταιριάζει με το χρώμα στη γραμμή εργασιών. Μόδα σημαίνει συντονισμός και μια μικρή κόκκινη νότα είναι η τέλεια εμφάνιση για την άνοιξη."
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Τώρα μπορείς να ελαχιστοποιήσεις το Signal στην μπάρα συστήματός σου στο Linux."
   },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "Αυτή η ενημέρωση εξαλείφει μερικά σφάλματα, συμπεριλαμβανομένης μιας πιο συνεπούς λογικής ταξινόμησης συνομιλιών και βελτιωμένης συμπεριφοράς εάν η εφαρμογή αντιμετωπίζει διακοπές αναζήτησης DNS λόγω κακής συνδεσιμότητας δικτύου."
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Για τους χρήστες των Windows, αυτή η ενημέρωση ενεργοποιεί εκ νέου την υποστήριξη για λεπτομερή μέτρηση των μη αναγνωσμένων μηνυμάτων στο εικονίδιο Signal."
   }
 }

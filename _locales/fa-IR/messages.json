@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "مشاهده بایگانی"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "رنگ گفتگو"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "به‌روزرسانی سیگنال"
-  },
   "icu:loading": {
     "messageformat": "درحال بارگیری..."
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "حداکثر ۴ گفتگو را می‌توانید سنجاق کنید"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "انتخاب پوشه"
-  },
-  "icu:chooseFile": {
-    "messageformat": "انتخاب فایل"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "بارگیری داده‌هایتان"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "شما فرآیند استخراج را انجام دادید، مخاطبین و پیام‌های شما روی کامپیوترتان آماده هستند. پوشه حاوی اطلاعات ذخیره‌شده سیگنالتان را انتخاب کنید."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "پوشه حاوی اطلاعات استخراج‌شده را انتخاب کنید"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "خطایی رخ‌ داد!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "درحال بارگیری مخاطبین و پیام‌ها"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "مطمئن شوید که دایرکتوری صحیح را که شامل داده های ذخیره شده سیگنال شما می باشد را انتخاب کرده اید. نام آن باید با 'سیگنال Export' آغاز شده باشد. شما همچنین میتوانید یک کپی جدید از داده های خود را از برنامه کروم ذخیره کنید."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "اگر این مراحل برای شما کار نمی‌کنند، لطفا یک گزارش خطا (نمایش -> گزارش خطا) ارسال کنید تا بتوانیم برای جابجایی به شما کمک کنیم."
-  },
-  "icu:importAgain": {
-    "messageformat": "پوشه را انتخاب کنید و دوباره امتحان کنید"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "موفقیت!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "شروع به استفاده از سیگنال Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "لینک کردن این دستگاه به موبایل"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "مکان انتخابی شما"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "در حال به‌روزرسانی پایگاه داده. ممکن است کمی طول بکشد..."
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {در حال بارگیری پیام‌های ۱ روز پیش...} other {در حال بارگیری پیام‌های {daysAgo,number} روز پیش...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "اشاره‌های جدید در زیر"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 پیام خوانده نشده"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} پیام نخوانده} other {{count,number} پیام نخوانده}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "شما کد امنیتی خود با {name} را از یک دستگاه دیگر به عنوان تایید نشده علامت زدید"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "کد امنیتی این اعضای گروه از آخرین باری که تأییدش کردید تغییر کرده‌است. یکی از اعضای گروه را انتخاب کنید تا کد امنیتی جدیدش را ببینید."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "شمارهٔ امنیتی که شما در تلاش برای تایید آن هستید تغییر کرده است. لطفاً شمارهٔ امنیتی جدید خود را با{name1}بازبینی کنید. به یاد داشته باشید، این تغییر بدین معناست که شخصی در تلاش برای رهگیری ارتباطات شماست و یا اینکه {name2}   مجددا سیگنال را نصب کرده است."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "اقدامات برای استوری {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "شمارهٔ امنیتی شما با {name1} تغییر کرده است.  این اتفاق بدین معناست که شخصی در تلاش برای رهگیری ارتباطات شماست یا اینکه {name2}مجددا سیگنال را نصب کرده است. بهتر است شمارهٔ امنیتی خود با این مخاطب را تایید کنید."
-  },
   "icu:sendAnyway": {
     "messageformat": "در هر صورت ارسال کن"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "ادامه تماس"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "کد امنیتی {name} تغییر کرده  و دیگر تأییدشده نیست. برای نمایشش کلیک کنید."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "شماره امن شما با اعضای این گروه تغییر کرده است و دیگر تایید شده نیست. برای نمایش لمس کنید."
   },
   "icu:debugLogExplanation": {
     "messageformat": "وقتی روی ارسال کلیک می‌کنید، گزارش شما به مدت 30 روز به صورت آنلاین در یک URL منحصربه‌فرد و منتشرنشده پست می‌شود. می‌توانید ابتدا آن را در دستگاه خود ذخیره کنید."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "تماس با پشتیبانی"
   },
-  "icu:gotIt": {
-    "messageformat": "فهمیدم!"
-  },
   "icu:submit": {
     "messageformat": "ارسال"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "پذیرفتن"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "علامت‌گذاری به عنوان تأیید شده"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "بیشتر یاد بگیرید"
   },
-  "icu:isVerified": {
-    "messageformat": "کدِ امنیتیِ {name} تأیید شد."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "شما شماره امن خود با {name}را تایید نکرده اید."
-  },
   "icu:verified": {
     "messageformat": "تایید شده"
   },
   "icu:newIdentity": {
     "messageformat": "شماره‌ی امنیتی جدید"
-  },
-  "icu:identityChanged": {
-    "messageformat": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما سیگنال را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد."
   },
   "icu:incomingError": {
     "messageformat": "خطا در کنترل پیام دریافتی"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "این نوع ضمیمه پشتیبانی نمی‌شود. برای ذخیره کلیک کنید."
-  },
-  "icu:clickToSave": {
-    "messageformat": "ذخیره"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "فایل بی‌نام"
   },
   "icu:voiceMessage": {
     "messageformat": "پیام صوتی"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "پیام اصلی پیدا نشد"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "پیام اصلی پیدا شد، اما بارگیری نشد. برای بارگذاری به سمت بالا حرکت کنید"
-  },
   "icu:voiceRecording--start": {
     "messageformat": "شروع ضبط پیام صوتی"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "اتمام پیام صوتی و ارسال"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "لغو پیام صوتی"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "ضبط پیام صوتی به دلیل طولانی بودن بیش از حد متوقف شد."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "ضبط پیام صوتی به دلیل جابجایی موس به یک پنجره دیگر متوقف شد."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "پیام‌های صوتی محدود به یک ساعت است. اگر به برنامه دیگری بروید، ضبط متوقف می‌شود."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "شما"
   },
-  "icu:replyingTo": {
-    "messageformat": "پاسخ به {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "برای فرستادن پیام‌های صوتی، به سیگنال دسکتاپ اجازه دسترسی به میکروفون خود را بدهید."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "اجازه دسترسی بدهید"
-  },
-  "icu:showSettings": {
-    "messageformat": "نمایش تنظیمات"
   },
   "icu:audio": {
     "messageformat": "صوت"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "ناتوانی در بروزرسانی"
-  },
-  "icu:muted": {
-    "messageformat": "بی‌صدا شد"
   },
   "icu:mute": {
     "messageformat": "بی‌صدا"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "ولش كن"
   },
-  "icu:failedToSend": {
-    "messageformat": "ارسال به برخی مخاطبین ناموفق بود. اتصال شبکه‌ی خود را بررسی کنید."
-  },
   "icu:error": {
     "messageformat": "خطا"
-  },
-  "icu:messageDetail": {
-    "messageformat": "جزئیات پیام"
   },
   "icu:delete": {
     "messageformat": "پاک کردن"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "از"
   },
-  "icu:to": {
-    "messageformat": "به"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} به {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "پیام"
   },
-  "icu:groupMembers": {
-    "messageformat": "اعضای گروه"
-  },
   "icu:showMembers": {
     "messageformat": "نمایش اعضا"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "شما"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "‏{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "‏«{title} » نام نمایه‌ای است که این شخص برای خود در سیگنال تنظیم کرده است."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "تایید شده"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "‏{name} در مخاطبان سیستم شما است"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "دیدن شماره ایمنی"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "یادداشت"
   },
   "icu:viewRecentMedia": {
     "messageformat": "مشاهدهٔ رسانه‌های اخیر"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "شما هنوز هیچ پیامی با این مخاطب تبادل نکرده‌اید. شماره‌ی امنیتی پس از ارسال و یا دریافت اولین پیام در دسترس خواهد بود."
   },
   "icu:back": {
     "messageformat": "بازگشت"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "این گفتگو را با {oldTitle} شروع کردید"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "تامبنیل تصویر از پیام نقل قول شده"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "تصویر پیوست شده به پیام"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "بازنشانی"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "آیکون فایل"
-  },
-  "icu:installWelcome": {
-    "messageformat": "به سیگنال Desktop خوش‌آمدید"
-  },
-  "icu:installTagline": {
-    "messageformat": "حفظ حریم خصوصی ممکن است. سیگنال این کار را راحت‌تر میکند."
   },
   "icu:linkedDevices": {
     "messageformat": "دستگاه های متصل شده"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "گروه برای زنگ خوردن همهٔ مشارکت‌کنندگان خیلی بزرگ است."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "آگاه کن، زنگ نزن"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "فعال کردن زنگ خوردن"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "خاموش کردن زنگ"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "هیچکس دیگری اینجا نیست"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "در این تماس · 1 نفر"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "در این تماس · {people} نفر"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {در این تماس · {people,number} نفر} other {در این تماس · {people,number} نفر}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "اجازه دسترسی به دوربین"
   },
-  "icu:general": {
-    "messageformat": "عمومی"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "غلط‌یابی متن وارد شده در جعبۀ نگارش پیام"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "همۀ داده‌ها و پیام‌ها از این نسخه سیگنال دسکتاپ پاک شود؟ همیشه می‌توانید این دسکتاپ را دوباره پیوند دهید، اما پیام‌هایتان بازیابی نخواهد شد. داده‌ها و حساب سیگنال شما در تلفن‌تان و سایر دستگاههای متصل‌شده پاک نخواهد شد."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "پاک کردن همه اطلاعات"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "قطع اتصال و پاک کردن تمام داده ها"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "پاک کردن اطلاعات قدیمی"
-  },
-  "icu:notifications": {
-    "messageformat": "اعلان‌ها"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "هنگام دریافت پیام, این جزئیات را نمایش بده:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "آگاه‌سازی‌ها غیرفعال باشند"
   },
   "icu:nameAndMessage": {
     "messageformat": "نام، محتوا، و عملیات"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "به طور کامل پاک نشد، برای تلاش مجدد کلیک کنید"
   },
-  "icu:showMore": {
-    "messageformat": "جزئیات"
-  },
-  "icu:showLess": {
-    "messageformat": "جزئیات را پنهان کن"
-  },
-  "icu:learnMore": {
-    "messageformat": "درباره‌ی شماره‌ی امنیتی بیشتر بدانید"
-  },
   "icu:expiredWarning": {
     "messageformat": "این نسخه‌ی سیگنال قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "پیام رسانه ای"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "این شماره ثبت نشده است!"
-  },
   "icu:sync": {
     "messageformat": "وارد کردن مخاطبین"
   },
   "icu:syncExplanation": {
     "messageformat": "واردسازی لیست تمام گروه‌ها و مخاطب‌های سیگنال از گوشی موبایل شما."
-  },
-  "icu:lastSynced": {
-    "messageformat": "آخرین واردسازی"
   },
   "icu:syncNow": {
     "messageformat": "انجام واردسازی"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "این کاربر تا زمانی که پیامی بین شما رد و بدل نشود قابل تایید نیست"
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "شمارهٔ امنیتی شما با {name1} :"
-  },
   "icu:themeLight": {
     "messageformat": "روشن"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "پنهان کردن نوار منو"
-  },
-  "icu:startConversation": {
-    "messageformat": "شروع گفتگوی جدید"
   },
   "icu:newConversation": {
     "messageformat": "گفتگوی جدید"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "به‌روزرسانی گروه ناموفق بود. اتصال خود را بررسی و دوباره امتحان کنید."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "پیامک/پیام چندرسانه‌ای پشتیبانی نمی شود."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "برای افزودن مخاطب، شماره تلفن اضافه کنید."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "شماره نامعتبر"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "برای ادامهٔ پیام‌رسانی کلیک کنید تا سیگنال دسکتاپ را به دستگاه تلفن همراه خود پیوند دهید."
   },
   "icu:unlinked": {
     "messageformat": "جدا شد"
-  },
-  "icu:relink": {
-    "messageformat": "پیوند دادن دوباره"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "به‌روزرسانی موجود است"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "راه اندازی مجدد سیگنال"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "بعدا"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "رد بروزرسانی"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "درخواست تبادل پیام"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "مسدودشده"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "پیش نویس:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "منقضی شده"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "مشاهده"
-  },
   "icu:message--donation--view": {
     "messageformat": "مشاهده"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "پک استیکر نمی تواند نصب شود"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "استیکرها"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "در دسترس"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {عضو {group1}، {group2}، {group3} و {remainingCount,number} گروه دیگر} other {عضو {group1}، {group2}، {group3} و {remainingCount,number} گروه دیگر}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} شما را به گروه اضافه کرد."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "گروه مشترکی وجود ندارد"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "تنظیمات"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} نفر در تماس"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {‏{people,number} در تماس} other {‏{people,number} در تماس}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "گفتگوهای بی‌صدا در تعداد نشان‌ها لحاظ شوند"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "پیام"
+  "icu:ContactModal--nickname": {
+    "messageformat": "نام مستعار"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "حذف از مدیریت"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "وقتی فعال شود، پیام‌های ارسالی و دریافتی در این گفتگوی فرد به فرد پس از دیده شدن ناپدید خواهند شد."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "نام مستعار"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "اقدامات"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "پاک کردن"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "نام مستعار پاک شود؟"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "این کار موجب پاک شدن دائمی این نام کاربری و یادداشت می‌شود."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "اعلان‌ها"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "مشاهدهٔ همه"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "نام مستعار"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "نام‌های مستعار و یادداشت‌ها در سیگنال ذخیره می‌شوند و سرتاسر رمزگذاری شده‌اند. این‌ها فقط برای شما قابل‌مشاهده هستند."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "نام کوچک"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "نام کوچک"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "نام خانوادگی"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "نام خانوادگی"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "یادداشت"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "یادداشت"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "اشاره‌ها"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "درخواست \"{name}\" رد شود؟ وی نمی‌تواند دوباره از طریق پیوند گروه درخواست عضویت کند."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "دعوت شده از سوی شما"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "دعوت شده از سوی شما"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "فقط تا حداکثر ۳۰ پیام را می‌توانید بازارسال کنید"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "یک عکس گروه اضافه کنید"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "افزودن یک عکس"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "تغییر عکس"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "بارگذاری عکس"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "حذف عکس"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "حذف مخاطب"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "خوب"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {دعوت‌نامه ارسال شد} other {{count,number} دعوت‌نامه ارسال شد}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {این رنگ سفارشی در {num,number} گفتگو استفاده شده است. می‌خواهید آن را از همه گفتگو‌ها پاک کنید؟} other {این رنگ سفارشی در {num,number} گفتگو استفاده شده است. می‌خواهید آن را از همه گفتگو‌ها پاک کنید؟}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "رنگ گفتگوی سراسری"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "رنگ گفتگو"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "این نام کاربری در دسترس نیست"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "این نام کاربری گرفته شده است."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "نام کاربری شما ذخیره نشد. ارتباط خود را چک کنید و مجددا تلاش کنید"
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "در حال پاک کردن نام کاربری"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "پاک کردن نام کاربری"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "این کار موجب حذف نام کاربری و غیرفعال شدن کد و پیوند QR شما می‌شود. «{username}» در دسترس دیگران قرار خواهد گرفت و می‌توانند آن را تصاحب کنند. مطمئن هستید؟"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "کپی کردن نام کاربری"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "کپی کردن پیوند"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "پاک کردن"
@@ -4574,14 +4379,14 @@
   "icu:Preferences__pnp__discoverability__nobody": {
     "messageformat": "هیچ‌کس"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+  },
   "icu:Preferences--messaging": {
     "messageformat": "‌پیام‌رسانی"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "دیدن شماره تلفن من"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "پیدا کردن من با شماره تلفن"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "رسیدهای خوانده شدن"
@@ -4724,9 +4529,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "افزودن متن"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "استیکرها"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "برش و چرخش"
   },
@@ -4744,9 +4546,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "خط بیرونی"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "خط زیرین"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "قلم"
@@ -4777,12 +4576,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "قفل"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "برش"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "افزودن یک پیام"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "فری‌فرم"
@@ -4861,6 +4654,15 @@
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "این شخص را مسدود کردید"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "گزینه‌ها"
@@ -4949,9 +4751,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "استوری جدید"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "فقط شما می‌توانید نام این استوری را ببینید."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "استوری سفارشی"
   },
@@ -5006,23 +4805,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "همه آشنایان در سیگنال"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "اشتراک‌گذاری با تمام آشنایان"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "همه به‌جز..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} نفر مستثنی شد} other {{num,number} نفر مستثنی شدند}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "فقط هم‌رسانی شود با..."
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "فقط با افراد انتخاب‌شده اشتراک‌گذاری شود"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} نفر"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "انتخاب کنید که چه کسانی بتوانند استوری شما را ببینند. تغییرات تأثیری روی استورهایی که قبلاً فرستاده‌اید ندارند. <learnMoreLink>اطلاعات بیشتر.</learnMoreLink>"
@@ -5104,18 +4891,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "فقط مدیران می‌توانند در این گروه استوری ارسال کنند."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {همه آشنایان در سیگنال · {viewersCount,number} بازدیدکننده} other {همه آشنایان در سیگنال · {viewersCount,number} بازدیدکننده}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {همه آشنایان در سیگنال · به جز {excludedCount,number} نفر} other {همه آشنایان در سیگنال · به جز {excludedCount,number} نفر}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {استوری خصوصی · {viewersCount,number} بازدیدکننده} other {استوری خصوصی · {viewersCount,number} بازدیدکننده}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {استوری گروهی · ۱ عضو} other {استوری گروهی · {membersCount,number} عضو}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "هم‌رسانی و مشاهده استوری‌ها"
@@ -5263,9 +5038,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "افزودن پیوند"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "افزودن متن"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "معمولی"
@@ -5520,6 +5292,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "تماس گروهی"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "پیوند تماس"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "مکالمه اخیری وجود ندارد."
   },
@@ -5578,13 +5353,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "اکنون می‌توانید تماس‌های ازدست‌رفته را روی تلفن خود پاک کنید و نشان روی زبانۀ تماس‌ها در «سیگنال دسکتاپ» نیز به‌روز می‌شود."
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "حالا دیگر سیگنال از نام‌های مستعار و یادداشت‌های سفارشی برای هرکسی که در سیگنال با او گفتگو می‌کنید، پشتیبانی می‌کند، حتی اگر در مخاطبان سیستم شما نباشد. یادداشت‌ها و نام‌های مستعار راهی مطمئن و آسان برای مشاهدۀ سریع جزئیات بیشتر درباره آشنایان در سیگنال هستند که به‌صورت سرتاسری رمزگذاری شده‌اند و با پین سیگنال شما محافظت می‌شوند، بنابراین اگر تلفن خود را گم کنید نیز می‌توان آن‌ها را بازیابی کرد."
   },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "نشانگر تعداد نشان در ویندوز را نیز از نو طراحی کردیم. حالا دیگر رنگ نوار وظیفه با رنگ نوار سیستم همخوانی دارد."
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "اکنون می‌توانید سیگنال را به نوار سیستم خود در لینوکس کمینه کنید."
   },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "چند اشکال در این نسخه جدید برطرف شده است؛ از جمله اینکه اگر برنامه به‌دلیل ضعف شبکه با اختلال در اتصال DNS روبرو شود، منطق مرتب‌سازی مکالمه و رفتار آن بهبود یافته است."
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "برای کاربران ویندوز، این به‌روزرسانی قابلیت پشتیبانی از تعداد دقیق پیام‌های خوانده‌نشده در نماد سیگنال را مجدداً فعال می‌کند."
   }
 }

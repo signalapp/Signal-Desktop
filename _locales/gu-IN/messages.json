@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "આર્કાઇવ જુઓ"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "ચેટ કલર"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Signal ને અપડેટ કરો"
-  },
   "icu:loading": {
     "messageformat": "લોડ થઈ રહ્યું છે..."
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "તમે માત્ર 4 ચેટ સુધી જ પિન કરી શકો છો"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "ફોલ્ડર પસંદ કરો"
-  },
-  "icu:chooseFile": {
-    "messageformat": "ફાઈલ પસંદ કરો"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "તમારો ડેટા લોડ કરો"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "તમે હમણાં જ એક્સ્પોર્ટ પ્રક્રિયામાંથી પસાર થયા છો, અને તમારા સંપર્કો અને મેસેજ તમારા કમ્પ્યુટર પર ધીરજથી રાહ જોઈ રહ્યા છે. તમારો સાચવેલો Signal ડેટા ધરાવતું ફોલ્ડર પસંદ કરો."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "એક્સ્પોર્ટ કરેલ ડેટા સાથે ડિરેક્ટરી પસંદ કરો"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "કંઈક ખોટું થયું!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "સંપર્કો અને મેસેજ લોડ થઈ રહ્યાં છે"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "ખાતરી કરો કે તમે સાચી ડિરેક્ટરી પસંદ કરી છે જેમાં તમારો સાચવેલો Signal ડેટા છે. તેનું નામ 'Signal એક્સપોર્ટ' થી શરૂ થવું જોઈએ. તમે ક્રોમ એપ્લિકેશનથી તમારા ડેટાની નવી નકલ પણ સેવ કરી શકો છો."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "જો આ પગલાં તમારા માટે કામ કરતું નથી, તો કૃપા કરીને ડિબગ લૉગ સબમિટ કરો (જુઓ -> ડીબગ લૉગ) જેથી અમે તમને સ્થાનાંતરિત કરવામાં સહાય કરી શકીએ!"
-  },
-  "icu:importAgain": {
-    "messageformat": "ફોલ્ડર પસંદ કરો અને ફરી પ્રયાસ કરો"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "સફળતા!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Signal ડેસ્કટોપનો ઉપયોગ શરૂ કરો"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "આ ઉપકરણને તમારા ફોન સાથે લિંક કરો"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "તમારું પસંદ કરેલું સ્થાન"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "ડેટાબેઝ અપગ્રેડ કરી રહ્યું છે. આમાં થોડો સમય લાગી શકે છે..."
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {1 દિવસ પહેલાંના મેસેજ લોડ થઈ રહ્યાં છે...} other {{daysAgo,number} દિવસ પહેલાંના મેસેજ લોડ થઈ રહ્યાં છે...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "નવા ઉલ્લેખો નીચે આપેલા છે"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 ન વાંચેલ મેસેજ"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number}ન વાંચેલ મેસેજ} other {{count,number}ન વાંચેલ મેસેજ}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "તમે તમારા સલામતી નંબરને {name} સાથે ચિહ્નિત કર્યા છે જેમ કે બીજા ડિવાઇસથી ચકાસાયેલ નથી"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "તમે છેલ્લે ચકાસ્યા પછી આ ગ્રુપ  ના મેમ્બર સાથેના તમારા સલામતી નંબરો બદલાયા છે. ગ્રુપ મેમ્બર સાથે તમારો નવો સેફ્ટી નંબર જોવા માટે ક્લિક કરો."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "તમે જે સલામતી નંબર ચકાસવાનો પ્રયાસ કરી રહ્યા છો તે બદલાઈ ગયો છે. કૃપા કરીને {name1} સાથે તમારા નવા સલામતી નંબર ની સમીક્ષા કરો. યાદ રાખો, આ ફેરફારનો અર્થ એ થઈ શકે છે કે કોઈ તમારા સંદેશાવ્યવહારને અટકાવવાનો પ્રયાસ કરી રહ્યો છે અથવા તે {name2} એ Signal ને સરળતાથી ઈન્સ્ટોલ કર્યું છે."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "સ્ટોરી {story} માટેની ક્રિયાઓ"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "{name1} સાથેનો તમારો સલામતી નંબર બદલાઈ ગયો છે. આનો અર્થ એ હોઈ શકે કે કોઈ તમારા સંદેશાવ્યવહારને અટકાવવાનો પ્રયાસ કરી રહ્યું છે અથવા {name2} એ ફક્ત Signal ફરીથી ઇન્સ્ટોલ કર્યું છે. તમે આ સંપર્ક સાથે તમારો સલામતી નંબર ચકાસી શકો છો."
-  },
   "icu:sendAnyway": {
     "messageformat": "કોઈપણ રીતે મોકલો"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "કૉલ ચાલુ રાખો"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "{name} સાથેનો તમારો સલામતી નંબર બદલાઈ ગયો છે અને હવે તેની ચકાસણી કરવામાં આવી નથી"
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "આ ગ્રુપના બહુવિધ સભ્યો સાથેના તમારા સલામતી નંબરો બદલાયા છે અને હવે ચકાસવામાં આવ્યા નથી. બતાવવા માટે ક્લિક કરો."
   },
   "icu:debugLogExplanation": {
     "messageformat": "તમે સબમિટ પર ક્લિક કરશો ત્યારે લૉગ 30 દિવસ માટે ઓનલાઇન એક અનન્ય, અપ્રકાશિત URL પર પોસ્ટ થશે. તમે પહેલાં તેને સ્થાનિક રીતે સેવ કરી શકો છો."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "સપોર્ટનો સંપર્ક કરો"
   },
-  "icu:gotIt": {
-    "messageformat": "સમજાયું!"
-  },
   "icu:submit": {
     "messageformat": "સબમિટ કરો"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "સ્વીકાર"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "ચકાસાયેલ તરીકે માર્ક કરો"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "વધુ શીખો"
   },
-  "icu:isVerified": {
-    "messageformat": "તમે {name} સાથે તમારો સલામતી નંબર ચકાસી લીધો છે."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "તમે {name} સાથે તમારો સલામતી નંબર ચકાસી લીધો નથી."
-  },
   "icu:verified": {
     "messageformat": "ચકાસણી"
   },
   "icu:newIdentity": {
     "messageformat": "નવો સલામતી નંબર"
-  },
-  "icu:identityChanged": {
-    "messageformat": "આ સંપર્ક સાથે તમારો સલામતી નંબર બદલાઈ ગયો છે. આનો અર્થ એ હોઈ શકે કે કોઈ તમારા સંદેશાવ્યવહારને અટકાવવાનો પ્રયાસ કરી રહ્યું છે, અથવા આ સંપર્ક ફક્ત Signal ને ફરીથી સ્થાપિત કરે છે. તમે નીચે નવો સલામતી નંબર ચકાસવા ઈચ્છો છો."
   },
   "icu:incomingError": {
     "messageformat": "આવનારા સંદેશને સંચાલિત કરવામાં ભૂલ"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "અસમર્થિત જોડાણ પ્રકાર. સેવ કરવા માટે ક્લિક કરો."
-  },
-  "icu:clickToSave": {
-    "messageformat": "સેવ કરવા માટે ક્લિક કરો"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "અનામી ફાઈલ"
   },
   "icu:voiceMessage": {
     "messageformat": "વૉઈસ મેસેજ"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "અસલ મેસેજ મળ્યો નથી"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "મૂળ મેસેજ મળ્યો, પરંતુ લોડ થયો નથી. તેને લોડ કરવા માટે ઉપર સ્ક્રોલ કરો."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "વૉઈસ મેસેજ રેકોર્ડ કરવાનું શરૂ કરો"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "વૉઈસ મેસેજ પૂર્ણ કરો અને મોકલો"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "વૉઈસ મેસેજ મોકલો"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "વૉઈસ મેસેજ રેકોર્ડિંગ બંધ કર્યું કારણ કે મહત્તમ સમયમર્યાદા પહોંચી ગઈ છે."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "વૉઈસ મેસેજ રેકોર્ડિંગ બંધ કર્યું કારણ કે તમે બીજી એપ્લિકેશન પર સ્વિચ કર્યું છે."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "વૉઈસ મેસેજની એક કલાકની મર્યાદા છે. જો તમે અન્ય એપ્લિકેશન ચાલુ કરશો તો રેકોર્ડિંગ બંધ થઈ જશે."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "તમે"
   },
-  "icu:replyingTo": {
-    "messageformat": "{name} ને જવાબ આપી રહ્યા છે"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "વૉઇસ મેસેજ મોકલવા માટે, Signal ડેસ્કટોપને તમારો માઇક્રોફોન ઍક્સેસ કરવાની મંજૂરી આપો."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "ઍક્સેસ આપો"
-  },
-  "icu:showSettings": {
-    "messageformat": "સેટિંગ્સ શો કરો"
   },
   "icu:audio": {
     "messageformat": "ઓડિયો"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "અપડેટ કરી શકાતું નથી"
-  },
-  "icu:muted": {
-    "messageformat": "મ્યૂટ કર્યા"
   },
   "icu:mute": {
     "messageformat": "મ્યૂટ કરો"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "કાઢી નાખો"
   },
-  "icu:failedToSend": {
-    "messageformat": "કેટલાક પ્રાપ્તકર્તાઓને મોકલવામાં નિષ્ફળ. તમારું નેટવર્ક કનેક્શન તપાસો."
-  },
   "icu:error": {
     "messageformat": "ભૂલ"
-  },
-  "icu:messageDetail": {
-    "messageformat": "મેસેજની વિગતો"
   },
   "icu:delete": {
     "messageformat": "ડિલીટ કરો"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "માંથી:"
   },
-  "icu:to": {
-    "messageformat": "તરફ:"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender}એ {receiverGroup}માં"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "મેસેજ"
   },
-  "icu:groupMembers": {
-    "messageformat": "ગ્રુપના સભ્યો"
-  },
   "icu:showMembers": {
     "messageformat": "મેમ્બર્સ શો કરો"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "તમે"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "“{title}” એ આ વ્યક્તિએ Signalમાં પોતાના માટે સેટ કરેલું પ્રોફાઇલ નેમ છે."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "ચકાસણી"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} તમારા સિસ્ટમના સંપર્કોમાં છે"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "સલામતી નંબર જુઓ"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "નોંધ"
   },
   "icu:viewRecentMedia": {
     "messageformat": "તાજેતરના મીડિયા જુઓ"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "તમે હજી સુધી આ સંપર્ક સાથે કોઈ મેસેજની આપલે કરી નથી. પ્રથમ મેસેજ પછી તેમની સાથે તમારો સલામતી નંબર ઉપલબ્ધ થશે."
   },
   "icu:back": {
     "messageformat": "પાછળ"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "તમે {oldTitle} સાથે આ ચેટ શરૂ કરી"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "અવતરણ કરેલ મેસેજથી ઈમેજની થંબનેલ"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "મેસેજ સાથે જોડાયેલ ઈમેજ"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "ફરીથી સેટ કરો"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "ફાઇલ આઈકોન"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Signal ડેસ્કટોપ પર આપનું સ્વાગત છે"
-  },
-  "icu:installTagline": {
-    "messageformat": "ગોપનીયતા શક્ય છે. Signal તેને સરળ બનાવે છે."
   },
   "icu:linkedDevices": {
     "messageformat": "લિંક થયેલ ડિવાઇસ"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "સહભાગીઓને રિંગ મારવા માટે ગ્રુપ બહુ મોટું છે."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "સૂચિત કરો, રિંગ ન મારશો"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "રિંગ મારવાનું સક્ષમ કરો"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "રિંગ બંધ કરો"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "બીજું કોઈ અહીં નથી"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "આ કૉલમાં · 1 વ્યક્તિ"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "આ કૉલમાં {people} વ્યક્તિ"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {આ કૉલમાં · {people,number} વ્યક્તિ} other {આ કૉલમાં · {people,number} લોકો}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "કૅમેરા ઍક્સેસની મંજૂરી આપો"
   },
-  "icu:general": {
-    "messageformat": "સામાન્ય"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "મેસેજ લખવાના બોક્સમાં દાખલ કરેલ મેસેજની જોડણી તપાસો"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Signal ડેસ્કટોપના આ વર્ઝનમાંથી તમામ ડેટા અને મેસેજ ડિલીટ કરવા છે? તમે હંમેશા આ ડેસ્કટોપને ફરીથી લિંક કરી શકો છો, પરંતુ તમારા મેસેજ રિસ્ટોર થશે નહીં. તમારું Signal એકાઉન્ટ અને તમારા ફોન અથવા અન્ય લિંક કરેલા ડિવાઇસ પરનો ડેટા ડિલીટ કરવામાં નહીં આવે."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "બધા ડેટા ડિલીટ કરો"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "બધા ડેટાને ડિસ્કનેક્ટ કરી રહ્યું છે અને કાઢી રહ્યું છે"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "જૂનો ડેટા ડિલીટ કરો"
-  },
-  "icu:notifications": {
-    "messageformat": "સૂચનાઓ"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "જ્યારે સંદેશો આવે છે, સૂચનાઓ પ્રદર્શિત કરે છે જે ડિસ્પ્લે કરે છે:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "સૂચનાઓ અક્ષમ કરો"
   },
   "icu:nameAndMessage": {
     "messageformat": "નામ, સામગ્રી અને ક્રિયાઓ"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "આંશિક ડિલીટ થયું, ફરી પ્રયાસ કરવા ક્લિક કરો"
   },
-  "icu:showMore": {
-    "messageformat": "વિગતો"
-  },
-  "icu:showLess": {
-    "messageformat": "વિગતો છુપાવો"
-  },
-  "icu:learnMore": {
-    "messageformat": "સલામતી નંબરો ચકાસવા વિશે વધુ જાણો"
-  },
   "icu:expiredWarning": {
     "messageformat": "Signal ડેસ્કટોપનું આ વર્ઝન સમાપ્ત થઈ ગયું છે. મેસેજિંગ ચાલુ રાખવા માટે કૃપા કરીને નવીનતમ સંસ્કરણ પર અપગ્રેડ કરો."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "મીડિયા મેસેજ"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "નંબર નોંધાયેલ નથી"
-  },
   "icu:sync": {
     "messageformat": "સંપર્કો ઇમ્પોર્ટ કરો"
   },
   "icu:syncExplanation": {
     "messageformat": "તમારા મોબાઈલ ઉપકરણમાંથી તમામ Signal ગૃપ્સ અને સંપર્કો ઇમ્પોર્ટ કરો."
-  },
-  "icu:lastSynced": {
-    "messageformat": "અંતે છેલ્લી ઈમ્પોર્ટ"
   },
   "icu:syncNow": {
     "messageformat": "હમણાં ઈમ્પોર્ટ કરો"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "જ્યાં સુધી તમે તેમની સાથે મેસેજની આપ-લે ન કરો ત્યાં સુધી આ વપરાશકર્તાની ચકાસણી કરી શકાતી નથી."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "{name1} સાથેનો તમારો સલામતી નંબર:"
-  },
   "icu:themeLight": {
     "messageformat": "લાઈટ"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "મેનૂ બાર છુપાવો"
-  },
-  "icu:startConversation": {
-    "messageformat": "નવી ચેટ શરૂ કરો"
   },
   "icu:newConversation": {
     "messageformat": "નવી ચેટ"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "ગ્રુપ અપડેટ થવામાં નિષ્ફળ. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS મેસેજ સપોર્ટેડ નથી."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "સંપર્ક ઉમેરવા માટે એક ફોન નંબર દાખલ કરો."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "અમાન્ય નંબર"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "મેસેજ કરવાનું ચાલુ રાખવા માટે તમારા મોબાઇલ ડિવાઇસ સાથે Signal ડેસ્કટોપને ફરીથી લિંક કરવા ક્લિક કરો."
   },
   "icu:unlinked": {
     "messageformat": "અનલિંકડ"
-  },
-  "icu:relink": {
-    "messageformat": "ફરીથી લિંક કરો"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "અપડેટ ઉપલબ્ધ છે"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Signal ફરીથી પ્રારંભ કરો"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "પછી"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "અપડેટને અવગણો"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "મેસેજ રિક્વેસ્ટ"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "બ્લૉક કર્યા"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "ડ્રાફ્ટ:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "સમયસીમા સમાપ્ત"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "જુઓ"
-  },
   "icu:message--donation--view": {
     "messageformat": "જુઓ"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "સ્ટીકર પેક ઈન્સ્ટોલ કરી શકાયું નથી"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "સ્ટીકરો"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "ઉપલબ્ધ"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {{group1}, {group2}, {group3} અને {remainingCount,number} વધુના સભ્ય} other {{group1}, {group2}, {group3} અને {remainingCount,number} વધુના સભ્ય}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} એ તમને ગ્રુપમાં ઉમેર્યા."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "કોઈ ગ્રુપ સામાન્ય નથી"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "સેટિંગ્સ"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} કૉલમાં"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} કૉલમાં} other {{people,number} કૉલમાં}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "બૅજ કાઉન્ટમાં મ્યૂટ કરેલી ચેટ સામેલ કરો"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "મેસેજ"
+  "icu:ContactModal--nickname": {
+    "messageformat": "ઉપનામ"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "એડમિન તરીકેથી દૂર કરો"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "આ જ્યારે ચાલુ હોય ત્યારે આ સામ-સામી ચેટમાં મોકલેલ અને મેળવેલ મેસેજ જોઈ લીધા પછી ગાયબ થઈ જશે."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "ઉપનામ"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "ક્રિયાઓ"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "ડિલીટ કરો"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "ઉપનામ ડિલીટ કરવું છે?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "આ આ ઉપનામ અને નોંધને કાયમ માટે ડિલીટ કરશે."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "સૂચનાઓ"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "બધા જુઓ"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "ઉપનામ"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "ઉપનામો અને નોંધને Signalની એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ સ્ટોરેજ સેવાનો ઉપયોગ કરીને સ્ટોર કરવામાં આવે છે. તે ફક્ત તમને જ દેખાય છે."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "પહેલું નામ"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "પહેલું નામ"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "અટક"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "અટક"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "નોંધ"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "નોંધ"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "ઉલ્લેખો"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "{name}ની વિનંતી નકારવી છે? તેઓ ફરીથી ગ્રુપ લિંક વડે જોડાવાની વિનંતી કરી શકશે નહીં."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "તમારા દ્વારા આમંત્રિત"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "તમારા દ્વારા આમંત્રિત"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "તમે માત્ર 30 જેટલા મેસેજ ફોરવર્ડ કરી શકો છો"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "ગ્રુપ ફોટો ઉમેરો"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "ફોટો ઉમેરો"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "ફોટો બદલો"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "ફોટો અપલોડ કરો"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "ફોટો દૂર કરો"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "સંપર્ક દૂર કરો"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "બરાબર"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {આમંત્રણ મોકલ્યું} other {{count,number} આમંત્રણો મોકલ્યા}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {આ કસ્ટમ કલરનો ઉપયોગ {num,number} ચેટમાં થાય છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?} other {આ કસ્ટમ કલરનો {num,number} ચેટમાં ઉપયોગ થયો છે. શું તમે તેને બધી ચેટ માટે ડિલીટ કરવા માગો છો?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "ગ્લોબલ ચેટ કલર"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "ચેટ કલર"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "આ યુઝરનેમ ઉપલબ્ધ નથી"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "આ યુઝરનેમ લેવાઈ ગયું છે."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "તમારું યુઝરનેમ સેવ ન થઈ શક્યું. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "યુઝરનેમ ડિલીટ કરી રહ્યા છીએ"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "યુઝરનેમ ડિલીટ કરો"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "આનાથી તમારું યુઝરનેમ દૂર થઈ જશે અને તમારો QR કોડ અને લિંક અક્ષમ થઈ જશે. “{username}” અન્ય લોકો દ્વારા દાવો કરવા માટે ઉપલબ્ધ હશે. તમને ખાતરી છે?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "યુઝરનેમ કૉપી કરો"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "લિંક કૉપી કરો"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "ડિલીટ કરો"
@@ -4574,14 +4379,14 @@
   "icu:Preferences__pnp__discoverability__nobody": {
     "messageformat": "કોઈ નહીં"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+  },
   "icu:Preferences--messaging": {
     "messageformat": "મેસેજ કરી રહ્યા છીએ"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "મારો ફોન નંબર જુઓ"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "મારા ફોન નંબર વડે મને શોધો"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "પ્રાપ્ત થયાની ખાતરી"
@@ -4724,9 +4529,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "લખાણ ઉમેરો"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "સ્ટીકરો"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "કાપો અને ફેરવો"
   },
@@ -4744,9 +4546,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "આઉટલાઇન"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "અંડરલાઇન"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "પેન"
@@ -4777,12 +4576,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "લૉક"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "કાપો"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "મેસેજ ઉમેરો"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "ફ્રીફોર્મ"
@@ -4861,6 +4654,15 @@
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "તમે આ વ્યક્તિને બ્લોક કર્યા"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "વિકલ્પો"
@@ -4949,9 +4751,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "નવી સ્ટોરી"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "આ સ્ટોરીનું નામ ફક્ત તમે જ જોઈ શકો છો."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "કસ્ટમ સ્ટોરી"
   },
@@ -5006,23 +4805,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "બધા Signal સંપર્કો"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "બધા કનેક્શન સાથે શેર કરો"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "આમના સિવાય બધા..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} વ્યક્તિને બાકાત કરી} other {{num,number} લોકોને બાકાત કર્યા}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "ફક્ત આમની સાથે શેર કરો..."
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "ફક્ત પસંદ કરેલ લોકો સાથે શેર કરો"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} લોકો"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "તમારી સ્ટોરી કોણ જોઈ શકે તે પસંદ કરો. ફેરફારોની અસર તમે પહેલાંથી જ મોકલેલી સ્ટોરી પર નહીં થાય. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
@@ -5104,18 +4891,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "આ ગ્રુપમાં ફક્ત એડમિન જ મેસેજ મોકલી શકે છે."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {બધા Signal કનેક્શન · {viewersCount,number} દર્શક} other {બધા Signal કનેક્શન · {viewersCount,number} દર્શકો}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {બધા Signal કનેક્શન · {excludedCount,number} બાકાત} other {બધા Signal કનેક્શન · {excludedCount,number} બાકાત}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {ખાનગી સ્ટોરી · {viewersCount,number} દર્શક} other {ખાનગી સ્ટોરી · {viewersCount,number} દર્શકો}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {ગ્રુપ સ્ટોરી · 1 સભ્ય} other {ગ્રુપ સ્ટોરી · {membersCount,number} સભ્યો}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "સ્ટોરી જુઓ અને શેર કરો"
@@ -5263,9 +5038,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "લિંક ઉમેરો"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "લખાણ ઉમેરો"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "નિયમિત"
@@ -5520,6 +5292,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "ગ્રુપ કૉલ"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "કૉલ લિંક"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "કોઈ તાજેતરની વાતચીતો નથી."
   },
@@ -5578,13 +5353,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "હવે તમે તમારા ફોન પરના મિસ્ડ કૉલ ખાલી કરી શકો છો અને Signal ડેસ્કટોપમાં કૉલ ટેબ પરનો બૅજ પણ અપડેટ કરવામાં આવશે."
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "• અમે Signal પર તમે જેની સાથે ચેટ કરી રહ્યાં હો તેના માટે કસ્ટમ ઉપનામો અને નોંધ માટેનો સપોર્ટ ઉમેર્યો છે, પછી ભલે તે તમારા સિસ્ટમ સંપર્કોમાં ન હોય. નોંધ અને ઉપનામો તમારા Signal કનેક્શન વિશે વધારાની વિગતો લખવાની અનુકૂળ અને સુરક્ષિત રીત પ્રદાન કરે છે — અને તેઓ એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ છે અને તમારા Signal પિન દ્વારા સુરક્ષિત છે તેથી જો તમે તમારો ફોન ગુમાવો તો પણ તેને સુરક્ષિત રીતે રિસ્ટોર કરી શકાય."
   },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "અમે Windows પરના બૅજ કાઉન્ટ ઇન્ડિકેટરને પણ ફરીથી ડિઝાઇન કર્યું છે. હવે ટાસ્કબારનો રંગ સિસ્ટમ ટ્રેના રંગ સાથે મેચ થાય છે."
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "હવે તમે Signalને Linux પર તમારી સિસ્ટમ ટ્રેમાં મિનિમાઇઝ કરી શકો છો."
   },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "આ અપડેટમાં થોડા બગ ઠીક કરવામાં આવ્યા છે, જેમાં શામેલ છે ઍપને નબળી નેટવર્ક કનેક્ટિવિટીને કારણે DNS લૂકઅપ ટાઇમઆઉટનો સામનો કરવો પડે તેવા કિસ્સામાં વાતચીતને વધુ સાતત્ય સાથે સોર્ટ કરવાનો તર્ક અને સુધારેલ વર્તણૂક."
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Windows પરના વપરાશકર્તાઓ માટે, આ અપડેટ Signal આઇકન પર વિગતવાર ન વાંચેલા મેસેજની ગણતરી માટેના સપોર્ટને ફરીથી સક્ષમ કરે છે."
   }
 }

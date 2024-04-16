@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Arşivi Görüntüle"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Sohbet Rengi"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Signal'i Güncelle"
-  },
   "icu:loading": {
     "messageformat": "Yükleniyor…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "En fazla 4 sohbet sabitleyebilirsin"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Klasör seçin"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Dosya seçin"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Verilerinizi yükleyin"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Dışa aktarma işlemini tamamladınız ve kişileriniz ile iletileriniz sabırla  bilgisayarınızda bekliyor. Kaydettiğiniz Signal verilerinizi içeren klasörü seçin."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Dışa aktarılan verilerin bulunduğu dizini seçin"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Bir şeyler ters gitti!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Kişiler ve iletiler yükleniyor"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Kaydedilmiş Signal verilerinizi içeren doğru dizini seçtiğinizden emin olun. Dizinin ismi 'Signal Export' ile başlamalı. Verinizin yeni bir kopyasını Chrome Uygulamasından kaydededebilirsiniz."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Eğer bu adımlar işinize yaramadıysa, lütfen bir hata ayıklama günlüğü gönderin (Görüntüle -> Hata Ayıklama Günlüğü) ki aktarmanıza yardım edebilelim!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Klasör seçip tekrar deneyiniz"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Başarılı!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Signal Desktop'ı kullanmaya başlayın"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Bu cihazı telefonunuza bağlayın"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "seçtiğiniz konum"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Veri tabanı yükseltiliyor. Bu biraz zaman alabilir…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {1 gün önceki mesajlar yükleniyor...} other {{daysAgo,number} gün önceki mesajlar yükleniyor...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Aşağıda yeni bahsetmeler var"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 Okunmamış İleti"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} okunmamış ileti} other {{count,number} okunmamış ileti}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "{name} ile olan Güvenlik Numaranızı başka bir cihazdan doğrulanmamış olarak işaretlediniz"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Son doğrulamanızdan yana bu grup üyeleriyle olan güvenlik numaralarınız değişti. Yeni güvenlik numaralarını görmek için grup üyelerine tıklayın."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen {name1} ile olan yeni güvenlik numaranızı gözden geçirin. Unutmayın, bu değişiklik birisinin iletişiminizi kesmeye çalıştığı ya da {name2} Signal'i yeniden yüklemiş olduğu anlamına gelebilir."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "{story} hikayesi için işlemler"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "{name1} ile olan güvenlik numaranız değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da {name2} Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz."
-  },
   "icu:sendAnyway": {
     "messageformat": "Yine de gönder"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Aramaya Devam Et"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "{name} ile olan güvenlik numaranız değişti ve henüz doğrulanmadı. Göstermek için tıklayın."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Bu grubun birden fazla üyesiyle olan güvenlik numaralarınız değişti ve henüz doğrulanmadı. Göstermek için tıklayın."
   },
   "icu:debugLogExplanation": {
     "messageformat": "Gönder'i tıkladığınızda, günlüğünüz benzersiz, yayınlanmamış bir URL'de 30 gün boyunca çevrimiçi olarak yayınlanacaktır. Önce yerel olarak kaydedebilirsiniz."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Destekle İletişime Geçin"
   },
-  "icu:gotIt": {
-    "messageformat": "Anladım!"
-  },
   "icu:submit": {
     "messageformat": "Gönder"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Kabul et"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Doğrulanmış olarak işaretle"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Dahasını öğrenin"
   },
-  "icu:isVerified": {
-    "messageformat": "{name} ile olan güvenlik numaranızı doğruladınız."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "{name} ile olan güvenlik numaranızı doğrulamadınız."
-  },
   "icu:verified": {
     "messageformat": "Doğrulandı"
   },
   "icu:newIdentity": {
     "messageformat": "Yeni güvenlik numarası"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Bu kişiyle olan güvenlik numaranız değişti. Bu birisinin iletişiminizi kesmeye çalıştığı veya bu kişinin Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Aşağıdaki yeni güvenlik numarasını doğrulamak isteyebilirsiniz."
   },
   "icu:incomingError": {
     "messageformat": "Gelen ileti işlenirken hata oluştu"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Desteklenmeyen eklenti türü. Kaydetmek için tıkla."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Kaydetmek için tıkla"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "İsimsiz Dosya"
   },
   "icu:voiceMessage": {
     "messageformat": "Sesli İleti"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "İletinin aslı bulunamadı"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "İletinin aslı bulundu, ama yüklenmedi. Yüklemek için yukarıya kaydırın."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Sesli ileti kaydına başla"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Sesli iletiyi tamamla ve gönder"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Sesli iletiyi iptal et"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Süre sınırına erişildiği için sesli ileti kaydı durduruldu."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Farklı bir uygulamaya geçtiğiniz için sesli ileti kaydı durduruldu."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Sesli iletiler bir saat ile sınırlıdır. Farklı bir uygulamaya geçtiğinizde kayıt durdurulacaktır."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Siz"
   },
-  "icu:replyingTo": {
-    "messageformat": "{name} Cevaben"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Sesli iletiler göndermek için Signal Desktop'ın mikrofonuna erişmesine izin ver."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Erişimine İzin Ver"
-  },
-  "icu:showSettings": {
-    "messageformat": "Ayarları Göster"
   },
   "icu:audio": {
     "messageformat": "Ses"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Güncellenemiyor"
-  },
-  "icu:muted": {
-    "messageformat": "Sessize alındı"
   },
   "icu:mute": {
     "messageformat": "Sessiz"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Vazgeç"
   },
-  "icu:failedToSend": {
-    "messageformat": "Bazı alıcılara gönderilemedi. Ağ bağlantınızı kontrol edin."
-  },
   "icu:error": {
     "messageformat": "Hata"
-  },
-  "icu:messageDetail": {
-    "messageformat": "İleti Detayı"
   },
   "icu:delete": {
     "messageformat": "Sil"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Gönderen"
   },
-  "icu:to": {
-    "messageformat": "Alıcı"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{receiverGroup} grubunda {sender}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "İleti"
   },
-  "icu:groupMembers": {
-    "messageformat": "Grup üyeleri"
-  },
   "icu:showMembers": {
     "messageformat": "Üyeleri göster"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Sen"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "\"{title}\" bu kişinin Signal'de kendisi için belirlediği profil adıdır."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Doğrulandı"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} sistem kişilerin arasında"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Güvenlik numarasını görüntüle"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Not"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Son içerikleri görüntüle"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Bu kişiyle herhangi bir iletişimde bulunmadınız. Güvenlik numaralarınız ilk iletiden sonra oluşturulacaktır."
   },
   "icu:back": {
     "messageformat": "Geri"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Bu sohbete {oldTitle} ile başladın"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Alıntılanmış iletideki görüntünün önizlemesi"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "İletiye görüntü eklenmiş"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Sıfırla"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Dosya ikonu"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Signal Desktop'a Hoş Geldiniz"
-  },
-  "icu:installTagline": {
-    "messageformat": "Gizlilik mümkün. Signal ise bunu kolaylaştırır."
   },
   "icu:linkedDevices": {
     "messageformat": "Bağlı cihazlar"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Grup, katılımcıların aranması için çok büyük."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Bildirim gelsin, çalmasın"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Telefon çalmasını etkinleştir"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Zil sesini kapat"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Burada kimse yok"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Bu aramada · 1 kişi"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Bu aramada · {people} kişi"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Bu aramada · {people,number} kişi} other {Bu aramada · {people,number} kişi}}"
@@ -1544,11 +1403,8 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Kameraya erişim izni ver"
   },
-  "icu:general": {
-    "messageformat": "Genel"
-  },
   "icu:spellCheckDescription": {
-    "messageformat": "İleti kutusuna girilen sözcükler denetlensin"
+    "messageformat": "Mesaj oluşturma kutusuna girilen sözcükler denetlensin"
   },
   "icu:textFormattingDescription": {
     "messageformat": "Metin seçildiğinde metin biçimlendirme açılır penceresini göster"
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Signal Desktop'ın bu sürümündeki tüm veriler ve mesajlar silinsin mi? Bu masaüstünü istediğin zaman yeniden bağlayabilirsin ancak mesajların geri yüklenmez. Signal hesabın ve telefonundaki veya diğer bağlı cihazlarındaki veriler silinmez."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Tüm verileri sil"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Bağlantı kesiliyor ve tüm veriler siliniyor"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Eski Verileri Sil"
-  },
-  "icu:notifications": {
-    "messageformat": "Bildirimler"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "İleti geldiğinde şunların olduğu bildirim göster:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Bildirimleri devre dışı bırak"
   },
   "icu:nameAndMessage": {
     "messageformat": "İsim, içerik ve eylemler"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Kısmen silindi, tekrar denemek için tıkla"
   },
-  "icu:showMore": {
-    "messageformat": "Detaylar"
-  },
-  "icu:showLess": {
-    "messageformat": "Detayları gizle"
-  },
-  "icu:learnMore": {
-    "messageformat": "Güvenlik numaralarını doğrulama hakkında daha fazla bilgi edinin"
-  },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop'ın bu sürümü kullanım dışı kaldı. İletişime devam etmek için lütfen en son sürüme yükseltin."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "İçerik İletisi"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Numara kayıtlı değil"
-  },
   "icu:sync": {
     "messageformat": "Kişileri içe aktar"
   },
   "icu:syncExplanation": {
     "messageformat": "Tüm Signal gruplarını ve kişileri mobil cihazınızdan buraya aktarın."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Son senkronize zamanı"
   },
   "icu:syncNow": {
     "messageformat": "Şimdi içe aktar"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Bu kullanıcı ile iletişim kurulmadan doğrulanamaz."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "{name1} ile olan güvenlik numaranız:"
-  },
   "icu:themeLight": {
     "messageformat": "Aydınlık"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Menü çubuğunu gizle"
-  },
-  "icu:startConversation": {
-    "messageformat": "Yeni sohbet başlat"
   },
   "icu:newConversation": {
     "messageformat": "Yeni sohbet"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Grup güncellenemedi. Bağlantınızı kontrol edip tekrar deneyin."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS iletileri desteklenmemektedir."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Kişi eklemek için telefon numarasını girin."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Geçersiz numara"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Mesajlaşmaya devam etmek için tıklayarak Signal Desktop'ı mobil cihazınıza yeniden bağlayın."
   },
   "icu:unlinked": {
     "messageformat": "Bağlantı koparıldı"
-  },
-  "icu:relink": {
-    "messageformat": "Yeniden bağla"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Güncelleme mevcut"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Signal'i Yeniden Başlat"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Sonra"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Güncellemeyi yoksay"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "İleti İsteği"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Engellendi"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Taslak:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Sona erdi"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Görüntüle"
-  },
   "icu:message--donation--view": {
     "messageformat": "Görüntüle"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Çıkartma paketi yüklenemedi"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Çıkartmalar"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Mevcut"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {{group1}, {group2}, {group3} ve {remainingCount,number} diğer gruba üye} other {{group1}, {group2}, {group3} ve {remainingCount,number} diğer gruba üye}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} sizi gruba ekledi."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Ortak grubunuz yok"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Ayarlar"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} aramada"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} aramada} other {{people,number} aramada}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Sessize alınan sohbetleri rozet sayacına kat"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "İleti"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Takma ad"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Grup yöneticiliğinden çıkart"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Etkinleştirildiğinde, bu 1:1 sohbet üzerinden gönderilen ve alınan mesajlar görüldükten sonra kaybolur."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Takma ad"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Eylemler"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Sil"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Takma ad silinsin mi?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Bu işlem, bu takma adı ve notu kalıcı olarak silecektir."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Bildirimler"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Tümünü gör"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Takma ad"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Takma adlar ve notlar, Signal ile saklanır ve uçtan uca şifrelenir. Bunlar yalnızca senin tarafından görülebilir."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Ad"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Ad"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Soyad"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Soyad"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Not"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Not"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Bahsedilmeler"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "\"{name}\"den gelen istek reddedilsin mi? Grup bağlantısı üzerinden tekrar katılma talebinde bulunamayacaklar."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Davet ettikleriniz"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Davet ettikleriniz"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "En fazla 30 mesaj iletebilirsin"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Grup fotoğrafı ekle"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Fotoğraf ekleyin"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Fotoğrafı değiştir"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Fotoğraf yükle"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Fotoğrafı kaldır"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Kişiyi sil"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Tamam"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Davet gönderildi} other {{count,number} davet gönderildi}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {Bu özel renk {num,number} sohbette kullanılıyor. Tüm sohbetler için silmek istiyor musun?} other {Bu özel renk {num,number} sohbette kullanılıyor. Tüm sohbetler için silmek istiyor musun?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Genel Sohbet Rengi"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Sohbet Rengi"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Bu kullanıcı adı kullanılamıyor"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Bu kullanıcı adı alınmış."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Kullanıcı adın kaydedilemedi. Bağlantını kontrol edip tekrar dene."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Kullanıcı adı siliniyor"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Kullanıcı adını sil"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Bu işlem, kullanıcı adını kaldırır ve kare kodunu ve bağlantını devre dışı bırakır. \"{username}\" başkalarının talebine açık olacaktır. Emin misin?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Kullanıcı adını kopyala"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Bağlantıyı kopyala"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Sil"
@@ -4574,14 +4379,14 @@
   "icu:Preferences__pnp__discoverability__nobody": {
     "messageformat": "Hiç kimse"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+  },
   "icu:Preferences--messaging": {
     "messageformat": "Yazışma"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "Telefon numaramı görebilir"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Telefon numaramla bulunayım"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Okundu bilgisi"
@@ -4724,9 +4529,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Metin ekle"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Çıkartmalar"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Kırp ve döndür"
   },
@@ -4744,9 +4546,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Dış çizgi"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Alt çizgi"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Kalem"
@@ -4777,12 +4576,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Kilitle"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Kırpma"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "İleti ekle"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Serbest biçim"
@@ -4861,6 +4654,15 @@
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "Bu kişiyi engelledin"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Seçenekler"
@@ -4949,9 +4751,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Yeni Hikaye"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Bu hikayenin adını sadece sen görebilirsin."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Özel hikaye"
   },
@@ -5006,23 +4805,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Tüm Signal kişileri"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Tüm bağlantılarla paylaş"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "…hariç herkes"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} kişi dahil edilmedi} other {{num,number} kişi dahil edilmedi}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Sadece aşağıdakilerle paylaş:"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Yalnızca seçili kişilerle paylaş"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} kişi"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Hikayeni kimlerin görüntüleyebileceğini seç. Değişiklikler zaten göndermiş olduğun hikayeleri etkilemez. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
@@ -5104,18 +4891,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Bu gruba yalnızca yöneticiler hikaye gönderebilir."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Tüm Signal kişileri · {viewersCount,number} Görüntüleyen} other {Tüm Signal kişileri · {viewersCount,number} Görüntüleyen}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Tüm Signal kişileri · {excludedCount,number} Kişi Hariç Tutuldu} other {Tüm Signal kişileri · {excludedCount,number} Kişi Hariç Tutuldu}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Gizli hikaye · {viewersCount,number} görüntüleyen} other {Gizli hikaye · {viewersCount,number} görüntüleyen}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Grup hikayesi · 1 üye} other {Grup hikayesi · {membersCount,number} üye}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Hikayeleri Paylaş ve Görüntüle"
@@ -5263,9 +5038,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Link ekle"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Metin ekle"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Normal"
@@ -5520,6 +5292,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grup görüşmesi"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Arama bağlantısı"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Güncel konuşma yok."
   },
@@ -5578,13 +5353,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Artık telefonundaki cevapsız aramaları temizleyebilirsin ve Signal Desktop'ın aramalar sekmesindeki rozet de güncellenir."
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Sistem kişilerinde olmasa bile Signal'de sohbet ettiğin herkes için özel takma adlar ve notlar için destek ekledik. Notlar ve takma adlar, Signal Bağlantıların hakkındaki ek detayları not almak için kullanışlı ve güvenli bir yol sağlar — ve uçtan uca şifrelenir ve Signal PIN'in tarafından korunurlar böylece telefonunu kaybetsen bile güvenli bir şekilde geri yüklenebilirler."
   },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "Windows'taki rozet sayısı göstergesini de yeniden tasarladık. Artık görev çubuğundaki renk, sistem tepsisindeki renkle eşleşiyor. Moda sırf uyumla ilgilidir ve küçük bir kırmızı ilavesi bahara mükemmel uyum sağlar."
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Artık Signal'i Linux'ta sistem tepsisine küçültebilirsin. Görev çubuğun grinin doğru tonundaysa, mesajların gümüş bir tepside seni bekliyor gibidir."
   },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "Bu güncelleme, uygulamanın zayıf ağ bağlantısı nedeniyle DNS arama zaman aşımlarıyla karşılaşması halinde, daha tutarlı konuşma sıralama mantığı ve iyileştirilmiş davranış dahil olmak üzere birkaç hatayı ortadan kaldırmaktadır."
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Windows kullanıcıları için bu güncelleme, Signal simgesindeki ayrıntılı okunmamış mesaj sayıları desteğini yeniden etkinleştirir. \"9+\" sürümle vedalaşabilirsin çünkü artık 11'e (veya daha yükseğe) çıkılıyor."
   }
 }

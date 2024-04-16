@@ -275,14 +275,6 @@
     "messageformat": "View Archive",
     "description": "One of the menu options available in the Avatar popup menu"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Chat Color",
-    "description": "(Deleted 2024/03/07) One of the menu options available in the Avatar popup menu"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Update Signal",
-    "description": "(Deleted 2024/03/07) One of the menu options available in the Avatar popup menu"
-  },
   "icu:loading": {
     "messageformat": "Loading...",
     "description": "Message shown on the loading screen before we've loaded any messages"
@@ -507,66 +499,6 @@
     "messageformat": "You can only pin up to 4 chats",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Choose folder",
-    "description": "(Deleted 2024/03/07) Button to allow the user to find a folder on disk"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Choose file",
-    "description": "(Deleted 2024/03/07) Button to allow the user to find a file on disk"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Load your data",
-    "description": "(Deleted 2024/03/07) Header shown on the first screen in the data import process"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
-    "description": "(Deleted 2024/03/07) Introduction to the process of importing messages and contacts from disk"
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Choose directory with exported data",
-    "description": "(Deleted 2024/03/07) Title of the popup window used to select data previously exported"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Something went wrong!",
-    "description": "(Deleted 2024/03/07) Header of the error screen after a failed import"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Loading contacts and messages",
-    "description": "(Deleted 2024/03/07) Header of screen shown as data is import"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
-    "description": "(Deleted 2024/03/07) Message shown if the import went wrong; first paragraph"
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
-    "description": "(Deleted 2024/03/07) Message shown if the import went wrong; second paragraph"
-  },
-  "icu:importAgain": {
-    "messageformat": "Choose folder and try again",
-    "description": "(Deleted 2024/03/07) Button shown if the user runs into an error during import, allowing them to start over"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Success!",
-    "description": "(Deleted 2024/03/07) Header shown on the screen at the end of a successful import process"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Start using Signal Desktop",
-    "description": "(Deleted 2024/03/07) Button shown at end of successful import process, nothing left but a restart"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Link this device to your phone",
-    "description": "(Deleted 2024/03/07) Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "your selected location",
-    "description": "(Deleted 2024/03/07) Message shown as the export location if we didn't capture the target directory"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Upgrading database. This may take some time...",
-    "description": "(Deleted 2024/03/07) Message shown on the loading screen when we're changing database structure on first run of a new version"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "Loading messages from {daysAgo, plural, one {# day} other {# days}} ago...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from day before yesterday and earlier"
@@ -611,10 +543,6 @@
     "messageformat": "New mentions below",
     "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 Unread Message",
-    "description": "(Deleted 2024/03/07) Text for unread message separator, just one message"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
     "description": "Text for unread message separator, with count"
@@ -638,10 +566,6 @@
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "You marked your Safety Number with {name} as not verified from another device",
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
-    "description": "(Deleted 2024/03/07) When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "The safety number you are trying to verify has changed. Please review your new safety number with {name1}. Remember, this change could mean that someone is trying to intercept your communication or that {name2} has simply reinstalled Signal.",
@@ -691,10 +615,6 @@
     "messageformat": "Actions for story {story}",
     "description": "Label for button that opens context menu for story"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Your safety number with {name1} has changed. This could either mean that someone is trying to intercept your communication or that {name2} has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
-    "description": "(Deleted 2024/03/07) Shown when user clicks on a failed recipient in the message detail view after an identity key change"
-  },
   "icu:sendAnyway": {
     "messageformat": "Send anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
@@ -718,14 +638,6 @@
   "icu:continueCall": {
     "messageformat": "Continue Call",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Your safety number with {name} has changed and is no longer verified. Click to show.",
-    "description": "(Deleted 2024/03/07) Shown in conversation banner when user's safety number has changed, but they were previously verified."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
-    "description": "(Deleted 2024/03/07) Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
     "messageformat": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
@@ -763,16 +675,8 @@
     "messageformat": "Contact Support",
     "description": "Link to open the issue tracker"
   },
-  "icu:gotIt": {
-    "messageformat": "Got it!",
-    "description": "(Deleted 2024/03/07) Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-  },
   "icu:submit": {
     "messageformat": "Submit"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Accept",
-    "description": "(Deleted 2024/03/07) Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Mark as verified",
@@ -798,24 +702,12 @@
     "messageformat": "Learn more",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
-  "icu:isVerified": {
-    "messageformat": "You have verified your safety number with {name}.",
-    "description": "(Deleted 2024/03/07) Summary state shown at top of the safety number screen if user has verified contact."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "You have not verified your safety number with {name}.",
-    "description": "(Deleted 2024/03/07) Summary state shown at top of the safety number screen if user has not verified contact."
-  },
   "icu:verified": {
     "messageformat": "Verified"
   },
   "icu:newIdentity": {
     "messageformat": "New safety number",
     "description": "Header for a key change dialog"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
-    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:incomingError": {
     "messageformat": "Error handling incoming message"
@@ -859,14 +751,6 @@
   "icu:unsupportedAttachment": {
     "messageformat": "Unsupported attachment type. Click to save.",
     "description": "Displayed for incoming unsupported attachment"
-  },
-  "icu:clickToSave": {
-    "messageformat": "Click to save",
-    "description": "(Deleted 2024/03/07) Hover text for attachment filenames"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Unnamed File",
-    "description": "(Deleted 2024/03/07) Hover text for attachment filenames"
   },
   "icu:voiceMessage": {
     "messageformat": "Voice Message",
@@ -1142,29 +1026,13 @@
     "messageformat": "Original message not found",
     "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Original message found, but not loaded. Scroll up to load it.",
-    "description": "(Deleted 2024/03/07) Shown in toast if user clicks on quote references messages not loaded in view, but in database"
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Start recording voice message",
     "description": "Tooltip for microphone button to start voice message"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Complete voice message and send",
-    "description": "(Deleted 2024/03/07) Tooltip for green complete voice message and send"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Cancel voice message",
-    "description": "(Deleted 2024/03/07) Tooltip for red button to cancel voice message"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Voice message recording stopped because the maximum time limit was reached.",
     "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Voice message recording stopped because you switched to another app.",
-    "description": "(Deleted 2024/03/07) Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Voice messages are limited to one hour. Recording will stop if you switch to another app.",
@@ -1190,10 +1058,6 @@
     "messageformat": "You",
     "description": "Shown when the user represented is the current user."
   },
-  "icu:replyingTo": {
-    "messageformat": "Replying to {name}",
-    "description": "(Deleted 2024/03/07) Shown in iOS theme when you or someone quotes to a message which is not from you"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "To send voice messages, allow Signal Desktop to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
@@ -1209,10 +1073,6 @@
   "icu:allowAccess": {
     "messageformat": "Allow Access",
     "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
-  },
-  "icu:showSettings": {
-    "messageformat": "Show Settings",
-    "description": "(Deleted 2024/03/07) A button shown in dialog requesting the user to turn on audio permissions"
   },
   "icu:audio": {
     "messageformat": "Audio",
@@ -1233,10 +1093,6 @@
   "icu:cannotUpdate": {
     "messageformat": "Cannot Update",
     "description": "Shown as the title of our update error dialogs on windows"
-  },
-  "icu:muted": {
-    "messageformat": "Muted",
-    "description": "(Deleted 2024/03/07) Shown in a button when a conversation is muted"
   },
   "icu:mute": {
     "messageformat": "Mute",
@@ -1263,16 +1119,8 @@
   "icu:discard": {
     "messageformat": "Discard"
   },
-  "icu:failedToSend": {
-    "messageformat": "Failed to send to some recipients. Check your network connection.",
-    "description": "(Deleted 2024/03/07) undefined"
-  },
   "icu:error": {
     "messageformat": "Error"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Message Detail",
-    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:delete": {
     "messageformat": "Delete"
@@ -1316,10 +1164,6 @@
     "messageformat": "From",
     "description": "Label for the sender of a message"
   },
-  "icu:to": {
-    "messageformat": "To",
-    "description": "(Deleted 2024/03/07) Label for the receiver of a message"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} to {receiverGroup}",
     "description": "Shown for search result items - like 'Jon to Friends Group'"
@@ -1347,10 +1191,6 @@
   "icu:sendMessage": {
     "messageformat": "Message",
     "description": "Placeholder text in the message entry field"
-  },
-  "icu:groupMembers": {
-    "messageformat": "Group members",
-    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:showMembers": {
     "messageformat": "Show members"
@@ -1402,17 +1242,9 @@
     "messageformat": "Note",
     "description": "Title of Note Preview modal"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "View safety number",
-    "description": "(Deleted 2024/03/07) Contact modal, label for button to show safety number modal"
-  },
   "icu:viewRecentMedia": {
     "messageformat": "View recent media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
-    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:back": {
     "messageformat": "Back",
@@ -1590,10 +1422,6 @@
     "messageformat": "You started this chat with {oldTitle}",
     "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Thumbnail of image from quoted message",
-    "description": "(Deleted 2024/03/07) Used in alt tag of thumbnail images inside of an embedded message quote"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Image attached to message",
     "description": "Used in alt tag of image attachment"
@@ -1617,18 +1445,6 @@
   "icu:reset": {
     "messageformat": "Reset",
     "description": "Used on reset buttons"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "File icon",
-    "description": "(Deleted 2024/03/07) Used in the media gallery documents tab to visually represent a file"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Welcome to Signal Desktop",
-    "description": "(Deleted 2024/03/07) Welcome title on the install page"
-  },
-  "icu:installTagline": {
-    "messageformat": "Privacy is possible. Signal makes it easy.",
-    "description": "(Deleted 2024/03/07) Tagline displayed under 'installWelcome' string on the install page"
   },
   "icu:linkedDevices": {
     "messageformat": "Linked Devices",
@@ -1861,14 +1677,6 @@
     "messageformat": "Group is too large to ring the participants.",
     "description": "Button tooltip label when you can't ring because the group is too large"
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Notify, don't ring",
-    "description": "(Deleted 2024/03/07) Button tooltip label for turning ringing off"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Enable ringing",
-    "description": "(Deleted 2024/03/07) Button tooltip label for turning ringing on"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Turn off ringing",
     "description": "Button tooltip label for turning ringing off"
@@ -2057,10 +1865,6 @@
     "messageformat": "Allow access to the camera",
     "description": "Description of the media permission description"
   },
-  "icu:general": {
-    "messageformat": "General",
-    "description": "(Deleted 2024/03/07) Header for general options on the settings screen"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Spell check text entered in message composition box",
     "description": "Description of the spell check setting"
@@ -2109,10 +1913,6 @@
     "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Delete all data",
-    "description": "(Deleted 2024/03/07) Text of the button that deletes all data"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Disconnecting and deleting all data",
     "description": "Message shown to user when app is disconnected and data deleted"
@@ -2124,18 +1924,6 @@
   "icu:deleteOldData": {
     "messageformat": "Delete Old Data",
     "description": "Button to make the delete happen"
-  },
-  "icu:notifications": {
-    "messageformat": "Notifications",
-    "description": "(Deleted 2024/03/07) Header for notification settings"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "When messages arrive, display notifications that reveal:",
-    "description": "(Deleted 2024/03/07) Explain the purpose of the notification settings"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Disable notifications",
-    "description": "(Deleted 2024/03/07) Label for disabling notifications"
   },
   "icu:nameAndMessage": {
     "messageformat": "Name, content, and actions",
@@ -2187,18 +1975,6 @@
     "messageformat": "Partially deleted, click to retry",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
-  "icu:showMore": {
-    "messageformat": "Details",
-    "description": "(Deleted 2024/03/07) Displays the details of a key change"
-  },
-  "icu:showLess": {
-    "messageformat": "Hide details",
-    "description": "(Deleted 2024/03/07) Hides the details of a key change"
-  },
-  "icu:learnMore": {
-    "messageformat": "Learn more about verifying safety numbers",
-    "description": "(Deleted 2024/03/07) Text that links to a support article on verifying safety numbers"
-  },
   "icu:expiredWarning": {
     "messageformat": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
     "description": "Warning notification that this version of the app has expired"
@@ -2211,10 +1987,6 @@
     "messageformat": "Media Message",
     "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Number is not registered",
-    "description": "(Deleted 2024/03/07) Error message displayed when sending to an unregistered user."
-  },
   "icu:sync": {
     "messageformat": "Import contacts",
     "description": "Label for contact and group sync settings"
@@ -2222,10 +1994,6 @@
   "icu:syncExplanation": {
     "messageformat": "Import all Signal groups and contacts from your mobile device.",
     "description": "Explanatory text for sync settings"
-  },
-  "icu:lastSynced": {
-    "messageformat": "Last import at",
-    "description": "(Deleted 2024/03/07) Label for date and time of last sync operation"
   },
   "icu:syncNow": {
     "messageformat": "Import now",
@@ -2383,10 +2151,6 @@
     "messageformat": "This user can't be verified until you've exchanged messages with them.",
     "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Your safety number with {name1}:",
-    "description": "(Deleted 2024/03/07) Heading for safety number view"
-  },
   "icu:themeLight": {
     "messageformat": "Light",
     "description": "Label text for light theme (normal)"
@@ -2414,10 +2178,6 @@
   "icu:hideMenuBar": {
     "messageformat": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"
-  },
-  "icu:startConversation": {
-    "messageformat": "Start new chat",
-    "description": "(Deleted 2024/03/07) Label underneath number a user enters that is not an existing contact"
   },
   "icu:newConversation": {
     "messageformat": "New chat",
@@ -2547,27 +2307,11 @@
     "messageformat": "Failed to update the group. Check your connection and try again.",
     "description": "Shown in the modal when we can't update a group"
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS messages are not supported.",
-    "description": "(Deleted 2024/03/07) Label underneath number informing user that SMS is not supported on desktop"
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Enter a phone number to add a contact.",
-    "description": "(Deleted 2024/03/07) Placeholder for adding a new number to a contact"
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Invalid number",
-    "description": "(Deleted 2024/03/07) When a person inputs a number that is invalid"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Click to relink Signal Desktop to your mobile device to continue messaging."
   },
   "icu:unlinked": {
     "messageformat": "Unlinked"
-  },
-  "icu:relink": {
-    "messageformat": "Relink",
-    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Update Available"
@@ -2590,10 +2334,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Restart Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Later",
-    "description": "(Deleted 2024/03/07) undefined"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Ignore update"
@@ -2786,10 +2526,6 @@
     "messageformat": "Expired",
     "description": "Shows that a donation badge is expired"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "View",
-    "description": "(Deleted 2024/03/07) Shown when you've sent a gift badge to someone then opened it"
-  },
   "icu:message--donation--view": {
     "messageformat": "View",
     "description": "Shown when you've sent a donation badge to someone then opened it"
@@ -2817,10 +2553,6 @@
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Sticker pack could not be installed",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Stickers",
-    "description": "(Deleted 2024/03/07) Title for the sticker manager"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Available",
@@ -3641,10 +3373,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, one {#} other {#}} more",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
-  },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} added you to the group.",
-    "description": "(Deleted 2024/03/07) Shown Indicates that you were added to a group by a given individual."
   },
   "icu:no-groups-in-common": {
     "messageformat": "No groups in common",
@@ -4846,10 +4574,6 @@
     "messageformat": "Nickname",
     "description": "Label for the nickname field in the Group Contact Details modal"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Message",
-    "description": "(Deleted 2024/03/07) Button text for send message button in Group Contact Details modal"
-  },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Remove as admin",
     "description": "Button text for removing as admin button in Group Contact Details modal"
@@ -5142,10 +4866,6 @@
     "messageformat": "Deny request from \"{name}\"? They will not be able to request to join via the group link again.",
     "description": "This is the modal content when confirming denying a group request to join"
   },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Invited by you",
-    "description": "(Deleted 2024/03/07) This is the title list of all invites"
-  },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Invited by you",
     "description": "This is the title for the list of members you have invited"
@@ -5258,33 +4978,9 @@
     "messageformat": "You can only forward up to 30 messages",
     "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Add a group photo",
-    "description": "(Deleted 2024/03/07) The label for the avatar uploader when no group photo is selected"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Add a photo",
-    "description": "(Deleted 2024/03/07) The label for the avatar uploader when no profile photo is selected"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Change photo",
-    "description": "(Deleted 2024/03/07) The label for the avatar uploader when a photo is selected"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Upload photo",
-    "description": "(Deleted 2024/03/07) The button text when you click on an uploaded avatar and want to upload a new one"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Remove photo",
-    "description": "(Deleted 2024/03/07) The button text when you click on an uploaded avatar and want to remove it"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Remove contact",
     "description": "The label for the 'remove' button on the contact pill"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Okay",
-    "description": "(Deleted 2024/03/07) The text on the button when there's an error in the composer"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Invitation sent} other {# invitations sent}}",
@@ -5529,10 +5225,6 @@
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "This custom color is used in {num, plural, one {# chat} other {# chats}}. Do you want to delete it for all chats?",
     "description": "Confirm message for deleting custom color"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Global Chat Color",
-    "description": "(Deleted 2024/03/07) Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Chat Color",
@@ -5830,10 +5522,6 @@
     "messageformat": "This username is not available",
     "description": "Shown if the username is not available for registration"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "This username is taken.",
-    "description": "(Deleted 2024/03/07) Shown if user has attempted to save a username which is not available"
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Your username couldn’t be saved. Check your connection and try again.",
     "description": "Shown if something unknown has gone wrong with username save."
@@ -5858,10 +5546,6 @@
     "messageformat": "Deleting username",
     "description": "Shown as aria label for spinner icon next to username"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Delete username",
-    "description": "(Deleted 2024/03/07) Shown as aria label for trash icon next to username"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
@@ -5881,10 +5565,6 @@
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Copy username",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Copy link",
-    "description": "(Deleted 2024/03/07) Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Delete",
@@ -6150,14 +5830,6 @@
     "messageformat": "Messaging",
     "description": "Title for the messaging settings"
   },
-  "icu:Preferences--see-me": {
-    "messageformat": "See my phone number",
-    "description": "(Deleted 2024/03/07) Label for the see my phone number setting"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Find me by my phone number",
-    "description": "(Deleted 2024/03/07) Label for the find me by my phone number setting"
-  },
   "icu:Preferences--read-receipts": {
     "messageformat": "Read receipts",
     "description": "Label for the read receipts setting"
@@ -6344,10 +6016,6 @@
     "messageformat": "Add text",
     "description": "Label for the text button in the media editor"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Stickers",
-    "description": "(Deleted 2024/03/07) Label for the sticker button in the media editor"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Crop and rotate",
     "description": "Label for the crop & rotate button in the media editor"
@@ -6371,10 +6039,6 @@
   "icu:MediaEditor__text--outline": {
     "messageformat": "Outline",
     "description": "Describes what attribute the color picker will change on the text"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Underline",
-    "description": "(Deleted 2024/03/07) Describes what attribute the color picker will change on the text"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Pen",
@@ -6415,14 +6079,6 @@
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Lock",
     "description": "Lock the aspect ratio"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Crop",
-    "description": "(Deleted 2024/03/07) Performs the crop"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Add a message",
-    "description": "(Deleted 2024/03/07) Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Freeform",
@@ -6656,10 +6312,6 @@
     "messageformat": "New Story",
     "description": "Label to create a new custom distribution list"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Only you can see the name of this story.",
-    "description": "(Deleted 2024/03/07) Explanation about the visibility of custom distribution list names"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Custom story",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -6732,29 +6384,13 @@
     "messageformat": "All Signal connections",
     "description": "Input label to describe all signal connections"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Share with all connections",
-    "description": "(Deleted 2024/03/07) Description of button StoriesSettings__mine__all--label"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "All except...",
     "description": "Input label to create a block list"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {#} other {#}} people excluded",
-    "description": "(Deleted 2024/03/07) Description of how many people are excluded in a list"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Only share with...",
     "description": "Input label to create an exclude list"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Only share with selected people",
-    "description": "(Deleted 2024/03/07) Description of button StoriesSettings__mine__only--label"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num, number} people",
-    "description": "(Deleted 2024/03/07) Description of how many people are in the exclusive allow list"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
@@ -6863,22 +6499,6 @@
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Only admins can send stories to this group.",
     "description": "Alert body for groups that non-admins cannot send stories to"
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "All Signal connections · {viewersCount, plural, one {# viewer} other {# viewers}}",
-    "description": "(Deleted 2024/03/07) Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "All Signal connections · {excludedCount, plural, one {# excluded} other {# excluded}}",
-    "description": "(Deleted 2024/03/07) Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "Private story · {viewersCount, plural, one {# viewer} other {# viewers}}",
-    "description": "(Deleted 2024/03/07) Shown as a subtitle of each private story in the send-story-to dialog"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "Group story · {membersCount, plural, one {# member} other {# members}}",
-    "description": "(Deleted 2024/03/07) Shown as a subtitle of each group story in the send-story-to dialog"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Share & View Stories",
@@ -7075,10 +6695,6 @@
   "icu:StoryCreator__add-link": {
     "messageformat": "Add link",
     "description": "Button label to apply the link preview to story"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Add text",
-    "description": "(Deleted 2024/03/07) Placeholder to add text"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Regular",
@@ -7496,12 +7112,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.5--0": {
-    "messageformat": "We added support for custom nicknames and notes for anyone you're chatting with on Signal, even if they aren't in your system contacts. Whether you're adding the missing letters in a lazy friend's profile name, or a reminder about where you met, notes and nicknames provide a convenient and secure way to jot down additional details about your Signal Connections — and they're end-to-end encrypted and protected by your Signal PIN so they can be securely restored if you lose your phone too."
+    "messageformat": "We added support for custom nicknames and notes for anyone you're chatting with on Signal, even if they aren't in your system contacts. Whether you're adding the missing letters in a lazy friend's profile name, or a reminder about where you met, notes and nicknames provide a convenient and secure way to jot down additional details about your Signal Connections — and they're end-to-end encrypted and protected by your Signal PIN so they can be securely restored if you lose your phone too.",
+    "description": "(Deleted 2024/04/16)"
   },
   "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Now you can minimize Signal to your system tray on Linux. If your taskbar is the right shade of gray, it’s like your messages are waiting for you on a silver platter."
+    "messageformat": "Now you can minimize Signal to your system tray on Linux. If your taskbar is the right shade of gray, it’s like your messages are waiting for you on a silver platter.",
+    "description": "(Deleted 2024/04/16)"
   },
   "icu:WhatsNew__v7.5--2": {
-    "messageformat": "For users on Windows, this update re-enables support for detailed unread message counts on the Signal icon. Say goodbye to “9+” because now the icon goes to 11 (or higher)."
+    "messageformat": "For users on Windows, this update re-enables support for detailed unread message counts on the Signal icon. Say goodbye to “9+” because now the icon goes to 11 (or higher).",
+    "description": "(Deleted 2024/04/16)"
   }
 }
