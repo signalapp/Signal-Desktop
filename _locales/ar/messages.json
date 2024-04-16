@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "إظهار الأرشيف"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "لون الدردشة"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "‫تحديث سيجنال‬"
-  },
   "icu:loading": {
     "messageformat": "جارٍ التحميل…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "يمكنك تثبيت أربع دردشات على الأكثر"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "اختر مجلدا"
-  },
-  "icu:chooseFile": {
-    "messageformat": "اختر الملف"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "حمّل بياناتك"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "لقد انتهيت للتو من عملية تصدير البيانات ، إنّ رسائلك وجهات اتصالك تنتظرك على الحاسوب. يُرجى تحديد المجلد الذي يحوي بيانات سيجنال المحفوظة."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "يُرجى اختيار المكان الذي توجد فيه البيانات المستخرجة"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "حدث خطأ ما !"
-  },
-  "icu:importingHeader": {
-    "messageformat": "يجري تحميل جهات الاتصال والرسائل"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "يُرجى التأكد من اختيار المجلد الذي يحوي بيانات سيجنال. اسمه يجب أن يبدأ بـ 'تصدير سيجنال'. يمكنك أيضا حفظ نسخة جديدة من بياناتك انطلاقا من تطبيق Chrome."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "إن لم تنفع هذه الخطوات معك، الرجاء إرسال سِجل التصحيح  (عرض -> سجل التصحيح) لنستطيع مساعدتك على الترحيل !"
-  },
-  "icu:importAgain": {
-    "messageformat": "اختر مجلداً ثم حاول مرة أخرى"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "نجح !"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "ابدأ باستخدام سيجنال Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "قم بربط هذا الجهاز بهاتفك المحمول"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "الموقع الجغرافي المختار"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "جارٍ ترقية قاعدة البيانات. قد تستغرق العملية بعض الوقت…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, zero {جارٍ تحميل الرسائل منذ {daysAgo,number} أيام…} one {جارٍ تحميل الرسائل منذ 1 يوم…} two {جارٍ تحميل الرسائل منذ {daysAgo,number} أيام…} few {جارٍ تحميل الرسائل منذ {daysAgo,number} أيام…} many {جارٍ تحميل الرسائل منذ {daysAgo,number} يومًا…} other {جارٍ تحميل الرسائل منذ {daysAgo,number} يوم…}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "إشارات جديدة أسفله"
   },
-  "icu:unreadMessage": {
-    "messageformat": "رسالة واحدة غير مقروءة"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, zero {{count,number} رسالة غير مقروءة} one {{count,number} رسالة غير مقروءة} two {{count,number} رسالتين غير مقروءتين} few {{count,number} رسائل غير مقروءة} many {{count,number} رسالة غير مقروءة} other {{count,number} رسالة غير مقروءة}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "لقد حددت أن رقم أمانك مع {name} غير متحقق منه عن طريق جهاز آخر"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "لقد تغيّر رقم أمانك مع عدة أفراد من هذه المجموعة منذ آخر عملية تحقق. يُرجى الضغط على عضو في المجموعة لرؤية رقم الأمان الجديد معه."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "رقم الأمان الذي تحاول التحقق منه قد تغير. الرجاء معاينة رقم الأمان الجديد مع {name1} وتذكّر, هذا التغيّر يمكن أن يكون سببه أنّ هناك من يحاول اعتراض رسائلك أو أن {name2} ببساطة أعاد تثبيت سيجنال."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "إجراءات للقصة {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "تم تغيير رقم أمانك مع {name1}. قد يعني هذا أن أحدهم يحاول اعتراض اتصالاتك أو ببساطة أن {name2} قام بإعادة تثبيت سيجنال. قد تريد التحقق من رمز أمانك مع هذا الشخص."
-  },
   "icu:sendAnyway": {
     "messageformat": "أرسل على كل حال"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "استئناف المكالمة"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "لقد تغيّر رقم أمانك مع {name}وهو الآن غير متحقق منه. انقر لإظهاره."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "لقد تغيّر رقم الأمان الخاص بك مع عدة أفراد من هذه المجموعة وهو الآن غير متحقق منه. أنقر للعرض."
   },
   "icu:debugLogExplanation": {
     "messageformat": "‫عند ضغطك على زر  الإرسال، سوف يُنشَر السجلّ على الانترنت لمدة 30 يوما، في عنوان فريد, يمكنك حفظه محليا أولا."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "الاتصال بالدعم"
   },
-  "icu:gotIt": {
-    "messageformat": "عُلم !"
-  },
   "icu:submit": {
     "messageformat": "إرسال"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "قبول"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "علِّم كمُتحقَّق منه"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "لمعرفة المزيد"
   },
-  "icu:isVerified": {
-    "messageformat": "لقد تحققت من رقم أمانك مع {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "لم تقم بالتحقق من رقم أمانك مع {name} ."
-  },
   "icu:verified": {
     "messageformat": "مُتحقَّق منه"
   },
   "icu:newIdentity": {
     "messageformat": "رقم أمان جديد"
-  },
-  "icu:identityChanged": {
-    "messageformat": "لقد تغير رقم أمانك مع هذا المستخدم. قد يعني ذلك أن هناك من يحاول اعتراض اتصالاتك، أو أن هذا المستخدم ببساطة أعاد تثبيت سيجنال. يمكنك التحقق من رقم الأمان الجديد أدناه."
   },
   "icu:incomingError": {
     "messageformat": "حدث خطأ فى التعامل مع الرسالة الواردة"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "نمط المرفق غير مدعوم. اضغط للحفظ."
-  },
-  "icu:clickToSave": {
-    "messageformat": "أنقر للحفظ"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "ملف غير مسمى"
   },
   "icu:voiceMessage": {
     "messageformat": "رسالة صوتية"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "لم يعثر على الرسالة الأصلية"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "عُثِر على الرسالة الأصلية، ولكن لم يتم تحميلها. يُرجى التمرير لأعلى لتحميلها.‫"
-  },
   "icu:voiceRecording--start": {
     "messageformat": "ابدأ تسجيل رسالة صوتية"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "أكمل الرسالة الصوتية وأرسلها"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "إلغاء الرسالة الصوتية"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "تم توقيف تسجيل الرسالة الصوتية بسبب الوصول إلى الحد الأقصى للتسجيل."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "تم توقيف تسجيل الرسالة الصوتية لأنك انتقلت لتطبيق آخر."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "إن الرسائل الصوتية محددة في ساعة واحدة. سوف يتوقف التسجيل إذا انتقلت إلى تطبيق آخر."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "أنت"
   },
-  "icu:replyingTo": {
-    "messageformat": "رداً على {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "لإرسال رسائل صوتية، يُرجى السماح لسيجنال Desktop بالوصول إلى الميكروفون."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "إعطاء الصلاحية"
-  },
-  "icu:showSettings": {
-    "messageformat": "إظهار الإعدادات"
   },
   "icu:audio": {
     "messageformat": "صوت"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "لم يتمكن من التحديث"
-  },
-  "icu:muted": {
-    "messageformat": "دردشة مكتومة"
   },
   "icu:mute": {
     "messageformat": "كتم"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "تجاهل"
   },
-  "icu:failedToSend": {
-    "messageformat": "فشل الإرسال لبعض المستلمين. يُرجى التأكد من الاتصال بالشبكة."
-  },
   "icu:error": {
     "messageformat": "خطأ"
-  },
-  "icu:messageDetail": {
-    "messageformat": "تفاصيل الرسالة"
   },
   "icu:delete": {
     "messageformat": "حذف"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "مِن"
   },
-  "icu:to": {
-    "messageformat": "إلى"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "‫من {sender} إلى {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "إرسال"
   },
-  "icu:groupMembers": {
-    "messageformat": "أعضاء المجموعة"
-  },
   "icu:showMembers": {
     "messageformat": "أظهر الأعضاء"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "أنت"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "\"{title}\" هو اسم الحساب الشخصي الذي حدّده هذا الشخص لنفسه في سيجنال."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "مُتحقَّق منه"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} موجود في جهات اتصال نظامك"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "عرض رقم الأمان"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "مُلاحظة"
   },
   "icu:viewRecentMedia": {
     "messageformat": "رؤية الوسائط الحديثة"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "لم يتم تبادل أيّة رسائل مع هذا المستخدم حتى الآن. سيظهر رقم أمانك معه بعد إرسال أول رسالة."
   },
   "icu:back": {
     "messageformat": "الرجوع"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "لقد بدأت هذه الدردشة مع {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "صورة مصغّرة للصورة من الرسالة المقتبسة"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "الصورة المرفقة بالرسالة"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "إعادة التعيين"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "أيقونة الملف"
-  },
-  "icu:installWelcome": {
-    "messageformat": "مرحباً بك في سيجنال Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "الحفاظ على الخصوصية أمر ممكن. يجعل سيجنال ذلك سهلا."
   },
   "icu:linkedDevices": {
     "messageformat": "الأجهزة المرتبطة"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "إن المجموعة كبيرة جدا لكي يرن التطبيق على المشاركين."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "الإشعار فقط، بدون أن يرن"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "تفعيل رنين الاتصال"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "إيقاف الرنين"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "لا يوجد أحد هنا"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "في هذه المكالمة : شخص واحد"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "في هذه المكالمة : {people} أشخاص"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, zero {في هذه المُكالمة · {people,number} شخص} one {في هذه المكالمة · {people,number} شخص} two {في هذه المُكالمة · {people,number} شخصين} few {في هذه المُكالمة · {people,number} أشخاص} many {في هذه المُكالمة · {people,number} شخص} other {في هذه المُكالمة · {people,number} شخص/أشخاص}}"
@@ -1544,11 +1403,8 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "اسمح بالوصول إلى الكاميرا"
   },
-  "icu:general": {
-    "messageformat": "عام"
-  },
   "icu:spellCheckDescription": {
-    "messageformat": "القيام بالتدقيق الإملائي للنص المكتوب في مربع التحرير"
+    "messageformat": "القيام بالتدقيق الإملائي للنص المكتوب في مُربع التحرير"
   },
   "icu:textFormattingDescription": {
     "messageformat": "إظهار تنبيه تنسيق النص عند تحديد النص"
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "حذف جميع البيانات والرسائل من هذا الإصدار من سيجنال للحاسوب؟ يُمكنك دائمًا إعادة ربط هذا الحاسوب، لكن لن تستعيد رسائلك. لن يُحذف حساب سيجنال الخاص بك وبياناتك على هاتفك أو أي أجهزة أخرى مرتبطة."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "حذف جميع البيانات"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "يجري فصل وحذف جميع البيانات"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "حذف البيانات القديمة"
-  },
-  "icu:notifications": {
-    "messageformat": "الإشعارات"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "‫عند وصول الرسائل، عرض الإشعارات التي تُظهِر :"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "تعطيل الإشعارات"
   },
   "icu:nameAndMessage": {
     "messageformat": "الاسم، المحتوى، والإجراءات"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "حُذفَت جزئيا، يُرجى الضغط لإعادة المحاولة."
   },
-  "icu:showMore": {
-    "messageformat": "التفاصيل"
-  },
-  "icu:showLess": {
-    "messageformat": "إخفاء التفاصيل."
-  },
-  "icu:learnMore": {
-    "messageformat": "معرفة المزيد عن التحقق من أرقام الأمان"
-  },
   "icu:expiredWarning": {
     "messageformat": "انتهت صلاحية هذا الإصدار من سيجنال Desktop. الرجاء التحديث لأحدث إصدار للتمكن من التراسُل."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "رسالة وسائط متعددة"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "الرقم غير مسجل"
-  },
   "icu:sync": {
     "messageformat": "استيراد جهات الاتصال"
   },
   "icu:syncExplanation": {
     "messageformat": "استيراد كل المجموعات و جهات الاتصال من جهازك المحمول."
-  },
-  "icu:lastSynced": {
-    "messageformat": "‫آخر استيراد، منذ"
   },
   "icu:syncNow": {
     "messageformat": "استيراد اﻵن"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "لا يمكن التحقق من هذا المستخدم حتى يتم تبادل الرسائل معه."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "إن رقم الأمان مع {name1}هو :"
-  },
   "icu:themeLight": {
     "messageformat": "فاتح"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "إخفاء شريط القائمة"
-  },
-  "icu:startConversation": {
-    "messageformat": "بدء دردشة جديدة"
   },
   "icu:newConversation": {
     "messageformat": "دردشة جديدة"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "فشل تحديث المجموعة. يُرجى التحقق من اتصالك بالانترنت ثم المحاولة مرة أخرى."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "‫رسائل SMS و MMS غير مدعومة.‬"
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "لإضافة جهة الاتصال، يُرجى إدخال رقم الهاتف.‏"
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "رقم خاطئ"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "‫يُرجى الضغط على زر الفأرة لإعادة ربط سيجنال Desktop مع جهازك المحمول للاستمرار في التراسُل."
   },
   "icu:unlinked": {
     "messageformat": "غير مرتبط"
-  },
-  "icu:relink": {
-    "messageformat": "إعادة الربط"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "هناك تحديث جديد"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "‫إعادة تشغيل سيجنال‬"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "لاحقا"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "تجاهل التحديث"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "طلب التراسُل"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "محظور"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "مسوَّدة :"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "انتهت الصلاحية"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "عرض"
-  },
   "icu:message--donation--view": {
     "messageformat": "عرض"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "لم يتم تثبيت حزمة الملصقات"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "المُلصقات"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "متاح"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, zero {عضو في {group1}، {group2}، {group3} وبالإضافة إلى {remainingCount,number} آخرين} one {عضو في {group1}،{group2}،{group3} وبالإضافة إلى {remainingCount,number} آخر} two {عضو في {group1}،{group2}،{group3} وبالإضافة إلى {remainingCount,number} آخرين} few {عضو في {group1}،{group2}،{group3} وبالإضافة إلى {remainingCount,number} آخرين} many {عضو في {group1}،{group2}،{group3} وبالإضافة إلى {remainingCount,number} آخرين} other {عضو في {group1}،{group2}،{group3} وبالإضافة إلى {remainingCount,number} آخرين}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "تمت إضافتك إلى المجموعة من طرف {name}."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "لا توجد مجموعات مُشتركة"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "الإعدادات"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} في المكالمة"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, zero {{people,number} في المكالمة} one {{people,number} في المكالمة} two {{people,number} في المكالمة} few {{people,number} في المكالمة} many {{people,number} في المكالمة} other {{people,number} في المكالمة}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "إدخال الدردشات المكتومة في شارة التعداد"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "إرسال"
+  "icu:ContactModal--nickname": {
+    "messageformat": "اسم مستعار"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "أزل عنه ميزة الإشراف"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "عند التفعيل، ستختفي الرسائل المتبادلة في هذه الدردشة بين شخصين بعد رؤيتها."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "اسم مستعار"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "الإجراءات"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "حذف"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "هل تريد حذف الاسم المستعار؟"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "هذا الإجراء سَيحذف الاسم المستعار والملاحظة بشكل دائم."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "الإشعارات"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "مشاهدة الكل"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "اسم مستعار"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "يَتم تخزين الأسماء المُستعارة والملاحظات مع سيجنال وهي مشفرة من طرف لطرف. تكون الأسماء المُستعارة والملاحظات مرئية لك فقط."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "الاسم الشخصي"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "الاسم الشخصي"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "اسم العائلة"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "اسم العائلة"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "مُلاحظة"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "مُلاحظة"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "إشارات إلى اﻷفراد"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "‫رفض الطلب من « {name} » ؟ لن يتمكن هذا المستخدم من إرسال طلب الانضمام بواسطة وصلة المجموعة مرة أخرى."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "الذين دعوتهم"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "الذين دعوتهم"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "يمكنك إعادة توجيه فقط ما يصل إلى 30 رسالة"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "إضافة صورة المجموعة"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "إضافة صورة"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "تغيير الصورة"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "رفع صورة"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "إزالة الصورة"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "إزالة جهة الاتصال"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "حسنا"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, zero {تم إرسال {count,number} دعوة} one {تم إرسال دعوة واحدة} two {تم إرسال {count,number} دعوتين} few {تم إرسال {count,number} دعوات} many {تم إرسال {count,number} دعوة} other {تم إرسال {count,number} دعوة}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, zero {يُستخدم هذا اللون المخصص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} one {يُستخدم هذا اللون المخصص في {num,number} دردشة. هل تريد حذفه؟} two {يُستخدم هذا اللون المخصص في {num,number} دردشتيْن. هل تريد حذفه لجميع الدردشات؟} few {يُستخدم هذا اللون المخصص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} many {يُستخدم هذا اللون المخصص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟} other {يُستخدم هذا اللون المُخصص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "اللون العام للدردشات"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "لون الدردشة"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "اسم المُستخدم هذا غير متاح"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "اسم المُستخدم هذا غير متوفّر."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "تعذّر حفظ اسم المُستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "جارٍ حذف اِسمُ المُستخدِم"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "حذف اسم المُستخدم"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "سيُؤدي هذا إلى إزالة اسم المُستخدم الخاص بك وتعطيل رمز الاستجابة السريع والرابط الخاصين بك. \"{username}\" سيُصبح متاحًا للآخرين ليستفيدوا منه. هل أنت متأكد؟"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "نسخ اِسمُ المُستخدِم"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "نسخ الرابط"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "حذف"
@@ -4574,14 +4379,14 @@
   "icu:Preferences__pnp__discoverability__nobody": {
     "messageformat": "لا أحد"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+  },
   "icu:Preferences--messaging": {
     "messageformat": "التراسُل"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "رؤية رقم هاتفي"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "اعثر علي برقم هاتفي"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "وصولات القراءة"
@@ -4724,9 +4529,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "أضف نصاً"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "المُلصقات"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "قص وأدر"
   },
@@ -4744,9 +4546,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "تحديد"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "إضافة خط تحتي"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "قلم"
@@ -4777,12 +4576,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "أقفل"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "قص"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "إضافة نص"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "شكل حُر"
@@ -4861,6 +4654,15 @@
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "لقد حظرتَ هذا الشخص"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "الخيارات"
@@ -4949,9 +4751,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "قصة جديدة"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "أنت فقط من يرى اسم هذه القصة."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "قِصة مُخصّصة"
   },
@@ -5006,23 +4805,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "جميع جهات اتصال سيجنال"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "المشاركة مع جميع جهات الاتصال"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "الجميع ما عدا…"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, zero {{num,number} شخصا مستبعدا} one {{num,number} شخص واحد مستبعد} two {{num,number} شخصان مستبعدان} few {{num,number}أشخاص مستبعدين} many {{num,number} أشخاص مستبعدين} other {{num,number} أشخاص مستبعدين}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "مشاركة فقط مع…"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "مشاركة مع الأشخاص المختارين فقط"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} شخص/أشخاص"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "اِختر من يُمكنه مُشاهدة قصتك. لن تُؤثر التغييرات على القِصص التي أرسلتها من قبل. <learnMoreLink>لمعرفة المزيد.</learnMoreLink>"
@@ -5104,18 +4891,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "يُمكن فقط للمشرفين إرسال القِصص في هذه المجموعة."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, zero {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهدين} one {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِد} two {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِدين} few {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِدين} many {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِدًا} other {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِد}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, zero {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعد} one {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعد} two {جميع جهات اتصال سيجنال · {excludedCount,number} مُستَبعَدَيْن} few {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعدين} many {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعدًا} other {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعد}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, zero {قصة خاصة · {viewersCount,number} مشاهد} one {قصة خاصة · {viewersCount,number} مشاهد} two {قصة خاصة · {viewersCount,number} مشاهدين } few {قصة خاصة · {viewersCount,number} مشاهدين} many {قصة خاصة · {viewersCount,number} مشاهدًا} other {قصة خاصة · {viewersCount,number} مشاهد}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, zero {قصة مجموعة · {membersCount,number} أعضاء} one {قصة مجموعة · {membersCount,number} عضو} two {قصة مجموعة · {membersCount,number} عضوين} few {قصة مجموعة · {membersCount,number} أعضاء} many {قصة مجموعة · {membersCount,number} عضوًا} other {قصة مجموعة · {membersCount,number} عضو}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "مشاركة و إظهار القصص"
@@ -5263,9 +5038,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "إضافة رابط"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "أضف نصاً"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "عادي"
@@ -5520,6 +5292,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "المكالمة الجماعية"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "اتصال بالرابط"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "لا توجد محادثات حديثة."
   },
@@ -5578,13 +5353,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "يُمكنك الآن مسح المُكالمات الفائتة على هاتفك وسَيتم تحديث الشارة المتواجدة على علامة تبويب المُكالمات في سيجنال سطح المكتب أيضًا."
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "★ لقد أضفنا دعم أسماء مُستعارة مُخصصة وملاحظات لأي شخص تدردش معه على سيجنال، حتى وإن لم يكُن في جهات اتصال نظامك. تُقدم الملاحظات والأسماء المُستعارة طريقة سهلة وآمنة لتدوين معلومات إضافية عن جهات اتصال سيجنال الخاصة بك — وهي مُشفرة من طرف لِطرف ومحمية برقم سيجنال التعريفي الخاص بك حتى يُمكنك استرجاعُها بطريقة آمنة إذا أضعت هاتفك أيضًا."
   },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "لقد أعدنا تصميم مؤشر عدّاد الشارة في Windows. يتطابق الآن لون شريط المَهام مع لون علبة النظام."
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "يُمكنك الآن تصغير تطبيق سيجنال في علبة نظامك على Linux."
   },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "يُصلح هذا التحديث بعض الأعطال، بما في ذلك منطق محسّن أكثر اتساقًا لتصنيف المحادثات وسلوك محسّن للتطبيق إذا ما واجه أوقات مُستقطعة للبحث في نظام أسماء النطاقات بسبب ضعف الاتصال بالشبكة."
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "بالنسبة لمُستخدمي Windows، يُعيد هذا التحديث دعم تعداد الرسائل غير المقروءة المفصّلة على أيقونة سيجنال."
   }
 }

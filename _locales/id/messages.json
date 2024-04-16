@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Lihat Arsip"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Warna Obrolan"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Perbarui Signal"
-  },
   "icu:loading": {
     "messageformat": "Memuat…"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Anda hanya dapat menyematkan 4 obrolan"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Pilih map"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Pilih berkas"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Memuat data Anda"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Anda telah melewati proses ekspor. Kontak dan pesan Anda sedang menanti dengan sabar di komputer. Pilih map berisikan data Signal Anda."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Pilih direktori dengan data telah diekspor"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Sesuatu berjalan keliru!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Memuat kontak dan pesan"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Pastikan Anda memilih direktori tepat, yang berisi data Signal yang telah tersimpan. Nama direktori itu seharusnya 'Expor Signal'. Anda bisa juga membuat data salinan baru dari Chrome App."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Jika langkah ini tidak berhasil bagi Anda, silakan masukkan catatan awakutu (Tampilan -> Catatan Awakutu) sehingga kami dapat membantu Anda untuk bermigrasi!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Pilih map dan coba lagi"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Berhasil!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Mulai menggunakan Signal Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Sambungkan perangkat ini dengan telpon Anda"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "lokasi pilihan Anda"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Pemutakhiran basis data. Ini mungkin memakan waktu beberapa saat…"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, other {Memuat pesan dari {daysAgo,number} hari yang lalu…}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Penyebutan baru di bawah"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 Pesan Belum Dibaca"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, other {{count,number} pesan belum dibaca}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "Anda menandai Nomor Keamanan Anda dengan {name} tidak terverifikasi dari perangkat lain."
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Nomor keamanan Anda dengan anggota kelompok ini telah berubah sejak terakhir Anda diverifikasi. Klik anggota grup untuk melihat nomor keamanan baru Anda dengan mereka."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Nomor keamanan yang Anda coba verifikasi telah berubah. Mohon tinjau ulang nomor keamanan baru Anda dengan {name1}. Ingat, perubahan ini berarti seseorang telah mencoba mencegat komunikasi Anda atau {name2} telah memasang ulang Signal."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Tindakan untuk cerita {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Nomor keamanan Anda dengan {name1} telah berubah. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau {name2} hanya memasang ulang Signal. Anda bisa memverifikasi nomor keamanan Anda dengan kontak ini."
-  },
   "icu:sendAnyway": {
     "messageformat": "Tetap kirim"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Lanjutkan Panggilan"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Nomor keamanan Anda dengan {name} telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Nomor keamanan Anda dengan beberapa anggota grup ini telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan."
   },
   "icu:debugLogExplanation": {
     "messageformat": "Saat Anda mengeklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik yang tidak dipublikasikan. Anda dapat Simpan secara lokal terlebih dahulu."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Hubungi Bantuan"
   },
-  "icu:gotIt": {
-    "messageformat": "Saya mengerti!"
-  },
   "icu:submit": {
     "messageformat": "Kirim"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Terima"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Tandai sebagai terverifikasi"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Pelajari lebih lanjut"
   },
-  "icu:isVerified": {
-    "messageformat": "Anda telah memverifikasi nomor keamanan Anda dengan {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "Anda belum memverifikasi nomor keamanan Anda dengan {name}."
-  },
   "icu:verified": {
     "messageformat": "Terverifikasi"
   },
   "icu:newIdentity": {
     "messageformat": "Nomor keamanan baru"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Nomor keamanan Anda dengan kontak ini telah berubah. Ini bisa berarti ada seseorang mencoba mencegat komunikasi Anda, atau kontak telah menghapus aplikasi Signal. Anda mungkin ingin memverifikasi nomor keamanan baru di bawah."
   },
   "icu:incomingError": {
     "messageformat": "Gagal menangani pesan masuk"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Jenis lampiran tidak didukung. Klik untuk menyimpan."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Klik untuk simpan"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "File tanpa nama"
   },
   "icu:voiceMessage": {
     "messageformat": "Pesan Suara"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Pesan asli tidak ditemukan"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Pesan asli ditemukan, namun tidak dimuat. Gulir ke atas untuk memuatnya."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Mulai rekam pesan suara"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Selesaikan pesan suara dan kirim"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Batalkan pesan suara"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Rekaman pesan suara telah dihentikan karena batas durasi waktu."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Pesan suara dihentikan karena Anda beralih ke aplikasi lain."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Pesan suara dibatasi satu jam. Perekaman akan berhenti jika Anda beralih ke aplikasi lain."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Anda"
   },
-  "icu:replyingTo": {
-    "messageformat": "Membalas ke {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Untuk mengirimkan pesan suara, izinkan Signal Desktop mengakses mikrofon Anda."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Izinkan Akses"
-  },
-  "icu:showSettings": {
-    "messageformat": "Tunjukkan Pengaturan"
   },
   "icu:audio": {
     "messageformat": "Audio"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Tidak Dapat Memperbarui"
-  },
-  "icu:muted": {
-    "messageformat": "Dibisukan"
   },
   "icu:mute": {
     "messageformat": "Bisukan"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Batalkan"
   },
-  "icu:failedToSend": {
-    "messageformat": "Gagal mengirim. Cek sambungan jaringan Anda."
-  },
   "icu:error": {
     "messageformat": "Galat"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Detail Pesan"
   },
   "icu:delete": {
     "messageformat": "Hapus"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Dari"
   },
-  "icu:to": {
-    "messageformat": "Kepada"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} ke {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Pesan"
   },
-  "icu:groupMembers": {
-    "messageformat": "Anggota Grup"
-  },
   "icu:showMembers": {
     "messageformat": "Tampilkan anggota"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Anda"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "“{title}” adalah nama profil yang ditetapkan pengguna ini untuk dirinya sendiri di Signal."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Terverifikasi"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} ada di kontak sistem Anda"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Lihat nomor keamanan"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Catatan"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Lihat media terbaru"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "Anda belum mengirim pesan apapun dengan kontak ini. Nomor keamanan Anda dengan kontak ini akan tersedia sesaat setelah pesan pertama."
   },
   "icu:back": {
     "messageformat": "Kembali"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Anda memulai obrolan ini dengan {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Cuplikan gambar dari pesan yang dikutip"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Gambar dilampirkan ke dalam pesan"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Atur ulang"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Ikon Berkas"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Selamat datang di Signal Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "Privasi itu mungkin. Signal membuatnya lebih mudah."
   },
   "icu:linkedDevices": {
     "messageformat": "Perangkat Terhubung"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Grup terlalu besar untuk menghubungi peserta"
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Kirim notifikasi, jangan deringkan"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Aktifkan dering"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Nonaktifkan dering"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Tidak ada orang lain di sini"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Dalam panggilan ini · 1 orang"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Dalam panggilan ini · {people} orang"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {Dalam panggilan ini · {people,number} orang}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Izinkan akses ke kamera"
   },
-  "icu:general": {
-    "messageformat": "Umum"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Periksa ejaan teks yang dimasukkan ke kotak komposisi pesan"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Hapus semua data dan pesan dari versi Signal Desktop ini? Anda bisa tautkan lagi desktop ini kapan saja, tetapi pesan Anda tidak akan dipulihkan. Akun Signal dan data di ponsel Anda atau perangkat terhubung lainnya tidak akan dihapus."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Hapus seluruh data"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Putuskan sambungan dan hapuskan semua data"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Hapus Data Lama"
-  },
-  "icu:notifications": {
-    "messageformat": "Pemberitahuan"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Saat pesan sampai, tampilkan pemberitahuan yang menampilkan:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Matikan pemberitahuan"
   },
   "icu:nameAndMessage": {
     "messageformat": "Nama, konten, dan aksi"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Terhapus sebagian, klik untuk mencoba lagi"
   },
-  "icu:showMore": {
-    "messageformat": "Detail"
-  },
-  "icu:showLess": {
-    "messageformat": "Sembunyikan detail"
-  },
-  "icu:learnMore": {
-    "messageformat": "Pelajari lebih jauh tentang verifikasi nomor keamanan"
-  },
   "icu:expiredWarning": {
     "messageformat": "Versi Signal Desktop ini telah kedaluwarsa. Mohom memutakhirkan ke versi terbaru untuk melanjutkan pengiriman pesan."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Pesan Media"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Nomor tidak terdaftar"
-  },
   "icu:sync": {
     "messageformat": "impor kontak"
   },
   "icu:syncExplanation": {
     "messageformat": "Impor semua grup Signal dan kontak dari semua perangkat mobil Anda."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Impor terakhir pada"
   },
   "icu:syncNow": {
     "messageformat": "Impor sekarang"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Penguna ini tidak bisa diverifikasi sampai Anda bertukar pesan dengan mereka."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Nomor keamanan Anda dengan {name1}:"
-  },
   "icu:themeLight": {
     "messageformat": "Terang"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Sembunyikan kolom menu"
-  },
-  "icu:startConversation": {
-    "messageformat": "Mulai obrolan baru"
   },
   "icu:newConversation": {
     "messageformat": "Obrolan baru"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Gagal memperbarui grup. Periksa koneksi Anda dan coba lagi."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "Pesan SMS/MMS tidak didukung."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Masukkan nomor telepon untuk menambahkan kontak."
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Nomor salah"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Klik untuk menyambungkan ulang Signal Desktop dengan perangkat seluler Anda untuk melanjutkan bertukar pesan."
   },
   "icu:unlinked": {
     "messageformat": "Tidak tersambung"
-  },
-  "icu:relink": {
-    "messageformat": "Sambungkan kembali"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Pembaruan Tersedia"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Mulai ulang Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Selanjutnya"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Lewati pembaruan"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Permintaan Pesan"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Diblokir"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Draf:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Kedaluwarsa"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Lihat"
-  },
   "icu:message--donation--view": {
     "messageformat": "Lihat"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Paket stiker tidak dapat dipasang"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Stiker"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Tersedia"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, other {Anggota dari {group1}, {group2}, {group3}, dan {remainingCount,number} lainnya}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} menambahkan Anda ke dalam grup."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Tidak ada grup yang sama"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Pengaturan"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} dalam panggilan"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, other {{people,number} dalam panggilan}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Sertakan obrolan yang dibisukan dalam jumlah pesan/notifikasi"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Pesan"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Nama panggilan"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Hapus dari peran admin"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Jika diaktifkan, pesan yang dikirim dan diterima dalam obrolan 1:1 ini akan hilang setelah dibaca."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Nama panggilan"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Tindakan"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Hapus"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Hapus nama panggilan?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "Ini akan menghapus nama panggilan dan catatan secara permanen."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Pemberitahuan"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Lihat semua"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Nama panggilan"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Nama panggilan & catatan disimpan di Signal dan terenkripsi ujung-ke-ujung. Hanya Anda yang bisa melihatnya."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Nama depan"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Nama depan"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Nama Belakang"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Nama Belakang"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Catatan"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Catatan"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Menyebut"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Tolak permintaan dari \"{name}\"? Mereka tidak akan bisa lagi meminta bergabung via tautan grup."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Diundang oleh Anda"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Diundang oleh Anda"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Anda hanya dapat meneruskan hingga 30 pesan"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Tambahkan foto grup"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Tambahkan foto"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Ubah foto"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Unggah foto"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Hapus foto"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Hapus kontak"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Oke"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, other {{count,number} undangan dikirimkan}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, other {Warna kustom ini digunakan di {num,number} obrolan. Anda ingin menghapusnya untuk semua obrolan?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Warna Obrolan Keseluruhan"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Warna Obrolan"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Nama pengguna ini tidak tersedia"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Nama pengguna telah digunakan."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Nama pengguna Anda tidak dapat disimpan. Periksa koneksi Anda dan coba lagi."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Menghapus nama pengguna"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Hapus nama pengguna"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "Ini akan menghapus nama pengguna serta menonaktifkan tautan dan kode QR Anda. “{username}” akan bisa diklaim oleh orang lain. Anda yakin?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Salin nama pengguna"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Salin tautan"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Hapus"
@@ -4574,14 +4379,14 @@
   "icu:Preferences__pnp__discoverability__nobody": {
     "messageformat": "Tidak ada"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+  },
   "icu:Preferences--messaging": {
     "messageformat": "Olah pesan"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "Lihat nomor telepon saya"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Temukan saya dengan nomor telepon saya"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Bukti pesan terbaca"
@@ -4724,9 +4529,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Tambah teks"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Stiker"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Pangkas dan putar"
   },
@@ -4744,9 +4546,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Garis Luar"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Garis bawah"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Pena"
@@ -4777,12 +4576,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Kunci"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Pangkas"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Tambah pesan"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Bentuk bebas"
@@ -4861,6 +4654,15 @@
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "Anda memblokir orang ini"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opsi"
@@ -4949,9 +4751,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Cerita Baru"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Hanya Anda yang dapat melihat nama cerita ini."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Cerita kustom"
   },
@@ -5006,23 +4805,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Semua koneksi Signal"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Bagikan dengan semua koneksi"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Semua Kecuali…"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, other {{num,number} orang dikecualikan}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Hanya bagikan dengan…"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Hanya bagikan dengan orang tertentu"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} orang"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Pilih siapa yang bisa melihat cerita Anda. Perubahan tidak akan memengaruhi cerita yang telah terkirim. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
@@ -5104,18 +4891,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Hanya admin yang bisa mengirim cerita ke grup ini."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, other {Semua Koneksi Signal · {viewersCount,number} Penonton}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, other {Semua Koneksi Signal · {excludedCount,number} Dikecualikan}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, other {Cerita privat · {viewersCount,number} penonton}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, other {Cerita grup · {membersCount,number} anggota}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Bagikan & Lihat Cerita"
@@ -5263,9 +5038,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Tambahkan tautan"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Tambah teks"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Reguler"
@@ -5520,6 +5292,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Panggilan grup"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Tautan panggilan"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Tidak ada percakapan terkini."
   },
@@ -5578,13 +5353,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Kini Anda bisa menghapus panggilan tak terjawab di ponsel Anda dan lencana pada tab panggilan di Signal Desktop juga akan diperbarui."
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Kami menambahkan dukungan untuk nama panggilan kustom dan catatan bagi siapa saja yang mengobrol dengan Anda di Signal, sekalipun mereka tidak tersimpan di daftar kontak sistem. Dengan catatan dan nama panggilan, Anda bisa menuliskan detail tambahan tentang Koneksi Signal Anda dengan aman dan nyaman — catatan dan nama pengguna ini juga terenkripsi ujung-ke-ujung dan dilindungi PIN Signal Anda, jadi dapat dipulihkan dengan aman jika ponsel Anda hilang."
   },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "Kami juga mendesain ulang indikator hitungan lencana di Windows. Kini, warna bilah tugas sama dengan warna di baki sistem."
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Kini Anda dapat meminimalkan Signal di baki sistem di Linux."
   },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "Pembaruan kali ini memperbaiki beberapa bug, termasuk logika penyortiran percakapan yang lebih konsisten dan penyempurnaan reaksi ketika aplikasi mengalami habis-waktu pencarian DNS karena konektivitas jaringan yang buruk."
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Bagi pengguna Windows, dengan pembaruan ini, Anda bisa kembali melihat detail jumlah pesan yang belum dibaca di ikon Signal."
   }
 }

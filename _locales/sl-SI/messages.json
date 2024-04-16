@@ -194,12 +194,6 @@
   "icu:avatarMenuViewArchive": {
     "messageformat": "Poglej arhiv"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Barva klepeta"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Posodobite aplikacijo Signal"
-  },
   "icu:loading": {
     "messageformat": "Nalagam …"
   },
@@ -368,51 +362,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "Pripnete lahko največ 4 klepete"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Izberite mapo"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Izberite datoteko"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Naložite svoje podatke"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "Pravkar ste šli skozi fazo izvoza podatkov. Izvoženi stiki in sporočila čakajo na vašem računalniku. Izberite mapo, kamor ste shranili te podatke."
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Izberite mapo z izvoženimi podatki"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Nekaj je šlo narobe!"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Nalagam stike in sporočila"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Preverite, če ste izbrali pravo mapo s shranjenimi podatki. Ime mape bi moralo biti \"Signal Export\". Lahko tudi ponovno izvozite podatke iz aplikacije v brskalniku Chrome."
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "Če ti koraki ne bodo uspešni, nam prosim posredujte sistemsko zabeležbo (Pogled -> Sistemska zabeležba), da vam lahko pomagamo pri prehodu!"
-  },
-  "icu:importAgain": {
-    "messageformat": "Izberite mapo in poskusite znova"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Uspeh!"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Začni z uporabo aplikacije Signal Desktop"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Povežite napravo s svojim telefonom"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "izbrana lokacija"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Posodabljam zbirko podatkov. To lahko traja nekaj časa …"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Nalaganje sporočil izpred 1 dneva ...} two {Nalaganje sporočil izpred {daysAgo,number} dni ...} few {Nalaganje sporočil izpred {daysAgo,number} dni ...} other {Nalaganje sporočil izpred {daysAgo,number} dni ...}}"
   },
@@ -446,9 +395,6 @@
   "icu:mentionsBelow": {
     "messageformat": "Nove omembe spodaj"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 novo sporočilo"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} neprebrano sporočilo} two {{count,number} neprebrani sporočili} few {{count,number} neprebrana sporočila} other {{count,number} neprebranih sporočil}}"
   },
@@ -466,9 +412,6 @@
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "Varnostno število z uporabnikom {name} ste na drugi napravi označili kot nepotrjeno"
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Vaša varnostna števila s temi člani skupine so bila spremenjena, odkar ste nazadnje preverjali. Za ogled novega varnostnega števila z določenim članom skupine kliknite nanj."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Varnostno število, ki ga potrjujete, je bilo spremenjeno. Prosimo, preverite svoje novo varnostno število z uporabnikom_co {name1}. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik_ca{name2} zgolj ponovno namestil_a aplikacijo Signal."
@@ -506,9 +449,6 @@
   "icu:safetyNumberChangeDialog__actions-story": {
     "messageformat": "Dejanja za Zgodbo {story}"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Vaše varnostno število z uporabnikom_co {name1} je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik_ca {name2} zgolj ponovno namestil_a aplikacijo Signal. Morda bi želeli ponovno preveriti vajino varnostno število."
-  },
   "icu:sendAnyway": {
     "messageformat": "Vseeno pošlji"
   },
@@ -526,12 +466,6 @@
   },
   "icu:continueCall": {
     "messageformat": "Nadaljuj s klicem"
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Vaše varnostno število z uporabnikom {name} je bilo spremenjeno in ni več označeno kot potrjeno. Kliknite za prikaz."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Vaša varnostna števila z večimi člani skupine so bila spremenjena in niso več označena kot potrjena. Kliknite za prikaz."
   },
   "icu:debugLogExplanation": {
     "messageformat": "S klikom na Oddaj bo vaša zabeležba za 30 dni objavljena na edinstvenem URL naslovu. Lahko jo pred tem shranite lokalno."
@@ -560,14 +494,8 @@
   "icu:reportIssue": {
     "messageformat": "Kontaktiraj center za podporo"
   },
-  "icu:gotIt": {
-    "messageformat": "Razumem!"
-  },
   "icu:submit": {
     "messageformat": "Objavi"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Sprejmi"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Označi kot potrjeno"
@@ -587,20 +515,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Preberite več"
   },
-  "icu:isVerified": {
-    "messageformat": "Potrdili ste varnostno število z uporabnikom {name}."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "Varnostnega števila z uporabnikom {name} niste potrdili."
-  },
   "icu:verified": {
     "messageformat": "Potrjeno"
   },
   "icu:newIdentity": {
     "messageformat": "Novo varnostno število"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Vaše varnostno število s to osebo je bilo spremenjeno. To lahko pomeni, da poskuša nekdo prestrezati vajino komunikacijo ali pa je vaš partner zgolj na novo namestil aplikacijo Signal. Novo varnostno število lahko preverite spodaj."
   },
   "icu:incomingError": {
     "messageformat": "Napaka pri obdelavi dohodnega sporočila"
@@ -634,12 +553,6 @@
   },
   "icu:unsupportedAttachment": {
     "messageformat": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti."
-  },
-  "icu:clickToSave": {
-    "messageformat": "Shrani"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Neimenovana datoteka"
   },
   "icu:voiceMessage": {
     "messageformat": "Glasovno sporočilo"
@@ -848,23 +761,11 @@
   "icu:originalMessageNotFound": {
     "messageformat": "Izvorno sporočilo ni bilo najdeno"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Izvorno sporočilo je bilo najdeno, vendar še ni naloženo. Če ga želite naložiti, se pomaknite navzgor."
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Začni s snemanjem glasovnega sporočila"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Zaključi s snemanjem in pošlji glasovno sporočilo"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Zavrzi glasovno sporočilo"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Snemanje zvočnega sporočila je bilo ustavljeno, ker je bila presežena časovna omejitev."
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Snemanje zvočnega sporočila je bilo ustavljeno, ker ste preklopili na drugo aplikacijo."
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Glasovna sporočila so omejena na eno uro. Če boste preklopili na drugo aplikacijo, se bo snemanje ustavilo."
@@ -884,9 +785,6 @@
   "icu:you": {
     "messageformat": "Vi"
   },
-  "icu:replyingTo": {
-    "messageformat": "Odgovor uporabniku {name}"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "Za pošiljanje glasovnih sporočil potrebuje aplikacija Signal Desktop dostop do vašega mikrofona."
   },
@@ -898,9 +796,6 @@
   },
   "icu:allowAccess": {
     "messageformat": "Dovoli dostop"
-  },
-  "icu:showSettings": {
-    "messageformat": "Prikaži nastavitve"
   },
   "icu:audio": {
     "messageformat": "Zvok"
@@ -916,9 +811,6 @@
   },
   "icu:cannotUpdate": {
     "messageformat": "Posodobitev ni uspela"
-  },
-  "icu:muted": {
-    "messageformat": "Utišan"
   },
   "icu:mute": {
     "messageformat": "Utišaj"
@@ -941,14 +833,8 @@
   "icu:discard": {
     "messageformat": "Zavrzi"
   },
-  "icu:failedToSend": {
-    "messageformat": "Pošiljanje nekaterim prejemnikom_cam ni uspelo. Preverite povezavo z omrežjem."
-  },
   "icu:error": {
     "messageformat": "Napaka"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Podrobnosti sporočila"
   },
   "icu:delete": {
     "messageformat": "Izbriši"
@@ -986,9 +872,6 @@
   "icu:from": {
     "messageformat": "Pošiljatelj"
   },
-  "icu:to": {
-    "messageformat": "Naslovnik"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} za {receiverGroup}"
   },
@@ -1010,9 +893,6 @@
   "icu:sendMessage": {
     "messageformat": "Sporočilo"
   },
-  "icu:groupMembers": {
-    "messageformat": "Člani skupine"
-  },
   "icu:showMembers": {
     "messageformat": "Prikaži člane"
   },
@@ -1024,6 +904,12 @@
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Vi"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "\"{title}\" je ime profila, ki si ga je ta oseba nastavila v Signalu."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "Potrjeno"
@@ -1043,14 +929,11 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} je med vašimi sistemskimi stiki"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "Prikaz varnostne številke"
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Zaznamek"
   },
   "icu:viewRecentMedia": {
     "messageformat": "Nedavne medijske datoteke"
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "S to osebo še niste izmenjali sporočil. Vajino varnostno število bo na voljo po prvem poslanem sporočilu."
   },
   "icu:back": {
     "messageformat": "Nazaj"
@@ -1184,9 +1067,6 @@
   "icu:TitleTransition--notification": {
     "messageformat": "Začeli ste klepet s/z {oldTitle}"
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Predogled slike citiranega sporočila"
-  },
   "icu:imageAttachmentAlt": {
     "messageformat": "Slika je priložena sporočilu"
   },
@@ -1204,15 +1084,6 @@
   },
   "icu:reset": {
     "messageformat": "Ponastavi"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "Ikona datoteke"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Dobrodošli v aplikaciji Signal Desktop"
-  },
-  "icu:installTagline": {
-    "messageformat": "Zasebnost obstaja. Signal jo naredi preprosto."
   },
   "icu:linkedDevices": {
     "messageformat": "Povezane naprave"
@@ -1391,12 +1262,6 @@
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Skupina je prevelika za zvonjenje vsem udeležencem."
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Samo obvestilo, brez zvonjenja"
-  },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Zvonjenje"
-  },
   "icu:CallingButton__ring-off": {
     "messageformat": "Izklopi zvonjenje"
   },
@@ -1459,12 +1324,6 @@
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Tu ni nikogar drugega"
-  },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "Udeleženci klica - 1 uporabnik_ca"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "Udeleženci klica · {people} uporabnikov"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Na tem klicu · {people,number} oseba} two {Na tem klicu · {people,number} osebi} few {Na tem klicu · {people,number} osebe} other {Na tem klicu · {people,number} ljudi}}"
@@ -1544,9 +1403,6 @@
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Dovoli dostop do kamere"
   },
-  "icu:general": {
-    "messageformat": "Splošno"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Uporaba črkovalnika v oknu za pisanje sporočil"
   },
@@ -1583,9 +1439,6 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Želite izbrisati vse podatke in sporočila iz te različice Signal Desktop? To namizje lahko vedno znova povežete, vendar vaša sporočila ne bodo obnovljena. Vaš račun Signal in podatki v vašem telefonu ali drugih povezanih napravah ne bodo izbrisani."
   },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Izbris vseh podatkov"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Odjava in brisanje vseh podatkov"
   },
@@ -1594,15 +1447,6 @@
   },
   "icu:deleteOldData": {
     "messageformat": "Izbris starih podatkov"
-  },
-  "icu:notifications": {
-    "messageformat": "Obvestila"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "Vsebina obvestila o prejemu sporočila:"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "obvestila so izklopljena"
   },
   "icu:nameAndMessage": {
     "messageformat": "Ime, vsebina, dejanja"
@@ -1643,15 +1487,6 @@
   "icu:partiallyDeleted": {
     "messageformat": "Delno izbrisano, kliknite za nov poskus"
   },
-  "icu:showMore": {
-    "messageformat": "Podrobnosti"
-  },
-  "icu:showLess": {
-    "messageformat": "Skrij podrobnosti"
-  },
-  "icu:learnMore": {
-    "messageformat": "Več o verifikaciji varnostnih števil"
-  },
   "icu:expiredWarning": {
     "messageformat": "Pričujoča različica programa Signal Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico."
   },
@@ -1661,17 +1496,11 @@
   "icu:mediaMessage": {
     "messageformat": "Večpredstavnostno sporočilo"
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Številka ni registrirana"
-  },
   "icu:sync": {
     "messageformat": "Uvoz stikov"
   },
   "icu:syncExplanation": {
     "messageformat": "Uvoz stikov in skupin Signal iz mobilne naprave."
-  },
-  "icu:lastSynced": {
-    "messageformat": "Nazadnje uvoženo:"
   },
   "icu:syncNow": {
     "messageformat": "Uvozi zdaj"
@@ -1790,9 +1619,6 @@
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Istovetnosti uporabnika_ce ne morete preveriti, dokler z njim_njo ne izmenjate sporočila."
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Vaše varnostno število z uporabnikom_co {name1}:"
-  },
   "icu:themeLight": {
     "messageformat": "Svetla"
   },
@@ -1813,9 +1639,6 @@
   },
   "icu:hideMenuBar": {
     "messageformat": "Skrij menijsko vrstico"
-  },
-  "icu:startConversation": {
-    "messageformat": "Začni nov klepet"
   },
   "icu:newConversation": {
     "messageformat": "Nov klepet"
@@ -1913,23 +1736,11 @@
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Skupine ni bilo mogoče posodobiti. Preverite internetno povezavo in poskusite znova."
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "Sporočila SMS/MMS niso podprta."
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Z vnosom telefonske številke boste ustvarili nov stik"
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Neveljavna številka"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Kliknite za ponovno vzpostavitev povezave z vašo mobilno napravo in nadaljnje pošiljanje sporočil."
   },
   "icu:unlinked": {
     "messageformat": "Nepovezan"
-  },
-  "icu:relink": {
-    "messageformat": "Poveži"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Na voljo je posodobitev"
@@ -1951,9 +1762,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Ponovno zaženi Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Kasneje"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "ignoriraj posodobitev"
@@ -1996,6 +1804,9 @@
   },
   "icu:ConversationListItem--message-request": {
     "messageformat": "Prošnja za pogovor"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Blokirani"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Osnutek:"
@@ -2096,9 +1907,6 @@
   "icu:message--donation--expired": {
     "messageformat": "Potekla"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "Prikaz"
-  },
   "icu:message--donation--view": {
     "messageformat": "Prikaz"
   },
@@ -2119,9 +1927,6 @@
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Paket nalepk ni mogel biti nameščen"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Nalepke"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Na voljo"
@@ -2741,9 +2546,6 @@
   "icu:member-of-more-than-3-groups--multiple-more": {
     "messageformat": "{remainingCount, plural, one {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} druge} two {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} drugih} few {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} drugih} other {Član_ica skupin {group1}, {group2}, {group3} in {remainingCount,number} drugih}}"
   },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} vas je dodal_a v skupino."
-  },
   "icu:no-groups-in-common": {
     "messageformat": "Nobene skupne skupine"
   },
@@ -2896,9 +2698,6 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Nastavitve"
-  },
-  "icu:calling__participants": {
-    "messageformat": "{people} ljudi je v klicu"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} v klicu} two {{people,number} v klicu} few {{people,number} v klicu} other {{people,number} v klicu}}"
@@ -3644,8 +3443,8 @@
   "icu:countMutedConversationsDescription": {
     "messageformat": "Neprebrana sporočila, vključno z utišanimi klepeti"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Sporočilo"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Vzdevek"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Odstrani kot skrbnika_co"
@@ -3688,6 +3487,21 @@
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "Kadar je vklopljeno, bodo poslana in prejeta sporočila tega klepeta ena-na-ena po ogledu izginila."
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Vzdevek"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Dejanja"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Izbriši"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Izbriši vzdevek?"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "S tem boste trajno izbrisali ta vzdevek in opombo."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Obvestila"
@@ -3782,6 +3596,30 @@
   "icu:ConversationDetailsGroups--show-all": {
     "messageformat": "Prikaz vseh"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Vzdevek"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Vzdevki in zaznamki so shranjeni v Signalu in šifrirani od konca do konca. Vidni so samo vam."
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "Ime"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "Ime"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Priimek"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Priimek"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Zaznamek"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Zaznamek"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Omembe"
   },
@@ -3826,9 +3664,6 @@
   },
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Želite zavrniti prošnjo uporabnika_ce \"{name}\"? Ta uporabnik_ca ne bo več mogel_la preko povezave zaprositi za pridružitev skupini."
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Povabljeni z vaše strani"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Povabljeni z vaše strani"
@@ -3914,26 +3749,8 @@
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Posredujete lahko največ 30 sporočil"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Dodaj skupinsko fotografijo"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Dodajte fotografijo"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Spremeni fotografijo"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Naloži fotografijo"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Odstrani fotografijo"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Odstrani člana_ico"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Okej"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Vabilo je poslano} two {{count,number} vabili poslani} few {{count,number} vabila so poslana} other {{count,number} vabil je poslanih}}"
@@ -4117,9 +3934,6 @@
   },
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "{num, plural, one {Ta barva po meri je uporabljena v {num,number} klepetu. Jo želite izbrisati?} two {Ta barva po meri je uporabljena v {num,number} klepetih. Jo želite izbrisati za oba klepeta?} few {Ta barva po meri je uporabljena v {num,number} klepetih. Jo želite izbrisati za vse klepete?} other {Ta barva po meri je uporabljena v {num,number} klepetih. Jo želite izbrisati za vse klepete?}}"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Globalna barva klepeta"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Barva klepeta"
@@ -4343,9 +4157,6 @@
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "To uporabniško ime ni na voljo"
   },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "Uporabniško ime je že zasedeno."
-  },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Vaše uporabniško ime ni moglo biti shranjeno. Preverite internetno povezavo in poskusite znova."
   },
@@ -4364,9 +4175,6 @@
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Brisanje uporabniškega imena"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Izbriši uporabniško ime"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "S tem boste odstranili svoje uporabniško ime ter onemogočili QR kodo in povezavo. “{username}” bo na voljo drugim. Ste prepričani?"
   },
@@ -4381,9 +4189,6 @@
   },
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Kopiraj uporabniško ime"
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Kopiraj povezavo"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Izbriši"
@@ -4521,7 +4326,7 @@
     "messageformat": "Vsebina obvestil"
   },
   "icu:Preferences--blocked": {
-    "messageformat": "Blokirano"
+    "messageformat": "Blokirani"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} stik} two {{num,number} stika} few {{num,number} stiki} other {{num,number} stikov}}"
@@ -4574,14 +4379,14 @@
   "icu:Preferences__pnp__discoverability__nobody": {
     "messageformat": "Nihče"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+  },
   "icu:Preferences--messaging": {
     "messageformat": "Sporočanje"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "vidijo mojo telefonsko številko"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Lahko se me najde po moji telefonski številki"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Potrdila o ogledu"
@@ -4724,9 +4529,6 @@
   "icu:MediaEditor__control--text": {
     "messageformat": "Dodaj tekst"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Nalepke"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Obreži in zarotiraj"
   },
@@ -4744,9 +4546,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Orisano"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Podčrtano"
   },
   "icu:MediaEditor__draw--pen": {
     "messageformat": "Pero"
@@ -4777,12 +4576,6 @@
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Zakleni"
-  },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Obreži"
-  },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Dodaj sporočilo"
   },
   "icu:MediaEditor__crop-preset--freeform": {
     "messageformat": "Prosta oblika"
@@ -4861,6 +4654,15 @@
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "To osebo ste blokirali"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Možnosti"
@@ -4949,9 +4751,6 @@
   "icu:StoriesSettings__new-list": {
     "messageformat": "Nova zgodba"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Samo vi lahko vidite ime te Zgodbe."
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Zgodba po meri"
   },
@@ -5006,23 +4805,11 @@
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Vse Signal povezave"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Deli s vsemi povezavami"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Vsi razen ..."
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, plural, one {{num,number} oseba izključena} two {{num,number}osebi izključeni} few {{num,number} osebe izključene} other {{num,number} ljudi izključenih}}"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Deli le s/z ..."
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Deli le z izbranimi ljudmi"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num,number} ljudi"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Izberite, kdo lahko vidi vašo Zgodbo. Spremembe ne bodo vplivale na že poslane Zgodbe. <learnMoreLink>Preberite več.</learnMoreLink>"
@@ -5104,18 +4891,6 @@
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "V to skupino lahko zgodbe pošiljajo le skrbniki."
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, one {Vse Signal povezave · 1 gledalec_ka} two {Vse Signal povezave · {viewersCount,number} gledalca_ki} few {Vse Signal povezave · {viewersCount,number} gledalci_ke} other {Vse Signal povezave · {viewersCount,number} gledalcev_k}}"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, one {Vse Signal povezave · 1 izključena} two {Vse Signal povezave · {excludedCount,number} izključeni} few {Vse Signal povezave · {excludedCount,number} izključene} other {Vse Signal povezave · {excludedCount,number} izključenih}}"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "{viewersCount, plural, one {Zasebna zgodba · {viewersCount,number} gledalec_ka} two {Zasebna zgodba · {viewersCount,number} gledalca_ki} few {Zasebna zgodba · {viewersCount,number} gledalci_ke} other {Zasebna zgodba · {viewersCount,number} gledalcev_k}}"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "{membersCount, plural, one {Skupinska zgodba · 1 član_ica} two {Skupinska zgodba · {membersCount,number} člana_ici} few {Skupinska zgodba · {membersCount,number} člani_ce} other {Skupinska zgodba · {membersCount,number} članov_ic}}"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Deljenje & ogled zgodb"
@@ -5263,9 +5038,6 @@
   },
   "icu:StoryCreator__add-link": {
     "messageformat": "Dodaj povezavo"
-  },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Dodaj tekst"
   },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Običajno"
@@ -5520,6 +5292,9 @@
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Skupinski klic"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Povezava do klica"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ni nedavnih pogovorov."
   },
@@ -5578,13 +5353,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Sedaj lahko počistite neodgovorjene klice v telefonu, posodobljena pa bo tudi značka na zavihku klicev aplikacije Signal Desktop."
+  "icu:WhatsNew__v7.5--0": {
+    "messageformat": "Dodali smo podporo za vzdevke po meri in opombe za vse, s katerimi klepetate v Signalu, tudi če niso v vaših sistemskih stikih. Ne glede na to, ali dodajate manjkajoče črke v ime profila lenega prijatelja ali opomnik, kje sta se spoznala, so opombe in vzdevki priročen in varen način za zapisovanje dodatnih podrobnosti o Signal povezavah — poleg tega so šifrirani od konca do konca in zaščiteni s Signalovo PIN kodo, zato jih lahko varno obnovite tudi, če izgubite telefon."
   },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "Preoblikovali smo tudi kazalnik števila značk v operacijskem sistemu Windows. Zdaj se barva v opravilni vrstici ujema z barvo v sistemski plošči. V modi je pomembna usklajenost in dodatek rdeče barve ustvari popoln pomladni videz."
+  "icu:WhatsNew__v7.5--1": {
+    "messageformat": "Zdaj lahko Signal v operacijskem sistemu Linux minimizirate v sistemski pladenj. Če je opravilna vrstica v pravem odtenku sive barve, je videti, kot da vas sporočila čakajo na srebrnem pladnju."
   },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "Ta posodobitev odpravlja nekaj napak ravno v času spomladanskega čiščenja, vključno z doslednejšo logiko razvrščanja pogovorov in izboljšanim obnašanjem, če aplikacija zaradi slabega omrežja naleti na izpad iskanja DNS."
+  "icu:WhatsNew__v7.5--2": {
+    "messageformat": "Za uporabnike sistema Windows ta posodobitev ponovno omogoča podporo za podrobno število neprebranih sporočil na ikoni Signal. Poslovite se od \"9+\", saj je zdaj ikona 11 (ali več)."
   }
 }
