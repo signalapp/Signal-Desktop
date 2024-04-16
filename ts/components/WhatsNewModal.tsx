@@ -42,11 +42,7 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v7.5--0" />,
-      <Intl i18n={i18n} id="icu:WhatsNew__v7.5--1" />,
-      <Intl i18n={i18n} id="icu:WhatsNew__v7.5--2" />,
-    ],
+    features: [<Intl i18n={i18n} id="icu:WhatsNew__bugfixes--6" />],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {

@@ -7495,18 +7495,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.3--0": {
-    "messageformat": "Now you can clear missed calls on your phone and the badge on the calls tab in Signal Desktop will be updated too.",
-    "description": "(Deleted 2024/03/20)"
-  },
-  "icu:WhatsNew__v7.3--1": {
-    "messageformat": "We also redesigned the badge count indicator on Windows. Now the color in the taskbar matches the color in the system tray. Fashion is all about coordination, and a little pop of red is a perfect look for spring.",
-    "description": "(Deleted 2024/03/20)"
-  },
-  "icu:WhatsNew__v7.4--0": {
-    "messageformat": "This update clears out a few bugs just in time for spring cleaning, including more consistent conversation sort logic and improved behavior if the app encounters DNS lookup timeouts due to poor network connectivity.",
-    "description": "(Deleted 2024/04/03)"
-  },
   "icu:WhatsNew__v7.5--0": {
     "messageformat": "We added support for custom nicknames and notes for anyone you're chatting with on Signal, even if they aren't in your system contacts. Whether you're adding the missing letters in a lazy friend's profile name, or a reminder about where you met, notes and nicknames provide a convenient and secure way to jot down additional details about your Signal Connections — and they're end-to-end encrypted and protected by your Signal PIN so they can be securely restored if you lose your phone too."
   },
