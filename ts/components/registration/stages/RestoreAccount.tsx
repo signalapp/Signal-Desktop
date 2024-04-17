@@ -20,7 +20,6 @@ import {
   useDisplayName,
   useDisplayNameError,
   useOnboardAccountRestorationStep,
-  useOnboardHexGeneratedPubKey,
   useProgress,
   useRecoveryPassword,
   useRecoveryPasswordError,
@@ -120,20 +119,13 @@ export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
   const recoveryPassword = useRecoveryPassword();
   const recoveryPasswordError = useRecoveryPasswordError();
-  const ourPubkey = useOnboardHexGeneratedPubKey();
   const displayName = useDisplayName();
   const displayNameError = useDisplayNameError();
   const progress = useProgress();
 
   const dispatch = useDispatch();
 
-  useRecoveryProgressEffect({
-    step,
-    progress,
-    setProgress,
-    ourPubkey,
-    displayName,
-  });
+  useRecoveryProgressEffect();
 
   const recoverAndFetchDisplayName = async () => {
     if (!(!!recoveryPassword && !recoveryPasswordError)) {

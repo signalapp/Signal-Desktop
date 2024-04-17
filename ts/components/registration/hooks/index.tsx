@@ -1,4 +1,3 @@
-import { AnyAction } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -6,31 +5,26 @@ import { ONBOARDING_TIMES } from '../../../session/constants';
 import {
   AccountRestoration,
   setAccountRestorationStep,
+  setProgress,
 } from '../../../state/onboarding/ducks/registration';
+import {
+  useDisplayName,
+  useOnboardAccountRestorationStep,
+  useOnboardHexGeneratedPubKey,
+  useProgress,
+} from '../../../state/onboarding/selectors/registration';
 import { finishRestore } from '../stages/RestoreAccount';
 
 let interval: NodeJS.Timeout;
 
-type UseRecoveryProgressEffectProps = {
-  step: AccountRestoration;
-  progress: number;
-  setProgress: (progress: number) => AnyAction;
-  ourPubkey: string;
-  displayName: string;
-};
-
-/**
- * Effect to handle the progress rate of the recovery loading animation
- * @param step AccountRestoration the onboarding step we are currently on
- * @param progress number the progress % of the loading bar
- * @param setProgress (progress: number) => AnyAction redux function to set the progress % of the loading bar
- * @param ourPubkey: string the public key of the user
- * @param displayName: string the display name of the user
- */
-export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps) => {
-  const { step, progress, setProgress, ourPubkey, displayName } = props;
+/** Effect to handle the progress rate of the recovery loading animation */
+export const useRecoveryProgressEffect = () => {
   const totalProgress = 100;
 
+  const step = useOnboardAccountRestorationStep();
+  const ourPubkey = useOnboardHexGeneratedPubKey();
+  const displayName = useDisplayName();
+  const progress = useProgress();
   const dispatch = useDispatch();
 
   const recoveryComplete = useCallback(async () => {
@@ -88,5 +82,5 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
     }
 
     return () => clearInterval(interval);
-  }, [dispatch, displayName, ourPubkey, progress, recoveryComplete, setProgress, step]);
+  }, [dispatch, displayName, ourPubkey, progress, recoveryComplete, step]);
 };
