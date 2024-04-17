@@ -26,6 +26,7 @@ import {
   last,
   map,
   mapValues,
+  noop,
   omit,
   partition,
   pick,
@@ -662,6 +663,28 @@ async function initialize({
     writable?.close();
     throw error;
   }
+}
+
+export function setupTests(db: Database): void {
+  if (globalWritableInstance || globalReadonlyInstance) {
+    throw new Error('Cannot initialize more than once!');
+  }
+
+  globalWritableInstance = db;
+  globalReadonlyInstance = db;
+
+  const silentLogger = {
+    ...consoleLogger,
+    info: noop,
+  };
+  logger = silentLogger;
+
+  updateSchema(db, logger);
+}
+
+export function teardownTests(): void {
+  globalWritableInstance = undefined;
+  globalReadonlyInstance = undefined;
 }
 
 async function close(): Promise<void> {
@@ -3969,17 +3992,82 @@ async function migrateConversationMessages(
 ): Promise<void> {
   const db = await getWritableInstance();
 
-  db.prepare<Query>(
-    `
-    UPDATE messages SET
+  const PAGE_SIZE = 1000;
+
+  const getPage = db.prepare(`
+    SELECT
+      rowid,
+      json -> '$.sendStateByConversationId' AS sendStateJson,
+      json -> '$.editHistory' AS editHistoryJson
+    FROM messages
+    WHERE conversationId IS $obsoleteId
+    ORDER BY rowid
+    LIMIT $pageSize OFFSET $offset`);
+
+  const updateOne = db.prepare(`
+    UPDATE messages
+    SET
       conversationId = $currentId,
-      json = json_set(json, '$.conversationId', $currentId)
-    WHERE conversationId = $obsoleteId;
-    `
-  ).run({
-    obsoleteId,
-    currentId,
-  });
+      json = json_patch(json, $patch)
+    WHERE
+      rowid IS $rowid
+  `);
+
+  db.transaction(() => {
+    // eslint-disable-next-line no-constant-condition
+    for (let offset = 0; true; offset += PAGE_SIZE) {
+      const parts: Array<{
+        rowid: number;
+        sendStateJson?: string;
+        editHistoryJson?: string;
+      }> = getPage.all({ obsoleteId, pageSize: PAGE_SIZE, offset });
+
+      for (const { rowid, sendStateJson, editHistoryJson } of parts) {
+        const editHistory = JSON.parse(editHistoryJson || '[]') as Array<{
+          sendStateByConversationId?: Record<string, unknown>;
+        }>;
+        const sendState = JSON.parse(sendStateJson || '{}');
+        const patch = {
+          conversationId: currentId,
+          sendStateByConversationId: {
+            [obsoleteId]: null,
+            [currentId]: sendState[obsoleteId],
+          },
+
+          // Unlike above here we have to provide the full object with all
+          // existing properties because arrays can't be patched and can only
+          // be replaced.
+          editHistory: editHistory.map(
+            ({ sendStateByConversationId, ...rest }) => {
+              const existingState = sendStateByConversationId?.[obsoleteId];
+              if (!existingState) {
+                return rest;
+              }
+
+              return {
+                ...rest,
+                sendStateByConversationId: {
+                  ...sendStateByConversationId,
+                  [obsoleteId]: undefined,
+                  [currentId]: existingState,
+                },
+              };
+            }
+          ),
+        };
+
+        updateOne.run({
+          rowid,
+          patch: JSON.stringify(patch),
+          currentId,
+        });
+      }
+
+      if (parts.length < PAGE_SIZE) {
+        break;
+      }
+    }
+  })();
 }
 
 async function getMessagesBySentAt(
