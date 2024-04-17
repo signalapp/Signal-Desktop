@@ -36,72 +36,45 @@ type SpacerProps = {
 };
 
 const SpacerStyled = styled.div<SpacerProps>`
-  height: ${props =>
-    props.size === '3xl'
-      ? 'var(--margins-3xl)'
-      : props.size === '2xl'
-        ? 'var(--margins-2xl)'
-        : props.size === 'xl'
-          ? 'var(--margins-xl)'
-          : props.size === 'lg'
-            ? 'var(--margins-lg)'
-            : props.size === 'md'
-              ? 'var(--margins-md)'
-              : props.size === 'sm'
-                ? 'var(--margins-sm)'
-                : 'var(--margins-xs)'};
-
-  width: ${props =>
-    props.size === '3xl'
-      ? 'var(--margins-3xl)'
-      : props.size === '2xl'
-        ? 'var(--margins-2xl)'
-        : props.size === 'xl'
-          ? 'var(--margins-xl)'
-          : props.size === 'lg'
-            ? 'var(--margins-lg)'
-            : props.size === 'md'
-              ? 'var(--margins-md)'
-              : props.size === 'sm'
-                ? 'var(--margins-sm)'
-                : 'var(--margins-xs)'};
+  width: ${props => `var(--margins-${props.size})`};
+  height: ${props => `var(--margins-${props.size})`};
 `;
 
 const Spacer = (props: SpacerProps) => {
   return <SpacerStyled {...props} />;
 };
 
-/** 5px */
+/** --margins-xs 5px */
 export const SpacerXS = (props: { style?: CSSProperties }) => {
   return <Spacer size="xs" style={props.style} />;
 };
 
-/** 10px */
+/** --margins-sm 10px */
 export const SpacerSM = (props: { style?: CSSProperties }) => {
   return <Spacer size="sm" style={props.style} />;
 };
 
-/** 15px */
+/** --margins-md 15px */
 export const SpacerMD = (props: { style?: CSSProperties }) => {
   return <Spacer size="md" style={props.style} />;
 };
 
-/** 20px */
+/** --margins-lg 20px */
 export const SpacerLG = (props: { style?: CSSProperties }) => {
   return <Spacer size="lg" style={props.style} />;
 };
 
-/** 25px */
+/** --margins-xl 25px */
 export const SpacerXL = (props: { style?: CSSProperties }) => {
   return <Spacer size="xl" style={props.style} />;
 };
 
-/** 30px */
+/** --margins-2xl 30px */
 export const Spacer2XL = (props: { style?: CSSProperties }) => {
   return <Spacer size="2xl" style={props.style} />;
 };
 
-/** 35px */
+/** --margins-3xl 35px */
 export const Spacer3XL = (props: { style?: CSSProperties }) => {
   return <Spacer size="3xl" style={props.style} />;
 };
