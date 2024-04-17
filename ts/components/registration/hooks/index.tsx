@@ -38,53 +38,53 @@ export const useRecoveryProgressEffect = (props: UseRecoveryProgressEffectProps)
   }, [displayName, ourPubkey]);
 
   useEffect(() => {
-    if (step === AccountRestoration.Loading) {
-      interval = setInterval(() => {
-        if (progress < totalProgress) {
-          dispatch(setProgress(progress + 1));
-        }
+    switch (step) {
+      case AccountRestoration.Loading:
+        interval = setInterval(() => {
+          if (progress < totalProgress) {
+            dispatch(setProgress(progress + 1));
+          }
 
-        if (progress >= totalProgress) {
+          if (progress >= totalProgress) {
+            clearInterval(interval);
+            // if we didn't get the display name in time, we need to enter it manually
+            dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
+          }
+        }, ONBOARDING_TIMES.RECOVERY_TIMEOUT / totalProgress);
+        break;
+      case AccountRestoration.Finishing:
+        interval = setInterval(() => {
+          if (progress < totalProgress) {
+            dispatch(setProgress(progress + 1));
+          }
+
+          if (progress >= totalProgress) {
+            clearInterval(interval);
+            dispatch(setAccountRestorationStep(AccountRestoration.Finished));
+          }
+        }, ONBOARDING_TIMES.RECOVERY_FINISHING / totalProgress);
+        break;
+      case AccountRestoration.Finished:
+        interval = setInterval(() => {
           clearInterval(interval);
-          // if we didn't get the display name in time, we need to enter it manually
-          dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
-        }
-      }, ONBOARDING_TIMES.RECOVERY_TIMEOUT / totalProgress);
-    }
-
-    if (step === AccountRestoration.Finishing) {
-      interval = setInterval(() => {
-        if (progress < totalProgress) {
-          dispatch(setProgress(progress + 1));
-        }
-
-        if (progress >= totalProgress) {
-          clearInterval(interval);
-          dispatch(setAccountRestorationStep(AccountRestoration.Finished));
-        }
-      }, ONBOARDING_TIMES.RECOVERY_FINISHING / totalProgress);
-    }
-
-    if (step === AccountRestoration.Finished) {
-      interval = setInterval(() => {
+          if (!isEmpty(displayName)) {
+            dispatch(setAccountRestorationStep(AccountRestoration.Complete));
+          } else {
+            // if we didn't get the display name in time, we need to enter it manually
+            dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
+          }
+        }, ONBOARDING_TIMES.RECOVERY_FINISHED);
+        break;
+      case AccountRestoration.Complete:
         clearInterval(interval);
-        if (!isEmpty(displayName)) {
-          dispatch(setAccountRestorationStep(AccountRestoration.Complete));
+        if (!isEmpty(ourPubkey) && !isEmpty(displayName)) {
+          void recoveryComplete();
         } else {
-          // if we didn't get the display name in time, we need to enter it manually
+          window.log.debug(`[onboarding] restore account: We don't have a pubkey or display name`);
           dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
         }
-      }, ONBOARDING_TIMES.RECOVERY_FINISHED);
-    }
-
-    if (step === AccountRestoration.Complete) {
-      clearInterval(interval);
-      if (!isEmpty(ourPubkey) && !isEmpty(displayName)) {
-        void recoveryComplete();
-      } else {
-        window.log.debug(`[onboarding] restore account: We don't have a pubkey or display name`);
-        dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
-      }
+        break;
+      default:
     }
 
     return () => clearInterval(interval);

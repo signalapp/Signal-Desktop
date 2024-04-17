@@ -169,7 +169,7 @@ export const RestoreAccount = () => {
         dispatch(setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric')));
       }
       window.log.debug(
-        `WIP: [onboarding] restore account: there is a problem with the display nam. Error: ${e.message || e}`
+        `WIP: [onboarding] restore account: there is a problem with the display name. Error: ${e.message || e}`
       );
       dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
     }
