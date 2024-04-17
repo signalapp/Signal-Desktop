@@ -50,7 +50,6 @@ export async function finishRestore(pubkey: string, displayName: string) {
   await setSignWithRecoveryPhrase(true);
   await registrationDone(pubkey, displayName);
 
-  window.log.debug(`WIP: [onboarding] restore account: logging in for ${displayName}`);
   trigger('openInbox');
 }
 
@@ -58,9 +57,11 @@ export async function finishRestore(pubkey: string, displayName: string) {
  * This will try to sign in with the user recovery password.
  * If no ConfigurationMessage is received within ONBOARDING_RECOVERY_TIMEOUT, the user will be asked to enter a display name.
  */
-async function signInAndFetchDisplayName(args: AccountRestoreDetails) {
-  const { recoveryPassword, dispatch, abortSignal } = args;
-
+async function signInAndFetchDisplayName({
+  recoveryPassword,
+  dispatch,
+  abortSignal,
+}: AccountRestoreDetails) {
   try {
     await resetRegistration();
     const promiseLink = signInByLinkingDevice(recoveryPassword, 'english', abortSignal);
@@ -90,9 +91,11 @@ async function signInAndFetchDisplayName(args: AccountRestoreDetails) {
  * Ask for a display name, as we will drop incoming ConfigurationMessages if any are saved on the swarm.
  * We will handle a ConfigurationMessage
  */
-async function signInWithNewDisplayName(args: AccountRestoreDetails) {
-  const { displayName, recoveryPassword, dispatch } = args;
-
+async function signInWithNewDisplayName({
+  displayName,
+  recoveryPassword,
+  dispatch,
+}: AccountRestoreDetails) {
   try {
     const validDisplayName = displayNameIsValid(displayName);
 
@@ -139,9 +142,6 @@ export const RestoreAccount = () => {
 
     const abortController = new AbortController();
     try {
-      window.log.debug(
-        `WIP: [onboarding] restore account: recoverAndFetchDisplayName() is starting recoveryPassword: ${recoveryPassword}`
-      );
       dispatch(setProgress(0));
       dispatch(setAccountRestorationStep(AccountRestoration.Loading));
       await signInAndFetchDisplayName({
@@ -155,8 +155,8 @@ export const RestoreAccount = () => {
         if (!abortController.signal.aborted) {
           abortController.abort();
         }
-        window.log.debug(
-          `WIP: [onboarding] restore account: We failed when fetching a display name, so we will enter it manually. Error: ${e.message || e} `
+        window.log.error(
+          `[onboarding] restore account: Failed to fetch a display name, so we will have to enter it manually. Error: ${e.message || e} `
         );
         return;
       }
@@ -168,9 +168,6 @@ export const RestoreAccount = () => {
       } else {
         dispatch(setRecoveryPasswordError(window.i18n('recoveryPasswordErrorMessageGeneric')));
       }
-      window.log.debug(
-        `WIP: [onboarding] restore account: there is a problem with the display name. Error: ${e.message || e}`
-      );
       dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
     }
   };
@@ -181,17 +178,14 @@ export const RestoreAccount = () => {
     }
 
     try {
-      window.log.debug(
-        `WIP: [onboarding] restore account: recoverAndEnterDisplayName() is starting recoveryPassword: ${recoveryPassword} displayName: ${displayName}`
-      );
       await signInWithNewDisplayName({
         displayName,
         recoveryPassword,
         dispatch,
       });
     } catch (e) {
-      window.log.debug(
-        `WIP: [onboarding] restore account: restoration with new display name failed! Error: ${e.message || e}`
+      window.log.error(
+        `[onboarding] restore account: Failed with new display name! Error: ${e.message || e}`
       );
       dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
       dispatch(setDisplayNameError(e.message || String(e)));
