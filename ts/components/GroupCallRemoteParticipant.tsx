@@ -460,11 +460,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               ref={canvasEl => {
                 remoteVideoRef.current = canvasEl;
                 if (canvasEl) {
-                  canvasContextRef.current = canvasEl.getContext('2d', {
-                    alpha: false,
-                    desynchronized: true,
-                    storage: 'discardable',
-                  } as CanvasRenderingContext2DSettings);
+                  canvasContextRef.current = canvasEl.getContext('2d');
                 } else {
                   canvasContextRef.current = null;
                 }
