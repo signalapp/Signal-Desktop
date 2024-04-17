@@ -676,69 +676,58 @@ export class SwarmPolling {
   }
 
   public async pollOnceForOurDisplayName(abortSignal?: AbortSignal): Promise<string> {
-    try {
-      if (abortSignal?.aborted) {
-        throw new NotFoundError('[pollOnceForOurDisplayName] aborted right away');
-      }
-
-      const pubkey = UserUtils.getOurPubKeyFromCache();
-      const toPollFrom = await this.getNodesToPollFrom(pubkey.key);
-
-      if (abortSignal?.aborted) {
-        throw new NotFoundError(
-          '[pollOnceForOurDisplayName] aborted after selecting nodes to poll from'
-        );
-      }
-
-      const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveNextMessages(
-        toPollFrom,
-        [''],
-        pubkey.key,
-        [SnodeNamespaces.UserProfile],
-        pubkey.key,
-        null
-      );
-
-      // check if we just fetched the details from the config namespaces.
-      // If yes, merge them together and exclude them from the rest of the messages.
-      if (!resultsFromUserProfile?.length) {
-        throw new NotFoundError('[pollOnceForOurDisplayName] resultsFromUserProfile is empty');
-      }
-
-      if (abortSignal?.aborted) {
-        throw new NotFoundError(
-          '[pollOnceForOurDisplayName] aborted after retrieving user profile config messages'
-        );
-      }
-
-      const userConfigMessages = resultsFromUserProfile
-        .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
-        .map(r => r.messages.messages);
-
-      const userConfigMessagesMerged = flatten(compact(userConfigMessages));
-      if (!userConfigMessagesMerged.length) {
-        throw new NotFoundError(
-          '[pollOnceForOurDisplayName] after merging there are no user config messages'
-        );
-      }
-      const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
-
-      if (isEmpty(displayName)) {
-        throw new NotFoundError(
-          '[pollOnceForOurDisplayName] Got a config message from network but without a displayName...'
-        );
-      }
-
-      return displayName;
-    } catch (e) {
-      if (e.message === ERROR_CODE_NO_CONNECT) {
-        if (window.inboxStore?.getState().onionPaths.isOnline) {
-          window.inboxStore?.dispatch(updateIsOnline(false));
-        }
-      } else if (!window.inboxStore?.getState().onionPaths.isOnline) {
-        window.inboxStore?.dispatch(updateIsOnline(true));
-      }
-      throw e;
+    if (abortSignal?.aborted) {
+      throw new NotFoundError('[pollOnceForOurDisplayName] aborted right away');
     }
+
+    const pubkey = UserUtils.getOurPubKeyFromCache();
+    const toPollFrom = await this.getNodesToPollFrom(pubkey.key);
+
+    if (abortSignal?.aborted) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] aborted after selecting nodes to poll from'
+      );
+    }
+
+    const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveNextMessages(
+      toPollFrom,
+      [''],
+      pubkey.key,
+      [SnodeNamespaces.UserProfile],
+      pubkey.key,
+      null
+    );
+
+    // check if we just fetched the details from the config namespaces.
+    // If yes, merge them together and exclude them from the rest of the messages.
+    if (!resultsFromUserProfile?.length) {
+      throw new NotFoundError('[pollOnceForOurDisplayName] resultsFromUserProfile is empty');
+    }
+
+    if (abortSignal?.aborted) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] aborted after retrieving user profile config messages'
+      );
+    }
+
+    const userConfigMessages = resultsFromUserProfile
+      .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
+      .map(r => r.messages.messages);
+
+    const userConfigMessagesMerged = flatten(compact(userConfigMessages));
+    if (!userConfigMessagesMerged.length) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] after merging there are no user config messages'
+      );
+    }
+    const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
+
+    if (isEmpty(displayName)) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] Got a config message from network but without a displayName...'
+      );
+    }
+
+    return displayName;
   }
 }
