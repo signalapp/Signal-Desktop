@@ -91,9 +91,6 @@ export const CreateAccount = () => {
     }
 
     try {
-      window.log.debug(
-        `WIP: [onboarding] create account: signUp() is starting display name: ${displayName} recoveryPassword: ${recoveryPassword}`
-      );
       await signUp({
         displayName,
         recoveryPassword,
@@ -101,8 +98,8 @@ export const CreateAccount = () => {
 
       dispatch(setAccountCreationStep(AccountCreation.Done));
     } catch (e) {
-      window.log.debug(
-        `WIP: [onboarding] create account: creation failed! Error: ${e.message || e}`
+      window.log.error(
+        `[onboarding] create account: signUpWithDetails failed! Error: ${e.message || e}`
       );
       dispatch(setAccountCreationStep(AccountCreation.DisplayName));
       dispatch(setDisplayNameError(e.message || String(e)));
@@ -135,9 +132,9 @@ export const CreateAccount = () => {
           type="text"
           placeholder={window.i18n('enterDisplayName')}
           value={displayName}
-          onValueChanged={(_name: string) => {
-            const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError, dispatch);
-            dispatch(setDisplayName(name));
+          onValueChanged={(name: string) => {
+            const sanitizedName = sanitizeDisplayNameOrToast(name, setDisplayNameError, dispatch);
+            dispatch(setDisplayName(sanitizedName));
           }}
           onEnterPressed={signUpWithDetails}
           error={displayNameError}
