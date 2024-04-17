@@ -30,7 +30,7 @@ import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { resetRegistration } from '../RegistrationStages';
 import { OnboardDescription, OnboardHeading } from '../components';
-import { BackButtonWithininContainer } from '../components/BackButton';
+import { BackButtonWithinContainer } from '../components/BackButton';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 
 export type AccountDetails = {
@@ -110,7 +110,7 @@ export const CreateAccount = () => {
   };
 
   return (
-    <BackButtonWithininContainer
+    <BackButtonWithinContainer
       margin={'2px 0 0 -36px'}
       callback={() => {
         dispatch(setDisplayName(''));
@@ -152,6 +152,6 @@ export const CreateAccount = () => {
           dataTestId="continue-button"
         />
       </Flex>
-    </BackButtonWithininContainer>
+    </BackButtonWithinContainer>
   );
 };

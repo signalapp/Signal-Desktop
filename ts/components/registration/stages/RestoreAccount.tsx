@@ -39,7 +39,7 @@ import { SessionInput } from '../../inputs';
 import { SessionProgressBar } from '../../loading';
 import { resetRegistration } from '../RegistrationStages';
 import { OnboardDescription, OnboardHeading } from '../components';
-import { BackButtonWithininContainer } from '../components/BackButton';
+import { BackButtonWithinContainer } from '../components/BackButton';
 import { useRecoveryProgressEffect } from '../hooks';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 import { AccountDetails } from './CreateAccount';
@@ -201,7 +201,7 @@ export const RestoreAccount = () => {
   return (
     <>
       {step === AccountRestoration.RecoveryPassword || step === AccountRestoration.DisplayName ? (
-        <BackButtonWithininContainer
+        <BackButtonWithinContainer
           margin={'2px 0 0 -36px'}
           callback={() => {
             dispatch(setRecoveryPassword(''));
@@ -295,7 +295,7 @@ export const RestoreAccount = () => {
               </Flex>
             )}
           </Flex>
-        </BackButtonWithininContainer>
+        </BackButtonWithinContainer>
       ) : (
         <Flex
           container={true}

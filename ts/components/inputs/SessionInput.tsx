@@ -49,7 +49,7 @@ const StyledInput = styled(motion.input)`
   line-height: 14px;
   padding: var(--margins-lg);
 
-  &::placeholder {
+  ::placeholder {
     color: var(--input-text-placeholder-color);
   }
 `;

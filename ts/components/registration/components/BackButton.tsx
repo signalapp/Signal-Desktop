@@ -14,7 +14,7 @@ import {
 import { Flex } from '../../basic/Flex';
 import { SessionIconButton } from '../../icon';
 
-export const BackButtonWithininContainer = ({
+export const BackButtonWithinContainer = ({
   children,
   margin,
   callback,
