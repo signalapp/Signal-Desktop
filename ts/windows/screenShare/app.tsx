@@ -7,10 +7,16 @@ import ReactDOM from 'react-dom';
 import { CallingScreenSharingController } from '../../components/CallingScreenSharingController';
 import { i18n } from '../sandboxedInit';
 import { strictAssert } from '../../util/assert';
+import { parseEnvironment, setEnvironment } from '../../environment';
 
 const { ScreenShareWindowProps } = window.Signal;
 
 strictAssert(ScreenShareWindowProps, 'window values not provided');
+
+setEnvironment(
+  parseEnvironment(window.SignalContext.getEnvironment()),
+  window.SignalContext.isTestOrMockEnvironment()
+);
 
 ReactDOM.render(
   <div className="App dark-theme">
