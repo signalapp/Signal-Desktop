@@ -259,9 +259,13 @@ export const RestoreAccount = () => {
                   type="text"
                   placeholder={window.i18n('enterDisplayName')}
                   value={displayName}
-                  onValueChanged={(_name: string) => {
-                    const name = sanitizeDisplayNameOrToast(_name, setDisplayNameError, dispatch);
-                    dispatch(setDisplayName(name));
+                  onValueChanged={(name: string) => {
+                    const sanitizedName = sanitizeDisplayNameOrToast(
+                      name,
+                      setDisplayNameError,
+                      dispatch
+                    );
+                    dispatch(setDisplayName(sanitizedName));
                   }}
                   onEnterPressed={recoverAndEnterDisplayName}
                   error={displayNameError}
