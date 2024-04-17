@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { updateTermsOfServicePrivacyModal } from '../../state/onboarding/ducks/modals';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
-import { SessionButton, SessionButtonShape, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SpacerSM } from '../basic/Text';
 
 // NOTE we want to bypass the padding on the modal body so the buttons take up the full space
@@ -43,8 +43,7 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
         <ConfirmButtonContainer container={true} justifyContent="center" alignItems="center">
           <SessionButton
             text={window.i18n('termsOfService')}
-            buttonType={SessionButtonType.ModalConfirm}
-            buttonShape={SessionButtonShape.None}
+            buttonType={SessionButtonType.Ghost}
             onClick={() => {
               void shell.openExternal('https://getsession.org/terms-of-service');
             }}
@@ -52,8 +51,7 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
           />
           <SessionButton
             text={window.i18n('privacyPolicy')}
-            buttonType={SessionButtonType.ModalConfirm}
-            buttonShape={SessionButtonShape.None}
+            buttonType={SessionButtonType.Ghost}
             onClick={() => {
               void shell.openExternal('https://getsession.org/privacy-policy');
             }}

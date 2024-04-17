@@ -6,7 +6,7 @@ export enum SessionButtonType {
   Outline = 'outline',
   Simple = 'simple',
   Solid = 'solid',
-  ModalConfirm = 'modal-confirm',
+  Ghost = 'ghost',
 }
 
 export enum SessionButtonShape {
@@ -35,7 +35,7 @@ const StyledButton = styled.button<{
   buttonType: SessionButtonType;
   buttonShape: SessionButtonShape;
 }>`
-  width: ${props => (props.buttonType === SessionButtonType.ModalConfirm ? '100%' : 'auto')};
+  width: ${props => (props.buttonType === SessionButtonType.Ghost ? '100%' : 'auto')};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,9 +47,9 @@ const StyledButton = styled.button<{
   transition: var(--default-duration);
   background-repeat: no-repeat;
   overflow: hidden;
-  height: ${props => (props.buttonType === SessionButtonType.ModalConfirm ? undefined : '34px')};
+  height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
   padding: ${props =>
-    props.buttonType === SessionButtonType.ModalConfirm ? '16px 24px 24px' : '0px 18px'};
+    props.buttonType === SessionButtonType.Ghost ? '16px 24px 24px' : '0px 18px'};
   background-color: ${props =>
     props.buttonType === SessionButtonType.Solid && props.color
       ? `var(--${props.color}-color)`
@@ -114,18 +114,28 @@ const StyledButton = styled.button<{
 type Props = {
   text?: string;
   disabled?: boolean;
-  buttonType: SessionButtonType;
-  buttonShape: SessionButtonShape;
+  buttonType?: SessionButtonType;
+  buttonShape?: SessionButtonShape;
   buttonColor?: SessionButtonColor; // will override theme
-  onClick: any;
+  onClick?: any;
   children?: ReactNode;
   margin?: string;
   dataTestId?: string;
 };
 
 export const SessionButton = (props: Props) => {
-  const { buttonType, buttonShape, dataTestId, buttonColor, text, disabled, onClick, margin } =
-    props;
+  const {
+    buttonType = SessionButtonType.Outline,
+    buttonShape = buttonType === SessionButtonType.Ghost
+      ? SessionButtonShape.None
+      : SessionButtonShape.Round,
+    dataTestId,
+    buttonColor,
+    text,
+    disabled = false,
+    onClick = null,
+    margin,
+  } = props;
 
   const clickHandler = (e: any) => {
     if (onClick) {
@@ -156,10 +166,3 @@ export const SessionButton = (props: Props) => {
     </StyledButton>
   );
 };
-
-SessionButton.defaultProps = {
-  disabled: false,
-  buttonShape: SessionButtonShape.Round,
-  buttonType: SessionButtonType.Outline,
-  onClick: null,
-} as Partial<Props>;

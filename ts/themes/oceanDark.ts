@@ -58,12 +58,12 @@ export const oceanDark: ThemeColorVariables = {
   '--button-solid-disabled-color': THEMES.OCEAN_DARK.COLOR4,
   '--button-solid-shadow-color': 'none',
 
+  '--button-ghost-background-color': 'none',
+  '--button-ghost-background-hover-color': THEMES.OCEAN_DARK.COLOR6,
+  '--button-ghost-disabled-color': 'none',
+
   '--button-simple-text-color': 'var(--text-primary-color)',
   '--button-simple-disabled-color': 'var(--disabled-color)',
-
-  '--button-modal-confirm-background-color': 'none',
-  '--button-modal-confirm-background-hover-color': THEMES.OCEAN_DARK.COLOR6,
-  '--button-modal-confirm-disabled-color': 'none',
 
   '--button-icon-background-color': 'var(--transparent-color)',
   '--button-icon-stroke-color': 'var(--text-secondary-color)',

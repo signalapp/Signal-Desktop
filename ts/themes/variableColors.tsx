@@ -69,15 +69,15 @@ export type ThemeColorVariables = {
   '--button-solid-disabled-color': string;
   '--button-solid-shadow-color': string;
 
+  /* Ghost */
+  '--button-ghost-background-color': string;
+  '--button-ghost-background-hover-color': string;
+  /* Ghost buttons don't change color and use a disabled pointer instead */
+  '--button-ghost-disabled-color': string;
+
   /* Simple */
   '--button-simple-text-color': string;
   '--button-simple-disabled-color': string;
-
-  /* Confirm */
-  '--button-modal-confirm-background-color': string;
-  '--button-modal-confirm-background-hover-color': string;
-  /* Confirm buttons stay the same and rely on the disabled pointer */
-  '--button-modal-confirm-disabled-color': string;
 
   /* Icons */
   '--button-icon-background-color': string;
