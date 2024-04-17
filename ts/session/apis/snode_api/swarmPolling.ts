@@ -406,8 +406,6 @@ export class SwarmPolling {
         );
 
         if (returnDisplayNameOnly) {
-          let displayName = '';
-
           try {
             const keypair = await UserUtils.getUserED25519KeyPairBytes();
             if (!keypair || !keypair.privKeyBytes) {
@@ -429,7 +427,7 @@ export class SwarmPolling {
             if (!userInfo) {
               throw new Error('UserInfo not found');
             }
-            displayName = userInfo.name;
+            return userInfo.name;
           } catch (e) {
             window.log.warn(
               'LibSessionUtil.initializeLibSessionUtilWrappers failed with',
@@ -439,7 +437,7 @@ export class SwarmPolling {
             await GenericWrapperActions.free('UserConfig');
           }
 
-          return displayName;
+          return '';
         }
 
         await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
