@@ -1,4 +1,5 @@
 import { Dispatch } from '@reduxjs/toolkit';
+import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
@@ -165,7 +166,12 @@ export const RestoreAccount = () => {
   };
 
   const recoverAndEnterDisplayName = async () => {
-    if (!(!!recoveryPassword && !recoveryPasswordError) || !(!!displayName && !displayNameError)) {
+    if (
+      isEmpty(recoveryPassword) ||
+      !isEmpty(recoveryPasswordError) ||
+      isEmpty(displayName) ||
+      !isEmpty(displayNameError)
+    ) {
       return;
     }
 
@@ -277,8 +283,10 @@ export const RestoreAccount = () => {
                   onClick={recoverAndEnterDisplayName}
                   text={window.i18n('continue')}
                   disabled={
-                    !(!!recoveryPassword && !recoveryPasswordError) ||
-                    !(!!displayName && !displayNameError)
+                    isEmpty(recoveryPassword) ||
+                    !isEmpty(recoveryPasswordError) ||
+                    isEmpty(displayName) ||
+                    !isEmpty(displayNameError)
                   }
                   dataTestId="continue-button"
                 />

@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useMount } from 'react-use';
 import { SettingsKey } from '../../../data/settings-key';
@@ -86,7 +87,7 @@ export const CreateAccount = () => {
   });
 
   const signUpWithDetails = async () => {
-    if (!(!!displayName && !displayNameError)) {
+    if (isEmpty(displayName) || !isEmpty(displayNameError)) {
       return;
     }
 
@@ -145,7 +146,7 @@ export const CreateAccount = () => {
           buttonColor={SessionButtonColor.White}
           onClick={signUpWithDetails}
           text={window.i18n('continue')}
-          disabled={!(!!displayName && !displayNameError)}
+          disabled={isEmpty(displayName) || !isEmpty(displayNameError)}
           dataTestId="continue-button"
         />
       </Flex>
