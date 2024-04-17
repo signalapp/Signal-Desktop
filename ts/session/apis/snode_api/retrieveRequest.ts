@@ -1,4 +1,4 @@
-import { isArray, omit } from 'lodash';
+import { isArray, omit, sortBy } from 'lodash';
 import { Snode } from '../../../data/data';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { doSnodeBatchRequest } from './batchRequest';
@@ -167,11 +167,18 @@ async function retrieveNextMessages(
     GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', bodyFirstResult.t);
 
     // merge results with their corresponding namespaces
-    return results.map((result, index) => ({
-      code: result.code,
-      messages: result.body as RetrieveMessagesResultsContent,
-      namespace: namespaces[index],
-    }));
+    return results.map((result, index) => {
+      const messages = result.body as RetrieveMessagesResultsContent;
+      // Not sure if that makes sense, but we probably want those messages sorted.
+      const sortedMessages = sortBy(messages.messages, m => m.timestamp);
+      messages.messages = sortedMessages;
+
+      return {
+        code: result.code,
+        messages,
+        namespace: namespaces[index],
+      };
+    });
   } catch (e) {
     window?.log?.warn('exception while parsing json of nextMessage:', e);
     if (!window.inboxStore?.getState().onionPaths.isOnline) {
