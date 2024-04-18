@@ -4743,7 +4743,7 @@
     "messageformat": "Конфіденційність історій"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Історії автоматично зникають через 24 години. Оберіть глядачів вашої історії або створіть нові історії для конкретних глядачів або груп."
+    "messageformat": "Історії автоматично зникають через 24 години. Оберіть глядачів своєї історії або створіть нові історії для конкретних глядачів і груп."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "Мої історії"
@@ -4866,13 +4866,13 @@
     "messageformat": "Назву цієї історії бачите лише ви."
   },
   "icu:SendStoryModal__new-custom--description": {
-    "messageformat": "Можуть побачити лише окремі особи"
+    "messageformat": "Можуть бачити лише конкретні користувачі"
   },
   "icu:SendStoryModal__new-group--title": {
     "messageformat": "Нова групова історія"
   },
   "icu:SendStoryModal__new-group--description": {
-    "messageformat": "Поділитись у групі"
+    "messageformat": "Для користувачів уже створеної групи"
   },
   "icu:SendStoryModal__choose-groups": {
     "messageformat": "Обрати групи"
@@ -4896,10 +4896,10 @@
     "messageformat": "Публікувати й переглядати історії"
   },
   "icu:Stories__settings-toggle--description": {
-    "messageformat": "Якщо вимкнути цю функцію, ви не зможете публікувати чи переглядати сторіз."
+    "messageformat": "Якщо історії вимкнути, ви не зможете їх ні публікувати, ні переглядати."
   },
   "icu:Stories__settings-toggle--button": {
-    "messageformat": "Вимкнути сторіз"
+    "messageformat": "Вимкнути історії"
   },
   "icu:StoryViewer__pause": {
     "messageformat": "Пауза"
