@@ -49,6 +49,7 @@ SettingsWindowProps.onRender(
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
+    hasReplyNotification,
     hasCallRingtoneNotification,
     hasCountMutedConversations,
     hasHideMenuBar,
@@ -100,6 +101,7 @@ SettingsWindowProps.onRender(
     onNotificationAttentionChange,
     onNotificationContentChange,
     onNotificationsChange,
+    onRepliesShouldNotifyChange,
     onRelayCallsChange,
     onSelectedCameraChange,
     onSelectedMicrophoneChange,
@@ -159,6 +161,7 @@ SettingsWindowProps.onRender(
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
         hasAutoLaunch={hasAutoLaunch}
         hasCallNotifications={hasCallNotifications}
+        hasReplyNotification={hasReplyNotification}
         hasCallRingtoneNotification={hasCallRingtoneNotification}
         hasCountMutedConversations={hasCountMutedConversations}
         hasHideMenuBar={hasHideMenuBar}
@@ -216,6 +219,7 @@ SettingsWindowProps.onRender(
         onNotificationAttentionChange={onNotificationAttentionChange}
         onNotificationContentChange={onNotificationContentChange}
         onNotificationsChange={onNotificationsChange}
+        onRepliesShouldNotifyChange={onRepliesShouldNotifyChange}
         onRelayCallsChange={onRelayCallsChange}
         onSelectedCameraChange={onSelectedCameraChange}
         onSelectedMicrophoneChange={onSelectedMicrophoneChange}
