@@ -263,11 +263,16 @@ export interface IWebSocketResource extends IResource {
   localPort(): number | undefined;
 }
 
-export class LibsignalWebSocketResource implements IWebSocketResource {
+export class LibsignalWebSocketResource
+  extends EventTarget
+  implements IWebSocketResource
+{
   constructor(
     private readonly chatService: Net.ChatService,
     private readonly socketIpVersion: IpVersion | undefined
-  ) {}
+  ) {
+    super();
+  }
 
   public static connect(
     libsignalNet: Net.Net,
@@ -311,11 +316,13 @@ export class LibsignalWebSocketResource implements IWebSocketResource {
     return this.socketIpVersion;
   }
 
-  public addEventListener(
-    _name: 'close',
-    _handler: (ev: CloseEvent) => void
-  ): void {
-    // noop
+  public override addEventListener(
+    name: 'close',
+    handler: (ev: CloseEvent) => void
+  ): void;
+
+  public override addEventListener(name: string, handler: EventHandler): void {
+    return super.addEventListener(name, handler);
   }
 
   public close(_code?: number, _reason?: string): void {
