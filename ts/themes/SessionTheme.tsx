@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron';
 
+import { ReactNode } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { getOppositeTheme, isThemeMismatched } from '../util/theme';
 import { classicDark } from './classicDark';
@@ -14,7 +15,7 @@ const SessionGlobalStyles = createGlobalStyle`
   };
 `;
 
-export const SessionTheme = ({ children }: { children: any }) => (
+export const SessionTheme = ({ children }: { children: ReactNode }) => (
   <>
     <SessionGlobalStyles />
     {children}

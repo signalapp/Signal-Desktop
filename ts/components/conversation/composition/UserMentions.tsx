@@ -20,7 +20,7 @@ export const styleForCompositionBoxSuggestions = (dir: HTMLDirection = 'ltr') =>
         paddingBottom: '5px',
         backgroundColor: 'var(--suggestions-background-color)',
         color: 'var(--suggestions-text-color)',
-        transition: '0.25s',
+        transition: 'var(--default-duration)',
 
         '&focused': {
           backgroundColor: 'var(--suggestions-background-hover-color)',

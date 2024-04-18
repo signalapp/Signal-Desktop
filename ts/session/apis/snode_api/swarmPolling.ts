@@ -69,6 +69,8 @@ export function extractWebSocketContent(
 }
 
 let instance: SwarmPolling | undefined;
+const timeouts: Array<NodeJS.Timeout> = [];
+
 export const getSwarmPollingInstance = () => {
   if (!instance) {
     instance = new SwarmPolling();
@@ -96,9 +98,11 @@ export class SwarmPolling {
     if (waitForFirstPoll) {
       await this.pollForAllKeys();
     } else {
-      setTimeout(() => {
-        void this.pollForAllKeys();
-      }, 4000);
+      timeouts.push(
+        setTimeout(() => {
+          void this.pollForAllKeys();
+        }, 4000)
+      );
     }
   }
 
@@ -108,6 +112,15 @@ export class SwarmPolling {
   public resetSwarmPolling() {
     this.groupPolling = [];
     this.hasStarted = false;
+  }
+
+  public stop(e?: Error) {
+    window.log.info('[swarmPolling] stopped swarm polling', e?.message || e || '');
+
+    for (let i = 0; i < timeouts.length; i++) {
+      clearTimeout(timeouts[i]);
+    }
+    this.resetSwarmPolling();
   }
 
   public forcePolledTimestamp(pubkey: PubKey, lastPoll: number) {
@@ -175,7 +188,7 @@ export class SwarmPolling {
     if (!window.getGlobalOnlineStatus()) {
       window?.log?.error('pollForAllKeys: offline');
       // Very important to set up a new polling call so we do retry at some point
-      setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+      timeouts.push(setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE));
       return;
     }
     // we always poll as often as possible for our pubkey
@@ -212,7 +225,7 @@ export class SwarmPolling {
       window?.log?.warn('pollForAllKeys exception: ', e);
       throw e;
     } finally {
-      setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
+      timeouts.push(setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE));
     }
   }
 

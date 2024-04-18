@@ -1,11 +1,11 @@
 import classNames from 'classnames';
-import FocusTrap from 'focus-trap-react';
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import useKey from 'react-use/lib/useKey';
 
 import { SessionIconButton } from './icon';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
+import { SessionFocusTrap } from './SessionFocusTrap';
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -17,7 +17,7 @@ export type SessionWrapperModalType = {
   cancelText?: string;
   showExitIcon?: boolean;
   headerIconButtons?: Array<any>;
-  children: any;
+  children: ReactNode;
   headerReverse?: boolean;
   additionalClassName?: string;
 };
@@ -64,7 +64,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
   };
 
   return (
-    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true }}>
+    <SessionFocusTrap>
       <div
         className={classNames('loki-dialog modal', additionalClassName || null)}
         onClick={handleClick}
@@ -128,6 +128,6 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
           </div>
         </div>
       </div>
-    </FocusTrap>
+    </SessionFocusTrap>
   );
 };

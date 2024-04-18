@@ -29,7 +29,7 @@ window.getNodeVersion = () => configAny.node_version;
 
 window.sessionFeatureFlags = {
   useOnionRequests: true,
-  useTestNet: isTestNet(),
+  useTestNet: isTestNet() || isTestIntegration(),
   integrationTestEnv: isTestIntegration(),
   useClosedGroupV3: false,
   debug: {

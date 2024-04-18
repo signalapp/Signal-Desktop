@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { isNil } from 'lodash';
-import { MouseEvent, useCallback } from 'react';
+import { MouseEvent, ReactNode, useCallback } from 'react';
 import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +34,7 @@ type PropsHousekeeping = {
 
 type Props = { conversationId: string } & PropsHousekeeping;
 
-const Portal = ({ children }: { children: any }) => {
+const Portal = ({ children }: { children: ReactNode }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 

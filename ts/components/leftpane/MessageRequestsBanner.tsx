@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
@@ -137,6 +137,6 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   );
 };
 
-const Portal = ({ children }: { children: any }) => {
+const Portal = ({ children }: { children: ReactNode }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
 };

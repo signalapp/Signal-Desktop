@@ -1,4 +1,3 @@
-import FocusTrap from 'focus-trap-react';
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 
@@ -16,6 +15,7 @@ import {
   SessionButtonType,
 } from '../../basic/SessionButton';
 import { SessionIconButton } from '../../icon';
+import { SessionFocusTrap } from '../../SessionFocusTrap';
 
 export const SelectionOverlay = () => {
   const selectedMessageIds = useSelector(getSelectedMessageIds);
@@ -68,7 +68,7 @@ export const SelectionOverlay = () => {
   const classNameAndId = 'message-selection-overlay';
 
   return (
-    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true }}>
+    <SessionFocusTrap>
       <div className={classNameAndId} id={classNameAndId}>
         <div className="close-button">
           <SessionIconButton iconType="exit" iconSize="medium" onClick={onCloseOverlay} />
@@ -92,6 +92,6 @@ export const SelectionOverlay = () => {
           />
         </div>
       </div>
-    </FocusTrap>
+    </SessionFocusTrap>
   );
 };

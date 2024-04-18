@@ -14,7 +14,7 @@ const StyledActionRow = styled.button`
   display: flex;
   align-items: center;
   border-bottom: 1px var(--border-color) solid;
-  transition-duration: 0.25s;
+  transition-duration: var(--default-duration);
   width: 100%;
 
   &:first-child {

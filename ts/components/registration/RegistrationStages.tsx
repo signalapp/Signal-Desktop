@@ -15,7 +15,7 @@ import {
 } from '../../state/onboarding/selectors/registration';
 import { Storage } from '../../util/storage';
 import { Flex } from '../basic/Flex';
-import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
+import { SpacerSM, SpacerXL, SpacerXS } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { OnboardContainer } from './components';
 import { CreateAccount, RestoreAccount, Start } from './stages';
@@ -44,7 +44,7 @@ export const RegistrationStages = () => {
   return (
     <AnimatePresence>
       <StyledRegistrationContainer container={true} flexDirection="column">
-        <Flex container={true} alignItems="center">
+        <Flex container={true} alignItems="center" height={'30px'}>
           <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
           <SpacerXS />
           <div style={{ flexGrow: 1 }}>
@@ -82,7 +82,7 @@ export const RegistrationStages = () => {
         </Flex>
 
         <Flex container={true} flexDirection="column" alignItems="center">
-          <SpacerLG />
+          <SpacerXL />
           <OnboardContainer
             key={`${Onboarding[step]}-${step === Onboarding.CreateAccount ? AccountCreation[creationStep] : AccountRestoration[restorationStep]}`}
             animate={
