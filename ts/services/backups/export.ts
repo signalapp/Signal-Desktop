@@ -75,6 +75,7 @@ type GetRecipientIdOptionsType =
     }>;
 
 export class BackupExportStream extends Readable {
+  private readonly backupTimeMs = getSafeLongFromTimestamp(Date.now());
   private readonly convoIdToRecipientId = new Map<string, number>();
   private buffers = new Array<Uint8Array>();
   private nextRecipientId = 0;
@@ -102,7 +103,7 @@ export class BackupExportStream extends Readable {
     this.push(
       Backups.BackupInfo.encodeDelimited({
         version: Long.fromNumber(BACKUP_VERSION),
-        backupTimeMs: getSafeLongFromTimestamp(Date.now()),
+        backupTimeMs: this.backupTimeMs,
       }).finish()
     );
 
@@ -547,18 +548,26 @@ export class BackupExportStream extends Readable {
       return undefined;
     }
 
+    let expireStartDate: Long | undefined;
+    let expiresInMs: Long | undefined;
+    if (
+      message.expireTimer != null &&
+      message.expirationStartTimestamp != null
+    ) {
+      expireStartDate = getSafeLongFromTimestamp(
+        message.expirationStartTimestamp
+      );
+      expiresInMs = Long.fromNumber(
+        DurationInSeconds.toMillis(message.expireTimer)
+      );
+    }
+
     const result: Backups.IChatItem = {
       chatId,
       authorId,
       dateSent: getSafeLongFromTimestamp(message.sent_at),
-      expireStartDate:
-        message.expirationStartTimestamp != null
-          ? getSafeLongFromTimestamp(message.expirationStartTimestamp)
-          : null,
-      expiresInMs:
-        message.expireTimer != null
-          ? Long.fromNumber(DurationInSeconds.toMillis(message.expireTimer))
-          : null,
+      expireStartDate,
+      expiresInMs,
       revisions: [],
       sms: false,
       standardMessage: {
