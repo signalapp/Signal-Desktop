@@ -56,7 +56,7 @@ const StyledHR = styled.hr`
   color: var(--text-secondary-color);
   opacity: 0.5;
   width: 300px;
-  border-width: 0.5px;
+  border-width: 1px;
   margin: 40px 0 var(--margins-lg);
 `;
 
