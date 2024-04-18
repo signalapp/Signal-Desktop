@@ -291,7 +291,7 @@
     "csv-parse": "5.5.2",
     "danger": "11.1.2",
     "debug": "4.3.3",
-    "electron": "30.0.0",
+    "electron": "29.1.5",
     "electron-builder": "24.6.3",
     "electron-mocha": "12.2.0",
     "endanger": "7.0.4",
@@ -354,7 +354,7 @@
     "read-last-lines/mz/thenify-all/thenify": "3.3.1"
   },
   "engines": {
-    "node": "20.11.1"
+    "node": "20.9.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
