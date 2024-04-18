@@ -592,21 +592,23 @@ export class SocketManager extends EventListener {
       `SocketManager: connecting unauthenticated socket, transport option [${transportOption}]`
     );
 
+    let process: AbortableProcess<IWebSocketResource>;
+
     if (transportOption === TransportOption.Libsignal) {
-      this.unauthenticated = this.connectLibsignalUnauthenticated();
-      return this.unauthenticated.getResult();
+      process = this.connectLibsignalUnauthenticated();
+    } else {
+      process = this.connectResource({
+        name: UNAUTHENTICATED_CHANNEL_NAME,
+        path: '/v1/websocket/',
+        proxyAgent,
+        resourceOptions: {
+          name: UNAUTHENTICATED_CHANNEL_NAME,
+          keepalive: { path: '/v1/keepalive' },
+          transportOption,
+        },
+      });
     }
 
-    const process = this.connectResource({
-      name: UNAUTHENTICATED_CHANNEL_NAME,
-      path: '/v1/websocket/',
-      proxyAgent,
-      resourceOptions: {
-        name: UNAUTHENTICATED_CHANNEL_NAME,
-        keepalive: { path: '/v1/keepalive' },
-        transportOption,
-      },
-    });
     this.unauthenticated = process;
 
     let unauthenticated: IWebSocketResource;
