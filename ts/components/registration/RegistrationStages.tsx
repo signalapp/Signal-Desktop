@@ -15,7 +15,7 @@ import {
 } from '../../state/onboarding/selectors/registration';
 import { Storage } from '../../util/storage';
 import { Flex } from '../basic/Flex';
-import { SpacerLG, SpacerSM } from '../basic/Text';
+import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { OnboardContainer } from './components';
 import { CreateAccount, RestoreAccount, Start } from './stages';
@@ -46,9 +46,9 @@ export const RegistrationStages = () => {
       <StyledRegistrationContainer container={true} flexDirection="column">
         <Flex container={true} alignItems="center">
           <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
-          <SpacerSM />
+          <SpacerXS />
           <div style={{ flexGrow: 1 }}>
-            <SessionIcon iconSize={'small'} iconType="session" />
+            <SessionIcon iconSize={140} iconType="session" iconColor="var(--text-primary-color)" />
           </div>
           <Flex container={true} alignItems="center">
             <SessionIconButton

@@ -38,8 +38,6 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
       return 30;
     case 'huge2':
       return 40;
-    case 'max':
-      return 80;
     default:
       return 20;
   }

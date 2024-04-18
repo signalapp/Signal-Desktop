@@ -217,7 +217,7 @@ export const RestoreAccount = () => {
                   <OnboardHeading>{window.i18n('sessionRecoveryPassword')}</OnboardHeading>
                   <SessionIcon
                     iconType="recoveryPasswordOutline"
-                    iconSize="large"
+                    iconSize="huge"
                     iconColor="var(--text-primary-color)"
                     style={{ margin: '-4px 0 0 8px' }}
                   />

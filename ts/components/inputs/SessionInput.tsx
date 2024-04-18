@@ -84,8 +84,8 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
         padding={'0'}
         onClick={props.toggleForceShow}
         style={{
-          marginTop: '-0.5px',
-          marginRight: '0.25px',
+          marginTop: '-0.25px',
+          marginRight: '0.5px',
           position: 'absolute',
           top: '50%',
           transform: 'translateY(-50%)',

@@ -50,7 +50,7 @@ const StyledBanner = styled(Flex)`
 
   svg {
     margin-top: -3px;
-    margin-left: var(--margins-xs);
+    margin-left: var(--margins-sm);
   }
 `;
 

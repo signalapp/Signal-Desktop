@@ -21,7 +21,7 @@ const UploadImageButton = () => {
       <div style={{ borderRadius: '50%', overflow: 'hidden' }}>
         <SessionIconButton
           iconType="thumbnail"
-          iconSize="max"
+          iconSize={80}
           iconPadding="16px"
           backgroundColor="var(--chat-buttons-background-color)"
         />
