@@ -656,13 +656,10 @@ export default class WebSocketResource
     strictAssert(!this.shuttingDown, 'Cannot send request, shutting down');
     this.addActive(idString);
     const promise = new Promise<SendRequestResult>((resolve, reject) => {
-      const sentAt = Date.now();
-      let timedOut = false;
-
       let timer = options.timeout
         ? Timers.setTimeout(() => {
-            timedOut = true;
             this.removeActive(idString);
+            this.close(3001, 'Request timed out');
             reject(new Error(`Request timed out; id: [${idString}]`));
           }, options.timeout)
         : undefined;
@@ -672,16 +669,8 @@ export default class WebSocketResource
           Timers.clearTimeout(timer);
           timer = undefined;
         }
-        if (timedOut) {
-          log.warn(
-            `${this.logId}: Response received after timeout; ` +
-              `id: [${idString}], path: [${options.path}], ` +
-              `response time: ${Date.now() - sentAt}ms`
-          );
-        } else {
-          // Reset keepalive when an on-time response arrives
-          this.keepalive?.reset();
-        }
+
+        this.keepalive?.reset();
         this.removeActive(idString);
         resolve(result);
       });
