@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMount } from 'react-use';
 import styled from 'styled-components';
 import { getLeftPaneConversationIdsCount } from '../state/selectors/conversations';
 import { isSignWithRecoveryPhrase } from '../util/storage';
@@ -71,14 +69,8 @@ export const EmptyMessageView = () => {
   const conversationCount = useSelector(getLeftPaneConversationIdsCount);
   const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
 
-  const [newAccountCreated, setNewAccountCreated] = useState(false);
-
-  useMount(() => {
-    const launchCount = window.getSettingValue('launch-count');
-    if (!isSignInWithRecoveryPhrase && (!launchCount || launchCount < 1)) {
-      setNewAccountCreated(true);
-    }
-  });
+  const launchCount = window.getSettingValue('launch-count');
+  const newAccountCreated = !isSignInWithRecoveryPhrase && (!launchCount || launchCount < 1);
 
   return (
     <StyledPlaceholder
