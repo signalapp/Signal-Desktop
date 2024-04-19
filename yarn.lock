@@ -6574,12 +6574,13 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.3/libsession_util_nodejs-v0.3.3.tar.gz":
-  version "0.3.3"
-  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.3/libsession_util_nodejs-v0.3.3.tar.gz#952434abe6853b2cb8e684c1ec0f2ab14847502a"
+"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.4/libsession_util_nodejs-v0.3.4.tar.gz":
+  version "0.3.4"
+  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.4/libsession_util_nodejs-v0.3.4.tar.gz#e8ef383ae0dbb2e54060c23fe930e8649f189870"
   dependencies:
     cmake-js "^7.2.1"
     node-addon-api "^6.1.0"
+    run-script-os "^1.1.6"
 
 libsodium-sumo@^0.7.13:
   version "0.7.13"

@@ -96,7 +96,7 @@
     "fs-extra": "9.0.0",
     "glob": "7.1.2",
     "image-type": "^4.1.0",
-    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.3/libsession_util_nodejs-v0.3.3.tar.gz",
+    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.4/libsession_util_nodejs-v0.3.4.tar.gz",
     "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "^4.0.1",
     "lodash": "^4.17.21",
