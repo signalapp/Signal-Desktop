@@ -598,9 +598,13 @@ async function runDownloadAttachmentJobInner(
   const upgradedAttachment =
     await window.Signal.Migrations.processNewAttachment(downloaded);
 
-  await addAttachmentToMessage(message, omit(upgradedAttachment, 'error'), {
-    type,
-  });
+  await addAttachmentToMessage(
+    message,
+    omit(upgradedAttachment, ['error', 'pending']),
+    {
+      type,
+    }
+  );
 }
 
 function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
