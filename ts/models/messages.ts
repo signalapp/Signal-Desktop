@@ -47,7 +47,6 @@ import { isAciString } from '../util/isAciString';
 import * as reactionUtil from '../reactions/util';
 import * as Errors from '../types/errors';
 import type { AttachmentType } from '../types/Attachment';
-import { isImage, isVideo } from '../types/Attachment';
 import * as MIME from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
@@ -96,7 +95,6 @@ import {
   isTitleTransitionNotification,
 } from '../state/selectors/message';
 import type { ReactionAttributesType } from '../messageModifiers/Reactions';
-import { isInCall } from '../state/selectors/calling';
 import { ReactionSource } from '../reactions/ReactionSource';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
@@ -2371,23 +2369,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // Only queue attachments for downloads if this is a story (with additional logic), or
     // if it's either an outgoing message or we've accepted the conversation
-    let shouldDownloadNow = false;
-    const attachments = this.get('attachments') || [];
-    const reduxState = window.reduxStore.getState();
-
+    let shouldQueueForDownload = false;
     if (isStory(this.attributes)) {
-      shouldDownloadNow = await shouldDownloadStory(conversation.attributes);
+      shouldQueueForDownload = await shouldDownloadStory(
+        conversation.attributes
+      );
     } else {
-      const isVisualMediaAndUserInCall =
-        isInCall(reduxState) && (isImage(attachments) || isVideo(attachments));
-
-      shouldDownloadNow =
+      shouldQueueForDownload =
         this.hasAttachmentDownloads() &&
-        (conversation.getAccepted() || isOutgoing(this.attributes)) &&
-        !isVisualMediaAndUserInCall;
+        (conversation.getAccepted() || isOutgoing(this.attributes));
     }
 
-    if (shouldDownloadNow) {
+    if (shouldQueueForDownload) {
       if (shouldUseAttachmentDownloadQueue()) {
         addToAttachmentDownloadQueue(idLog, this);
       } else {

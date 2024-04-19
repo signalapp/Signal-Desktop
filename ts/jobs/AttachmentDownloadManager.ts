@@ -243,7 +243,7 @@ export class AttachmentDownloadManager {
 
     return {
       ...attachment,
-      pending: true,
+      pending: !this.shouldHoldOffOnStartingQueuedJobs(),
     };
   }
 
@@ -300,13 +300,6 @@ export class AttachmentDownloadManager {
         return;
       }
 
-      if (this.isInCall()) {
-        log.info(
-          'AttachmentDownloadManager/_maybeStartJobs: holding off on starting new jobs; in call'
-        );
-        return;
-      }
-
       const numJobsToStart = this.getMaximumNumberOfJobsToStart();
 
       if (numJobsToStart <= 0) {
@@ -322,6 +315,17 @@ export class AttachmentDownloadManager {
         prioritizeMessageIds: [...this.visibleTimelineMessages],
         timestamp: Date.now(),
       });
+
+      if (nextJobs.length === 0) {
+        return;
+      }
+
+      if (this.shouldHoldOffOnStartingQueuedJobs()) {
+        log.info(
+          `AttachmentDownloadManager/_maybeStartJobs: holding off on starting ${nextJobs.length} new job(s)`
+        );
+        return;
+      }
 
       // TODO (DESKTOP-6913): if a prioritized job is selected, we will to update the
       // in-memory job with that information so we can handle it differently, including
@@ -395,6 +399,7 @@ export class AttachmentDownloadManager {
       lastAttemptTimestamp: now,
     });
   }
+
   private getActiveJobCount(): number {
     return this.activeJobs.size;
   }
@@ -428,7 +433,7 @@ export class AttachmentDownloadManager {
     if (this.isJobRunning(job)) {
       const jobIdForLogging = getJobIdForLogging(job);
       log.warn(
-        `attachmentDownloads/_addRunningJob: job ${jobIdForLogging} is already running`
+        `AttachmentDownloadManager/addRunningJob: job ${jobIdForLogging} is already running`
       );
     }
     this.activeJobs.set(this.getJobId(job), {
@@ -450,6 +455,10 @@ export class AttachmentDownloadManager {
   private getJobId(job: AttachmentDownloadJobIdentifiersType): string {
     const { messageId, attachmentType, digest } = job;
     return `${messageId}.${attachmentType}.${digest}`;
+  }
+
+  private shouldHoldOffOnStartingQueuedJobs(): boolean {
+    return this.isInCall();
   }
 
   // Static methods
@@ -488,7 +497,7 @@ async function runDownloadAttachmentJob(
   isLastAttempt: boolean
 ): Promise<JobResultType> {
   const jobIdForLogging = getJobIdForLogging(job);
-  const logId = `attachment_downloads/runDownloadAttachmentJob/${jobIdForLogging}`;
+  const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
 
   const message = await __DEPRECATED$getMessageById(job.messageId);
 
@@ -511,6 +520,7 @@ async function runDownloadAttachmentJob(
       await addAttachmentToMessage(
         message,
         _markAttachmentAsTooBig(job.attachment),
+        logId,
         { type: job.attachmentType }
       );
       return { status: 'finished' };
@@ -520,6 +530,7 @@ async function runDownloadAttachmentJob(
       await addAttachmentToMessage(
         message,
         _markAttachmentAsPermanentlyErrored(job.attachment),
+        logId,
         { type: job.attachmentType }
       );
 
@@ -530,6 +541,7 @@ async function runDownloadAttachmentJob(
       await addAttachmentToMessage(
         message,
         _markAttachmentAsTransientlyErrored(job.attachment),
+        logId,
         { type: job.attachmentType }
       );
       return { status: 'finished' };
@@ -542,6 +554,7 @@ async function runDownloadAttachmentJob(
         ...job.attachment,
         pending: false,
       },
+      logId,
       { type: job.attachmentType }
     );
     return { status: 'retry' };
@@ -561,7 +574,7 @@ async function runDownloadAttachmentJobInner(
   const { messageId, attachment, attachmentType: type } = job;
 
   const jobIdForLogging = getJobIdForLogging(job);
-  const logId = `attachment_downloads/_runDownloadJobInner(${jobIdForLogging})`;
+  const logId = `AttachmentDownloadManager/runDownloadJobInner(${jobIdForLogging})`;
 
   if (!job || !attachment || !messageId) {
     throw new Error(`${logId}: Key information required for job was missing.`);
@@ -590,6 +603,7 @@ async function runDownloadAttachmentJobInner(
   await addAttachmentToMessage(
     message,
     { ...attachment, pending: true },
+    logId,
     { type }
   );
 
@@ -601,6 +615,7 @@ async function runDownloadAttachmentJobInner(
   await addAttachmentToMessage(
     message,
     omit(upgradedAttachment, ['error', 'pending']),
+    logId,
     {
       type,
     }

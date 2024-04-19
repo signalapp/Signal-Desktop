@@ -11,13 +11,14 @@ import { getAttachmentSignature, isDownloaded } from '../types/Attachment';
 export async function addAttachmentToMessage(
   message: MessageModel | null | undefined,
   attachment: AttachmentType,
+  jobLogId: string,
   { type }: { type: AttachmentDownloadJobTypeType }
 ): Promise<void> {
   if (!message) {
     return;
   }
 
-  const logPrefix = `${message.idForLogging()} (type: ${type})`;
+  const logPrefix = `${jobLogId}/addAttachmentToMessage`;
   const attachmentSignature = getAttachmentSignature(attachment);
 
   if (type === 'long-message') {
