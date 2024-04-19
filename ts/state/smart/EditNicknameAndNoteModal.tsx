@@ -25,14 +25,19 @@ export const SmartEditNicknameAndNoteModal = memo(
       'EditNicknameAndNoteModal requires conversation'
     );
 
-    const { toggleEditNicknameAndNoteModal } = useGlobalModalActions();
+    const { toggleEditNicknameAndNoteModal, toggleNotePreviewModal } =
+      useGlobalModalActions();
     const { updateNicknameAndNote } = useConversationsActions();
 
     const handleSave = useCallback(
       (nicknameAndNote: NicknameAndNote) => {
+        // Ensure we don't re-open the note preview modal if there's no note.
+        if (nicknameAndNote.note == null) {
+          toggleNotePreviewModal(null);
+        }
         updateNicknameAndNote(conversationId, nicknameAndNote);
       },
-      [conversationId, updateNicknameAndNote]
+      [conversationId, updateNicknameAndNote, toggleNotePreviewModal]
     );
 
     const handleClose = useCallback(() => {
