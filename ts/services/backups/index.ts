@@ -40,8 +40,13 @@ export class BackupsService {
   public readonly api = new BackupAPI(this.credentials);
 
   public start(): void {
-    strictAssert(!this.isStarted, 'Already started');
+    if (this.isStarted) {
+      log.warn('BackupsService: already started');
+      return;
+    }
+
     this.isStarted = true;
+    log.info('BackupsService: starting...');
 
     setInterval(() => {
       drop(this.runPeriodicRefresh());

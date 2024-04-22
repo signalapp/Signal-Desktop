@@ -76,7 +76,7 @@ export class BackupCredentials {
     );
 
     const serverPublicParams = new GenericServerPublicParams(
-      Buffer.from(window.getGenericServerPublicParams(), 'base64')
+      Buffer.from(window.getBackupServerPublicParams(), 'base64')
     );
 
     const presentation = cred.present(serverPublicParams).serialize();
@@ -145,7 +145,7 @@ export class BackupCredentials {
       this.fetchBackoff.reset();
       this.scheduleFetch();
     } catch (error) {
-      const delay = this.fetchBackoff.get();
+      const delay = this.fetchBackoff.getAndIncrement();
       log.error(
         'BackupCredentials: periodic fetch failed with ' +
           `error: ${toLogFormat(error)}, retrying in ${delay}ms`
@@ -174,7 +174,7 @@ export class BackupCredentials {
 
     const now = Date.now();
     const startDayInMs = toDayMillis(now);
-    const endDayInMs = now + 6 * DAY;
+    const endDayInMs = toDayMillis(now + 6 * DAY);
 
     // And fetch missing credentials
     const ctx = getAuthContext();
@@ -214,7 +214,7 @@ export class BackupCredentials {
     log.info(`BackupCredentials: got ${response.credentials.length}`);
 
     const serverPublicParams = new GenericServerPublicParams(
-      Buffer.from(window.getGenericServerPublicParams(), 'base64')
+      Buffer.from(window.getBackupServerPublicParams(), 'base64')
     );
 
     const result = new Array<BackupCredentialType>();

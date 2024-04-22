@@ -194,6 +194,7 @@ declare global {
     getInteractionMode: () => 'mouse' | 'keyboard';
     getServerPublicParams: () => string;
     getGenericServerPublicParams: () => string;
+    getBackupServerPublicParams: () => string;
     getSfuUrl: () => string;
     getIceServerOverride: () => string;
     getSocketStatus: () => SocketStatus;

@@ -2469,6 +2469,7 @@ ipc.on('get-config', async event => {
     serverPublicParams: config.get<string>('serverPublicParams'),
     serverTrustRoot: config.get<string>('serverTrustRoot'),
     genericServerPublicParams: config.get<string>('genericServerPublicParams'),
+    backupServerPublicParams: config.get<string>('backupServerPublicParams'),
     theme,
     appStartInitialSpellcheckSetting,
 
