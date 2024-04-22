@@ -30,13 +30,14 @@ const StyledInputContainer = styled(Flex)<{ error: boolean }>`
     }
   }
 
-  input::placeholder {
+  input::placeholder,
+  textarea::placeholder {
     transition: opacity var(--default-duration) color var(--default-duration);
     ${props => props.error && `color: var(--danger-color); opacity: 1;`}
   }
 `;
 
-const StyledInput = styled(motion.input)`
+const StyledInput = styled(motion.input)<{ centerText?: boolean }>`
   border: 1px solid var(--input-border-color);
   border-radius: 13px;
   outline: 0;
@@ -48,9 +49,57 @@ const StyledInput = styled(motion.input)`
   font-size: 12px;
   line-height: 14px;
   padding: var(--margins-lg);
+  ${props => props.centerText && 'text-align: center;'}
 
   ::placeholder {
     color: var(--input-text-placeholder-color);
+    ${props => props.centerText && 'text-align: center;'}
+  }
+`;
+
+const StyledTextAreaContainer = styled(motion.div)<{ centerText?: boolean }>`
+  border: 1px solid var(--input-border-color);
+  border-radius: 13px;
+  outline: 0;
+  width: 100%;
+  background: transparent;
+  color: var(--input-text-color);
+
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+  min-height: 100px;
+  line-height: 18px;
+
+  ${props => props.centerText && 'text-align: center;'}
+
+  textarea {
+    width: 100%;
+    outline: 0;
+    border: none;
+    background: transparent;
+
+    resize: none;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    user-select: all;
+
+    display: inline-block;
+    padding: var(--margins-lg);
+    margin: var(--margins-xs) 0;
+
+    ${props => props.centerText && 'text-align: center;'}
+
+    :placeholder-shown {
+      font-family: var(--font-default);
+      height: 28px;
+      margin: var(--margins-md) 0;
+      padding: var(--margins-xl);
+    }
+
+    ::placeholder {
+      color: var(--input-text-placeholder-color);
+      ${props => props.centerText && 'text-align: center;'}
+    }
   }
 `;
 
@@ -123,6 +172,9 @@ type Props = {
   inputDataTestId?: string;
   id?: string;
   ctaButton?: ReactNode;
+  /** Gives us a textarea with a monospace font. Mostly used for joining conversations, groups or communities */
+  isSpecial?: boolean;
+  centerText?: boolean;
 };
 
 export const SessionInput = (props: Props) => {
@@ -140,6 +192,8 @@ export const SessionInput = (props: Props) => {
     inputDataTestId,
     id = 'session-input-floating-label',
     ctaButton,
+    isSpecial,
+    centerText,
   } = props;
   const [inputValue, setInputValue] = useState('');
   const [errorString, setErrorString] = useState('');
@@ -154,6 +208,38 @@ export const SessionInput = (props: Props) => {
     if (onValueChanged) {
       onValueChanged(val);
     }
+  };
+
+  // TODO[epic=893] Type inputProps properly
+  const inputProps: any = {
+    id,
+    type: correctType,
+    placeholder,
+    value,
+    maxLength,
+    autoFocus,
+    'data-testid': inputDataTestId,
+    onChange: updateInputValue,
+    style: { paddingInlineEnd: enableShowHide ? '48px' : undefined },
+    // just in case onChange isn't triggered
+    onBlur: (event: ChangeEvent<HTMLInputElement>) => {
+      if (!disabledOnBlur) {
+        updateInputValue(event);
+      }
+    },
+    onKeyDown: (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && onEnterPressed) {
+        onEnterPressed(inputValue);
+        setErrorString('');
+      }
+    },
+    initial: {
+      borderColor: errorString ? 'var(--input-border-color)' : undefined,
+    },
+    animate: {
+      borderColor: errorString ? 'var(--danger-color)' : undefined,
+    },
+    transition: { duration: THEME_GLOBALS['--default-duration-seconds'] },
   };
 
   // if we have an error, we want to show it even if the input changes to a valid value
@@ -172,36 +258,13 @@ export const SessionInput = (props: Props) => {
       error={Boolean(errorString)}
     >
       <Flex container={true} width="100%" alignItems="center" style={{ position: 'relative' }}>
-        <StyledInput
-          id={id}
-          type={correctType}
-          placeholder={placeholder}
-          value={value}
-          maxLength={maxLength}
-          autoFocus={autoFocus}
-          data-testid={inputDataTestId}
-          onChange={updateInputValue}
-          style={{ paddingInlineEnd: enableShowHide ? '48px' : undefined }}
-          // just in case onChange isn't triggered
-          onBlur={(event: ChangeEvent<HTMLInputElement>) => {
-            if (!disabledOnBlur) {
-              updateInputValue(event);
-            }
-          }}
-          onKeyDown={event => {
-            if (event.key === 'Enter' && onEnterPressed) {
-              onEnterPressed(inputValue);
-              setErrorString('');
-            }
-          }}
-          initial={{
-            borderColor: errorString ? 'var(--input-border-color)' : undefined,
-          }}
-          animate={{
-            borderColor: errorString ? 'var(--danger-color)' : undefined,
-          }}
-          transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
-        />
+        {isSpecial ? (
+          <StyledTextAreaContainer centerText={centerText}>
+            <textarea {...inputProps} />
+          </StyledTextAreaContainer>
+        ) : (
+          <StyledInput {...inputProps} centerText={centerText} />
+        )}
         {enableShowHide && (
           <ShowHideButton
             forceShow={forceShow}

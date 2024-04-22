@@ -10,14 +10,14 @@ import { ToastUtils, UserUtils } from '../../../session/utils';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
-import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../loading';
 
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
 import { Flex } from '../../basic/Flex';
-import { SpacerMD } from '../../basic/Text';
+import { SpacerLG, SpacerMD } from '../../basic/Text';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
 import { SessionIconButton } from '../../icon';
+import { SessionInput } from '../../inputs';
 
 const SessionIDDescription = styled.div`
   color: var(--text-secondary-color);
@@ -49,7 +49,7 @@ export const OverlayMessage = () => {
   const [loading, setLoading] = useState(false);
 
   const buttonText = window.i18n('next');
-  const placeholder = window.i18n('accountIdEnterYourFriends');
+  const placeholder = window.i18n('accountIdOrOnsEnter');
 
   const disableNextButton = !pubkeyOrOns || loading;
 
@@ -111,13 +111,29 @@ export const OverlayMessage = () => {
 
   return (
     <div className="module-left-pane-overlay">
-      <SessionIdEditable
+      {/* TODO[epic=893] Replace everywhere and test new error handling */}
+      {/* <SessionIdEditable
         editable={!loading}
         placeholder={placeholder}
         onChange={setPubkeyOrOns}
         dataTestId="new-session-conversation"
         onPressEnter={handleMessageButtonClick}
-      />
+      /> */}
+
+      <div style={{ width: '90%', margin: '0 auto' }}>
+        <SessionInput
+          autoFocus={true}
+          type="text"
+          placeholder={placeholder}
+          value={pubkeyOrOns}
+          onValueChanged={setPubkeyOrOns}
+          onEnterPressed={handleMessageButtonClick}
+          inputDataTestId="new-session-conversation"
+          isSpecial={true}
+          centerText={true}
+        />
+      </div>
+      <SpacerLG />
 
       <SessionSpinner loading={loading} />
 

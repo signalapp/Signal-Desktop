@@ -3,7 +3,7 @@
   "accept": "Accept",
   "accountIDCopy": "Copy Account ID",
   "accountIdEnter": "Enter Account ID",
-  "accountIdEnterYourFriends": "Enter your friend's Account ID or ONS",
+  "accountIdOrOnsEnter": "Enter Account ID or ONS",
   "accountIdYours": "Your Account ID",
   "accountIdErrorInvalid": "This Account ID is invalid. Please check and try again.",
   "activeMembers": "$count$ active members",
