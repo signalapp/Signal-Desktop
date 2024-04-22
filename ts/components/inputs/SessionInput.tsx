@@ -71,8 +71,13 @@ const ErrorItem = (props: { id: string; error: string }) => {
 
 const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; error: boolean }) => {
   const htmlDirection = useHTMLDirection();
-  const position =
-    htmlDirection === 'ltr' ? { right: 'var(--margins-md)' } : { left: 'var(--margins-md)' };
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    left: htmlDirection === 'ltr' ? undefined : 'var(--margins-sm)',
+    right: htmlDirection === 'ltr' ? 'var(--margins-sm)' : undefined,
+  };
 
   if (props.forceShow) {
     return (
@@ -80,17 +85,8 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
         iconType={'eyeDisabled'}
         iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
         iconSize="huge"
-        iconPadding="1.25px"
-        padding={'0'}
         onClick={props.toggleForceShow}
-        style={{
-          marginTop: '-0.25px',
-          marginRight: '0.5px',
-          position: 'absolute',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          ...position,
-        }}
+        style={style}
         dataTestId="reveal-recovery-phrase-toggle"
       />
     );
@@ -100,9 +96,9 @@ const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; erro
     <SessionIconButton
       iconType={'eye'}
       iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
-      iconSize="medium"
+      iconSize="huge"
       onClick={props.toggleForceShow}
-      style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', ...position }}
+      style={style}
       dataTestId="reveal-recovery-phrase-toggle"
     />
   );
