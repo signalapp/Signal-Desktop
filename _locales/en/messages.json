@@ -109,6 +109,7 @@
   "copiedToClipboard": "Copied",
   "copyErrorAndQuit": "Copy error and quit",
   "copyMessage": "Copy message text",
+  "copyOpenGroupURL": "Copy Group URL",
   "couldntFindServerMatching": "Couldn't find the corresponding Community server",
   "create": "Create",
   "createClosedGroupPlaceholder": "Enter a group name",

@@ -109,6 +109,7 @@ export type LocalizerKeys =
   | 'copiedToClipboard'
   | 'copyErrorAndQuit'
   | 'copyMessage'
+  | 'copyOpenGroupURL'
   | 'couldntFindServerMatching'
   | 'create'
   | 'createClosedGroupPlaceholder'
