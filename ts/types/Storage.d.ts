@@ -6,7 +6,6 @@ import type {
   CustomColorsItemType,
   DefaultConversationColorType,
 } from './Colors';
-import type { AudioDeviceModule } from '../calling/audioDeviceModule';
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
@@ -170,7 +169,7 @@ export type StorageAccessType = {
   // Deprecated
   'challenge:retry-message-ids': never;
   nextSignedKeyRotationTime: number;
-  previousAudioDeviceModule: AudioDeviceModule;
+  previousAudioDeviceModule: never;
   senderCertificateWithUuid: never;
   signaling_key: never;
   signedKeyRotationRejected: number;
