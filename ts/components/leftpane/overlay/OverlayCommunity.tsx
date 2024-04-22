@@ -15,7 +15,6 @@ import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../loading';
-import { OverlayHeader } from './OverlayHeader';
 
 import {
   markConversationInitialLoadingInProgress,
@@ -79,14 +78,11 @@ export const OverlayCommunity = () => {
 
   useKey('Escape', closeOverlay);
 
-  const title = window.i18n('joinOpenGroup');
   const buttonText = window.i18n('join');
-  const subtitle = window.i18n('openGroupURL');
   const placeholder = window.i18n('enterAnOpenGroupURL');
 
   return (
     <div className="module-left-pane-overlay">
-      <OverlayHeader title={title} subtitle={subtitle} />
       <div className="create-group-name-input">
         <SessionIdEditable
           editable={true}

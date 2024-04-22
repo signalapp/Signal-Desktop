@@ -12,7 +12,6 @@ import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../loading';
-import { OverlayHeader } from './OverlayHeader';
 
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
 import { Flex } from '../../basic/Flex';
@@ -49,9 +48,7 @@ export const OverlayMessage = () => {
   const [pubkeyOrOns, setPubkeyOrOns] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const title = window.i18n('newMessage');
   const buttonText = window.i18n('next');
-  const subtitle = window.i18n('accountIdEnter');
   const placeholder = window.i18n('accountIdEnterYourFriends');
 
   const disableNextButton = !pubkeyOrOns || loading;
@@ -114,8 +111,6 @@ export const OverlayMessage = () => {
 
   return (
     <div className="module-left-pane-overlay">
-      <OverlayHeader title={title} subtitle={subtitle} />
-
       <SessionIdEditable
         editable={!loading}
         placeholder={placeholder}

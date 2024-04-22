@@ -1,16 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
-import { SectionType } from '../../state/ducks/section';
+import { SectionType, setLeftOverlayMode } from '../../state/ducks/section';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
-import { getFocusedSection, getIsMessageRequestOverlayShown } from '../../state/selectors/section';
+import { getFocusedSection, getLeftOverlayMode } from '../../state/selectors/section';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
 import { SpacerMD } from '../basic/Text';
 import { MenuButton } from '../buttons';
-import { SessionIcon } from '../icon';
+import { SessionIcon, SessionIconButton } from '../icon';
+
+const StyledLeftPaneSectionHeader = styled(Flex)`
+  height: var(--main-view-header-height);
+  padding-inline-end: 7px;
+  transition: var(--default-duration);
+`;
 
 const SectionTitle = styled.h1`
   padding-top: var(--margins-xs);
@@ -117,30 +123,68 @@ export const LeftPaneBanner = () => {
 export const LeftPaneSectionHeader = () => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
   const focusedSection = useSelector(getFocusedSection);
-  const isMessageRequestOverlayShown = useSelector(getIsMessageRequestOverlayShown);
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
+
+  const dispatch = useDispatch();
+  const returnToActionChooser = () => {
+    dispatch(setLeftOverlayMode('choose-action'));
+  };
 
   let label: string | undefined;
 
   const isMessageSection = focusedSection === SectionType.Message;
+
+  let leftOverlayHeading = '';
+
+  switch (leftOverlayMode) {
+    case 'open-group':
+      leftOverlayHeading = window.i18n('joinOpenGroup');
+      break;
+    case 'closed-group':
+      leftOverlayHeading = window.i18n('createGroup');
+      break;
+    case 'message':
+      leftOverlayHeading = window.i18n('newMessage');
+      break;
+    case 'message-requests':
+      leftOverlayHeading = window.i18n('messageRequests');
+      break;
+    case 'choose-action':
+    default:
+      leftOverlayHeading = window.i18n('messagesHeader');
+  }
 
   switch (focusedSection) {
     case SectionType.Settings:
       label = window.i18n('settingsHeader');
       break;
     case SectionType.Message:
-      label = isMessageRequestOverlayShown
-        ? window.i18n('messageRequests')
-        : window.i18n('messagesHeader');
+      label = leftOverlayHeading;
       break;
     default:
   }
 
   return (
     <Flex flexDirection="column">
-      <div className="module-left-pane__header">
+      <StyledLeftPaneSectionHeader
+        container={true}
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        {leftOverlayMode &&
+        leftOverlayMode !== 'choose-action' &&
+        leftOverlayMode !== 'message-requests' ? (
+          <SessionIconButton
+            iconSize="medium"
+            iconType="chevron"
+            iconRotation={90}
+            onClick={returnToActionChooser}
+          />
+        ) : null}
         <SectionTitle>{label}</SectionTitle>
         {isMessageSection && <MenuButton />}
-      </div>
+      </StyledLeftPaneSectionHeader>
       {showRecoveryPhrasePrompt && <LeftPaneBanner />}
     </Flex>
   );

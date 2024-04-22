@@ -80,16 +80,6 @@ $session-compose-margin: 20px;
     height: 100%;
   }
 
-  &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: var(--main-view-header-height);
-    padding-inline-end: 7px;
-    transition: var(--default-duration);
-  }
-
   &__title {
     padding-inline-end: var(--margins-sm);
     padding-inline-start: var(--margins-sm);

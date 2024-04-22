@@ -8,7 +8,6 @@ import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../loading';
 import { MemberListItem } from '../../MemberListItem';
-import { OverlayHeader } from './OverlayHeader';
 
 import { useSet } from '../../../hooks/useSet';
 import { VALIDATION } from '../../../session/constants';
@@ -120,9 +119,7 @@ export const OverlayClosedGroup = () => {
 
   useKey('Escape', closeOverlay);
 
-  const title = window.i18n('createGroup');
   const buttonText = window.i18n('create');
-  const subtitle = window.i18n('createClosedGroupNamePrompt');
   const placeholder = window.i18n('createClosedGroupPlaceholder');
 
   const noContactsForClosedGroup = privateContactsPubkeys.length === 0;
@@ -133,7 +130,6 @@ export const OverlayClosedGroup = () => {
 
   return (
     <div className="module-left-pane-overlay">
-      <OverlayHeader title={title} subtitle={subtitle} />
       <div className="create-group-name-input">
         <SessionIdEditable
           editable={!noContactsForClosedGroup}
