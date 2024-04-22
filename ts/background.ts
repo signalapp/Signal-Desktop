@@ -190,6 +190,7 @@ import {
   getCallLinksForRedux,
   loadCallLinks,
 } from './services/callLinksLoader';
+import { backupsService } from './services/backups';
 import {
   getCallIdFromEra,
   updateLocalGroupCallHistoryTimestamp,
@@ -698,6 +699,8 @@ export async function startApp(): Promise<void> {
       events: window.Whisper.events,
       storage: window.storage,
     });
+
+    backupsService.start();
 
     areWeASubscriberService.update(window.storage, server);
 

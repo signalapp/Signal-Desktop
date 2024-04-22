@@ -11,47 +11,48 @@ import { noop } from 'lodash';
 
 import * as log from '../../logging/log';
 import * as Bytes from '../../Bytes';
+import { strictAssert } from '../../util/assert';
+import { drop } from '../../util/drop';
 import { DelimitedStream } from '../../util/DelimitedStream';
 import { appendPaddingStream } from '../../util/logPadding';
 import { prependStream } from '../../util/prependStream';
 import { appendMacStream } from '../../util/appendMacStream';
-import { toAciObject } from '../../util/ServiceId';
+import { HOUR } from '../../util/durations';
 import { CipherType, HashType } from '../../types/Crypto';
 import * as Errors from '../../types/errors';
-import {
-  deriveBackupKey,
-  deriveBackupId,
-  deriveBackupKeyMaterial,
-  constantTimeEqual,
-} from '../../Crypto';
-import type { BackupKeyMaterialType } from '../../Crypto';
+import { constantTimeEqual } from '../../Crypto';
 import { getIvAndDecipher, getMacAndUpdateHmac } from '../../AttachmentCrypto';
 import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
+import { getKeyMaterial } from './crypto';
+import { BackupCredentials } from './credentials';
+import { BackupAPI } from './api';
 
 const IV_LENGTH = 16;
 
-function getKeyMaterial(): BackupKeyMaterialType {
-  const masterKey = window.storage.get('masterKey');
-  if (!masterKey) {
-    throw new Error('Master key not available');
-  }
-
-  const aci = toAciObject(window.storage.user.getCheckedAci());
-  const aciBytes = aci.getServiceIdBinary();
-
-  const backupKey = deriveBackupKey(Bytes.fromBase64(masterKey));
-  const backupId = deriveBackupId(backupKey, aciBytes);
-  return deriveBackupKeyMaterial(backupKey, backupId);
-}
+const BACKUP_REFRESH_INTERVAL = 24 * HOUR;
 
 export class BackupsService {
+  private isStarted = false;
   private isRunning = false;
 
+  public readonly credentials = new BackupCredentials();
+  public readonly api = new BackupAPI(this.credentials);
+
+  public start(): void {
+    strictAssert(!this.isStarted, 'Already started');
+    this.isStarted = true;
+
+    setInterval(() => {
+      drop(this.runPeriodicRefresh());
+    }, BACKUP_REFRESH_INTERVAL);
+
+    drop(this.runPeriodicRefresh());
+    this.credentials.start();
+  }
+
   public async exportBackup(sink: Writable): Promise<void> {
-    if (this.isRunning) {
-      throw new Error('BackupService is already running');
-    }
+    strictAssert(!this.isRunning, 'BackupService is already running');
 
     log.info('exportBackup: starting...');
     this.isRunning = true;
@@ -108,9 +109,7 @@ export class BackupsService {
   }
 
   public async importBackup(createBackupStream: () => Readable): Promise<void> {
-    if (this.isRunning) {
-      throw new Error('BackupService is already running');
-    }
+    strictAssert(!this.isRunning, 'BackupService is already running');
 
     log.info('importBackup: starting...');
     this.isRunning = true;
@@ -134,13 +133,11 @@ export class BackupsService {
         sink
       );
 
-      if (theirMac == null) {
-        throw new Error('importBackup: Missing MAC');
-      }
-
-      if (!constantTimeEqual(hmac.digest(), theirMac)) {
-        throw new Error('importBackup: Bad MAC');
-      }
+      strictAssert(theirMac != null, 'importBackup: Missing MAC');
+      strictAssert(
+        constantTimeEqual(hmac.digest(), theirMac),
+        'importBackup: Bad MAC'
+      );
 
       // Second pass - decrypt (but still check the mac at the end)
       hmac = createHmac(HashType.size256, macKey);
@@ -154,9 +151,10 @@ export class BackupsService {
         new BackupImportStream()
       );
 
-      if (!constantTimeEqual(hmac.digest(), theirMac)) {
-        throw new Error('importBackup: Bad MAC, second pass');
-      }
+      strictAssert(
+        constantTimeEqual(hmac.digest(), theirMac),
+        'importBackup: Bad MAC, second pass'
+      );
 
       log.info('importBackup: finished...');
     } catch (error) {
@@ -164,6 +162,15 @@ export class BackupsService {
       throw error;
     } finally {
       this.isRunning = false;
+    }
+  }
+
+  private async runPeriodicRefresh(): Promise<void> {
+    try {
+      await this.api.refresh();
+      log.info('Backup: refreshed');
+    } catch (error) {
+      log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
     }
   }
 }
