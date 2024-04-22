@@ -39,6 +39,7 @@ import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
+import { isBackupEnabled } from './util/isBackupEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
@@ -699,8 +700,6 @@ export async function startApp(): Promise<void> {
       events: window.Whisper.events,
       storage: window.storage,
     });
-
-    backupsService.start();
 
     areWeASubscriberService.update(window.storage, server);
 
@@ -1668,6 +1667,10 @@ export async function startApp(): Promise<void> {
         const me = window.ConversationController.getOurConversation();
         strictAssert(me !== undefined, "Didn't find newly created ourselves");
         await me.setProfileKey(Bytes.toBase64(profileKey));
+      }
+
+      if (isBackupEnabled()) {
+        backupsService.start();
       }
 
       if (connectCount === 0) {

@@ -65,6 +65,7 @@ export const rendererConfigSchema = z.object({
   serverPublicParams: configRequiredStringSchema,
   serverTrustRoot: configRequiredStringSchema,
   genericServerPublicParams: configRequiredStringSchema,
+  backupServerPublicParams: configRequiredStringSchema,
   serverUrl: configRequiredStringSchema,
   sfuUrl: configRequiredStringSchema,
   storageUrl: configRequiredStringSchema,

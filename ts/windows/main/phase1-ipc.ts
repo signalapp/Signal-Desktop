@@ -56,6 +56,7 @@ window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.getServerPublicParams = () => config.serverPublicParams;
 window.getGenericServerPublicParams = () => config.genericServerPublicParams;
+window.getBackupServerPublicParams = () => config.backupServerPublicParams;
 window.getSfuUrl = () => config.sfuUrl;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
