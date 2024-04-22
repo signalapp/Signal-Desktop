@@ -154,6 +154,31 @@ export function deriveBackupKey(masterKey: Uint8Array): Uint8Array {
   );
 }
 
+const BACKUP_SIGNATURE_KEY_LEN = 32;
+const BACKUP_SIGNATURE_KEY_INFO =
+  '20231003_Signal_Backups_GenerateBackupIdKeyPair';
+
+export function deriveBackupSignatureKey(
+  backupKey: Uint8Array,
+  aciBytes: Uint8Array
+): Uint8Array {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveBackupId: invalid backup key length');
+  }
+
+  if (aciBytes.byteLength !== UUID_BYTE_SIZE) {
+    throw new Error('deriveBackupId: invalid aci length');
+  }
+
+  const hkdf = HKDF.new(3);
+  return hkdf.deriveSecrets(
+    BACKUP_SIGNATURE_KEY_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_SIGNATURE_KEY_INFO),
+    Buffer.from(aciBytes)
+  );
+}
+
 const BACKUP_ID_LEN = 16;
 const BACKUP_ID_INFO = '20231003_Signal_Backups_GenerateBackupId';
 

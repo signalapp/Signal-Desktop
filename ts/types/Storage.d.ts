@@ -18,6 +18,7 @@ import type {
   SessionResetsType,
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
+import type { BackupCredentialType } from './backups';
 import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
@@ -134,6 +135,9 @@ export type StorageAccessType = {
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: ReadonlyArray<GroupCredentialType>;
   callLinkAuthCredentials: ReadonlyArray<GroupCredentialType>;
+  backupCredentials: ReadonlyArray<BackupCredentialType>;
+  backupCredentialsLastRequestTime: number;
+  setBackupSignatureKey: boolean;
   lastReceivedAtCounter: number;
   preferredReactionEmoji: ReadonlyArray<string>;
   skinTone: number;
