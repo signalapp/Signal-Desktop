@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { switchThemeTo } from '../themes/switchTheme';
 import { SessionTheme } from '../themes/SessionTheme';
-import { fetch } from '../util/logging';
+import { fetchNodeLog } from '../util/logging';
 import { SessionButton, SessionButtonType } from './basic/SessionButton';
 import { SessionIconButton } from './icon';
 
@@ -78,7 +78,7 @@ const DebugLogViewAndSave = () => {
     const commitHashInfo = window.getCommitHash() ? `Commit Hash: ${window.getCommitHash()}` : '';
 
     // eslint-disable-next-line more/no-then
-    fetch()
+    fetchNodeLog()
       .then((text: any) => {
         const debugLogWithSystemInfo = `${operatingSystemInfo} ${commitHashInfo} ${text}`;
         setContent(debugLogWithSystemInfo);
