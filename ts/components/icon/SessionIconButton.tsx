@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import _ from 'lodash';
 import { KeyboardEvent, MouseEvent, ReactNode, forwardRef, memo } from 'react';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 import { SessionIcon, SessionIconProps } from './SessionIcon';
 
 interface SProps extends SessionIconProps {
@@ -10,11 +10,9 @@ interface SProps extends SessionIconProps {
   isHidden?: boolean;
   margin?: string;
   padding?: string;
-  dataTestId?: string;
   dataTestIdIcon?: string;
   id?: string;
   title?: string;
-  style?: CSSProperties;
   tabIndex?: number;
   children?: ReactNode;
 }

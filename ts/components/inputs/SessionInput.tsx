@@ -2,7 +2,7 @@ import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { isEmpty, isEqual } from 'lodash';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import { THEME_GLOBALS } from '../../themes/globals';
 import { Noop } from '../../types/Util';
 import { useHTMLDirection } from '../../util/i18n';
@@ -120,7 +120,7 @@ const ErrorItem = (props: { id: string; error: string }) => {
 
 const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; error: boolean }) => {
   const htmlDirection = useHTMLDirection();
-  const style = {
+  const style: CSSProperties = {
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
