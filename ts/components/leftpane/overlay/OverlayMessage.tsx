@@ -3,6 +3,8 @@ import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
 import { shell } from 'electron';
+import { motion } from 'framer-motion';
+import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { getConversationController } from '../../../session/conversations';
@@ -14,15 +16,16 @@ import { SessionSpinner } from '../../loading';
 
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
 import { NotFoundError, SnodeResponseError } from '../../../session/utils/errors';
+import { THEME_GLOBALS } from '../../../themes/globals';
 import { Flex } from '../../basic/Flex';
-import { SpacerMD } from '../../basic/Text';
+import { SpacerLG, SpacerMD } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
 import { SessionInput } from '../../inputs';
 
-const StyledDescriptionContainer = styled.div`
+const StyledDescriptionContainer = styled(motion.div)`
   margin: 0 auto;
+  text-align: center;
   padding: 0 var(--margins-md);
-  text-alignment: center;
 
   .session-icon-button {
     border: 1px solid var(--text-secondary-color);
@@ -49,14 +52,10 @@ const StyledLeftPaneOverlay = styled(Flex)`
   background: var(--background-primary-color);
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: var(--margins-md);
+  padding: var(--margins-md);
 
   .session-button {
-    min-width: 160px;
-    width: fit-content;
-    margin-top: 1rem;
-    margin-bottom: 3rem;
-    flex-shrink: 0;
+    width: 100%;
   }
 `;
 
@@ -166,49 +165,59 @@ export const OverlayMessage = () => {
         onPressEnter={handleMessageButtonClick}
       /> */}
 
-      <div style={{ width: '90%', margin: '0 auto' }}>
-        <SessionInput
-          autoFocus={true}
-          type="text"
-          placeholder={window.i18n('accountIdOrOnsEnter')}
-          value={pubkeyOrOns}
-          onValueChanged={setPubkeyOrOns}
-          onEnterPressed={handleMessageButtonClick}
-          error={pubkeyOrOnsError}
-          isSpecial={true}
-          centerText={true}
-          inputDataTestId="new-session-conversation"
-        />
-      </div>
+      <SessionInput
+        autoFocus={true}
+        type="text"
+        placeholder={window.i18n('accountIdOrOnsEnter')}
+        value={pubkeyOrOns}
+        onValueChanged={setPubkeyOrOns}
+        onEnterPressed={handleMessageButtonClick}
+        error={pubkeyOrOnsError}
+        isSpecial={true}
+        centerText={true}
+        inputDataTestId="new-session-conversation"
+      />
 
       <SpacerMD />
 
       <SessionSpinner loading={loading} />
 
-      <StyledDescriptionContainer style={{ margin: '0 auto', textAlign: 'center' }}>
-        <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
-        <SessionIconButton
-          aria-label="external link to Session Zendesk article explaing how Account IDs work"
-          iconType="question"
-          iconSize={10}
-          iconPadding="2px"
-          padding={'0'}
-          style={{ display: 'inline-flex' }}
-          dataTestId="session-zendesk-account-ids"
-          onClick={() => {
-            void shell.openExternal(
-              'https://sessionapp.zendesk.com/hc/en-us/articles/4439132747033-How-do-Session-ID-usernames-work'
-            );
-          }}
-        />
-      </StyledDescriptionContainer>
+      {!pubkeyOrOnsError && !loading ? (
+        <>
+          <StyledDescriptionContainer
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
+          >
+            <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
+            <SessionIconButton
+              aria-label="external link to Session Zendesk article explaing how Account IDs work"
+              iconType="question"
+              iconSize={10}
+              iconPadding="2px"
+              padding={'0'}
+              style={{ display: 'inline-flex' }}
+              dataTestId="session-zendesk-account-ids"
+              onClick={() => {
+                void shell.openExternal(
+                  'https://sessionapp.zendesk.com/hc/en-us/articles/4439132747033-How-do-Session-ID-usernames-work'
+                );
+              }}
+            />
+          </StyledDescriptionContainer>
+          <SpacerLG />
+        </>
+      ) : null}
 
-      <SessionButton
-        text={window.i18n('next')}
-        disabled={disableNextButton}
-        onClick={handleMessageButtonClick}
-        dataTestId="next-new-conversation-button"
-      />
+      {!isEmpty(pubkeyOrOns) ? (
+        <SessionButton
+          text={window.i18n('continue')}
+          disabled={disableNextButton}
+          onClick={handleMessageButtonClick}
+          dataTestId="next-new-conversation-button"
+        />
+      ) : null}
     </StyledLeftPaneOverlay>
   );
 };
