@@ -368,6 +368,7 @@ export type LocalizerKeys =
   | 'onlyAdminCanRemoveMembersDesc'
   | 'onlyGroupAdminsCanChange'
   | 'onsErrorNotRecognised'
+  | 'onsErrorUnableToSearch'
   | 'open'
   | 'openGroupInvitation'
   | 'openMessageRequestInbox'
