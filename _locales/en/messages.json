@@ -104,6 +104,7 @@
   "contextMenuNoSuggestions": "No Suggestions",
   "continue": "Continue",
   "conversationsHeader": "Contacts and Groups: $count$",
+  "conversationId": "Conversation ID",
   "conversationsNone": "You don't have any conversations yet",
   "conversationsSettingsTitle": "Conversations",
   "copiedToClipboard": "Copied",

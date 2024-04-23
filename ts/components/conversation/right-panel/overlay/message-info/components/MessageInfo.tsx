@@ -20,6 +20,7 @@ import {
 } from '../../../../../../state/selectors';
 
 import { isDevProd } from '../../../../../../shared/env_vars';
+import { useSelectedConversationKey } from '../../../../../../state/selectors/selectedConversation';
 import { Flex } from '../../../../../basic/Flex';
 import { SpacerSM } from '../../../../../basic/Text';
 
@@ -66,6 +67,7 @@ const showDebugLog = () => {
 };
 
 const DebugMessageInfo = ({ messageId }: { messageId: string }) => {
+  const convoId = useSelectedConversationKey();
   const messageHash = useMessageHash(messageId);
   const serverId = useMessageServerId(messageId);
   const expirationType = useMessageExpirationType(messageId);
@@ -78,6 +80,9 @@ const DebugMessageInfo = ({ messageId }: { messageId: string }) => {
 
   return (
     <>
+      {convoId ? (
+        <LabelWithInfo label={`${window.i18n('conversationId')}:`} info={convoId} />
+      ) : null}
       {messageHash ? (
         <LabelWithInfo label={`${window.i18n('messageHash')}:`} info={messageHash} />
       ) : null}
