@@ -106,7 +106,8 @@ export const OverlayMessage = () => {
     }
 
     const isPubkey = PubKey.validate(pubkeyorOnsTrimmed);
-    if (isPubkey && validationError) {
+    const isGroupPubkey = PubKey.isClosedGroupV3(pubkeyorOnsTrimmed);
+    if ((isPubkey && validationError) || isGroupPubkey) {
       setPubkeyOrOnsError(validationError);
       return;
     }
