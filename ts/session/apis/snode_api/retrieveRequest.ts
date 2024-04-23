@@ -8,6 +8,7 @@ import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { TTL_DEFAULT } from '../../constants';
 import { UserUtils } from '../../utils';
 import { sleepFor } from '../../utils/Promise';
+import { SnodeResponseError } from '../../utils/errors';
 import {
   RetrieveLegacyClosedGroupSubRequestType,
   RetrieveSubRequestType,
@@ -136,7 +137,7 @@ async function retrieveNextMessages(
       window?.log?.warn(
         `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
       );
-      throw new Error(
+      throw new SnodeResponseError(
         `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
       );
     }

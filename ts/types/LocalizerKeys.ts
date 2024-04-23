@@ -103,6 +103,7 @@ export type LocalizerKeys =
   | 'contactsHeader'
   | 'contextMenuNoSuggestions'
   | 'continue'
+  | 'conversationId'
   | 'conversationsHeader'
   | 'conversationsNone'
   | 'conversationsSettingsTitle'

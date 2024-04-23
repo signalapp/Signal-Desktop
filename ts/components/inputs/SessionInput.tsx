@@ -229,6 +229,10 @@ export const SessionInput = (props: Props) => {
     },
     onKeyDown: (event: KeyboardEvent) => {
       if (event.key === 'Enter' && onEnterPressed) {
+        if (isSpecial && event.shiftKey) {
+          return;
+        }
+        event.preventDefault();
         onEnterPressed(inputValue);
         setErrorString('');
       }

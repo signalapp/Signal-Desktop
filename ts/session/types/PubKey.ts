@@ -145,7 +145,7 @@ export class PubKey {
 
     // dev pubkey on testnet are now 66 chars too with the prefix, so every sessionID needs 66 chars and the prefix to be valid
     if (!isProdOrDevValid) {
-      return window.i18n('invalidPubkeyFormat');
+      return window.i18n('accountIdErrorInvalid');
     }
     return undefined;
   }

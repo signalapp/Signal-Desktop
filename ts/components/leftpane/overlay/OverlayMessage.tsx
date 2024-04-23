@@ -13,6 +13,7 @@ import { SessionButton } from '../../basic/SessionButton';
 import { SessionSpinner } from '../../loading';
 
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
+import { NotFoundError, SnodeResponseError } from '../../../session/utils/errors';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD } from '../../basic/Text';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
@@ -26,6 +27,21 @@ const SessionIDDescription = styled.div`
   font-weight: 400;
   font-size: 12px;
   text-align: center;
+`;
+
+const StyledLeftPaneOverlay = styled(Flex)`
+  background: var(--background-primary-color);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: var(--margins-md);
+
+  .session-button {
+    min-width: 160px;
+    width: fit-content;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    flex-shrink: 0;
+  }
 `;
 
 function copyOurSessionID() {
@@ -46,10 +62,8 @@ export const OverlayMessage = () => {
 
   useKey('Escape', closeOverlay);
   const [pubkeyOrOns, setPubkeyOrOns] = useState('');
+  const [pubkeyOrOnsError, setPubkeyOrOnsError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-
-  const buttonText = window.i18n('next');
-  const placeholder = window.i18n('accountIdOrOnsEnter');
 
   const disableNextButton = !pubkeyOrOns || loading;
 
@@ -76,41 +90,65 @@ export const OverlayMessage = () => {
   }
 
   async function handleMessageButtonClick() {
+    setPubkeyOrOnsError(undefined);
+
     if ((!pubkeyOrOns && !pubkeyOrOns.length) || !pubkeyOrOns.trim().length) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('onsErrorNotRecognised')); // or ons name
+      setPubkeyOrOnsError(window.i18n('accountIdErrorInvalid'));
       return;
     }
-    const pubkeyorOnsTrimmed = pubkeyOrOns.trim();
 
-    if (!PubKey.validateWithErrorNoBlinding(pubkeyorOnsTrimmed)) {
+    const pubkeyorOnsTrimmed = pubkeyOrOns.trim();
+    const validationError = PubKey.validateWithErrorNoBlinding(pubkeyorOnsTrimmed);
+
+    if (!validationError) {
       await openConvoOnceResolved(pubkeyorOnsTrimmed);
+      return;
+    }
+
+    const isPubkey = PubKey.validate(pubkeyorOnsTrimmed);
+    if (isPubkey && validationError) {
+      setPubkeyOrOnsError(validationError);
       return;
     }
 
     // this might be an ONS, validate the regex first
     const mightBeOnsName = new RegExp(ONSResolve.onsNameRegex, 'g').test(pubkeyorOnsTrimmed);
     if (!mightBeOnsName) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('onsErrorNotRecognised'));
+      setPubkeyOrOnsError(window.i18n('onsErrorNotRecognised'));
       return;
     }
+
     setLoading(true);
     try {
       const resolvedSessionID = await ONSResolve.getSessionIDForOnsName(pubkeyorOnsTrimmed);
-      if (PubKey.validateWithErrorNoBlinding(resolvedSessionID)) {
-        throw new Error('Got a resolved ONS but the returned entry is not a valid SessionID');
+      const idValidationError = PubKey.validateWithErrorNoBlinding(resolvedSessionID);
+
+      if (idValidationError) {
+        setPubkeyOrOnsError(window.i18n('onsErrorNotRecognised'));
+        return;
       }
-      // this is a pubkey
+
       await openConvoOnceResolved(resolvedSessionID);
     } catch (e) {
-      window?.log?.warn('failed to resolve ons name', pubkeyorOnsTrimmed, e);
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('failedResolveOns'));
+      setPubkeyOrOnsError(
+        e instanceof SnodeResponseError
+          ? window.i18n('onsErrorUnableToSearch')
+          : e instanceof NotFoundError
+            ? window.i18n('onsErrorNotRecognised')
+            : window.i18n('failedResolveOns')
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="module-left-pane-overlay">
+    <StyledLeftPaneOverlay
+      container={true}
+      flexDirection={'column'}
+      flexGrow={1}
+      alignItems={'center'}
+    >
       {/* TODO[epic=893] Replace everywhere and test new error handling */}
       {/* <SessionIdEditable
         editable={!loading}
@@ -124,13 +162,14 @@ export const OverlayMessage = () => {
         <SessionInput
           autoFocus={true}
           type="text"
-          placeholder={placeholder}
+          placeholder={window.i18n('accountIdOrOnsEnter')}
           value={pubkeyOrOns}
           onValueChanged={setPubkeyOrOns}
           onEnterPressed={handleMessageButtonClick}
-          inputDataTestId="new-session-conversation"
+          error={pubkeyOrOnsError}
           isSpecial={true}
           centerText={true}
+          inputDataTestId="new-session-conversation"
         />
       </div>
       <SpacerLG />
@@ -155,11 +194,11 @@ export const OverlayMessage = () => {
         <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
       </Flex>
       <SessionButton
-        text={buttonText}
+        text={window.i18n('next')}
         disabled={disableNextButton}
         onClick={handleMessageButtonClick}
         dataTestId="next-new-conversation-button"
       />
-    </div>
+    </StyledLeftPaneOverlay>
   );
 };
