@@ -2,11 +2,11 @@ import { useState } from 'react';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
+import { shell } from 'electron';
 import { useDispatch } from 'react-redux';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { getConversationController } from '../../../session/conversations';
 import { PubKey } from '../../../session/types';
-import { ToastUtils, UserUtils } from '../../../session/utils';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
@@ -15,12 +15,28 @@ import { SessionSpinner } from '../../loading';
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
 import { NotFoundError, SnodeResponseError } from '../../../session/utils/errors';
 import { Flex } from '../../basic/Flex';
-import { SpacerLG, SpacerMD } from '../../basic/Text';
-import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
+import { SpacerMD } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
 import { SessionInput } from '../../inputs';
 
-const SessionIDDescription = styled.div`
+const StyledDescriptionContainer = styled.div`
+  margin: 0 auto;
+  padding: 0 var(--margins-md);
+  text-alignment: center;
+
+  .session-icon-button {
+    border: 1px solid var(--text-secondary-color);
+    border-radius: 9999px;
+    margin-inline-start: var(--margins-xs);
+    transition-duration: var(--default-duration);
+
+    &:hover {
+      border-color: var(--text-primary-color);
+    }
+  }
+`;
+
+const SessionIDDescription = styled.span`
   color: var(--text-secondary-color);
   font-family: var(--font-default);
   font-style: normal;
@@ -43,15 +59,6 @@ const StyledLeftPaneOverlay = styled(Flex)`
     flex-shrink: 0;
   }
 `;
-
-function copyOurSessionID() {
-  const ourSessionId = UserUtils.getOurPubKeyStrFromCache();
-  if (!ourSessionId) {
-    return;
-  }
-  window.clipboard.writeText(ourSessionId);
-  ToastUtils.pushCopiedToClipBoard();
-}
 
 export const OverlayMessage = () => {
   const dispatch = useDispatch();
@@ -173,27 +180,29 @@ export const OverlayMessage = () => {
           inputDataTestId="new-session-conversation"
         />
       </div>
-      <SpacerLG />
+
+      <SpacerMD />
 
       <SessionSpinner loading={loading} />
 
-      <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
+      <StyledDescriptionContainer style={{ margin: '0 auto', textAlign: 'center' }}>
+        <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
+        <SessionIconButton
+          aria-label="external link to Session Zendesk article explaing how Account IDs work"
+          iconType="question"
+          iconSize={10}
+          iconPadding="2px"
+          padding={'0'}
+          style={{ display: 'inline-flex' }}
+          dataTestId="session-zendesk-account-ids"
+          onClick={() => {
+            void shell.openExternal(
+              'https://sessionapp.zendesk.com/hc/en-us/articles/4439132747033-How-do-Session-ID-usernames-work'
+            );
+          }}
+        />
+      </StyledDescriptionContainer>
 
-      <Flex container={true} width="100%">
-        <SpacerMD />
-        <YourSessionIDPill />
-        <SpacerMD />
-      </Flex>
-      <Flex
-        container={true}
-        justifyContent="space-between"
-        alignItems="center"
-        width="100%"
-        padding="0 var(--margins-sm)" // YourSessionIDSelectable already has a left margin of 15px
-      >
-        <YourSessionIDSelectable />
-        <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
-      </Flex>
       <SessionButton
         text={window.i18n('next')}
         disabled={disableNextButton}

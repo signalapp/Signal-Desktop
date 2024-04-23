@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import _ from 'lodash';
 import { KeyboardEvent, MouseEvent, ReactNode, forwardRef, memo } from 'react';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import { SessionIcon, SessionIconProps } from './SessionIcon';
 
 interface SProps extends SessionIconProps {
@@ -14,7 +14,7 @@ interface SProps extends SessionIconProps {
   dataTestIdIcon?: string;
   id?: string;
   title?: string;
-  style?: object;
+  style?: CSSProperties;
   tabIndex?: number;
   children?: ReactNode;
 }
@@ -88,7 +88,7 @@ const SessionIconButtonInner = forwardRef<HTMLButtonElement, SProps>((props, ref
       onClick={clickHandler}
       style={{
         ...style,
-        display: isHidden ? 'none' : 'flex',
+        display: style?.display ? style.display : isHidden ? 'none' : 'flex',
         margin: margin || '',
         padding: padding || '',
       }}
