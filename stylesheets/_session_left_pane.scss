@@ -107,20 +107,6 @@ $session-compose-margin: 20px;
       align-self: flex-start;
     }
 
-    .session-id-editable {
-      width: 90%;
-
-      textarea::-webkit-inner-spin-button {
-        margin: 0px 20px;
-        width: -webkit-fill-available;
-        flex-shrink: 0;
-      }
-    }
-
-    .session-id-editable-disabled {
-      border: none;
-    }
-
     .session-button {
       min-width: 160px;
       width: fit-content;

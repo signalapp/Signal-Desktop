@@ -8,7 +8,7 @@ import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
-import { SpacerMD } from '../basic/Text';
+import { SpacerMD, SpacerSM } from '../basic/Text';
 import { MenuButton } from '../buttons';
 import { SessionIcon, SessionIconButton } from '../icon';
 
@@ -20,7 +20,6 @@ const StyledLeftPaneSectionHeader = styled(Flex)`
 
 const SectionTitle = styled.h1`
   padding-top: var(--margins-xs);
-  padding-left: var(--margins-sm);
   flex-grow: 1;
   color: var(--text-primary-color);
 `;
@@ -181,7 +180,9 @@ export const LeftPaneSectionHeader = () => {
             iconRotation={90}
             onClick={returnToActionChooser}
           />
-        ) : null}
+        ) : (
+          <SpacerSM />
+        )}
         <SectionTitle>{label}</SectionTitle>
         {isMessageSection && <MenuButton />}
       </StyledLeftPaneSectionHeader>

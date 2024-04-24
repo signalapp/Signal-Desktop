@@ -10,8 +10,8 @@ import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal, UserDetailsModalState } from '../../state/ducks/modalDialog';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SpacerLG } from '../basic/Text';
+import { SessionInput } from '../inputs';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
 export const UserDetailsDialog = (props: UserDetailsModalState) => {
@@ -70,8 +70,13 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
       </div>
 
       <SpacerLG />
-      <SessionIdEditable editable={false} text={props.conversationId} />
-
+      <SessionInput
+        value={props.conversationId}
+        isSpecial={true}
+        centerText={true}
+        editable={false}
+      />
+      <SpacerLG />
       <div className="session-modal__button-group__center">
         <SessionButton
           text={window.i18n('startConversation')}

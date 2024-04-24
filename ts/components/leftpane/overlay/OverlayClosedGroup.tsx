@@ -5,19 +5,19 @@ import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
 import { SessionButton } from '../../basic/SessionButton';
-import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../loading';
 import { MemberListItem } from '../../MemberListItem';
 
 import { useSet } from '../../../hooks/useSet';
 import { VALIDATION } from '../../../session/constants';
 import { createClosedGroup } from '../../../session/conversations/createClosedGroup';
-import { ToastUtils } from '../../../session/utils';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
 import { getSearchResultsContactOnly, isSearching } from '../../../state/selectors/search';
-import { SpacerLG } from '../../basic/Text';
+import { SpacerLG, SpacerMD } from '../../basic/Text';
+import { SessionInput } from '../../inputs';
 import { SessionSearchInput } from '../../SessionSearchInput';
+import { StyledLeftPaneOverlay } from './OverlayMessage';
 
 const StyledMemberListNoContacts = styled.div`
   font-family: var(--font-mono), var(--font-default);
@@ -54,18 +54,18 @@ const NoContacts = () => {
 /**
  * Makes some validity check and return true if the group was indead created
  */
-async function createClosedGroupWithToasts(
+async function createClosedGroupWithErrorHandling(
   groupName: string,
-  groupMemberIds: Array<string>
+  groupMemberIds: Array<string>,
+  errorHandler: (error: string) => void
 ): Promise<boolean> {
   // Validate groupName and groupMembers length
   if (groupName.length === 0) {
-    ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooShort'));
-
+    errorHandler(window.i18n('invalidGroupNameTooShort'));
     return false;
   }
   if (groupName.length > VALIDATION.MAX_GROUP_NAME_LENGTH) {
-    ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooLong'));
+    errorHandler(window.i18n('invalidGroupNameTooLong'));
     return false;
   }
 
@@ -73,11 +73,11 @@ async function createClosedGroupWithToasts(
   // the same is valid with groups count < 1
 
   if (groupMemberIds.length < 1) {
-    ToastUtils.pushToastError('pickClosedGroupMember', window.i18n('pickClosedGroupMember'));
+    errorHandler(window.i18n('pickClosedGroupMember'));
     return false;
   }
   if (groupMemberIds.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
-    ToastUtils.pushToastError('closedGroupMaxSize', window.i18n('closedGroupMaxSize'));
+    errorHandler(window.i18n('closedGroupMaxSize'));
     return false;
   }
 
@@ -90,7 +90,9 @@ export const OverlayClosedGroup = () => {
   const dispatch = useDispatch();
   const privateContactsPubkeys = useSelector(getPrivateContactsPubkeys);
   const [groupName, setGroupName] = useState('');
+  const [groupNameError, setGroupNameError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
+
   const {
     uniqueValues: selectedMemberIds,
     addTo: addToSelected,
@@ -104,12 +106,17 @@ export const OverlayClosedGroup = () => {
   }
 
   async function onEnterPressed() {
+    setGroupNameError(undefined);
     if (loading) {
       window?.log?.warn('Closed group creation already in progress');
       return;
     }
     setLoading(true);
-    const groupCreated = await createClosedGroupWithToasts(groupName, selectedMemberIds);
+    const groupCreated = await createClosedGroupWithErrorHandling(
+      groupName,
+      selectedMemberIds,
+      setGroupNameError
+    );
     if (groupCreated) {
       closeOverlay();
       return;
@@ -119,9 +126,6 @@ export const OverlayClosedGroup = () => {
 
   useKey('Escape', closeOverlay);
 
-  const buttonText = window.i18n('create');
-  const placeholder = window.i18n('createClosedGroupPlaceholder');
-
   const noContactsForClosedGroup = privateContactsPubkeys.length === 0;
 
   const contactsToRender = isSearch ? searchResultContactsOnly : privateContactsPubkeys;
@@ -129,25 +133,31 @@ export const OverlayClosedGroup = () => {
   const disableCreateButton = !selectedMemberIds.length && !groupName.length;
 
   return (
-    <div className="module-left-pane-overlay">
-      <div className="create-group-name-input">
-        <SessionIdEditable
-          editable={!noContactsForClosedGroup}
-          placeholder={placeholder}
-          value={groupName}
-          isGroup={true}
-          maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
-          onChange={setGroupName}
-          onPressEnter={onEnterPressed}
-          dataTestId="new-closed-group-name"
-        />
-      </div>
-
+    <StyledLeftPaneOverlay
+      container={true}
+      flexDirection={'column'}
+      flexGrow={1}
+      alignItems={'center'}
+      padding={'var(--margins-md)'}
+    >
+      <SessionInput
+        autoFocus={true}
+        type="text"
+        placeholder={window.i18n('createClosedGroupPlaceholder')}
+        value={groupName}
+        onValueChanged={setGroupName}
+        onEnterPressed={onEnterPressed}
+        error={groupNameError}
+        maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
+        centerText={true}
+        isGroup={true}
+        inputDataTestId="new-closed-group-name"
+      />
+      <SpacerMD />
       <SessionSpinner loading={loading} />
-
       <SpacerLG />
-      <SessionSearchInput />
 
+      <SessionSearchInput />
       <StyledGroupMemberListContainer>
         {noContactsForClosedGroup ? (
           <NoContacts />
@@ -167,15 +177,15 @@ export const OverlayClosedGroup = () => {
         )}
       </StyledGroupMemberListContainer>
 
-      <SpacerLG style={{ flexShrink: 0 }} />
-
+      <SpacerLG />
       <SessionButton
-        text={buttonText}
+        text={window.i18n('create')}
         disabled={disableCreateButton}
         onClick={onEnterPressed}
         dataTestId="next-button"
-        margin="auto 0 var(--margins-lg) 0 " // just to keep that button at the bottom of the overlay (even with an empty list)
+        margin="auto 0 0 " // just to keep that button at the bottom of the overlay (even with an empty list)
       />
-    </div>
+      <SpacerLG />
+    </StyledLeftPaneOverlay>
   );
 };

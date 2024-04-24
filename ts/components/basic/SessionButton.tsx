@@ -48,6 +48,7 @@ const StyledButton = styled.button<{
   background-repeat: no-repeat;
   overflow: hidden;
   height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
+  min-height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
   padding: ${props =>
     props.buttonType === SessionButtonType.Ghost ? '16px 24px 24px' : '0px 18px'};
   background-color: ${props =>

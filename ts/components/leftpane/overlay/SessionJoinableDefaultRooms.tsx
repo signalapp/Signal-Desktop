@@ -9,7 +9,7 @@ import { StateType } from '../../../state/reducer';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { Flex } from '../../basic/Flex';
 import { PillContainerHoverable, StyledPillContainerHoverable } from '../../basic/PillContainer';
-import { H3 } from '../../basic/Text';
+import { H3, SpacerSM } from '../../basic/Text';
 import { SessionSpinner } from '../../loading';
 
 export type JoinableRoomProps = {
@@ -148,6 +148,7 @@ export const SessionJoinableRooms = (props: {
   return (
     <Flex container={true} flexGrow={1} flexDirection="column" width="93%">
       <H3 text={window.i18n('orJoinOneOfThese')} />
+      <SpacerSM />
       <Flex container={true} flexGrow={0} flexWrap="wrap" justifyContent="center">
         {joinableRooms.inProgress ? (
           <SessionSpinner loading={true} />
