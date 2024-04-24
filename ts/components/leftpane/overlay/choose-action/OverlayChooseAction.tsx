@@ -3,46 +3,11 @@ import { useCallback, useEffect } from 'react';
 import { isEmpty, isString } from 'lodash';
 import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
-import styled from 'styled-components';
 import { resetLeftOverlayMode, setLeftOverlayMode } from '../../../../state/ducks/section';
-
-import { SessionIcon, SessionIconType } from '../../../icon';
+import { SpacerSM } from '../../../basic/Text';
+import { StyledLeftPaneOverlay } from '../OverlayMessage';
+import { ActionRow, StyledActionRowContainer } from './ActionRow';
 import { ContactsListWithBreaks } from './ContactsListWithBreaks';
-
-const StyledActionRow = styled.button`
-  border: none;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px var(--border-color) solid;
-  transition-duration: var(--default-duration);
-  width: 100%;
-
-  &:first-child {
-    border-top: 1px var(--border-color) solid;
-  }
-
-  :hover {
-    background: var(--conversation-tab-background-hover-color);
-  }
-`;
-
-export const StyledChooseActionTitle = styled.span`
-  color: var(--text-primary-color);
-  font-size: 18px;
-  padding: var(--margins-xs) var(--margins-lg);
-`;
-
-const StyledIcon = styled.div`
-  width: 58px;
-`;
-
-const IconOnActionRow = (props: { iconType: SessionIconType }) => {
-  return (
-    <StyledIcon>
-      <SessionIcon iconSize="medium" iconType={props.iconType} />
-    </StyledIcon>
-  );
-};
 
 export const OverlayChooseAction = () => {
   const dispatch = useDispatch();
@@ -86,32 +51,42 @@ export const OverlayChooseAction = () => {
   }, [openJoinCommunity, openNewMessage]);
 
   return (
-    <div className="module-left-pane-overlay">
-      <StyledActionRow
-        onClick={openNewMessage}
-        data-testid="chooser-new-conversation-button"
-        aria-label={window.i18n('createConversationNewContact')}
+    <StyledLeftPaneOverlay
+      container={true}
+      flexDirection={'column'}
+      flexGrow={1}
+      alignItems={'center'}
+    >
+      <StyledActionRowContainer
+        container={true}
+        flexDirection={'column'}
+        justifyContent={'flex-start'}
+        alignItems={'flex-start'}
       >
-        <IconOnActionRow iconType="chatBubble" />
-        <StyledChooseActionTitle>{window.i18n('newMessage')}</StyledChooseActionTitle>
-      </StyledActionRow>
-      <StyledActionRow
-        onClick={openCreateGroup}
-        data-testid="chooser-new-group"
-        aria-label={window.i18n('createConversationNewGroup')}
-      >
-        <IconOnActionRow iconType="group" />
-        <StyledChooseActionTitle>{window.i18n('createGroup')}</StyledChooseActionTitle>
-      </StyledActionRow>
-      <StyledActionRow
-        onClick={openJoinCommunity}
-        data-testid="chooser-new-community"
-        aria-label={window.i18n('joinACommunity')}
-      >
-        <IconOnActionRow iconType="communities" />
-        <StyledChooseActionTitle>{window.i18n('joinOpenGroup')}</StyledChooseActionTitle>
-      </StyledActionRow>
+        <ActionRow
+          title={window.i18n('newMessage')}
+          ariaLabel={window.i18n('createConversationNewContact')}
+          iconType={'chatBubble'}
+          onClick={openNewMessage}
+          dataTestId="chooser-new-conversation-button"
+        />
+        <ActionRow
+          title={window.i18n('createGroup')}
+          ariaLabel={window.i18n('createConversationNewGroup')}
+          iconType={'group'}
+          onClick={openCreateGroup}
+          dataTestId="chooser-new-group"
+        />
+        <ActionRow
+          title={window.i18n('joinOpenGroup')}
+          ariaLabel={window.i18n('joinACommunity')}
+          iconType={'communities'}
+          onClick={openJoinCommunity}
+          dataTestId="chooser-new-community"
+        />
+      </StyledActionRowContainer>
+      <SpacerSM />
       <ContactsListWithBreaks />
-    </div>
+    </StyledLeftPaneOverlay>
   );
 };

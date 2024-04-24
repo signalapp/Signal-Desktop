@@ -48,11 +48,10 @@ const SessionIDDescription = styled.span`
   text-align: center;
 `;
 
-const StyledLeftPaneOverlay = styled(Flex)`
+export const StyledLeftPaneOverlay = styled(Flex)`
   background: var(--background-primary-color);
   overflow-y: auto;
   overflow-x: hidden;
-  padding: var(--margins-md);
 
   .session-button {
     width: 100%;
@@ -121,7 +120,7 @@ export const OverlayMessage = () => {
     // this might be an ONS, validate the regex first
     const mightBeOnsName = new RegExp(ONSResolve.onsNameRegex, 'g').test(pubkeyorOnsTrimmed);
     if (!mightBeOnsName) {
-      setPubkeyOrOnsError(window.i18n('onsErrorNotRecognised'));
+      setPubkeyOrOnsError(window.i18n('onsErrorNotRecognized'));
       return;
     }
 
@@ -131,7 +130,7 @@ export const OverlayMessage = () => {
       const idValidationError = PubKey.validateWithErrorNoBlinding(resolvedSessionID);
 
       if (idValidationError) {
-        setPubkeyOrOnsError(window.i18n('onsErrorNotRecognised'));
+        setPubkeyOrOnsError(window.i18n('onsErrorNotRecognized'));
         return;
       }
 
@@ -141,7 +140,7 @@ export const OverlayMessage = () => {
         e instanceof SnodeResponseError
           ? window.i18n('onsErrorUnableToSearch')
           : e instanceof NotFoundError
-            ? window.i18n('onsErrorNotRecognised')
+            ? window.i18n('onsErrorNotRecognized')
             : window.i18n('failedResolveOns')
       );
     } finally {
@@ -155,16 +154,8 @@ export const OverlayMessage = () => {
       flexDirection={'column'}
       flexGrow={1}
       alignItems={'center'}
+      padding={'var(--margins-md)'}
     >
-      {/* TODO[epic=893] Replace everywhere and test new error handling */}
-      {/* <SessionIdEditable
-        editable={!loading}
-        placeholder={placeholder}
-        onChange={setPubkeyOrOns}
-        dataTestId="new-session-conversation"
-        onPressEnter={handleMessageButtonClick}
-      /> */}
-
       <SessionInput
         autoFocus={true}
         type="text"
@@ -177,9 +168,7 @@ export const OverlayMessage = () => {
         centerText={true}
         inputDataTestId="new-session-conversation"
       />
-
       <SpacerMD />
-
       <SessionSpinner loading={loading} />
 
       {!pubkeyOrOnsError && !loading ? (
