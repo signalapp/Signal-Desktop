@@ -3,12 +3,12 @@ import pRetry from 'p-retry';
 
 import { Data, Snode } from '../../../data/data';
 
-import { ed25519Str } from '../../onions/onionPath';
 import { OnionPaths } from '../../onions';
 import { Onions, SnodePool } from '.';
 import { SeedNodeAPI } from '../seed_node_api';
 import { requestSnodesForPubkeyFromNetwork } from './getSwarmFor';
 import { ServiceNodesList } from './getServiceNodesList';
+import { ed25519Str } from '../../utils/String';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
@@ -204,6 +204,18 @@ export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
   }
 }
 
+async function clearOutAllSnodesNotInPool(snodePool: Array<Snode>) {
+  if (snodePool.length <= 10) {
+    return;
+  }
+  const edKeysOfSnodePool = snodePool.map(m => m.pubkey_ed25519);
+
+  await Data.clearOutAllSnodesNotInPool(edKeysOfSnodePool);
+
+  // just remove all the cached entries, we will refetch them as needed from the DB
+  swarmCache.clear();
+}
+
 /**
  * This function retries a few times to get a consensus between 3 snodes of at least 24 snodes in the snode pool.
  *
@@ -230,6 +242,7 @@ async function tryToGetConsensusWithSnodesWithRetries() {
       );
       randomSnodePool = commonNodes;
       await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
+      await clearOutAllSnodesNotInPool(randomSnodePool);
 
       OnionPaths.resetPathFailureCount();
       Onions.resetSnodeFailureCount();

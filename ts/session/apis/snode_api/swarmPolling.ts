@@ -22,12 +22,12 @@ import {
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../../constants';
 import { getConversationController } from '../../conversations';
 import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
-import { ed25519Str } from '../../onions/onionPath';
 import { StringUtils, UserUtils } from '../../utils';
 import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { SnodeAPIRetrieve } from './retrieveRequest';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
+import { ed25519Str } from '../../utils/String';
 
 export function extractWebSocketContent(
   message: string,

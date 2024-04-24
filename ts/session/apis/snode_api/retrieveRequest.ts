@@ -124,7 +124,7 @@ async function retrieveNextMessages(
   );
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
-  const timeOutMs = 4 * 1000;
+  const timeOutMs = 10 * 1000; // yes this is a long timeout for just messages, but 4s timeout way to often...
   const timeoutPromise = async () => sleepFor(timeOutMs);
   const fetchPromise = async () =>
     doSnodeBatchRequest(retrieveRequestsParams, targetNode, timeOutMs, associatedWith);

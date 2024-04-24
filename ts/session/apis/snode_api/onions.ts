@@ -11,8 +11,8 @@ import { AbortSignal as AbortSignalNode } from 'node-fetch/externals';
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 
 import { OnionPaths } from '../../onions';
-import { ed25519Str, incrementBadPathCountOrDrop } from '../../onions/onionPath';
-import { toHex } from '../../utils/String';
+import {  incrementBadPathCountOrDrop } from '../../onions/onionPath';
+import { ed25519Str, toHex } from '../../utils/String';
 
 import { Snode } from '../../../data/data';
 import { callUtilsWorker } from '../../../webworker/workers/browser/util_worker_interface';

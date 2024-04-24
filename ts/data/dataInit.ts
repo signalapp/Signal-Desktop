@@ -24,6 +24,7 @@ const channelsToMake = new Set([
   'removeItemById',
   'getSwarmNodesForPubkey',
   'updateSwarmNodesForPubkey',
+  'clearOutAllSnodesNotInPool',
   'saveConversation',
   'fetchConvoMemoryDetails',
   'getConversationById',

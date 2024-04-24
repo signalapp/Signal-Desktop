@@ -216,11 +216,13 @@
     "afterSign": "build/notarize.js",
     "afterPack": "build/afterPackHook.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
-    "extraResources": [{
-      "from": "./build/launcher-script.sh",
-      "to": "./launcher-script.sh"
-    },
-    "mmdb/GeoLite2-Country.mmdb"],
+    "extraResources": [
+      {
+        "from": "./build/launcher-script.sh",
+        "to": "./launcher-script.sh"
+      },
+      "mmdb/GeoLite2-Country.mmdb"
+    ],
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icon-mac.icns",
