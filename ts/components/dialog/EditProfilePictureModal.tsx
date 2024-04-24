@@ -11,6 +11,7 @@ import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { ProfileAvatar } from './EditProfileDialog';
+import type { EditProfilePictureModalProps } from '../../types/ReduxTypes';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;
@@ -59,11 +60,6 @@ const uploadProfileAvatar = async (scaledAvatarUrl: string | null) => {
   }
 };
 
-export type EditProfilePictureModalProps = {
-  avatarPath: string | null;
-  profileName: string | undefined;
-  ourId: string;
-};
 
 export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => {
   const dispatch = useDispatch();

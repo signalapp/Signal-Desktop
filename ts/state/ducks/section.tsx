@@ -1,6 +1,6 @@
 // TODO move into redux slice
 
-import type { SessionSettingCategory } from '../../types/SessionSettingCategory';
+import type { SessionSettingCategory } from '../../types/ReduxTypes';
 
 export const FOCUS_SECTION = 'FOCUS_SECTION';
 export const FOCUS_SETTINGS_SECTION = 'FOCUS_SETTINGS_SECTION';

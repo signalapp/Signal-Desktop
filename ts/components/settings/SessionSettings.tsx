@@ -13,13 +13,12 @@ import { SessionNotificationGroupSettings } from './SessionNotificationGroupSett
 import { Data } from '../../data/data';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
-import { PasswordAction } from '../dialog/SessionPasswordDialog';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
-import type { SessionSettingCategory } from '../../types/SessionSettingCategory';
+import type { SessionSettingCategory, PasswordAction } from '../../types/ReduxTypes';
 
 export function displayPasswordModal(
   passwordAction: PasswordAction,

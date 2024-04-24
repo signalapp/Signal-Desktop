@@ -13,7 +13,7 @@ import {
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import type { SessionSettingCategory } from '../../types/SessionSettingCategory';
+import type { SessionSettingCategory } from '../../types/ReduxTypes';
 
 const StyledSettingsSectionTitle = styled.strong`
   font-family: var(--font-accent), var(--font-default);
