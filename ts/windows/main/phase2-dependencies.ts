@@ -39,6 +39,7 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
   proxyUrl: config.proxyUrl,
   version: config.version,
   libsignalNetEnvironment: config.libsignalNetEnvironment,
+  disableIPv6: config.disableIPv6,
 });
 
 window.libphonenumberInstance = PhoneNumberUtil.getInstance();
