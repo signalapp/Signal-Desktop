@@ -10,8 +10,8 @@ import {
 } from '../../../../state/selectors/conversations';
 import { leftPaneListWidth } from '../../LeftPane';
 import { StyledLeftPaneList } from '../../LeftPaneList';
+import { StyledChooseActionTitle } from './ActionRow';
 import { ContactRow, ContactRowBreak } from './ContactRow';
-import { StyledChooseActionTitle } from './OverlayChooseAction';
 
 const StyledContactSection = styled.div`
   display: flex;
@@ -36,6 +36,15 @@ const StyledContactSection = styled.div`
       line-height: 14px;
     }
   }
+`;
+
+const StyledContactsTitle = styled(StyledChooseActionTitle)`
+  padding: var(--margins-xs) var(--margins-lg);
+`;
+
+const StyledContactsEmpty = styled.div`
+  color: var(--text-secondary-color);
+  padding: var(--margins-xs) var(--margins-lg);
 `;
 
 const renderRow = (props: ListRowProps) => {
@@ -108,22 +117,17 @@ const ContactListItemSection = () => {
   );
 };
 
-const ContactsTitle = () => {
-  const contactsCount = useSelector(getDirectContactsCount);
-  if (contactsCount <= 0) {
-    return null;
-  }
-
-  return (
-    <StyledChooseActionTitle tabIndex={0}>{window.i18n('contactsHeader')}</StyledChooseActionTitle>
-  );
-};
-
 export const ContactsListWithBreaks = () => {
+  const contactsCount = useSelector(getDirectContactsCount);
+
   return (
     <StyledContactSection>
-      <ContactsTitle />
-      <ContactListItemSection />
+      <StyledContactsTitle tabIndex={0}>{window.i18n('contactsHeader')}</StyledContactsTitle>
+      {contactsCount > 0 ? (
+        <ContactListItemSection />
+      ) : (
+        <StyledContactsEmpty>{window.i18n('contactsNone')}</StyledContactsEmpty>
+      )}
     </StyledContactSection>
   );
 };
