@@ -1,17 +1,16 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-
 import { callReducer as call, CallStateType } from './ducks/call'; // ok: importing only RingingManager.ts which is not importing anything else
 import { reducer as conversations, ConversationsStateType } from './ducks/conversations'; // todo
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms'; // todo
 import { reducer as primaryColor } from './ducks/primaryColor'; // ok: importing only Constants.tsx which is not importing anything else
-import { reducer as search, SearchStateType } from './ducks/search';
-import { reducer as section, SectionStateType } from './ducks/section';
-import { ReduxSogsRoomInfos, SogsRoomInfoState } from './ducks/sogsRoomInfo';
-import { reducer as theme } from './ducks/theme';  // ok: importing only Constants.tsx which is not importing anything else
-import { reducer as user, UserStateType } from './ducks/user';  // ok: not importing anything else
+import { reducer as search, SearchStateType } from './ducks/search'; // todo
+import { reducer as section, SectionStateType } from './ducks/section'; // ok: importing only SessionSettingsCategory which is not importing anything else
+import { ReduxSogsRoomInfos, SogsRoomInfoState } from './ducks/sogsRoomInfo'; // todo
+import { reducer as theme } from './ducks/theme'; // ok: importing only Constants.tsx which is not importing anything else
+import { reducer as user, UserStateType } from './ducks/user'; // ok: not importing anything else
 
-import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors';  // ok: not importing anything else
+import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors'; // ok: not importing anything else
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion'; // ok: not importing anything else
 import { settingsReducer, SettingsState } from './ducks/settings';

@@ -1,8 +1,7 @@
 import { isBoolean } from 'lodash';
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { SettingsKey } from '../../data/settings-key';
-import { Storage } from '../../util/storage';
+import { SettingsKey } from '../../data/settings-key'; // ok: does not import anything else
 
 const SettingsBoolsKeyTrackedInRedux = [
   SettingsKey.someDeviceOutdatedSyncing,
@@ -44,33 +43,31 @@ const settingsSlice = createSlice({
   // Once the storage is ready,
   initialState: getSettingsInitialState(),
   reducers: {
-    updateAllOnStorageReady(state) {
-      const linkPreview = Storage.get(SettingsKey.settingsLinkPreview, false);
-      const outdatedSync = Storage.get(SettingsKey.someDeviceOutdatedSyncing, false);
-      const hasBlindedMsgRequestsEnabled = Storage.get(
-        SettingsKey.hasBlindedMsgRequestsEnabled,
-        false
-      );
-      const hasFollowSystemThemeEnabled = Storage.get(
-        SettingsKey.hasFollowSystemThemeEnabled,
-        false
-      );
-      const hasShiftSendEnabled = Storage.get(SettingsKey.hasShiftSendEnabled, false);
-      state.settingsBools.someDeviceOutdatedSyncing = isBoolean(outdatedSync)
-        ? outdatedSync
-        : false;
-      state.settingsBools['link-preview-setting'] = isBoolean(linkPreview) ? linkPreview : false; // this is the value of SettingsKey.settingsLinkPreview
-      state.settingsBools.hasBlindedMsgRequestsEnabled = isBoolean(hasBlindedMsgRequestsEnabled)
-        ? hasBlindedMsgRequestsEnabled
-        : false;
+    updateAllOnStorageReady(
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        settingsLinkPreview: boolean;
+        someDeviceOutdatedSyncing: boolean;
+        hasBlindedMsgRequestsEnabled: boolean;
+        hasFollowSystemThemeEnabled: boolean;
+        hasShiftSendEnabled: boolean;
+      }>
+    ) {
+      const {
+        hasBlindedMsgRequestsEnabled,
+        hasFollowSystemThemeEnabled,
+        settingsLinkPreview,
+        someDeviceOutdatedSyncing,
+        hasShiftSendEnabled,
+      } = payload;
 
-      state.settingsBools.hasFollowSystemThemeEnabled = isBoolean(hasFollowSystemThemeEnabled)
-        ? hasFollowSystemThemeEnabled
-        : false;
-
-      state.settingsBools.hasShiftSendEnabled = isBoolean(hasShiftSendEnabled)
-        ? hasShiftSendEnabled
-        : false;
+      state.settingsBools.someDeviceOutdatedSyncing = someDeviceOutdatedSyncing;
+      state.settingsBools['link-preview-setting'] = settingsLinkPreview;
+      state.settingsBools.hasBlindedMsgRequestsEnabled = hasBlindedMsgRequestsEnabled;
+      state.settingsBools.hasFollowSystemThemeEnabled = hasFollowSystemThemeEnabled;
+      state.settingsBools.hasShiftSendEnabled = hasShiftSendEnabled;
 
       return state;
     },

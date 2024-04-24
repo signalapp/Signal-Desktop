@@ -1,4 +1,4 @@
-import { fromPairs, map } from 'lodash';
+import { fromPairs, isBoolean, map } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -87,11 +87,31 @@ function createSessionInboxStore() {
 
   return createStore(initialState);
 }
+function getBoolFromStorageOrFalse(settingsKey: string): boolean {
+  const got = Storage.get(settingsKey, false);
+  if (isBoolean(got)) {
+    return got;
+  }
+  return false;
+}
 
 function setupLeftPane(forceUpdateInboxComponent: () => void) {
   window.openConversationWithMessages = openConversationWithMessages;
   window.inboxStore = createSessionInboxStore();
-  window.inboxStore.dispatch(updateAllOnStorageReady());
+
+  window.inboxStore.dispatch(
+    updateAllOnStorageReady({
+      hasBlindedMsgRequestsEnabled: getBoolFromStorageOrFalse(
+        SettingsKey.hasBlindedMsgRequestsEnabled
+      ),
+      someDeviceOutdatedSyncing: getBoolFromStorageOrFalse(SettingsKey.someDeviceOutdatedSyncing),
+      settingsLinkPreview: getBoolFromStorageOrFalse(SettingsKey.settingsLinkPreview),
+      hasFollowSystemThemeEnabled: getBoolFromStorageOrFalse(
+        SettingsKey.hasFollowSystemThemeEnabled
+      ),
+      hasShiftSendEnabled: getBoolFromStorageOrFalse(SettingsKey.hasShiftSendEnabled),
+    })
+  );
   forceUpdateInboxComponent();
 }
 
