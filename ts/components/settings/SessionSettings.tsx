@@ -19,6 +19,7 @@ import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
+import type { SessionSettingCategory } from '../../types/SessionSettingCategory';
 
 export function displayPasswordModal(
   passwordAction: PasswordAction,
@@ -40,18 +41,6 @@ export function getMediaPermissionsSettings() {
 
 export function getCallMediaPermissionsSettings() {
   return window.getSettingValue('call-media-permissions');
-}
-
-export enum SessionSettingCategory {
-  Privacy = 'privacy',
-  Notifications = 'notifications',
-  Conversations = 'conversations',
-  MessageRequests = 'messageRequests',
-  Appearance = 'appearance',
-  Permissions = 'permissions',
-  Help = 'help',
-  RecoveryPhrase = 'recoveryPhrase',
-  ClearData = 'ClearData',
 }
 
 export interface SettingsViewProps {
@@ -113,25 +102,25 @@ const SettingInCategory = (props: {
 
   switch (category) {
     // special case for blocked user
-    case SessionSettingCategory.Conversations:
+    case 'conversations':
       return <CategoryConversations />;
-    case SessionSettingCategory.Appearance:
+    case 'appearance':
       return <SettingsCategoryAppearance />;
-    case SessionSettingCategory.Notifications:
+    case 'notifications':
       return <SessionNotificationGroupSettings />;
-    case SessionSettingCategory.Privacy:
+    case 'privacy':
       return (
         <SettingsCategoryPrivacy onPasswordUpdated={onPasswordUpdated} hasPassword={hasPassword} />
       );
-    case SessionSettingCategory.Help:
+    case 'help':
       return <SettingsCategoryHelp />;
-    case SessionSettingCategory.Permissions:
+    case 'permissions':
       return <SettingsCategoryPermissions />;
 
     // these three down there have no options, they are just a button
-    case SessionSettingCategory.ClearData:
-    case SessionSettingCategory.MessageRequests:
-    case SessionSettingCategory.RecoveryPhrase:
+    case 'ClearData':
+    case 'messageRequests':
+    case 'recoveryPhrase':
     default:
       return null;
   }

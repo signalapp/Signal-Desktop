@@ -23,7 +23,7 @@ const logger = createLogger({
   logger: directConsole,
 });
 
-export const persistConfig = {
+const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['userConfig'],
