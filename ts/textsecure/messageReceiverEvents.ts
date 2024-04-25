@@ -14,6 +14,7 @@ import type {
 } from './Types.d';
 import type { ContactDetailsWithAvatar } from './ContactsParser';
 import type { CallEventDetails, CallLogEvent } from '../types/CallDisposition';
+import type { CallLinkUpdateSyncType } from '../types/CallLink';
 
 export class EmptyEvent extends Event {
   constructor() {
@@ -436,6 +437,21 @@ export class CallEventSyncEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('callEventSync', confirm);
+  }
+}
+
+export type CallLinkUpdateSyncEventData = Readonly<{
+  type: CallLinkUpdateSyncType;
+  rootKey: Uint8Array | undefined;
+  adminKey: Uint8Array | undefined;
+}>;
+
+export class CallLinkUpdateSyncEvent extends ConfirmableEvent {
+  constructor(
+    public readonly callLinkUpdate: CallLinkUpdateSyncEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('callLinkUpdateSync', confirm);
   }
 }
 

@@ -321,21 +321,21 @@ describe('sql/getCallHistoryGroups', () => {
     const now = Date.now();
     const roomId = generateUuid();
 
-    function toCall(callId: string, timestamp: number, type: CallType) {
+    function toCall(callId: string, timestamp: number) {
       return {
         callId,
         peerId: roomId,
         ringerId: null,
         mode: CallMode.Adhoc,
-        type,
+        type: CallType.Adhoc,
         direction: CallDirection.Outgoing,
         timestamp,
         status: AdhocCallStatus.Joined,
       };
     }
 
-    const call1 = toCall('1', now - 10, CallType.Group);
-    const call2 = toCall('2', now, CallType.Group);
+    const call1 = toCall('1', now - 10);
+    const call2 = toCall('2', now);
 
     await saveCallHistory(call1);
     await saveCallHistory(call2);
@@ -394,28 +394,23 @@ describe('sql/getCallHistoryGroupsCount', () => {
     const roomId1 = generateUuid();
     const roomId2 = generateUuid();
 
-    function toCall(
-      callId: string,
-      roomId: string,
-      timestamp: number,
-      type: CallType
-    ) {
+    function toCall(callId: string, roomId: string, timestamp: number) {
       return {
         callId,
         peerId: roomId,
         ringerId: null,
         mode: CallMode.Adhoc,
-        type,
+        type: CallType.Adhoc,
         direction: CallDirection.Outgoing,
         timestamp,
         status: AdhocCallStatus.Joined,
       };
     }
 
-    const call1 = toCall('1', roomId1, now - 20, CallType.Group);
-    const call2 = toCall('2', roomId1, now - 10, CallType.Group);
-    const call3 = toCall('3', roomId1, now, CallType.Group);
-    const call4 = toCall('4', roomId2, now, CallType.Group);
+    const call1 = toCall('1', roomId1, now - 20);
+    const call2 = toCall('2', roomId1, now - 10);
+    const call3 = toCall('3', roomId1, now);
+    const call4 = toCall('4', roomId2, now);
 
     await saveCallHistory(call1);
     await saveCallHistory(call2);

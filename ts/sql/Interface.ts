@@ -29,7 +29,7 @@ import type {
   CallHistoryGroup,
   CallHistoryPagination,
 } from '../types/CallDisposition';
-import type { CallLinkType, CallLinkRestrictions } from '../types/CallLink';
+import type { CallLinkStateType, CallLinkType } from '../types/CallLink';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
@@ -681,13 +681,15 @@ export type DataInterface = {
   >;
   callLinkExists(roomId: string): Promise<boolean>;
   getAllCallLinks: () => Promise<ReadonlyArray<CallLinkType>>;
+  getCallLinkByRoomId: (roomId: string) => Promise<CallLinkType | undefined>;
   insertCallLink(callLink: CallLinkType): Promise<void>;
+  updateCallLinkAdminKeyByRoomId(
+    roomId: string,
+    adminKey: string
+  ): Promise<void>;
   updateCallLinkState(
     roomId: string,
-    name: string,
-    restrictions: CallLinkRestrictions,
-    expiration: number | null,
-    revoked: boolean
+    callLinkState: CallLinkStateType
   ): Promise<void>;
   migrateConversationMessages: (
     obsoleteId: string,

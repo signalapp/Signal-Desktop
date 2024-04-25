@@ -6,7 +6,7 @@ import { ipcRenderer } from 'electron';
 import type {
   AudioDevice,
   CallId,
-  CallLinkState,
+  CallLinkState as RingRTCCallLinkState,
   DeviceId,
   GroupCallObserver,
   PeekInfo,
@@ -46,7 +46,6 @@ import Long from 'long';
 import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
 import type {
   ActionsType as CallingReduxActionsType,
-  CallLinkStateType,
   GroupCallParticipantInfoType,
   GroupCallPeekInfoType,
 } from '../state/ducks/calling';
@@ -120,7 +119,7 @@ import {
   getCallIdFromRing,
   getLocalCallEventFromRingUpdate,
   convertJoinState,
-  updateLocalAdhocCallHistory,
+  updateAdhocCallHistory,
   getCallIdFromEra,
   getCallDetailsForAdhocCall,
 } from '../util/callDisposition';
@@ -134,6 +133,7 @@ import {
 } from '../util/callLinks';
 import { isAdhocCallingEnabled } from '../util/isAdhocCallingEnabled';
 import { conversationJobQueue } from '../jobs/conversationJobQueue';
+import type { ReadCallLinkState } from '../types/CallLink';
 
 const {
   processGroupCallRingCancellation,
@@ -173,6 +173,7 @@ type CallingReduxInterface = Pick<
   | 'groupCallEnded'
   | 'groupCallRaisedHandsChange'
   | 'groupCallStateChange'
+  | 'joinedAdhocCall'
   | 'outgoingCall'
   | 'receiveGroupCallReactions'
   | 'receiveIncomingDirectCall'
@@ -538,7 +539,16 @@ export class CallingClass {
     callLinkRootKey,
   }: Readonly<{
     callLinkRootKey: CallLinkRootKey;
-  }>): Promise<CallLinkState | undefined> {
+  }>): Promise<
+    | {
+        callLinkState: ReadCallLinkState;
+        errorStatusCode: undefined;
+      }
+    | {
+        callLinkState: undefined;
+        errorStatusCode: number;
+      }
+  > {
     if (!this._sfuUrl) {
       throw new Error('readCallLink() missing SFU URL; not handling call link');
     }
@@ -555,11 +565,17 @@ export class CallingClass {
     );
     if (!result.success) {
       log.warn(`${logId}: failed`);
-      return;
+      return {
+        callLinkState: undefined,
+        errorStatusCode: result.errorStatusCode,
+      };
     }
 
     log.info(`${logId}: success`);
-    return result.value;
+    return {
+      callLinkState: this.formatCallLinkStateForRedux(result.value),
+      errorStatusCode: undefined,
+    };
   }
 
   async startCallLinkLobby({
@@ -1050,9 +1066,13 @@ export class CallingClass {
             eraId
           ) {
             updateMessageState = GroupCallUpdateMessageState.SentJoin;
-            if (callMode === CallMode.Group) {
-              drop(this.sendGroupCallUpdateMessage(conversationId, eraId));
-            }
+            drop(
+              this.onGroupCallJoined({
+                peerId: conversationId,
+                eraId,
+                callMode,
+              })
+            );
           }
         }
 
@@ -1126,10 +1146,13 @@ export class CallingClass {
           eraId
         ) {
           updateMessageState = GroupCallUpdateMessageState.SentJoin;
-
-          if (callMode === CallMode.Group) {
-            drop(this.sendGroupCallUpdateMessage(conversationId, eraId));
-          }
+          drop(
+            this.onGroupCallJoined({
+              peerId: conversationId,
+              eraId,
+              callMode,
+            })
+          );
         }
 
         // For adhoc calls, conversationId will be a roomId
@@ -1166,6 +1189,22 @@ export class CallingClass {
         });
       },
     };
+  }
+
+  private async onGroupCallJoined({
+    callMode,
+    peerId,
+    eraId,
+  }: {
+    callMode: CallMode.Group | CallMode.Adhoc;
+    peerId: string;
+    eraId: string;
+  }): Promise<void> {
+    if (callMode === CallMode.Group) {
+      drop(this.sendGroupCallUpdateMessage(peerId, eraId));
+    } else if (callMode === CallMode.Adhoc) {
+      this.reduxInterface?.joinedAdhocCall(peerId);
+    }
   }
 
   public async joinCallLinkCall({
@@ -1365,8 +1404,8 @@ export class CallingClass {
   }
 
   public formatCallLinkStateForRedux(
-    callLinkState: CallLinkState
-  ): CallLinkStateType {
+    callLinkState: RingRTCCallLinkState
+  ): ReadCallLinkState {
     const { name, restrictions, expiration, revoked } = callLinkState;
     return {
       name,
@@ -2658,7 +2697,7 @@ export class CallingClass {
         LocalCallEvent.Accepted,
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged'
       );
-      await updateLocalAdhocCallHistory(callEvent);
+      await updateAdhocCallHistory(callEvent);
     } catch (error) {
       log.error(
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged: Error updating state',

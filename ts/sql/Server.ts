@@ -169,7 +169,9 @@ import {
 import {
   callLinkExists,
   getAllCallLinks,
+  getCallLinkByRoomId,
   insertCallLink,
+  updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
 } from './server/callLinks';
 import { CallMode } from '../types/Calling';
@@ -341,7 +343,9 @@ const dataInterface: ServerInterface = {
   getRecentStaleRingsAndMarkOlderMissed,
   callLinkExists,
   getAllCallLinks,
+  getCallLinkByRoomId,
   insertCallLink,
+  updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   migrateConversationMessages,
   getMessagesBetween,

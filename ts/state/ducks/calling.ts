@@ -7,7 +7,7 @@ import {
   hasScreenCapturePermission,
   openSystemPreferences,
 } from 'mac-screen-capture-permissions';
-import { omit } from 'lodash';
+import { omit, pick } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import {
   CallLinkRootKey,
@@ -32,7 +32,7 @@ import type {
   PresentedSource,
   PresentableSource,
 } from '../../types/Calling';
-import type { CallLinkRestrictions } from '../../types/CallLink';
+import type { CallLinkStateType } from '../../types/CallLink';
 import {
   CALLING_REACTIONS_LIFETIME,
   MAX_CALLING_REACTIONS,
@@ -46,7 +46,11 @@ import {
 } from '../../types/Calling';
 import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';
-import { getRoomIdFromRootKey } from '../../util/callLinks';
+import {
+  CALL_LINK_DEFAULT_STATE,
+  getRoomIdFromRootKey,
+} from '../../util/callLinks';
+import { sendCallLinkUpdateSync } from '../../util/sendCallLinkUpdateSync';
 import { sleep } from '../../util/sleep';
 import { LatestQueue } from '../../util/LatestQueue';
 import type { AciString } from '../../types/ServiceId';
@@ -168,13 +172,6 @@ export type AdhocCallsType = {
   [roomId: string]: GroupCallStateType;
 };
 
-export type CallLinkStateType = ReadonlyDeep<{
-  name: string;
-  restrictions: CallLinkRestrictions;
-  expiration: number | null;
-  revoked: boolean;
-}>;
-
 export type CallLinksByRoomIdStateType = ReadonlyDeep<
   CallLinkStateType & {
     rootKey: string;
@@ -244,8 +241,18 @@ type GroupCallStateChangeActionPayloadType =
     ourAci: AciString;
   };
 
+type HandleCallLinkUpdateActionPayloadType = ReadonlyDeep<{
+  roomId: string;
+  callLinkDetails: CallLinksByRoomIdStateType;
+}>;
+
 type HangUpActionPayloadType = ReadonlyDeep<{
   conversationId: string;
+}>;
+
+type HandleCallLinkUpdateType = ReadonlyDeep<{
+  rootKey: string;
+  adminKey: string | null;
 }>;
 
 export type IncomingDirectCallType = ReadonlyDeep<{
@@ -567,6 +574,7 @@ const GROUP_CALL_RAISED_HANDS_CHANGE = 'calling/GROUP_CALL_RAISED_HANDS_CHANGE';
 const GROUP_CALL_STATE_CHANGE = 'calling/GROUP_CALL_STATE_CHANGE';
 const GROUP_CALL_REACTIONS_RECEIVED = 'calling/GROUP_CALL_REACTIONS_RECEIVED';
 const GROUP_CALL_REACTIONS_EXPIRED = 'calling/GROUP_CALL_REACTIONS_EXPIRED';
+const HANDLE_CALL_LINK_UPDATE = 'calling/HANDLE_CALL_LINK_UPDATE';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_DIRECT_CALL = 'calling/INCOMING_DIRECT_CALL';
 const INCOMING_GROUP_CALL = 'calling/INCOMING_GROUP_CALL';
@@ -697,6 +705,11 @@ export type GroupCallReactionsReceivedActionType = ReadonlyDeep<{
 type GroupCallReactionsExpiredActionType = ReadonlyDeep<{
   type: 'calling/GROUP_CALL_REACTIONS_EXPIRED';
   payload: GroupCallReactionsExpiredActionPayloadType;
+}>;
+
+type HandleCallLinkUpdateActionType = ReadonlyDeep<{
+  type: 'calling/HANDLE_CALL_LINK_UPDATE';
+  payload: HandleCallLinkUpdateActionPayloadType;
 }>;
 
 type HangUpActionType = ReadonlyDeep<{
@@ -838,6 +851,7 @@ export type CallingActionType =
   | GroupCallStateChangeActionType
   | GroupCallReactionsReceivedActionType
   | GroupCallReactionsExpiredActionType
+  | HandleCallLinkUpdateActionType
   | HangUpActionType
   | IncomingDirectCallActionType
   | IncomingGroupCallActionType
@@ -1206,6 +1220,72 @@ function groupCallStateChange(
   };
 }
 
+// From sync messages, to notify us that another device joined or changed a call link.
+function handleCallLinkUpdate(
+  payload: HandleCallLinkUpdateType
+): ThunkAction<void, RootStateType, unknown, HandleCallLinkUpdateActionType> {
+  return async dispatch => {
+    const { rootKey, adminKey } = payload;
+    const callLinkRootKey = CallLinkRootKey.parse(rootKey);
+    const roomId = getRoomIdFromRootKey(callLinkRootKey);
+    const logId = `handleCallLinkUpdate(${roomId})`;
+
+    const readResult = await calling.readCallLink({
+      callLinkRootKey,
+    });
+
+    // Only give up when server confirms the call link is gone. If we fail to fetch
+    // state due to unexpected errors, continue to save rootKey and adminKey.
+    if (readResult.errorStatusCode === 404) {
+      log.info(`${logId}: Call link not found, ignoring`);
+      return;
+    }
+
+    const { callLinkState: freshCallLinkState } = readResult;
+    const existingCallLink = await dataInterface.getCallLinkByRoomId(roomId);
+    const existingCallLinkState = pick(existingCallLink, [
+      'name',
+      'restrictions',
+      'expiration',
+      'revoked',
+    ]);
+
+    const callLinkDetails: CallLinksByRoomIdStateType = {
+      ...CALL_LINK_DEFAULT_STATE,
+      ...existingCallLinkState,
+      ...freshCallLinkState,
+      rootKey,
+      adminKey,
+    };
+
+    if (existingCallLink) {
+      if (adminKey && adminKey !== existingCallLink.adminKey) {
+        await dataInterface.updateCallLinkAdminKeyByRoomId(roomId, adminKey);
+        log.info(`${logId}: Updated existing call link with new adminKey`);
+      }
+
+      if (freshCallLinkState) {
+        await dataInterface.updateCallLinkState(roomId, freshCallLinkState);
+        log.info(`${logId}: Updated existing call link state`);
+      }
+    } else {
+      await dataInterface.insertCallLink({
+        roomId,
+        ...callLinkDetails,
+      });
+      log.info(`${logId}: Saved new call link`);
+    }
+
+    dispatch({
+      type: HANDLE_CALL_LINK_UPDATE,
+      payload: {
+        roomId,
+        callLinkDetails,
+      },
+    });
+  };
+}
+
 function hangUpActiveCall(
   reason: string
 ): ThunkAction<void, RootStateType, unknown, HangUpActionType> {
@@ -1324,6 +1404,21 @@ function outgoingCall(payload: StartDirectCallType): OutgoingCallActionType {
   return {
     type: OUTGOING_CALL,
     payload,
+  };
+}
+
+function joinedAdhocCall(
+  roomId: string
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async (_dispatch, getState) => {
+    const state = getState();
+    const callLink = getOwn(state.calling.callLinks, roomId);
+    if (!callLink) {
+      log.warn(`joinedAdhocCall(${roomId}): call link not found`);
+      return;
+    }
+
+    drop(sendCallLinkUpdateSync(callLink));
   };
 }
 
@@ -1712,7 +1807,8 @@ const _startCallLinkLobby = async ({
 
   const callLinkRootKey = CallLinkRootKey.parse(rootKey);
 
-  const callLinkState = await calling.readCallLink({ callLinkRootKey });
+  const readResult = await calling.readCallLink({ callLinkRootKey });
+  const { callLinkState } = readResult;
   if (!callLinkState) {
     const i18n = getIntl(getState());
     dispatch({
@@ -1725,7 +1821,10 @@ const _startCallLinkLobby = async ({
     });
     return;
   }
-  if (callLinkState.revoked || callLinkState.expiration < new Date()) {
+  if (
+    callLinkState.revoked ||
+    callLinkState.expiration < new Date().getTime()
+  ) {
     const i18n = getIntl(getState());
     dispatch({
       type: SHOW_ERROR_MODAL,
@@ -1739,21 +1838,13 @@ const _startCallLinkLobby = async ({
   }
 
   const roomId = getRoomIdFromRootKey(callLinkRootKey);
-  const formattedCallLinkState =
-    calling.formatCallLinkStateForRedux(callLinkState);
   try {
-    const { name, restrictions, expiration, revoked } = formattedCallLinkState;
     const callLinkExists = await dataInterface.callLinkExists(roomId);
     if (callLinkExists) {
-      await dataInterface.updateCallLinkState(
-        roomId,
-        name,
-        restrictions,
-        expiration,
-        revoked
-      );
+      await dataInterface.updateCallLinkState(roomId, callLinkState);
       log.info('startCallLinkLobby: Updated existing call link', roomId);
     } else {
+      const { name, restrictions, expiration, revoked } = callLinkState;
       await dataInterface.insertCallLink({
         roomId,
         rootKey,
@@ -1790,7 +1881,7 @@ const _startCallLinkLobby = async ({
     type: START_CALL_LINK_LOBBY,
     payload: {
       ...callLobbyData,
-      callLinkState: formattedCallLinkState,
+      callLinkState,
       callLinkRootKey: rootKey,
       conversationId: roomId,
       isConversationTooBigToRing: false,
@@ -1983,6 +2074,8 @@ export const actions = {
   groupCallRaisedHandsChange,
   groupCallStateChange,
   hangUpActiveCall,
+  handleCallLinkUpdate,
+  joinedAdhocCall,
   onOutgoingVideoCallInConversation,
   onOutgoingAudioCallInConversation,
   openSystemPreferencesAction,
@@ -3096,6 +3189,19 @@ export function reducer(
         ...activeCallState,
         viewMode:
           activeCallState.viewModeBeforePresentation ?? CallViewMode.Paginated,
+      },
+    };
+  }
+
+  if (action.type === HANDLE_CALL_LINK_UPDATE) {
+    const { callLinks } = state;
+    const { roomId, callLinkDetails } = action.payload;
+
+    return {
+      ...state,
+      callLinks: {
+        ...callLinks,
+        [roomId]: callLinkDetails,
       },
     };
   }

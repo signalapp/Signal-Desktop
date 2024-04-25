@@ -199,6 +199,7 @@ import {
 import { deriveStorageServiceKey } from './Crypto';
 import { getThemeType } from './util/getThemeType';
 import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
+import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -680,6 +681,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'callEventSync',
       queuedEventListener(onCallEventSync, false)
+    );
+    messageReceiver.addEventListener(
+      'callLinkUpdateSync',
+      queuedEventListener(onCallLinkUpdateSync, false)
     );
     messageReceiver.addEventListener(
       'callLogEventSync',
