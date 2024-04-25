@@ -1106,6 +1106,9 @@ $message-padding-horizontal: 12px;
   a {
     text-decoration: underline;
     outline: none;
+    // Allow links to be broken anywhere so they don't force extra line breaks
+    // when surrounded by text.
+    word-break: break-all;
 
     @include light-theme {
       color: $color-white-alpha-90;
