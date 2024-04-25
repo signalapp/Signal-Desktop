@@ -4380,10 +4380,10 @@
     "messageformat": "မည်သူမျှ မရှာနိုင်"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "သေချာပါသလား။"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "“{settingTitle}” မှ “{nobodyLabel}” သို့ ပြောင်းလိုက်ပါက Signal တွင် သင့်ကို လူအများ ရှာတွေ့နိုင်ရန် ပိုမိုခက်ခဲသွားစေလိမ့်မည်။"
   },
   "icu:Preferences--messaging": {
     "messageformat": "မက်ဆေ့ချ်ပေးပို့ခြင်း"
@@ -4656,13 +4656,13 @@
     "messageformat": "ဒီလူကို သင် ဘလော့ခ်ထားသည်"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "သင် ဤအဖွဲ့ကို ဘလော့ခ်ထားသည်"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "သင် ဤလူကို ဘလော့ခ်ဖြေလိုက်ပြီ"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "သင် ဤအဖွဲ့ကို ဘလော့ခ်ဖြေလိုက်ပြီ"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ရွေးချယ်စရာများ"

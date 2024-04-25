@@ -4380,10 +4380,10 @@
     "messageformat": "Niekas"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Ar tikrai to nori?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Jei „{settingTitle}“ nustatysite į „{nobodyLabel}“, žmonėms bus sunkiau jus rasti per „Signal“."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Susirašinėjimas"
@@ -4656,13 +4656,13 @@
     "messageformat": "Užblokavote šį asmenį"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Užblokavote grupę"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Atblokavote šį asmenį"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Atblokavote grupę"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Parinktys"

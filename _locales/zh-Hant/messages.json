@@ -4380,10 +4380,10 @@
     "messageformat": "沒有人"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "你確定嗎？"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "如果你將「{settingTitle}」更改為「{nobodyLabel}」，別人就更難在 Signal 上找到你。"
   },
   "icu:Preferences--messaging": {
     "messageformat": "傳訊"
@@ -4656,13 +4656,13 @@
     "messageformat": "你已封鎖此人"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "你已封鎖群組"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "你已解除封鎖此人"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "你已解除封鎖群組"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "選項"

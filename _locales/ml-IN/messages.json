@@ -4380,10 +4380,10 @@
     "messageformat": "ആർക്കുമാകില്ല"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "ഉറപ്പാണോ?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "നിങ്ങൾ “{settingTitle}” എന്നതിനെ “{nobodyLabel}” എന്നാക്കി മാറ്റുകയാണെങ്കിൽ, Signal-ൽ നിങ്ങളെ കണ്ടെത്താൻ ആളുകൾക്ക് അത് ബുദ്ധിമുട്ടാക്കും."
   },
   "icu:Preferences--messaging": {
     "messageformat": "സന്ദേശ വിനിമയം"
@@ -4656,13 +4656,13 @@
     "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയെ തടഞ്ഞു"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "നിങ്ങൾ ഗ്രൂപ്പിനെ ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയെ അൺബ്ലോക്ക് ചെയ്തു"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "നിങ്ങൾ ഗ്രൂപ്പിനെ അൺബ്ലോക്ക് ചെയ്തു"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ഓപ്ഷനുകൾ"

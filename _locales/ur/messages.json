@@ -4380,10 +4380,10 @@
     "messageformat": "کوئی نہیں"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "کیا آپ واقعی کرنا چاہتے ہیں؟"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "اگر آپ \"{settingTitle}\" کو \"{nobodyLabel}\" میں تبدیل کرتے ہیں تو یہ لوگوں کے لیے آپ کو Signal پر تلاش کرنا مشکل بنا دے گا۔"
   },
   "icu:Preferences--messaging": {
     "messageformat": "پیغام رسانی"
@@ -4656,13 +4656,13 @@
     "messageformat": "آپ نے اس شخص کو بلاک کیا تھا"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "آپ نے گروپ کو بلاک کر دیا"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "آپ نے اس شخص کو ان بلاک کر دیا"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "آپ نے گروپ کو ان بلاک کر دیا"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "آپشنز"

@@ -4380,10 +4380,10 @@
     "messageformat": "គ្មាននរណាម្នាក់"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "តើអ្នកប្រាកដឬទេ?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "ប្រសិនបើអ្នកប្តូរ “{settingTitle}” ទៅជា “{nobodyLabel}” វានឹងធ្វើឱ្យអ្នកផ្សេងកាន់តែពិបាករកអ្នកនៅលើ Signal។"
   },
   "icu:Preferences--messaging": {
     "messageformat": "ការផ្ញើសារ"
@@ -4656,13 +4656,13 @@
     "messageformat": "អ្នកបានទប់ស្កាត់បុគ្គលនេះ"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "អ្នកបានទប់ស្កាត់ក្រុមនេះ"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "អ្នកឈប់ទប់ស្កាត់បុគ្គលនេះហើយ"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "អ្នកឈប់ទប់ស្កាត់ក្រុមនេះហើយ"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ជម្រើស"

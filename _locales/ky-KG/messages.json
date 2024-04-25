@@ -4380,10 +4380,10 @@
     "messageformat": "Эч ким"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Чын элеби?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Бул параметрди “{settingTitle}” “{nobodyLabel}” деген параметрге өзгөртсөңүз, сизди Signal'да табуу кыйын болуп калат."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Билдирүү алмашуу"
@@ -4656,13 +4656,13 @@
     "messageformat": "Бул адамды бөгөттөдүңүз"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Топту бөгөттөдүңүз"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Бул адамды бөгөттөн чыгардыңыз"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Топту бөгөттөн чыгардыңыз"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Параметрлер"

@@ -4380,10 +4380,10 @@
     "messageformat": "Neviens"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Vai tiešām to vēlaties?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Ja mainīsiet \"{settingTitle}\" uz \"{nobodyLabel}\", cilvēkiem būs grūtāk jūs atrast Signal platformā."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Ziņapmaiņa"
@@ -4656,13 +4656,13 @@
     "messageformat": "Jūs bloķējāt šo personu"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Jūs bloķējāt šo grupu"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Jūs atbloķējāt šo personu"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Jūs atbloķējāt šo grupu"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Iespējas"

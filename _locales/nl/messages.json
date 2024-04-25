@@ -555,7 +555,7 @@
     "messageformat": "Niet-ondersteund bestandstype. Klik om op te slaan."
   },
   "icu:voiceMessage": {
-    "messageformat": "Audiobericht"
+    "messageformat": "Spraakbericht"
   },
   "icu:dangerousFileType": {
     "messageformat": "Type bijlage niet toegestaan wegens veiligheidsredenen"
@@ -762,16 +762,16 @@
     "messageformat": "Oorspronkelijk bericht niet gevonden"
   },
   "icu:voiceRecording--start": {
-    "messageformat": "Opname audiobericht beginnen"
+    "messageformat": "Opname spraakbericht beginnen"
   },
   "icu:voiceRecordingInterruptedMax": {
-    "messageformat": "Het opnemen van een audiobericht is gestopt omdat het maximumlengte-limiet was bereikt."
+    "messageformat": "Het opnemen van een spraakbericht is gestopt omdat het maximumlengte-limiet was bereikt."
   },
   "icu:voiceNoteLimit": {
-    "messageformat": "Audioberichten hebben een lengtelimiet van een uur. De opname wordt gestopt als je een andere app aandacht geeft."
+    "messageformat": "Spraakberichten hebben een lengtelimiet van een uur. De opname wordt gestopt als je een andere app aandacht geeft."
   },
   "icu:voiceNoteMustBeOnlyAttachment": {
-    "messageformat": "Een audiobericht moet slechts één bijlage hebben."
+    "messageformat": "Een spraakbericht kan slechts één bijlage bevatten."
   },
   "icu:voiceNoteError": {
     "messageformat": "Er is een fout opgetreden bij de audio-opname."
@@ -786,7 +786,7 @@
     "messageformat": "Jij"
   },
   "icu:audioPermissionNeeded": {
-    "messageformat": "Om een audiobericht te versturen moet je Signal Desktop toegang tot de microfoon geven."
+    "messageformat": "Om een spraakbericht te versturen moet je Signal Desktop toegang tot de microfoon geven."
   },
   "icu:audioCallingPermissionNeeded": {
     "messageformat": "Signal heeft toegang tot je microfoon nodig om te bellen."
@@ -1284,7 +1284,7 @@
     "messageformat": "Er is niemand hier"
   },
   "icu:calling__pre-call-info--1-person-in-call": {
-    "messageformat": "{first} is aanwezig in de oproep."
+    "messageformat": "{first} is aanwezig in de oproep"
   },
   "icu:calling__pre-call-info--another-device-in-call": {
     "messageformat": "Een van je andere apparaten neemt deel aan deze oproep."
@@ -1824,7 +1824,7 @@
     "messageformat": "Video"
   },
   "icu:message--getNotificationText--voice-message": {
-    "messageformat": "Audiobericht"
+    "messageformat": "Spraakbericht"
   },
   "icu:message--getNotificationText--audio-message": {
     "messageformat": "Audiobericht"
@@ -2169,7 +2169,7 @@
     "messageformat": "Sticker-keuzemenu openen"
   },
   "icu:Keyboard--begin-recording-voice-note": {
-    "messageformat": "Opname audiobericht beginnen"
+    "messageformat": "Opname spraakbericht beginnen"
   },
   "icu:Keyboard--default-message-action": {
     "messageformat": "Standaardactie voor een geselecteerd bericht"
@@ -3831,7 +3831,7 @@
     "messageformat": "Klik op de {composeIcon} hierboven en zoek een contactpersoon of groep om een bericht naar te verzenden."
   },
   "icu:composeIcon": {
-    "messageformat": "Opstellen-knop"
+    "messageformat": "Opstelknop"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Doorsturen naar"
@@ -4380,10 +4380,10 @@
     "messageformat": "Niemand"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Weet je het zeker?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Als je ‘{settingTitle}’ verandert in ‘{nobodyLabel}’, wordt het moeilijker voor mensen om je te vinden op Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Berichten"
@@ -4656,13 +4656,13 @@
     "messageformat": "Je hebt deze persoon geblokkeerd"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Je hebt de groep geblokkeerd "
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Je hebt deze persoon gedeblokkeerd"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Je hebt de groep gedeblokkeerd"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opties"

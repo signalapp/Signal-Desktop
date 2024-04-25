@@ -4380,10 +4380,10 @@
     "messageformat": "Senki"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Biztos vagy benne?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Ha a(z) „{settingTitle}” elemet „{nobodyLabel}” értékre módosítod, azzal megnehezíted, hogy mások megtaláljanak téged a Signalon."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Üzenetküldés"
@@ -4656,13 +4656,13 @@
     "messageformat": "Letiltottad ezt a személyt"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Letiltottad a csoportot"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Feloldottad ennek a személynek a letiltását"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Feloldottad a csoport letiltását"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opciók"

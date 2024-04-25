@@ -4380,10 +4380,10 @@
     "messageformat": "ھېچكىم"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "جەزملەشتۈرەمسىز؟"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "ئەگەر «{settingTitle}» نى «{nobodyLabel}» گە ئۆزگەرتسىڭىز، كىشىلەرنىڭ سىزنى Signal دا تېپىشى تەسلىشىدۇ."
   },
   "icu:Preferences--messaging": {
     "messageformat": "ئۇچۇرلىشىش"
@@ -4656,13 +4656,13 @@
     "messageformat": "بۇ ئىشلەتكۈچىنى توسىۋەتتىڭىز"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "بۇ گۇرۇپپىنى چەكلىدىڭىز"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "بۇ كىشىنى چەكلەشنى بىكار قىلدىڭىز"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "بۇ گۇرۇپپىنى چەكلەشنى بىكار قىلدىڭىز"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "تاللاش"

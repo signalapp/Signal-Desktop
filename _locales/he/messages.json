@@ -4380,10 +4380,10 @@
     "messageformat": "אף אחד"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "להמשיך?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "אם משנים את ״{settingTitle}״ ל״{nobodyLabel}״, זה יקשה על אנשים למצוא אותך ב–Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "תכתובת"
@@ -4656,13 +4656,13 @@
     "messageformat": "חסמת את האדם הזה"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "חסמת את הקבוצה"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "ביטלת את החסימה של האדם הזה"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "ביטלת את חסימת הקבוצה"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "אפשרויות"

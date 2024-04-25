@@ -4380,10 +4380,10 @@
     "messageformat": "ไม่อนุญาตให้ใครเห็น"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "ต้องการดำเนินการต่อหรือไม่"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "การเปลี่ยนการตั้งค่า “{settingTitle}” เป็น “{nobodyLabel}” จะทำให้ผู้ใช้คนอื่นค้นหาคุณได้ยากขึ้นบน Signal"
   },
   "icu:Preferences--messaging": {
     "messageformat": "การส่งข้อความ"
@@ -4656,13 +4656,13 @@
     "messageformat": "คุณบล็อกผู้ใช้คนนี้"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "คุณบล็อกกลุ่มนี้แล้ว"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "คุณเลิกบล็อกผู้ใช้คนนี้แล้ว"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "คุณเลิกบล็อกกลุ่มนี้แล้ว"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ตัวเลือก"

@@ -4380,10 +4380,10 @@
     "messageformat": "ஒருவருமில்லை"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "உறுதியாக உள்ளீர்களா?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "நீங்கள் “{settingTitle}”-ஐ “{nobodyLabel}” ஆக மாற்றினால், சிக்னலில் பிறர் உங்களைக் அடையாளம் கான்பதைக் கடினமாக்கும்."
   },
   "icu:Preferences--messaging": {
     "messageformat": "செய்தி அனுப்புதல்"
@@ -4656,13 +4656,13 @@
     "messageformat": "நீங்கள் இந்த நபரை ப்ளாக் செய்துள்ளீர்கள்"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "நீங்கள் குழுவை தடை செய்துள்ளீர்கள்"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "நீங்கள் இந்த நபரை தடைநீக்கம் செய்துள்ளீர்கள்"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "நீங்கள் குழுவை தடைநீக்கம் செய்துள்ளீர்கள்"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "விருப்பங்கள்"

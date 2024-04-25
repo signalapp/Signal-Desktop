@@ -4380,10 +4380,10 @@
     "messageformat": "ಯಾರೂ ಇಲ್ಲ"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "ನಿಮಗೆ ಖಾತ್ರಿಯಿದೆಯೇ?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "ನೀವು “{settingTitle}” ಅನ್ನು “{nobodyLabel}” ಗೆ ಬದಲಾಯಿಸಿದರೆ Signal ನಲ್ಲಿ ಜನರು ನಿಮ್ಮನ್ನು ಹುಡುಕುವುದು ಇನ್ನೂ ಕಷ್ಟವಾಗುತ್ತದೆ."
   },
   "icu:Preferences--messaging": {
     "messageformat": "ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"
@@ -4656,13 +4656,13 @@
     "messageformat": "ನೀವು ಈ ವ್ಯಕ್ತಿಯನ್ನು ಬ್ಲಾಕ್ ಮಾಡಿದಿರಿ"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "ನೀವು ಗುಂಪನ್ನು ಬ್ಲಾಕ್ ಮಾಡಿದ್ದೀರಿ"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "ನೀವು ಈ ವ್ಯಕ್ತಿಯನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಿದ್ದೀರಿ"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "ನೀವು ಗುಂಪನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಿದ್ದೀರಿ"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ಆಯ್ಕೆಗಳು"

@@ -4380,10 +4380,10 @@
     "messageformat": "Duine ar bith"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "An bhfuil tú cinnte?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Má athraíonn tú \"{settingTitle}\" go \"{nobodyLabel}\" beidh sé níos deacra ag daoine thú a aimsiú ar Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Ag seoladh teachtaireachtaí"
@@ -4656,13 +4656,13 @@
     "messageformat": "Chuir tú bac ar an duine seo"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Chuir tú bac ar an ngrúpa"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Bhain tú an bac den duine seo"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Bhain tú an bac den ghrúpa"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Roghanna"

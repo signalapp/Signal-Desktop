@@ -4380,10 +4380,10 @@
     "messageformat": "ఎవరు కాదు"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "మీరు ఖచ్చితంగా చేయాలని అనుకుంటున్నారా?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "మీరు “{settingTitle}” ను “{nobodyLabel}” కు మారిస్తే Signal లో మిమ్మల్ని కనుగొనడం వ్యక్తులకు కష్టతరం చేస్తుంది."
   },
   "icu:Preferences--messaging": {
     "messageformat": "సందేశం"
@@ -4656,13 +4656,13 @@
     "messageformat": "మీరు ఈ వ్యక్తిని బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "మీరు గ్రూప్‌ను బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "మీరు ఈ వ్యక్తిని అన్‌బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "మీరు గ్రూప్‌ను అన్‌బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ఎంపికలు"

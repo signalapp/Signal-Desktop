@@ -4380,10 +4380,10 @@
     "messageformat": "Nimeni"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Ești sigur?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Dacă schimbi \"{settingTitle}\" în \"{nobodyLabel}\", va fi mai greu pentru ceilalți să te găsească pe Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Mesagerie"
@@ -4656,13 +4656,13 @@
     "messageformat": "Ai blocat această persoană"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Ai blocat grupul"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Ai deblocat această persoană"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Ai deblocat grupul"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opțiuni"

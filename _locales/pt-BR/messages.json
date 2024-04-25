@@ -4380,10 +4380,10 @@
     "messageformat": "Ninguém"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Tem certeza?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Se você mudar “{settingTitle}” para “{nobodyLabel}”, vai ser mais difícil para as pessoas te acharem no Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Mensagens"
@@ -4656,13 +4656,13 @@
     "messageformat": "Você bloqueou esta pessoa"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Você bloqueou o grupo"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Você desbloqueou essa pessoa"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Você desbloqueou o grupo"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opções"

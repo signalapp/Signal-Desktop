@@ -4380,10 +4380,10 @@
     "messageformat": "なし"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "本当に削除しますか？"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "「{settingTitle}」を「{nobodyLabel}」に変更すると、Signal上で他のユーザーはあなたを見つけにくくなります。"
   },
   "icu:Preferences--messaging": {
     "messageformat": "メッセージ送受信"
@@ -4656,13 +4656,13 @@
     "messageformat": "このユーザーをブロックしました"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "グループをブロックしました"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "このユーザーへのブロックを解除しました"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "グループへのブロックを解除しました"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "オプション"

@@ -4380,10 +4380,10 @@
     "messageformat": "Tiada sesiapa"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Adakah anda pasti?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Jika anda menukar \"{settingTitle}\" kepada \"{nobodyLabel}\" ia akan menyukarkan orang untuk cari anda di Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Pemesejan"
@@ -4656,13 +4656,13 @@
     "messageformat": "Anda telah menyekat orang ini"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Anda sekat kumpulan ini"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Anda nyahsekat orang ini"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Anda nyahsekat kumpulan ini"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Pilihan"

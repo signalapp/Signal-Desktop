@@ -4380,10 +4380,10 @@
     "messageformat": "Nihče"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Ste prepričani?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Če spremenite \"{settingTitle}\" v \"{nobodyLabel}\", vas bodo ljudje težje našli v Signalu."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Sporočanje"
@@ -4656,13 +4656,13 @@
     "messageformat": "To osebo ste blokirali"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Blokirali ste skupino"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Odblokirali ste to osebo"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Odblokirali ste skupino"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Možnosti"

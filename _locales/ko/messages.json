@@ -4380,10 +4380,10 @@
     "messageformat": "모두 금지"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "계속할까요?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "''{settingTitle}'을(를) ''{nobodyLabel}'(으)로 변경하면 다른 사람이 Signal에서 나를 찾기가 어려워집니다."
   },
   "icu:Preferences--messaging": {
     "messageformat": "메시징"
@@ -4656,13 +4656,13 @@
     "messageformat": "이 사용자를 차단했습니다."
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "그룹을 차단했습니다."
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "이 사용자를 차단했습니다."
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "그룹을 차단 해제했습니다."
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "옵션"

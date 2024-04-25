@@ -1116,7 +1116,7 @@
     "messageformat": "Потрібна допомога?"
   },
   "icu:Install__choose-device-name__description": {
-    "messageformat": "Ви побачите це ім'я у розділі «Прив'язані пристрої» на своєму телефоні"
+    "messageformat": "Ви побачите цю назву в списку «Зв'язаних пристроїв» на телефоні"
   },
   "icu:Install__choose-device-name__placeholder": {
     "messageformat": "Мій комп'ютер"
@@ -1416,7 +1416,7 @@
     "messageformat": "Перевірку правопису буде вимкнено під час наступного запуску Signal."
   },
   "icu:SystemTraySetting__minimize-to-system-tray": {
-    "messageformat": "Згорнути в системний трей"
+    "messageformat": "Згортати в панель сповіщень"
   },
   "icu:SystemTraySetting__minimize-to-and-start-in-system-tray": {
     "messageformat": "Запускати згорнутим в треї"
@@ -1572,7 +1572,7 @@
     "messageformat": "{name} вимкнув зникаючі повідомлення."
   },
   "icu:youDisabledDisappearingMessages": {
-    "messageformat": "Ви заборонили зникаючі повідомлення"
+    "messageformat": "Ви вимкнули зникаючі повідомлення"
   },
   "icu:timerSetTo": {
     "messageformat": "Таймер встановлено на {time}"
@@ -4380,10 +4380,10 @@
     "messageformat": "Ніхто"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Ви впевнені?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Якщо обрати варіант «{nobodyLabel}» для параметра «{settingTitle}», людям буде складніше знайти вас у Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Листування"
@@ -4656,13 +4656,13 @@
     "messageformat": "Ви заблокували цю людину"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Ви заблокували цю групу."
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Ви розблокували цю людину."
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Ви розблокували цю групу."
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Параметри"

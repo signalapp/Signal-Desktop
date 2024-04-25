@@ -4380,10 +4380,10 @@
     "messageformat": "Inork ez"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Ziur zaude?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "\"{settingTitle}\" ezarpena \"{nobodyLabel}\" gisa ezartzen baduzu, jendearentzat zailagoa izango da zu Signal-en aurkitzea."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Mezularitza"
@@ -4656,13 +4656,13 @@
     "messageformat": "Pertsona hau blokeatu duzu"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Blokeatu duzu taldea"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Desblokeatu duzu pertsona hau"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Desblokeatu duzu taldea"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Aukerak"
