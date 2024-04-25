@@ -87,6 +87,7 @@ import {
 } from './CallReactionBurst';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
+import { emojiToData } from './emoji/lib';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -1048,7 +1049,13 @@ function useReactionsToast(props: UseReactionsToastType): void {
   const reactionsShown = useRef<
     Map<
       string,
-      { value: string; isBursted: boolean; expireAt: number; demuxId: number }
+      {
+        value: string;
+        originalValue: string;
+        isBursted: boolean;
+        expireAt: number;
+        demuxId: number;
+      }
     >
   >(new Map());
   const burstsShown = useRef<Map<string, number>>(new Map());
@@ -1094,8 +1101,13 @@ function useReactionsToast(props: UseReactionsToastType): void {
         recentBurstTime &&
         recentBurstTime + REACTIONS_BURST_TRAILING_WINDOW > time
       );
+      // Normalize skin tone emoji to calculate burst threshold, but save original
+      // value to show in the burst animation
+      const emojiData = emojiToData(value);
+      const normalizedValue = emojiData?.unified ?? value;
       reactionsShown.current.set(key, {
-        value,
+        value: normalizedValue,
+        originalValue: value,
         isBursted,
         expireAt: timestamp + REACTIONS_BURST_WINDOW,
         demuxId,
@@ -1158,6 +1170,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
       }
 
       burstsShown.current.set(value, time);
+      const values: Array<string> = [];
       reactionKeys.forEach(key => {
         const reactionShown = reactionsShown.current.get(key);
         if (!reactionShown) {
@@ -1165,8 +1178,9 @@ function useReactionsToast(props: UseReactionsToastType): void {
         }
 
         reactionShown.isBursted = true;
+        values.push(reactionShown.originalValue);
       });
-      showBurst({ value });
+      showBurst({ values });
 
       if (burstsShown.current.size >= REACTIONS_BURST_MAX_IN_SHORT_WINDOW) {
         break;

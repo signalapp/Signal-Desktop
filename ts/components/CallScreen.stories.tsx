@@ -653,9 +653,9 @@ export function GroupCallReactions(): JSX.Element {
     })
   );
 
-  const activeCall = useReactionsEmitter(
-    props.activeCall as ActiveGroupCallType
-  );
+  const activeCall = useReactionsEmitter({
+    activeCall: props.activeCall as ActiveGroupCallType,
+  });
 
   return <CallScreen {...props} activeCall={activeCall} />;
 }
@@ -670,10 +670,29 @@ export function GroupCallReactionsSpam(): JSX.Element {
     })
   );
 
-  const activeCall = useReactionsEmitter(
-    props.activeCall as ActiveGroupCallType,
-    250
+  const activeCall = useReactionsEmitter({
+    activeCall: props.activeCall as ActiveGroupCallType,
+    frequency: 250,
+  });
+
+  return <CallScreen {...props} activeCall={activeCall} />;
+}
+
+export function GroupCallReactionsSkinTones(): JSX.Element {
+  const remoteParticipants = allRemoteParticipants.slice(0, 3);
+  const [props] = React.useState(
+    createProps({
+      callMode: CallMode.Group,
+      remoteParticipants,
+      viewMode: CallViewMode.Overflow,
+    })
   );
+
+  const activeCall = useReactionsEmitter({
+    activeCall: props.activeCall as ActiveGroupCallType,
+    frequency: 500,
+    emojis: ['👍', '👍🏻', '👍🏼', '👍🏽', '👍🏾', '👍🏿', '❤️', '😂', '😮', '😢'],
+  });
 
   return <CallScreen {...props} activeCall={activeCall} />;
 }
@@ -701,11 +720,17 @@ export function GroupCallReactionsManyInOrder(): JSX.Element {
   return <CallScreen {...props} />;
 }
 
-function useReactionsEmitter(
-  activeCall: ActiveGroupCallType,
+function useReactionsEmitter({
+  activeCall,
   frequency = 2000,
-  removeAfter = 5000
-) {
+  removeAfter = 5000,
+  emojis = DEFAULT_PREFERRED_REACTION_EMOJI,
+}: {
+  activeCall: ActiveGroupCallType;
+  frequency?: number;
+  removeAfter?: number;
+  emojis?: Array<string>;
+}) {
   const [call, setCall] = React.useState(activeCall);
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -725,7 +750,7 @@ function useReactionsEmitter(
           {
             timestamp: timeNow,
             demuxId,
-            value: sample(DEFAULT_PREFERRED_REACTION_EMOJI) as string,
+            value: sample(emojis) as string,
           },
         ];
 
@@ -736,7 +761,7 @@ function useReactionsEmitter(
       });
     }, frequency);
     return () => clearInterval(interval);
-  }, [frequency, removeAfter, call]);
+  }, [emojis, frequency, removeAfter, call]);
   return call;
 }
 
