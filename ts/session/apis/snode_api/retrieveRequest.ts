@@ -1,4 +1,4 @@
-import { isArray, omit, sortBy } from 'lodash';
+import { isArray, omit } from 'lodash';
 import { Snode } from '../../../data/data';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { doSnodeBatchRequest } from './batchRequest';
@@ -124,7 +124,7 @@ async function retrieveNextMessages(
   );
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
-  const timeOutMs = 10 * 1000; // yes this is a long timeout for just messages, but 4s timeout way to often...
+  const timeOutMs = 10 * 1000; // yes this is a long timeout for just messages, but 4s timeouts way to often...
   const timeoutPromise = async () => sleepFor(timeOutMs);
   const fetchPromise = async () =>
     doSnodeBatchRequest(retrieveRequestsParams, targetNode, timeOutMs, associatedWith);
@@ -166,19 +166,13 @@ async function retrieveNextMessages(
 
     GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', bodyFirstResult.t);
 
-    // merge results with their corresponding namespaces
-    return results.map((result, index) => {
-      const messages = result.body as RetrieveMessagesResultsContent;
-      // Not sure if that makes sense, but we probably want those messages sorted.
-      const sortedMessages = sortBy(messages.messages, m => m.timestamp);
-      messages.messages = sortedMessages;
-
-      return {
-        code: result.code,
-        messages,
-        namespace: namespaces[index],
-      };
-    });
+    // NOTE: We don't want to sort messages here because the ordering depends on the snode and when it received each messages.
+    // The last_hash for that snode has to be the last one we've received from that same snode, othwerwise we end up fetching the same messages over and over again.
+    return results.map((result, index) => ({
+      code: result.code,
+      messages: result.body as RetrieveMessagesResultsContent,
+      namespace: namespaces[index],
+    }));
   } catch (e) {
     window?.log?.warn('exception while parsing json of nextMessage:', e);
     if (!window.inboxStore?.getState().onionPaths.isOnline) {

@@ -1,4 +1,4 @@
-import { fromPairs, isBoolean, map } from 'lodash';
+import { fromPairs, map } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -87,13 +87,6 @@ function createSessionInboxStore() {
 
   return createStore(initialState);
 }
-function getBoolFromStorageOrFalse(settingsKey: string): boolean {
-  const got = Storage.get(settingsKey, false);
-  if (isBoolean(got)) {
-    return got;
-  }
-  return false;
-}
 
 function setupLeftPane(forceUpdateInboxComponent: () => void) {
   window.openConversationWithMessages = openConversationWithMessages;
@@ -101,15 +94,13 @@ function setupLeftPane(forceUpdateInboxComponent: () => void) {
 
   window.inboxStore.dispatch(
     updateAllOnStorageReady({
-      hasBlindedMsgRequestsEnabled: getBoolFromStorageOrFalse(
+      hasBlindedMsgRequestsEnabled: Storage.getBoolOrFalse(
         SettingsKey.hasBlindedMsgRequestsEnabled
       ),
-      someDeviceOutdatedSyncing: getBoolFromStorageOrFalse(SettingsKey.someDeviceOutdatedSyncing),
-      settingsLinkPreview: getBoolFromStorageOrFalse(SettingsKey.settingsLinkPreview),
-      hasFollowSystemThemeEnabled: getBoolFromStorageOrFalse(
-        SettingsKey.hasFollowSystemThemeEnabled
-      ),
-      hasShiftSendEnabled: getBoolFromStorageOrFalse(SettingsKey.hasShiftSendEnabled),
+      someDeviceOutdatedSyncing: Storage.getBoolOrFalse(SettingsKey.someDeviceOutdatedSyncing),
+      settingsLinkPreview: Storage.getBoolOrFalse(SettingsKey.settingsLinkPreview),
+      hasFollowSystemThemeEnabled: Storage.getBoolOrFalse(SettingsKey.hasFollowSystemThemeEnabled),
+      hasShiftSendEnabled: Storage.getBoolOrFalse(SettingsKey.hasShiftSendEnabled),
     })
   );
   forceUpdateInboxComponent();

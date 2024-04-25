@@ -415,6 +415,7 @@ async function createOfferAndSendIt(recipient: string, msgIdentifier: string | n
     if (offer && offer.sdp) {
       const lines = offer.sdp.split(/\r?\n/);
       const lineWithFtmpIndex = lines.findIndex(f => f.startsWith('a=fmtp:111'));
+      // If webrtc does not find any audio input when initializing, the offer will not have a line with `a=fmtp:111` at all, `lineWithFtmpIndex` will be invalid.
       if (lineWithFtmpIndex > -1) {
         const partBeforeComma = lines[lineWithFtmpIndex].split(';');
         lines[lineWithFtmpIndex] = `${partBeforeComma[0]};cbr=1`;

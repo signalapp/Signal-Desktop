@@ -60,7 +60,6 @@ const uploadProfileAvatar = async (scaledAvatarUrl: string | null) => {
   }
 };
 
-
 export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => {
   const dispatch = useDispatch();
 

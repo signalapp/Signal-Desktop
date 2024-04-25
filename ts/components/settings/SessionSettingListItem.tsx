@@ -11,7 +11,6 @@ import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
 import { SessionIconButton } from '../icon';
 
-
 type ButtonSettingsProps = {
   title?: string;
   description?: string;
