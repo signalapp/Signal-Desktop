@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "ఈ గుంపు చెల్లదు. దయచేసి క్రొత్త సమూహాన్ని సృష్టించండి."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "చదవనివి మార్క్ చేయబడ్డాయి"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} చదవని సందేశం} other {{count,number} చదవని సందేశాలు}}"
-  },
   "icu:scrollDown": {
     "messageformat": "చాట్ దిగువకు స్క్రోల్ చేయండి"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "సమూహములో ఉన్న వారు మిమ్మల్ని తిరిగి అందులో చేర్చగలరు."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "స్పామ్‌ను నివేదించండి మరియు బ్లాక్ చేయండి"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "స్పామ్‌గా నివేదించబడింది మరియు బ్లాక్ చేయబడింది."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "ఎవరు కాదు"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "మీరు ఖచ్చితంగా చేయాలని అనుకుంటున్నారా?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "మీరు “{settingTitle}” ను “{nobodyLabel}” కు మారిస్తే Signal లో మిమ్మల్ని కనుగొనడం వ్యక్తులకు కష్టతరం చేస్తుంది."
   },
   "icu:Preferences--messaging": {
     "messageformat": "సందేశం"
@@ -4656,13 +4647,13 @@
     "messageformat": "మీరు ఈ వ్యక్తిని బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "మీరు గ్రూప్‌ను బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "మీరు ఈ వ్యక్తిని అన్‌బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "మీరు గ్రూప్‌ను అన్‌బ్లాక్ చేశారు"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ఎంపికలు"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "ఎవరితోనైనా మీరు Signal లో చాట్ చేస్తున్నప్పుడు ఒకవేళ వారు మీ సిస్టమ్ కాంటాక్ట్‌లలో లేకపోయినప్పటికీ, వారి కోసం అనుకూల మారుపేర్లు మరియు గమనికలకు మేము మద్దతు జోడించాము. మీ Signal కనెక్షన్‌ల గురించి రవంత అదనపు వివరాలను వ్రాయడానికి గమనికలు మరియు మారుపేర్లు అనుకూలమైన మరియు సురక్షితమైన మార్గాన్ని అందిస్తాయి — మరియు అవి మీ Signal PIN ద్వారా ఎండ్-టు-ఎండ్ ఎన్‌క్రిప్ట్ చేయబడతాయి మరియు రక్షించబడతాయి కాబట్టి ఒకవేళ మీరు మీ ఫోన్‌ను కూడా పోగొట్టుకుంటే వాటిని సురక్షితంగా పునరుద్ధరించవచ్చు."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "ఇప్పుడు మీరు Signal ను Linux లో సిస్టమ్ ట్రేకు మినిమైజ్ చేయవచ్చు. ఒకవేళ మీ టాస్క్‌బార్ బూడిద రంగు యొక్క సరైన షేడ్‌లో ఉంటే, మీ కోసం మీ సందేశాలు వెండి పళ్ళెంలో ఎదురు చూస్తున్నట్లుగా ఉంది."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Windows ఉపయోగిస్తున్న యూజర్‌లకు, Signal ఐకాన్‌పై వివరణాత్మక చదవని సందేశ గణనల కోసం ఈ అప్‌డేట్ మద్దతును తిరిగి ప్రారంభిస్తుంది. \"9+\" కు వీడ్కోలు చెప్పండి ఎందుకంటే ఇప్పుడు ఐకాన్ 11 (లేదా అంతకంటే ఎక్కువ) కు వెళుతుంది."
   }
 }

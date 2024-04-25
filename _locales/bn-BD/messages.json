@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "গ্রুপটি অবৈধ। অনুগ্রহ করে নতুন একটি গ্রুপ তৈরি করুন।"
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "অপঠিত হিসেবে চিহ্নিত করা হয়েছে"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} টি অপঠিত বার্তা} other {{count,number} টি অপঠিত বার্তা}}"
-  },
   "icu:scrollDown": {
     "messageformat": "স্ক্রল করে চ্যাট-এর সবচেয়ে শেষে যান"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "গ্রুপের সদস্যরা আপনাকে আবার এই গ্রুপে যোগ করতে পারবেন।"
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "স্প্যাম রিপোর্ট করুন ও ব্লক করুন"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "স্প্যাম হিসেবে রিপোর্ট এবং ব্লক করা হয়েছে।"
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "কেউ না"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "আপনি কি নিশ্চিত?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "আপনি যদি \"{settingTitle}\" পরিবর্তন করে \"{nobodyLabel}\" করেন তবে অন্যদের জন্য আপনাকে Signal-এ খুঁজে পাওয়া কঠিন হবে।"
   },
   "icu:Preferences--messaging": {
     "messageformat": "মেসেজিং"
@@ -4656,13 +4647,13 @@
     "messageformat": "আপনি এই ব্যক্তিকে ব্লক করেছেন"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "আপনি গ্রুপটিকে ব্লক করেছেন"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "আপনি এই ব্যক্তিকে আনব্লক করেছেন"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "আপনি গ্রুপটিকে আনব্লক করেছেন"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "অপশন"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Signal-এ আপনি যাদের সাথে চ্যাট করছেন তাদের জন্য কাস্টম ডাকনাম ও নোটের জন্য আমরা সহায়তা যোগ করেছি, এমনকি তারা যদি আপনার সিস্টেমের কন্টাক্টে নাও থেকে থাকেন। নোট এবং ডাকনাম আপনার Signal কানেকশন সম্পর্কে বাড়তি বিবরণ লেখার জন্য একটি সুবিধাজনক ও নিরাপদ উপায় দিয়ে থাকে — এবং সেগুলো এন্ড-টু-এন্ড এনক্রিপ্ট করা ও আপনার Signal পিন দ্বারা সুরক্ষিত থাকে যাতে আপনার ফোনটি হারিয়ে ফেললেও সেগুলো নিরাপদে পুনর্বহাল করা যায়।"
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "এখন আপনি Linux-এ আপনার সিস্টেম ট্রেতে Signal-কে মিনিমাইজ করতে পারবেন।"
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Windows ব্যবহারকারীদের জন্য, এই আপডেটটি Signal আইকনে অপঠিত মেসেজ বিস্তারিত সংখ্যার জন্য সহায়তা পুনরায় সক্ষম করে।"
   }
 }

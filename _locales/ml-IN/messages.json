@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "ഈ ഗ്രൂപ്പ് അസാധുവാണ്. ദയവായി ഒരു പുതിയ ഗ്രൂപ്പ് സൃഷ്ടിക്കുക."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "വായിച്ചിട്ടില്ലാത്തതായി അടയാളപ്പെടുത്തി"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} വായിക്കാത്ത സന്ദേശം} other {{count,number} വായിക്കാത്ത സന്ദേശങ്ങൾ}}"
-  },
   "icu:scrollDown": {
     "messageformat": "ചാറ്റിന്‍റെ താഴേക്ക് സ്ക്രോൾ ചെയ്യുക"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "ഗ്രൂപ്പ് അംഗങ്ങൾക്ക് നിങ്ങളെ വീണ്ടും ഈ ഗ്രൂപ്പിലേക്ക് ചേർക്കാൻ കഴിയും."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്ത ശേഷം ബ്ലോക്ക് ചെയ്യുക"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്ത ശേഷം ബ്ലോക്ക് ചെയ്തു"
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "ആർക്കുമാകില്ല"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "ഉറപ്പാണോ?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "നിങ്ങൾ “{settingTitle}” എന്നതിനെ “{nobodyLabel}” എന്നാക്കി മാറ്റുകയാണെങ്കിൽ, Signal-ൽ നിങ്ങളെ കണ്ടെത്താൻ ആളുകൾക്ക് അത് ബുദ്ധിമുട്ടാക്കും."
   },
   "icu:Preferences--messaging": {
     "messageformat": "സന്ദേശ വിനിമയം"
@@ -4656,13 +4647,13 @@
     "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയെ തടഞ്ഞു"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "നിങ്ങൾ ഗ്രൂപ്പിനെ ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയെ അൺബ്ലോക്ക് ചെയ്തു"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "നിങ്ങൾ ഗ്രൂപ്പിനെ അൺബ്ലോക്ക് ചെയ്തു"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ഓപ്ഷനുകൾ"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "നിങ്ങൾ Signal-ൽ ചാറ്റ് ചെയ്യുന്ന ആരുമായും അവർ നിങ്ങളുടെ സിസ്റ്റം കോൺടാക്റ്റുകളിൽ ഇല്ലെങ്കിൽപ്പോലും, ഇഷ്‌ടാനുസൃത വിളിപ്പേരുകൾക്കും കുറിപ്പുകൾക്കുമുള്ള പിന്തുണ ഞങ്ങൾ ചേർത്തു. ചങ്ങാതിയുടെ പ്രൊഫൈലിൽ വിട്ടുപോയ അക്ഷരം ചേർക്കലോ എന്തും ആകട്ടെ, കുറിപ്പുകളും വിളിപ്പേരുകളും Signal കണക്ഷനുകളെക്കുറിച്ചുള്ള വിശദാംശങ്ങൾ രേഖപ്പെടുത്താൻ നല്ല മാർഗ്ഗം നൽകുന്നു — അവ ആദ്യാവസാനം എൻക്രിപ്റ്റ് ചെയ്‌ത് Signal PIN വഴി പരിരക്ഷിച്ചിരിക്കുന്നതിനാൽ ഫോൺ നഷ്‌ടപ്പെട്ടാലും അവ സുരക്ഷിതമായി പുനഃസ്ഥാപിക്കാം."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "ഇപ്പോൾ Linux-ൽ നിങ്ങളുടെ സിസ്റ്റം ട്രേയിലേക്ക് Signal ലഘുവാക്കാം. നിങ്ങളുടെ ടാസ്‌ക്‌ബാർ ചാരനിറത്തിലുള്ള ഷേഡാണെങ്കിൽ, നിങ്ങളുടെ സന്ദേശങ്ങൾ ഒരു വെള്ളി പാത്രത്തിൽ നിങ്ങൾക്കായി കാത്തിരിക്കുന്നത് പോലെയാണ്."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Windows-ലെ ഉപയോക്താക്കൾക്ക്, ഈ അപ്‌ഡേറ്റ്  Signal ഐക്കണിലെ വായിക്കാത്ത സന്ദേശങ്ങളുടെ വിശദമായ എണ്ണത്തിനുള്ള പിന്തുണ വീണ്ടും പ്രവർത്തനക്ഷമമാക്കുന്നു. \"9+\" എന്നതിനോട് വിട പറഞ്ഞേക്കൂ, കാരണം ഇപ്പോൾ ഐക്കൺ 11-ലേക്ക് (അല്ലെങ്കിൽ അതിനും മുകളിലേക്ക്) പോകുന്നു."
   }
 }

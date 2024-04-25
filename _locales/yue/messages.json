@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "呢個群組冇效。請建立一個新嘅群組。"
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "標記做未讀"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, other {{count,number} 個未讀訊息}}"
-  },
   "icu:scrollDown": {
     "messageformat": "向下碌到聊天底部"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "群組成員就可以再將你加入呢個群組。"
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "舉報垃圾訊息同封鎖"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "已經舉報咗垃圾訊息同埋封鎖咗。"
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "邊個都唔得"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "你係咪確定？"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "如果你將「{settingTitle}」改做「{nobodyLabel}」，其他人就會冇咁易喺 Signal 搵到你。"
   },
   "icu:Preferences--messaging": {
     "messageformat": "通訊"
@@ -4656,13 +4647,13 @@
     "messageformat": "你封鎖咗呢個人"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "你封鎖咗個群組"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "你解除封鎖咗呢個人"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "你解除封鎖咗個群組"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "選項"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "我哋新增咗自訂綽號同備註支援，適用於任何喺 Signal 度同你傾計嘅用戶，就算對方唔喺你通訊錄都一樣冇問題。 無論你想喺 Signal 人脈嘅個人檔名度加返漏咗嘅英文字母，抑或想加個提示寫返低你哋喺邊度相遇，都可以利用備註同綽號功能，輕鬆安全咁記低有關資料 — 呢啲資料經端到端加密，並且受 Signal PIN 碼保護，就算唔見咗部電話都可以安全還原。"
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "而家，你可以喺 Linux 度將 Signal 縮細放入系統匣。"
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "至於 Windows 用戶，呢次更新恢復支援返 Signal 圖示上面未讀訊息嘅詳細數字。你以後唔會再見到「9+」，而係會變咗 11 喇 (甚至更高)。"
   }
 }

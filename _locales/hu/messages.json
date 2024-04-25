@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Érvénytelen csoport. Hozz létre egy újat!"
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Olvasatlanként megjelölve"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} olvasatlan üzenet} other {{count,number} olvasatlan üzenet}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Görgetés a csevegés aljára"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "A tagok ezután újra hozzáadhatnak majd a csoporthoz."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Kéretlen üzenet bejelentése és tiltása"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Megjelölve kéretlen üzenetként és letiltva."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Senki"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Biztos vagy benne?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Ha a(z) „{settingTitle}” elemet „{nobodyLabel}” értékre módosítod, azzal megnehezíted, hogy mások megtaláljanak téged a Signalon."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Üzenetküldés"
@@ -4656,13 +4647,13 @@
     "messageformat": "Letiltottad ezt a személyt"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Letiltottad a csoportot"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Feloldottad ennek a személynek a letiltását"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Feloldottad a csoport letiltását"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opciók"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Hozzáadtuk az egyéni becenevek és megjegyzések támogatását azok számára, akikkel a Signalon cseveg, még akkor is, ha nem szerepelnek a rendszer névjegyei között. A megjegyzések és becenevek kényelmes és biztonságos módot nyújtanak arra, hogy további részleteket jegyezzen fel a Signal-névjegyekről – ráadásul végponttól végpontig titkosítva vannak, és Signal PIN-kódja védi őket, így akkor is biztonságosan visszaállíthatók, ha elveszíti telefonját. Akár egy lusta barát profilnevének hiányzó betűit, akár egy emlékeztetőt szeretne hozzáadni arról, hogy hol találkoztak, a megjegyzések és becenevek kényelmes és biztonságos módot nyújtanak arra, hogy további részleteket jegyezzen fel a Signal-névjegyekről – ráadásul végponttól végpontig titkosítva vannak, és Signal PIN-kódja védi őket, így biztonságosan visszaállíthatók akkor is, ha elveszíti a telefonját."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Mostantól minimalizálhatja a Signalt a tálcán Linuxon is. Ha tálcája megfelelő szürke árnyalatú, úgy fog tűnni, mintha üzenetei ezüsttálcán várnának Önre."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "A Windows-felhasználók számára ez a frissítés újra engedélyezi az olvasatlan üzenetek részletes számlálásának támogatását a Signal ikonon."
   }
 }

@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Questo gruppo non è valido. Per favore crea un nuovo gruppo."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Segnato come non letto"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} messaggio non letto} other {{count,number} messaggi non letti}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Scorri in fondo alla chat"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "I membri del gruppo potranno aggiungerti di nuovo a questo gruppo."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Segnala come spam e blocca"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Utente segnalato come spam e bloccato."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Nessuno"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Vuoi procedere comunque?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Se cambi le tue preferenze per \"{settingTitle}\" scegliendo \"{nobodyLabel}\" come opzione, diventerà più difficile trovarti su Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Messaggistica"
@@ -4656,13 +4647,13 @@
     "messageformat": "Hai bloccato questa persona"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Hai bloccato il gruppo"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Hai sbloccato questa persona"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Hai sbloccato il gruppo"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opzioni"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Hai la possibilità di aggiungere soprannomi e note per ogni persona con cui chatti su Signal, anche se non è salvata tra i contatti del tuo telefono. Puoi rinominare i tuoi contatti con i soprannomi che usi da una vita o scrivere una nota sul vostro primo incontro: il tutto usando un modo sicuro, crittografato end-to-end e protetto dal tuo PIN di Signal (così da poter ripristinare tutti questi dati su un nuovo telefono)."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Da ora su Linux puoi ridurre a icona l'app di Signal nella barra delle applicazioni, così potrai fare un po' di spazio!"
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Per gli utenti Windows, questo aggiornamento riattiva il supporto per un conteggio preciso dei messaggi da leggere sull'icona dell'app di Signal. Niente più \"9+\" quando hai tanti messaggi non letti: ora avrai il \"piacere\" di sapere esattamente quanti messaggi devi ancora leggere…"
   }
 }

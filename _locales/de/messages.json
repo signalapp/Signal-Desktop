@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Diese Gruppe ist ungültig. Bitte erstelle eine neue Gruppe."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Als ungelesen markiert"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} ungelesene Nachricht} other {{count,number} ungelesene Nachrichten}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Zum Ende des Chats scrollen"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Gruppenmitglieder werden dich wieder zu dieser Gruppe hinzufügen können."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Spam melden und blockieren"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Als Spam gemeldet und blockiert."
   },
@@ -2958,13 +2949,13 @@
     "messageformat": "Ein Mitglied hat den Gruppenavatar entfernt."
   },
   "icu:GroupV2--access-attributes--admins--other": {
-    "messageformat": "{adminName} hat die Bearbeitungsberechtigten für Gruppendetails zu »Nur Admins« geändert."
+    "messageformat": "{adminName} hat die Berechtigung »Gruppendetails bearbeiten« zu »Nur Admins« geändert."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Du hast die Bearbeitungsberechtigten für Gruppendetails zu »Nur Admins« geändert."
+    "messageformat": "Du hast die Berechtigung »Gruppendetails bearbeiten« zu »Nur Admins« geändert."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Ein Admin hat die Bearbeitungsberechtigten für Gruppendetails zu »Nur Admins« geändert."
+    "messageformat": "Ein Admin hat die Berechtigung »Gruppendetails bearbeiten« zu »Nur Admins« geändert."
   },
   "icu:GroupV2--access-attributes--all--other": {
     "messageformat": "{adminName} hat die Bearbeitungsberechtigten für Gruppendetails zu »Alle Mitglieder« geändert."
@@ -4380,10 +4371,10 @@
     "messageformat": "Niemand"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Bist du dir sicher?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Wenn du »{settingTitle}« in »{nobodyLabel}« änderst, wird es für andere schwieriger, dich auf Signal zu finden."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Nachrichtenübermittlung"
@@ -4656,13 +4647,13 @@
     "messageformat": "Du hast diese Person blockiert"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Du hast die Gruppe blockiert"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Du hast diese Person freigegeben"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Du hast die Gruppe freigegeben"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Optionen"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Wir unterstützen nun auch Spitznamen und Notizen für alle, mit denen du auf Signal chattest, auch wenn sie nicht in deinen Telefonkontakten gespeichert sind. Dank Notizen und Spitznamen kannst du ganz bequem und sicher weitere Details zu deinen Signal-Kontakten hinzufügen. Und diese sind Ende-zu-Ende-verschlüsselt und durch deine Signal-PIN geschützt, sodass sie auch bei Verlust deines Telefons sicher wiederhergestellt werden können."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Jetzt kannst du Signal unter Linux in der Taskleiste minimieren. Und wenn deine Taskleiste den richtigen Grauton hat, ist es fast so, als würden dir deine Nachrichten auf dem Silbertablett serviert."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Für Nutzer*innen unter Windows wird mit diesem Update die Anzahl der ungelesenen Nachrichten auf dem Signal-Symbol wieder aktiviert. Verabschiede dich von »9+«, denn jetzt reicht das Symbol bis 11 (oder höher)."
   }
 }

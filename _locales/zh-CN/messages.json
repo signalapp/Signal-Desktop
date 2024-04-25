@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "该群组无效，请新建群组。"
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "已标为未读"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, other {{count,number} 条未读消息}}"
-  },
   "icu:scrollDown": {
     "messageformat": "滚动到聊天底部"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "群组成员可再次将您添加至该群组。"
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "举报垃圾消息并屏蔽"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "已举报为垃圾消息并屏蔽。"
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "没有人"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "确定要更改吗？"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "如果将“{settingTitle}”更改为“{nobodyLabel}”，这会使其他用户更难在 Signal 上找到你。"
   },
   "icu:Preferences--messaging": {
     "messageformat": "消息传输"
@@ -4656,13 +4647,13 @@
     "messageformat": "您已屏蔽此用户"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "你屏蔽了此群组"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "你屏蔽了此用户"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "你对该群组取消了屏蔽"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "选项"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "我们添加了对自定义昵称和备注的支持，方便您给 Signal 聊天对象添加备注，即使对方不在您的系统通讯录中也同样支持。备注和昵称可以让您方便和安全地记下有关 Signal 密友的详细信息——这些信息经过端对端加密，并受您的 Signal 密码保护，因此即使您丢失了手机也能安全恢复这些信息。"
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "现在您可以在 Linux 上将 Signal 最小化到系统托盘。"
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "对于 Windows 用户，此更新重新启用了对 Signal 图标上详细未读消息计数的支持。"
   }
 }

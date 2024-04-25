@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Ce groupe est invalide. Veuillez créer un nouveau groupe."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Marqué comme non lu"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} message non lu} other {{count,number} messages non lus}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Faire défiler la conversation vers le bas"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Les membres du groupe pourront vous rajouter à ce groupe."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Signaler comme indésirable et bloquer"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Signalé comme indésirable et bloqué."
   },
@@ -3090,7 +3081,7 @@
     "messageformat": "{adminName} vous a retiré."
   },
   "icu:GroupV2--member-remove--you--you": {
-    "messageformat": "Vous avez quitté le groupe."
+    "messageformat": "Vous avez quitté ce groupe."
   },
   "icu:GroupV2--member-remove--you--unknown": {
     "messageformat": "Vous avez été retiré(e) du groupe."
@@ -4380,10 +4371,10 @@
     "messageformat": "Personne"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Voulez-vous vraiment continuer ?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Si vous définissez le paramètre « {settingTitle} » sur « {nobodyLabel} », les autres utilisateurs auront plus de difficulté à vous trouver sur Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Messagerie"
@@ -4587,10 +4578,10 @@
     "messageformat": "9:16"
   },
   "icu:MyStories__title": {
-    "messageformat": "Mes Stories"
+    "messageformat": "Mes stories"
   },
   "icu:MyStories__list_item": {
-    "messageformat": "Mes Stories"
+    "messageformat": "Mes stories"
   },
   "icu:MyStories__story": {
     "messageformat": "Votre Story"
@@ -4653,16 +4644,16 @@
     "messageformat": "Signalé comme spam"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
-    "messageformat": "Vous avez bloqué cet utilisateur"
+    "messageformat": "Vous avez bloqué cet utilisateur."
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Vous avez bloqué ce groupe."
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Vous avez débloqué cet utilisateur."
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Vous avez débloqué ce groupe."
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Options"
@@ -4674,7 +4665,7 @@
     "messageformat": "Contacts Signal"
   },
   "icu:SignalConnectionsModal__header": {
-    "messageformat": "{connections}sont des personnes en qui vous avez confiance pour au moins une des raisons suivantes :"
+    "messageformat": "Les {connections} sont des personnes en qui vous avez confiance pour au moins une des raisons suivantes :"
   },
   "icu:SignalConnectionsModal__bullet--1": {
     "messageformat": "Vous avez démarré une conversation avec eux"
@@ -4686,13 +4677,13 @@
     "messageformat": "Il s’agit de contacts système"
   },
   "icu:SignalConnectionsModal__footer": {
-    "messageformat": "Vos connexions peuvent voir votre nom, vos photos et vos posts publiés dans « Ma Story », sauf si vous décidez de les masquer."
+    "messageformat": "Vos contacts peuvent voir votre nom et votre photo de profil. Ils peuvent aussi afficher vos stories, sauf si vous décidez de les masquer."
   },
   "icu:Stories__title": {
     "messageformat": "Stories"
   },
   "icu:Stories__mine": {
-    "messageformat": "Mes Stories"
+    "messageformat": "Mes stories"
   },
   "icu:Stories__add": {
     "messageformat": "Ajouter une Story"
@@ -4746,7 +4737,7 @@
     "messageformat": "Les Stories sont automatiquement supprimées après 24 heures. Identifiez les spectateurs autorisés à voir votre Story ou créez de nouvelles Stories en identifiant des spectateurs ou des groupes spécifiques."
   },
   "icu:StoriesSettings__my_stories": {
-    "messageformat": "Mes Stories"
+    "messageformat": "Mes stories"
   },
   "icu:StoriesSettings__new-list": {
     "messageformat": "Nouvelle story"
@@ -4761,7 +4752,7 @@
     "messageformat": "{count, plural, one {1 spectateur} other {{count,number} spectateurs}}"
   },
   "icu:StoriesSettings__who-can-see": {
-    "messageformat": "Qui peut voir cette Story ?"
+    "messageformat": "Qui peut voir cette story ?"
   },
   "icu:StoriesSettings__add-viewer": {
     "messageformat": "Ajouter un spectateur"
@@ -4803,7 +4794,7 @@
     "messageformat": "Cacher la Story pour"
   },
   "icu:StoriesSettings__mine__all--label": {
-    "messageformat": "Tous les contacts Signal"
+    "messageformat": "Tous mes contacts Signal"
   },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "Tout le monde sauf…"
@@ -4812,7 +4803,7 @@
     "messageformat": "Partager uniquement avec…"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Choisissez qui peut voir votre Story. Les modifications apportées ne s’appliqueront pas aux Stories déjà publiées. <learnMoreLink>En savoir plus.</learnMoreLink>"
+    "messageformat": "Choisissez qui peut voir votre story. Cela ne modifiera pas l’audience des stories déjà publiées. <learnMoreLink>En savoir plus.</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
     "messageformat": "Confidentialité de la story"
@@ -4824,7 +4815,7 @@
     "messageformat": "Pour modifier ce paramètre, ouvrez l’appli Signal sur votre appareil mobile et rendez-vous dans Paramètres > Conversations"
   },
   "icu:GroupStorySettingsModal__members_title": {
-    "messageformat": "Qui peut voir cette Story ?"
+    "messageformat": "Qui peut voir cette story ?"
   },
   "icu:GroupStorySettingsModal__members_help": {
     "messageformat": "Les membres de la conversation de groupe « {groupTitle} » peuvent consulter et interagir avec cette Story. Vous pouvez paramétrer les spectateurs depuis la conversation de groupe."
@@ -4836,7 +4827,7 @@
     "messageformat": "Voulez-vous vraiment supprimer « {groupTitle} » ?"
   },
   "icu:SendStoryModal__choose-who-can-view": {
-    "messageformat": "Choisissez qui peut voir votre Story"
+    "messageformat": "Choisissez qui peut voir votre story"
   },
   "icu:SendStoryModal__title": {
     "messageformat": "Envoyer à"
@@ -4878,7 +4869,7 @@
     "messageformat": "Choisir les groupes"
   },
   "icu:SendStoryModal__my-stories-privacy": {
-    "messageformat": "Confidentialité de ma Story"
+    "messageformat": "Confidentialité de ma story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
     "messageformat": "Choisissez les contacts Signal qui peuvent voir votre Story. Vous pourrez modifier vos préférences à tout moment dans les paramètres de confidentialité. <learnMoreLink>En savoir plus.</learnMoreLink>"
@@ -5118,7 +5109,7 @@
     "messageformat": "Qu’est-ce que ce numéro ?"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
-    "messageformat": "Ces chiffres servent à préserver la confidentialité de votre nom d’utilisateur et à éviter les messages indésirables. Ne partagez votre nom d’utilisateur qu’avec les personnes et les groupes avec lesquels vous souhaitez échanger. Si vous changez votre nom d’utilisateur, un nouvel ensemble de chiffres vous sera attribué."
+    "messageformat": "Ces chiffres servent à protéger la confidentialité de votre nom d'utilisateur, vous évitant ainsi de recevoir des messages indésirables. Ne partagez votre nom d’utilisateur qu’avec les personnes et les groupes avec lesquels vous voulez discuter. Si vous changez de nom d’utilisateur, une nouvelle série de chiffres vous sera attribuée."
   },
   "icu:EditUsernameModalBody__change-confirmation": {
     "messageformat": "Modifier votre nom d’utilisateur entraîne la réinitialisation de votre lien et code QR existants. Êtes-vous sûr de vouloir continuer ?"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Nouveauté : vous pouvez maintenant associer des pseudos aux personnes avec qui vous discutez sur Signal, même si elles ne figurent pas dans vos contacts système. Une section dédiée vous permet aussi d’ajouter des notes personnalisées. Et comme toutes les informations saisies sur Signal, les infos que vous ajoutez au sujet de vos contacts sont chiffrées de bout en bout et protégées par votre code PIN. Vous pouvez donc les récupérer en toute sécurité, même si vous perdez votre téléphone."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Vous pouvez désormais réduire la fenêtre Signal dans la zone de notification de Linux. Choisissez la bonne nuance de gris, et vos messages sont comme servis sur un plateau d’argent."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Sous Windows, les amateurs d’exactitude ne sont pas non plus en reste. « 9+ », ça vous rappelle quelque chose ? L’icône Signal rejoue la carte de la précision et indique désormais le nombre exact de messages non lus."
   }
 }
