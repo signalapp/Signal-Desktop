@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Бұл топ жарамайды. Жаңа топ жасаңыз."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Оқылмаған деп белгіленді"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} оқылмаған хат} other {{count,number} хат оқылмаған}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Чаттың астына түсу"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Топ мүшелері сізді бұл топқа қайта қоса алады."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Спам деп хабарлап, блоктау"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Спам деп хабарланып, блокталды."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Ешкім"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Сенімдісіз бе?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "\"{settingTitle}\" параметрін \"{nobodyLabel}\" деп өзгертсеңіз, адамдардың сізді Signal-да табуы қиынға соғады."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Хат алмасу"
@@ -4656,13 +4647,13 @@
     "messageformat": "Бұл адамды блоктадыңыз"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Топты блоктадыңыз"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Бұл адамды блоктан шығардыңыз"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Топты блоктан шығардыңыз"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Опциялар"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Signal-да сөйлескен кез келген адам (жүйелік контактіңізде болса да, болмаса да) үшін реттелмелі лақап аттар және жазбалар қосу функциясын қостық. Ескертпелер мен лақап аттар – Signal контактілеріңіз туралы қосымша ақпарат берудің ең ыңғайлы және қауіпсіз жолы. Олар толық шифрланған және Signal PIN кодымен қорғалған, сондықтан телефоныңызды жоғалтып алсаңыз, оңай қалпына келтіре аласыз."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Енді Signal қолданбасын Linux жүйесіндегі науаға қарай барынша кішірейте аласыз. Тапсырмалар панелі дұрыс сүр түсті болса, бұл сіздің хаттарыңыз күтіп тұрғанын білдіреді."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Windows жүйесін пайдаланатындар үшін бұл жаңартудың арқасында оқылмаған хат туралы мәлімет Signal белгішесінде тұрады. “9+” деген белгішемен қош айтыса беріңіз, себебі енді белгішесі 11 (не одан да жоғары) болады."
   }
 }

@@ -523,14 +523,6 @@
     "messageformat": "This group is invalid. Please create a new group.",
     "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Marked Unread",
-    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when the user has marked chat(s) as unread."
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
-    "description": "(Deleted 2024/03/20) On Windows, description for screen readers for the OS taskbar icon's overlay badge when there are unread messages."
-  },
   "icu:scrollDown": {
     "messageformat": "Scroll to bottom of chat",
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
@@ -637,7 +629,7 @@
   },
   "icu:continueCall": {
     "messageformat": "Continue Call",
-    "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
+    "description": "(Deleted 2024/04/25) Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "icu:debugLogExplanation": {
     "messageformat": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
@@ -3245,10 +3237,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Group members will be able to add you to this group again.",
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
-  },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Report Spam and Block",
-    "description": "(Deleted 2024/03/20) Shown as a button to let the user block a message request and report spam"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Reported as spam and blocked.",

@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Kumpulan ini tidak sah. Sila cipta kumpulan baru."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Ditanda belum dibaca"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, other {{count,number} mesej yang belum dibaca}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Tatal ke bahagian bawah sembang"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Ahli-ahli kumpulan akan dapat menambah anda kepada kumpulan ini lagi."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Laporkan Spam dan Sekat"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Dilaporkan sebagai spam dan disekat."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Tiada sesiapa"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Adakah anda pasti?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Jika anda menukar \"{settingTitle}\" kepada \"{nobodyLabel}\" ia akan menyukarkan orang untuk cari anda di Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Pemesejan"
@@ -4656,13 +4647,13 @@
     "messageformat": "Anda telah menyekat orang ini"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Anda sekat kumpulan ini"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Anda nyahsekat orang ini"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Anda nyahsekat kumpulan ini"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Pilihan"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Kami telah menambahkan sokongan untuk nama pendek dan nota tersuai bagi sesiapa yang bersembang dengan anda di Signal, walaupun mereka bukan dalam kenalan sistem anda. Nota dan nama pendek memberikan cara yang mudah dan selamat untuk mencatat maklumat tambahan mengenai Hubungan Signal anda — dan ia disulitkan hujung ke hujung dan dilindungi oleh Signal PIN anda supaya ia boleh dipulihkan dengan selamat jika anda kehilangan telefon."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Kini anda boleh meminimumkan Signal pada dulang sistem anda di Linux."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Untuk pengguna pada Windows, kemas kini ini mendayakan semula sokongan untuk pengiraan mesej belum dibaca yang terperinci pada ikon Signal."
   }
 }

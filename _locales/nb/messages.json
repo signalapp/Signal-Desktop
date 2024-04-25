@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Denne gruppen er ugyldig. Vennligst lag en ny gruppe."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Merket som ulest"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} ulest melding} other {{count,number} uleste meldinger}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Gå til de nyeste meldingene i samtalen"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Gruppemedlemmer kan legge deg til denne gruppen igjen."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Rapporter søppelpost og blokkér"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Rapportert som søppelpost og blokkért."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Ingen"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Er du sikker?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Hvis du velger {nobodyLabel} under {settingTitle}, blir det vanskeligere for andre å finne deg på Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Meldinger"
@@ -4656,13 +4647,13 @@
     "messageformat": "Du har blokkert denne personen"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Du blokkerte gruppen"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Blokkeringen av personen ble fjernet"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Blokkeringen av gruppen ble fjernet"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Alternativer"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Nå kan du legge til notater og gi kallenavn til alle du chatter med på Signal, selv de som ikke står i kontaktlisten på telefonen din. Dette gjør det trygt og enkelt å skrive ned informasjon om alle Signal-kontaktene dine. Notatene og kallenavnene er også ende-til-ende-krypterte og beskyttet av PIN-koden din, slik at det er lett å finne dem igjen dersom du mister mobilen."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Nå blir det mulig å minimere Signal-vinduet i systemstatusfeltet på Linux."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "For Windows-brukere vil Signal-ikonet nå vise nøyaktig antall uleste meldinger, f.eks. «12» i stedet for «9+»."
   }
 }

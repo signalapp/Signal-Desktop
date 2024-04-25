@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Оваа група е погрешна. Ве молиме да создадете нова група."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Означено како непрочитано"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} непрочитана порака} other {{count,number} непрочитани пораки}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Оди најдолу во разговорот"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Членовите на групата ќе можат повторно да ве додаваат во оваа група."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Пријавете како спам и блокирајте"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Пријавено како спам и блокирано."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Никој"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Дали сте сигурни?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Доколку ја поставите опцијата „{settingTitle}“ на „{nobodyLabel}“, ќе биде потешко да ве пронајдат на Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Пораки"
@@ -4656,13 +4647,13 @@
     "messageformat": "Ја блокиравте оваа личност"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Ја блокиравте групата"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Ја деблокиравте оваа личност"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Ја деблокиравте групата"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Опции"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Додадовме поддршка за персонализирани прекари и белешки за сите со кои разговорате на Signal, дури и да не се во вашите системски контакти. Белешките и прекарите овозможуваат соодветен и безбеден начин да запишете дополнителни детали за вашите Signal врски — а се и целосно шифрирани и заштитени со вашиот Signal PIN, па можат безбедно да бидат вратени доколку го изгубите телефонот."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Сега можете да го минимизирате Signal до системска лента на Linux."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "За Windows корисниците, оваа верзија одново овозможува поддршка за подетални бројки на непрочитани пораки на Signal иконата."
   }
 }

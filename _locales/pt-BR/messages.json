@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Há algo errado neste grupo. Por favor, crie um novo grupo."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Marcadas como não lidas"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} mensagem não lida} other {{count,number} mensagens não lidas}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Rolar a tela até o final do chat"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Membros do grupo poderão adicionar você ao grupo novamente."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Denunciar spam e bloquear"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Denunciado como spam e bloqueado."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Ninguém"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Tem certeza?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Se você mudar “{settingTitle}” para “{nobodyLabel}”, vai ser mais difícil para as pessoas te acharem no Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Mensagens"
@@ -4656,13 +4647,13 @@
     "messageformat": "Você bloqueou esta pessoa"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Você bloqueou o grupo"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Você desbloqueou essa pessoa"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Você desbloqueou o grupo"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opções"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Adicionamos suporte para notas e apelidos personalizados para todas as pessoas com quem você conversar no Signal, mesmo que elas não estejam nos seus contatos. Notas e apelidos são uma forma prática e segura de saber mais informações adicionais dos seus contatos do Signal rapidamente. Essas informações são criptografadas de ponta a ponta e protegidas pelo seu PIN do Signal, mesmo se não estiverem nos contatos do telefone."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Agora você pode minimizar o Signal na bandeja do sistema no Linux."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Para usuários do Windows, essa atualização reativa o suporte para contagens detalhadas de mensagens não lidas no ícone do Signal."
   }
 }

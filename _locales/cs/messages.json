@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Tato skupina není platná. Vytvořte prosím novou skupinu."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Označeno jako nepřečtené"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} nepřečtená zpráva} few {{count,number} nepřečtené zprávy} many {{count,number} nepřečtených zpráv} other {{count,number} nepřečtených zpráv}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Přejít na konec chatu"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Členové skupiny vás budou moci znovu přidat do této skupiny."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Nahlásit spam a zablokovat"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Nahlášeno jako spam a zablokováno."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Nikdo"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Jste si jistý/á?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Pokud změníte „{settingTitle}“ na „{nobodyLabel}“, bude pro lidi obtížnější vás v síti Signál najít."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Zasílání zpráv"
@@ -4656,13 +4647,13 @@
     "messageformat": "Tuto osobu jste zablokovali"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Zablokoval/a jste tuto skupinu"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Odblokoval/a jste tuto osobu"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Odblokoval/a jste tuto skupinu"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Možnosti"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Přidali jsme podporu vlastních přezdívek a poznámek pro kohokoli, s kým chatujete ve službě Signal, i když danou osobu nemáte v kontaktech zařízení. Poznámky a přezdívky poskytují pohodlný a bezpečný způsob, jak si zapsat další podrobnosti o svých spojeních Signal – a navíc jsou koncově šifrovány a chráněny vaším PIN kódem Signal, takže je lze bezpečně obnovit, když ztratíte telefon."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "V Linuxu nyní můžete aplikaci Signal minimalizovat do systémové lišty."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Uživatelům systému Windows tato aktualizace znovu umožňuje podporu přesného počtu nepřečtených zpráv na ikoně aplikace Signál."
   }
 }

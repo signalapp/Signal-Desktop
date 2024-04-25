@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Ova grupa je nevažeća. Molimo stvorite novu grupu."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Označeno kao nepročitano"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} nepročitana poruka} few {{count,number} nepročitane poruke} many {{count,number} nepročitanih poruka} other {{count,number} nepročitanih poruka}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Idi na dno razgovora"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Članovi grupe će vas moći ponovno dodati u ovu grupu."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Prijavi kao neželjenu poruku i blokiraj"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Prijavljeno kao neželjeno i blokirano."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Nitko"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Sigurno želite nastaviti?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "Ako za postavku \"{settingTitle}\" odaberete opciju \"{nobodyLabel}\", drugi će vas korisnici teže pronaći na Signalu."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Razmjena poruka"
@@ -4656,13 +4647,13 @@
     "messageformat": "Blokirali ste ovu osobu"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Blokirali ste ovu grupu"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Odblokirali ste ovu osobu"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Odblokirali ste ovu grupu"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Mogućnosti"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Dodali smo podršku za nadimke i bilješke koje možete dodati za svaku osobu s kojom razgovarate na Signalu, čak i ako se ona ne nalazi u kontaktima sustava vašeg uređaja. Nadimci i bilješke pružaju prikladan i siguran način za bilježenje dodatnih pojedinosti o vašim kontaktima na Signalu, a zaštićeni su sveobuhvatnim šifriranjem i vašim Signal PIN-om tako da im možete pristupiti čak i u slučaju da izgubite telefon."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Sada možete minimizirati Signal na sistemsku traku na Linuxu."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Za korisnike sustava Windows ovo ažuriranje ponovno omogućuje podršku za točan broj nepročitanih poruka na ikoni aplikacije Signal."
   }
 }

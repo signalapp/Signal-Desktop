@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "ក្រុមនេះមិនត្រឹមត្រូវទេ។ សូមបង្កើតក្រុមថ្មី។"
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "បានសម្គាល់ថាមិនទាន់អាន"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, other {{count,number} សារមិនទាន់អាន}}"
-  },
   "icu:scrollDown": {
     "messageformat": "រំកិលទៅផ្នែកខាងក្រោមនៃការជជែក"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "សមាជិកនឹងអាចដាក់អ្នកចូលក្នុងក្រុមនេះបានម្តងទៀត។"
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "រាយការណ៍សារឥតបានការ និងទប់ស្កាត់"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "បានរាយការណ៍ជាសារឥតបានការ និងបានទប់ស្កាត់។"
   },
@@ -3600,7 +3591,7 @@
     "messageformat": "ឈ្មោះហៅក្រៅ"
   },
   "icu:EditNicknameAndNoteModal__Description": {
-    "messageformat": "ឈ្មោះហៅក្រៅ និងកំណត់ចំណាំត្រូវបានរក្សាទុកតាមការអ៊ីនគ្រីបទាំងសងខាងរបស់ Signal។ មានតែអ្នកទេដែលអាចមើលឃើញពួកវា។"
+    "messageformat": "ឈ្មោះហៅក្រៅ និងកំណត់ចំណាំត្រូវបានរក្សាទុកជាមួយ Signal និងត្រូវបានអ៊ីនគ្រីបទាំងសងខាង។ មានតែអ្នកទេដែលអាចមើលឃើញពួកវា។"
   },
   "icu:EditNicknameAndNoteModal__FirstName__Label": {
     "messageformat": "ឈ្មោះ"
@@ -4380,10 +4371,10 @@
     "messageformat": "គ្មាននរណាម្នាក់"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "តើអ្នកប្រាកដឬទេ?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "ប្រសិនបើអ្នកប្តូរ “{settingTitle}” ទៅជា “{nobodyLabel}” វានឹងធ្វើឱ្យអ្នកផ្សេងកាន់តែពិបាករកអ្នកនៅលើ Signal។"
   },
   "icu:Preferences--messaging": {
     "messageformat": "ការផ្ញើសារ"
@@ -4656,13 +4647,13 @@
     "messageformat": "អ្នកបានទប់ស្កាត់បុគ្គលនេះ"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "អ្នកបានទប់ស្កាត់ក្រុមនេះ"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "អ្នកឈប់ទប់ស្កាត់បុគ្គលនេះហើយ"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "អ្នកឈប់ទប់ស្កាត់ក្រុមនេះហើយ"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ជម្រើស"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "យើងបានបង្កលក្ខណៈងាយស្រួលបន្ថែមទៀតសម្រាប់ការដាក់ឈ្មោះហៅក្រៅ និងកំណត់ចំណាំផ្ទាល់ខ្លួនសម្រាប់នរណាដែលអ្នកកំពុងជជែកជាមួយនៅលើ Signal ទោះបីជាពួកគេមិនមាននៅក្នុងប្រព័ន្ធទំនាក់ទំនងរបស់អ្នកក៏ដោយ។ កំណត់ចំណាំ និងឈ្មោះហៅក្រៅគឺជាវិធីដែលងាយស្រួល និងសុវត្ថិភាពក្នុងការកត់ត្រាព័ត៌មានលម្អិតបន្ថែមអំពីអ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal របស់អ្នក ហើយពួកវាត្រូវបានអ៊ីនគ្រីបទាំងសងខាង និងការពារដោយលេខកូដសម្ងាត់ Signal របស់អ្នក ដូច្នេះអ្នកអាចស្ដារពួកវាមកវិញបានដោយសុវត្ថិភាព ប្រសិនបើអ្នកបាត់ទូរសព្ទរបស់អ្នក។"
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "ឥឡូវនេះ អ្នកអាចបង្រួម Signal ទៅថាសប្រព័ន្ធរបស់អ្នកនៅលើ Linux។ ប្រសិនបើរបារភារកិច្ចរបស់អ្នកមានពណ៌ប្រផេះត្រឹមត្រូវ វាប្រៀបដូចជាសាររបស់អ្នកកំពុងរង់ចាំអ្នកនៅលើចានរាងសំប៉ែតពណ៌ប្រាក់។"
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "សម្រាប់អ្នកប្រើនៅលើ Windows ការធ្វើបច្ចុប្បន្នភាពនេះបើកដំណើរការឡើងវិញនូវការគាំទ្រសម្រាប់ការរាប់សារដែលមិនទាន់អានលម្អិតនៅលើរូបតំណាង Signal។ និយាយពាក្យលាទៅ \"9+\" ព្រោះឥឡូវនេះរូបតំណាងទៅលេខ 11 (ឬខ្ពស់ជាងនេះ)។"
   }
 }

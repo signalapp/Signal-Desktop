@@ -380,12 +380,6 @@
   "icu:invalidConversation": {
     "messageformat": "Talde hau ez da zuzena. Sortu talde berri bat."
   },
-  "icu:taskbarMarkedUnread": {
-    "messageformat": "Irakurri gabeko gisa markatu da"
-  },
-  "icu:taskbarUnreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} mezu irakurri gabe} other {{count,number} mezu irakurri gabe}}"
-  },
   "icu:scrollDown": {
     "messageformat": "Joan txataren behealdera"
   },
@@ -2450,9 +2444,6 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Taldeko kideak gai izango dira zu talde honetan berriro sartzeko."
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Salatu spama dela eta blokeatu"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Spam gisa salatu, eta blokeatu egin da."
   },
@@ -4380,10 +4371,10 @@
     "messageformat": "Inork ez"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
-    "messageformat": "Are you sure?"
+    "messageformat": "Ziur zaude?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal."
+    "messageformat": "\"{settingTitle}\" ezarpena \"{nobodyLabel}\" gisa ezartzen baduzu, jendearentzat zailagoa izango da zu Signal-en aurkitzea."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Mezularitza"
@@ -4656,13 +4647,13 @@
     "messageformat": "Pertsona hau blokeatu duzu"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
-    "messageformat": "You blocked the group"
+    "messageformat": "Blokeatu duzu taldea"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked": {
-    "messageformat": "You unblocked this person"
+    "messageformat": "Desblokeatu duzu pertsona hau"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "You unblocked the group"
+    "messageformat": "Desblokeatu duzu taldea"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Aukerak"
@@ -5352,14 +5343,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.5--0": {
-    "messageformat": "Signal-en zurekin txateatzen ari diren pertsonei ezizenak eta oharrak jartzeko aukera gehitu dugu, sistemako kontaktuetan gordeta ez badauzkazu ere. Signal-eko konexioei buruzko xehetasun gehigarriak modu eroso eta seguruan gordetzeko aukera bat dira oharrak eta ezizenak. Muturretik muturrera enkriptatuta eta Signal-eko PINaren bidez babestuta daude; hortaz, modu seguruan berreskura daitezke, telefonoa galtzen baduzu ere."
-  },
-  "icu:WhatsNew__v7.5--1": {
-    "messageformat": "Orain, Linux-eko sistemaren erretiluan minimiza dezakezu Signal. Ataza-barraren tonu grisa egokia bada, zure mezuak zilarrezko plater batean itxaroten egongo balira bezala da."
-  },
-  "icu:WhatsNew__v7.5--2": {
-    "messageformat": "Windows-en erabiltzaileentzat: eguneratze honen bidez, berriro gaitu da irakurriko gabeko mezuen zenbaketa Signal-en ikonoan. Esan agur \"9+\"-i, orain ikonoa 11ra aldatu baita (edo gehiagora)."
   }
 }
