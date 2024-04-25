@@ -617,6 +617,7 @@ type InitializeOptionsType = {
   version: string;
   directoryConfig: DirectoryConfigType;
   libsignalNetEnvironment: string | undefined;
+  disableIPv6: boolean;
 };
 
 export type MessageType = Readonly<{
@@ -1279,6 +1280,7 @@ export function initialize({
   proxyUrl,
   version,
   libsignalNetEnvironment,
+  disableIPv6,
 }: InitializeOptionsType): WebAPIConnectType {
   if (!isString(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
@@ -1330,6 +1332,7 @@ export function initialize({
   );
   log.info(`libsignal net environment resolved to [${Net.Environment[env]}]`);
   const libsignalNet = new Net.Net(env);
+  libsignalNet.setIpv6Enabled(!disableIPv6);
 
   // Thanks to function-hoisting, we can put this return statement before all of the
   //   below function definitions.

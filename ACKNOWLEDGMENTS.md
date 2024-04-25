@@ -4343,7 +4343,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## attest 0.1.0, device-transfer 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-core 0.1.0, libsignal-ffi 0.44.0, libsignal-jni 0.44.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, libsignal-node 0.44.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, poksho 0.7.0, signal-crypto 0.1.0, signal-media 0.1.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, signal-pin 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
+## attest 0.1.0, device-transfer 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-core 0.1.0, libsignal-ffi 0.45.0, libsignal-jni 0.45.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, libsignal-node 0.45.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, poksho 0.7.0, signal-crypto 0.1.0, signal-media 0.1.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, signal-pin 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -5596,7 +5596,7 @@ limitations under the License.
 
 ```
 
-## boring 3.1.0
+## boring 4.6.0
 
 ```
 Copyright 2011-2017 Google Inc.
@@ -5650,7 +5650,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## bindgen 0.66.1
+## bindgen 0.68.1
 
 ```
 BSD 3-Clause License
@@ -6051,7 +6051,7 @@ express Statement of Purpose.
 
 ```
 
-## boring-sys 3.1.0
+## boring-sys 4.6.0
 
 ```
 /* Copyright (c) 2015, Google Inc.
@@ -6359,7 +6359,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## boring-sys 3.1.0
+## boring-sys 4.6.0
 
 ```
 Copyright (c) 2014 Alex Crichton
@@ -6596,31 +6596,6 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
-
-```
-
-## hyper 1.2.0
-
-```
-Copyright (c) 2014-2021 Sean McArthur
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 ```
 
@@ -6944,7 +6919,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## boring-sys 3.1.0
+## boring-sys 4.6.0
 
 ```
 Copyright (c) 2015-2016 the fiat-crypto authors (see
@@ -7301,7 +7276,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## lock_api 0.4.11, parking_lot 0.12.1, parking_lot_core 0.9.9, rustc_version 0.4.0
+## rustc_version 0.4.0
 
 ```
 Copyright (c) 2016 The Rust Project Developers
@@ -7332,6 +7307,38 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
+## humantime 2.1.0
+
+```
+Copyright (c) 2016 The humantime Developers
+
+Includes parts of http date with the following copyright:
+Copyright (c) 2016 Pyfisch
+
+Includes portions of musl libc with the following copyright:
+Copyright © 2005-2013 Rich Felker
+
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+
 ## log-panics 2.1.0
 
 ```
@@ -7357,7 +7364,7 @@ SOFTWARE.
 
 ```
 
-## tokio-boring 3.1.0
+## tokio-boring 4.6.0
 
 ```
 Copyright (c) 2016 Tokio contributors
@@ -7771,72 +7778,10 @@ SOFTWARE.
 
 ```
 
-## h2 0.4.2
-
-```
-Copyright (c) 2017 h2 authors
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-```
-
 ## http 1.1.0
 
 ```
 Copyright (c) 2017 http-rs authors
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-```
-
-## signal-hook-registry 1.4.1
-
-```
-Copyright (c) 2017 tokio-jsonrpc developers
 
 Permission is hereby granted, free of charge, to any
 person obtaining a copy of this software and associated
@@ -8082,32 +8027,6 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## want 0.3.1
-
-```
-Copyright (c) 2018-2019 Sean McArthur
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-
-```
-
 ## block-buffer 0.10.4, block-padding 0.3.3
 
 ```
@@ -8199,33 +8118,6 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
-
-```
-
-## try-lock 0.2.5
-
-```
-Copyright (c) 2018-2023 Sean McArthur
-Copyright (c) 2016 Alex Crichton
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
 
 ```
 
@@ -9058,7 +8950,7 @@ SOFTWARE.
 
 ```
 
-## anstream 0.6.13, anstyle-query 1.0.2, clap 4.4.18, colorchoice 1.0.0, toml_datetime 0.6.5, toml_edit 0.19.15
+## anstream 0.6.13, anstyle-query 1.0.2, clap 4.4.18, colorchoice 1.0.0, env_logger 0.10.2, toml_datetime 0.6.5, toml_edit 0.19.15
 
 ```
 Copyright (c) Individual contributors
@@ -9788,7 +9680,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## adler 1.0.2, anyhow 1.0.80, async-trait 0.1.77, dyn-clone 1.0.17, fastrand 2.0.1, home 0.5.9, itoa 1.0.10, linkme 0.3.25, linkme-impl 0.3.25, linux-raw-sys 0.4.13, minimal-lexical 0.2.1, num_enum 0.6.1, num_enum_derive 0.6.1, once_cell 1.19.0, paste 1.0.14, pin-project-lite 0.2.13, prettyplease 0.2.16, proc-macro-crate 1.3.1, proc-macro2 1.0.78, quote 1.0.35, rustc-hash 1.1.0, rustix 0.38.31, rustversion 1.0.14, semver 1.0.22, send_wrapper 0.6.0, serde 1.0.197, serde_derive 1.0.197, serde_json 1.0.114, syn 1.0.109, syn 2.0.52, syn-mid 0.6.0, thiserror 1.0.57, thiserror-impl 1.0.57, unicode-ident 1.0.12, utf-8 0.7.6
+## adler 1.0.2, anyhow 1.0.80, async-trait 0.1.77, dyn-clone 1.0.17, fastrand 2.0.1, home 0.5.9, is-terminal 0.4.12, itoa 1.0.10, linkme 0.3.25, linkme-impl 0.3.25, linux-raw-sys 0.4.13, minimal-lexical 0.2.1, num_enum 0.6.1, num_enum_derive 0.6.1, once_cell 1.19.0, paste 1.0.14, pin-project-lite 0.2.13, prettyplease 0.2.16, proc-macro-crate 1.3.1, proc-macro2 1.0.78, quote 1.0.35, rustc-hash 1.1.0, rustix 0.38.31, rustversion 1.0.14, semver 1.0.22, send_wrapper 0.6.0, serde 1.0.197, serde_derive 1.0.197, serde_json 1.0.114, syn 1.0.109, syn 2.0.52, syn-mid 0.6.0, thiserror 1.0.57, thiserror-impl 1.0.57, unicode-ident 1.0.12, utf-8 0.7.6
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -9987,7 +9879,7 @@ THE SOFTWARE.
 
 ```
 
-## aho-corasick 1.1.2, byteorder 1.5.0, memchr 2.7.1, walkdir 2.5.0
+## aho-corasick 1.1.2, byteorder 1.5.0, memchr 2.7.1, termcolor 1.4.1, walkdir 2.5.0
 
 ```
 The MIT License (MIT)
@@ -10098,7 +9990,7 @@ THE SOFTWARE.
 
 ```
 
-## security-framework 2.9.2, security-framework-sys 2.9.1
+## security-framework 2.10.0, security-framework-sys 2.10.0
 
 ```
 The MIT License (MIT)
@@ -10480,7 +10372,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## boring-sys 3.1.0
+## boring-sys 4.6.0
 
 ```
 /* ====================================================================

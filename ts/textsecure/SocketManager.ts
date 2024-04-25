@@ -559,8 +559,6 @@ export class SocketManager extends EventListener {
         : TransportOption.ShadowingLow;
     }
 
-    // in prod, switch to using 'ShadowingHigh' mode, unless user opts out,
-    // in which case switching to `ShadowingLow`
     const configValue = window.Signal.RemoteConfig.isEnabled(
       'desktop.experimentalTransportEnabled.prod'
     );
