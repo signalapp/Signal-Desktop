@@ -613,8 +613,14 @@ message SyncMessage {
   }
 
   message CallLinkUpdate {
-    optional bytes rootKey = 1;
+    enum Type {
+      UPDATE = 0;
+      DELETE = 1;
+    }
+
+    optional bytes rootKey      = 1;
     optional bytes adminPasskey = 2;
+    optional Type  type         = 3; // defaults to UPDATE
   }
 
   message CallLogEvent {

@@ -3,12 +3,16 @@
 
 import type { Database } from '@signalapp/better-sqlite3';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import type { CallLinkRestrictions, CallLinkType } from '../../types/CallLink';
+import type { CallLinkStateType, CallLinkType } from '../../types/CallLink';
 import {
   callLinkRestrictionsSchema,
   callLinkRecordSchema,
 } from '../../types/CallLink';
-import { callLinkToRecord, callLinkFromRecord } from '../../util/callLinks';
+import {
+  callLinkToRecord,
+  callLinkFromRecord,
+  toAdminKeyBytes,
+} from '../../util/callLinks';
 import { getReadonlyInstance, getWritableInstance, prepare } from '../Server';
 import { sql } from '../util';
 import { strictAssert } from '../../util/assert';
@@ -21,6 +25,23 @@ export async function callLinkExists(roomId: string): Promise<boolean> {
     WHERE roomId = ${roomId};
   `;
   return db.prepare(query).pluck(true).get(params) === 1;
+}
+
+export async function getCallLinkByRoomId(
+  roomId: string
+): Promise<CallLinkType | undefined> {
+  const db = getReadonlyInstance();
+  const row = prepare(db, 'SELECT * FROM callLinks WHERE roomId = $roomId').get(
+    {
+      roomId,
+    }
+  );
+
+  if (!row) {
+    return undefined;
+  }
+
+  return callLinkFromRecord(callLinkRecordSchema.parse(row));
 }
 
 export async function getAllCallLinks(): Promise<ReadonlyArray<CallLinkType>> {
@@ -70,11 +91,9 @@ export async function insertCallLink(callLink: CallLinkType): Promise<void> {
 
 export async function updateCallLinkState(
   roomId: string,
-  name: string,
-  restrictions: CallLinkRestrictions,
-  expiration: number,
-  revoked: boolean
+  callLinkState: CallLinkStateType
 ): Promise<void> {
+  const { name, restrictions, expiration, revoked } = callLinkState;
   const db = await getWritableInstance();
   const restrictionsValue = callLinkRestrictionsSchema.parse(restrictions);
   const [query, params] = sql`
@@ -87,6 +106,22 @@ export async function updateCallLinkState(
     WHERE roomId = ${roomId};
   `;
   db.prepare(query).run(params);
+}
+
+export async function updateCallLinkAdminKeyByRoomId(
+  roomId: string,
+  adminKey: string
+): Promise<void> {
+  const db = await getWritableInstance();
+  const adminKeyBytes = toAdminKeyBytes(adminKey);
+  prepare(
+    db,
+    `
+    UPDATE callLinks
+    SET adminKey = $adminKeyBytes
+    WHERE roomId = $roomId;
+    `
+  ).run({ roomId, adminKeyBytes });
 }
 
 function assertRoomIdMatchesRootKey(roomId: string, rootKey: string): void {

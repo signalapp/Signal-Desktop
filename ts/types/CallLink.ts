@@ -4,6 +4,16 @@ import type { ReadonlyDeep } from 'type-fest';
 import { z } from 'zod';
 import type { ConversationType } from '../state/ducks/conversations';
 
+export enum CallLinkUpdateSyncType {
+  Update = 'Update',
+  Delete = 'Delete',
+}
+
+export type CallLinkUpdateData = Readonly<{
+  rootKey: Uint8Array;
+  adminKey: Uint8Array | undefined;
+}>;
+
 /**
  * Restrictions
  */
@@ -33,8 +43,23 @@ export type CallLinkType = Readonly<{
   adminKey: string | null;
   name: string;
   restrictions: CallLinkRestrictions;
+  // Revocation is not supported currently but still returned by the server
   revoked: boolean;
+  // Guaranteed from RingRTC readCallLink, but locally may be null immediately after
+  // CallLinkUpdate sync and before readCallLink
   expiration: number | null;
+}>;
+
+export type CallLinkStateType = Pick<
+  CallLinkType,
+  'name' | 'restrictions' | 'revoked' | 'expiration'
+>;
+
+export type ReadCallLinkState = Readonly<{
+  name: string;
+  restrictions: CallLinkRestrictions;
+  revoked: boolean;
+  expiration: number;
 }>;
 
 // Ephemeral conversation-like type to satisfy components
@@ -65,6 +90,6 @@ export const callLinkRecordSchema = z.object({
   // state
   name: z.string(),
   restrictions: callLinkRestrictionsSchema,
-  expiration: z.number().int(),
+  expiration: z.number().int().nullable(),
   revoked: z.union([z.literal(1), z.literal(0)]),
 }) satisfies z.ZodType<CallLinkRecord>;

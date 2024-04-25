@@ -177,7 +177,7 @@ export function getCallingIcon(
     }
     return 'video';
   }
-  if (callType === CallType.Group) {
+  if (callType === CallType.Group || callType === CallType.Adhoc) {
     return 'video';
   }
   throw missingCaseError(callType);

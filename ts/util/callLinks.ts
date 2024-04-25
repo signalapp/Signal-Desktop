@@ -18,9 +18,17 @@ import type {
 } from '../types/CallLink';
 import {
   callLinkRecordSchema,
+  CallLinkRestrictions,
   toCallLinkRestrictions,
 } from '../types/CallLink';
 import type { LocalizerType } from '../types/Util';
+
+export const CALL_LINK_DEFAULT_STATE = {
+  name: '',
+  restrictions: CallLinkRestrictions.Unknown,
+  revoked: false,
+  expiration: null,
+};
 
 export function getRoomIdFromRootKey(rootKey: CallLinkRootKey): string {
   return rootKey.deriveRoomId().toString('hex');
@@ -81,6 +89,37 @@ export function callLinkToConversation(
   };
 }
 
+export function getPlaceholderCallLinkConversation(
+  roomId: string,
+  i18n: LocalizerType
+): CallLinkConversationType {
+  return {
+    id: roomId,
+    type: 'callLink',
+    isMe: false,
+    title: i18n('icu:calling__call-link-default-title'),
+    sharedGroupNames: [],
+    acceptedMessageRequest: true,
+    badges: [],
+  };
+}
+
+export function toRootKeyBytes(rootKey: string): Uint8Array {
+  return CallLinkRootKey.parse(rootKey).bytes;
+}
+
+export function fromRootKeyBytes(rootKey: Uint8Array): string {
+  return CallLinkRootKey.fromBytes(rootKey as Buffer).toString();
+}
+
+export function toAdminKeyBytes(adminKey: string): Uint8Array {
+  return Bytes.fromBase64(adminKey);
+}
+
+export function fromAdminKeyBytes(adminKey: Uint8Array): string {
+  return Bytes.toBase64(adminKey);
+}
+
 /**
  * DB record conversions
  */
@@ -90,12 +129,9 @@ export function callLinkToRecord(callLink: CallLinkType): CallLinkRecord {
     throw new Error('CallLink.callLinkToRecord: rootKey is null');
   }
 
-  // rootKey has a RingRTC parsing function, adminKey is just bytes
-  const rootKey = callLink.rootKey
-    ? CallLinkRootKey.parse(callLink.rootKey).bytes
-    : null;
+  const rootKey = toRootKeyBytes(callLink.rootKey);
   const adminKey = callLink.adminKey
-    ? Bytes.fromBase64(callLink.adminKey)
+    ? toAdminKeyBytes(callLink.adminKey)
     : null;
   return callLinkRecordSchema.parse({
     roomId: callLink.roomId,
@@ -109,11 +145,13 @@ export function callLinkToRecord(callLink: CallLinkType): CallLinkRecord {
 }
 
 export function callLinkFromRecord(record: CallLinkRecord): CallLinkType {
+  if (record.rootKey == null) {
+    throw new Error('CallLink.callLinkFromRecord: rootKey is null');
+  }
+
   // root keys in memory are strings for simplicity
-  const rootKey = CallLinkRootKey.fromBytes(
-    record.rootKey as Buffer
-  ).toString();
-  const adminKey = record.adminKey ? Bytes.toBase64(record.adminKey) : null;
+  const rootKey = fromRootKeyBytes(record.rootKey);
+  const adminKey = record.adminKey ? fromAdminKeyBytes(record.adminKey) : null;
   return {
     roomId: record.roomId,
     rootKey,

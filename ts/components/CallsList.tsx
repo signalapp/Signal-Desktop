@@ -44,9 +44,11 @@ import { CallsNewCallButton } from './CallsNewCall';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
 import type { CallingConversationType } from '../types/Calling';
-import { CallMode } from '../types/Calling';
 import type { CallLinkType } from '../types/CallLink';
-import { callLinkToConversation } from '../util/callLinks';
+import {
+  callLinkToConversation,
+  getPlaceholderCallLinkConversation,
+} from '../util/callLinks';
 
 function Timestamp({
   i18n,
@@ -299,6 +301,26 @@ export function CallsList({
     [searchState]
   );
 
+  const getConversationForItem = useCallback(
+    (item: CallHistoryGroup | null): CallingConversationType | null => {
+      if (!item) {
+        return null;
+      }
+
+      const isAdhoc = item?.type === CallType.Adhoc;
+      if (isAdhoc) {
+        const callLink = isAdhoc ? getCallLink(item.peerId) : null;
+        if (callLink) {
+          return callLinkToConversation(callLink, i18n);
+        }
+        return getPlaceholderCallLinkConversation(item.peerId, i18n);
+      }
+
+      return getConversation(item.peerId) ?? null;
+    },
+    [getCallLink, getConversation, i18n]
+  );
+
   const isRowLoaded = useCallback(
     (props: Index) => {
       return searchState.results?.items[props.index] != null;
@@ -309,16 +331,11 @@ export function CallsList({
   const rowRenderer = useCallback(
     ({ key, index, style }: ListRowProps) => {
       const item = searchState.results?.items.at(index) ?? null;
-      const isAdhoc = item?.mode === CallMode.Adhoc;
-      const callLink = isAdhoc ? getCallLink(item.peerId) : null;
-
-      const conversation: CallingConversationType | null =
-        // eslint-disable-next-line no-nested-ternary
-        item
-          ? callLink
-            ? callLinkToConversation(callLink, i18n)
-            : getConversation(item.peerId) ?? null
-          : null;
+      const conversation = getConversationForItem(item);
+      const isAdhoc = item?.type === CallType.Adhoc;
+      const isNewCallVisible = Boolean(
+        !isAdhoc || (isAdhoc && getCallLink(item.peerId))
+      );
 
       if (
         searchState.state === 'pending' ||
@@ -354,7 +371,7 @@ export function CallsList({
       let statusText;
       if (wasMissed) {
         statusText = i18n('icu:CallsList__ItemCallInfo--Missed');
-      } else if (callLink) {
+      } else if (isAdhoc) {
         statusText = i18n('icu:CallsList__ItemCallInfo--CallLink');
       } else if (item.type === CallType.Group) {
         statusText = i18n('icu:CallsList__ItemCallInfo--GroupCall');
@@ -393,21 +410,23 @@ export function CallsList({
               />
             }
             trailing={
-              <CallsNewCallButton
-                callType={item.type}
-                hasActiveCall={hasActiveCall}
-                onClick={() => {
-                  if (callLink) {
-                    startCallLinkLobbyByRoomId(callLink.roomId);
-                  } else if (conversation) {
-                    if (item.type === CallType.Audio) {
-                      onOutgoingAudioCallInConversation(conversation.id);
-                    } else {
-                      onOutgoingVideoCallInConversation(conversation.id);
+              isNewCallVisible ? (
+                <CallsNewCallButton
+                  callType={item.type}
+                  hasActiveCall={hasActiveCall}
+                  onClick={() => {
+                    if (isAdhoc) {
+                      startCallLinkLobbyByRoomId(item.peerId);
+                    } else if (conversation) {
+                      if (item.type === CallType.Audio) {
+                        onOutgoingAudioCallInConversation(conversation.id);
+                      } else {
+                        onOutgoingVideoCallInConversation(conversation.id);
+                      }
                     }
-                  }
-                }}
-              />
+                  }}
+                />
+              ) : undefined
             }
             title={
               <span
@@ -426,10 +445,13 @@ export function CallsList({
               </span>
             }
             onClick={() => {
-              if (callLink) {
+              if (isAdhoc) {
                 return;
               }
 
+              if (conversation == null) {
+                return;
+              }
               onSelectCallHistoryGroup(conversation.id, item);
             }}
           />
@@ -440,7 +462,7 @@ export function CallsList({
       hasActiveCall,
       searchState,
       getCallLink,
-      getConversation,
+      getConversationForItem,
       selectedCallHistoryGroup,
       onSelectCallHistoryGroup,
       onOutgoingAudioCallInConversation,

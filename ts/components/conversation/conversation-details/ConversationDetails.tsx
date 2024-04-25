@@ -72,6 +72,10 @@ function describeCallHistory(
   direction: CallDirection,
   status: CallStatus
 ): string {
+  if (type === CallType.Adhoc) {
+    return i18n('icu:CallHistory__Description--Adhoc');
+  }
+
   if (status === DirectCallStatus.Missed || status === GroupCallStatus.Missed) {
     if (direction === CallDirection.Incoming) {
       return i18n('icu:CallHistory__Description--Missed', { type });

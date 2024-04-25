@@ -129,6 +129,7 @@ import {
   ContactSyncEvent,
   StoryRecipientUpdateEvent,
   CallLogEventSyncEvent,
+  CallLinkUpdateSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
@@ -145,6 +146,7 @@ import { filterAndClean } from '../types/BodyRange';
 import { getCallEventForProto } from '../util/callDisposition';
 import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
 import { CallLogEvent } from '../types/CallDisposition';
+import { CallLinkUpdateSyncType } from '../types/CallLink';
 
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
@@ -672,6 +674,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'callEventSync',
     handler: (ev: CallEventSyncEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'callLinkUpdateSync',
+    handler: (ev: CallLinkUpdateSyncEvent) => void
   ): void;
 
   public override addEventListener(
@@ -3152,6 +3159,9 @@ export default class MessageReceiver
     if (syncMessage.callEvent) {
       return this.handleCallEvent(envelope, syncMessage.callEvent);
     }
+    if (syncMessage.callLinkUpdate) {
+      return this.handleCallLinkUpdate(envelope, syncMessage.callLinkUpdate);
+    }
     if (syncMessage.callLogEvent) {
       return this.handleCallLogEvent(envelope, syncMessage.callLogEvent);
     }
@@ -3508,6 +3518,53 @@ export default class MessageReceiver
     await this.dispatchAndWait(logId, callEventSync);
 
     log.info('handleCallEvent: finished');
+  }
+
+  private async handleCallLinkUpdate(
+    envelope: ProcessedEnvelope,
+    callLinkUpdate: Proto.SyncMessage.ICallLinkUpdate
+  ): Promise<void> {
+    const logId = getEnvelopeId(envelope);
+    log.info('MessageReceiver.handleCallLinkUpdate', logId);
+
+    logUnexpectedUrgentValue(envelope, 'callLinkUpdateSync');
+
+    let callLinkUpdateSyncType: CallLinkUpdateSyncType;
+    if (callLinkUpdate.type == null) {
+      throw new Error('MessageReceiver.handleCallLinkUpdate: type was null');
+    } else if (
+      callLinkUpdate.type === Proto.SyncMessage.CallLinkUpdate.Type.UPDATE
+    ) {
+      callLinkUpdateSyncType = CallLinkUpdateSyncType.Update;
+    } else if (
+      callLinkUpdate.type === Proto.SyncMessage.CallLinkUpdate.Type.DELETE
+    ) {
+      callLinkUpdateSyncType = CallLinkUpdateSyncType.Delete;
+    } else {
+      throw new Error(
+        `MessageReceiver.handleCallLinkUpdate: unknown type ${callLinkUpdate.type}`
+      );
+    }
+
+    const rootKey = Bytes.isNotEmpty(callLinkUpdate.rootKey)
+      ? callLinkUpdate.rootKey
+      : undefined;
+    const adminKey = Bytes.isNotEmpty(callLinkUpdate.adminPasskey)
+      ? callLinkUpdate.adminPasskey
+      : undefined;
+
+    const ev = new CallLinkUpdateSyncEvent(
+      {
+        type: callLinkUpdateSyncType,
+        rootKey,
+        adminKey,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+
+    await this.dispatchAndWait(logId, ev);
+
+    log.info('handleCallLinkUpdate: finished');
   }
 
   private async handleCallLogEvent(

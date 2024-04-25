@@ -36,6 +36,8 @@ import {
 import { generateAci } from '../../../types/ServiceId';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import type { UnwrapPromise } from '../../../types/Util';
+import { CallLinkRestrictions } from '../../../types/CallLink';
+import { FAKE_CALL_LINK } from '../../../test-both/helpers/fakeCallLink';
 
 const ACI_1 = generateAci();
 const NOW = new Date('2020-01-23T04:56:00.000');
@@ -1298,6 +1300,62 @@ describe('calling duck', () => {
         );
 
         assert.isFalse(result.activeCallState?.outgoingRing);
+      });
+    });
+
+    describe('handleCallLinkUpdate', () => {
+      const { roomId, rootKey, expiration } = FAKE_CALL_LINK;
+
+      beforeEach(function (this: Mocha.Context) {
+        this.callingServiceReadCallLink = this.sandbox
+          .stub(callingService, 'readCallLink')
+          .resolves({
+            callLinkState: {
+              name: 'Signal Call',
+              restrictions: CallLinkRestrictions.None,
+              expiration,
+              revoked: false,
+            },
+            errorStatusCode: undefined,
+          });
+      });
+
+      it('reads the call link from calling service', async function (this: Mocha.Context) {
+        const { handleCallLinkUpdate } = actions;
+        const dispatch = sinon.spy();
+        await handleCallLinkUpdate({ rootKey, adminKey: null })(
+          dispatch,
+          getEmptyRootState,
+          null
+        );
+
+        sinon.assert.calledOnce(this.callingServiceReadCallLink);
+      });
+
+      it('dispatches HANDLE_CALL_LINK_UPDATE', async () => {
+        const { handleCallLinkUpdate } = actions;
+        const dispatch = sinon.spy();
+        await handleCallLinkUpdate({ rootKey, adminKey: null })(
+          dispatch,
+          getEmptyRootState,
+          null
+        );
+
+        sinon.assert.calledOnce(dispatch);
+        sinon.assert.calledWith(dispatch, {
+          type: 'calling/HANDLE_CALL_LINK_UPDATE',
+          payload: {
+            roomId,
+            callLinkDetails: {
+              name: 'Signal Call',
+              restrictions: CallLinkRestrictions.None,
+              expiration,
+              revoked: false,
+              rootKey,
+              adminKey: null,
+            },
+          },
+        });
       });
     });
 
