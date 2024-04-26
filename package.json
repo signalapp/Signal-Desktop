@@ -117,7 +117,7 @@
     "react-h5-audio-player": "^3.2.0",
     "react-intersection-observer": "^9.7.0",
     "react-mentions": "^4.4.9",
-    "react-qr-svg": "^2.2.1",
+    "react-qrcode-logo": "^2.10.0",
     "react-redux": "8.0.4",
     "react-toastify": "^6.0.9",
     "react-use": "^17.4.0",

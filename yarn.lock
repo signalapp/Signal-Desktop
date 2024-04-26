@@ -8177,10 +8177,10 @@ pupa@^2.1.1:
   dependencies:
     escape-goat "^2.0.0"
 
-qr.js@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
-  integrity sha512-c4iYnWb+k2E+vYpRimHqSu575b1/wKl4XFeJGpFmrJQz5I88v9aY2czh7s0w36srfCM1sXgC/xpoJz5dJfq+OQ==
+qrcode-generator@^1.4.1:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/qrcode-generator/-/qrcode-generator-1.4.4.tgz#63f771224854759329a99048806a53ed278740e7"
+  integrity sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==
 
 querystringify@^2.1.1:
   version "2.2.0"
@@ -8371,13 +8371,13 @@ react-native@*:
     ws "^6.2.2"
     yargs "^17.6.2"
 
-react-qr-svg@^2.2.1:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/react-qr-svg/-/react-qr-svg-2.4.0.tgz#c703d95907b9713192730a5bbeffb57e4aa782bd"
-  integrity sha512-3Q/LyjBi+eWjJ0WyZvBzyY3rCMlUBZyRnbTcKbXQ39J1bd0/vgqYhXoYai7XlDTS42Ro50BBY4TmeUVyIZh+nA==
+react-qrcode-logo@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/react-qrcode-logo/-/react-qrcode-logo-2.10.0.tgz#1d29010f3c4f27860cc152b658a5c4e30c11b2f3"
+  integrity sha512-Q1+jLtcyDl5rLR29YdkXVLzYk62p3+541x00HxURVBQhs6SqFyEZZVhvkU/VQ082ytXa3GdCmGWMLK5z0Vhe7g==
   dependencies:
-    prop-types "^15.5.8"
-    qr.js "0.0.0"
+    lodash.isequal "^4.5.0"
+    qrcode-generator "^1.4.1"
 
 react-redux@8.0.4:
   version "8.0.4"

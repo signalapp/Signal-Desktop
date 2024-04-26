@@ -413,21 +413,6 @@ label {
   }
 }
 
-.qr-image {
-  display: flex;
-  justify-content: center;
-
-  background: var(--white-color);
-  padding: 0.5rem;
-  svg {
-    width: 135px;
-    height: 135px;
-    border-radius: 3px;
-    padding: var(--margins-xs);
-    background-color: var(--white-color);
-  }
-}
-
 .conversation-loader {
   position: absolute;
   top: 50%;
@@ -445,15 +430,6 @@ label {
   display: flex;
   flex-direction: column;
   background-color: var(--background-secondary-color);
-}
-
-#qr svg,
-.qr-image svg {
-  width: $session-modal-size-sm;
-  height: $session-modal-size-sm;
-  padding: var(--margins-xs);
-  background-color: var(--white-color);
-  border-radius: 3px;
 }
 
 .messages li {

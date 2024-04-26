@@ -1,9 +1,9 @@
 import { MouseEvent, useState } from 'react';
-import { QRCode } from 'react-qr-svg';
 import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 
+import { QRCode } from 'react-qrcode-logo';
 import { Data } from '../../data/data';
 import { ToastUtils } from '../../session/utils';
 import { matchesHash } from '../../util/passwordUtils';
@@ -15,6 +15,7 @@ import { SpacerSM } from '../basic/Text';
 import { saveQRCode } from '../../util/saveQRCode';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 
 interface PasswordProps {
@@ -99,28 +100,20 @@ interface SeedProps {
 
 const StyledRecoveryPhrase = styled.i``;
 
-const StyledQRImage = styled.div`
-  width: fit-content;
+const StyledQRImage = styled(Flex)`
   margin: 0 auto var(--margins-lg);
   cursor: pointer;
 `;
 
+const qrCodeId = 'session-recovery-password';
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
-  saveQRCode(
-    'session-recovery-phrase',
-    '220px',
-    '220px',
-    'var(--white-color)',
-    'var(--black-color)'
-  );
+  saveQRCode(qrCodeId);
 };
 
 const Seed = (props: SeedProps) => {
   const { recoveryPhrase, onClickCopy } = props;
   const i18n = window.i18n;
-  const bgColor = 'var(--white-color)';
-  const fgColor = 'var(--black-color)';
   const dispatch = useDispatch();
 
   const hexEncodedSeed = mnDecode(recoveryPhrase, 'english');
@@ -150,12 +143,13 @@ const Seed = (props: SeedProps) => {
         </p>
 
         <StyledQRImage
+          container={true}
           aria-label={window.i18n('clickToTrustContact')}
           title={window.i18n('clickToTrustContact')}
           className="qr-image"
           onClick={handleSaveQRCode}
         >
-          <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
+          <QRCode id={qrCodeId} value={hexEncodedSeed} ecLevel={'Q'} size={220} quietZone={10} />
         </StyledQRImage>
 
         <StyledRecoveryPhrase

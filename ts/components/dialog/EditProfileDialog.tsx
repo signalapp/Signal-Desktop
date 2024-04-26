@@ -1,7 +1,6 @@
-import { useDispatch } from 'react-redux';
-// eslint-disable-next-line import/no-named-default
 import { ChangeEvent, MouseEvent, useState } from 'react';
-import { QRCode } from 'react-qr-svg';
+import { QRCode } from 'react-qrcode-logo';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
@@ -17,33 +16,31 @@ import { editProfileModal, updateEditProfilePictureModel } from '../../state/duc
 import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';
 
+const qrCodeId = 'session-account-id';
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
-  saveQRCode('session-id', '220px', '220px', 'var(--white-color)', 'var(--black-color)');
+  saveQRCode(qrCodeId);
 };
 
-const StyledQRView = styled.div`
+const StyledQRView = styled(Flex)`
   cursor: pointer;
 `;
 
 const QRView = ({ sessionID }: { sessionID: string }) => {
   return (
     <StyledQRView
+      container={true}
       aria-label={window.i18n('clickToTrustContact')}
       title={window.i18n('clickToTrustContact')}
       className="qr-image"
       onClick={handleSaveQRCode}
     >
-      <QRCode
-        value={sessionID}
-        bgColor="var(--white-color)"
-        fgColor="var(--black-color)"
-        level="L"
-      />
+      <QRCode id={qrCodeId} value={sessionID} ecLevel={'Q'} size={220} quietZone={10} />
     </StyledQRView>
   );
 };
