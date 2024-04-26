@@ -188,49 +188,11 @@ label {
   flex-direction: column;
 
   &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: var(--margins-lg);
-
     font-family: var(--font-default);
-    text-align: center;
-    line-height: 18px;
     font-size: var(--font-size-lg);
     font-weight: 500;
-
-    &.reverse {
-      flex-direction: row-reverse;
-
-      .session-modal__header__close > div {
-        float: right;
-      }
-
-      .session-modal__header__icons > div {
-        float: left;
-        padding-inline-start: 0px;
-        padding-inline-end: 10px;
-      }
-    }
-
-    &__icons,
-    &__close {
-      width: 60px;
-    }
-    &__icons {
-      float: right;
-    }
-    &__close > div {
-      float: left;
-      padding: var(--margins-xs);
-      margin: 0px;
-    }
-    &__icons > div {
-      float: right;
-      padding-inline-start: 10px;
-    }
+    text-align: center;
+    line-height: 18px;
   }
 
   &__body {

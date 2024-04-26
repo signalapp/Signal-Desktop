@@ -4,8 +4,10 @@ import useKey from 'react-use/lib/useKey';
 
 import { SessionIconButton } from './icon';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { SessionFocusTrap } from './SessionFocusTrap';
+import { Flex } from './basic/Flex';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
+import { SpacerXL } from './basic/Text';
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -73,34 +75,71 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
         <div className="session-confirm-wrapper">
           <div ref={modalRef} className="session-modal">
             {showHeader ? (
-              <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
-                <div className="session-modal__header__close">
+              <Flex
+                container={true}
+                flexDirection={headerReverse ? 'row-reverse' : 'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                padding={'var(--margins-lg)'}
+                className={'session-modal__header'}
+              >
+                <Flex
+                  container={true}
+                  flexDirection={headerReverse ? 'row-reverse' : 'row'}
+                  alignItems={'center'}
+                  padding={'0'}
+                  margin={'0'}
+                  className={'session-modal__header__close'}
+                >
                   {showExitIcon ? (
                     <SessionIconButton
                       iconType="exit"
                       iconSize="small"
                       onClick={props.onClose}
+                      padding={'5px'}
+                      margin={'0'}
                       dataTestId="modal-close-button"
                     />
                   ) : null}
-                </div>
-                <div className="session-modal__header__title">{title}</div>
-                <div className="session-modal__header__icons">
-                  {headerIconButtons
-                    ? headerIconButtons.map((iconItem: any) => {
-                        return (
-                          <SessionIconButton
-                            key={iconItem.iconType}
-                            iconType={iconItem.iconType}
-                            iconSize={'large'}
-                            iconRotation={iconItem.iconRotation}
-                            onClick={iconItem.onClick}
-                          />
-                        );
+                  {headerIconButtons?.length
+                    ? headerIconButtons.map((_, index) => {
+                        const offset = showExitIcon
+                          ? headerIconButtons.length - 2
+                          : headerIconButtons.length - 1;
+                        if (index > offset) {
+                          return null;
+                        }
+                        return <SpacerXL key={`session-modal__header_space-${index}`} />;
                       })
                     : null}
-                </div>
-              </div>
+                </Flex>
+                <div className="session-modal__header__title">{title}</div>
+                <Flex
+                  container={true}
+                  flexDirection={headerReverse ? 'row-reverse' : 'row'}
+                  alignItems={'center'}
+                  padding={'0'}
+                  margin={'0'}
+                >
+                  {headerIconButtons?.length ? (
+                    headerIconButtons.map((iconItem: any) => {
+                      return (
+                        <SessionIconButton
+                          key={iconItem.iconType}
+                          iconType={iconItem.iconType}
+                          iconSize={'large'}
+                          iconRotation={iconItem.iconRotation}
+                          onClick={iconItem.onClick}
+                          padding={'0'}
+                          margin={'0'}
+                        />
+                      );
+                    })
+                  ) : showExitIcon ? (
+                    <SpacerXL />
+                  ) : null}
+                </Flex>
+              </Flex>
             ) : null}
 
             <div className="session-modal__body">
