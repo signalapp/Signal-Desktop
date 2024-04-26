@@ -1,7 +1,5 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
-import { QRCode } from 'react-qrcode-logo';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import { ChangeEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
@@ -13,35 +11,33 @@ import { MAX_NAME_LENGTH_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
-import { saveQRCode } from '../../util/saveQRCode';
+import { getTheme } from '../../state/selectors/theme';
+import { getThemeValue } from '../../themes/globals';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
+import { SessionQRCode } from '../SessionQRCode';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';
 
-const qrCodeId = 'session-account-id';
-const handleSaveQRCode = (event: MouseEvent) => {
-  event.preventDefault();
-  saveQRCode(qrCodeId);
-};
-
-const StyledQRView = styled(Flex)`
-  cursor: pointer;
-`;
-
 const QRView = ({ sessionID }: { sessionID: string }) => {
+  const theme = useSelector(getTheme);
+
   return (
-    <StyledQRView
-      container={true}
-      aria-label={window.i18n('clickToTrustContact')}
-      title={window.i18n('clickToTrustContact')}
-      className="qr-image"
-      onClick={handleSaveQRCode}
-    >
-      <QRCode id={qrCodeId} value={sessionID} ecLevel={'Q'} size={220} quietZone={10} />
-    </StyledQRView>
+    <SessionQRCode
+      id={'session-account-id'}
+      value={sessionID}
+      size={170}
+      backgroundColor={getThemeValue(
+        theme.includes('dark') ? '--text-primary-color' : '--background-primary-color'
+      )}
+      foregroundColor={getThemeValue(
+        theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
+      )}
+      logoImage={`./images/session/brand/${theme}.png`}
+      logoWidth={42}
+      logoHeight={44}
+    />
   );
 };
 

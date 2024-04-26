@@ -8,6 +8,7 @@ import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import styled from 'styled-components';
 
+import { AnimatePresence } from 'framer-motion';
 import { LeftPane } from './leftpane/LeftPane';
 // moment does not support es-419 correctly (and cause white screen on app start)
 import { getConversationController } from '../session/conversations';
@@ -132,12 +133,14 @@ export const SessionInboxView = () => {
       <Provider store={window.inboxStore}>
         <PersistGate loading={null} persistor={persistor}>
           <SomeDeviceOutdatedSyncingNotice />
-          <Flex container={true} height="0" flexShrink={100} flexGrow={1}>
-            <StyledGutter>
-              <LeftPane />
-            </StyledGutter>
-            <SessionMainPanel />
-          </Flex>
+          <AnimatePresence>
+            <Flex container={true} height="0" flexShrink={100} flexGrow={1}>
+              <StyledGutter>
+                <LeftPane />
+              </StyledGutter>
+              <SessionMainPanel />
+            </Flex>
+          </AnimatePresence>
         </PersistGate>
       </Provider>
     </div>

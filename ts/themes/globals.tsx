@@ -1,6 +1,7 @@
 import { isTestIntegration } from '../shared/env_vars';
 import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS } from './constants/colors';
+import { ThemeColorVariables } from './variableColors';
 
 function setDuration(duration: number | string) {
   return `${!isTestIntegration() ? duration : typeof duration === 'string' ? '0s' : '0'}`;
@@ -187,4 +188,9 @@ export function declareCSSVariables(variables: Record<string, string>) {
   }
 
   return output;
+}
+
+type ThemeKeys = ThemeGlobals & ThemeColorVariables;
+export function getThemeValue(key: keyof ThemeKeys) {
+  return getComputedStyle(document.documentElement).getPropertyValue(key);
 }

@@ -1,9 +1,8 @@
-import { MouseEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 
-import { QRCode } from 'react-qrcode-logo';
 import { Data } from '../../data/data';
 import { ToastUtils } from '../../session/utils';
 import { matchesHash } from '../../util/passwordUtils';
@@ -12,10 +11,11 @@ import { mnDecode } from '../../session/crypto/mnemonic';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { SpacerSM } from '../basic/Text';
 
-import { saveQRCode } from '../../util/saveQRCode';
+import { getTheme } from '../../state/selectors/theme';
+import { getThemeValue } from '../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
+import { SessionQRCode } from '../SessionQRCode';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 
 interface PasswordProps {
@@ -100,21 +100,11 @@ interface SeedProps {
 
 const StyledRecoveryPhrase = styled.i``;
 
-const StyledQRImage = styled(Flex)`
-  margin: 0 auto var(--margins-lg);
-  cursor: pointer;
-`;
-
-const qrCodeId = 'session-recovery-password';
-const handleSaveQRCode = (event: MouseEvent) => {
-  event.preventDefault();
-  saveQRCode(qrCodeId);
-};
-
 const Seed = (props: SeedProps) => {
   const { recoveryPhrase, onClickCopy } = props;
   const i18n = window.i18n;
   const dispatch = useDispatch();
+  const theme = useSelector(getTheme);
 
   const hexEncodedSeed = mnDecode(recoveryPhrase, 'english');
 
@@ -142,15 +132,21 @@ const Seed = (props: SeedProps) => {
           {i18n('recoveryPhraseSavePromptMain')}
         </p>
 
-        <StyledQRImage
-          container={true}
-          aria-label={window.i18n('clickToTrustContact')}
-          title={window.i18n('clickToTrustContact')}
-          className="qr-image"
-          onClick={handleSaveQRCode}
-        >
-          <QRCode id={qrCodeId} value={hexEncodedSeed} ecLevel={'Q'} size={220} quietZone={10} />
-        </StyledQRImage>
+        <SessionQRCode
+          id={'session-recovery-passwod'}
+          value={hexEncodedSeed}
+          size={240}
+          backgroundColor={getThemeValue(
+            theme.includes('dark') ? '--text-primary-color' : '--background-primary-color'
+          )}
+          foregroundColor={getThemeValue(
+            theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
+          )}
+          logoImage={`./images/session/shield/${theme}.png`}
+          logoWidth={60}
+          logoHeight={60}
+          style={{ margin: '0 auto var(--margins-lg)' }}
+        />
 
         <StyledRecoveryPhrase
           data-testid="recovery-phrase-seed-modal"
