@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { MouseEvent } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import styled, { CSSProperties } from 'styled-components';
@@ -62,7 +61,6 @@ export function SessionQRCode(props: Props) {
         logoImage={logoImage}
         logoWidth={logoWidth}
         logoHeight={logoHeight}
-        removeQrCodeBehindLogo={!isEmpty(logoImage)}
       />
     </StyledQRView>
   );
