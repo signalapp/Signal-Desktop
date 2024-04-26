@@ -128,7 +128,7 @@ export class PubKey {
    * Returns a localized string of the error, or undefined if the given pubkey is valid.
    *
    * Note: this should be used when starting a conversation and we do not support starting conversation from scratch with a blinded sessionId.
-   * So if the given pubkey has a blinded prefix, this call will fail with a localized `invalidPubkeyFormat` error
+   * So if the given pubkey has a blinded prefix, this call will fail with a localized `accountIdErrorInvalid` error
    */
   public static validateWithErrorNoBlinding(pubkey: string): string | undefined {
     // Check if it's hex

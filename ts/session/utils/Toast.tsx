@@ -234,7 +234,7 @@ export function pushUserRemovedFromModerators() {
 }
 
 export function pushInvalidPubKey() {
-  pushToastSuccess('invalidPubKey', window.i18n('invalidPubkeyFormat'));
+  pushToastSuccess('invalidPubKey', window.i18n('accountIdErrorInvalid'));
 }
 
 export function pushNoCameraFound() {

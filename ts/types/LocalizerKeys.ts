@@ -242,7 +242,6 @@ export type LocalizerKeys =
   | 'invalidOldPassword'
   | 'invalidOpenGroupUrl'
   | 'invalidPassword'
-  | 'invalidPubkeyFormat'
   | 'inviteContacts'
   | 'join'
   | 'joinACommunity'
