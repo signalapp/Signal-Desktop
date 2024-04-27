@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, throttle, groupBy } from 'lodash';
+import type { IpcMainEvent } from 'electron';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
@@ -197,6 +198,7 @@ import {
 } from './util/callDisposition';
 import { deriveStorageServiceKey } from './Crypto';
 import { getThemeType } from './util/getThemeType';
+import { callBeforeShutdownListeners } from './services/beforeShutdown';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -744,6 +746,7 @@ export async function startApp(): Promise<void> {
 
         const shutdownQueues = async () => {
           log.info('background/shutdown: shutting down queues');
+
           await Promise.allSettled([
             StartupQueue.shutdown(),
             shutdownAllJobQueues(),
@@ -768,6 +771,7 @@ export async function startApp(): Promise<void> {
 
         // wait for at most 1 minutes for startup queue and job queues to drain
         let timeout: NodeJS.Timeout | undefined;
+        const shutdownEvent = {} as IpcMainEvent;
         await Promise.race([
           shutdownQueues(),
           new Promise<void>((resolve, _) => {
@@ -794,6 +798,9 @@ export async function startApp(): Promise<void> {
         ]);
 
         log.info('background/shutdown: closing the database');
+
+        // Call all of the registered before-shutdown listeners.
+        callBeforeShutdownListeners(shutdownEvent);
 
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
@@ -1192,7 +1199,7 @@ export async function startApp(): Promise<void> {
         const deduped = new Set(batch);
         log.info(
           'changedConvoBatcher: deduped ' +
-            `${batch.length} into ${deduped.size}`
+          `${batch.length} into ${deduped.size}`
         );
 
         batchDispatch(() => {
@@ -1462,7 +1469,7 @@ export async function startApp(): Promise<void> {
 
     const isCoreDataValid = Boolean(
       window.textsecure.storage.user.getAci() &&
-        window.ConversationController.getOurConversation()
+      window.ConversationController.getOurConversation()
     );
 
     if (isCoreDataValid && Registration.everDone()) {
@@ -1781,7 +1788,7 @@ export async function startApp(): Promise<void> {
           } else {
             log.warn(
               'connect: masterKey not captured, but sync requested recently.' +
-                'Not running'
+              'Not running'
             );
           }
         }
@@ -2318,7 +2325,7 @@ export async function startApp(): Promise<void> {
       ) {
         log.info(
           'onMessageReceived: setting shareMyPhoneNumber ' +
-            `for ${sender.idForLogging()}`
+          `for ${sender.idForLogging()}`
         );
         sender.set({ shareMyPhoneNumber: true });
         window.Signal.Data.updateConversation(sender.attributes);
@@ -2560,7 +2567,7 @@ export async function startApp(): Promise<void> {
         if (!isPniString(destinationServiceId)) {
           log.warn(
             `${logId}: received an destinationPniIdentityKey for ` +
-              `an invalid PNI: ${destinationServiceId}`
+            `an invalid PNI: ${destinationServiceId}`
           );
           return;
         }
@@ -2904,7 +2911,7 @@ export async function startApp(): Promise<void> {
 
     log.warn(
       'unlinkAndDisconnect: Client is no longer authorized; ' +
-        'deleting local configuration'
+      'deleting local configuration'
     );
 
     if (messageReceiver) {
@@ -2996,7 +3003,7 @@ export async function startApp(): Promise<void> {
     } catch (eraseError) {
       log.error(
         'unlinkAndDisconnect: Something went wrong clearing ' +
-          'local configuration',
+        'local configuration',
         Errors.toLogFormat(eraseError)
       );
     } finally {
@@ -3092,7 +3099,7 @@ export async function startApp(): Promise<void> {
       if (window.storage.get('storageKey') === storageServiceKeyBase64) {
         log.info(
           "onKeysSync: storage service key didn't change, " +
-            'fetching manifest anyway'
+          'fetching manifest anyway'
         );
       } else {
         log.info(
@@ -3167,8 +3174,8 @@ export async function startApp(): Promise<void> {
     event: ReadEvent | ViewEvent;
     logTitle: string;
     type:
-      | MessageReceipts.MessageReceiptType.Read
-      | MessageReceipts.MessageReceiptType.View;
+    | MessageReceipts.MessageReceiptType.Read
+    | MessageReceipts.MessageReceiptType.View;
   }>): void {
     const {
       envelopeTimestamp,

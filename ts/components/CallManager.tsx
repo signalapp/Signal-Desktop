@@ -4,6 +4,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { noop } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
+import * as beforeShutdown from '../services/beforeShutdown';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallScreen } from './CallScreen';
 import { CallingLobby } from './CallingLobby';
@@ -579,6 +580,25 @@ export function CallManager({
       clearTimeout(timeout);
     };
   }, [mightBeRingingOutgoingGroupCall, setOutgoingRing]);
+
+  // Add "right before shutdown" listener when a call is active
+  useEffect(() => {
+    if (activeCall) {
+      const listener = () => {
+        hangUpActiveCall('App shutdown');
+      };
+      beforeShutdown.addBeforeShutdownListener(listener);
+
+      // Cleanup function to remove the listener
+      return () => {
+        beforeShutdown.removeBeforeShutdownListener(listener);
+      };
+    }
+
+    // Return an empty function if there's no active call
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    return () => {};
+  }, [activeCall, hangUpActiveCall]);
 
   if (activeCall) {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
